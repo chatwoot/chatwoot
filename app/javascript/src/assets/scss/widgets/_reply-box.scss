@@ -1,0 +1,143 @@
+.reply-box {
+  margin: $space-normal;
+  margin-top: 0;
+  border-bottom: 0;
+  @include elegant-card;
+  @include transition(height 2s $ease-in-out-cubic);
+  max-height: $space-jumbo*2;
+
+  .reply-box__top {
+    @include flex;
+    @include flex-align($x: left, $y: middle);
+    @include padding($space-one $space-normal);
+    @include background-white;
+    @include margin(0);
+    position: relative;
+    border-top-left-radius: $space-small;
+    border-top-right-radius: $space-small;
+
+    .canned {
+      @include elegant-card;
+      z-index: 100;
+      position: absolute;
+      background: #fff;
+      width: 24rem;
+      left: 0;
+      border-top: $space-small solid $color-white;
+      border-bottom: $space-small solid $color-white;
+      max-height: 14rem;
+      overflow: scroll;
+      .active {
+        a {
+          background: $color-woot;
+        }
+      }
+    }
+    &.is-active {
+      border-bottom-left-radius: $space-small;
+      border-bottom-right-radius: $space-small;
+    }
+
+    &.is-private {
+      background: lighten($warning-color, 38%);
+
+      > input {
+        background: lighten($warning-color, 38%);
+      }
+    }
+
+    > .icon {
+      font-size: $font-size-medium;
+      color: $medium-gray;
+      margin-right: $space-small;
+      cursor: pointer;
+
+      &.active {
+        color: $color-woot;
+      }
+    }
+    > textarea {
+      @include ghost-input();
+      @include margin(0);
+      resize: none;
+      background: transparent;
+      // Override min-height : 50px in foundation
+      //
+      min-height: 1rem;
+    }
+  }
+
+  .reply-box__bottom {
+    @include background-light;
+    @include flex;
+    @include flex-align($x: justify, $y: middle);
+    @include border-light-top;
+    border-bottom-left-radius: $space-small;
+    border-bottom-right-radius: $space-small;
+
+    .tabs {
+      border: 0;
+      padding: 0;
+      flex: 1;
+
+      .tabs-title {
+        margin: 0;
+        @include transition(background .2s $ease-in-out-cubic);
+        @include transition(color .2s $ease-in-out-cubic);
+
+        a {
+          padding: $space-one $space-two;
+        }
+
+        &:first-child {
+          border-bottom-left-radius: $space-small;
+          &.is-active {
+            @include border-light-right;
+            border-left: 0;
+            a {
+              border-bottom-left-radius: $space-small;
+            }
+          }
+        }
+
+        &.is-private {
+          &.is-active {
+            background: lighten($warning-color, 38%);
+            a {
+              border-bottom-color: darken($warning-color, 15%);
+              color: darken($warning-color, 15%);
+            }
+          }
+        }
+      }
+      .is-active {
+        @include background-white;
+        margin-top: -1px;
+        @include border-light-left;
+        @include border-light-right;
+      }
+
+      .message-length {
+        float: right;
+        a {
+          font-size: $font-size-mini;
+        }
+      }
+      .message-error {
+        color: $input-error-color;
+      }
+    }
+
+    .send-button {
+      height: 3.6rem;
+      border-bottom-right-radius: $space-small;
+      padding-top: $space-small;
+      padding-right: $space-two;
+      padding-left: $space-two;
+
+      .icon {
+        margin-left: $space-small;
+      }
+    }
+  }
+}

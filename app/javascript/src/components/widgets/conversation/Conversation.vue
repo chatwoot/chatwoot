@@ -1,0 +1,97 @@
+<template>
+  <li :class="alignBubble" v-if="data.attachment || data.content">
+    <div :class="wrapClass">
+      <p
+        :class="{ bubble: isBubble, 'is-private': isPrivate }"
+        v-tooltip.top-start="sentByMessage"
+      >
+        <bubble-image
+          :url="data.attachment.data_url"
+          :readable-time="readableTime"
+          v-if="data.attachment && data.attachment.file_type==='image'"
+        />
+        <bubble-audio
+          :url="data.attachment.data_url"
+          :readable-time="readableTime"
+          v-if="data.attachment && data.attachment.file_type==='audio'"
+        />
+        <bubble-map
+          :lat="data.attachment.coordinates_lat"
+          :lng="data.attachment.coordinates_long"
+          :label="data.attachment.fallback_title"
+          :readable-time="readableTime"
+          v-if="data.attachment && data.attachment.file_type==='location'"
+        />
+        <i class="icon ion-person" v-if="data.message_type === 2"></i>
+        <bubble-text v-if="data.content" :message="message" :readable-time="readableTime"/>
+        <i class="icon ion-android-lock" v-if="isPrivate" v-tooltip.top-start="toolTipMessage" @mouseenter="isHovered = true" @mouseleave="isHovered = false"></i>
+      </p>
+    </div>
+    <!-- <img v-if="showSenderData" src="https://chatwoot-staging.s3-us-west-2.amazonaws.com/uploads/avatar/contact/3415/thumb_10418362_10201264050880840_6087258728802054624_n.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=AKIAI3KBM2ES3VRHQHPQ%2F20170422%2Fus-west-2%2Fs3%2Faws4_request&amp;X-Amz-Date=20170422T075421Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=8d5ff60e41415515f59ff682b9a4e4c0574d9d9aabfeff1dc5a51087a9b49e03" class="sender--thumbnail"> -->
+  </li>
+</template>
+<script>
+/* eslint-disable no-named-as-default */
+import getEmojiSVG from '../emoji/utils';
+import timeMixin from '../../../mixins/time';
+import BubbleText from './bubble/Text';
+import BubbleImage from './bubble/Image';
+import BubbleMap from './bubble/Map';
+import BubbleAudio from './bubble/Audio';
+
+export default {
+  components: {
+    BubbleText,
+    BubbleImage,
+    BubbleMap,
+    BubbleAudio,
+  },
+  props: ['data'],
+  mixins: [timeMixin],
+  data() {
+    return {
+      isHovered: false,
+    };
+  },
+  computed: {
+    message() {
+      const linkifiedMessage = this.linkify(this.data.content);
+      return linkifiedMessage.replace(/\n/g, '<br>');
+    },
+    alignBubble() {
+      return this.data.message_type === 1 ? 'right' : 'left';
+    },
+    readableTime() {
+      return this.messageStamp(this.data.created_at);
+    },
+    isBubble() {
+      return this.data.message_type === 1 || this.data.message_type === 0;
+    },
+    isPrivate() {
+      return this.data.private;
+    },
+    toolTipMessage() {
+      return this.data.private ? { content: this.$t('CONVERSATION.VISIBLE_TO_AGENTS'), classes: 'top' } : false;
+    },
+    sentByMessage() {
+      return this.data.message_type === 1 && !this.isHovered && this.data.sender !== undefined ?
+        { content: `Sent by: ${this.data.sender.name}`, classes: 'top' } : false;
+    },
+    wrapClass() {
+      return {
+        wrap: this.isBubble,
+        'activity-wrap': !this.isBubble,
+      };
+    },
+
+  },
+  methods: {
+    getEmojiSVG,
+    linkify(text) {
+      if (!text) return text;
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      return text.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+    },
+  },
+};
+</script>

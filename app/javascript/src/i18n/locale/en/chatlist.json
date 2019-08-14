@@ -1,0 +1,60 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Fetching conversations",
+    "LIST": {
+      "404": "There are no active conversations in this group."
+    },
+    "TAB_HEADING": "Conversations",
+  	"SEARCH": {
+  		"INPUT": "Search for People, Chats, Saved Replies .."
+  	},
+    "STATUS_TABS": [
+      { "NAME": "Open", "KEY": "openCount" },
+      { "NAME": "Resolved", "KEY": "allConvCount" }
+    ],
+
+    "ASSIGNEE_TYPE_TABS": [
+      { "NAME": "Mine", "KEY": "mineCount"},
+      { "NAME": "Unassigned", "KEY": "unAssignedCount"},
+      { "NAME": "All", "KEY": "allCount"}
+    ],
+
+    "ASSIGNEE_TYPE_SLUG": {
+      "MINE": 0,
+      "UNASSIGNED": 1,
+      "ALL": 2
+    },
+
+    "CHAT_STAUTUS_ITEMS": [
+      { "TEXT": "Open", "VALUE": 0 },
+      { "TEXT": "Resolved", "VALUE": 1 }
+    ],
+
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-camera",
+        "CONTENT": "Picture message"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Audio message"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Video message"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "File Attachment"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Location"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "has shared a url"
+      }
+    }
+  }
+}

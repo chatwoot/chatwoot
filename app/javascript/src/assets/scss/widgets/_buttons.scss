@@ -1,0 +1,30 @@
+.button {
+  &.icon {
+    padding-left: $space-normal;
+    padding-right: $space-normal;
+    i {
+      padding-right: $space-one;
+    }
+  }
+
+  &.nice {
+    border-radius: $space-smaller;
+  }
+
+  &.hollow {
+    &.link {
+      border-color: transparent;
+      padding-left: 0;
+
+      &:hover,
+      &:focus {
+        border-color: transparent;
+      }
+    }
+  }
+
+  > .icon {
+    font-size: $font-size-mini;
+    margin-right: $space-smaller;
+  }
+}

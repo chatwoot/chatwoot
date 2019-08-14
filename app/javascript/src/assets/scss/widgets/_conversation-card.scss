@@ -1,0 +1,89 @@
+.conversation {
+  @include flex;
+  @include flex-shrink;
+  @include padding($space-normal $zero $zero $space-normal);
+  position: relative;
+  cursor: pointer;
+
+  &.active {
+    background: $color-background;
+  }
+
+  .conversation--details {
+    @include margin($zero $zero $zero $space-one);
+    @include border-light-bottom;
+    @include padding($zero $zero $space-slab $zero);
+  }
+  .conversation--user {
+    font-size: $font-size-small;
+    margin-bottom: $zero;
+
+    .label {
+      position: relative;
+      top: $space-micro;
+      left: $space-micro;
+      max-width: $space-jumbo;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .conversation--message {
+    height: $space-medium;
+    margin: $zero;
+    font-size: $font-size-small;
+    line-height: $space-medium;
+    font-weight: $font-weight-light;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: $color-body;
+    width: 27rem;
+    white-space: nowrap;
+  }
+  .conversation--meta {
+    display: block;
+    position: absolute;
+    right: $space-normal;
+    top: $space-normal;
+    @include flex;
+    @include flex-direction(column);
+
+    .unread {
+      $unread-size: $space-two - $space-micro;
+      display: none;
+      height: $unread-size;
+      min-width: $unread-size;
+      background: darken($success-color, 3%);
+      text-align: center;
+      padding: 0 $space-smaller;
+      line-height: $unread-size;
+      color: $color-white;
+      font-weight: $font-weight-medium;
+      font-size: $font-size-mini;
+      margin-left: auto;
+      @include round-corner;
+      margin-top: $space-smaller;
+    }
+    .timestamp {
+      font-size: $font-size-mini;
+      color: $dark-gray;
+      line-height: $space-normal;
+      font-weight: $font-weight-normal;
+      font-size: $font-size-micro;
+      margin-left: auto;
+    }
+  }
+
+  &.unread-chat {
+    .unread {
+      display: inline-block;
+    }
+    .conversation--message {
+      font-weight: $font-weight-medium;
+    }
+    .conversation--user {
+      font-weight: $font-weight-medium;
+    }
+  }
+}

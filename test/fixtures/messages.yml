@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  account_id: 1
+  channel_id: 1
+  inbox_id: 1
+  conversation_id: 1
+  sender_id: 1
+  sender_type: MyString
+  reciever_id: 1
+  reciever_type: MyString
+
+two:
+  content: MyText
+  account_id: 1
+  channel_id: 1
+  inbox_id: 1
+  conversation_id: 1
+  sender_id: 1
+  sender_type: MyString
+  reciever_id: 1
+  reciever_type: MyString

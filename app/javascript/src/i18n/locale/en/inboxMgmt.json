@@ -1,0 +1,74 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Inboxes",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a Facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a new Facebook Page. </p><p> In the <a href=\"/u/dashboard\">Dashboard</a>, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "There are no inboxes attached to this account."
+    },
+    "CREATE_FLOW": [
+      { "title": "Choose Channel", "route": "settings_inbox_new", "body": "Choose the provider you want to integrate with Chatwoot." },
+      { "title": "Create Inbox", "route": "settings_inboxes_page_channel", "body": "Authenticate your account and create an inbox." },
+      { "title": "Add Agents", "route": "settings_inboxes_add_agents", "body": "Add agents to the created inbox." },
+      { "title": "Voila!", "route": "settings_inbox_finish", "body": "You are all set to go!" }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot."
+      },
+      "AUTH": {
+        "TITLE": "Channels",
+        "DESC": "Currently we support only Facebook Pages as a platform. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
+      },
+      "AGENTS": {
+        "TITLE": "Agents",
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents whcih are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+      },
+      "DETAILS": {
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+      },
+      "FINISH":{
+        "TITLE": "Nailed It!",
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Authenticating you with Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Creating your Inbox...",
+      "TITLE": "Configure Inbox Deatails",
+      "DESC": "an addendum to this post, you can absolutely support what I’m doing by working with me at Reach by Creatomic. Get in touch: jon@creatomic.co for content, podcasts, marketing campaigns — we do a lot and we do it well. If you can help me hit that monthly rev. target by letting me help you find more customers and make more money, that’s a win win."
+    },
+    "AGENTS": {
+      "ADD_AGENTS": "Adding Agents to your Inbox..."
+    },
+    "FINISH": {
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Take me there"
+    },
+    "REAUTH": "Reauthorize",
+    "VIEW": "View",
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox delete successfully",
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+      }
+    },
+    "SETTINGS": "Settings",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "UPDATE": "Update"
+    }
+  }
+}

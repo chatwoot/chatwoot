@@ -1,0 +1,64 @@
+// Conversation header - Light BG
+.conv-header {
+  @include padding($space-small $space-normal);
+  @include background-white;
+  @include flex;
+  @include flex-align($x: justify, $y: middle);
+  @include border-normal-bottom;
+  // Resolve Button
+  .button {
+  	@include margin(0);
+    @include flex;
+  }
+
+  .multiselect-box {
+    @include flex;
+    @include flex-align($x: justify, $y: middle);
+    @include margin(0 $space-small);
+    @include border-light;
+    border-radius: $space-smaller;
+    margin-right: $space-normal;
+
+    &:before {
+      line-height: 3.8rem;
+      font-size: $font-size-default;
+      padding-left: $space-slab;
+      padding-right: $space-smaller;
+      color: $medium-gray;
+    }
+
+    .multiselect {
+      margin: 0;
+
+      .multiselect__tags {
+        border: 0;
+      }
+    }
+  }
+
+  // User thumbnail and text
+  .user {
+    @include flex;
+    @include flex-align($x: center, $y: middle);
+    .user--name {
+   	  @include margin(0);
+      font-size: $font-size-medium;
+      margin-left: $space-slab;
+    }
+  }
+}
+
+.button.resolve--button {
+  > .icon {
+    padding-right: $space-small;
+    font-size: $font-size-default;
+  }
+
+  .spinner {
+    padding: 0 $space-one;
+    margin-right: $space-smaller;
+    &:before {
+      border-top-color: $color-white;
+    }
+  }
+}

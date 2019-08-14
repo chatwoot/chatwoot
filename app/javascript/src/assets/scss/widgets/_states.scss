@@ -1,0 +1,39 @@
+.loading-state {
+  padding: $space-jumbo $space-smaller;
+  .message {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: $color-gray;
+  }
+  .spinner {
+    float: none;
+    top: -$space-smaller;
+  }
+}
+
+// EMPTY STATES
+.empty-state {
+  padding: $space-jumbo $space-smaller;
+  .title,
+  .message {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+
+  .title {
+    font-size: $font-size-giga;
+    font-weight: $font-weight-feather;
+  }
+
+  .message {
+    width: 50%;
+    margin: 0 auto;
+    color: $color-gray;
+  }
+
+  .button {
+    margin-top: $space-medium;
+  }
+}

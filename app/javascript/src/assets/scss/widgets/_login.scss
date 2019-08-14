@@ -1,0 +1,62 @@
+.auth-wrap {
+  width: 100%;
+}
+
+// Outside login wrapper
+.login {
+  @include full-height;
+  overflow-y: scroll;
+  padding-top: $space-larger*1.2;
+
+  .login__hero {
+    margin-bottom: $space-larger;
+
+    .hero__logo {
+      width: 180px;
+    }
+
+    .hero__title {
+      margin-top: $space-larger;
+      font-weight: $font-weight-light;
+    }
+
+    .hero__sub {
+      font-size: $font-size-medium;
+      color: $medium-gray;
+    }
+  }
+
+  // Login box
+  .login-box {
+    @include background-white;
+    @include border-normal;
+    @include border-top-radius($space-smaller);
+    @include border-right-radius($space-smaller);
+    @include border-bottom-radius($space-smaller);
+    @include border-left-radius($space-smaller);
+    @include elegant-card;
+    padding: $space-large $space-large;
+    label {
+      font-size: $font-size-default;
+      color: $color-gray;
+
+      input {
+        padding: $space-slab;
+        height: $space-larger;
+        font-size: $font-size-default;
+      }
+      .error {
+        font-size: $font-size-small;
+      }
+    }
+  }
+
+  .sigin__footer {
+    padding: $space-medium;
+    font-size: $font-size-default;
+
+    > a {
+      font-weight: $font-weight-bold;
+    }
+  }
+}

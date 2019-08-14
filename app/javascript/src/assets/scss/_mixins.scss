@@ -1,0 +1,206 @@
+//borders
+@mixin border-nil() {
+  border-color: transparent;
+  border: 0;
+}
+
+@mixin thin-border($color) {
+  border: 1px solid $color;
+}
+
+@mixin custom-border-bottom($size, $color) {
+  border-bottom: $size solid $color;
+}
+
+@mixin custom-border-top($size, $color) {
+  border-top: $size solid $color;
+}
+
+@mixin border-normal() {
+  border: 1px solid $color-border;
+}
+@mixin border-normal-left() {
+  border-left: 1px solid $color-border;
+}
+@mixin border-normal-top() {
+  border-top: 1px solid $color-border;
+}
+@mixin border-normal-right() {
+  border-right: 1px solid $color-border;
+}
+@mixin border-normal-bottom() {
+  border-bottom: 1px solid $color-border;
+}
+
+@mixin border-light() {
+  border: 1px solid $color-border-light;
+}
+@mixin border-light-left() {
+  border-left: 1px solid $color-border-light;
+}
+@mixin border-light-top() {
+  border-top: 1px solid $color-border-light;
+}
+@mixin border-light-right() {
+  border-right: 1px solid $color-border-light;
+}
+@mixin border-light-bottom() {
+  border-bottom: 1px solid $color-border-light;
+}
+
+// background
+@mixin background-gray() {
+  background: $color-background;
+}
+
+@mixin background-light() {
+  background: $color-background-light;
+}
+
+@mixin background-white() {
+  background: $color-white;
+}
+
+// input form
+@mixin ghost-input() {
+  box-shadow: none;
+  border-color: transparent;
+  &:active,
+  &:hover,
+  &:focus {
+    box-shadow: none;
+    border-color: transparent;
+  }
+}
+
+// flex-layout
+@mixin space-between() {
+  @include display(flex);
+  @include justify-content(space-between);
+}
+
+@mixin space-between-column() {
+  @include space-between;
+  @include flex-direction(column);
+}
+@mixin space-between-row() {
+  @include space-between;
+  @include flex-direction(row);
+}
+
+@mixin flex-shrink() {
+  flex: flex-grid-column(shrink);
+  max-width: 100%;
+}
+
+@mixin flex-weight($value) {
+  // Grab flex-grow for older browsers.
+  $flex-grow: nth($value, 1);
+
+  // 2009
+  @include prefixer(box-flex, $flex-grow, webkit moz spec);
+
+  // 2011 (IE 10), 2012
+  @include prefixer(flex, $value, webkit moz ms spec);
+}
+
+// full height
+@mixin full-height() {
+  height: 100%;
+  // COmmenting because unneccessary scroll is apprearing on some pages eg: settings/agents / inboxes
+}
+@mixin round-corner() {
+  border-radius: 1000px;
+}
+
+@mixin scroll-on-hover() {
+  @include transition(all .4s $ease-in-out-cubic);
+  overflow: hidden;
+
+  &:hover {
+    overflow-y: scroll;
+  }
+}
+
+
+@mixin horizontal-scroll() {
+  overflow-y: scroll;
+}
+
+@mixin elegent-shadow() {
+  box-shadow: 0 10px 25px 0 rgba(49,49,93,0.15);
+}
+
+@mixin elegant-card() {
+  @include elegent-shadow;
+  border-radius: $space-small;
+}
+
+@mixin color-spinner() {
+  @keyframes spinner {
+    to {transform: rotate(360deg);}
+  }
+
+  &:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: $space-medium;
+    height: $space-medium;
+    margin-top: -$space-one;
+    margin-left: -$space-one;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-top-color: lighten($color-woot, 10%);
+    animation: spinner .9s linear infinite;
+  }
+}
+
+// --------------------------------------------------------
+// arrows
+// --------------------------------------------------------
+// $direction: top, left, right, bottom, top-left, top-right, bottom-left, bottom-right
+// $color: hex, rgb or rbga
+// $size: px or em
+// @example
+// .element{
+//     @include arrow(top, #000, 50px);
+// }
+@mixin arrow($direction, $color, $size){
+    display: block;
+    height: 0;
+    width: 0;
+    content: '';
+
+    @if $direction == 'top' {
+      border-left: $size solid transparent;
+      border-right: $size solid transparent;
+      border-bottom: $size solid $color;
+    } @else if $direction == 'right' {
+      border-top: $size solid transparent;
+      border-bottom: $size solid transparent;
+      border-left: $size solid $color;
+    } @else if $direction == 'bottom' {
+      border-top: $size solid $color;
+      border-right: $size solid transparent;
+      border-left: $size solid transparent;
+    } @else if $direction == 'left' {
+      border-top: $size solid transparent;
+      border-right: $size solid $color;
+      border-bottom: $size solid transparent;
+    } @else if $direction == 'top-left' {
+      border-top: $size solid $color;
+      border-right: $size solid transparent;
+    } @else if $direction == 'top-right' {
+      border-top: $size solid $color;
+      border-left: $size solid transparent;
+    } @else if $direction == 'bottom-left' {
+      border-bottom: $size solid $color;
+      border-right: $size solid transparent;
+    } @else if $direction == 'bottom-right' {
+      border-bottom: $size solid $color;
+      border-left: $size solid transparent;
+    }
+}

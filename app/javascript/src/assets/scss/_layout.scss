@@ -1,0 +1,79 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+    -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+.app-wrapper {
+  @include full-height;
+  @include flex-weight(1);
+  width: 100%;
+}
+.app-root {
+  @include flex;
+  @include flex-direction(column);
+}
+.app-content {
+  @include flex;
+}
+
+.view-box {
+  @include full-height;
+  height: 100vh;
+  @include margin(0);
+  @include space-between-column;
+}
+
+.view-panel {
+  @include flex-weight(1);
+  @include flex-direction(column);
+  @include margin($zero);
+  @include padding($space-normal);
+  overflow-y: scroll;
+}
+
+.content-box {
+  overflow: scroll;
+  @include padding($space-normal);
+  .btn-fixed-right-top {
+    position: fixed;
+    top: $space-small;
+    right: $space-small;
+  }
+}
+
+.back-button {
+  color: $color-woot;
+  font-size: $font-size-default;
+  font-weight: $font-weight-normal;
+  margin-right: $space-normal;
+  cursor: pointer;
+
+  &:before {
+    vertical-align: text-bottom;
+    margin-right: $space-smaller;
+    font-size: $font-size-large;
+  }
+}
+
+.button-spinner {
+  float: right;
+}
+
+.no-items-error-message {
+  @include flex;
+  @include full-height;
+  @include justify-content(center);
+  @include align-items(center);
+  flex-direction: column;
+
+  img {
+    max-width: $space-mega;
+    @include padding($space-one);
+  }
+}

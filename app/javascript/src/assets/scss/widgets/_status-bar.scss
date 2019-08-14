@@ -1,0 +1,31 @@
+.status-bar {
+  @include flex;
+  @include flex-direction(column);
+  @include flex-align($x: center, $y: middle);
+  background: lighten($warning-color, 36%);
+  // @include elegant-card();
+  @include margin($zero);
+  @include padding($space-normal $space-smaller);
+
+  .message {
+    font-weight: $font-weight-medium;
+    margin-bottom: $zero;
+  }
+
+  .button {
+    @include margin($space-smaller $zero $zero);
+    padding: $space-small $space-normal;
+  }
+
+  &.danger {
+    background: lighten($alert-color, 30%);
+
+    .button {
+      @include button-style($alert-color, darken($alert-color, 7%), $color-white);
+    }
+  }
+
+  &.warning {
+    background: lighten($warning-color, 36%);
+  }
+}

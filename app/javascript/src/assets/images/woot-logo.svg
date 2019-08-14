@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1405px" height="297px" viewBox="0 0 1405 297" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(-65.000000, -3.000000)">
+            <g id="Group" transform="translate(65.000000, 56.000000)" fill="#273444">
+                <path d="M199.995615,244 L99.9912292,244 C44.8625181,244 0,199.133097 0,143.991229 C0,88.8669035 44.8625181,44 99.9912292,44 C155.133097,44 199.995615,88.8669035 199.995615,143.991229 L199.995615,244 Z M99.7834365,58 C52.4804488,58 14,96.4804488 14,143.783437 C14,191.086424 52.4804488,229.580002 99.7834365,229.580002 L185.580002,229.580002 L185.580002,143.783437 C185.580002,96.4804488 147.082048,58 99.7834365,58 Z" id="Fill-1"></path>
+                <text id="chatwoot" font-family="AvenirNext-Regular, Avenir Next" font-size="240" font-weight="normal">
+                    <tspan x="234" y="240">chatwoot</tspan>
+                </text>
+            </g>
+            <rect id="Rectangle" x="0" y="40" width="1377" height="360"></rect>
+            <g id="Group-3" transform="translate(1310.000000, 0.000000)">
+                <rect id="Rectangle-2" fill="#47A7F6" x="0" y="3" width="160" height="160" rx="80"></rect>
+                <text id="β" font-family="AvenirNext-DemiBold, Avenir Next" font-size="90" font-weight="500" fill="#FFFFFF">
+                    <tspan x="51" y="111">β</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>

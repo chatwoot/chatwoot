@@ -1,0 +1,31 @@
+.button {
+  font-weight: $font-weight-medium;
+  font-family: $body-font-family;
+
+  &.round {
+    border-radius: 1000px;
+  }
+
+  &.warning {
+    color: $white;
+  }
+
+  &.grey-btn {
+    color: $color-gray;
+
+    &:hover {
+      color: $color-light-gray;
+    }
+  }
+}
+
+.label {
+  font-weight: $font-weight-bold;
+}
+
+.tooltip {
+  max-width: 15rem;
+  padding: $space-smaller $space-small;
+  border-radius: $space-smaller;
+  font-size: $font-size-mini;
+}

@@ -1,0 +1,31 @@
+.error {
+  #{$all-text-inputs},
+  .multiselect > .multiselect__tags {
+    @include thin-border( darken(get-color(alert), 25%));
+  }
+}
+
+.error {
+  .message {
+    display: block;
+    width: 100%;
+    margin-top: -$space-normal;
+    margin-bottom: $space-one;
+    color: darken(get-color(alert), 25%);
+    font-weight: $font-weight-normal;
+  }
+}
+
+.button,
+textarea,
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.input-wrap {
+  font-size: $font-size-small;
+  color: $color-heading;
+  font-weight: $font-weight-medium;
+}

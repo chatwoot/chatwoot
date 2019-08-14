@@ -1,0 +1,242 @@
+// Conversation header - Light BG
+.settings-header {
+  @include padding($space-small $space-normal);
+  @include background-white;
+  @include flex;
+  @include flex-align($x: justify, $y: middle);
+  @include border-normal-bottom;
+  height: $header-height;
+  min-height: $header-height;
+  // Resolve Button
+  .button {
+    @include margin(0);
+  }
+
+  // User thumbnail and text
+  .page-title {
+    @include flex;
+    @include flex-align($x: center, $y: middle);
+    @include margin($zero);
+    > span {
+      @include padding($zero $space-small $zero $space-small);
+    }
+  }
+
+}
+
+.wizard-box {
+  .item {
+    @include padding($space-normal $space-normal $space-normal $space-medium);
+    position: relative;
+    @include background-light;
+    cursor: pointer;
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background: $color-border;
+      top: $space-normal;
+    }
+
+    &:before {
+      top: $zero;
+      height: $space-normal;
+    }
+
+    &:first-child {
+      &:before {
+        height: 0;
+      }
+    }
+
+    &:last-child {
+      &:after {
+        height: $zero;
+      }
+    }
+    &.active {
+      // left: 1px;
+      // @include background-white;
+      // @include border-light;
+      // border-right: 0;
+      h3 {
+        color: $color-woot;
+      }
+
+      .step {
+        background: $color-woot;
+      }
+    }
+
+    &.over {
+
+      &:after {
+        background: $color-woot;
+      }
+
+      .step {
+        background: $color-woot;
+      }
+
+      &+.item {
+        &:before {
+          background: $color-woot;
+        }
+      }
+    }
+
+    h3 {
+      font-size: $font-size-default;
+      padding-left: $space-medium;
+      line-height: 1;
+      color: $color-body;
+
+      .completed {
+        color: $success-color;
+      }
+    }
+    p {
+      font-size: $font-size-small;
+      color: $color-light-gray;
+      padding-left: $space-medium;
+      margin: 0;
+    }
+    .step {
+      position: absolute;
+      left: $space-normal;
+      top: $space-normal;
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      background: $color-border;
+      border-radius: 20px;
+      width: $space-normal;
+      height: $space-normal;
+      text-align: center;
+      line-height: $space-normal;
+      color: #fff;
+      z-index: 999;
+
+      i {
+        font-size: $font-size-micro;
+      }
+    }
+  }
+}
+
+.wizard-body {
+  @include background-white;
+  @include padding($space-medium);
+  @include border-light;
+  @include full-height();
+}
+.inoboxes-list {
+  // @include margin(auto);
+  // @include background-white;
+  // @include border-light;
+  // width: 50%;
+
+  .inbox-item {
+    @include margin($space-normal);
+    @include flex;
+    @include flex-shrink;
+    @include padding($space-normal $space-normal);
+    @include border-light-bottom();
+    flex-direction: column;
+    background: $color-white;
+    cursor: pointer;
+    width: 20%;
+    float: left;
+    min-height: 10rem;
+    &:last-child {
+      margin-bottom: $zero;
+      @include border-nil;
+    }
+
+    &:hover {
+      @include background-gray;
+      .arrow {
+        opacity: 1;
+        @include transform(translateX($space-small));
+      }
+    }
+    .switch {
+      align-self: center;
+      margin-right: $space-normal;
+      margin-bottom: $zero;
+    }
+
+    .item--details {
+      @include padding($space-normal $zero);
+      .item--name {
+        font-size: $font-size-large;
+        line-height: 1;
+      }
+      .item--sub {
+        margin-bottom: 0;
+        font-size: $font-size-small;
+      }
+    }
+    .arrow {
+      align-self: center;
+      font-size: $font-size-small;
+      color: $medium-gray;
+      opacity: .7;
+      @include transform(translateX(0px));
+      @include transition(opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s);
+    }
+  }
+}
+
+.settings-modal {
+  width: 60%;
+  height: 80%;
+  .delete-wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    @include flex;
+    flex-direction: row;
+    @include justify-content(space-between);
+    @include padding($space-normal $space-large);
+    a {
+      margin-left: $space-normal;
+    }
+  }
+  .code-wrapper {
+    @include margin($space-medium);
+
+    .title {
+      font-weight: $font-weight-medium;
+    }
+    .code {
+      max-height: $space-mega;
+      overflow: scroll;
+      white-space: nowrap;
+      @include padding($space-one);
+      background: $color-background;
+      code {
+        background: transparent;
+        border: 0;
+      }
+    }
+  }
+  .agent-wrapper {
+    @include margin($space-medium);
+    .title {
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+.login-init {
+  text-align: center;
+  padding-top: 30%;
+  p {
+    @include padding($space-medium);
+  }
+  > a > img {
+    width: $space-larger*5;
+  }
+}

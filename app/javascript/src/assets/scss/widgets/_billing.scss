@@ -1,0 +1,65 @@
+.billing {
+  @include full-height;
+  .row {
+    @include full-height;
+  }
+  .billing__stats {
+    @include flex;
+  }
+  .billing__form {
+    @include thin-border($color-border-light);
+    @include margin($zero -$space-micro);
+    @include full-height;
+    background: $color-white;
+    iframe {
+      border: 0;
+      @include full-height;
+      width: 100%;
+    }
+  }
+  .account-row {
+    @include flex-grid-column(3, $space-medium);
+    @include padding($space-normal);
+    background: $color-white;
+    @include flex;
+    @include flex-direction(column);
+    // @include thin-border($color-border-light);
+    // @include margin(-$space-micro $zero);
+    font-size: $font-size-small;
+    .title {
+      font-weight: $font-weight-medium;
+      color: $color-heading;
+    }
+    .value {
+      font-size: $font-size-mega;
+      font-weight: $font-weight-light;
+      text-transform: capitalize;
+    }
+  }
+}
+
+.account-locked {
+  @include background-gray;
+  @include margin(0);
+  .lock-message{
+    @include flex;
+    @include full-height;
+    @include flex-direction(column);
+    @include flex-align(center, middle);
+    div {
+      @include flex;
+      @include full-height;
+      @include flex-direction(column);
+      @include flex-align(center, middle);
+      img {
+        width: 10rem;
+        @include margin($space-normal);
+      }
+      span {
+        text-align: center;
+        font-size: $font-size-small;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
+}

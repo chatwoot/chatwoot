@@ -1,0 +1,17 @@
+active:
+  v1:
+    paid:
+      name: 'Platinum'
+      id: 'v1-platinum'
+      price: 29
+    trial:
+      name: 'Trial'
+      id: 'v1Trial'
+      price: 0
+inactive:
+  v0:
+    free:
+      name: 'Free'
+      price: 0
+trial_period: 14
+default_pricing_version: 'v1'

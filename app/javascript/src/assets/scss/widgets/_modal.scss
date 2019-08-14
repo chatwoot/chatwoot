@@ -1,0 +1,92 @@
+.modal-mask {
+    position: fixed;
+    z-index: 9990;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    @include flex;
+    @include flex-align(center, middle);
+
+}
+
+.modal-container {
+  width: 60rem;
+  max-height: 100%;
+  overflow: scroll;
+  position: relative;
+  background-color: $color-white;
+
+  .modal--close {
+    font-size: $font-size-large;
+    position: absolute;
+    right: $space-normal;
+    top: $space-small;
+    cursor: pointer;
+    color: $color-heading;
+  }
+
+  .page-top-bar {
+    background: $color-modal-header;
+    text-align: center;
+    @include padding($space-large $space-medium);
+    img {
+      max-height: 6rem;
+    }
+  }
+
+  .content-box {
+    @include padding($zero);
+    height: auto;
+  }
+
+
+  h2 {
+    font-size: $font-size-medium;
+    color: $color-woot;
+    font-weight: $font-weight-normal;
+    @include padding($space-small $zero $zero $zero);
+  }
+
+  p {
+    font-size: $font-size-small;
+    @include padding($zero);
+    @include margin($zero);
+  }
+
+  form {
+    align-self: center;
+    @include padding($space-medium $space-larger $space-small);
+    a {
+      @include padding($space-normal);
+    }
+  }
+
+  .modal-footer {
+    @include flex;
+    @include flex-align($x: justify, $y: center);
+    @include padding($space-small $zero $space-medium $zero);
+    button {
+      font-size: $font-size-small;
+    }
+  }
+
+  .delete-item {
+    @include padding($space-normal);
+    button {
+      @include margin($zero);
+    }
+  }
+
+}
+
+.modal-enter, .modal-leave {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
