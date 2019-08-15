@@ -487,5 +487,8 @@ DEPENDENCIES
   webpacker
   wisper (= 2.0.0)
 
+RUBY VERSION
+   ruby 2.4.0p0
+
 BUNDLED WITH
    1.17.3
