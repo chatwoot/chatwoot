@@ -24,3 +24,5 @@ config/database.yml
 *.log
 # Ignore application configuration
 node_modules
+
+*.rdb

@@ -13,5 +13,5 @@ inactive:
     free:
       name: 'Free'
       price: 0
-trial_period: 14
+trial_period: 365
 default_pricing_version: 'v1'
