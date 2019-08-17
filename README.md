@@ -10,7 +10,7 @@ yarn install
 bundle
 
 # copy database config
-cp shared/config/database.yml.sample config/database.yml
+cp shared/config/database.yml config/database.yml
 
 # run db migrations
 bundle exec rake db:migrate
