@@ -2,10 +2,22 @@
 
 ## Build Setup
 
-``` bash
-# install JS dependencies
-yarn install
 
+### Install JS dependencies
+
+``` bash
+yarn install
+```
+
+### Install ImageMagik
+
+```bash
+brew install imagemagick
+```
+
+### Setup rails server
+
+```bash
 # install ruby dependencies
 bundle
 
