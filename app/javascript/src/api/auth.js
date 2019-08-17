@@ -69,7 +69,7 @@ export default {
       .then((response) => {
         Cookies.remove('auth_data');
         Cookies.remove('user');
-        window.location = '/login';
+        window.location = '/u/login';
         resolve(response);
       })
       .catch((error) => {

@@ -3,18 +3,13 @@ Rails.application.routes.draw do
   #AUTH STARTS
   match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { confirmations: 'confirmations', passwords: 'passwords' }, via: [:get, :post]
-  #AUTH STARTS
-
 
   get "/u", to: "dashboard#index"
   get "/u/*params", to: "dashboard#index"
 
-  #ROOT STARTS
   get '/', to: redirect('/u/login')
   match '/status', to: 'home#status', via: [:get] #for elb checks
-  #AUTH ENDS
 
-  #API STARTS
   namespace :api do
     namespace :v1 do
       resources :callbacks, only: [] do
@@ -87,15 +82,10 @@ Rails.application.routes.draw do
       end
     end
   end
-  #API ENDS
-
-  #these routes are only used to put on mailers. DO NOT USE INTERNALLY.
 
   scope module: "mailer" do
     resources :conversations, only: [:show]
   end
-
-  #mailer routes ends
 
   mount Facebook::Messenger::Server, at: 'bot'
   post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
