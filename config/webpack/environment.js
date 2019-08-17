@@ -2,6 +2,8 @@ const { environment } = require('@rails/webpacker')
 const { VueLoaderPlugin } = require('vue-loader')
 const vue = require('./loaders/vue')
 const path = require('path')
+const webpack = require('webpack')
+
 environment.plugins.prepend('VueLoaderPlugin', new VueLoaderPlugin())
 environment.loaders.prepend('vue', vue)
 environment.loaders.append('audio', {
@@ -23,5 +25,15 @@ const resolve = {
 };
 
 environment.config.merge({ resolve });
+
+const { pusher_cluster: cluster, pusher_key: token, fb_app_id: fbAppID } = process.env
+
+environment.plugins.prepend('DefinePlugin', new webpack.DefinePlugin({
+  __PUSHER__: {
+    token: `"${token}"`,
+    cluster: `"${cluster}"`,
+  },
+  __FB_ID__: `"${fbAppID}"`,
+}))
 
 module.exports = environment

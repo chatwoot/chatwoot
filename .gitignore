@@ -26,3 +26,6 @@ config/database.yml
 node_modules
 
 *.rdb
+
+# Ignore env files
+.env
