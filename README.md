@@ -21,8 +21,9 @@ brew install imagemagick
 # install ruby dependencies
 bundle
 
-# copy database config
+# copy config
 cp shared/config/database.yml config/database.yml
+cp shared/config/application.yml config/application.yml
 
 # copy frontend env file
 cp .env.sample .env
