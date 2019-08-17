@@ -59,7 +59,6 @@ const authIgnoreRoutes = [
 
 
 const redirectUser = (to, from, next) => {
-  console.log(to);
   // If auth ignore go to page
   if (authIgnoreRoutes.indexOf(to.name) > -1) {
     return next();

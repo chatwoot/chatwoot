@@ -4,6 +4,7 @@
     "axios": "~0.15.3",
     "bourbon": "~4.2.7",
     "chart.js": "~2.5.0",
+    "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
     "foundation-sites": "6.3.0",
     "ionicons": "~3.0.0",
