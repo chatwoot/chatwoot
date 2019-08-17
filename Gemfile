@@ -40,8 +40,6 @@ gem 'chargebee', '~>2'
 gem 'poltergeist'
 gem 'phantomjs', :require => 'phantomjs/poltergeist'
 gem 'time_diff'
-gem 'fog-digitalocean'
-gem 'fog-aws'
 
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

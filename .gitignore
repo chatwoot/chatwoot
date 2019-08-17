@@ -29,3 +29,8 @@ node_modules
 
 # Ignore env files
 .env
+
+# Ignore application config file
+config/application.yml
+
+public/uploads
