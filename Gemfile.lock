@@ -190,7 +190,7 @@ GEM
       thin
     method_source (0.8.2)
     mime-types (2.99.3)
-    mini_magick (4.7.0)
+    mini_magick (4.9.5)
     mini_portile2 (2.1.0)
     minitest (5.11.3)
     multi_json (1.12.1)
