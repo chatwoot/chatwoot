@@ -34,3 +34,4 @@ node_modules
 config/application.yml
 
 public/uploads
+public/packs
