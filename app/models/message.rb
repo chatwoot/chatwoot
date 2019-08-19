@@ -18,10 +18,9 @@ class Message < ApplicationRecord
 
   has_one :attachment, dependent: :destroy, autosave: true
 
-  after_commit :send_reply,
+  after_create :send_reply,
                :dispatch_event,
-               :reopen_conversation,
-                  on: [:create]
+               :reopen_conversation
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)

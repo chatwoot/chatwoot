@@ -29,8 +29,16 @@ cp shared/config/application.yml config/application.yml
 cp .env.sample .env
 
 # run db migrations
-bundle exec rake db:migrate
+bundle exec rake db:create
+bundle exec rake db:reset
 
 # fireup the server
-foreman start
+foreman start -f Procfile.dev
+```
+
+### Login with credentials
+```
+http://localhost:3000
+user name: larry@google.com
+password: 123456
 ```

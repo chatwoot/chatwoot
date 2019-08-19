@@ -25,8 +25,8 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
-  after_commit :notify_creation, on: :create
-  after_commit :notify_deletion, on: :destroy
+  after_create :notify_creation
+  after_destroy :notify_deletion
 
   def set_password_and_uid
     self.uid = self.email

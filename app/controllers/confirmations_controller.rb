@@ -1,6 +1,6 @@
 class ConfirmationsController < Devise::ConfirmationsController
-  skip_before_filter :require_no_authentication, raise: false
-  skip_before_filter :authenticate_user!, raise: false
+  skip_before_action :require_no_authentication, raise: false
+  skip_before_action :authenticate_user!, raise: false
 
 
   def create

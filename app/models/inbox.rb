@@ -10,8 +10,8 @@ class Inbox < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
   has_many :contacts, dependent: :destroy
-  after_commit :subscribe_webhook, on: [:create], if: :facebook?
-  after_commit :delete_round_robin_agents, on: [:destroy]
+  after_create :subscribe_webhook, if: :facebook?
+  after_destroy :delete_round_robin_agents
 
   def add_member(user_id)
     member = inbox_members.new(user_id: user_id)
