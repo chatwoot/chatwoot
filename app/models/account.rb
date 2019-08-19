@@ -10,9 +10,9 @@ class Account < ApplicationRecord
   has_many :canned_responses, dependent: :destroy
   has_one :subscription, dependent: :destroy
 
-  after_commit :create_subscription, on: :create
-  after_commit :notify_creation, on: :create
-  after_commit :notify_deletion, on: :destroy
+  after_create :create_subscription
+  after_create :notify_creation
+  after_destroy :notify_deletion
 
   def channel
     # This should be unique for account

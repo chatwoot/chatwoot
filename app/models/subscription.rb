@@ -3,7 +3,7 @@ class Subscription < ApplicationRecord
 
   belongs_to :account
   before_create :set_default_billing_params
-  after_create :notify_creation, on: :create
+  after_create :notify_creation
 
   enum state: [:trial, :active, :cancelled]
 

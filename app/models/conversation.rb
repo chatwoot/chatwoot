@@ -23,7 +23,7 @@ class Conversation < ApplicationRecord
                :create_activity,
                :send_email_notification_to_assignee
 
-  after_commit :send_events, :run_round_robin, on: [:create]
+  after_create :send_events, :run_round_robin
 
 
   acts_as_taggable_on :labels

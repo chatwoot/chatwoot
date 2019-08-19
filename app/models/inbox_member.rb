@@ -6,8 +6,8 @@ class InboxMember < ApplicationRecord
   belongs_to :user
   belongs_to :inbox
 
-  after_commit :add_agent_to_round_robin, on: [:create]
-  after_commit :remove_agent_from_round_robin, on: [:destroy]
+  after_create :add_agent_to_round_robin
+  after_destroy :remove_agent_from_round_robin
 
   private
 
