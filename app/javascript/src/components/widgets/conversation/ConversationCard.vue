@@ -64,7 +64,7 @@ export default {
   methods: {
     cardClick(chat) {
       router.push({
-        path: `/conversations/${chat.id}`,
+        path: `/u/conversations/${chat.id}`,
       });
     },
     extractMessageText(chatItem) {
