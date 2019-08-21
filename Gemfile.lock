@@ -80,18 +80,6 @@ GIT
       thor (>= 0.20.3, < 2.0)
 
 GIT
-  remote: git://github.com/sinatra/sinatra.git
-  revision: 50b7c4fc3064dcf28614503ff97b45205b79068a
-  specs:
-    rack-protection (2.0.5)
-      rack
-    sinatra (2.0.5)
-      mustermann (~> 1.0)
-      rack (~> 2.0)
-      rack-protection (= 2.0.5)
-      tilt (~> 2.0)
-
-GIT
   remote: https://github.com/lynndylanhurley/devise_token_auth
   revision: 2c3a8d83304062523899764ae695d8e5bdc74269
   specs:
@@ -266,7 +254,6 @@ GEM
     multi_json (1.13.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
-    mustermann (1.0.3)
     netrc (0.11.0)
     nightfury (1.0.1)
     nio4r (2.4.0)
@@ -309,6 +296,8 @@ GEM
     rack-cache (1.9.0)
       rack (>= 0.4)
     rack-cors (1.0.3)
+    rack-protection (2.0.5)
+      rack
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -472,7 +461,6 @@ DEPENDENCIES
   seed_dump
   sentry-raven
   sidekiq
-  sinatra!
   spring
   spring-watcher-listen
   telegram-bot-ruby
