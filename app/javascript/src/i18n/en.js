@@ -1,4 +1,4 @@
-import en from './locale/en/';
+import en from './locale/en';
 
 export default {
   ...en,

@@ -32,11 +32,17 @@ const endPoints = {
   },
 
   sendMessage(conversationId, message) {
-    return { url: `api/v1/conversations/${conversationId}/messages.json`, params: { message } };
+    return {
+      url: `api/v1/conversations/${conversationId}/messages.json`,
+      params: { message },
+    };
   },
 
   addPrivateNote(conversationId, message) {
-    return { url: `api/v1/conversations/${conversationId}/messages.json?`, params: { message, private: 'true' } };
+    return {
+      url: `api/v1/conversations/${conversationId}/messages.json?`,
+      params: { message, private: 'true' },
+    };
   },
 
   fetchLabels: {
@@ -64,7 +70,10 @@ const endPoints = {
   },
 
   createChannel(channel, channelParams) {
-    return { url: `api/v1/callbacks/register_${channel}_page.json`, params: channelParams };
+    return {
+      url: `api/v1/callbacks/register_${channel}_page.json`,
+      params: channelParams,
+    };
   },
 
   addAgentsToChannel: {
@@ -78,7 +87,9 @@ const endPoints = {
   },
 
   assignAgent(conversationId, AgentId) {
-    return { url: `/api/v1/conversations/${conversationId}/assignments?assignee_id=${AgentId}` };
+    return {
+      url: `/api/v1/conversations/${conversationId}/assignments?assignee_id=${AgentId}`,
+    };
   },
 
   fbMarkSeen: {
@@ -171,6 +182,6 @@ const endPoints = {
   },
 };
 
-export default (page) => {
+export default page => {
   return endPoints[page];
 };

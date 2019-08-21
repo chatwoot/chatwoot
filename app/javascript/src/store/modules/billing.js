@@ -23,13 +23,21 @@ const actions = {
   fetchSubscription({ commit }) {
     commit(types.default.TOGGLE_SUBSCRIPTION_LOADING, true);
     Billing.getSubscription()
-      .then((billingDetails) => {
+      .then(billingDetails => {
         commit(types.default.SET_SUBSCRIPTION, billingDetails.data);
-        commit(types.default.TOGGLE_SUBSCRIPTION_LOADING, false, billingDetails.status);
+        commit(
+          types.default.TOGGLE_SUBSCRIPTION_LOADING,
+          false,
+          billingDetails.status
+        );
       })
-      .catch((error) => {
+      .catch(error => {
         const { response } = error;
-        commit(types.default.TOGGLE_SUBSCRIPTION_LOADING, false, response.status);
+        commit(
+          types.default.TOGGLE_SUBSCRIPTION_LOADING,
+          false,
+          response.status
+        );
       });
   },
 };

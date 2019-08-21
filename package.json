@@ -72,5 +72,8 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "scripts": {
+    "eslint": "eslint app/javascript"
   }
 }

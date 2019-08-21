@@ -21,51 +21,60 @@ const getters = {
 const actions = {
   fetchCannedResponse({ commit }) {
     commit(types.default.SET_CANNED_FETCHING_STATUS, true);
-    CannedApi.getAllCannedResponses().then((response) => {
-      commit(types.default.SET_CANNED_FETCHING_STATUS, false);
-      commit(types.default.SET_CANNED, response);
-    }).catch();
+    CannedApi.getAllCannedResponses()
+      .then(response => {
+        commit(types.default.SET_CANNED_FETCHING_STATUS, false);
+        commit(types.default.SET_CANNED, response);
+      })
+      .catch();
   },
   searchCannedResponse({ commit }, { searchKey }) {
     commit(types.default.SET_CANNED_FETCHING_STATUS, true);
-    CannedApi.searchCannedResponse({ searchKey }).then((response) => {
-      commit(types.default.SET_CANNED_FETCHING_STATUS, false);
-      commit(types.default.SET_CANNED, response);
-    }).catch();
+    CannedApi.searchCannedResponse({ searchKey })
+      .then(response => {
+        commit(types.default.SET_CANNED_FETCHING_STATUS, false);
+        commit(types.default.SET_CANNED, response);
+      })
+      .catch();
   },
   addCannedResponse({ commit }, cannedObj) {
     return new Promise((resolve, reject) => {
-      CannedApi.addCannedResponse(cannedObj).then((response) => {
-        commit(types.default.ADD_CANNED, response);
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      CannedApi.addCannedResponse(cannedObj)
+        .then(response => {
+          commit(types.default.ADD_CANNED, response);
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
   editCannedResponse({ commit }, cannedObj) {
     return new Promise((resolve, reject) => {
-      CannedApi.editCannedResponse(cannedObj).then((response) => {
-        commit(types.default.EDIT_CANNED, response, cannedObj.id);
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      CannedApi.editCannedResponse(cannedObj)
+        .then(response => {
+          commit(types.default.EDIT_CANNED, response, cannedObj.id);
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
   deleteCannedResponse({ commit }, responseId) {
     return new Promise((resolve, reject) => {
-      CannedApi.deleteCannedResponse(responseId.id).then((response) => {
-        if (response.status === 200) {
-          commit(types.default.DELETE_CANNED, responseId);
-        }
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      CannedApi.deleteCannedResponse(responseId.id)
+        .then(response => {
+          if (response.status === 200) {
+            commit(types.default.DELETE_CANNED, responseId);
+          }
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
-
 };
 
 const mutations = {
@@ -96,7 +105,9 @@ const mutations = {
 
   // Delete CannedResponse
   [types.default.DELETE_CANNED](_state, { id }) {
-    _state.cannedResponse = _state.cannedResponse.filter(agent => agent.id !== id);
+    _state.cannedResponse = _state.cannedResponse.filter(
+      agent => agent.id !== id
+    );
   },
 };
 

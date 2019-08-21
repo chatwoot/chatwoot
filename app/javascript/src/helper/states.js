@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
-export default (Vuex) => {
+export default Vuex => {
   const wootState = new Vuex.Store({
     state: {
       authenticated: false,

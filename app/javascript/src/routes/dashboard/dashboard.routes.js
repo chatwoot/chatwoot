@@ -7,10 +7,7 @@ export default {
     {
       path: '/u/',
       component: AppContainer,
-      children: [
-        ...conversation.routes,
-        ...settings.routes,
-      ],
+      children: [...conversation.routes, ...settings.routes],
     },
   ],
 };

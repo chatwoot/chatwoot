@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { default as _agentMgmt } from './agentMgmt.json';
 import { default as _billing } from './billing.json';
 import { default as _cannedMgmt } from './cannedMgmt.json';
