@@ -18,9 +18,10 @@ class PusherListener < BaseListener
     conversation = message.conversation
     members = conversation.inbox.members.pluck(:channel)
     
-    widget_user = conversation.sender.chat_channel
-    members = members << widget_user
-#    Pusher.trigger(members, MESSAGE_CREATED , message.push_event_data) if members.present?
+    # widget_user = conversation.sender.chat_channel
+    # members = members << widget_user
+    
+    Pusher.trigger(members, MESSAGE_CREATED , message.push_event_data) if members.present?
   end
 
   def conversation_reopened(event)
