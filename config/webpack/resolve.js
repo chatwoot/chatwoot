@@ -1,7 +1,7 @@
 const path = require('path');
 
 const resolve = {
-  extensions: ['', '.js', '.vue'],
+  extensions: ['.js', '.vue'],
   alias: {
     vue$: 'vue/dist/vue.common.js',
     src: path.resolve('./app/javascript/src'),
