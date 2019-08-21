@@ -1,3 +1,7 @@
+# Ruby CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-ruby/ for more details
+#
 version: 2
 jobs:
   build:
@@ -5,9 +9,14 @@ jobs:
       # specify the version you desire here
       - image: circleci/ruby:2.6.0-node-browsers
 
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/postgres:9.4
+
     working_directory: ~/build
 
-        steps:
+    steps:
       - checkout
 
       - run:
@@ -40,37 +49,30 @@ jobs:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
 
+      - run:
+          name: Eslint
+          command: eslint
+
       # Store yarn / webpacker cache
       - save_cache:
           key: chatwoot-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
-      - run:
-        name: Database setup
+      # Database setup
+      - run: yarn install --check-files
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+
+      # Run rails tests
+      - type: shell
         command: |
-          bundle exec rake db:create
-          bundle exec rake db:schema:load
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-      - run:
-          name: Eslint
-          command: npm run eslint
-      - run:
-          name: RSpec
-          command: |
-            mkdir /tmp/test-results
-            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
-              circleci tests split --split-by=timings)"
-            bundle exec rspec \
-              --format progress \
-              --format RspecJunitFormatter \
-              --out /tmp/test-results/rspec.xml \
-              --format progress \
-              $TEST_FILES
-      - run:
-          name: Brakeman
-          command: bundle exec brakeman --no-exit-on-warn
+          bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
+
+      # collect reports
       - store_test_results:
           path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
