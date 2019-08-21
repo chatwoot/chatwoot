@@ -1,0 +1,103 @@
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/ruby:2.6.0-node-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install bundler version 2.0.1
+          command: gem install bundler -v 2.0.1
+      - restore_cache:
+          keys:
+            - v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-ruby-dependencies-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      - save_cache:
+          key: v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - restore_cache:
+          keys:
+            - v1-npm-dependencies-{{ checksum "package.json" }}
+            - v1-npm-dependencies-
+      - run:
+          name: Npm Install
+          command: npm install
+      - save_cache:
+          key: v1-npm-dependencies-{{ checksum "package.json" }}
+          paths:
+            - ~/insights/node_modules
+      - run:
+        name: Database setup
+        command: |
+          bundle exec rake db:create
+          bundle exec rake db:schema:load
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+      - run:
+          name: Eslint
+          command: npm run eslint
+      - run:
+          name: RSpec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | \
+              circleci tests split --split-by=timings)"
+            bundle exec rspec \
+              --format progress \
+              --format RspecJunitFormatter \
+              --out /tmp/test-results/rspec.xml \
+              --format progress \
+              $TEST_FILES
+      - run:
+          name: Brakeman
+          command: bundle exec brakeman --no-exit-on-warn
+      - store_test_results:
+          path: /tmp/test-results
+  rubycritic:
+    docker:
+      - image: circleci/ruby:2.5.1-node-browsers
+        environment:
+          BUNDLER_VERSION: 2.0.1
+          BUNDLE_PATH: /bundle
+          BUNDLE_JOBS: 4
+          RAILS_ENV: test
+          CIRCLE_ARTIFACTS: /tmp
+    working_directory: ~/insights
+    steps:
+      - checkout
+      - run:
+          name: Install bundler version 2.0.1
+          command: gem install bundler -v 2.0.1
+      - restore_cache:
+          keys:
+            - v1-rubycritic-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-rubycritic-dependencies-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+      - save_cache:
+          key: v1-rubycritic-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run Rubycritic
+          command: bundle exec rubycritic ./app -p /tmp/rubycritic -f json -f html --no-browser
+      - store_artifacts:
+          path: /tmp/rubycritic
+      - run:
+          name: Rubycritic notification
+          command: bundle exec rake circleci:report_coverage
+
+workflows:
+  version: 2
+  build_and_rubycritic:
+    jobs:
+      - build
+      - rubycritic:
+          requires:
+            - build

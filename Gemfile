@@ -53,6 +53,9 @@ gem 'webpacker'
 # for starting different server processes
 gem 'foreman'
 
+# static analysis
+gem 'brakeman'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'letter_opener'
