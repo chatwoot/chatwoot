@@ -1,35 +1,51 @@
+version: 2
 jobs:
   build:
     docker:
       # specify the version you desire here
       - image: circleci/ruby:2.6.0-node-browsers
-    steps:
+
+    working_directory: ~/build
+
+        steps:
       - checkout
+
       - run:
-          name: Install bundler version 2.0.1
-          command: gem install bundler -v 2.0.1
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
       - restore_cache:
           keys:
-            - v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-ruby-dependencies-
+            - chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - chatwoot-bundle-v2-
+
       - run:
           name: Bundle Install
           command: bundle check || bundle install
+
+      # Store bundle cache
       - save_cache:
-          key: v1-ruby-dependencies-{{ checksum "Gemfile.lock" }}
+          key: chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
+      # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
-            - v1-npm-dependencies-{{ checksum "package.json" }}
-            - v1-npm-dependencies-
+            - chatwoot-yarn-{{ checksum "yarn.lock" }}
+            - chatwoot-yarn-
+
       - run:
-          name: Npm Install
-          command: npm install
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Store yarn / webpacker cache
       - save_cache:
-          key: v1-npm-dependencies-{{ checksum "package.json" }}
+          key: chatwoot-yarn-{{ checksum "yarn.lock" }}
           paths:
-            - ~/insights/node_modules
+            - ~/.cache/yarn
+
       - run:
         name: Database setup
         command: |
@@ -58,46 +74,3 @@ jobs:
           command: bundle exec brakeman --no-exit-on-warn
       - store_test_results:
           path: /tmp/test-results
-  rubycritic:
-    docker:
-      - image: circleci/ruby:2.5.1-node-browsers
-        environment:
-          BUNDLER_VERSION: 2.0.1
-          BUNDLE_PATH: /bundle
-          BUNDLE_JOBS: 4
-          RAILS_ENV: test
-          CIRCLE_ARTIFACTS: /tmp
-    working_directory: ~/insights
-    steps:
-      - checkout
-      - run:
-          name: Install bundler version 2.0.1
-          command: gem install bundler -v 2.0.1
-      - restore_cache:
-          keys:
-            - v1-rubycritic-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-rubycritic-dependencies-
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-      - save_cache:
-          key: v1-rubycritic-dependencies-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - run:
-          name: Run Rubycritic
-          command: bundle exec rubycritic ./app -p /tmp/rubycritic -f json -f html --no-browser
-      - store_artifacts:
-          path: /tmp/rubycritic
-      - run:
-          name: Rubycritic notification
-          command: bundle exec rake circleci:report_coverage
-
-workflows:
-  version: 2
-  build_and_rubycritic:
-    jobs:
-      - build
-      - rubycritic:
-          requires:
-            - build
