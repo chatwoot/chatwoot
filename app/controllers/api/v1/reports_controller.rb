@@ -2,7 +2,7 @@ class Api::V1::ReportsController < Api::BaseController
   include CustomExceptions::Report
   include Constants::Report
 
-  around_filter :report_exception
+  around_action :report_exception
 
   def account
     builder = ReportBuilder.new(current_account, account_report_params)

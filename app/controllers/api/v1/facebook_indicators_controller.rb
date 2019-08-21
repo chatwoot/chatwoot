@@ -1,7 +1,7 @@
 class Api::V1::FacebookIndicatorsController < Api::BaseController
 
   before_action :set_access_token
-  around_filter :handle_with_exception
+  around_action :handle_with_exception
 
   def mark_seen
     Facebook::Messenger::Bot.deliver(payload('mark_seen'), access_token: @access_token)
