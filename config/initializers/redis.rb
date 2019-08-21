@@ -1,13 +1,11 @@
 require "redis"
 
 #for reports
-config = YAML::load_file(File.join(Rails.root, 'config', 'reports_redis.yml'))[Rails.env]
-redis = Redis.new(host: config["host"], port: config["port"])
-namespace = config["namespace"]
-Nightfury.redis = Redis::Namespace.new(namespace << "reports", redis: redis)
+redis = Redis.new(url: ENV['REDIS_URL'])
+Nightfury.redis = Redis::Namespace.new("reports", redis: redis)
 
 =begin
 Alfred - Used currently for Round Robin. Add here as you use it for more features
 =end
-$alfred = Redis::Namespace.new(namespace << "alfred", :redis => redis, :warning => true)
+$alfred = Redis::Namespace.new("alfred", :redis => redis, :warning => true)
 
