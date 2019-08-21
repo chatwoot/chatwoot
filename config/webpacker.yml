@@ -7,7 +7,7 @@ default: &default
   public_output_path: packs
   cache_path: tmp/cache/webpacker
   check_yarn_integrity: false
-  webpack_compile_output: false
+  webpack_compile_output: true
 
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
