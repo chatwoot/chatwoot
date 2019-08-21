@@ -37,12 +37,16 @@ const getters = {
   },
 
   getSubscription(_state) {
-    return _state.currentUser.subscription === undefined ? null : _state.currentUser.subscription;
+    return _state.currentUser.subscription === undefined
+      ? null
+      : _state.currentUser.subscription;
   },
 
   getTrialLeft(_state) {
-    const createdAt = _state.currentUser.subscription === undefined ?
-      moment() : _state.currentUser.subscription.expiry * 1000;
+    const createdAt =
+      _state.currentUser.subscription === undefined
+        ? moment()
+        : _state.currentUser.subscription.expiry * 1000;
     const daysLeft = moment(createdAt).diff(moment(), 'days');
     return daysLeft < 0 ? 0 : daysLeft;
   },
@@ -52,17 +56,18 @@ const getters = {
 const actions = {
   login({ commit }, credentials) {
     return new Promise((resolve, reject) => {
-      authAPI.login(credentials)
-      .then(() => {
-        commit(types.default.SET_CURRENT_USER);
-        window.axios = createAxios(axios);
-        window.pusher = vuePusher.init(Vue);
-        router.replace({ name: 'home' });
-        resolve();
-      })
-      .catch((error) => {
-        reject(error);
-      });
+      authAPI
+        .login(credentials)
+        .then(() => {
+          commit(types.default.SET_CURRENT_USER);
+          window.axios = createAxios(axios);
+          window.pusher = vuePusher.init(Vue);
+          router.replace({ name: 'home' });
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
     });
   },
   validityCheck(context) {

@@ -1,11 +1,9 @@
 /* eslint no-console: 0 */
-/* global axios */
 /* eslint no-undef: "error" */
 /* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
 import moment from 'moment';
 
 export default {
-
   methods: {
     messageStamp(time) {
       const createdAt = time * 1000;
@@ -25,5 +23,4 @@ export default {
       });
     },
   },
-
 };

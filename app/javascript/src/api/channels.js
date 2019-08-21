@@ -9,13 +9,14 @@ export default {
   createChannel(channel, channelParams) {
     const urlData = endPoints('createChannel')(channel, channelParams);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -25,13 +26,14 @@ export default {
     urlData.params.inbox_id = inboxId;
     urlData.params.user_ids = agentsId;
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -40,13 +42,14 @@ export default {
     const urlData = endPoints('fetchFacebookPages');
     urlData.params.omniauth_token = token;
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },

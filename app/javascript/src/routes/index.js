@@ -23,13 +23,13 @@ window.roleWiseRoutes = {
 };
 
 // generateRoleWiseRoute - updates window object with agent/admin route
-const generateRoleWiseRoute = (route) => {
-  route.forEach((element) => {
+const generateRoleWiseRoute = route => {
+  route.forEach(element => {
     if (element.children) {
       generateRoleWiseRoute(element.children);
     }
     if (element.roles) {
-      element.roles.forEach((roleEl) => {
+      element.roles.forEach(roleEl => {
         window.roleWiseRoutes[roleEl].push(element.name);
       });
     }
@@ -45,18 +45,13 @@ const router = new VueRouter({
   routes, // short for routes: routes
 });
 
-const unProtectedRoutes = [
-  'login',
-  'auth_signup',
-  'auth_reset_password',
-];
+const unProtectedRoutes = ['login', 'auth_signup', 'auth_reset_password'];
 
 const authIgnoreRoutes = [
   'auth_confirmation',
   'pushBack',
   'auth_password_edit',
 ];
-
 
 const redirectUser = (to, from, next) => {
   // If auth ignore go to page
@@ -68,7 +63,8 @@ const redirectUser = (to, from, next) => {
   const currentUser = auth.getCurrentUser();
   if (isLoggedIn) {
     // Check if next route is accessible by given role
-    const isAccessible = window.roleWiseRoutes[currentUser.role].indexOf(to.name) > -1;
+    const isAccessible =
+      window.roleWiseRoutes[currentUser.role].indexOf(to.name) > -1;
     if (!isAccessible) {
       return next('/u/dashboard');
     }
@@ -76,7 +72,8 @@ const redirectUser = (to, from, next) => {
   // If unprotected and loggedIn -> redirect
   if (unProtectedRoutes.indexOf(to.name) !== -1 && isLoggedIn) {
     return next('/u/dashboard');
-  } else if (unProtectedRoutes.indexOf(to.name) === -1 && !isLoggedIn) {
+  }
+  if (unProtectedRoutes.indexOf(to.name) === -1 && !isLoggedIn) {
     return next('/u/login');
   }
   return next();

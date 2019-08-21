@@ -35,24 +35,30 @@ const getters = {
 const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
-    Report.getAccountReports(reportObj.metric, reportObj.from, reportObj.to)
-      .then((accountReport) => {
-        let { data } = accountReport;
-        data = data.filter(el => moment() > moment.unix(el.timestamp));
-        if (reportObj.metric === 'avg_first_response_time' || reportObj.metric === 'avg_resolution_time') {
-          data = data.map((element) => {
-            /* eslint-disable operator-assignment*/
-            element.value = (element.value / 3600).toFixed(2);
-            return element;
-          });
-        }
-        commit(types.default.SET_ACCOUNT_REPORTS, data);
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
-      });
+    Report.getAccountReports(
+      reportObj.metric,
+      reportObj.from,
+      reportObj.to
+    ).then(accountReport => {
+      let { data } = accountReport;
+      data = data.filter(el => moment() > moment.unix(el.timestamp));
+      if (
+        reportObj.metric === 'avg_first_response_time' ||
+        reportObj.metric === 'avg_resolution_time'
+      ) {
+        data = data.map(element => {
+          /* eslint-disable operator-assignment */
+          element.value = (element.value / 3600).toFixed(2);
+          return element;
+        });
+      }
+      commit(types.default.SET_ACCOUNT_REPORTS, data);
+      commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+    });
   },
   fetchAccountSummary({ commit }, reportObj) {
     Report.getAccountSummary(1, reportObj.from, reportObj.to)
-      .then((accountSummary) => {
+      .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
       })
       .catch(() => {
@@ -73,13 +79,17 @@ const mutations = {
     // Average First Response Time
     let avgFirstResTimeInHr = 0;
     if (summaryData.avg_first_response_time) {
-      avgFirstResTimeInHr = (summaryData.avg_first_response_time / 3600).toFixed(2);
+      avgFirstResTimeInHr = (
+        summaryData.avg_first_response_time / 3600
+      ).toFixed(2);
       avgFirstResTimeInHr = `${avgFirstResTimeInHr} Hr`;
     }
     // Average Resolution Time
     let avgResolutionTimeInHr = 0;
     if (summaryData.avg_resolution_time) {
-      avgResolutionTimeInHr = (summaryData.avg_resolution_time / 3600).toFixed(2);
+      avgResolutionTimeInHr = (summaryData.avg_resolution_time / 3600).toFixed(
+        2
+      );
       avgResolutionTimeInHr = `${avgResolutionTimeInHr} Hr`;
     }
     _state.accountSummary.avg_first_response_time = avgFirstResTimeInHr;
