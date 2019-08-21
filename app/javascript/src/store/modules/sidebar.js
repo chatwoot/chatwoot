@@ -27,28 +27,32 @@ const getters = {
 const actions = {
   // Fetch Labels
   fetchLabels({ commit }) {
-    Account.getLabels().then((response) => {
-      commit(types.default.SET_LABELS, response.data);
-    }).catch();
+    Account.getLabels()
+      .then(response => {
+        commit(types.default.SET_LABELS, response.data);
+      })
+      .catch();
   },
   // Fetch Inboxes
   fetchInboxes({ commit }) {
     commit(types.default.INBOXES_LOADING, true);
     return new Promise((resolve, reject) => {
-      Account.getInboxes().then((response) => {
-        commit(types.default.INBOXES_LOADING, false);
-        commit(types.default.SET_INBOXES, response.data);
-        resolve();
-      }).catch((error) => {
-        commit(types.default.INBOXES_LOADING, false);
-        reject(error);
-      });
+      Account.getInboxes()
+        .then(response => {
+          commit(types.default.INBOXES_LOADING, false);
+          commit(types.default.SET_INBOXES, response.data);
+          resolve();
+        })
+        .catch(error => {
+          commit(types.default.INBOXES_LOADING, false);
+          reject(error);
+        });
     });
   },
   deleteInbox({ commit }, id) {
     return new Promise((resolve, reject) => {
       Account.deleteInbox(id)
-        .then((response) => {
+        .then(response => {
           if (response.status === 200) {
             commit(types.default.DELETE_INBOX, id);
             resolve();
@@ -56,48 +60,50 @@ const actions = {
             reject();
           }
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
   },
   addInboxItem({ commit }, { channel, params }) {
-    const donePromise = new Promise((resolve) => {
-      ChannelApi.createChannel(channel, params).then((response) => {
-        commit(types.default.SET_INBOX_ITEM, response);
-        resolve(response);
-      }).catch((error) => {
-        console.log(error);
-      });
+    const donePromise = new Promise(resolve => {
+      ChannelApi.createChannel(channel, params)
+        .then(response => {
+          commit(types.default.SET_INBOX_ITEM, response);
+          resolve(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     });
     return donePromise;
   },
-  listInboxAgents({ commit }, { inboxId }) {
+  listInboxAgents(_, { inboxId }) {
     return new Promise((resolve, reject) => {
       Account.listInboxAgents(inboxId)
-        .then((response) => {
+        .then(response => {
           if (response.status === 200) {
             resolve(response.data);
           } else {
             reject();
           }
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
   },
-  updateInboxAgents({ commit }, { inboxId, agentList }) {
+  updateInboxAgents(_, { inboxId, agentList }) {
     return new Promise((resolve, reject) => {
       Account.updateInboxAgents(inboxId, agentList)
-        .then((response) => {
+        .then(response => {
           if (response.status === 200) {
             resolve(response.data);
           } else {
             reject();
           }
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
@@ -105,7 +111,6 @@ const actions = {
 };
 
 const mutations = {
-
   // Set Labels
   [types.default.SET_LABELS](_state, data) {
     let payload = data.data.payload.labels;
@@ -116,7 +121,7 @@ const mutations = {
     // Identify menuItem to update
     // May have more than one object to update
     // Iterate it accordingly. Updating commmon sidebar now.
-    const menuItems = _state.menuGroup.common.menuItems;
+    const { menuItems } = _state.menuGroup.common;
     // Update children for key `label`
     menuItems.labels.children = payload;
   },
@@ -126,7 +131,7 @@ const mutations = {
   },
   // Set Inboxes
   [types.default.SET_INBOXES](_state, data) {
-    let payload = data.data.payload;
+    let { payload } = data.data;
     payload = payload.map(item => ({
       channel_id: item.id,
       label: item.name,
@@ -138,13 +143,13 @@ const mutations = {
     // Identify menuItem to update
     // May have more than one object to update
     // Iterate it accordingly. Updating commmon sidebar now.
-    const menuItems = _state.menuGroup.common.menuItems;
+    const { menuItems } = _state.menuGroup.common;
     // Update children for key `inbox`
     menuItems.inbox.children = payload;
   },
 
   [types.default.SET_INBOX_ITEM](_state, { data }) {
-    const menuItems = _state.menuGroup.common.menuItems;
+    const { menuItems } = _state.menuGroup.common;
     // Update children for key `inbox`
     menuItems.inbox.children.push({
       channel_id: data.id,
@@ -157,13 +162,11 @@ const mutations = {
   },
 
   [types.default.DELETE_INBOX](_state, id) {
-    const menuItems = _state.menuGroup.common.menuItems;
+    const { menuItems } = _state.menuGroup.common;
     let inboxList = menuItems.inbox.children;
     inboxList = inboxList.filter(inbox => inbox.channel_id !== id);
     menuItems.inbox.children = inboxList;
   },
-
-
 };
 
 export default {

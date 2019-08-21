@@ -3,13 +3,10 @@
 
 // const chatType = 'all';
 // initial state
-const state = {
-};
+const state = {};
 
 // actions
-const actions = {
-};
-
+const actions = {};
 
 export default {
   state,

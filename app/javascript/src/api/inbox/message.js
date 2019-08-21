@@ -5,17 +5,17 @@
 import endPoints from '../endPoints';
 
 export default {
-
   sendMessage([conversationId, message]) {
     const urlData = endPoints('sendMessage')(conversationId, message);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -23,13 +23,14 @@ export default {
   addPrivateNote([conversationId, message]) {
     const urlData = endPoints('addPrivateNote')(conversationId, message);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -38,17 +39,17 @@ export default {
     const urlData = endPoints('conversations')(id);
     urlData.params.before = before;
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.get(urlData.url, {
-        params: urlData.params,
-      })
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .get(urlData.url, {
+          params: urlData.params,
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
-
 };

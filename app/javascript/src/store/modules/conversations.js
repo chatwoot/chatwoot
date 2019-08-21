@@ -41,32 +41,42 @@ const getters = {
   getMineChats(_state) {
     const currentUserID = authAPI.getCurrentUser().id;
     return _state.allConversations.filter(chat =>
-      (chat.meta.assignee === null ?
-        false : chat.status === _state.chatStatusFilter && chat.meta.assignee.id === currentUserID)
+      chat.meta.assignee === null
+        ? false
+        : chat.status === _state.chatStatusFilter &&
+          chat.meta.assignee.id === currentUserID
     );
   },
   getUnAssignedChats(_state) {
-    return _state.allConversations.filter(chat =>
-      chat.meta.assignee === null && chat.status === _state.chatStatusFilter
+    return _state.allConversations.filter(
+      chat =>
+        chat.meta.assignee === null && chat.status === _state.chatStatusFilter
     );
   },
   getAllStatusChats(_state) {
-    return _state.allConversations.filter(chat =>
-      chat.status === _state.chatStatusFilter
+    return _state.allConversations.filter(
+      chat => chat.status === _state.chatStatusFilter
     );
   },
   getChatListLoadingStatus(_state) {
     return _state.listLoadingStatus;
   },
   getAllMessagesLoaded(_state) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
-    return chat.allMessagesLoaded === undefined ? false : chat.allMessagesLoaded;
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
+    return chat.allMessagesLoaded === undefined
+      ? false
+      : chat.allMessagesLoaded;
   },
   getUnreadCount(_state) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
-    return chat.messages.filter(chatMessage =>
-      chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
-      (chatMessage.message_type === 0 && chatMessage.private !== true)
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
+    return chat.messages.filter(
+      chatMessage =>
+        chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
+        (chatMessage.message_type === 0 && chatMessage.private !== true)
     ).length;
   },
   getChatStatusFilter(_state) {
@@ -79,12 +89,15 @@ const getters = {
 
 // actions
 const actions = {
-
   fetchAllConversations({ commit }, fetchParams) {
     commit(types.default.SET_LIST_LOADING_STATUS);
-    ChatList.fetchAllConversations(fetchParams, (response) => {
-      commit(types.default.SET_ALL_CONVERSATION, { chats: response.data.data.payload });
-      commit(types.default.SET_CONV_TAB_META, { meta: response.data.data.meta });
+    ChatList.fetchAllConversations(fetchParams, response => {
+      commit(types.default.SET_ALL_CONVERSATION, {
+        chats: response.data.data.payload,
+      });
+      commit(types.default.SET_CONV_TAB_META, {
+        meta: response.data.data.meta,
+      });
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
     });
   },
@@ -98,25 +111,28 @@ const actions = {
   },
 
   fetchPreviousMessages({ commit }, data) {
-    const donePromise = new Promise((resolve) => {
-      messageApi.fetchPreviousMessages(data).then((response) => {
-        commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
-          id: data.id,
-          data: response.data.payload,
+    const donePromise = new Promise(resolve => {
+      messageApi
+        .fetchPreviousMessages(data)
+        .then(response => {
+          commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
+            id: data.id,
+            data: response.data.payload,
+          });
+          if (response.data.payload.length < 20) {
+            commit(types.default.SET_ALL_MESSAGES_LOADED);
+          }
+          resolve();
+        })
+        .catch(error => {
+          console.log(error);
         });
-        if (response.data.payload.length < 20) {
-          commit(types.default.SET_ALL_MESSAGES_LOADED);
-        }
-        resolve();
-      }).catch((error) => {
-        console.log(error);
-      });
     });
     return donePromise;
   },
 
   setActiveChat(store, data) {
-    const commit = store.commit;
+    const { commit } = store;
     const localDispatch = store.dispatch;
     let donePromise = null;
 
@@ -124,19 +140,21 @@ const actions = {
     commit(types.default.CLEAR_ALL_MESSAGES_LOADED);
 
     if (data.dataFetched === undefined) {
-      donePromise = new Promise((resolve) => {
+      donePromise = new Promise(resolve => {
         localDispatch('fetchPreviousMessages', {
           id: data.id,
           before: data.messages[0].id,
-        }).then(() => {
-          Vue.set(data, 'dataFetched', true);
-          resolve();
-        }).catch((error) => {
-          console.log(error);
-        });
+        })
+          .then(() => {
+            Vue.set(data, 'dataFetched', true);
+            resolve();
+          })
+          .catch(error => {
+            console.log(error);
+          });
       });
     } else {
-      donePromise = new Promise((resolve) => {
+      donePromise = new Promise(resolve => {
         commit(types.default.SET_CHAT_META, { id: data.id });
         resolve();
       });
@@ -145,8 +163,8 @@ const actions = {
   },
 
   assignAgent({ commit }, data) {
-    return new Promise((resolve) => {
-      ConversationApi.assignAgent(data).then((response) => {
+    return new Promise(resolve => {
+      ConversationApi.assignAgent(data).then(response => {
         commit(types.default.ASSIGN_AGENT, response.data);
         resolve(response.data);
       });
@@ -154,9 +172,12 @@ const actions = {
   },
 
   toggleStatus({ commit }, data) {
-    return new Promise((resolve) => {
-      ConversationApi.toggleStatus(data).then((response) => {
-        commit(types.default.RESOLVE_CONVERSATION, response.data.payload.current_status);
+    return new Promise(resolve => {
+      ConversationApi.toggleStatus(data).then(response => {
+        commit(
+          types.default.RESOLVE_CONVERSATION,
+          response.data.payload.current_status
+        );
         resolve(response.data);
       });
     });
@@ -167,20 +188,26 @@ const actions = {
   // },
 
   sendMessage({ commit }, data) {
-    return new Promise((resolve) => {
-      messageApi.sendMessage(data).then((response) => {
-        commit(types.default.SEND_MESSAGE, response);
-        resolve();
-      }).catch();
+    return new Promise(resolve => {
+      messageApi
+        .sendMessage(data)
+        .then(response => {
+          commit(types.default.SEND_MESSAGE, response);
+          resolve();
+        })
+        .catch();
     });
   },
 
   addPrivateNote({ commit }, data) {
-    return new Promise((resolve) => {
-      messageApi.addPrivateNote(data).then((response) => {
-        commit(types.default.SEND_MESSAGE, response);
-        resolve();
-      }).catch();
+    return new Promise(resolve => {
+      messageApi
+        .addPrivateNote(data)
+        .then(response => {
+          commit(types.default.SEND_MESSAGE, response);
+          resolve();
+        })
+        .catch();
     });
   },
 
@@ -192,22 +219,25 @@ const actions = {
     commit(types.default.ADD_CONVERSATION, conversation);
   },
 
-
   toggleTyping({ commit }, data) {
-    return new Promise((resolve) => {
-      ConversationApi.fbTyping(data).then(() => {
-        commit(types.default.FB_TYPING, data);
-        resolve();
-      }).catch();
+    return new Promise(resolve => {
+      ConversationApi.fbTyping(data)
+        .then(() => {
+          commit(types.default.FB_TYPING, data);
+          resolve();
+        })
+        .catch();
     });
   },
 
   markSeen({ commit }, data) {
-    return new Promise((resolve) => {
-      ConversationApi.markSeen(data).then((response) => {
-        commit(types.default.MARK_SEEN, response);
-        resolve();
-      }).catch();
+    return new Promise(resolve => {
+      ConversationApi.markSeen(data)
+        .then(response => {
+          commit(types.default.MARK_SEEN, response);
+          resolve();
+        })
+        .catch();
     });
   },
 
@@ -215,10 +245,12 @@ const actions = {
     setTimeout(() => {
       commit(types.default.MARK_MESSAGE_READ, data);
     }, 4000);
-    return new Promise((resolve) => {
-      ConversationApi.markMessageRead(data).then(() => {
-        resolve();
-      }).catch();
+    return new Promise(resolve => {
+      ConversationApi.markMessageRead(data)
+        .then(() => {
+          resolve();
+        })
+        .catch();
     });
   },
 
@@ -237,8 +269,6 @@ const actions = {
 
 // mutations
 const mutations = {
-
-
   [types.default.SET_ALL_CONVERSATION](_state, data) {
     if (data) {
       _state.allConversations.push(...data.chats);
@@ -258,12 +288,16 @@ const mutations = {
   },
 
   [types.default.SET_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
     Vue.set(chat, 'allMessagesLoaded', true);
   },
 
   [types.default.CLEAR_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
     Vue.set(chat, 'allMessagesLoaded', false);
   },
 
@@ -311,7 +345,9 @@ const mutations = {
   },
 
   [types.default.ASSIGN_AGENT](_state, assignee) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
     chat.meta.assignee = assignee;
     if (assignee === null) {
       Object.assign(_state.selectedChat.meta.assignee, assignee);
@@ -319,13 +355,17 @@ const mutations = {
   },
 
   [types.default.RESOLVE_CONVERSATION](_state, status) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
     chat.status = status;
     _state.selectedChat.status = status;
   },
 
   [types.default.SEND_MESSAGE](_state, response) {
-    const [chat] = _state.allConversations.filter(c => c.id === _state.selectedChat.id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === _state.selectedChat.id
+    );
     const previousMessageIds = chat.messages.map(m => m.id);
     if (!previousMessageIds.includes(response.data.id)) {
       chat.messages.push(response.data);
@@ -333,7 +373,9 @@ const mutations = {
   },
 
   [types.default.ADD_MESSAGE](_state, message) {
-    const [chat] = _state.allConversations.filter(c => c.id === message.conversation_id);
+    const [chat] = _state.allConversations.filter(
+      c => c.id === message.conversation_id
+    );
     if (!chat) return;
     const previousMessageIds = chat.messages.map(m => m.id);
     if (!previousMessageIds.includes(message.id)) {

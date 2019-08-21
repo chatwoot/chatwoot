@@ -16,9 +16,7 @@ export default {
         headerTitle: 'INBOX_MGMT.HEADER',
         headerButtonText: 'SETTINGS.INBOXES.NEW_INBOX',
         icon: 'ion-archive',
-        newButtonRoutes: [
-          'settings_inbox_list',
-        ],
+        newButtonRoutes: ['settings_inbox_list'],
       },
       children: [
         {
@@ -53,7 +51,7 @@ export default {
               name: 'settings_inboxes_page_channel',
               component: channelFactory.create(),
               roles: ['administrator'],
-              props: (route) => {
+              props: route => {
                 return { channel_name: route.params.sub_page };
               },
             },

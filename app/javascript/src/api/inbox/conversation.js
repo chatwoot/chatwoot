@@ -5,17 +5,17 @@
 import endPoints from '../endPoints';
 
 export default {
-
   fetchConversation(id) {
     const urlData = endPoints('conversations')(id);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.get(urlData.url)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .get(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -23,13 +23,14 @@ export default {
   toggleStatus(id) {
     const urlData = endPoints('resolveConversation')(id);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -37,13 +38,14 @@ export default {
   assignAgent([id, agentId]) {
     const urlData = endPoints('assignAgent')(id, agentId);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -51,16 +53,17 @@ export default {
   markSeen({ inboxId, senderId }) {
     const urlData = endPoints('fbMarkSeen');
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, {
-        inbox_id: inboxId,
-        sender_id: senderId,
-      })
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, {
+          inbox_id: inboxId,
+          sender_id: senderId,
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -68,16 +71,17 @@ export default {
   fbTyping({ flag, inboxId, senderId }) {
     const urlData = endPoints('fbTyping')(flag);
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, {
-        inbox_id: inboxId,
-        sender_id: senderId,
-      })
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, {
+          inbox_id: inboxId,
+          sender_id: senderId,
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },
@@ -86,13 +90,14 @@ export default {
     const urlData = endPoints('markMessageRead')(id);
     urlData.params.agent_last_seen_at = lastSeen;
     const fetchPromise = new Promise((resolve, reject) => {
-      axios.post(urlData.url, urlData.params)
-      .then((response) => {
-        resolve(response);
-      })
-      .catch((error) => {
-        reject(Error(error));
-      });
+      axios
+        .post(urlData.url, urlData.params)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
     });
     return fetchPromise;
   },

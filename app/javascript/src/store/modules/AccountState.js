@@ -24,44 +24,51 @@ const getters = {
 const actions = {
   fetchAgents({ commit }) {
     commit(types.default.SET_AGENT_FETCHING_STATUS, true);
-    Account.getAgents().then((response) => {
-      commit(types.default.SET_AGENT_FETCHING_STATUS, false);
-      commit(types.default.SET_AGENTS, response);
-    }).catch();
+    Account.getAgents()
+      .then(response => {
+        commit(types.default.SET_AGENT_FETCHING_STATUS, false);
+        commit(types.default.SET_AGENTS, response);
+      })
+      .catch();
   },
   addAgent({ commit }, agentInfo) {
     return new Promise((resolve, reject) => {
-      Account.addAgent(agentInfo).then((response) => {
-        commit(types.default.ADD_AGENT, response);
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      Account.addAgent(agentInfo)
+        .then(response => {
+          commit(types.default.ADD_AGENT, response);
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
   editAgent({ commit }, agentInfo) {
     return new Promise((resolve, reject) => {
-      Account.editAgent(agentInfo).then((response) => {
-        commit(types.default.EDIT_AGENT, response, agentInfo.id);
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      Account.editAgent(agentInfo)
+        .then(response => {
+          commit(types.default.EDIT_AGENT, response, agentInfo.id);
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
   deleteAgent({ commit }, agentId) {
     return new Promise((resolve, reject) => {
-      Account.deleteAgent(agentId).then((response) => {
-        if (response.status === 200) {
-          commit(types.default.DELETE_AGENT, agentId);
-        }
-        resolve();
-      }).catch((response) => {
-        reject(response);
-      });
+      Account.deleteAgent(agentId)
+        .then(response => {
+          if (response.status === 200) {
+            commit(types.default.DELETE_AGENT, agentId);
+          }
+          resolve();
+        })
+        .catch(response => {
+          reject(response);
+        });
     });
   },
-
 };
 
 const mutations = {

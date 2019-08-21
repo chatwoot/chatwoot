@@ -44,7 +44,7 @@ export default {
   watch: {
     count(newValue, oldValue) {
       let animationFrame;
-      const animate = (time) => {
+      const animate = time => {
         TWEEN.update(time);
         animationFrame = window.requestAnimationFrame(animate);
       };
@@ -52,7 +52,7 @@ export default {
       new TWEEN.Tween({ tweeningNumber: oldValue })
         .easing(TWEEN.Easing.Quadratic.Out)
         .to({ tweeningNumber: newValue }, 500)
-        .onUpdate(function () {
+        .onUpdate(function() {
           that.animatedNumber = this.tweeningNumber.toFixed(0);
         })
         .onComplete(() => {
@@ -65,18 +65,22 @@ export default {
 
   render(h) {
     return (
-      <li class={{
-        'tabs-title': true,
-        'is-active': this.active,
-        'uk-disabled': this.disabled,
-      }}>
-        <a on-click={(event) => {
-          event.preventDefault();
-          if (!this.disabled) {
-            this.$parent.$emit('change', this.index);
-          }
-        }}>
-          { `${this.name}  (${this.getItemCount})` }
+      <li
+        class={{
+          'tabs-title': true,
+          'is-active': this.active,
+          'uk-disabled': this.disabled,
+        }}
+      >
+        <a
+          on-click={event => {
+            event.preventDefault();
+            if (!this.disabled) {
+              this.$parent.$emit('change', this.index);
+            }
+          }}
+        >
+          {`${this.name}  (${this.getItemCount})`}
         </a>
       </li>
     );

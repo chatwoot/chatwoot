@@ -5,7 +5,6 @@
 import endPoints from '../endPoints';
 
 export default {
-
   fetchAllConversations(params, callback) {
     const urlData = endPoints('getInbox');
 
@@ -19,15 +18,15 @@ export default {
       conversation_status_id: params.convStatus,
       assignee_type_id: params.assigneeStatus,
     };
-    axios.get(urlData.url, {
-      params: urlData.params,
-    })
-    .then((response) => {
-      callback(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    axios
+      .get(urlData.url, {
+        params: urlData.params,
+      })
+      .then(response => {
+        callback(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   },
-
 };

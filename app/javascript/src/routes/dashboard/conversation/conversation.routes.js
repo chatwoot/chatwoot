@@ -17,7 +17,7 @@ export default {
       name: 'inbox_dashboard',
       roles: ['administrator', 'agent'],
       component: ConversationView,
-      props: (route) => {
+      props: route => {
         return { inboxId: route.params.inbox_id };
       },
     },
@@ -26,7 +26,7 @@ export default {
       name: 'inbox_conversation',
       roles: ['administrator', 'agent'],
       component: ConversationView,
-      props: (route) => {
+      props: route => {
         return { conversationId: route.params.conversation_id };
       },
     },
