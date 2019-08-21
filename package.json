@@ -1,5 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
+  "license": "MIT",
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
     "axios": "^0.19.0",
@@ -35,11 +36,41 @@
     "vuex-router-sync": "~4.1.2"
   },
   "devDependencies": {
+    "babel-eslint": "^10.0.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
+    "eslint": "^5.13.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-html": "^6.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-vue": "^5.2.3",
+    "husky": ">=1",
+    "jest": "^24.8.0",
+    "lint-staged": ">=8",
+    "prettier": "^1.16.4",
     "webpack-dev-server": "^3.7.2"
   },
-  "license": "MIT"
+  "engines": {
+    "node": ">=10.x",
+    "npm": ">=6.x",
+    "yarn": ">=1.x"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }

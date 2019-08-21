@@ -37,7 +37,7 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
-Object.keys(i18n).forEach((lang) => {
+Object.keys(i18n).forEach(lang => {
   Vue.locale(lang, i18n[lang]);
 });
 
@@ -49,12 +49,12 @@ commonHelpers();
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 window.bus = new Vue();
-window.onload = function () {
+window.onload = () => {
   window.WOOT = new Vue({
     router,
     store,
     template: '<App/>',
     components: { App },
   }).$mount('#app');
-}
+};
 window.pusher = vuePusher.init();
