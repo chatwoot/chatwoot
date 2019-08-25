@@ -9,7 +9,9 @@ json.data do
       json.name inbox.name
       json.channel_type inbox.channel_type
       json.avatar_url inbox.channel.avatar.url
-      json.page_id inbox.channel.page_id
+      if inbox.channel.class.method_defined?(:page_id)
+        json.page_id inbox.channel.page_id
+      end
     end
   end
 end

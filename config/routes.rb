@@ -48,6 +48,8 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :email_inboxes, only: [:create]
+
       resources :subscriptions, only: [:index] do
         collection do
           get :summary

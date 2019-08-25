@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_010457) do
+ActiveRecord::Schema.define(version: 2019_08_25_190005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,16 @@ ActiveRecord::Schema.define(version: 2019_08_19_010457) do
     t.boolean "locked", default: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
+  end
+
+  create_table "email_inboxes", force: :cascade do |t|
+    t.string "avatar"
+    t.string "email", null: false
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_email_inboxes_on_account_id"
+    t.index ["email"], name: "index_email_inboxes_on_email"
   end
 
   create_table "facebook_pages", id: :serial, force: :cascade do |t|
