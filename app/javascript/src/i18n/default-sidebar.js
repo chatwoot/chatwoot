@@ -1,3 +1,5 @@
+import { frontendURL } from '../helper/URLHelper';
+
 export default {
   menuGroup: {
     common: {
@@ -14,7 +16,7 @@ export default {
           label: 'Conversations',
           hasSubMenu: false,
           key: '',
-          toState: '/u/dashboard',
+          toState: frontendURL('dashboard'),
           toolTip: 'Conversation from all subscribed inboxes',
           toStateName: 'home',
         },
@@ -22,14 +24,14 @@ export default {
           icon: 'ion-arrow-graph-up-right',
           label: 'Reports',
           hasSubMenu: false,
-          toState: '/u/reports',
+          toState: frontendURL('reports'),
           toStateName: 'settings_account_reports',
         },
         settings: {
           icon: 'ion-settings',
           label: 'Settings',
           hasSubMenu: false,
-          toState: '/u/settings/',
+          toState: frontendURL('settings'),
           toStateName: 'settings_home',
         },
         inbox: {
@@ -39,7 +41,7 @@ export default {
           newLink: true,
           key: 'inbox',
           cssClass: 'menu-title align-justify',
-          toState: '/u/settings/inboxes',
+          toState: frontendURL('settings/inboxes'),
           toStateName: 'settings_inbox_list',
           children: [],
         },
@@ -65,41 +67,41 @@ export default {
           label: 'Home',
           hasSubMenu: false,
           toStateName: 'home',
-          toState: '/u/dashboard',
+          toState: frontendURL('dashboard'),
         },
         agents: {
           icon: 'ion-person-stalker',
           label: 'Agents',
           hasSubMenu: false,
-          toState: '/u/settings/agents/list',
+          toState: frontendURL('settings/agents/list'),
           toStateName: 'agent_list',
         },
         inboxes: {
           icon: 'ion-archive',
           label: 'Inboxes',
           hasSubMenu: false,
-          toState: '/u/settings/inboxes/list',
+          toState: frontendURL('settings/inboxes/list'),
           toStateName: 'settings_inbox_list',
         },
         cannedResponses: {
           icon: 'ion-chatbox-working',
           label: 'Canned Responses',
           hasSubMenu: false,
-          toState: '/u/settings/canned-response/list',
+          toState: frontendURL('settings/canned-response/list'),
           toStateName: 'canned_list',
         },
         billing: {
           icon: 'ion-card',
           label: 'Billing',
           hasSubMenu: false,
-          toState: '/u/settings/billing',
+          toState: frontendURL('settings/billing'),
           toStateName: 'billing',
         },
         account: {
           icon: 'ion-beer',
           label: 'Account Settings',
           hasSubMenu: false,
-          toState: '/u/settings/account',
+          toState: frontendURL('settings/account'),
           toStateName: 'account',
         },
       },

@@ -1,8 +1,8 @@
 <template>
   <button type="submit" :disabled="disabled" :class="computedClass">
-    <i :class="iconClass" class="icon" v-if="!!iconClass"></i>
-    <span>{{buttonText}}</span>
-    <spinner v-if="loading"/>
+    <i v-if="!!iconClass" :class="iconClass" class="icon"></i>
+    <span>{{ buttonText }}</span>
+    <spinner v-if="loading" />
   </button>
 </template>
 
@@ -10,19 +10,34 @@
 import Spinner from '../Spinner';
 
 export default {
-  props: {
-    disabled: Boolean,
-    loading: Boolean,
-    buttonText: String,
-    buttonClass: String,
-    iconClass: String,
-  },
   components: {
     Spinner,
   },
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
+    buttonText: {
+      type: String,
+      default: '',
+    },
+    buttonClass: {
+      type: String,
+      default: '',
+    },
+    iconClass: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     computedClass() {
-      return `button ${this.buttonClass || ' '}`;
+      return `button nice ${this.buttonClass || ' '}`;
     },
   },
 };

@@ -7,6 +7,7 @@ import defaultState from '../../i18n/default-sidebar';
 import * as types from '../mutation-types';
 import Account from '../../api/account';
 import ChannelApi from '../../api/channels';
+import { frontendURL } from '../../helper/URLHelper';
 
 const state = defaultState;
 // inboxes fetch flag
@@ -135,7 +136,7 @@ const mutations = {
     payload = payload.map(item => ({
       channel_id: item.id,
       label: item.name,
-      toState: `/u/inbox/${item.id}`,
+      toState: frontendURL(`inbox/${item.id}`),
       channelType: item.channelType,
       avatarUrl: item.avatar_url,
       pageId: item.page_id,
@@ -154,7 +155,7 @@ const mutations = {
     menuItems.inbox.children.push({
       channel_id: data.id,
       label: data.name,
-      toState: `/u/inbox/${data.id}`,
+      toState: frontendURL(`inbox/${data.id}`),
       channelType: data.channelType,
       avatarUrl: data.avatar_url === undefined ? null : data.avatar_url,
       pageId: data.page_id,

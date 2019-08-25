@@ -1,10 +1,11 @@
 import SettingsContent from '../Wrapper';
 import CannedHome from './Index';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/settings/canned-response',
+      path: frontendURL('settings/canned-response'),
       component: SettingsContent,
       props: {
         headerTitle: 'CANNED_MGMT.HEADER',

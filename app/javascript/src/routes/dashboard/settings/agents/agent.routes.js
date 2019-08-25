@@ -1,10 +1,11 @@
 import SettingsContent from '../Wrapper';
 import AgentHome from './Index';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/settings/agents',
+      path: frontendURL('settings/agents'),
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_MGMT.HEADER',

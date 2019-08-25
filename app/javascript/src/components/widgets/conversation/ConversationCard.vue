@@ -1,11 +1,34 @@
 <template>
-  <div class="conversation" :class="{ active: isActiveChat, 'unread-chat': hasUnread }" @click="cardClick(chat)" >
-    <Thumbnail :src="chat.meta.sender.thumbnail" :badge="chat.meta.sender.channel" class="columns" />
+  <div
+    class="conversation"
+    :class="{ active: isActiveChat, 'unread-chat': hasUnread }"
+    @click="cardClick(chat)"
+  >
+    <Thumbnail
+      :src="chat.meta.sender.thumbnail"
+      :badge="chat.meta.sender.channel"
+      class="columns"
+    />
     <div class="conversation--details columns">
-      <h4 class="conversation--user">{{ chat.meta.sender.name }} <span class="label" v-tooltip.bottom="inboxName(chat.inbox_id)" v-if="isInboxNameVisible">{{inboxName(chat.inbox_id)}}</span> </h4>
-      <p class="conversation--message" v-html="extractMessageText(lastMessage(chat))"></p>
+      <h4 class="conversation--user">
+        {{ chat.meta.sender.name }}
+        <span
+          v-if="isInboxNameVisible"
+          v-tooltip.bottom="inboxName(chat.inbox_id)"
+          class="label"
+        >
+          {{ inboxName(chat.inbox_id) }}
+        </span>
+      </h4>
+      <p
+        class="conversation--message"
+        v-html="extractMessageText(lastMessage(chat))"
+      ></p>
+
       <div class="conversation--meta">
-        <span class="timestamp">{{ dynamicTime(lastMessage(chat).created_at) }}</span>
+        <span class="timestamp">
+          {{ dynamicTime(lastMessage(chat).created_at) }}
+        </span>
         <span class="unread">{{ getUnreadCount }}</span>
       </div>
     </div>
@@ -14,27 +37,25 @@
 <script>
 /* eslint no-console: 0 */
 /* eslint no-extra-boolean-cast: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail';
 import getEmojiSVG from '../emoji/utils';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
-  props: [
-    'chat',
-  ],
-
-  mixins: [timeMixin, conversationMixin],
-
   components: {
     Thumbnail,
   },
 
-  created() {
-    // console.log(this.chat.inbox_id);
+  mixins: [timeMixin, conversationMixin],
+  props: {
+    chat: {
+      type: Object,
+      default: () => {},
+    },
   },
 
   computed: {
@@ -64,7 +85,7 @@ export default {
   methods: {
     cardClick(chat) {
       router.push({
-        path: `/u/conversations/${chat.id}`,
+        path: frontendURL(`conversations/${chat.id}`),
       });
     },
     extractMessageText(chatItem) {
@@ -85,7 +106,9 @@ export default {
     },
     getEmojiSVG,
     inboxName(inboxId) {
-      const [stateInbox] = this.inboxesList.filter(inbox => inbox.channel_id === inboxId);
+      const [stateInbox] = this.inboxesList.filter(
+        inbox => inbox.channel_id === inboxId
+      );
       return !stateInbox ? '' : stateInbox.label;
     },
   },

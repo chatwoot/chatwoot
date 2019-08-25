@@ -56,13 +56,17 @@ gem 'foreman'
 # static analysis
 gem 'brakeman'
 
+group :development do
+  gem 'web-console'
+  gem 'letter_opener'
+end
+
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'letter_opener'
-  gem 'web-console'
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'seed_dump'
   gem 'rubocop', '~> 0.74.0', require: false
+  gem 'rspec-rails', '~> 3.8'
 end
