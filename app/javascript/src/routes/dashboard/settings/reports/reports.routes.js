@@ -1,10 +1,11 @@
 import Index from './Index';
 import SettingsContent from '../Wrapper';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/reports',
+      path: frontendURL('reports'),
       component: SettingsContent,
       props: {
         headerTitle: 'REPORT.HEADER',

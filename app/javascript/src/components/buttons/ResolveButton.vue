@@ -1,8 +1,13 @@
 <template>
-  <button type="button" v-on:click="toggleStatus" class="button round resolve--button" :class="buttonClass">
-    <i class="icon" :class="buttonIconClass"  v-if="!isLoading"></i>
-    <spinner v-if="isLoading"/>
-   {{ currentStatus }}
+  <button
+    type="button"
+    class="button nice resolve--button"
+    :class="buttonClass"
+    @click="toggleStatus"
+  >
+    <i v-if="!isLoading" class="icon" :class="buttonIconClass"></i>
+    <spinner v-if="isLoading" />
+    {{ currentStatus }}
   </button>
 </template>
 
@@ -13,9 +18,7 @@ import { mapGetters } from 'vuex';
 import Spinner from '../Spinner';
 
 export default {
-  props: [
-    'conversationId',
-  ],
+  props: ['conversationId'],
   data() {
     return {
       isLoading: false,
@@ -50,5 +53,3 @@ export default {
   },
 };
 </script>
-
-

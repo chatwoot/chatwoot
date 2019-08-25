@@ -1,9 +1,10 @@
 import Login from './Login';
+import { frontendURL } from '../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/login',
+      path: frontendURL('login'),
       name: 'login',
       component: Login,
     },

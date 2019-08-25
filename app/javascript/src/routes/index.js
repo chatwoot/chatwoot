@@ -5,6 +5,7 @@ import auth from '../api/auth';
 import login from './login/login.routes';
 import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
+import { frontendURL } from '../helper/URLHelper';
 
 /* Vue Routes */
 const routes = [
@@ -13,7 +14,7 @@ const routes = [
   ...authRoute.routes,
   {
     path: '/',
-    redirect: '/u/dashboard',
+    redirect: frontendURL('dashboard'),
   },
 ];
 
@@ -66,15 +67,15 @@ const redirectUser = (to, from, next) => {
     const isAccessible =
       window.roleWiseRoutes[currentUser.role].indexOf(to.name) > -1;
     if (!isAccessible) {
-      return next('/u/dashboard');
+      return next(frontendURL('dashboard'));
     }
   }
   // If unprotected and loggedIn -> redirect
   if (unProtectedRoutes.indexOf(to.name) !== -1 && isLoggedIn) {
-    return next('/u/dashboard');
+    return next(frontendURL('dashboard'));
   }
   if (unProtectedRoutes.indexOf(to.name) === -1 && !isLoggedIn) {
-    return next('/u/login');
+    return next(frontendURL('login'));
   }
   return next();
 };
@@ -82,7 +83,7 @@ const redirectUser = (to, from, next) => {
 // protecting routes
 router.beforeEach((to, from, next) => {
   if (!to.name) {
-    return next('/u/dashboard');
+    return next(frontendURL('dashboard'));
   }
 
   return redirectUser(to, from, next);

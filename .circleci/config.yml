@@ -53,9 +53,20 @@ jobs:
           name: eslint
           command: yarn run eslint
 
-      - run:
-          name: brakeman
-          command: brakeman
+      # - run:
+      #     name: brakeman
+      #     command: brakeman
+
+      # - run:
+      #     name: Copy files
+      #     command: |
+      #       cp shared/config/database.yml config/database.yml
+      #       cp shared/config/application.yml config/application.yml
+
+      # Run rails tests
+      - type: shell
+        command: |
+          rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       # Store yarn / webpacker cache
       - save_cache:

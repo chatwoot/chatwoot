@@ -1,11 +1,12 @@
 import Index from './Index';
 import SettingsContent from '../Wrapper';
 import AccountLocked from './AccountLocked';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/settings/billing',
+      path: frontendURL('settings/billing'),
       component: SettingsContent,
       props: {
         headerTitle: 'BILLING.HEADER',

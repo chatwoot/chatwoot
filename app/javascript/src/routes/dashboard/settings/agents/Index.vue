@@ -1,7 +1,7 @@
 <template>
   <div class="column content-box">
     <button
-      class="button icon success btn-fixed-right-top"
+      class="button nice icon success btn-fixed-right-top"
       @click="openAddPopup()"
     >
       <i class="icon ion-android-add-circle"></i>
@@ -12,13 +12,20 @@
     <!-- List Agents -->
     <div class="row">
       <div class="small-8 columns">
-        <woot-loading-state v-if="fetchStatus" :message="$t('AGENT_MGMT.LOADING')" />
-        <p v-if="!fetchStatus && !agentList.length">{{ $t('AGENT_MGMT.LIST.404') }}</p>
-        <table class="woot-table"  v-if="!fetchStatus && agentList.length">
+        <woot-loading-state
+          v-if="fetchStatus"
+          :message="$t('AGENT_MGMT.LOADING')"
+        />
+        <p v-if="!fetchStatus && !agentList.length">
+          {{ $t('AGENT_MGMT.LIST.404') }}
+        </p>
+        <table v-if="!fetchStatus && agentList.length" class="woot-table">
           <tbody>
-            <tr v-for="(agent, index) in agentList">
+            <tr v-for="(agent, index) in agentList" :key="agent.email">
               <!-- Gravtar Image -->
-              <td><img class="woot-thumbnail" :src="gravatarUrl(agent.email)"/></td>
+              <td>
+                <img class="woot-thumbnail" :src="gravatarUrl(agent.email)" />
+              </td>
               <!-- Agent Name + Email -->
               <td>
                 <span class="agent-name">{{ agent.name }}</span>
@@ -27,17 +34,21 @@
               <!-- Agent Role + Verification Status -->
               <td>
                 <span class="agent-name">{{ agent.role }}</span>
-                <span v-if="agent.confirmed">{{$t('AGENT_MGMT.LIST.VERIFIED')}}</span>
-                <span v-if="!agent.confirmed">{{$t('AGENT_MGMT.LIST.VERIFICATION_PENDING')}}</span>
+                <span v-if="agent.confirmed">
+                  {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
+                </span>
+                <span v-if="!agent.confirmed">
+                  {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
+                </span>
               </td>
               <!-- Actions -->
               <td>
                 <div v-if="showActions(agent)" class="button-wrapper">
                   <div @click="openEditPopup(agent)">
                     <woot-submit-button
-                    :button-text="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                    icon-class="ion-edit"
-                    button-class="link hollow grey-btn"
+                      :button-text="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
+                      icon-class="ion-edit"
+                      button-class="link hollow grey-btn"
                     />
                   </div>
                   <div @click="openDeletePopup(agent, index)">
@@ -60,18 +71,18 @@
     </div>
     <!-- Add Agent -->
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-agent :on-close="hideAddPopup"/>
+      <add-agent :on-close="hideAddPopup" />
     </woot-modal>
 
     <!-- Edit Agent -->
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-agent
+        v-if="showEditPopup"
+        :id="currentAgent.id"
         :name="currentAgent.name"
         :type="currentAgent.role"
         :email="currentAgent.email"
-        :id="currentAgent.id"
         :on-close="hideEditPopup"
-        v-if="showEditPopup"
       />
     </woot-modal>
 
@@ -87,9 +98,7 @@
     />
 
     <!-- Loader Status -->
-
   </div>
-
 </template>
 <script>
 /* global bus */
@@ -97,14 +106,12 @@
 import { mapGetters } from 'vuex';
 import md5 from 'md5';
 
-import PageHeader from '../SettingsSubPageHeader';
 import AddAgent from './AddAgent';
 import EditAgent from './EditAgent';
 import DeleteAgent from './DeleteAgent';
 
 export default {
   components: {
-    PageHeader,
     AddAgent,
     EditAgent,
     DeleteAgent,
@@ -127,13 +134,19 @@ export default {
       fetchStatus: 'getAgentFetchStatus',
     }),
     deleteConfirmText() {
-      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${this.currentAgent.name}`;
+      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${
+        this.currentAgent.name
+      }`;
     },
     deleteRejectText() {
-      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.NO')} ${this.currentAgent.name}`;
+      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.NO')} ${
+        this.currentAgent.name
+      }`;
     },
     deleteMessage() {
-      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')} ${this.currentAgent.name} ?`;
+      return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.MESSAGE')} ${
+        this.currentAgent.name
+      } ?`;
     },
   },
   mounted() {
@@ -142,7 +155,9 @@ export default {
   methods: {
     showActions(agent) {
       if (agent.role === 'administrator') {
-        const adminList = this.agentList.filter(item => item.role === 'administrator');
+        const adminList = this.agentList.filter(
+          item => item.role === 'administrator'
+        );
         return adminList.length !== 1;
       }
       return true;
@@ -184,19 +199,22 @@ export default {
       this.deleteAgent(this.currentAgent.id);
     },
     deleteAgent(id) {
-      this.$store.dispatch('deleteAgent', {
-        id,
-      }).then(() => {
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
-      }).catch(() => {
-        this.showAlert(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
-      });
+      this.$store
+        .dispatch('deleteAgent', {
+          id,
+        })
+        .then(() => {
+          this.showAlert(this.$t('AGENT_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+        })
+        .catch(() => {
+          this.showAlert(this.$t('AGENT_MGMT.DELETE.API.ERROR_MESSAGE'));
+        });
     },
     // Show SnackBar
     showAlert(message) {
       // Reset loading, current selected agent
       this.loading[this.currentAgent.id] = false;
-      this.currentAgent = { };
+      this.currentAgent = {};
       // Show message
       this.agentAPI.message = message;
       bus.$emit('newToastMessage', message);
