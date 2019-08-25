@@ -56,10 +56,13 @@ gem 'foreman'
 # static analysis
 gem 'brakeman'
 
+group :development do
+  gem 'web-console'
+  gem 'letter_opener'
+end
+
 group :development, :test do
   gem 'byebug', platform: :mri
-  gem 'letter_opener'
-  gem 'web-console'
   gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen'
