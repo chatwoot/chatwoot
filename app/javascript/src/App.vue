@@ -11,7 +11,7 @@
 import WootSnackbarBox from './components/SnackbarContainer';
 
 export default {
-  name: 'app',
+  name: 'App',
 
   components: {
     WootSnackbarBox,
@@ -21,10 +21,11 @@ export default {
     this.$store.dispatch('set_user');
     this.$store.dispatch('validityCheck');
   },
-
 };
 </script>
 
 <style lang="scss">
 @import './assets/scss/app';
 </style>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
