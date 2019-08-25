@@ -5,7 +5,11 @@
       :header-content="$t('INBOX_MGMT.ADD.AUTH.DESC')"
     />
     <div class="row channels">
-      <channel-item v-for="channel in channelList" :channel="channel" />
+      <channel-item
+        v-for="channel in channelList"
+        :key="channel"
+        :channel="channel"
+      />
     </div>
   </div>
 </template>
@@ -23,26 +27,23 @@ export default {
   },
   data() {
     return {
-      channelList: [
-        'facebook',
-        'twitter',
-        'telegram',
-        'line',
-      ],
+      channelList: ['facebook', 'twitter', 'telegram', 'line'],
     };
   },
   created() {
-    bus.$on('channelItemClick', (channel) => {
+    bus.$on('channelItemClick', channel => {
       this.initChannelAuth(channel);
     });
   },
   methods: {
     initChannelAuth(channel) {
       if (channel === 'facebook') {
-        router.push({ name: 'settings_inboxes_page_channel', params: { page: 'new', sub_page: 'facebook' } });
+        router.push({
+          name: 'settings_inboxes_page_channel',
+          params: { page: 'new', sub_page: 'facebook' },
+        });
       }
     },
   },
 };
-
 </script>

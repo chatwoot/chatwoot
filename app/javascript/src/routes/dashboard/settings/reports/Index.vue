@@ -5,37 +5,41 @@
         v-model="currentDateRangeSelection"
         track-by="name"
         label="name"
-        @select="changeDateSelection"
         placeholder="Select one"
         :options="dateRange"
         :searchable="false"
         :allow-empty="true"
+        @select="changeDateSelection"
       />
     </div>
     <div class="row">
       <woot-report-stats-card
         v-for="(metric, index) in metrics"
-        :heading="metric.NAME"
-        :point="accountSummary[metric.KEY]"
+        :key="metric.NAME"
         :desc="metric.DESC"
+        :heading="metric.NAME"
         :index="index"
-        :selected="index === currentSelection"
         :on-click="changeSelection"
+        :point="accountSummary[metric.KEY]"
+        :selected="index === currentSelection"
       />
     </div>
     <div class="report-bar">
-      <woot-loading-state :message="$t('REPORT.LOADING_CHART')" v-if="accountReport.isFetching"></woot-loading-state>
+      <woot-loading-state
+        v-if="accountReport.isFetching"
+        :message="$t('REPORT.LOADING_CHART')"
+      />
       <div v-else class="chart-container">
-        <woot-bar :collection="collection" v-if="accountReport.data.length"/>
-        <span class="empty-state" v-else v-html="$t('REPORT.NO_ENOUGH_DATA')" />
+        <woot-bar v-if="accountReport.data.length" :collection="collection" />
+        <span v-else class="empty-state">
+          {{ $t('REPORT.NO_ENOUGH_DATA') }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-
 import { mapGetters } from 'vuex';
 import moment from 'moment';
 
@@ -68,7 +72,9 @@ export default {
         return {};
       }
       if (!this.accountReport.data.length) return {};
-      const labels = this.accountReport.data.map(element => moment.unix(element.timestamp).format('DD/MMM'));
+      const labels = this.accountReport.data.map(element =>
+        moment.unix(element.timestamp).format('DD/MMM')
+      );
       const data = this.accountReport.data.map(element => element.value);
       return {
         labels,

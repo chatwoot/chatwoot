@@ -53,8 +53,8 @@ window.onload = () => {
   window.WOOT = new Vue({
     router,
     store,
-    template: '<App/>',
     components: { App },
+    template: '<App/>',
   }).$mount('#app');
 };
 window.pusher = vuePusher.init();

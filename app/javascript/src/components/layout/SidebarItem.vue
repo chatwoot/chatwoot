@@ -1,20 +1,34 @@
 <template>
-  <router-link :to="menuItem.toState" tag="li" active-class="active" :class="computedClass">
-    <a :class="getMenuItemClass"  data-tooltip aria-haspopup="true" :title="menuItem.toolTip" >
-      <i :class="menuItem.icon"></i>
-      {{menuItem.label}}
-      <span class="ion-ios-plus-outline" v-if="showItem(menuItem)" @click.prevent="newLinkClick">
-      </span>
+  <router-link
+    :to="menuItem.toState"
+    tag="li"
+    active-class="active"
+    :class="computedClass"
+  >
+    <a
+      :class="getMenuItemClass"
+      data-tooltip
+      aria-haspopup="true"
+      :title="menuItem.toolTip"
+    >
+      <i :class="menuItem.icon" />
+      {{ menuItem.label }}
+      <span
+        v-if="showItem(menuItem)"
+        class="ion-ios-plus-outline"
+        @click.prevent="newLinkClick"
+      />
     </a>
-    <ul class="nested vertical menu" v-if="menuItem.hasSubMenu">
+    <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
       <router-link
-        :to="child.toState"
-        tag="li"
-        active-class="active flex-container"
         v-for="child in menuItem.children"
+        :key="child.label"
+        active-class="active flex-container"
         :class="computedInboxClass(child)"
+        tag="li"
+        :to="child.toState"
       >
-        <a>{{child.label}}</a>
+        <a>{{ child.label }}</a>
       </router-link>
     </ul>
   </router-link>
@@ -28,20 +42,32 @@ import router from '../../routes';
 import auth from '../../api/auth';
 
 export default {
-  props: ['menuItem'],
+  props: {
+    menuItem: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   computed: {
     ...mapGetters({
       activeInbox: 'getSelectedInbox',
     }),
     getMenuItemClass() {
-      return this.menuItem.cssClass ? `side-menu ${this.menuItem.cssClass}` : 'side-menu';
+      return this.menuItem.cssClass
+        ? `side-menu ${this.menuItem.cssClass}`
+        : 'side-menu';
     },
     computedClass() {
       // If active Inbox is present
       // donot highlight conversations
       if (this.activeInbox) return ' ';
 
-      if (this.$store.state.route.name === 'inbox_conversation' && this.menuItem.toStateName === 'home') {
+      if (
+        this.$store.state.route.name === 'inbox_conversation' &&
+        this.menuItem.toStateName === 'home'
+      ) {
         return 'active';
       }
       return ' ';
