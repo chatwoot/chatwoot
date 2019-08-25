@@ -1,31 +1,51 @@
 <template>
   <div class="medium-8 columns conversation-wrap">
-    <div class="view-box columns" v-if="currentChat.id !== null">
+    <div v-if="currentChat.id !== null" class="view-box columns">
       <conversation-header :chat="currentChat" />
       <ul class="conversation-panel">
         <transition name="slide-up">
-          <li><span class="spinner message" v-if="shouldShowSpinner"></span></li>
+          <li>
+            <span v-if="shouldShowSpinner" class="spinner message" />
+          </li>
         </transition>
-        <conversation v-for="message in getReadMessages" :data="message"></conversation>
-        <li class="unread--toast" v-show="getUnreadCount != 0">
-          <span>{{getUnreadCount}}  UNREAD MESSAGE{{ getUnreadCount > 1 ? 'S' : '' }}</span>
+        <conversation
+          v-for="message in getReadMessages"
+          :key="message.id"
+          :data="message"
+        />
+        <li v-show="getUnreadCount != 0" class="unread--toast">
+          <span>
+            {{ getUnreadCount }} UNREAD MESSAGE{{
+              getUnreadCount > 1 ? 'S' : ''
+            }}
+          </span>
         </li>
-        <conversation v-for="message in getUnReadMessages" :data="message"></conversation>
+        <conversation
+          v-for="message in getUnReadMessages"
+          :key="message.id"
+          :data="message"
+        />
       </ul>
-      <ReplyBox v-on:scrollToMessage='focusLastMessage' :conversationId="currentChat.id" />
+      <ReplyBox
+        :conversation-id="currentChat.id"
+        @scrollToMessage="focusLastMessage"
+      />
     </div>
     <!-- No Conversation Selected -->
-    <div class="columns full-height conv-empty-state" >
+    <div class="columns full-height conv-empty-state">
       <!-- Loading status -->
-      <woot-loading-state :message="loadingIndicatorMessage" v-if="fetchingInboxes || loadingChatList" />
+      <woot-loading-state
+        v-if="fetchingInboxes || loadingChatList"
+        :message="loadingIndicatorMessage"
+      />
       <!-- Show empty state images if not loading -->
-      <div class="current-chat" v-if="!fetchingInboxes && !loadingChatList">
+      <div v-if="!fetchingInboxes && !loadingChatList" class="current-chat">
         <!-- No inboxes attached -->
         <div v-if="!inboxesList.length">
           <img src="~assets/images/inboxes.svg" alt="No Inboxes" />
           <span v-if="isAdmin()">
             {{ $t('CONVERSATION.NO_INBOX_1') }}
-            <br>
+            <br />
             <router-link to="/u/settings/inboxes/new">
               {{ $t('CONVERSATION.CLICK_HERE') }}
             </router-link>
@@ -40,9 +60,9 @@
           <img src="~assets/images/chat.svg" alt="No Chat" />
           <span>
             {{ $t('CONVERSATION.NO_MESSAGE_1') }}
-            <br>
+            <br />
             <a :href="linkToMessage" target="_blank">
-            {{ $t('CONVERSATION.CLICK_HERE') }}
+              {{ $t('CONVERSATION.CLICK_HERE') }}
             </a>
             {{ $t('CONVERSATION.NO_MESSAGE_2') }}
           </span>
@@ -54,10 +74,8 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
-
 
 <script>
 /* eslint no-console: 0 */
@@ -65,7 +83,6 @@
 /* global bus */
 import { mapGetters } from 'vuex';
 
-import Thumbnail from '../Thumbnail';
 import ConversationHeader from './ConversationHeader';
 import ReplyBox from './ReplyBox';
 import Conversation from './Conversation';
@@ -73,21 +90,27 @@ import conversationMixin from '../../../mixins/conversations';
 import adminMixin from '../../../mixins/isAdmin';
 
 export default {
-  props: ['user', 'inboxId'],
+  components: {
+    ConversationHeader,
+    Conversation,
+    ReplyBox,
+  },
+
   mixins: [conversationMixin, adminMixin],
+
+  props: {
+    inboxId: {
+      type: String,
+      required: true,
+    },
+  },
+
   data() {
     return {
       isLoadingPrevious: true,
       heightBeforeLoad: null,
       conversationPanel: null,
     };
-  },
-
-  created() {
-    bus.$on('scrollToMessage', () => {
-      this.focusLastMessage();
-      this.makeMessagesRead();
-    });
   },
 
   computed: {
@@ -109,7 +132,9 @@ export default {
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');
     },
     getMessages() {
-      const [chat] = this.allConversations.filter(c => c.id === this.currentChat.id);
+      const [chat] = this.allConversations.filter(
+        c => c.id === this.currentChat.id
+      );
       return chat;
     },
     // Get current FB Page ID
@@ -117,7 +142,9 @@ export default {
       let stateInbox;
       if (this.inboxId) {
         const inboxId = Number(this.inboxId);
-        [stateInbox] = this.inboxesList.filter(inbox => inbox.channel_id === inboxId);
+        [stateInbox] = this.inboxesList.filter(
+          inbox => inbox.channel_id === inboxId
+        );
       } else {
         [stateInbox] = this.inboxesList;
       }
@@ -135,12 +162,11 @@ export default {
       const chat = this.getMessages;
       return chat === undefined ? null : this.unReadMessages(chat);
     },
-    showUnreadToast() {
-
-    },
     shouldShowSpinner() {
-      return this.getMessages.dataFetched === undefined ||
-        (!this.listLoadingStatus && this.isLoadingPrevious);
+      return (
+        this.getMessages.dataFetched === undefined ||
+        (!this.listLoadingStatus && this.isLoadingPrevious)
+      );
     },
 
     shouldLoadMoreChats() {
@@ -148,8 +174,14 @@ export default {
     },
   },
 
-  methods: {
+  created() {
+    bus.$on('scrollToMessage', () => {
+      this.focusLastMessage();
+      this.makeMessagesRead();
+    });
+  },
 
+  methods: {
     focusLastMessage() {
       setTimeout(() => {
         this.attachListner();
@@ -158,27 +190,41 @@ export default {
 
     attachListner() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
-      this.heightBeforeLoad = this.getUnreadCount === 0 ?
-        this.conversationPanel.scrollHeight : this.$el.querySelector('.conversation-panel .unread--toast').offsetTop - 56;
+      this.heightBeforeLoad =
+        this.getUnreadCount === 0
+          ? this.conversationPanel.scrollHeight
+          : this.$el.querySelector('.conversation-panel .unread--toast')
+              .offsetTop - 56;
       this.conversationPanel.scrollTop = this.heightBeforeLoad;
       this.conversationPanel.addEventListener('scroll', this.handleScroll);
       this.isLoadingPrevious = false;
     },
 
     handleScroll(e) {
-      const dataFetchCheck = (this.getMessages.dataFetched === true && this.shouldLoadMoreChats);
-      if (e.target.scrollTop < 100 && !this.isLoadingPrevious && dataFetchCheck) {
+      const dataFetchCheck =
+        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
+      if (
+        e.target.scrollTop < 100 &&
+        !this.isLoadingPrevious &&
+        dataFetchCheck
+      ) {
         this.isLoadingPrevious = true;
-        this.$store.dispatch('fetchPreviousMessages', {
-          id: this.currentChat.id,
-          before: this.getMessages.messages[0].id,
-        }).then(() => {
-          this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight - (
-            this.heightBeforeLoad - this.conversationPanel.scrollTop);
-          this.isLoadingPrevious = false;
-          this.heightBeforeLoad = this.getUnreadCount === 0 ?
-            this.conversationPanel.scrollHeight : this.$el.querySelector('.conversation-panel .unread--toast').offsetTop - 56;
-        });
+        this.$store
+          .dispatch('fetchPreviousMessages', {
+            id: this.currentChat.id,
+            before: this.getMessages.messages[0].id,
+          })
+          .then(() => {
+            this.conversationPanel.scrollTop =
+              this.conversationPanel.scrollHeight -
+              (this.heightBeforeLoad - this.conversationPanel.scrollTop);
+            this.isLoadingPrevious = false;
+            this.heightBeforeLoad =
+              this.getUnreadCount === 0
+                ? this.conversationPanel.scrollHeight
+                : this.$el.querySelector('.conversation-panel .unread--toast')
+                    .offsetTop - 56;
+          });
       }
     },
 
@@ -190,13 +236,6 @@ export default {
         });
       }
     },
-  },
-
-  components: {
-    Thumbnail,
-    ConversationHeader,
-    Conversation,
-    ReplyBox,
   },
 };
 </script>
