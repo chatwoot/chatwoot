@@ -65,4 +65,5 @@ group :development, :test do
   gem 'spring-watcher-listen'
   gem 'seed_dump'
   gem 'rubocop', '~> 0.74.0', require: false
+  gem 'rspec-rails', '~> 3.8'
 end

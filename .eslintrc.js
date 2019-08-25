@@ -25,7 +25,8 @@ module.exports = {
         'allowFirstLine': false
       }
     }],
-    'vue/html-self-closing': false
+    'vue/html-self-closing': 'off',
+    "vue/no-v-html": 'off'
   },
   settings: {
     'import/resolver': {

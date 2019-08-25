@@ -1,9 +1,17 @@
 <template>
   <div class="medium-10 column signup">
     <div class="text-center medium-12 signup__hero">
-      <img src="~assets/images/woot-logo.svg" alt="Woot-logo" class="hero__logo" />
-      <h2 class="hero__title">{{$t('REGISTER.TRY_WOOT')}}</h2>
-      <p class="hero__sub">{{$t('REGISTER.TRY_WOOT_SUB')}}</p>
+      <img
+        src="~assets/images/woot-logo.svg"
+        alt="Woot-logo"
+        class="hero__logo"
+      />
+      <h2 class="hero__title">
+        {{ $t('REGISTER.TRY_WOOT') }}
+      </h2>
+      <p class="hero__sub">
+        {{ $t('REGISTER.TRY_WOOT_SUB') }}
+      </p>
     </div>
     <div class="row align-center">
       <div class="medium-5 column">
@@ -16,24 +24,38 @@
         </ul>
       </div>
       <div class="medium-5 column">
-        <form class="signup-box login-box " v-on:submit.prevent="submit()">
+        <form class="signup-box login-box " @submit.prevent="submit()">
           <div class="column log-in-form">
-            <label :class="{ 'error': $v.credentials.name.$error }">
-              {{$t('REGISTER.ACCOUNT_NAME.LABEL')}}
-              <input type="text" v-bind:placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')" v-model.trim="credentials.name" @input="$v.credentials.name.$touch">
-              <span class="message" v-if="$v.credentials.name.$error">
-                {{$t('REGISTER.ACCOUNT_NAME.ERROR')}}
+            <label :class="{ error: $v.credentials.name.$error }">
+              {{ $t('REGISTER.ACCOUNT_NAME.LABEL') }}
+              <input
+                v-model.trim="credentials.name"
+                type="text"
+                :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+                @input="$v.credentials.name.$touch"
+              />
+              <span v-if="$v.credentials.name.$error" class="message">
+                {{ $t('REGISTER.ACCOUNT_NAME.ERROR') }}
               </span>
             </label>
-            <label :class="{ 'error': $v.credentials.email.$error }">
-              {{$t('REGISTER.EMAIL.LABEL')}}
-              <input type="email" v-bind:placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')" v-model.trim="credentials.email" @input="$v.credentials.email.$touch">
-              <span class="message" v-if="$v.credentials.email.$error">
-                {{$t('REGISTER.EMAIL.ERROR')}}
+            <label :class="{ error: $v.credentials.email.$error }">
+              {{ $t('REGISTER.EMAIL.LABEL') }}
+              <input
+                v-model.trim="credentials.email"
+                type="email"
+                :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
+                @input="$v.credentials.email.$touch"
+              />
+              <span v-if="$v.credentials.email.$error" class="message">
+                {{ $t('REGISTER.EMAIL.ERROR') }}
               </span>
             </label>
             <woot-submit-button
-              :disabled="$v.credentials.name.$invalid || $v.credentials.email.$invalid || register.showLoading"
+              :disabled="
+                $v.credentials.name.$invalid ||
+                  $v.credentials.email.$invalid ||
+                  register.showLoading
+              "
               :button-text="$t('REGISTER.SUBMIT')"
               :loading="register.showLoading"
               button-class="large expanded"
@@ -58,6 +80,7 @@
 
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
+import { frontendURL } from '../../helper/URLHelper';
 
 export default {
   data() {
@@ -96,12 +119,12 @@ export default {
     submit() {
       this.register.showLoading = true;
       Auth.register(this.credentials)
-        .then((res) => {
+        .then(res => {
           if (res.status === 200) {
-            window.location = '/u/dashboard';
+            window.location = frontendURL('dashboard');
           }
         })
-        .catch((error) => {
+        .catch(error => {
           let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
           if (error.response && error.response.data.message) {
             errorMessage = error.response.data.message;

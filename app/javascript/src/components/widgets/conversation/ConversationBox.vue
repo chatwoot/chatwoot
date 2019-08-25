@@ -46,7 +46,7 @@
           <span v-if="isAdmin()">
             {{ $t('CONVERSATION.NO_INBOX_1') }}
             <br />
-            <router-link to="/u/settings/inboxes/new">
+            <router-link :to="newInboxURL">
               {{ $t('CONVERSATION.CLICK_HERE') }}
             </router-link>
             {{ $t('CONVERSATION.NO_INBOX_2') }}
@@ -88,6 +88,7 @@ import ReplyBox from './ReplyBox';
 import Conversation from './Conversation';
 import conversationMixin from '../../../mixins/conversations';
 import adminMixin from '../../../mixins/isAdmin';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -167,6 +168,10 @@ export default {
         this.getMessages.dataFetched === undefined ||
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
+    },
+
+    newInboxURL() {
+      return frontendURL('settings/inboxes/new');
     },
 
     shouldLoadMoreChats() {

@@ -1,10 +1,11 @@
 /* eslint arrow-body-style: 0 */
 import ConversationView from './ConversationView';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/dashboard',
+      path: frontendURL('dashboard'),
       name: 'home',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -13,7 +14,7 @@ export default {
       },
     },
     {
-      path: '/u/inbox/:inbox_id',
+      path: frontendURL('inbox/:inbox_id'),
       name: 'inbox_dashboard',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -22,7 +23,7 @@ export default {
       },
     },
     {
-      path: '/u/conversations/:conversation_id',
+      path: frontendURL('conversations/:conversation_id'),
       name: 'inbox_conversation',
       roles: ['administrator', 'agent'],
       component: ConversationView,

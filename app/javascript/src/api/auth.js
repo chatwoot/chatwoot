@@ -7,6 +7,7 @@
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
+import { frontendURL } from '../helper/URLHelper';
 
 export default {
   login(creds) {
@@ -65,7 +66,7 @@ export default {
           if (error.response.status === 401) {
             Cookies.remove('auth_data');
             Cookies.remove('user');
-            window.location = '/login';
+            window.location = frontendURL('login');
           }
           reject(error);
         });
@@ -80,7 +81,7 @@ export default {
         .then(response => {
           Cookies.remove('auth_data');
           Cookies.remove('user');
-          window.location = '/u/login';
+          window.location = frontendURL('login');
           resolve(response);
         })
         .catch(error => {

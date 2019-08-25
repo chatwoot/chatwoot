@@ -4,18 +4,19 @@ import canned from './canned/canned.routes';
 import reports from './reports/reports.routes';
 import billing from './billing/billing.routes';
 import Auth from '../../../api/auth';
+import { frontendURL } from '../../../helper/URLHelper';
 
 export default {
   routes: [
     {
-      path: '/u/settings',
+      path: frontendURL('settings'),
       name: 'settings_home',
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (Auth.isAdmin()) {
-          return '/u/settings/agents/';
+          return frontendURL('settings/agents');
         }
-        return '/u/settings/canned-response';
+        return frontendURL('settings/canned-response');
       },
     },
     ...inbox.routes,

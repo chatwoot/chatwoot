@@ -28,6 +28,6 @@ class ConfirmationsController < Devise::ConfirmationsController
     user.reset_password_token   = enc
     user.reset_password_sent_at = Time.now.utc
     user.save(validate: false)
-    "/u/auth/password/edit?config=default&redirect_url=&reset_password_token="+raw
+    "/app/auth/password/edit?config=default&redirect_url=&reset_password_token="+raw
   end
 end
