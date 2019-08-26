@@ -63,7 +63,6 @@ jobs:
             cp shared/config/database.yml config/database.yml
             cp shared/config/application.yml config/application.yml
 
-
       # Run rails tests
       - type: shell
         command: |
