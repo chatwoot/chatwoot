@@ -1,7 +1,7 @@
-require "redis"
-
 #for reports
-redis = Redis.new(url: ENV['REDIS_URL'])
+#TODO fix the redis config
+uri = URI.parse("redis://localhost:6379")
+redis = Redis.new(:url => uri)
 Nightfury.redis = Redis::Namespace.new("reports", redis: redis)
 
 =begin
