@@ -12,6 +12,8 @@ development:
 
 test:
   <<: *default
+  username: postgres
+  password:
   database: chatwoot_test
 
 production:

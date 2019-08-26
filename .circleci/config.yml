@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.6.0-node-browsers
+      - image: circleci/ruby:2.6.3-node-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -57,16 +57,11 @@ jobs:
       #     name: brakeman
       #     command: brakeman
 
-      # - run:
-      #     name: Copy files
-      #     command: |
-      #       cp shared/config/database.yml config/database.yml
-      #       cp shared/config/application.yml config/application.yml
-
-      # Run rails tests
-      - type: shell
-        command: |
-          rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: Copy files
+          command: |
+            cp shared/config/database.yml config/database.yml
+            cp shared/config/application.yml config/application.yml
 
       # Store yarn / webpacker cache
       - save_cache:
