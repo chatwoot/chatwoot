@@ -63,11 +63,6 @@ jobs:
             cp shared/config/database.yml config/database.yml
             cp shared/config/application.yml config/application.yml
 
-      # Run rails tests
-      - type: shell
-        command: |
-          rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
       # Store yarn / webpacker cache
       - save_cache:
           key: chatwoot-yarn-{{ checksum "yarn.lock" }}
