@@ -70,3 +70,6 @@ group :development, :test do
   gem 'rubocop', '~> 0.74.0', require: false
   gem 'rspec-rails', '~> 3.8'
 end
+
+
+gem 'attr_extras'
