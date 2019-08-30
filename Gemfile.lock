@@ -112,6 +112,7 @@ GEM
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
     ast (2.4.0)
+    attr_extras (6.2.1)
     aws-eventstream (1.0.3)
     aws-partitions (1.206.0)
     aws-sdk-core (3.64.0)
@@ -443,6 +444,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts-as-taggable-on!
+  attr_extras
   bootsnap
   brakeman
   byebug

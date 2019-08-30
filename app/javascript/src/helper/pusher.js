@@ -25,8 +25,9 @@ class VuePusher {
     this.pusher.unsubscribe(channelName);
   }
 
+  // eslint-disable-next-line
   bindEvent(channel) {
-    channel.bind('message.created', data => {
+    channel.bind('message.created', function messageCreate(data) {
       // Play sound if incoming
       if (!data.message_type) {
         new Audio(ding).play();
@@ -34,15 +35,15 @@ class VuePusher {
       this.app.$store.dispatch('addMessage', data);
     });
 
-    channel.bind('conversation.created', data => {
+    channel.bind('conversation.created', function conversationCreated(data) {
       this.app.$store.dispatch('addConversation', data);
     });
 
-    channel.bind('status_change:conversation', data => {
+    channel.bind('status_change:conversation', function statusChange(data) {
       this.app.$store.dispatch('addConversation', data);
     });
 
-    channel.bind('assignee.changed', payload => {
+    channel.bind('assignee.changed', function assigneeChanged(payload) {
       if (!payload.meta) return;
       const { assignee } = payload.meta;
       const { id } = payload;
@@ -68,7 +69,7 @@ class VuePusher {
 export default {
   init() {
     // Log only if env is testing or development.
-    Pusher.logToConsole = CONSTANTS.PUSHER.logToConsole;
+    Pusher.logToConsole = CONSTANTS.PUSHER.logToConsole || true;
     // Init Pusher
     const options = {
       encrypted: true,
