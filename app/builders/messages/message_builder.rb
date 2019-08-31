@@ -41,9 +41,13 @@ Assumptions
 
   end
 
+  def contact
+    @contact ||= @inbox.contacts.find_by(source_id: @sender_id)
+  end
+
   def build_contact
-    if !@inbox.contacts.exists?(source_id: @sender_id)
-      contact = @inbox.contacts.create!(contact_params)
+    if contact.nil?
+      @contact = @inbox.contacts.create!(contact_params)
     end
   end
 
@@ -99,7 +103,7 @@ Assumptions
     {
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      sender_id: @sender_id
+      sender_id: contact.id
     }
   end
 
