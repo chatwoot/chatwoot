@@ -278,7 +278,7 @@ GEM
       omniauth (~> 1.9)
     orm_adapter (0.5.0)
     parallel (1.17.0)
-    parser (2.6.3.0)
+    parser (2.6.4.0)
       ast (~> 2.4.0)
     pg (1.1.4)
     phantomjs (2.1.1.0)
@@ -350,7 +350,7 @@ GEM
       rspec-mocks (~> 3.8.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.2)
-    rubocop (0.74.0)
+    rubocop (0.73.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.6)
@@ -479,7 +479,7 @@ DEPENDENCIES
   responders
   rest-client
   rspec-rails (~> 3.8)
-  rubocop (~> 0.74.0)
+  rubocop (~> 0.73.0)
   sass-rails (~> 5.0)
   seed_dump
   sentry-raven
