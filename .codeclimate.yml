@@ -1,0 +1,5 @@
+version: "2"
+plugins:
+  rubocop:
+    enabled: true
+    channel: rubocop-0-73
