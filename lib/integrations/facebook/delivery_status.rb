@@ -14,8 +14,12 @@ class Integrations::Facebook::DeliveryStatus
     @params.sender['id']
   end
 
+  def contact_id
+    @contact ||= ::Contact.find_by(source_id: sender_id)
+  end
+
   def conversation
-    @conversation ||= Conversation.find_by(sender_id: sender_id)
+    @conversation ||= ::Conversation.find_by(sender_id: contact_id)
   end
 
   def update_message_status
