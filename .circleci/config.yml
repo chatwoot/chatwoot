@@ -78,7 +78,7 @@ jobs:
       # Run rails tests
       - type: shell
         command: |
-          bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
+          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       # collect reports
       - store_test_results:
