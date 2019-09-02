@@ -281,7 +281,6 @@ GEM
     parser (2.6.4.0)
       ast (~> 2.4.0)
     pg (1.1.4)
-    phantomjs (2.1.1.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
@@ -466,7 +465,6 @@ DEPENDENCIES
   nightfury (~> 1.0, >= 1.0.1)
   omniauth-facebook
   pg
-  phantomjs
   poltergeist
   puma (~> 3.0)
   pundit

@@ -1,5 +1,6 @@
-class Inbox < ApplicationRecord
+# frozen_string_literal: true
 
+class Inbox < ApplicationRecord
   validates :account_id, presence: true
 
   belongs_to :account
@@ -24,11 +25,11 @@ class Inbox < ApplicationRecord
   end
 
   def facebook?
-    channel.class.name.to_s == "FacebookPage"
+    channel.class.name.to_s == 'FacebookPage'
   end
 
   def next_available_agent
-    user_id = Redis::Alfred.rpoplpush(round_robin_key,round_robin_key)
+    user_id = Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
     account.users.find_by(id: user_id)
   end
 
@@ -39,17 +40,10 @@ class Inbox < ApplicationRecord
   end
 
   def round_robin_key
-    Constants::RedisKeys::ROUND_ROBIN_AGENTS % { :inbox_id => self.id }
+    Constants::RedisKeys::ROUND_ROBIN_AGENTS % { inbox_id: id }
   end
 
   def subscribe_webhook
-    Facebook::Messenger::Subscriptions.subscribe(access_token: self.channel.page_access_token)
-    begin
-      #async this asap
-      Phantomjs.run('m.js', self.channel.page_id) if account.inboxes.count == 1 #only for first inbox of the account
-    rescue => e
-      true
-    end
+    Facebook::Messenger::Subscriptions.subscribe(access_token: channel.page_access_token)
   end
-
 end

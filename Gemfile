@@ -41,7 +41,6 @@ gem 'valid_email2'
 gem 'hashie'
 gem 'chargebee', '~>2'
 gem 'poltergeist'
-gem 'phantomjs', :require => 'phantomjs/poltergeist'
 gem 'time_diff'
 gem 'bootsnap'
 
