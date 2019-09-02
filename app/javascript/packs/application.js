@@ -56,5 +56,5 @@ window.onload = () => {
     components: { App },
     template: '<App/>',
   }).$mount('#app');
+  window.pusher = vuePusher.init();
 };
-window.pusher = vuePusher.init();

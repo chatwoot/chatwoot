@@ -1,37 +1,52 @@
 <template>
   <div class="conversations-sidebar  medium-4 columns">
-
     <!-- <SearchBox></SearchBox> -->
 
     <div class="chat-list__top">
-      <h1 class="page-title">{{ getInboxName }}</h1>
+      <h1 class="page-title">
+        {{ getInboxName }}
+      </h1>
       <chat-filter @statusFilterChange="getDataForStatusTab"></chat-filter>
     </div>
 
-    <chat-type-tabs :items="assigneeTabItems" :activeTabIndex="activeAssigneeTab" @chatTabChange="getDataForTab" class="tab--chat-type"></chat-type-tabs>
+    <chat-type-tabs
+      :items="assigneeTabItems"
+      :active-tab-index="activeAssigneeTab"
+      class="tab--chat-type"
+      @chatTabChange="getDataForTab"
+    ></chat-type-tabs>
 
-    <p v-if="!chatListLoading && !getChatsForTab(activeStatusTab).length" class="content-box">
+    <p
+      v-if="!chatListLoading && !getChatsForTab(activeStatusTab).length"
+      class="content-box"
+    >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
-    <div class="text-center" v-if="chatListLoading"><span class="spinner message"></span></div>
+    <div v-if="chatListLoading" class="text-center">
+      <span class="spinner message"></span>
+    </div>
 
-    <transition-group name="conversations-list" tag="div" class="conversations-list">
-      <conversation-card v-for="chat in getChatsForTab(activeStatusTab)" :chat="chat" v-bind:key="chat"/>
+    <transition-group
+      name="conversations-list"
+      tag="div"
+      class="conversations-list"
+    >
+      <conversation-card
+        v-for="chat in getChatsForTab(activeStatusTab)"
+        :key="chat.id"
+        :chat="chat"
+      />
     </transition-group>
-
   </div>
 </template>
 
 <script>
-/* global axios */
 /* eslint-env browser */
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
-import Thumbnail from './widgets/Thumbnail';
 import ChatFilter from './widgets/conversation/ChatFilter';
-import SearchBox from './widgets/SearchBox';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
@@ -39,8 +54,8 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 
 export default {
-  props: ['conversationInbox', 'pageTitle'],
   mixins: [timeMixin, conversationMixin],
+  props: ['conversationInbox', 'pageTitle'],
   data: () => ({
     chats: null,
     activeStatusTab: 0,
@@ -90,7 +105,9 @@ export default {
     },
     getInboxName() {
       const inboxId = Number(this.activeInbox);
-      const [stateInbox] = this.inboxesList.filter(inbox => inbox.channel_id === inboxId);
+      const [stateInbox] = this.inboxesList.filter(
+        inbox => inbox.channel_id === inboxId
+      );
       return !stateInbox ? this.pageTitle : stateInbox.label;
     },
     getToggleStatus() {
@@ -101,7 +118,6 @@ export default {
     },
   },
   methods: {
-
     fetchData() {
       if (this.chatLists.length === 0) {
         this.$store.dispatch('fetchAllConversations', {
@@ -127,14 +143,17 @@ export default {
       let copyList = [];
       if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.MINE) {
         copyList = this.mineChatsList.slice();
-      } else if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.UNASSIGNED) {
+      } else if (
+        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.UNASSIGNED
+      ) {
         copyList = this.unAssignedChatsList.slice();
       } else {
         copyList = this.allChatList.slice();
       }
       const sorted = copyList.sort((a, b) =>
-        this.wootTime(this.lastMessage(a).created_at)
-        .isBefore(this.wootTime(this.lastMessage(b).created_at))
+        this.wootTime(this.lastMessage(a).created_at).isBefore(
+          this.wootTime(this.lastMessage(b).created_at)
+        )
       );
 
       return sorted;
@@ -142,8 +161,6 @@ export default {
   },
 
   components: {
-    Thumbnail,
-    SearchBox,
     ChatTypeTabs,
     ConversationCard,
     ChatFilter,

@@ -101,7 +101,7 @@ export default {
 
   props: {
     inboxId: {
-      type: String,
+      type: [Number, String],
       required: true,
     },
   },
