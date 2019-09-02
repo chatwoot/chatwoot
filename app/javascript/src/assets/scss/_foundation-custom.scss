@@ -29,3 +29,10 @@
   border-radius: $space-smaller;
   font-size: $font-size-mini;
 }
+
+.input-group-label {
+  margin-bottom: $space-normal;
+  margin-left: -$space-smaller;
+  border-top-right-radius: $space-smaller;
+  border-bottom-right-radius: $space-smaller;
+}

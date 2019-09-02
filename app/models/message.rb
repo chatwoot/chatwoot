@@ -8,7 +8,7 @@ class Message < ApplicationRecord
   enum message_type: [ :incoming, :outgoing, :activity ]
   enum status: [ :sent, :delivered, :read, :failed ]
 
-  scope :chat, -> { where.not(message_type: :activity, private: true) }
+  scope :chat, -> { where(message_type: :activity, private: true) }
   default_scope { order(created_at: :asc) }
 
   belongs_to :account

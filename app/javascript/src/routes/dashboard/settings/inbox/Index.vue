@@ -26,7 +26,8 @@
               <!-- Short Code  -->
               <td>
                 <span class="agent-name">{{ item.label }}</span>
-                <span>Facebook</span>
+                <span v-if="item.channelType === 'EmailInbox'">Email</span>
+                <span v-if="item.channelType === 'FacebookPage'">Facebook</span>
               </td>
 
               <!-- Action Buttons -->

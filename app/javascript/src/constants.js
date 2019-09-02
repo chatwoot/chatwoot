@@ -7,6 +7,7 @@ export default {
   GRAVATAR_URL: 'https://www.gravatar.com/avatar/',
   CHANNELS: {
     FACEBOOK: 'facebook',
+    EMAIL: 'email',
   },
   ASSIGNEE_TYPE_SLUG: {
     MINE: 0,

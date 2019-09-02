@@ -31,11 +31,16 @@ export default {
   props: {
     items: {
       type: Array,
+<<<<<<< HEAD
       default() {
         return [];
       },
     },
     isFullwidth: Boolean,
+=======
+      default: () => [],
+    },
+>>>>>>> Add email inbox
   },
 
   computed: {

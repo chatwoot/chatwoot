@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 4a2746db1c92d0bf246e938b872b233a64f0a18b
+  revision: d05f1f036ff4987918c907eb7e78ef8e8eedd6ea
   specs:
     actioncable (6.1.0.alpha)
       actionpack (= 6.1.0.alpha)
@@ -264,7 +264,7 @@ GEM
     multipart-post (2.1.1)
     netrc (0.11.0)
     nightfury (1.0.1)
-    nio4r (2.4.0)
+    nio4r (2.5.1)
     nokogiri (1.10.4)
       mini_portile2 (~> 2.4.0)
     oauth2 (1.4.1)

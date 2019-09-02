@@ -68,7 +68,7 @@ const actions = {
   },
   addInboxItem({ commit }, { channel, params }) {
     const donePromise = new Promise(resolve => {
-      ChannelApi.createChannel(channel, params)
+      ChannelApi.createFBChannel(channel, params)
         .then(response => {
           commit(types.default.SET_INBOX_ITEM, response);
           resolve(response);
@@ -78,6 +78,17 @@ const actions = {
         });
     });
     return donePromise;
+  },
+
+  addEmailChannel: async ({ commit }, { params }) => {
+    try {
+      const response = await ChannelApi.createEmailChannel(params);
+      commit(types.default.SET_INBOX_ITEM, response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+    return null;
   },
   listInboxAgents(_, { inboxId }) {
     return new Promise((resolve, reject) => {
@@ -137,7 +148,7 @@ const mutations = {
       channel_id: item.id,
       label: item.name,
       toState: frontendURL(`inbox/${item.id}`),
-      channelType: item.channelType,
+      channelType: item.channel_type,
       avatarUrl: item.avatar_url,
       pageId: item.page_id,
     }));

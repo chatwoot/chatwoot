@@ -6,8 +6,8 @@ import endPoints from './endPoints';
 
 export default {
   // Get Inbox related to the account
-  createChannel(channel, channelParams) {
-    const urlData = endPoints('createChannel')(channel, channelParams);
+  createFBChannel(channel, channelParams) {
+    const urlData = endPoints('createFBChannel')(channel, channelParams);
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .post(urlData.url, urlData.params)
@@ -19,6 +19,16 @@ export default {
         });
     });
     return fetchPromise;
+  },
+
+  createEmailChannel: async params => {
+    const urlData = endPoints('createEmailChannel')(params);
+    try {
+      const response = await axios.post(urlData.url, urlData.params);
+      return response;
+    } catch (error) {
+      return Error(error);
+    }
   },
 
   addAgentsToChannel(inboxId, agentsId) {

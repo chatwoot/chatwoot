@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      channelList: ['facebook', 'twitter', 'telegram', 'line'],
+      channelList: ['facebook', 'email', 'twitter', 'telegram', 'line'],
     };
   },
   created() {
@@ -41,6 +41,11 @@ export default {
         router.push({
           name: 'settings_inboxes_page_channel',
           params: { page: 'new', sub_page: 'facebook' },
+        });
+      } else if (channel === 'email') {
+        router.push({
+          name: 'settings_inboxes_page_channel',
+          params: { page: 'new', sub_page: 'email' },
         });
       }
     },

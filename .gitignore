@@ -35,3 +35,4 @@ config/application.yml
 
 public/uploads
 public/packs
+storage/*

@@ -69,7 +69,14 @@ const endPoints = {
     return { url: `api/v1/agents/${id}` };
   },
 
-  createChannel(channel, channelParams) {
+  createEmailChannel(params) {
+    return {
+      url: `api/v1/email_inboxes.json`,
+      params,
+    };
+  },
+
+  createFBChannel(channel, channelParams) {
     return {
       url: `api/v1/callbacks/register_${channel}_page.json`,
       params: channelParams,
