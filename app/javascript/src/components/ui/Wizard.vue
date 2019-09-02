@@ -7,7 +7,7 @@
   >
     <div
       v-for="item in items"
-      :key="item.id"
+      :key="item.route"
       class="item"
       :class="{ active: isActive(item), over: isOver(item) }"
     >
