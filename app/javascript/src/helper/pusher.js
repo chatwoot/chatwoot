@@ -27,7 +27,7 @@ class VuePusher {
 
   // eslint-disable-next-line
   bindEvent(channel) {
-    channel.bind('message.created', function messageCreate(data) {
+    channel.bind('message.created', data => {
       // Play sound if incoming
       if (!data.message_type) {
         new Audio(ding).play();
@@ -35,17 +35,18 @@ class VuePusher {
       this.app.$store.dispatch('addMessage', data);
     });
 
-    channel.bind('conversation.created', function conversationCreated(data) {
+    channel.bind('conversation.created', data => {
       this.app.$store.dispatch('addConversation', data);
     });
 
-    channel.bind('status_change:conversation', function statusChange(data) {
+    channel.bind('status_change:conversation', data => {
       this.app.$store.dispatch('addConversation', data);
     });
 
-    channel.bind('assignee.changed', function assigneeChanged(payload) {
-      if (!payload.meta) return;
-      const { assignee } = payload.meta;
+    channel.bind('assignee.changed', payload => {
+      const { meta } = payload;
+      if (!meta) return;
+      const { assignee } = meta;
       const { id } = payload;
       if (id) {
         this.app.$store.dispatch('updateAssignee', {
