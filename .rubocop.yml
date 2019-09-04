@@ -2,3 +2,7 @@ Metrics/LineLength:
   Max: 150
 Documentation:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false

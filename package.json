@@ -1,5 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
+  "version": "0.1.0",
   "license": "MIT",
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
