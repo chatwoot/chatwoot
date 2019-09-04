@@ -183,6 +183,11 @@ GEM
     facebook-messenger (0.11.1)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.6.4)
+    factory_bot (5.0.2)
+      activesupport (>= 4.2.0)
+    factory_bot_rails (5.0.2)
+      factory_bot (~> 5.0.2)
+      railties (>= 4.2.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
     ffi (1.11.1)
@@ -453,6 +458,7 @@ DEPENDENCIES
   devise!
   devise_token_auth!
   facebook-messenger (~> 0.11.1)
+  factory_bot_rails
   figaro
   foreman
   hashie
