@@ -1,7 +1,8 @@
-![Woot-logo](.github/woot-logo.png)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+<p align="center">
+<img src=".github/woot-logo.svg" alt="Woo-logo" width="240">
 
-Opensource alternative to Intercom, Zendesk, Drift, Crisp etc.
+<div align="center">Opensource alternative to Intercom, Zendesk, Drift, Crisp etc.</div>
+</p>
 
 ___
 
@@ -58,15 +59,6 @@ user name: larry@google.com
 password: 123456
 ```
 
-
-*Chatwoot* &copy; 2017-2019, ThoughtWoot Inc - Released under the MIT License.
-
-[www.chatwoot.com](https://www.chatwoot.com)
-&nbsp;&middot;&nbsp;
-GitHub: [@chatwoot](https://github.com/chatwoot)
-&nbsp;&middot;&nbsp;
-Email: [hello@chatwoot.com](mailto:hello@chatwoot.com)
-
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -86,3 +78,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+
+
+*Chatwoot* &copy; 2017-2019, ThoughtWoot Inc - Released under the MIT License.
