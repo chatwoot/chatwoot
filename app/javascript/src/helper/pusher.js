@@ -25,10 +25,8 @@ class VuePusher {
     this.pusher.unsubscribe(channelName);
   }
 
-  // eslint-disable-next-line
   bindEvent(channel) {
     channel.bind('message.created', data => {
-      // Play sound if incoming
       if (!data.message_type) {
         new Audio(ding).play();
       }
@@ -44,25 +42,15 @@ class VuePusher {
     });
 
     channel.bind('assignee.changed', payload => {
-      const { meta } = payload;
-      if (!meta) return;
-      const { assignee } = meta;
-      const { id } = payload;
+      const { meta = {}, id } = payload;
+      const { assignee } = meta || {};
       if (id) {
-        this.app.$store.dispatch('updateAssignee', {
-          id,
-          assignee,
-        });
+        this.app.$store.dispatch('updateAssignee', { id, assignee });
       }
     });
 
-    channel.bind('user:logout', () => {
-      AuthAPI.logout();
-    });
-
-    channel.bind('page:reload', () => {
-      window.location.reload();
-    });
+    channel.bind('user:logout', () => AuthAPI.logout());
+    channel.bind('page:reload', () => window.location.reload());
   }
 }
 
