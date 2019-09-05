@@ -5,26 +5,12 @@ import router from '../routes';
 
 const parseErrorCode = error => {
   if (error.response) {
-    if (error.response.status === 401) {
-      // If auth failed
-    } else if (error.response.status === 500) {
-      // If server failed
-    } else if (error.response.status === 422) {
-      // If request params are errored
-    } else if (error.response.status === 901 || error.response.status === 902) {
-      let name = 'billing_deactivated';
-      if (Auth.isAdmin()) {
-        name = 'billing';
-      }
-      // If Trial ended
+    // 901, 902 are used to identify billing related issues
+    if ([901, 902].includes(error.response.status)) {
+      const name = Auth.isAdmin() ? 'billing' : 'billing_deactivated';
       router.push({ name });
-    } else {
-      // Anything else
     }
-  } else {
-    // Something happened in setting up the request that triggered an Error
   }
-  // Do something with request error
   return Promise.reject(error);
 };
 
