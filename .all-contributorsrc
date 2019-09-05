@@ -6,6 +6,22 @@
   "commit": false,
   "contributors": [
     {
+      "login": "nithindavid",
+      "name": "Nithin David Thomas",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1277421?v=4",
+      "profile": "http://nithindavid.me",
+      "contributions": [
+        "bug",
+        "blog",
+        "code",
+        "doc",
+        "design",
+        "maintenance",
+        "review"
+      ]
+    }
+  ],
+  {
       "login": "pranavrajs",
       "name": "Pranav Raj S",
       "avatar_url": "https://avatars3.githubusercontent.com/u/2246121?v=4",
