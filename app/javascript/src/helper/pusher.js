@@ -4,8 +4,6 @@ import Pusher from 'pusher-js';
 import AuthAPI from '../api/auth';
 import CONSTANTS from '../constants';
 
-const ding = require('../assets/audio/ding.mp3');
-
 class VuePusher {
   constructor(apiKey, options) {
     this.app = options.app;
@@ -27,9 +25,6 @@ class VuePusher {
 
   bindEvent(channel) {
     channel.bind('message.created', data => {
-      if (!data.message_type) {
-        new Audio(ding).play();
-      }
       this.app.$store.dispatch('addMessage', data);
     });
 
