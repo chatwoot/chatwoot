@@ -1,0 +1,29 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "pranavrajs",
+      "name": "Pranav Raj S",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2246121?v=4",
+      "profile": "https://github.com/pranavrajs",
+      "contributions": [
+        "bug",
+        "blog",
+        "code",
+        "doc",
+        "design",
+        "maintenance",
+        "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "chatwoot",
+  "projectOwner": "chatwoot",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
