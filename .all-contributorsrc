@@ -35,6 +35,16 @@
         "maintenance",
         "review"
       ]
+    },
+    {
+      "login": "subintp",
+      "name": "Subin T P",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1742357?v=4",
+      "profile": "http://www.linkedin.com/in/subintp",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
