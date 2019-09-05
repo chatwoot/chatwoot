@@ -1,4 +1,5 @@
 ![Woot-logo](.github/woot-logo.png)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 Opensource alternative to Intercom, Zendesk, Drift, Crisp etc.
 
@@ -65,3 +66,19 @@ password: 123456
 GitHub: [@chatwoot](https://github.com/chatwoot)
 &nbsp;&middot;&nbsp;
 Email: [hello@chatwoot.com](mailto:hello@chatwoot.com)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table>
+  <tr>
+    <td align="center"><a href="http://sojan.me"><img src="https://avatars1.githubusercontent.com/u/73185?v=4" width="100px;" alt="Sojan Jose"/><br /><sub><b>Sojan Jose</b></sub></a><br /><a href="https://github.com/chatwoot/chatwoot/issues?q=author%3Asojan-official" title="Bug reports">🐛</a> <a href="#blog-sojan-official" title="Blogposts">📝</a> <a href="https://github.com/chatwoot/chatwoot/commits?author=sojan-official" title="Code">💻</a> <a href="https://github.com/chatwoot/chatwoot/commits?author=sojan-official" title="Documentation">📖</a> <a href="#design-sojan-official" title="Design">🎨</a> <a href="#maintenance-sojan-official" title="Maintenance">🚧</a> <a href="#review-sojan-official" title="Reviewed Pull Requests">👀</a></td>
+  </tr>
+</table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
