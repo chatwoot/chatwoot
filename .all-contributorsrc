@@ -20,8 +20,22 @@
         "review"
       ]
     }
-  ],
-  {
+    {
+      "login": "sojan-official",
+      "name": "Sojan Jose",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/73185?v=4",
+      "profile": "http://sojan.me",
+      "contributions": [
+        "bug",
+        "blog",
+        "code",
+        "doc",
+        "design",
+        "maintenance",
+        "review"
+      ]
+    },
+    {
       "login": "pranavrajs",
       "name": "Pranav Raj S",
       "avatar_url": "https://avatars3.githubusercontent.com/u/2246121?v=4",
