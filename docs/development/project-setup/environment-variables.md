@@ -1,5 +1,3 @@
-## Environment variables
-
 ### Setup environment variables
 
 Copy `database` and `application` variables to the correct location.

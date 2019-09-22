@@ -1,6 +1,4 @@
-## Project dependencies
-
-### Install Chatwoot Ruby dependencies
+### Install Ruby dependencies
 
 Use the following command to install ruby dependencies.
 
@@ -8,7 +6,7 @@ Use the following command to install ruby dependencies.
 bundle
 ```
 
-### Install Chatwoot JavaScript dependencies
+### Install JavaScript dependencies
 
 ```bash
 yarn
