@@ -1,4 +1,4 @@
-## Setting up development environment in Ubuntu
+## Ubuntu
 
 Open a terminal and run the following commands
 
