@@ -5,14 +5,14 @@
 }
 
 // Tab chat type
-.tabs.tab--chat-type {
+.tab--chat-type {
   @include flex;
 
   .tabs-title {
     a {
       font-size: $font-size-default;
-      padding-top: $space-slab;
       padding-bottom: $space-slab;
+      padding-top: $space-slab;
     }
   }
 }
