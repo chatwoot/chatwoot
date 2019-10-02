@@ -15,7 +15,7 @@ ___
 
 ![ChatUI progess](https://chatwoot.com/images/dashboard-screen.png)
 
-## Build Setup
+## Quick Setup
 
 
 ### Install JS dependencies
@@ -58,6 +58,10 @@ http://localhost:3000
 user name: larry@google.com
 password: 123456
 ```
+
+### Detailed documentation
+
+Detailed documentation is available at [docs.chatwoot.com](https://docs.chatwoot.com) 
 
 ## Contributors ✨
 
