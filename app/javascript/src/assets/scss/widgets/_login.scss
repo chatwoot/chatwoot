@@ -35,7 +35,7 @@
     @include border-bottom-radius($space-smaller);
     @include border-left-radius($space-smaller);
     @include elegant-card;
-    padding: $space-large $space-large;
+    padding: $space-large;
     label {
       font-size: $font-size-default;
       color: $color-gray;
