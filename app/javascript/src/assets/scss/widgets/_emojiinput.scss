@@ -38,16 +38,16 @@
     .emojione {
       cursor: pointer;
       float: left;
-      margin: 0.6rem;
+      margin: .6rem;
     }
   }
 
   .emoji-category-title {
+    color: $color-heading;
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    color: $color-heading;
-    text-transform: capitalize;
     margin: 0;
+    text-transform: capitalize;
   }
 
   .emoji-category-heading-decoration {
@@ -64,30 +64,31 @@
   ul {
     list-style: none;
     margin: 0;
-    padding: $space-smaller 0 0 0;
-  }
+    padding: $space-smaller 0 0;
 
-  ul > li {
-    @include padding($space-small $space-small);
-    box-sizing: border-box;
-    cursor: pointer;
-    display: inline-block;
-    height: 3.4rem;
-    text-align: center;
-
-    img, svg {
-      filter: grayscale(100%);
+    > li {
+      @include padding($space-small $space-small);
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+      height: 3.4rem;
+      text-align: center;
     }
 
-    &.active {
-      background: #fff;
-      border-top-left-radius: $space-small;
-      border-top-right-radius: $space-small;
+    img,
+    svg {
+      filter: grayscale(100%);
+    }
+  }
 
-      img,
-      svg {
-        filter: grayscale(0);
-      }
+  ul > li.active {
+    background: $white;
+    border-top-left-radius: $space-small;
+    border-top-right-radius: $space-small;
+
+    img,
+    svg {
+      filter: grayscale(0);
     }
   }
 
@@ -99,5 +100,5 @@
 
 .emoji-dialog .emoji-row,
 .emoji-dialog .emoji-row .emoji:hover {
-  background: #F5F7F9;
+  background: $color-extra-light-blue;
 }
