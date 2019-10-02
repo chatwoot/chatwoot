@@ -1,20 +1,20 @@
 .emoji-dialog {
-  width: 28.6rem;
-  height: 20rem;
-  background: $color-white;
-  box-sizing: content-box;
-  border-radius: 2px;
-  position: absolute;
-  top: -22rem;
-  right: 0;
-  padding-bottom: $space-two;
   @include elegant-card;
+  background: $color-white;
+  border-radius: 2px;
+  box-sizing: content-box;
+  height: 20rem;
+  padding-bottom: $space-two;
+  position: absolute;
+  right: 0;
+  top: -22rem;
+  width: 28.6rem;
 
   &:before {
-    position: absolute;
-    bottom: -$space-slab;
-    right: $space-two;
     @include arrow(bottom, $color-white, $space-slab);
+    bottom: -$space-slab;
+    position: absolute;
+    right: $space-two;
   }
 
   .emojione {
@@ -23,22 +23,22 @@
   }
 
   .emoji-row {
-    box-sizing: border-box;
-    overflow-y: scroll;
-    height: 180px;
     @include padding($space-small);
+    box-sizing: border-box;
+    height: 180px;
+    overflow-y: scroll;
     padding-bottom: 0;
 
     .emoji {
+      border-radius: 4px;
       display: inline-block;
       padding: 5px;
-      border-radius: 4px;
     }
 
-    .emojione{
-      margin: 0.6rem;
-      float:left;
+    .emojione {
       cursor: pointer;
+      float: left;
+      margin: 0.6rem;
     }
 
   }
@@ -53,35 +53,35 @@
       margin: 0;
       list-style: none;
       padding-top: $space-smaller;
+    }
 
-      li {
-        display: inline-block;
-        box-sizing: border-box;
-        height: 3.4rem;
-        text-align: center;
-        @include padding($space-small $space-small);
-        cursor: pointer;
+    ul > li {
+      @include padding($space-small $space-small);
+      box-sizing: border-box;
+      cursor: pointer;
+      display: inline-block;
+      height: 3.4rem;
+      text-align: center;
 
-        img, svg {
-          -webkit-filter: grayscale(100%);
-          filter: grayscale(100%);
-        }
-
-        &.active {
-          background: #fff;
-          border-top-left-radius: $space-small;
-          border-top-right-radius: $space-small;
-
-          img,
-          svg {
-            -webkit-filter: grayscale(0);
-            filter: grayscale(0);
-          }
-        }
+      img, svg {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
       }
 
+      &.active {
+        background: #fff;
+        border-top-left-radius: $space-small;
+        border-top-right-radius: $space-small;
+
+        img,
+        svg {
+          -webkit-filter: grayscale(0);
+          filter: grayscale(0);
+        }
+      }
     }
   }
+
   .emoji-category-title {
     font-size: $font-size-small;
     font-weight: $font-weight-medium;
@@ -89,10 +89,10 @@
     text-transform: capitalize;
     margin: 0;
   }
+
   .emoji-category-heading-decoration {
     text-align: right;
   }
-
 }
 
 .emoji-dialog .emoji-category-header > * {
@@ -100,7 +100,7 @@
   vertical-align: middle;
 }
 
-.emoji-dialog .emoji-row
+.emoji-dialog .emoji-row,
 .emoji-dialog .emoji-row .emoji:hover {
   background: #F5F7F9;
 }
