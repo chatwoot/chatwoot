@@ -55,7 +55,7 @@
 
   .signup-box {
     @include elegant-card;
-    padding: $space-large $space-large;
+    padding: $space-large;
     label {
       font-size: $font-size-default;
       color: $color-gray;
