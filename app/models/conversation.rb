@@ -107,9 +107,9 @@ class Conversation < ApplicationRecord
 
   def create_activity
     return unless Current.user
-    
+
     user_name = Current.user&.name
-    # to prevent error when conversation is reopened by customer itself by sending a new message
+
     create_status_change_message(user_name) if status_changed?
     create_assignee_change(username) if assignee_id_changed?
   end
