@@ -121,23 +121,10 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
-    if status_changed? && Current.user #to prevent error when conversation is reopened by customer itself by sending a new message
-      if resolved?
-        content = "Conversation was marked resolved by #{Current.user.try(:name)}"
-      else
-        content = "Conversation was reopened by #{Current.user.try(:name)}"
-      end
-      self.messages.create(activity_message_params(content))
-    end
+    user_name = Current.user&.name
+    create_status_change_message(user_name) if status_changed? && Current.user #to prevent error when conversation is reopened by customer itself by sending a new message
 
-    if assignee_id_changed? && Current.user
-      if assignee_id
-        content = "Assigned to #{assignee.name} by #{Current.user.try(:name)}"
-      else
-        content = "Conversation unassigned by #{Current.user.try(:name)}"
-      end
-      self.messages.create(activity_message_params(content))
-    end
+    create_assignee_change(username) if assignee_id_changed? && Current.user
   end
 
   def activity_message_params content
@@ -166,7 +153,6 @@ class Conversation < ApplicationRecord
     end
   end
 
-
   def run_round_robin
     if true #conversation.account.has_feature?(round_robin)
       if true #conversation.account.round_robin_enabled?
@@ -176,5 +162,25 @@ class Conversation < ApplicationRecord
         end
       end
     end
+  end
+
+  def create_status_change_message(user_name)
+    if resolved?
+      content = "Conversation was marked resolved by #{user_name}"
+    else
+      content = "Conversation was reopened by #{user_name}"
+    end
+
+    messages.create(activity_message_params(content))
+  end
+
+  def create_assignee_change(username)
+    if assignee_id
+      content = "Assigned to #{assignee.name} by #{username}"
+    else
+      content = "Conversation unassigned by #{username}"
+    end
+
+    messages.create(activity_message_params(content))
   end
 end
