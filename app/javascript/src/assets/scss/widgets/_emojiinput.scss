@@ -81,11 +81,13 @@
     }
   }
 
-  ul > li.active {
+  ul > .active {
     background: $white;
     border-top-left-radius: $space-small;
     border-top-right-radius: $space-small;
+  }
 
+  li.active {
     img,
     svg {
       filter: grayscale(0);
