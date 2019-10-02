@@ -27,7 +27,6 @@ class Plan
   end
 
   class << self
-
     def config
       Hashie::Mash.new(PLAN_CONFIG)
     end
@@ -41,7 +40,7 @@ class Plan
     end
 
     def default_plans
-      load_plans_from_config
+      load_active_plans + load_inactive_plans
     end
 
     def all_plans
@@ -49,7 +48,7 @@ class Plan
     end
 
     def active_plans
-      all_plans.select{|plan| plan.active }
+      all_plans.select { |plan| plan.active }
     end
 
     def paid_plan
@@ -57,44 +56,29 @@ class Plan
     end
 
     def inactive_plans
-      all_plans.reject{|plan| plan.active }
+      all_plans.reject(&:active)
     end
 
     def trial_plan
-      all_plans.select{|plan| plan.key == :trial}.first
+      all_plans.select { |plan| plan.key == :trial }.first
     end
 
     def plans_of_version(version)
-      all_plans.select{|plan| plan.version == version}
+      all_plans.select { |plan| plan.version == version }
     end
 
     def find_by_key(key)
       key = key.to_sym
-      all_plans.select{|plan| plan.key == key}.first.dup
-    end
-
-    def get_plan_of_account(account)
-      # subscription = account.subscription
-      # plan = find_by_key(account.billing_plan)
-    end
-
-    def get_active_plans_for_account(account)
-      # subscription = account.subscription
-      # version = subscription.pricing_version
-      # return plans_of_version(version) + [trial_plan]
+      all_plans.select { |plan| plan.key == key }.first.dup
     end
 
     ##helpers
-
-    def load_plans_from_config
-      load_active_plans + load_inactive_plans
-    end
 
     def load_active_plans
       result = []
       Plan.config.active.each_pair do |version, plans|
         plans.each_pair do |key, attributes|
-          result << Plan.new(key, attributes.merge({active: true, version: version}))
+          result << Plan.new(key, attributes.merge(active: true, version: version))
         end
       end
       result
@@ -104,7 +88,7 @@ class Plan
       result = []
       Plan.config.inactive.each_pair do |version, plans|
         plans.each_pair do |key, attributes|
-          result << Plan.new(key, attributes.merge({active: false, version: version}))
+          result << Plan.new(key, attributes.merge(active: false, version: version))
         end
       end
       result

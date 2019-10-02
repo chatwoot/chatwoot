@@ -106,10 +106,24 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
+    return unless Current.user
+    
     user_name = Current.user&.name
     # to prevent error when conversation is reopened by customer itself by sending a new message
-    create_status_change_message(user_name) if status_changed? && Current.user
-    create_assignee_change(username) if assignee_id_changed? && Current.user
+    create_status_change_message(user_name) if status_changed?
+    create_assignee_change(username) if assignee_id_changed?
+  end
+
+  def status_changed_message
+    return "Conversation was marked resolved by #{Current.user.try(:name)}" if resolved?
+
+    "Conversation was reopened by #{Current.user.try(:name)}"
+  end
+
+  def assignee_changed_message
+    return "Assigned to #{assignee.name} by #{Current.user.try(:name)}" if assignee_id
+
+    "Conversation unassigned by #{Current.user.try(:name)}"
   end
 
   def activity_message_params(content)
