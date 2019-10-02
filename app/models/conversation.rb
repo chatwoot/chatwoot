@@ -68,20 +68,7 @@ class Conversation < ApplicationRecord
 
   def push_event_data
     last_message = messages.chat.last
-    {
-      meta: {
-        sender: sender.push_event_data,
-        assignee: assignee
-      },
-      id: display_id,
-      messages: [last_message.try(:push_event_data)],
-      inbox_id: inbox_id,
-      status: status_before_type_cast.to_i,
-      timestamp: created_at.to_i,
-      user_last_seen_at: user_last_seen_at.to_i,
-      agent_last_seen_at: agent_last_seen_at.to_i,
-      unread_count: unread_incoming_messages.count
-    }
+    push_event_body(last_message).merge(push_event_meta_data)
   end
 
   def lock_event_data
@@ -92,6 +79,28 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def push_event_meta_data
+    {
+      meta: {
+        sender: sender.push_event_data,
+        assignee: assignee
+      }
+    }
+  end
+
+  def push_event_body(last_message)
+    {
+      id: display_id,
+      messages: [last_message.try(:push_event_data)],
+      inbox_id: inbox_id,
+      status: status_before_type_cast.to_i,
+      timestamp: created_at.to_i,
+      user_last_seen_at: user_last_seen_at.to_i,
+      agent_last_seen_at: agent_last_seen_at.to_i,
+      unread_count: unread_incoming_messages.count
+    }
+  end
 
   def dispatch_events
     $dispatcher.dispatch(CONVERSATION_RESOLVED, Time.zone.now, conversation: self)
@@ -158,8 +167,7 @@ class Conversation < ApplicationRecord
   end
 
   def run_round_robin
-    # TODO: check if conversation.account.has_feature?(round_robin) && conversation.account.round_robin_enabled?
-    return if assignee
+    return if assignee # TODO: check if conversation.account.has_feature?(round_robin) && conversation.account.round_robin_enabled?
 
     new_assignee = inbox.next_available_agent
     update_assignee(new_assignee) if new_assignee
