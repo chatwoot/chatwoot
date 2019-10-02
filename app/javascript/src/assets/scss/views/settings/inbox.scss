@@ -184,7 +184,7 @@
       font-size: $font-size-small;
       color: $medium-gray;
       opacity: .7;
-      @include transform(translateX(0px));
+      @include transform(translateX(0));
       @include transition(opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s);
     }
   }
