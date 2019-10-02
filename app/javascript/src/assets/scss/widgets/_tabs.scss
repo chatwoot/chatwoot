@@ -2,17 +2,17 @@
   @include padding($zero $space-normal);
   @include border-normal-bottom;
   border-width: 0;
+}
 
-  // tab chat type
-  &.tab--chat-type {
-    @include flex;
+// Tab chat type
+.tabs.tab--chat-type {
+  @include flex;
 
-    .tabs-title {
-      a {
-        font-size: $font-size-default;
-        padding-top: $space-slab;
-        padding-bottom: $space-slab;
-      }
+  .tabs-title {
+    a {
+      font-size: $font-size-default;
+      padding-top: $space-slab;
+      padding-bottom: $space-slab;
     }
   }
 }
@@ -45,8 +45,8 @@
 
   &.is-active {
     a {
-      color: $color-woot;
       border-bottom-color: $color-woot;
+      color: $color-woot;
     }
   }
 }
