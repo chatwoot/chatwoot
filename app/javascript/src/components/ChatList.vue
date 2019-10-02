@@ -2,7 +2,7 @@
   <div class="conversations-sidebar  medium-4 columns">
     <!-- <SearchBox></SearchBox> -->
 
-    <div class="chat-list__top">
+    <div class="chat-list-top">
       <h1 class="page-title">
         {{ getInboxName }}
       </h1>

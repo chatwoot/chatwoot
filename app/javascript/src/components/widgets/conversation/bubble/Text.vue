@@ -1,15 +1,12 @@
 <template>
-  <span class="message-text__wrap">
-    <span v-html="message" class="message-text"></span>
-    <span class="time">{{readableTime}}</span>
+  <span class="message-text-wrap">
+    <span class="message-text" v-html="message"></span>
+    <span class="time">{{ readableTime }}</span>
   </span>
 </template>
 
 <script>
 export default {
-  props: [
-    'message',
-    'readableTime',
-  ],
+  props: ['message', 'readableTime'],
 };
 </script>

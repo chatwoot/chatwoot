@@ -1,10 +1,7 @@
 <template>
-  <div class="audio message-text__wrap">
-    <a-player
-      :music="playerOptions"
-      mode="order"
-    />
-    <span class="time">{{readableTime}}</span>
+  <div class="audio message-text-wrap">
+    <a-player :music="playerOptions" mode="order" />
+    <span class="time">{{ readableTime }}</span>
   </div>
 </template>
 
@@ -15,10 +12,7 @@ export default {
   components: {
     APlayer,
   },
-  props: [
-    'url',
-    'readableTime',
-  ],
+  props: ['url', 'readableTime'],
   data() {
     return {
       musicObj: {
