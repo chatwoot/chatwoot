@@ -22,36 +22,36 @@
       // height: $woot-logo-height;
     }
   }
+}
 
-  // bottom-nav
-  .bottom-nav {
-    @include flex;
-    @include space-between-column;
-    @include padding($space-one $space-normal $space-one $space-one);
-    @include flex-direction(column);
-    @include border-normal-top;
-    position: relative;
+// bottom-nav
+.bottom-nav {
+  @include flex;
+  @include space-between-column;
+  @include padding($space-one $space-normal $space-one $space-one);
+  @include flex-direction(column);
+  @include border-normal-top;
+  position: relative;
 
-    .dropdown-pane {
-      @include elegant-card;
-      @include border-light;
-      left: 18%;
-      top: -160%;
-      visibility: visible;
-      width: 80%;
-      z-index: 999;
+  .dropdown-pane {
+    @include elegant-card;
+    @include border-light;
+    left: 18%;
+    top: -160%;
+    visibility: visible;
+    width: 80%;
+    z-index: 999;
 
-      &::before {
-        @include arrow(bottom, $color-white, $space-slab);
-        bottom: -$space-slab;
-        position: absolute;
-        right: $space-slab;
-      }
+    &::before {
+      @include arrow(bottom, $color-white, $space-slab);
+      bottom: -$space-slab;
+      position: absolute;
+      right: $space-slab;
     }
+  }
 
-    .active {
-      border-bottom: 2px solid $medium-gray;
-    }
+  .active {
+    border-bottom: 2px solid $medium-gray;
   }
 }
 
@@ -79,12 +79,12 @@
       margin-left: auto;
     }
   }
+}
 
-  .menu-title + ul > li > a {
-    @include padding($space-micro null);
-    color: $medium-gray;
-    line-height: $global-lineheight;
-  }
+.menu-title + ul > li > a {
+  @include padding($space-micro null);
+  color: $medium-gray;
+  line-height: $global-lineheight;
 }
 
 .current-user {
