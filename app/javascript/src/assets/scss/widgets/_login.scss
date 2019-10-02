@@ -6,7 +6,7 @@
 .login {
   @include full-height;
   overflow-y: scroll;
-  padding-top: $space-larger*1.2;
+  padding-top: $space-larger * 1.2;
 
   .login__hero {
     margin-bottom: $space-larger;
@@ -16,13 +16,13 @@
     }
 
     .hero__title {
-      margin-top: $space-larger;
       font-weight: $font-weight-light;
+      margin-top: $space-larger;
     }
 
     .hero__sub {
-      font-size: $font-size-medium;
       color: $medium-gray;
+      font-size: $font-size-medium;
     }
   }
 
@@ -36,15 +36,17 @@
     @include border-left-radius($space-smaller);
     @include elegant-card;
     padding: $space-large;
+
     label {
-      font-size: $font-size-default;
       color: $color-gray;
+      font-size: $font-size-default;
 
       input {
         padding: $space-slab;
         height: $space-larger;
         font-size: $font-size-default;
       }
+
       .error {
         font-size: $font-size-small;
       }
@@ -52,8 +54,8 @@
   }
 
   .sigin__footer {
-    padding: $space-medium;
     font-size: $font-size-default;
+    padding: $space-medium;
 
     > a {
       font-weight: $font-weight-bold;
