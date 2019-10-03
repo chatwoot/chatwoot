@@ -1,25 +1,25 @@
 .signup {
   // margin-top: $space-larger*1.2;
 
-  .signup__hero {
+  .signup--hero {
     margin-bottom: $space-larger*1.5;
 
-    .hero__logo {
+    .hero--logo {
       width: 180px;
     }
 
-    .hero__title {
+    .hero--title {
       margin-top: $space-large;
       font-weight: $font-weight-light;
     }
 
-    .hero__sub {
+    .hero--sub {
       font-size: $font-size-medium;
       color: $medium-gray;
     }
   }
 
-  .signup__features {
+  .signup--features {
     list-style-type: none;
     font-size: $font-size-medium;
 
@@ -53,7 +53,7 @@
     }
   }
 
-  .signup-box {
+  .signup--box {
     @include elegant-card;
     padding: $space-large;
     label {
@@ -71,7 +71,7 @@
     }
   }
 
-  .sigin__footer {
+  .sigin--footer {
     padding: $space-medium;
     font-size: $font-size-default;
 
@@ -80,7 +80,7 @@
     }
   }
 
-  .accept-terms {
+  .accept--terms {
     font-size: $font-size-mini;
     text-align: center;
     @include margin($zero);
