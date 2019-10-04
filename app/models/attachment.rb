@@ -9,35 +9,46 @@ class Attachment < ApplicationRecord
   before_create :set_file_extension
 
   def push_event_data
-    data = {
+    return base_data.merge(location_metadata) if file_type.to_sym == :location
+    return base_data.merge(fallback_data) if file_type.to_sym == :fallback
+
+    base_data.merge(file_metadata)
+  end
+
+  private
+
+  def file_metadata
+    {
+      extension: extension,
+      data_url: file_url,
+      thumb_url: file.try(:thumb).try(:url) # will exist only for images
+    }
+  end
+
+  def location_metadata
+    {
+      coordinates_lat: coordinates_lat,
+      coordinates_long: coordinates_long,
+      fallback_title: fallback_title,
+      data_url: external_url
+    }
+  end
+
+  def fallback_data
+    {
+      fallback_title: fallback_title,
+      data_url: external_url
+    }
+  end
+
+  def base_data
+    {
       id: id,
       message_id: message_id,
       file_type: file_type,
       account_id: account_id
     }
-    if [:image, :file, :audio, :video].include? file_type.to_sym
-      data.merge!({
-        extension: extension,
-        data_url: file_url,
-        thumb_url: file.try(:thumb).try(:url) #will exist only for images
-    })
-    elsif :location == file_type.to_sym
-      data.merge!({
-        coordinates_lat: coordinates_lat,
-        coordinates_long: coordinates_long,
-        fallback_title: fallback_title,
-        data_url: external_url
-      })
-    elsif :fallback == file_type.to_sym
-      data.merge!({
-        fallback_title: fallback_title,
-        data_url: external_url
-      })
-   end
-   data
   end
-
-  private
 
   def set_file_extension
     if self.external_url && !self.fallback?
