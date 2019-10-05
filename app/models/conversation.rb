@@ -149,22 +149,21 @@ class Conversation < ApplicationRecord
   end
 
   def notify_status_change
-    if status_changed?
-      if resolved? && assignee.present?
-        $dispatcher.dispatch(CONVERSATION_RESOLVED, Time.zone.now, conversation: self)
-      end
-    end
-    if user_last_seen_at_changed?
-      $dispatcher.dispatch(CONVERSATION_READ, Time.zone.now, conversation: self)
-    end
-    if locked_changed?
-      $dispatcher.dispatch(CONVERSATION_LOCK_TOGGLE, Time.zone.now, conversation: self)
-    end
-    if assignee_id_changed?
-      $dispatcher.dispatch(ASSIGNEE_CHANGED, Time.zone.now, conversation: self)
+    resolve_conversation if status_changed?
+    dispatcher_dispatch(CONVERSATION_READ) if user_last_seen_at_changed?
+    dispatcher_dispatch(CONVERSATION_LOCK_TOGGLE) if locked_changed?
+    dispatcher_dispatch(ASSIGNEE_CHANGED) if assignee_id_changed?
+  end
+
+  def resolve_conversation
+    if resolved? && assignee.present?
+      dispatcher_dispatch(CONVERSATION_RESOLVED)
     end
   end
 
+  def dispatcher_dispatch(event_name)
+    $dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
+  end
 
   def run_round_robin
     if true #conversation.account.has_feature?(round_robin)
