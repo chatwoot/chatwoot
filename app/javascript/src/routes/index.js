@@ -53,31 +53,47 @@ const authIgnoreRoutes = [
   'auth_password_edit',
 ];
 
+function routeIsAccessibleFor(route, role) {
+  return window.roleWiseRoutes[role].includes(route);
+}
+
+const routeValidators = [
+  {
+    protected: false,
+    loggedIn: true,
+    handler: () => 'dashboard',
+  },
+  {
+    protected: true,
+    loggedIn: false,
+    handler: () => 'login',
+  },
+  {
+    protected: true,
+    loggedIn: true,
+    handler: to => {
+      const user = auth.getCurrentUser();
+      const isAccessible = routeIsAccessibleFor(to, user.role);
+      return isAccessible ? null : 'dashboard';
+    },
+  },
+  {
+    protected: false,
+    loggedIn: false,
+    handler: () => null,
+  },
+];
+
 const validateAuthenticateRoutePermission = (to, from, next) => {
   const isLoggedIn = auth.isLoggedIn();
-  const currentUser = auth.getCurrentUser();
-
-  const isAnUnprotectedRoute = unProtectedRoutes.includes(to.name);
-  if (isAnUnprotectedRoute && isLoggedIn) {
-    return next(frontendURL('dashboard'));
-  }
-
-  const isAProtectedRoute = !unProtectedRoutes.includes(to.name);
-  if (isAProtectedRoute && !isLoggedIn) {
-    return next(frontendURL('login'));
-  }
-
-  if (isAProtectedRoute && isLoggedIn) {
-    // Check if next route is accessible by given role
-    const isAccessible = window.roleWiseRoutes[currentUser.role].includes(
-      to.name
-    );
-    if (!isAccessible) {
-      return next(frontendURL('dashboard'));
-    }
-  }
-
-  return next();
+  const isProtectedRoute = !unProtectedRoutes.includes(to.name);
+  const strategy = routeValidators.find(
+    validator =>
+      validator.protected === isProtectedRoute &&
+      validator.loggedIn === isLoggedIn
+  );
+  const nextRoute = strategy.handler(to.name);
+  return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 
 const validateRouteAccess = (to, from, next) => {
