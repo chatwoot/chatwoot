@@ -10,12 +10,8 @@ class Api::V1::InboxMembersController < Api::BaseController
     # the new ones are the agents which are to be added to the inbox
     if @inbox
       begin
-        agents_to_be_added_ids.each do |user_id|
-          @inbox.add_member(user_id)
-        end
-        agents_to_be_removed_ids.each do |user_id|
-          @inbox.remove_member(user)
-        end
+        add_agents
+        remove_agents
         head :ok
       rescue => e
         render_could_not_create_error("Could not add agents to inbox")
@@ -30,6 +26,18 @@ class Api::V1::InboxMembersController < Api::BaseController
   end
 
   private
+
+  def add_agents
+    agents_to_be_added_ids.each do |user_id|
+      @inbox.add_member(user_id)
+    end
+  end
+
+  def remove_agents
+    agents_to_be_removed_ids.each do |user_id|
+      @inbox.remove_member(user)
+    end
+  end
 
   def agents_to_be_added_ids
     params[:user_ids] - @current_agents_ids
