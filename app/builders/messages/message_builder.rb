@@ -126,22 +126,18 @@ Assumptions
   end
 
   def contact_params
-    if @inbox.facebook?
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token)
-      begin
-        result = k.get_object(@sender_id)
-      rescue => e
-        result = {}
-        Raven.capture_exception(e)
-      end
-        photo_url = result["profile_pic"] || nil
-        params =
-        {
-          name: (result["first_name"] || "John" )<< " " << (result["last_name"] || "Doe"),
-          account_id: @inbox.account_id,
-          source_id: @sender_id,
-          remote_avatar_url: photo_url
-        }
+    begin
+      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
+      result = k.get_object(@sender_id) || {}
+    rescue Exception => e
+      result = {}
+      Raven.capture_exception(e)
     end
+    params = {
+     name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
+     account_id: @inbox.account_id,
+     source_id: @sender_id,
+     remote_avatar_url: result['profile_pic'] || nil
+    }
   end
 end
