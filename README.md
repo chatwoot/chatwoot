@@ -11,7 +11,8 @@ ___
 ![License](https://img.shields.io/github/license/chatwoot/chatwoot)
 [![Maintainability](https://api.codeclimate.com/v1/badges/80f9e1a7c72d186289ad/maintainability)](https://codeclimate.com/github/chatwoot/chatwoot/maintainability)
 ![Commits-per-month](https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot)
-![ChatUI progess](https://chatwoot.com/images/dashboard-screen.png)
+
+![ChatUI progess](./.github/dashboard-screen.png)
 
 ## Quick Setup
 
