@@ -33,7 +33,7 @@
       @include margin($space-normal auto);
     }
 
-    .channel__title{
+    .channel--title{
       font-size: $font-size-large;
       text-align: center;
       color: $color-body;

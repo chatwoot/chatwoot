@@ -8,19 +8,19 @@
   overflow-y: scroll;
   padding-top: $space-larger * 1.2;
 
-  .login__hero {
+  .login--hero {
     margin-bottom: $space-larger;
 
-    .hero__logo {
+    .hero--logo {
       width: 180px;
     }
 
-    .hero__title {
+    .hero--title {
       font-weight: $font-weight-light;
       margin-top: $space-larger;
     }
 
-    .hero__sub {
+    .hero--sub {
       color: $medium-gray;
       font-size: $font-size-medium;
     }
@@ -53,7 +53,7 @@
     }
   }
 
-  .sigin__footer {
+  .sigin--footer {
     font-size: $font-size-default;
     padding: $space-medium;
 

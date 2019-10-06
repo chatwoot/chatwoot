@@ -2,7 +2,7 @@
   @include flex;
   @include flex-direction(column);
 
-  .chat-list__top {
+  .chat-list--top {
     @include padding($space-normal $zero $space-small $zero);
     .page-title {
       float: left;
@@ -208,7 +208,7 @@
           color: $color-body;
         }
 
-        .message-text__wrap {
+        .message-text--wrap {
           position: relative;
         }
         .message-text {
@@ -239,7 +239,7 @@
         right: $space-small;
         bottom: $space-smaller;
       }
-      .message-text__wrap {
+      .message-text--wrap {
         position: relative;
       }
       .message-text {

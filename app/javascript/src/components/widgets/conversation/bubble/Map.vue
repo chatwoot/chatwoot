@@ -1,5 +1,5 @@
 <template>
-  <div class="map message-text__wrap">
+  <div class="map message-text--wrap">
     <img
       :src="locUrl"
     />

@@ -1,5 +1,5 @@
 <template>
-  <div class="image message-text__wrap">
+  <div class="image message-text--wrap">
     <img
       :src="url"
       v-on:click="onClick"

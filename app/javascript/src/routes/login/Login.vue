@@ -1,8 +1,8 @@
 <template>
   <div class="medium-12 column login">
-    <div class="text-center medium-12 login__hero align-self-top">
-      <img src="~assets/images/woot-logo.svg" alt="Woot-logo" class="hero__logo" />
-      <h2 class="hero__title">{{$t('LOGIN.TITLE')}}</h2>
+    <div class="text-center medium-12 login--hero align-self-top">
+      <img src="~assets/images/woot-logo.svg" alt="Woot-logo" class="hero--logo" />
+      <h2 class="hero--title">{{$t('LOGIN.TITLE')}}</h2>
     </div>
     <div class="row align-center">
       <div class="small-12 medium-4 column">
@@ -27,7 +27,7 @@
             <!-- <input type="submit" class="button " v-on:click.prevent="login()" v-bind:value="" > -->
           </div>
         </form>
-        <div class="column text-center sigin__footer">
+        <div class="column text-center sigin--footer">
           <p>
             <router-link to="auth/reset/password">
               {{$t('LOGIN.FORGOT_PASSWORD')}}

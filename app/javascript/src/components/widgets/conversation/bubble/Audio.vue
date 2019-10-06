@@ -1,5 +1,5 @@
 <template>
-  <div class="audio message-text__wrap">
+  <div class="audio message-text--wrap">
     <a-player
       :music="playerOptions"
       mode="order"

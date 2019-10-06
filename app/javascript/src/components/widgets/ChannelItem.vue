@@ -4,7 +4,7 @@
     <img src="~assets/images/channels/twitter.png" v-if="channel === 'twitter'">
     <img src="~assets/images/channels/telegram.png" v-if="channel === 'telegram'">
     <img src="~assets/images/channels/line.png" v-if="channel === 'line'">
-    <h3 class="channel__title">{{channel}}</h3>
+    <h3 class="channel--title">{{channel}}</h3>
     <!-- <p>This is the most sexiest integration to begin </p> -->
   </div>
 </template>

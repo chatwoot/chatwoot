@@ -1,6 +1,6 @@
 .error {
   #{$all-text-inputs},
-  .multiselect > .multiselect__tags {
+  .multiselect > .multiselect--tags {
     @include thin-border( darken(get-color(alert), 25%));
   }
 }

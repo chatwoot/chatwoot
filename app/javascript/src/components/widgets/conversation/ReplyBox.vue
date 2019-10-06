@@ -1,6 +1,6 @@
 <template>
   <div class="reply-box">
-    <div class="reply-box__top" :class="{ 'is-private': private }">
+    <div class="reply-box--top" :class="{ 'is-private': private }">
       <canned-response
         v-on-clickaway="hideCannedResponse"
         data-dropdown-menu
@@ -22,7 +22,7 @@
       <i class="icon ion-happy-outline" :class="{ active: showEmojiPicker}" @click="toggleEmojiPicker()"></i>
     </div>
 
-    <div class="reply-box__bottom" >
+    <div class="reply-box--bottom" >
       <ul class="tabs">
         <li class="tabs-title" v-bind:class="{ 'is-active': !private }">
           <a href="#" @click="makeReply" >Reply</a>

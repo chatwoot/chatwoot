@@ -5,11 +5,11 @@
     @include full-height;
   }
 
-  .billing__stats {
+  .billing--stats {
     @include flex;
   }
 
-  .billing__form {
+  .billing--form {
     @include thin-border($color-border-light);
     @include margin($zero - $space-micro);
     @include full-height;

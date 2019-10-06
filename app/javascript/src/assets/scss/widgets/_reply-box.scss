@@ -6,7 +6,7 @@
   @include transition(height 2s $ease-in-out-cubic);
   max-height: $space-jumbo*2;
 
-  .reply-box__top {
+  .reply-box--top {
     @include flex;
     @include flex-align($x: left, $y: middle);
     @include padding($space-one $space-normal);
@@ -67,7 +67,7 @@
     }
   }
 
-  .reply-box__bottom {
+  .reply-box--bottom {
     @include background-light;
     @include flex;
     @include flex-align($x: justify, $y: middle);

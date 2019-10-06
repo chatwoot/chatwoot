@@ -2,23 +2,23 @@
   min-height: 38px;
   margin-bottom: $space-normal;
 
-  > .multiselect__tags {
+  > .multiselect--tags {
     padding-top: $zero;
     min-height: 38px;
     border-radius: 0;
     border: 1px solid $light-gray;
     @include margin(0);
 
-    .multiselect__tag {
+    .multiselect--tag {
       margin-top: $space-smaller;
     }
 
-    .multiselect__input {
+    .multiselect--input {
       @include ghost-input;
       margin-bottom: $zero;
       @include padding($zero);
     }
-    .multiselect__single {
+    .multiselect--single {
       @include padding($space-small);
       margin-bottom: 0;
     }
