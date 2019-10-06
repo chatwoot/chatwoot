@@ -35,3 +35,6 @@ config/application.yml
 
 public/uploads
 public/packs
+
+# ignore jetbrains IDE files
+.idea
