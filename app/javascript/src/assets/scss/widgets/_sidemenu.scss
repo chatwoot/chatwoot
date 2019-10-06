@@ -1,120 +1,132 @@
 .side-menu {
   i {
-      min-width: 2rem;
+    min-width: 2rem;
   }
 }
 
-
 .sidebar {
-  width: $nav-bar-width;
-  z-index: 1024 - 1;
-  overflow-x: hidden;
   @include border-normal-right;
   @include background-white;
   @include full-height;
   @include margin(0);
   @include space-between-column;
+  overflow-x: hidden;
+  width: $nav-bar-width;
+  z-index: 1024 - 1;
 
   //logo
   .logo {
     img {
+      @include padding($woot-logo-padding);
       // width: $woot-logo-width;
       // height: $woot-logo-height;
-      @include padding($woot-logo-padding);
     }
   }
 
   .main-nav {
-    @include flex-weight(1);
-    padding: 0 $space-medium - $space-one;
-    @include scroll-on-hover;
-
     a {
+      border-radius: $space-smaller;
       color: $color-gray;
       font-size: $font-size-default;
-      border-radius: $space-smaller;
-      &:before {
-        margin-right: $space-slab;
-      }
     }
+  }
+}
 
-    .menu-title {
-      font-size: $font-size-medium;
-      color: $color-gray;
-      margin-top: $space-medium;
-      > span {
-        margin-left: auto;
-      }
-      & + ul > li > a{
-        @include padding($space-micro null);
-        line-height: $global-lineheight;
-        color: $medium-gray;
-      }
+// bottom-nav
+.bottom-nav {
+  @include flex;
+  @include space-between-column;
+  @include padding($space-one $space-normal $space-one $space-one);
+  @include flex-direction(column);
+  @include border-normal-top;
+  position: relative;
+
+  .dropdown-pane {
+    @include elegant-card;
+    @include border-light;
+    left: 18%;
+    top: -160%;
+    visibility: visible;
+    width: 80%;
+    z-index: 999;
+
+    &::before {
+      @include arrow(bottom, $color-white, $space-slab);
+      bottom: -$space-slab;
+      position: absolute;
+      right: $space-slab;
     }
   }
 
-  // bottom-nav
-  .bottom-nav {
+  .active {
+    border-bottom: 2px solid $medium-gray;
+  }
+}
+
+.main-nav {
+  @include flex-weight(1);
+  @include scroll-on-hover;
+  padding: 0 $space-medium - $space-one;
+
+  a {
+    &::before {
+      margin-right: $space-slab;
+    }
+  }
+
+  .menu-title {
+    color: $color-gray;
+    font-size: $font-size-medium;
+    margin-top: $space-medium;
+
+    > span {
+      margin-left: auto;
+    }
+  }
+}
+
+.menu-title + ul > li > a {
+  @include padding($space-micro null);
+  color: $medium-gray;
+  line-height: $global-lineheight;
+}
+
+.current-user {
+  @include flex;
+  @include flex-direction(row);
+  cursor: pointer;
+
+  .current-user--thumbnail {
+    @include round-corner();
+    height: $space-large;
+    width: $space-large;
+  }
+
+  .current-user--data {
     @include flex;
-    @include space-between-column;
-    @include padding($space-one $space-normal $space-one $space-one);
     @include flex-direction(column);
-    @include border-normal-top;
-    position: relative;
 
-    .current-user {
-      @include flex;
-      @include flex-direction(row);
-      cursor: pointer;
-
-      .current-user--thumbnail {
-        width: $space-large;
-        height: $space-large;
-        @include round-corner();
-      }
-      .current-user--data {
-        @include flex;
-        @include flex-direction(column);
-        .current-user--name {
-          font-size: $font-size-small;
-          font-weight: $font-weight-medium;
-          margin-bottom: $zero;
-          margin-left: $space-one;
-          margin-top: $space-micro;
-          line-height: 1;
-        }
-        .current-user--role {
-          font-size: $font-size-mini;
-          margin-left: $space-one;
-          margin-bottom: $zero;
-          color: $color-gray;
-        }
-      }
-      .current-user--options {
-        margin-left: auto;
-        font-size: $font-size-big;
-        margin-top: auto;
-        margin-bottom: auto;
-      }
+    .current-user--name {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      line-height: 1;
+      margin-bottom: $zero;
+      margin-left: $space-one;
+      margin-top: $space-micro;
     }
 
-    .dropdown-pane {
-      @include elegant-card;
-      top: -160%;
-      left: 18%;
-      width: 80%;
-      @include border-light;
-      z-index: 999;
-      visibility: visible;
-      &:before {
-        position: absolute;
-        bottom: -$space-slab;
-        right: $space-slab;
-        @include arrow(bottom, $color-white, $space-slab);
-      }
+    .current-user--role {
+      color: $color-gray;
+      font-size: $font-size-mini;
+      margin-bottom: $zero;
+      margin-left: $space-one;
     }
-    .active {
-      border-bottom: 2px solid $medium-gray;
-    }
+  }
+
+  .current-user--options {
+    font-size: $font-size-big;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
   }
 }
