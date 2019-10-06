@@ -2,6 +2,7 @@
   <img src=".github/woot-logo.svg" alt="Woo-logo" width="240">
   <div align="center">Opensource alternative to Intercom, Zendesk, Drift, Crisp etc.</div>
 </p>
+
 ___
 
 ![CircleCI Badge](https://img.shields.io/circleci/build/github/chatwoot/chatwoot)
