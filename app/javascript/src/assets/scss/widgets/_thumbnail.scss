@@ -1,14 +1,16 @@
 .user-thumbnail-box {
-  position: relative;
   @include flex-shrink;
+  position: relative;
+
   .user-thumbnail {
     border-radius: 50%;
   }
+
   .source-badge {
-    position: absolute;
+    bottom: -$space-micro / 2;
     height: $space-slab;
-    width: $space-slab;
+    position: absolute;
     right: $zero;
-    bottom: -$space-micro/2;
+    width: $space-slab;
   }
 }

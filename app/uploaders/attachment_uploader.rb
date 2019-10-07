@@ -3,7 +3,7 @@ class AttachmentUploader < CarrierWave::Uploader::Base
 
   def store_dir
     if Rails.env.test?
-      "#{Rails.root}/spec/support/uploads/avatar/#{model.class.to_s.underscore}/#{model.id}"
+      "#{Rails.root}/spec/support/uploads/attachments/#{model.class.to_s.underscore}/#{model.id}"
     else
       "uploads/attachments/#{model.class.to_s.underscore}/#{model.id}"
     end
