@@ -1,7 +1,9 @@
 .tabs {
   @include padding($zero $space-normal);
   @include border-normal-bottom;
-  border-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
 }
 
 // Tab chat type
