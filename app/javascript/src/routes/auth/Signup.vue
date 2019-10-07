@@ -1,21 +1,21 @@
 <template>
   <div class="medium-10 column signup">
-    <div class="text-center medium-12 signup__hero">
+    <div class="text-center medium-12 signup--hero">
       <img
         src="~assets/images/woot-logo.svg"
         alt="Woot-logo"
-        class="hero__logo"
+        class="hero--logo"
       />
-      <h2 class="hero__title">
+      <h2 class="hero--title">
         {{ $t('REGISTER.TRY_WOOT') }}
       </h2>
-      <p class="hero__sub">
+      <p class="hero--sub">
         {{ $t('REGISTER.TRY_WOOT_SUB') }}
       </p>
     </div>
     <div class="row align-center">
       <div class="medium-5 column">
-        <ul class="signup__features">
+        <ul class="signup--features">
           <li><i class="ion-beer beer"></i>Unlimited Facebook Pages</li>
           <li><i class="ion-stats-bars report"></i>Robust Reporting</li>
           <li><i class="ion-chatbox-working canned"></i>Canned Responses</li>
@@ -24,7 +24,7 @@
         </ul>
       </div>
       <div class="medium-5 column">
-        <form class="signup-box login-box " @submit.prevent="submit()">
+        <form class="signup--box login-box " @submit.prevent="submit()">
           <div class="column log-in-form">
             <label :class="{ error: $v.credentials.name.$error }">
               {{ $t('REGISTER.ACCOUNT_NAME.LABEL') }}
@@ -61,10 +61,10 @@
               button-class="large expanded"
             >
             </woot-submit-button>
-            <p class="accept-terms" v-html="$t('REGISTER.TERMS_ACCEPT')"></p>
+            <p class="accept--terms" v-html="$t('REGISTER.TERMS_ACCEPT')"></p>
           </div>
         </form>
-        <div class="column text-center sigin__footer">
+        <div class="column text-center sigin--footer">
           <span>Already have an account?</span>
           <router-link to="auth/login">
             {{ $t('LOGIN.TITLE') }}
