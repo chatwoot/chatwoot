@@ -3,7 +3,7 @@
 
 <div align="center">Opensource alternative to Intercom, Zendesk, Drift, Crisp etc.</div>
 
-![ChatUI progess](https://chatwoot.com/images/dashboard-screen.png)
+![ChatUI progess](.github/dashboard-screen.png)
 
 <div align="center">*Chatwoot* &copy; 2017-2019, ThoughtWoot Inc - Released under the MIT License.
 </div>
