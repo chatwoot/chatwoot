@@ -11,15 +11,15 @@
     }
 
     .status--filter {
-      float: right;
-      width: auto;
-      font-size: $font-size-mini;
       @include padding($zero null $zero $space-normal);
       @include border-light;
       @include round-corner;
       @include margin($space-smaller $space-slab $zero $zero);
       background-color: $color-background;
+      float: right;
+      font-size: $font-size-mini;
       height: $space-medium;
+      width: auto;
     }
   }
 
@@ -42,7 +42,7 @@
   @include background-gray;
   @include margin(0);
   @include border-normal-left;
-  .current-chat{
+  .current-chat {
     @include flex;
     @include full-height;
     @include flex-direction(column);
@@ -53,16 +53,18 @@
       @include flex-direction(column);
       @include flex-align(center, middle);
       img {
-        width: 10rem;
         @include margin($space-normal);
+        width: 10rem;
       }
+
       span {
-        text-align: center;
         font-size: $font-size-small;
         font-weight: $font-weight-medium;
+        text-align: center;
       }
     }
   }
+
   .conv-empty-state {
     @include flex;
     @include full-height;
@@ -76,9 +78,9 @@
   @include flex-weight(1);
   @include flex-direction(column);
   @include margin($zero);
-  overflow-y: scroll;
-  // FIrefox flexbox fix
+  // Firefox flexbox fix
   height: 100%;
+  overflow-y: scroll;
 
   > li {
     @include flex;
@@ -95,21 +97,22 @@
 
     &.unread--toast {
       span {
-        margin: $space-one auto;
-        padding: $space-smaller $space-two;
-        font-size: $font-size-mini;
-        font-weight: $font-weight-medium;
         @include elegant-card;
         @include round-corner;
         background: $color-woot;
         color: $color-white;
+        font-size: $font-size-mini;
+        font-weight: $font-weight-medium;
+        margin: $space-one auto;
+        padding: $space-smaller $space-two;
       }
     }
 
     .bubble {
-      text-align: left;
       max-width: 50rem;
+      text-align: left;
       word-wrap: break-word;
+
       .aplayer {
         box-shadow: none;
         font-family: inherit;
@@ -119,14 +122,15 @@
     &.left {
       .bubble {
         background: $white;
-        color: $color-heading;
-        margin-right: auto;
         border-bottom-left-radius: 0;
         border-top-left-radius: 0;
+        color: $color-heading;
+        margin-right: auto;
       }
 
-      &+.right {
+      +.right {
         margin-top: $space-one;
+
         .bubble {
           border-top-right-radius: $space-small;
         }
@@ -138,32 +142,34 @@
       @include flex-align(right, null);
 
       .wrap {
-        text-align: right;
         margin-right: $space-small;
+        text-align: right;
       }
 
       .bubble {
-        margin-left: auto;
         border-bottom-right-radius: 0;
         border-top-right-radius: 0;
+        margin-left: auto;
+
         &.is-private {
           background: lighten($warning-color, 32%);
           color: $color-heading;
-          position: relative;
           padding-right: $space-large;
+          position: relative;
 
-          &:before {
-            position: absolute;
-            top: $space-smaller + $space-micro;
-            right: $space-one;
+          &::before {
             bottom: 0;
             color: $medium-gray;
+            position: absolute;
+            right: $space-one;
+            top: $space-smaller + $space-micro;
           }
         }
       }
 
-      &+.left {
+      +.left {
         margin-top: $space-one;
+
         .bubble {
           border-top-left-radius: $space-small;
         }
@@ -181,39 +187,41 @@
     }
 
     .sender--thumbnail {
-      width: $space-slab;
-      height: $space-slab;
       @include round-corner();
+      height: $space-slab;
       margin-right: $space-one;
       margin-top: $space-micro;
+      width: $space-slab;
     }
+
     .activity-wrap {
       @include flex;
       @include margin($space-small auto);
       @include padding($space-smaller $space-normal);
       @include flex-align($x: center, $y: null);
-      font-size: $font-size-small;
       background: lighten($warning-color, 32%);
       border-radius: $space-smaller;
+      font-size: $font-size-small;
 
       p {
-        margin-bottom: $zero;
         color: $color-heading;
+        margin-bottom: $zero;
 
         .ion-person {
-          margin-right: $space-small;
-          font-size: $font-size-default;
-          top: $space-micro;
-          position: relative;
           color: $color-body;
+          font-size: $font-size-default;
+          margin-right: $space-small;
+          position: relative;
+          top: $space-micro;
         }
 
         .message-text__wrap {
           position: relative;
         }
+
         .message-text {
-          &:after {
-            content: " \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+          &::after {
+            content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
             display: inline;
           }
         }
@@ -228,23 +236,25 @@
       @include padding($space-smaller $space-one);
       @include margin($zero);
       background: #c7e3ff;
-      color: $color-heading;
       border-radius: $space-small;
+      box-shadow: 0 .5px .5px rgba(0, 0, 0, .05);
+      color: $color-heading;
       font-size: $font-size-small;
-      box-shadow: 0 0.5px 0.5px rgba(0,0,0,0.05);
       position: relative;
 
       .icon {
+        bottom: $space-smaller;
         position: absolute;
         right: $space-small;
-        bottom: $space-smaller;
       }
+
       .message-text__wrap {
         position: relative;
       }
+
       .message-text {
-        &:after {
-          content: " \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0";
+        &::after {
+          content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
           display: inline;
         }
       }
@@ -254,40 +264,48 @@
           margin-top: -$space-two;
         }
       }
+
       .image {
         @include flex;
         @include justify-content(center);
         @include align-items(flex-end);
         text-align: center;
+
         img {
+          @include padding($space-small);
           max-height: 30rem;
           max-width: 20rem;
-          @include padding($space-small);
         }
+
         .time {
-          white-space: nowrap;
           margin-left: -$space-large;
+          white-space: nowrap;
         }
+
         .modal-image {
-          max-width: 80%;
           max-height: 80%;
+          max-width: 80%;
         }
       }
+
       .map {
         @include flex;
         flex-direction: column;
         text-align: right;
+
         img {
+          @include padding($space-small);
           max-height: 30rem;
           max-width: 20rem;
-          @include padding($space-small);
         }
+
         .time {
-          white-space: nowrap;
-          margin-top: -$space-two;
-          margin-left: -$space-smaller;
           @include padding($space-small);
+          margin-left: -$space-smaller;
+          margin-top: -$space-two;
+          white-space: nowrap;
         }
+
         .locname {
           font-weight: $font-weight-medium;
           padding: $space-smaller;
@@ -296,15 +314,15 @@
     }
 
     .time {
-      margin-left: $space-slab;
-      text-align: right;
-      font-size: $font-size-micro;
-      color: $color-gray;
-      position: absolute;
       bottom: -$space-micro;
-      right: -$space-micro;
-      font-style: italic;
+      color: $color-gray;
       float: right;
+      font-size: $font-size-micro;
+      font-style: italic;
+      margin-left: $space-slab;
+      position: absolute;
+      right: -$space-micro;
+      text-align: right;
     }
   }
 }
