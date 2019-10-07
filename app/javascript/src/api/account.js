@@ -5,11 +5,64 @@
 import endPoints from './endPoints';
 
 export default {
-  getAgents() {
-    const urlData = endPoints('fetchAgents');
+  /**
+   * handleGet
+   * @param dataType {string} [dataType='agent', 'label', 'inbox'] type of data requested
+   * @returns {promise}
+   */
+  handleGet(dataType) {
+    let urlData;
+    switch (dataType.toLowerCase()) {
+      case 'agent':
+        urlData = endPoints('fetchAgents');
+      case 'label':
+        urlData = endPoints('fetchLabels');
+      case 'inbox':
+        urlData = endPoints('fetchInboxes');
+      default:
+        reject('Incorrect query');
+        return;
+    }
+
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .get(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+
+  /**
+   * handleDelete
+   * @param dataType {string} [dataType='agent', 'label', 'inbox'] type of data requested
+   * @param id {number} id of target data
+   * @returns {promise}
+   */
+  handleDelete(dataType, id = 0) {
+    if (!id) {
+      reject('Incorrect query');
+      return;
+    }
+
+    let urlData
+    switch (dataType.toLowerCase()) {
+      case 'agent':
+        urlData = endPoints('deleteAgent')(id);
+      case 'inbox':
+        urlData = endPoints('deleteAgent').delete(id);
+      default:
+        reject('Incorrect query');
+        return;
+    }
+
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .delete(urlData.url)
         .then(response => {
           resolve(response);
         })
@@ -39,64 +92,6 @@ export default {
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .put(urlData.url, agentInfo)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
-  deleteAgent(agentId) {
-    const urlData = endPoints('deleteAgent')(agentId);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .delete(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
-  getLabels() {
-    const urlData = endPoints('fetchLabels');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
-  // Get Inbox related to the account
-  getInboxes() {
-    const urlData = endPoints('fetchInboxes');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
-
-  deleteInbox(id) {
-    const urlData = endPoints('inbox').delete(id);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .delete(urlData.url)
         .then(response => {
           resolve(response);
         })
