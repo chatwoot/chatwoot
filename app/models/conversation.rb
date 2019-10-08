@@ -38,12 +38,8 @@ class Conversation < ApplicationRecord
   end
 
   def toggle_status
-    self.status = if open?
-                    :resolved
-                  else
-                    :open
-                  end
-    save! ? true : false
+    self.status = open? ? :resolved : :open
+    save!
   end
 
   def lock!
@@ -153,6 +149,10 @@ class Conversation < ApplicationRecord
       message_type: :activity,
       content: content
     }
+  end
+
+  def resolve_conversation
+    dispatcher_dispatch(CONVERSATION_RESOLVED) if resolved? && assignee.present?
   end
 
   def notify_status_change
