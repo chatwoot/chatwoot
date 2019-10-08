@@ -15,12 +15,15 @@ export default {
     switch (dataType.toLowerCase()) {
       case 'agent':
         urlData = endPoints('fetchAgents');
+        break;
       case 'label':
         urlData = endPoints('fetchLabels');
+        break;
       case 'inbox':
         urlData = endPoints('fetchInboxes');
+        break;
       default:
-        reject('Incorrect query');
+        console.log('Incorrect query');
         return;
     }
 
@@ -45,7 +48,7 @@ export default {
    */
   handleDelete(dataType, id = 0) {
     if (!id) {
-      reject('Incorrect query');
+      console.log('Incorrect query');
       return;
     }
 
@@ -53,16 +56,32 @@ export default {
     switch (dataType.toLowerCase()) {
       case 'agent':
         urlData = endPoints('deleteAgent')(id);
+        break;
       case 'inbox':
-        urlData = endPoints('deleteAgent').delete(id);
+        urlData = endPoints('inbox').delete(id);
+        break;
       default:
-        reject('Incorrect query');
+        console.log('Incorrect query');
         return;
     }
 
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .delete(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+  getAgents() {
+    const urlData = endPoints('fetchAgents');
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .get(urlData.url)
         .then(response => {
           resolve(response);
         })
@@ -92,6 +111,63 @@ export default {
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .put(urlData.url, agentInfo)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+  deleteAgent(agentId) {
+    const urlData = endPoints('deleteAgent')(agentId);
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .delete(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+  getLabels() {
+    const urlData = endPoints('fetchLabels');
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .get(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+  // Get Inbox related to the account
+  getInboxes() {
+    const urlData = endPoints('fetchInboxes');
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .get(urlData.url)
+        .then(response => {
+          resolve(response);
+        })
+        .catch(error => {
+          reject(Error(error));
+        });
+    });
+    return fetchPromise;
+  },
+  deleteInbox(id) {
+    const urlData = endPoints('inbox').delete(id);
+    const fetchPromise = new Promise((resolve, reject) => {
+      axios
+        .delete(urlData.url)
         .then(response => {
           resolve(response);
         })
