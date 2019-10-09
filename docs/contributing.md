@@ -1,4 +1,7 @@
-# Chatwoot Contributing Guide
+---
+path: "/docs/contributing-guide"
+title: "Contributing Guide"
+---
 
 Thanks for taking interest in contributing to Chatwoot source code. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
 

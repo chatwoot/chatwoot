@@ -1,3 +1,8 @@
+---
+path: "/docs/common-errors"
+title: "Common Errors"
+---
+
 ### Errors you might encounter while setting up the project
 
 #### ArgumentError: invalid uri scheme
