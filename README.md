@@ -60,7 +60,7 @@ password: 123456
 
 ### Detailed documentation
 
-Detailed documentation is available at [docs.chatwoot.com](https://docs.chatwoot.com)
+Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatwoot.com/docs)
 
 ## Contributors ✨
 
