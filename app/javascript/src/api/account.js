@@ -24,7 +24,6 @@ export default {
         break;
       default:
         console.log('Incorrect query');
-        return;
     }
 
     const fetchPromise = new Promise((resolve, reject) => {
@@ -62,7 +61,6 @@ export default {
         break;
       default:
         console.log('Incorrect query');
-        return;
     }
 
     const fetchPromise = new Promise((resolve, reject) => {
