@@ -1,3 +1,8 @@
+---
+path: "/docs/environment-variables"
+title: "Environment Variables"
+---
+
 ### Setup environment variables
 
 Copy `database` and `application` variables to the correct location.
