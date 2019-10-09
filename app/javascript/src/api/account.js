@@ -23,7 +23,7 @@ export default {
         urlData = endPoints('fetchInboxes');
         break;
       default:
-        console.log('Incorrect query');
+        break;
     }
 
     const fetchPromise = new Promise((resolve, reject) => {
@@ -46,10 +46,10 @@ export default {
    * @returns {promise}
    */
   handleDelete(dataType, id = 0) {
-    if (!id) {
-      console.log('Incorrect query');
-      return;
-    }
+//     if (!id) {
+//       console.log('Incorrect query');
+//       return;
+//     }
 
     let urlData
     switch (dataType.toLowerCase()) {
@@ -60,7 +60,7 @@ export default {
         urlData = endPoints('inbox').delete(id);
         break;
       default:
-        console.log('Incorrect query');
+        break;
     }
 
     const fetchPromise = new Promise((resolve, reject) => {
