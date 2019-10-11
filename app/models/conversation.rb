@@ -73,7 +73,9 @@ class Conversation < ApplicationRecord
   end
 
   def send_email_notification_to_assignee
-    AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present? && !self_assign?(assignee_id)
+    return if self_assign?(assignee_id)
+
+    AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present?
   end
 
   def self_assign?(assignee_id)
@@ -97,23 +99,18 @@ class Conversation < ApplicationRecord
   end
 
   def activity_message_params(content)
-    {
-      account_id: account_id,
-      inbox_id: inbox_id,
-      message_type: :activity,
-      content: content
-    }
+    { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
   def notify_status_change
-    resolve_conversation if saved_change_to_status?
-    dispatcher_dispatch(CONVERSATION_READ) if saved_change_to_user_last_seen_at?
-    dispatcher_dispatch(CONVERSATION_LOCK_TOGGLE) if saved_change_to_locked?
-    dispatcher_dispatch(ASSIGNEE_CHANGED) if saved_change_to_assignee_id?
-  end
-
-  def resolve_conversation
-    dispatcher_dispatch(CONVERSATION_RESOLVED) if resolved? && assignee.present?
+    {
+      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? && assignee.present? },
+      CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
+      CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
+      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? }
+    }.each do |event, condition|
+      condition.call && dispatcher_dispatch(event)
+    end
   end
 
   def dispatcher_dispatch(event_name)
@@ -125,8 +122,7 @@ class Conversation < ApplicationRecord
     # return unless conversation.account.round_robin_enabled?
     return if assignee
 
-    new_assignee = inbox.next_available_agent
-    update_assignee(new_assignee) if new_assignee
+    inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end
 
   def create_status_change_message(user_name)
