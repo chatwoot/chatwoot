@@ -1,5 +1,5 @@
 uri = URI.parse(ENV['REDIS_URL'])
-redis = Redis.new(:url => uri)
+redis = Rails.env.test? ? MockRedis.new : Redis.new(:url => uri)
 Nightfury.redis = Redis::Namespace.new("reports", redis: redis)
 
 =begin

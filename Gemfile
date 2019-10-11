@@ -56,6 +56,11 @@ group :development do
   gem 'web-console'
 end
 
+
+group :test do
+  gem 'mock_redis'
+end
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'

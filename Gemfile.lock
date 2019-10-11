@@ -267,6 +267,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.12.2)
+    mock_redis (0.22.0)
     msgpack (1.3.1)
     multi_json (1.13.1)
     multi_xml (0.6.0)
@@ -483,6 +484,7 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
+  mock_redis
   nightfury (~> 1.0, >= 1.0.1)
   omniauth-facebook
   pg
