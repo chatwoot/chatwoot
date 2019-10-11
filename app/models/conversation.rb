@@ -53,13 +53,11 @@ class Conversation < ApplicationRecord
   end
 
   def unread_messages
-    # +1 is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
-    # ente budhiparamaya neekam kandit entu tonunu?
-    messages.where('EXTRACT(EPOCH FROM created_at) > (?)', agent_last_seen_at.to_i + 1)
+    messages.unread_since(agent_last_seen_at)
   end
 
   def unread_incoming_messages
-    messages.incoming.where('EXTRACT(EPOCH FROM created_at) > (?)', agent_last_seen_at.to_i + 1)
+    messages.incoming.unread_since(agent_last_seen_at)
   end
 
   def push_event_data
