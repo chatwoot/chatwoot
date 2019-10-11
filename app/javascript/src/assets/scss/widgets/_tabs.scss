@@ -1,50 +1,54 @@
 .tabs {
-  border-width: 0;
   @include padding($zero $space-normal);
   @include border-normal-bottom;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+}
+
+// Tab chat type
+.tab--chat-type {
+  @include flex;
 
   .tabs-title {
-    @include margin($zero $space-one);
-
-    &:first-child {
-      margin-left: 0;
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-    &:hover,
-    &:focus{
-      a {
-        color: darken($medium-gray, 20%);
-      }
-    }
-
     a {
-      color: $medium-gray;
-      border-bottom: 2px solid transparent;
-      font-size: $font-size-small;
-      @include position(relative, 1px null null null);
-      @include transition(all .15s $ease-in-out-cubic);
+      font-size: $font-size-default;
+      padding-bottom: $space-slab;
+      padding-top: $space-slab;
     }
+  }
+}
 
-    &.is-active {
-      a {
-        color: $color-woot;
-        border-bottom-color: $color-woot;
-      }
+.tabs-title {
+  @include margin($zero $space-one);
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover,
+  &:focus {
+    a {
+      color: darken($medium-gray, 20%);
     }
   }
 
-  // tab chat type
-  &.tab--chat-type {
-    @include flex;
+  a {
+    @include position(relative, 1px null null null);
+    @include transition(all .15s $ease-in-out-cubic);
+    border-bottom: 2px solid transparent;
+    color: $medium-gray;
+    font-size: $font-size-small;
+  }
 
-    .tabs-title {
-      a {
-        font-size: $font-size-default;
-        padding-top: $space-slab;
-        padding-bottom: $space-slab;
-      }
+  &.is-active {
+    a {
+      border-bottom-color: $color-woot;
+      color: $color-woot;
     }
   }
 }
