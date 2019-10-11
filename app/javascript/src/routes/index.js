@@ -53,7 +53,7 @@ const authIgnoreRoutes = [
   'auth_password_edit',
 ];
 
-const validateAuthenticateRoutePermission = (to, from, next) => {
+export const validateAuthenticateRoutePermission = (to, from, next) => {
   const isLoggedIn = auth.isLoggedIn();
   const currentUser = auth.getCurrentUser();
 

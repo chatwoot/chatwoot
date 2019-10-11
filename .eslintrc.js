@@ -39,6 +39,7 @@ module.exports = {
     browser: true,
     node: true,
     jest: true,
+    jasmine: true
   },
   globals: {
     __WEBPACK_ENV__: true,
