@@ -3,6 +3,103 @@
 require 'rails_helper'
 
 RSpec.describe Conversation, type: :model do
+  describe '.before_create' do
+    let(:conversation) { build(:complete_conversation, display_id: nil) }
+
+    before do
+      conversation.save
+      conversation.reload
+    end
+
+    it 'runs before_create callbacks' do
+      expect(conversation.display_id).to eq(1)
+    end
+  end
+
+  describe '.after_update' do
+    let(:account) { create(:account) }
+    let(:conversation) do
+      create(:complete_conversation, status: 'open', account: account, assignee: old_assignee)
+    end
+    let(:old_assignee) do
+      create(:user, email: 'agent1@example.com', account: account, role: :agent)
+    end
+    let(:new_assignee) do
+      create(:user, email: 'agent2@example.com', account: account, role: :agent)
+    end
+    let(:assignment_mailer) { double(deliver: true) }
+
+    before do
+      conversation
+      new_assignee
+
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      allow(AssignmentMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+      allow(assignment_mailer).to receive(:deliver)
+      Current.user = old_assignee
+
+      conversation.update(
+        status: :resolved,
+        locked: true,
+        user_last_seen_at: Time.now,
+        assignee: new_assignee
+      )
+    end
+
+    it 'runs after_update callbacks' do
+      # notify_status_change
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_LOCK_TOGGLE, kind_of(Time), conversation: conversation)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
+
+      # create_activity
+      expect(conversation.messages.pluck(:content)).to eq(
+        [
+          'Conversation was marked resolved by John Smith',
+          'Assigned to John Smith by John Smith'
+        ]
+      )
+
+      # send_email_notification_to_assignee
+      expect(AssignmentMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
+      expect(assignment_mailer).to have_received(:deliver)
+    end
+  end
+
+  describe '.after_create' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        sender: create(:contact, account: account),
+        inbox: inbox,
+        assignee: nil
+      )
+    end
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+    end
+
+    it 'runs after_create callbacks' do
+      # send_events
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+
+      # run_round_robin
+      expect(conversation.reload.assignee).to eq(agent)
+    end
+  end
+
   describe '#update_assignee' do
     subject(:update_assignee) { conversation.update_assignee(agent) }
 
@@ -112,7 +209,7 @@ RSpec.describe Conversation, type: :model do
           assignee: conversation.assignee
         },
         id: conversation.display_id,
-        messages: [nil],
+        messages: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status_before_type_cast.to_i,
         timestamp: conversation.created_at.to_i,

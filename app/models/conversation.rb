@@ -19,37 +19,31 @@ class Conversation < ApplicationRecord
 
   before_create :set_display_id, unless: :display_id?
 
-  after_update :notify_status_change,
-               :create_activity,
-               :send_email_notification_to_assignee
+  after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
 
   after_create :send_events, :run_round_robin
 
   acts_as_taggable_on :labels
 
   def update_assignee(agent = nil)
-    self.assignee = agent
-    save!
+    update!(assignee: agent)
   end
 
   def update_labels(labels = nil)
-    self.label_list = labels
-    save!
+    update!(label_list: labels)
   end
 
   def toggle_status
     self.status = open? ? :resolved : :open
-    save! ? true : false
+    save
   end
 
   def lock!
-    self.locked = true
-    save!
+    update!(locked: true)
   end
 
   def unlock!
-    self.locked = false
-    save!
+    update!(locked: false)
   end
 
   def unread_messages
@@ -79,27 +73,25 @@ class Conversation < ApplicationRecord
   private
 
   def dispatch_events
-    $dispatcher.dispatch(CONVERSATION_RESOLVED, Time.zone.now, conversation: self)
+    dispatcher_dispatch(CONVERSATION_RESOLVED)
   end
 
   def send_events
-    $dispatcher.dispatch(CONVERSATION_CREATED, Time.zone.now, conversation: self)
+    dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
   def send_email_notification_to_assignee
-    AssignmentMailer.conversation_assigned(self, assignee).deliver if assignee_id_changed? && assignee_id.present? && !self_assign?(assignee_id)
+    AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present? && !self_assign?(assignee_id)
   end
 
   def self_assign?(assignee_id)
-    return false unless Current.user
-
-    Current.user.id == assignee_id
+    assignee_id.present? && Current.user&.id == assignee_id
   end
 
   def set_display_id
     self.display_id = loop do
-      disp_id = account.conversations.maximum('display_id').to_i + 1
-      break disp_id unless account.conversations.exists?(display_id: disp_id)
+      next_display_id = account.conversations.maximum('display_id').to_i + 1
+      break next_display_id unless account.conversations.exists?(display_id: next_display_id)
     end
   end
 
@@ -108,20 +100,8 @@ class Conversation < ApplicationRecord
 
     user_name = Current.user&.name
 
-    create_status_change_message(user_name) if status_changed?
-    create_assignee_change(username) if assignee_id_changed?
-  end
-
-  def status_changed_message
-    return "Conversation was marked resolved by #{Current.user.try(:name)}" if resolved?
-
-    "Conversation was reopened by #{Current.user.try(:name)}"
-  end
-
-  def assignee_changed_message
-    return "Assigned to #{assignee.name} by #{Current.user.try(:name)}" if assignee_id
-
-    "Conversation unassigned by #{Current.user.try(:name)}"
+    create_status_change_message(user_name) if saved_change_to_assignee_id?
+    create_assignee_change(user_name) if saved_change_to_assignee_id?
   end
 
   def activity_message_params(content)
@@ -134,16 +114,14 @@ class Conversation < ApplicationRecord
   end
 
   def notify_status_change
-    resolve_conversation if status_changed?
-    dispatcher_dispatch(CONVERSATION_READ) if user_last_seen_at_changed?
-    dispatcher_dispatch(CONVERSATION_LOCK_TOGGLE) if locked_changed?
-    dispatcher_dispatch(ASSIGNEE_CHANGED) if assignee_id_changed?
+    resolve_conversation if saved_change_to_status?
+    dispatcher_dispatch(CONVERSATION_READ) if saved_change_to_user_last_seen_at?
+    dispatcher_dispatch(CONVERSATION_LOCK_TOGGLE) if saved_change_to_locked?
+    dispatcher_dispatch(ASSIGNEE_CHANGED) if saved_change_to_assignee_id?
   end
 
   def resolve_conversation
-    if resolved? && assignee.present?
-      dispatcher_dispatch(CONVERSATION_RESOLVED)
-    end
+    dispatcher_dispatch(CONVERSATION_RESOLVED) if resolved? && assignee.present?
   end
 
   def dispatcher_dispatch(event_name)
@@ -151,8 +129,8 @@ class Conversation < ApplicationRecord
   end
 
   def run_round_robin
-    return unless true # conversation.account.has_feature?(round_robin)
-    return unless true # conversation.account.round_robin_enabled?
+    # return unless conversation.account.has_feature?(round_robin)
+    # return unless conversation.account.round_robin_enabled?
     return if assignee
 
     new_assignee = inbox.next_available_agent
@@ -177,9 +155,5 @@ class Conversation < ApplicationRecord
               end
 
     messages.create(activity_message_params(content))
-  end
-
-  def resolved_and_assignee?
-    resolved? && assignee.present?
   end
 end
