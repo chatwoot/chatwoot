@@ -55,19 +55,11 @@ class Conversation < ApplicationRecord
   end
 
   def push_event_data
-    {
-      meta: { sender: sender.push_event_data, assignee: assignee }, id: display_id,
-      messages: [messages.chat.last&.push_event_data], inbox_id: inbox_id, status: status_before_type_cast.to_i,
-      timestamp: created_at.to_i, user_last_seen_at: user_last_seen_at.to_i, agent_last_seen_at: agent_last_seen_at.to_i,
-      unread_count: unread_incoming_messages.count
-    }
+    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def lock_event_data
-    {
-      id: display_id,
-      locked: locked?
-    }
+    Conversations::EventDataPresenter.new(self).lock_data
   end
 
   private
