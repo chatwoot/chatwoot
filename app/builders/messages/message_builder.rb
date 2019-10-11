@@ -70,33 +70,41 @@ Assumptions
 
   def attachment_params(attachment)
     file_type = attachment['type'].to_sym
-    params = {
-      file_type: file_type,
-      account_id: @message.account_id
-    }
+    params = { file_type: file_type, account_id: @message.account_id }
+
     if [:image, :file, :audio, :video].include? file_type
-      params.merge!(
-        {
-        external_url: attachment['payload']['url'],
-        remote_file_url: attachment['payload']['url']
-        })
+      params.merge!(file_type_params(attachment))
     elsif file_type == :location
-      lat, long = attachment['payload']['coordinates']['lat'], attachment['payload']['coordinates']['long']
-      params.merge!(
-        {
-          external_url: attachment['url'],
-          coordinates_lat: lat,
-          coordinates_long: long,
-          fallback_title: attachment['title']
-        })
+      params.merge!(location_params(attachment))
     elsif file_type == :fallback
-      params.merge!(
-      {
-        fallback_title: attachment['title'],
-        external_url: attachment['url']
-      })
+      params.merge!(fallback_params(attachment))
     end
+
     params
+  end
+
+  def file_type_params(attachment)
+    {
+      external_url: attachment['payload']['url'],
+      remote_file_url: attachment['payload']['url']
+    }
+  end
+
+  def location_params(attachment)
+    lat, long = attachment['payload']['coordinates']['lat'], attachment['payload']['coordinates']['long']
+    {
+      external_url: attachment['url'],
+      coordinates_lat: lat,
+      coordinates_long: long,
+      fallback_title: attachment['title']
+    }
+  end
+
+  def fallback_params(attachment)
+    {
+      fallback_title: attachment['title'],
+      external_url: attachment['url']
+    }
   end
 
   def conversation_params
@@ -118,22 +126,18 @@ Assumptions
   end
 
   def contact_params
-    if @inbox.facebook?
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token)
-      begin
-        result = k.get_object(@sender_id)
-      rescue => e
-        result = {}
-        Raven.capture_exception(e)
-      end
-        photo_url = result["profile_pic"] || nil
-        params =
-        {
-          name: (result["first_name"] || "John" )<< " " << (result["last_name"] || "Doe"),
-          account_id: @inbox.account_id,
-          source_id: @sender_id,
-          remote_avatar_url: photo_url
-        }
+    begin
+      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
+      result = k.get_object(@sender_id) || {}
+    rescue Exception => e
+      result = {}
+      Raven.capture_exception(e)
     end
+    params = {
+     name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
+     account_id: @inbox.account_id,
+     source_id: @sender_id,
+     remote_avatar_url: result['profile_pic'] || nil
+    }
   end
 end

@@ -36,10 +36,10 @@ config/application.yml
 public/uploads
 public/packs
 
-# IntelliJ IDE config
-.idea
 # VIM files
 *.swp
 *.swo
 *.un~
 .jest-cache
+# ignore jetbrains IDE files
+.idea
