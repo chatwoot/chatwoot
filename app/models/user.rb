@@ -43,11 +43,11 @@ class User < ApplicationRecord
   end
 
   def notify_creation
-    $dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: self.account)
+    Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: self.account)
   end
 
   def notify_deletion
-    $dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: self.account)
+    Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: self.account)
   end
 
   def push_event_data

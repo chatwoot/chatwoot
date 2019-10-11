@@ -149,7 +149,7 @@ class Conversation < ApplicationRecord
   end
 
   def dispatcher_dispatch(event_name)
-    $dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
   end
 
   def run_round_robin

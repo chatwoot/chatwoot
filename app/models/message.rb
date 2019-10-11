@@ -42,10 +42,10 @@ class Message < ApplicationRecord
   private
 
   def dispatch_event
-    $dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless self.conversation.messages.count == 1
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless self.conversation.messages.count == 1
 
     if outgoing? && self.conversation.messages.outgoing.count == 1
-      $dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
     end
   end
 
@@ -56,7 +56,7 @@ class Message < ApplicationRecord
   def reopen_conversation
     if incoming? && self.conversation.resolved?
       self.conversation.toggle_status
-      $dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: self.conversation)
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: self.conversation)
     end
   end
 end
