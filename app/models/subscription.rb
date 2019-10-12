@@ -36,6 +36,6 @@ class Subscription < ApplicationRecord
   end
 
   def notify_creation
-    $dispatcher.dispatch(SUBSCRIPTION_CREATED, Time.zone.now, subscription: self)
+    Rails.configuration.dispatcher.dispatch(SUBSCRIPTION_CREATED, Time.zone.now, subscription: self)
   end
 end

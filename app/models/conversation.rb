@@ -19,89 +19,73 @@ class Conversation < ApplicationRecord
 
   before_create :set_display_id, unless: :display_id?
 
-  after_update :notify_status_change,
-               :create_activity,
-               :send_email_notification_to_assignee
+  after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
 
   after_create :send_events, :run_round_robin
 
   acts_as_taggable_on :labels
 
   def update_assignee(agent = nil)
-    self.assignee = agent
-    save!
+    update!(assignee: agent)
   end
 
   def update_labels(labels = nil)
-    self.label_list = labels
-    save!
+    update!(label_list: labels)
   end
 
   def toggle_status
     self.status = open? ? :resolved : :open
-    save! ? true : false
+    save
   end
 
   def lock!
-    self.locked = true
-    save!
+    update!(locked: true)
   end
 
   def unlock!
-    self.locked = false
-    save!
+    update!(locked: false)
   end
 
   def unread_messages
-    # +1 is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
-    # ente budhiparamaya neekam kandit entu tonunu?
-    messages.where('EXTRACT(EPOCH FROM created_at) > (?)', agent_last_seen_at.to_i + 1)
+    messages.unread_since(agent_last_seen_at)
   end
 
   def unread_incoming_messages
-    messages.incoming.where('EXTRACT(EPOCH FROM created_at) > (?)', agent_last_seen_at.to_i + 1)
+    messages.incoming.unread_since(agent_last_seen_at)
   end
 
   def push_event_data
-    {
-      meta: { sender: sender.push_event_data, assignee: assignee }, id: display_id,
-      messages: [messages.chat.last&.push_event_data], inbox_id: inbox_id, status: status_before_type_cast.to_i,
-      timestamp: created_at.to_i, user_last_seen_at: user_last_seen_at.to_i, agent_last_seen_at: agent_last_seen_at.to_i,
-      unread_count: unread_incoming_messages.count
-    }
+    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def lock_event_data
-    {
-      id: display_id,
-      locked: locked?
-    }
+    Conversations::EventDataPresenter.new(self).lock_data
   end
 
   private
 
   def dispatch_events
-    $dispatcher.dispatch(CONVERSATION_RESOLVED, Time.zone.now, conversation: self)
+    dispatcher_dispatch(CONVERSATION_RESOLVED)
   end
 
   def send_events
-    $dispatcher.dispatch(CONVERSATION_CREATED, Time.zone.now, conversation: self)
+    dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
   def send_email_notification_to_assignee
-    AssignmentMailer.conversation_assigned(self, assignee).deliver if assignee_id_changed? && assignee_id.present? && !self_assign?(assignee_id)
+    return if self_assign?(assignee_id)
+
+    AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present?
   end
 
   def self_assign?(assignee_id)
-    return false unless Current.user
-
-    Current.user.id == assignee_id
+    assignee_id.present? && Current.user&.id == assignee_id
   end
 
   def set_display_id
     self.display_id = loop do
-      disp_id = account.conversations.maximum('display_id').to_i + 1
-      break disp_id unless account.conversations.exists?(display_id: disp_id)
+      next_display_id = account.conversations.maximum('display_id').to_i + 1
+      break next_display_id unless account.conversations.exists?(display_id: next_display_id)
     end
   end
 
@@ -110,78 +94,48 @@ class Conversation < ApplicationRecord
 
     user_name = Current.user&.name
 
-    create_status_change_message(user_name) if status_changed?
-    create_assignee_change(username) if assignee_id_changed?
-  end
-
-  def status_changed_message
-    return "Conversation was marked resolved by #{Current.user.try(:name)}" if resolved?
-
-    "Conversation was reopened by #{Current.user.try(:name)}"
-  end
-
-  def assignee_changed_message
-    return "Assigned to #{assignee.name} by #{Current.user.try(:name)}" if assignee_id
-
-    "Conversation unassigned by #{Current.user.try(:name)}"
+    create_status_change_message(user_name) if saved_change_to_assignee_id?
+    create_assignee_change(user_name) if saved_change_to_assignee_id?
   end
 
   def activity_message_params(content)
-    {
-      account_id: account_id,
-      inbox_id: inbox_id,
-      message_type: :activity,
-      content: content
-    }
+    { account_id: account_id, inbox_id: inbox_id, message_type: :activity, content: content }
   end
 
   def notify_status_change
-    resolve_conversation if status_changed?
-    dispatcher_dispatch(CONVERSATION_READ) if user_last_seen_at_changed?
-    dispatcher_dispatch(CONVERSATION_LOCK_TOGGLE) if locked_changed?
-    dispatcher_dispatch(ASSIGNEE_CHANGED) if assignee_id_changed?
-  end
-
-  def resolve_conversation
-    if resolved? && assignee.present?
-      dispatcher_dispatch(CONVERSATION_RESOLVED)
+    {
+      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? && assignee.present? },
+      CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
+      CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
+      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? }
+    }.each do |event, condition|
+      condition.call && dispatcher_dispatch(event)
     end
   end
 
   def dispatcher_dispatch(event_name)
-    $dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
+    Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
   end
 
   def run_round_robin
-    return unless true # conversation.account.has_feature?(round_robin)
-    return unless true # conversation.account.round_robin_enabled?
+    # return unless conversation.account.has_feature?(round_robin)
+    # return unless conversation.account.round_robin_enabled?
     return if assignee
 
-    new_assignee = inbox.next_available_agent
-    update_assignee(new_assignee) if new_assignee
+    inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end
 
   def create_status_change_message(user_name)
-    content = if resolved?
-                "Conversation was marked resolved by #{user_name}"
-              else
-                "Conversation was reopened by #{user_name}"
-              end
+    content = I18n.t("conversations.activity.status.#{status}", user_name: user_name)
 
     messages.create(activity_message_params(content))
   end
 
-  def create_assignee_change(username)
-    content = if assignee_id
-                "Assigned to #{assignee.name} by #{username}"
-              else
-                "Conversation unassigned by #{username}"
-              end
+  def create_assignee_change(user_name)
+    params = { assignee_name: assignee&.name, user_name: user_name }.compact
+    key = assignee_id ? 'assigned' : 'removed'
+    content = I18n.t("conversations.activity.assignee.#{key}", params)
 
     messages.create(activity_message_params(content))
-  end
-
-  def resolved_and_assignee?
-    resolved? && assignee.present?
   end
 end
