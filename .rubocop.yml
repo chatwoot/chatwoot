@@ -6,3 +6,7 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - db/migrate/**/*
+    - spec/**/*

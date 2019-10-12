@@ -41,3 +41,12 @@ en:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+
+  conversations:
+    activity:
+      status:
+        resolved: "Conversation was marked resolved by %{user_name}"
+        open: "Conversation was reopened by #{user_name}"
+      assignee:
+        assigned: "Assigned to %{assignee_name} by %{user_name}"
+        removed: "Conversation unassigned by %{user_name}"
