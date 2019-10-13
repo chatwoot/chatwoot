@@ -8,6 +8,8 @@ class Message < ApplicationRecord
   enum message_type: [ :incoming, :outgoing, :activity ]
   enum status: [ :sent, :delivered, :read, :failed ]
 
+  # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
+  scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity, private: true) }
   default_scope { order(created_at: :asc) }
 
@@ -42,10 +44,10 @@ class Message < ApplicationRecord
   private
 
   def dispatch_event
-    $dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless self.conversation.messages.count == 1
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless self.conversation.messages.count == 1
 
     if outgoing? && self.conversation.messages.outgoing.count == 1
-      $dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
+      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
     end
   end
 
@@ -56,7 +58,7 @@ class Message < ApplicationRecord
   def reopen_conversation
     if incoming? && self.conversation.resolved?
       self.conversation.toggle_status
-      $dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: self.conversation)
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: self.conversation)
     end
   end
 end

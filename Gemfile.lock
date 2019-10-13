@@ -165,6 +165,7 @@ GEM
       json_pure (~> 2.1)
       rest-client (>= 1.8, < 3.0)
     cliver (0.3.2)
+    coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (5.0.0)
@@ -266,6 +267,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.12.2)
+    mock_redis (0.22.0)
     msgpack (1.3.1)
     multi_json (1.13.1)
     multi_xml (0.6.0)
@@ -298,6 +300,11 @@ GEM
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (4.0.1)
     puma (3.12.1)
     pundit (2.1.0)
@@ -477,10 +484,12 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
+  mock_redis
   nightfury (~> 1.0, >= 1.0.1)
   omniauth-facebook
   pg
   poltergeist
+  pry-rails
   puma (~> 3.0)
   pundit
   pusher

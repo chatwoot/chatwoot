@@ -53,10 +53,10 @@ class Account < ApplicationRecord
   end
 
   def notify_creation
-    $dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
   end
 
   def notify_deletion
-    $dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
   end
 end
