@@ -6,9 +6,9 @@
     "docs": "docsify serve docs",
     "eslint": "eslint app/javascript --fix",
     "pretest": "rimraf .jest-cache",
-    "autotest": "jest --watch --no-cache",
     "test": "jest --no-cache",
-    "cover": "jest --no-cache --collectCoverage"
+    "test:watch": "jest --watch --no-cache",
+    "test:coverage": "jest --no-cache --collectCoverage"
   },
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
