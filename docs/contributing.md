@@ -5,7 +5,7 @@ title: "Contributing Guide"
 
 Thanks for taking interest in contributing to Chatwoot source code. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
 
-- [Code of Conduct](https://github.com/chatwoot/chatwoot/blob/master/CODE_OF_CONDUCT.md)
+- [Code of Conduct](https://www.chatwoot.com/docs/code-of-conduct)
 - [Development Setup](https://www.chatwoot.com/docs/ubuntu-installation-guide)
 - [Project Dependencies](https://www.chatwoot.com/docs/dependencies)
 - [Environment Setup](https://www.chatwoot.com/docs/environment-variables)

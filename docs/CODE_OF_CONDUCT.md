@@ -1,4 +1,7 @@
-# Contributor Covenant Code of Conduct
+---
+path: "/docs/code-of-conduct"
+title: "Contributor Covenant Code of Conduct"
+---
 
 ## Our Pledge
 
