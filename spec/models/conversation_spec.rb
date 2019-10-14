@@ -60,8 +60,8 @@ RSpec.describe Conversation, type: :model do
       # create_activity
       expect(conversation.messages.pluck(:content)).to eq(
         [
-          'Conversation was marked resolved by John Smith',
-          'Assigned to John Smith by John Smith'
+          "Conversation was marked resolved by #{old_assignee.name}",
+          "Assigned to #{new_assignee.name} by #{old_assignee.name}"
         ]
       )
 
