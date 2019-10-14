@@ -59,11 +59,13 @@ end
 
 group :test do
   gem 'mock_redis'
+  gem 'shoulda-matchers'
 end
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
+  gem 'ffaker'
   gem 'listen'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
@@ -71,7 +73,6 @@ group :development, :test do
   gem 'seed_dump'
   gem 'spring'
   gem 'spring-watcher-listen'
-
 end
 
 gem 'attr_extras'
