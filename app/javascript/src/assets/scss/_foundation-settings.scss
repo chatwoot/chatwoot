@@ -270,8 +270,8 @@ $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
-$button-color: $white;
-$button-color-alt: $white;
+$button-color: $black;
+$button-color-alt: $black;
 $button-radius: $global-radius;
 $button-sizes: (
   tiny: $font-size-micro,
