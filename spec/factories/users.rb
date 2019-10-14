@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :user do
     transient do
-      skip_confirmation { false }
+      skip_confirmation { true }
     end
 
     provider { 'email' }
