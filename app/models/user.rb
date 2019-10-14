@@ -19,7 +19,7 @@ class User < ApplicationRecord
   enum role: [ :agent, :administrator ]
 
   belongs_to :account
-  belongs_to :inviter, foreign_key: :invited_by, class_name: 'User', required: false
+  belongs_to :inviter, class_name: 'User', required: false
 
   has_many :assigned_conversations, foreign_key: "assignee_id", class_name: "Conversation", dependent: :nullify
   has_many :inbox_members, dependent: :destroy
