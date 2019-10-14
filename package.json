@@ -2,6 +2,14 @@
   "name": "@chatwoot/chatwoot",
   "version": "0.1.0",
   "license": "MIT",
+  "scripts": {
+    "docs": "docsify serve docs",
+    "eslint": "eslint app/javascript --fix",
+    "pretest": "rimraf .jest-cache",
+    "test": "jest --no-cache",
+    "test:watch": "jest --watch --no-cache",
+    "test:coverage": "jest --no-cache --collectCoverage"
+  },
   "dependencies": {
     "@rails/webpacker": "^4.0.7",
     "axios": "^0.19.0",
@@ -42,7 +50,10 @@
     "vuex-router-sync": "~4.1.2"
   },
   "devDependencies": {
+    "@vue/babel-preset-app": "^3.11.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
     "eslint": "^5.13.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^4.0.0",
@@ -53,10 +64,15 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-vue": "^5.2.3",
+    "expect-more-jest": "^2.4.2",
     "husky": ">=1",
     "jest": "^24.8.0",
+    "jest-serializer-vue": "^2.0.2",
+    "jest-transform-stub": "^2.0.0",
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "vue-jest": "^3.0.5",
     "webpack-dev-server": "^3.7.2"
   },
   "engines": {
@@ -74,9 +90,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "scripts": {
-    "docs": "docsify serve docs",
-    "eslint": "eslint app/javascript --fix"
   }
 }

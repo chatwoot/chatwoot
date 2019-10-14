@@ -40,7 +40,7 @@ const generateRoleWiseRoute = route => {
 // returns an object with roles as keys and routeArr as values
 generateRoleWiseRoute(routes);
 
-const router = new VueRouter({
+export const router = new VueRouter({
   mode: 'history',
   routes, // short for routes: routes
 });
@@ -84,7 +84,7 @@ const routeValidators = [
   },
 ];
 
-const validateAuthenticateRoutePermission = (to, from, next) => {
+export const validateAuthenticateRoutePermission = (to, from, next) => {
   const isLoggedIn = auth.isLoggedIn();
   const isProtectedRoute = !unProtectedRoutes.includes(to.name);
   const strategy = routeValidators.find(

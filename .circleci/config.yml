@@ -53,9 +53,9 @@ jobs:
           name: eslint
           command: yarn run eslint
 
-      # - run:
-      #     name: brakeman
-      #     command: brakeman
+      - run:
+          name: test
+          command: yarn test
 
       - run:
           name: Copy files
