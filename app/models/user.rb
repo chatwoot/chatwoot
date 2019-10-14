@@ -3,8 +3,13 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   include Events::Types
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+  devise :database_authenticatable, 
+    :registerable,
+    :recoverable, 
+    :rememberable, 
+    :trackable, 
+    :validatable, 
+    :confirmable
 
   validates_uniqueness_of :email, scope: :account_id
   validates :email, presence: true
@@ -14,6 +19,7 @@ class User < ApplicationRecord
   enum role: [ :agent, :administrator ]
 
   belongs_to :account
+  belongs_to :inviter, class_name: 'User', required: false
 
   has_many :assigned_conversations, foreign_key: "assignee_id", class_name: "Conversation", dependent: :nullify
   has_many :inbox_members, dependent: :destroy
