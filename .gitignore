@@ -36,5 +36,10 @@ config/application.yml
 public/uploads
 public/packs
 
+# VIM files
+*.swp
+*.swo
+*.un~
+.jest-cache
 # ignore jetbrains IDE files
 .idea
