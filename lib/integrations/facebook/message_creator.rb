@@ -28,8 +28,8 @@ class Integrations::Facebook::MessageCreator
 
   def create_outgoing_message
     FacebookPage.where(page_id: response.sender_id).each do |page|
-        mb = Messages::Outgoing::EchoBuilder.new(response, page.inbox, true)
-        mb.perform
+      mb = Messages::Outgoing::EchoBuilder.new(response, page.inbox, true)
+      mb.perform
     end
   end
 
