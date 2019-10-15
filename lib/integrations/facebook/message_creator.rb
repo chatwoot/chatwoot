@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Integrations::Facebook::MessageCreator
 
   attr_reader :response

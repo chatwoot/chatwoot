@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Reports::UpdateAccountIdentity < Reports::UpdateIdentity
   attr_reader :account
 

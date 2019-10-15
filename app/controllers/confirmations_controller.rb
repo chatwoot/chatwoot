@@ -2,7 +2,6 @@ class ConfirmationsController < Devise::ConfirmationsController
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
-
   def create
     begin
       @confirmable = User.find_by(confirmation_token: params[:confirmation_token])

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CustomExceptions::Base < ::StandardError
 
   def to_hash

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Integrations::Widget::OutgoingMessageBuilder
   # params = {
   #   user_id: 1,
