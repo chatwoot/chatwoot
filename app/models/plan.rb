@@ -60,7 +60,7 @@ class Plan
     end
 
     def trial_plan
-      all_plans.select { |plan| plan.key == :trial }.first
+      all_plans.detect { |plan| plan.key == :trial }
     end
 
     def plans_of_version(version)
@@ -69,7 +69,7 @@ class Plan
 
     def find_by_key(key)
       key = key.to_sym
-      all_plans.select { |plan| plan.key == key }.first.dup
+      all_plans.detect { |plan| plan.key == key }.dup
     end
 
     ##helpers
