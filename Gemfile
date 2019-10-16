@@ -18,7 +18,6 @@ gem 'koala'
 gem 'mini_magick'
 gem 'nightfury', '~> 1.0', '>= 1.0.1'
 gem 'pg'
-gem 'poltergeist'
 gem 'puma', '~> 3.0'
 gem 'pundit'
 gem 'pusher'
@@ -29,8 +28,6 @@ gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rack-cache'
 gem 'responders'
-gem 'rest-client'
-gem 'sass-rails', '~> 5.0'
 gem 'sentry-raven'
 gem 'sidekiq'
 gem 'telegram-bot-ruby'
@@ -39,6 +36,8 @@ gem 'time_diff'
 gem 'uglifier', '>= 1.3.0'
 gem 'valid_email2'
 gem 'wisper', '2.0.0'
+gem 'attr_extras'
+
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
@@ -73,5 +72,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem 'attr_extras'
