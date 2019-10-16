@@ -1,5 +1,7 @@
 class Contact < ApplicationRecord
-
+  
+  #Used by the pusher/PubSub Service we use for real time communications
+  has_secure_token :pubsub_token
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 
@@ -8,21 +10,13 @@ class Contact < ApplicationRecord
   has_many :conversations, dependent: :destroy, foreign_key: :sender_id
   mount_uploader :avatar, AvatarUploader
 
-  before_create :set_channel
-
   def push_event_data
     {
       id: id,
       name: name,
       thumbnail: avatar.thumb.url,
       channel: inbox.try(:channel).try(:name),
-      chat_channel: chat_channel
+      pubsub_token: pubsub_token
     }
-  end
-
-  def set_channel
-    begin
-    self.chat_channel = SecureRandom.hex
-    end while self.class.exists?(chat_channel: chat_channel)
   end
 end
