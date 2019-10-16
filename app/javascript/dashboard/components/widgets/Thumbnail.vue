@@ -1,7 +1,7 @@
 <template>
   <div class="user-thumbnail-box" v-bind:style="{ height: size, width: size }">
     <img v-bind:src="src" class="user-thumbnail">
-    <img class="source-badge" src="~assets/images/fb-badge.png" v-if="badge === 'Facebook'">
+    <img class="source-badge" src="~dashboard/assets/images/fb-badge.png" v-if="badge === 'Facebook'">
   </div>
 </template>
 <script>

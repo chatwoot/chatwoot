@@ -1,7 +1,7 @@
 <template>
   <div class="medium-12 column login">
     <div class="text-center medium-12 login__hero align-self-top">
-      <img src="~assets/images/woot-logo.svg" alt="Woot-logo" class="hero__logo" />
+      <img src="~dashboard/assets/images/woot-logo.svg" alt="Woot-logo" class="hero__logo" />
       <h2 class="hero__title">{{$t('LOGIN.TITLE')}}</h2>
     </div>
     <div class="row align-center">

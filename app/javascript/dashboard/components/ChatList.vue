@@ -169,7 +169,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~assets/scss/variables';
+@import '~dashboard/assets/scss/variables';
 .spinner {
   margin-top: $space-normal;
   margin-bottom: $space-normal;

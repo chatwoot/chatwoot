@@ -2,7 +2,7 @@
   <div class="medium-10 column signup">
     <div class="text-center medium-12 signup--hero">
       <img
-        src="~assets/images/woot-logo.svg"
+        src="~dashboard/assets/images/woot-logo.svg"
         alt="Woot-logo"
         class="hero--logo"
       />
