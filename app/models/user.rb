@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules.
-  include DeviseTokenAuth::Concerns::User
   include Events::Types
   include Pubsubable
 
@@ -12,16 +10,12 @@ class User < ApplicationRecord
          :validatable,
          :confirmable
 
-  # Used by the actionCable/PubSub Service we use for real time communications
-  has_secure_token :pubsub_token
-
   validates_uniqueness_of :email, scope: :account_id
-  validates :email, presence: true
-  validates :name, presence: true
   validates :account_id, presence: true
 
   enum role: [:agent, :administrator]
 
+  belongs_to :devise_user
   belongs_to :account
   belongs_to :inviter, class_name: 'User', required: false
 
@@ -30,17 +24,24 @@ class User < ApplicationRecord
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
 
+<<<<<<< HEAD
   before_validation :set_password_and_uid, on: :create
 
+=======
+>>>>>>> Move devise-specific model methods to DeviseUser
   accepts_nested_attributes_for :account
 
+  before_create :set_channel
   after_create :notify_creation
   after_destroy :notify_deletion
 
+<<<<<<< HEAD
   def set_password_and_uid
     self.uid = email
   end
 
+=======
+>>>>>>> Move devise-specific model methods to DeviseUser
   def serializable_hash(options = nil)
     super(options).merge(confirmed: confirmed?, subscription: account.try(:subscription).try(:summary))
   end

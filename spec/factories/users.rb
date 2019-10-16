@@ -2,10 +2,6 @@
 
 FactoryBot.define do
   factory :user do
-    transient do
-      skip_confirmation { true }
-    end
-
     provider { 'email' }
     uid { SecureRandom.uuid }
     name { Faker::Name.name }
