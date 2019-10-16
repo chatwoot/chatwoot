@@ -11,6 +11,9 @@ class User < ApplicationRecord
     :validatable, 
     :confirmable
 
+  #Used by the pusher/PubSub Service we use for real time communications
+  has_secure_token :pubsub_token
+
   validates_uniqueness_of :email, scope: :account_id
   validates :email, presence: true
   validates :name, presence: true
@@ -26,7 +29,6 @@ class User < ApplicationRecord
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
 
-  before_create :set_channel
   before_validation :set_password_and_uid, on: :create
 
   accepts_nested_attributes_for :account
@@ -40,12 +42,6 @@ class User < ApplicationRecord
 
   def serializable_hash(options = nil)
     super(options).merge(confirmed: confirmed?, subscription: account.try(:subscription).try(:summary) )
-  end
-
-  def set_channel
-    begin
-    self.channel = SecureRandom.hex
-    end while self.class.exists?(channel: channel)
   end
 
   def notify_creation

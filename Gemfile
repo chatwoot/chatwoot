@@ -63,7 +63,7 @@ end
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
-  gem 'ffaker'
+  gem 'faker'
   gem 'listen'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'

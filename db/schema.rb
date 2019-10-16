@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_14_051743) do
+ActiveRecord::Schema.define(version: 2019_10_16_211109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,8 +67,9 @@ ActiveRecord::Schema.define(version: 2019_10_14_051743) do
     t.integer "inbox_id", null: false
     t.bigserial "source_id", null: false
     t.string "avatar"
-    t.string "chat_channel"
+    t.string "pubsub_token"
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -203,11 +204,12 @@ ActiveRecord::Schema.define(version: 2019_10_14_051743) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "channel"
+    t.string "pubsub_token"
     t.integer "role", default: 0
     t.bigint "inviter_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["inviter_id"], name: "index_users_on_inviter_id"
+    t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
