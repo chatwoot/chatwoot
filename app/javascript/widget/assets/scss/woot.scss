@@ -1,0 +1,16 @@
+@import "variables";
+@import "reset";
+@import "buttons";
+@import "mixins";
+@import "forms";
+
+html,
+body {
+  font-size: 10px;
+  height: 100%;
+  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+
+.woot-widget-wrap {
+  height: 100%;
+}
