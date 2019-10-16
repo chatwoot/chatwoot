@@ -2,6 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
   include Events::Types
+  include Pubsubable
 
   devise :database_authenticatable, 
     :registerable,
