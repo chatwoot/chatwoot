@@ -1,7 +1,7 @@
 <template>
   <div class="wizard-body columns content-box small-9">
     <div class="login-init full-height" v-if="!hasLoginStarted">
-      <a href="#" @click="startLogin()"><img src="~assets/images/channels/facebook_login.png" alt="Facebook-logo"/></a>
+      <a href="#" @click="startLogin()"><img src="~dashboard/assets/images/channels/facebook_login.png" alt="Facebook-logo"/></a>
       <p>{{ $t('INBOX_MGMT.ADD.FB.HELP') }}</p>
     </div>
     <div v-else>

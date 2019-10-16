@@ -2,7 +2,7 @@
   <aside class="sidebar animated shrink columns">
     <div class="logo">
       <router-link :to="dashboardPath" replace>
-        <img src="~assets/images/woot-logo.svg" alt="Woot-logo" />
+        <img src="~dashboard/assets/images/woot-logo.svg" alt="Woot-logo" />
       </router-link>
     </div>
 
