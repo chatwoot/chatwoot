@@ -42,7 +42,7 @@
       <div v-if="!fetchingInboxes && !loadingChatList" class="current-chat">
         <!-- No inboxes attached -->
         <div v-if="!inboxesList.length">
-          <img src="~assets/images/inboxes.svg" alt="No Inboxes" />
+          <img src="~dashboard/assets/images/inboxes.svg" alt="No Inboxes" />
           <span v-if="isAdmin()">
             {{ $t('CONVERSATION.NO_INBOX_1') }}
             <br />
@@ -57,7 +57,7 @@
         </div>
         <!-- No conversations available -->
         <div v-else-if="!allConversations.length">
-          <img src="~assets/images/chat.svg" alt="No Chat" />
+          <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
           <span>
             {{ $t('CONVERSATION.NO_MESSAGE_1') }}
             <br />
@@ -69,7 +69,7 @@
         </div>
         <!-- No conversation selected -->
         <div v-else-if="allConversations.length && currentChat.id === null">
-          <img src="~assets/images/chat.svg" alt="No Chat" />
+          <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
           <span>{{ $t('CONVERSATION.404') }}</span>
         </div>
       </div>

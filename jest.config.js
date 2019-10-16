@@ -2,7 +2,7 @@ process.env.VUE_CLI_BABEL_TARGET_NODE = true;
 process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
 
 module.exports = {
-  moduleDirectories: ['node_modules', 'app/javascript/src'],
+  moduleDirectories: ['node_modules', 'app/javascript/app'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx', 'vue'],
   automock: false,
   resetMocks: true,

@@ -3,7 +3,7 @@
     <div class="lock-message">
       <!-- No inboxes attached -->
       <div>
-        <img src="~assets/images/lock.svg" alt="Lock" />
+        <img src="~dashboard/assets/images/lock.svg" alt="Lock" />
         <span v-html="$t('BILLING.ACCOUNT_LOCKED')">
         </span>
       </div>
