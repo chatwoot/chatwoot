@@ -63,7 +63,7 @@ export default {
     const pusher = new VuePusher(CONSTANTS.PUSHER.token, options);
     // Add to global Obj
     if (AuthAPI.isLoggedIn()) {
-      pusher.subscribe(AuthAPI.getChannel());
+      pusher.subscribe(AuthAPI.getPubSubToken());
       return pusher.pusher;
     }
     return null;

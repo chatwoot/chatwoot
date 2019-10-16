@@ -8,8 +8,8 @@ FactoryBot.define do
 
     provider { 'email' }
     uid { SecureRandom.uuid }
-    name { FFaker::Name.name }
-    nickname { FFaker::InternetSE.user_name_from_name(name) }
+    name { Faker::Name.name }
+    nickname { Faker::Name.first_name  }
     email { nickname + '@example.com' }
     role { 'agent' }
     password { "password" }

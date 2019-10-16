@@ -108,9 +108,9 @@ export default {
     }
     return false;
   },
-  getChannel() {
+  getPubSubToken() {
     if (this.isLoggedIn()) {
-      return Cookies.getJSON('user').channel;
+      return Cookies.getJSON('user').pubsub_token;
     }
     return null;
   },

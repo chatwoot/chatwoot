@@ -2,24 +2,16 @@
 
 require 'rails_helper'
 
-RSpec.describe User do
+RSpec.describe Contact do
   context 'validations' do
-    it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:account_id) }
+    it { is_expected.to validate_presence_of(:inbox_id) }
   end
 
   context 'associations' do
     it { is_expected.to belong_to(:account) }
-    it { is_expected.to belong_to(:inviter).class_name('User').required(false) }
-
-    it do
-      is_expected.to have_many(:assigned_conversations)
-        .class_name('Conversation').dependent(:nullify)
-    end
-    it { is_expected.to have_many(:inbox_members).dependent(:destroy) }
-    it { is_expected.to have_many(:assigned_inboxes).through(:inbox_members) }
-    it { is_expected.to have_many(:messages) }
+    it { is_expected.to belong_to(:inbox) }
+    it { is_expected.to have_many(:conversations).dependent(:destroy) }
   end
 
   describe 'pubsub_token' do
