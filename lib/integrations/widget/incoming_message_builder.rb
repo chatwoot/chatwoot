@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Integrations::Widget::IncomingMessageBuilder
   #  params = {
   #   contact_id: 1,

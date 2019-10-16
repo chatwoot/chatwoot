@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Integrations::Facebook::MessageParser
 
   def initialize(response_json)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountBuilder
   include CustomExceptions::Account
 
@@ -59,13 +61,11 @@ class AccountBuilder
     else
       raise UserErrors.new({errors: @user.errors})
     end
-
   end
 
   def email_to_name(email)
     name = email[/[^@]+/]
     name.split(".").map {|n| n.capitalize }.join(" ")
   end
-
 
 end

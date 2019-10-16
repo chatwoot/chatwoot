@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CustomExceptions::Account
 
   class InvalidEmail < CustomExceptions::Base

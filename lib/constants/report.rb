@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Constants::Report
   ACCOUNT_METRICS = [ :conversations_count,
                       :incoming_messages_count,
