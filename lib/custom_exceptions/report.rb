@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CustomExceptions::Report
   class InvalidIdentity < CustomExceptions::Base
     def message

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Webhooks::Chargebee
 
   SUPPORTED_EVENTS = [:subscription_created, :subscription_trial_end_reminder,
