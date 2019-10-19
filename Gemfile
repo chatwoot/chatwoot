@@ -57,7 +57,7 @@ gem 'chargebee', '~>2'
 
 
 ##--- gems for channels ---##
-gem 'facebook-messenger', '~> 0.11.1'
+gem 'facebook-messenger'
 gem 'twitter'
 gem 'telegram-bot-ruby'
 # facebook client
