@@ -28,14 +28,14 @@ class Integrations::Facebook::MessageCreator
   end
 
   def create_outgoing_message
-    FacebookPage.where(page_id: response.sender_id).each do |page|
+    Channel::FacebookPage.where(page_id: response.sender_id).each do |page|
       mb = Messages::Outgoing::EchoBuilder.new(response, page.inbox, true)
       mb.perform
     end
   end
 
   def create_incoming_message
-    FacebookPage.where(page_id: response.recipient_id).each do |page|
+    Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
       mb = Messages::IncomingMessageBuilder.new(response, page.inbox)
       mb.perform
     end
