@@ -10,7 +10,7 @@ if Rails.env.production?
 
     # Optionally define an asset host for configurations that are fronted by a
     # content host, such as CloudFront.
-    #config.asset_host = 'http://example.com'
+    # config.asset_host = 'http://example.com'
 
     # The maximum period for authenticated_urls is only 7 days.
     config.aws_authenticated_url_expiration = 60 * 60 * 24 * 7
@@ -22,9 +22,9 @@ if Rails.env.production?
     }
 
     config.aws_credentials = {
-      access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      region:            ENV['AWS_REGION'] # Required
+      region: ENV['AWS_REGION'] # Required
     }
 
     # Optional: Signing of download urls, e.g. for serving private content through

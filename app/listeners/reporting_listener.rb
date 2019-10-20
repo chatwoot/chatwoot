@@ -1,5 +1,4 @@
 class ReportingListener < BaseListener
-
   def conversation_created(event)
     conversation, account, timestamp = extract_conversation_and_account(event)
     ::Reports::UpdateAccountIdentity.new(account, timestamp).incr_conversations_count
@@ -20,12 +19,9 @@ class ReportingListener < BaseListener
     conversation = message.conversation
     agent = conversation.assignee
     first_response_time = message.created_at.to_i - conversation.created_at.to_i
-    if agent.present?
-      ::Reports::UpdateAgentIdentity.new(account, agent, timestamp).update_avg_first_response_time(first_response_time)
-    end
+    ::Reports::UpdateAgentIdentity.new(account, agent, timestamp).update_avg_first_response_time(first_response_time) if agent.present?
     ::Reports::UpdateAccountIdentity.new(account, timestamp).update_avg_first_response_time(first_response_time)
   end
-
 
   def message_created(event)
     message, account, timestamp = extract_message_and_account(event)

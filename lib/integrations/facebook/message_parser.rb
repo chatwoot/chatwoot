@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
 class Integrations::Facebook::MessageParser
-
   def initialize(response_json)
     @response = response_json
   end
 
   def sender_id
-    @response.sender["id"]
+    @response.sender['id']
   end
 
   def recipient_id
-    @response.recipient["id"]
+    @response.recipient['id']
   end
 
   def time_stamp
@@ -45,7 +44,6 @@ class Integrations::Facebook::MessageParser
   def sent_from_chatwoot_app?
     app_id && app_id == ENV['fb_app_id'].to_i
   end
-
 end
 
 # Sample Reponse
@@ -67,6 +65,6 @@ end
 #   }
 # }
 
-#ECHO from own app
+# ECHO from own app
 
-#{"sender"=>{"id"=>"379460302081528"}, "recipient"=>{"id"=>"403092229814994"}, "timestamp"=>1493270145685, "message"=>{"is_echo"=>true, "app_id"=>1847193292179369, "mid"=>"mid.$cAAED7rlYNsVh3xtylVbrdYqH8iEp", "seq"=>167221, "text"=>"sad"}}
+# {"sender"=>{"id"=>"379460302081528"}, "recipient"=>{"id"=>"403092229814994"}, "timestamp"=>1493270145685, "message"=>{"is_echo"=>true, "app_id"=>1847193292179369, "mid"=>"mid.$cAAED7rlYNsVh3xtylVbrdYqH8iEp", "seq"=>167221, "text"=>"sad"}}

@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :inbox do
     account
     association :channel, factory: :channel_widget
-    name { "Inbox" }
+    name { 'Inbox' }
   end
 end

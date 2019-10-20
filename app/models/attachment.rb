@@ -3,7 +3,7 @@ require 'open-uri'
 class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
-  mount_uploader :file, AttachmentUploader #used for images
+  mount_uploader :file, AttachmentUploader # used for images
   enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
   before_create :set_file_extension
@@ -51,9 +51,12 @@ class Attachment < ApplicationRecord
   end
 
   def set_file_extension
-    if self.external_url && !self.fallback?
-      self.extension = Pathname.new(URI(external_url).path).extname rescue nil
+    if external_url && !fallback?
+      self.extension = begin
+                         Pathname.new(URI(external_url).path).extname
+                       rescue StandardError
+                         nil
+                       end
     end
   end
-
 end

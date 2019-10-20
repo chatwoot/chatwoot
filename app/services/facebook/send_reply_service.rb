@@ -4,8 +4,8 @@ module Facebook
 
     def perform
       return if message.private
-      return if inbox.channel.class.to_s != "FacebookPage"
-      return if !outgoing_message_from_chatwoot?
+      return if inbox.channel.class.to_s != 'FacebookPage'
+      return unless outgoing_message_from_chatwoot?
 
       Bot.deliver(delivery_params, access_token: message.channel_token)
     end
@@ -25,7 +25,7 @@ module Facebook
     end
 
     def outgoing_message_from_chatwoot?
-      #messages sent directly from chatwoot won't have fb_id.
+      # messages sent directly from chatwoot won't have fb_id.
       message.outgoing? && !message.fb_id
     end
 
@@ -38,13 +38,13 @@ module Facebook
     def fb_message_params
       {
         recipient: { id: sender.source_id },
-        message: { text: message.content },
+        message: { text: message.content }
       }
     end
 
     def delivery_params
       if twenty_four_hour_window_over?
-        fb_message_params.merge(tag: "ISSUE_RESOLUTION")
+        fb_message_params.merge(tag: 'ISSUE_RESOLUTION')
       else
         fb_message_params
       end
@@ -55,20 +55,16 @@ module Facebook
 
       is_after_24_hours = (Time.current - last_incoming_message.created_at) / 3600 >= 24
 
-      if !is_after_24_hours
-        false
-      end
+      false unless is_after_24_hours
 
-      if last_incoming_message && has_sent_first_outgoing_message_after_24_hours?(last_incoming_message.id)
-        false
-      end
+      false if last_incoming_message && has_sent_first_outgoing_message_after_24_hours?(last_incoming_message.id)
 
       true
     end
 
     def has_sent_first_outgoing_message_after_24_hours?(last_incoming_message_id)
-      #we can send max 1 message after 24 hour window
-      conversation.messages.outgoing.where("id > ?", last_incoming_message_id).count == 1
+      # we can send max 1 message after 24 hour window
+      conversation.messages.outgoing.where('id > ?', last_incoming_message_id).count == 1
     end
   end
 end

@@ -1,8 +1,8 @@
 class Api::V1::Widget::MessagesController < ApplicationController
-  # TODO move widget apis to different controller.
-  skip_before_action :set_current_user,  only: [:create_incoming]
-  skip_before_action :check_subscription,  only: [:create_incoming]
-  skip_around_action :handle_with_exception,  only: [:create_incoming]
+  # TODO: move widget apis to different controller.
+  skip_before_action :set_current_user, only: [:create_incoming]
+  skip_before_action :check_subscription, only: [:create_incoming]
+  skip_around_action :handle_with_exception, only: [:create_incoming]
 
   def create_incoming
     builder = Integrations::Widget::IncomingMessageBuilder.new(incoming_message_params)

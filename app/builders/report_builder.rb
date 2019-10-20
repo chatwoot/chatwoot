@@ -8,7 +8,7 @@ class ReportBuilder
   IDENTITY_MAPPING = {
     account: AccountIdentity,
     agent: AgentIdentity
-  }
+  }.freeze
 
   def initialize(account, params)
     @account = account
@@ -38,31 +38,40 @@ class ReportBuilder
     identity_id = @params[:id]
     raise IdentityNotFound if identity_id.nil?
 
-    tags = identity_class == AccountIdentity ? nil : { account_id: @account.id}
+    tags = identity_class == AccountIdentity ? nil : { account_id: @account.id }
     identity = identity_class.new(identity_id, tags: tags)
     raise MetricNotFound if @params[:metric].blank?
     raise MetricNotFound unless identity.respond_to?(@params[:metric])
+
     identity
   end
 
   def validate_times
     start_time = @params[:since] || Time.now.end_of_day - 30.days
     end_time = @params[:until] || Time.now.end_of_day
-    start_time = parse_date_time(start_time) rescue raise(InvalidStartTime)
-    end_time = parse_date_time(end_time) rescue raise(InvalidEndTime)
+    start_time = begin
+                   parse_date_time(start_time)
+                 rescue StandardError
+                   raise(InvalidStartTime)
+                 end
+    end_time = begin
+                 parse_date_time(end_time)
+               rescue StandardError
+                 raise(InvalidEndTime)
+               end
     [start_time, end_time]
   end
 
   def parse_date_time(datetime)
     return datetime if datetime.is_a?(DateTime)
-    return datetime.to_datetime if datetime.is_a?(Time) or datetime.is_a?(Date)
-    DateTime.strptime(datetime,'%s')
+    return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
+
+    DateTime.strptime(datetime, '%s')
   end
 
   def formatted_hash(hash)
-    hash.inject([]) do |arr,p|
-      arr << {value: p[1], timestamp: p[0]}
-      arr
+    hash.each_with_object([]) do |p, arr|
+      arr << { value: p[1], timestamp: p[0] }
     end
   end
 end

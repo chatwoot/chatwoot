@@ -1,5 +1,4 @@
 class Api::V1::FacebookIndicatorsController < Api::BaseController
-
   before_action :set_access_token
   around_action :handle_with_exception
 
@@ -21,24 +20,21 @@ class Api::V1::FacebookIndicatorsController < Api::BaseController
   private
 
   def handle_with_exception
-    begin
-      yield
-    rescue Facebook::Messenger::Error => e
-      true
-    end
+    yield
+  rescue Facebook::Messenger::Error => e
+    true
   end
 
   def payload(action)
     {
-      recipient: {id: params[:sender_id]},
+      recipient: { id: params[:sender_id] },
       sender_action: action
     }
   end
 
   def set_access_token
-    #have to cache this
+    # have to cache this
     inbox = current_account.inboxes.find(params[:inbox_id])
     @access_token = inbox.channel.page_access_token
   end
-
 end

@@ -1,43 +1,43 @@
 # frozen_string_literal: true
 
 class Reports::UpdateIdentity
-
   attr_reader :account, :identity
   attr_accessor :timestamp
 
   def initialize(account, timestamp = Time.now)
-    @account, @timestamp = account, timestamp
+    @account = account
+    @timestamp = timestamp
   end
 
-  def incr_conversations_count(step=1)
+  def incr_conversations_count(step = 1)
     update_conversations_count(:incr, step)
   end
 
-  def decr_conversations_count(step=1)
+  def decr_conversations_count(step = 1)
     update_conversations_count(:decr, step)
   end
 
-  def incr_incoming_messages_count(step=1)
+  def incr_incoming_messages_count(step = 1)
     update_incoming_messages_count(:incr, step)
   end
 
-  def decr_incoming_messages_count(step=1)
+  def decr_incoming_messages_count(step = 1)
     update_incoming_messages_count(:decr, step)
   end
 
-  def incr_outgoing_messages_count(step=1)
+  def incr_outgoing_messages_count(step = 1)
     update_outgoing_messages_count(:incr, step)
   end
 
-  def decr_outgoing_messages_count(step=1)
+  def decr_outgoing_messages_count(step = 1)
     update_outgoing_messages_count(:decr, step)
   end
 
-  def incr_resolutions_count(step=1)
+  def incr_resolutions_count(step = 1)
     update_resolutions_count(:incr, step)
   end
 
-  def decr_resolutions_count(step=1)
+  def decr_resolutions_count(step = 1)
     update_resolutions_count(:decr, step)
   end
 

@@ -12,7 +12,7 @@ class MessageFinder
 
   def current_messages
     if @params[:before].present?
-      @conversation.messages.reorder('created_at desc').where("id < ?", @params[:before]).limit(20).reverse
+      @conversation.messages.reorder('created_at desc').where('id < ?', @params[:before]).limit(20).reverse
     else
       @conversation.messages.reorder('created_at desc').limit(20).reverse
     end

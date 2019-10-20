@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
-
-  #AUTH STARTS
+  # AUTH STARTS
   match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
   mount_devise_token_auth_for 'User', at: 'auth', controllers: { confirmations: 'confirmations', passwords: 'passwords',
-    sessions: 'sessions' }, via: [:get, :post]
+                                                                 sessions: 'sessions' }, via: [:get, :post]
 
+  root to: 'dashboard#index'
 
-  root :to => "dashboard#index"
-
-  get "/app", to: "dashboard#index"
-  get "/app/*params", to: "dashboard#index"
+  get '/app', to: 'dashboard#index'
+  get '/app/*params', to: 'dashboard#index'
 
   match '/status', to: 'home#status', via: [:get]
 
@@ -40,7 +38,7 @@ Rails.application.routes.draw do
       resources :labels, only: [:index]
       resources :canned_responses, except: [:show, :edit, :new]
       resources :inbox_members, only: [:create, :show], param: :inbox_id
-      resources :facebook_indicators, only:[] do
+      resources :facebook_indicators, only: [] do
         collection do
           post :mark_seen
           post :typing_on
@@ -72,7 +70,7 @@ Rails.application.routes.draw do
       end
 
       resources :conversations, only: [:index, :show] do
-        scope module: :conversations do #for nested controller
+        scope module: :conversations do # for nested controller
           resources :messages, only: [:create]
           resources :assignments, only: [:create]
           resources :labels, only: [:create, :index]
@@ -86,7 +84,7 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: "mailer" do
+  scope module: 'mailer' do
     resources :conversations, only: [:show]
   end
 

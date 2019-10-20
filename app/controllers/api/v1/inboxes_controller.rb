@@ -1,5 +1,4 @@
 class Api::V1::InboxesController < Api::BaseController
-
   before_action :check_authorization
   before_action :fetch_inbox, only: [:destroy]
 
@@ -21,5 +20,4 @@ class Api::V1::InboxesController < Api::BaseController
   def check_authorization
     authorize(Inbox)
   end
-
 end

@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 class Webhooks::Chargebee
-
   SUPPORTED_EVENTS = [:subscription_created, :subscription_trial_end_reminder,
                       :subscription_activated, :subscription_cancelled,
                       :subscription_reactivated, :subscription_deleted,
-                      :subscription_renewed, :payment_source_added, :subscription_changed ]
+                      :subscription_renewed, :payment_source_added, :subscription_changed].freeze
 
   attr_accessor :params, :account
 
@@ -29,7 +28,7 @@ class Webhooks::Chargebee
 
   def trial_ends_on
     trial_end = @params[:content][:subscription][:trial_end]
-    DateTime.strptime(trial_end,'%s')
+    DateTime.strptime(trial_end, '%s')
   end
 
   def supported_event?
@@ -68,18 +67,17 @@ class Webhooks::Chargebee
   end
 
   def subscription_reactivated
-    #TODO send mail to user that account is reactivated
+    # TODO: send mail to user that account is reactivated
     subscription.active!
     Raven.capture_message("subscription reactivated for #{customer_id}")
   end
 
   def subscription_renewed
-    #TODO Needs this to show payment history.
+    # TODO: Needs this to show payment history.
     Raven.capture_message("subscription renewed for #{customer_id}")
   end
 
-  def subscription_deleted
-  end
+  def subscription_deleted; end
 
   def payment_source_added
     Raven.capture_message("payment source added for #{customer_id}")

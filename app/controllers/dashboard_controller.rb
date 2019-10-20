@@ -1,6 +1,5 @@
 class DashboardController < ActionController::Base
   layout 'vueapp'
 
-  def index
-  end
+  def index; end
 end

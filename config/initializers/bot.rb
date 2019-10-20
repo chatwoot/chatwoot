@@ -1,7 +1,7 @@
 unless Rails.env.production?
   bot_files = Dir[Rails.root.join('app', 'bot', '**', '*.rb')]
   bot_reloader = ActiveSupport::FileUpdateChecker.new(bot_files) do
-    bot_files.each{ |file| require_dependency file }
+    bot_files.each { |file| require_dependency file }
   end
 
   ActiveSupport::Reloader.to_prepare do
@@ -21,20 +21,17 @@ module Facebook
         def app_id
           @messaging['message']['app_id']
         end
-
       end
     end
   end
 end
 
-
-
 class ExampleProvider < Facebook::Messenger::Configuration::Providers::Base
-  def valid_verify_token?(verify_token)
+  def valid_verify_token?(_verify_token)
     ENV['fb_verify_token']
   end
 
-  def app_secret_for(page_id)
+  def app_secret_for(_page_id)
     ENV['fb_app_secret']
   end
 
