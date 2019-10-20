@@ -1,5 +1,4 @@
 class BaseListener
-
   include Singleton
 
   def extract_conversation_and_account(event)
@@ -11,5 +10,4 @@ class BaseListener
     message = event.data[:message]
     [message, message.account, event.timestamp]
   end
-
 end

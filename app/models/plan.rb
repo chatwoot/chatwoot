@@ -1,7 +1,7 @@
 class Plan
   attr_accessor :key, :attributes
 
-  def initialize(key, attributes={})
+  def initialize(key, attributes = {})
     @key = key.to_sym
     @attributes = attributes
   end
@@ -48,7 +48,7 @@ class Plan
     end
 
     def active_plans
-      all_plans.select { |plan| plan.active }
+      all_plans.select(&:active)
     end
 
     def paid_plan
@@ -72,7 +72,7 @@ class Plan
       all_plans.detect { |plan| plan.key == key }.dup
     end
 
-    ##helpers
+    # #helpers
 
     def load_active_plans
       result = []

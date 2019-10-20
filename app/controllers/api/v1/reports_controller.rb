@@ -27,11 +27,9 @@ class Api::V1::ReportsController < Api::BaseController
   private
 
   def report_exception
-    begin
-      yield
-    rescue InvalidIdentity, IdentityNotFound, MetricNotFound, InvalidStartTime, InvalidEndTime => e
-      render_error_response(e)
-    end
+    yield
+  rescue InvalidIdentity, IdentityNotFound, MetricNotFound, InvalidStartTime, InvalidEndTime => e
+    render_error_response(e)
   end
 
   def current_account
@@ -43,34 +41,32 @@ class Api::V1::ReportsController < Api::BaseController
   end
 
   def account_summary_metrics
-    ACCOUNT_METRICS.inject({}) do |result, metric|
+    ACCOUNT_METRICS.each_with_object({}) do |metric, result|
       data = ReportBuilder.new(current_account, account_summary_params(metric)).build
 
       if AVG_ACCOUNT_METRICS.include?(metric)
-        sum = data.inject(0) {|sum, hash| sum + hash[:value].to_i}
-        sum = sum/ data.length unless sum.zero?
+        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
+        sum /= data.length unless sum.zero?
       else
-        sum = data.inject(0) {|sum, hash| sum + hash[:value].to_i}
+        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
       end
 
       result[metric] = sum
-      result
     end
   end
 
   def agent_summary_metrics
-     AGENT_METRICS.inject({}) do |result, metric|
+    AGENT_METRICS.each_with_object({}) do |metric, result|
       data = ReportBuilder.new(current_account, agent_summary_params(metric)).build
 
       if AVG_AGENT_METRICS.include?(metric)
-        sum = data.inject(0) {|sum, hash| sum + hash[:value].to_i}
-        sum = sum/ data.length unless sum.zero?
+        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
+        sum /= data.length unless sum.zero?
       else
-        sum = data.inject(0) {|sum, hash| sum + hash[:value].to_i}
+        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
       end
 
       result[metric] = sum
-      result
     end
   end
 
@@ -78,7 +74,7 @@ class Api::V1::ReportsController < Api::BaseController
     {
       metric: metric.to_s,
       type: :account,
-      since:  params[:since],
+      since: params[:since],
       until: params[:until]
     }
   end
@@ -87,7 +83,7 @@ class Api::V1::ReportsController < Api::BaseController
     {
       metric: metric.to_s,
       type: :agent,
-      since:  params[:since],
+      since: params[:since],
       until: params[:until],
       id: params[:id]
     }
@@ -97,7 +93,7 @@ class Api::V1::ReportsController < Api::BaseController
     {
       metric: params[:metric],
       type: :account,
-      since:  params[:since],
+      since: params[:since],
       until: params[:until]
     }
   end
@@ -107,7 +103,7 @@ class Api::V1::ReportsController < Api::BaseController
       metric: params[:metric],
       type: :agent,
       id: params[:id],
-      since:  params[:since],
+      since: params[:since],
       until: params[:until]
     }
   end

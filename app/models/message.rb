@@ -5,8 +5,8 @@ class Message < ApplicationRecord
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
 
-  enum message_type: [ :incoming, :outgoing, :activity ]
-  enum status: [ :sent, :delivered, :read, :failed ]
+  enum message_type: [:incoming, :outgoing, :activity]
+  enum status: [:sent, :delivered, :read, :failed]
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -24,11 +24,9 @@ class Message < ApplicationRecord
                :dispatch_event,
                :send_reply
 
-
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
-
 
   def push_event_data
     data = attributes.merge(
@@ -36,17 +34,17 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
-    data.merge!(attachment: attachment.push_event_data) if self.attachment
-    data.merge!(sender: user.push_event_data) if self.user
+    data.merge!(attachment: attachment.push_event_data) if attachment
+    data.merge!(sender: user.push_event_data) if user
     data
   end
 
   private
 
   def dispatch_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless self.conversation.messages.count == 1
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless conversation.messages.count == 1
 
-    if outgoing? && self.conversation.messages.outgoing.count == 1
+    if outgoing? && conversation.messages.outgoing.count == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
     end
   end
@@ -56,9 +54,9 @@ class Message < ApplicationRecord
   end
 
   def reopen_conversation
-    if incoming? && self.conversation.resolved?
-      self.conversation.toggle_status
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: self.conversation)
+    if incoming? && conversation.resolved?
+      conversation.toggle_status
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: conversation)
     end
   end
 end

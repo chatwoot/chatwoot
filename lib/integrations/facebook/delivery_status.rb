@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Integrations::Facebook::DeliveryStatus
-
   def initialize(params)
     @params = params
   end

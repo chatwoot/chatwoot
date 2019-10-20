@@ -1,5 +1,4 @@
 class SubscriptionListener < BaseListener
-
   def subscription_created(event)
     subscription = event.data[:subscription]
     account = subscription.account

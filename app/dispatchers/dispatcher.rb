@@ -12,7 +12,7 @@ class Dispatcher
     @async_dispatcher = AsyncDispatcher.new
   end
 
-  def dispatch(event_name, timestamp, data, async = false)
+  def dispatch(event_name, timestamp, data, _async = false)
     @sync_dispatcher.dispatch(event_name, timestamp, data)
     @async_dispatcher.dispatch(event_name, timestamp, data)
   end

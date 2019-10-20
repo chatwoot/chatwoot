@@ -9,10 +9,10 @@ FactoryBot.define do
     provider { 'email' }
     uid { SecureRandom.uuid }
     name { Faker::Name.name }
-    nickname { Faker::Name.first_name  }
+    nickname { Faker::Name.first_name }
     email { nickname + '@example.com' }
     role { 'agent' }
-    password { "password" }
+    password { 'password' }
     account
 
     after(:build) do |user, evaluator|

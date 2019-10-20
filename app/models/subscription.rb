@@ -9,12 +9,12 @@ class Subscription < ApplicationRecord
 
   def payment_source_added!
     self.payment_source_added = true
-    self.save
+    save
   end
 
   def trial_expired?
     (trial? && expiry < Date.current) ||
-    (cancelled? && !payment_source_added)
+      (cancelled? && !payment_source_added)
   end
 
   def suspended?

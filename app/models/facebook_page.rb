@@ -1,5 +1,4 @@
 class FacebookPage < ApplicationRecord
-
   validates :account_id, presence: true
   validates_uniqueness_of :page_id, scope: :account_id
   mount_uploader :avatar, AvatarUploader
@@ -9,19 +8,15 @@ class FacebookPage < ApplicationRecord
 
   before_destroy :unsubscribe
 
-
   def name
-    "Facebook"
+    'Facebook'
   end
 
   private
 
   def unsubscribe
-    begin
-      Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
-    rescue => e
-      true
-    end
+    Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
+  rescue StandardError => e
+    true
   end
-
 end

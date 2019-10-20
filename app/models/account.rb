@@ -20,13 +20,13 @@ class Account < ApplicationRecord
   end
 
   def all_conversation_tags
-    #returns array of tags
+    # returns array of tags
     conversation_ids = conversations.pluck(:id)
     ActsAsTaggableOn::Tagging.includes(:tag)
-      .where(context: 'labels',
-             taggable_type: "Conversation",
-             taggable_id: conversation_ids )
-      .map {|_| _.tag.name}
+                             .where(context: 'labels',
+                                    taggable_type: 'Conversation',
+                                    taggable_id: conversation_ids)
+                             .map { |_| _.tag.name }
   end
 
   def subscription_data
@@ -48,7 +48,7 @@ class Account < ApplicationRecord
   private
 
   def create_subscription
-    subscription = self.build_subscription
+    subscription = build_subscription
     subscription.save
   end
 

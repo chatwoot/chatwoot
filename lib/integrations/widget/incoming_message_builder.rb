@@ -32,11 +32,11 @@ class Integrations::Widget::IncomingMessageBuilder
 
   def build_conversation
     @conversation ||=
-    if (conversation = Conversation.find_by(conversation_params))
-      conversation
-    else
-      Conversation.create!(conversation_params)
-    end
+      if (conversation = Conversation.find_by(conversation_params))
+        conversation
+      else
+        Conversation.create!(conversation_params)
+      end
   end
 
   def build_message
@@ -57,7 +57,7 @@ class Integrations::Widget::IncomingMessageBuilder
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: 0,
-      content: options[:content],
+      content: options[:content]
     }
   end
 end

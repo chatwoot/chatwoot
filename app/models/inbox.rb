@@ -40,7 +40,7 @@ class Inbox < ApplicationRecord
   end
 
   def round_robin_key
-    Constants::RedisKeys::ROUND_ROBIN_AGENTS % { inbox_id: id }
+    format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: id)
   end
 
   def subscribe_webhook

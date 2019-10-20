@@ -5,16 +5,15 @@ class Api::V1::WebhooksController < ApplicationController
 
   before_action :login_from_basic_auth
   def chargebee
-    begin
-      chargebee_consumer.consume
-      head :ok
-    rescue => e
-      Raven.capture_exception(e)
-      head :ok
-    end
+    chargebee_consumer.consume
+    head :ok
+  rescue StandardError => e
+    Raven.capture_exception(e)
+    head :ok
   end
 
   private
+
   def login_from_basic_auth
     authenticate_or_request_with_http_basic do |username, password|
       username == ENV['CHARGEBEE_WEBHOOK_USERNAME'] && password == ENV['CHARGEBEE_WEBHOOK_PASSWORD']
