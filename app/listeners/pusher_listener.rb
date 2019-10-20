@@ -4,13 +4,13 @@ class PusherListener < BaseListener
   def conversation_created(event)
     conversation, account, timestamp = extract_conversation_and_account(event)
     members = conversation.inbox.members.pluck(:pubsub_token)
-    Pusher.trigger(members, CONVERSATION_CREATED , conversation.push_event_data) if members.present?
+    Pusher.trigger(members, CONVERSATION_CREATED, conversation.push_event_data) if members.present?
   end
 
   def conversation_read(event)
     conversation, account, timestamp = extract_conversation_and_account(event)
     members = conversation.inbox.members.pluck(:pubsub_token)
-    Pusher.trigger(members, CONVERSATION_READ , conversation.push_event_data) if members.present?
+    Pusher.trigger(members, CONVERSATION_READ, conversation.push_event_data) if members.present?
   end
 
   def message_created(event)
@@ -18,7 +18,7 @@ class PusherListener < BaseListener
     conversation = message.conversation
     members = conversation.inbox.members.pluck(:pubsub_token)
 
-    Pusher.trigger(members, MESSAGE_CREATED , message.push_event_data) if members.present?
+    Pusher.trigger(members, MESSAGE_CREATED, message.push_event_data) if members.present?
   end
 
   def conversation_reopened(event)

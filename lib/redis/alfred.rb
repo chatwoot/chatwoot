@@ -4,16 +4,16 @@ module Redis::Alfred
       $alfred.rpoplpush(source, destination)
     end
 
-    def lpush(key,value)
-      $alfred.lpush(key,value)
+    def lpush(key, value)
+      $alfred.lpush(key, value)
     end
 
     def delete(key)
       $alfred.del(key)
     end
 
-    def lrem(key,value,count=0)
-      $alfred.lrem(key,count,value)
+    def lrem(key, value, count = 0)
+      $alfred.lrem(key, count, value)
     end
   end
 end

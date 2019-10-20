@@ -1,5 +1,4 @@
 class BaseDispatcher
-
   include Wisper::Publisher
 
   def listeners
@@ -7,6 +6,6 @@ class BaseDispatcher
   end
 
   def load_listeners
-    listeners.each{|listener| subscribe(listener) }
+    listeners.each { |listener| subscribe(listener) }
   end
 end

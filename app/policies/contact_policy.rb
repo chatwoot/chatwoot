@@ -1,5 +1,4 @@
 class ContactPolicy < ApplicationPolicy
-
   def index?
     @user.administrator?
   end
@@ -13,6 +12,6 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def create?
-  	true
+    true
   end
 end

@@ -47,7 +47,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -56,15 +56,15 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "chatwoot_#{Rails.env}"
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { :host => ENV['frontend_url'] }
+  config.action_mailer.default_url_options = { host: ENV['frontend_url'] }
   config.action_mailer.smtp_settings = {
-  :address => ENV['ses_address'],
-  :port => 587,
-  :user_name => ENV["ses_username"], #Your SMTP user
-  :password => ENV["ses_password"], #Your SMTP password
-  :authentication => :login,
-  :enable_starttls_auto => true
-}
+    address: ENV['ses_address'],
+    port: 587,
+    user_name: ENV['ses_username'], # Your SMTP user
+    password: ENV['ses_password'], # Your SMTP password
+    authentication: :login,
+    enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -84,7 +84,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)
