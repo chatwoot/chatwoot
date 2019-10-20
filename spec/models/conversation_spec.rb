@@ -79,7 +79,7 @@ RSpec.describe Conversation, type: :model do
       create(
         :conversation,
         account: account,
-        sender: create(:contact, account: account),
+        contact: create(:contact, account: account),
         inbox: inbox,
         assignee: nil
       )
@@ -205,7 +205,7 @@ RSpec.describe Conversation, type: :model do
     let(:expected_data) do
       {
         meta: {
-          sender: conversation.sender.push_event_data,
+          sender: conversation.contact.push_event_data,
           assignee: conversation.assignee
         },
         id: conversation.display_id,

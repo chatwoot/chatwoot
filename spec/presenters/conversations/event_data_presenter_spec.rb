@@ -14,7 +14,7 @@ RSpec.describe Conversations::EventDataPresenter do
     let(:expected_data) do
       {
         meta: {
-          sender: conversation.sender.push_event_data,
+          sender: conversation.contact.push_event_data,
           assignee: conversation.assignee
         },
         id: conversation.display_id,

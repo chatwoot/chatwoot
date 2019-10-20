@@ -16,7 +16,7 @@ FactoryBot.define do
           account: conversation.account,
           channel: create(:channel_widget, account: conversation.account)
         )
-        conversation.sender ||= create(:contact, account: conversation.account)
+        conversation.contact ||= create(:contact, account: conversation.account)
         conversation.assignee ||= create(:user)
       end
     end
