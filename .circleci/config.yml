@@ -63,6 +63,10 @@ jobs:
             cp shared/config/database.yml config/database.yml
             cp shared/config/application.yml config/application.yml
 
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
       # Store yarn / webpacker cache
       - save_cache:
           key: chatwoot-yarn-{{ checksum "yarn.lock" }}
