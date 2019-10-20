@@ -52,7 +52,7 @@ foreman start -f Procfile.dev
 
 ```bash
 http://localhost:3000
-user name: larry@google.com
+user name: john@acme.inc
 password: 123456
 ```
 

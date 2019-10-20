@@ -26,7 +26,7 @@ module Facebook
   end
 end
 
-class ExampleProvider < Facebook::Messenger::Configuration::Providers::Base
+class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   def valid_verify_token?(_verify_token)
     ENV['fb_verify_token']
   end
@@ -36,7 +36,7 @@ class ExampleProvider < Facebook::Messenger::Configuration::Providers::Base
   end
 
   def access_token_for(page_id)
-    FacebookPage.where(page_id: page_id).last.access_token
+    Channel::FacebookPage.where(page_id: page_id).last.access_token
   end
 
   private
@@ -47,5 +47,5 @@ class ExampleProvider < Facebook::Messenger::Configuration::Providers::Base
 end
 
 Facebook::Messenger.configure do |config|
-  config.provider = ExampleProvider.new
+  config.provider = ChatwootFbProvider.new
 end

@@ -25,7 +25,7 @@ class Inbox < ApplicationRecord
   end
 
   def facebook?
-    channel.class.name.to_s == 'FacebookPage'
+    channel.class.name.to_s == 'Channel::FacebookPage'
   end
 
   def next_available_agent
