@@ -5,7 +5,7 @@ class Account < ApplicationRecord
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
-  has_many :facebook_pages, dependent: :destroy
+  has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
   has_one :subscription, dependent: :destroy

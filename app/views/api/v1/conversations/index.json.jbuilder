@@ -9,16 +9,16 @@ json.data do
     json.array! @conversations do |conversation|
       json.meta do
         json.sender do
-          json.id conversation.sender_id
-          json.name conversation.sender.name
-          json.thumbnail conversation.sender.avatar.thumb.url
+          json.id conversation.contact.source_id
+          json.name conversation.contact.name
+          json.thumbnail conversation.contact.avatar.thumb.url
           json.channel conversation.inbox.try(:channel).try(:name)
         end
         json.assignee conversation.assignee
       end
 
       json.id conversation.display_id
-      if conversation.unread_incoming_messages.count == 0
+      if conversation.unread_incoming_messages.count.zero?
         json.messages [conversation.messages.last.try(:push_event_data)]
       else
         json.messages conversation.unread_messages.map(&:push_event_data)

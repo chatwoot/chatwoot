@@ -6,7 +6,7 @@ class Contact < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  has_many :conversations, dependent: :destroy, foreign_key: :sender_id
+  has_many :conversations, dependent: :destroy
   mount_uploader :avatar, AvatarUploader
 
   def push_event_data

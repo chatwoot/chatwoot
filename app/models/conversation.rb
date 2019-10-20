@@ -13,7 +13,7 @@ class Conversation < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true
-  belongs_to :sender, class_name: 'Contact'
+  belongs_to :contact
 
   has_many :messages, dependent: :destroy, autosave: true
 
