@@ -11,12 +11,11 @@ body {
 
 .app-wrapper {
   @include full-height;
-  @include flex-weight(1);
   width: 100%;
 }
 .app-root {
   @include flex;
-  @include flex-direction(column);
+  flex-direction: column;
 }
 .app-content {
   @include flex;
@@ -30,8 +29,7 @@ body {
 }
 
 .view-panel {
-  @include flex-weight(1);
-  @include flex-direction(column);
+  flex-direction: column;
   @include margin($zero);
   @include padding($space-normal);
   overflow-y: scroll;
@@ -68,8 +66,8 @@ body {
 .no-items-error-message {
   @include flex;
   @include full-height;
-  @include justify-content(center);
-  @include align-items(center);
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 
   img {

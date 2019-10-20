@@ -75,17 +75,17 @@
 
 // flex-layout
 @mixin space-between() {
-  @include display(flex);
-  @include justify-content(space-between);
+  display: flex;
+  justify-content: space-between;
 }
 
 @mixin space-between-column() {
   @include space-between;
-  @include flex-direction(column);
+  flex-direction: column;
 }
 @mixin space-between-row() {
   @include space-between;
-  @include flex-direction(row);
+  flex-direction: row;
 }
 
 @mixin flex-shrink() {
@@ -114,7 +114,7 @@
 }
 
 @mixin scroll-on-hover() {
-  @include transition(all .4s $ease-in-out-cubic);
+  transition: all .4s $ease-in-out-cubic;
   overflow: hidden;
 
   &:hover {

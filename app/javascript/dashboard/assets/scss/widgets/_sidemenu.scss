@@ -18,8 +18,7 @@
   .logo {
     img {
       @include padding($woot-logo-padding);
-      // width: $woot-logo-width;
-      // height: $woot-logo-height;
+      max-height: 100px;
     }
   }
 
@@ -37,7 +36,7 @@
   @include flex;
   @include space-between-column;
   @include padding($space-one $space-normal $space-one $space-one);
-  @include flex-direction(column);
+  flex-direction: column;
   @include border-normal-top;
   position: relative;
 
@@ -93,7 +92,7 @@
 
 .current-user {
   @include flex;
-  @include flex-direction(row);
+  flex-direction: row;
   cursor: pointer;
 
   .current-user--thumbnail {
@@ -104,7 +103,7 @@
 
   .current-user--data {
     @include flex;
-    @include flex-direction(column);
+    flex-direction: column;
 
     .current-user--name {
       font-size: $font-size-small;

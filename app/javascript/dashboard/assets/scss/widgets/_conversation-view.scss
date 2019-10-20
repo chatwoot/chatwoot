@@ -1,6 +1,6 @@
 .conversations-sidebar {
   @include flex;
-  @include flex-direction(column);
+  flex-direction: column;
 
   .chat-list__top {
     @include padding($space-normal $zero $space-small $zero);
@@ -45,12 +45,12 @@
   .current-chat {
     @include flex;
     @include full-height;
-    @include flex-direction(column);
+    flex-direction: column;
     @include flex-align(center, middle);
     div {
       @include flex;
       @include full-height;
-      @include flex-direction(column);
+      flex-direction: column;
       @include flex-align(center, middle);
       img {
         @include margin($space-normal);
@@ -68,7 +68,7 @@
   .conv-empty-state {
     @include flex;
     @include full-height;
-    @include flex-direction(column);
+    flex-direction: column;
     @include flex-align(center, middle);
   }
 }
@@ -76,7 +76,7 @@
 .conversation-panel {
   @include flex;
   @include flex-weight(1);
-  @include flex-direction(column);
+  flex-direction: column;
   @include margin($zero);
   // Firefox flexbox fix
   height: 100%;
@@ -267,8 +267,8 @@
 
       .image {
         @include flex;
-        @include justify-content(center);
-        @include align-items(flex-end);
+        justify-content: center;
+        align-items: flex-end;
         text-align: center;
 
         img {

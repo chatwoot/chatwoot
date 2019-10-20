@@ -159,7 +159,7 @@
       @include background-gray;
       .arrow {
         opacity: 1;
-        @include transform(translateX($space-small));
+        transform: translateX($space-small);
       }
     }
     .switch {
@@ -184,8 +184,8 @@
       font-size: $font-size-small;
       color: $medium-gray;
       opacity: .7;
-      @include transform(translateX(0));
-      @include transition(opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s);
+      transform: translateX(0);
+      transition: opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s;
     }
   }
 }
@@ -199,7 +199,7 @@
     width: 100%;
     @include flex;
     flex-direction: row;
-    @include justify-content(space-between);
+    justify-content: space-between;
     @include padding($space-normal $space-large);
     a {
       margin-left: $space-normal;

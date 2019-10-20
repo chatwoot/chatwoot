@@ -37,7 +37,7 @@
   @include padding($space-small $space-medium);
   .chart-container {
     @include flex;
-    @include flex-direction(column);
+    flex-direction: column;
     @include flex-align(center, middle);
     div {
       width: 100%;
