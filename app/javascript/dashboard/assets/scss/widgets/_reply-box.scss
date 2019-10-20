@@ -3,7 +3,7 @@
   margin-top: 0;
   border-bottom: 0;
   @include elegant-card;
-  @include transition(height 2s $ease-in-out-cubic);
+  transition: height 2s $ease-in-out-cubic;
   max-height: $space-jumbo*2;
 
   .reply-box__top {
@@ -82,8 +82,8 @@
 
       .tabs-title {
         margin: 0;
-        @include transition(background .2s $ease-in-out-cubic);
-        @include transition(color .2s $ease-in-out-cubic);
+        transition: background .2s $ease-in-out-cubic;
+        transition: color .2s $ease-in-out-cubic;
 
         a {
           padding: $space-one $space-two;

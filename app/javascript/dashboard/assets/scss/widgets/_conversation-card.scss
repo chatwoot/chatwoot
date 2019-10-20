@@ -47,7 +47,7 @@
     right: $space-normal;
     top: $space-normal;
     @include flex;
-    @include flex-direction(column);
+    flex-direction: column;
 
     .unread {
       $unread-size: $space-two - $space-micro;

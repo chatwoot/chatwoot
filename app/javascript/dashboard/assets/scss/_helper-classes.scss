@@ -3,7 +3,7 @@
 }
 
 .flex-center {
-  @include flex;
+  display: flex;
   @include flex-align(center, middle);
 }
 

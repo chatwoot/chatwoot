@@ -26,7 +26,7 @@
     @include flex-grid-column(3, $space-medium);
     @include padding($space-normal);
     @include flex;
-    @include flex-direction(column);
+    flex-direction: column;
     // @include thin-border($color-border-light);
     // @include margin(-$space-micro $zero);
     background: $color-white;
@@ -53,13 +53,13 @@
 .lock-message {
   @include flex;
   @include full-height;
-  @include flex-direction(column);
+  flex-direction: column;
   @include flex-align(center, middle);
 
   div {
     @include flex;
     @include full-height;
-    @include flex-direction(column);
+    flex-direction: column;
     @include flex-align(center, middle);
 
     img {

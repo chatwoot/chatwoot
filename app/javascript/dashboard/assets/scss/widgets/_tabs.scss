@@ -39,7 +39,7 @@
 
   a {
     @include position(relative, 1px null null null);
-    @include transition(all .15s $ease-in-out-cubic);
+    transition: all .15s $ease-in-out-cubic;
     border-bottom: 2px solid transparent;
     color: $medium-gray;
     font-size: $font-size-small;
