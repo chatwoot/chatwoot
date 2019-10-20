@@ -1,30 +1,14 @@
-account = Account.create!([
-                            { name: 'Google' }
-                          ])
+account = Account.create!(name: 'Acme Inc')
 
-user = User.new(name: 'lary', email: 'larry@google.com', password: '123456', account_id: account.first.id)
+user = User.new(name: 'John', email: 'john@acme.inc', password: '123456', account: account, role: :administrator)
 user.skip_confirmation!
 user.save!
 
-channels = Channel.create!([
-                             { name: 'Facebook Messenger' }
-                           ])
+web_widget = Channel::WebWidget.create!(account: account, website_name: 'Acme', website_url: 'https://acme.inc')
 
-inboxes = Inbox.create!([
-                          { channel: channels.first, account_id: 1, name: 'Google Car' },
-                          { channel: channels.first, account_id: 1, name: 'Project Loon' }
-                        ])
+inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
+InboxMember.create!(user: user, inbox: inbox)
 
-Contact.create!([
-                  { name: 'izuck@facebook.com', email: nil, phone_number: '99496030692', inbox_id: inboxes.first.id, account_id: 1 }
-                ])
-Conversation.create!([
-                       { account_id: 1, inbox_id: 1, status: :open, assignee_id: 1, sender_id: 1 }
-                     ])
-
-InboxMember.create!([
-                      { user_id: 1, inbox_id: 1 }
-                    ])
-Message.create!([
-                  { content: 'Hello', account_id: 1, inbox_id: 1, conversation_id: 1, message_type: :incoming }
-                ])
+contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', inbox: inbox, account: account)
+Conversation.create!(account: account, inbox: inbox, status: :open, assignee_id: 1, sender: contact)
+Message.create!(content: 'Hello', account_id: 1, inbox_id: 1, conversation_id: 1, message_type: :incoming)
