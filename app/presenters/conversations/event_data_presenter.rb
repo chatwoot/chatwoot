@@ -23,7 +23,7 @@ module Conversations
     end
 
     def push_meta
-      { sender: sender.push_event_data, assignee: assignee }
+      { sender: contact.push_event_data, assignee: assignee }
     end
 
     def push_timestamps
