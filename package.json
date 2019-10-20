@@ -11,13 +11,14 @@
     "test:coverage": "jest --no-cache --collectCoverage"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.6.0",
     "@rails/webpacker": "^4.0.7",
     "axios": "^0.19.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
-    "bourbon": "~4.2.7",
+    "bourbon": "^6.0.0",
     "chart.js": "~2.5.0",
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",

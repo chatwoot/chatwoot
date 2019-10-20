@@ -1,7 +1,7 @@
 .channels {
   margin-top: $space-medium;
   .inactive {
-    @include filter(grayscale(100%));
+    filter: grayscale(100%);
   }
   .channel {
     @include flex;
@@ -9,10 +9,10 @@
     @include margin($zero);
     @include background-white;
     @include border-light;
-    @include flex-direction(column);
+    flex-direction: column;
     cursor: pointer;
     border-right-color: $color-white;
-    @include transition(all 0.200s ease-in);
+    transition: all 0.200s ease-in;
 
     &:last-child {
       @include border-light;

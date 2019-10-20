@@ -20,7 +20,7 @@ table {
   tr {
     .show-if-hover {
       opacity: 0;
-      @include transition(all .2s $ease-in-out-cubic);
+      transition: all .2s $ease-in-out-cubic;
     }
     &:hover {
       .show-if-hover {
@@ -42,7 +42,7 @@ table {
     min-width: 20rem;
     @include flex;
     @include flex-align(left, null);
-    @include flex-direction(row);
+    flex-direction: row;
   }
   .button {
     @include margin($zero);
