@@ -10,7 +10,10 @@ class Api::V1::CallbacksController < ApplicationController
     page_name = params[:page_name]
     page_id = params[:page_id]
     inbox_name = params[:inbox_name]
-    facebook_channel = current_account.facebook_pages.create!(name: page_name, page_id: page_id, user_access_token: user_access_token, page_access_token: page_access_token, remote_avatar_url: set_avatar(page_id))
+    facebook_channel = current_account.facebook_pages.create!(
+      name: page_name, page_id: page_id, user_access_token: user_access_token,
+      page_access_token: page_access_token, remote_avatar_url: set_avatar(page_id)
+    )
     inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
     render json: inbox
   end
