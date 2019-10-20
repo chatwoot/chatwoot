@@ -12,7 +12,7 @@ module Channel
     before_destroy :unsubscribe
 
     def name
-      `Facebook`
+      'Facebook'
     end
 
     private

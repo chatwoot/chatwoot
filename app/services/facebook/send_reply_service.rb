@@ -12,16 +12,14 @@ module Facebook
 
     private
 
+    delegate :contact, to: :conversation
+
     def inbox
       @inbox ||= message.inbox
     end
 
     def conversation
       @conversation ||= message.conversation
-    end
-
-    def sender
-      conversation.sender
     end
 
     def outgoing_message_from_chatwoot?
@@ -37,7 +35,7 @@ module Facebook
 
     def fb_message_params
       {
-        recipient: { id: sender.source_id },
+        recipient: { id: contact.source_id },
         message: { text: message.content }
       }
     end

@@ -45,8 +45,10 @@ module Messages
       @message.save!
     end
 
+    def build_attachment; end
+
     def conversation
-      Conversation.find_by(conversation_params) || Conversation.create!(conversation_params)
+      @conversation ||= Conversation.find_by(conversation_params) || Conversation.create!(conversation_params)
     end
 
     def attachment_params(attachment)
@@ -93,14 +95,14 @@ module Messages
       {
         account_id: @inbox.account_id,
         inbox_id: @inbox.id,
-        sender_id: contact.id
+        contact_id: contact.id
       }
     end
 
     def message_params
       {
-        account_id: @conversation.account_id,
-        inbox_id: @conversation.inbox_id,
+        account_id: conversation.account_id,
+        inbox_id: conversation.inbox_id,
         message_type: @message_type,
         content: response.content,
         fb_id: response.identifier
