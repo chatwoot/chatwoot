@@ -32,7 +32,7 @@ brew install imagemagick
 # install ruby dependencies
 bundle
 
-# Copy conigurations
+# Copy configurations
 ./configure
 
 # run db migrations
