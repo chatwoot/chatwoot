@@ -68,7 +68,3 @@ end
 #     }
 #   }
 # }
-
-# ECHO from own app
-
-# {"sender"=>{"id"=>"379460302081528"}, "recipient"=>{"id"=>"403092229814994"}, "timestamp"=>1493270145685, "message"=>{"is_echo"=>true, "app_id"=>1847193292179369, "mid"=>"mid.$cAAED7rlYNsVh3xtylVbrdYqH8iEp", "seq"=>167221, "text"=>"sad"}}

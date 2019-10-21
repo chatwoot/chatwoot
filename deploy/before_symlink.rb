@@ -33,8 +33,12 @@ if %w[application sidekiq whenever].include? node[:opsworks][:instance][:layers]
     # end
 
     # migrations
-    master_node = node[:opsworks][:layers]['application'][:instances].keys.min if node[:opsworks][:layers] && node[:opsworks][:layers]['application'] && node[:opsworks][:layers]['application'][:instances]
-    if master_node && node[:opsworks][:instance][:hostname].include?(master_node)
+    if  (node[:opsworks][:layers] && node[:opsworks][:layers]['application']) &&
+        (endnode[:opsworks][:layers]['application'][:instances])
+      master_node = node[:opsworks][:layers]['application'][:instances].keys.min
+    end
+
+    if master_node && :node[:opsworks][:instance][:hostname].include?(master_node)
       execute 'rake db:migrate' do
         cwd release_path
         command 'bundle exec rake db:migrate --trace'
