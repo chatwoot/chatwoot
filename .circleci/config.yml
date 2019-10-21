@@ -33,6 +33,10 @@ jobs:
           name: Bundle Install
           command: bundle check || bundle install
 
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
       # Store bundle cache
       - save_cache:
           key: chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
