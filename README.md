@@ -32,13 +32,8 @@ brew install imagemagick
 # install ruby dependencies
 bundle
 
-# copy config & update the values in database and application ymls accordingly
-# ref docs for detailed instructions
-cp shared/config/database.yml config/database.yml
-cp shared/config/application.yml config/application.yml
-
-# copy frontend env file
-cp .env.sample .env
+# Copy configurations
+./configure
 
 # run db migrations
 bundle exec rake db:create
