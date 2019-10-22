@@ -3,6 +3,7 @@
 /* eslint no-shadow: 0 */
 import * as types from '../mutation-types';
 import CannedApi from '../../api/cannedResponse';
+import { setLoadingStatus, getLoadingStatus } from '../utils/api';
 
 const state = {
   cannedResponse: [],
@@ -13,9 +14,7 @@ const getters = {
   getCannedResponses(_state) {
     return _state.cannedResponse;
   },
-  getCannedFetchStatus(_state) {
-    return _state.fetchAPIloadingStatus;
-  },
+  getCannedFetchStatus: getLoadingStatus,
 };
 
 const actions = {
@@ -79,9 +78,7 @@ const actions = {
 
 const mutations = {
   // List
-  [types.default.SET_CANNED_FETCHING_STATUS](_state, flag) {
-    _state.fetchAPIloadingStatus = flag;
-  },
+  [types.default.SET_CANNED_FETCHING_STATUS]: setLoadingStatus,
   // List
   [types.default.SET_CANNED](_state, response) {
     _state.cannedResponse = response.data;
