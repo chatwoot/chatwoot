@@ -6,8 +6,6 @@
 ___
 
 ![CircleCI Badge](https://img.shields.io/circleci/build/github/chatwoot/chatwoot)
-![Dependencies](https://img.shields.io/david/chatwoot/chatwoot)
-![Github Issues](https://img.shields.io/github/issues/chatwoot/chatwoot)
 ![License](https://img.shields.io/github/license/chatwoot/chatwoot)
 [![Maintainability](https://api.codeclimate.com/v1/badges/80f9e1a7c72d186289ad/maintainability)](https://codeclimate.com/github/chatwoot/chatwoot/maintainability)
 ![Commits-per-month](https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot)
@@ -34,13 +32,8 @@ brew install imagemagick
 # install ruby dependencies
 bundle
 
-# copy config & update the values in database and application ymls accordingly
-# ref docs for detailed instructions
-cp shared/config/database.yml config/database.yml
-cp shared/config/application.yml config/application.yml
-
-# copy frontend env file
-cp .env.sample .env
+# Copy configurations
+./configure
 
 # run db migrations
 bundle exec rake db:create
@@ -54,18 +47,16 @@ foreman start -f Procfile.dev
 
 ```bash
 http://localhost:3000
-user name: larry@google.com
+user name: john@acme.inc
 password: 123456
 ```
 
-### Detailed documentation
+## Detailed documentation
 
-Detailed documentation is available at [docs.chatwoot.com](https://docs.chatwoot.com)
+Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatwoot.com/docs)
 
 ## Contributors ✨
 
-Thanks goes to all these [wonderful people](https://github.com/chatwoot/chatwoot/blob/master/docs/contributors.md):
-
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
 
 *Chatwoot* &copy; 2017-2019, ThoughtWoot Inc - Released under the MIT License.

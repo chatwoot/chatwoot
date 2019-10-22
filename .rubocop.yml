@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 Metrics/LineLength:
   Max: 150
 Documentation:
@@ -6,3 +8,17 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+AllCops:
+  Exclude:
+    - db/*
+    - bin/**/*
+    - db/**/*
+    - config/**/*
+    - public/**/*
+    - vendor/**/*
+    - node_modules/**/*

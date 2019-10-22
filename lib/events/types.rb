@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Events::Types
   CONVERSATION_CREATED = 'conversation.created'
   CONVERSATION_RESOLVED = 'conversation.resolved'

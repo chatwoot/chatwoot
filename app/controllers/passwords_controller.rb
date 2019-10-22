@@ -13,7 +13,7 @@ class PasswordsController < Devise::PasswordsController
         data: @recoverable.token_validation_response
       }
     else
-      render json: { 'message': 'Invalid token', 'redirect_url': '/' }, status: 422
+      render json: { "message": 'Invalid token', "redirect_url": '/' }, status: 422
     end
   end
 
@@ -50,7 +50,7 @@ class PasswordsController < Devise::PasswordsController
 
   def build_response(message, status)
     render json: {
-        "message": message
-      }, status: status
+      "message": message
+    }, status: status
   end
 end

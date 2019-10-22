@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_010457) do
+ActiveRecord::Schema.define(version: 2019_10_20_173522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,18 +43,24 @@ ActiveRecord::Schema.define(version: 2019_08_19_010457) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "channel_widgets", id: :serial, force: :cascade do |t|
+  create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
+    t.string "page_id", null: false
+    t.string "user_access_token", null: false
+    t.string "page_access_token", null: false
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "avatar"
+    t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
     t.string "website_name"
     t.string "website_url"
     t.integer "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "channels", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
@@ -67,8 +73,9 @@ ActiveRecord::Schema.define(version: 2019_08_19_010457) do
     t.integer "inbox_id", null: false
     t.bigserial "source_id", null: false
     t.string "avatar"
-    t.string "chat_channel"
+    t.string "pubsub_token"
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -78,25 +85,13 @@ ActiveRecord::Schema.define(version: 2019_08_19_010457) do
     t.integer "assignee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "sender_id"
+    t.bigint "contact_id"
     t.integer "display_id", null: false
     t.datetime "user_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
-  end
-
-  create_table "facebook_pages", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "page_id", null: false
-    t.string "user_access_token", null: false
-    t.string "page_access_token", null: false
-    t.integer "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "avatar"
-    t.index ["page_id"], name: "index_facebook_pages_on_page_id"
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -203,11 +198,15 @@ ActiveRecord::Schema.define(version: 2019_08_19_010457) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "channel"
+    t.string "pubsub_token"
     t.integer "role", default: 0
+    t.bigint "inviter_id"
     t.index ["email"], name: "index_users_on_email"
+    t.index ["inviter_id"], name: "index_users_on_inviter_id"
+    t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "users", "users", column: "inviter_id"
 end

@@ -1,4 +1,7 @@
-## Ubuntu
+---
+path: "/docs/installation-guide-ubuntu"
+title: "Ubuntu installation guide"
+---
 
 Open a terminal and run the following commands
 

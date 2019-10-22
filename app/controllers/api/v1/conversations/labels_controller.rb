@@ -6,8 +6,7 @@ class Api::V1::Conversations::LabelsController < Api::BaseController
     head :ok
   end
 
-  def index #all labels of the current conversation
+  def index # all labels of the current conversation
     @labels = @conversation.label_list
   end
-
 end

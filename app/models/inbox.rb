@@ -25,7 +25,7 @@ class Inbox < ApplicationRecord
   end
 
   def facebook?
-    channel.class.name.to_s == 'FacebookPage'
+    channel.class.name.to_s == 'Channel::FacebookPage'
   end
 
   def next_available_agent
@@ -40,10 +40,19 @@ class Inbox < ApplicationRecord
   end
 
   def round_robin_key
-    Constants::RedisKeys::ROUND_ROBIN_AGENTS % { inbox_id: id }
+    format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: id)
   end
 
   def subscribe_webhook
-    Facebook::Messenger::Subscriptions.subscribe(access_token: channel.page_access_token)
+    Facebook::Messenger::Subscriptions.subscribe(
+      access_token: channel.page_access_token,
+      subscribed_fields: %w[
+        message_mention messages messaging_account_linking messaging_checkout_updates
+        message_echoes message_deliveries messaging_game_plays messaging_optins messaging_optouts
+        messaging_payments messaging_postbacks messaging_pre_checkouts message_reads messaging_referrals
+        messaging_handovers messaging_policy_enforcement messaging_page_feedback
+        messaging_appointments messaging_direct_sends
+      ]
+    )
   end
 end

@@ -4,7 +4,7 @@ class Dispatcher
   attr_reader :async_dispatcher, :sync_dispatcher
 
   def self.dispatch(event_name, timestamp, data, async = false)
-    $dispatcher.dispatch(event_name, timestamp, data, async)
+    Rails.configuration.dispatcher.dispatch(event_name, timestamp, data, async)
   end
 
   def initialize
@@ -12,7 +12,7 @@ class Dispatcher
     @async_dispatcher = AsyncDispatcher.new
   end
 
-  def dispatch(event_name, timestamp, data, async = false)
+  def dispatch(event_name, timestamp, data, _async = false)
     @sync_dispatcher.dispatch(event_name, timestamp, data)
     @async_dispatcher.dispatch(event_name, timestamp, data)
   end
