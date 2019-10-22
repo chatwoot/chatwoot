@@ -31,12 +31,11 @@ class PasswordsController < Devise::PasswordsController
 
   def set_headers(user)
     data = user.create_new_auth_token
-    headers_names = response.headers[DeviseTokenAuth.headers_names]
-    headers_names[:'access-token'] = data['access-token']
-    headers_names[:'token-type']   = 'Bearer'
-    headers_names[:'client']       = data['client']
-    headers_names[:'expiry']       = data['expiry']
-    headers_names[:'uid']          = data['uid']
+    response.headers[DeviseTokenAuth.headers_names[:"access-token"]] = data['access-token']
+    response.headers[DeviseTokenAuth.headers_names[:"token-type"]]   = 'Bearer'
+    response.headers[DeviseTokenAuth.headers_names[:client]]       = data['client']
+    response.headers[DeviseTokenAuth.headers_names[:expiry]]       = data['expiry']
+    response.headers[DeviseTokenAuth.headers_names[:uid]]          = data['uid']
   end
 
   def reset_password_and_confirmation(recoverable)
