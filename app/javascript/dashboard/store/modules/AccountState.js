@@ -3,6 +3,7 @@
 /* eslint no-shadow: 0 */
 import * as types from '../mutation-types';
 import Account from '../../api/account';
+import { setLoadingStatus, getLoadingStatus } from '../utils/api';
 
 const state = {
   agents: [],
@@ -16,9 +17,7 @@ const getters = {
   getVerifiedAgents(_state) {
     return _state.agents.filter(element => element.confirmed);
   },
-  getAgentFetchStatus(_state) {
-    return _state.fetchAPIloadingStatus;
-  },
+  getAgentFetchStatus: getLoadingStatus,
 };
 
 const actions = {
@@ -73,9 +72,7 @@ const actions = {
 
 const mutations = {
   // List
-  [types.default.SET_AGENT_FETCHING_STATUS](_state, flag) {
-    _state.fetchAPIloadingStatus = flag;
-  },
+  [types.default.SET_AGENT_FETCHING_STATUS]: setLoadingStatus,
   // List
   [types.default.SET_AGENTS](_state, response) {
     _state.agents = response.data;
