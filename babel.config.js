@@ -1,4 +1,57 @@
 /* eslint-disable global-require */
+const plugins = isTestEnv => [
+  require('babel-plugin-macros'),
+  require('@babel/plugin-syntax-dynamic-import').default,
+  isTestEnv && require('babel-plugin-dynamic-import-node'),
+  require('@babel/plugin-transform-destructuring').default,
+  [
+    require('@babel/plugin-proposal-class-properties').default,
+    {
+      loose: true,
+    },
+  ],
+  [
+    require('@babel/plugin-proposal-object-rest-spread').default,
+    {
+      useBuiltIns: true,
+    },
+  ],
+  [
+    require('@babel/plugin-transform-runtime').default,
+    {
+      helpers: false,
+      regenerator: true,
+      corejs: false,
+    },
+  ],
+  [
+    require('@babel/plugin-transform-regenerator').default,
+    {
+      async: false,
+    },
+  ],
+  [require('babel-plugin-transform-vue-jsx')],
+];
+
+const presets = (isTestEnv, isProductionEnv, isDevelopmentEnv) => [
+  isTestEnv && [
+    require('@babel/preset-env').default,
+    {
+      targets: {
+        node: 'current',
+      },
+    },
+  ],
+  (isProductionEnv || isDevelopmentEnv) && [
+    require('@babel/preset-env').default,
+    {
+      forceAllTransforms: true,
+      useBuiltIns: 'entry',
+      modules: false,
+      exclude: ['transform-typeof-symbol'],
+    },
+  ],
+];
 
 module.exports = api => {
   const validEnv = ['development', 'test', 'production'];
@@ -18,57 +71,9 @@ module.exports = api => {
   }
 
   return {
-    presets: [
-      isTestEnv && [
-        require('@babel/preset-env').default,
-        {
-          targets: {
-            node: 'current',
-          },
-        },
-      ],
-      (isProductionEnv || isDevelopmentEnv) && [
-        require('@babel/preset-env').default,
-        {
-          forceAllTransforms: true,
-          useBuiltIns: 'entry',
-          modules: false,
-          exclude: ['transform-typeof-symbol'],
-        },
-      ],
-    ].filter(Boolean),
-    plugins: [
-      require('babel-plugin-macros'),
-      require('@babel/plugin-syntax-dynamic-import').default,
-      isTestEnv && require('babel-plugin-dynamic-import-node'),
-      require('@babel/plugin-transform-destructuring').default,
-      [
-        require('@babel/plugin-proposal-class-properties').default,
-        {
-          loose: true,
-        },
-      ],
-      [
-        require('@babel/plugin-proposal-object-rest-spread').default,
-        {
-          useBuiltIns: true,
-        },
-      ],
-      [
-        require('@babel/plugin-transform-runtime').default,
-        {
-          helpers: false,
-          regenerator: true,
-          corejs: false,
-        },
-      ],
-      [
-        require('@babel/plugin-transform-regenerator').default,
-        {
-          async: false,
-        },
-      ],
-      [require('babel-plugin-transform-vue-jsx')],
-    ].filter(Boolean),
+    presets: presets(isTestEnv, isProductionEnv, isDevelopmentEnv).filter(
+      Boolean
+    ),
+    plugins: plugins(isTestEnv).filter(Boolean),
   };
 };
