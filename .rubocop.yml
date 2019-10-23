@@ -1,3 +1,7 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
 Metrics/LineLength:

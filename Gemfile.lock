@@ -358,6 +358,13 @@ GEM
       rainbow (>= 2.2.2, < 4.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 1.7)
+    rubocop-performance (1.5.0)
+      rubocop (>= 0.71.0)
+    rubocop-rails (2.3.2)
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
+    rubocop-rspec (1.36.0)
+      rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.16)
       ffi (~> 1.9)
@@ -482,6 +489,9 @@ DEPENDENCIES
   responders
   rspec-rails (~> 3.8)
   rubocop (~> 0.73.0)
+  rubocop-performance
+  rubocop-rails
+  rubocop-rspec
   seed_dump
   sentry-raven
   shoulda-matchers
