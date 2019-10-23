@@ -84,6 +84,9 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails', '~> 3.8'
   gem 'rubocop', '~> 0.73.0', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'seed_dump'
   gem 'spring'
   gem 'spring-watcher-listen'
