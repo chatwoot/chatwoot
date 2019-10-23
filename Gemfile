@@ -62,7 +62,6 @@ gem 'sentry-raven'
 
 ##-- TODO: move these gems to appropriate groups --##
 gem 'carrierwave-aws'
-gem 'coffee-rails'
 gem 'mini_magick'
 gem 'sidekiq'
 gem 'uglifier', '>= 1.3.0'
