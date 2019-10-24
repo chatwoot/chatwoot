@@ -39,7 +39,6 @@ gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_a
 gem 'pundit'
 
 ##--- gems for pubsub service ---##
-gem 'pusher'
 gem 'wisper', '2.0.0'
 
 ##--- gems for reporting ---##
@@ -72,6 +71,7 @@ group :development do
 end
 
 group :test do
+  gem 'action-cable-testing'
   gem 'mock_redis'
   gem 'shoulda-matchers'
 end

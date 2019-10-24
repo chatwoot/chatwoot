@@ -168,7 +168,7 @@ const mutations = {
     _state.chatStatusFilter = data;
   },
 
-  // Update assignee on pusher message
+  // Update assignee on action cable message
   [types.default.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
     chat.meta.assignee = payload.assignee;

@@ -8,7 +8,7 @@ import * as types from '../mutation-types';
 import router from '../../routes';
 import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
-import vuePusher from '../../helper/pusher';
+import actionCable from '../../helper/actionCable';
 // initial state
 const state = {
   currentUser: {
@@ -61,7 +61,7 @@ const actions = {
         .then(() => {
           commit(types.default.SET_CURRENT_USER);
           window.axios = createAxios(axios);
-          window.pusher = vuePusher.init(Vue);
+          actionCable.init(Vue);
           router.replace({ name: 'home' });
           resolve();
         })

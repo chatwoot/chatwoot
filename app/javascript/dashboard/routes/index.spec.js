@@ -14,7 +14,6 @@ jest.mock('./login/login.routes', () => ({
 jest.mock('../constants', () => {
   return {
     APP_BASE_URL: '/',
-    PUSHER: false,
     get apiUrl() {
       return `${this.APP_BASE_URL}/`;
     },

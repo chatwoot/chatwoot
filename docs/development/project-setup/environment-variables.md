@@ -26,17 +26,6 @@ development:
 
 Following changes has to be in `config/application.yml`
 
-### Configure Pusher
-
-Chatwoot uses [Pusher](https://pusher.com/) to handle realtime messages. Create a free account on Pusher and fill the following environment values.
-
-```yml
-pusher_app_id: ''
-pusher_key: ''
-pusher_secret: ''
-pusher_cluster: ''
-```
-
 ### Configure FB Channel
 
 To use FB Channel, you have to create an Facebook app in developer portal. You can find more details about creating FB channels [here](https://developers.facebook.com/docs/apps/#register)
