@@ -1,6 +1,5 @@
 export default {
   APP_BASE_URL: '/',
-  PUSHER: __PUSHER__,
   get apiURL() {
     return `${this.APP_BASE_URL}/`;
   },

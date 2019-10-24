@@ -5,6 +5,6 @@ class SyncDispatcher < BaseDispatcher
   end
 
   def listeners
-    [PusherListener.instance]
+    [ActionCableListener.instance]
   end
 end
