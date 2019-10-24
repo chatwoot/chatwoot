@@ -21,5 +21,6 @@ module Chatwoot
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
     config.generators.javascripts = false
+    config.generators.stylesheets = false
   end
 end
