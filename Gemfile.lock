@@ -113,6 +113,8 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    action-cable-testing (0.6.0)
+      actioncable (>= 5.0)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     ast (2.4.0)
@@ -161,13 +163,6 @@ GEM
     coderay (1.1.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
-    coffee-rails (5.0.0)
-      coffee-script (>= 2.2.0)
-      railties (>= 5.2.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     crass (1.0.5)
@@ -211,7 +206,6 @@ GEM
     httparty (0.17.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    httpclient (2.8.3)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
@@ -269,7 +263,6 @@ GEM
     minitest (5.12.2)
     mock_redis (0.22.0)
     msgpack (1.3.1)
-    multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     naught (1.1.0)
@@ -292,11 +285,6 @@ GEM
     puma (3.12.1)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
-    pusher (1.3.3)
-      httpclient (~> 2.7)
-      multi_json (~> 1.0)
-      pusher-signature (~> 0.1.8)
-    pusher-signature (0.1.8)
     rack (2.0.7)
     rack-cache (1.9.0)
       rack (>= 0.4)
@@ -452,6 +440,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  action-cable-testing
   acts-as-taggable-on!
   attr_extras
   bootsnap
@@ -459,7 +448,6 @@ DEPENDENCIES
   byebug
   carrierwave-aws
   chargebee (~> 2)
-  coffee-rails
   devise!
   devise_token_auth!
   facebook-messenger
@@ -480,7 +468,6 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.0)
   pundit
-  pusher
   rack-cors
   rails (~> 6)!
   redis

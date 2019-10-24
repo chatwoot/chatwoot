@@ -24,7 +24,7 @@ import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers from '../dashboard/helper/commons';
 import router from '../dashboard/routes';
 import store from '../dashboard/store';
-import vuePusher from '../dashboard/helper/pusher';
+import vueActionCable from '../dashboard/helper/actionCable';
 import constants from '../dashboard/constants';
 
 Vue.config.env = process.env;
@@ -58,7 +58,7 @@ window.onload = () => {
     components: { App },
     template: '<App/>',
   }).$mount('#app');
-  window.pusher = vuePusher.init();
+  vueActionCable.init();
 };
 
 if ('serviceWorker' in navigator) {
