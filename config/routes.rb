@@ -31,6 +31,8 @@ Rails.application.routes.draw do
             post :create_outgoing
           end
         end
+
+        resources :inboxes, only: [:create]
       end
 
       resources :accounts, only: [:create]

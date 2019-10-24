@@ -9,14 +9,14 @@
         v-for="channel in channelList"
         :key="channel"
         :channel="channel"
+        @channel-item-click="initChannelAuth"
       />
     </div>
   </div>
 </template>
 
 <script>
-/* global bus */
-import ChannelItem from '../../../../components/widgets/ChannelItem';
+import ChannelItem from 'dashboard/components/widgets/ChannelItem';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 
@@ -27,22 +27,16 @@ export default {
   },
   data() {
     return {
-      channelList: ['facebook', 'twitter', 'telegram', 'line'],
+      channelList: ['website', 'facebook', 'twitter', 'telegram', 'line'],
     };
-  },
-  created() {
-    bus.$on('channelItemClick', channel => {
-      this.initChannelAuth(channel);
-    });
   },
   methods: {
     initChannelAuth(channel) {
-      if (channel === 'facebook') {
-        router.push({
-          name: 'settings_inboxes_page_channel',
-          params: { page: 'new', sub_page: 'facebook' },
-        });
-      }
+      const params = {
+        page: 'new',
+        sub_page: channel,
+      };
+      router.push({ name: 'settings_inboxes_page_channel', params });
     },
   },
 };

@@ -33,6 +33,14 @@
       window.chatwootConfig = {
         fbAppId: <%= ENV['fb_app_id'] %>
       }
+
+      (function(d,t) {
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src="http://localhost:3000/packs/js/sdk-8bf72fe77cd259121152.js";
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+        }
+      })(document,"script");
     </script>
   </body>
 </html>

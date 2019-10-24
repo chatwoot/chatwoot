@@ -144,7 +144,7 @@
 
   function loadIframe( callback ) {
     iframe.style.display = 'none';
-    iframe.src = 'http://localhost:8080/';
+    iframe.src = 'http://localhost:3000/widgets';
 
     iframe.onreadystatechange = function () {
       if (iframe.readyState !== 'complete') {
