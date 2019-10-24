@@ -3,11 +3,12 @@ import { Bar } from 'vue-chartjs';
 const fontFamily =
   '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
-export default Bar.extend({
+export default {
+  extends: Bar,
   props: ['collection'],
   mounted() {
     this.renderChart(this.collection, {
-      // responsive: true,
+      responsive: true,
       maintainAspectRatio: false,
       legend: {
         labels: {
@@ -21,6 +22,9 @@ export default Bar.extend({
             ticks: {
               fontFamily,
             },
+            gridLines: {
+              display: false,
+            },
           },
         ],
         yAxes: [
@@ -28,9 +32,12 @@ export default Bar.extend({
             ticks: {
               fontFamily,
             },
+            gridLines: {
+              display: false,
+            },
           },
         ],
       },
     });
   },
-});
+};

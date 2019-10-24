@@ -10120,12 +10120,10 @@ vue-axios@~1.2.2:
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-1.2.2.tgz#d18bb48fa7bf469ffa86676960f52a89b7d38a9d"
   integrity sha1-0Yu0j6e/Rp/6hmdpYPUqibfTip0=
 
-vue-chartjs@~2.6.2:
-  version "2.6.5"
-  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-2.6.5.tgz#a0cac5c160568b0ce57e5b861abb1957641ee320"
-  integrity sha512-M5dmil+KE5J4B/uzovfhEBePFJ2E/9dXU2snpKoapmv00u/QdViidHd/JeHzgjWRXUETGAWVlr4PVyQ9Rt54ag==
-  dependencies:
-    lodash "^4.17.4"
+vue-chartjs@^3.4.2:
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-3.4.2.tgz#0323e6a99a10a68f38d426899c3994f48596fd23"
+  integrity sha512-EhoXUJ17+9isMLhJpOliS++xE5z5FM8iAVytIqnKofByVMr8AISRL/SCy3zvWbvzhjgQPStd9y6adMF5bnWQdg==
 
 vue-clickaway@~2.1.0:
   version "2.1.0"
