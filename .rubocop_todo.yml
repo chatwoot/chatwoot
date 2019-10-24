@@ -40,7 +40,7 @@ Lint/UselessAssignment:
   Exclude:
     - 'app/controllers/api/v1/callbacks_controller.rb'
     - 'app/controllers/api/v1/facebook_indicators_controller.rb'
-    - 'app/listeners/pusher_listener.rb'
+    - 'app/listeners/action_cable_listener.rb'
     - 'app/listeners/reporting_listener.rb'
     - 'app/models/channel/facebook_page.rb'
     - 'app/models/facebook_page.rb'

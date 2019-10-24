@@ -17,19 +17,11 @@ environment.loaders.append('audio', {
 
 environment.config.merge({ resolve });
 
-const {
-  pusher_cluster: cluster,
-  pusher_key: token,
-  fb_app_id: fbAppID,
-} = process.env;
+const { fb_app_id: fbAppID } = process.env;
 
 environment.plugins.prepend(
   'DefinePlugin',
   new webpack.DefinePlugin({
-    __PUSHER__: {
-      token: `"${token}"`,
-      cluster: `"${cluster}"`,
-    },
     __FB_ID__: `"${fbAppID}"`,
   })
 );
