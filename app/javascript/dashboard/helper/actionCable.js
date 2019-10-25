@@ -46,6 +46,7 @@ class ActionCableConnector {
   onReceived = ({ event, data } = {}) => {
     if (this.events[event]) {
       this.events[event](data);
+      console.log(event, data);
     }
   };
 
