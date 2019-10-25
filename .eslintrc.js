@@ -43,6 +43,5 @@ module.exports = {
   },
   globals: {
     __WEBPACK_ENV__: true,
-    __FB_APP_ID__: true,
   },
 };
