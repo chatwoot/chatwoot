@@ -5,6 +5,3 @@
 # ref docs for detailed instructions
 cp shared/config/database.yml config/database.yml
 cp shared/config/application.yml config/application.yml
-
-# copy frontend env file
-cp .env.sample .env

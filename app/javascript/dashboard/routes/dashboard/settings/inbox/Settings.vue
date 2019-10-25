@@ -6,8 +6,12 @@
         :header-title="inbox.label"
       />
       <div class="code-wrapper">
-        <p class="title">{{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}</p>
-        <p class="sub-head">{{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}</p>
+        <p class="title">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
+        </p>
+        <p class="sub-head">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
+        </p>
         <p class="code">
           <code>
             {{ messengerScript }}
@@ -15,8 +19,12 @@
         </p>
       </div>
       <div class="agent-wrapper">
-        <p class="title">{{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS') }}</p>
-        <p class="sub-head">{{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT') }}</p>
+        <p class="title">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS') }}
+        </p>
+        <p class="sub-head">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT') }}
+        </p>
         <multiselect
           v-model="selectedAgents"
           :options="agentList"
@@ -31,47 +39,35 @@
         />
         <div @click="updateAgents()">
           <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="isUpdating"
+            :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            :loading="isUpdating"
           />
         </div>
       </div>
-    </div>
     </div>
   </woot-modal>
 </template>
 
 <script>
-/* global bus, __FB_ID__ */
 /* eslint no-console: 0 */
 /* eslint-disable no-useless-escape */
+/* global bus */
 import { mapGetters } from 'vuex';
-import PageHeader from '../SettingsSubPageHeader';
 
 export default {
-  props: [
-    'onClose',
-    'inbox',
-    'show',
-  ],
-  components: {
-    PageHeader,
-  },
+  props: ['onClose', 'inbox', 'show'],
   data() {
     return {
       selectedAgents: [],
       isUpdating: false,
       messengerScript: `<script>
-
         window.fbAsyncInit = function() {
           FB.init({
-            appId: "${__FB_ID__}",
+            appId: "${window.chatwootConfig.fbAppId}",
             xfbml: true,
-            version: "v2.6"
+            version: "v4.0"
           });
-
         };
-
         (function(d, s, id){
            var js, fjs = d.getElementsByTagName(s)[0];
            if (d.getElementById(id)) { return; }
@@ -82,7 +78,7 @@ export default {
 
       <\/script>
       <div class="fb-messengermessageus"
-        messenger_app_id="${__FB_ID__}"
+        messenger_app_id="${window.chatwootConfig.fbAppId}"
         page_id="${this.inbox.pageId}"
         color="blue"
         size="standard" >
@@ -95,40 +91,51 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('fetchAgents')
-      .then(() => {
-        this.fetchAttachedAgents();
-      });
+    this.$store.dispatch('fetchAgents').then(() => {
+      this.fetchAttachedAgents();
+    });
   },
   methods: {
     fetchAttachedAgents() {
-      this.$store.dispatch('listInboxAgents', {
-        inboxId: this.inbox.channel_id,
-      })
-      .then((response) => {
-        const { payload } = response.data;
-        payload.forEach((el) => {
-          const [item] = this.agentList.filter(agent => agent.id === el.user_id);
-          if (item) this.selectedAgents.push(item);
+      this.$store
+        .dispatch('listInboxAgents', {
+          inboxId: this.inbox.channel_id,
+        })
+        .then(response => {
+          const { payload } = response.data;
+          payload.forEach(el => {
+            const [item] = this.agentList.filter(
+              agent => agent.id === el.user_id
+            );
+            if (item) this.selectedAgents.push(item);
+          });
+        })
+        .catch(error => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
     },
     updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isUpdating = true;
-      this.$store.dispatch('updateInboxAgents', {
-        inboxId: this.inbox.channel_id,
-        agentList,
-      }).then(() => {
-        this.isUpdating = false;
-        bus.$emit('newToastMessage', this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      }).catch(() => {
-        this.isUpdating = false;
-        bus.$emit('newToastMessage', this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
-      });
+      this.$store
+        .dispatch('updateInboxAgents', {
+          inboxId: this.inbox.channel_id,
+          agentList,
+        })
+        .then(() => {
+          this.isUpdating = false;
+          bus.$emit(
+            'newToastMessage',
+            this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE')
+          );
+        })
+        .catch(() => {
+          this.isUpdating = false;
+          bus.$emit(
+            'newToastMessage',
+            this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE')
+          );
+        });
     },
   },
   validations: {
