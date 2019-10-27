@@ -2,108 +2,110 @@
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
 import * as types from '../mutation-types';
-import CannedApi from '../../api/cannedResponse';
-import { setLoadingStatus, getLoadingStatus } from '../utils/api';
+import CannedResponseAPI from '../../api/cannedResponse';
 
 const state = {
-  cannedResponse: [],
-  fetchAPIloadingStatus: false,
+  records: [],
+  uiFlags: {
+    fetchingList: false,
+    fetchingItem: false,
+    creatingItem: false,
+    updatingItem: false,
+    deletingItem: false,
+  },
 };
 
 const getters = {
   getCannedResponses(_state) {
-    return _state.cannedResponse;
+    return _state.records;
   },
-  getCannedFetchStatus: getLoadingStatus,
+  getUIFlags(_state) {
+    return _state.uiFlags;
+  },
 };
 
 const actions = {
-  fetchCannedResponse({ commit }) {
-    commit(types.default.SET_CANNED_FETCHING_STATUS, true);
-    CannedApi.getAllCannedResponses()
-      .then(response => {
-        commit(types.default.SET_CANNED_FETCHING_STATUS, false);
-        commit(types.default.SET_CANNED, response);
-      })
-      .catch();
+  getCannedResponse: async function getCannedResponse(
+    { commit },
+    { searchKey } = {}
+  ) {
+    commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: true });
+    try {
+      const response = await CannedResponseAPI.get({ searchKey });
+      commit(types.default.SET_CANNED, response.data);
+      commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { fetchingList: false });
+    }
   },
-  searchCannedResponse({ commit }, { searchKey }) {
-    commit(types.default.SET_CANNED_FETCHING_STATUS, true);
-    CannedApi.searchCannedResponse({ searchKey })
-      .then(response => {
-        commit(types.default.SET_CANNED_FETCHING_STATUS, false);
-        commit(types.default.SET_CANNED, response);
-      })
-      .catch();
+
+  createCannedResponse: async function createCannedResponse(
+    { commit },
+    cannedObj
+  ) {
+    commit(types.default.SET_CANNED_UI_FLAG, { creatingItem: true });
+    try {
+      const response = await CannedResponseAPI.create(cannedObj);
+      commit(types.default.ADD_CANNED, response.data);
+      commit(types.default.SET_CANNED_UI_FLAG, { creatingItem: false });
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { creatingItem: false });
+    }
   },
-  addCannedResponse({ commit }, cannedObj) {
-    return new Promise((resolve, reject) => {
-      CannedApi.addCannedResponse(cannedObj)
-        .then(response => {
-          commit(types.default.ADD_CANNED, response);
-          resolve();
-        })
-        .catch(response => {
-          reject(response);
-        });
-    });
+
+  updateCannedResponse: async function updateCannedResponse(
+    { commit },
+    { id, ...updateObj }
+  ) {
+    commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: true });
+    try {
+      const response = await CannedResponseAPI.update(id, updateObj);
+      commit(types.default.EDIT_CANNED, response.data);
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { updatingItem: false });
+    }
   },
-  editCannedResponse({ commit }, cannedObj) {
-    return new Promise((resolve, reject) => {
-      CannedApi.editCannedResponse(cannedObj)
-        .then(response => {
-          commit(types.default.EDIT_CANNED, response, cannedObj.id);
-          resolve();
-        })
-        .catch(response => {
-          reject(response);
-        });
-    });
-  },
-  deleteCannedResponse({ commit }, responseId) {
-    return new Promise((resolve, reject) => {
-      CannedApi.deleteCannedResponse(responseId.id)
-        .then(response => {
-          if (response.status === 200) {
-            commit(types.default.DELETE_CANNED, responseId);
-          }
-          resolve();
-        })
-        .catch(response => {
-          reject(response);
-        });
-    });
+
+  deleteCannedResponse: async function deleteCannedResponse({ commit }, id) {
+    commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+    try {
+      await CannedResponseAPI.delete(id);
+      commit(types.default.DELETE_CANNED, id);
+      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+    } catch (error) {
+      commit(types.default.SET_CANNED_UI_FLAG, { deletingItem: true });
+    }
   },
 };
 
 const mutations = {
-  // List
-  [types.default.SET_CANNED_FETCHING_STATUS]: setLoadingStatus,
-  // List
-  [types.default.SET_CANNED](_state, response) {
-    _state.cannedResponse = response.data;
-  },
-  // Add Agent
-  [types.default.ADD_CANNED](_state, response) {
-    if (response.status === 200) {
-      _state.cannedResponse.push(response.data);
-    }
-  },
-  // Edit Agent
-  [types.default.EDIT_CANNED](_state, response) {
-    if (response.status === 200) {
-      _state.cannedResponse.forEach((element, index) => {
-        if (element.id === response.data.id) {
-          _state.cannedResponse[index] = response.data;
-        }
-      });
-    }
+  [types.default.SET_CANNED_UI_FLAG](_state, data) {
+    _state.uiFlags = {
+      ..._state.uiFlags,
+      ...data,
+    };
   },
 
-  // Delete CannedResponse
-  [types.default.DELETE_CANNED](_state, { id }) {
-    _state.cannedResponse = _state.cannedResponse.filter(
-      agent => agent.id !== id
+  [types.default.SET_CANNED](_state, data) {
+    _state.records = data;
+  },
+
+  [types.default.ADD_CANNED](_state, data) {
+    _state.records.push(data);
+  },
+
+  [types.default.EDIT_CANNED](_state, data) {
+    _state.records.forEach((element, index) => {
+      if (element.id === data.id) {
+        _state.records[index] = data;
+      }
+    });
+  },
+
+  [types.default.DELETE_CANNED](_state, id) {
+    _state.records = _state.records.filter(
+      cannedResponse => cannedResponse.id !== id
     );
   },
 };
