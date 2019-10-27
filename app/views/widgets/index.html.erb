@@ -10,5 +10,8 @@
   <body>
     <div id="app"></div>
     <%= yield %>
+    <script>
+      window.chatwootWebChannel = <%= @web_widget.website_name %>
+    </script>
   </body>
 </html>

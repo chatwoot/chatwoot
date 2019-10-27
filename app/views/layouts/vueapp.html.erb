@@ -37,9 +37,12 @@
       }
 
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src="http://localhost:3000/packs/js/sdk-a5a3f6b2cfa969dd2233.js";
+        g.src="/packs/js/sdk.js";
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: 'dvJT7NScWSvRjC3KqnVgAGSN'
+          })
         }
       })(document,"script");
     </script>
