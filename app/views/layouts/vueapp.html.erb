@@ -30,13 +30,14 @@
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
     <script>
+      (function(d,t) {
+
       window.chatwootConfig = {
         fbAppId: <%= ENV['fb_app_id'] %>
       }
 
-      (function(d,t) {
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src="http://localhost:3000/packs/js/sdk-8bf72fe77cd259121152.js";
+        g.src="http://localhost:3000/packs/js/sdk-a5a3f6b2cfa969dd2233.js";
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
         }

@@ -7,7 +7,6 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import { DEFAULT_CONVERSATION } from 'widget/store/modules/conversation';
-import vuePusher from 'widget/helpers/pusher';
 
 export default {
   name: 'App',
@@ -37,9 +36,8 @@ export default {
           if (isContactEmpty) {
             self.fetchContact({ inboxId, accountId });
           } else {
-            const parsedContact = JSON.parse(contact);
-            const { chat_channel: chatChannel } = parsedContact;
-            window.pusher = vuePusher.init(chatChannel);
+            // const parsedContact = JSON.parse(contact);
+            // const { chat_channel: chatChannel } = parsedContact;
           }
         }
       });

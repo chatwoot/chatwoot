@@ -13,15 +13,15 @@ export default {
         return { inboxId: 0 };
       },
     },
-    // {
-    //   path: frontendURL('inbox/:inbox_id'),
-    //   name: 'inbox_dashboard',
-    //   roles: ['administrator', 'agent'],
-    //   component: ConversationView,
-    //   props: route => {
-    //     return { inboxId: route.params.inbox_id };
-    //   },
-    // },
+    {
+      path: frontendURL('inbox/:inbox_id'),
+      name: 'inbox_dashboard',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => {
+        return { inboxId: route.params.inbox_id };
+      },
+    },
     {
       path: frontendURL('conversations/:conversation_id'),
       name: 'inbox_conversation',

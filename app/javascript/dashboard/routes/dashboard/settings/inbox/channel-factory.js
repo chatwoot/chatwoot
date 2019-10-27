@@ -1,7 +1,9 @@
-import FacebookView from './channels/Facebook';
+import Facebook from './channels/Facebook';
+import Website from './channels/Website';
 
 const channelViewList = {
-  facebook: FacebookView,
+  facebook: Facebook,
+  website: Website,
 };
 
 export default {

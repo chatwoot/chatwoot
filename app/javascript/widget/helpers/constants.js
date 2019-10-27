@@ -1,11 +1,5 @@
 export const APP_BASE_URL = '';
 
-export const PUSHER = {
-  token: '',
-  logToConsole: false,
-  cluster: '',
-};
-
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
   SUCCESS: 'success',

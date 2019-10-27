@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
 import authAPI from 'widget/api/auth';
-import vuePusher from 'widget/helpers/pusher';
 
 // initial state
 const state = {
@@ -40,9 +39,8 @@ const actions = {
           data,
         };
         window.parent.postMessage(JSON.stringify(message), '*');
-        const { chat_channel: chatChannel } = data;
+        // const { chat_channel: chatChannel } = data;
         console.log(data);
-        window.pusher = vuePusher.init(chatChannel);
       })
       .catch(error => console.log(error));
   },

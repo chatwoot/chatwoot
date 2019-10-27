@@ -5,7 +5,10 @@
         :header-image="inbox.avatarUrl"
         :header-title="inbox.label"
       />
-      <div class="code-wrapper">
+      <div
+        v-if="inbox.channelType === 'Channel::FacebookPage'"
+        class="code-wrapper"
+      >
         <p class="title">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
         </p>
@@ -17,6 +20,11 @@
             {{ messengerScript }}
           </code>
         </p>
+      </div>
+      <div v-else-if="inbox.channelType === 'Channel::WebWidget'">
+        <div class="code-wrapper">
+          {{ inbox.websiteToken }}
+        </div>
       </div>
       <div class="agent-wrapper">
         <p class="title">
