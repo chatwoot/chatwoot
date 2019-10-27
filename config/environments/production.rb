@@ -56,6 +56,15 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "chatwoot_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = { :host => ENV['frontend_url'] }
+  config.action_mailer.smtp_settings = {
+    :address => ENV['ses_address'],
+    :port => 587,
+    :user_name => ENV["ses_username"],
+    :password => ENV["ses_password"],
+    :authentication => :login,
+    :enable_starttls_auto => true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
