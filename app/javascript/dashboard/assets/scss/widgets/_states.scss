@@ -1,11 +1,13 @@
 .loading-state {
   padding: $space-jumbo $space-smaller;
+
   .message {
     display: block;
     width: 100%;
     text-align: center;
     color: $color-gray;
   }
+
   .spinner {
     float: none;
     top: -$space-smaller;
@@ -15,6 +17,7 @@
 // EMPTY STATES
 .empty-state {
   padding: $space-jumbo $space-smaller;
+
   .title,
   .message {
     display: block;

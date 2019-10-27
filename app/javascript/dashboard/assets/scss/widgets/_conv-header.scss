@@ -7,7 +7,7 @@
   @include border-normal-bottom;
   // Resolve Button
   .button {
-  	@include margin(0);
+    @include margin(0);
     @include flex;
   }
 
@@ -40,8 +40,9 @@
   .user {
     @include flex;
     @include flex-align($x: center, $y: middle);
+
     .user--name {
-   	  @include margin(0);
+      @include margin(0);
       font-size: $font-size-medium;
       margin-left: $space-slab;
     }
@@ -57,6 +58,7 @@
   .spinner {
     padding: 0 $space-one;
     margin-right: $space-smaller;
+
     &:before {
       border-top-color: $color-white;
     }

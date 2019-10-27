@@ -4,6 +4,7 @@
   @include background-light;
   cursor: pointer;
   @include custom-border-top(3px, transparent);
+
   &.active {
     @include custom-border-top(3px, $color-woot);
     @include background-white;
@@ -12,16 +13,19 @@
       color: $color-woot;
     }
   }
+
   .heading {
     @include margin($zero);
     font-size: $font-size-small;
     font-weight: $font-weight-bold;
     color: $color-heading;
   }
+
   .metric {
     font-size: $font-size-bigger;
     font-weight: $font-weight-feather;
   }
+
   .desc {
     @include margin($zero);
     font-size: $font-size-small;
@@ -35,13 +39,16 @@
   @include background-white;
   @include border-light;
   @include padding($space-small $space-medium);
+
   .chart-container {
     @include flex;
     flex-direction: column;
     @include flex-align(center, middle);
+
     div {
       width: 100%;
     }
+
     .empty-state {
       @include margin($space-jumbo);
       font-size: $font-size-default;

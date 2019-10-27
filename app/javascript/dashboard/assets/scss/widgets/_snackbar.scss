@@ -35,11 +35,11 @@
   padding-left: 3rem;
 
   button {
-    border: none;
     background: none;
+    border: 0;
+    color: $woot-snackbar-button;
     font-size: $font-size-small;
     text-transform: uppercase;
-    color: $woot-snackbar-button;
     @include margin(0);
     @include padding(0);
   }

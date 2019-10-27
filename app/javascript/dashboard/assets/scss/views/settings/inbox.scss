@@ -57,6 +57,7 @@
         height: $zero;
       }
     }
+
     &.active {
       // left: 1px;
       // @include background-white;
@@ -98,12 +99,14 @@
         color: $success-color;
       }
     }
+
     p {
       font-size: $font-size-small;
       color: $color-light-gray;
       padding-left: $space-medium;
       margin: 0;
     }
+
     .step {
       position: absolute;
       left: $space-normal;
@@ -132,6 +135,7 @@
   @include border-light;
   @include full-height();
 }
+
 .inoboxes-list {
   // @include margin(auto);
   // @include background-white;
@@ -150,6 +154,7 @@
     width: 20%;
     float: left;
     min-height: 10rem;
+
     &:last-child {
       margin-bottom: $zero;
       @include border-nil;
@@ -162,6 +167,7 @@
         transform: translateX($space-small);
       }
     }
+
     .switch {
       align-self: center;
       margin-right: $space-normal;
@@ -170,15 +176,18 @@
 
     .item--details {
       @include padding($space-normal $zero);
+
       .item--name {
         font-size: $font-size-large;
         line-height: 1;
       }
+
       .item--sub {
         margin-bottom: 0;
         font-size: $font-size-small;
       }
     }
+
     .arrow {
       align-self: center;
       font-size: $font-size-small;
@@ -193,6 +202,7 @@
 .settings-modal {
   width: 60%;
   height: 80%;
+
   .delete-wrapper {
     position: absolute;
     bottom: 0;
@@ -201,42 +211,51 @@
     flex-direction: row;
     justify-content: space-between;
     @include padding($space-normal $space-large);
+
     a {
       margin-left: $space-normal;
     }
   }
+
   .code-wrapper {
     @include margin($space-medium);
 
     .title {
       font-weight: $font-weight-medium;
     }
+
     .code {
       max-height: $space-mega;
       overflow: scroll;
       white-space: nowrap;
       @include padding($space-one);
       background: $color-background;
+
       code {
         background: transparent;
         border: 0;
       }
     }
   }
+
   .agent-wrapper {
     @include margin($space-medium);
+
     .title {
       font-weight: $font-weight-medium;
     }
   }
 }
+
 .login-init {
   text-align: center;
   padding-top: 30%;
+
   p {
     @include padding($space-medium);
   }
+
   > a > img {
-    width: $space-larger*5;
+    width: $space-larger * 5;
   }
 }
