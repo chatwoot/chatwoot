@@ -1,12 +1,14 @@
 table {
   font-size: $font-size-small;
   border-spacing: 0;
+
   thead {
     th {
       font-weight: $font-weight-bold;
       text-transform: uppercase;
     }
   }
+
   tbody {
     td {
       @include padding($space-one $space-small);
@@ -16,34 +18,38 @@ table {
 }
 
 .woot-table {
-
   tr {
     .show-if-hover {
       opacity: 0;
       transition: all .2s $ease-in-out-cubic;
     }
+
     &:hover {
       .show-if-hover {
         opacity: 1;
       }
     }
   }
+
   .agent-name {
     font-weight: $font-weight-medium;
     display: block;
     text-transform: capitalize;
   }
+
   .woot-thumbnail {
     border-radius: 50%;
     width: 5rem;
     height: 5rem;
   }
+
   .button-wrapper {
     min-width: 20rem;
     @include flex;
     @include flex-align(left, null);
     flex-direction: row;
   }
+
   .button {
     @include margin($zero);
   }

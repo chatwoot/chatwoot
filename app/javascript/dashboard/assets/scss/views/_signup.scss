@@ -2,7 +2,7 @@
   // margin-top: $space-larger*1.2;
 
   .signup--hero {
-    margin-bottom: $space-larger*1.5;
+    margin-bottom: $space-larger * 1.5;
 
     .hero--logo {
       width: 180px;
@@ -56,6 +56,7 @@
   .signup--box {
     @include elegant-card;
     padding: $space-large;
+
     label {
       font-size: $font-size-default;
       color: $color-gray;
@@ -65,6 +66,7 @@
         height: $space-larger;
         font-size: $font-size-default;
       }
+
       .error {
         font-size: $font-size-small
       }
@@ -84,6 +86,7 @@
     font-size: $font-size-mini;
     text-align: center;
     @include margin($zero);
+
     a {
       font-size: $font-size-mini;
     }
