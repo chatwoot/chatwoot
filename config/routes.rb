@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   match '/status', to: 'home#status', via: [:get]
 
-  namespace :api do
+  namespace :api, :defaults => { :format => 'json' } do
     namespace :v1 do
       resources :callbacks, only: [] do
         collection do
