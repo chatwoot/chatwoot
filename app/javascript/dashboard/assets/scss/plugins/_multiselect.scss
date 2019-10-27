@@ -18,6 +18,7 @@
       margin-bottom: $zero;
       @include padding($zero);
     }
+
     .multiselect__single {
       @include padding($space-small);
       margin-bottom: 0;

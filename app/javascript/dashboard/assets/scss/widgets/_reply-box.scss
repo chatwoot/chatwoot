@@ -4,7 +4,7 @@
   border-bottom: 0;
   @include elegant-card;
   transition: height 2s $ease-in-out-cubic;
-  max-height: $space-jumbo*2;
+  max-height: $space-jumbo * 2;
 
   .reply-box__top {
     @include flex;
@@ -27,12 +27,14 @@
       border-bottom: $space-small solid $color-white;
       max-height: 14rem;
       overflow: scroll;
+
       .active {
         a {
           background: $color-woot;
         }
       }
     }
+
     &.is-active {
       border-bottom-left-radius: $space-small;
       border-bottom-right-radius: $space-small;
@@ -56,6 +58,7 @@
         color: $color-woot;
       }
     }
+
     > textarea {
       @include ghost-input();
       @include margin(0);
@@ -91,9 +94,11 @@
 
         &:first-child {
           border-bottom-left-radius: $space-small;
+
           &.is-active {
             @include border-light-right;
             border-left: 0;
+
             a {
               border-bottom-left-radius: $space-small;
             }
@@ -103,6 +108,7 @@
         &.is-private {
           &.is-active {
             background: lighten($warning-color, 38%);
+
             a {
               border-bottom-color: darken($warning-color, 15%);
               color: darken($warning-color, 15%);
@@ -110,6 +116,7 @@
           }
         }
       }
+
       .is-active {
         @include background-white;
         margin-top: -1px;
@@ -119,10 +126,12 @@
 
       .message-length {
         float: right;
+
         a {
           font-size: $font-size-mini;
         }
       }
+
       .message-error {
         color: $input-error-color;
       }
