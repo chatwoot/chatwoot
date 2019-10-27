@@ -13,6 +13,7 @@ const endPoints = {
   logout: {
     url: 'auth/sign_out',
   },
+
   me: {
     url: 'api/v1/conversations.json',
     params: { type: 0, page: 1 },
@@ -21,28 +22,6 @@ const endPoints = {
   getInbox: {
     url: 'api/v1/conversations.json',
     params: { inbox_id: null },
-  },
-
-  conversations(id) {
-    return { url: `api/v1/conversations/${id}.json`, params: { before: null } };
-  },
-
-  resolveConversation(id) {
-    return { url: `api/v1/conversations/${id}/toggle_status.json` };
-  },
-
-  sendMessage(conversationId, message) {
-    return {
-      url: `api/v1/conversations/${conversationId}/messages.json`,
-      params: { message },
-    };
-  },
-
-  addPrivateNote(conversationId, message) {
-    return {
-      url: `api/v1/conversations/${conversationId}/messages.json?`,
-      params: { message, private: 'true' },
-    };
   },
 
   fetchLabels: {
@@ -84,60 +63,6 @@ const endPoints = {
   fetchFacebookPages: {
     url: 'api/v1/callbacks/get_facebook_pages.json',
     params: { omniauth_token: '' },
-  },
-
-  assignAgent(conversationId, AgentId) {
-    return {
-      url: `/api/v1/conversations/${conversationId}/assignments?assignee_id=${AgentId}`,
-    };
-  },
-
-  fbMarkSeen: {
-    url: 'api/v1/facebook_indicators/mark_seen',
-  },
-
-  fbTyping(status) {
-    return {
-      url: `api/v1/facebook_indicators/typing_${status}`,
-    };
-  },
-
-  markMessageRead(id) {
-    return {
-      url: `api/v1/conversations/${id}/update_last_seen`,
-      params: {
-        agent_last_seen_at: null,
-      },
-    };
-  },
-
-  // Canned Response [GET, POST, PUT, DELETE]
-  cannedResponse: {
-    get() {
-      return {
-        url: 'api/v1/canned_responses',
-      };
-    },
-    getOne({ id }) {
-      return {
-        url: `api/v1/canned_responses/${id}`,
-      };
-    },
-    post() {
-      return {
-        url: 'api/v1/canned_responses',
-      };
-    },
-    put(id) {
-      return {
-        url: `api/v1/canned_responses/${id}`,
-      };
-    },
-    delete(id) {
-      return {
-        url: `api/v1/canned_responses/${id}`,
-      };
-    },
   },
 
   reports: {

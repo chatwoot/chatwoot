@@ -1,104 +1,37 @@
-/* eslint no-console: 0 */
 /* global axios */
-/* eslint no-undef: "error" */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
-import endPoints from '../endPoints';
+import ApiClient from '../ApiClient';
 
-export default {
-  fetchConversation(id) {
-    const urlData = endPoints('conversations')(id);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
+class ConversationApi extends ApiClient {
+  constructor() {
+    super('conversations');
+  }
 
-  toggleStatus(id) {
-    const urlData = endPoints('resolveConversation')(id);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
+  get({ inboxId, convStatus, assigneeStatus }) {
+    return axios.get(this.url, {
+      params: {
+        inbox_id: inboxId,
+        conversation_status_id: convStatus,
+        assignee_type_id: assigneeStatus,
+      },
     });
-    return fetchPromise;
-  },
+  }
 
-  assignAgent([id, agentId]) {
-    const urlData = endPoints('assignAgent')(id, agentId);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
+  toggleStatus(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/toggle_status`, {});
+  }
 
-  markSeen({ inboxId, senderId }) {
-    const urlData = endPoints('fbMarkSeen');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, {
-          inbox_id: inboxId,
-          sender_id: senderId,
-        })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
-
-  fbTyping({ flag, inboxId, senderId }) {
-    const urlData = endPoints('fbTyping')(flag);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, {
-          inbox_id: inboxId,
-          sender_id: senderId,
-        })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
+  assignAgent({ conversationId, agentId }) {
+    axios.post(
+      `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
+      {}
+    );
+  }
 
   markMessageRead({ id, lastSeen }) {
-    const urlData = endPoints('markMessageRead')(id);
-    urlData.params.agent_last_seen_at = lastSeen;
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, urlData.params)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
+    return axios.post(`${this.url}/${id}/update_last_seen`, {
+      agent_last_seen_at: lastSeen,
     });
-    return fetchPromise;
-  },
-};
+  }
+}
+
+export default new ConversationApi();

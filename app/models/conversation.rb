@@ -94,7 +94,7 @@ class Conversation < ApplicationRecord
 
     user_name = Current.user&.name
 
-    create_status_change_message(user_name) if saved_change_to_assignee_id?
+    create_status_change_message(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?
   end
 
