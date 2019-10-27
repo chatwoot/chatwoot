@@ -6,7 +6,9 @@
         size="40px"
         :badge="chat.meta.sender.channel"
       />
-      <h3 class="user--name">{{chat.meta.sender.name}}</h3>
+      <h3 class="user--name">
+        {{ chat.meta.sender.name }}
+      </h3>
     </div>
     <div class="flex-container">
       <div class="multiselect-box ion-headphone">
@@ -14,24 +16,21 @@
           v-model="currentChat.meta.assignee"
           :options="agentList"
           label="name"
-          @select="assignAgent"
           :allow-empty="true"
           deselect-label="Remove"
           placeholder="Select Agent"
-          selected-label=''
+          selected-label=""
           select-label="Assign"
           track-by="id"
+          @select="assignAgent"
           @remove="removeAgent"
         />
       </div>
       <ResolveButton />
     </div>
   </div>
-
-
 </template>
 <script>
-
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
@@ -40,12 +39,14 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail';
 import ResolveButton from '../../buttons/ResolveButton';
-import EmojiInput from '../emoji/EmojiInput';
 
 export default {
-  props: [
-    'chat',
-  ],
+  components: {
+    Thumbnail,
+    ResolveButton,
+  },
+
+  props: ['chat'],
 
   data() {
     return {
@@ -75,21 +76,19 @@ export default {
 
   methods: {
     assignAgent(agent) {
-      this.$store.dispatch('assignAgent', [this.currentChat.id, agent.id]).then((response) => {
-        console.log('assignAgent', response);
-        bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
-      });
+      this.$store
+        .dispatch('assignAgent', {
+          conversationId: this.currentChat.id,
+          agentId: agent.id,
+        })
+        .then(() => {
+          bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
+        });
     },
 
     removeAgent(agent) {
       console.log(agent.email);
     },
-  },
-
-  components: {
-    Thumbnail,
-    ResolveButton,
-    EmojiInput,
   },
 };
 </script>

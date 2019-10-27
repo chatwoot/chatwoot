@@ -30,10 +30,8 @@ const state = {
 
 // mutations
 const mutations = {
-  [types.default.SET_ALL_CONVERSATION](_state, data) {
-    if (data) {
-      _state.allConversations.push(...data.chats);
-    }
+  [types.default.SET_ALL_CONVERSATION](_state, chatList) {
+    _state.allConversations.push(...chatList);
   },
 
   [types.default.EMPTY_ALL_CONVERSATION](_state) {
@@ -70,12 +68,17 @@ const mutations = {
     }
   },
 
-  [types.default.SET_CONV_TAB_META](_state, { meta }) {
-    if (meta) {
-      Vue.set(_state.convTabStats, 'overdueCount', meta.overdue_count);
-      Vue.set(_state.convTabStats, 'allConvCount', meta.all_count);
-      Vue.set(_state.convTabStats, 'openCount', meta.open_count);
-    }
+  [types.default.SET_CONV_TAB_META](
+    _state,
+    {
+      overdue_count: overdueCount,
+      all_count: allCount,
+      open_count: openCount,
+    } = {}
+  ) {
+    Vue.set(_state.convTabStats, 'overdueCount', overdueCount);
+    Vue.set(_state.convTabStats, 'allConvCount', allCount);
+    Vue.set(_state.convTabStats, 'openCount', openCount);
   },
 
   [types.default.CURRENT_CHAT_WINDOW](_state, activeChat) {
@@ -115,11 +118,11 @@ const mutations = {
     _state.selectedChat.status = status;
   },
 
-  [types.default.SEND_MESSAGE](_state, response) {
+  [types.default.SEND_MESSAGE](_state, data) {
     const [chat] = getSelectedChatConversation(_state);
     const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(response.data.id)) {
-      chat.messages.push(response.data);
+    if (!previousMessageIds.includes(data.id)) {
+      chat.messages.push(data);
     }
   },
 
@@ -141,14 +144,12 @@ const mutations = {
     _state.allConversations.push(conversation);
   },
 
-  [types.default.MARK_SEEN](_state, response) {
-    if (response.status === 200) {
-      _state.selectedChat.seen = true;
-    }
+  [types.default.MARK_SEEN](_state) {
+    _state.selectedChat.seen = true;
   },
 
-  [types.default.FB_TYPING](_state, { flag }) {
-    _state.selectedChat.agentTyping = flag;
+  [types.default.FB_TYPING](_state, { status }) {
+    _state.selectedChat.agentTyping = status;
   },
 
   [types.default.SET_LIST_LOADING_STATUS](_state) {
