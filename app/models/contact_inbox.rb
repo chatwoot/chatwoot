@@ -1,5 +1,5 @@
 class ContactInbox < ApplicationRecord
-  validates :inbox_id, presence: true 
+  validates :inbox_id, presence: true
   validates :contact_id, presence: true
   validates :source_id, presence: true
 
