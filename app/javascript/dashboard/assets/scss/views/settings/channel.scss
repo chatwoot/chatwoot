@@ -1,8 +1,10 @@
 .channels {
   margin-top: $space-medium;
+
   .inactive {
     filter: grayscale(100%);
   }
+
   .channel {
     @include flex;
     @include padding($space-normal $zero);

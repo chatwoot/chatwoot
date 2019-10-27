@@ -19,15 +19,19 @@
 @mixin border-normal() {
   border: 1px solid $color-border;
 }
+
 @mixin border-normal-left() {
   border-left: 1px solid $color-border;
 }
+
 @mixin border-normal-top() {
   border-top: 1px solid $color-border;
 }
+
 @mixin border-normal-right() {
   border-right: 1px solid $color-border;
 }
+
 @mixin border-normal-bottom() {
   border-bottom: 1px solid $color-border;
 }
@@ -35,15 +39,19 @@
 @mixin border-light() {
   border: 1px solid $color-border-light;
 }
+
 @mixin border-light-left() {
   border-left: 1px solid $color-border-light;
 }
+
 @mixin border-light-top() {
   border-top: 1px solid $color-border-light;
 }
+
 @mixin border-light-right() {
   border-right: 1px solid $color-border-light;
 }
+
 @mixin border-light-bottom() {
   border-bottom: 1px solid $color-border-light;
 }
@@ -65,6 +73,7 @@
 @mixin ghost-input() {
   box-shadow: none;
   border-color: transparent;
+
   &:active,
   &:hover,
   &:focus {
@@ -83,6 +92,7 @@
   @include space-between;
   flex-direction: column;
 }
+
 @mixin space-between-row() {
   @include space-between;
   flex-direction: row;
@@ -109,6 +119,7 @@
   height: 100%;
   // COmmenting because unneccessary scroll is apprearing on some pages eg: settings/agents / inboxes
 }
+
 @mixin round-corner() {
   border-radius: 1000px;
 }

@@ -4,9 +4,11 @@
 .slide-fade-enter-active {
   transition: all .3s $ease-in-cubic;
 }
+
 .slide-fade-leave-active {
   transition: all .3s $ease-out-cubic;
 }
+
 .slide-fade-enter, .slide-fade-leave-to {
   opacity: 0;
   transform: translateX(10px);
@@ -15,6 +17,7 @@
 .slide-fade-enter {
   transform: translateX($space-micro);
 }
+
 .slide-fade-leave-to {
   transform: translateX($space-medium);
 }
@@ -22,6 +25,7 @@
 .conversations-list-enter-active, .conversations-list-leave-active {
   transition: all .25s $ease-out-cubic;
 }
+
 .conversations-list-enter, .conversations-list-leave-to /* .conversations-list-leave-active for <2.1.8 */ {
   opacity: 0;
   transform: translateX($space-medium);
@@ -30,6 +34,7 @@
 .menu-list-enter-active, .menu-list-leave-active {
   transition: all .2s $ease-out-cubic;
 }
+
 .menu-list-enter, .menu-list-leave-to /* .conversations-list-leave-active for <2.1.8 */ {
   opacity: 0;
   transform: translateX($space-medium);
@@ -63,15 +68,16 @@
 .toast-fade-enter-active {
   transition: all .3s $ease-in-sine;
 }
+
 .toast-fade-leave-active {
   transition: all .1s $ease-out-sine;
 }
+
 .toast-fade-enter, .toast-fade-leave-to
 /* .toast-fade-leave-active for <2.1.8 */ {
   transform: translateY(-$space-small);
   opacity: 0;
 }
-
 
 .modal-fade-enter-active {
   transition: all .3s $ease-in-sine;

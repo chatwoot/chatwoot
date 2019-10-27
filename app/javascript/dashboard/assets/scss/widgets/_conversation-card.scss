@@ -14,6 +14,7 @@
     @include border-light-bottom;
     @include padding($zero $zero $space-slab $zero);
   }
+
   .conversation--user {
     font-size: $font-size-small;
     margin-bottom: $zero;
@@ -41,6 +42,7 @@
     width: 27rem;
     white-space: nowrap;
   }
+
   .conversation--meta {
     display: block;
     position: absolute;
@@ -65,6 +67,7 @@
       @include round-corner;
       margin-top: $space-smaller;
     }
+
     .timestamp {
       font-size: $font-size-mini;
       color: $dark-gray;
@@ -79,9 +82,11 @@
     .unread {
       display: inline-block;
     }
+
     .conversation--message {
       font-weight: $font-weight-medium;
     }
+
     .conversation--user {
       font-weight: $font-weight-medium;
     }

@@ -13,10 +13,12 @@ body {
   @include full-height;
   width: 100%;
 }
+
 .app-root {
   @include flex;
   flex-direction: column;
 }
+
 .app-content {
   @include flex;
 }
