@@ -41,25 +41,18 @@ class Api::V1::ReportsController < Api::BaseController
   end
 
   def account_summary_metrics
-    ACCOUNT_METRICS.each_with_object({}) do |metric, result|
-      data = ReportBuilder.new(current_account, account_summary_params(metric)).build
-
-      if AVG_ACCOUNT_METRICS.include?(metric)
-        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
-        sum /= data.length unless sum.zero?
-      else
-        sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
-      end
-
-      result[metric] = sum
-    end
+    summary_metrics(ACCOUNT_METRICS, :account_summary_params, AVG_ACCOUNT_METRICS)
   end
 
   def agent_summary_metrics
-    AGENT_METRICS.each_with_object({}) do |metric, result|
-      data = ReportBuilder.new(current_account, agent_summary_params(metric)).build
+    summary_metrics(AGENT_METRICS, :agent_summary_params, AVG_AGENT_METRICS)
+  end
 
-      if AVG_AGENT_METRICS.include?(metric)
+  def summary_metrics(metrics, calc_function, avg_metrics)
+    metrics.each_with_object({}) do |metric, result|
+      data = ReportBuilder.new(current_account, send(calc_function, metric)).build
+
+      if avg_metrics.include?(metric)
         sum = data.inject(0) { |sum, hash| sum + hash[:value].to_i }
         sum /= data.length unless sum.zero?
       else
