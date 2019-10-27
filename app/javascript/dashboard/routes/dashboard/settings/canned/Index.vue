@@ -11,18 +11,18 @@
     <div class="row">
       <div class="small-8 columns">
         <p
-          v-if="!fetchStatus && !cannedResponseList.length"
+          v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
         >
           {{ $t('CANNED_MGMT.LIST.404') }}
         </p>
         <woot-loading-state
-          v-if="fetchStatus"
+          v-if="uiFlags.fetchingList"
           :message="$t('CANNED_MGMT.LOADING')"
         />
 
         <table
-          v-if="!fetchStatus && cannedResponseList.length"
+          v-if="!uiFlags.fetchingList && records.length"
           class="woot-table"
         >
           <thead>
@@ -36,7 +36,7 @@
           </thead>
           <tbody>
             <tr
-              v-for="(cannedItem, index) in cannedResponseList"
+              v-for="(cannedItem, index) in records"
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
@@ -126,8 +126,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      cannedResponseList: 'getCannedResponses',
-      fetchStatus: 'getCannedFetchStatus',
+      records: 'getCannedResponses',
+      uiFlags: 'getUIFlags',
     }),
     // Delete Modal
     deleteConfirmText() {
@@ -148,7 +148,7 @@ export default {
   },
   mounted() {
     // Fetch API Call
-    this.$store.dispatch('fetchCannedResponse');
+    this.$store.dispatch('getCannedResponse');
   },
   methods: {
     showAlert(message) {
@@ -192,9 +192,7 @@ export default {
     },
     deleteCannedResponse(id) {
       this.$store
-        .dispatch('deleteCannedResponse', {
-          id,
-        })
+        .dispatch('deleteCannedResponse', id)
         .then(() => {
           this.showAlert(this.$t('CANNED_MGMT.DELETE.API.SUCCESS_MESSAGE'));
         })
