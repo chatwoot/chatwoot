@@ -148,10 +148,13 @@ export default {
       if (messageHasOnlyNewLines) {
         return;
       }
-      const messageAction = this.isPrivate ? 'addPrivateNote' : 'sendMessage';
       if (this.message.length !== 0 && !this.showCannedModal) {
         this.$store
-          .dispatch(messageAction, [this.currentChat.id, this.message])
+          .dispatch('sendMessage', {
+            conversationId: this.currentChat.id,
+            message: this.message,
+            private: this.isPrivate,
+          })
           .then(() => {
             this.$emit('scrollToMessage');
           });
@@ -202,15 +205,15 @@ export default {
     markSeen() {
       this.$store.dispatch('markSeen', {
         inboxId: this.currentChat.inbox_id,
-        senderId: this.currentChat.meta.sender.id,
+        contactId: this.currentChat.meta.sender.id,
       });
     },
 
-    toggleTyping(flag) {
+    toggleTyping(status) {
       this.$store.dispatch('toggleTyping', {
-        flag,
+        status,
         inboxId: this.currentChat.inbox_id,
-        senderId: this.currentChat.meta.sender.id,
+        contactId: this.currentChat.meta.sender.id,
       });
     },
     disableButton() {

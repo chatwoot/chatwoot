@@ -1,55 +1,24 @@
 /* eslint no-console: 0 */
 /* global axios */
-/* eslint no-undef: "error" */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
-import endPoints from '../endPoints';
+import ApiClient from '../ApiClient';
 
-export default {
-  sendMessage([conversationId, message]) {
-    const urlData = endPoints('sendMessage')(conversationId, message);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, urlData.params)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
-    });
-    return fetchPromise;
-  },
+class MessageApi extends ApiClient {
+  constructor() {
+    super('conversations');
+  }
 
-  addPrivateNote([conversationId, message]) {
-    const urlData = endPoints('addPrivateNote')(conversationId, message);
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, urlData.params)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
+  create({ conversationId, message, private: isPrivate }) {
+    return axios.post(`${this.url}/${conversationId}/messages`, {
+      message,
+      private: isPrivate,
     });
-    return fetchPromise;
-  },
+  }
 
-  fetchPreviousMessages({ id, before }) {
-    const urlData = endPoints('conversations')(id);
-    urlData.params.before = before;
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url, {
-          params: urlData.params,
-        })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(Error(error));
-        });
+  getPreviousMessages({ conversationId, before }) {
+    return axios.get(`${this.url}/${conversationId}`, {
+      params: { before },
     });
-    return fetchPromise;
-  },
-};
+  }
+}
+
+export default new MessageApi();

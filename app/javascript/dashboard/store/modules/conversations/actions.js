@@ -1,23 +1,24 @@
 import Vue from 'vue';
 import * as types from '../../mutation-types';
 
-import ChatList from '../../../api/inbox';
 import ConversationApi from '../../../api/inbox/conversation';
-import messageApi from '../../../api/inbox/message';
+import MessageApi from '../../../api/inbox/message';
+import FBChannel from '../../../api/channel/fbChannel';
 
 // actions
 const actions = {
-  fetchAllConversations({ commit }, fetchParams) {
+  fetchAllConversations: async ({ commit }, params) => {
     commit(types.default.SET_LIST_LOADING_STATUS);
-    ChatList.fetchAllConversations(fetchParams, response => {
-      commit(types.default.SET_ALL_CONVERSATION, {
-        chats: response.data.data.payload,
-      });
-      commit(types.default.SET_CONV_TAB_META, {
-        meta: response.data.data.meta,
-      });
+    try {
+      const response = await ConversationApi.get(params);
+      const { data } = response.data;
+      const { payload: chatList, meta: metaData } = data;
+      commit(types.default.SET_ALL_CONVERSATION, chatList);
+      commit(types.default.SET_CONV_TAB_META, metaData);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
-    });
+    } catch (error) {
+      // Handle error
+    }
   },
 
   emptyAllConversations({ commit }) {
@@ -28,25 +29,19 @@ const actions = {
     commit(types.default.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages({ commit }, data) {
-    const donePromise = new Promise(resolve => {
-      messageApi
-        .fetchPreviousMessages(data)
-        .then(response => {
-          commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
-            id: data.id,
-            data: response.data.payload,
-          });
-          if (response.data.payload.length < 20) {
-            commit(types.default.SET_ALL_MESSAGES_LOADED);
-          }
-          resolve();
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-    return donePromise;
+  fetchPreviousMessages: async ({ commit }, data) => {
+    try {
+      const response = await MessageApi.getPreviousMessages(data);
+      commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
+        id: data.conversationId,
+        data: response.data.payload,
+      });
+      if (response.data.payload.length < 20) {
+        commit(types.default.SET_ALL_MESSAGES_LOADED);
+      }
+    } catch (error) {
+      // Handle error
+    }
   },
 
   setActiveChat(store, data) {
@@ -60,15 +55,15 @@ const actions = {
     if (data.dataFetched === undefined) {
       donePromise = new Promise(resolve => {
         localDispatch('fetchPreviousMessages', {
-          id: data.id,
+          conversationId: data.id,
           before: data.messages[0].id,
         })
           .then(() => {
             Vue.set(data, 'dataFetched', true);
             resolve();
           })
-          .catch(error => {
-            console.log(error);
+          .catch(() => {
+            // Handle error
           });
       });
     } else {
@@ -80,49 +75,37 @@ const actions = {
     return donePromise;
   },
 
-  assignAgent({ commit }, data) {
-    return new Promise(resolve => {
-      ConversationApi.assignAgent(data).then(response => {
-        commit(types.default.ASSIGN_AGENT, response.data);
-        resolve(response.data);
+  assignAgent: async ({ commit }, { conversationId, agentId }) => {
+    try {
+      const response = await ConversationApi.assignAgent({
+        conversationId,
+        agentId,
       });
-    });
+      commit(types.default.ASSIGN_AGENT, response.data);
+    } catch (error) {
+      // Handle error
+    }
   },
 
-  toggleStatus({ commit }, data) {
-    return new Promise(resolve => {
-      ConversationApi.toggleStatus(data).then(response => {
-        commit(
-          types.default.RESOLVE_CONVERSATION,
-          response.data.payload.current_status
-        );
-        resolve(response.data);
-      });
-    });
+  toggleStatus: async ({ commit }, data) => {
+    try {
+      const response = await ConversationApi.toggleStatus(data);
+      commit(
+        types.default.RESOLVE_CONVERSATION,
+        response.data.payload.current_status
+      );
+    } catch (error) {
+      // Handle error
+    }
   },
 
-  sendMessage({ commit }, data) {
-    return new Promise(resolve => {
-      messageApi
-        .sendMessage(data)
-        .then(response => {
-          commit(types.default.SEND_MESSAGE, response);
-          resolve();
-        })
-        .catch();
-    });
-  },
-
-  addPrivateNote({ commit }, data) {
-    return new Promise(resolve => {
-      messageApi
-        .addPrivateNote(data)
-        .then(response => {
-          commit(types.default.SEND_MESSAGE, response);
-          resolve();
-        })
-        .catch();
-    });
+  sendMessage: async ({ commit }, data) => {
+    try {
+      const response = await MessageApi.create(data);
+      commit(types.default.SEND_MESSAGE, response.data);
+    } catch (error) {
+      // Handle error
+    }
   },
 
   addMessage({ commit }, message) {
@@ -133,39 +116,33 @@ const actions = {
     commit(types.default.ADD_CONVERSATION, conversation);
   },
 
-  toggleTyping({ commit }, data) {
-    return new Promise(resolve => {
-      ConversationApi.fbTyping(data)
-        .then(() => {
-          commit(types.default.FB_TYPING, data);
-          resolve();
-        })
-        .catch();
-    });
+  toggleTyping: async ({ commit }, { status, inboxId, contactId }) => {
+    try {
+      await FBChannel.toggleTyping({ status, inboxId, contactId });
+      commit(types.default.FB_TYPING, { status });
+    } catch (error) {
+      // Handle error
+    }
   },
 
-  markSeen({ commit }, data) {
-    return new Promise(resolve => {
-      ConversationApi.markSeen(data)
-        .then(response => {
-          commit(types.default.MARK_SEEN, response);
-          resolve();
-        })
-        .catch();
-    });
+  markSeen: async ({ commit }, data) => {
+    try {
+      await FBChannel.markSeen(data);
+      commit(types.default.MARK_SEEN);
+    } catch (error) {
+      // Handle error
+    }
   },
 
-  markMessagesRead({ commit }, data) {
+  markMessagesRead: async ({ commit }, data) => {
     setTimeout(() => {
       commit(types.default.MARK_MESSAGE_READ, data);
     }, 4000);
-    return new Promise(resolve => {
-      ConversationApi.markMessageRead(data)
-        .then(() => {
-          resolve();
-        })
-        .catch();
-    });
+    try {
+      await ConversationApi.markMessageRead(data);
+    } catch (error) {
+      // Handle error
+    }
   },
 
   setChatFilter({ commit }, data) {

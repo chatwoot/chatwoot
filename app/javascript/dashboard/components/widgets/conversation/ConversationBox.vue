@@ -216,7 +216,7 @@ export default {
         this.isLoadingPrevious = true;
         this.$store
           .dispatch('fetchPreviousMessages', {
-            id: this.currentChat.id,
+            conversationId: this.currentChat.id,
             before: this.getMessages.messages[0].id,
           })
           .then(() => {
