@@ -6,6 +6,5 @@ FactoryBot.define do
     sequence(:email) { |n| "widget-#{n}@example.com" }
     phone_number { '+123456789011' }
     account
-    inbox
   end
 end
