@@ -1,20 +1,22 @@
 class Contact < ApplicationRecord
   include Pubsubable
-
   validates :account_id, presence: true
-  validates :inbox_id, presence: true
 
   belongs_to :account
-  belongs_to :inbox
   has_many :conversations, dependent: :destroy
+  has_many :contact_inboxes, dependent: :destroy
+  has_many :inboxes, through: :contact_inboxes
   mount_uploader :avatar, AvatarUploader
+
+  def get_source_id(inbox_id)
+    contact_inboxes.find_by!(inbox_id: inbox_id).source_id
+  end
 
   def push_event_data
     {
       id: id,
       name: name,
       thumbnail: avatar.thumb.url,
-      channel: inbox.try(:channel).try(:name),
       pubsub_token: pubsub_token
     }
   end
