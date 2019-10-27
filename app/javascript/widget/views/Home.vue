@@ -4,7 +4,7 @@
       <ChatHeaderExpanded />
     </div>
     <div class="conversation-wrap">
-      <ConversationWrap :messages="getConversationById(lastConversation)" />
+      <ConversationWrap :messages="getConversation" />
     </div>
     <div class="footer-wrap">
       <ChatFooter :on-send-message="handleSendMessage" />
@@ -15,7 +15,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 
-import { DEFAULT_CONVERSATION } from 'widget/store/modules/conversation';
+// import { DEFAULT_CONVERSATION } from 'widget/store/modules/conversation';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
@@ -30,22 +30,15 @@ export default {
   methods: {
     ...mapActions('conversation', ['sendMessage']),
     handleSendMessage(content) {
-      const { inboxId, accountId, contactId, lastConversation } = this;
-      console.log(lastConversation);
-      const conversationId = lastConversation || DEFAULT_CONVERSATION;
       this.sendMessage({
-        inboxId,
-        accountId,
-        contactId,
         content,
-        conversationId,
       });
     },
   },
   computed: {
     ...mapState('auth', ['accountId', 'inboxId', 'lastConversation']),
     ...mapGetters('auth', ['contactId']),
-    ...mapGetters('conversation', ['getConversationById']),
+    ...mapGetters('conversation', ['getConversation']),
   },
 };
 </script>

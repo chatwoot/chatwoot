@@ -10,11 +10,11 @@ class WidgetsController < ActionController::Base
   end
 
   def set_contact
-    return if cookies.signed[:cw_source_id].nil?
+    return if cookie_params[:source_id].nil?
 
-    @contact = ::ContactInboxes.find_by(
-      inbox_id: web_widget.inbox_id,
-      source_id: cookies.signed[:cw_source_id]
+    @contact = ::ContactInbox.find_by(
+      inbox_id: @web_widget.inbox.id,
+      source_id: cookie_params[:source_id]
     )
   end
 
@@ -24,7 +24,15 @@ class WidgetsController < ActionController::Base
     contact_inbox = @web_widget.create_contact_inbox
     @contact = contact_inbox.contact
 
-    cookies.signed[:cw_source_id] = contact_inbox.source_id
+    cookies.signed[:cw_conversation] = JSON.generate(
+      source_id: contact_inbox.source_id,
+      contact_id: @contact.id,
+      inbox_id: @web_widget.inbox.id
+    ).to_s
+  end
+
+  def cookie_params
+    cookies.signed[:cw_conversation] ? JSON.parse(cookies.signed[:cw_conversation]).symbolize_keys : {}
   end
 
   def permitted_params

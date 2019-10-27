@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
-import { MESSAGE_STATUS, MESSAGE_TYPE } from 'widget/helpers/constants';
-import getUuid from 'widget/helpers/uuid';
+import { MESSAGE_STATUS } from 'widget/helpers/constants';
+// import getUuid from 'widget/helpers/uuid';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
 
@@ -11,6 +11,7 @@ const state = {
 };
 
 const getters = {
+  getConversation: _state => _state.conversations,
   getConversationById: $state => (conversationId = '') => {
     const messages = $state.conversations[conversationId] || {};
     return isEmptyObject(messages) ? [] : Object.values(messages);
@@ -23,51 +24,48 @@ const actions = {
     commit('initInboxInConversations', lastConversation);
   },
 
-  sendMessage({ commit }, params) {
-    const { inboxId, accountId, contactId, content, conversationId } = params;
-    const id = getUuid();
-    const message = {
-      id,
-      inboxId,
-      content,
-      status: MESSAGE_STATUS.PROGRESS,
-      isUserMessage: true,
-      message_type: MESSAGE_TYPE.INCOMING,
-      conversationId,
-    };
-    commit('pushMessageToConversations', message);
-    sendMessageAPI(inboxId, accountId, contactId, content)
-      .then(({ data }) => {
+  sendMessage(_, params) {
+    const { content } = params;
+    // const message = {
+    //   id,
+    //   inboxId,
+    //   content,
+    //   status: MESSAGE_STATUS.PROGRESS,
+    //   isUserMessage: true,
+    //   message_type: MESSAGE_TYPE.INCOMING,
+    //   conversationId,
+    // };
+    // commit('pushMessageToConversations', message);
+    sendMessageAPI(content)
+      .then(() => {
         // If current conversation is temporary, use the one from API
-        const { conversation_id: apiConversationId } =
-          conversationId === DEFAULT_CONVERSATION ? data : params;
-        if (conversationId === DEFAULT_CONVERSATION) {
-          commit('updateConversationId', {
-            apiConversationId,
-            oldConversationId: DEFAULT_CONVERSATION,
-          });
-          const iframeMessage = {
-            event: 'setLastConversation',
-            data: apiConversationId,
-          };
-          window.parent.postMessage(JSON.stringify(iframeMessage), '*');
-          commit('auth/setLastConversation', apiConversationId, { root: true });
-        }
-        commit('updateMessageStatusToSuccess', { apiConversationId, id });
+        // const { conversation_id: apiConversationId } =
+        //   conversationId === DEFAULT_CONVERSATION ? data : params;
+        // if (conversationId === DEFAULT_CONVERSATION) {
+        //   commit('updateConversationId', {
+        //     apiConversationId,
+        //     oldConversationId: DEFAULT_CONVERSATION,
+        //   });
+        //   const iframeMessage = {
+        //     event: 'setLastConversation',
+        //     data: apiConversationId,
+        //   };
+        //   window.parent.postMessage(JSON.stringify(iframeMessage), '*');
+        //   commit('auth/setLastConversation', apiConversationId, { root: true });
+        // }
+        // commit('updateMessageStatusToSuccess', { apiConversationId, id });
       })
       .catch(() => {
-        const { conversation_id: apiConversationId } =
-          conversationId === DEFAULT_CONVERSATION;
-        commit('updateMessageStatusToFailed', { apiConversationId, id });
+        // const { conversation_id: apiConversationId } =
+        //   conversationId === DEFAULT_CONVERSATION;
+        // commit('updateMessageStatusToFailed', { apiConversationId, id });
       });
   },
 
-  fetchOldConversations({ commit }, params) {
-    const { lastConversation } = params;
-    getConversationAPI(lastConversation)
+  fetchOldConversations({ commit }) {
+    getConversationAPI({})
       .then(({ data }) => {
-        const { payload } = data;
-        commit('initMessagesInConversation', { lastConversation, payload });
+        commit('initMessagesInConversation', data);
       })
       .catch(() => {
         // commit('updateMessageStatusToFailed', { lastConversation, id });
@@ -87,14 +85,12 @@ const mutations = {
     Vue.set(messagesInbox, id, message);
   },
 
-  initMessagesInConversation($state, { payload, lastConversation }) {
-    const conversationStore = $state.conversations[lastConversation];
-    payload.map(message => Vue.set(conversationStore, message.id, message));
-    console.log($state, lastConversation);
-    // conversationStore = {
-    //   ...conversationStore,
-    //   ...messagesHash,
-    // };
+  initMessagesInConversation(_state, payload) {
+    if (!payload.length) {
+      return;
+    }
+
+    payload.map(message => Vue.set(_state.conversations, message.id, message));
   },
 
   updateConversationId($state, data) {

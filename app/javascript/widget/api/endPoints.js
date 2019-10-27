@@ -1,17 +1,14 @@
-const sendMessage = (inboxId, accountId, contactId, content) => ({
-  url: '/v1/widget/messages/create_incoming.json',
+const sendMessage = content => ({
+  url: '/api/v1/widget/messages',
   params: {
     message: {
-      account_id: accountId,
-      inbox_id: inboxId,
-      contact_id: contactId,
       content,
     },
   },
 });
 
-const getConversation = conversationId => ({
-  url: `/v1/conversations/${conversationId}/get_messages.json`,
+const getConversation = () => ({
+  url: `/api/v1/widget/messages`,
 });
 
 const createContact = (inboxId, accountId) => ({

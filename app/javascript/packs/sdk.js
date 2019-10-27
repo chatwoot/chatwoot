@@ -18,31 +18,6 @@ const bubble_close = document.createElement('div');
 const notification_bubble = document.createElement('span');
 const bodyOverFlowStyle = document.body.style.overflow;
 
-const wootCookie = {
-  write(name, value, days, domain, path) {
-    const date = new Date();
-    days = days || 730; // two years
-    path = path || '/';
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = `; expires=${date.toGMTString()}`;
-    let cookieValue = `${name}=${value}${expires}; path=${path}`;
-    !!domain && (cookieValue += `; domain=${domain}`);
-    document.cookie = cookieValue;
-  },
-  read(name) {
-    const allCookie = `${document.cookie}`;
-    const index = allCookie.indexOf(name);
-    if (name === undefined || name === '' || index === -1) return '';
-    let ind1 = allCookie.indexOf(';', index);
-    if (ind1 == -1) ind1 = allCookie.length;
-    return unescape(allCookie.substring(index + name.length + 1, ind1));
-  },
-  remove(name) {
-    if (this.read(name)) {
-      this.write(name, '', -1, '/');
-    }
-  },
-};
 
 function createChatBubble() {
   bubble_chat.className = 'woot-widget-bubble';
@@ -77,11 +52,6 @@ function chat_bubble_click(argument) {
   woot_on(bubble_close, 'click', bubbleClickCallback);
 }
 
-// function toggleClass(classes) {
-//   classHelper(classes, 'toggle', nodes);
-//   return cb;
-// }
-
 function bubbleClickCallback() {
   toggleClass(bubble_chat, 'woot--hide');
   toggleClass(bubble_close, 'woot--hide');
@@ -96,26 +66,13 @@ function enable_scroll() {
   document.body.style.overflow = bodyOverFlowStyle;
 }
 
-function createWootCookies() {
-  if (!wootCookie.read(_id)) {
-    wootCookie.write(_id, WOOT_ACCOUNT_ID);
-    wootCookie.write(_inbox, WOOT_INBOX_ID);
-  }
-}
-
-function createContactCookies(data) {
-  if (!wootCookie.read(_id)) {
-    wootCookie.write(_user, data);
-  }
-}
-
 function sendContactDataToIframe() {
   const iframeEl = document.getElementById(_id);
   const data = {
-    accountId: WOOT_ACCOUNT_ID,
-    inboxId: WOOT_INBOX_ID,
-    lastConversation: wootCookie.read(_conversation),
-    contact: wootCookie.read(_user),
+    // accountId: WOOT_ACCOUNT_ID,
+    // inboxId: WOOT_INBOX_ID,
+    // lastConversation: wootCookie.read(_conversation),
+    // contact: wootCookie.read(_user),
   };
   const message = {
     event: 'initIframe',

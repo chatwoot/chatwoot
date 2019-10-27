@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
-import authAPI from 'widget/api/auth';
+// import authAPI from 'widget/api/auth';
 
 // initial state
 const state = {
@@ -27,22 +27,22 @@ const actions = {
     commit('setWidgetData', data);
   },
 
-  fetchContact({ commit }, params) {
-    const { inboxId, accountId } = params;
-    authAPI
-      .createContact(inboxId, accountId)
-      .then(contact => {
-        const { data } = contact;
-        commit('setContactData', data);
-        const message = {
-          event: 'setContact',
-          data,
-        };
-        window.parent.postMessage(JSON.stringify(message), '*');
-        // const { chat_channel: chatChannel } = data;
-        console.log(data);
-      })
-      .catch(error => console.log(error));
+  fetchContact() {
+    // const { inboxId, accountId } = params;
+    // authAPI
+    //   .createContact(inboxId, accountId)
+    //   .then(contact => {
+    //     const { data } = contact;
+    //     commit('setContactData', data);
+    //     const message = {
+    //       event: 'setContact',
+    //       data,
+    //     };
+    //     window.parent.postMessage(JSON.stringify(message), '*');
+    //     // const { chat_channel: chatChannel } = data;
+    //     console.log(data);
+    //   })
+    //   .catch(error => console.log(error));
   },
 };
 

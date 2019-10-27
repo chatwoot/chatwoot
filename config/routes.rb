@@ -25,13 +25,7 @@ Rails.application.routes.draw do
       end
 
       namespace :widget do
-        resources :messages, only: [] do
-          collection do
-            post :create_incoming
-            post :create_outgoing
-          end
-        end
-
+        resources :messages, only: [:index, :create]
         resources :inboxes, only: [:create]
       end
 
