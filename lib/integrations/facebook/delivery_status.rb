@@ -18,7 +18,7 @@ module Integrations
       end
 
       def contact
-        ContactInboxes.find_by(source_id: sender_id).contact
+        ::ContactInbox.find_by(source_id: sender_id).contact
       end
 
       def conversation
