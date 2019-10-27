@@ -35,7 +35,7 @@ module Facebook
 
     def fb_message_params
       {
-        recipient: { id: contact.source_id },
+        recipient: { id: contact.get_source_id(inbox.id) },
         message: { text: message.content }
       }
     end

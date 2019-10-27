@@ -6,11 +6,13 @@ class Inbox < ApplicationRecord
   belongs_to :account
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
+  has_many :contact_inboxes, dependent: :destroy
+  has_many :contacts, through: :contact_inboxes
+
   has_many :inbox_members, dependent: :destroy
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
-  has_many :contacts, dependent: :destroy
   after_create :subscribe_webhook, if: :facebook?
   after_destroy :delete_round_robin_agents
 
