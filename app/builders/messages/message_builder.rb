@@ -30,11 +30,14 @@ module Messages
     private
 
     def contact
-      @contact ||= @inbox.contacts.find_by(source_id: @sender_id)
+      @contact ||= @inbox.contact_inboxes.find_by(source_id: @sender_id)&.contact
     end
 
     def build_contact
-      @contact = @inbox.contacts.create!(contact_params) if contact.nil?
+      return if contact.present?
+
+      @contact = Contact.create!(contact_params)
+      ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
     end
 
     def build_message
@@ -120,7 +123,6 @@ module Messages
       {
         name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
         account_id: @inbox.account_id,
-        source_id: @sender_id,
         remote_avatar_url: result['profile_pic'] || nil
       }
     end

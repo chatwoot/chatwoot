@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_20_173522) do
+ActiveRecord::Schema.define(version: 2019_10_27_054756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,18 @@ ActiveRecord::Schema.define(version: 2019_10_20_173522) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "contact_inboxes", force: :cascade do |t|
+    t.bigint "contact_id"
+    t.bigint "inbox_id"
+    t.string "source_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
+    t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
+    t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
+    t.index ["source_id"], name: "index_contact_inboxes_on_source_id"
+  end
+
   create_table "contacts", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -70,8 +82,6 @@ ActiveRecord::Schema.define(version: 2019_10_20_173522) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "inbox_id", null: false
-    t.bigserial "source_id", null: false
     t.string "avatar"
     t.string "pubsub_token"
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -208,5 +218,7 @@ ActiveRecord::Schema.define(version: 2019_10_20_173522) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "contact_inboxes", "contacts"
+  add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "users", "users", column: "inviter_id"
 end

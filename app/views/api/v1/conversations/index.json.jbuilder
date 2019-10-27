@@ -9,7 +9,7 @@ json.data do
     json.array! @conversations do |conversation|
       json.meta do
         json.sender do
-          json.id conversation.contact.source_id
+          json.id conversation.contact.id
           json.name conversation.contact.name
           json.thumbnail conversation.contact.avatar.thumb.url
           json.channel conversation.inbox.try(:channel).try(:name)

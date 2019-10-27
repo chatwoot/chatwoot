@@ -86,7 +86,7 @@ export default {
   data() {
     return {
       message: '',
-      private: false,
+      isPrivate: false,
       showEmojiPicker: false,
       showCannedModal: false,
     };
@@ -100,7 +100,7 @@ export default {
   },
   watch: {
     message(val) {
-      if (this.private) {
+      if (this.isPrivate) {
         return;
       }
       const isSlashCommand = val[0] === '/';
