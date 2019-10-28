@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_27_054756) do
+ActiveRecord::Schema.define(version: 2019_10_28_195206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,26 +208,11 @@ ActiveRecord::Schema.define(version: 2019_10_27_054756) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name", null: false
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.json "tokens"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -235,11 +220,8 @@ ActiveRecord::Schema.define(version: 2019_10_27_054756) do
     t.integer "role", default: 0
     t.bigint "inviter_id"
     t.integer "devise_user_id"
-    t.index ["email"], name: "index_users_on_email"
     t.index ["inviter_id"], name: "index_users_on_inviter_id"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "contact_inboxes", "contacts"
