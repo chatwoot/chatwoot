@@ -17,6 +17,7 @@ class DeviseUser < ActiveRecord::Base
   has_one :user, dependent: :destroy
   has_one :inviter, through: :user
   has_one :account, through: :user
+  delegate :role, to: :user
 
   accepts_nested_attributes_for :user
 

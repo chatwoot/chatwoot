@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :devise_user do
     transient do
       skip_confirmation { true }
+      with_user { nil }
     end
 
     provider { 'email' }
@@ -11,7 +12,10 @@ FactoryBot.define do
     nickname { Faker::Name.first_name }
     email { nickname + '@example.com' }
     password { "password" }
-    user
+    
+    user do
+      with_user ? with_user : create(:user)
+    end
 
     after(:build) do |devise_user, evaluator|
       devise_user.skip_confirmation! if evaluator.skip_confirmation
