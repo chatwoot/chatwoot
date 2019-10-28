@@ -11,6 +11,7 @@ class DeviseUser < ActiveRecord::Base
     :trackable,
     :validatable
 
+  validates_uniqueness_of :email, scope: :account
   validates :email, presence: true
   validates :name, presence: true
 

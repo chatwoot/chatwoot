@@ -2,7 +2,6 @@ class User < ApplicationRecord
   include Events::Types
   include Pubsubable
 
-  #validates_uniqueness_of :email, scope: :account_id
   validates :account_id, presence: true
 
   enum role: [:agent, :administrator]
