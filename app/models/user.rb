@@ -2,14 +2,6 @@ class User < ApplicationRecord
   include Events::Types
   include Pubsubable
 
-  devise :database_authenticatable,
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :trackable,
-         :validatable,
-         :confirmable
-
   #validates_uniqueness_of :email, scope: :account_id
   validates :account_id, presence: true
 
@@ -25,14 +17,13 @@ class User < ApplicationRecord
   has_many :messages
 
   belongs_to :devise_user
-  delegate :email, 
+  delegate :email,
     :name,
     :nickname,
     to: :devise_user
 
   accepts_nested_attributes_for :account
 
-  before_create :set_channel
   after_create :notify_creation
   after_destroy :notify_deletion
 
