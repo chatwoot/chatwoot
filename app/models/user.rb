@@ -7,7 +7,6 @@ class User < ApplicationRecord
 
   enum role: [:agent, :administrator]
 
-  belongs_to :devise_user
   belongs_to :account
   belongs_to :inviter, class_name: 'User', required: false
 
@@ -20,6 +19,7 @@ class User < ApplicationRecord
   delegate :email,
     :name,
     :nickname,
+    :uid,
     to: :devise_user
 
   accepts_nested_attributes_for :account

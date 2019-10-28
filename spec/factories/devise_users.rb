@@ -8,11 +8,11 @@ FactoryBot.define do
     end
 
     provider { 'email' }
-    name { FFaker::Name.name }
+    name { Faker::Name.name }
     nickname { Faker::Name.first_name }
     email { nickname + '@example.com' }
     password { "password" }
-    
+
     user do
       with_user ? with_user : create(:user)
     end

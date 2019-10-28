@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     controllers: {
       confirmations: 'confirmations',
       passwords: 'passwords',
-      sessions: 'sessions' ,
+      sessions: 'sessions',
     }, via: [:get, :post]
 
   root to: 'dashboard#index'
