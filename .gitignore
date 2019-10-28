@@ -43,3 +43,7 @@ public/packs
 .jest-cache
 # ignore jetbrains IDE files
 .idea
+
+# coverage report
+buildreports
+coverage
