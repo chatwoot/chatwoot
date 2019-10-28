@@ -4,15 +4,17 @@ class DeviseUser < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   devise :confirmable,
-    :database_authenticatable, 
-    :recoverable, 
+    :database_authenticatable,
+    :recoverable,
     :registerable,
-    :rememberable, 
-    :trackable, 
+    :rememberable,
+    :trackable,
     :validatable
 
   validates :email, presence: true
   validates :name, presence: true
+
+  has_one :user
 
   before_validation :set_uid_to_email, on: :create
 

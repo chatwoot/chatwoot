@@ -24,24 +24,12 @@ class User < ApplicationRecord
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
 
-<<<<<<< HEAD
-  before_validation :set_password_and_uid, on: :create
-
-=======
->>>>>>> Move devise-specific model methods to DeviseUser
   accepts_nested_attributes_for :account
 
   before_create :set_channel
   after_create :notify_creation
   after_destroy :notify_deletion
 
-<<<<<<< HEAD
-  def set_password_and_uid
-    self.uid = email
-  end
-
-=======
->>>>>>> Move devise-specific model methods to DeviseUser
   def serializable_hash(options = nil)
     super(options).merge(confirmed: confirmed?, subscription: account.try(:subscription).try(:summary))
   end

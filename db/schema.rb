@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 2019_10_27_054756) do
     t.string "pubsub_token"
     t.integer "role", default: 0
     t.bigint "inviter_id"
+    t.integer "devise_user_id"
     t.index ["email"], name: "index_users_on_email"
     t.index ["inviter_id"], name: "index_users_on_inviter_id"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
