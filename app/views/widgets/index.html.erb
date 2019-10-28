@@ -12,6 +12,7 @@
     <%= yield %>
     <script>
       window.chatwootWebChannel = '<%= @web_widget.website_name %>'
+      window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
     </script>
   </body>
 </html>

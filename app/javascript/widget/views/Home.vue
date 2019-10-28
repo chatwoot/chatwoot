@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 // import { DEFAULT_CONVERSATION } from 'widget/store/modules/conversation';
 import ChatFooter from 'widget/components/ChatFooter.vue';
@@ -34,11 +34,20 @@ export default {
         content,
       });
     },
+    scrollToBottom() {
+      const container = this.$el.querySelector('.conversation-wrap');
+      container.scrollTop = container.scrollHeight;
+      console.log(container.scrollHeight);
+    },
   },
   computed: {
-    ...mapState('auth', ['accountId', 'inboxId', 'lastConversation']),
-    ...mapGetters('auth', ['contactId']),
     ...mapGetters('conversation', ['getConversation']),
+  },
+  mounted() {
+    this.scrollToBottom();
+  },
+  updated() {
+    this.scrollToBottom();
   },
 };
 </script>

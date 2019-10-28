@@ -177,7 +177,7 @@ function enableScroll() {
 }
 
 function loadCallback() {
-  iframe.style.display = 'block';
+  iframe.style.visibility = '';
   iframe.setAttribute('id', `chatwoot_live_chat_widget`);
   iframe.onmouseenter = disableScroll;
   iframe.onmouseleave = enableScroll;
@@ -193,7 +193,7 @@ function loadCallback() {
 }
 
 function loadIframe({ websiteToken }) {
-  iframe.style.display = 'none';
+  iframe.style.visibility = 'hidden';
   iframe.src = `/widgets?website_token=${websiteToken}`;
   iframe.onload = loadCallback;
 

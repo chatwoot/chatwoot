@@ -4,7 +4,10 @@
       <ChatInputArea v-model="userInput" :placeholder="placeholder" />
     </div>
     <div class="message-button-wrap">
-      <ChatSendButton :on-click="handleButtonClick" />
+      <ChatSendButton
+        :on-click="handleButtonClick"
+        :disabled="!userInput.length"
+      />
     </div>
   </div>
 </template>
@@ -38,7 +41,10 @@ export default {
   },
   methods: {
     handleButtonClick() {
-      this.onSendMessage(this.userInput);
+      if (this.userInput) {
+        this.onSendMessage(this.userInput);
+      }
+      this.userInput = '';
     },
   },
 };

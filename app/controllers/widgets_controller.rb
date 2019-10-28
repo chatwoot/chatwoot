@@ -12,10 +12,12 @@ class WidgetsController < ActionController::Base
   def set_contact
     return if cookie_params[:source_id].nil?
 
-    @contact = ::ContactInbox.find_by(
+    contact_inbox = ::ContactInbox.find_by(
       inbox_id: @web_widget.inbox.id,
       source_id: cookie_params[:source_id]
     )
+
+    @contact = contact_inbox.contact
   end
 
   def build_contact

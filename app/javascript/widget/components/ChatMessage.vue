@@ -1,6 +1,10 @@
 <template>
   <UserMessage v-if="isUserMessage" :message="message.content" />
-  <AgentMessage v-else agent-name="Kuttoose" :message="message.content" />
+  <AgentMessage
+    v-else
+    :agent-name="message.sender_name"
+    :message="message.content"
+  />
 </template>
 
 <script>
