@@ -2,10 +2,13 @@
   <button
     type="submit"
     :disabled="disabled"
-    class="button small send-button"
+    class="button  send-button"
     @click="onClick"
   >
-    <span v-if="!loading" class="icon-holder">send</span>
+    <span v-if="!loading" class="icon-holder">
+      <img src="~widget/assets/images/message-send.svg" />
+      <span>Send</span>
+    </span>
     <spinner v-else size="small" />
   </button>
 </template>
@@ -36,21 +39,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables.scss';
 
 .send-button {
-  position: relative;
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-around;
   min-width: $space-big;
+  position: relative;
+
   .icon-holder {
-    background: url('~widget/assets/images/message-send.svg') left center
-      no-repeat;
-    background-size: $space-one;
-    padding-left: $space-normal;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     fill: $color-white;
     font-weight: $font-weight-medium;
+
+    img {
+      margin-right: $space-small;
+    }
   }
 }
 </style>

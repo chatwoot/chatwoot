@@ -18,7 +18,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables.scss';
 
 .user-message-input {
   border-color: $color-white;

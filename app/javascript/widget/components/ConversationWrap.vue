@@ -24,8 +24,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
 .conversation {
   height: 100%;
   overflow: auto;
+  padding: $space-large $space-small $space-large $space-normal;
 }
 </style>

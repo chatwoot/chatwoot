@@ -3,11 +3,11 @@ $input-height: $space-two * 2;
 
 .form-input {
   appearance: none;
-  background: $color-white;
-  box-sizing: border-box;
   background-image: none;
-  border: $form-border-width solid $color-border;
+  background: $color-white;
   border-radius: $border-radius;
+  border: $form-border-width solid $color-border;
+  box-sizing: border-box;
   color: $color-body;
   display: block;
   font-size: $font-size-default;
@@ -19,9 +19,11 @@ $input-height: $space-two * 2;
   position: relative;
   transition: background .2s, border .2s, box-shadow .2s, color .2s;
   width: 100%;
+
   &:focus {
     border-color: $color-primary;
   }
+
   &::placeholder {
     color: $color-gray;
   }

@@ -1,122 +1,22 @@
-/* eslint-disable */
-const hostName = window.location.origin;
-const _id = `${hostName}_account_id`;
-const _inbox = `${hostName}_inbox_id`;
-const _conversation = `${hostName}_last_conversation`;
-const _user = `${hostName}_user_id`;
-const _channel = `${hostName}_channel_id`;
-
 const body = document.getElementsByTagName('body')[0];
-
 const iframe = document.createElement('iframe');
 const holder = document.createElement('div');
 
-const bubble_holder = document.createElement('div');
-const bubble_chat = document.createElement('div');
-const bubble_close = document.createElement('div');
+const bubbleHolder = document.createElement('div');
+const chatBubble = document.createElement('div');
+const closeBubble = document.createElement('div');
 
 const notification_bubble = document.createElement('span');
 const bodyOverFlowStyle = document.body.style.overflow;
 
-
-function createChatBubble() {
-  bubble_chat.className = 'woot-widget-bubble';
-  const icon_bubble = document.createElement('img');
-  icon_bubble.src =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAAwgJEBk0TVheY2R5eo+ut8jb5OXs8fX2+cjRDTIAAADsSURBVHgBldZbkoMgFIThRgQv8SKKgGf/C51UnJqaRI30/9zfe+NQUQ3TvG7bOk9DVeCmshmj/CuOTYnrdBfkUOg0zlOtl9OWVuEk4+QyZ3DIevmSt/ioTvK1VH/s5bY3YdM9SBZ/mUUyWgx+U06ycgp7D8msxSvtc4HXL9BLdj2elSEfhBJAI0QNgJEBI1BEBsQClVBVGDgwYOLAhJkDM1YOrNg4sLFAsLJgZsHEgoEFFQt0JAFGFjQsKAMJ0LFAexKgZYFyJIDxJIBNJEDNAtSJBLCeBDCOBFAPzwFA94ED+zmhwDO9358r8ANtIsMXi7qVAwAAAABJRU5ErkJggg==';
-  bubble_chat.appendChild(icon_bubble);
-  return bubble_chat;
+function addClass(elm, classes) {
+  if (classes) {
+    // eslint-disable-next-line
+    elm.className += ` ${classes}`;
+  }
 }
 
-function createCloseBubble() {
-  bubble_close.className = 'woot-widget-bubble woot--close woot--hide';
-  const icon_bubble = document.createElement('img');
-  icon_bubble.src =
-    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAP1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////9Du/pqAAAAFHRSTlMACBstLi8wMVB+mcbT2err7O3w8n+sjtQAAAEuSURBVHgBtNLdcoMgGITh1SCGH9DId//X2mnTg7hYxj0oh8w8r+MqgDnmlsIE6UwhtRxnAHge9n2KV7wvP+h4AvPbm73W+359/aJjRjQTCuTNIrJJBfKW0UwqkLeGZJ8Ff2O/T28JwZQCewuYilJgX6buavdDv188br1RIE+jc2H5yy+9VwrXXij0nsflwth7YFRw7N3Y88BcYL+z7wubO/lt6AcFwQMLF9irP8r2eF8/ei8VLrxUkDzguMDejX03WK3dsGJB9lxgrxd0T8PTRxUL5OUCealQz76KXg/or/CvI36VXgcEAAAgCMP6t16IZVDg3zPuI+0rb5g2zlsoW2lbqlvrOyw7bTuuO+8LGIs4C1mLeQuai7oL2437LRytPC1drX0tnq2+Ld+r/wDPIIIJkfdlbQAAAABJRU5ErkJggg==';
-  bubble_close.appendChild(icon_bubble);
-  return bubble_close;
-}
-
-function createBubbleHolder() {
-  addClass(bubble_holder, 'woot--bubble-holder');
-  body.appendChild(bubble_holder);
-}
-
-function createNotificationBubble() {
-  addClass(notification_bubble, 'woot--notification');
-  return notification_bubble;
-}
-
-function chat_bubble_click(argument) {
-  woot_on(bubble_chat, 'click', bubbleClickCallback);
-  woot_on(bubble_close, 'click', bubbleClickCallback);
-}
-
-function bubbleClickCallback() {
-  toggleClass(bubble_chat, 'woot--hide');
-  toggleClass(bubble_close, 'woot--hide');
-  toggleClass(holder, 'woot--hide');
-}
-
-function disable_scroll() {
-  document.body.style.overflow = 'hidden';
-}
-
-function enable_scroll() {
-  document.body.style.overflow = bodyOverFlowStyle;
-}
-
-function sendContactDataToIframe() {
-  const iframeEl = document.getElementById(_id);
-  const data = {
-    // accountId: WOOT_ACCOUNT_ID,
-    // inboxId: WOOT_INBOX_ID,
-    // lastConversation: wootCookie.read(_conversation),
-    // contact: wootCookie.read(_user),
-  };
-  const message = {
-    event: 'initIframe',
-    data,
-  };
-  iframeEl.contentWindow.postMessage(JSON.stringify(message), '*');
-  console.log(' Iframe message sent');
-}
-
-function loadCallback() {
-  iframe.style.display = 'block';
-  iframe.setAttribute('id', _id);
-  // iframe.setAttribute('src', 'javascript:;');
-  iframe.onmouseenter = disable_scroll;
-  iframe.onmouseleave = enable_scroll;
-
-  load_css();
-  createBubbleHolder();
-
-  bubble_holder.appendChild(createChatBubble());
-  bubble_holder.appendChild(createCloseBubble());
-  bubble_holder.appendChild(createNotificationBubble());
-
-  chat_bubble_click();
-  sendContactDataToIframe();
-}
-
-function loadIframe({ websiteToken }) {
-  iframe.style.display = 'none';
-  iframe.src = `/widgets?website_token=${websiteToken}`;
-
-  iframe.onreadystatechange = function() {
-    if (iframe.readyState !== 'complete') {
-    }
-  };
-  iframe.onload = loadCallback;
-
-  holder.className = 'woot-widget-holder woot--hide';
-  holder.appendChild(iframe);
-
-  body.appendChild(holder);
-}
-
-function load_css() {
+function loadCSS() {
   const css = document.createElement('style');
   css.type = 'text/css';
   css.innerHTML =
@@ -149,7 +49,7 @@ function load_css() {
     '-moz-border-radius: 100px!important;' +
     '-webkit-border-radius: 100px!important;' +
     'border-radius: 100px!important;' +
-    'background: #005BEA;' +
+    'background: #1f93ff;' +
     'position: fixed;' +
     'cursor: pointer;' +
     'right: 20px;' +
@@ -157,7 +57,7 @@ function load_css() {
     'width: 64px!important;' +
     'height: 64px!important; }' +
     '.woot-widget-bubble:hover { ' +
-    'background: #297cff;' +
+    'background: #1f93ff;' +
     '-moz-box-shadow: 0 8px 32px rgba(0,0,0,.4)!important;' +
     '-o-box-shadow: 0 8px 32px rgba(0,0,0,.4)!important;' +
     '-webkit-box-shadow: 0 8px 32px rgba(0,0,0,.4)!important;' +
@@ -178,12 +78,15 @@ function load_css() {
   document.body.appendChild(css);
 }
 
-function woot_on(elm, event, fn) {
+function wootOn(elm, event, fn) {
   if (document.addEventListener) {
     elm.addEventListener(event, fn, false);
   } else if (document.attachEvent) {
-    // <= IE 8 loses scope so need to apply, we add this to object so we can detach later (can't detach anonymous functions)
+    // <= IE 8 loses scope so need to apply, we add this to object so we
+    // can detach later (can't detach anonymous functions)
+    // eslint-disable-next-line
     elm[event + fn] = function() {
+      // eslint-disable-next-line
       return fn.apply(elm, arguments);
     };
     elm.attachEvent(`on${event}`, elm[event + fn]);
@@ -203,8 +106,10 @@ function classHelper(classes, action, elm) {
       search = new RegExp(`\\b${classarray[i]}\\b`, 'g');
       replace = new RegExp(` *${classarray[i]}\\b`, 'g');
       if (action === 'remove') {
+        // eslint-disable-next-line
         elm.className = elm.className.replace(replace, '');
       } else if (action === 'toggle') {
+        // eslint-disable-next-line
         elm.className = elm.className.match(search)
           ? elm.className.replace(replace, '')
           : `${elm.className} ${classarray[i]}`;
@@ -219,42 +124,85 @@ function classHelper(classes, action, elm) {
   return has;
 }
 
-function addClass(elm, classes) {
-  if (classes) {
-    elm.className += ` ${classes}`;
-  }
-}
-// Remove class
-function removeClass(elm, classes) {
-  classHelper(classes, 'remove', elm);
-}
 // Toggle class
 function toggleClass(elm, classes) {
   classHelper(classes, 'toggle', elm);
 }
 
-// createWootCookies();
+function createChatBubble() {
+  chatBubble.className = 'woot-widget-bubble';
+  const icon_bubble = document.createElement('img');
+  icon_bubble.src =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAAwgJEBk0TVheY2R5eo+ut8jb5OXs8fX2+cjRDTIAAADsSURBVHgBldZbkoMgFIThRgQv8SKKgGf/C51UnJqaRI30/9zfe+NQUQ3TvG7bOk9DVeCmshmj/CuOTYnrdBfkUOg0zlOtl9OWVuEk4+QyZ3DIevmSt/ioTvK1VH/s5bY3YdM9SBZ/mUUyWgx+U06ycgp7D8msxSvtc4HXL9BLdj2elSEfhBJAI0QNgJEBI1BEBsQClVBVGDgwYOLAhJkDM1YOrNg4sLFAsLJgZsHEgoEFFQt0JAFGFjQsKAMJ0LFAexKgZYFyJIDxJIBNJEDNAtSJBLCeBDCOBFAPzwFA94ED+zmhwDO9358r8ANtIsMXi7qVAwAAAABJRU5ErkJggg==';
+  chatBubble.appendChild(icon_bubble);
+  return chatBubble;
+}
+
+function createCloseBubble() {
+  closeBubble.className = 'woot-widget-bubble woot--close woot--hide';
+  const icon_bubble = document.createElement('img');
+  icon_bubble.src =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAP1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////9Du/pqAAAAFHRSTlMACBstLi8wMVB+mcbT2err7O3w8n+sjtQAAAEuSURBVHgBtNLdcoMgGITh1SCGH9DId//X2mnTg7hYxj0oh8w8r+MqgDnmlsIE6UwhtRxnAHge9n2KV7wvP+h4AvPbm73W+359/aJjRjQTCuTNIrJJBfKW0UwqkLeGZJ8Ff2O/T28JwZQCewuYilJgX6buavdDv188br1RIE+jc2H5yy+9VwrXXij0nsflwth7YFRw7N3Y88BcYL+z7wubO/lt6AcFwQMLF9irP8r2eF8/ei8VLrxUkDzguMDejX03WK3dsGJB9lxgrxd0T8PTRxUL5OUCealQz76KXg/or/CvI36VXgcEAAAgCMP6t16IZVDg3zPuI+0rb5g2zlsoW2lbqlvrOyw7bTuuO+8LGIs4C1mLeQuai7oL2437LRytPC1drX0tnq2+Ld+r/wDPIIIJkfdlbQAAAABJRU5ErkJggg==';
+  closeBubble.appendChild(icon_bubble);
+  return closeBubble;
+}
+
+function createBubbleHolder() {
+  addClass(bubbleHolder, 'woot--bubble-holder');
+  body.appendChild(bubbleHolder);
+}
+
+function createNotificationBubble() {
+  addClass(notification_bubble, 'woot--notification');
+  return notification_bubble;
+}
+
+function bubbleClickCallback() {
+  toggleClass(chatBubble, 'woot--hide');
+  toggleClass(closeBubble, 'woot--hide');
+  toggleClass(holder, 'woot--hide');
+}
+
+function onClickChatBubble() {
+  wootOn(chatBubble, 'click', bubbleClickCallback);
+  wootOn(closeBubble, 'click', bubbleClickCallback);
+}
+
+function disableScroll() {
+  document.body.style.overflow = 'hidden';
+}
+
+function enableScroll() {
+  document.body.style.overflow = bodyOverFlowStyle;
+}
+
+function loadCallback() {
+  iframe.style.display = 'block';
+  iframe.setAttribute('id', `chatwoot_live_chat_widget`);
+  iframe.onmouseenter = disableScroll;
+  iframe.onmouseleave = enableScroll;
+
+  loadCSS();
+  createBubbleHolder();
+
+  bubbleHolder.appendChild(createChatBubble());
+  bubbleHolder.appendChild(createCloseBubble());
+  bubbleHolder.appendChild(createNotificationBubble());
+
+  onClickChatBubble();
+}
+
+function loadIframe({ websiteToken }) {
+  iframe.style.display = 'none';
+  iframe.src = `/widgets?website_token=${websiteToken}`;
+  iframe.onload = loadCallback;
+
+  holder.className = 'woot-widget-holder woot--hide';
+  holder.appendChild(iframe);
+
+  body.appendChild(holder);
+}
 
 window.chatwootSDK = {
   run: loadIframe,
 };
-
-window.addEventListener(
-  'message',
-  function(event) {
-    if (
-      event.origin.indexOf('http://localhost:8080') !== -1 &&
-      typeof event.data === 'string'
-    ) {
-      if (event.data.includes('setContact')) {
-        const { data } = JSON.parse(event.data);
-        wootCookie.write(_user, JSON.stringify(data));
-      } else if (event.data.includes('setLastConversation')) {
-        const { data } = JSON.parse(event.data);
-        const lastConversation = data || '';
-        wootCookie.write(_conversation, lastConversation);
-      }
-    }
-  },
-  false
-);

@@ -29,14 +29,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables.scss';
 
 .header-expanded {
-  background-image: linear-gradient(to right, #005bea 0%, $color-woot 100%);
-  padding: $space-larger $space-large;
+  background: $color-woot;
+  padding: $space-large;
   width: 100%;
   box-sizing: border-box;
-  height: $header-expanded-height;
   color: $color-white;
 
   .title {

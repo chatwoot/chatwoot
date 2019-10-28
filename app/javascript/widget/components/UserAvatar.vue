@@ -26,7 +26,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .user-avatar {
   width: 40px;
