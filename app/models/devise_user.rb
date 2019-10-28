@@ -14,12 +14,20 @@ class DeviseUser < ActiveRecord::Base
   validates :email, presence: true
   validates :name, presence: true
 
-  has_one :user
+  has_one :user, dependent: :destroy
+  has_one :inviter, through: :user
+  has_one :account, through: :user
+
+  accepts_nested_attributes_for :user
 
   before_validation :set_uid_to_email, on: :create
 
   # renamed; this only sets the uid currently
   def set_uid_to_email
     self.uid = self.email
+  end
+
+  def user
+    super || build_user
   end
 end

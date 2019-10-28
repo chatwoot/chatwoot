@@ -10,7 +10,7 @@ class User < ApplicationRecord
          :validatable,
          :confirmable
 
-  validates_uniqueness_of :email, scope: :account_id
+  #validates_uniqueness_of :email, scope: :account_id
   validates :account_id, presence: true
 
   enum role: [:agent, :administrator]
@@ -23,6 +23,12 @@ class User < ApplicationRecord
   has_many :inbox_members, dependent: :destroy
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
+
+  belongs_to :devise_user
+  delegate :email, 
+    :name,
+    :nickname,
+    to: :devise_user
 
   accepts_nested_attributes_for :account
 

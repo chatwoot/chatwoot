@@ -8,12 +8,13 @@ FactoryBot.define do
 
     provider { 'email' }
     name { FFaker::Name.name }
-    nickname { FFaker::InternetSE.user_name_from_name(name) }
+    nickname { Faker::Name.first_name }
     email { nickname + '@example.com' }
     password { "password" }
+    user
 
-    after(:build) do |user, evaluator|
-      user.skip_confirmation! if evaluator.skip_confirmation
+    after(:build) do |devise_user, evaluator|
+      devise_user.skip_confirmation! if evaluator.skip_confirmation
     end
   end
 end
