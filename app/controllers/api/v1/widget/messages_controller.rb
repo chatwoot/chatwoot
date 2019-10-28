@@ -48,8 +48,14 @@ class Api::V1::Widget::MessagesController < ActionController::Base
     JSON.parse(cookies.signed[:cw_conversation]).symbolize_keys
   end
 
+  def message_finder_params
+    {
+      filter_internal_messages: true
+    }
+  end
+
   def message_finder
-    @message_finder ||= MessageFinder.new(conversation, params)
+    @message_finder ||= MessageFinder.new(conversation, message_finder_params)
   end
 
   def permitted_params

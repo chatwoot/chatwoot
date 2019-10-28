@@ -22,7 +22,7 @@ export default {
     introBody: {
       type: String,
       default:
-        'We make it simple to start a support for your business. Ask us anything, or share your feedback.',
+        'We make it simple to connect with us. Ask us anything, or share your feedback.',
     },
   },
 };

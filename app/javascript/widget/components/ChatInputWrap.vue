@@ -55,6 +55,7 @@ export default {
 
 .input-wrap {
   .message-button-wrap {
+    align-items: center;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;

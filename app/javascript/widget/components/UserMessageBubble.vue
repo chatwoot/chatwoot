@@ -25,7 +25,7 @@ export default {
   background: $color-woot;
   color: $color-white;
   display: inline-block;
-  max-width: 70%;
+  max-width: 80%;
   line-height: 1.5;
   @include lightShadow;
 
