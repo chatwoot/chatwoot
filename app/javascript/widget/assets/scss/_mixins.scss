@@ -1,0 +1,20 @@
+// scss-lint:disable PseudoElement SpaceBeforeBrace VendorPrefix
+$shadow-color-1: rgba(50, 50, 93, 0.2);
+$shadow-color-2: rgba(0, 0, 0, 0.07);
+$shadow-color-3: rgba(50, 50, 93, .08);
+$shadow-color-4: rgba(0, 0, 0, .05);
+
+@mixin normal-shadow {
+  box-shadow: 0 $space-small $space-normal $shadow-color-1, 0 $space-smaller $space-slab $shadow-color-2;
+}
+
+@mixin light-shadow {
+  box-shadow: 0 $space-smaller 6px $shadow-color-3, 0 1px 3px $shadow-color-4;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {@content}
+  &:-moz-placeholder           {@content}
+  &::-moz-placeholder          {@content}
+  &:-ms-input-placeholder      {@content}
+}

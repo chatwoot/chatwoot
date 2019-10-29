@@ -121,7 +121,7 @@ export default {
     fetchData() {
       if (this.chatLists.length === 0) {
         this.$store.dispatch('fetchAllConversations', {
-          inbox: this.conversationInbox,
+          inboxId: this.conversationInbox ? this.conversationInbox : undefined,
           assigneeStatus: this.allMessageType,
           convStatus: this.activeStatusTab,
         });

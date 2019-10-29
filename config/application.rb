@@ -22,5 +22,9 @@ module Chatwoot
     # the framework and any gems in your application.
     config.generators.javascripts = false
     config.generators.stylesheets = false
+
+    config.action_dispatch.default_headers = {
+      'X-Frame-Options' => 'ALLOWALL'
+    }
   end
 end

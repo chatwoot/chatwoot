@@ -4,9 +4,6 @@ export default {
     return `${this.APP_BASE_URL}/`;
   },
   GRAVATAR_URL: 'https://www.gravatar.com/avatar/',
-  CHANNELS: {
-    FACEBOOK: 'facebook',
-  },
   ASSIGNEE_TYPE_SLUG: {
     MINE: 0,
     UNASSIGNED: 1,
