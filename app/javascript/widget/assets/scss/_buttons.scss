@@ -3,8 +3,8 @@ $button-border-width: 1px;
 .button {
   appearance: none;
   background: $color-primary;
-  border-radius: $border-radius;
   border: $button-border-width solid $color-primary;
+  border-radius: $border-radius;
   color: $color-white;
   cursor: pointer;
   display: inline-block;

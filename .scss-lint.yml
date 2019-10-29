@@ -2,4 +2,6 @@ linters:
   LeadingZero:
     enabled: false
 
-exclude: 'app/javascript/widget/assets/scss/_reset.scss'
+exclude:
+  - 'app/javascript/widget/assets/scss/_reset.scss'
+  -'app/javascript/widget/assets/scss/sdk.css'

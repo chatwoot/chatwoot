@@ -27,12 +27,12 @@
 }
 
 code {
+  border: 0;
   font-family: 'Monaco';
   font-size: $font-size-mini;
-  border: 0;
-}
 
-code.hljs {
-  background: $color-background;
-  padding: $space-two;
+  &.hljs {
+    background: $color-background;
+    padding: $space-two;
+  }
 }

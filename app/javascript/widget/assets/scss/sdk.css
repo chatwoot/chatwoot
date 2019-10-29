@@ -48,7 +48,7 @@
   box-shadow: 0 8px 32px rgba(0,0,0,.4)!important;
 }
 
-   .woot-widget-bubble img {
+.woot-widget-bubble img {
   width: 24px;
   height: 24px;
   margin: 20px;
@@ -62,4 +62,4 @@
 
 .woot--hide {
   display: none !important;
-};
+}
