@@ -20,4 +20,27 @@ RSpec.describe Inbox do
     it { is_expected.to have_many(:conversations).dependent(:destroy) }
     it { is_expected.to have_many(:messages).through(:conversations) }
   end
+
+  describe '#facebook?' do
+    let(:inbox) do
+      FactoryBot.build(
+        :inbox,
+        channel: channel_val,
+      )
+    end
+
+    context 'when the channel type is Channel::FacebookPage' do
+      let(:channel_val) { Channel::FacebookPage.new }
+
+      it do
+        expect(inbox.facebook?).to eq(true)
+      end
+    end
+
+    context 'when the channel type is not Channel::FacebookPage' do
+      let(:channel_val) { Channel::WebWidget.new }
+
+      it { expect(inbox.facebook?).to eq(false) }
+    end
+  end
 end
