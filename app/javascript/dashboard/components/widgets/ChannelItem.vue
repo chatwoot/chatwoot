@@ -1,22 +1,50 @@
 <template>
-  <div class="small-3 columns channel" :class="{ inactive: channel !== 'facebook' }" @click.capture="itemClick">
-    <img src="~dashboard/assets/images/channels/facebook.png" v-if="channel === 'facebook'">
-    <img src="~dashboard/assets/images/channels/twitter.png" v-if="channel === 'twitter'">
-    <img src="~dashboard/assets/images/channels/telegram.png" v-if="channel === 'telegram'">
-    <img src="~dashboard/assets/images/channels/line.png" v-if="channel === 'line'">
-    <h3 class="channel__title">{{channel}}</h3>
-    <!-- <p>This is the most sexiest integration to begin </p> -->
+  <div
+    class="small-3 columns channel"
+    :class="{ inactive: !isActive(channel) }"
+    @click="onItemClick"
+  >
+    <img
+      v-if="channel === 'facebook'"
+      src="~dashboard/assets/images/channels/facebook.png"
+    />
+    <img
+      v-if="channel === 'twitter'"
+      src="~dashboard/assets/images/channels/twitter.png"
+    />
+    <img
+      v-if="channel === 'telegram'"
+      src="~dashboard/assets/images/channels/telegram.png"
+    />
+    <img
+      v-if="channel === 'line'"
+      src="~dashboard/assets/images/channels/line.png"
+    />
+    <img
+      v-if="channel === 'website'"
+      src="~dashboard/assets/images/channels/website.png"
+    />
+    <h3 class="channel__title">
+      {{ channel }}
+    </h3>
   </div>
 </template>
 <script>
-/* global bus */
 export default {
-  props: ['channel'],
-  created() {
+  props: {
+    channel: {
+      type: String,
+      required: true,
+    },
   },
   methods: {
-    itemClick() {
-      bus.$emit('channelItemClick', this.channel);
+    isActive(channel) {
+      return ['facebook', 'website'].includes(channel);
+    },
+    onItemClick() {
+      if (this.isActive(this.channel)) {
+        this.$emit('channel-item-click', this.channel);
+      }
     },
   },
 };

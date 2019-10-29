@@ -5,7 +5,10 @@
         :header-image="inbox.avatarUrl"
         :header-title="inbox.label"
       />
-      <div class="code-wrapper">
+      <div
+        v-if="inbox.channelType === 'Channel::FacebookPage'"
+        class="code-wrapper"
+      >
         <p class="title">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
         </p>
@@ -17,6 +20,20 @@
             {{ messengerScript }}
           </code>
         </p>
+      </div>
+      <div
+        v-else-if="inbox.channelType === 'Channel::WebWidget'"
+        class="code-wrapper"
+      >
+        <p class="title">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
+        </p>
+        <p class="sub-head">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
+        </p>
+        <highlight-code lang="javascript">
+          {{ webWidgetScript }}
+        </highlight-code>
       </div>
       <div class="agent-wrapper">
         <p class="title">
@@ -53,6 +70,7 @@
 /* eslint-disable no-useless-escape */
 /* global bus */
 import { mapGetters } from 'vuex';
+import 'highlight.js/styles/default.css';
 
 export default {
   props: ['onClose', 'inbox', 'show'],
@@ -83,6 +101,20 @@ export default {
         color="blue"
         size="standard" >
       </div>`,
+      webWidgetScript: `
+        (function(d,t) {
+          var BASE_URL = '${window.location.origin}';
+          var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          g.src= BASE_URL + "/packs/js/sdk.js";
+          s.parentNode.insertBefore(g,s);
+          g.onload=function(){
+            window.chatwootSDK.run({
+              websiteToken: '${this.inbox.websiteToken}',
+              baseUrl: BASE_URL
+            })
+          }
+        })(document,"script");
+      `,
     };
   },
   computed: {
