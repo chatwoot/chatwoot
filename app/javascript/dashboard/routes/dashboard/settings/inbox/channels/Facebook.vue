@@ -64,14 +64,13 @@
   </div>
 </template>
 <script>
-/* eslint no-console: 0 */
 /* eslint-env browser */
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
-import ChannelApi from '../../../../api/channels';
-import LoadingState from '../../../../components/widgets/LoadingState';
-import PageHeader from '../SettingsSubPageHeader';
-import router from '../../../index';
+import LoadingState from 'dashboard/components/widgets/LoadingState';
+import ChannelApi from '../../../../../api/channels';
+import PageHeader from '../../SettingsSubPageHeader';
+import router from '../../../../index';
 
 export default {
   components: {

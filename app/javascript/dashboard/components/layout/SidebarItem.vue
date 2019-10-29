@@ -22,7 +22,7 @@
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
       <router-link
         v-for="child in menuItem.children"
-        :key="child.label"
+        :key="child.id"
         active-class="active flex-container"
         :class="computedInboxClass(child)"
         tag="li"

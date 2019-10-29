@@ -1,28 +1,68 @@
-class Api::V1::Widget::MessagesController < ApplicationController
-  # TODO: move widget apis to different controller.
-  skip_before_action :set_current_user, only: [:create_incoming]
-  skip_before_action :check_subscription, only: [:create_incoming]
-  skip_around_action :handle_with_exception, only: [:create_incoming]
+class Api::V1::Widget::MessagesController < ActionController::Base
+  before_action :set_conversation, only: [:create]
 
-  def create_incoming
-    builder = Integrations::Widget::IncomingMessageBuilder.new(incoming_message_params)
-    builder.perform
-    render json: builder.message
+  def index
+    @messages = conversation.nil? ? [] : message_finder.perform
   end
 
-  def create_outgoing
-    builder = Integrations::Widget::OutgoingMessageBuilder.new(outgoing_message_params)
-    builder.perform
-    render json: builder.message
+  def create
+    @message = conversation.messages.new(message_params)
+    @message.save!
   end
 
   private
 
-  def incoming_message_params
-    params.require(:message).permit(:contact_id, :inbox_id, :content)
+  def conversation
+    @conversation ||= ::Conversation.find_by(
+      contact_id: cookie_params[:contact_id],
+      inbox_id: cookie_params[:inbox_id]
+    )
   end
 
-  def outgoing_message_params
-    params.require(:message).permit(:user_id, :inbox_id, :content, :conversation_id)
+  def set_conversation
+    @conversation = ::Conversation.create!(conversation_params) if conversation.nil?
+  end
+
+  def message_params
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :incoming,
+      content: permitted_params[:content]
+    }
+  end
+
+  def conversation_params
+    {
+      account_id: inbox.account_id,
+      inbox_id: inbox.id,
+      contact_id: cookie_params[:contact_id]
+    }
+  end
+
+  def inbox
+    @inbox ||= ::Inbox.find_by(id: cookie_params[:inbox_id])
+  end
+
+  def cookie_params
+    JSON.parse(cookies.signed[cookie_name]).symbolize_keys
+  end
+
+  def message_finder_params
+    {
+      filter_internal_messages: true
+    }
+  end
+
+  def message_finder
+    @message_finder ||= MessageFinder.new(conversation, message_finder_params)
+  end
+
+  def cookie_name
+    'cw_conversation_' + params[:website_token]
+  end
+
+  def permitted_params
+    params.fetch(:message).permit(:content)
   end
 end

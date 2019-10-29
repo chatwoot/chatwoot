@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_10_27_054756) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +60,8 @@ ActiveRecord::Schema.define(version: 2019_10_27_054756) do
     t.integer "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "website_token"
+    t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|

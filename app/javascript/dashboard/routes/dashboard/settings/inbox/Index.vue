@@ -15,7 +15,7 @@
 
         <table v-if="inboxesList.length" class="woot-table">
           <tbody>
-            <tr v-for="item in inboxesList" :key="item.label">
+            <tr v-for="item in inboxesList" :key="item.id">
               <td>
                 <img
                   class="woot-thumbnail"
@@ -26,7 +26,12 @@
               <!-- Short Code  -->
               <td>
                 <span class="agent-name">{{ item.label }}</span>
-                <span>Facebook</span>
+                <span v-if="item.channelType === 'Channel::FacebookPage'">
+                  Facebook
+                </span>
+                <span v-if="item.channelType === 'Channel::WebWidget'">
+                  Website
+                </span>
               </td>
 
               <!-- Action Buttons -->

@@ -15,5 +15,10 @@ environment.loaders.append('audio', {
 });
 
 environment.config.merge({ resolve });
+environment.config.set('output.filename', chunkData => {
+  return chunkData.chunk.name === 'sdk'
+    ? 'js/[name].js'
+    : 'js/[name]-[hash].js';
+});
 
 module.exports = environment;
