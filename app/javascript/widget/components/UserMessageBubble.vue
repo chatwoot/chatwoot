@@ -19,15 +19,15 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .chat-bubble {
-  border-radius: $space-two;
-  padding: $space-small $space-two;
-  font-size: $font-size-default;
+  @include lightShadow;
   background: $color-woot;
+  border-radius: $space-two;
   color: $color-white;
   display: inline-block;
-  max-width: 80%;
+  font-size: $font-size-default;
   line-height: 1.5;
-  @include lightShadow;
+  max-width: 80%;
+  padding: $space-small $space-two;
 
   &.user {
     border-bottom-right-radius: $space-smaller;

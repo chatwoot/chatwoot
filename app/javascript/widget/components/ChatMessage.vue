@@ -33,5 +33,6 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
+  max-width: 100%;
 }
 </style>

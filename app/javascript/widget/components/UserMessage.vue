@@ -26,12 +26,12 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .user-message {
+  align-items: flex-end;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  align-items: flex-end;
-  text-align: right;
   margin: 0 $space-smaller $space-micro auto;
+  text-align: right;
 
   & + .user-message {
     margin-bottom: $space-micro;

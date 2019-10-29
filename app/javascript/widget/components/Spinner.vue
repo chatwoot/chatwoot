@@ -26,27 +26,27 @@ export default {
   }
 
   &:before {
-    content: '';
+    animation: spinner 0.7s linear infinite;
+    border-radius: 50%;
+    border-top-color: lighten($color-woot, 10%);
+    border: 2px solid rgba(255, 255, 255, 0.7);
     box-sizing: border-box;
+    content: '';
+    height: $space-medium;
+    left: 50%;
+    margin-left: -$space-slab;
+    margin-top: -$space-slab;
     position: absolute;
     top: 50%;
-    left: 50%;
     width: $space-medium;
-    height: $space-medium;
-    margin-top: -$space-slab;
-    margin-left: -$space-slab;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: lighten($color-woot, 10%);
-    animation: spinner 0.7s linear infinite;
   }
 
   &.small:before {
-    width: $space-slab;
-    height: $space-slab;
-    margin-top: -$space-slab/2;
-    margin-left: -$space-slab/2;
     border-width: 1px;
+    height: $space-slab;
+    margin-left: -$space-slab/2;
+    margin-top: -$space-slab/2;
+    width: $space-slab;
   }
 }
 </style>

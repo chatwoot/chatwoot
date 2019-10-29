@@ -30,13 +30,13 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  @include lightShadow;
+  background-size: cover;
   background: url('~widget/assets/images/defaultUser.png') center center
     no-repeat;
-  background-size: cover;
   border-radius: 50%;
-  @include lightShadow;
+  height: 40px;
+  width: 40px;
 
   &.small {
     width: $space-medium;

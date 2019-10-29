@@ -43,24 +43,31 @@ export default {
 
   & + .agent-message {
     margin-bottom: $space-micro;
+
     .chat-bubble {
       border-top-left-radius: $space-smaller;
     }
+
     .user-avatar {
       visibility: hidden;
     }
+
     .agent-name {
       display: none;
     }
   }
+
   & + .user-message {
     margin-bottom: $space-normal;
   }
+
   .avatar-wrap {
     flex-shrink: 1;
     flex-grow: 0;
   }
+
   .message-wrap {
+    max-width: 100%;
     flex-shrink: 0;
     flex-grow: 1;
     margin-left: $space-small;
