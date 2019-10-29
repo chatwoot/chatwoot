@@ -31,9 +31,9 @@ export default {
 
 .user-avatar {
   @include light-shadow;
-  background-size: cover;
   background: url('~widget/assets/images/defaultUser.png') center center
     no-repeat;
+  background-size: cover;
   border-radius: 50%;
   height: 40px;
   width: 40px;

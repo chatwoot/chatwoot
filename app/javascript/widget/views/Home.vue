@@ -37,7 +37,6 @@ export default {
     scrollToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
-      console.log(container.scrollHeight);
     },
   },
   computed: {
@@ -69,7 +68,7 @@ export default {
 
   .conversation-wrap {
     flex: 1;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .footer-wrap {

@@ -1,18 +1,8 @@
-import { createConsumer } from '@rails/actioncable';
+import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
 
-class ActionCableConnector {
+class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
-    const consumer = createConsumer();
-    consumer.subscriptions.create(
-      {
-        channel: 'RoomChannel',
-        pubsub_token: pubsubToken,
-      },
-      {
-        received: this.onReceived,
-      }
-    );
-    this.app = app;
+    super(app, pubsubToken);
     this.events = {
       'message.created': this.onMessageCreated,
     };
@@ -20,12 +10,6 @@ class ActionCableConnector {
 
   onMessageCreated = data => {
     this.app.$store.dispatch('conversation/addMessage', data);
-  };
-
-  onReceived = ({ event, data } = {}) => {
-    if (this.events[event]) {
-      this.events[event](data);
-    }
   };
 }
 

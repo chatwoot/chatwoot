@@ -26,7 +26,7 @@ class WidgetsController < ActionController::Base
     contact_inbox = @web_widget.create_contact_inbox
     @contact = contact_inbox.contact
 
-    cookies.signed[:cw_conversation] = JSON.generate(
+    cookies.signed[cookie_name] = JSON.generate(
       source_id: contact_inbox.source_id,
       contact_id: @contact.id,
       inbox_id: @web_widget.inbox.id
@@ -34,10 +34,14 @@ class WidgetsController < ActionController::Base
   end
 
   def cookie_params
-    cookies.signed[:cw_conversation] ? JSON.parse(cookies.signed[:cw_conversation]).symbolize_keys : {}
+    cookies.signed[cookie_name] ? JSON.parse(cookies.signed[cookie_name]).symbolize_keys : {}
   end
 
   def permitted_params
     params.permit(:website_token)
+  end
+
+  def cookie_name
+    'cw_conversation_' + permitted_params[:website_token]
   end
 end

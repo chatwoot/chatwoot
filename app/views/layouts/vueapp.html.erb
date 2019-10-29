@@ -30,21 +30,9 @@
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
     <script>
-      (function(d,t) {
-
       window.chatwootConfig = {
         fbAppId: '<%= ENV['fb_app_id'] %>'
       }
-
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src="/packs/js/sdk.js";
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: 'dvJT7NScWSvRjC3KqnVgAGSN'
-          })
-        }
-      })(document,"script");
     </script>
   </body>
 </html>

@@ -45,7 +45,7 @@ class Api::V1::Widget::MessagesController < ActionController::Base
   end
 
   def cookie_params
-    JSON.parse(cookies.signed[:cw_conversation]).symbolize_keys
+    JSON.parse(cookies.signed[cookie_name]).symbolize_keys
   end
 
   def message_finder_params
@@ -56,6 +56,10 @@ class Api::V1::Widget::MessagesController < ActionController::Base
 
   def message_finder
     @message_finder ||= MessageFinder.new(conversation, message_finder_params)
+  end
+
+  def cookie_name
+    'cw_conversation_' + params[:website_token]
   end
 
   def permitted_params

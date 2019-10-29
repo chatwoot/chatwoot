@@ -25,3 +25,14 @@
   border-radius: $space-smaller;
   font-size: $font-size-mini;
 }
+
+code {
+  font-family: 'Monaco';
+  font-size: $font-size-mini;
+  border: 0;
+}
+
+code.hljs {
+  background: $color-background;
+  padding: $space-two;
+}

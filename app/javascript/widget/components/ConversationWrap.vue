@@ -17,7 +17,7 @@ export default {
     ChatMessage,
   },
   props: {
-    messages: Array,
+    messages: Object,
   },
 };
 </script>

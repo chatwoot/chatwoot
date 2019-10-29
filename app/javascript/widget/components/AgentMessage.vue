@@ -67,7 +67,7 @@ export default {
   }
 
   .message-wrap {
-    max-width: 100%;
+    max-width: 90%;
     flex-shrink: 0;
     flex-grow: 1;
     margin-left: $space-small;
@@ -76,7 +76,6 @@ export default {
       font-weight: $font-weight-medium;
       margin-bottom: $space-smaller;
       margin-left: $space-two;
-
       color: $color-body;
     }
   }
