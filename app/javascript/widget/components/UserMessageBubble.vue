@@ -19,7 +19,7 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .chat-bubble {
-  @include lightShadow;
+  @include light-shadow;
   background: $color-woot;
   border-radius: $space-two;
   color: $color-white;

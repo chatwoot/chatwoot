@@ -30,7 +30,7 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .user-avatar {
-  @include lightShadow;
+  @include light-shadow;
   background-size: cover;
   background: url('~widget/assets/images/defaultUser.png') center center
     no-repeat;

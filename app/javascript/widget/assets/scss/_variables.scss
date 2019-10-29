@@ -12,7 +12,7 @@ $font-size-mega: 4rem;
 $font-size-giga: 5.6rem;
 
 // spaces
-$zero: 0rem;
+$zero: 0;
 $space-micro: 0.2rem;
 $space-smaller: 0.4rem;
 $space-small: 0.8rem;
@@ -47,16 +47,16 @@ $woot-logo-padding: $space-large $space-large $space-large $space-large;
 // Colors
 $color-woot: #1f93ff;
 $color-primary: $color-woot;
-$color-gray: #6E6F73;
-$color-light-gray: #999A9B;
-$color-border: #E0E6ED;
+$color-gray: #6e6f73;
+$color-light-gray: #999a9b;
+$color-border: #e0e6ed;
 $color-border-transparent: rgba(224, 230, 237, 0.5);
 $color-border-light: #f0f4f5;
 $color-background: #ecf3f9;
-$color-background-light: #FAFAFA;
-$color-white: #FFFFFF;
-$color-body: #3C4858;
-$color-heading: #1F2D3D;
+$color-background-light: #fafafa;
+$color-white: #fff;
+$color-body: #3c4858;
+$color-heading: #1f2d3d;
 $color-modal-header: #f1f1f1;
 // Thumbnail
 $thumbnail-radius: 4rem;

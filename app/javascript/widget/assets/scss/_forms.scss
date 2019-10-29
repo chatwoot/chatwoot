@@ -1,12 +1,16 @@
+// scss-lint:disable PropertySortOrder DeclarationOrder QualifyingElement
 $form-border-width: 1px;
 $input-height: $space-two * 2;
 
 .form-input {
+  @include placeholder {
+    color: $color-gray;
+  }
+
   appearance: none;
-  background-image: none;
   background: $color-white;
-  border-radius: $border-radius;
   border: $form-border-width solid $color-border;
+  border-radius: $border-radius;
   box-sizing: border-box;
   color: $color-body;
   display: block;
@@ -51,21 +55,17 @@ $input-height: $space-two * 2;
   &[type="file"] {
     height: auto;
   }
-
-  @include placeholder {
-    color: $color-gray;
-  }
 }
 
 // Form element: Textarea
 textarea.form-input {
+  @include placeholder {
+    color: $color-light-gray;
+  }
+
   &,
   &.large,
   &.small {
     height: auto;
-  }
-
-  @include placeholder {
-    color: $color-light-gray;
   }
 }
