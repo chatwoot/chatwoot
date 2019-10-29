@@ -21,12 +21,35 @@ RSpec.describe Inbox do
     it { is_expected.to have_many(:messages).through(:conversations) }
   end
 
+  describe '#add_member' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+    let(:user) { FactoryBot.create(:user) }
+
+    it do
+      expect(inbox.inbox_members.size).to eq(0)
+
+      inbox.add_member(user.id)
+      expect(inbox.reload.inbox_members.size).to eq(1)
+    end
+  end
+
+  describe '#remove_member' do
+    let(:inbox) { FactoryBot.create(:inbox) }
+    let(:user) { FactoryBot.create(:user) }
+
+    before { inbox.add_member(user.id) }
+
+    it do
+      expect(inbox.inbox_members.size).to eq(1)
+
+      inbox.remove_member(user.id)
+      expect(inbox.reload.inbox_members.size).to eq(0)
+    end
+  end
+
   describe '#facebook?' do
     let(:inbox) do
-      FactoryBot.build(
-        :inbox,
-        channel: channel_val,
-      )
+      FactoryBot.build(:inbox, channel: channel_val)
     end
 
     context 'when the channel type is Channel::FacebookPage' do
