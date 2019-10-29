@@ -39,19 +39,12 @@ export default {
   computed: {
     style() {
       return {
-        display: 'flex',
         width: `${this.size}px`,
         height: `${this.size}px`,
         borderRadius: this.rounded ? '50%' : 0,
         lineHeight: `${this.size + Math.floor(this.size / 20)}px`,
-        fontWeight: 'bold',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
         backgroundColor: this.backgroundColor,
-        font: `${Math.floor(this.size / 2.5)}px/${
-          this.size
-        }px Helvetica, Arial, sans-serif`,
+        fontSize: `${Math.floor(this.size / 2.5)}px`,
         color: this.color,
       };
     },
@@ -75,3 +68,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.avatar-container {
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+</style>
