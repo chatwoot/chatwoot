@@ -53,6 +53,8 @@ gem 'telegram-bot-ruby'
 gem 'twitter'
 # facebook client
 gem 'koala'
+# Random name generator
+gem 'haikunator'
 
 ##--- gems for debugging and error reporting ---##
 # static analysis

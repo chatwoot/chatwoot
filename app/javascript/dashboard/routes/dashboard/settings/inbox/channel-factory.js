@@ -1,19 +1,23 @@
-import CONSTANTS from '../../../../constants';
-import FacebookView from './Facebook';
+import Facebook from './channels/Facebook';
+import Website from './channels/Website';
+
+const channelViewList = {
+  facebook: Facebook,
+  website: Website,
+};
 
 export default {
   create() {
     return {
-      name: 'new-channel-view',
-
-      render(h) {
-        if (this.channel_name === CONSTANTS.CHANNELS.FACEBOOK) {
-          return h(FacebookView);
-        }
-        return null;
-      },
       props: {
-        channel_name: String,
+        channel_name: {
+          type: String,
+          required: true,
+        },
+      },
+      name: 'new-channel-view',
+      render(h) {
+        return h(channelViewList[this.channel_name] || null);
       },
     };
   },

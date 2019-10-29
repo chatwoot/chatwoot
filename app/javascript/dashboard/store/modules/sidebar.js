@@ -1,13 +1,14 @@
 /* eslint no-console: 0 */
 /* eslint-env browser */
 /* eslint no-param-reassign: 0 */
-
+/* global bus */
 // import * as types from '../mutation-types';
 import defaultState from '../../i18n/default-sidebar';
 import * as types from '../mutation-types';
 import Account from '../../api/account';
 import ChannelApi from '../../api/channels';
 import { frontendURL } from '../../helper/URLHelper';
+import WebChannel from '../../api/channel/webChannel';
 
 const state = defaultState;
 // inboxes fetch flag
@@ -65,6 +66,15 @@ const actions = {
           reject(error);
         });
     });
+  },
+  addWebsiteChannel: async ({ commit }, params) => {
+    try {
+      const response = await WebChannel.create(params);
+      commit(types.default.SET_INBOX_ITEM, response);
+      bus.$emit('new_website_channel', { inboxId: response.data.id });
+    } catch (error) {
+      // Handle error
+    }
   },
   addInboxItem({ commit }, { channel, params }) {
     const donePromise = new Promise(resolve => {
@@ -137,9 +147,10 @@ const mutations = {
       channel_id: item.id,
       label: item.name,
       toState: frontendURL(`inbox/${item.id}`),
-      channelType: item.channelType,
+      channelType: item.channel_type,
       avatarUrl: item.avatar_url,
       pageId: item.page_id,
+      websiteToken: item.website_token,
     }));
     // Identify menuItem to update
     // May have more than one object to update
@@ -156,7 +167,7 @@ const mutations = {
       channel_id: data.id,
       label: data.name,
       toState: frontendURL(`inbox/${data.id}`),
-      channelType: data.channelType,
+      channelType: data.channel_type,
       avatarUrl: data.avatar_url === undefined ? null : data.avatar_url,
       pageId: data.page_id,
     });
