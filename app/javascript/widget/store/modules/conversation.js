@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
-import { MESSAGE_STATUS } from 'widget/helpers/constants';
 import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
 
 export const DEFAULT_CONVERSATION = 'default';
@@ -13,11 +12,6 @@ const getters = {
 };
 
 const actions = {
-  initConversations({ commit }, lastConversation) {
-    commit('auth/setLastConversation', lastConversation, { root: true });
-    commit('initInboxInConversations', lastConversation);
-  },
-
   sendMessage: async (_, params) => {
     const { content } = params;
     await sendMessageAPI(content);
@@ -29,7 +23,6 @@ const actions = {
       commit('initMessagesInConversation', data);
     } catch (error) {
       // Handle error
-      // commit('updateMessageStatusToFailed', { lastConversation, id });
     }
   },
 
@@ -55,23 +48,6 @@ const mutations = {
     }
 
     payload.map(message => Vue.set(_state.conversations, message.id, message));
-  },
-
-  updateConversationId($state, data) {
-    const { oldConversationId, apiConversationId } = data;
-    const conversation = $state.conversations[oldConversationId];
-    Vue.set($state.conversations, apiConversationId, conversation);
-    Vue.delete($state.conversations, oldConversationId);
-  },
-
-  updateMessageStatusToSuccess($state, data) {
-    const { apiConversationId, id } = data;
-    $state.conversations[apiConversationId][id].status = MESSAGE_STATUS.SUCCESS;
-  },
-
-  updateMessageStatusToFailed($state, data) {
-    const { apiConversationId, id } = data;
-    $state.conversations[apiConversationId][id].status = MESSAGE_STATUS.FAILED;
   },
 };
 
