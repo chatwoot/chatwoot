@@ -31,7 +31,7 @@ RSpec.describe User do
     it 'does not get updated on object update' do
       obj = user
       old_token = obj.pubsub_token
-      obj.update_attributes(inviter: user)
+      obj.update(inviter: user)
       expect(obj.pubsub_token).to eq(old_token)
     end
   end

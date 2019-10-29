@@ -11,11 +11,9 @@ FactoryBot.define do
 
     after(:build) do |user, evaluator|
       if user.devise_user.blank?
-        devise_attrs = {with_user: user}
+        devise_attrs = { with_user: user }
 
-        if evaluator.email
-          devise_attrs.merge!(email: evaluator.email)
-        end
+        devise_attrs[:email] = evaluator.email if evaluator.email
 
         create(:devise_user, devise_attrs)
       end

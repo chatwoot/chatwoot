@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Confirmation Instructions', type: :mailer do
   describe :notify do
-    let(:confirmable_user) { FactoryBot.create(:devise_user, inviter: inviter_val ) }
+    let(:confirmable_user) { FactoryBot.create(:devise_user, inviter: inviter_val) }
     let(:inviter_val) { nil }
     let(:mail) { confirmable_user.send_confirmation_instructions }
 

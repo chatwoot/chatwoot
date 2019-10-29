@@ -16,10 +16,10 @@ class User < ApplicationRecord
 
   belongs_to :devise_user
   delegate :email,
-    :name,
-    :nickname,
-    :uid,
-    to: :devise_user
+           :name,
+           :nickname,
+           :uid,
+           to: :devise_user
 
   accepts_nested_attributes_for :account
 
