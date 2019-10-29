@@ -79,7 +79,7 @@ class Conversation < ApplicationRecord
   end
 
   def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
+    assignee_id.present? && Current.devise_user&.id == assignee_id
   end
 
   def set_display_id
@@ -90,9 +90,9 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
-    return unless Current.user
+    return unless Current.devise_user
 
-    user_name = Current.user&.name
+    user_name = Current.devise_user&.name
 
     create_status_change_message(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?

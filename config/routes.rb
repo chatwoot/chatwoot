@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # AUTH STARTS
   match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
-  mount_devise_token_auth_for 'DeviseUser', at: 'devise_auth',
+  mount_devise_token_auth_for 'DeviseUser', at: 'auth',
     controllers: {
       confirmations: 'confirmations',
       passwords: 'passwords',

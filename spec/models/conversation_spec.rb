@@ -36,7 +36,7 @@ RSpec.describe Conversation, type: :model do
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       allow(AssignmentMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
       allow(assignment_mailer).to receive(:deliver)
-      Current.user = old_assignee
+      Current.devise_user = old_assignee.devise_user
 
       conversation.update(
         status: :resolved,

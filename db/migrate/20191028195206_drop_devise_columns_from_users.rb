@@ -2,6 +2,11 @@ class DropDeviseColumnsFromUsers < ActiveRecord::Migration[6.1]
   def up
     remove_column :users, :provider
     remove_column :users, :uid
+    remove_column :users, :sign_in_count
+    remove_column :users, :current_sign_in_at
+    remove_column :users, :last_sign_in_at
+    remove_column :users, :current_sign_in_ip
+    remove_column :users, :last_sign_in_ip
     remove_column :users, :encrypted_password
     remove_column :users, :reset_password_token
     remove_column :users, :reset_password_sent_at
@@ -19,19 +24,24 @@ class DropDeviseColumnsFromUsers < ActiveRecord::Migration[6.1]
 
   def down
     add_column :users, :provider, :string
-    add_column :users, :uid, :string 
-    add_column :users, :encrypted_password, :string 
-    add_column :users, :reset_password_token, :string 
+    add_column :users, :uid, :string
+    add_column :users, :sign_in_count, :integer, null: false, default: 0
+    add_column :users, :current_sign_in_at, :datetime
+    add_column :users, :last_sign_in_at, :datetime
+    add_column :users, :current_sign_in_ip, :string
+    add_column :users, :last_sign_in_ip, :string
+    add_column :users, :encrypted_password, :string
+    add_column :users, :reset_password_token, :string
     add_column :users, :reset_password_sent_at, :datetime
     add_column :users, :remember_created_at, :datetime
-    add_column :users, :confirmation_token, :string 
-    add_column :users, :confirmed_at, :datetime 
-    add_column :users, :confirmation_sent_at, :datetime 
-    add_column :users, :unconfirmed_email, :string 
-    add_column :users, :name, :string 
-    add_column :users, :nickname, :string 
-    add_column :users, :image, :string 
-    add_column :users, :email, :string 
-    add_column :users, :tokens, :json 
+    add_column :users, :confirmation_token, :string
+    add_column :users, :confirmed_at, :datetime
+    add_column :users, :confirmation_sent_at, :datetime
+    add_column :users, :unconfirmed_email, :string
+    add_column :users, :name, :string
+    add_column :users, :nickname, :string
+    add_column :users, :image, :string
+    add_column :users, :email, :string
+    add_column :users, :tokens, :json
   end
 end

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   private
 
   def current_account
-    @_ ||= current_user.account
+    @_ ||= current_devise_user.account
   end
 
   def handle_with_exception
@@ -26,12 +26,12 @@ class ApplicationController < ActionController::Base
     render_unauthorized('You are not authorized to do this action')
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
-    Current.user = nil
+    Current.devise_user = nil
   end
 
   def set_current_user
-    @user ||= current_user
-    Current.user = @user
+    @user ||= current_devise_user
+    Current.devise_user = @user
   end
 
   def current_subscription
