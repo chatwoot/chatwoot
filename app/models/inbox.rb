@@ -4,6 +4,8 @@ class Inbox < ApplicationRecord
   validates :account_id, presence: true
 
   belongs_to :account
+
+  # TODO: should add associations for the channel types
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
   has_many :contact_inboxes, dependent: :destroy
