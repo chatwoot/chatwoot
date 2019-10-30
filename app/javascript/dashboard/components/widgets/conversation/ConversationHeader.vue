@@ -5,6 +5,7 @@
         :src="chat.meta.sender.thumbnail"
         size="40px"
         :badge="chat.meta.sender.channel"
+        :username="chat.meta.sender.name"
       />
       <h3 class="user--name">
         {{ chat.meta.sender.name }}
