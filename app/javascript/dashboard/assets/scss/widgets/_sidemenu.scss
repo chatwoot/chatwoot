@@ -10,7 +10,6 @@
   @include full-height;
   @include margin(0);
   @include space-between-column;
-  overflow-x: hidden;
   width: $nav-bar-width;
   z-index: 1024 - 1;
 

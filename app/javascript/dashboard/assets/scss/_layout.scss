@@ -6,7 +6,6 @@ body {
   margin: 0;
     -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
 }
 
 .app-wrapper {
@@ -21,6 +20,8 @@ body {
 
 .app-content {
   @include flex;
+  @include full-height;
+  overflow: hidden;
 }
 
 .view-box {
