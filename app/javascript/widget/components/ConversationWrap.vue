@@ -28,6 +28,5 @@ export default {
 
 .conversation {
   height: 100%;
-  padding: $space-large $space-small $space-large $space-normal;
 }
 </style>

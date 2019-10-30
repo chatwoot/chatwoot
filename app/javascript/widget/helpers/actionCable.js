@@ -6,6 +6,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.events = {
       'message.created': this.onMessageCreated,
     };
+    console.log('joined', app, pubsubToken);
   }
 
   onMessageCreated = data => {
