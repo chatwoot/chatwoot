@@ -69,6 +69,7 @@ export default {
   .conversation-wrap {
     flex: 1;
     overflow-y: auto;
+    padding: $space-large $space-small $space-large $space-normal;
   }
 
   .footer-wrap {

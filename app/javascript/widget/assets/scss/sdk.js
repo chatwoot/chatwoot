@@ -1,3 +1,4 @@
+export const SDK_CSS = `
 .woot-widget-holder {
   z-index: 2147483000!important;
   position: fixed!important;
@@ -63,3 +64,4 @@
 .woot--hide {
   display: none !important;
 }
+`;

@@ -1,13 +1,10 @@
 class WidgetsController < ActionController::Base
   before_action :set_web_widget
+  before_action :set_token
   before_action :set_contact
   before_action :build_contact
 
   private
-
-  def set_web_widget
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
-  end
 
   def set_contact
     return if cookie_params[:source_id].nil?
@@ -20,28 +17,49 @@ class WidgetsController < ActionController::Base
     @contact = contact_inbox.contact
   end
 
+  def set_token
+    @token = conversation_token
+  end
+
+  def set_web_widget
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+  end
+
   def build_contact
     return if @contact.present?
 
     contact_inbox = @web_widget.create_contact_inbox
     @contact = contact_inbox.contact
 
-    cookies.signed[cookie_name] = JSON.generate(
+    payload = {
       source_id: contact_inbox.source_id,
       contact_id: @contact.id,
       inbox_id: @web_widget.inbox.id
-    ).to_s
+    }
+    @token = JWT.encode payload, secret_key, 'HS256'
   end
 
   def cookie_params
-    cookies.signed[cookie_name] ? JSON.parse(cookies.signed[cookie_name]).symbolize_keys : {}
+    return @cookie_params if @cookie_params.present?
+
+    if conversation_token.present?
+      @cookie_params = JWT.decode(
+        conversation_token, secret_key, true, algorithm: 'HS256'
+      ).first.symbolize_keys
+      return @cookie_params
+    end
+    {}
+  end
+
+  def conversation_token
+    permitted_params[:cw_conversation]
   end
 
   def permitted_params
-    params.permit(:website_token)
+    params.permit(:website_token, :cw_conversation)
   end
 
-  def cookie_name
-    'cw_conversation_' + permitted_params[:website_token]
+  def secret_key
+    Rails.application.secrets.secret_key_base
   end
 end
