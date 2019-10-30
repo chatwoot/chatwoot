@@ -42,7 +42,7 @@ class Message < ApplicationRecord
   private
 
   def dispatch_event
-    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self) unless conversation.messages.count == 1
+    Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
 
     if outgoing? && conversation.messages.outgoing.count == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)

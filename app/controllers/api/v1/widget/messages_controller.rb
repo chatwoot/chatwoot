@@ -45,7 +45,9 @@ class Api::V1::Widget::MessagesController < ActionController::Base
   end
 
   def cookie_params
-    JSON.parse(cookies.signed[cookie_name]).symbolize_keys
+    @cookie_params ||= JWT.decode(
+      request.headers[header_name], secret_key, true, algorithm: 'HS256'
+    ).first.symbolize_keys
   end
 
   def message_finder_params
@@ -58,11 +60,15 @@ class Api::V1::Widget::MessagesController < ActionController::Base
     @message_finder ||= MessageFinder.new(conversation, message_finder_params)
   end
 
-  def cookie_name
-    'cw_conversation_' + params[:website_token]
+  def header_name
+    'X-Auth-Token'
   end
 
   def permitted_params
     params.fetch(:message).permit(:content)
+  end
+
+  def secret_key
+    Rails.application.secrets.secret_key_base
   end
 end
