@@ -18,9 +18,7 @@ RSpec.describe Inbox do
 
     it { is_expected.to have_many(:inbox_members).dependent(:destroy) }
 
-    it do
-      is_expected.to have_many(:members).through(:inbox_members).source(:user)
-    end
+    it { is_expected.to have_many(:members).through(:inbox_members).source(:user) }
 
     it { is_expected.to have_many(:conversations).dependent(:destroy) }
 
