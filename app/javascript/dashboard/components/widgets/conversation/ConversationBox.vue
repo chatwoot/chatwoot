@@ -32,7 +32,7 @@
       />
     </div>
     <!-- No Conversation Selected -->
-    <div class="columns full-height conv-empty-state">
+    <div v-else class="columns full-height conv-empty-state">
       <!-- Loading status -->
       <woot-loading-state
         v-if="fetchingInboxes || loadingChatList"
