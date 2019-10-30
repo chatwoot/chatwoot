@@ -36,6 +36,7 @@ gem 'webpacker'
 gem 'devise', git: 'https://github.com/plataformatec/devise'
 gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
 # authorization
+gem 'jwt'
 gem 'pundit'
 
 ##--- gems for pubsub service ---##
