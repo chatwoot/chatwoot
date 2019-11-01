@@ -85,7 +85,7 @@ group :development, :test do
   gem 'faker'
   gem 'listen'
   gem 'pry-rails'
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', tag: 'v4.0.0.beta3'
   gem 'rubocop', '~> 0.73.0', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
