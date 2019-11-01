@@ -42,7 +42,6 @@
 //  37. Top Bar
 
 @import "~foundation-sites/scss/util/util";
-
 // 1. Global
 // ---------
 
@@ -567,7 +566,7 @@ $switch-paddle-transition: all 0.15s ease-out;
 
 $table-background: transparent;
 $table-color-scale: 5%;
-$table-border: 1px solid smart-scale($color-heading, $table-color-scale);
+$table-border: 1px solid transparent;
 $table-padding: rem-calc(8 10 10);
 $table-hover-scale: 2%;
 $table-row-hover: darken($table-background, $table-hover-scale);
@@ -647,3 +646,10 @@ $topbar-submenu-background: $topbar-background;
 $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
+
+
+// Internal variable that contains the flex justifying options
+$-zf-flex-justify: -zf-flex-justify($global-text-direction);
+
+$menu-items-padding: $space-one;
+$xy-grid: false;
