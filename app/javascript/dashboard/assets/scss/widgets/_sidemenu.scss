@@ -1,6 +1,7 @@
 .side-menu {
   i {
-    min-width: 2rem;
+    min-width: $space-two;
+    margin-right: $space-smaller;
   }
 }
 
@@ -43,8 +44,9 @@
     @include elegant-card;
     @include border-light;
     left: 18%;
-    top: -160%;
+    top: -110%;
     visibility: visible;
+    display: block;
     width: 80%;
     z-index: 999;
 
