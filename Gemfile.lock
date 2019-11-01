@@ -110,6 +110,20 @@ GIT
       responders
       warden (~> 1.2.3)
 
+GIT
+  remote: https://github.com/rspec/rspec-rails
+  revision: bfa37ce6d6ab80257c48e407042406007c7cb724
+  tag: v4.0.0.beta3
+  specs:
+    rspec-rails (4.0.0.beta3)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.8)
+      rspec-expectations (~> 3.8)
+      rspec-mocks (~> 3.8)
+      rspec-support (~> 3.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -332,14 +346,6 @@ GEM
     rspec-mocks (3.9.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
-    rspec-rails (3.9.0)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 3.9.0)
-      rspec-expectations (~> 3.9.0)
-      rspec-mocks (~> 3.9.0)
-      rspec-support (~> 3.9.0)
     rspec-support (3.9.0)
     rubocop (0.73.0)
       jaro_winkler (~> 1.5.1)
@@ -478,7 +484,7 @@ DEPENDENCIES
   redis-namespace
   redis-rack-cache
   responders
-  rspec-rails (~> 3.8)
+  rspec-rails!
   rubocop (~> 0.73.0)
   rubocop-performance
   rubocop-rails

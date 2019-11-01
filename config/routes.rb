@@ -88,4 +88,7 @@ Rails.application.routes.draw do
 
   mount Facebook::Messenger::Server, at: 'bot'
   post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
+
+  # Routes for testing
+  resources :widget_tests, only: [:index] unless Rails.env.production?
 end
