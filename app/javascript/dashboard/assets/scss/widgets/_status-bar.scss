@@ -21,7 +21,19 @@
     background: lighten($alert-color, 30%);
 
     .button {
-      @include button-style($alert-color, darken($alert-color, 7%), $color-white);
+      // Default and disabled states
+      &,
+      &.disabled, &[disabled],
+      &.disabled:hover, &[disabled]:hover,
+      &.disabled:focus, &[disabled]:focus {
+        background-color: $alert-color;
+        color: $color-white;
+      }
+
+      &:hover, &:focus {
+        background-color: darken($alert-color, 7%);
+        color: $color-white;
+      }
     }
   }
 

@@ -23,7 +23,7 @@
     "chart.js": "~2.5.0",
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
-    "foundation-sites": "6.3.0",
+    "foundation-sites": "~6.5.3",
     "highlight.js": "^9.15.10",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",

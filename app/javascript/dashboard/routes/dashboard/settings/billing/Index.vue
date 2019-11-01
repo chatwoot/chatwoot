@@ -1,38 +1,42 @@
 <template>
   <div class="column content-box billing">
     <woot-loading-state v-if="fetchStatus" :message="$t('BILLING.LOADING')" />
-    <div class="row" v-if="billingDetails">
+    <div v-if="billingDetails" class="row">
       <div class="small-12 columns billing__stats">
-        <div class="account-row">
+        <div class="account-row column">
           <span class="title">{{ $t('BILLING.ACCOUNT_STATE') }}</span>
           <span class="value">{{ billingDetails.state }} </span>
         </div>
-        <div class="account-row">
+        <div class="account-row column">
           <span class="title">{{ $t('BILLING.AGENT_COUNT') }}</span>
           <span class="value">{{ billingDetails.agents_count }} </span>
         </div>
-        <div class="account-row">
+        <div class="account-row column">
           <span class="title">{{ $t('BILLING.PER_AGENT_COST') }}</span>
           <span class="value">${{ billingDetails.per_agent_cost }} </span>
         </div>
 
-        <div class="account-row">
+        <div class="account-row column">
           <span class="title">{{ $t('BILLING.TOTAL_COST') }}</span>
           <span class="value">${{ billingDetails.total_cost }} </span>
         </div>
       </div>
       <div class="small-12 columns billing__form">
-        <iframe :src="billingDetails.iframe_url" v-if="iframeUrl && !isShowEmptyState"></iframe>
+        <iframe
+          v-if="iframeUrl && !isShowEmptyState"
+          :src="billingDetails.iframe_url"
+        ></iframe>
         <div v-if="isShowEmptyState">
           <empty-state :title="emptyStateTitle" :message="emptyStateMessage">
             <div class="medium-12 columns text-center">
-              <button class="button success nice" @click="billingButtonClick()">{{buttonText}}</button>
+              <button class="button success nice" @click="billingButtonClick()">
+                {{ buttonText }}
+              </button>
             </div>
           </empty-state>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -44,16 +48,15 @@ import { mapGetters } from 'vuex';
 import EmptyState from '../../../../components/widgets/EmptyState';
 
 export default {
+  components: {
+    EmptyState,
+  },
   props: ['state'],
 
   data() {
     return {
       is_adding_source: false,
     };
-  },
-
-  components: {
-    EmptyState,
   },
 
   computed: {
@@ -85,7 +88,9 @@ export default {
     },
     buttonText() {
       if (this.billingDetails !== null) {
-        return this.billingDetails.payment_source_added ? this.$t('BILLING.BUTTON.EDIT') : this.$t('BILLING.BUTTON.ADD');
+        return this.billingDetails.payment_source_added
+          ? this.$t('BILLING.BUTTON.EDIT')
+          : this.$t('BILLING.BUTTON.ADD');
       }
       return this.$t('BILLING.BUTTON.ADD');
     },
@@ -115,6 +120,5 @@ export default {
       this.is_adding_source = true;
     },
   },
-
 };
 </script>

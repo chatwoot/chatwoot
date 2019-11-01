@@ -1,13 +1,14 @@
 @import 'variables';
 
-@import '~bourbon/core/bourbon';
 @import '~spinkit/scss/spinners/7-three-bounce';
 @import '~ionicons/scss/ionicons';
 
-@import 'foundation-settings';
 @import 'mixins';
+@import 'foundation-settings';
 @import 'helper-classes';
+@import 'foundation-sites/scss/foundation';
+@import '~bourbon/core/bourbon';
 
-@import '~foundation-sites/assets/foundation-flex';
+@include foundation-everything($flex: true);
 
 @import 'woot';
