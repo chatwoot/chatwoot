@@ -18,7 +18,20 @@ export default axios => {
   wootApi.defaults.baseURL = constants.apiURL;
   // Add Auth Headers to requests if logged in
   if (Auth.isLoggedIn()) {
-    Object.assign(wootApi.defaults.headers.common, Auth.getAuthData());
+    const {
+      'access-token': accessToken,
+      'token-type': tokenType,
+      client,
+      expiry,
+      uid,
+    } = Auth.getAuthData();
+    Object.assign(wootApi.defaults.headers.common, {
+      'access-token': accessToken,
+      'token-type': tokenType,
+      client,
+      expiry,
+      uid,
+    });
   }
   // Response parsing interceptor
   wootApi.interceptors.response.use(
