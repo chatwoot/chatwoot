@@ -5,10 +5,12 @@
 
 ___
 
-![CircleCI Badge](https://img.shields.io/circleci/build/github/chatwoot/chatwoot)
-![License](https://img.shields.io/github/license/chatwoot/chatwoot)
-[![Maintainability](https://api.codeclimate.com/v1/badges/80f9e1a7c72d186289ad/maintainability)](https://codeclimate.com/github/chatwoot/chatwoot/maintainability)
-![Commits-per-month](https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot)
+<p align="center">
+  <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/80f9e1a7c72d186289ad/maintainability" alt="Maintainability"></a>
+  <img src="https://img.shields.io/circleci/build/github/chatwoot/chatwoot" alt="CircleCI Badge">
+  <img src="https://img.shields.io/github/license/chatwoot/chatwoot" alt="License">
+  <img src="https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot" alt="Commits-per-month"></p>
+</p>
 
 ![ChatUI progess](./.github/dashboard-screen.png)
 
@@ -58,5 +60,8 @@ Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatw
 ## Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
+
+<a href="graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
+
 
 *Chatwoot* &copy; 2017-2019, ThoughtWoot Inc - Released under the MIT License.
