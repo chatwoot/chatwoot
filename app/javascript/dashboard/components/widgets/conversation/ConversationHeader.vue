@@ -7,9 +7,17 @@
         :badge="chat.meta.sender.channel"
         :username="chat.meta.sender.name"
       />
-      <h3 class="user--name">
-        {{ chat.meta.sender.name }}
-      </h3>
+      <div class="user--profile__meta">
+        <h3 class="user--name">
+          {{ chat.meta.sender.name }}
+        </h3>
+        <button
+          class="user--profile__button"
+          @click="$emit('contactPanelToggle')"
+        >
+          {{ viewProfileButtonLabel }}
+        </button>
+      </div>
     </div>
     <div class="flex-container">
       <div class="multiselect-box ion-headphone">
@@ -47,7 +55,16 @@ export default {
     ResolveButton,
   },
 
-  props: ['chat'],
+  props: {
+    chat: {
+      type: Object,
+      default: () => {},
+    },
+    isContactPanelOpen: {
+      type: Boolean,
+      default: false,
+    },
+  },
 
   data() {
     return {
@@ -73,6 +90,9 @@ export default {
         ...this.agents,
       ];
     },
+    viewProfileButtonLabel() {
+      return `${this.isContactPanelOpen ? 'Hide' : 'View'}  Profile`;
+    },
   },
 
   methods: {
@@ -87,9 +107,7 @@ export default {
         });
     },
 
-    removeAgent(agent) {
-      console.log(agent.email);
-    },
+    removeAgent() {},
   },
 };
 </script>

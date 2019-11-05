@@ -44,7 +44,21 @@
     .user--name {
       @include margin(0);
       font-size: $font-size-medium;
+    }
+
+    .user--profile__meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
       margin-left: $space-slab;
+    }
+
+    .user--profile__button {
+      color: $color-woot;
+      font-size: $font-size-mini;
+      margin-top: $space-micro;
+      cursor: pointer;
     }
   }
 }
