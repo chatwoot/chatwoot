@@ -39,7 +39,10 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <img class="current-user--thumbnail" :src="gravatarUrl()" />
+        <thumbnail
+          :src="gravatarUrl()"
+          :username="currentUser.name"
+        ></thumbnail>
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -67,6 +70,7 @@ import Auth from '../../api/auth';
 import SidebarItem from './SidebarItem';
 import WootStatusBar from '../widgets/StatusBar';
 import { frontendURL } from '../../helper/URLHelper';
+import Thumbnail from '../widgets/Thumbnail';
 
 export default {
   mixins: [clickaway, adminMixin],
@@ -144,7 +148,7 @@ export default {
     },
     gravatarUrl() {
       const hash = md5(this.currentUser.email);
-      return `${window.WootConstants.GRAVATAR_URL}${hash}?d=monsterid`;
+      return `${window.WootConstants.GRAVATAR_URL}${hash}?default=404`;
     },
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
@@ -154,6 +158,7 @@ export default {
   components: {
     SidebarItem,
     WootStatusBar,
+    Thumbnail,
   },
 };
 </script>

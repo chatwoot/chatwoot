@@ -2,7 +2,6 @@
 /* eslint-env browser */
 
 import Modal from './Modal';
-import Thumbnail from './Thumbnail';
 import Spinner from './Spinner';
 import SubmitButton from './buttons/FormSubmitButton';
 import Tabs from './ui/Tabs/Tabs';
@@ -14,7 +13,6 @@ import ModalHeader from './ModalHeader';
 
 const WootUIKit = {
   Modal,
-  Thumbnail,
   Spinner,
   SubmitButton,
   Tabs,
