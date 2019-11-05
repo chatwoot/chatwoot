@@ -23,8 +23,14 @@
           <tbody>
             <tr v-for="(agent, index) in agentList" :key="agent.email">
               <!-- Gravtar Image -->
+
               <td>
-                <img class="woot-thumbnail" :src="gravatarUrl(agent.email)" />
+                <thumbnail
+                  :src="gravatarUrl(agent.email)"
+                  class="columns"
+                  :username="agent.name"
+                  size="40px"
+                />
               </td>
               <!-- Agent Name + Email -->
               <td>
@@ -105,6 +111,7 @@
 
 import { mapGetters } from 'vuex';
 import md5 from 'md5';
+import Thumbnail from '../../../../components/widgets/Thumbnail';
 
 import AddAgent from './AddAgent';
 import EditAgent from './EditAgent';
@@ -115,6 +122,7 @@ export default {
     AddAgent,
     EditAgent,
     DeleteAgent,
+    Thumbnail,
   },
   data() {
     return {
@@ -166,7 +174,7 @@ export default {
     // Gravatar URL
     gravatarUrl(email) {
       const hash = md5(email);
-      return `${window.WootConstants.GRAVATAR_URL}${hash}?d=monsterid`;
+      return `${window.WootConstants.GRAVATAR_URL}${hash}?default=404`;
     },
     // Edit Function
     openAddPopup() {

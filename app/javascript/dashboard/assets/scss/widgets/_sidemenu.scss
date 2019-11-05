@@ -92,15 +92,10 @@
 }
 
 .current-user {
+  align-items: center;
   @include flex;
   flex-direction: row;
   cursor: pointer;
-
-  .current-user--thumbnail {
-    @include round-corner();
-    height: $space-large;
-    width: $space-large;
-  }
 
   .current-user--data {
     @include flex;
@@ -120,6 +115,7 @@
       font-size: $font-size-mini;
       margin-bottom: $zero;
       margin-left: $space-one;
+      text-transform: capitalize;
     }
   }
 
