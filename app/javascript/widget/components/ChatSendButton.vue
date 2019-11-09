@@ -2,12 +2,11 @@
   <button
     type="submit"
     :disabled="disabled"
-    class="button  send-button"
+    class="send-button"
     @click="onClick"
   >
     <span v-if="!loading" class="icon-holder">
       <img src="~widget/assets/images/message-send.svg" />
-      <span>Send</span>
     </span>
     <spinner v-else size="small" />
   </button>
@@ -42,10 +41,9 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .send-button {
-  align-items: center;
-  display: flex;
-  justify-content: space-around;
-  min-width: $space-big;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
   position: relative;
 
   .icon-holder {
@@ -54,10 +52,6 @@ export default {
     justify-content: center;
     fill: $color-white;
     font-weight: $font-weight-medium;
-
-    img {
-      margin-right: $space-small;
-    }
   }
 }
 </style>

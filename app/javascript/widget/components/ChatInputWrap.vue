@@ -1,14 +1,10 @@
 <template>
-  <div class="input-wrap">
-    <div>
-      <ChatInputArea v-model="userInput" :placeholder="placeholder" />
-    </div>
-    <div class="message-button-wrap">
-      <ChatSendButton
-        :on-click="handleButtonClick"
-        :disabled="!userInput.length"
-      />
-    </div>
+  <div class="chat-message--input">
+    <ChatInputArea v-model="userInput" :placeholder="placeholder" />
+    <ChatSendButton
+      :on-click="handleButtonClick"
+      :disabled="!userInput.length"
+    />
   </div>
 </template>
 
@@ -39,12 +35,25 @@ export default {
       userInput: '',
     };
   },
+  destroyed() {
+    document.removeEventListener('keypress', this.handleEnterKeyPress);
+  },
+  mounted() {
+    document.addEventListener('keypress', this.handleEnterKeyPress);
+  },
+
   methods: {
     handleButtonClick() {
-      if (this.userInput) {
+      if (this.userInput && this.userInput.trim()) {
         this.onSendMessage(this.userInput);
       }
       this.userInput = '';
+    },
+    handleEnterKeyPress(e) {
+      if (e.keyCode === 13 && !e.shiftKey) {
+        e.preventDefault();
+        this.handleButtonClick();
+      }
     },
   },
 };
@@ -53,13 +62,9 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 
-.input-wrap {
-  .message-button-wrap {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-top: $space-small;
-  }
+.chat-message--input {
+  align-items: center;
+  border-bottom: 1px $color-border-light solid;
+  display: flex;
 }
 </style>

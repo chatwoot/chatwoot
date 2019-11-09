@@ -3,9 +3,7 @@
     <div class="header-wrap">
       <ChatHeaderExpanded />
     </div>
-    <div class="conversation-wrap">
-      <ConversationWrap :messages="getConversation" />
-    </div>
+    <ConversationWrap :messages="getConversation" />
     <div class="footer-wrap">
       <ChatFooter :on-send-message="handleSendMessage" />
     </div>
@@ -15,7 +13,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 
-// import { DEFAULT_CONVERSATION } from 'widget/store/modules/conversation';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
@@ -34,19 +31,9 @@ export default {
         content,
       });
     },
-    scrollToBottom() {
-      const container = this.$el.querySelector('.conversation-wrap');
-      container.scrollTop = container.scrollHeight;
-    },
   },
   computed: {
     ...mapGetters('conversation', ['getConversation']),
-  },
-  mounted() {
-    this.scrollToBottom();
-  },
-  updated() {
-    this.scrollToBottom();
   },
 };
 </script>

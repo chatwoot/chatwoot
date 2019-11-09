@@ -1,6 +1,10 @@
 <template>
   <footer class="footer">
     <ChatInputWrap :on-send-message="onSendMessage" />
+    <a class="branding" href="https://www.chatwoot.com" target="_blank">
+      <img src="~widget/assets/images/logo.svg" />
+      <span>We run on Chatwoot</span>
+    </a>
   </footer>
 </template>
 
@@ -29,5 +33,21 @@ export default {
   box-sizing: border-box;
   padding: $space-small;
   width: 100%;
+}
+
+.branding {
+  align-items: center;
+  color: $color-body;
+  display: flex;
+  font-size: $font-size-default;
+  justify-content: center;
+  padding: $space-one;
+  text-align: center;
+  text-decoration: none;
+
+  img {
+    margin-right: $space-small;
+    max-width: $space-two;
+  }
 }
 </style>
