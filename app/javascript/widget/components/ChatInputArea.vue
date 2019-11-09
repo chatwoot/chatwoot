@@ -21,8 +21,7 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .user-message-input {
-  border-color: $color-white;
-  border-bottom-color: $color-border-light;
+  border: 0;
   height: $space-big;
   resize: none;
 }
