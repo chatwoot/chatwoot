@@ -43,9 +43,13 @@ class WidgetsController < ActionController::Base
     return @cookie_params if @cookie_params.present?
 
     if conversation_token.present?
-      @cookie_params = JWT.decode(
-        conversation_token, secret_key, true, algorithm: 'HS256'
-      ).first.symbolize_keys
+      begin
+        @cookie_params = JWT.decode(
+          conversation_token, secret_key, true, algorithm: 'HS256'
+        ).first.symbolize_keys
+      rescue StandardError
+        @cookie_params = {}
+      end
       return @cookie_params
     end
     {}
