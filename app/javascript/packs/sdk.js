@@ -105,8 +105,7 @@ function bubbleClickCallback() {
 }
 
 function onClickChatBubble() {
-  wootOn(chatBubble, 'click', bubbleClickCallback);
-  wootOn(closeBubble, 'click', bubbleClickCallback);
+  wootOn(bubbleHolder, 'click', bubbleClickCallback);
 }
 
 function disableScroll() {

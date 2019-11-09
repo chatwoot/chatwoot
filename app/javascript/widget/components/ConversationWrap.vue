@@ -1,5 +1,5 @@
 <template>
-  <section class="conversation">
+  <section class="conversation-wrap">
     <ChatMessage
       v-for="message in messages"
       :key="message.id"
@@ -19,14 +19,20 @@ export default {
   props: {
     messages: Object,
   },
+  mounted() {
+    this.scrollToBottom();
+  },
+  updated() {
+    this.scrollToBottom();
+  },
+  methods: {
+    scrollToBottom() {
+      const container = this.$el;
+      container.scrollTop =
+        container.scrollHeight < this.minScrollHeight
+          ? this.minScrollHeight
+          : container.scrollHeight;
+    },
+  },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.conversation {
-  height: 100%;
-}
-</style>
