@@ -23,6 +23,10 @@ export default {
 
   methods: {
     ...mapActions('conversation', ['fetchOldConversations']),
+    scrollConversationToBottom() {
+      const container = this.$el.querySelector('.conversation-wrap');
+      container.scrollTop = container.scrollHeight;
+    },
   },
 
   mounted() {
@@ -46,6 +50,8 @@ export default {
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (message.event === 'config-set') {
         this.fetchOldConversations();
+      } else if (message.event === 'widget-visible') {
+        this.scrollConversationToBottom();
       }
     });
   },
