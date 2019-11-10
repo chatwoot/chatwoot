@@ -25,7 +25,9 @@
           track-by="id"
           @select="assignAgent"
           @remove="removeAgent"
-        />
+        >
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
       </div>
       <ResolveButton />
     </div>
