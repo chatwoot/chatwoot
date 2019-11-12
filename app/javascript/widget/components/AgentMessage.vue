@@ -39,7 +39,7 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-end;
-  margin: 0 $space-smaller $space-micro auto;
+  margin: 0 0 $space-micro $space-small;
 
   & + .agent-message {
     margin-bottom: $space-micro;
