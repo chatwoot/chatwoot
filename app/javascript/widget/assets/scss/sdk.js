@@ -1,4 +1,26 @@
 export const SDK_CSS = `
+
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 .woot-widget-holder {
   z-index: 2147483000!important;
   position: fixed!important;
@@ -18,6 +40,8 @@ export const SDK_CSS = `
   border-radius: 8px!important;
   overflow: hidden!important;
   opacity: 1!important;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
 }
 
 .woot-widget-holder iframe { width: 100% !important; height: 100% !important; border: 0; }
@@ -62,6 +86,8 @@ export const SDK_CSS = `
 }
 
 .woot--hide {
-  display: none !important;
+  visibility: hidden !important;
+  z-index: -1!important;
 }
+
 `;

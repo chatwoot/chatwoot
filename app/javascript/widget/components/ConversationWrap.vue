@@ -5,15 +5,18 @@
       :key="message.id"
       :message="message"
     />
+    <branding></branding>
   </section>
 </template>
 
 <script>
+import Branding from 'widget/components/Branding.vue';
 import ChatMessage from 'widget/components/ChatMessage.vue';
 
 export default {
   name: 'ConversationWrap',
   components: {
+    Branding,
     ChatMessage,
   },
   props: {

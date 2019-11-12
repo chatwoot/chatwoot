@@ -64,7 +64,6 @@ export default {
 
 .chat-message--input {
   align-items: center;
-  border-bottom: 1px $color-border-light solid;
   display: flex;
 }
 </style>

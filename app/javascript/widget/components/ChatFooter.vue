@@ -1,10 +1,6 @@
 <template>
   <footer class="footer">
     <ChatInputWrap :on-send-message="onSendMessage" />
-    <a class="branding" href="https://www.chatwoot.com" target="_blank">
-      <img src="~widget/assets/images/logo.svg" />
-      <span>We run on Chatwoot</span>
-    </a>
   </footer>
 </template>
 

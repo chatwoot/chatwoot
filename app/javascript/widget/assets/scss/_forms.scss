@@ -9,7 +9,6 @@ $input-height: $space-two * 2;
 
   appearance: none;
   background: $color-white;
-  border: $form-border-width solid $color-border;
   border-radius: $border-radius;
   box-sizing: border-box;
   color: $color-body;
@@ -19,7 +18,7 @@ $input-height: $space-two * 2;
   line-height: 1.3;
   max-width: 100%;
   outline: none;
-  padding: $space-small $space-slab;
+  padding: $space-smaller;
   position: relative;
   transition: background .2s, border .2s, box-shadow .2s, color .2s;
   width: 100%;
