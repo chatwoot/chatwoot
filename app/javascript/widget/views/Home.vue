@@ -53,12 +53,6 @@ export default {
     flex-shrink: 0;
   }
 
-  .conversation-wrap {
-    flex: 1;
-    overflow-y: auto;
-    padding: $space-large $space-small $zero $space-small;
-  }
-
   .footer-wrap {
     flex-shrink: 0;
   }
