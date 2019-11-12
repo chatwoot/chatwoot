@@ -1,12 +1,14 @@
 <template>
-  <section class="conversation-wrap">
-    <ChatMessage
-      v-for="message in messages"
-      :key="message.id"
-      :message="message"
-    />
+  <div class="conversation--container">
+    <div class="conversation-wrap">
+      <ChatMessage
+        v-for="message in messages"
+        :key="message.id"
+        :message="message"
+      />
+    </div>
     <branding></branding>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -39,3 +41,19 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~widget/assets/scss/woot.scss';
+
+.conversation--container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.conversation-wrap {
+  flex: 1;
+  padding: $space-large $space-small $zero $space-small;
+}
+</style>
