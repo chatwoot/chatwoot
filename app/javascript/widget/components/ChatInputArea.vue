@@ -22,7 +22,7 @@ export default {
 
 .user-message-input {
   border: 0;
-  height: $space-big;
+  height: $space-large;
   resize: none;
 }
 </style>
