@@ -1,4 +1,5 @@
 export const SDK_CSS = `
+
 .woot-widget-holder {
   z-index: 2147483000!important;
   position: fixed!important;
@@ -17,7 +18,9 @@ export const SDK_CSS = `
   -webkit-border-radius: 8px!important;
   border-radius: 8px!important;
   overflow: hidden!important;
-  opacity: 1!important;
+  opacity: 1;
+  transition-property: opacity, bottom;
+  transition-duration: 0.5s, 0.5s;
 }
 
 .woot-widget-holder iframe { width: 100% !important; height: 100% !important; border: 0; }
@@ -62,6 +65,10 @@ export const SDK_CSS = `
 }
 
 .woot--hide {
-  display: none !important;
+  visibility: hidden !important;
+  z-index: -1!important;
+  opacity: 0;
+  bottom: 60px;
 }
+
 `;
