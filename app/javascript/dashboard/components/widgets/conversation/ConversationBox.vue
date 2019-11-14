@@ -1,7 +1,11 @@
 <template>
-  <div class="medium-8 columns conversation-wrap">
+  <div :class="conversationClass">
     <div v-if="currentChat.id !== null" class="view-box columns">
-      <conversation-header :chat="currentChat" />
+      <conversation-header
+        :chat="currentChat"
+        :is-contact-panel-open="isContactPanelOpen"
+        @contactPanelToggle="onToggleContactPanel"
+      />
       <ul class="conversation-panel">
         <transition name="slide-up">
           <li>
@@ -104,6 +108,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+    isContactPanelOpen: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -124,6 +132,11 @@ export default {
       fetchingInboxes: 'getInboxLoadingStatus',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+    conversationClass() {
+      return `medium-${
+        this.isContactPanelOpen ? '5' : '8'
+      } columns conversation-wrap`;
+    },
     // Loading indicator
     // Returns corresponding loading message
     loadingIndicatorMessage() {
@@ -191,6 +204,10 @@ export default {
       setTimeout(() => {
         this.attachListner();
       }, 0);
+    },
+
+    onToggleContactPanel() {
+      this.$emit('contactPanelToggle');
     },
 
     attachListner() {

@@ -13,12 +13,14 @@
       class="user-thumbnail"
       background-color="#1f93ff"
       color="white"
+      :size="avatarSize"
     >
     </Avatar>
     <img
       v-if="badge === 'Facebook'"
       id="badge"
       class="source-badge"
+      :style="badgeStyle"
       src="~dashboard/assets/images/fb-badge.png"
     />
   </div>
@@ -57,6 +59,15 @@ export default {
     return {
       imgError: false,
     };
+  },
+  computed: {
+    avatarSize() {
+      return Number(this.size.replace(/\D+/g, ''));
+    },
+    badgeStyle() {
+      const badgeSize = `${this.avatarSize / 3}px`;
+      return { width: badgeSize, height: badgeSize };
+    },
   },
   methods: {
     onImgError() {

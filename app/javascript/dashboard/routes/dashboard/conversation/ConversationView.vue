@@ -1,7 +1,17 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversationInbox="inboxId" :pageTitle="$t('CHAT_LIST.TAB_HEADING')" ></chat-list>
-    <conversation-box :inbox-id="inboxId"></conversation-box>
+    <chat-list
+      :conversation-inbox="inboxId"
+      :page-title="$t('CHAT_LIST.TAB_HEADING')"
+    >
+    </chat-list>
+    <conversation-box
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      @contactPanelToggle="onToggleContactPanel"
+    >
+    </conversation-box>
+    <contact-panel v-if="isContactPanelOpen"></contact-panel>
   </section>
 </template>
 
@@ -11,17 +21,20 @@
 import { mapGetters } from 'vuex';
 
 import ChatList from '../../../components/ChatList';
+import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 
 export default {
   components: {
     ChatList,
+    ContactPanel,
     ConversationBox,
   },
 
   data() {
     return {
       pageTitle: this.$state,
+      isContactPanelOpen: false,
     };
   },
   computed: {
@@ -61,6 +74,9 @@ export default {
       this.$store.dispatch('setActiveChat', chat).then(() => {
         bus.$emit('scrollToMessage');
       });
+    },
+    onToggleContactPanel() {
+      this.isContactPanelOpen = !this.isContactPanelOpen;
     },
   },
 };
