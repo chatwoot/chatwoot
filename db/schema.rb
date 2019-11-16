@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_27_054756) do
+ActiveRecord::Schema.define(version: 2019_11_16_073924) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -101,6 +102,7 @@ ActiveRecord::Schema.define(version: 2019_10_27_054756) do
     t.datetime "user_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
+    t.jsonb "additional_attributes"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
   end

@@ -158,6 +158,7 @@ GEM
     bootsnap (1.4.5)
       msgpack (~> 1.0)
     brakeman (4.7.0)
+    browser (2.7.0)
     buftok (0.2.0)
     builder (3.2.3)
     byebug (11.0.1)
@@ -454,6 +455,7 @@ DEPENDENCIES
   attr_extras
   bootsnap
   brakeman
+  browser
   byebug
   carrierwave-aws
   chargebee (~> 2)
