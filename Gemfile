@@ -12,6 +12,7 @@ gem 'therubyracer', platforms: :ruby
 ##-- rails helper gems --##
 gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on'
 gem 'attr_extras'
+gem 'browser'
 gem 'hashie'
 gem 'jbuilder', '~> 2.5'
 gem 'kaminari'
