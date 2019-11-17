@@ -36,7 +36,6 @@ export default {
     }),
   },
   mounted() {
-    /* eslint-disable no-confusing-arrow */
     document.addEventListener('keydown', this.keyListener);
   },
   beforeDestroy() {
