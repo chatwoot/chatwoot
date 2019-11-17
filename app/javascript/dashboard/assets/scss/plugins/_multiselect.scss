@@ -9,7 +9,7 @@
     border: 1px solid $light-gray;
     @include margin(0);
 
-    .multiselect__placeholder{
+    .multiselect__placeholder {
       padding-top: $space-small;
     }
 
@@ -30,13 +30,13 @@
   }
 
   .multiselect__select {
-    top: 0;
-    right: 0;
     padding: 0;
+    right: 0;
+    top: 0;
 
-    &:before {
-      top: 60%;
+    &::before {
       right: 0;
+      top: 60%;
     }
   }
 }
