@@ -17,7 +17,7 @@
     >
     </Avatar>
     <img
-      v-if="badge === 'Facebook'"
+      v-if="badge === 'Channel::FacebookPage'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
