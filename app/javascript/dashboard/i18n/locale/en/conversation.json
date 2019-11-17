@@ -14,7 +14,7 @@
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line.This will be visible only to Agents"
+      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
     },
     "REPLYBOX": {
       "SEND": "Send",

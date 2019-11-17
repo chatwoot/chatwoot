@@ -12,7 +12,7 @@ json.data do
           json.id conversation.contact.id
           json.name conversation.contact.name
           json.thumbnail conversation.contact.avatar.thumb.url
-          json.channel conversation.inbox.try(:channel).try(:name)
+          json.channel conversation.inbox.try(:channel_type)
         end
         json.assignee conversation.assignee
       end

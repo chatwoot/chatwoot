@@ -9,6 +9,10 @@ module Channel
     has_one :inbox, as: :channel, dependent: :destroy
     has_secure_token :website_token
 
+    def name
+      'Website'
+    end
+
     def create_contact_inbox
       ActiveRecord::Base.transaction do
         contact = inbox.account.contacts.create!(name: ::Haikunator.haikunate(1000))
