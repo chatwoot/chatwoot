@@ -1,10 +1,7 @@
 .emoji-dialog {
   @include elegant-card;
   background: $color-white;
-  border-radius: 2px;
   box-sizing: content-box;
-  height: 20rem;
-  padding-bottom: $space-two;
   position: absolute;
   right: 0;
   top: -22rem;
@@ -19,7 +16,7 @@
 
   .emojione {
     @include margin($zero);
-    font-size: $font-size-small;
+    font-size: $font-size-medium;
   }
 
   .emoji-row {
@@ -27,7 +24,6 @@
     box-sizing: border-box;
     height: 180px;
     overflow-y: scroll;
-    padding-bottom: 0;
 
     .emoji {
       border-radius: 4px;
@@ -67,7 +63,7 @@
     padding: $space-smaller 0 0;
 
     > li {
-      @include padding($space-small $space-small);
+      @include padding($space-smaller $space-small);
       box-sizing: border-box;
       cursor: pointer;
       display: inline-block;
@@ -98,9 +94,4 @@
     display: table-cell;
     vertical-align: middle;
   }
-}
-
-.emoji-dialog .emoji-row,
-.emoji-dialog .emoji-row .emoji:hover {
-  background: $color-extra-light-blue;
 }

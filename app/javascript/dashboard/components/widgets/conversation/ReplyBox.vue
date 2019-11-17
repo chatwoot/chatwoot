@@ -2,7 +2,7 @@
   <div class="reply-box">
     <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
       <canned-response
-        v-if="showCannedModal"
+        v-if="showCannedResponsesList"
         v-on-clickaway="hideCannedResponse"
         data-dropdown-menu
         :on-keyenter="replaceText"
@@ -88,12 +88,22 @@ export default {
       message: '',
       isPrivate: false,
       showEmojiPicker: false,
-      showCannedModal: false,
+      showCannedResponsesList: false,
     };
   },
-  computed: mapGetters({
-    currentChat: 'getSelectedChat',
-  }),
+  computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+    }),
+    channelType() {
+      const {
+        meta: {
+          sender: { channel },
+        },
+      } = this.currentChat;
+      return channel;
+    },
+  },
   components: {
     EmojiInput,
     CannedResponse,
@@ -107,7 +117,7 @@ export default {
       const hasNextWord = val.indexOf(' ') > -1;
       const isShortCodeActive = isSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.showCannedModal = true;
+        this.showCannedResponsesList = true;
         if (val.length > 1) {
           const searchKey = val.substr(1, val.length);
           this.$store.dispatch('getCannedResponse', {
@@ -117,26 +127,28 @@ export default {
           this.$store.dispatch('getCannedResponse');
         }
       } else {
-        this.showCannedModal = false;
+        this.showCannedResponsesList = false;
       }
     },
   },
   mounted() {
-    /* eslint-disable no-confusing-arrow */
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', this.handleKeyEvents);
+  },
+  destroyed() {
+    document.removeEventListener('keydown', this.handleKeyEvents);
+  },
+  methods: {
+    handleKeyEvents(e) {
       if (this.isEscape(e)) {
         this.hideEmojiPicker();
         this.hideCannedResponse();
-      }
-      if (this.isEnter(e)) {
+      } else if (this.isEnter(e)) {
         if (!e.shiftKey) {
           e.preventDefault();
           this.sendMessage();
         }
       }
-    });
-  },
-  methods: {
+    },
     isEnter(e) {
       return e.keyCode === 13;
     },
@@ -144,11 +156,11 @@ export default {
       return e.keyCode === 27; // ESCAPE
     },
     sendMessage() {
-      const messageHasOnlyNewLines = !this.message.replace(/\n/g, '').length;
-      if (messageHasOnlyNewLines) {
+      const isMessageEmpty = !this.message.replace(/\n/g, '').length;
+      if (isMessageEmpty) {
         return;
       }
-      if (this.message.length !== 0 && !this.showCannedModal) {
+      if (!this.showCannedResponsesList) {
         this.$store
           .dispatch('sendMessage', {
             conversationId: this.currentChat.id,
@@ -165,7 +177,7 @@ export default {
     replaceText(message) {
       setTimeout(() => {
         this.message = message;
-      }, 200);
+      }, 100);
     },
     makePrivate() {
       this.isPrivate = true;
@@ -192,7 +204,7 @@ export default {
       }
     },
     hideCannedResponse() {
-      this.showCannedModal = false;
+      this.showCannedResponsesList = false;
     },
 
     onBlur() {
@@ -203,18 +215,22 @@ export default {
       this.toggleTyping('on');
     },
     markSeen() {
-      this.$store.dispatch('markSeen', {
-        inboxId: this.currentChat.inbox_id,
-        contactId: this.currentChat.meta.sender.id,
-      });
+      if (this.channelType !== 'Channel::FacebookPage') {
+        this.$store.dispatch('markSeen', {
+          inboxId: this.currentChat.inbox_id,
+          contactId: this.currentChat.meta.sender.id,
+        });
+      }
     },
 
     toggleTyping(status) {
-      this.$store.dispatch('toggleTyping', {
-        status,
-        inboxId: this.currentChat.inbox_id,
-        contactId: this.currentChat.meta.sender.id,
-      });
+      if (this.channelType !== 'Channel::FacebookPage') {
+        this.$store.dispatch('toggleTyping', {
+          status,
+          inboxId: this.currentChat.inbox_id,
+          contactId: this.currentChat.meta.sender.id,
+        });
+      }
     },
     disableButton() {
       const messageHasOnlyNewLines = !this.message.replace(/\n/g, '').length;
