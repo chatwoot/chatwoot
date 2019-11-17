@@ -9,6 +9,10 @@
     border: 1px solid $light-gray;
     @include margin(0);
 
+    .multiselect__placeholder{
+      padding-top: $space-small;
+    }
+
     .multiselect__tag {
       margin-top: $space-smaller;
     }
@@ -22,6 +26,17 @@
     .multiselect__single {
       @include padding($space-small);
       margin-bottom: 0;
+    }
+  }
+
+  .multiselect__select {
+    top: 0;
+    right: 0;
+    padding: 0;
+
+    &:before {
+      top: 60%;
+      right: 0;
     }
   }
 }
