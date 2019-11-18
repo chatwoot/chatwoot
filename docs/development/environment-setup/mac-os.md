@@ -99,4 +99,4 @@ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 brew install imagemagick
 ```
 
-Next: Read project setup to install project dependencies
+Next: [Read project setup to install project dependencies](https://www.chatwoot.com/docs/dependencies) 
