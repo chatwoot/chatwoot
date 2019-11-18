@@ -101,4 +101,4 @@ sudo systemctl enable redis-server.service
 sudo apt-get install imagemagick
 ```
 
-Next: Read project setup to install project dependencies
+Next: [Read project setup to install project dependencies](https://www.chatwoot.com/docs/dependencies)
