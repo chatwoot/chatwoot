@@ -37,16 +37,16 @@ source ~/.rvm/scripts/rvm
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.3
+Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.5
 
 ```bash
-rvm install ruby-2.6.3
+rvm install ruby-2.6.5
 ```
 
-Use ruby 2.6.3 as default
+Use ruby 2.6.5 as default
 
 ```bash
-rvm use 2.6.3 --default
+rvm use 2.6.5 --default
 ```
 
 ### Install Node.js
