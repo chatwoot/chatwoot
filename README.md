@@ -22,7 +22,7 @@ ___
 yarn install
 ```
 
-### Install ImageMagik
+### Install ImageMagick
 
 ```bash
 brew install imagemagick
