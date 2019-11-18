@@ -1,0 +1,18 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:12-alpine
+  redis:
+    image: redis:alpine
+  web:
+    build: ..
+    image: chatwoot
+    environment:
+      DB_NAME: 'postgres'
+      #DB_PASS: ''
+      #SECRET_KEY_BASE: ''
+    ports:
+      - '3000:3000'
+    links:
+      - redis:redis
+      - postgres:postgres

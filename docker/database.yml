@@ -1,0 +1,25 @@
+# vim: set ft=yaml:
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: <%= ENV.fetch("DB_HOST") %>
+
+development:
+  <<: *default
+  username: postgres
+  password:
+  database: chatwoot_dev
+
+test:
+  <<: *default
+  username: postgres
+  password:
+  database: chatwoot_test
+
+production:
+  <<: *default
+  database: <%= ENV.fetch("DB_NAME") %>
+  username: <%= ENV.fetch("DB_USER") %>
+  password: <%= ENV.fetch("DB_PASS") %>

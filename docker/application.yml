@@ -1,0 +1,32 @@
+# vim: set ft=yaml:
+
+#fb app
+fb_verify_token: '<%= ENV.fetch("FB_VERIFY_TOKEN") %>'
+fb_app_secret: '<%= ENV.fetch("FB_APP_SECRET") %>'
+fb_app_id: '<%= ENV.fetch("FB_APP_ID") %>'
+
+#ses
+ses_address: '<%= ENV.fetch("SES_ADDRESS") %>'
+ses_username: '<%= ENV.fetch("SES_USERNAME") %>'
+ses_password: '<%= ENV.fetch("SES_PASSWORD") %>'
+
+#misc
+frontend_url: '<%= ENV.fetch("FRONTEND_URL") %>'
+
+#s3
+S3_BUCKET_NAME: '<%= ENV.fetch("S3_BUCKET_NAME") %>'
+AWS_ACCESS_KEY_ID: '<%= ENV.fetch("AWS_ACCESS_KEY_ID") %>'
+AWS_SECRET_ACCESS_KEY: '<%= ENV.fetch("AWS_SECRET_ACCESS_KEY") %>'
+AWS_REGION: '<%= ENV.fetch("AWS_REGION") %>'
+
+#chargebee
+CHARGEBEE_API_KEY: '<%= ENV.fetch("CHARGEBEE_API_KEY") %>'
+CHARGEBEE_SITE: '<%= ENV.fetch("CHARGEBEE_SITE") %>'
+CHARGEBEE_WEBHOOK_USERNAME: '<%= ENV.fetch("CHARGEBEE_WEBHOOK_USERNAME") %>'
+CHARGEBEE_WEBHOOK_PASSWORD: '<%= ENV.fetch("CHARGEBEE_WEBHOOK_PASSWORD") %>'
+
+#sentry
+SENTRY_DSN: '<%= ENV.fetch("SENTRY_DSN") %>'
+
+#redis
+REDIS_URL: '<%= ENV.fetch("REDIS_URL") %>'
