@@ -10,7 +10,7 @@ ses_username:
 ses_password:
 
 #misc
-frontend_url: ''
+frontend_url: 'http://localhost:3000'
 
 #s3
 
@@ -29,4 +29,4 @@ CHARGEBEE_WEBHOOK_PASSWORD: ''
 #sentry
 SENTRY_DSN: ''
 
-REDIS_URL: ''
+REDIS_URL: 'redis:://127.0.0.1:6379'
