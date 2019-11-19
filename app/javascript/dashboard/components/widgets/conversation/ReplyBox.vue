@@ -215,7 +215,7 @@ export default {
       this.toggleTyping('on');
     },
     markSeen() {
-      if (this.channelType !== 'Channel::FacebookPage') {
+      if (this.channelType === 'Channel::FacebookPage') {
         this.$store.dispatch('markSeen', {
           inboxId: this.currentChat.inbox_id,
           contactId: this.currentChat.meta.sender.id,
@@ -224,7 +224,7 @@ export default {
     },
 
     toggleTyping(status) {
-      if (this.channelType !== 'Channel::FacebookPage') {
+      if (this.channelType === 'Channel::FacebookPage') {
         this.$store.dispatch('toggleTyping', {
           status,
           inboxId: this.currentChat.inbox_id,
