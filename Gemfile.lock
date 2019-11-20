@@ -256,7 +256,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.19)
     listen (3.2.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -331,7 +330,6 @@ GEM
       redis-store (>= 1.6, < 2)
     redis-store (1.8.0)
       redis (>= 4, < 5)
-    ref (2.0.0)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -394,9 +392,6 @@ GEM
       faraday
       inflecto
       virtus
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.20.3)
     thread_safe (0.3.6)
     time_diff (0.3.0)
@@ -499,7 +494,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   telegram-bot-ruby
-  therubyracer
   time_diff
   twitter
   tzinfo-data
