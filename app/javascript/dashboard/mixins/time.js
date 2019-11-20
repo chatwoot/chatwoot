@@ -15,12 +15,7 @@ export default {
     },
     dynamicTime(time) {
       const createdAt = moment(time * 1000);
-      return createdAt.calendar(null, {
-        sameDay: 'h:mm A',
-        lastDay: '[Yesterday]',
-        lastWeek: 'ddd',
-        sameElse: 'D MMM',
-      });
+      return createdAt.fromNow();
     },
   },
 };

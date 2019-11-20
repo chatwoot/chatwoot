@@ -14,7 +14,7 @@ class WidgetsController < ActionController::Base
       source_id: cookie_params[:source_id]
     )
 
-    @contact = contact_inbox.contact
+    @contact = contact_inbox ? contact_inbox.contact : nil
   end
 
   def set_token
