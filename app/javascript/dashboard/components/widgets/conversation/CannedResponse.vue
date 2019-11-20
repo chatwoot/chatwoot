@@ -75,8 +75,7 @@ export default {
       if (this.isEnter(e)) {
         this.onKeyenter(this.cannedMessages[this.selectedIndex].content);
       }
-      this.$el.querySelector('#canned-list').scrollTop =
-        34 * this.selectedIndex;
+      this.$el.scrollTop = 34 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
