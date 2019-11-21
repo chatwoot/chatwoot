@@ -18,8 +18,15 @@
             <tr v-for="item in inboxesList" :key="item.id">
               <td>
                 <img
+                  v-if="item.avatarUrl"
                   class="woot-thumbnail"
                   :src="item.avatarUrl"
+                  alt="No Page Image"
+                />
+                <img
+                  v-else
+                  class="woot-thumbnail"
+                  src="~dashboard/assets/images/flag.svg"
                   alt="No Page Image"
                 />
               </td>
