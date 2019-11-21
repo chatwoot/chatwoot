@@ -150,10 +150,9 @@ export default {
       } else {
         copyList = this.allChatList.slice();
       }
-      const sorted = copyList.sort((a, b) =>
-        this.wootTime(this.lastMessage(a).created_at).isBefore(
-          this.wootTime(this.lastMessage(b).created_at)
-        )
+      const sorted = copyList.sort(
+        (a, b) =>
+          this.lastMessage(b).created_at - this.lastMessage(a).created_at
       );
 
       return sorted;
