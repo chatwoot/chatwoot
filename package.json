@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "docs": "docsify serve docs",
     "eslint": "eslint app/javascript --fix",
     "pretest": "rimraf .jest-cache",
     "test": "jest --no-cache",
