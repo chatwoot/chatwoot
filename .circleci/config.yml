@@ -34,6 +34,10 @@ jobs:
           command: bundle check || bundle install
 
       - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
           name: Rubocop
           command: bundle exec rubocop
 
