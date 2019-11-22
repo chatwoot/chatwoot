@@ -161,6 +161,11 @@ GEM
     browser (2.7.0)
     buftok (0.2.0)
     builder (3.2.3)
+    bundle-audit (0.1.0)
+      bundler-audit
+    bundler-audit (0.6.1)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 0.18)
     byebug (11.0.1)
     carrierwave (2.0.2)
       activemodel (>= 5.0.0)
@@ -451,6 +456,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   browser
+  bundle-audit
   byebug
   carrierwave-aws
   chargebee (~> 2)

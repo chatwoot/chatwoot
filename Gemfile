@@ -80,6 +80,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
   gem 'faker'
