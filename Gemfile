@@ -4,7 +4,7 @@ ruby '2.6.5'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6', github: 'rails/rails'
+gem 'rails', '~> 6', git: 'https://github.com/rails/rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
