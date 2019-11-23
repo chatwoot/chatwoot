@@ -65,12 +65,6 @@ jobs:
           name: test
           command: yarn test
 
-      - run:
-          name: Copy files
-          command: |
-            cp shared/config/database.yml config/database.yml
-            cp shared/config/application.yml config/application.yml
-
       # Store yarn / webpacker cache
       - save_cache:
           key: chatwoot-yarn-{{ checksum "yarn.lock" }}

@@ -44,7 +44,7 @@ module Integrations
       end
 
       def sent_from_chatwoot_app?
-        app_id && app_id == ENV['fb_app_id'].to_i
+        app_id && app_id == ENV['FB_APP_ID'].to_i
       end
     end
   end
