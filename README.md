@@ -24,48 +24,11 @@ Chatwoot is a customer support tool for instant messaging channels which can hel
 
 Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and we are building it in the open. Thanks to the ideas and contributions from the community.
 
-## Quick Setup
+## Documentation
 
-### Install JS dependencies
+Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatwoot.com/docs).
 
-``` bash
-yarn install
-```
-
-### Install ImageMagick
-
-```bash
-brew install imagemagick
-```
-
-### Setup rails server
-
-```bash
-# install ruby dependencies
-bundle
-
-# Copy configurations
-./configure
-
-# run db migrations
-bundle exec rake db:create
-bundle exec rake db:reset
-
-# fireup the server
-foreman start -f Procfile.dev
-```
-
-### Login with credentials
-
-```bash
-http://localhost:3000
-user name: john@acme.inc
-password: 123456
-```
-
-## Detailed documentation
-
-Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatwoot.com/docs)
+You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-setup).
 
 ## Contributors ✨
 

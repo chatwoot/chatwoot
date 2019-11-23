@@ -1,4 +1,4 @@
-uri = URI.parse(ENV['REDIS_URL'])
+uri = URI.parse(ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'))
 redis = Rails.env.test? ? MockRedis.new : Redis.new(url: uri)
 Nightfury.redis = Redis::Namespace.new('reports', redis: redis)
 
