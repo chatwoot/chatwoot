@@ -3,8 +3,6 @@ path: "/docs/quick-setup"
 title: "Quick Setup"
 ---
 
-## Quick Setup
-
 ### Install Ruby dependencies
 
 Use the following command to install ruby dependencies.
@@ -57,11 +55,12 @@ docker-compose build
 ```
 
 Remove the `node_modules` directory from the root if it exists and run the following command.
+
 ```bash
 docker-compose run server yarn install
 ```
 
-If in case you encounter a seeding issue or you want reset the database you can do it using the following command : 
+If in case you encounter a seeding issue or you want reset the database you can do it using the following command :
 
 ```bash
 docker-compose run server bundle exec rake db:reset
@@ -85,6 +84,6 @@ On the root directory run the following command :
 docker image build -f docker/Dockerfile .
 ```
 
-This will build the image which you can depoy in Kubernetes (GCP, Openshift, AWS, Azure or anywhere), Amazon ECS or Docker Swarm. You can tag this image and push this image to docker registry of your choice. 
+This will build the image which you can depoy in Kubernetes (GCP, Openshift, AWS, Azure or anywhere), Amazon ECS or Docker Swarm. You can tag this image and push this image to docker registry of your choice.
 
 Remember to make the required environment variables available during the deployment.

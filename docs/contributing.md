@@ -7,8 +7,7 @@ Thanks for taking interest in contributing to Chatwoot source code. Before submi
 
 - [Code of Conduct](https://www.chatwoot.com/docs/code-of-conduct)
 - [Development Setup](https://www.chatwoot.com/docs/installation-guide-ubuntu)
-- [Project Dependencies](https://www.chatwoot.com/docs/dependencies)
-- [Environment Setup](https://www.chatwoot.com/docs/environment-variables)
+- [Environment Setup](https://www.chatwoot.com/docs/quick-setup)
 
 ## Pull Request Guidelines
 
