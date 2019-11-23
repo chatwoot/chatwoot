@@ -38,6 +38,14 @@ Remove the `node_modules` directory from the root if it exists and run the follo
 docker-compose run server yarn install
 ```
 
+If in case you encounter a seeding issue or you want reset the database you can do it using the following command : 
+
+```bash
+docker-compose run server bundle exec rake db:reset
+```
+
+This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
+
 Now you should be able to run :
 
 ```bash
@@ -45,15 +53,6 @@ docker-compose up
 ```
 
 to see the application up and running.
-
-If in case you encounter a seeding issue or you want reset the database you can do it using the following command
-
-```bash
-docker-compose run server bundle exec rake db:seed
-```
-
-This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
-
 
 ### Docker for production
 

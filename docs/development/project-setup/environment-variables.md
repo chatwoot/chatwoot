@@ -67,3 +67,12 @@ You can set the following environment variable to set the host for postgres.
 ```bash
 POSTGRES_HOST=localhost
 ```
+
+For production and testing you have the following variables for defining the postgres database,
+username and password.
+
+```bash
+POSTGRES_DATABASE=chatwoot_production
+POSTGRES_USERNAME=admin
+POSTGRES_PASSWORD=password
+```
