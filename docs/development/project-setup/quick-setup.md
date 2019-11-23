@@ -1,7 +1,9 @@
 ---
-path: "/docs/dependencies"
-title: "Project Dependencies"
+path: "/docs/quick-setup"
+title: "Quick Setup"
 ---
+
+## Quick Setup
 
 ### Install Ruby dependencies
 
@@ -19,6 +21,26 @@ yarn
 
 This would install all required dependencies for Chatwoot application.
 
+Please refer to [environment-variables](./environment-variables) to read on setting environment variables.
+
+### Setup rails server
+
+```bash
+# run db migrations
+bundle exec rake db:create
+bundle exec rake db:reset
+
+# fireup the server
+foreman start -f Procfile.dev
+```
+
+### Login with credentials
+
+```bash
+http://localhost:3000
+user name: john@acme.inc
+password: 123456
+```
 
 ### Docker for development
 
