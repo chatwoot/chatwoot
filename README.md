@@ -44,9 +44,6 @@ brew install imagemagick
 # install ruby dependencies
 bundle
 
-# Copy configurations
-./configure
-
 # run db migrations
 bundle exec rake db:create
 bundle exec rake db:reset

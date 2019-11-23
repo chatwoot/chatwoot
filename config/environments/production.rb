@@ -56,12 +56,12 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "chatwoot_production"
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { :host => ENV['frontend_url'] }
+  config.action_mailer.default_url_options = { :host => ENV['FRONTEND_URL'] }
   config.action_mailer.smtp_settings = {
-    :address => ENV['ses_address'],
+    :address => ENV['SES_ADDRESS'],
     :port => 587,
-    :user_name => ENV["ses_username"],
-    :password => ENV["ses_password"],
+    :user_name => ENV["SES_USERNAME"],
+    :password => ENV["SES_PASSWORD"],
     :authentication => :login,
     :enable_starttls_auto => true
   }
