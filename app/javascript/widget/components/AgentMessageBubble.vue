@@ -1,12 +1,13 @@
 <template>
-  <div class="chat-bubble agent">
-    {{ message }}
-  </div>
+  <div class="chat-bubble agent" v-html="formatMessage(message)"></div>
 </template>
 
 <script>
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+
 export default {
   name: 'AgentMessageBubble',
+  mixins: [messageFormatterMixin],
   props: {
     message: String,
   },
