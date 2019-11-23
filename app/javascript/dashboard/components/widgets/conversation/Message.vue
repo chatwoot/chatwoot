@@ -42,6 +42,7 @@
 </template>
 <script>
 /* eslint-disable no-named-as-default */
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import getEmojiSVG from '../emoji/utils';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
@@ -56,7 +57,7 @@ export default {
     BubbleMap,
     BubbleAudio,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, messageFormatterMixin],
   props: {
     data: {
       type: Object,
@@ -70,8 +71,7 @@ export default {
   },
   computed: {
     message() {
-      const linkifiedMessage = this.linkify(this.data.content);
-      return linkifiedMessage.replace(/\n/g, '<br>');
+      return this.formatMessage(this.data.content);
     },
     alignBubble() {
       return this.data.message_type === 1 ? 'right' : 'left';
@@ -106,14 +106,6 @@ export default {
   },
   methods: {
     getEmojiSVG,
-    linkify(text) {
-      if (!text) return text;
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      return text.replace(
-        urlRegex,
-        url => `<a href="${url}" target="_blank">${url}</a>`
-      );
-    },
   },
 };
 </script>
