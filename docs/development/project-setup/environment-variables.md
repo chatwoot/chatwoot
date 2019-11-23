@@ -3,6 +3,7 @@ path: "/docs/environment-variables"
 title: "Environment Variables"
 ---
 
+
 ### Database configuration
 
 Use the following values in database.yml which lives inside `config` directory.
@@ -14,8 +15,6 @@ development:
   password:
   database: chatwoot_dev
 ```
-
-## Environment Variables
 
 We use `dotenv-rails` gem to manage the environment variables. There is a file called `env.example` in the root directory of this project with all the environment variables set to empty value. You can set the correct values as per the following options. Once you set the values, you should rename the file to `.env` before you start the server.
 
