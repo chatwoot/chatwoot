@@ -48,10 +48,11 @@ If you are using docker for the development follow the following steps.
 
 We are running postgres and redis services along with chatwoot server using docker-compose.
 
-Create a volume for postgres so that you data will persist even if the postgress container goes down.
+Create a volume for postgres and redis so that you data will persist even if the containers goes down.
 
 ```bash
 docker volume create --name=postgres
+docker volume create --name=redis
 docker-compose build
 ```
 
