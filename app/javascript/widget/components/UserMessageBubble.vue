@@ -1,12 +1,13 @@
 <template>
-  <div class="chat-bubble user">
-    {{ message }}
-  </div>
+  <div class="chat-bubble user" v-html="formatMessage(message)"></div>
 </template>
 
 <script>
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+
 export default {
   name: 'UserMessageBubble',
+  mixins: [messageFormatterMixin],
   props: {
     message: String,
   },
@@ -28,6 +29,11 @@ export default {
   line-height: 1.5;
   max-width: 80%;
   padding: $space-small $space-two;
+  text-align: left;
+
+  a {
+    color: $color-white;
+  }
 
   &.user {
     border-bottom-right-radius: $space-smaller;
