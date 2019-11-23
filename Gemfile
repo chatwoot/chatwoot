@@ -4,7 +4,7 @@ ruby '2.6.5'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6', github: 'rails/rails'
+gem 'rails', '~> 6', git: 'https://github.com/rails/rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -27,7 +27,7 @@ gem 'redis-namespace'
 gem 'redis-rack-cache'
 
 ##--- gems for server & infra configuration ---##
-gem 'figaro'
+gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma', '~> 3.0'
 gem 'webpacker'
@@ -80,6 +80,7 @@ group :test do
 end
 
 group :development, :test do
+  gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
   gem 'faker'

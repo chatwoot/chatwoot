@@ -34,6 +34,10 @@ jobs:
           command: bundle check || bundle install
 
       - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
           name: Rubocop
           command: bundle exec rubocop
 
@@ -60,12 +64,6 @@ jobs:
       - run:
           name: test
           command: yarn test
-
-      - run:
-          name: Copy files
-          command: |
-            cp shared/config/database.yml config/database.yml
-            cp shared/config/application.yml config/application.yml
 
       # Store yarn / webpacker cache
       - save_cache:
