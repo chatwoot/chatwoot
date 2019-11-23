@@ -19,7 +19,6 @@
 
 # Ignore Byebug command history file.
 .byebug_history
-config/database.yml
 .DS_Store
 *.log
 # Ignore application configuration
@@ -29,9 +28,6 @@ node_modules
 
 # Ignore env files
 .env
-
-# Ignore application config file
-config/application.yml
 
 public/uploads
 public/packs

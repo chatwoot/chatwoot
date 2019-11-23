@@ -39,15 +39,20 @@ source ~/.rvm/scripts/rvm
 
 Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.5
 
+If you are using `rvm` :
+
 ```bash
 rvm install ruby-2.6.5
+rvm use 2.6.5
 ```
 
-Use ruby 2.6.5 as default
+If you are using `rbenv` to manage ruby versions do :
 
 ```bash
-rvm use 2.6.5 --default
+rbenv install 2.6.5
 ```
+
+`rbenv` identifies the ruby version from `.ruby-version` file on the root of the project and loads it automatically.
 
 ### Install Node.js
 
@@ -100,3 +105,8 @@ brew install imagemagick
 ```
 
 Next: [Read project setup to install project dependencies](https://www.chatwoot.com/docs/dependencies) 
+
+
+### Install Docker
+
+This is an optional step. Those who are doing development can install docker from [Docker Desktop](https://www.docker.com/products/docker-desktop).

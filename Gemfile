@@ -27,7 +27,7 @@ gem 'redis-namespace'
 gem 'redis-rack-cache'
 
 ##--- gems for server & infra configuration ---##
-gem 'figaro'
+gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma', '~> 3.0'
 gem 'webpacker'

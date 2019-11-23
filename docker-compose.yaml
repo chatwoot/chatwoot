@@ -1,0 +1,44 @@
+version: '3'
+services:
+
+  server: &server
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./:/app
+    links:
+      - postgres
+      - redis
+    ports:
+      - '3000:3000'
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_HOST=postgres
+    command: ["foreman", "start", "-f", "./docker/Procfile.docker.dev"]
+
+  postgres:
+    image: postgres:9.6
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/data/postgres
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=
+
+  redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - redis:/data/redis
+    ports:
+      - '6379:6379'
+
+volumes:
+  postgres:
+    external: true
+  redis:
+    external: true
