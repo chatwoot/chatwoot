@@ -44,18 +44,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :subscriptions, only: [:index] do
-        collection do
-          get :summary
-        end
-      end
-
-      resources :webhooks, only: [] do
-        collection do
-          post :chargebee
-        end
-      end
-
       resources :reports, only: [] do
         collection do
           get :account
@@ -79,6 +67,22 @@ Rails.application.routes.draw do
           get :get_messages
         end
       end
+
+      # this block is only required if subscription via chargebee is enabled
+      if ENV['BILLING_ENABLED']
+        resources :subscriptions, only: [:index] do
+          collection do
+            get :summary
+          end
+        end
+      
+        resources :webhooks, only: [] do
+          collection do
+            post :chargebee
+          end
+        end
+      end
+
     end
   end
 
