@@ -73,7 +73,7 @@ class Conversation < ApplicationRecord
   end
 
   def send_email_notification_to_assignee
-    return if ENV.fetch('SMTP_ADDRESS').blank? || self_assign?(assignee_id)
+    return if ENV.fetch('SMTP_ADDRESS', nil).blank? || self_assign?(assignee_id)
 
     AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present?
   end
