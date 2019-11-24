@@ -1,0 +1,67 @@
+{
+  "name": "Chatwoot",
+  "description": "Chatwoot is a customer support tool for instant messaging channels",
+  "website": "https://www.chatwoot.com/",
+  "repository": "https://github.com/chatwoot/chatwoot",
+  "logo": "https://d33wubrfki0l68.cloudfront.net/5bf7423bd38a3f31fda759fdde273e515edfe2a1/d3312/static/brand-03633628b3f736545b55b9a3955ef5e9.svg",
+  "keywords": [
+    "live chat",
+    "customer support",
+    "ruby",
+    "rails",
+    "vue"
+  ],
+  "success_url": "/app/login",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:reset"
+  },
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "5"
+    },
+    "RACK_ENV": {
+      "description": "Environment for rack middleware.",
+      "value": "production"
+    },
+    "RAILS_ENV": {
+      "description": "Environment for rails middleware.",
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "FREE"
+    }
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    "openredis",
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "9.5"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "bundle exec rake test"
+      }
+    }
+  }
+}
