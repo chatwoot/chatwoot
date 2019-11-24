@@ -13,7 +13,7 @@
   ],
   "success_url": "/app/login",
   "scripts": {
-    "postdeploy": "bundle exec rake db:reset"
+    "postdeploy": "bundle exec rake db:migrate"
   },
   "env": {
     "SECRET_TOKEN": {
