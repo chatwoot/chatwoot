@@ -104,9 +104,6 @@ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 brew install imagemagick
 ```
 
-Next: [Read project setup to install project dependencies](https://www.chatwoot.com/docs/dependencies) 
-
-
 ### Install Docker
 
 This is an optional step. Those who are doing development can install docker from [Docker Desktop](https://www.docker.com/products/docker-desktop).
