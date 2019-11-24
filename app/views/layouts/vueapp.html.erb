@@ -31,7 +31,8 @@
     <%= yield %>
     <script>
       window.chatwootConfig = {
-        fbAppId: '<%= ENV['FB_APP_ID'] %>'
+        fbAppId: '<%= ENV['FB_APP_ID'] %>',
+        billingEnabled: '<%= ENV['BILLING_ENABLED'] %>'
       }
     </script>
   </body>

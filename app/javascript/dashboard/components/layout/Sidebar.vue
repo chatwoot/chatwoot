@@ -15,6 +15,8 @@
         />
       </transition-group>
     </div>
+
+    <!-- this block is only required in the hosted version with billing enabled -->
     <transition name="fade" mode="out-in">
       <woot-status-bar
         v-if="shouldShowStatusBox"
@@ -25,6 +27,7 @@
         :show-button="isAdmin()"
       />
     </transition>
+
     <div class="bottom-nav">
       <transition name="menu-slide">
         <div
@@ -127,8 +130,9 @@ export default {
     },
     shouldShowStatusBox() {
       return (
-        this.subscriptionData.state === 'trial' ||
-        this.subscriptionData.state === 'cancelled'
+        window.chatwootConfig.billingEnabled &&
+        (this.subscriptionData.state === 'trial' ||
+          this.subscriptionData.state === 'cancelled')
       );
     },
     statusBarClass() {
