@@ -15,6 +15,8 @@
         />
       </transition-group>
     </div>
+
+    <!-- this block is only required in the hosted version with billing enabled -->
     <transition name="fade" mode="out-in">
       <woot-status-bar
         v-if="shouldShowStatusBox"
@@ -25,6 +27,7 @@
         :show-button="isAdmin()"
       />
     </transition>
+
     <div class="bottom-nav">
       <transition name="menu-slide">
         <div
@@ -33,16 +36,13 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <!-- <li><a href="#">Help & Support</a></li> -->
             <li><a href="#" @click.prevent="logout()">Logout</a></li>
           </ul>
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail
-          :src="gravatarUrl()"
-          :username="currentUser.name"
-        ></thumbnail>
+        <thumbnail :src="gravatarUrl()" :username="currentUser.name">
+        </thumbnail>
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -55,7 +55,6 @@
           class="current-user--options icon ion-android-more-vertical"
         ></span>
       </div>
-      <!-- <router-link class="icon ion-arrow-graph-up-right" tag="span" to="/settings/reports" active-class="active"></router-link> -->
     </div>
   </aside>
 </template>
@@ -110,25 +109,23 @@ export default {
         }
       }
 
-      const { role } = this.currentUser;
-      return menuItems.filter(
-        menuItem =>
-          window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1
-      );
-    },
-    dashboardPath() {
-      return frontendURL('dashboard');
+      if (!window.chatwootConfig.billingEnabled) {
+        menuItems = this.filterBillingRoutes(menuItems);
+      }
+
+      return this.filterMenuItemsByRole(menuItems);
     },
     currentUser() {
       return Auth.getCurrentUser();
     },
-    trialMessage() {
-      return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
+    dashboardPath() {
+      return frontendURL('dashboard');
     },
     shouldShowStatusBox() {
       return (
-        this.subscriptionData.state === 'trial' ||
-        this.subscriptionData.state === 'cancelled'
+        window.chatwootConfig.billingEnabled &&
+        (this.subscriptionData.state === 'trial' ||
+          this.subscriptionData.state === 'cancelled')
       );
     },
     statusBarClass() {
@@ -140,15 +137,30 @@ export default {
       }
       return '';
     },
+    trialMessage() {
+      return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
+    },
   },
 
   methods: {
-    logout() {
-      Auth.logout();
-    },
     gravatarUrl() {
       const hash = md5(this.currentUser.email);
       return `${window.WootConstants.GRAVATAR_URL}${hash}?default=404`;
+    },
+    filterBillingRoutes(menuItems) {
+      return menuItems.filter(
+        menuItem => !menuItem.toState.includes('billing')
+      );
+    },
+    filterMenuItemsByRole(menuItems) {
+      const { role } = this.currentUser;
+      return menuItems.filter(
+        menuItem =>
+          window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1
+      );
+    },
+    logout() {
+      Auth.logout();
     },
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
