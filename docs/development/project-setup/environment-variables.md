@@ -32,6 +32,14 @@ FB_APP_ID=
 
 For development, you don't need an email provider. Chatwoot uses [letter-opener](https://github.com/ryanb/letter_opener) gem to test emails locally
 
+For production use, use the following variables to set SMTP server.
+
+```bash
+SMTP_ADDRESS=
+SMTP_USERNAME=
+SMTP_PASSWORD=
+```
+
 ### Configure frontend URL
 
 Provide the following value as frontend url
