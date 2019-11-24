@@ -30,6 +30,12 @@ Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatw
 
 You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-setup).
 
+## Heroku one-click deploy
+
+Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this button.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
+
 ## Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
