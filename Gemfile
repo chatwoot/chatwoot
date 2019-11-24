@@ -40,7 +40,7 @@ gem 'jwt'
 gem 'pundit'
 
 ##--- gems for pubsub service ---##
-#TODO investigate and remove this gem
+# TODO investigate and remove this gem
 gem 'wisper', '2.0.0'
 
 ##--- gems for reporting ---##
@@ -71,9 +71,9 @@ gem 'sidekiq'
 gem 'uglifier'
 
 group :development do
+  gem 'bullet'
   gem 'letter_opener'
   gem 'web-console'
-  gem 'bullet'
 end
 
 group :test do
