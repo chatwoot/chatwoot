@@ -34,7 +34,7 @@ You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-set
 
 Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this button.
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/260-one-click-deploy-heroku).
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/260-one-click-deploy-heroku)
 
 ## Contributors ✨
 
