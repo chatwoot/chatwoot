@@ -1,5 +1,5 @@
 <template>
-  <header class="header-expanded">
+  <header class="header-expanded" :style="{ background: widgetColor }">
     <div>
       <h2 class="title">
         {{ introHeading }}
@@ -12,8 +12,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ChatHeaderExpanded',
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+  },
   props: {
     introHeading: {
       type: String,

@@ -153,11 +153,11 @@ const IFrameHelper = {
       if (message.event === 'loaded') {
         Cookies.set('cw_conversation', message.config.authToken);
         IFrameHelper.sendMessage('config-set', {});
-        IFrameHelper.onLoad();
+        IFrameHelper.onLoad(message.config.channelConfig);
       }
     };
   },
-  onLoad: () => {
+  onLoad: ({ widget_color: widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
@@ -167,20 +167,23 @@ const IFrameHelper = {
     loadCSS();
     createBubbleHolder();
 
-    bubbleHolder.appendChild(
-      createBubbleIcon({
-        className: 'woot-widget-bubble',
-        src: bubbleImg,
-        target: chatBubble,
-      })
-    );
-    bubbleHolder.appendChild(
-      createBubbleIcon({
-        className: 'woot-widget-bubble woot--close woot--hide',
-        src: closeImg,
-        target: closeBubble,
-      })
-    );
+    const chatIcon = createBubbleIcon({
+      className: 'woot-widget-bubble',
+      src: bubbleImg,
+      target: chatBubble,
+    });
+
+    const closeIcon = createBubbleIcon({
+      className: 'woot-widget-bubble woot--close woot--hide',
+      src: closeImg,
+      target: closeBubble,
+    });
+
+    chatIcon.style.background = widgetColor;
+    closeIcon.style.background = widgetColor;
+
+    bubbleHolder.appendChild(chatIcon);
+    bubbleHolder.appendChild(closeIcon);
     bubbleHolder.appendChild(createNotificationBubble());
     onClickChatBubble();
   },

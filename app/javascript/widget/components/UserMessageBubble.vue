@@ -1,12 +1,22 @@
 <template>
-  <div class="chat-bubble user" v-html="formatMessage(message)"></div>
+  <div
+    class="chat-bubble user"
+    :style="{ background: widgetColor }"
+    v-html="formatMessage(message)"
+  ></div>
 </template>
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserMessageBubble',
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+  },
   mixins: [messageFormatterMixin],
   props: {
     message: String,
@@ -14,7 +24,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
