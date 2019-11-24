@@ -1,0 +1,128 @@
+.side-menu {
+  i {
+    min-width: $space-two;
+    margin-right: $space-smaller;
+  }
+}
+
+.sidebar {
+  @include border-normal-right;
+  @include background-white;
+  @include full-height;
+  @include margin(0);
+  @include space-between-column;
+  width: $nav-bar-width;
+  z-index: 1024 - 1;
+
+  //logo
+  .logo {
+    img {
+      @include padding($woot-logo-padding);
+      max-height: 100px;
+    }
+  }
+
+  .main-nav {
+    a {
+      border-radius: $space-smaller;
+      color: $color-gray;
+      font-size: $font-size-default;
+    }
+  }
+}
+
+// bottom-nav
+.bottom-nav {
+  @include flex;
+  @include space-between-column;
+  @include padding($space-one $space-normal $space-one $space-one);
+  flex-direction: column;
+  @include border-normal-top;
+  position: relative;
+
+  .dropdown-pane {
+    @include elegant-card;
+    @include border-light;
+    left: 18%;
+    top: -110%;
+    visibility: visible;
+    display: block;
+    width: 80%;
+    z-index: 999;
+
+    &::before {
+      @include arrow(bottom, $color-white, $space-slab);
+      bottom: -$space-slab;
+      position: absolute;
+      right: $space-slab;
+    }
+  }
+
+  .active {
+    border-bottom: 2px solid $medium-gray;
+  }
+}
+
+.main-nav {
+  @include flex-weight(1);
+  @include scroll-on-hover;
+  padding: 0 $space-medium - $space-one;
+
+  a {
+    &::before {
+      margin-right: $space-slab;
+    }
+  }
+
+  .menu-title {
+    color: $color-gray;
+    font-size: $font-size-medium;
+    margin-top: $space-medium;
+
+    > span {
+      margin-left: auto;
+    }
+  }
+}
+
+.menu-title + ul > li > a {
+  @include padding($space-micro null);
+  color: $medium-gray;
+  line-height: $global-lineheight;
+}
+
+.current-user {
+  align-items: center;
+  @include flex;
+  flex-direction: row;
+  cursor: pointer;
+
+  .current-user--data {
+    @include flex;
+    flex-direction: column;
+
+    .current-user--name {
+      font-size: $font-size-small;
+      font-weight: $font-weight-medium;
+      line-height: 1;
+      margin-bottom: $zero;
+      margin-left: $space-one;
+      margin-top: $space-micro;
+    }
+
+    .current-user--role {
+      color: $color-gray;
+      font-size: $font-size-mini;
+      margin-bottom: $zero;
+      margin-left: $space-one;
+      text-transform: capitalize;
+    }
+  }
+
+  .current-user--options {
+    font-size: $font-size-big;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
+  }
+}

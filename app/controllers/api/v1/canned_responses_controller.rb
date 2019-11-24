@@ -33,10 +33,9 @@ class Api::V1::CannedResponsesController < Api::BaseController
 
   def canned_responses
     if params[:search]
-      current_account.canned_responses.where("short_code ILIKE ?", "#{params[:search]}%")
+      current_account.canned_responses.where('short_code ILIKE ?', "#{params[:search]}%")
     else
       current_account.canned_responses
     end
   end
-
 end

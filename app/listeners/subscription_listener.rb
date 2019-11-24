@@ -1,5 +1,7 @@
-class SubscriptionListener < BaseListener
+# This listener is left over from the initial version of chatwoot
+# We might reuse this later in the hosted version of chatwoot.
 
+class SubscriptionListener < BaseListener
   def subscription_created(event)
     subscription = event.data[:subscription]
     account = subscription.account

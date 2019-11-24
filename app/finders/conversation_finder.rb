@@ -1,22 +1,21 @@
 class ConversationFinder
   attr_reader :current_user, :current_account, :params
 
-  ASSIGNEE_TYPES = {me: 0, unassigned: 1, all: 2}
+  ASSIGNEE_TYPES = { me: 0, unassigned: 1, all: 2 }.freeze
 
   ASSIGNEE_TYPES_BY_ID = ASSIGNEE_TYPES.invert
   ASSIGNEE_TYPES_BY_ID.default = :me
 
-  #assumptions
+  # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
   # assignee_type if not given, take 'me'
   # conversation_status if not given, take 'open'
 
-  #response of this class will be of type
-  #{conversations: [array of conversations], count: {open: count, resolved: count}}
+  # response of this class will be of type
+  # {conversations: [array of conversations], count: {open: count, resolved: count}}
 
-  #params
+  # params
   # assignee_type_id, inbox_id, :conversation_status_id,
-
 
   def initialize(current_user, params)
     @current_user = current_user
@@ -28,12 +27,12 @@ class ConversationFinder
     set_inboxes
     set_assignee_type
 
-    find_all_conversations #find all with the inbox
-    filter_by_assignee_type #filter by assignee
-    open_count, resolved_count = set_count_for_all_conversations #fetch count for both before filtering by status
+    find_all_conversations # find all with the inbox
+    filter_by_assignee_type # filter by assignee
+    open_count, resolved_count = set_count_for_all_conversations # fetch count for both before filtering by status
 
-    {conversations: @conversations.latest,
-      count: {open: open_count, resolved: resolved_count}}
+    { conversations: @conversations.latest,
+      count: { open: open_count, resolved: resolved_count } }
   end
 
   private
@@ -52,7 +51,7 @@ class ConversationFinder
 
   def set_assignee_type
     @assignee_type_id = ASSIGNEE_TYPES[ASSIGNEE_TYPES_BY_ID[params[:assignee_type_id].to_i]]
-    #ente budhiparamaya neekam kandit enthu tonunu? ;)
+    # ente budhiparamaya neekam kandit enthu tonunu? ;)
   end
 
   def find_all_conversations
@@ -73,5 +72,4 @@ class ConversationFinder
   def set_count_for_all_conversations
     [@conversations.open.count, @conversations.resolved.count]
   end
-
 end

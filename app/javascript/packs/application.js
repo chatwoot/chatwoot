@@ -1,3 +1,5 @@
+import '@babel/polyfill';
+
 /* eslint no-console: 0 */
 /* eslint-env browser */
 /* eslint-disable no-new */
@@ -14,16 +16,18 @@ import WootWizard from 'components/ui/Wizard';
 import { sync } from 'vuex-router-sync';
 import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
+import VueHighlightJS from 'vue-highlight.js';
+import javascript from 'highlight.js/lib/languages/javascript';
 
-import WootUiKit from '../src/components';
-import App from '../src/App';
-import i18n from '../src/i18n';
-import createAxios from '../src/helper/APIHelper';
-import commonHelpers from '../src/helper/commons';
-import router from '../src/routes';
-import store from '../src/store';
-import vuePusher from '../src/helper/pusher';
-import constants from '../src/constants';
+import WootUiKit from '../dashboard/components';
+import App from '../dashboard/App';
+import i18n from '../dashboard/i18n';
+import createAxios from '../dashboard/helper/APIHelper';
+import commonHelpers from '../dashboard/helper/commons';
+import router from '../dashboard/routes';
+import store from '../dashboard/store';
+import vueActionCable from '../dashboard/helper/actionCable';
+import constants from '../dashboard/constants';
 
 Vue.config.env = process.env;
 
@@ -32,6 +36,11 @@ Vue.use(VueI18n);
 Vue.use(WootUiKit);
 Vue.use(Vuelidate);
 Vue.use(VTooltip);
+Vue.use(VueHighlightJS, {
+  languages: {
+    javascript,
+  },
+});
 
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
@@ -56,5 +65,18 @@ window.onload = () => {
     components: { App },
     template: '<App/>',
   }).$mount('#app');
-  window.pusher = vuePusher.init();
+  vueActionCable.init();
 };
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(registration => {
+        console.log('SW registered: ', registration);
+      })
+      .catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}

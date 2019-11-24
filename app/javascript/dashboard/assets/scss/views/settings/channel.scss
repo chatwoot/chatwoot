@@ -1,0 +1,50 @@
+.channels {
+  margin-top: $space-medium;
+
+  .inactive {
+    filter: grayscale(100%);
+  }
+
+  .channel {
+    @include flex;
+    @include padding($space-normal $zero);
+    @include margin($zero);
+    @include background-white;
+    @include border-light;
+    flex-direction: column;
+    cursor: pointer;
+    border-right-color: $color-white;
+    transition: all 0.200s ease-in;
+
+    &:last-child {
+      @include border-light;
+    }
+
+    &:hover {
+      border: 1px solid $primary-color;
+      box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+    }
+
+    &.disabled {
+      opacity: .6;
+    }
+
+    img {
+      width: 50%;
+      @include margin($space-normal auto);
+    }
+
+    .channel__title{
+      font-size: $font-size-large;
+      text-align: center;
+      color: $color-body;
+      text-transform: capitalize;
+    }
+
+    p {
+      width: 100%;
+      color: $medium-gray;
+    }
+  }
+}

@@ -9,12 +9,12 @@ class Subscription < ApplicationRecord
 
   def payment_source_added!
     self.payment_source_added = true
-    self.save
+    save
   end
 
   def trial_expired?
     (trial? && expiry < Date.current) ||
-    (cancelled? && !payment_source_added)
+      (cancelled? && !payment_source_added)
   end
 
   def suspended?
@@ -36,6 +36,6 @@ class Subscription < ApplicationRecord
   end
 
   def notify_creation
-    $dispatcher.dispatch(SUBSCRIPTION_CREATED, Time.zone.now, subscription: self)
+    Rails.configuration.dispatcher.dispatch(SUBSCRIPTION_CREATED, Time.zone.now, subscription: self)
   end
 end

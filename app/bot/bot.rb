@@ -17,4 +17,3 @@ Bot.on :delivery do |delivery|
   updater.perform
   puts "Human was online at #{delivery.at}"
 end
-

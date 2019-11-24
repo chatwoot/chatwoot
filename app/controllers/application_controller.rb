@@ -1,7 +1,3 @@
-module Current
-  thread_mattr_accessor :user
-end
-
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include Pundit
@@ -22,17 +18,15 @@ class ApplicationController < ActionController::Base
   end
 
   def handle_with_exception
-    begin
-      yield
-    rescue ActiveRecord::RecordNotFound => exception
-      Raven.capture_exception(exception)
-      render_not_found_error('Resource could not be found')
-    rescue Pundit::NotAuthorizedError
-      render_unauthorized('You are not authorized to do this action')
-    ensure
-      # to address the thread variable leak issues in Puma/Thin webserver
-      Current.user = nil
-    end
+    yield
+  rescue ActiveRecord::RecordNotFound => e
+    Raven.capture_exception(e)
+    render_not_found_error('Resource could not be found')
+  rescue Pundit::NotAuthorizedError
+    render_unauthorized('You are not authorized to do this action')
+  ensure
+    # to address the thread variable leak issues in Puma/Thin webserver
+    Current.user = nil
   end
 
   def set_current_user
@@ -61,8 +55,8 @@ class ApplicationController < ActionController::Base
   end
 
   def render_record_invalid(exception)
-     render json: {
-      message: "#{exception.record.errors.full_messages.join(", ")}"
+    render json: {
+      message: exception.record.errors.full_messages.join(', ')
     }, status: :unprocessable_entity
   end
 
@@ -71,10 +65,14 @@ class ApplicationController < ActionController::Base
   end
 
   def check_subscription
+    # This block is left over from the initial version of chatwoot
+    # We might reuse this later in the hosted version of chatwoot.
+    return unless ENV['BILLING_ENABLED']
+
     if current_subscription.trial? && current_subscription.expiry < Date.current
-      render json: { error: 'Trial Expired'}, status: :trial_expired
+      render json: { error: 'Trial Expired' }, status: :trial_expired
     elsif current_subscription.cancelled?
-      render json: { error: 'Account Suspended'}, status: :account_suspended
+      render json: { error: 'Account Suspended' }, status: :account_suspended
     end
   end
 end

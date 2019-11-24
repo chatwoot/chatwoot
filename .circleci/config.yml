@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/ruby:2.6.3-node-browsers
+      - image: circleci/ruby:2.6.5-node-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -33,6 +33,14 @@ jobs:
           name: Bundle Install
           command: bundle check || bundle install
 
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
       # Store bundle cache
       - save_cache:
           key: chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
@@ -53,15 +61,9 @@ jobs:
           name: eslint
           command: yarn run eslint
 
-      # - run:
-      #     name: brakeman
-      #     command: brakeman
-
       - run:
-          name: Copy files
-          command: |
-            cp shared/config/database.yml config/database.yml
-            cp shared/config/application.yml config/application.yml
+          name: test
+          command: yarn test
 
       # Store yarn / webpacker cache
       - save_cache:

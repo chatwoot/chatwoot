@@ -9,13 +9,13 @@ class AttachmentUploader < CarrierWave::Uploader::Base
     end
   end
 
-  version :thumb, :if => :image? do
-    process resize_to_fill: [280,280]
+  version :thumb, if: :image? do
+    process resize_to_fill: [280, 280]
   end
 
   protected
 
-    def image?(new_file)
-      model.image?
-    end
+  def image?(_new_file)
+    model.image?
+  end
 end

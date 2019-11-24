@@ -8,8 +8,9 @@ json.data do
       json.channel_id inbox.channel_id
       json.name inbox.name
       json.channel_type inbox.channel_type
-      json.avatar_url inbox.channel.avatar.url
-      json.page_id inbox.channel.page_id
+      json.avatar_url inbox.channel.try(:avatar).try(:url)
+      json.page_id inbox.channel.try(:page_id)
+      json.website_token inbox.channel.try(:website_token)
     end
   end
 end

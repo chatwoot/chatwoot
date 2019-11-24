@@ -1,0 +1,43 @@
+.status-bar {
+  @include flex;
+  flex-direction: column;
+  @include flex-align($x: center, $y: middle);
+  background: lighten($warning-color, 36%);
+  // @include elegant-card();
+  @include margin($zero);
+  @include padding($space-normal $space-smaller);
+
+  .message {
+    font-weight: $font-weight-medium;
+    margin-bottom: $zero;
+  }
+
+  .button {
+    @include margin($space-smaller $zero $zero);
+    padding: $space-small $space-normal;
+  }
+
+  &.danger {
+    background: lighten($alert-color, 30%);
+
+    .button {
+      // Default and disabled states
+      &,
+      &.disabled, &[disabled],
+      &.disabled:hover, &[disabled]:hover,
+      &.disabled:focus, &[disabled]:focus {
+        background-color: $alert-color;
+        color: $color-white;
+      }
+
+      &:hover, &:focus {
+        background-color: darken($alert-color, 7%);
+        color: $color-white;
+      }
+    }
+  }
+
+  &.warning {
+    background: lighten($warning-color, 36%);
+  }
+}

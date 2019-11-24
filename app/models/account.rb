@@ -5,7 +5,8 @@ class Account < ApplicationRecord
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
-  has_many :facebook_pages, dependent: :destroy
+  has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
+  has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
   has_one :subscription, dependent: :destroy
@@ -20,13 +21,13 @@ class Account < ApplicationRecord
   end
 
   def all_conversation_tags
-    #returns array of tags
+    # returns array of tags
     conversation_ids = conversations.pluck(:id)
     ActsAsTaggableOn::Tagging.includes(:tag)
-      .where(context: 'labels',
-             taggable_type: "Conversation",
-             taggable_id: conversation_ids )
-      .map {|_| _.tag.name}
+                             .where(context: 'labels',
+                                    taggable_type: 'Conversation',
+                                    taggable_id: conversation_ids)
+                             .map { |_| _.tag.name }
   end
 
   def subscription_data
@@ -48,15 +49,15 @@ class Account < ApplicationRecord
   private
 
   def create_subscription
-    subscription = self.build_subscription
+    subscription = build_subscription
     subscription.save
   end
 
   def notify_creation
-    $dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
   end
 
   def notify_deletion
-    $dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
   end
 end

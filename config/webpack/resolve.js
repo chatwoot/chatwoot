@@ -4,9 +4,10 @@ const resolve = {
   extensions: ['.js', '.vue'],
   alias: {
     vue$: 'vue/dist/vue.common.js',
-    src: path.resolve('./app/javascript/src'),
-    assets: path.resolve('./app/javascript/src/assets'),
-    components: path.resolve('./app/javascript/src/components'),
+    dashboard: path.resolve('./app/javascript/dashboard'),
+    widget: path.resolve('./app/javascript/widget'),
+    assets: path.resolve('./app/javascript/dashboard/assets'),
+    components: path.resolve('./app/javascript/dashboard/components'),
   },
 };
 
