@@ -58,10 +58,10 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
   config.action_mailer.smtp_settings = {
-    address: ENV['SES_ADDRESS'],
+    address: ENV['SMTP_ADDRESS'],
     port: 587,
-    user_name: ENV['SES_USERNAME'], # Your SMTP user
-    password: ENV['SES_PASSWORD'], # Your SMTP password
+    user_name: ENV['SMTP_USERNAME'], # Your SMTP user
+    password: ENV['SMTP_PASSWORD'], # Your SMTP password
     authentication: :login,
     enable_starttls_auto: true
   }
