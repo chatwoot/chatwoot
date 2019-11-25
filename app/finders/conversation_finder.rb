@@ -6,6 +6,8 @@ class ConversationFinder
   ASSIGNEE_TYPES_BY_ID = ASSIGNEE_TYPES.invert
   ASSIGNEE_TYPES_BY_ID.default = :me
 
+  DEFAULT_STATUS = 'open'.freeze
+
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
   # assignee_type if not given, take 'me'
@@ -29,6 +31,8 @@ class ConversationFinder
 
     find_all_conversations # find all with the inbox
     filter_by_assignee_type # filter by assignee
+    filter_by_status
+
     open_count, resolved_count = set_count_for_all_conversations # fetch count for both before filtering by status
 
     { conversations: @conversations.latest,
@@ -67,6 +71,10 @@ class ConversationFinder
       @conversations
     end
     @conversations
+  end
+
+  def filter_by_status
+    @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
   end
 
   def set_count_for_all_conversations
