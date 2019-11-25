@@ -12,6 +12,7 @@ RUN apt-get update \
     && echo 'deb https://dl.yarnpkg.com/debian stable main' > /etc/apt/sources.list.d/yarn.list \
     && apt-get update \
     && apt-get -qq -y install nodejs yarn \
+    && gem install bundler \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
