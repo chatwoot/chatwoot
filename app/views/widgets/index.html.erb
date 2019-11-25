@@ -5,7 +5,10 @@
     <%= csrf_meta_tags %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <script>
-      window.chatwootWebChannel = '<%= @web_widget.website_name %>'
+      window.chatwootWebChannel = {
+        website_name: '<%= @web_widget.website_name %>',
+        widget_color: '<%= @web_widget.widget_color %>'
+      }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'
     </script>
