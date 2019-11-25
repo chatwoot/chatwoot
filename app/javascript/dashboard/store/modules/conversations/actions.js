@@ -32,6 +32,9 @@ const actions = {
   fetchPreviousMessages: async ({ commit }, data) => {
     try {
       const response = await MessageApi.getPreviousMessages(data);
+      commit(types.default.UPDATE_SELECTED_CONVERSATION, {
+        meta: response.data.meta,
+      });
       commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
         id: data.conversationId,
         data: response.data.payload,

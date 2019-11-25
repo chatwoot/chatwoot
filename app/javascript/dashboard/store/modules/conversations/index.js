@@ -61,6 +61,13 @@ const mutations = {
     Vue.set(chat, 'allMessagesLoaded', false);
   },
 
+  [types.default.UPDATE_SELECTED_CONVERSATION](_state, { meta }) {
+    _state.selectedChat.meta = {
+      ...(_state.selectedChat.meta || {}),
+      ...meta,
+    };
+  },
+
   [types.default.CLEAR_CURRENT_CHAT_WINDOW](_state) {
     _state.selectedChat.id = null;
     _state.selectedChat.agentTyping = 'off';

@@ -4,6 +4,6 @@ json.payload do
     json.name contact.name
     json.email contact.email
     json.phone_number contact.phone_number
-    json.thumbnail contact.avatar.thumb.url
+    json.thumbnail contact.avatar.profile_thumb.url
   end
 end
