@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_16_073924) do
+ActiveRecord::Schema.define(version: 2019_11_24_091232) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_11_16_073924) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "website_token"
+    t.string "widget_color", default: "#1f93ff"
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 

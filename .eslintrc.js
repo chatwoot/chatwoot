@@ -9,6 +9,7 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error'],
     camelcase: 'off',
+    'no-param-reassign': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
     'import/no-named-as-default': 'off',
