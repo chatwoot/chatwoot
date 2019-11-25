@@ -4,20 +4,20 @@ ruby '2.6.5'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
-gem 'rails', '~> 6', git: 'https://github.com/rails/rails'
+gem 'rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
 ##-- rails helper gems --##
-gem 'acts-as-taggable-on', git: 'https://github.com/mbleigh/acts-as-taggable-on'
+gem 'acts-as-taggable-on'
 gem 'attr_extras'
 gem 'browser'
 gem 'hashie'
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 gem 'kaminari'
 gem 'responders'
 gem 'time_diff'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data'
 gem 'valid_email2'
 
 ##-- gems for database --#
@@ -29,24 +29,25 @@ gem 'redis-rack-cache'
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'
 gem 'foreman'
-gem 'puma', '~> 3.0'
+gem 'puma'
 gem 'webpacker'
 
 ##--- gems for authentication & authorization ---##
-gem 'devise', git: 'https://github.com/plataformatec/devise'
-gem 'devise_token_auth', git: 'https://github.com/lynndylanhurley/devise_token_auth'
+gem 'devise'
+gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
 
 ##--- gems for pubsub service ---##
+# TODO investigate and remove this gem
 gem 'wisper', '2.0.0'
 
 ##--- gems for reporting ---##
-gem 'nightfury', '~> 1.0', '>= 1.0.1'
+gem 'nightfury'
 
 ##--- gems for billing ---##
-gem 'chargebee', '~>2'
+gem 'chargebee'
 
 ##--- gems for channels ---##
 gem 'facebook-messenger'
@@ -63,12 +64,14 @@ gem 'brakeman'
 gem 'sentry-raven'
 
 ##-- TODO: move these gems to appropriate groups --##
+# remove this gem in favor of active storage -  github #158
 gem 'carrierwave-aws'
 gem 'mini_magick'
 gem 'sidekiq'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 
 group :development do
+  gem 'bullet'
   gem 'letter_opener'
   gem 'web-console'
 end
@@ -86,8 +89,8 @@ group :development, :test do
   gem 'faker'
   gem 'listen'
   gem 'pry-rails'
-  gem 'rspec-rails', git: 'https://github.com/rspec/rspec-rails', tag: 'v4.0.0.beta3'
-  gem 'rubocop', '~> 0.73.0', require: false
+  gem 'rspec-rails', '~> 4.0.0.beta2'
+  gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
