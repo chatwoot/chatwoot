@@ -27,7 +27,7 @@ describe ConversationFinder do
     end
 
     context 'with assignee' do
-      it 'filter conversations by status' do
+      it 'filter conversations by assignee' do
         params = { assignee_type_id: 2 }
 
         finder = described_class.new(user_1, params)
@@ -35,6 +35,17 @@ describe ConversationFinder do
 
         expect(result[:conversations].count).to be 3
       end
+    end
+  end
+
+  describe 'Pagination' do
+    it 'returns paginated conversations' do
+      create_list(:complete_conversation, 50, account: account, inbox: inbox, assignee: user_1)
+      params = { status: 'open', assignee_type_id: 0, page: 1 }
+
+      finder = described_class.new(user_1, params)
+      result = finder.perform
+      expect(result[:conversations].count).to be 25
     end
   end
 end

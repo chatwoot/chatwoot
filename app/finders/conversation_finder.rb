@@ -35,7 +35,7 @@ class ConversationFinder
 
     open_count, resolved_count = set_count_for_all_conversations # fetch count for both before filtering by status
 
-    { conversations: @conversations.latest,
+    { conversations: @conversations.latest.page(current_page),
       count: { open: open_count, resolved: resolved_count } }
   end
 
@@ -79,5 +79,9 @@ class ConversationFinder
 
   def set_count_for_all_conversations
     [@conversations.open.count, @conversations.resolved.count]
+  end
+
+  def current_page
+    params[:page] || 1
   end
 end
