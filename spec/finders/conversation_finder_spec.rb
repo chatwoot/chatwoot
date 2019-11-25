@@ -5,13 +5,14 @@ describe ConversationFinder do
   let!(:user_1) { create(:user, account: account) }
   let!(:user_2) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
-  let(:inbox_member_1) { create(:inbox_member, user: user_1, inbox: inbox) }
-  let(:inbox_member_2) { create(:inbox_member, user: user_2, inbox: inbox) }
-
-  let(:conversation_1) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1) }
-  let(:conversation_2) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1) }
-  let(:conversation_3) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved') }
-  let(:conversation_4) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_2) }
+  # rubocop:disable RSpec/LetSetup
+  let!(:inbox_member_1) { create(:inbox_member, user: user_1, inbox: inbox) }
+  let!(:inbox_member_2) { create(:inbox_member, user: user_2, inbox: inbox) }
+  let!(:conversation_1) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1) }
+  let!(:conversation_2) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1) }
+  let!(:conversation_3) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved') }
+  let!(:conversation_4) { create(:complete_conversation, account: account, inbox: inbox, assignee: user_2) }
+  # rubocop:enable RSpec/LetSetup
 
   describe 'Filtering' do
     context 'with status' do
