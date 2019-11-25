@@ -22,6 +22,7 @@ export default {
   name: 'App',
 
   methods: {
+    ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -35,10 +36,12 @@ export default {
         event: 'loaded',
         config: {
           authToken: window.authToken,
+          channelConfig: window.chatwootWebChannel,
         },
       });
       setHeader('X-Auth-Token', window.authToken);
     }
+    this.setWidgetColor(window.chatwootWebChannel);
 
     window.addEventListener('message', e => {
       if (
