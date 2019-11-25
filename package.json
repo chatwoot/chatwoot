@@ -91,6 +91,10 @@
     "*.{js,vue}": [
       "eslint --fix",
       "git add"
+    ],
+    "*.rb": [
+      "rubocop -a",
+      "git add"
     ]
   }
 }
