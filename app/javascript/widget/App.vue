@@ -52,6 +52,7 @@ export default {
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (message.event === 'config-set') {
+        window.parentUrl = message.parentUrl;
         this.fetchOldConversations();
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();

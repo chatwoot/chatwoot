@@ -152,7 +152,10 @@ const IFrameHelper = {
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (message.event === 'loaded') {
         Cookies.set('cw_conversation', message.config.authToken);
-        IFrameHelper.sendMessage('config-set', {});
+
+        IFrameHelper.sendMessage('config-set', {
+          parentUrl: window.location.href,
+        });
         IFrameHelper.onLoad(message.config.channelConfig);
       }
     };
