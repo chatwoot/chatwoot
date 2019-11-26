@@ -9,6 +9,7 @@ const state = {
 
 const getters = {
   getConversation: _state => _state.conversations,
+  getConversationSize: _state => Object.keys(_state.conversations).length,
 };
 
 const actions = {
