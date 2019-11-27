@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_24_091232) do
+ActiveRecord::Schema.define(version: 2019_11_26_185833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -224,5 +224,5 @@ ActiveRecord::Schema.define(version: 2019_11_24_091232) do
 
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
-  add_foreign_key "users", "users", column: "inviter_id"
+  add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end
