@@ -24,6 +24,7 @@ class User < ApplicationRecord
 
   belongs_to :account
   belongs_to :inviter, class_name: 'User', required: false
+  has_many :invitees, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   has_many :inbox_members, dependent: :destroy
