@@ -17,6 +17,7 @@
   overflow: scroll;
   position: relative;
   background-color: $color-white;
+  border-radius: $space-small;
 
   .modal--close {
     font-size: $font-size-large;
@@ -28,9 +29,7 @@
   }
 
   .page-top-bar {
-    background: $color-modal-header;
-    text-align: center;
-    @include padding($space-large $space-medium);
+    @include padding($space-large $space-larger 0);
     img {
       max-height: 6rem;
     }
