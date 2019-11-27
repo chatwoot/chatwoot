@@ -19,7 +19,7 @@ class ActionCableListener < BaseListener
     contact = conversation.contact
     members = conversation.inbox.members.pluck(:pubsub_token)
     send_to_members(members, MESSAGE_CREATED, message.push_event_data)
-    send_to_contact(contact, MESSAGE_CREATED, message.push_event_data)
+    send_to_contact(contact, MESSAGE_CREATED, message)
   end
 
   def conversation_reopened(event)
@@ -50,10 +50,12 @@ class ActionCableListener < BaseListener
     end
   end
 
-  def send_to_contact(contact, event_name, data)
+  def send_to_contact(contact, event_name, message)
+    return if message.private?
+    return if message.activity?
     return if contact.nil?
 
-    ActionCable.server.broadcast(contact.pubsub_token, event: event_name, data: data)
+    ActionCable.server.broadcast(contact.pubsub_token, event: event_name, data: message.push_event_data)
   end
 
   def push(pubsub_token, data)
