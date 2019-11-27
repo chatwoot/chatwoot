@@ -21,8 +21,15 @@ WORKDIR /app
 COPY . /app
 
 RUN bundle
+
+# Precompile assets
+RUN RAILS_ENV=production SECRET_KEY_BASE=precompile_placeholder bundle exec rake assets:precompile
+
+# Re-rerun yarn for dev environments
 RUN yarn
-RUN bundle exec rake assets:precompile
+
+# Tell rails to serve static files
+ENV RAILS_SERVE_STATIC_FILES="true"
 
 # Add a script to be executed every time the container starts.
 COPY ./docker/entrypoint.sh /usr/bin/
