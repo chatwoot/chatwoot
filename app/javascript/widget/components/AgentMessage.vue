@@ -31,52 +31,54 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 @import '~widget/assets/scss/variables.scss';
+.conversation-wrap {
+  .agent-message {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    margin: 0 0 $space-micro $space-small;
+    max-width: 88%;
 
-.agent-message {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-end;
-  margin: 0 0 $space-micro $space-small;
-
-  & + .agent-message {
-    margin-bottom: $space-micro;
-
-    .chat-bubble {
-      border-top-left-radius: $space-smaller;
-    }
-
-    .user-avatar {
-      visibility: hidden;
-    }
-
-    .agent-name {
-      display: none;
-    }
-  }
-
-  & + .user-message {
-    margin-bottom: $space-normal;
-  }
-
-  .avatar-wrap {
-    flex-shrink: 1;
-    flex-grow: 0;
-  }
-
-  .message-wrap {
-    max-width: 90%;
-    flex-shrink: 0;
-    flex-grow: 1;
-    margin-left: $space-small;
-
-    .agent-name {
-      font-weight: $font-weight-medium;
+    & + .agent-message {
       margin-bottom: $space-smaller;
-      margin-left: $space-two;
-      color: $color-body;
+
+      .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+
+      .user-avatar {
+        visibility: hidden;
+      }
+
+      .agent-name {
+        display: none;
+      }
+    }
+
+    & + .user-message {
+      margin-top: $space-normal;
+    }
+
+    .avatar-wrap {
+      flex-shrink: 1;
+      flex-grow: 0;
+    }
+
+    .message-wrap {
+      max-width: 90%;
+      flex-shrink: 0;
+      flex-grow: 1;
+      margin-left: $space-small;
+
+      .agent-name {
+        font-weight: $font-weight-medium;
+        margin-bottom: $space-smaller;
+        margin-left: $space-two;
+        color: $color-body;
+      }
     }
   }
 }
