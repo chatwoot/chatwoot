@@ -43,6 +43,8 @@ Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this but
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
+Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables. This applies to deploying the docker image as well.
+
 ## Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
