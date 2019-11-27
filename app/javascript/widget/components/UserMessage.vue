@@ -22,34 +22,36 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 @import '~widget/assets/scss/variables.scss';
+.conversation-wrap {
+  .user-message {
+    align-items: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 0 $space-smaller $space-micro auto;
+    max-width: 85%;
+    text-align: right;
 
-.user-message {
-  align-items: flex-end;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin: 0 $space-smaller $space-micro auto;
-  text-align: right;
-
-  & + .user-message {
-    margin-bottom: $space-micro;
-    .chat-bubble {
-      border-top-right-radius: $space-smaller;
+    & + .user-message {
+      margin-bottom: $space-micro;
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+      .user-avatar {
+        visibility: hidden;
+      }
+      .agent-name {
+        display: none;
+      }
     }
-    .user-avatar {
-      visibility: hidden;
+    & + .agent-message {
+      margin-top: $space-normal;
     }
-    .agent-name {
-      display: none;
+    .message-wrap {
+      margin-right: $space-small;
     }
-  }
-  & + .agent-message {
-    margin-bottom: $space-normal;
-  }
-  .message-wrap {
-    margin-right: $space-small;
   }
 }
 </style>
