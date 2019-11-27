@@ -5,5 +5,5 @@ json.array! @messages do |message|
   json.created_at message.created_at.to_i
   json.conversation_id message. conversation_id
   json.attachment message.attachment.push_event_data if message.attachment
-  json.sender_name message.user.name if message.user
+  json.sender message.user.push_event_data if message.user
 end
