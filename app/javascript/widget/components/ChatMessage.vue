@@ -1,10 +1,6 @@
 <template>
   <UserMessage v-if="isUserMessage" :message="message.content" />
-  <AgentMessage
-    v-else
-    :agent-name="message.sender_name"
-    :message="message.content"
-  />
+  <AgentMessage v-else :agent-name="agentName" :message="message.content" />
 </template>
 
 <script>
@@ -23,6 +19,9 @@ export default {
   computed: {
     isUserMessage() {
       return this.message.message_type === MESSAGE_TYPE.INCOMING;
+    },
+    agentName() {
+      return this.message.sender ? this.message.sender.name : '';
     },
   },
 };
