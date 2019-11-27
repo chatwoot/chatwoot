@@ -10,7 +10,8 @@ module Api
           begin
             update_agents_list
             head :ok
-          rescue StandardError
+          rescue StandardError => e
+            Rails.logger.debug "Rescued: #{e.inspect}"
             render_could_not_create_error('Could not add agents to inbox')
           end
         else
@@ -31,7 +32,7 @@ module Api
         # the new ones are the agents which are to be added to the inbox
 
         agents_to_be_added_ids.each { |user_id| @inbox.add_member(user_id) }
-        agents_to_be_removed_ids.each { |_user_id| @inbox.remove_member(user) }
+        agents_to_be_removed_ids.each { |user_id| @inbox.remove_member(user_id) }
       end
 
       def agents_to_be_added_ids
@@ -43,7 +44,7 @@ module Api
       end
 
       def current_agents_ids
-        @current_agents_ids = @inbox.members.pluck(:user_id)
+        @current_agents_ids = @inbox.members.pluck(:id)
       end
 
       def fetch_inbox
