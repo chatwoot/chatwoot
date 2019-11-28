@@ -15,6 +15,7 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - POSTGRES_HOST=postgres
+      - RAILS_ENV=development
     command: ["foreman", "start", "-f", "./docker/Procfile.docker.dev"]
 
   postgres:
