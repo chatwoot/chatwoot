@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/woot-logo.svg" alt="Woo-logo" width="240">
+  <img src="https://storage.googleapis.com/chatwoot-assets/woot-logo.svg" alt="Woot-logo" width="240">
 
   <div align="center">A simple and elegant live chat software</div>
   <div align="center">An opensource alternative to Intercom, Zendesk, Drift, Crisp etc.</div>
@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master" alt="Deploy to Heroku">
-     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/> 
+     <img alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
   </a>
 </p>
 
@@ -23,7 +23,7 @@ ___
   <a href="https://discord.gg/cJXdrwS"><img src="https://img.shields.io/badge/chat-Discord-violet?logo=discord" alt="Chat on Discord"></a>
 </p>
 
-![ChatUI progess](./.github/dashboard-screen.png)
+![ChatUI progess](https://storage.googleapis.com/chatwoot-assets/dashboard-screen.png)
 
 ## Background
 
@@ -44,6 +44,16 @@ Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this but
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
 Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables. This applies to deploying the docker image as well.
+
+## Docker
+
+You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
+
+```bash
+docker pull chatwoot/chatwoot
+```
+
+Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup environment for Docker
 
 ## Contributors ✨
 
