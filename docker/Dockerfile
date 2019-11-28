@@ -20,9 +20,11 @@ RUN mkdir -p /app
 WORKDIR /app
 COPY . /app
 
+ENV RAILS_SERVE_STATIC_FILES true
+ENV RAILS_ENV=production
+
 RUN bundle
-RUN yarn
-RUN bundle exec rake assets:precompile
+RUN SECRET_KEY_BASE=precompile_placeholder bundle exec rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY ./docker/entrypoint.sh /usr/bin/
