@@ -39,6 +39,7 @@ export default {
 
   .title {
     font-size: $font-size-big;
+    font-weight: $font-weight-medium;
   }
 }
 </style>
