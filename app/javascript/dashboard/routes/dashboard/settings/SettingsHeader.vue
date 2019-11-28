@@ -6,12 +6,12 @@
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link
-      :to="buttonRoute"
-      class="button icon success"
       v-if="showNewButton && showButton && currentRole"
+      :to="buttonRoute"
+      class="button icon success nice"
     >
       <i class="icon ion-android-add-circle"></i>
-      {{buttonText}}
+      {{ buttonText }}
     </router-link>
   </div>
 </template>
@@ -20,6 +20,9 @@ import BackButton from '../../../components/widgets/BackButton';
 import Auth from '../../../api/auth';
 
 export default {
+  components: {
+    BackButton,
+  },
   props: {
     headerTitle: String,
     buttonRoute: String,
@@ -42,9 +45,6 @@ export default {
       const { role } = Auth.getCurrentUser();
       return role === 'administrator';
     },
-  },
-  components: {
-    BackButton,
   },
 };
 </script>
