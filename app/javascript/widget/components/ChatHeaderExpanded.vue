@@ -47,6 +47,7 @@ export default {
 
   .title {
     font-size: $font-size-mega;
+    font-weight: $font-weight-medium;
     margin-bottom: $space-two;
   }
 
