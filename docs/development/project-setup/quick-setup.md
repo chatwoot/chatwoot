@@ -78,7 +78,13 @@ to see the application up and running.
 
 ### Docker for production
 
-On the root directory run the following command :
+You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
+
+```bash
+docker pull chatwoot/chatwoot
+```
+
+You can create an image yourselves by running the following command on the root directory.
 
 ```bash
 docker image build -f docker/Dockerfile .
