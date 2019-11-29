@@ -1,6 +1,24 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
 import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import getUuid from '../../helpers/uuid';
+
+export const createTemporaryMessage = content => {
+  const timestamp = new Date().getTime();
+  return {
+    id: getUuid(),
+    content,
+    status: 'in_progress',
+    created_at: timestamp,
+    message_type: MESSAGE_TYPE.INCOMING,
+  };
+};
+
+export const findUndeliveredMessage = (messageInbox, { content }) =>
+  Object.values(messageInbox).filter(
+    message => message.content === content && message.status === 'in_progress'
+  );
 
 export const DEFAULT_CONVERSATION = 'default';
 const state = {
@@ -13,8 +31,9 @@ const getters = {
 };
 
 const actions = {
-  sendMessage: async (_, params) => {
+  sendMessage: async ({ commit }, params) => {
     const { content } = params;
+    commit('pushMessageToConversations', createTemporaryMessage(content));
     await sendMessageAPI(content);
   },
 
@@ -38,9 +57,27 @@ const mutations = {
   },
 
   pushMessageToConversations($state, message) {
-    const { id } = message;
+    const { id, status, message_type: type } = message;
     const messagesInbox = $state.conversations;
-    Vue.set(messagesInbox, id, message);
+    const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
+    const isTemporaryMessage = status === 'in_progress';
+
+    if (!isMessageIncoming || isTemporaryMessage) {
+      Vue.set(messagesInbox, id, message);
+      return;
+    }
+
+    const [messageInConversation] = findUndeliveredMessage(
+      messagesInbox,
+      message
+    );
+
+    if (!messageInConversation) {
+      Vue.set(messagesInbox, id, message);
+    } else {
+      Vue.delete(messagesInbox, messageInConversation.id);
+      Vue.set(messagesInbox, id, message);
+    }
   },
 
   initMessagesInConversation(_state, payload) {

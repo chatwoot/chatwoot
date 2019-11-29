@@ -1,7 +1,7 @@
 <template>
   <div class="user-message">
     <div class="message-wrap">
-      <UserMessageBubble :message="message" />
+      <UserMessageBubble :message="message" :status="status" />
     </div>
   </div>
 </template>
@@ -15,8 +15,12 @@ export default {
     UserMessageBubble,
   },
   props: {
-    message: String,
     avatarUrl: String,
+    message: String,
+    status: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
