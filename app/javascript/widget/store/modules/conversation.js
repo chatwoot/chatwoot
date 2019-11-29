@@ -50,7 +50,7 @@ const actions = {
   },
 
   addMessage({ commit }, data) {
-    setTimeout(() => commit('pushMessageToConversations', data), 3000);
+    commit('pushMessageToConversations', data);
   },
 };
 
