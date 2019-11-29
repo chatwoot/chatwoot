@@ -62,6 +62,9 @@ GEM
       activerecord (>= 5.0, < 6.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    annotate (3.0.3)
+      activerecord (>= 3.2, < 7.0)
+      rake (>= 10.4, < 14.0)
     ast (2.4.0)
     attr_extras (6.2.1)
     aws-eventstream (1.0.3)
@@ -431,6 +434,7 @@ PLATFORMS
 DEPENDENCIES
   action-cable-testing
   acts-as-taggable-on
+  annotate
   attr_extras
   bootsnap
   brakeman
