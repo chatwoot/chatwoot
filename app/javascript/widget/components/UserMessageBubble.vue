@@ -1,7 +1,7 @@
 <template>
   <div
     class="chat-bubble user"
-    :style="{ background: widgetColor }"
+    :style="{ background: backgroundColor }"
     v-html="formatMessage(message)"
   ></div>
 </template>
@@ -16,10 +16,17 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    backgroundColor() {
+      return this.status !== 'in_progress' ? this.widgetColor : '#c0ccda';
+    },
   },
   mixins: [messageFormatterMixin],
   props: {
     message: String,
+    status: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>

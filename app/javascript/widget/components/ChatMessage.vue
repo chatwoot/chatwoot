@@ -1,5 +1,9 @@
 <template>
-  <UserMessage v-if="isUserMessage" :message="message.content" />
+  <UserMessage
+    v-if="isUserMessage"
+    :message="message.content"
+    :status="message.status"
+  />
   <AgentMessage v-else :agent-name="agentName" :message="message.content" />
 </template>
 
