@@ -2,15 +2,15 @@ process.env.VUE_CLI_BABEL_TARGET_NODE = true;
 process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
 
 module.exports = {
-  moduleDirectories: ['node_modules', 'app/javascript/app'],
-  moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx', 'vue'],
+  moduleDirectories: ['node_modules', 'app/javascript'],
+  moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
   automock: false,
   resetMocks: true,
   transform: {
     '^.+\\.vue$': 'vue-jest',
-    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$':
+    '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$':
       'jest-transform-stub',
-    '^.+\\.jsx?$': 'babel-jest',
+    '^.+\\.(js|jsx)?$': 'babel-jest',
   },
   cacheDirectory: '<rootDir>/.jest-cache',
   collectCoverage: false,
