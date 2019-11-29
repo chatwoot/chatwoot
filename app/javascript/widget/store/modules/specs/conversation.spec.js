@@ -1,9 +1,9 @@
 import {
-  findUndeliveredMessageInConversation,
+  findUndeliveredMessage,
   createTemporaryMessage,
 } from '../conversation';
 
-describe('#findUndeliveredMessageInConversation', () => {
+describe('#findUndeliveredMessage', () => {
   it('returns message objects if exist', () => {
     const conversation = {
       1: {
@@ -23,7 +23,7 @@ describe('#findUndeliveredMessageInConversation', () => {
       },
     };
     expect(
-      findUndeliveredMessageInConversation(conversation, { content: 'Hello' })
+      findUndeliveredMessage(conversation, { content: 'Hello' })
     ).toStrictEqual([{ id: 1, content: 'Hello', status: 'in_progress' }]);
   });
 });

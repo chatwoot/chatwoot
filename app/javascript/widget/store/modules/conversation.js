@@ -15,10 +15,7 @@ export const createTemporaryMessage = content => {
   };
 };
 
-export const findUndeliveredMessageInConversation = (
-  messageInbox,
-  { content }
-) =>
+export const findUndeliveredMessage = (messageInbox, { content }) =>
   Object.values(messageInbox).filter(
     message => message.content === content && message.status === 'in_progress'
   );
@@ -70,7 +67,7 @@ const mutations = {
       return;
     }
 
-    const [messageInConversation] = findUndeliveredMessageInConversation(
+    const [messageInConversation] = findUndeliveredMessage(
       messagesInbox,
       message
     );
