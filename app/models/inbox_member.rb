@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: inbox_members
+#
+#  id         :integer          not null, primary key
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  inbox_id   :integer          not null
+#  user_id    :integer          not null
+#
+# Indexes
+#
+#  index_inbox_members_on_inbox_id  (inbox_id)
+#
+
 class InboxMember < ApplicationRecord
   validates :inbox_id, presence: true
   validates :user_id, presence: true
