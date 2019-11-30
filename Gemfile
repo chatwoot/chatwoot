@@ -71,10 +71,10 @@ gem 'sidekiq'
 gem 'uglifier'
 
 group :development do
+  gem 'annotate'
   gem 'bullet'
   gem 'letter_opener'
   gem 'web-console'
-  gem 'annotate'
 end
 
 group :test do

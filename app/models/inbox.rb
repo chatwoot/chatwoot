@@ -17,7 +17,6 @@
 #  index_inboxes_on_account_id  (account_id)
 #
 
-
 class Inbox < ApplicationRecord
   validates :account_id, presence: true
 
