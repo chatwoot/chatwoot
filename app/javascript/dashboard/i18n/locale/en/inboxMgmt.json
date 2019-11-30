@@ -30,7 +30,7 @@
       },
       "AUTH": {
         "TITLE": "Channels",
-        "DESC": "Currently we support only Facebook Pages as a platform. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
+        "DESC": "Currently we support website live chat widgets and Facebook Pages as platforms. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -58,7 +58,8 @@
     "FINISH": {
       "TITLE": "Your Inbox is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there"
+      "BUTTON_TEXT": "Take me there",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",
@@ -71,7 +72,7 @@
         "NO": "No, Keep "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox delete successfully",
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
         "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
       }
     },

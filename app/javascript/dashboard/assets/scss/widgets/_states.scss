@@ -2,10 +2,10 @@
   padding: $space-jumbo $space-smaller;
 
   .message {
-    display: block;
-    width: 100%;
-    text-align: center;
     color: $color-gray;
+    display: block;
+    text-align: center;
+    width: 100%;
   }
 
   .spinner {
@@ -31,9 +31,9 @@
   }
 
   .message {
-    width: 50%;
-    margin: 0 auto;
     color: $color-gray;
+    margin: $space-normal auto;
+    width: 90%;
   }
 
   .button {
