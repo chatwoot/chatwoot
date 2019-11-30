@@ -29,14 +29,21 @@ class ConversationFinder
     set_inboxes
     set_assignee_type
 
-    find_all_conversations # find all with the inbox
-    filter_by_assignee_type # filter by assignee
+    find_all_conversations
     filter_by_status
 
-    open_count, resolved_count = set_count_for_all_conversations # fetch count for both before filtering by status
+    mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
-    { conversations: @conversations.latest.page(current_page),
-      count: { open: open_count, resolved: resolved_count } }
+    filter_by_assignee_type
+
+    {
+      conversations: conversations,
+      count: {
+        mine_count: mine_count,
+        unassigned_count: unassigned_count,
+        all_count: all_count
+      }
+    }
   end
 
   private
@@ -78,10 +85,18 @@ class ConversationFinder
   end
 
   def set_count_for_all_conversations
-    [@conversations.open.count, @conversations.resolved.count]
+    [
+      @conversations.assigned_to(current_user).count,
+      @conversations.unassigned.count,
+      @conversations.count
+    ]
   end
 
   def current_page
-    params[:page] || 1
+    params[:page]
+  end
+
+  def conversations
+    current_page ? @conversations.latest.page(current_page) : @conversations.latest
   end
 end
