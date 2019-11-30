@@ -49,6 +49,10 @@ class Inbox < ApplicationRecord
     channel.class.name.to_s == 'Channel::FacebookPage'
   end
 
+  def web_widget?
+    channel.class.name.to_s == 'Channel::WebWidget'
+  end
+
   def next_available_agent
     user_id = Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
     account.users.find_by(id: user_id)

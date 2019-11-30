@@ -18,6 +18,10 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_email_collect?
-    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
+    return unless conversation.inbox.web_widget?
+    return unless conversation.messages.outgoing.count.zero?
+    return unless conversation.messages.template.count.zero?
+
+    true
   end
 end
