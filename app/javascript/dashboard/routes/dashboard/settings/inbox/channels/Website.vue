@@ -4,10 +4,11 @@
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
     />
-    <loading-state
+    <woot-loading-state
       v-if="isCreating"
       message="Creating Website Support Channel"
-    ></loading-state>
+    >
+    </woot-loading-state>
     <form v-if="!isCreating" class="row" @submit.prevent="createChannel()">
       <div class="medium-12 columns">
         <label>
@@ -61,10 +62,14 @@ export default {
     };
   },
   mounted() {
-    bus.$on('new_website_channel', ({ inboxId }) => {
+    bus.$on('new_website_channel', ({ inboxId, websiteToken }) => {
       router.replace({
         name: 'settings_inboxes_add_agents',
-        params: { page: 'new', inbox_id: inboxId },
+        params: {
+          page: 'new',
+          inbox_id: inboxId,
+          website_token: websiteToken,
+        },
       });
     });
   },
