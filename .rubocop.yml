@@ -17,6 +17,9 @@ Metrics/BlockLength:
     - spec/**/*
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
 AllCops:
   Exclude:
     - db/*
