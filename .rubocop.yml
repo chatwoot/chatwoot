@@ -29,3 +29,4 @@ AllCops:
     - public/**/*
     - vendor/**/*
     - node_modules/**/*
+    - lib/tasks/auto_annotate_models.rake
