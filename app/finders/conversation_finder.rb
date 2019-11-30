@@ -17,7 +17,7 @@ class ConversationFinder
   # {conversations: [array of conversations], count: {open: count, resolved: count}}
 
   # params
-  # assignee_type_id, inbox_id, :conversation_status_id,
+  # assignee_type_id, inbox_id, :status
 
   def initialize(current_user, params)
     @current_user = current_user
