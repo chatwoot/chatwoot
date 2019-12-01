@@ -81,7 +81,7 @@ group :test do
   gem 'action-cable-testing'
   gem 'mock_redis'
   gem 'shoulda-matchers'
-  gem 'simplecov'
+  gem 'simplecov', require: false
 end
 
 group :development, :test do
