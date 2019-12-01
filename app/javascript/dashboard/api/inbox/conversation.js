@@ -6,12 +6,12 @@ class ConversationApi extends ApiClient {
     super('conversations');
   }
 
-  get({ inboxId, convStatus, assigneeStatus }) {
+  get({ inboxId, status, assigneeType }) {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
-        conversation_status_id: convStatus,
-        assignee_type_id: assigneeStatus,
+        status,
+        assignee_type_id: assigneeType,
       },
     });
   }

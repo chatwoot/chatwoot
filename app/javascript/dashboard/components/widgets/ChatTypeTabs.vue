@@ -32,8 +32,10 @@ export default {
   },
   methods: {
     onTabChange(selectedTabIndex) {
-      this.$emit('chatTabChange', selectedTabIndex);
-      this.tabsIndex = selectedTabIndex;
+      if (selectedTabIndex !== this.tabsIndex) {
+        this.$emit('chatTabChange', selectedTabIndex);
+        this.tabsIndex = selectedTabIndex;
+      }
     },
   },
 };

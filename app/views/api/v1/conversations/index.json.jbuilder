@@ -1,8 +1,8 @@
 json.data do
   json.meta do
-    json.open_count @conversations_count[:open]
-    json.resolved_count @conversations_count[:closed]
-    json.conversation_type @type
+    json.mine_count @conversations_count[:mine_count]
+    json.unassigned_count @conversations_count[:unassigned_count]
+    json.all_count @conversations_count[:all_count]
   end
 
   json.payload do

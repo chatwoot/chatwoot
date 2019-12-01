@@ -60,10 +60,10 @@ class User < ApplicationRecord
   # Used by the actionCable/PubSub Service we use for real time communications
   has_secure_token :pubsub_token
 
-  validates_uniqueness_of :email, scope: :account_id
-  validates :email, presence: true
-  validates :name, presence: true
-  validates :account_id, presence: true
+  # The validation below has been commented out as it does not
+  # work because :validatable in devise overrides this.
+  # validates_uniqueness_of :email, scope: :account_id
+  validates :email, :name, :account_id, presence: true
 
   enum role: [:agent, :administrator]
 
