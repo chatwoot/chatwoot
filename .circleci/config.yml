@@ -13,6 +13,8 @@ defaults: &defaults
     # CircleCI maintains a library of pre-built images
     # documented at https://circleci.com/docs/2.0/circleci-images/
     - image: circleci/postgres:9.4
+  environment:
+      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
 
 jobs:
   build:
@@ -39,15 +41,7 @@ jobs:
 
       - run:
           name: Bundle Install
-          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
+          command: bundle install --clean --path vendor/bundle
 
       # Store bundle cache
       - save_cache:
@@ -65,6 +59,12 @@ jobs:
           name: yarn
           command: yarn install --cache-folder ~/.cache/yarn
 
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: chatwoot-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
       - run:
           name:  Download cc-test-reporter
           command: |
@@ -75,6 +75,19 @@ jobs:
           root: tmp
           paths:
             - cc-test-reporter
+
+      # Database setup
+      - run: yarn install --check-files
+      - run: bundle exec rake db:create
+      - run: bundle exec rake db:schema:load
+
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
 
       - run:
           name: eslint
@@ -89,18 +102,6 @@ jobs:
           root: tmp
           paths: 
             - codeclimate.frontend.json
-
-      # Store yarn / webpacker cache
-      - save_cache:
-          key: chatwoot-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-      # Database setup
-      - run: yarn install --check-files
-      - run: bundle exec rake db:create
-      - run: bundle exec rake db:schema:load
-
 
       # Run rails tests
       - run: 
@@ -120,24 +121,8 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
-  upload-coverage:
-    <<: *defaults
-    environment:
-      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
-    steps:
-      - attach_workspace:
-          at: ~/build/tmp
       - run:
           name: Upload coverage results to Code Climate
           command: |
             ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
-workflows:
-  version: 2
-
-  commit:
-    jobs:
-      - build
-      - upload-coverage:
-          requires:
-             - build
