@@ -93,16 +93,6 @@ jobs:
           name: eslint
           command: yarn run eslint
 
-      - run: 
-          name: Run frontend tests
-          command: |
-            yarn test:coverage
-            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
-      - persist_to_workspace:
-          root: tmp
-          paths: 
-            - codeclimate.frontend.json
-
       # Run rails tests
       - run: 
           name: Run backend tests
@@ -114,6 +104,16 @@ jobs:
           paths: 
             - codeclimate.backend.json
 
+      # - run: 
+      #     name: Run frontend tests
+      #     command: |
+      #       yarn test:coverage
+      #       ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
+      # - persist_to_workspace:
+      #     root: tmp
+      #     paths: 
+      #       - codeclimate.frontend.json
+
       # collect reports
       - store_test_results:
           path: /tmp/test-results
@@ -124,5 +124,5 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 1 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
