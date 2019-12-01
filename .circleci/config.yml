@@ -33,21 +33,22 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
-      # Restore bundle cache
+      # Run bundler
+      # Load installed gems from cache if possible, bundle install then save cache
+      # Multiple caches are used to increase the chance of a cache hit
+
       - restore_cache:
           keys:
-            - chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - chatwoot-bundle-v2-
-
-      - run:
-          name: Bundle Install
-          command: bundle install --clean --path vendor/bundle
-
-      # Store bundle cache
+            # when lock file changes, use increasingly general patterns to restore cache
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
+            - v1-gem-cache-{{ arch }}-
+      - run: bundle install && bundle clean
       - save_cache:
-          key: chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
-            - vendor/bundle
+            - ~/.bundle
+          key: v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
