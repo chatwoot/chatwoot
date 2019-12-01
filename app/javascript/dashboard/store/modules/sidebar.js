@@ -173,6 +173,7 @@ const mutations = {
       channelType: data.channel_type,
       avatarUrl: data.avatar_url === undefined ? null : data.avatar_url,
       pageId: data.page_id,
+      websiteToken: data.website_token,
     });
   },
 
