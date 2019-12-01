@@ -7,15 +7,8 @@ class MessageTemplates::HookExecutionService
 
   private
 
+  delegate :inbox, :conversation, to: :message
   delegate :contact, to: :conversation
-
-  def inbox
-    @inbox ||= message.inbox
-  end
-
-  def conversation
-    @conversation ||= message.conversation
-  end
 
   def should_send_email_collect?
     return unless conversation.inbox.web_widget?

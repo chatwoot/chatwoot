@@ -14,16 +14,8 @@ class MessageTemplates::Template::EmailCollect
 
   private
 
-  delegate :contact, to: :conversation
-  delegate :account, to: :conversation
-
-  def inbox
-    @inbox ||= message.inbox
-  end
-
-  def conversation
-    @conversation ||= message.conversation
-  end
+  delegate :contact, :account, to: :conversation
+  delegate :inbox, to: :message
 
   def typical_reply_message_params
     content = I18n.t('conversations.templates.typical_reply_message_body',
