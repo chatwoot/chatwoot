@@ -66,10 +66,11 @@ jobs:
           command: yarn install --cache-folder ~/.cache/yarn
 
       - run:
-          name: Install Code Climate Test Reporter
+          name:  Download cc-test-reporter
           command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
       - persist_to_workspace:
           root: tmp
           paths:
@@ -125,7 +126,7 @@ jobs:
       - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
     steps:
       - attach_workspace:
-          at: ~/repo/tmp
+          at: ~/build/tmp
       - run:
           name: Upload coverage results to Code Climate
           command: |
