@@ -11,7 +11,6 @@ class Api::V1::ConversationsController < Api::BaseController
     result = conversation_finder.perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
-    @type = params[:conversation_status_id].to_i
   end
 
   def show
