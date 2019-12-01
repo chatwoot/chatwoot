@@ -80,15 +80,15 @@ jobs:
           name: eslint
           command: yarn run eslint
 
-      # - run: 
-      #     name: Run frontend tests
-      #     command: |
-      #       yarn test
-      #       ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
-      # - persist_to_workspace:
-      #     root: tmp
-      #     paths: 
-      #       - codeclimate.frontend.json
+      - run: 
+          name: Run frontend tests
+          command: |
+            yarn test
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/frontend/lcov.info
+      - persist_to_workspace:
+          root: tmp
+          paths: 
+            - codeclimate.frontend.json
 
       # Store yarn / webpacker cache
       - save_cache:
