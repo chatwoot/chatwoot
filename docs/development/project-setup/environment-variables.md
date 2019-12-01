@@ -83,3 +83,15 @@ POSTGRES_DATABASE=chatwoot_production
 POSTGRES_USERNAME=admin
 POSTGRES_PASSWORD=password
 ```
+
+### Rails Production Variables
+
+For production deployment, you have to set the following variables
+
+```bash
+RAILS_ENV=production
+SECRET_KEY_BASE=replace_with_your_own_secret_string
+```
+
+You can generate `SECRET_KEY_BASE` using `rake secret` command from project root folder.
+

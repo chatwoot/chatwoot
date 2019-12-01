@@ -17,6 +17,9 @@ Metrics/BlockLength:
     - spec/**/*
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
 AllCops:
   Exclude:
     - db/*
@@ -26,3 +29,4 @@ AllCops:
     - public/**/*
     - vendor/**/*
     - node_modules/**/*
+    - lib/tasks/auto_annotate_models.rake

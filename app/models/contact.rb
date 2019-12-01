@@ -1,3 +1,23 @@
+# == Schema Information
+#
+# Table name: contacts
+#
+#  id           :integer          not null, primary key
+#  avatar       :string
+#  email        :string
+#  name         :string
+#  phone_number :string
+#  pubsub_token :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer          not null
+#
+# Indexes
+#
+#  index_contacts_on_account_id    (account_id)
+#  index_contacts_on_pubsub_token  (pubsub_token) UNIQUE
+#
+
 class Contact < ApplicationRecord
   include Pubsubable
   validates :account_id, presence: true

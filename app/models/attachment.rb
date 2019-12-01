@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: attachments
+#
+#  id               :integer          not null, primary key
+#  coordinates_lat  :float            default(0.0)
+#  coordinates_long :float            default(0.0)
+#  extension        :string
+#  external_url     :string
+#  fallback_title   :string
+#  file             :string
+#  file_type        :integer          default("image")
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  account_id       :integer          not null
+#  message_id       :integer          not null
+#
+
 require 'uri'
 require 'open-uri'
 class Attachment < ApplicationRecord
