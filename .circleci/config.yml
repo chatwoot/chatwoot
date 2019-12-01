@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: Bundle Install
-          command: bundle check || bundle install
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
 
       - run:
           name: Bundle audit
