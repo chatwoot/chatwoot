@@ -7,7 +7,7 @@
     "pretest": "rimraf .jest-cache",
     "test": "jest --no-cache",
     "test:watch": "jest --watch --no-cache",
-    "test:coverage": "jest --no-cache --coverage"
+    "test:coverage": "jest --no-cache --collectCoverage"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
