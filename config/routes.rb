@@ -11,7 +11,11 @@ Rails.application.routes.draw do
 
   match '/status', to: 'home#status', via: [:get]
 
-  resource :widget
+  resource :widget, only: [:show] do
+    collection do
+      post :update_contact
+    end
+  end
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
