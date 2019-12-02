@@ -120,7 +120,7 @@ const IFrameHelper = {
   createFrame: ({ baseUrl, websiteToken }) => {
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = `${baseUrl}/widgets?website_token=${websiteToken}`;
+    let widgetUrl = `${baseUrl}/widget?website_token=${websiteToken}`;
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }

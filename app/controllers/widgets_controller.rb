@@ -4,6 +4,10 @@ class WidgetsController < ActionController::Base
   before_action :set_contact
   before_action :build_contact
 
+  def show; end
+
+  def update_contact; end
+
   private
 
   def set_contact
