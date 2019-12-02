@@ -88,6 +88,10 @@
       "pre-commit": "lint-staged"
     }
   },
+  "jest": {
+     "collectCoverage": true,
+     "coverageReporters": ["lcov", "text"]
+  },
   "lint-staged": {
     "*.{js,vue}": [
       "eslint --fix",
