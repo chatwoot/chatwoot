@@ -10,11 +10,11 @@ class MessageTemplates::HookExecutionService
   delegate :inbox, :conversation, to: :message
   delegate :contact, to: :conversation
 
-  def should_send_email_collect?
-    return unless conversation.inbox.web_widget?
-    return unless conversation.messages.outgoing.count.zero?
-    return unless conversation.messages.template.count.zero?
+  def first_message_from_contact?
+    conversation.messages.outgoing.count.zero? && conversation.messages.template.count.zero?
+  end
 
-    true
+  def should_send_email_collect?
+    conversation.inbox.web_widget? && first_message_from_contact?
   end
 end
