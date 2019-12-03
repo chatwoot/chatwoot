@@ -43,10 +43,11 @@ jobs:
             - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
             - v1-gem-cache-{{ arch }}-{{ .Branch }}-
             - v1-gem-cache-{{ arch }}-
-      - run: bundle install && bundle clean
+
+      - run: bundle install --frozen --path vendor/bundle
       - save_cache:
           paths:
-            - ~/.bundle
+            - ~/vendor/bundle
           key: v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
 
 
