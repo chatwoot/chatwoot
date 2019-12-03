@@ -1,5 +1,5 @@
 class AssignmentMailer < ApplicationMailer
-  default from: 'accounts@chatwoot.com'
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   layout 'mailer'
 
   def conversation_assigned(conversation, agent)

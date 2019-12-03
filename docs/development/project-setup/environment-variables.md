@@ -35,6 +35,7 @@ For development, you don't need an email provider. Chatwoot uses [letter-opener]
 For production use, use the following variables to set SMTP server.
 
 ```bash
+MAILER_SENDER_EMAIL=
 SMTP_ADDRESS=
 SMTP_USERNAME=
 SMTP_PASSWORD=

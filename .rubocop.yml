@@ -15,6 +15,13 @@ Style/SymbolArray:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+    - '**/routes.rb'
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/api/v1/widget/messages_controller.rb'
+    - 'app/controllers/dashboard_controller.rb'
+    - 'app/controllers/widget_tests_controller.rb'
+    - 'app/controllers/widgets_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 RSpec/NestedGroups:
