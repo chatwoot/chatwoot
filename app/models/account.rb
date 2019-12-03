@@ -3,13 +3,15 @@
 # Table name: accounts
 #
 #  id         :integer          not null, primary key
-#  name       :string
+#  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 class Account < ApplicationRecord
   include Events::Types
+
+  validates :name, presence: true
 
   has_many :users, dependent: :destroy
   has_many :inboxes, dependent: :destroy
