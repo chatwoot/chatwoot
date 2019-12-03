@@ -47,7 +47,7 @@ jobs:
       - run: bundle install --frozen --path vendor/bundle
       - save_cache:
           paths:
-            - ~/vendor/bundle
+            - ./vendor/bundle
           key: v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
 
 
