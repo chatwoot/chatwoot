@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'accounts@chatwoot.com'
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   layout 'mailer'
 
   # helpers
