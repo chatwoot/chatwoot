@@ -39,15 +39,14 @@ jobs:
 
       - restore_cache:
           keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - v1-gem-cache-{{ arch }}-{{ .Branch }}-
-            - v1-gem-cache-{{ arch }}-
-      - run: bundle install && bundle clean
+            - chatwoot-bundle-{{ checksum "Gemfile.lock" }}
+            - chatwoot-bundle
+
+      - run: bundle install --frozen --path ~/.bundle
       - save_cache:
           paths:
             - ~/.bundle
-          key: v1-gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          key: chatwoot-bundle-{{ checksum "Gemfile.lock" }}
 
 
       # Only necessary if app uses webpacker or yarn in some other way
