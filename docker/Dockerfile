@@ -2,16 +2,14 @@ FROM ruby:2.6.5-slim
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
+ARG BUNDLE_WITHOUT="development:test"
+ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
+
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
-
-ENV BUNDLE_PATH=/bundle \
-  BUNDLE_BIN=/bundle/bin \
-  GEM_HOME=/bundle
-ENV PATH="${BUNDLE_BIN}:${PATH}"
 
 RUN apt-get update \
     && apt-get -qq -y install \
