@@ -40,6 +40,4 @@ services:
 
 volumes:
   postgres:
-    external: true
   redis:
-    external: true
