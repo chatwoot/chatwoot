@@ -5,8 +5,12 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+      args:
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     volumes:
-      - ./:/app
+      - ./:/app:cached
+      - bundle:/bundle:delegated
       - packs:/app/public/packs
     links:
       - postgres
@@ -53,4 +57,5 @@ services:
 volumes:
   postgres:
   redis:
+  bundle:
   packs:
