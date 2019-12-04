@@ -7,6 +7,7 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - ./:/app
+      - packs:/app/public/packs
     links:
       - postgres
       - redis
@@ -16,7 +17,18 @@ services:
       - REDIS_URL=redis://redis:6379
       - POSTGRES_HOST=postgres
       - RAILS_ENV=development
-    command: ["foreman", "start", "-f", "./docker/Procfile.docker.dev"]
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+
+  webpacker:
+    <<: *server
+    command: ./bin/webpack-dev-server
+    ports:
+      - '3035:3035'
+    depends_on:
+      - "server"
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
 
   postgres:
     image: postgres:9.6
@@ -41,3 +53,4 @@ services:
 volumes:
   postgres:
   redis:
+  packs:
