@@ -32,6 +32,7 @@ class Message < ApplicationRecord
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: { text: 0, input: 1, input_textarea: 2, input_email: 3 }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
+  store :content_attributes, accessors: [:submitted], coder: JSON, prefix: :input
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }

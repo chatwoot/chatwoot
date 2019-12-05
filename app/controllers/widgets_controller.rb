@@ -4,11 +4,13 @@ class WidgetsController < ActionController::Base
   before_action :set_contact, only: [:show]
   before_action :build_contact, only: [:show]
   before_action :find_contact, only: [:update_contact]
+  before_action :find_message, only: [:update_contact]
 
   def show; end
 
   def update_contact
     @contact.update!(permitted_params[:contact])
+    @message&.update!(input_submitted: true)
     render json: @contact
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
@@ -70,7 +72,7 @@ class WidgetsController < ActionController::Base
   end
 
   def permitted_params
-    params.permit(:website_token, :cw_conversation, :source_id, contact: [:name, :email, :phone_number])
+    params.permit(:website_token, :cw_conversation, :message_id, :source_id, contact: [:name, :email, :phone_number])
   end
 
   def secret_key
@@ -84,5 +86,12 @@ class WidgetsController < ActionController::Base
       source_id: params[:source_id]
     )
     @contact = contact_inbox ? contact_inbox.contact : nil
+  end
+
+  def find_message
+    return unless permitted_params[:message_id]
+
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    @message = @web_widget.inbox.messages.find(permitted_params[:message_id])
   end
 end

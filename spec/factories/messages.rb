@@ -5,9 +5,11 @@ FactoryBot.define do
     content { 'Message' }
     status { 'sent' }
     message_type { 'incoming' }
+    content_type { 'text' }
+    fb_id { SecureRandom.uuid }
     account
     inbox
     conversation
-    user
+    user { build(:user) }
   end
 end
