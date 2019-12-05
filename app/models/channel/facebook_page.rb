@@ -14,7 +14,8 @@
 #
 # Indexes
 #
-#  index_channel_facebook_pages_on_page_id  (page_id)
+#  index_channel_facebook_pages_on_page_id                 (page_id)
+#  index_channel_facebook_pages_on_page_id_and_account_id  (page_id,account_id) UNIQUE
 #
 
 module Channel
@@ -22,7 +23,7 @@ module Channel
     self.table_name = 'channel_facebook_pages'
 
     validates :account_id, presence: true
-    validates_uniqueness_of :page_id, scope: :account_id
+    validates :page_id, uniqueness: { scope: :account_id }
     mount_uploader :avatar, AvatarUploader
     belongs_to :account
 
