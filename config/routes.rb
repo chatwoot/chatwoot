@@ -11,11 +11,7 @@ Rails.application.routes.draw do
 
   match '/status', to: 'home#status', via: [:get]
 
-  resource :widget, only: [:show] do
-    collection do
-      post :update_contact
-    end
-  end
+  resource :widget, only: [:show]
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -29,7 +25,7 @@ Rails.application.routes.draw do
       end
 
       namespace :widget do
-        resources :messages, only: [:index, :create]
+        resources :messages, only: [:index, :create, :update]
         resources :inboxes, only: [:create, :update]
       end
 

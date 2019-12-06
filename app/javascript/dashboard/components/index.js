@@ -1,6 +1,7 @@
 /* eslint no-plusplus: 0 */
 /* eslint-env browser */
 
+import Spinner from 'shared/components/Spinner';
 import Bar from './widgets/chart/BarChart';
 import Code from './Code';
 import LoadingState from './widgets/LoadingState';

@@ -147,30 +147,6 @@
   border-radius: $space-small;
 }
 
-@mixin color-spinner() {
-  @keyframes spinner {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  &:before {
-    content: '';
-    box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: $space-medium;
-    height: $space-medium;
-    margin-top: -$space-one;
-    margin-left: -$space-one;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: lighten($color-woot, 10%);
-    animation: spinner .9s linear infinite;
-  }
-}
-
 // --------------------------------------------------------
 // arrows
 // --------------------------------------------------------

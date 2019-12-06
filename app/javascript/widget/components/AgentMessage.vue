@@ -9,7 +9,13 @@
       />
     </div>
     <div class="message-wrap">
-      <AgentMessageBubble :message="message" />
+      <AgentMessageBubble
+        :content-type="contentType"
+        :message-content-attributes="messageContentAttributes"
+        :message-id="messageId"
+        :message-type="messageType"
+        :message="message"
+      />
       <p v-if="showAvatar" class="agent-name">
         {{ agentName }}
       </p>
@@ -32,7 +38,22 @@ export default {
     avatarUrl: String,
     agentName: String,
     showAvatar: Boolean,
-    createdAt: Number,
+    contentType: {
+      type: String,
+      default: '',
+    },
+    messageContentAttributes: {
+      type: Object,
+      default: () => {},
+    },
+    messageType: {
+      type: Number,
+      default: 1,
+    },
+    messageId: {
+      type: Number,
+      default: 0,
+    },
   },
 };
 </script>

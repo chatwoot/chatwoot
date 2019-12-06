@@ -15,44 +15,6 @@
   @include full-height();
 }
 
-.spinner {
-  @include color-spinner();
-  position: relative;
-  display: inline-block;
-  width: $space-medium;
-  height: $space-medium;
-  padding: $zero $space-medium;
-  vertical-align: middle;
-
-  &.message {
-    padding: $space-normal;
-    top: 0;
-    left: 0;
-    margin: 0 auto;
-    margin-top: $space-slab;
-    background: $color-white;
-    border-radius: $space-large;
-    @include elegent-shadow;
-
-    &:before {
-      margin-top: -$space-slab;
-      margin-left: -$space-slab;
-    }
-  }
-
-  &.small {
-    width: $space-normal;
-    height: $space-normal;
-
-    &:before {
-      width: $space-normal;
-      height: $space-normal;
-      margin-top: -$space-small;
-    }
-  }
-}
-
-
 input, textarea {
   border-radius: 4px !important;
 }

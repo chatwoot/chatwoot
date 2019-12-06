@@ -7,9 +7,13 @@
   <AgentMessage
     v-else
     :agent-name="agentName"
+    :avatar-url="avatarUrl"
+    :content-type="message.content_type"
+    :message-content-attributes="message.content_attributes"
+    :message-id="message.id"
+    :message-type="message.message_type"
     :message="message.content"
     :show-avatar="message.showAvatar"
-    :avatar-url="avatarUrl"
   />
 </template>
 
