@@ -28,14 +28,20 @@
             </span>
           </label>
         </div>
-        <div class="modal-footer">
-          <div class="medium-12 columns">
+        <div class="medium-12 modal-footer">
+          <div class="medium-8 columns">
             <woot-submit-button
               :disabled="$v.agentType.$invalid || $v.agentName.$invalid || editAgentsApi.showLoading"
               :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
               :loading="editAgentsApi.showLoading"
             />
             <a @click="onClose">Cancel</a>
+          </div>
+          <div class="medium-4 columns">  
+            <a @click="resetPassword">
+              <i class="ion-locked"></i>
+              Reset Password
+            </a>
           </div>
         </div>
       </form>
@@ -51,6 +57,7 @@ import { required, minLength } from 'vuelidate/lib/validators';
 import PageHeader from '../SettingsSubPageHeader';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
+import Auth from '../../../../api/auth';
 
 export default {
   components: {
@@ -61,6 +68,7 @@ export default {
   props: {
     id: Number,
     name: String,
+    email: String,
     type: String,
     onClose: Function,
   },
@@ -76,6 +84,9 @@ export default {
       agentType: {
         name: this.type,
         label: this.type,
+      },
+      agentCredentials: {
+        email: this.email
       },
       show: true,
     };
@@ -132,6 +143,22 @@ export default {
         this.showAlert();
       });
     },
+    resetPassword() {
+      // Call resetPassword from Auth Service
+      Auth.resetPassword(this.agentCredentials)
+        .then(res => {
+          this.editAgentsApi.message = this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.SUCCESS_MESSAGE');
+          this.showAlert();
+          this.resetForm();
+          setTimeout(() => {
+            this.onClose();
+          }, 10);
+        })
+        .catch(() => {
+          this.editAgentsApi.message = this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE');
+          this.showAlert();
+        });
+    }
   },
 };
 </script>

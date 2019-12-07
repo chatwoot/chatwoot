@@ -83,6 +83,10 @@
       "API": {
         "SUCCESS_MESSAGE": "Agent updated successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "PASSWORD_RESET": {
+        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "SEARCH": {
