@@ -1,4 +1,4 @@
-class Api::V1::Widget::BaseController < ActionController::Base
+class Api::V1::Widget::BaseController < ApplicationController
   private
 
   def conversation
@@ -9,17 +9,11 @@ class Api::V1::Widget::BaseController < ActionController::Base
   end
 
   def auth_token_params
-    @auth_token_params ||= JWT.decode(
-      request.headers[header_name], secret_key, true, algorithm: 'HS256'
-    ).first.symbolize_keys
+    @auth_token_params ||= ::Widget::TokenService.new(token: request.headers[header_name]).decode_token
   end
 
   def header_name
     'X-Auth-Token'
-  end
-
-  def secret_key
-    Rails.application.secrets.secret_key_base
   end
 
   def set_web_widget
