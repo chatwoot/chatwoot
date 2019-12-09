@@ -30,7 +30,7 @@ node_modules
 .env
 
 public/uploads
-public/packs
+public/packs*
 
 # VIM files
 *.swp
