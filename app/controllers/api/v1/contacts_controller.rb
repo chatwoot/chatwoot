@@ -22,7 +22,7 @@ class Api::V1::ContactsController < Api::BaseController
   end
 
   def update
-    @contact.update_attributes!(contact_params)
+    @contact.update!(contact_params)
   end
 
   private

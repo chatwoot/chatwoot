@@ -10,7 +10,6 @@
 #  current_sign_in_ip     :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
-#  image                  :string
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  name                   :string           not null
@@ -59,6 +58,9 @@ class User < ApplicationRecord
 
   # Used by the actionCable/PubSub Service we use for real time communications
   has_secure_token :pubsub_token
+
+  # Uses active storage for the avatar
+  has_one_attached :avatar
 
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
