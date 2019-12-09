@@ -31,7 +31,7 @@ brew install git
 You need software-properties-common installed in order to add PPA repositories.
 
 ```bash
-\curl -L https://get.rvm.io | bash -s stable
+curl -L https://get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
 ```
 
