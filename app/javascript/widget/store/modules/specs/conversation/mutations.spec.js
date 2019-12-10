@@ -1,30 +1,41 @@
 import { mutations } from '../../conversation';
 
+const temporaryMessagePayload = {
+  content: 'hello',
+  id: 1,
+  message_type: 0,
+  status: 'in_progress',
+};
+
+const incomingMessagePayload = {
+  content: 'hello',
+  id: 1,
+  message_type: 0,
+  status: 'sent',
+};
+
+const outgoingMessagePayload = {
+  content: 'hello',
+  id: 1,
+  message_type: 1,
+  status: 'sent',
+};
+
 describe('#mutations', () => {
   describe('#pushMessageToConversation', () => {
     it('add message to conversation if outgoing', () => {
       const state = { conversations: {} };
-      mutations.pushMessageToConversation(state, {
-        content: 'hello',
-        id: 1,
-        message_type: 1,
-        status: 'sent',
-      });
+      mutations.pushMessageToConversation(state, outgoingMessagePayload);
       expect(state.conversations).toEqual({
-        1: { content: 'hello', id: 1, message_type: 1, status: 'sent' },
+        1: outgoingMessagePayload,
       });
     });
 
     it('add message to conversation if message in undelivered', () => {
       const state = { conversations: {} };
-      mutations.pushMessageToConversation(state, {
-        content: 'hello',
-        id: 1,
-        message_type: 0,
-        status: 'in_progress',
-      });
+      mutations.pushMessageToConversation(state, temporaryMessagePayload);
       expect(state.conversations).toEqual({
-        1: { content: 'hello', id: 1, message_type: 0, status: 'in_progress' },
+        1: temporaryMessagePayload,
       });
     });
 
@@ -39,27 +50,17 @@ describe('#mutations', () => {
           },
         },
       };
-      mutations.pushMessageToConversation(state, {
-        content: 'hello',
-        id: 1,
-        message_type: 0,
-        status: 'sent',
-      });
+      mutations.pushMessageToConversation(state, incomingMessagePayload);
       expect(state.conversations).toEqual({
-        1: { content: 'hello', id: 1, message_type: 0, status: 'sent' },
+        1: incomingMessagePayload,
       });
     });
 
     it('adds message in conversation if it is a new message', () => {
       const state = { conversations: {} };
-      mutations.pushMessageToConversation(state, {
-        content: 'hello',
-        id: 1,
-        message_type: 0,
-        status: 'sent',
-      });
+      mutations.pushMessageToConversation(state, incomingMessagePayload);
       expect(state.conversations).toEqual({
-        1: { content: 'hello', id: 1, message_type: 0, status: 'sent' },
+        1: incomingMessagePayload,
       });
     });
   });
