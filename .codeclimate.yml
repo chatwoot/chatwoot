@@ -5,13 +5,14 @@ plugins:
     channel: rubocop-0-73
   eslint:
     enabled: false
-    exclude_patterns:
-      - "tests/"
-      - "spec/"
-      - "specs/"
   csslint:
     enabled: true
   scss-lint:
     enabled: true
   brakeman:
     enabled: true
+
+exclude_patterns:
+  - "tests/"
+  - "spec/"
+  - "specs/"
