@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         resources :inboxes, only: [:create]
       end
 
+      resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy]
       resources :agents, except: [:show, :edit, :new]
