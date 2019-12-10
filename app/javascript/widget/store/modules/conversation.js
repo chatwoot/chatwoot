@@ -23,11 +23,23 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
 export const DEFAULT_CONVERSATION = 'default';
 const state = {
   conversations: {},
+  uiFlags: {
+    allMessagesLoaded: false,
+    isFetchingList: false,
+  },
 };
 
 const getters = {
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
+  getUIFlags: _state => _state.uiFlags,
+  getEarliestMessage: _state => {
+    const conversation = Object.values(_state.conversations);
+    if (conversation.length) {
+      return conversation[0];
+    }
+    return {};
+  },
 };
 
 const actions = {
@@ -37,12 +49,14 @@ const actions = {
     await sendMessageAPI(content);
   },
 
-  fetchOldConversations: async ({ commit }) => {
+  fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
-      const { data } = await getConversationAPI();
+      commit('setConversationListLoading', true);
+      const { data } = await getConversationAPI({ before });
       commit('initMessagesInConversation', data);
+      commit('setConversationListLoading', false);
     } catch (error) {
-      // Handle error
+      commit('setConversationListLoading', false);
     }
   },
 
@@ -80,12 +94,17 @@ const mutations = {
     }
   },
 
-  initMessagesInConversation(_state, payload) {
+  initMessagesInConversation($state, payload) {
     if (!payload.length) {
+      $state.uiFlags.allMessagesLoaded = true;
       return;
     }
 
-    payload.map(message => Vue.set(_state.conversations, message.id, message));
+    payload.map(message => Vue.set($state.conversations, message.id, message));
+  },
+
+  setConversationListLoading($state, status) {
+    $state.uiFlags.isFetchingList = status;
   },
 };
 
