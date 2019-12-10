@@ -13,7 +13,7 @@ class Api::V1::AgentsController < Api::BaseController
   end
 
   def update
-    @agent.update_attributes!(agent_params)
+    @agent.update!(agent_params)
     render json: @agent
   end
 

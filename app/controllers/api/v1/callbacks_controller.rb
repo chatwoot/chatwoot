@@ -32,7 +32,7 @@ class Api::V1::CallbacksController < ApplicationController
 
         fb_page = current_account.facebook_pages.find_by(page_id: fb_page_id)
         if fb_page
-          fb_page.update_attributes!(
+          fb_page.update!(
             user_access_token: @user_access_token,
             page_access_token: page_detail['access_token']
           )

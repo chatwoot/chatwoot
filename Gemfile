@@ -19,6 +19,11 @@ gem 'responders'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
+# compress javascript config.assets.js_compressor
+gem 'uglifier'
+
+##-- for active storage --##
+gem 'mini_magick'
 
 ##-- gems for database --#
 gem 'pg'
@@ -40,7 +45,7 @@ gem 'jwt'
 gem 'pundit'
 
 ##--- gems for pubsub service ---##
-# TODO investigate and remove this gem
+# https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
 ##--- gems for reporting ---##
@@ -66,9 +71,7 @@ gem 'sentry-raven'
 ##-- TODO: move these gems to appropriate groups --##
 # remove this gem in favor of active storage -  github #158
 gem 'carrierwave-aws'
-gem 'mini_magick'
 gem 'sidekiq'
-gem 'uglifier'
 
 group :development do
   gem 'annotate'

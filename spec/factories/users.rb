@@ -18,5 +18,9 @@ FactoryBot.define do
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.skip_confirmation
     end
+
+    trait :with_avatar do
+      avatar { Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png') }
+    end
   end
 end
