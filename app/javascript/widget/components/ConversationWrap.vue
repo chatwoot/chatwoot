@@ -1,7 +1,7 @@
 <template>
   <div class="conversation--container">
     <div class="conversation-wrap">
-      <div v-if="uiFlags.isFetchingList" class="message--loader">
+      <div v-if="isFetchingList" class="message--loader">
         <spinner></spinner>
       </div>
       <ChatMessage
@@ -39,9 +39,15 @@ export default {
   computed: {
     ...mapGetters({
       earliestMessage: 'conversation/getEarliestMessage',
-      uiFlags: 'conversation/getUIFlags',
+      allMessagesLoaded: 'conversation/getAllMessagesLoaded',
+      isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
     }),
+  },
+  watch: {
+    allMessagesLoaded() {
+      this.previousScrollHeight = 0;
+    },
   },
   mounted() {
     this.$el.addEventListener('scroll', this.handleScroll);
@@ -65,18 +71,17 @@ export default {
     },
     handleScroll() {
       if (
-        this.uiFlags.isFetchingList ||
-        this.uiFlags.allMessagesLoaded ||
+        this.isFetchingList ||
+        this.allMessagesLoaded ||
         !this.conversationSize
       ) {
         return;
       }
 
-      if (this.$el.scrollTop < 400) {
+      if (this.$el.scrollTop < 100) {
         this.fetchOldConversations({ before: this.earliestMessage.id });
+        this.previousScrollHeight = this.$el.scrollHeight;
       }
-
-      this.previousScrollHeight = this.$el.scrollHeight;
     },
   },
 };

@@ -21,6 +21,7 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
   );
 
 export const DEFAULT_CONVERSATION = 'default';
+
 const state = {
   conversations: {},
   uiFlags: {
@@ -29,10 +30,11 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
-  getUIFlags: _state => _state.uiFlags,
+  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
+  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getEarliestMessage: _state => {
     const conversation = Object.values(_state.conversations);
     if (conversation.length) {
@@ -45,7 +47,7 @@ const getters = {
 const actions = {
   sendMessage: async ({ commit }, params) => {
     const { content } = params;
-    commit('pushMessageToConversations', createTemporaryMessage(content));
+    commit('pushMessageToConversation', createTemporaryMessage(content));
     await sendMessageAPI(content);
   },
 
@@ -53,7 +55,7 @@ const actions = {
     try {
       commit('setConversationListLoading', true);
       const { data } = await getConversationAPI({ before });
-      commit('initMessagesInConversation', data);
+      commit('setMessagesInConversation', data);
       commit('setConversationListLoading', false);
     } catch (error) {
       commit('setConversationListLoading', false);
@@ -61,16 +63,12 @@ const actions = {
   },
 
   addMessage({ commit }, data) {
-    commit('pushMessageToConversations', data);
+    commit('pushMessageToConversation', data);
   },
 };
 
-const mutations = {
-  initInboxInConversations($state, lastConversation) {
-    Vue.set($state.conversations, lastConversation, {});
-  },
-
-  pushMessageToConversations($state, message) {
+export const mutations = {
+  pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
     const messagesInbox = $state.conversations;
     const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
@@ -85,7 +83,6 @@ const mutations = {
       messagesInbox,
       message
     );
-
     if (!messageInConversation) {
       Vue.set(messagesInbox, id, message);
     } else {
@@ -94,17 +91,17 @@ const mutations = {
     }
   },
 
-  initMessagesInConversation($state, payload) {
+  setConversationListLoading($state, status) {
+    $state.uiFlags.isFetchingList = status;
+  },
+
+  setMessagesInConversation($state, payload) {
     if (!payload.length) {
       $state.uiFlags.allMessagesLoaded = true;
       return;
     }
 
     payload.map(message => Vue.set($state.conversations, message.id, message));
-  },
-
-  setConversationListLoading($state, status) {
-    $state.uiFlags.isFetchingList = status;
   },
 };
 

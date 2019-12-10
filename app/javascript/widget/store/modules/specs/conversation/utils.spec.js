@@ -1,7 +1,7 @@
 import {
   findUndeliveredMessage,
   createTemporaryMessage,
-} from '../conversation';
+} from '../../conversation';
 
 describe('#findUndeliveredMessage', () => {
   it('returns message objects if exist', () => {
