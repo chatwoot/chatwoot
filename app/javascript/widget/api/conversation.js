@@ -7,9 +7,9 @@ const sendMessageAPI = async content => {
   return result;
 };
 
-const getConversationAPI = async conversationId => {
-  const urlData = endPoints.getConversation(conversationId);
-  const result = await API.get(urlData.url);
+const getConversationAPI = async ({ before }) => {
+  const urlData = endPoints.getConversation({ before });
+  const result = await API.get(urlData.url, { params: urlData.params });
   return result;
 };
 
