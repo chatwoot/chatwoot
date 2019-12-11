@@ -44,7 +44,7 @@ export const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   sendMessage: async ({ commit }, params) => {
     const { content } = params;
     commit('pushMessageToConversation', createTemporaryMessage(content));
