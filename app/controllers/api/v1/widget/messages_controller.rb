@@ -28,7 +28,7 @@ class Api::V1::Widget::MessagesController < ActionController::Base
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :incoming,
-      content: permitted_params[:content]
+      content: permitted_params[:message][:content]
     }
   end
 
@@ -65,7 +65,8 @@ class Api::V1::Widget::MessagesController < ActionController::Base
 
   def message_finder_params
     {
-      filter_internal_messages: true
+      filter_internal_messages: true,
+      before: permitted_params[:before]
     }
   end
 
@@ -78,7 +79,7 @@ class Api::V1::Widget::MessagesController < ActionController::Base
   end
 
   def permitted_params
-    params.fetch(:message).permit(:content)
+    params.permit(:before, message: [:content])
   end
 
   def secret_key
