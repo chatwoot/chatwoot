@@ -52,12 +52,11 @@ export default {
   mounted() {
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
-
     bus.$on('sidemenu_icon_click', () => {
       this.isSidebarOpen = !this.isSidebarOpen;
     });
   },
-  unmount() {
+  beforeDestroy() {
     window.removeEventListener('resize', this.handleResize);
   },
   methods: {
