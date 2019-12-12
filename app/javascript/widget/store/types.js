@@ -1,0 +1,1 @@
+export const SET_WIDGET_COLOR = 'SET_WIDGET_COLOR';

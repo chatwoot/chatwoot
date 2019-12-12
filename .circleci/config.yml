@@ -3,49 +3,51 @@
 # Check https://circleci.com/docs/2.0/language-ruby/ for more details
 #
 version: 2
+defaults: &defaults
+  working_directory: ~/build
+  docker:
+    # specify the version you desire here
+    - image: circleci/ruby:2.6.5-node-browsers
+
+    # Specify service dependencies here if necessary
+    # CircleCI maintains a library of pre-built images
+    # documented at https://circleci.com/docs/2.0/circleci-images/
+    - image: circleci/postgres:9.4
+  environment:
+      - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
+
 jobs:
   build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.6.5-node-browsers
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:9.4
-
-    working_directory: ~/build
-
+    <<: *defaults
     steps:
       - checkout
+
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 
       - run:
           name: Which bundler?
           command: bundle -v
 
-      # Restore bundle cache
+      # Run bundler
+      # Load installed gems from cache if possible, bundle install then save cache
+      # Multiple caches are used to increase the chance of a cache hit
+
       - restore_cache:
           keys:
-            - chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - chatwoot-bundle-v2-
+            - chatwoot-bundle-{{ checksum "Gemfile.lock" }}
+            - chatwoot-bundle
 
-      - run:
-          name: Bundle Install
-          command: bundle check || bundle install
-
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-      # Store bundle cache
+      - run: bundle install --frozen --path ~/.bundle
       - save_cache:
-          key: chatwoot-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
-            - vendor/bundle
+            - ~/.bundle
+          key: chatwoot-bundle-{{ checksum "Gemfile.lock" }}
+
 
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
@@ -57,30 +59,60 @@ jobs:
           name: yarn
           command: yarn install --cache-folder ~/.cache/yarn
 
-      - run:
-          name: eslint
-          command: yarn run eslint
-
-      - run:
-          name: test
-          command: yarn test
-
       # Store yarn / webpacker cache
       - save_cache:
           key: chatwoot-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+
       # Database setup
       - run: yarn install --check-files
       - run: bundle exec rake db:create
       - run: bundle exec rake db:schema:load
 
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+
+      - run:
+          name: eslint
+          command: yarn run eslint
 
       # Run rails tests
-      - type: shell
-        command: |
-          bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run: 
+          name: Run backend tests
+          command: |
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/backend/.resultset.json
+      - persist_to_workspace:
+          root: tmp
+          paths: 
+            - codeclimate.backend.json
+
+      - run: 
+          name: Run frontend tests
+          command: |
+            yarn test:coverage
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json buildreports/lcov.info
+      - persist_to_workspace:
+          root: tmp
+          paths: 
+            - codeclimate.frontend.json
 
       # collect reports
       - store_test_results:
@@ -88,3 +120,9 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json

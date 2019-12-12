@@ -6,6 +6,12 @@ export default {
     TRIAL_MESSAGE: 'days trial remaining.',
     TRAIL_BUTTON: 'Buy Now',
   },
+  COMPONENTS: {
+    CODE: {
+      BUTTON_TEXT: 'Copy',
+      COPY_SUCCESSFUL: 'Code copied to clipboard successfully',
+    },
+  },
   CONFIRM_EMAIL: 'Verifying...',
   SETTINGS: {
     INBOXES: {

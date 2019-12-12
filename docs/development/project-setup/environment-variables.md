@@ -35,6 +35,7 @@ For development, you don't need an email provider. Chatwoot uses [letter-opener]
 For production use, use the following variables to set SMTP server.
 
 ```bash
+MAILER_SENDER_EMAIL=
 SMTP_ADDRESS=
 SMTP_USERNAME=
 SMTP_PASSWORD=
@@ -83,3 +84,15 @@ POSTGRES_DATABASE=chatwoot_production
 POSTGRES_USERNAME=admin
 POSTGRES_PASSWORD=password
 ```
+
+### Rails Production Variables
+
+For production deployment, you have to set the following variables
+
+```bash
+RAILS_ENV=production
+SECRET_KEY_BASE=replace_with_your_own_secret_string
+```
+
+You can generate `SECRET_KEY_BASE` using `rake secret` command from project root folder.
+

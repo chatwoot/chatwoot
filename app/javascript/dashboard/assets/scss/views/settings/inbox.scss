@@ -17,9 +17,6 @@
     @include flex;
     @include flex-align($x: center, $y: middle);
     @include margin($zero);
-    > span {
-      @include padding($zero $space-small $zero $space-small);
-    }
   }
 
 }

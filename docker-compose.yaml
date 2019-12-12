@@ -1,12 +1,27 @@
 version: '3'
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  packs:
+  node_modules:
+
 services:
 
   server: &server
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     volumes:
-      - ./:/app
+      - ./:/app:cached
+      - bundle:/bundle:delegated
+      - packs:/app/public/packs
+      - node_modules:/app/node_modules
     links:
       - postgres
       - redis
@@ -15,8 +30,26 @@ services:
     environment:
       - REDIS_URL=redis://redis:6379
       - POSTGRES_HOST=postgres
-    command: ["foreman", "start", "-f", "./docker/Procfile.docker.dev"]
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=webpacker
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
+  webpacker:
+    <<: *server
+    command: ./bin/webpack-dev-server
+    depends_on:
+      - "server"
+    ports:
+      - '3035:3035'
+    volumes:
+      - .:/app:cached
+      - bundle:/bundle
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+    environment:
+      - "NODE_ENV=development"
+      - "RAILS_ENV=development"
+      - "WEBPACKER_DEV_SERVER_HOST=0.0.0.0"
   postgres:
     image: postgres:9.6
     restart: always
@@ -36,9 +69,3 @@ services:
       - redis:/data/redis
     ports:
       - '6379:6379'
-
-volumes:
-  postgres:
-    external: true
-  redis:
-    external: true

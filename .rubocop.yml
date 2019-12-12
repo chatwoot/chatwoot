@@ -6,6 +6,8 @@ inherit_from: .rubocop_todo.yml
 
 Metrics/LineLength:
   Max: 150
+RSpec/ExampleLength:
+  Max: 10
 Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
@@ -15,8 +17,18 @@ Style/SymbolArray:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+    - '**/routes.rb'
+Rails/ApplicationController:
+  Exclude:
+    - 'app/controllers/api/v1/widget/messages_controller.rb'
+    - 'app/controllers/dashboard_controller.rb'
+    - 'app/controllers/widget_tests_controller.rb'
+    - 'app/controllers/widgets_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
 AllCops:
   Exclude:
     - db/*
@@ -26,3 +38,4 @@ AllCops:
     - public/**/*
     - vendor/**/*
     - node_modules/**/*
+    - lib/tasks/auto_annotate_models.rake

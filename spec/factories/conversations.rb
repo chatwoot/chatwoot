@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :conversation do
     status { 'open' }
-    display_id { SecureRandom.uuid }
+    display_id { rand(10_000_000) }
     user_last_seen_at { Time.current }
     agent_last_seen_at { Time.current }
     locked { false }

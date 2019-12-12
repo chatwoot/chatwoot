@@ -1,4 +1,4 @@
-class RenameOldTables < ActiveRecord::Migration[6.1]
+class RenameOldTables < ActiveRecord::Migration[6.0]
   def change
     drop_table :channels
     rename_table :facebook_pages, :channel_facebook_pages

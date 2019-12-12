@@ -1,12 +1,13 @@
+@import 'reset';
 @import 'variables';
 @import 'buttons';
 @import 'mixins';
 @import 'forms';
-@import 'reset';
+@import 'shared/assets/fonts/inter';
 
 html,
 body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-family: $font-family;
   font-size: 10px;
   height: 100%;
 }

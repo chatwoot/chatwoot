@@ -71,7 +71,10 @@ const actions = {
     try {
       const response = await WebChannel.create(params);
       commit(types.default.SET_INBOX_ITEM, response);
-      bus.$emit('new_website_channel', { inboxId: response.data.id });
+      bus.$emit('new_website_channel', {
+        inboxId: response.data.id,
+        websiteToken: response.data.website_token,
+      });
     } catch (error) {
       // Handle error
     }
@@ -170,6 +173,7 @@ const mutations = {
       channelType: data.channel_type,
       avatarUrl: data.avatar_url === undefined ? null : data.avatar_url,
       pageId: data.page_id,
+      websiteToken: data.website_token,
     });
   },
 

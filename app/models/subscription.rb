@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: subscriptions
+#
+#  id                   :integer          not null, primary key
+#  billing_plan         :string           default("trial")
+#  expiry               :datetime
+#  payment_source_added :boolean          default(FALSE)
+#  pricing_version      :string
+#  state                :integer          default("trial")
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  account_id           :integer
+#  stripe_customer_id   :string
+#
+
 class Subscription < ApplicationRecord
   include Events::Types
 

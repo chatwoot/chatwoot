@@ -1,7 +1,8 @@
 <template>
   <div class="home">
     <div class="header-wrap">
-      <ChatHeaderExpanded />
+      <ChatHeaderExpanded v-if="isHeaderExpanded" />
+      <ChatHeader v-else :title="getHeaderName" />
     </div>
     <ConversationWrap :messages="getConversation" />
     <div class="footer-wrap">
@@ -15,6 +16,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
+import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 
 export default {
@@ -23,6 +25,7 @@ export default {
     ChatFooter,
     ChatHeaderExpanded,
     ConversationWrap,
+    ChatHeader,
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -33,7 +36,13 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('conversation', ['getConversation']),
+    ...mapGetters('conversation', ['getConversation', 'getConversationSize']),
+    isHeaderExpanded() {
+      return this.getConversationSize === 0;
+    },
+    getHeaderName() {
+      return window.chatwootWebChannel.website_name;
+    },
   },
 };
 </script>

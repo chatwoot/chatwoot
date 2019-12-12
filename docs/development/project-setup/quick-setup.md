@@ -42,43 +42,54 @@ password: 123456
 
 ### Docker for development
 
-If you are using docker for the development follow the following steps.
-
-We are running postgres and redis services along with chatwoot server using docker-compose.
-
-Create a volume for postgres and redis so that you data will persist even if the containers goes down.
+The first time you start your development environment run the following two commands:
 
 ```bash
-docker volume create --name=postgres
-docker volume create --name=redis
+# build and start the services
+docker-compose up --build
+# prepare the database
+docker-compose exec server bundle exec rails db:prepare
+```
+Then browse http://localhost:3000
+
+```bash
+# To stop your environment use Control+C (on Mac) CTRL+C (on Win) or
+docker-compose down
+# start the services
+docker-compose up
+```
+
+When you change the service’s Dockerfile or the contents of the build directory, run stop then build. (For example after modifying package.json or Gemfile)
+
+```bash
+docker-compose stop
 docker-compose build
 ```
 
-Remove the `node_modules` directory from the root if it exists and run the following command.
 
-```bash
-docker-compose run server yarn install
-```
+The docker-compose environment consists of:
+- chatwoot server
+- postgres
+- redis
+- webpacker-dev-server
 
 If in case you encounter a seeding issue or you want reset the database you can do it using the following command :
 
 ```bash
-docker-compose run server bundle exec rake db:reset
+docker-compose run -rm server bundle exec rake db:reset
 ```
 
 This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
 
-Now you should be able to run :
-
-```bash
-docker-compose up
-```
-
-to see the application up and running.
-
 ### Docker for production
 
-On the root directory run the following command :
+You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
+
+```bash
+docker pull chatwoot/chatwoot
+```
+
+You can create an image yourselves by running the following command on the root directory.
 
 ```bash
 docker image build -f docker/Dockerfile .

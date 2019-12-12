@@ -1,3 +1,47 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string
+#  email                  :string
+#  encrypted_password     :string           default(""), not null
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string
+#  name                   :string           not null
+#  nickname               :string
+#  provider               :string           default("email"), not null
+#  pubsub_token           :string
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  role                   :integer          default("agent")
+#  sign_in_count          :integer          default(0), not null
+#  tokens                 :json
+#  uid                    :string           default(""), not null
+#  unconfirmed_email      :string
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  inviter_id             :bigint
+#
+# Indexes
+#
+#  index_users_on_email                 (email)
+#  index_users_on_inviter_id            (inviter_id)
+#  index_users_on_pubsub_token          (pubsub_token) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (inviter_id => users.id) ON DELETE => nullify
+#
+
 class User < ApplicationRecord
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
@@ -15,15 +59,19 @@ class User < ApplicationRecord
   # Used by the actionCable/PubSub Service we use for real time communications
   has_secure_token :pubsub_token
 
-  validates_uniqueness_of :email, scope: :account_id
-  validates :email, presence: true
-  validates :name, presence: true
-  validates :account_id, presence: true
+  # Uses active storage for the avatar
+  has_one_attached :avatar
+
+  # The validation below has been commented out as it does not
+  # work because :validatable in devise overrides this.
+  # validates_uniqueness_of :email, scope: :account_id
+  validates :email, :name, :account_id, presence: true
 
   enum role: [:agent, :administrator]
 
   belongs_to :account
   belongs_to :inviter, class_name: 'User', required: false
+  has_many :invitees, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   has_many :inbox_members, dependent: :destroy

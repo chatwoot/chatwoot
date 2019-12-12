@@ -7,8 +7,9 @@ const sendMessage = content => ({
   },
 });
 
-const getConversation = () => ({
+const getConversation = ({ before }) => ({
   url: `/api/v1/widget/messages${window.location.search}`,
+  params: { before },
 });
 
 export default {

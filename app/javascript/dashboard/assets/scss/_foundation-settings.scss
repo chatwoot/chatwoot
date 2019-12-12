@@ -62,7 +62,7 @@ $black: #000000;
 $white: #fff;
 $body-background: $white;
 $body-font-color: $color-body;
-$body-font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+$body-font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
   Roboto, "Helvetica Neue", Arial, sans-serif;
 $body-antialiased: true;
 $global-margin: $space-one;
@@ -269,8 +269,8 @@ $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
-$button-color: $black;
-$button-color-alt: $black;
+$button-color: $white;
+$button-color-alt: $white;
 $button-radius: $global-radius;
 $button-sizes: (
   tiny: $font-size-micro,
@@ -456,12 +456,12 @@ $meter-fill-bad: $alert-color;
 // --------------
 
 $offcanvas-sizes: (
-  small: 250px,
-  medium: 350px,
+  small: 23rem,
+  medium: 23rem,
 );
 $offcanvas-vertical-sizes: (
-  small: 250px,
-  medium: 350px,
+  small: 23rem,
+  medium: 23rem,
 );
 $offcanvas-background: $light-gray;
 $offcanvas-shadow: 0 0 10px rgba($black, 0.7);

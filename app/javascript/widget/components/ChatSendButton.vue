@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Spinner from 'widget/components/Spinner.vue';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   components: {

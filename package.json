@@ -20,6 +20,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",
     "chart.js": "~2.5.0",
+    "copy-text-to-clipboard": "^2.1.1",
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
     "foundation-sites": "~6.5.3",
@@ -87,9 +88,17 @@
       "pre-commit": "lint-staged"
     }
   },
+  "jest": {
+     "collectCoverage": true,
+     "coverageReporters": ["lcov", "text"]
+  },
   "lint-staged": {
     "*.{js,vue}": [
       "eslint --fix",
+      "git add"
+    ],
+    "*.rb": [
+      "rubocop -a",
       "git add"
     ]
   }

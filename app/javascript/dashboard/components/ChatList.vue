@@ -1,9 +1,8 @@
 <template>
   <div class="conversations-sidebar  medium-4 columns">
-    <!-- <SearchBox></SearchBox> -->
-
     <div class="chat-list__top">
       <h1 class="page-title">
+        <woot-sidemenu-icon></woot-sidemenu-icon>
         {{ getInboxName }}
       </h1>
       <chat-filter @statusFilterChange="getDataForStatusTab"></chat-filter>
@@ -14,10 +13,11 @@
       :active-tab-index="activeAssigneeTab"
       class="tab--chat-type"
       @chatTabChange="getDataForTab"
-    ></chat-type-tabs>
+    >
+    </chat-type-tabs>
 
     <p
-      v-if="!chatListLoading && !getChatsForTab(activeStatusTab).length"
+      v-if="!chatListLoading && !getChatsForTab(activeStatus).length"
       class="content-box"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
@@ -33,7 +33,7 @@
       class="conversations-list"
     >
       <conversation-card
-        v-for="chat in getChatsForTab(activeStatusTab)"
+        v-for="chat in getChatsForTab(activeStatus)"
         :key="chat.id"
         :chat="chat"
       />
@@ -56,13 +56,12 @@ import wootConstants from '../constants';
 export default {
   mixins: [timeMixin, conversationMixin],
   props: ['conversationInbox', 'pageTitle'],
-  data: () => ({
-    chats: null,
-    activeStatusTab: 0,
-    activeAssigneeTab: 0,
-    toggleType: true,
-    allMessageType: 2,
-  }),
+  data() {
+    return {
+      activeAssigneeTab: 0,
+      activeStatus: 0,
+    };
+  },
   mounted() {
     this.$watch('$store.state.route', () => {
       if (this.$store.state.route.name !== 'inbox_conversation') {
@@ -85,17 +84,8 @@ export default {
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
+      convStats: 'getConvTabStats',
     }),
-    convStats() {
-      const mineCount = this.mineChatsList.length;
-      const unAssignedCount = this.unAssignedChatsList.length;
-      const allCount = this.allChatList.length;
-      return {
-        mineCount,
-        unAssignedCount,
-        allCount,
-      };
-    },
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map((item, index) => ({
         id: index,
@@ -120,24 +110,27 @@ export default {
   methods: {
     fetchData() {
       if (this.chatLists.length === 0) {
-        this.$store.dispatch('fetchAllConversations', {
-          inboxId: this.conversationInbox ? this.conversationInbox : undefined,
-          assigneeStatus: this.allMessageType,
-          convStatus: this.activeStatusTab,
-        });
+        this.fetchConversations();
       }
     },
+    fetchConversations() {
+      this.$store.dispatch('fetchAllConversations', {
+        inboxId: this.conversationInbox ? this.conversationInbox : undefined,
+        assigneeType: this.activeAssigneeTab,
+        status: this.activeStatus ? 'resolved' : 'open',
+      });
+    },
     getDataForTab(index) {
-      this.activeAssigneeTab = index;
-      if (!(index in this.chatLists)) {
-        // this.$store.dispatch('fetchList', {
-        //   inbox: this.conversationInbox,
-        //   type: index,
-        // });
+      if (this.activeAssigneeTab !== index) {
+        this.activeAssigneeTab = index;
+        this.fetchConversations();
       }
     },
     getDataForStatusTab(index) {
-      this.activeStatusTab = index;
+      if (this.activeStatus !== index) {
+        this.activeStatus = index;
+        this.fetchConversations();
+      }
     },
     getChatsForTab() {
       let copyList = [];
@@ -154,7 +147,6 @@ export default {
         (a, b) =>
           this.lastMessage(b).created_at - this.lastMessage(a).created_at
       );
-
       return sorted;
     },
   },

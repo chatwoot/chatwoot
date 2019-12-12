@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a Facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a new Facebook Page. </p><p> In the <a href=\"/app/dashboard\">Dashboard</a>, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the <a href=\"/app/dashboard\">Dashboard</a>, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
@@ -30,7 +30,7 @@
       },
       "AUTH": {
         "TITLE": "Channels",
-        "DESC": "Currently we support only Facebook Pages as a platform. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
+        "DESC": "Currently we support website live chat widgets and Facebook Pages as platforms. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -58,7 +58,8 @@
     "FINISH": {
       "TITLE": "Your Inbox is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there"
+      "BUTTON_TEXT": "Take me there",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",
@@ -71,7 +72,7 @@
         "NO": "No, Keep "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox delete successfully",
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
         "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
       }
     },

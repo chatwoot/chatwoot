@@ -15,7 +15,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
     end
 
     it 'uses the user\'s name' do
-      expect(mail.body).to match("Welcome, #{confirmable_user.name}!")
+      expect(mail.body).to match("Welcome, #{CGI.escapeHTML(confirmable_user.name)}!")
     end
 
     it 'does not refer to the inviter and their account' do

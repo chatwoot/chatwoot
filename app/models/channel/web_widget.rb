@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: channel_web_widgets
+#
+#  id            :integer          not null, primary key
+#  website_name  :string
+#  website_token :string
+#  website_url   :string
+#  widget_color  :string           default("#1f93ff")
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  account_id    :integer
+#
+# Indexes
+#
+#  index_channel_web_widgets_on_website_token  (website_token) UNIQUE
+#
+
 module Channel
   class WebWidget < ApplicationRecord
     self.table_name = 'channel_web_widgets'
