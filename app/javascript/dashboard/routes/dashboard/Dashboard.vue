@@ -62,7 +62,6 @@ export default {
   },
   methods: {
     handleResize() {
-      console.log('resize', window.innerWidth);
       if (window.innerWidth > 1200) {
         this.isOnDesktop = true;
       } else {
