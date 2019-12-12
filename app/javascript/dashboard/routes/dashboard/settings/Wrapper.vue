@@ -1,21 +1,17 @@
 <template>
-  <section class="app-content columns">
-    <div class="view-box columns bg-light">
-      <settings-header
-        button-route="new"
-        :icon="icon"
-        :header-title="$t(headerTitle)"
-        :button-text="$t(headerButtonText)"
-        :show-button="showButton()"
-        :show-new-button="showNewButton()"
-      />
-        <!-- <transition name="slide-fade"> -->
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
-        <!-- </transition> -->
-    </div>
-  </section>
+  <div class="view-box columns bg-light">
+    <settings-header
+      button-route="new"
+      :icon="icon"
+      :header-title="$t(headerTitle)"
+      :button-text="$t(headerButtonText)"
+      :show-button="showButton()"
+      :show-new-button="showNewButton()"
+    />
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+  </div>
 </template>
 
 <script>
@@ -23,9 +19,8 @@
 import SettingsHeader from './SettingsHeader';
 
 export default {
-  data() {
-    return {
-    };
+  components: {
+    SettingsHeader,
   },
   props: {
     headerTitle: String,
@@ -33,8 +28,8 @@ export default {
     icon: String,
     newButtonRoutes: Array,
   },
-  components: {
-    SettingsHeader,
+  data() {
+    return {};
   },
   computed: {
     currentPage() {
@@ -44,7 +39,9 @@ export default {
   methods: {
     showButton() {
       /* eslint-disable no-unneeded-ternary */
-      return this.newButtonRoutes ? this.newButtonRoutes.indexOf(this.currentPage) > -1 : true;
+      return this.newButtonRoutes
+        ? this.newButtonRoutes.indexOf(this.currentPage) > -1
+        : true;
     },
     showNewButton() {
       return this.newButtonRoutes ? true : false;
