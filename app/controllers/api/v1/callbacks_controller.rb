@@ -32,7 +32,7 @@ class Api::V1::CallbacksController < ApplicationController
 
         fb_page = current_account.facebook_pages.find_by(page_id: fb_page_id)
         if fb_page
-          fb_page.update_attributes!(
+          fb_page.update!(
             user_access_token: @user_access_token,
             page_access_token: page_detail['access_token']
           )
@@ -53,7 +53,7 @@ class Api::V1::CallbacksController < ApplicationController
   end
 
   def long_lived_token(omniauth_token)
-    koala = Koala::Facebook::OAuth.new(ENV['fb_app_id'], ENV['fb_app_secret'])
+    koala = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_APP_SECRET'])
     long_lived_token = koala.exchange_access_token_info(omniauth_token)['access_token']
   end
 

@@ -11,3 +11,16 @@ plugins:
     enabled: true
   brakeman:
     enabled: true
+
+exclude_patterns:
+  - "spec/"
+  - "**/specs/"
+  - "db/*"
+  - "bin/**/*"
+  - "db/**/*"
+  - "config/**/*"
+  - "public/**/*"
+  - "vendor/**/*"
+  - "node_modules/**/*"
+  - "lib/tasks/auto_annotate_models.rake"
+  - "app/test-matchers.js"

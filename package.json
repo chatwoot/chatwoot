@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "docs": "docsify serve docs",
     "eslint": "eslint app/javascript --fix",
     "pretest": "rimraf .jest-cache",
     "test": "jest --no-cache",
@@ -12,8 +11,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
-    "@rails/actioncable": "^6.0.0",
     "@babel/preset-env": "~7.3.4",
+    "@rails/actioncable": "^6.0.0",
     "@rails/webpacker": "^4.0.7",
     "axios": "^0.19.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
@@ -21,11 +20,13 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",
     "chart.js": "~2.5.0",
+    "copy-text-to-clipboard": "^2.1.1",
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
-    "foundation-sites": "6.3.0",
+    "foundation-sites": "~6.5.3",
+    "highlight.js": "^9.15.10",
     "ionicons": "~2.0.1",
-    "js-cookie": "~2.1.3",
+    "js-cookie": "^2.2.1",
     "md5": "~2.2.1",
     "moment": "~2.19.3",
     "query-string": "5",
@@ -39,6 +40,7 @@
     "vue-axios": "~1.2.2",
     "vue-chartjs": "^3.4.2",
     "vue-clickaway": "~2.1.0",
+    "vue-highlight.js": "^3.1.0",
     "vue-i18n": "~5.0.3",
     "vue-loader": "^15.7.0",
     "vue-multiselect": "~2.1.6",
@@ -51,6 +53,7 @@
   },
   "devDependencies": {
     "@vue/babel-preset-app": "^3.11.0",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
@@ -85,9 +88,17 @@
       "pre-commit": "lint-staged"
     }
   },
+  "jest": {
+     "collectCoverage": true,
+     "coverageReporters": ["lcov", "text"]
+  },
   "lint-staged": {
     "*.{js,vue}": [
       "eslint --fix",
+      "git add"
+    ],
+    "*.rb": [
+      "rubocop -a",
       "git add"
     ]
   }

@@ -1,0 +1,17 @@
+@import 'reset';
+@import 'variables';
+@import 'buttons';
+@import 'mixins';
+@import 'forms';
+@import 'shared/assets/fonts/inter';
+
+html,
+body {
+  font-family: $font-family;
+  font-size: 10px;
+  height: 100%;
+}
+
+.woot-widget-wrap {
+  height: 100%;
+}

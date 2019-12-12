@@ -31,23 +31,28 @@ brew install git
 You need software-properties-common installed in order to add PPA repositories.
 
 ```bash
-\curl -L https://get.rvm.io | bash -s stable
+curl -L https://get.rvm.io | bash -s stable
 source ~/.rvm/scripts/rvm
 ```
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.3
+Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.5
+
+If you are using `rvm` :
 
 ```bash
-rvm install ruby-2.6.3
+rvm install ruby-2.6.5
+rvm use 2.6.5
 ```
 
-Use ruby 2.6.3 as default
+If you are using `rbenv` to manage ruby versions do :
 
 ```bash
-rvm use 2.6.3 --default
+rbenv install 2.6.5
 ```
+
+`rbenv` identifies the ruby version from `.ruby-version` file on the root of the project and loads it automatically.
 
 ### Install Node.js
 
@@ -99,4 +104,6 @@ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 brew install imagemagick
 ```
 
-Next: Read project setup to install project dependencies
+### Install Docker
+
+This is an optional step. Those who are doing development can install docker from [Docker Desktop](https://www.docker.com/products/docker-desktop).

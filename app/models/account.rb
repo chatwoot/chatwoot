@@ -1,11 +1,24 @@
+# == Schema Information
+#
+# Table name: accounts
+#
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Account < ApplicationRecord
   include Events::Types
+
+  validates :name, presence: true
 
   has_many :users, dependent: :destroy
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
+  has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
   has_one :subscription, dependent: :destroy

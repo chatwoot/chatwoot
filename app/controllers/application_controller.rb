@@ -65,6 +65,10 @@ class ApplicationController < ActionController::Base
   end
 
   def check_subscription
+    # This block is left over from the initial version of chatwoot
+    # We might reuse this later in the hosted version of chatwoot.
+    return unless ENV['BILLING_ENABLED']
+
     if current_subscription.trial? && current_subscription.expiry < Date.current
       render json: { error: 'Trial Expired' }, status: :trial_expired
     elsif current_subscription.cancelled?

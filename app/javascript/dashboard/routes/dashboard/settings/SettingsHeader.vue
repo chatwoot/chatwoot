@@ -1,17 +1,18 @@
 <template>
   <div class="settings-header">
     <h1 class="page-title">
+      <woot-sidemenu-icon></woot-sidemenu-icon>
       <back-button v-if="!showButton"></back-button>
-      <i :class="icon"></i>
+      <i :class="iconClass"></i>
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link
-      :to="buttonRoute"
-      class="button icon success"
       v-if="showNewButton && showButton && currentRole"
+      :to="buttonRoute"
+      class="button icon success nice"
     >
       <i class="icon ion-android-add-circle"></i>
-      {{buttonText}}
+      {{ buttonText }}
     </router-link>
   </div>
 </template>
@@ -20,6 +21,9 @@ import BackButton from '../../../components/widgets/BackButton';
 import Auth from '../../../api/auth';
 
 export default {
+  components: {
+    BackButton,
+  },
   props: {
     headerTitle: String,
     buttonRoute: String,
@@ -36,15 +40,12 @@ export default {
   },
   computed: {
     iconClass() {
-      return `icon ${this.props.icon}`;
+      return `icon ${this.icon} header--icon`;
     },
     currentRole() {
       const { role } = Auth.getCurrentUser();
       return role === 'administrator';
     },
-  },
-  components: {
-    BackButton,
   },
 };
 </script>

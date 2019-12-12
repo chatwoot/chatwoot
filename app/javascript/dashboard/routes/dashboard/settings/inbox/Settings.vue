@@ -5,18 +5,29 @@
         :header-image="inbox.avatarUrl"
         :header-title="inbox.label"
       />
-      <div class="code-wrapper">
+      <div
+        v-if="inbox.channelType === 'Channel::FacebookPage'"
+        class="code-wrapper"
+      >
         <p class="title">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
         </p>
         <p class="sub-head">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
         </p>
-        <p class="code">
-          <code>
-            {{ messengerScript }}
-          </code>
+        <woot-code :script="messengerScript"></woot-code>
+      </div>
+      <div
+        v-else-if="inbox.channelType === 'Channel::WebWidget'"
+        class="code-wrapper"
+      >
+        <p class="title">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
         </p>
+        <p class="sub-head">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
+        </p>
+        <woot-code :script="webWidgetScript"></woot-code>
       </div>
       <div class="agent-wrapper">
         <p class="title">
@@ -53,6 +64,10 @@
 /* eslint-disable no-useless-escape */
 /* global bus */
 import { mapGetters } from 'vuex';
+import {
+  createWebsiteWidgetScript,
+  createMessengerScript,
+} from 'dashboard/helper/scriptGenerator';
 
 export default {
   props: ['onClose', 'inbox', 'show'],
@@ -60,35 +75,18 @@ export default {
     return {
       selectedAgents: [],
       isUpdating: false,
-      messengerScript: `<script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            appId: "${window.chatwootConfig.fbAppId}",
-            xfbml: true,
-            version: "v4.0"
-          });
-        };
-        (function(d, s, id){
-           var js, fjs = d.getElementsByTagName(s)[0];
-           if (d.getElementById(id)) { return; }
-           js = d.createElement(s); js.id = id;
-           js.src = "//connect.facebook.net/en_US/sdk.js";
-           fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-      <\/script>
-      <div class="fb-messengermessageus"
-        messenger_app_id="${window.chatwootConfig.fbAppId}"
-        page_id="${this.inbox.pageId}"
-        color="blue"
-        size="standard" >
-      </div>`,
     };
   },
   computed: {
     ...mapGetters({
       agentList: 'getAgents',
     }),
+    webWidgetScript() {
+      return createWebsiteWidgetScript(this.inbox.websiteToken);
+    },
+    messengerScript() {
+      return createMessengerScript(this.inbox.pageId);
+    },
   },
   mounted() {
     this.$store.dispatch('fetchAgents').then(() => {

@@ -1,8 +1,8 @@
 json.data do
   json.meta do
-    json.open_count @conversations_count[:open]
-    json.resolved_count @conversations_count[:closed]
-    json.conversation_type @type
+    json.mine_count @conversations_count[:mine_count]
+    json.unassigned_count @conversations_count[:unassigned_count]
+    json.all_count @conversations_count[:all_count]
   end
 
   json.payload do
@@ -12,7 +12,7 @@ json.data do
           json.id conversation.contact.id
           json.name conversation.contact.name
           json.thumbnail conversation.contact.avatar.thumb.url
-          json.channel conversation.inbox.try(:channel).try(:name)
+          json.channel conversation.inbox.try(:channel_type)
         end
         json.assignee conversation.assignee
       end

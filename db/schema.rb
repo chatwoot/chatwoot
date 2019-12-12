@@ -10,15 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_28_195206) do
+ActiveRecord::Schema.define(version: 2019_12_09_202758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -52,6 +73,7 @@ ActiveRecord::Schema.define(version: 2019_10_28_195206) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar"
+    t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
@@ -61,6 +83,9 @@ ActiveRecord::Schema.define(version: 2019_10_28_195206) do
     t.integer "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "website_token"
+    t.string "widget_color", default: "#1f93ff"
+    t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -100,36 +125,9 @@ ActiveRecord::Schema.define(version: 2019_10_28_195206) do
     t.datetime "user_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
+    t.jsonb "additional_attributes"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
-  end
-
-  create_table "devise_users", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.json "tokens"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.index ["email"], name: "index_devise_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_devise_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_devise_users_on_uid_and_provider", unique: true
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -213,18 +211,40 @@ ActiveRecord::Schema.define(version: 2019_10_28_195206) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.string "name", null: false
+    t.string "nickname"
+    t.string "email"
+    t.json "tokens"
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
     t.integer "role", default: 0
     t.bigint "inviter_id"
-    t.integer "devise_user_id"
+    t.index ["email"], name: "index_users_on_email"
     t.index ["inviter_id"], name: "index_users_on_inviter_id"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
-  add_foreign_key "users", "users", column: "inviter_id"
+  add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end

@@ -12,7 +12,7 @@ class Api::V1::CannedResponsesController < Api::BaseController
   end
 
   def update
-    @canned_response.update_attributes!(canned_response_params)
+    @canned_response.update!(canned_response_params)
     render json: @canned_response
   end
 

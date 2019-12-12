@@ -18,5 +18,9 @@ FactoryBot.define do
         create(:devise_user, devise_attrs)
       end
     end
+
+    trait :with_avatar do
+      avatar { Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png') }
+    end
   end
 end

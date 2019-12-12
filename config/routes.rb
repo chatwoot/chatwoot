@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   match '/status', to: 'home#status', via: [:get]
 
+  resources :widgets, only: [:index]
+
   namespace :api, :defaults => { :format => 'json' } do
     namespace :v1 do
       resources :callbacks, only: [] do
@@ -27,14 +29,11 @@ Rails.application.routes.draw do
       end
 
       namespace :widget do
-        resources :messages, only: [] do
-          collection do
-            post :create_incoming
-            post :create_outgoing
-          end
-        end
+        resources :messages, only: [:index, :create]
+        resources :inboxes, only: [:create]
       end
 
+      resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy]
       resources :agents, except: [:show, :edit, :new]
@@ -47,18 +46,6 @@ Rails.application.routes.draw do
           post :mark_seen
           post :typing_on
           post :typing_off
-        end
-      end
-
-      resources :subscriptions, only: [:index] do
-        collection do
-          get :summary
-        end
-      end
-
-      resources :webhooks, only: [] do
-        collection do
-          post :chargebee
         end
       end
 
@@ -85,6 +72,22 @@ Rails.application.routes.draw do
           get :get_messages
         end
       end
+
+      # this block is only required if subscription via chargebee is enabled
+      if ENV['BILLING_ENABLED']
+        resources :subscriptions, only: [:index] do
+          collection do
+            get :summary
+          end
+        end
+      
+        resources :webhooks, only: [] do
+          collection do
+            post :chargebee
+          end
+        end
+      end
+
     end
   end
 
@@ -94,4 +97,7 @@ Rails.application.routes.draw do
 
   mount Facebook::Messenger::Server, at: 'bot'
   post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
+
+  # Routes for testing
+  resources :widget_tests, only: [:index] unless Rails.env.production?
 end

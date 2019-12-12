@@ -47,6 +47,7 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
+  getConvTabStats: ({ convTabStats }) => convTabStats,
 };
 
 export default getters;

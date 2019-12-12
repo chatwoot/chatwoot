@@ -23,7 +23,6 @@
   }
 
   .account-row {
-    @include flex-grid-column(3, $space-medium);
     @include padding($space-normal);
     @include flex;
     flex-direction: column;

@@ -20,6 +20,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def create?
+    @user.administrator?
+  end
+
   def destroy?
     @user.administrator?
   end

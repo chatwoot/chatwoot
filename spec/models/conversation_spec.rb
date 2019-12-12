@@ -67,7 +67,8 @@ RSpec.describe Conversation, type: :model do
 
       # send_email_notification_to_assignee
       expect(AssignmentMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
-      expect(assignment_mailer).to have_received(:deliver)
+
+      expect(assignment_mailer).to have_received(:deliver) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
   end
 

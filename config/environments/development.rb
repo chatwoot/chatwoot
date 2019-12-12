@@ -66,4 +66,11 @@ Rails.application.configure do
 
   # Disable host check during development
   config.hosts = nil
+
+  # Bullet configuration to fix the N+1 queries
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.rails_logger = true
+  end
 end
