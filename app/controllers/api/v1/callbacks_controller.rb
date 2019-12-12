@@ -24,18 +24,18 @@ class Api::V1::CallbacksController < ApplicationController
 
   # get params[:inbox_id], current_account, params[:omniauth_token]
   def reauthorize_page
-    if @inbox && @inbox.first.facebook?
+    if @inbox&.first&.facebook?
       fb_page_id = @inbox.channel.page_id
-      page_details = fb_object.get_connections("me","accounts")
+      page_details = fb_object.get_connections('me', 'accounts')
 
       (page_details || []).each do |page_detail|
-        if fb_page_id == page_detail["id"] # found the page which has to be reauthorised
-          update_fb_page(fb_page_id, page_detail["access_token"])
+        if fb_page_id == page_detail['id'] # found the page which has to be reauthorised
+          update_fb_page(fb_page_id, page_detail['access_token'])
           head :ok
         end
       end
     end
-  
+
     head :unprocessable_entity
   end
 
@@ -48,7 +48,8 @@ class Api::V1::CallbacksController < ApplicationController
   def update_fb_page
     if fb_page(fb_page_id)
       fb_page.update_attributes!(
-        { user_access_token: @user_access_token, page_access_token: access_token })
+        user_access_token: @user_access_token, page_access_token: access_token
+      )
       head :ok
     else
       head :unprocessable_entity
