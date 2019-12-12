@@ -22,30 +22,43 @@ class Api::V1::CallbacksController < ApplicationController
     @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
   end
 
-  def reauthorize_page # get params[:inbox_id], current_account, params[:omniauth_token]
-    inbox = current_account.inboxes.find_by(id: params[:inbox_id])
-    if inbox
-      fb_page_id = inbox.channel.page_id
+  # get params[:inbox_id], current_account, params[:omniauth_token]
+  def reauthorize_page
+    if @inbox&.first&.facebook?
+      fb_page_id = @inbox.channel.page_id
       page_details = fb_object.get_connections('me', 'accounts')
-      (page_details || []).each do |page_detail|
-        next unless fb_page_id == page_detail['id'] # found the page which has to be reauthorised
 
-        fb_page = current_account.facebook_pages.find_by(page_id: fb_page_id)
-        if fb_page
-          fb_page.update!(
-            user_access_token: @user_access_token,
-            page_access_token: page_detail['access_token']
-          )
+      (page_details || []).each do |page_detail|
+        if fb_page_id == page_detail['id'] # found the page which has to be reauthorised
+          update_fb_page(fb_page_id, page_detail['access_token'])
           head :ok
-        else
-          head :unprocessable_entity
         end
       end
     end
+
     head :unprocessable_entity
   end
 
   private
+
+  def inbox
+    @inbox = current_account.inboxes.find_by(id: params[:inbox_id])
+  end
+
+  def update_fb_page
+    if fb_page(fb_page_id)
+      fb_page.update_attributes!(
+        user_access_token: @user_access_token, page_access_token: access_token
+      )
+      head :ok
+    else
+      head :unprocessable_entity
+    end
+  end
+
+  def fb_page(fb_page_id)
+    current_account.facebook_pages.find_by(page_id: fb_page_id)
+  end
 
   def fb_object
     @user_access_token = long_lived_token(params[:omniauth_token])
