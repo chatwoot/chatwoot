@@ -3,9 +3,14 @@
   flex-direction: column;
 
   .chat-list__top {
+    @include flex;
     @include padding($space-normal $zero $space-small $zero);
+
+    align-items: center;
+    justify-content: space-between;
+
     .page-title {
-      float: left;
+      @include flex;
       margin-bottom: $zero;
       margin-left: $space-normal;
     }
