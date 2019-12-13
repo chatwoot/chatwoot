@@ -9,7 +9,7 @@
     <router-link
       v-if="showNewButton && showButton && currentRole"
       :to="buttonRoute"
-      class="button icon success nice"
+      class="button icon success nice button--fixed-right-top"
     >
       <i class="icon ion-android-add-circle"></i>
       {{ buttonText }}

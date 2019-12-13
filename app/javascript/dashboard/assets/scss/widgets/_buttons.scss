@@ -4,7 +4,7 @@
     padding-right: $space-normal;
 
     i {
-      padding-right: $space-one;
+      padding-right: $space-small;
     }
   }
 
@@ -25,7 +25,12 @@
   }
 
   > .icon {
-    font-size: $font-size-mini;
-    margin-right: $space-smaller;
+    font-size: $font-size-default;
   }
+}
+
+.button--fixed-right-top {
+  position: fixed;
+  right: $space-small;
+  top: $space-small;
 }
