@@ -41,11 +41,6 @@ body {
 .content-box {
   overflow: scroll;
   @include padding($space-normal);
-  .btn-fixed-right-top {
-    position: fixed;
-    top: $space-small;
-    right: $space-small;
-  }
 }
 
 .back-button {
