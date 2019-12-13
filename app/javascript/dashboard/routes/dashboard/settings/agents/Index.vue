@@ -1,7 +1,7 @@
 <template>
   <div class="column content-box">
     <button
-      class="button nice icon success btn-fixed-right-top"
+      class="button nice icon success button--fixed-right-top"
       @click="openAddPopup()"
     >
       <i class="icon ion-android-add-circle"></i>
