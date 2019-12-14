@@ -40,6 +40,7 @@
     "vue-axios": "~1.2.2",
     "vue-chartjs": "^3.4.2",
     "vue-clickaway": "~2.1.0",
+    "vue-color": "^2.7.0",
     "vue-highlight.js": "^3.1.0",
     "vue-i18n": "~5.0.3",
     "vue-loader": "^15.7.0",
