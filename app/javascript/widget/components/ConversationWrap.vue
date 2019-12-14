@@ -4,11 +4,14 @@
       <div v-if="isFetchingList" class="message--loader">
         <spinner></spinner>
       </div>
-      <ChatMessage
-        v-for="message in messages"
-        :key="message.id"
-        :message="message"
-      />
+      <div v-for="date in conversationDates" :key="date">
+        <date-separator :date="date"></date-separator>
+        <ChatMessage
+          v-for="message in groupedMessages[date]"
+          :key="message.id"
+          :message="message"
+        />
+      </div>
     </div>
     <branding></branding>
   </div>
@@ -17,6 +20,7 @@
 <script>
 import Branding from 'widget/components/Branding.vue';
 import ChatMessage from 'widget/components/ChatMessage.vue';
+import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapActions, mapGetters } from 'vuex';
 
@@ -25,10 +29,11 @@ export default {
   components: {
     Branding,
     ChatMessage,
+    DateSeparator,
     Spinner,
   },
   props: {
-    messages: Object,
+    groupedMessages: Object,
   },
   data() {
     return {
@@ -43,6 +48,9 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
     }),
+    conversationDates() {
+      return Object.keys(this.groupedMessages);
+    },
   },
   watch: {
     allMessagesLoaded() {

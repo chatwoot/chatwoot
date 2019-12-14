@@ -27,6 +27,7 @@
     "highlight.js": "^9.15.10",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
+    "lodash.groupby": "^4.6.0",
     "md5": "~2.2.1",
     "moment": "~2.19.3",
     "query-string": "5",
@@ -90,8 +91,11 @@
     }
   },
   "jest": {
-     "collectCoverage": true,
-     "coverageReporters": ["lcov", "text"]
+    "collectCoverage": true,
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ]
   },
   "lint-staged": {
     "*.{js,vue}": [
