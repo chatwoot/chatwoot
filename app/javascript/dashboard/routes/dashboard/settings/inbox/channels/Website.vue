@@ -38,7 +38,7 @@
       <div class="medium-12 columns">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-          <compact v-model="widgetColor" />
+          <compact v-model="widgetColor" class="widget-color--selector" />
         </label>
       </div>
 
