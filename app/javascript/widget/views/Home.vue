@@ -4,7 +4,7 @@
       <ChatHeaderExpanded v-if="isHeaderExpanded" />
       <ChatHeader v-else :title="getHeaderName" />
     </div>
-    <ConversationWrap :messages="getConversation" />
+    <ConversationWrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
       <ChatFooter :on-send-message="handleSendMessage" />
     </div>
@@ -36,9 +36,12 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('conversation', ['getConversation', 'getConversationSize']),
+    ...mapGetters({
+      groupedMessages: 'conversation/getGroupedConversation',
+      conversationSize: 'conversation/getConversationSize',
+    }),
     isHeaderExpanded() {
-      return this.getConversationSize === 0;
+      return this.conversationSize === 0;
     },
     getHeaderName() {
       return window.chatwootWebChannel.website_name;
