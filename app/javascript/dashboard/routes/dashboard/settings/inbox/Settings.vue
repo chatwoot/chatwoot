@@ -7,35 +7,45 @@
       />
       <div
         v-if="inbox.channelType === 'Channel::FacebookPage'"
-        class="code-wrapper"
+        class="settings--content"
       >
-        <p class="title">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
-        </p>
-        <p class="sub-head">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
-        </p>
+        <settings-form-header
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
+          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
+        >
+        </settings-form-header>
         <woot-code :script="messengerScript"></woot-code>
       </div>
-      <div
-        v-else-if="inbox.channelType === 'Channel::WebWidget'"
-        class="code-wrapper"
-      >
-        <p class="title">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING') }}
-        </p>
-        <p class="sub-head">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD') }}
-        </p>
-        <woot-code :script="webWidgetScript"></woot-code>
+      <div v-else-if="inbox.channelType === 'Channel::WebWidget'">
+        <div class="settings--content">
+          <settings-form-header
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
+          >
+          </settings-form-header>
+          <woot-code :script="webWidgetScript"></woot-code>
+        </div>
+        <!-- <div class="settings--content">
+          <settings-form-header
+            :title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
+            :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+            :is-updating="isUpdating"
+            v-on:update="updateAgents"
+          >
+          </settings-form-header>
+          <Compact v-model="widgetColor" />
+        </div> -->
       </div>
-      <div class="agent-wrapper">
-        <p class="title">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS') }}
-        </p>
-        <p class="sub-head">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT') }}
-        </p>
+      <div class="settings--content">
+        <settings-form-header
+          :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
+          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :is-updating="isUpdating"
+          @update="updateAgents"
+        >
+        </settings-form-header>
         <multiselect
           v-model="selectedAgents"
           :options="agentList"
@@ -48,12 +58,6 @@
           placeholder="Pick some"
           @select="$v.selectedAgents.$touch"
         />
-        <div @click="updateAgents()">
-          <woot-submit-button
-            :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-            :loading="isUpdating"
-          />
-        </div>
       </div>
     </div>
   </woot-modal>
@@ -68,13 +72,18 @@ import {
   createWebsiteWidgetScript,
   createMessengerScript,
 } from 'dashboard/helper/scriptGenerator';
+import SettingsFormHeader from '../../../../components/SettingsFormHeader.vue';
 
 export default {
+  components: {
+    SettingsFormHeader,
+  },
   props: ['onClose', 'inbox', 'show'],
   data() {
     return {
       selectedAgents: [],
       isUpdating: false,
+      widgetColor: { hex: this.inbox.widgetColor },
     };
   },
   computed: {

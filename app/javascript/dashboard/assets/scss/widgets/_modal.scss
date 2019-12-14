@@ -1,35 +1,43 @@
 .modal-mask {
-    position: fixed;
-    z-index: 9990;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, .5);
-    @include flex;
-    @include flex-align(center, middle);
 
+  @include flex;
+  @include flex-align(center, middle);
+  background-color: $color-white;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9990;
+}
+
+.modal--close {
+  border-radius: 50%;
+  color: $color-heading;
+  cursor: pointer;
+  font-size: $font-size-big;
+  line-height: $space-normal;
+  padding: $space-normal $space-two;
+  position: absolute;
+  right: $space-large;
+  top: $space-large;
+
+  &:hover {
+    background: $color-background;
+  }
 }
 
 .modal-container {
-  width: 60rem;
+  background-color: $color-white;
+  border-radius: $space-small;
   max-height: 100%;
   overflow: scroll;
   position: relative;
-  background-color: $color-white;
-  border-radius: $space-small;
-
-  .modal--close {
-    font-size: $font-size-large;
-    position: absolute;
-    right: $space-normal;
-    top: $space-small;
-    cursor: pointer;
-    color: $color-heading;
-  }
+  width: 60rem;
 
   .page-top-bar {
-    @include padding($space-large $space-larger 0);
+    @include padding($zero $space-two);
+
     img {
       max-height: 6rem;
     }
@@ -56,7 +64,7 @@
 
   form {
     align-self: center;
-    @include padding($space-medium $space-larger $space-small);
+    @include padding($space-two);
     a {
       @include padding($space-normal);
     }

@@ -197,8 +197,9 @@
 }
 
 .settings-modal {
-  width: 60%;
   height: 80%;
+  max-width: 1040px;
+  width: 100%;
 
   .delete-wrapper {
     position: absolute;
@@ -214,7 +215,7 @@
     }
   }
 
-  .code-wrapper {
+  .settings--content {
     @include margin($space-medium);
 
     .title {

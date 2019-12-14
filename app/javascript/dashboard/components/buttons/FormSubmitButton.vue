@@ -1,5 +1,10 @@
 <template>
-  <button type="submit" :disabled="disabled" :class="computedClass">
+  <button
+    type="submit"
+    :disabled="disabled"
+    :class="computedClass"
+    @click="onClick"
+  >
     <i v-if="!!iconClass" :class="iconClass" class="icon"></i>
     <span>{{ buttonText }}</span>
     <spinner v-if="loading" />
@@ -38,6 +43,11 @@ export default {
   computed: {
     computedClass() {
       return `button nice ${this.buttonClass || ' '}`;
+    },
+  },
+  methods: {
+    onClick() {
+      this.$emit('click');
     },
   },
 };

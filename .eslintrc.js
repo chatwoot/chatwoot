@@ -20,7 +20,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'import/no-unresolved': 'off',
     'vue/max-attributes-per-line': ['error', {
-      'singleline': 3,
+      'singleline': 20,
       'multiline': {
         'max': 1,
         'allowFirstLine': false

@@ -34,9 +34,18 @@
           />
         </label>
       </div>
+
+      <div class="medium-12 columns">
+        <label>
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+          <compact v-model="widgetColor" class="widget-color--selector" />
+        </label>
+      </div>
+
       <div class="modal-footer">
         <div class="medium-12 columns">
           <woot-submit-button
+            :disabled="!websiteUrl || !websiteName"
             :button-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
           />
         </div>
@@ -47,17 +56,20 @@
 
 <script>
 /* global bus */
+import { Compact } from 'vue-color';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
 export default {
   components: {
     PageHeader,
+    Compact,
   },
   data() {
     return {
       websiteName: '',
       websiteUrl: '',
+      widgetColor: { hex: '#009CE0' },
       isCreating: false,
     };
   },
@@ -80,6 +92,7 @@ export default {
         website: {
           website_name: this.websiteName,
           website_url: this.websiteUrl,
+          widget_color: this.widgetColor.hex,
         },
       });
     },

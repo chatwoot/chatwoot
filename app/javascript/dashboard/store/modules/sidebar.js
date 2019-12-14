@@ -154,6 +154,7 @@ const mutations = {
       avatarUrl: item.avatar_url,
       pageId: item.page_id,
       websiteToken: item.website_token,
+      widgetColor: item.widget_color,
     }));
     // Identify menuItem to update
     // May have more than one object to update
@@ -174,6 +175,7 @@ const mutations = {
       avatarUrl: data.avatar_url === undefined ? null : data.avatar_url,
       pageId: data.page_id,
       websiteToken: data.website_token,
+      widgetColor: data.widget_color,
     });
   },
 

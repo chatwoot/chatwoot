@@ -1,35 +1,37 @@
 .multiselect {
-  min-height: 38px;
   margin-bottom: $space-normal;
+  min-height: 38px;
 
   > .multiselect__tags {
-    padding-top: $zero;
-    min-height: 38px;
-    border-radius: 0;
-    border: 1px solid $light-gray;
     @include margin(0);
+    border: 1px solid $color-border;
+    min-height: 44px;
+    padding-top: $zero;
 
     .multiselect__placeholder {
       padding-top: $space-small;
     }
 
     .multiselect__tag {
-      margin-top: $space-smaller;
+      margin-top: $space-one;
     }
 
     .multiselect__input {
       @include ghost-input;
-      margin-bottom: $zero;
       @include padding($zero);
+
+      margin-bottom: $zero;
     }
 
     .multiselect__single {
-      @include padding($space-small);
+      @include padding($space-one);
+
       margin-bottom: 0;
     }
   }
 
   .multiselect__select {
+    min-height: 44px;
     padding: 0;
     right: 0;
     top: 0;
