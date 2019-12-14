@@ -1,10 +1,10 @@
 @import '~dashboard/assets/scss/variables';
 
-div.vc-compact {
+.vc-compact {
   border: 1px solid $color-border;
-  box-shadow: none;
+  box-shadow: none  !important;
   margin-bottom: $space-normal;
-  width: 356px;
+  width: 356px !important;
 
   .vc-compact-color-item {
     height: 24px;
