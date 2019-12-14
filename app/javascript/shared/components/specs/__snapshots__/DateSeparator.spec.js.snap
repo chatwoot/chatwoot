@@ -4,6 +4,8 @@ exports[`Spinner matches snapshot 1`] = `
 <div
   class="date--separator"
 >
+  
   Nov 18, 2019
+
 </div>
 `;
