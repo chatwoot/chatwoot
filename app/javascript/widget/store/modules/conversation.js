@@ -3,6 +3,9 @@ import Vue from 'vue';
 import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import getUuid from '../../helpers/uuid';
+import DateHelper from '../../../shared/helpers/DateHelper';
+
+const groupBy = require('lodash.groupby');
 
 export const createTemporaryMessage = content => {
   const timestamp = new Date().getTime();
@@ -31,10 +34,9 @@ const state = {
 };
 
 export const getters = {
+  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
-  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
-  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getEarliestMessage: _state => {
     const conversation = Object.values(_state.conversations);
     if (conversation.length) {
@@ -42,6 +44,12 @@ export const getters = {
     }
     return {};
   },
+  getGroupedConversation: _state => {
+    return groupBy(Object.values(_state.conversations), message =>
+      new DateHelper(message.created_at).format()
+    );
+  },
+  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
 };
 
 export const actions = {
