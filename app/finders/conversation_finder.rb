@@ -66,7 +66,9 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations.includes(
+      :assignee, :contact, :inbox
+    ).where(inbox_id: @inbox_ids)
   end
 
   def filter_by_assignee_type

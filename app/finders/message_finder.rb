@@ -10,10 +10,14 @@ class MessageFinder
 
   private
 
-  def messages
-    return @conversation.messages if @params[:filter_internal_messages].blank?
+  def conversation_messages
+    @conversation.messages.includes(:attachment, user: { avatar_attachment: :blob })
+  end
 
-    @conversation.messages.where.not('private = ? OR message_type = ?', true, 2)
+  def messages
+    return conversation_messages if @params[:filter_internal_messages].blank?
+
+    conversation_messages.where.not('private = ? OR message_type = ?', true, 2)
   end
 
   def current_messages
