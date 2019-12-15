@@ -44,7 +44,8 @@ export default {
     },
     avatarUrl() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
+        // eslint-disable-next-line
+        return require('dashboard/assets/images/chatwoot_bot.png');
       }
 
       return this.message.sender ? this.message.sender.avatar_url : '';
