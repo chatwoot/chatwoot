@@ -9,7 +9,6 @@ import Modal from './Modal';
 import ModalHeader from './ModalHeader';
 import ReportStatsCard from './widgets/ReportStatsCard';
 import SidemenuIcon from './SidemenuIcon';
-import Spinner from './Spinner';
 import SubmitButton from './buttons/FormSubmitButton';
 import Tabs from './ui/Tabs/Tabs';
 import TabsItem from './ui/Tabs/TabsItem';

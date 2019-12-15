@@ -36,9 +36,17 @@ export default {
       return this.message.message_type === MESSAGE_TYPE.INCOMING;
     },
     agentName() {
+      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
+        return 'Bot';
+      }
+
       return this.message.sender ? this.message.sender.name : '';
     },
     avatarUrl() {
+      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
+        return 'Bot';
+      }
+
       return this.message.sender ? this.message.sender.avatar_url : '';
     },
   },
