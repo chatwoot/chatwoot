@@ -23,7 +23,7 @@ json.data do
       else
         json.messages conversation.unread_messages.map(&:push_event_data)
       end
-      json.inbox_id conversation.inbox.id
+      json.inbox_id conversation.inbox_id
       json.status conversation.status_before_type_cast
       json.timestamp conversation.messages.last.try(:created_at).try(:to_i)
       json.user_last_seen_at conversation.user_last_seen_at.to_i
