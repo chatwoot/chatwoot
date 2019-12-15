@@ -40,6 +40,8 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
 
+  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
@@ -66,7 +68,6 @@ Rails.application.configure do
 
   # Disable host check during development
   config.hosts = nil
-
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do

@@ -4,7 +4,13 @@
     :message="message.content"
     :status="message.status"
   />
-  <AgentMessage v-else :agent-name="agentName" :message="message.content" />
+  <AgentMessage
+    v-else
+    :agent-name="agentName"
+    :message="message.content"
+    :show-avatar="message.showAvatar"
+    :avatar-url="avatarUrl"
+  />
 </template>
 
 <script>
@@ -19,6 +25,7 @@ export default {
   },
   props: {
     message: Object,
+    showAvatar: Boolean,
   },
   computed: {
     isUserMessage() {
@@ -26,6 +33,9 @@ export default {
     },
     agentName() {
       return this.message.sender ? this.message.sender.name : '';
+    },
+    avatarUrl() {
+      return this.message.sender ? this.message.sender.avatar_url : '';
     },
   },
 };
