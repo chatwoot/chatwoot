@@ -103,7 +103,7 @@ export default {
       for (let i = 0; i < groupKey.length; i += 1) {
         const groupItem = this.sidebarList[groupKey[i]];
         // Check if current route is included
-        const isRouteIncluded = groupItem.routes.indexOf(currentRoute) > -1;
+        const isRouteIncluded = groupItem.routes.includes(currentRoute);
         if (isRouteIncluded) {
           menuItems = Object.values(groupItem.menuItems);
         }
