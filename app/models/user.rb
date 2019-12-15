@@ -47,6 +47,7 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   include Events::Types
   include Pubsubable
+  include Rails.application.routes.url_helpers
 
   devise :database_authenticatable,
          :registerable,
@@ -103,9 +104,18 @@ class User < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
   end
 
+  def avatar_url
+    if avatar.attached? && avatar.representable?
+      url_for(avatar.representation(resize: '250x250'))
+    else
+      ''
+    end
+  end
+
   def push_event_data
     {
-      name: name
+      name: name,
+      avatar_url: avatar_url
     }
   end
 end

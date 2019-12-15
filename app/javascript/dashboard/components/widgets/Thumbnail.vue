@@ -76,3 +76,27 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
+
+.user-thumbnail-box {
+  @include flex-shrink;
+  position: relative;
+
+  .user-thumbnail {
+    border-radius: 50%;
+    height: 100%;
+    width: 100%;
+  }
+
+  .source-badge {
+    bottom: -$space-micro / 2;
+    height: $space-slab;
+    position: absolute;
+    right: $zero;
+    width: $space-slab;
+  }
+}
+</style>

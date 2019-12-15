@@ -43,12 +43,6 @@ export default {
       .chat-bubble {
         border-top-right-radius: $space-smaller;
       }
-      .user-avatar {
-        visibility: hidden;
-      }
-      .agent-name {
-        display: none;
-      }
     }
     & + .agent-message {
       margin-top: $space-normal;

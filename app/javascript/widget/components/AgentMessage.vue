@@ -1,31 +1,38 @@
 <template>
   <div class="agent-message">
     <div class="avatar-wrap">
-      <UserAvatar size="small" :src="avatarUrl" />
+      <thumbnail
+        v-if="showAvatar"
+        :src="avatarUrl"
+        size="24px"
+        :username="agentName"
+      />
     </div>
     <div class="message-wrap">
-      <h5 class="agent-name">
-        {{ agentName }}
-      </h5>
       <AgentMessageBubble :message="message" />
+      <p v-if="showAvatar" class="agent-name">
+        {{ agentName }}
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-import UserAvatar from 'widget/components/UserAvatar.vue';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   name: 'AgentMessage',
   components: {
-    UserAvatar,
     AgentMessageBubble,
+    Thumbnail,
   },
   props: {
     message: String,
     avatarUrl: String,
     agentName: String,
+    showAvatar: Boolean,
+    createdAt: Number,
   },
 };
 </script>
@@ -35,10 +42,10 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 .conversation-wrap {
   .agent-message {
+    align-items: flex-end;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    align-items: flex-end;
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
 
@@ -48,14 +55,6 @@ export default {
       .chat-bubble {
         border-top-left-radius: $space-smaller;
       }
-
-      .user-avatar {
-        visibility: hidden;
-      }
-
-      .agent-name {
-        display: none;
-      }
     }
 
     & + .user-message {
@@ -63,23 +62,28 @@ export default {
     }
 
     .avatar-wrap {
-      flex-shrink: 1;
-      flex-grow: 0;
+      height: $space-medium;
+      width: $space-medium;
+
+      .user-thumbnail-box {
+        margin-top: -$space-large;
+      }
     }
 
     .message-wrap {
-      max-width: 90%;
-      flex-shrink: 0;
       flex-grow: 1;
+      flex-shrink: 0;
       margin-left: $space-small;
-
-      .agent-name {
-        font-weight: $font-weight-medium;
-        margin-bottom: $space-smaller;
-        margin-left: $space-two;
-        color: $color-body;
-      }
+      max-width: 90%;
     }
+  }
+
+  .agent-name {
+    color: $color-body;
+    font-size: $font-size-default;
+    font-weight: $font-weight-medium;
+    margin-bottom: $space-small;
+    margin-top: $space-small;
   }
 }
 </style>
