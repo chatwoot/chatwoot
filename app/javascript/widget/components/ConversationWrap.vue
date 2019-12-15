@@ -4,10 +4,10 @@
       <div v-if="isFetchingList" class="message--loader">
         <spinner></spinner>
       </div>
-      <div v-for="date in conversationDates" :key="date">
-        <date-separator :date="date"></date-separator>
+      <div v-for="groupedMessage in groupedMessages" :key="groupedMessage.date">
+        <date-separator :date="groupedMessage.date"></date-separator>
         <ChatMessage
-          v-for="message in groupedMessages[date]"
+          v-for="message in groupedMessage.messages"
           :key="message.id"
           :message="message"
         />
@@ -33,7 +33,7 @@ export default {
     Spinner,
   },
   props: {
-    groupedMessages: Object,
+    groupedMessages: Array,
   },
   data() {
     return {
@@ -48,9 +48,6 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
     }),
-    conversationDates() {
-      return Object.keys(this.groupedMessages);
-    },
   },
   watch: {
     allMessagesLoaded() {
