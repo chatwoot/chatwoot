@@ -27,7 +27,7 @@
         class="icon ion-happy-outline"
         :class="{ active: showEmojiPicker }"
         @click="toggleEmojiPicker()"
-      ></i>
+      />
     </div>
 
     <div class="reply-box__bottom">
@@ -65,7 +65,7 @@
             'ion-android-send': !isPrivate,
             'ion-android-lock': isPrivate,
           }"
-        ></i>
+        />
       </button>
     </div>
   </div>
