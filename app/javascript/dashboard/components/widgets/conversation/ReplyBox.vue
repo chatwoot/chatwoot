@@ -114,7 +114,7 @@ export default {
         return;
       }
       const isSlashCommand = val[0] === '/';
-      const hasNextWord = val.indexOf(' ') > -1;
+      const hasNextWord = val.includes(' ');
       const isShortCodeActive = isSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
         this.showCannedResponsesList = true;
