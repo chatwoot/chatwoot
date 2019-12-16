@@ -1,6 +1,6 @@
 <template>
   <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
-    <woot-snackbar :message="snackMessage" v-for="snackMessage in snackMessages" v-bind:key="snackMessage"></woot-snackbar>
+    <woot-snackbar :message="snackMessage" v-for="snackMessage in snackMessages" v-bind:key="snackMessage" />
   </transition-group>
 </template>
 

@@ -5,9 +5,8 @@
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       @contactPanelToggle="onToggleContactPanel"
-    >
-    </messages-view>
-    <empty-state v-else></empty-state>
+    />
+    <empty-state v-else />
   </div>
 </template>
 <script>

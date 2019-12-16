@@ -41,8 +41,7 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="gravatarUrl()" :username="currentUser.name">
-        </thumbnail>
+        <thumbnail :src="gravatarUrl()" :username="currentUser.name"/>
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
