@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <woot-snackbar-box></woot-snackbar-box>
+    <woot-snackbar-box />
   </div>
 </template>
 
