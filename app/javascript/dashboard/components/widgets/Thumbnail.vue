@@ -14,8 +14,7 @@
       background-color="#1f93ff"
       color="white"
       :size="avatarSize"
-    >
-    </Avatar>
+    />
     <img
       v-if="badge === 'Channel::FacebookPage'"
       id="badge"
