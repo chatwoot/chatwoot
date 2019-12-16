@@ -1,5 +1,5 @@
 <template>
-  <i class="ion-android-menu hamburger--menu" @click="onMenuItemClick"></i>
+  <i class="ion-android-menu hamburger--menu" @click="onMenuItemClick" />
 </template>
 
 <script>

@@ -5,7 +5,7 @@
     :class="buttonClass"
     @click="toggleStatus"
   >
-    <i v-if="!isLoading" class="icon" :class="buttonIconClass"></i>
+    <i v-if="!isLoading" class="icon" :class="buttonIconClass" />
     <spinner v-if="isLoading" />
     {{ currentStatus }}
   </button>
