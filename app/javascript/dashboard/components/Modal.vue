@@ -3,7 +3,7 @@
     <div v-if="show" class="modal-mask" transition="modal" @click="close">
       <i class="ion-android-close modal--close" @click="close"></i>
       <div class="modal-container" :class="className" @click.stop>
-        <slot></slot>
+        <slot />
       </div>
     </div>
   </transition>
