@@ -26,19 +26,22 @@ docker-compose -f docker-compose.production.yaml build
 
 Before you run the below command please build the development image following the instructions above.
 
-Running the rails app in debug mode (pry and byebug works)
+### Running the rails app in debug mode (pry and byebug works)
 
 ```
 docker-compose run --service-port rails
 ```
 
-Running the complete stack in non-debug mode 
+* Access the rails app frontend by visiting `http://0.0.0.0:3000/`
+* Access Mailhog inbox by visiting `http://0.0.0.0:8025/`
+
+### Running the complete stack in non-debug mode 
 
 ```
 docker-compose up
 ```
 
-Removing the complete stack
+### Removing the complete stack
 
 ```
 docker-compose down
