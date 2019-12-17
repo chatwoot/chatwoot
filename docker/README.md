@@ -1,28 +1,28 @@
-## Building the Image
+# Building the Image
 
-### development environment
+## development environment
 
 ```
 docker-compose build
 ```
 
-### test environment
+## test environment
 
 ```
 docker-compose build
 docker-compose -f docker-compose.test.yaml build
 ```
 
-### production environment
+## production environment
 
 ```
 docker-compose build
 docker-compose -f docker-compose.production.yaml build
 ```
 
-## Running the Application
+# Running the Application
 
-### development environment
+## development environment
 
 Before you run the below command please build the development image following the instructions above.
 
@@ -45,7 +45,7 @@ docker-compose down
 ```
 
 
-### test environment
+## test environment
 
 Before you run the below command please build the test image following the instructions above.
 
@@ -53,7 +53,7 @@ Before you run the below command please build the test image following the instr
 docker-compose -f docker-compose.test.yaml run --service-port rspec
 ```
 
-### production environment
+## production environment
 
 Before you run the below command please build the production image following the instructions above.
 
