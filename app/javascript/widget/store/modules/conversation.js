@@ -8,7 +8,7 @@ import DateHelper from '../../../shared/helpers/DateHelper';
 const groupBy = require('lodash.groupby');
 
 export const createTemporaryMessage = content => {
-  const timestamp = new Date().getTime();
+  const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
