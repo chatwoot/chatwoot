@@ -4,7 +4,7 @@ services:
   base: &base
     build:
       context: .
-      dockerfile: ./docker/development.Dockerfile
+      dockerfile: ./docker/Dockerfile
     tty: true
     stdin_open: true
     image: chatwoot:development
@@ -13,7 +13,7 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/Dockerfile.rails
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
     image: chatwoot-rails:development
     volumes:
       - ./:/app:delegated
@@ -22,7 +22,6 @@ services:
     depends_on:
       - postgres
       - redis
-    links:
       - webpack
     ports:
       - 3000:3000
@@ -38,7 +37,7 @@ services:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/Dockerfile.webpack
+      dockerfile: ./docker/dockerfiles/webpack.Dockerfile
     image: chatwoot-webpack:development
     volumes:
       - ./:/app:delegated

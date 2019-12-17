@@ -1,4 +1,6 @@
-FROM chatwoot:latest
+FROM chatwoot:development
+
+RUN chmod +x docker/entrypoints/webpack.sh
 
 RUN npm install webpack-dev-server -g
 
