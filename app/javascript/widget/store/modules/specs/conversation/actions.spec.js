@@ -24,7 +24,7 @@ describe('#actions', () => {
         id: '1111',
         content: 'hello',
         status: 'in_progress',
-        created_at: 1466424490000,
+        created_at: 1466424490,
         message_type: 0,
       });
     });
