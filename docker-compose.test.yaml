@@ -24,7 +24,7 @@ services:
       - redis
     ports:
       - 3000:3000
-    env_file: .env.development
+    env_file: .env.example
     environment:
       - NODE_ENV=test
       - RAILS_ENV=test

@@ -26,7 +26,7 @@ services:
       - mailhog
     ports:
       - 3000:3000
-    env_file: .env.development
+    env_file: .env.example
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - NODE_ENV=development
@@ -45,8 +45,8 @@ services:
       - node_modules_webpack:/app/node_modules # Node modules shared across containers
       - packs:/app/public/packs:delegated
     ports:
-      - 3035 # Webpack dev server
-    env_file: .env.development
+      - "3035" # Webpack dev server
+    env_file: .env.example
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
