@@ -38,8 +38,25 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  smtp_settings = {
+    port:           ENV["SMTP_PORT"],
+    domain:         ENV["SMTP_DOMAIN"],
+    address:        ENV["SMTP_ADDRESS"]
+  }
+
+  unless ENV["SMTP_AUTHENTICATION"].blank?
+    smtp_settings[:user_name] = ENV["SMTP_USERNAME"] 
+    smtp_settings[:password] = ENV["SMTP_PASSWORD"]
+    smtp_settings[:authentication] = ENV["SMTP_AUTHENTICATION"]
+    smtp_settings[:enable_starttls_auto] = ENV["SMTP_ENABLE_STARTTLS_AUTO"] unless ENV["SMTP_ENABLE_STARTTLS_AUTO"].blank?
+  end
+
+  config.action_mailer.smtp_settings = smtp_settings
 
   Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
 
