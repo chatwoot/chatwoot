@@ -9,14 +9,12 @@ docker-compose build
 ## test environment
 
 ```
-docker-compose build
 docker-compose -f docker-compose.test.yaml build
 ```
 
 ## production environment
 
 ```
-docker-compose build
 docker-compose -f docker-compose.production.yaml build
 ```
 
