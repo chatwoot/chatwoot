@@ -4,18 +4,16 @@ services:
   base: &base
     build:
       context: .
-      dockerfile: ./docker/production.Dockerfile
-    tty: true
-    stdin_open: true
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
     image: chatwoot:latest
 
   rails:
     <<: *base
     image: chatwoot:latest
-    volumes:
-      - ./:/app:delegated
-      - node_modules_rails:/app/node_modules # Node modules shared across containers
-      - packs:/app/public/packs:delegated
     depends_on:
       - postgres
       - redis

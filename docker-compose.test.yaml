@@ -4,10 +4,18 @@ services:
   base: &base
     build:
       context: .
-      dockerfile: ./docker/test.Dockerfile
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'test'
+        RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
     image: chatwoot:test
+    env_file: .env.example
+    environment:
+      - NODE_ENV=test
+      - RAILS_ENV=test
 
   rspec:
     <<: *base
@@ -24,10 +32,6 @@ services:
       - redis
     ports:
       - 3000:3000
-    env_file: .env.example
-    environment:
-      - NODE_ENV=test
-      - RAILS_ENV=test
     entrypoint: docker/entrypoints/rspec.sh
     command: ["bundle", "exec", "rspec"]
 

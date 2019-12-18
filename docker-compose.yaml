@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        RAILS_ENV: 'development'
+        RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
     image: chatwoot:development
