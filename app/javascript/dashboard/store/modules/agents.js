@@ -1,3 +1,4 @@
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AgentAPI from '../../api/agents';
 
@@ -83,22 +84,10 @@ export const mutations = {
     $state.uiFlags.isDeleting = status;
   },
 
-  [types.default.SET_AGENTS]($state, agentList) {
-    $state.records = agentList;
-  },
-  [types.default.ADD_AGENT]($state, agentData) {
-    $state.records.push(agentData);
-  },
-  [types.default.EDIT_AGENT]($state, agentData) {
-    $state.records.forEach((element, index) => {
-      if (element.id === agentData.id) {
-        $state.records[index] = agentData;
-      }
-    });
-  },
-  [types.default.DELETE_AGENT]($state, agentId) {
-    $state.records = $state.records.filter(agent => agent.id !== agentId);
-  },
+  [types.default.SET_AGENTS]: MutationHelpers.set,
+  [types.default.ADD_AGENT]: MutationHelpers.create,
+  [types.default.EDIT_AGENT]: MutationHelpers.update,
+  [types.default.DELETE_AGENT]: MutationHelpers.destroy,
 };
 
 export default {
