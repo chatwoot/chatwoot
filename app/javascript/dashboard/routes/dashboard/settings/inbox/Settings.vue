@@ -98,7 +98,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('fetchAgents').then(() => {
+    this.$store.dispatch('agents/index').then(() => {
       this.fetchAttachedAgents();
     });
   },

@@ -14,7 +14,7 @@
       class="tab--chat-type"
       @chatTabChange="getDataForTab"
     />
-    
+
     <p
       v-if="!chatListLoading && !getChatsForTab(activeStatus).length"
       class="content-box"
@@ -71,7 +71,7 @@ export default {
 
     this.$store.dispatch('emptyAllConversations');
     this.fetchData();
-    this.$store.dispatch('fetchAgents');
+    this.$store.dispatch('agents/get');
   },
   computed: {
     ...mapGetters({
