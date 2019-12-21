@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      agentList: 'getAgents',
+      agentList: 'agents/getAgents',
     }),
     webWidgetScript() {
       return createWebsiteWidgetScript(this.inbox.websiteToken);
@@ -98,7 +98,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('fetchAgents').then(() => {
+    this.$store.dispatch('agents/get').then(() => {
       this.fetchAttachedAgents();
     });
   },
