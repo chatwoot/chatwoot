@@ -162,15 +162,6 @@ export default {
 
   resetPassword({ email }) {
     const urlData = endPoints('resetPassword');
-    return new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, { email })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
+    return axios.post(urlData.url, { email });
   },
 };
