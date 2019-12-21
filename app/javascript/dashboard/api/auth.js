@@ -9,19 +9,29 @@ import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import { frontendURL } from '../helper/URLHelper';
 
+const setAuthCredentials = response => {
+  const expiryDate = moment.unix(response.headers.expiry);
+  Cookies.set('auth_data', response.headers, {
+    expires: expiryDate.diff(moment(), 'days'),
+  });
+  Cookies.set('user', response.data.data, {
+    expires: expiryDate.diff(moment(), 'days'),
+  });
+};
+
+const clearCookiesOnLogout = () => {
+  Cookies.remove('auth_data');
+  Cookies.remove('user');
+  window.location = frontendURL('login');
+};
+
 export default {
   login(creds) {
     return new Promise((resolve, reject) => {
       axios
         .post('auth/sign_in', creds)
         .then(response => {
-          const expiryDate = moment.unix(response.headers.expiry);
-          Cookies.set('auth_data', response.headers, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
-          Cookies.set('user', response.data.data, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
+          setAuthCredentials(response);
           resolve();
         })
         .catch(error => {
@@ -39,13 +49,7 @@ export default {
           email: creds.email,
         })
         .then(response => {
-          const expiryDate = moment.unix(response.headers.expiry);
-          Cookies.set('auth_data', response.headers, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
-          Cookies.set('user', response.data.data, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
+          setAuthCredentials(response);
           resolve(response);
         })
         .catch(error => {
@@ -64,9 +68,7 @@ export default {
         })
         .catch(error => {
           if (error.response.status === 401) {
-            Cookies.remove('auth_data');
-            Cookies.remove('user');
-            window.location = frontendURL('login');
+            clearCookiesOnLogout();
           }
           reject(error);
         });
@@ -79,9 +81,7 @@ export default {
       axios
         .delete(urlData.url)
         .then(response => {
-          Cookies.remove('auth_data');
-          Cookies.remove('user');
-          window.location = frontendURL('login');
+          clearCookiesOnLogout();
           resolve(response);
         })
         .catch(error => {
@@ -122,17 +122,8 @@ export default {
   },
 
   verifyPasswordToken({ confirmationToken }) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post('auth/confirmation', {
-          confirmation_token: confirmationToken,
-        })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
+    return axios.post('auth/confirmation', {
+      confirmation_token: confirmationToken,
     });
   },
 
@@ -162,15 +153,6 @@ export default {
 
   resetPassword({ email }) {
     const urlData = endPoints('resetPassword');
-    return new Promise((resolve, reject) => {
-      axios
-        .post(urlData.url, { email })
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error.response);
-        });
-    });
+    return axios.post(urlData.url, { email });
   },
 };
