@@ -51,6 +51,7 @@
                 <td>
                   <div class="button-wrapper">
                     <woot-submit-button
+                      v-if="showEditAction(agent)"
                       :button-text="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
                       icon-class="ion-edit"
                       button-class="link hollow grey-btn"
@@ -136,6 +137,7 @@ export default {
     ...mapGetters({
       agentList: 'agents/getAgents',
       uiFlags: 'agents/getUIFlags',
+      currentUserId: 'getCurrentUserID',
     }),
     deleteConfirmText() {
       return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${
@@ -152,25 +154,32 @@ export default {
         this.currentAgent.name
       } ?`;
     },
-    verifiedAdministrators() {
-      return this.agentList.filter(
-        agent => agent.role === 'administrator' && agent.confirmed
-      );
-    },
   },
   mounted() {
     this.$store.dispatch('agents/get');
   },
   methods: {
+    showEditAction(agent) {
+      return this.currentUserId !== agent.id;
+    },
     showDeleteAction(agent) {
+      if (this.currentUserId === agent.id) {
+        return false;
+      }
+
       if (!agent.confirmed) {
         return true;
       }
 
       if (agent.role === 'administrator') {
-        return this.verifiedAdministrators.length !== 1;
+        return this.verifiedAdministrators().length !== 1;
       }
       return true;
+    },
+    verifiedAdministrators() {
+      return this.agentList.filter(
+        agent => agent.role === 'administrator' && agent.confirmed
+      );
     },
     gravatarUrl(email) {
       const hash = md5(email);
