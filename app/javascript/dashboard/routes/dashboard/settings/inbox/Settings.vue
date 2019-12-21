@@ -88,7 +88,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      agentList: 'getAgents',
+      agentList: 'agents/getAgents',
     }),
     webWidgetScript() {
       return createWebsiteWidgetScript(this.inbox.websiteToken);

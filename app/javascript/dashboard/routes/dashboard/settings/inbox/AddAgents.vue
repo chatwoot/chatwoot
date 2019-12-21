@@ -73,7 +73,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      agentList: 'getAgents',
+      agentList: 'agents/getAgents',
     }),
   },
 
