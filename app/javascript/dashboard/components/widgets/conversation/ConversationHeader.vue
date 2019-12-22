@@ -76,7 +76,7 @@ export default {
 
   computed: {
     ...mapGetters({
-      agents: 'getVerifiedAgents',
+      agents: 'agents/getVerifiedAgents',
       currentChat: 'getSelectedChat',
     }),
     agentList() {

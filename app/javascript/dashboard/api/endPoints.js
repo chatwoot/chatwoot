@@ -32,22 +32,6 @@ const endPoints = {
     url: 'api/v1/inboxes.json',
   },
 
-  fetchAgents: {
-    url: 'api/v1/agents.json',
-  },
-
-  addAgent: {
-    url: 'api/v1/agents.json',
-  },
-
-  editAgent(id) {
-    return { url: `api/v1/agents/${id}` };
-  },
-
-  deleteAgent({ id }) {
-    return { url: `api/v1/agents/${id}` };
-  },
-
   createChannel(channel, channelParams) {
     return {
       url: `api/v1/callbacks/register_${channel}_page.json`,

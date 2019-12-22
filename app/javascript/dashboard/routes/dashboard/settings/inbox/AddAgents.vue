@@ -73,12 +73,12 @@ export default {
 
   computed: {
     ...mapGetters({
-      agentList: 'getAgents',
+      agentList: 'agents/getAgents',
     }),
   },
 
   mounted() {
-    this.$store.dispatch('fetchAgents');
+    this.$store.dispatch('agents/get');
   },
 
   methods: {
