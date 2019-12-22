@@ -49,7 +49,7 @@ Rails.application.configure do
     address:        ENV["SMTP_ADDRESS"]
   }
 
-  unless ENV["SMTP_AUTHENTICATION"].blank?
+  if ENV["SMTP_AUTHENTICATION"].present?
     smtp_settings[:user_name] = ENV["SMTP_USERNAME"] 
     smtp_settings[:password] = ENV["SMTP_PASSWORD"]
     smtp_settings[:authentication] = ENV["SMTP_AUTHENTICATION"]
