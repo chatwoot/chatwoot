@@ -25,8 +25,5 @@ do
   sleep 2;
 done
 
-# create the development databases
-bundle exec rails db:create db:migrate db:seed
-
 # Execute the main process of the container
 exec "$@"

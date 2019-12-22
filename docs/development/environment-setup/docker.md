@@ -3,7 +3,7 @@ path: "/docs/installation-guide-docker"
 title: "Docker Setup and Debugging Guide"
 ---
 
-# Building the Image
+# Docker Setup and Debugging Guide
 
 ## development environment
 
@@ -11,23 +11,11 @@ title: "Docker Setup and Debugging Guide"
 docker-compose build
 ```
 
-## test environment
+After building the image or each time after destroying the stack you would have to create and migrate the database before you can start the rails server or run rspec tests. 
 
 ```
-docker-compose -f docker-compose.test.yaml build
+docker-compose run rails bundle exec rails db:create db:migrate db:seed
 ```
-
-## production environment
-
-```
-docker-compose -f docker-compose.production.yaml build
-```
-
-# Running the Application
-
-## development environment
-
-Before you run the below command please build the development image following the instructions above.
 
 ### Running the rails app in debug mode (pry and byebug works)
 
@@ -36,6 +24,7 @@ docker-compose run --service-port rails
 ```
 
 * Access the rails app frontend by visiting `http://0.0.0.0:3000/` (You can access the website over http for debugging using pry and Byebug here)
+
 * Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
 
 ### Running the complete stack in non-debug mode 
@@ -47,46 +36,34 @@ docker-compose up
 * Access the rails app frontend by visiting `http://0.0.0.0:3000/` (This is web only, you cannot debug using docker-compose up)
 * Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
 
-### Removing the complete stack
+### Destroying the complete composer stack
 
 ```
 docker-compose down
 ```
 
+### Running rspec tests
 
-## test environment
-
-Before you run the below command please build the test image following the instructions above.
-
-```
-docker-compose -f docker-compose.test.yaml run --service-port rspec
-```
-
-To run custom tests you can:
+For running the complete rspec tests
 
 ```
-docker-compose -f docker-compose.test.yaml run --service-port rspec bundle exec rspec <path-to-spec-file>
+docker-compose run rails bundle exec rspec
+```
+
+For running specific test:
+
+```
+docker-compose run rails bundle exec rspec spec/<path-to-file>:<line-number>
 ```
 
 ## production environment
 
-Before you run the below command please build the production image following the instructions above.
-
-Then you can tag this image:
 ```
-docker tag chatwoot:latest chatwoot/chatwoot:latest
+docker-compose -f docker-compose.production.yaml build
 ```
 
-And then push the image to docker hub
+If you want to test the production build locally you would first need to set `SECRET_KEY_BASE` environment variable in your .env.example file and then run the below command:
 
 ```
-docker push
+docker-compose -f docker-compose.production.yaml up
 ```
-
-If you want to test locally how production works you need to set `SECRET_KEY_BASE` environment variable in your .env.example file and then run the below command:
-
-```
-docker-compose run --service-port rails
-```
-
-You will be able to access the rails app by visiting `http://0.0.0.0:3000/`
