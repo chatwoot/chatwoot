@@ -7,6 +7,8 @@ FactoryBot.define do
     user_last_seen_at { Time.current }
     agent_last_seen_at { Time.current }
     locked { false }
+    account
+    inbox
 
     factory :complete_conversation do
       after(:build) do |conversation|
