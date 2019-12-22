@@ -14,7 +14,7 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp', 'caching-dev.txt').exist?
+  if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
@@ -27,6 +27,7 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+  config.public_file_server.enabled = true
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
@@ -37,8 +38,25 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
-  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+  smtp_settings = {
+    port: ENV['SMTP_PORT'],
+    domain: ENV['SMTP_DOMAIN'],
+    address: ENV['SMTP_ADDRESS']
+  }
+
+  if ENV['SMTP_AUTHENTICATION'].present?
+    smtp_settings[:user_name] = ENV['SMTP_USERNAME']
+    smtp_settings[:password] = ENV['SMTP_PASSWORD']
+    smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION']
+    smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
+  end
+
+  config.action_mailer.smtp_settings = smtp_settings
 
   Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
 
