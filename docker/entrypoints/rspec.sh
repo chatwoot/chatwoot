@@ -16,7 +16,7 @@ done
 
 echo "Database ready to accept connections."
 
-# create the aeon development databases
+# create the development databases
 RAILS_ENV=test bundle exec rails db:drop db:create db:migrate
 
 # Execute the main process of the container
