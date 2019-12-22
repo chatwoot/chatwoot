@@ -90,13 +90,13 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0.beta2'
+  gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
-  gem 'rubocop', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', require: false
-  gem 'spring-watcher-listen'
   gem 'spring'
+  gem 'spring-watcher-listen'
 end
