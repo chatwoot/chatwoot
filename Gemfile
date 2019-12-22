@@ -80,19 +80,14 @@ group :development do
   gem 'web-console'
 end
 
-group :test do
-  gem 'action-cable-testing'
-  gem 'mock_redis'
-  gem 'shoulda-matchers'
-  gem 'simplecov', require: false
-end
-
 group :development, :test do
+  gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
+  gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'rubocop', require: false
@@ -100,6 +95,8 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
   gem 'seed_dump'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
 end
