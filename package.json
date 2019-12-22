@@ -7,7 +7,8 @@
     "pretest": "rimraf .jest-cache",
     "test": "jest --no-cache",
     "test:watch": "jest --watch --no-cache",
-    "test:coverage": "jest --no-cache --collectCoverage"
+    "test:coverage": "jest --no-cache --collectCoverage",
+    "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",
