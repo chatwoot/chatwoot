@@ -18,6 +18,7 @@ Metrics/BlockLength:
   Exclude:
     - spec/**/*
     - '**/routes.rb'
+    - 'config/environments/*'
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
