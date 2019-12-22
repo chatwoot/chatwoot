@@ -1,6 +1,4 @@
-/* eslint no-console: 0 */
-/* eslint no-param-reassign: 0 */
-/* eslint no-shadow: 0 */
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import CannedResponseAPI from '../../api/cannedResponse';
 
@@ -87,27 +85,10 @@ const mutations = {
     };
   },
 
-  [types.default.SET_CANNED](_state, data) {
-    _state.records = data;
-  },
-
-  [types.default.ADD_CANNED](_state, data) {
-    _state.records.push(data);
-  },
-
-  [types.default.EDIT_CANNED](_state, data) {
-    _state.records.forEach((element, index) => {
-      if (element.id === data.id) {
-        _state.records[index] = data;
-      }
-    });
-  },
-
-  [types.default.DELETE_CANNED](_state, id) {
-    _state.records = _state.records.filter(
-      cannedResponse => cannedResponse.id !== id
-    );
-  },
+  [types.default.SET_CANNED]: MutationHelpers.set,
+  [types.default.ADD_CANNED]: MutationHelpers.create,
+  [types.default.EDIT_CANNED]: MutationHelpers.update,
+  [types.default.DELETE_CANNED]: MutationHelpers.destroy,
 };
 
 export default {

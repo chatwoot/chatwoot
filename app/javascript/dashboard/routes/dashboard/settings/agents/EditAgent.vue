@@ -21,9 +21,9 @@
             <multiselect
               v-model.trim="agentType"
               :options="agentTypeList"
-              label="label"
               :placeholder="$t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.PLACEHOLDER')"
               :searchable="false"
+              label="label"
               @select="setPageName"
             />
             <span v-if="$v.agentType.$error" class="message">
@@ -37,10 +37,10 @@
               :disabled="
                 $v.agentType.$invalid ||
                   $v.agentName.$invalid ||
-                  editAgentsApi.showLoading
+                  uiFlags.isUpdating
               "
               :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
-              :loading="editAgentsApi.showLoading"
+              :loading="uiFlags.isUpdating"
             />
             <a @click="onClose">
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
@@ -62,7 +62,7 @@
 /* global bus */
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
-
+import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
@@ -81,11 +81,6 @@ export default {
   },
   data() {
     return {
-      editAgentsApi: {
-        showAlert: false,
-        showLoading: false,
-        message: '',
-      },
       agentTypeList: this.$t('AGENT_MGMT.AGENT_TYPES'),
       agentName: this.name,
       agentType: {
@@ -111,66 +106,41 @@ export default {
     pageTitle() {
       return `${this.$t('AGENT_MGMT.EDIT.TITLE')} - ${this.name}`;
     },
+    ...mapGetters({
+      uiFlags: 'agents/getUIFlags',
+    }),
   },
   methods: {
     setPageName({ name }) {
       this.$v.agentType.$touch();
       this.agentType = name;
     },
-    showAlert() {
-      bus.$emit('newToastMessage', this.editAgentsApi.message);
+    showAlert(message) {
+      bus.$emit('newToastMessage', message);
     },
-    resetForm() {
-      this.agentName = '';
-      this.agentType = '';
-      this.$v.agentName.$reset();
-      this.$v.agentType.$reset();
-    },
-    editAgent() {
-      // Show loading on button
-      this.editAgentsApi.showLoading = true;
-      // Make API Calls
-      this.$store
-        .dispatch('editAgent', {
+    async editAgent() {
+      try {
+        await this.$store.dispatch('agents/update', {
           id: this.id,
           name: this.agentName,
           role: this.agentType.name.toLowerCase(),
-        })
-        .then(() => {
-          // Reset Form, Show success message
-          this.editAgentsApi.showLoading = false;
-          this.editAgentsApi.message = this.$t(
-            'AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'
-          );
-          this.showAlert();
-          this.resetForm();
-          setTimeout(() => {
-            this.onClose();
-          }, 10);
-        })
-        .catch(() => {
-          this.editAgentsApi.showLoading = false;
-          this.editAgentsApi.message = this.$t(
-            'AGENT_MGMT.EDIT.API.ERROR_MESSAGE'
-          );
-          this.showAlert();
         });
+        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.onClose();
+      } catch (error) {
+        console.log(error);
+        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
     },
-    resetPassword() {
-      // Call resetPassword from Auth Service
-      Auth.resetPassword(this.agentCredentials)
-        .then(() => {
-          this.editAgentsApi.message = this.$t(
-            'AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE'
-          );
-          this.showAlert();
-        })
-        .catch(() => {
-          this.editAgentsApi.message = this.$t(
-            'AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'
-          );
-          this.showAlert();
-        });
+    async resetPassword() {
+      try {
+        await Auth.resetPassword(this.agentCredentials);
+        this.showAlert(
+          this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_SUCCESS_MESSAGE')
+        );
+      } catch (error) {
+        this.showAlert(this.$t('AGENT_MGMT.EDIT.PASSWORD_RESET.ERROR_MESSAGE'));
+      }
     },
   },
 };
