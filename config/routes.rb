@@ -86,10 +86,9 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'mailer' do
-    resource :app, only: [:index] do
-      resources :conversations, only: [:show]
-    end
+  # Used in mailer templates
+  resource :app, only: [:index] do
+    resources :conversations, only: [:show]
   end
 
   mount Facebook::Messenger::Server, at: 'bot'
