@@ -23,8 +23,15 @@ docker-compose run rails bundle exec rails db:reset
 docker-compose run --service-port rails
 ```
 
+open another terminal and also run below command to run sidekiq in a separate service
+
+```
+docker-compose run rails bundle exec sidekiq
+```
+
 * Access the rails app frontend by visiting `http://0.0.0.0:3000/`
 * Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
+* Access Sidekiq Web UI by visiting `http://0.0.0.0:3000/sidekiq` (You need to login with administrator account to access sidekiq)
 
 you can also use the below command instead to run the app and see the full logs.
 
