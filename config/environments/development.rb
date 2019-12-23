@@ -33,6 +33,8 @@ Rails.application.configure do
   config.active_storage.service = :local
 
   # Don't care if the mailer can't send.
+  config.active_job.queue_adapter = :sidekiq
+  
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
