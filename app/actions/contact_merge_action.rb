@@ -1,9 +1,9 @@
 class ContactMergeAction
   attr_reader :base_contact, :mergee_contact
 
-  def initialize(base_contact, mergee_contact)
-    @base_contact = base_contact
-    @mergee_contact = mergee_contact
+  def initialize(params)
+    @base_contact = params[:base_contact]
+    @mergee_contact = params[:mergee_contact]
   end
 
   def perform
