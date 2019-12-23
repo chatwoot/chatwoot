@@ -7,34 +7,32 @@ title: "Docker Setup and Debugging Guide"
 
 ## development environment
 
+After cloning the repo and installing docker on your machine, run the following command from the root directory of the project.
+
 ```
 docker-compose build
 ```
 
-After building the image or each time after destroying the stack you would have to create and migrate the database before you can start the rails server or run rspec tests. 
+After building the image or after destroying the stack you would have to reset the database using following command
 
 ```
-docker-compose run rails bundle exec rails db:create db:migrate db:seed
+docker-compose run rails bundle exec rails db:reset
 ```
 
-### Running the rails app in debug mode (pry and byebug works)
+### Running the app
 
 ```
 docker-compose run --service-port rails
 ```
 
-* Access the rails app frontend by visiting `http://0.0.0.0:3000/` (You can access the website over http for debugging using pry and Byebug here)
-
+* Access the rails app frontend by visiting `http://0.0.0.0:3000/`
 * Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
 
-### Running the complete stack in non-debug mode 
+you can also use the below command instead to run the app and see the full logs.
 
 ```
 docker-compose up
 ```
-
-* Access the rails app frontend by visiting `http://0.0.0.0:3000/` (This is web only, you cannot debug using docker-compose up)
-* Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
 
 ### Destroying the complete composer stack
 
@@ -58,12 +56,9 @@ docker-compose run rails bundle exec rspec spec/<path-to-file>:<line-number>
 
 ## production environment
 
+Sometimes you might want to debug the production build locally. You would first need to set `SECRET_KEY_BASE` environment variable in your .env.example file and then run the below commands:
+
 ```
 docker-compose -f docker-compose.production.yaml build
-```
-
-If you want to test the production build locally you would first need to set `SECRET_KEY_BASE` environment variable in your .env.example file and then run the below command:
-
-```
 docker-compose -f docker-compose.production.yaml up
 ```
