@@ -4,7 +4,7 @@ RSpec.describe 'Profile API', type: :request do
   let(:account) { create(:account) }
 
   describe 'GET /api/v1/profile' do
-    context 'when unauthenticated user' do
+    context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get '/api/v1/profile'
 
@@ -12,7 +12,7 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
 
-    context 'when it authenticated user' do
+    context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns current user information' do
@@ -29,7 +29,7 @@ RSpec.describe 'Profile API', type: :request do
   end
 
   describe 'PUT /api/v1/profile' do
-    context 'when unauthenticated user' do
+    context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         put '/api/v1/profile'
 
@@ -37,7 +37,7 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
 
-    context 'when it authenticated user' do
+    context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'updates the name & email' do

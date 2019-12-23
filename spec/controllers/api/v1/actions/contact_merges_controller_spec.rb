@@ -5,15 +5,8 @@ RSpec.describe 'Contact Merge Action API', type: :request do
   let!(:base_contact) { create(:contact, account: account) }
   let!(:mergee_contact) { create(:contact, account: account) }
 
-  before do
-    2.times.each { create(:conversation, contact: base_contact) }
-    2.times.each { create(:contact_inbox, contact: base_contact) }
-    2.times.each { create(:conversation, contact: mergee_contact) }
-    2.times.each { create(:contact_inbox, contact: mergee_contact) }
-  end
-
   describe 'POST /api/v1/actions/contact_merge' do
-    context 'when unauthenticated user' do
+    context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post '/api/v1/actions/contact_merge'
 
@@ -21,7 +14,7 @@ RSpec.describe 'Contact Merge Action API', type: :request do
       end
     end
 
-    context 'when it authenticated user' do
+    context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:merge_action) { double }
 
@@ -30,7 +23,7 @@ RSpec.describe 'Contact Merge Action API', type: :request do
         allow(merge_action).to receive(:perform)
       end
 
-      it 'merges two contacts' do
+      it 'merges two contacts by calling contact merge action' do
         post '/api/v1/actions/contact_merge',
              params: { base_contact_id: base_contact.id, mergee_contact_id: mergee_contact.id },
              headers: agent.create_new_auth_token,

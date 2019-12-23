@@ -8,6 +8,8 @@ describe ::ContactMergeAction do
   let!(:mergee_contact) { create(:contact, account: account) }
 
   before do
+    2.times.each { create(:conversation, contact: base_contact) }
+    2.times.each { create(:contact_inbox, contact: base_contact) }
     2.times.each { create(:conversation, contact: mergee_contact) }
     2.times.each { create(:contact_inbox, contact: mergee_contact) }
   end
@@ -18,17 +20,17 @@ describe ::ContactMergeAction do
       expect { mergee_contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    context 'when mergee contact with conversations' do
+    context 'when mergee contact has conversations' do
       it 'moves the conversations to base contact' do
         contact_merge
-        expect(base_contact.conversations.count).to be 2
+        expect(base_contact.conversations.count).to be 4
       end
     end
 
-    context 'when mergee contact with contact inboxes' do
+    context 'when mergee contact has contact inboxes' do
       it 'moves the contact inboxes to base contact' do
         contact_merge
-        expect(base_contact.contact_inboxes.count).to be 2
+        expect(base_contact.contact_inboxes.count).to be 4
       end
     end
   end
