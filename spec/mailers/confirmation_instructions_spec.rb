@@ -6,7 +6,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
   describe :notify do
     let(:confirmable_user) { FactoryBot.build(:user, inviter: inviter_val) }
     let(:inviter_val) { nil }
-    let(:mail) { confirmable_user.send_confirmation_instructions }
+    let(:mail) { Devise::Mailer.confirmation_instructions(confirmable_user, nil, {}) }
 
     it 'has the correct header data' do
       expect(mail.reply_to).to contain_exactly('accounts@chatwoot.com')
