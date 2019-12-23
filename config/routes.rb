@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
   resources :widgets, only: [:index]
 
-  namespace :api, :defaults => { :format => 'json' } do
+  namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       resources :callbacks, only: [] do
         collection do
@@ -76,18 +76,18 @@ Rails.application.routes.draw do
             get :summary
           end
         end
-      
+
         resources :webhooks, only: [] do
           collection do
             post :chargebee
           end
         end
       end
-
     end
   end
 
-  scope module: 'mailer' do
+  # Used in mailer templates
+  resource :app, only: [:index] do
     resources :conversations, only: [:show]
   end
 
