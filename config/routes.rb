@@ -86,13 +86,14 @@ Rails.application.routes.draw do
     end
   end
 
-  # Used in mailer templates
-  resource :app, only: [:index] do
+  # Sidekiq Web UI
   require 'sidekiq/web'
   authenticate :user, lambda { |u| u.administrator? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 
+  # Used in mailer templates
+  resource :app, only: [:index] do
     resources :conversations, only: [:show]
   end
 
