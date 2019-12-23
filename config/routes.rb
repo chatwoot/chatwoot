@@ -88,6 +88,11 @@ Rails.application.routes.draw do
 
   # Used in mailer templates
   resource :app, only: [:index] do
+  require 'sidekiq/web'
+  authenticate :user, lambda { |u| u.administrator? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
     resources :conversations, only: [:show]
   end
 
