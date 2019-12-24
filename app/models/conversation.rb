@@ -99,7 +99,7 @@ class Conversation < ApplicationRecord
   def send_email_notification_to_assignee
     return if self_assign?(assignee_id)
 
-    AssignmentMailer.conversation_assigned(self, assignee).deliver if saved_change_to_assignee_id? && assignee_id.present?
+    AssignmentMailer.conversation_assigned(self, assignee).deliver_later if saved_change_to_assignee_id? && assignee_id.present?
   end
 
   def self_assign?(assignee_id)
