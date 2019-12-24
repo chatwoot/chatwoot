@@ -55,7 +55,7 @@ docker pull chatwoot/chatwoot
 
 Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup environment for Docker.
 
-Follow our [docker development guide](docs/development/environment-setup/docker.md) to develop and debug the application using docker composer.
+Follow our [docker development guide](https://www.chatwoot.com/docs/installation-guide-docker) to develop and debug the application using docker composer.
 
 ## Contributors ✨
 
