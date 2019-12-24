@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ::ContactMergeAction do
-  subject(:contact_merge) { described_class.new(base_contact: base_contact, mergee_contact: mergee_contact).perform }
+  subject(:contact_merge) { described_class.new(account: account, base_contact: base_contact, mergee_contact: mergee_contact).perform }
 
   let!(:account) { create(:account) }
   let!(:base_contact) { create(:contact, account: account) }
@@ -31,6 +31,16 @@ describe ::ContactMergeAction do
       it 'moves the contact inboxes to base contact' do
         contact_merge
         expect(base_contact.contact_inboxes.count).to be 4
+      end
+    end
+
+    context 'when contacts belong to a different account' do
+      it 'throws an exception' do
+        new_account = create(:account)
+        expect do
+          described_class.new(account: new_account, base_contact: base_contact,
+                              mergee_contact: mergee_contact).perform
+        end .to raise_error('contact does not belong to the account')
       end
     end
   end

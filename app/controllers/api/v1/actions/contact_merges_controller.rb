@@ -4,6 +4,7 @@ class Api::V1::Actions::ContactMergesController < Api::BaseController
 
   def create
     contact_merge_action = ContactMergeAction.new(
+      account: current_account,
       base_contact: @base_contact,
       mergee_contact: @mergee_contact
     )
