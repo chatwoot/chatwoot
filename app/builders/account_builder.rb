@@ -2,11 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-
-  def initialize(params)
-    @account_name = params[:account_name]
-    @email = params[:email]
-  end
+  pattr_initialize [:account_name!, :email!]
 
   def perform
     validate_email

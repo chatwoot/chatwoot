@@ -11,7 +11,7 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user = AccountBuilder.new(params).perform
+    @user = AccountBuilder.new(account_params).perform
     if @user
       send_auth_headers(@user)
       render json: {
@@ -20,5 +20,11 @@ class Api::V1::AccountsController < Api::BaseController
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
+  end
+
+  private
+
+  def account_params
+    params.permit(:account_name, :email).to_h
   end
 end
