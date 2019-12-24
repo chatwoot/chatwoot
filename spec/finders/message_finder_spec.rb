@@ -6,7 +6,7 @@ describe ::MessageFinder do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
-  let!(:conversation) { create(:complete_conversation, account: account, inbox: inbox, assignee: user) }
+  let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
   before do
     create(:message, account: account, inbox: inbox, conversation: conversation)
