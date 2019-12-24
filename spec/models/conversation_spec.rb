@@ -35,7 +35,7 @@ RSpec.describe Conversation, type: :model do
 
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
       allow(AssignmentMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
-      allow(assignment_mailer).to receive(:deliver)
+      allow(assignment_mailer).to receive(:deliver_later)
       Current.user = old_assignee
 
       conversation.update(
@@ -68,7 +68,7 @@ RSpec.describe Conversation, type: :model do
       # send_email_notification_to_assignee
       expect(AssignmentMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
 
-      expect(assignment_mailer).to have_received(:deliver) if ENV.fetch('SMTP_ADDRESS', nil).present?
+      expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
   end
 

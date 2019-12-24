@@ -86,6 +86,10 @@ class User < ApplicationRecord
   after_create :notify_creation
   after_destroy :notify_deletion
 
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+
   def set_password_and_uid
     self.uid = email
   end
