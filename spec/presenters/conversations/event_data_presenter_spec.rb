@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Conversations::EventDataPresenter do
   let(:presenter) { described_class.new(conversation) }
-  let(:conversation) { create(:complete_conversation) }
+  let(:conversation) { create(:conversation) }
 
   describe '#lock_data' do
     it { expect(presenter.lock_data).to eq(id: conversation.display_id, locked: false) }
