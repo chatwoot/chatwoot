@@ -1,4 +1,6 @@
 class Api::V1::AccountsController < Api::BaseController
+  include AuthHelper
+
   skip_before_action :verify_authenticity_token, only: [:create]
   skip_before_action :authenticate_user!, :set_current_user, :check_subscription, :handle_with_exception,
                      only: [:create], raise: false
@@ -9,9 +11,9 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user = AccountBuilder.new(params).perform
+    @user = AccountBuilder.new(account_params).perform
     if @user
-      set_headers(@user)
+      send_auth_headers(@user)
       render json: {
         data: @user.token_validation_response
       }
@@ -22,12 +24,7 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
-  def set_headers(user)
-    data = user.create_new_auth_token
-    response.headers[DeviseTokenAuth.headers_names[:"access-token"]] = data['access-token']
-    response.headers[DeviseTokenAuth.headers_names[:"token-type"]]   = 'Bearer'
-    response.headers[DeviseTokenAuth.headers_names[:client]]       = data['client']
-    response.headers[DeviseTokenAuth.headers_names[:expiry]]       = data['expiry']
-    response.headers[DeviseTokenAuth.headers_names[:uid]]          = data['uid']
+  def account_params
+    params.permit(:account_name, :email).to_h
   end
 end
