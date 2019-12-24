@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Conversation, type: :model do
   describe '.before_create' do
-    let(:conversation) { build(:complete_conversation, display_id: nil) }
+    let(:conversation) { build(:conversation, display_id: nil) }
 
     before do
       conversation.save
@@ -19,7 +19,7 @@ RSpec.describe Conversation, type: :model do
   describe '.after_update' do
     let(:account) { create(:account) }
     let(:conversation) do
-      create(:complete_conversation, status: 'open', account: account, assignee: old_assignee)
+      create(:conversation, status: 'open', account: account, assignee: old_assignee)
     end
     let(:old_assignee) do
       create(:user, email: 'agent1@example.com', account: account, role: :agent)
@@ -104,7 +104,7 @@ RSpec.describe Conversation, type: :model do
   describe '#update_assignee' do
     subject(:update_assignee) { conversation.update_assignee(agent) }
 
-    let(:conversation) { create(:complete_conversation, assignee: nil) }
+    let(:conversation) { create(:conversation, assignee: nil) }
     let(:agent) do
       create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
     end
@@ -118,7 +118,7 @@ RSpec.describe Conversation, type: :model do
   describe '#toggle_status' do
     subject(:toggle_status) { conversation.toggle_status }
 
-    let(:conversation) { create(:complete_conversation, status: :open) }
+    let(:conversation) { create(:conversation, status: :open) }
 
     it 'toggles conversation status' do
       expect(toggle_status).to eq(true)
@@ -129,7 +129,7 @@ RSpec.describe Conversation, type: :model do
   describe '#lock!' do
     subject(:lock!) { conversation.lock! }
 
-    let(:conversation) { create(:complete_conversation) }
+    let(:conversation) { create(:conversation) }
 
     it 'assigns locks the conversation' do
       expect(lock!).to eq(true)
@@ -140,7 +140,7 @@ RSpec.describe Conversation, type: :model do
   describe '#unlock!' do
     subject(:unlock!) { conversation.unlock! }
 
-    let(:conversation) { create(:complete_conversation) }
+    let(:conversation) { create(:conversation) }
 
     it 'unlocks the conversation' do
       expect(unlock!).to eq(true)
@@ -151,7 +151,7 @@ RSpec.describe Conversation, type: :model do
   describe 'unread_messages' do
     subject(:unread_messages) { conversation.unread_messages }
 
-    let(:conversation) { create(:complete_conversation, agent_last_seen_at: 1.hour.ago) }
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
     let(:message_params) do
       {
         conversation: conversation,
@@ -176,7 +176,7 @@ RSpec.describe Conversation, type: :model do
   describe 'unread_incoming_messages' do
     subject(:unread_incoming_messages) { conversation.unread_incoming_messages }
 
-    let(:conversation) { create(:complete_conversation, agent_last_seen_at: 1.hour.ago) }
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
     let(:message_params) do
       {
         conversation: conversation,
@@ -202,7 +202,7 @@ RSpec.describe Conversation, type: :model do
   describe '#push_event_data' do
     subject(:push_event_data) { conversation.push_event_data }
 
-    let(:conversation) { create(:complete_conversation) }
+    let(:conversation) { create(:conversation) }
     let(:expected_data) do
       {
         meta: {
