@@ -1,4 +1,6 @@
 class PasswordsController < Devise::PasswordsController
+  include AuthHelper
+
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
@@ -8,7 +10,7 @@ class PasswordsController < Devise::PasswordsController
     reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
-      set_headers(@recoverable)
+      send_auth_headers(@recoverable)
       render json: {
         data: @recoverable.token_validation_response
       }
@@ -28,15 +30,6 @@ class PasswordsController < Devise::PasswordsController
   end
 
   protected
-
-  def set_headers(user)
-    data = user.create_new_auth_token
-    response.headers[DeviseTokenAuth.headers_names[:"access-token"]] = data['access-token']
-    response.headers[DeviseTokenAuth.headers_names[:"token-type"]]   = 'Bearer'
-    response.headers[DeviseTokenAuth.headers_names[:client]]       = data['client']
-    response.headers[DeviseTokenAuth.headers_names[:expiry]]       = data['expiry']
-    response.headers[DeviseTokenAuth.headers_names[:uid]]          = data['uid']
-  end
 
   def reset_password_and_confirmation(recoverable)
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
