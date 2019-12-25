@@ -111,7 +111,7 @@ export default {
       this.$store
         .dispatch('updateCannedResponse', {
           id: this.id,
-          name: this.shortCode,
+          short_code: this.shortCode,
           content: this.content,
         })
         .then(() => {
