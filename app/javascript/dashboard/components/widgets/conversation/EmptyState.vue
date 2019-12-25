@@ -59,9 +59,6 @@ export default {
       }
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');
     },
-  },
-
-  methods: {
     newInboxURL() {
       return frontendURL('settings/inboxes/new');
     },
