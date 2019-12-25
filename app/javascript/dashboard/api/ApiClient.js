@@ -4,7 +4,8 @@ const API_VERSION = `/api/v1`;
 
 class ApiClient {
   constructor(url) {
-    this.url = `${API_VERSION}/${url}`;
+    this.apiVersion = API_VERSION;
+    this.url = `${this.apiVersion}/${url}`;
   }
 
   get() {

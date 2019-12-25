@@ -63,7 +63,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
     }),
 

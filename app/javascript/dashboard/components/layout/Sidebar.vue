@@ -41,7 +41,7 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="gravatarUrl()" :username="currentUser.name"/>
+        <thumbnail :src="gravatarUrl()" :username="currentUser.name" />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -81,10 +81,6 @@ export default {
     return {
       showOptionsMenu: false,
     };
-  },
-  mounted() {
-    // this.$store.dispatch('fetchLabels');
-    this.$store.dispatch('fetchInboxes');
   },
   computed: {
     ...mapGetters({
@@ -140,7 +136,9 @@ export default {
       return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
     },
   },
-
+  mounted() {
+    this.$store.dispatch('inboxes/get');
+  },
   methods: {
     gravatarUrl() {
       const hash = md5(this.currentUser.email);

@@ -75,7 +75,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
       fetchingInboxes: 'getInboxLoadingStatus',

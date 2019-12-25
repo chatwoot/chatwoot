@@ -49,7 +49,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       fetchingInboxes: 'getInboxLoadingStatus',
       loadingChatList: 'getChatListLoadingStatus',
     }),

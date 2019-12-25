@@ -53,6 +53,11 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 
 export default {
+  components: {
+    ChatTypeTabs,
+    ConversationCard,
+    ChatFilter,
+  },
   mixins: [timeMixin, conversationMixin],
   props: ['conversationInbox', 'pageTitle'],
   data() {
@@ -61,25 +66,13 @@ export default {
       activeStatus: 0,
     };
   },
-  mounted() {
-    this.$watch('$store.state.route', () => {
-      if (this.$store.state.route.name !== 'inbox_conversation') {
-        this.$store.dispatch('emptyAllConversations');
-        this.fetchData();
-      }
-    });
-
-    this.$store.dispatch('emptyAllConversations');
-    this.fetchData();
-    this.$store.dispatch('agents/get');
-  },
   computed: {
     ...mapGetters({
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
       unAssignedChatsList: 'getUnAssignedChats',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
@@ -105,6 +98,18 @@ export default {
       }
       return 'Resolved';
     },
+  },
+  mounted() {
+    this.$watch('$store.state.route', () => {
+      if (this.$store.state.route.name !== 'inbox_conversation') {
+        this.$store.dispatch('emptyAllConversations');
+        this.fetchData();
+      }
+    });
+
+    this.$store.dispatch('emptyAllConversations');
+    this.fetchData();
+    this.$store.dispatch('agents/get');
   },
   methods: {
     fetchData() {
@@ -148,12 +153,6 @@ export default {
       );
       return sorted;
     },
-  },
-
-  components: {
-    ChatTypeTabs,
-    ConversationCard,
-    ChatFilter,
   },
 };
 </script>

@@ -7,6 +7,7 @@ import billing from './modules/billing';
 import cannedResponse from './modules/cannedResponse';
 import Channel from './modules/channels';
 import conversations from './modules/conversations';
+import inboxes from './modules/inboxes';
 import reports from './modules/reports';
 import sideMenuItems from './modules/sidebar';
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     cannedResponse,
     Channel,
     conversations,
+    inboxes,
     reports,
     sideMenuItems,
   },

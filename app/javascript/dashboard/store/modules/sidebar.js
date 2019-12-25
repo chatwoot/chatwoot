@@ -1,14 +1,11 @@
 /* eslint no-console: 0 */
 /* eslint-env browser */
 /* eslint no-param-reassign: 0 */
-/* global bus */
 // import * as types from '../mutation-types';
 import defaultState from '../../i18n/default-sidebar';
 import * as types from '../mutation-types';
 import Account from '../../api/account';
-import ChannelApi from '../../api/channels';
 import { frontendURL } from '../../helper/URLHelper';
-import WebChannel from '../../api/channel/webChannel';
 
 const state = defaultState;
 // inboxes fetch flag
@@ -34,63 +31,6 @@ const actions = {
         commit(types.default.SET_LABELS, response.data);
       })
       .catch();
-  },
-  // Fetch Inboxes
-  fetchInboxes({ commit }) {
-    commit(types.default.INBOXES_LOADING, true);
-    return new Promise((resolve, reject) => {
-      Account.getInboxes()
-        .then(response => {
-          commit(types.default.INBOXES_LOADING, false);
-          commit(types.default.SET_INBOXES, response.data);
-          resolve();
-        })
-        .catch(error => {
-          commit(types.default.INBOXES_LOADING, false);
-          reject(error);
-        });
-    });
-  },
-  deleteInbox({ commit }, id) {
-    return new Promise((resolve, reject) => {
-      Account.deleteInbox(id)
-        .then(response => {
-          if (response.status === 200) {
-            commit(types.default.DELETE_INBOX, id);
-            resolve();
-          } else {
-            reject();
-          }
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  },
-  addWebsiteChannel: async ({ commit }, params) => {
-    try {
-      const response = await WebChannel.create(params);
-      commit(types.default.SET_INBOX_ITEM, response);
-      bus.$emit('new_website_channel', {
-        inboxId: response.data.id,
-        websiteToken: response.data.website_token,
-      });
-    } catch (error) {
-      // Handle error
-    }
-  },
-  addInboxItem({ commit }, { channel, params }) {
-    const donePromise = new Promise(resolve => {
-      ChannelApi.createChannel(channel, params)
-        .then(response => {
-          commit(types.default.SET_INBOX_ITEM, response);
-          resolve(response);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-    return donePromise;
   },
   listInboxAgents(_, { inboxId }) {
     return new Promise((resolve, reject) => {

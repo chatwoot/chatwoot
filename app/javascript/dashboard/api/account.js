@@ -7,16 +7,6 @@ export default {
     return axios.get(urlData.url);
   },
 
-  getInboxes() {
-    const urlData = endPoints('fetchInboxes');
-    return axios.get(urlData.url);
-  },
-
-  deleteInbox(id) {
-    const urlData = endPoints('inbox').delete(id);
-    return axios.delete(urlData.url);
-  },
-
   listInboxAgents(id) {
     const urlData = endPoints('inbox').agents.get(id);
     return axios.get(urlData.url);

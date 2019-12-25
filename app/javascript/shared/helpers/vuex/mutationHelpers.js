@@ -6,6 +6,15 @@ export const create = (state, data) => {
   state.records.push(data);
 };
 
+export const setSingleRecord = (state, data) => {
+  const recordIndex = state.records.findIndex(record => record.id === data.id);
+  if (recordIndex > -1) {
+    state.records[recordIndex] = data;
+  } else {
+    create(state, data);
+  }
+};
+
 export const update = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {

@@ -82,25 +82,24 @@ export default {
   },
 
   methods: {
-    addAgents() {
+    async addAgents() {
       this.isCreating = true;
       const inboxId = this.$route.params.inbox_id;
-      ChannelApi.addAgentsToChannel(inboxId, this.selectedAgents.map(x => x.id))
-        .then(() => {
-          this.isCreating = false;
-          router.replace({
-            name: 'settings_inbox_finish',
-            params: {
-              page: 'new',
-              inbox_id: this.$route.params.inbox_id,
-              website_token: this.$route.params.website_token,
-            },
-          });
-        })
-        .catch(error => {
-          bus.$emit('newToastMessage', error.message);
-          this.isCreating = false;
+      const selectedAgents = this.selectedAgents.map(x => x.id);
+
+      try {
+        await ChannelApi.addAgentsToChannel(inboxId, selectedAgents);
+        router.replace({
+          name: 'settings_inbox_finish',
+          params: {
+            page: 'new',
+            inbox_id: this.$route.params.inbox_id,
+          },
         });
+      } catch (error) {
+        bus.$emit('newToastMessage', error.message);
+      }
+      this.isCreating = false;
     },
   },
 };
