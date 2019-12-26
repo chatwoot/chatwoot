@@ -78,7 +78,6 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
-      fetchingInboxes: 'getInboxLoadingStatus',
       loadingChatList: 'getChatListLoadingStatus',
     }),
 

@@ -1,11 +1,11 @@
 <template>
   <div class="columns full-height conv-empty-state">
     <woot-loading-state
-      v-if="fetchingInboxes || loadingChatList"
+      v-if="uiFlags.isFetching || loadingChatList"
       :message="loadingIndicatorMessage"
     />
     <!-- Show empty state images if not loading -->
-    <div v-if="!fetchingInboxes && !loadingChatList" class="current-chat">
+    <div v-if="!uiFlags.isFetching && !loadingChatList" class="current-chat">
       <!-- No inboxes attached -->
       <div v-if="!inboxesList.length">
         <img src="~dashboard/assets/images/inboxes.svg" alt="No Inboxes" />
@@ -50,11 +50,11 @@ export default {
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
-      fetchingInboxes: 'getInboxLoadingStatus',
+      uiFlags: 'inboxes/getUIFlags',
       loadingChatList: 'getChatListLoadingStatus',
     }),
     loadingIndicatorMessage() {
-      if (this.fetchingInboxes) {
+      if (this.uiFlags.isFetching) {
         return this.$t('CONVERSATION.LOADING_INBOXES');
       }
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');

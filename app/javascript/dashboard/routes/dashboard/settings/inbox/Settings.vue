@@ -33,7 +33,7 @@
           @update="updateAgents"
         >
         </settings-form-header>
-        <Compact v-model="inbox.widget_color" />
+        <Compact v-model="inbox.widget_color" class="widget-color--selector" />
       </div>
     </div>
     <div class="settings--content">

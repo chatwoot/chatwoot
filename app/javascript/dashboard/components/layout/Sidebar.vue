@@ -13,6 +13,8 @@
           :key="item.toState"
           :menu-item="item"
         />
+
+        <sidebar-item :key="inboxSection.toState" :menu-item="inboxSection" />
       </transition-group>
     </div>
 
@@ -71,10 +73,16 @@ import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
 
 export default {
+  components: {
+    SidebarItem,
+    WootStatusBar,
+    Thumbnail,
+  },
   mixins: [clickaway, adminMixin],
   props: {
     route: {
       type: String,
+      default: '',
     },
   },
   data() {
@@ -87,6 +95,7 @@ export default {
       sidebarList: 'getMenuItems',
       daysLeft: 'getTrialLeft',
       subscriptionData: 'getSubscription',
+      inboxes: 'inboxes/getInboxes',
     }),
     accessibleMenuItems() {
       const currentRoute = this.$store.state.route.name;
@@ -109,6 +118,23 @@ export default {
       }
 
       return this.filterMenuItemsByRole(menuItems);
+    },
+    inboxSection() {
+      return {
+        icon: 'ion-folder',
+        label: 'Inboxes',
+        hasSubMenu: true,
+        newLink: true,
+        key: 'inbox',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL('settings/inboxes'),
+        toStateName: 'settings_inbox_list',
+        children: this.inboxes.map(inbox => ({
+          id: inbox.id,
+          label: inbox.name,
+          toState: frontendURL(`inbox/${inbox.id}`),
+        })),
+      };
     },
     currentUser() {
       return Auth.getCurrentUser();
@@ -162,12 +188,6 @@ export default {
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
-  },
-
-  components: {
-    SidebarItem,
-    WootStatusBar,
-    Thumbnail,
   },
 };
 </script>

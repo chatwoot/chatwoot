@@ -34,17 +34,6 @@ export default {
           toState: frontendURL('settings'),
           toStateName: 'settings_home',
         },
-        inbox: {
-          icon: 'ion-folder',
-          label: 'Inboxes',
-          hasSubMenu: true,
-          newLink: true,
-          key: 'inbox',
-          cssClass: 'menu-title align-justify',
-          toState: frontendURL('settings/inboxes'),
-          toStateName: 'settings_inbox_list',
-          children: [],
-        },
       },
     },
     settings: {

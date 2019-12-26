@@ -33,12 +33,6 @@ export default {
           roles: ['administrator', 'agent'],
         },
         {
-          path: ':inboxId',
-          name: 'settings_inbox_show',
-          component: Settings,
-          roles: ['administrator'],
-        },
-        {
           path: 'new',
           component: InboxChannel,
           children: [
@@ -70,6 +64,12 @@ export default {
               component: AddAgents,
             },
           ],
+        },
+        {
+          path: ':inboxId',
+          name: 'settings_inbox_show',
+          component: Settings,
+          roles: ['administrator'],
         },
       ],
     },

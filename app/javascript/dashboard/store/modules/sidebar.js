@@ -8,30 +8,14 @@ import Account from '../../api/account';
 import { frontendURL } from '../../helper/URLHelper';
 
 const state = defaultState;
-// inboxes fetch flag
-state.inboxesLoading = false;
 
 const getters = {
   getMenuItems(_state) {
     return _state.menuGroup;
   },
-  getInboxesList(_state) {
-    return _state.menuGroup.common.menuItems.inbox.children;
-  },
-  getInboxLoadingStatus(_state) {
-    return _state.inboxesLoading;
-  },
 };
 
 const actions = {
-  // Fetch Labels
-  fetchLabels({ commit }) {
-    Account.getLabels()
-      .then(response => {
-        commit(types.default.SET_LABELS, response.data);
-      })
-      .catch();
-  },
   listInboxAgents(_, { inboxId }) {
     return new Promise((resolve, reject) => {
       Account.listInboxAgents(inboxId)
