@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 describe '/widget', type: :request do
-  let(:channel_widget) { create(:channel_widget) }
+  let(:web_widget) { create(:channel_widget) }
 
   describe 'GET /widget' do
     it 'renders the page correctly when called with website_token' do
-      get widget_url(website_token: channel_widget.website_token)
+      get widget_url(website_token: web_widget.website_token)
       expect(response).to be_successful
     end
 
