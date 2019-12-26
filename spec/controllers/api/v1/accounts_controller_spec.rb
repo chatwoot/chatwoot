@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe 'Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
     context 'when posting to accounts with correct parameters' do
-      let(:account_builder) { double }
       let(:email) { Faker::Internet.email }
 
       it 'calls account builder' do
