@@ -38,7 +38,7 @@ services:
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
-  
+
   webpack:
     <<: *base
     build:
@@ -61,7 +61,7 @@ services:
     command: bin/webpack-dev-server
 
   postgres:
-    image: postgres:9.6
+    image: postgres:11.6
     restart: always
     ports:
       - '5432:5432'
