@@ -111,7 +111,7 @@ export default {
       const [stateInbox] = this.inboxesList.filter(
         inbox => inbox.channel_id === inboxId
       );
-      return !stateInbox ? '' : stateInbox.label;
+      return !stateInbox ? '' : stateInbox.name;
     },
   },
 };

@@ -3,7 +3,7 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ getInboxName }}
+        {{ inbox.name || pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="getDataForStatusTab" />
     </div>
@@ -72,7 +72,6 @@ export default {
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
       unAssignedChatsList: 'getUnAssignedChats',
-      inboxesList: 'inboxes/getInboxes',
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
@@ -85,12 +84,8 @@ export default {
         count: this.convStats[item.KEY] || 0,
       }));
     },
-    getInboxName() {
-      const inboxId = Number(this.activeInbox);
-      const [stateInbox] = this.inboxesList.filter(
-        inbox => inbox.channel_id === inboxId
-      );
-      return !stateInbox ? this.pageTitle : stateInbox.label;
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
     getToggleStatus() {
       if (this.toggleType) {

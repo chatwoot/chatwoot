@@ -54,5 +54,10 @@ export default {
   border-bottom: 1px solid $color-border;
   margin-bottom: $space-normal;
   padding: $space-normal 0;
+
+  .title {
+    margin-bottom: 0;
+    font-size: $font-size-default;
+  }
 }
 </style>

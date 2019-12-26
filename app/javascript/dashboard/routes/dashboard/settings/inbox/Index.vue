@@ -44,13 +44,15 @@
               <!-- Action Buttons -->
               <td>
                 <div class="button-wrapper">
-                  <woot-submit-button
-                    v-if="isAdmin()"
-                    :button-text="$t('INBOX_MGMT.SETTINGS')"
-                    icon-class="ion-gear-b"
-                    button-class="link hollow grey-btn"
-                    @click="openSettings(item)"
-                  />
+                  <router-link :to="`/app/settings/inboxes/${item.id}`">
+                    <woot-submit-button
+                      v-if="isAdmin()"
+                      :button-text="$t('INBOX_MGMT.SETTINGS')"
+                      icon-class="ion-gear-b"
+                      button-class="link hollow grey-btn"
+                    />
+                  </router-link>
+
                   <woot-submit-button
                     v-if="isAdmin()"
                     :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
