@@ -11,7 +11,10 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user = AccountBuilder.new(account_params).perform
+    @user = AccountBuilder.new(
+      account_name: account_params[:account_name],
+      email: account_params[:email]
+    ).perform
     if @user
       send_auth_headers(@user)
       render json: {
@@ -25,6 +28,6 @@ class Api::V1::AccountsController < Api::BaseController
   private
 
   def account_params
-    params.permit(:account_name, :email).to_h
+    params.permit(:account_name, :email)
   end
 end
