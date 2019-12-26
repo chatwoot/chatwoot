@@ -44,7 +44,7 @@
 /* global bus */
 import { mapGetters } from 'vuex';
 
-import ChannelApi from '../../../../api/channels';
+import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 import LoadingState from '../../../../components/widgets/LoadingState';
@@ -88,7 +88,7 @@ export default {
       const selectedAgents = this.selectedAgents.map(x => x.id);
 
       try {
-        await ChannelApi.addAgentsToChannel(inboxId, selectedAgents);
+        await InboxMembersAPI.create({ inboxId, selectedAgents });
         router.replace({
           name: 'settings_inbox_finish',
           params: {

@@ -98,7 +98,7 @@ export default {
       } else {
         [stateInbox] = this.inboxesList;
       }
-      return !stateInbox ? 0 : stateInbox.pageId;
+      return !stateInbox ? 0 : stateInbox.page_id;
     },
     // Get current FB Page ID link
     linkToMessage() {

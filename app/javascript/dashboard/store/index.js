@@ -8,8 +8,8 @@ import cannedResponse from './modules/cannedResponse';
 import Channel from './modules/channels';
 import conversations from './modules/conversations';
 import inboxes from './modules/inboxes';
+import inboxMembers from './modules/inboxMembers';
 import reports from './modules/reports';
-import sideMenuItems from './modules/sidebar';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -21,7 +21,7 @@ export default new Vuex.Store({
     Channel,
     conversations,
     inboxes,
+    inboxMembers,
     reports,
-    sideMenuItems,
   },
 });

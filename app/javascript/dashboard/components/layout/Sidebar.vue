@@ -14,7 +14,11 @@
           :menu-item="item"
         />
 
-        <sidebar-item :key="inboxSection.toState" :menu-item="inboxSection" />
+        <sidebar-item
+          v-if="shouldShowInboxes"
+          :key="inboxSection.toState"
+          :menu-item="inboxSection"
+        />
       </transition-group>
     </div>
 
@@ -52,9 +56,8 @@
             {{ currentUser.role }}
           </h5>
         </div>
-        <span
-          class="current-user--options icon ion-android-more-vertical"
-        ></span>
+        <span class="current-user--options icon ion-android-more-vertical">
+        </span>
       </div>
     </div>
   </aside>
@@ -71,6 +74,7 @@ import SidebarItem from './SidebarItem';
 import WootStatusBar from '../widgets/StatusBar';
 import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
+import sidemenuItems from '../../i18n/default-sidebar';
 
 export default {
   components: {
@@ -92,22 +96,20 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sidebarList: 'getMenuItems',
       daysLeft: 'getTrialLeft',
       subscriptionData: 'getSubscription',
       inboxes: 'inboxes/getInboxes',
     }),
     accessibleMenuItems() {
-      const currentRoute = this.$store.state.route.name;
       // get all keys in menuGroup
-      const groupKey = Object.keys(this.sidebarList);
+      const groupKey = Object.keys(sidemenuItems);
 
       let menuItems = [];
       // Iterate over menuGroup to find the correct group
       for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = this.sidebarList[groupKey[i]];
+        const groupItem = sidemenuItems[groupKey[i]];
         // Check if current route is included
-        const isRouteIncluded = groupItem.routes.includes(currentRoute);
+        const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
         if (isRouteIncluded) {
           menuItems = Object.values(groupItem.menuItems);
         }
@@ -118,6 +120,12 @@ export default {
       }
 
       return this.filterMenuItemsByRole(menuItems);
+    },
+    currentRoute() {
+      return this.$store.state.route.name;
+    },
+    shouldShowInboxes() {
+      return sidemenuItems.common.routes.includes(this.currentRoute);
     },
     inboxSection() {
       return {

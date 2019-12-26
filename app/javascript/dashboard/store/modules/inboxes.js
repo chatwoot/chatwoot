@@ -20,7 +20,9 @@ export const getters = {
     return $state.records;
   },
   getInbox: $state => inboxId => {
-    const [inbox] = $state.records.filter(record => record.id === inboxId);
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
     return inbox || {};
   },
   getUIFlags($state) {

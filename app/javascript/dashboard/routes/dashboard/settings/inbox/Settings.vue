@@ -27,7 +27,9 @@
       <div class="settings--content">
         <settings-form-header
           :title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL')"
-          :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
+          :sub-title="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.PLACEHOLDER')
+          "
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :is-updating="isUpdating"
           @update="updateAgents"
@@ -41,7 +43,7 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :is-updating="isUpdating"
+        :is-updating="isAgentListUpdating"
         @update="updateAgents"
       >
       </settings-form-header>
@@ -63,7 +65,6 @@
 
 <script>
 /* eslint no-console: 0 */
-/* eslint-disable no-useless-escape */
 /* global bus */
 import { mapGetters } from 'vuex';
 import {
@@ -82,6 +83,7 @@ export default {
     return {
       selectedAgents: [],
       isUpdating: false,
+      isAgentListUpdating: false,
     };
   },
   computed: {
@@ -92,15 +94,13 @@ export default {
       return this.$route.params.inboxId;
     },
     inbox() {
-      return this.$store.getters['inboxes/getInbox'](
-        Number(this.currentInboxId)
-      );
+      return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     webWidgetScript() {
       return createWebsiteWidgetScript(this.inbox.website_token);
     },
     messengerScript() {
-      return createMessengerScript(this.inbox.pageId);
+      return createMessengerScript(this.inbox.page_id);
     },
   },
   mounted() {
@@ -112,11 +112,12 @@ export default {
   methods: {
     async fetchAttachedAgents() {
       try {
-        const {
-          data: { payload },
-        } = await this.$store.dispatch('listInboxAgents', {
+        const response = await this.$store.dispatch('inboxMembers/get', {
           inboxId: this.currentInboxId,
         });
+        const {
+          data: { payload },
+        } = response;
         payload.forEach(el => {
           const [item] = this.agentList.filter(
             agent => agent.id === el.user_id
@@ -131,9 +132,9 @@ export default {
     },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
-      this.isUpdating = true;
+      this.isAgentListUpdating = true;
       try {
-        await this.$store.dispatch('updateInboxAgents', {
+        await this.$store.dispatch('inboxMembers/create', {
           inboxId: this.currentInboxId,
           agentList,
         });
@@ -147,7 +148,7 @@ export default {
           this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE')
         );
       }
-      this.isUpdating = false;
+      this.isAgentListUpdating = false;
     },
   },
   validations: {

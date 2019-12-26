@@ -27,7 +27,8 @@
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color"
+          "LABEL": "Widget Color",
+          "PLACEHOLDER": "Update the widget color used in widget"
         },
         "SUBMIT_BUTTON":"Create inbox"
       },

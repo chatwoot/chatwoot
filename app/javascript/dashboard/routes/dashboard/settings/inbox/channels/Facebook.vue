@@ -219,7 +219,7 @@ export default {
         this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
         this.isCreating = true;
         this.$store
-          .dispatch('addInboxItem', {
+          .dispatch('inboxes/createFBChannel', {
             channel: this.channel,
             params: this.channelParams(),
           })

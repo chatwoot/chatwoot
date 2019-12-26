@@ -35,7 +35,7 @@ export default {
   computed: {
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
-        Number(this.$route.params.inbox_id)
+        this.$route.params.inbox_id
       );
     },
     message() {
