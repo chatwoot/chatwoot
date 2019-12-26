@@ -5,12 +5,6 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:email) { Faker::Internet.email }
-      let(:user) { create(:user, email: email) }
-
-      before do
-        allow(AccountBuilder).to receive(:new).and_return(account_builder)
-        allow(account_builder).to receive(:perform).and_return(user)
-      end
 
       it 'calls account builder' do
         params = { account_name: 'test', email: email }
@@ -19,9 +13,12 @@ RSpec.describe 'Accounts API', type: :request do
              params: params,
              as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params)
-        expect(account_builder).to have_received(:perform)
+        json_response = JSON.parse(response.body)
+
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        expect(response.status).to eq 200
+        expect(json_response['data']['email']).to eq email
+        expect(json_response['data']['role']).to eq 'administrator'
       end
     end
   end
