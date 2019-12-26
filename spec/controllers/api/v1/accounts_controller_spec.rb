@@ -5,7 +5,7 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when posting to accounts with correct parameters' do
       let(:email) { Faker::Internet.email }
 
-      it 'calls account builder' do
+      it 'returns success response' do
         params = { account_name: 'test', email: email }
 
         post api_v1_accounts_url,
