@@ -9,8 +9,9 @@ describe '/widget', type: :request do
       expect(response).to be_successful
     end
 
-    it 'raises when called with website_token' do
-      expect { get widget_url }.to raise_exception ActiveRecord::RecordNotFound
+    it 'returns 404 when called with out website_token' do
+      get widget_url
+      expect(response.status).to eq(404)
     end
   end
 end

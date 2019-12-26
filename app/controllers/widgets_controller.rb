@@ -4,12 +4,14 @@ class WidgetsController < ActionController::Base
   before_action :set_contact
   before_action :build_contact
 
+  def index
+    render
+  end
+
   private
 
-  def set_contact
-    return if @auth_token_params[:contact_id].nil?
-
-    @contact = @web_widget.inbox.contacts.find(@auth_token_params[:contact_id])
+  def set_web_widget
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
   end
 
   def set_token
@@ -21,8 +23,10 @@ class WidgetsController < ActionController::Base
                          end
   end
 
-  def set_web_widget
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+  def set_contact
+    return if @auth_token_params[:contact_id].nil?
+
+    @contact = @web_widget.inbox.contacts.find(@auth_token_params[:contact_id])
   end
 
   def build_contact
@@ -37,9 +41,5 @@ class WidgetsController < ActionController::Base
 
   def permitted_params
     params.permit(:website_token, :cw_conversation)
-  end
-
-  def secret_key
-    Rails.application.secrets.secret_key_base
   end
 end
