@@ -50,7 +50,7 @@ export const actions = {
       return response.data;
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      return {};
+      throw new Error(error);
     }
   },
   createFBChannel: async ({ commit }, params) => {
@@ -61,6 +61,7 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw new Error(error);
     }
   },
   updateWebsiteChannel: async ({ commit }, { id, ...inboxParams }) => {
