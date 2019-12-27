@@ -15,9 +15,9 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def update
-    @contact.update!(permitted_params[:contact])
     @message.update!(input_submitted_email: permitted_params[:contact][:email])
-    render json: @contact
+    token = update_contact(permitted_params[:contact][:email])
+    render json: { token: token }
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
   end
@@ -79,6 +79,16 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def message_finder
     @message_finder ||= MessageFinder.new(conversation, message_finder_params)
+  end
+
+  def update_contact(email)
+    contact_with_email = @account.contacts.find_by(email: email)
+    if contact_with_email
+      @contact = ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
+    else
+      @contact.update!(permitted_params[:contact])
+    end
+    ::Widget::TokenService.new(payload: { contact_id: @contact.id, inbox_id: @web_widget.inbox.id }).generate_token
   end
 
   def permitted_params
