@@ -22,5 +22,9 @@ FactoryBot.define do
     trait :with_avatar do
       avatar { Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png') }
     end
+
+    trait :administrator do
+      role { 'administrator' }
+    end
   end
 end
