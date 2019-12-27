@@ -1,4 +1,4 @@
-FROM ruby:2.6.5-slim
+FROM ruby:2.6.5-alpine
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -11,22 +11,18 @@ ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
 
-RUN apt-get update \
-    && apt-get -qq -y install \
-    build-essential \
-    curl \
-    git \
-    imagemagick \
-    libpq-dev \
+RUN apk update \
+  && apk add \
+    openssl \
+    tar \
+    build-base \
+    tzdata \
+    postgresql-dev \
     postgresql-client \
-    && curl -L https://deb.nodesource.com/setup_12.x | bash - \
-    && curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && echo 'deb https://dl.yarnpkg.com/debian stable main' > /etc/apt/sources.list.d/yarn.list \
-    && apt-get update \
-    && apt-get -qq -y install nodejs yarn \
-    && gem install bundler \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    nodejs \
+    yarn \
+  && mkdir -p /var/app \
+  && gem install bundler
 
 RUN mkdir -p /app
 WORKDIR /app
