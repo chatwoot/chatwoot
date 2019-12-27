@@ -31,8 +31,8 @@
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.PLACEHOLDER')
           "
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :is-updating="isUpdating"
-          @update="updateAgents"
+          :is-updating="uiFlags.isUpdating"
+          @update="updateWidgetColor"
         >
         </settings-form-header>
         <Compact v-model="inbox.widget_color" class="widget-color--selector" />
@@ -89,6 +89,7 @@ export default {
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      uiFlags: 'inboxes/getUIFlags',
     }),
     currentInboxId() {
       return this.$route.params.inboxId;
@@ -110,6 +111,9 @@ export default {
     });
   },
   methods: {
+    showAlert(message) {
+      bus.$emit('newToastMessage', message);
+    },
     async fetchAttachedAgents() {
       try {
         const response = await this.$store.dispatch('inboxMembers/get', {
@@ -138,17 +142,29 @@ export default {
           inboxId: this.currentInboxId,
           agentList,
         });
-        bus.$emit(
-          'newToastMessage',
-          this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE')
-        );
+        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        bus.$emit(
-          'newToastMessage',
-          this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE')
-        );
+        this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
       this.isAgentListUpdating = false;
+    },
+    async updateWidgetColor() {
+      try {
+        await this.$store.dispatch('inboxes/updateWebsiteChannel', {
+          id: this.inbox.channel_id,
+          website: {
+            widget_color: this.getWidgetColor(this.inbox.widget_color),
+          },
+        });
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      }
+    },
+    getWidgetColor() {
+      return typeof this.inbox.widget_color !== 'object'
+        ? this.inbox.widget_color
+        : this.inbox.widget_color.hex;
     },
   },
   validations: {

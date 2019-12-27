@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :inbox do
     account
-    association :channel, factory: :channel_widget
     name { 'Inbox' }
+    channel { FactoryBot.build(:channel_widget, account: account) }
   end
 end

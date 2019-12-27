@@ -63,10 +63,10 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
     }
   },
-  update: async ({ commit }, { id, ...inboxParams }) => {
+  updateWebsiteChannel: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {
-      const response = await InboxesAPI.update(id, inboxParams);
+      const response = await WebChannel.update(id, inboxParams);
       commit(types.default.EDIT_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
     } catch (error) {
