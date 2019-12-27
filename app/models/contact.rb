@@ -3,7 +3,6 @@
 # Table name: contacts
 #
 #  id           :integer          not null, primary key
-#  avatar       :string
 #  email        :string
 #  name         :string
 #  phone_number :string
@@ -26,7 +25,7 @@ class Contact < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
-  mount_uploader :avatar, AvatarUploader
+  has_one_attached :avatar
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -36,8 +35,16 @@ class Contact < ApplicationRecord
     {
       id: id,
       name: name,
-      thumbnail: avatar.thumb.url,
+      thumbnail: avatar_url,
       pubsub_token: pubsub_token
     }
+  end
+
+  def avatar_url
+    if avatar.attached? && avatar.representable?
+      url_for(avatar.representation(resize: '250x250'))
+    else
+      ''
+    end
   end
 end

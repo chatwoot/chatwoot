@@ -8,7 +8,6 @@
 #  extension        :string
 #  external_url     :string
 #  fallback_title   :string
-#  file             :string
 #  file_type        :integer          default("image")
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -21,7 +20,7 @@ require 'open-uri'
 class Attachment < ApplicationRecord
   belongs_to :account
   belongs_to :message
-  mount_uploader :file, AttachmentUploader # used for images
+  has_one_attached :file
   enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
   before_create :set_file_extension

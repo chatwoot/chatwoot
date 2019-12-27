@@ -68,9 +68,7 @@ gem 'haikunator'
 gem 'brakeman'
 gem 'sentry-raven'
 
-##-- TODO: move these gems to appropriate groups --##
-# remove this gem in favor of active storage -  github #158
-gem 'carrierwave-aws'
+##-- background job processing --##
 gem 'sidekiq'
 
 group :development do
