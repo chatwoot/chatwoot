@@ -3,30 +3,29 @@
 require 'rails_helper'
 
 RSpec.describe ContactPolicy, type: :policy do
+  subject(:contact_policy) { described_class }
+
   let(:administrator) { create(:user, :administrator) }
   let(:agent) { create(:user) }
-
   let(:contact) { create(:contact) }
 
-  subject { described_class }
-
   permissions :index?, :show?, :update? do
-    context '#administrator' do
-      it { expect(subject).to permit(administrator, contact) }
+    context 'when administrator' do
+      it { expect(contact_policy).to permit(administrator, contact) }
     end
 
-    context '#agent' do
-      it { expect(subject).to_not permit(agent, contact) }
+    context 'when agent' do
+      it { expect(contact_policy).not_to permit(agent, contact) }
     end
   end
 
   permissions :create? do
-    context '#administrator' do
-      it { expect(subject).to permit(administrator, contact) }
+    context 'when administrator' do
+      it { expect(contact_policy).to permit(administrator, contact) }
     end
 
-    context '#agent' do
-      it { expect(subject).to permit(agent, contact) }
+    context 'when agent' do
+      it { expect(contact_policy).to permit(agent, contact) }
     end
   end
 end
