@@ -1,116 +1,105 @@
 /* eslint no-param-reassign: 0 */
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 
 const state = {
   records: [],
-  selectedRecord: {},
   uiFlags: {
-    fetchingList: false,
-    fetchingItem: false,
-    creatingItem: false,
-    updatingItem: false,
-    deletingItem: false,
+    isFetching: false,
+    isFetchingItem: false,
+    isCreating: false,
+    isUpdating: false,
+    isDeleting: false,
   },
 };
 
 const getters = {
-  getContacts(_state) {
-    return _state.records;
+  getContacts($state) {
+    return $state.records;
   },
-  getUIFlags(_state) {
-    return _state.uiFlags;
+  getUIFlags($state) {
+    return $state.uiFlags;
   },
-  getSelectedRecord(_state) {
-    return _state.selectedRecord;
+  getContact: $state => id => {
+    const [contact = {}] = $state.records.filter(
+      record => record.id === Number(id)
+    );
+    return contact;
   },
 };
 
 const actions = {
-  getContact: async function getContact({ commit }, { id, setSelectedRecord }) {
-    commit(types.default.SET_CONTACT_UI_FLAG, { fetchingList: true });
+  get: async ({ commit }) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
-      const response = await ContactAPI.show({ id });
-      if (setSelectedRecord) {
-        commit(types.default.SET_SELECTED_CONTACT, response.data);
-      }
-      commit(types.default.SET_CONTACT, response.data);
-      commit(types.default.SET_CONTACT_UI_FLAG, { fetchingList: false });
+      const response = await ContactAPI.get();
+      commit(types.default.SET_SELECTED_CONTACT, response.data);
+      commit(types.default.SET_CONTACTS, response.data);
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { fetchingList: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
   },
 
-  createContact: async function createContact({ commit }, CONTACTObj) {
-    commit(types.default.SET_CONTACT_UI_FLAG, { creatingItem: true });
+  show: async ({ commit }, { id }) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await ContactAPI.show({ id });
+      commit(types.default.SET_CONTACT_ITEM, response.data);
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
+    } catch (error) {
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
+    }
+  },
+
+  create: async ({ commit }, CONTACTObj) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: true });
     try {
       const response = await ContactAPI.create(CONTACTObj);
       commit(types.default.ADD_CONTACT, response.data);
-      commit(types.default.SET_CONTACT_UI_FLAG, { creatingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: false });
     } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { creatingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: false });
     }
   },
 
-  updateContact: async function updateContact(
-    { commit },
-    { id, ...updateObj }
-  ) {
-    commit(types.default.SET_CONTACT_UI_FLAG, { updatingItem: true });
+  update: async ({ commit }, { id, ...updateObj }) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(id, updateObj);
       commit(types.default.EDIT_CONTACT, response.data);
-      commit(types.default.SET_CONTACT_UI_FLAG, { updatingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { updatingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
     }
   },
 
-  deleteContact: async function deleteContact({ commit }, id) {
-    commit(types.default.SET_CONTACT_UI_FLAG, { deletingItem: true });
+  delete: async ({ commit }, id) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
     try {
       await ContactAPI.delete(id);
       commit(types.default.DELETE_CONTACT, id);
-      commit(types.default.SET_CONTACT_UI_FLAG, { deletingItem: true });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
     } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { deletingItem: true });
+      commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
     }
   },
 };
 
 const mutations = {
-  [types.default.SET_CONTACT_UI_FLAG](_state, data) {
-    _state.uiFlags = {
-      ..._state.uiFlags,
+  [types.default.SET_CONTACT_UI_FLAG]($state, data) {
+    $state.uiFlags = {
+      ...$state.uiFlags,
       ...data,
     };
   },
 
-  [types.default.SET_CONTACT](_state, data) {
-    _state.records = data;
-  },
-
-  [types.default.ADD_CONTACT](_state, data) {
-    _state.records.push(data);
-  },
-
-  [types.default.EDIT_CONTACT](_state, data) {
-    _state.records.forEach((element, index) => {
-      if (element.id === data.id) {
-        _state.records[index] = data;
-      }
-    });
-  },
-
-  [types.default.DELETE_CONTACT](_state, id) {
-    _state.records = _state.records.filter(
-      CONTACTResponse => CONTACTResponse.id !== id
-    );
-  },
-
-  [types.default.SET_SELECTED_CONTACT](_state, record) {
-    _state.selectedRecord = record;
-  },
+  [types.default.SET_CONTACTS]: MutationHelpers.set,
+  [types.default.SET_CONTACT_ITEM]: MutationHelpers.setSingleRecord,
+  [types.default.ADD_CONTACT]: MutationHelpers.create,
+  [types.default.EDIT_CONTACT]: MutationHelpers.update,
+  [types.default.DELETE_CONTACT]: MutationHelpers.destroy,
 };
 
 export default {
