@@ -73,11 +73,16 @@ RUN apk add --update --no-cache \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  echo 'production...'; \
+  rm -rf spec node_modules app/assets vendor/assets tmp/cache; \
   else apk add nodejs yarn; \
   fi
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
+
+# Remove unecessary files
+RUN rm -rf /gems/ruby/2.6.0/cache/*.gem \
+  && find /gems/ruby/2.6.0/gems/ -name "*.c" -delete \
+  && find /gems/ruby/2.6.0/gems/ -name "*.o" -delete
 
 WORKDIR /app
