@@ -18,9 +18,9 @@
             <tr v-for="item in inboxesList" :key="item.id">
               <td>
                 <img
-                  v-if="item.avatarUrl"
+                  v-if="item.avatar_url"
                   class="woot-thumbnail"
-                  :src="item.avatarUrl"
+                  :src="item.avatar_url"
                   alt="No Page Image"
                 />
                 <img
@@ -32,11 +32,11 @@
               </td>
               <!-- Short Code  -->
               <td>
-                <span class="agent-name">{{ item.label }}</span>
-                <span v-if="item.channelType === 'Channel::FacebookPage'">
+                <span class="agent-name">{{ item.name }}</span>
+                <span v-if="item.channel_type === 'Channel::FacebookPage'">
                   Facebook
                 </span>
-                <span v-if="item.channelType === 'Channel::WebWidget'">
+                <span v-if="item.channel_type === 'Channel::WebWidget'">
                   Website
                 </span>
               </td>
@@ -44,28 +44,23 @@
               <!-- Action Buttons -->
               <td>
                 <div class="button-wrapper">
-                  <div v-if="isAdmin()" @click="openSettings(item)">
+                  <router-link :to="`/app/settings/inboxes/${item.id}`">
                     <woot-submit-button
+                      v-if="isAdmin()"
                       :button-text="$t('INBOX_MGMT.SETTINGS')"
                       icon-class="ion-gear-b"
                       button-class="link hollow grey-btn"
                     />
-                  </div>
-                  <!-- <div>
-                    <woot-submit-button
-                    :button-text="$t('INBOX_MGMT.REAUTH')"
-                    icon-class="ion-edit"
+                  </router-link>
+
+                  <woot-submit-button
+                    v-if="isAdmin()"
+                    :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
+                    :loading="loading[item.id]"
+                    icon-class="ion-close-circled"
                     button-class="link hollow grey-btn"
-                    />
-                  </div> -->
-                  <div v-if="isAdmin()" @click="openDelete(item)">
-                    <woot-submit-button
-                      :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                      :loading="loading[item.id]"
-                      icon-class="ion-close-circled"
-                      button-class="link hollow grey-btn"
-                    />
-                  </div>
+                    @click="openDelete(item)"
+                  />
                 </div>
               </td>
             </tr>
@@ -120,22 +115,22 @@ export default {
   },
   computed: {
     ...mapGetters({
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
     }),
     // Delete Modal
     deleteConfirmText() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedInbox.label
+        this.selectedInbox.name
       }`;
     },
     deleteRejectText() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedInbox.label
+        this.selectedInbox.name
       }`;
     },
     deleteMessage() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedInbox.label
+        this.selectedInbox.name
       } ?`;
     },
   },
@@ -148,21 +143,19 @@ export default {
       this.showSettings = false;
       this.selectedInbox = {};
     },
-    deleteInbox({ channel_id }) {
-      this.$store
-        .dispatch('deleteInbox', channel_id)
-        .then(() =>
-          bus.$emit(
-            'newToastMessage',
-            this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE')
-          )
-        )
-        .catch(() =>
-          bus.$emit(
-            'newToastMessage',
-            this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
-          )
+    async deleteInbox({ id }) {
+      try {
+        await this.$store.dispatch('inboxes/delete', id);
+        bus.$emit(
+          'newToastMessage',
+          this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE')
         );
+      } catch (error) {
+        bus.$emit(
+          'newToastMessage',
+          this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE')
+        );
+      }
     },
 
     confirmDeletion() {

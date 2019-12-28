@@ -13,6 +13,12 @@
           :key="item.toState"
           :menu-item="item"
         />
+
+        <sidebar-item
+          v-if="shouldShowInboxes"
+          :key="inboxSection.toState"
+          :menu-item="inboxSection"
+        />
       </transition-group>
     </div>
 
@@ -41,7 +47,7 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="gravatarUrl()" :username="currentUser.name"/>
+        <thumbnail :src="gravatarUrl()" :username="currentUser.name" />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -50,9 +56,8 @@
             {{ currentUser.role }}
           </h5>
         </div>
-        <span
-          class="current-user--options icon ion-android-more-vertical"
-        ></span>
+        <span class="current-user--options icon ion-android-more-vertical">
+        </span>
       </div>
     </div>
   </aside>
@@ -69,12 +74,19 @@ import SidebarItem from './SidebarItem';
 import WootStatusBar from '../widgets/StatusBar';
 import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
+import sidemenuItems from '../../i18n/default-sidebar';
 
 export default {
+  components: {
+    SidebarItem,
+    WootStatusBar,
+    Thumbnail,
+  },
   mixins: [clickaway, adminMixin],
   props: {
     route: {
       type: String,
+      default: '',
     },
   },
   data() {
@@ -82,27 +94,22 @@ export default {
       showOptionsMenu: false,
     };
   },
-  mounted() {
-    // this.$store.dispatch('fetchLabels');
-    this.$store.dispatch('fetchInboxes');
-  },
   computed: {
     ...mapGetters({
-      sidebarList: 'getMenuItems',
       daysLeft: 'getTrialLeft',
       subscriptionData: 'getSubscription',
+      inboxes: 'inboxes/getInboxes',
     }),
     accessibleMenuItems() {
-      const currentRoute = this.$store.state.route.name;
       // get all keys in menuGroup
-      const groupKey = Object.keys(this.sidebarList);
+      const groupKey = Object.keys(sidemenuItems);
 
       let menuItems = [];
       // Iterate over menuGroup to find the correct group
       for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = this.sidebarList[groupKey[i]];
+        const groupItem = sidemenuItems[groupKey[i]];
         // Check if current route is included
-        const isRouteIncluded = groupItem.routes.includes(currentRoute);
+        const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
         if (isRouteIncluded) {
           menuItems = Object.values(groupItem.menuItems);
         }
@@ -113,6 +120,29 @@ export default {
       }
 
       return this.filterMenuItemsByRole(menuItems);
+    },
+    currentRoute() {
+      return this.$store.state.route.name;
+    },
+    shouldShowInboxes() {
+      return sidemenuItems.common.routes.includes(this.currentRoute);
+    },
+    inboxSection() {
+      return {
+        icon: 'ion-folder',
+        label: 'Inboxes',
+        hasSubMenu: true,
+        newLink: true,
+        key: 'inbox',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL('settings/inboxes'),
+        toStateName: 'settings_inbox_list',
+        children: this.inboxes.map(inbox => ({
+          id: inbox.id,
+          label: inbox.name,
+          toState: frontendURL(`inbox/${inbox.id}`),
+        })),
+      };
     },
     currentUser() {
       return Auth.getCurrentUser();
@@ -140,7 +170,9 @@ export default {
       return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
     },
   },
-
+  mounted() {
+    this.$store.dispatch('inboxes/get');
+  },
   methods: {
     gravatarUrl() {
       const hash = md5(this.currentUser.email);
@@ -164,12 +196,6 @@ export default {
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
-  },
-
-  components: {
-    SidebarItem,
-    WootStatusBar,
-    Thumbnail,
   },
 };
 </script>

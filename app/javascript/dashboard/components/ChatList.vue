@@ -3,7 +3,7 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ getInboxName }}
+        {{ inbox.name || pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="getDataForStatusTab" />
     </div>
@@ -53,6 +53,11 @@ import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 
 export default {
+  components: {
+    ChatTypeTabs,
+    ConversationCard,
+    ChatFilter,
+  },
   mixins: [timeMixin, conversationMixin],
   props: ['conversationInbox', 'pageTitle'],
   data() {
@@ -61,25 +66,12 @@ export default {
       activeStatus: 0,
     };
   },
-  mounted() {
-    this.$watch('$store.state.route', () => {
-      if (this.$store.state.route.name !== 'inbox_conversation') {
-        this.$store.dispatch('emptyAllConversations');
-        this.fetchData();
-      }
-    });
-
-    this.$store.dispatch('emptyAllConversations');
-    this.fetchData();
-    this.$store.dispatch('agents/get');
-  },
   computed: {
     ...mapGetters({
       chatLists: 'getAllConversations',
       mineChatsList: 'getMineChats',
       allChatList: 'getAllStatusChats',
       unAssignedChatsList: 'getUnAssignedChats',
-      inboxesList: 'getInboxesList',
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
@@ -92,12 +84,8 @@ export default {
         count: this.convStats[item.KEY] || 0,
       }));
     },
-    getInboxName() {
-      const inboxId = Number(this.activeInbox);
-      const [stateInbox] = this.inboxesList.filter(
-        inbox => inbox.channel_id === inboxId
-      );
-      return !stateInbox ? this.pageTitle : stateInbox.label;
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
     getToggleStatus() {
       if (this.toggleType) {
@@ -105,6 +93,18 @@ export default {
       }
       return 'Resolved';
     },
+  },
+  mounted() {
+    this.$watch('$store.state.route', () => {
+      if (this.$store.state.route.name !== 'inbox_conversation') {
+        this.$store.dispatch('emptyAllConversations');
+        this.fetchData();
+      }
+    });
+
+    this.$store.dispatch('emptyAllConversations');
+    this.fetchData();
+    this.$store.dispatch('agents/get');
   },
   methods: {
     fetchData() {
@@ -148,12 +148,6 @@ export default {
       );
       return sorted;
     },
-  },
-
-  components: {
-    ChatTypeTabs,
-    ConversationCard,
-    ChatFilter,
   },
 };
 </script>

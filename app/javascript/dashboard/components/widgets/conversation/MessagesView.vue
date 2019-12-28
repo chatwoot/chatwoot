@@ -75,10 +75,9 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       allConversations: 'getAllConversations',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
-      fetchingInboxes: 'getInboxLoadingStatus',
       loadingChatList: 'getChatListLoadingStatus',
     }),
 
@@ -99,7 +98,7 @@ export default {
       } else {
         [stateInbox] = this.inboxesList;
       }
-      return !stateInbox ? 0 : stateInbox.pageId;
+      return !stateInbox ? 0 : stateInbox.page_id;
     },
     // Get current FB Page ID link
     linkToMessage() {

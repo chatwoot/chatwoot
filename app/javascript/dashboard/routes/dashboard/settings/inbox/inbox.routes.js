@@ -1,5 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import SettingsContent from '../Wrapper';
+import Settings from './Settings';
 import InboxHome from './Index';
 import InboxChannel from './InboxChannels';
 import ChannelList from './ChannelList';
@@ -63,6 +64,12 @@ export default {
               component: AddAgents,
             },
           ],
+        },
+        {
+          path: ':inboxId',
+          name: 'settings_inbox_show',
+          component: Settings,
+          roles: ['administrator'],
         },
       ],
     },
