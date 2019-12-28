@@ -24,26 +24,6 @@ const endPoints = {
     params: { inbox_id: null },
   },
 
-  fetchLabels: {
-    url: 'api/v1/labels.json',
-  },
-
-  fetchInboxes: {
-    url: 'api/v1/inboxes.json',
-  },
-
-  createChannel(channel, channelParams) {
-    return {
-      url: `api/v1/callbacks/register_${channel}_page.json`,
-      params: channelParams,
-    };
-  },
-
-  addAgentsToChannel: {
-    url: 'api/v1/inbox_members.json',
-    params: { user_ids: [], inbox_id: null },
-  },
-
   fetchFacebookPages: {
     url: 'api/v1/callbacks/get_facebook_pages.json',
     params: { omniauth_token: '' },
@@ -67,26 +47,6 @@ const endPoints = {
       return {
         url: '/api/v1/subscriptions',
       };
-    },
-  },
-
-  inbox: {
-    delete(id) {
-      return {
-        url: `/api/v1/inboxes/${id}`,
-      };
-    },
-    agents: {
-      get(id) {
-        return {
-          url: `/api/v1/inbox_members/${id}.json`,
-        };
-      },
-      post() {
-        return {
-          url: '/api/v1/inbox_members.json',
-        };
-      },
     },
   },
 };

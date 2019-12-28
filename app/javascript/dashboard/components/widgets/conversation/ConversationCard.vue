@@ -63,7 +63,7 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      inboxesList: 'getInboxesList',
+      inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
     }),
 
@@ -107,11 +107,10 @@ export default {
       `;
     },
     getEmojiSVG,
+
     inboxName(inboxId) {
-      const [stateInbox] = this.inboxesList.filter(
-        inbox => inbox.channel_id === inboxId
-      );
-      return !stateInbox ? '' : stateInbox.label;
+      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+      return stateInbox.name || '';
     },
   },
 };

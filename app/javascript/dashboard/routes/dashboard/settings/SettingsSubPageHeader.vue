@@ -1,10 +1,9 @@
 <template>
   <div class="column">
     <h2 class="page-sub-title">
-      {{headerTitle}}
+      {{ headerTitle }}
     </h2>
-    <p class="small-12 column" v-html="headerContent">
-    </p>
+    <p class="small-12 column" v-html="headerContent"></p>
   </div>
 </template>
 

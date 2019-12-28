@@ -1,11 +1,11 @@
 <template>
   <div class="column page-top-bar">
-    <img :src="headerImage" alt="No image" v-if="headerImage"/>
+    <img v-if="headerImage" :src="headerImage" alt="No image" />
     <h2 class="page-sub-title">
-      {{headerTitle}}
+      {{ headerTitle }}
     </h2>
-    <p class="small-12 column">
-        {{headerContent}}
+    <p v-if="headerContent" class="small-12 column">
+      {{ headerContent }}
     </p>
   </div>
 </template>
