@@ -5,7 +5,6 @@ FactoryBot.define do
     content { 'Message' }
     status { 'sent' }
     message_type { 'incoming' }
-    fb_id { SecureRandom.uuid }
     account
     inbox
     conversation
