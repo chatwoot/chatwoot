@@ -17,10 +17,9 @@ done
 
 echo "Database ready to accept connections."
 
-YARN="yarn check --integrity"
 BUNDLE="bundle check"
 
-until $YARN && $BUNDLE
+until $BUNDLE
 do
   sleep 2;
 done

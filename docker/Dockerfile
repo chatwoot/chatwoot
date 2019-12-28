@@ -1,15 +1,19 @@
-FROM ruby:2.6.5-alpine
+# pre-build stage
+FROM ruby:2.6.5-alpine AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
+ENV BUNDLER_VERSION=2.1.2
 
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
 
 ARG RAILS_ENV=production
 ENV RAILS_ENV ${RAILS_ENV}
+
+ENV BUNDLE_PATH="/gems"
 
 RUN apk update \
   && apk add \
@@ -44,3 +48,36 @@ COPY . /app
 RUN if [ "$RAILS_ENV" = "production" ]; then \
   SECRET_KEY_BASE=precompile_placeholder bundle exec rake assets:precompile; \
   fi
+
+# final build stage
+FROM ruby:2.6.5-alpine
+
+ARG BUNDLE_WITHOUT="development:test"
+ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
+ENV BUNDLER_VERSION=2.1.2
+
+ARG EXECJS_RUNTIME="Disabled"
+ENV EXECJS_RUNTIME ${EXECJS_RUNTIME}
+
+ARG RAILS_SERVE_STATIC_FILES=true
+ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
+
+ARG RAILS_ENV=production
+ENV RAILS_ENV ${RAILS_ENV}
+ENV BUNDLE_PATH="/gems"
+
+RUN apk add --update --no-cache \
+    openssl \
+    tzdata \
+    postgresql-client \
+  && gem install bundler
+
+RUN if [ "$RAILS_ENV" = "production" ]; then \
+  echo 'production...'; \
+  else apk add nodejs yarn; \
+  fi
+
+COPY --from=pre-builder /gems/ /gems/
+COPY --from=pre-builder /app /app
+
+WORKDIR /app
