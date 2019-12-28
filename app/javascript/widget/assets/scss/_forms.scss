@@ -39,6 +39,12 @@ $input-height: $space-two * 2;
     padding: $space-small $space-slab;
   }
 
+  &.default {
+    font-size: $font-size-default;
+    height: $space-medium;
+    padding: $space-smaller $space-slab;
+  }
+
   &.large {
     font-size: $font-size-medium;
     height: $space-larger;

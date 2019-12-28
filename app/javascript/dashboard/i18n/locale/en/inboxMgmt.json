@@ -27,7 +27,8 @@
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color"
+          "LABEL": "Widget Color",
+          "PLACEHOLDER": "Update the widget color used in widget"
         },
         "SUBMIT_BUTTON":"Create inbox"
       },
@@ -52,10 +53,11 @@
       "LOADING_FB": "Authenticating you with Facebook...",
       "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
       "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Deatails",
-      "DESC": "an addendum to this post, you can absolutely support what I’m doing by working with me at Reach by Creatomic. Get in touch: jon@creatomic.co for content, podcasts, marketing campaigns — we do a lot and we do it well. If you can help me hit that monthly rev. target by letting me help you find more customers and make more money, that’s a win win."
+      "TITLE": "Configure Inbox Details",
+      "DESC": ""
     },
     "AGENTS": {
+      "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Inbox..."
     },
     "FINISH": {
@@ -66,6 +68,12 @@
     },
     "REAUTH": "Reauthorize",
     "VIEW": "View",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+      }
+    },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "CONFIRM": {

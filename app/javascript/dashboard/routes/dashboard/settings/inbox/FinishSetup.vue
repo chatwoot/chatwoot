@@ -7,7 +7,7 @@
     >
       <div class="medium-12 columns text-center">
         <div class="website--code">
-          <woot-code v-if="$route.params.website_token" :script="websiteScript">
+          <woot-code v-if="currentInbox.website_token" :script="websiteScript">
           </woot-code>
         </div>
         <router-link
@@ -33,6 +33,11 @@ export default {
     EmptyState,
   },
   computed: {
+    currentInbox() {
+      return this.$store.getters['inboxes/getInbox'](
+        this.$route.params.inbox_id
+      );
+    },
     message() {
       if (!this.$route.params.website_token) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
@@ -40,7 +45,7 @@ export default {
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
     },
     websiteScript() {
-      return createWebsiteWidgetScript(this.$route.params.website_token);
+      return createWebsiteWidgetScript(this.currentInbox.website_token);
     },
   },
 };
