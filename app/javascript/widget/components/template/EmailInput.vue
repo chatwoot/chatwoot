@@ -12,7 +12,11 @@
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
       />
-      <button class="button" :disabled="$v.email.$invalid">
+      <button
+        class="button"
+        :disabled="$v.email.$invalid"
+        :style="{ background: widgetColor, borderColor: widgetColor }"
+      >
         <i v-if="!uiFlags.isUpdating" class="ion-android-arrow-forward" />
         <spinner v-else />
       </button>
@@ -29,6 +33,9 @@ import Spinner from 'shared/components/Spinner';
 import { required, email } from 'vuelidate/lib/validators';
 
 export default {
+  components: {
+    Spinner,
+  },
   props: {
     messageId: {
       type: Number,
@@ -39,9 +46,15 @@ export default {
       default: () => {},
     },
   },
+  data() {
+    return {
+      email: '',
+    };
+  },
   computed: {
     ...mapGetters({
       uiFlags: 'contact/getUIFlags',
+      widgetColor: 'appConfig/getWidgetColor',
     }),
     hasSubmitted() {
       return (
@@ -49,14 +62,6 @@ export default {
         this.messageContentAttributes.submitted_email
       );
     },
-  },
-  components: {
-    Spinner,
-  },
-  data() {
-    return {
-      email: '',
-    };
   },
   validations: {
     email: {

@@ -156,6 +156,8 @@ const IFrameHelper = {
         IFrameHelper.sendMessage('config-set', {});
         IFrameHelper.onLoad(message.config.channelConfig);
         IFrameHelper.setCurrentUrl();
+      } else if (message.event === 'set_auth_token') {
+        Cookies.set('cw_conversation', message.authToken);
       }
     };
   },
@@ -195,7 +197,6 @@ const IFrameHelper = {
     onClickChatBubble();
   },
   setCurrentUrl: () => {
-    console.log(IFrameHelper.getAppFrame(), document);
     IFrameHelper.sendMessage('set-current-url', {
       refererURL: window.location.href,
     });
