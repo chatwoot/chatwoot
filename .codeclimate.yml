@@ -11,7 +11,9 @@ plugins:
     enabled: true
   brakeman:
     enabled: true
-
+checks:
+  similar-code:
+    enabled: false
 exclude_patterns:
   - "spec/"
   - "**/specs/"

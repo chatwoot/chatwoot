@@ -55,8 +55,8 @@
 </template>
 
 <script>
-/* global bus */
 import { Compact } from 'vue-color';
+import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
@@ -73,26 +73,28 @@ export default {
       isCreating: false,
     };
   },
-  mounted() {
-    bus.$on('new_website_channel', ({ inboxId, websiteToken }) => {
+  computed: {
+    ...mapGetters({
+      uiFlags: 'inboxes/getUIFlags',
+    }),
+  },
+  methods: {
+    async createChannel() {
+      const website = await this.$store.dispatch(
+        'inboxes/createWebsiteChannel',
+        {
+          website: {
+            website_name: this.websiteName,
+            website_url: this.websiteUrl,
+            widget_color: this.widgetColor.hex,
+          },
+        }
+      );
       router.replace({
         name: 'settings_inboxes_add_agents',
         params: {
           page: 'new',
-          inbox_id: inboxId,
-          website_token: websiteToken,
-        },
-      });
-    });
-  },
-  methods: {
-    createChannel() {
-      this.isCreating = true;
-      this.$store.dispatch('addWebsiteChannel', {
-        website: {
-          website_name: this.websiteName,
-          website_url: this.websiteUrl,
-          widget_color: this.widgetColor.hex,
+          inbox_id: website.id,
         },
       });
     },

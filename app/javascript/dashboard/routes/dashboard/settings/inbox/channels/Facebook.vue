@@ -219,14 +219,11 @@ export default {
         this.emptyStateMessage = this.$t('INBOX_MGMT.DETAILS.CREATING_CHANNEL');
         this.isCreating = true;
         this.$store
-          .dispatch('addInboxItem', {
-            channel: this.channel,
-            params: this.channelParams(),
-          })
-          .then(response => {
+          .dispatch('inboxes/createFBChannel', this.channelParams())
+          .then(data => {
             router.replace({
               name: 'settings_inboxes_add_agents',
-              params: { page: 'new', inbox_id: response.data.id },
+              params: { page: 'new', inbox_id: data.id },
             });
           })
           .catch(() => {

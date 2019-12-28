@@ -1,3 +1,10 @@
+.settings {
+  overflow: auto;
+
+  .page-top-bar {
+    @include padding($space-normal $space-two $zero);
+  }
+}
 // Conversation header - Light BG
 .settings-header {
   @include padding($space-small $space-normal);
@@ -196,51 +203,23 @@
   }
 }
 
-.settings-modal {
-  height: 80%;
-  max-width: 1040px;
-  width: 100%;
+.settings--content {
+  @include margin($space-small $space-medium);
 
-  .delete-wrapper {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    @include flex;
-    flex-direction: row;
-    justify-content: space-between;
-    @include padding($space-normal $space-large);
-
-    a {
-      margin-left: $space-normal;
-    }
+  .title {
+    font-weight: $font-weight-medium;
   }
 
-  .settings--content {
-    @include margin($space-medium);
+  .code {
+    max-height: $space-mega;
+    overflow: scroll;
+    white-space: nowrap;
+    @include padding($space-one);
+    background: $color-background;
 
-    .title {
-      font-weight: $font-weight-medium;
-    }
-
-    .code {
-      max-height: $space-mega;
-      overflow: scroll;
-      white-space: nowrap;
-      @include padding($space-one);
-      background: $color-background;
-
-      code {
-        background: transparent;
-        border: 0;
-      }
-    }
-  }
-
-  .agent-wrapper {
-    @include margin($space-medium);
-
-    .title {
-      font-weight: $font-weight-medium;
+    code {
+      background: transparent;
+      border: 0;
     }
   }
 }

@@ -27,6 +27,15 @@
   }
 }
 
+
+.page-top-bar {
+  @include padding($zero $space-two);
+
+  img {
+    max-height: 6rem;
+  }
+}
+
 .modal-container {
   background-color: $color-white;
   border-radius: $space-small;
@@ -35,13 +44,6 @@
   position: relative;
   width: 60rem;
 
-  .page-top-bar {
-    @include padding($zero $space-two);
-
-    img {
-      max-height: 6rem;
-    }
-  }
 
   .content-box {
     @include padding($zero);
