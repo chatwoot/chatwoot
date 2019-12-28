@@ -57,6 +57,7 @@
       "DESC": ""
     },
     "AGENTS": {
+      "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Inbox..."
     },
     "FINISH": {

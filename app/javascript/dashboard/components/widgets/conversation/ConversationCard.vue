@@ -107,11 +107,10 @@ export default {
       `;
     },
     getEmojiSVG,
+
     inboxName(inboxId) {
-      const [stateInbox] = this.inboxesList.filter(
-        inbox => inbox.channel_id === inboxId
-      );
-      return !stateInbox ? '' : stateInbox.name;
+      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+      return stateInbox.name || '';
     },
   },
 };

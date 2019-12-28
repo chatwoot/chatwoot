@@ -1,8 +1,6 @@
 <template>
   <div class="wizard-body columns content-box small-9">
-    <loading-state v-if="showLoader" :message="emptyStateMessage">
-    </loading-state>
-    <form v-if="!showLoader" class="row" @submit.prevent="addAgents()">
+    <form class="row" @submit.prevent="addAgents()">
       <div class="medium-12 columns">
         <page-header
           :header-title="$t('INBOX_MGMT.ADD.AGENTS.TITLE')"
@@ -31,8 +29,11 @@
             </span>
           </label>
         </div>
-        <div class="medium-12 columns text-right">
-          <input type="submit" value="Create Inbox" class="button" />
+        <div class="medium-12 columns">
+          <woot-submit-button
+            :button-text="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
+            :loading="isCreating"
+          />
         </div>
       </div>
     </form>
@@ -47,12 +48,10 @@ import { mapGetters } from 'vuex';
 import InboxMembersAPI from '../../../../api/inboxMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
-import LoadingState from '../../../../components/widgets/LoadingState';
 
 export default {
   components: {
     PageHeader,
-    LoadingState,
   },
 
   validations: {
@@ -65,9 +64,8 @@ export default {
 
   data() {
     return {
-      emptyStateMessage: this.$t('INBOX_MGMT.AGENTS.ADD_AGENTS'),
-      showLoader: false,
       selectedAgents: [],
+      isCreating: false,
     };
   },
 
