@@ -45,18 +45,18 @@ const actions = {
   show: async ({ commit }, { id }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: true });
     try {
-      const response = await ContactAPI.show({ id });
-      commit(types.default.SET_CONTACT_ITEM, response.data);
+      const response = await ContactAPI.show(id);
+      commit(types.default.SET_CONTACT_ITEM, response.data.payload);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
     }
   },
 
-  create: async ({ commit }, CONTACTObj) => {
+  create: async ({ commit }, contactObject) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: true });
     try {
-      const response = await ContactAPI.create(CONTACTObj);
+      const response = await ContactAPI.create(contactObject);
       commit(types.default.ADD_CONTACT, response.data);
       commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: false });
     } catch (error) {
@@ -103,6 +103,7 @@ const mutations = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

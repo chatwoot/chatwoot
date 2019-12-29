@@ -3,7 +3,7 @@
     <div class="contact--profile">
       <div class="contact--info">
         <thumbnail
-          :src="contactImage"
+          :src="contact.avatar_url"
           size="56px"
           :badge="contact.channel"
           :username="contact.name"
@@ -57,7 +57,7 @@
           Timezone
         </div>
         <div class="conv-details--item__value">
-          {{ initiatedAt.zone }}
+          {{ initiatedAt.timestamp }}
         </div>
       </div>
     </div>
@@ -65,30 +65,40 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
     Thumbnail,
   },
+  props: {
+    conversationId: {
+      type: [Number, String],
+      required: true,
+    },
+  },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
+    currentConversationMetaData() {
+      return this.$store.getters[
+        'conversationMetadata/getConversationMetadata'
+      ](this.conversationId);
+    },
     browser() {
-      const { meta: { additional_attributes: additionalAttributes } = {} } =
-        this.currentChat || {};
+      const {
+        additional_attributes: additionalAttributes = {},
+      } = this.currentConversationMetaData;
       return additionalAttributes ? additionalAttributes.browser : {};
     },
     referer() {
-      const { meta: { additional_attributes: additionalAttributes } = {} } =
-        this.currentChat || {};
+      const {
+        additional_attributes: additionalAttributes = {},
+      } = this.currentConversationMetaData;
       return additionalAttributes ? additionalAttributes.referer : {};
     },
     initiatedAt() {
-      const { meta: { additional_attributes: additionalAttributes } = {} } =
-        this.currentChat || {};
+      const {
+        additional_attributes: additionalAttributes = {},
+      } = this.currentConversationMetaData;
       return additionalAttributes ? additionalAttributes.initiated_at : {};
     },
     browserName() {
@@ -99,18 +109,25 @@ export default {
       return `${this.browser.platform_name || ''} ${this.browser
         .platform_version || ''}`;
     },
-    contact() {
-      const { meta: { sender = {} } = {} } = this.currentChat || {};
-      return sender;
+    contactId() {
+      return this.currentConversationMetaData.contact_id;
     },
-    contactImage() {
-      return `/uploads/avatar/contact/${this.contact.id}/profilepic.jpeg`;
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
+    },
+  },
+  watch: {
+    contactId(newContactId, prevContactId) {
+      if (newContactId && newContactId !== prevContactId) {
+        this.$store.dispatch('contacts/show', {
+          id: this.currentConversationMetaData.contact_id,
+        });
+      }
     },
   },
   mounted() {
-    this.$store.dispatch('getContact', {
-      id: this.contact.id,
-      setSelectedContact: true,
+    this.$store.dispatch('contacts/show', {
+      id: this.currentConversationMetaData.contact_id,
     });
   },
 };

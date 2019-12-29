@@ -34,10 +34,13 @@ const actions = {
       const {
         data: { meta, payload },
       } = await MessageApi.getPreviousMessages(data);
-      commit(types.default.SET_CONVERSATION_METADATA, {
-        id: data.conversationId,
-        data: meta,
-      });
+      commit(
+        `conversationMetadata/${types.default.SET_CONVERSATION_METADATA}`,
+        {
+          id: data.conversationId,
+          data: meta,
+        }
+      );
       commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
         id: data.conversationId,
         data: payload,
