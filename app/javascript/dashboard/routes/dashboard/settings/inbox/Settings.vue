@@ -104,15 +104,26 @@ export default {
       return createMessengerScript(this.inbox.page_id);
     },
   },
+  watch: {
+    $route(to) {
+      if (to.name === 'settings_inbox_show') {
+        this.fetchInboxSettings();
+      }
+    },
+  },
   mounted() {
-    this.$store.dispatch('agents/get');
-    this.$store.dispatch('inboxes/get').then(() => {
-      this.fetchAttachedAgents();
-    });
+    this.fetchInboxSettings();
   },
   methods: {
     showAlert(message) {
       bus.$emit('newToastMessage', message);
+    },
+    fetchInboxSettings() {
+      this.selectedAgents = [];
+      this.$store.dispatch('agents/get');
+      this.$store.dispatch('inboxes/get').then(() => {
+        this.fetchAttachedAgents();
+      });
     },
     async fetchAttachedAgents() {
       try {
