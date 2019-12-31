@@ -6,7 +6,8 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
       args:
-        BUNDLE_WITHOUT: ''
+        BUNDLE_WITHOUT: 'development:test'
+        EXECJS_RUNTIME: Disabled
         RAILS_ENV: 'production'
         RAILS_SERVE_STATIC_FILES: 'true'
     image: chatwoot:latest
