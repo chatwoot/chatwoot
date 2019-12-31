@@ -10,7 +10,7 @@
     </div>
     <div v-if="buttonText" class="medium-4 text-right">
       <woot-submit-button
-        class="small"
+        class="default"
         :button-text="buttonText"
         :loading="isUpdating"
         @click="onClick()"
@@ -32,7 +32,7 @@ export default {
     },
     buttonText: {
       type: String,
-      required: true,
+      default: '',
     },
     isUpdating: {
       type: Boolean,
@@ -51,8 +51,19 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .settings--form--header {
+  align-items: center;
   border-bottom: 1px solid $color-border;
+  display: flex;
   margin-bottom: $space-normal;
   padding: $space-normal 0;
+
+  .button {
+    margin-bottom: 0;
+  }
+
+  .title {
+    margin-bottom: 0;
+    font-size: $font-size-default;
+  }
 }
 </style>

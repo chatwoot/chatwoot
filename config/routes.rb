@@ -26,7 +26,7 @@ Rails.application.routes.draw do
 
       namespace :widget do
         resources :messages, only: [:index, :create]
-        resources :inboxes, only: [:create]
+        resources :inboxes, only: [:create, :update]
       end
 
       namespace :actions do
@@ -92,7 +92,7 @@ Rails.application.routes.draw do
 
   # Sidekiq Web UI
   require 'sidekiq/web'
-  authenticate :user, lambda { |u| u.administrator? } do
+  authenticate :user, ->(u) { u.administrator? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 

@@ -19,6 +19,13 @@ class FBChannel extends ApiClient {
       contact_id: contactId,
     });
   }
+
+  create(params) {
+    return axios.post(
+      `${this.apiVersion}/callbacks/register_facebook_page`,
+      params
+    );
+  }
 }
 
 export default new FBChannel();
