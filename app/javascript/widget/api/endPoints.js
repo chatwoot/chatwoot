@@ -3,6 +3,8 @@ const sendMessage = content => ({
   params: {
     message: {
       content,
+      timestamp: new Date().toString(),
+      referer_url: window.refererURL || '',
     },
   },
 });

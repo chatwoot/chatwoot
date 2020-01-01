@@ -126,14 +126,15 @@ const IFrameHelper = {
     }
     iframe.src = widgetUrl;
 
-    iframe.id = 'chatwoot_web_widget';
+    iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
     holder.className = 'woot-widget-holder woot--hide';
     holder.appendChild(iframe);
     body.appendChild(holder);
     IFrameHelper.initPostMessageCommunication();
+    IFrameHelper.initLocationListener();
   },
-  getAppFrame: () => document.getElementById('chatwoot_web_widget'),
+  getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
   sendMessage: (key, value) => {
     const element = IFrameHelper.getAppFrame();
     element.contentWindow.postMessage(
@@ -154,7 +155,13 @@ const IFrameHelper = {
         Cookies.set('cw_conversation', message.config.authToken);
         IFrameHelper.sendMessage('config-set', {});
         IFrameHelper.onLoad(message.config.channelConfig);
+        IFrameHelper.setCurrentUrl();
       }
+    };
+  },
+  initLocationListener: () => {
+    window.onhashchange = () => {
+      IFrameHelper.setCurrentUrl();
     };
   },
   onLoad: ({ widget_color: widgetColor }) => {
@@ -186,6 +193,12 @@ const IFrameHelper = {
     bubbleHolder.appendChild(closeIcon);
     bubbleHolder.appendChild(createNotificationBubble());
     onClickChatBubble();
+  },
+  setCurrentUrl: () => {
+    console.log(IFrameHelper.getAppFrame(), document);
+    IFrameHelper.sendMessage('set-current-url', {
+      refererURL: window.location.href,
+    });
   },
 };
 

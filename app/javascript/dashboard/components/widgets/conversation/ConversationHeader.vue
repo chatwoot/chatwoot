@@ -8,7 +8,7 @@
         :username="chat.meta.sender.name"
       />
       <div class="user--profile__meta">
-        <h3 class="user--name">
+        <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
           {{ chat.meta.sender.name }}
         </h3>
         <button
@@ -113,3 +113,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+</style>

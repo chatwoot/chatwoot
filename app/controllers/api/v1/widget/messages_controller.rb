@@ -38,7 +38,9 @@ class Api::V1::Widget::MessagesController < ActionController::Base
       inbox_id: inbox.id,
       contact_id: cookie_params[:contact_id],
       additional_attributes: {
-        browser: browser_params
+        browser: browser_params,
+        referer: permitted_params[:message][:referer_url],
+        initiated_at: timestamp_params
       }
     }
   end
@@ -50,6 +52,12 @@ class Api::V1::Widget::MessagesController < ActionController::Base
       device_name: browser.device.name,
       platform_name: browser.platform.name,
       platform_version: browser.platform.version
+    }
+  end
+
+  def timestamp_params
+    {
+      timestamp: permitted_params[:message][:timestamp]
     }
   end
 
@@ -79,7 +87,7 @@ class Api::V1::Widget::MessagesController < ActionController::Base
   end
 
   def permitted_params
-    params.permit(:before, message: [:content])
+    params.permit(:before, message: [:content, :referer_url, :timestamp])
   end
 
   def secret_key
