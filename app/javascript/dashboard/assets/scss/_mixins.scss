@@ -217,3 +217,9 @@
       border-left: $size solid transparent;
     }
 }
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

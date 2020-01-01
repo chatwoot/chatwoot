@@ -3,6 +3,7 @@ import { default as _agentMgmt } from './agentMgmt.json';
 import { default as _billing } from './billing.json';
 import { default as _cannedMgmt } from './cannedMgmt.json';
 import { default as _chatlist } from './chatlist.json';
+import { default as _contact } from './contact.json';
 import { default as _conversation } from './conversation.json';
 import { default as _inboxMgmt } from './inboxMgmt.json';
 import { default as _login } from './login.json';
@@ -16,6 +17,7 @@ export default {
   ..._billing,
   ..._cannedMgmt,
   ..._chatlist,
+  ..._contact,
   ..._conversation,
   ..._inboxMgmt,
   ..._login,

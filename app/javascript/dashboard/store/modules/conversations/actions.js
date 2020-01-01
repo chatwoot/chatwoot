@@ -31,12 +31,21 @@ const actions = {
 
   fetchPreviousMessages: async ({ commit }, data) => {
     try {
-      const response = await MessageApi.getPreviousMessages(data);
+      const {
+        data: { meta, payload },
+      } = await MessageApi.getPreviousMessages(data);
+      commit(
+        `conversationMetadata/${types.default.SET_CONVERSATION_METADATA}`,
+        {
+          id: data.conversationId,
+          data: meta,
+        }
+      );
       commit(types.default.SET_PREVIOUS_CONVERSATIONS, {
         id: data.conversationId,
-        data: response.data.payload,
+        data: payload,
       });
-      if (response.data.payload.length < 20) {
+      if (payload.length < 20) {
         commit(types.default.SET_ALL_MESSAGES_LOADED);
       }
     } catch (error) {
