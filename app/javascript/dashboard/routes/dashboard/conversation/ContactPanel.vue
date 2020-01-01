@@ -49,7 +49,7 @@
       />
       <contact-details-item
         v-if="initiatedAt"
-        :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+        :title="$t('CONTACT_PANEL.INITIATED_AT')"
         :value="initiatedAt.timestamp"
         icon="ion-clock"
       />

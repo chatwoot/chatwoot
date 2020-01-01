@@ -41,11 +41,12 @@ export default {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      if (message.event === 'set-current-url') {
-        window.parentUrl = message.parentUrl;
+      if (message.event === 'config-set') {
         this.fetchOldConversations();
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
+      } else if (message.event === 'set-current-url') {
+        window.refererURL = message.refererURL;
       }
     });
   },
