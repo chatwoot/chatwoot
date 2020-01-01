@@ -56,11 +56,7 @@ class Api::V1::Widget::MessagesController < ActionController::Base
   end
 
   def timestamp_params
-    # rubocop:disable Rails/TimeZone
-    time = ::Time.parse(permitted_params[:message][:timestamp])
-    # rubocop:enable Rails/TimeZone
     {
-      zone: time.zone,
       timestamp: permitted_params[:message][:timestamp]
     }
   end

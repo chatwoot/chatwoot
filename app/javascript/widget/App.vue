@@ -20,16 +20,6 @@ export const IFrameHelper = {
 
 export default {
   name: 'App',
-
-  methods: {
-    ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations']),
-    scrollConversationToBottom() {
-      const container = this.$el.querySelector('.conversation-wrap');
-      container.scrollTop = container.scrollHeight;
-    },
-  },
-
   mounted() {
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
@@ -51,13 +41,21 @@ export default {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      if (message.event === 'config-set') {
+      if (message.event === 'set-current-url') {
         window.parentUrl = message.parentUrl;
         this.fetchOldConversations();
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       }
     });
+  },
+  methods: {
+    ...mapActions('appConfig', ['setWidgetColor']),
+    ...mapActions('conversation', ['fetchOldConversations']),
+    scrollConversationToBottom() {
+      const container = this.$el.querySelector('.conversation-wrap');
+      container.scrollTop = container.scrollHeight;
+    },
   },
 };
 </script>

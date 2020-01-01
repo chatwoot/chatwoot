@@ -14,7 +14,7 @@
     <contact-panel
       v-if="isContactPanelOpen"
       :conversation-id="conversationId"
-    ></contact-panel>
+    />
   </section>
 </template>
 
