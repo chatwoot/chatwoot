@@ -4,7 +4,7 @@ const sendMessage = content => ({
     message: {
       content,
       timestamp: new Date().toString(),
-      referrer_url: window.refererURL,
+      referer_url: window.refererURL,
     },
   },
 });
