@@ -12,11 +12,15 @@
           <div class="contact--name">
             {{ contact.name }}
           </div>
-          <div class="contact--email">
-            {{ contact.email || '' }}
-          </div>
+          <a
+            v-if="contact.email"
+            :href="`mailto:${contact.email}`"
+            class="contact--email"
+          >
+            {{ contact.email }}
+          </a>
           <div class="contact--location">
-            {{ contact.location || '' }}
+            {{ contact.location }}
           </div>
         </div>
       </div>
@@ -24,51 +28,42 @@
         {{ contact.bio }}
       </div>
     </div>
-    <div class="contact-section--header">
-      <span>Conversation Details</span>
-    </div>
     <div v-if="browser" class="conversation--details">
-      <div v-if="browser.browser_name" class="conv-details--item">
-        <div class="conv-details--item__label">
-          Browser
-        </div>
-        <div class="conv-details--item__value">
-          {{ browserName }}
-        </div>
-      </div>
-      <div v-if="browser.platform_name" class="conv-details--item">
-        <div class="conv-details--item__label">
-          Operating System
-        </div>
-        <div class="conv-details--item__value">
-          {{ platformName }}
-        </div>
-      </div>
-      <div v-if="referer" class="conv-details--item">
-        <div class="conv-details--item__label">
-          Conversation initaition URL
-        </div>
-        <div class="conv-details--item__value">
-          {{ referer }}
-        </div>
-      </div>
-      <div v-if="initiatedAt" class="conv-details--item">
-        <div class="conv-details--item__label">
-          Timezone
-        </div>
-        <div class="conv-details--item__value">
-          {{ initiatedAt.timestamp }}
-        </div>
-      </div>
+      <contact-details-item
+        v-if="browser.browser_name"
+        :title="$t('CONTACT_PANEL.BROWSER')"
+        :value="browserName"
+        icon="ion-ios-world-outline"
+      />
+      <contact-details-item
+        v-if="browser.platform_name"
+        :title="$t('CONTACT_PANEL.OS')"
+        :value="platformName"
+        icon="ion-laptop"
+      />
+      <contact-details-item
+        v-if="referer"
+        :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+        :value="referer"
+        icon="ion-link"
+      />
+      <contact-details-item
+        v-if="initiatedAt"
+        :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+        :value="initiatedAt.timestamp"
+        icon="ion-clock"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import ContactDetailsItem from './ContactDetailsItem.vue';
 
 export default {
   components: {
+    ContactDetailsItem,
     Thumbnail,
   },
   props: {
@@ -83,31 +78,28 @@ export default {
         'conversationMetadata/getConversationMetadata'
       ](this.conversationId);
     },
+    additionalAttributes() {
+      return this.currentConversationMetaData.additional_attributes || {};
+    },
     browser() {
-      const {
-        additional_attributes: additionalAttributes = {},
-      } = this.currentConversationMetaData;
-      return additionalAttributes ? additionalAttributes.browser : {};
+      return this.additionalAttributes.browser || {};
     },
     referer() {
-      const {
-        additional_attributes: additionalAttributes = {},
-      } = this.currentConversationMetaData;
-      return additionalAttributes ? additionalAttributes.referer : {};
+      return this.additionalAttributes.referer;
     },
     initiatedAt() {
-      const {
-        additional_attributes: additionalAttributes = {},
-      } = this.currentConversationMetaData;
-      return additionalAttributes ? additionalAttributes.initiated_at : {};
+      return this.additionalAttributes.initiated_at;
     },
     browserName() {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
     },
     platformName() {
-      return `${this.browser.platform_name || ''} ${this.browser
-        .platform_version || ''}`;
+      const {
+        platform_name: platformName,
+        platform_version: platformVersion,
+      } = this.browser;
+      return `${platformName || ''} ${platformVersion || ''}`;
     },
     contactId() {
       return this.currentConversationMetaData.contact_id;
@@ -141,13 +133,15 @@ export default {
   @include border-normal-left;
   font-size: $font-size-small;
   overflow-y: auto;
+  background: $color-white;
+  overflow: auto;
 }
 
 .contact--profile {
   width: 100%;
-  padding: $space-normal $space-medium;
+  padding: $space-normal $space-medium $zero;
   align-items: center;
-  border-bottom: 1px solid $color-border;
+
   .user-thumbnail-box {
     margin-right: $space-normal;
   }
@@ -165,11 +159,18 @@ export default {
 }
 
 .contact--name {
+  @include text-ellipsis;
+
   font-weight: $font-weight-bold;
   font-size: $font-size-default;
 }
 
 .contact--email {
+  @include text-ellipsis;
+
+  color: $color-body;
+  display: block;
+  line-height: $space-medium;
   text-decoration: underline;
 }
 
@@ -177,30 +178,23 @@ export default {
   margin-top: $space-normal;
 }
 
-.contact-section--header {
-  background: $color-background;
-  width: 100%;
-  font-size: $font-size-mini;
-  padding: $space-one $space-medium;
-  border-bottom: 1px solid $color-border;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
 .conversation--details {
   padding: $space-normal $space-medium;
   width: 100%;
 }
 
-.conv-details--item {
-  margin-bottom: $space-normal;
-  .conv-details--item__label {
-    font-style: italic;
-    margin-bottom: $space-micro;
+.conversation--labels {
+  padding: $space-medium;
+
+  .icon {
+    margin-right: $space-micro;
+    font-size: $font-size-micro;
+    color: #fff;
   }
 
-  .conv-details--item__value {
-    word-break: break-all;
+  .label {
+    color: #fff;
+    padding: 0.2rem;
   }
 }
 </style>
