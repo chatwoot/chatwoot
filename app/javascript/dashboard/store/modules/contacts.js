@@ -8,13 +8,11 @@ const state = {
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
-    isCreating: false,
     isUpdating: false,
-    isDeleting: false,
   },
 };
 
-const getters = {
+export const getters = {
   getContacts($state) {
     return $state.records;
   },
@@ -29,13 +27,12 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   get: async ({ commit }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const response = await ContactAPI.get();
-      commit(types.default.SET_SELECTED_CONTACT, response.data);
-      commit(types.default.SET_CONTACTS, response.data);
+      commit(types.default.SET_CONTACTS, response.data.payload);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
@@ -53,41 +50,20 @@ const actions = {
     }
   },
 
-  create: async ({ commit }, contactObject) => {
-    commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: true });
-    try {
-      const response = await ContactAPI.create(contactObject);
-      commit(types.default.ADD_CONTACT, response.data);
-      commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: false });
-    } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { isCreating: false });
-    }
-  },
-
   update: async ({ commit }, { id, ...updateObj }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       const response = await ContactAPI.update(id, updateObj);
-      commit(types.default.EDIT_CONTACT, response.data);
+      commit(types.default.EDIT_CONTACT, response.data.payload);
       commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
-    }
-  },
-
-  delete: async ({ commit }, id) => {
-    commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
-    try {
-      await ContactAPI.delete(id);
-      commit(types.default.DELETE_CONTACT, id);
-      commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
-    } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { isDeleting: true });
+      throw new Error(error);
     }
   },
 };
 
-const mutations = {
+export const mutations = {
   [types.default.SET_CONTACT_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,
@@ -97,9 +73,7 @@ const mutations = {
 
   [types.default.SET_CONTACTS]: MutationHelpers.set,
   [types.default.SET_CONTACT_ITEM]: MutationHelpers.setSingleRecord,
-  [types.default.ADD_CONTACT]: MutationHelpers.create,
   [types.default.EDIT_CONTACT]: MutationHelpers.update,
-  [types.default.DELETE_CONTACT]: MutationHelpers.destroy,
 };
 
 export default {

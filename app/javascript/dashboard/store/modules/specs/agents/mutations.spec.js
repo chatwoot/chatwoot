@@ -36,7 +36,7 @@ describe('#mutations', () => {
   });
 
   describe('#EDIT_AGENT', () => {
-    it('sets allMessagesLoaded flag if payload is empty', () => {
+    it('update agent record', () => {
       const state = {
         records: [{ id: 1, name: 'Agent1', email: 'agent1@chatwoot.com' }],
       };
@@ -52,7 +52,7 @@ describe('#mutations', () => {
   });
 
   describe('#DELETE_AGENT', () => {
-    it('sets allMessagesLoaded flag if payload is empty', () => {
+    it('delete agent record', () => {
       const state = {
         records: [{ id: 1, name: 'Agent1', email: 'agent1@chatwoot.com' }],
       };

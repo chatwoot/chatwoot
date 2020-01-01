@@ -5,15 +5,15 @@ const state = {
   records: {},
 };
 
-const getters = {
+export const getters = {
   getConversationMetadata: $state => id => {
     return $state.records[Number(id)] || {};
   },
 };
 
-const actions = {};
+export const actions = {};
 
-const mutations = {
+export const mutations = {
   [types.default.SET_CONVERSATION_METADATA]: ($state, { id, data }) => {
     Vue.set($state.records, id, data);
   },
