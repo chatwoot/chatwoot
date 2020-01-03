@@ -20,16 +20,6 @@ export const IFrameHelper = {
 
 export default {
   name: 'App',
-
-  methods: {
-    ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations']),
-    scrollConversationToBottom() {
-      const container = this.$el.querySelector('.conversation-wrap');
-      container.scrollTop = container.scrollHeight;
-    },
-  },
-
   mounted() {
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
@@ -55,8 +45,18 @@ export default {
         this.fetchOldConversations();
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
+      } else if (message.event === 'set-current-url') {
+        window.refererURL = message.refererURL;
       }
     });
+  },
+  methods: {
+    ...mapActions('appConfig', ['setWidgetColor']),
+    ...mapActions('conversation', ['fetchOldConversations']),
+    scrollConversationToBottom() {
+      const container = this.$el.querySelector('.conversation-wrap');
+      container.scrollTop = container.scrollHeight;
+    },
   },
 };
 </script>

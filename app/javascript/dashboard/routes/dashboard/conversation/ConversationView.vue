@@ -11,7 +11,10 @@
       @contactPanelToggle="onToggleContactPanel"
     >
     </conversation-box>
-    <contact-panel v-if="isContactPanelOpen"></contact-panel>
+    <contact-panel
+      v-if="isContactPanelOpen"
+      :conversation-id="conversationId"
+    />
   </section>
 </template>
 

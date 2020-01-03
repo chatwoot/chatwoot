@@ -1,0 +1,8 @@
+{
+  "CONTACT_PANEL": {
+    "BROWSER": "Browser",
+    "OS": "Operating System",
+    "INITIATED_FROM": "Initiated from",
+    "INITIATED_AT": "Initiated at"
+  }
+}
