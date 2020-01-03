@@ -46,7 +46,7 @@ class ActionCableListener < BaseListener
     return if members.blank?
 
     members.each do |member|
-      ActionCable.server.broadcast(member, event: event_name, data: data)
+      ::PusherCallJob.perform_later(member, event_name, data)
     end
   end
 
