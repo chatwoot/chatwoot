@@ -1,5 +1,7 @@
 json.meta do
   json.labels @conversation.label_list
+  json.additional_attributes @conversation.additional_attributes
+  json.contact_id @conversation.contact_id
 end
 
 json.payload do

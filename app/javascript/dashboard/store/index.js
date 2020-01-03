@@ -6,6 +6,8 @@ import auth from './modules/auth';
 import billing from './modules/billing';
 import cannedResponse from './modules/cannedResponse';
 import Channel from './modules/channels';
+import contacts from './modules/contacts';
+import conversationMetadata from './modules/conversationMetadata';
 import conversations from './modules/conversations';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
@@ -19,6 +21,8 @@ export default new Vuex.Store({
     billing,
     cannedResponse,
     Channel,
+    contacts,
+    conversationMetadata,
     conversations,
     inboxes,
     inboxMembers,
