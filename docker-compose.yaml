@@ -32,7 +32,7 @@ services:
       - mailhog
     ports:
       - 3000:3000
-    env_file: .env.example
+    env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - NODE_ENV=development

@@ -20,7 +20,7 @@ services:
       - redis
     ports:
       - 3000:3000
-    env_file: .env.example ## Change this file for customised env variables
+    env_file: .env ## Change this file for customized env variables
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production

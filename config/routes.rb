@@ -90,12 +90,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Sidekiq Web UI
-  require 'sidekiq/web'
-  authenticate :user, ->(u) { u.administrator? } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
-
   # Used in mailer templates
   resource :app, only: [:index] do
     resources :conversations, only: [:show]
@@ -106,4 +100,25 @@ Rails.application.routes.draw do
 
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  # ----------------------------------------------------------------------
+  # Internal Monitoring Routes
+  require 'sidekiq/web'
+
+  scope :monitoring do
+    # Sidekiq should use basic auth in production environment
+    if Rails.env.production?
+      Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+        ENV['SIDEKIQ_AUTH_USERNAME'] &&
+          ENV['SIDEKIQ_AUTH_PASSWORD'] &&
+          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username),
+                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_USERNAME'])) &&
+          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password),
+                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_PASSWORD']))
+      end
+    end
+
+    mount Sidekiq::Web, at: '/sidekiq'
+  end
+  # ----------------------------------------------------------------------
 end
