@@ -13,6 +13,7 @@
 #  account_id            :integer          not null
 #  assignee_id           :integer
 #  contact_id            :bigint
+#  contact_inboxes_id    :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
 #
@@ -20,6 +21,7 @@
 #
 #  index_conversations_on_account_id                 (account_id)
 #  index_conversations_on_account_id_and_display_id  (account_id,display_id) UNIQUE
+#  index_conversations_on_contact_inboxes_id         (contact_inboxes_id)
 #
 
 class Conversation < ApplicationRecord

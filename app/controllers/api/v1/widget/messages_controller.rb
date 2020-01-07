@@ -42,7 +42,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       account_id: inbox.account_id,
       inbox_id: inbox.id,
       contact_id: @contact.id,
-      contact_inbox_id: @contact_inbox.id,
+      contact_inboxes_id: @contact_inbox.id,
       additional_attributes: {
         browser: browser_params,
         referer: permitted_params[:message][:referer_url],

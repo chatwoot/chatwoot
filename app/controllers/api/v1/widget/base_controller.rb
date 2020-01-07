@@ -3,7 +3,7 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def conversation
     @conversation ||= ::Conversation.find_by(
-      contact_id: @contact_inbox.id,
+      contact_inboxes_id: @contact_inbox.id,
       inbox_id: auth_token_params[:inbox_id]
     )
   end
