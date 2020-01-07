@@ -58,7 +58,6 @@ class User < ApplicationRecord
          :validatable,
          :confirmable
 
-
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id

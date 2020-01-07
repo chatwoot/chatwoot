@@ -53,7 +53,6 @@ module Messages
     end
 
     def attach_file(attachment, file_url)
-      byebug
       file_resource = LocalResource.new(file_url)
       attachment.file.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
     end
