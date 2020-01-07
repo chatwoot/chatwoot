@@ -2,8 +2,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   private
 
   def conversation
-    @conversation ||= ::Conversation.find_by(
-      contact_inboxes_id: @contact_inbox.id,
+    @conversation ||= @contact_inbox.conversation.find_by(
       inbox_id: auth_token_params[:inbox_id]
     )
   end
