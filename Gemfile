@@ -23,6 +23,9 @@ gem 'valid_email2'
 gem 'uglifier'
 
 ##-- for active storage --##
+gem 'aws-sdk-s3', require: false
+gem 'azure-storage', require: false
+gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 
 ##-- gems for database --#
