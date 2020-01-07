@@ -8,7 +8,6 @@ class ContactMergeAction
       merge_contact_inboxes
       remove_mergee_contact
     end
-    @base_contact
   end
 
   private

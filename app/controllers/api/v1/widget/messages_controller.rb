@@ -1,8 +1,8 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
+  before_action :set_web_widget
+  before_action :set_contact
   before_action :set_conversation, only: [:create]
-  before_action :set_web_widget, only: [:update]
   before_action :set_message, only: [:update]
-  before_action :set_contact, only: [:update]
 
   def index
     @messages = conversation.nil? ? [] : message_finder.perform
@@ -16,8 +16,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def update
     @message.update!(input_submitted_email: permitted_params[:contact][:email])
-    token = update_contact(permitted_params[:contact][:email])
-    render json: { token: token }
+    update_contact(permitted_params[:contact][:email])
+    head :no_content
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
   end
@@ -41,7 +41,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     {
       account_id: inbox.account_id,
       inbox_id: inbox.id,
-      contact_id: auth_token_params[:contact_id],
+      contact_id: @contact.id,
+      contact_inbox_id: @contact_inbox.id,
       additional_attributes: {
         browser: browser_params,
         referer: permitted_params[:message][:referer_url],
@@ -84,11 +85,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def update_contact(email)
     contact_with_email = @account.contacts.find_by(email: email)
     if contact_with_email
-      @contact = ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
+      ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
     else
       @contact.update!(permitted_params[:contact])
     end
-    ::Widget::TokenService.new(payload: { contact_id: @contact.id, inbox_id: @web_widget.inbox.id }).generate_token
   end
 
   def permitted_params

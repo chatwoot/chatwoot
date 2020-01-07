@@ -24,9 +24,14 @@ class WidgetsController < ActionController::Base
   end
 
   def set_contact
-    return if @auth_token_params[:contact_id].nil?
+    return if @auth_token_params[:source_id].nil?
 
-    @contact = @web_widget.inbox.contacts.find(@auth_token_params[:contact_id])
+    contact_inbox = ::ContactInbox.find_by(
+      inbox_id: @web_widget.inbox.id,
+      source_id: @auth_token_params[:source_id]
+    )
+
+    @contact = contact_inbox ? contact_inbox.contact : nil
   end
 
   def build_contact
@@ -35,7 +40,7 @@ class WidgetsController < ActionController::Base
     contact_inbox = @web_widget.create_contact_inbox
     @contact = contact_inbox.contact
 
-    payload = { contact_id: @contact.id, inbox_id: @web_widget.inbox.id }
+    payload = { source_id: contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
     @token = ::Widget::TokenService.new(payload: payload).generate_token
   end
 

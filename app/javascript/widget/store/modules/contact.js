@@ -1,5 +1,4 @@
 import { updateContact } from 'widget/api/contact';
-import { IFrameHelper } from '../../App.vue';
 
 const state = {
   uiFlags: {
@@ -15,12 +14,7 @@ const actions = {
   updateContactAttributes: async ({ commit }, { email, messageId }) => {
     commit('toggleUpdateStatus', true);
     try {
-      const response = await updateContact({ email, messageId });
-      const {
-        data: { token },
-      } = response;
-      window.authToken = token;
-      IFrameHelper.sendMessage({ event: 'set_auth_token', authToken: token });
+      await updateContact({ email, messageId });
       commit(
         'conversation/updateMessage',
         {
@@ -32,7 +26,6 @@ const actions = {
     } catch (error) {
       // Ignore error
     }
-
     commit('toggleUpdateStatus', false);
   },
 };

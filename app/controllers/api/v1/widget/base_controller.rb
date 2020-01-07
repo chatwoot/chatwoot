@@ -3,7 +3,7 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def conversation
     @conversation ||= ::Conversation.find_by(
-      contact_id: auth_token_params[:contact_id],
+      contact_id: @contact_inbox.id,
       inbox_id: auth_token_params[:inbox_id]
     )
   end
@@ -22,6 +22,9 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def set_contact
-    @contact = @web_widget.inbox.contacts.find(auth_token_params[:contact_id])
+    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
+      source_id: auth_token_params[:source_id]
+    )
+    @contact = @contact_inbox.contact
   end
 end
