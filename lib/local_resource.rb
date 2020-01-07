@@ -2,7 +2,7 @@ class LocalResource
   attr_reader :uri
 
   def initialize(uri)
-    @uri = uri
+    @uri = URI(uri)
   end
 
   def file
@@ -11,6 +11,7 @@ class LocalResource
       f.write(io.read)
       f.close
     end
+    @file.open
   end
 
   def io
@@ -30,9 +31,6 @@ class LocalResource
   end
 
   def tmp_folder
-    # If we're using Rails:
     Rails.root.join('tmp')
-    # Otherwise:
-    # '/wherever/you/want'
   end
 end

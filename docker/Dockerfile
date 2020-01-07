@@ -70,6 +70,7 @@ RUN apk add --update --no-cache \
     openssl \
     tzdata \
     postgresql-client \
+    imagemagick \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" = "production" ]; then \

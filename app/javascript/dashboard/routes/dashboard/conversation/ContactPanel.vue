@@ -3,7 +3,7 @@
     <div class="contact--profile">
       <div class="contact--info">
         <thumbnail
-          :src="contact.avatar_url"
+          :src="contact.thumbnail"
           size="56px"
           :badge="contact.channel"
           :username="contact.name"

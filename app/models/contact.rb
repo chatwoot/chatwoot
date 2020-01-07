@@ -3,7 +3,6 @@
 # Table name: contacts
 #
 #  id           :integer          not null, primary key
-#  avatar       :string
 #  email        :string
 #  name         :string
 #  phone_number :string
@@ -20,13 +19,13 @@
 
 class Contact < ApplicationRecord
   include Pubsubable
+  include Avatarable
   validates :account_id, presence: true
 
   belongs_to :account
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
-  mount_uploader :avatar, AvatarUploader
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -36,7 +35,7 @@ class Contact < ApplicationRecord
     {
       id: id,
       name: name,
-      thumbnail: avatar.thumb.url,
+      thumbnail: avatar_url,
       pubsub_token: pubsub_token
     }
   end
