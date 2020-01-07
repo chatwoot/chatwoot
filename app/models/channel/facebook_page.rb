@@ -3,7 +3,6 @@
 # Table name: channel_facebook_pages
 #
 #  id                :integer          not null, primary key
-#  avatar            :string
 #  name              :string           not null
 #  page_access_token :string           not null
 #  user_access_token :string           not null
@@ -20,11 +19,13 @@
 
 module Channel
   class FacebookPage < ApplicationRecord
+    include Avatarable
+
     self.table_name = 'channel_facebook_pages'
 
     validates :account_id, presence: true
     validates :page_id, uniqueness: { scope: :account_id }
-    mount_uploader :avatar, AvatarUploader
+    has_one_attached :avatar
     belongs_to :account
 
     has_one :inbox, as: :channel, dependent: :destroy

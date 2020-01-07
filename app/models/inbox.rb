@@ -68,11 +68,10 @@ class Inbox < ApplicationRecord
     Facebook::Messenger::Subscriptions.subscribe(
       access_token: channel.page_access_token,
       subscribed_fields: %w[
-        message_mention messages messaging_account_linking messaging_checkout_updates
-        message_echoes message_deliveries messaging_game_plays messaging_optins messaging_optouts
-        messaging_payments messaging_postbacks messaging_pre_checkouts message_reads messaging_referrals
-        messaging_handovers messaging_policy_enforcement messaging_page_feedback
-        messaging_appointments messaging_direct_sends
+        messages messaging_postbacks messaging_optins message_deliveries
+        message_reads messaging_payments messaging_pre_checkouts messaging_checkout_updates
+        messaging_account_linking messaging_referrals message_echoes messaging_game_plays
+        standby messaging_handovers messaging_policy_enforcement message_reactions
       ]
     )
   end

@@ -6,6 +6,8 @@ inherit_from: .rubocop_todo.yml
 
 Metrics/LineLength:
   Max: 150
+Metrics/ClassLength:
+  Max: 125
 RSpec/ExampleLength:
   Max: 15
 Documentation:

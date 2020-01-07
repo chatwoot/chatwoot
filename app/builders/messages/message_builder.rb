@@ -36,19 +36,26 @@ module Messages
     def build_contact
       return if contact.present?
 
-      @contact = Contact.create!(contact_params)
+      @contact = Contact.create!(contact_params.except(:remote_avatar_url))
+      avatar_resource = LocalResource.new(contact_params[:remote_avatar_url])
+      @contact.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
+
       ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
     end
 
     def build_message
-      @message = conversation.messages.new(message_params)
+      @message = conversation.messages.create!(message_params)
       (response.attachments || []).each do |attachment|
-        @message.build_attachment(attachment_params(attachment))
+        attachment_obj = @message.build_attachment(attachment_params(attachment).except(:remote_file_url))
+        attachment_obj.save!
+        attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
       end
-      @message.save!
     end
 
-    def build_attachment; end
+    def attach_file(attachment, file_url)
+      file_resource = LocalResource.new(file_url)
+      attachment.file.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
+    end
 
     def conversation
       @conversation ||= Conversation.find_by(conversation_params) || Conversation.create!(conversation_params)
@@ -123,7 +130,7 @@ module Messages
       {
         name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
         account_id: @inbox.account_id,
-        remote_avatar_url: result['profile_pic'] || nil
+        remote_avatar_url: result['profile_pic'] || ''
       }
     end
   end

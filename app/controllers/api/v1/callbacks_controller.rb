@@ -12,8 +12,9 @@ class Api::V1::CallbacksController < ApplicationController
     inbox_name = params[:inbox_name]
     facebook_channel = current_account.facebook_pages.create!(
       name: page_name, page_id: page_id, user_access_token: user_access_token,
-      page_access_token: page_access_token, remote_avatar_url: set_avatar(page_id)
+      page_access_token: page_access_token
     )
+    set_avatar(facebook_channel, page_id)
     inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
     render json: inbox
   end
@@ -79,7 +80,12 @@ class Api::V1::CallbacksController < ApplicationController
     end
   end
 
-  def set_avatar(page_id)
+  def set_avatar(facebook_channel, page_id)
+    avatar_resource = LocalResource.new(get_avatar_url(page_id))
+    facebook_channel.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
+  end
+
+  def get_avatar_url(page_id)
     begin
       url = 'http://graph.facebook.com/' << page_id << '/picture?type=large'
       uri = URI.parse(url)
