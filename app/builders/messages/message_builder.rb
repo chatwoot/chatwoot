@@ -44,17 +44,18 @@ module Messages
     end
 
     def build_message
-      @message = conversation.messages.new(message_params)
+      @message = conversation.messages.create!(message_params)
       (response.attachments || []).each do |attachment|
-        attachment = @message.build_attachment(attachment_params(attachment).except(:remote_file_url))
-        attach_file(attachment, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+        attachment_obj = @message.build_attachment(attachment_params(attachment).except(:remote_file_url))
+        attachment_obj.save!
+        attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
       end
-      @message.save!
     end
 
-    def attach_file(attachment, _file_url)
-      file_resource = LocalResource.new(fil_url)
-      attachment.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
+    def attach_file(attachment, file_url)
+      byebug
+      file_resource = LocalResource.new(file_url)
+      attachment.file.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
     end
 
     def conversation

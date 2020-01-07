@@ -19,6 +19,8 @@
 
 module Channel
   class FacebookPage < ApplicationRecord
+    include Avatarable
+
     self.table_name = 'channel_facebook_pages'
 
     validates :account_id, presence: true

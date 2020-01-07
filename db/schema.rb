@@ -157,8 +157,6 @@ ActiveRecord::Schema.define(version: 2019_12_27_191631) do
     t.integer "user_id"
     t.integer "status", default: 0
     t.string "fb_id"
-    t.integer "content_type", default: 0
-    t.json "content_attributes", default: {}
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
