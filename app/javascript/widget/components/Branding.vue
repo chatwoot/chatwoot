@@ -16,22 +16,26 @@
 
 .branding {
   align-items: center;
-  color: $color-gray;
+  color: $color-light-gray;
+  opacity: 0.9;
   display: flex;
   filter: grayscale(1);
-  font-size: $font-size-default;
+  font-size: $font-size-mini;
   justify-content: center;
   padding: $space-one;
   text-align: center;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover {
     filter: grayscale(0);
+    opacity: 1;
+    color: $color-gray;
   }
 
   img {
-    margin-right: $space-small;
-    max-width: $space-two;
+    margin-right: $space-smaller;
+    max-width: $space-slab;
   }
 }
 </style>

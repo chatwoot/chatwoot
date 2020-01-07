@@ -4,11 +4,13 @@
     <ChatSendButton
       :on-click="handleButtonClick"
       :disabled="!userInput.length"
+      :color="widgetColor"
     />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatInputArea from 'widget/components/ChatInputArea.vue';
 
@@ -42,6 +44,11 @@ export default {
     document.addEventListener('keypress', this.handleEnterKeyPress);
   },
 
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+  },
   methods: {
     handleButtonClick() {
       if (this.userInput && this.userInput.trim()) {

@@ -83,7 +83,7 @@ export const SDK_CSS = `
     bottom: 104px;
     right: 20px;
     height: calc(85% - 64px - 20px);
-    width: 370px!important;
+    width: 400px!important;
     min-height: 250px!important;
     max-height: 590px!important;
     -o-border-radius: 8px!important;
