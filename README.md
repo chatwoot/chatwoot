@@ -37,6 +37,11 @@ Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatw
 
 You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-setup).
 
+## Branching model
+
+We use [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
+If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`. 
+
 ## Heroku one-click deploy
 
 Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this button.
