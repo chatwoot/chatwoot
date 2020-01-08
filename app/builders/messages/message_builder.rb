@@ -63,9 +63,9 @@ module Messages
 
     def build_conversation
       @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: @sender_id)
-      Conversation.create!(conversation_params.merge({
-        contact_inbox_id: @contact_inbox.id
-      }))
+      Conversation.create!(conversation_params.merge(
+                             contact_inbox_id: @contact_inbox.id
+                           ))
     end
 
     def attachment_params(attachment)
