@@ -87,8 +87,15 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     if contact_with_email
       ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
     else
-      @contact.update!(permitted_params[:contact])
+      @contact.update!(
+        email: permitted_params[:contact][:email],
+        name: contact_name
+      )
     end
+  end
+
+  def contact_name
+    permitted_params[:contact][:email].split('@')[0]
   end
 
   def permitted_params
