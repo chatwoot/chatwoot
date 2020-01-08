@@ -44,6 +44,7 @@ class Conversation < ApplicationRecord
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :contact
+  belongs_to :contact_inbox
 
   has_many :messages, dependent: :destroy, autosave: true
 

@@ -4,12 +4,12 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
   let(:contact) { create(:contact, account: account) }
-  let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox) }
-  let(:payload) { { contact_id: contact.id, inbox_id: web_widget.inbox.id } }
+  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
+  let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
+  let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
 
   before do
-    create(:contact_inbox, contact: contact, inbox: web_widget.inbox)
     2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) }
   end
 
@@ -48,7 +48,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
   describe 'PUT /api/v1/widget/messages' do
     context 'when put request is made with non existing email' do
-      it 'updates message in conversation and return token for new contact' do
+      it 'updates message in conversation and creates a new contact' do
         message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         contact_params = { email: email }
@@ -59,18 +59,16 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
-        json_response = JSON.parse(response.body)
-        expect(json_response['token']).to eq(token)
         expect(message.input_submitted_email).to eq(email)
+        expect(message.conversation.contact.email).to eq(email)
       end
     end
 
     context 'when put request is made with existing email' do
-      it 'updates message in conversation and return token for existing contact' do
+      it 'updates message in conversation and deletes the current contact' do
         message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
-        existing_contact = create(:contact, account: account, email: email)
-        existing_token = ::Widget::TokenService.new(payload: { contact_id: existing_contact.id, inbox_id: web_widget.inbox.id }).generate_token
+        create(:contact, account: account, email: email)
         contact_params = { email: email }
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
@@ -79,10 +77,6 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
-        json_response = JSON.parse(response.body)
-        expect(json_response['token']).not_to eq(token)
-        # ensure token generated is of the old contact with same email
-        expect(json_response['token']).to eq(existing_token)
         expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

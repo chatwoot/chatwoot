@@ -6,7 +6,6 @@ FactoryBot.define do
     status { 'sent' }
     message_type { 'incoming' }
     content_type { 'text' }
-    fb_id { SecureRandom.uuid }
     account { create(:account) }
 
     after(:build) do |message|
