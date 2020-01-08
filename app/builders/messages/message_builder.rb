@@ -40,7 +40,7 @@ module Messages
       avatar_resource = LocalResource.new(contact_params[:remote_avatar_url])
       @contact.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
 
-      ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
+      @contact_inbox = ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
     end
 
     def build_message
@@ -58,7 +58,14 @@ module Messages
     end
 
     def conversation
-      @conversation ||= Conversation.find_by(conversation_params) || Conversation.create!(conversation_params)
+      @conversation ||= Conversation.find_by(conversation_params) || build_conversation
+    end
+
+    def build_conversation
+      @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: @sender_id)
+      Conversation.create!(conversation_params.merge({
+        contact_inbox_id: @contact_inbox.id
+      }))
     end
 
     def attachment_params(attachment)
