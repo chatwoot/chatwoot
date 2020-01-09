@@ -29,6 +29,8 @@ Rails/ApplicationController:
     - 'app/controllers/widgets_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
+  Exclude:
+    - 'config/application.rb'
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
