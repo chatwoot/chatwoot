@@ -1,4 +1,5 @@
 class Api::V1::Widget::MessagesController < ActionController::Base
+  skip_before_action :verify_authenticity_token
   before_action :set_conversation, only: [:create]
 
   def index
