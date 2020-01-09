@@ -8,7 +8,7 @@ class AddContactInboxToConversation < ActiveRecord::Migration[6.0]
         inbox_id: conversation.inbox_id
       )
 
-      conversation.update!(contact_inbox_id: contact_inbox.id)
+      conversation.update!(contact_inbox_id: contact_inbox.id) if contact_inbox
     end
   end
 end
