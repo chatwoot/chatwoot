@@ -14,7 +14,8 @@ describe Facebook::SendReplyService do
   let!(:facebook_channel) { create(:facebook_page, account: account) }
   let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
   let!(:contact) { create(:contact, account: account) }
-  let(:conversation) { create(:conversation, contact: contact, inbox: facebook_inbox) }
+  let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: facebook_inbox) }
+  let(:conversation) { create(:conversation, contact: contact, inbox: facebook_inbox, contact_inbox: contact_inbox) }
 
   describe '#perform' do
     context 'without reply' do
@@ -41,7 +42,6 @@ describe Facebook::SendReplyService do
 
     context 'with reply' do
       it 'if message is sent from chatwoot and is outgoing' do
-        create(:contact_inbox, contact: contact, inbox: facebook_inbox)
         create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
         create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         expect(bot).to have_received(:deliver)

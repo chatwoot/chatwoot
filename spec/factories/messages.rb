@@ -5,9 +5,13 @@ FactoryBot.define do
     content { 'Message' }
     status { 'sent' }
     message_type { 'incoming' }
-    account
-    inbox
-    conversation
-    user
+    content_type { 'text' }
+    account { create(:account) }
+
+    after(:build) do |message|
+      message.user ||= create(:user, account: message.account)
+      message.conversation ||= create(:conversation, account: message.account)
+      message.inbox ||= create(:inbox, account: message.account)
+    end
   end
 end

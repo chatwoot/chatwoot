@@ -1,34 +1,30 @@
 # frozen_string_literal: true
 
-module Integrations
-  module Facebook
-    class DeliveryStatus
-      def initialize(params)
-        @params = params
-      end
+class Integrations::Facebook::DeliveryStatus
+  def initialize(params)
+    @params = params
+  end
 
-      def perform
-        update_message_status
-      end
+  def perform
+    update_message_status
+  end
 
-      private
+  private
 
-      def sender_id
-        @params.sender['id']
-      end
+  def sender_id
+    @params.sender['id']
+  end
 
-      def contact
-        ::ContactInbox.find_by(source_id: sender_id).contact
-      end
+  def contact
+    ::ContactInbox.find_by(source_id: sender_id).contact
+  end
 
-      def conversation
-        @conversation ||= ::Conversation.find_by(contact_id: contact.id)
-      end
+  def conversation
+    @conversation ||= ::Conversation.find_by(contact_id: contact.id)
+  end
 
-      def update_message_status
-        conversation.user_last_seen_at = @params.at
-        conversation.save!
-      end
-    end
+  def update_message_status
+    conversation.user_last_seen_at = @params.at
+    conversation.save!
   end
 end

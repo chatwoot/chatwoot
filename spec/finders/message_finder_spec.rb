@@ -21,7 +21,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 4
+        expect(result.count).to be 7
       end
     end
 
@@ -30,7 +30,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 2
+        expect(result.count).to be 5
       end
     end
 
@@ -40,7 +40,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 4
+        expect(result.count).to be 7
       end
     end
   end

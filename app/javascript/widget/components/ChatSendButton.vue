@@ -6,7 +6,7 @@
     @click="onClick"
   >
     <span v-if="!loading" class="icon-holder">
-      <img src="~widget/assets/images/message-send.svg" />
+      <i class="ion-android-send" />
     </span>
     <spinner v-else size="small" />
   </button>
@@ -51,6 +51,7 @@ export default {
     align-items: center;
     justify-content: center;
     fill: $color-white;
+    font-size: $font-size-big;
     font-weight: $font-weight-medium;
   }
 }

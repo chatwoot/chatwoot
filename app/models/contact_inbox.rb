@@ -29,4 +29,6 @@ class ContactInbox < ApplicationRecord
 
   belongs_to :contact
   belongs_to :inbox
+
+  has_many :conversations, dependent: :destroy
 end

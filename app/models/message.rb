@@ -2,18 +2,20 @@
 #
 # Table name: messages
 #
-#  id              :integer          not null, primary key
-#  content         :text
-#  message_type    :integer          not null
-#  private         :boolean          default(FALSE)
-#  status          :integer          default("sent")
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :integer          not null
-#  conversation_id :integer          not null
-#  fb_id           :string
-#  inbox_id        :integer          not null
-#  user_id         :integer
+#  id                 :integer          not null, primary key
+#  content            :text
+#  content_attributes :json
+#  content_type       :integer          default("text")
+#  message_type       :integer          not null
+#  private            :boolean          default(FALSE)
+#  status             :integer          default("sent")
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer          not null
+#  conversation_id    :integer          not null
+#  fb_id              :string
+#  inbox_id           :integer          not null
+#  user_id            :integer
 #
 # Indexes
 #
@@ -27,8 +29,10 @@ class Message < ApplicationRecord
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
 
-  enum message_type: [:incoming, :outgoing, :activity]
-  enum status: [:sent, :delivered, :read, :failed]
+  enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
+  enum content_type: { text: 0, input: 1, input_textarea: 2, input_email: 3 }
+  enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
+  store :content_attributes, accessors: [:submitted_email], coder: JSON, prefix: :input
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -44,7 +48,8 @@ class Message < ApplicationRecord
 
   after_create :reopen_conversation,
                :dispatch_event,
-               :send_reply
+               :send_reply,
+               :execute_message_template_hooks
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -80,5 +85,9 @@ class Message < ApplicationRecord
       conversation.toggle_status
       Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: conversation)
     end
+  end
+
+  def execute_message_template_hooks
+    ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 end
