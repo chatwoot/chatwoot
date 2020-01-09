@@ -9,4 +9,6 @@ export const MESSAGE_STATUS = {
 export const MESSAGE_TYPE = {
   INCOMING: 0,
   OUTGOING: 1,
+  ACTIVITY: 2,
+  TEMPLATE: 3,
 };

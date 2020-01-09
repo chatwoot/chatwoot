@@ -50,3 +50,7 @@ en:
       assignee:
         assigned: "Assigned to %{assignee_name} by %{user_name}"
         removed: "Conversation unassigned by %{user_name}"
+    templates:
+      typical_reply_message_body: "%{account_name} typically replies in a few hours."
+      ways_to_reach_you_message_body: "Give the team a way to reach you."
+      email_input_box_message_body: "Get notified by email"

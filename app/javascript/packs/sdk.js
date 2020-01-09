@@ -120,7 +120,7 @@ const IFrameHelper = {
   createFrame: ({ baseUrl, websiteToken }) => {
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = `${baseUrl}/widgets?website_token=${websiteToken}`;
+    let widgetUrl = `${baseUrl}/widget?website_token=${websiteToken}`;
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
@@ -143,6 +143,18 @@ const IFrameHelper = {
     );
   },
   initPostMessageCommunication: () => {
+    const events = {
+      loaded: message => {
+        Cookies.set('cw_conversation', message.config.authToken);
+        IFrameHelper.sendMessage('config-set', {});
+        IFrameHelper.onLoad(message.config.channelConfig);
+        IFrameHelper.setCurrentUrl();
+      },
+      set_auth_token: message => {
+        Cookies.set('cw_conversation', message.authToken);
+      },
+    };
+
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
@@ -151,11 +163,8 @@ const IFrameHelper = {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      if (message.event === 'loaded') {
-        Cookies.set('cw_conversation', message.config.authToken);
-        IFrameHelper.sendMessage('config-set', {});
-        IFrameHelper.onLoad(message.config.channelConfig);
-        IFrameHelper.setCurrentUrl();
+      if (typeof events[message.event] === 'function') {
+        events[message.event](message);
       }
     };
   },
@@ -195,7 +204,6 @@ const IFrameHelper = {
     onClickChatBubble();
   },
   setCurrentUrl: () => {
-    console.log(IFrameHelper.getAppFrame(), document);
     IFrameHelper.sendMessage('set-current-url', {
       refererURL: window.location.href,
     });
