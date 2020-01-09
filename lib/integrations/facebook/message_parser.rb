@@ -1,52 +1,48 @@
 # frozen_string_literal: true
 
-module Integrations
-  module Facebook
-    class MessageParser
-      def initialize(response_json)
-        @response = response_json
-      end
+class Integrations::Facebook::MessageParser
+  def initialize(response_json)
+    @response = response_json
+  end
 
-      def sender_id
-        @response.sender['id']
-      end
+  def sender_id
+    @response.sender['id']
+  end
 
-      def recipient_id
-        @response.recipient['id']
-      end
+  def recipient_id
+    @response.recipient['id']
+  end
 
-      def time_stamp
-        @response.sent_at
-      end
+  def time_stamp
+    @response.sent_at
+  end
 
-      def content
-        @response.text
-      end
+  def content
+    @response.text
+  end
 
-      def sequence
-        @response.seq
-      end
+  def sequence
+    @response.seq
+  end
 
-      def attachments
-        @response.attachments
-      end
+  def attachments
+    @response.attachments
+  end
 
-      def identifier
-        @response.id
-      end
+  def identifier
+    @response.id
+  end
 
-      def echo?
-        @response.echo?
-      end
+  def echo?
+    @response.echo?
+  end
 
-      def app_id
-        @response.app_id
-      end
+  def app_id
+    @response.app_id
+  end
 
-      def sent_from_chatwoot_app?
-        app_id && app_id == ENV['FB_APP_ID'].to_i
-      end
-    end
+  def sent_from_chatwoot_app?
+    app_id && app_id == ENV['FB_APP_ID'].to_i
   end
 end
 
