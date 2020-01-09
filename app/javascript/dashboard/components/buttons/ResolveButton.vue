@@ -15,7 +15,7 @@
 /* eslint no-console: 0 */
 /* global bus */
 import { mapGetters } from 'vuex';
-import Spinner from '../Spinner';
+import Spinner from 'shared/components/Spinner';
 
 export default {
   props: ['conversationId'],
