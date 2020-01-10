@@ -51,6 +51,10 @@ export default {
   box-shadow: 0 10px 15px -16px rgba(0, 0, 0, 0.1),
     0 4px 6px -8px rgba(0, 0, 0, 0.05) !important;
 
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    border-radius: 0;
+  }
+
   .logo {
     width: 64px;
     height: 64px;
