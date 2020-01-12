@@ -1,10 +1,10 @@
 <template>
   <header class="header-expanded">
     <div>
-      <img
+      <!-- <img
         class="logo"
         src="http://www.hennigcompany.com/wp-content/uploads/2014/06/starbucks-logo.png"
-      />
+      /> -->
       <h2 class="title">
         {{ introHeading }}
       </h2>

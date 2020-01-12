@@ -20,11 +20,11 @@
   opacity: 0.9;
   display: flex;
   filter: grayscale(1);
-  font-size: $font-size-mini;
+  font-size: $font-size-small;
   justify-content: center;
-  padding: $space-one;
   text-align: center;
   text-decoration: none;
+  padding: $space-slab 0;
   cursor: pointer;
 
   &:hover {
