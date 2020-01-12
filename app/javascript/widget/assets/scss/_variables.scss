@@ -57,6 +57,9 @@ $color-background-light: #fafafa;
 $color-white: #fff;
 $color-body: #3c4858;
 $color-heading: #1f2d3d;
+$color-error: #ff4949;
+
+
 // Thumbnail
 $thumbnail-radius: 4rem;
 
@@ -89,3 +92,8 @@ $footer-height: 11.2rem;
 $header-expanded-height: $space-medium * 10;
 
 $font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$ionicons-font-path: '~ionicons/fonts';
+
+$spinkit-spinner-color: $color-white !default;
+$spinkit-spinner-margin: 0 0 0 1.6rem !default;
+$spinkit-size: 1.6rem !default;

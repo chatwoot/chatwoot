@@ -57,18 +57,16 @@ RSpec.describe Conversation, type: :model do
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
 
-      # create_activity
-      expect(conversation.messages.pluck(:content)).to eq(
-        [
-          "Conversation was marked resolved by #{old_assignee.name}",
-          "Assigned to #{new_assignee.name} by #{old_assignee.name}"
-        ]
-      )
-
       # send_email_notification_to_assignee
       expect(AssignmentMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
 
       expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
+    end
+
+    it 'creates conversation activities' do
+      # create_activity
+      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
     end
   end
 
@@ -169,7 +167,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'returns unread messages' do
-      expect(unread_messages).to contain_exactly(message)
+      expect(unread_messages).to include(message)
     end
   end
 

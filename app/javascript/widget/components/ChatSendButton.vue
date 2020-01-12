@@ -58,6 +58,7 @@ export default {
     align-items: center;
     justify-content: center;
     fill: $color-white;
+    font-size: $font-size-big;
     font-weight: $font-weight-medium;
     width: $space-two;
     height: $space-two;
