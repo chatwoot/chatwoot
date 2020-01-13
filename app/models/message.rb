@@ -66,6 +66,10 @@ class Message < ApplicationRecord
     data
   end
 
+  def reportable?
+    incoming? || outgoing?
+  end
+
   private
 
   def dispatch_event
