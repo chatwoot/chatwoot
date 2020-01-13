@@ -5,6 +5,7 @@
     @click="cardClick(chat)"
   >
     <Thumbnail
+      v-if="!hideThumbnail"
       :src="chat.meta.sender.thumbnail"
       :badge="chat.meta.sender.channel"
       class="columns"
@@ -15,7 +16,7 @@
       <h4 class="conversation--user">
         {{ chat.meta.sender.name }}
         <span
-          v-if="isInboxNameVisible"
+          v-if="!hideInboxName && isInboxNameVisible"
           v-tooltip.bottom="inboxName(chat.inbox_id)"
           class="label"
         >
@@ -57,6 +58,14 @@ export default {
     chat: {
       type: Object,
       default: () => {},
+    },
+    hideInboxName: {
+      type: Boolean,
+      default: false,
+    },
+    hideThumbnail: {
+      type: Boolean,
+      default: false,
     },
   },
 
