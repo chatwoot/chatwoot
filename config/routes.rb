@@ -37,7 +37,6 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy]
       resources :agents, except: [:show, :edit, :new]
-      resources :contacts, only: [:index, :show, :update, :create]
       resources :labels, only: [:index]
       resources :canned_responses, except: [:show, :edit, :new]
       resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -70,6 +69,12 @@ Rails.application.routes.draw do
           post :toggle_status
           post :update_last_seen
           get :get_messages
+        end
+      end
+
+      resources :contacts, only: [:index, :show, :update, :create] do
+        scope module: :contacts do
+          resources :conversations, only: [:index]
         end
       end
 
