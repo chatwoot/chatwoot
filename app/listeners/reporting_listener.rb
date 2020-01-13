@@ -25,10 +25,10 @@ class ReportingListener < BaseListener
 
   def message_created(event)
     message, account, timestamp = extract_message_and_account(event)
-    if message.outgoing?
-      ::Reports::UpdateAccountIdentity.new(account, timestamp).incr_outgoing_messages_count
-    else
-      ::Reports::UpdateAccountIdentity.new(account, timestamp).incr_incoming_messages_count
-    end
+
+    return unless message.reportable?
+
+    identity = ::Reports::UpdateAccountIdentity.new(account, timestamp)
+    message.outgoing? ? identity.incr_outgoing_messages_count : identity.incr_incoming_messages_count
   end
 end
