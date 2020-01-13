@@ -15,8 +15,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def update
-    @message.update!(input_submitted_email: permitted_params[:contact][:email])
-    update_contact(permitted_params[:contact][:email])
+    @message.update!(input_submitted_email: contact_email)
+    update_contact(contact_email)
     head :no_content
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
@@ -88,14 +88,18 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
     else
       @contact.update!(
-        email: permitted_params[:contact][:email],
+        email: email,
         name: contact_name
       )
     end
   end
 
+  def contact_email
+    permitted_params[:contact][:email].downcase
+  end
+
   def contact_name
-    permitted_params[:contact][:email].split('@')[0]
+    contact_email.split('@')[0]
   end
 
   def permitted_params
