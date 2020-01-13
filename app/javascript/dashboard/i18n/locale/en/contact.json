@@ -3,6 +3,10 @@
     "BROWSER": "Browser",
     "OS": "Operating System",
     "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at"
+    "INITIATED_AT": "Initiated at",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
+      "TITLE": "Previous Conversations"
+    }
   }
 }

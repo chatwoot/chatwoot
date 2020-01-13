@@ -4,7 +4,7 @@
       <i :class="icon" class="conv-details--item__icon"></i>
       {{ title }}
     </div>
-    <div class="conv-details--item__value">
+    <div v-if="value" class="conv-details--item__value">
       {{ value }}
     </div>
   </div>
