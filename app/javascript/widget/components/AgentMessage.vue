@@ -101,10 +101,10 @@ export default {
 
   .agent-name {
     color: $color-body;
-    font-size: $font-size-default;
+    font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    margin-bottom: $space-small;
-    margin-top: $space-small;
+    margin: $space-small 0;
+    padding-left: $space-micro;
   }
 }
 </style>

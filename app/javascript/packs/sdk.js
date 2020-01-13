@@ -151,6 +151,9 @@ const IFrameHelper = {
       set_auth_token: message => {
         Cookies.set('cw_conversation', message.authToken);
       },
+      toggleBubble: () => {
+        bubbleClickCallback();
+      },
     };
 
     window.onmessage = e => {

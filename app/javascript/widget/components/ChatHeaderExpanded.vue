@@ -47,7 +47,7 @@ export default {
   padding: $space-larger $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;
-  border-radius: 1.6rem;
+  border-radius: $space-normal;
   box-shadow: 0 10px 15px -16px rgba(0, 0, 0, 0.1),
     0 4px 6px -8px rgba(0, 0, 0, 0.05) !important;
 
