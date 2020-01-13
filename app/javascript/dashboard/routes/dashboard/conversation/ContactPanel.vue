@@ -54,15 +54,22 @@
         icon="ion-clock"
       />
     </div>
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
   </div>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
+import ContactConversations from './ContactConversations.vue';
 
 export default {
   components: {
+    ContactConversations,
     ContactDetailsItem,
     Thumbnail,
   },
@@ -179,7 +186,7 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-normal $space-medium;
+  padding: $space-medium;
   width: 100%;
 }
 
