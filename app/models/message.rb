@@ -61,6 +61,10 @@ class Message < ApplicationRecord
     data
   end
 
+  def reportable?
+    !activity?
+  end
+
   private
 
   def dispatch_event
