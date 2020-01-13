@@ -62,7 +62,7 @@ class Message < ApplicationRecord
   end
 
   def reportable?
-    !activity?
+    incoming? || outgoing?
   end
 
   private
