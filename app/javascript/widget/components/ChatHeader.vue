@@ -66,9 +66,9 @@ export default {
     &:after {
       position: absolute;
       left: 0;
-      top: 0;
+      top: $space-smaller;
       content: ' ';
-      height: 24px;
+      height: $space-normal;
       width: 2px;
       background-color: $color-heading;
     }
@@ -77,10 +77,6 @@ export default {
     }
     &:after {
       transform: rotate(-45deg);
-    }
-
-    @media only screen and (max-width: $break-point-medium) {
-      display: none;
     }
   }
 }
