@@ -38,6 +38,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .header-collapsed {
   display: flex;
@@ -49,8 +50,7 @@ export default {
   color: $color-white;
   border-bottom-left-radius: $space-small;
   border-bottom-right-radius: $space-small;
-  box-shadow: 0 10px 15px -16px rgba(0, 0, 0, 0.1),
-    0 4px 6px -8px rgba(0, 0, 0, 0.05) !important;
+  @include shadow-large;
 
   .title {
     font-size: $font-size-large;
@@ -77,6 +77,10 @@ export default {
     }
     &:after {
       transform: rotate(-45deg);
+    }
+
+    @media only screen and (max-width: $break-point-medium) {
+      display: none;
     }
   }
 }

@@ -13,8 +13,59 @@ $shadow-color-4: rgba(0, 0, 0, .05);
 }
 
 @mixin placeholder {
-  &::-webkit-input-placeholder {@content}
-  &:-moz-placeholder           {@content}
-  &::-moz-placeholder          {@content}
-  &:-ms-input-placeholder      {@content}
+  &::-webkit-input-placeholder {
+    @content
+  }
+
+  &:-moz-placeholder {
+    @content
+  }
+
+  &::-moz-placeholder {
+    @content
+  }
+
+  &:-ms-input-placeholder {
+    @content
+  }
+}
+
+@mixin shadow {
+  box-shadow: 0 1px 10px -4 rgba(0, 0, 0, 0.1),
+    0 1px 5px 2px rgba(0, 0, 0, 0.06);
+}
+
+
+@mixin shadow-medium {
+  box-shadow: 0 4px 6px -8px rgba(0, 0, 0, 0.1),
+    0 2px 4px -4px rgba(0, 0, 0, 0.06);
+}
+
+
+@mixin shadow-large {
+  box-shadow: 0 10px 15px -16px rgba(0, 0, 0, 0.1),
+    0 4px 6px -8px rgba(0, 0, 0, 0.05);
+}
+
+
+@mixin shadow-big {
+  box-shadow: 0 20px 25px -20px rgba(0, 0, 0, 0.1),
+    0 10px 10px -10px rgba(0, 0, 0, 0.04);
+}
+
+
+@mixin shadow-mega {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+@mixin shadow-inner {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+@mixin shadow-outline {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+@mixin shadow-none {
+  box-shadow: none;
 }

@@ -41,6 +41,7 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .header-expanded {
   background: $color-white;
@@ -48,8 +49,7 @@ export default {
   width: 100%;
   box-sizing: border-box;
   border-radius: $space-normal;
-  box-shadow: 0 10px 15px -16px rgba(0, 0, 0, 0.1),
-    0 4px 6px -8px rgba(0, 0, 0, 0.05) !important;
+  @include shadow-large;
 
   @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
     border-radius: 0;

@@ -71,7 +71,7 @@ export default {
     max-width: 88%;
 
     & + .agent-message {
-      margin-bottom: $space-smaller;
+      margin-bottom: $space-micro;
 
       .chat-bubble {
         border-top-left-radius: $space-smaller;

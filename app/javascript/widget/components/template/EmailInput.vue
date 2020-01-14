@@ -102,6 +102,8 @@ export default {
     border-top-left-radius: 0;
     font-size: $font-size-large;
     height: auto;
+    padding-left: $space-small;
+    padding-right: $space-small;
     margin-left: -1px;
 
     .spinner {
