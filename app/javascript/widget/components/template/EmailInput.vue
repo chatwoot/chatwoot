@@ -17,7 +17,7 @@
         :disabled="$v.email.$invalid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!uiFlags.isUpdating" class="ion-android-arrow-forward" />
+        <i v-if="!uiFlags.isUpdating" class="ion-ios-arrow-forward" />
         <spinner v-else />
       </button>
     </form>

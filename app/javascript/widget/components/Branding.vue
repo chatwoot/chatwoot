@@ -24,7 +24,7 @@
   justify-content: center;
   text-align: center;
   text-decoration: none;
-  padding: $space-slab 0;
+  padding: $space-normal 0 $space-slab;
   cursor: pointer;
 
   &:hover {

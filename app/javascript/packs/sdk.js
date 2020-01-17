@@ -140,19 +140,21 @@ const IFrameHelper = {
       '*'
     );
   },
+  events: {
+    loaded: message => {
+      Cookies.set('cw_conversation', message.config.authToken);
+      IFrameHelper.sendMessage('config-set', {});
+      IFrameHelper.onLoad(message.config.channelConfig);
+      IFrameHelper.setCurrentUrl();
+    },
+    set_auth_token: message => {
+      Cookies.set('cw_conversation', message.authToken);
+    },
+    toggleBubble: () => {
+      bubbleClickCallback();
+    },
+  },
   initPostMessageCommunication: () => {
-    const events = {
-      loaded: message => {
-        Cookies.set('cw_conversation', message.config.authToken);
-        IFrameHelper.sendMessage('config-set', {});
-        IFrameHelper.onLoad(message.config.channelConfig);
-        IFrameHelper.setCurrentUrl();
-      },
-      set_auth_token: message => {
-        Cookies.set('cw_conversation', message.authToken);
-      },
-    };
-
     window.onmessage = e => {
       if (
         typeof e.data !== 'string' ||
@@ -161,8 +163,8 @@ const IFrameHelper = {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      if (typeof events[message.event] === 'function') {
-        events[message.event](message);
+      if (typeof IFrameHelper.events[message.event] === 'function') {
+        IFrameHelper.events[message.event](message);
       }
     };
   },

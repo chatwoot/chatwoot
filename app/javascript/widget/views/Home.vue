@@ -75,6 +75,21 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: -$space-normal;
+      left: 0;
+      width: 100%;
+      height: $space-normal;
+      background: linear-gradient(
+        to top,
+        $color-background,
+        rgba($color-background, 0)
+      );
+    }
   }
 
   .input-wrap {
