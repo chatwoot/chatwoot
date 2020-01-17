@@ -55,10 +55,10 @@ export const SDK_CSS = ` .woot-widget-holder {
 }
 .woot--close:before, .woot--close:after {
   position: absolute;
-  left: 30px;
-  top: 15px;
+  left: 32px;
+  top: 20px;
   content: ' ';
-  height: 33px;
+  height: 24px;
   width: 2px;
   background-color: white;
 }
@@ -86,17 +86,10 @@ export const SDK_CSS = ` .woot-widget-holder {
   }
 
   .woot-widget-bubble.woot--close {
-    top: 8px;
-    right: 8px;
-    box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    -o-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    background: transparent !important;
-  }
-
-  .woot--close:before, .woot--close:after {
-    background-color: black;
+    visibility: hidden !important;
+    z-index: -1 !important;
+    opacity: 0;
+    bottom: 60px;
   }
 }
 

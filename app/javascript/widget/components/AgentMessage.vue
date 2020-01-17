@@ -71,7 +71,7 @@ export default {
     max-width: 88%;
 
     & + .agent-message {
-      margin-bottom: $space-smaller;
+      margin-bottom: $space-micro;
 
       .chat-bubble {
         border-top-left-radius: $space-smaller;
@@ -101,10 +101,10 @@ export default {
 
   .agent-name {
     color: $color-body;
-    font-size: $font-size-default;
+    font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    margin-bottom: $space-small;
-    margin-top: $space-small;
+    margin: $space-small 0;
+    padding-left: $space-micro;
   }
 }
 </style>
