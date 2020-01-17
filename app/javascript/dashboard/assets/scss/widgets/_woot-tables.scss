@@ -21,7 +21,7 @@ table {
   tr {
     .show-if-hover {
       opacity: 0;
-      transition: all .2s $ease-in-out-cubic;
+      transition: all 0.2s $ease-in-out-cubic;
     }
 
     &:hover {

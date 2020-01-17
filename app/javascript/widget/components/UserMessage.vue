@@ -46,6 +46,7 @@ export default {
     }
     & + .agent-message {
       margin-top: $space-normal;
+      margin-bottom: $space-micro;
     }
     .message-wrap {
       margin-right: $space-small;

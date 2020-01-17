@@ -27,6 +27,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .footer {
   background: $color-white;
@@ -34,8 +35,7 @@ export default {
   padding: $space-small $space-slab;
   width: 100%;
   border-radius: 7px;
-  box-shadow: 0 20px 25px -10px rgba(0, 0, 0, 0.1),
-    0 10px 10px -10px rgba(0, 0, 0, 0.04) !important;
+  @include shadow-big;
 }
 
 .branding {
