@@ -84,6 +84,7 @@ export default {
       left: 0;
       width: 100%;
       height: $space-normal;
+      opacity: 0.1;
       background: linear-gradient(
         to top,
         $color-background,
