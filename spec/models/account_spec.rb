@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe Account do
   it { is_expected.to validate_presence_of(:name) }
 
-  it { is_expected.to have_many(:users).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:account_users) }
+  it { is_expected.to have_many(:account_users) }
   it { is_expected.to have_many(:inboxes).dependent(:destroy) }
   it { is_expected.to have_many(:conversations).dependent(:destroy) }
   it { is_expected.to have_many(:contacts).dependent(:destroy) }

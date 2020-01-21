@@ -10,10 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_190208) do
+ActiveRecord::Schema.define(version: 2020_01_21_220431) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "account_users", force: :cascade do |t|
+    t.bigint "account_id"
+    t.bigint "user_id"
+    t.integer "role", default: 0
+    t.bigint "inviter_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
+    t.index ["account_id"], name: "index_account_users_on_account_id"
+    t.index ["user_id"], name: "index_account_users_on_user_id"
+  end
 
   create_table "accounts", id: :serial, force: :cascade do |t|
     t.string "name", null: false
@@ -241,22 +253,19 @@ ActiveRecord::Schema.define(version: 2020_01_24_190208) do
     t.string "nickname"
     t.string "email"
     t.json "tokens"
-    t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
-    t.integer "role", default: 0
-    t.bigint "inviter_id"
     t.index ["email"], name: "index_users_on_email"
-    t.index ["inviter_id"], name: "index_users_on_inviter_id"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "account_users", "accounts"
+  add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
-  add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end

@@ -13,7 +13,8 @@ class Account < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :users, dependent: :destroy
+  has_many :account_users, dependent: :destroy
+  has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
