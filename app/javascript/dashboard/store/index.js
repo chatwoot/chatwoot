@@ -9,6 +9,7 @@ import Channel from './modules/channels';
 import contacts from './modules/contacts';
 import contactConversations from './modules/contactConversations';
 import conversationMetadata from './modules/conversationMetadata';
+import conversationLabels from './modules/conversationLabels';
 import conversations from './modules/conversations';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     Channel,
     contacts,
     contactConversations,
+    conversationLabels,
     conversationMetadata,
     conversations,
     inboxes,
