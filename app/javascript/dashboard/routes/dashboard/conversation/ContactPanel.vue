@@ -59,18 +59,22 @@
       :contact-id="contact.id"
       :conversation-id="conversationId"
     />
+
+    <conversation-labels :conversation-id="conversationId" />
   </div>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactConversations from './ContactConversations.vue';
+import ContactDetailsItem from './ContactDetailsItem.vue';
+import ConversationLabels from './ConversationLabels.vue';
 
 export default {
   components: {
     ContactConversations,
     ContactDetailsItem,
+    ConversationLabels,
     Thumbnail,
   },
   props: {
