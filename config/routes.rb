@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :messages, only: [:index, :create, :update]
         resources :inboxes, only: [:create, :update]
+        resources :inbox_members, only: [:index]
       end
 
       namespace :actions do
