@@ -53,7 +53,7 @@ FRONTEND_URL='http://localhost:3000'
 
 Chatwoot uses [active storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) for storing attachments. The default storage option is the local storage on your server. 
 
-But you can change it to use any of the cloud providers like amazon s3, microsoft azure and google gcs etc. Refer [configuring cloud storage]((./configuring-cloud-storage) for additional environment variables required.
+But you can change it to use any of the cloud providers like amazon s3, microsoft azure and google gcs etc. Refer [configuring cloud storage](./configuring-cloud-storage) for additional environment variables required.
 
 ```bash
 ACTIVE_STORAGE_SERVICE='local'
