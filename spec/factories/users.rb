@@ -18,9 +18,7 @@ FactoryBot.define do
 
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.skip_confirmation
-      if evaluator.account
-        account_user = create(:account_user, user: user, account: evaluator.account, role: evaluator.role, inviter: evaluator.inviter)
-      end
+      create(:account_user, user: user, account: evaluator.account, role: evaluator.role, inviter: evaluator.inviter) if evaluator.account
     end
 
     trait :with_avatar do
