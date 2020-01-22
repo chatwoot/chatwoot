@@ -3,7 +3,7 @@ class AssignmentMailer < ApplicationMailer
   layout 'mailer'
 
   def conversation_assigned(conversation, agent)
-    return if ENV.fetch('SMTP_ADDRESS', nil).blank?
+    return unless smtp_config_set_or_development?
 
     @agent = agent
     @conversation = conversation

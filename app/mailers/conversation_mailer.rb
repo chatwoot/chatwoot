@@ -3,7 +3,7 @@ class ConversationMailer < ApplicationMailer
   layout 'mailer'
 
   def new_message(conversation, message_queued_time)
-    # return if ENV.fetch('SMTP_ADDRESS', nil).blank?
+    return unless smtp_config_set_or_development?
 
     @conversation = conversation
     @contact = @conversation.contact
