@@ -16,6 +16,10 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Style/GlobalVars:
+  Exclude:
+    - 'config/initializers/redis.rb'
+    - 'lib/redis/alfred.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
