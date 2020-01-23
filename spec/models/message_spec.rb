@@ -22,5 +22,11 @@ RSpec.describe Message, type: :model do
       expect(::MessageTemplates::HookExecutionService).to have_received(:new).with(message: message)
       expect(hook_execution_service).to have_received(:perform)
     end
+
+    it 'calls notify email method on after save' do
+      allow(message).to receive(:notify_via_mail).and_return(true)
+      message.save!
+      expect(message).to have_received(:notify_via_mail)
+    end
   end
 end

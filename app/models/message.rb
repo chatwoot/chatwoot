@@ -49,7 +49,8 @@ class Message < ApplicationRecord
   after_create :reopen_conversation,
                :dispatch_event,
                :send_reply,
-               :execute_message_template_hooks
+               :execute_message_template_hooks,
+               :notify_via_mail
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -93,5 +94,18 @@ class Message < ApplicationRecord
 
   def execute_message_template_hooks
     ::MessageTemplates::HookExecutionService.new(message: self).perform
+  end
+
+  def notify_via_mail
+    conversation_mail_key = Redis::Alfred::CONVERSATION_MAILER_KEY % conversation.id
+    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing?
+      # set a redis key for the conversation so that we don't need to send email for every
+      # new message that comes in and we dont enque the delayed sidekiq job for every message
+      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+
+      # Since this is live chat, send the email after few minutes so the only one email with
+      # last few messages coupled together is sent rather than email for each message
+      ConversationEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
+    end
   end
 end
