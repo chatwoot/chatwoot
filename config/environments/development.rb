@@ -46,23 +46,23 @@ Rails.application.configure do
 
   # If you want to check the SMTP settings in development, comment the following line
   # and un-comment lines L51 through to L65
-  config.action_mailer.delivery_method = :letter_opener
+  # config.action_mailer.delivery_method = :letter_opener
 
-  # config.action_mailer.delivery_method = :smtp
-  # smtp_settings = {
-  #   port: ENV['SMTP_PORT'] || 25,
-  #   domain: ENV['SMTP_DOMAIN'] || 'localhost',
-  #   address: ENV['SMTP_ADDRESS'] || 'chatwoot.com'
-  # }
+  config.action_mailer.delivery_method = :smtp
+  smtp_settings = {
+    port: ENV['SMTP_PORT'] || 25,
+    domain: ENV['SMTP_DOMAIN'] || 'localhost',
+    address: ENV['SMTP_ADDRESS'] || 'chatwoot.com'
+  }
 
-  # if ENV['SMTP_AUTHENTICATION'].present?
-  #   smtp_settings[:user_name] = ENV['SMTP_USERNAME']
-  #   smtp_settings[:password] = ENV['SMTP_PASSWORD']
-  #   smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION']
-  #   smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
-  # end
+  if ENV['SMTP_AUTHENTICATION'].present?
+    smtp_settings[:user_name] = ENV['SMTP_USERNAME']
+    smtp_settings[:password] = ENV['SMTP_PASSWORD']
+    smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION']
+    smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
+  end
 
-  # config.action_mailer.smtp_settings = smtp_settings
+  config.action_mailer.smtp_settings = smtp_settings
 
   Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
 
