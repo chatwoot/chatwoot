@@ -1,6 +1,6 @@
 class ConversationEmailWorker
   include Sidekiq::Worker
-  sidekiq_options queue: 'mailers'
+  sidekiq_options queue: :mailers
 
   def perform(conversation_id, queued_time)
     @conversation = Conversation.find(conversation_id)
