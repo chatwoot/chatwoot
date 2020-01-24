@@ -3,14 +3,12 @@
 <p>You have new messages on your conversation.</p>
 
 <table>
-    <% @messages.each do |message| %>
-        <tr>
-            <td>
-                <b><%= message.incoming? ? 'You' : message.user.name %></b>
-            </td>
-            <td>: <%= message.content %></td>
-        </tr>
-    <% end %>
+  <% @messages.each do |message| %>
+    <tr>
+      <td>
+        <b><%= message.incoming? ? 'You' : message.user.name %></b>
+      </td>
+      <td>: <%= message.content %></td>
+    </tr>
+  <% end %>
 </table>
-
-<p>Click <%= link_to 'here', app_conversation_url(id: @conversation.display_id) %> to get back to the conversation. </p>
