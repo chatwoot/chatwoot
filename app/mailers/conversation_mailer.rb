@@ -15,7 +15,7 @@ class ConversationMailer < ApplicationMailer
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:reportable?)
 
-    mail(to: @contact&.email, from: @agent&.email, subject: mail_subject(@messages.last))
+    mail(to: @contact&.email, reply_to: @agent&.email, subject: mail_subject(@messages.last))
   end
 
   private
