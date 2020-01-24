@@ -23,8 +23,8 @@ RSpec.describe ConversationMailer, type: :mailer do
       expect(mail.to).to eq([message&.conversation&.contact&.email])
     end
 
-    it 'renders the sender email' do
-      expect(mail.from).to eq([message&.conversation&.assignee&.email])
+    it 'renders the reply to email' do
+      expect(mail.reply_to).to eq([message&.conversation&.assignee&.email])
     end
   end
 end
