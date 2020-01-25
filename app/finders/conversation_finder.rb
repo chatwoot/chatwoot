@@ -31,6 +31,7 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status
+    filter_by_labels if params[:labels]
 
     mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
@@ -84,6 +85,10 @@ class ConversationFinder
 
   def filter_by_status
     @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+  end
+
+  def filter_by_labels
+    @conversations = @conversations.tagged_with(params[:labels], match_all: true)
   end
 
   def set_count_for_all_conversations
