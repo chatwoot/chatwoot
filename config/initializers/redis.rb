@@ -1,5 +1,8 @@
-uri = URI.parse(ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'))
-redis = Rails.env.test? ? MockRedis.new : Redis.new(url: uri)
+app_redis_config = {
+    url: URI.parse(ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379')),
+    password: ENV.fetch('REDIS_PASSWORD', nil)
+}
+redis = Rails.env.test? ? MockRedis.new : Redis.new(app_redis_config)
 Nightfury.redis = Redis::Namespace.new('reports', redis: redis)
 
 # Alfred - Used currently for Round Robin. Add here as you use it for more features

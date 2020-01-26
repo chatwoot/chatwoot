@@ -8,6 +8,13 @@ title: "Docker Setup and Debugging Guide"
 After cloning the repo and installing docker on your machine, run the following command from the root directory of the project.
 
 ```bash
+cp .env.example .env
+```
+
+Make changes to the `.env` file as required [Optional]. If you want to set the password for redis when you run
+docker-compose, set any string value to the environment variable `REDIS_PASSWORD` in the `.env` file. which will secure the redis running inside docker-compose with this password. This will be automatically picked up by app server and sidekiq, to authenticate while making connections to redis server.
+
+```bash
 docker-compose build
 ```
 
