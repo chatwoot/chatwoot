@@ -1,9 +1,12 @@
-# three unicorns = 3 connections
+sidekiq_redis_config = {
+    url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
+    password: ENV.fetch('REDIS_PASSWORD', nil),
+    size: 10
+}
 Sidekiq.configure_client do |config|
-    config.redis = { :size => 1 }
+    config.redis = sidekiq_redis_config.merge(size: 5)
 end
 
-# so one sidekiq can have 5 connections
 Sidekiq.configure_server do |config|
-    config.redis = { :size => 5 }
+    config.redis = sidekiq_redis_config.merge(size: 10)
 end

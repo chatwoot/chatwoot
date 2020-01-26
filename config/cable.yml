@@ -1,6 +1,7 @@
 development:
   adapter: redis
   url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
+  password: <%= ENV.fetch('REDIS_PASSWORD', nil) %>
 
 test:
   adapter: test
@@ -8,7 +9,9 @@ test:
 staging:
   adapter: redis
   url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
+  password: <%= ENV.fetch('REDIS_PASSWORD', nil) %>
 
 production:
   adapter: redis
   url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
+  password: <%= ENV.fetch('REDIS_PASSWORD', nil) %>
