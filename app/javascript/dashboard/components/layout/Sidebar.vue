@@ -42,6 +42,11 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
+            <li>
+              <router-link to="profile">
+                Profile Settings
+              </router-link>
+            </li>
             <li><a href="#" @click.prevent="logout()">Logout</a></li>
           </ul>
         </div>
