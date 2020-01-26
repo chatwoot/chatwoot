@@ -13,6 +13,7 @@ services:
     tty: true
     stdin_open: true
     image: chatwoot:development
+    env_file: .env
 
   rails:
     <<: *base
@@ -34,7 +35,6 @@ services:
       - sidekiq
     ports:
       - 3000:3000
-    env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - NODE_ENV=development
@@ -58,7 +58,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    command: ["bundle", "exec", "sidekiq"]
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   webpack:
     <<: *base
@@ -74,7 +74,6 @@ services:
       - bundle:/usr/local/bundle
     ports:
       - "3035" # Webpack dev server
-    env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
