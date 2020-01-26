@@ -59,12 +59,19 @@ But you can change it to use any of the cloud providers like amazon s3, microsof
 ACTIVE_STORAGE_SERVICE='local'
 ```
 
-### Configure Redis URL
+### Configure Redis
 
 For development, you can use the following url to connect to redis.
 
 ```bash
 REDIS_URL='redis:://127.0.0.1:6379'
+```
+
+To authenticate redis connections made by app server and sidekiq, if it's protected by a password, use the following
+environment variable to set the password.
+
+```bash
+REDIS_PASSWORD=
 ```
 
 ### Configure Postgres host
