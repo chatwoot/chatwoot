@@ -13,6 +13,7 @@ services:
     tty: true
     stdin_open: true
     image: chatwoot:development
+    env_file: .env
 
   rails:
     <<: *base
@@ -25,20 +26,39 @@ services:
       - node_modules:/app/node_modules
       - packs:/app/public/packs
       - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
       - webpack
       - mailhog
+      - sidekiq
     ports:
       - 3000:3000
-    env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=webpack
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+
+  sidekiq:
+    <<: *base
+    image: chatwoot-rails:development
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+      - mailhog
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   webpack:
     <<: *base
@@ -51,9 +71,9 @@ services:
       - node_modules:/app/node_modules # Node modules shared across containers
       - packs:/app/public/packs
       - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
     ports:
       - "3035" # Webpack dev server
-    env_file: .env
     environment:
       - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
@@ -95,3 +115,4 @@ volumes:
   packs:
   node_modules:
   cache:
+  bundle:
