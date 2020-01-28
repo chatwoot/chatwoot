@@ -62,7 +62,7 @@ gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
 gem 'twitter'
 # twitty will handle subscription of twitter account events
-gem 'twitty', git: 'https://github.com/chatwoot/twitty'
+gem 'twitty', git: 'https://github.com/chatwoot/twitty', branch: 'pranavrajs-patch-1'
 
 # facebook client
 gem 'koala'
