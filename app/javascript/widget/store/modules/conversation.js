@@ -49,7 +49,6 @@ export const getters = {
       Object.values(_state.conversations),
       message => new DateHelper(message.created_at).format()
     );
-
     return Object.keys(conversationGroupedByDate).map(date => {
       const messages = conversationGroupedByDate[date].map((message, index) => {
         let showAvatar = false;
@@ -63,10 +62,7 @@ export const getters = {
             currentSender !== nextSender ||
             message.message_type !== nextMessage.message_type;
         }
-        return {
-          showAvatar,
-          ...message,
-        };
+        return { showAvatar, ...message };
       });
 
       return {
