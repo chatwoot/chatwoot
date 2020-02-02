@@ -10,7 +10,7 @@ plugins:
   scss-lint:
     enabled: true
   brakeman:
-    enabled: true
+    enabled: false
 checks:
   similar-code:
     enabled: false
