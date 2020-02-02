@@ -4,6 +4,14 @@
       <ChatHeaderExpanded v-if="isHeaderExpanded" />
       <ChatHeader v-else :title="getHeaderName" />
     </div>
+
+    <AvailableAgents
+      :agents="[
+        { name: 'Pulisic', id: 'hgvjb' },
+        { name: 'Hazard', id: 'hgvjb' },
+        { name: 'Kelly', id: 'hgvjb' },
+      ]"
+    />
     <ConversationWrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
       <div class="input-wrap">
@@ -22,6 +30,7 @@ import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
+import AvailableAgents from 'widget/components/AvailableAgents.vue';
 
 export default {
   name: 'Home',
@@ -31,6 +40,7 @@ export default {
     ConversationWrap,
     ChatHeader,
     Branding,
+    AvailableAgents,
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -68,6 +78,13 @@ export default {
 
   .header-wrap {
     flex-shrink: 0;
+    border-radius: $space-normal;
+    background: white;
+    @include shadow-large;
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+      border-radius: 0;
+    }
   }
 
   .footer-wrap {
@@ -94,7 +111,7 @@ export default {
   }
 
   .input-wrap {
-    padding: 0 $space-medium;
+    padding: 0 $space-normal;
   }
 }
 </style>

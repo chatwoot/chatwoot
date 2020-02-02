@@ -48,12 +48,6 @@ export default {
   padding: $space-larger $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;
-  border-radius: $space-normal;
-  @include shadow-large;
-
-  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-    border-radius: 0;
-  }
 
   .logo {
     width: 64px;
@@ -71,7 +65,7 @@ export default {
   .body {
     color: $color-body;
     font-size: 1.8rem;
-    line-height: 1.6;
+    line-height: 1.5;
   }
 }
 </style>
