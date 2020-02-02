@@ -22,6 +22,7 @@ Style/GlobalVars:
     - 'lib/redis/alfred.rb'
     - 'app/controllers/api/v1/webhooks_controller.rb'
     - 'app/services/twitter/send_reply_service.rb'
+    - 'spec/services/twitter/send_reply_service_spec.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
