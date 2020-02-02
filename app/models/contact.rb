@@ -39,4 +39,8 @@ class Contact < ApplicationRecord
       pubsub_token: pubsub_token
     }
   end
+
+  def online?
+    ::OnlineStatusTracker.subscription_count(pubsub_token) != 0
+  end
 end

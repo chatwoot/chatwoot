@@ -109,4 +109,8 @@ class User < ApplicationRecord
       avatar_url: avatar_url
     }
   end
+
+  def online?
+    ::OnlineStatusTracker.subscription_count(pubsub_token) != 0
+  end
 end
