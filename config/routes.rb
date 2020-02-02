@@ -39,7 +39,11 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy]
       resources :agents, except: [:show, :edit, :new]
-      resources :labels, only: [:index]
+      resources :labels, only: [:index] do
+        collection do
+          get :most_used
+        end
+      end
       resources :canned_responses, except: [:show, :edit, :new]
       resources :inbox_members, only: [:create, :show], param: :inbox_id
       resources :facebook_indicators, only: [] do
