@@ -6,7 +6,6 @@ FactoryBot.define do
     twitter_access_token { SecureRandom.uuid }
     twitter_access_token_secret { SecureRandom.uuid }
     profile_id { SecureRandom.uuid }
-    inbox
     account
   end
 end
