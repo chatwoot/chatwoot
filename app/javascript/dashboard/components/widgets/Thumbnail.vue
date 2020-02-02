@@ -27,6 +27,13 @@
       class="source-badge user--online"
       :style="statusStyle"
     ></div>
+    <img
+      v-if="badge === 'Channel::TwitterProfile' && status !== ''"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/twitter-badge.png"
+    />
   </div>
 </template>
 <script>
