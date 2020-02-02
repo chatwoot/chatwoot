@@ -110,6 +110,9 @@ Rails.application.routes.draw do
   end
 
   mount Facebook::Messenger::Server, at: 'bot'
+  get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
+  post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
+
   post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
 
   # Routes for testing

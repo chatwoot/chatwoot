@@ -82,7 +82,12 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    ::Facebook::SendReplyService.new(message: self).perform
+    channel_name = conversation.inbox.channel.class.to_s
+    if channel_name == 'Channel::FacebookPage'
+      ::Facebook::SendReplyService.new(message: self).perform
+    elsif channel_name == 'Channel::TwitterProfile'
+      ::Twitter::SendReplyService.new(message: self).perform
+    end
   end
 
   def reopen_conversation
