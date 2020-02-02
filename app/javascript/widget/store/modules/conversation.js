@@ -59,7 +59,9 @@ export const getters = {
           const nextMessage = conversationGroupedByDate[date][index + 1];
           const currentSender = message.sender ? message.sender.name : '';
           const nextSender = nextMessage.sender ? nextMessage.sender.name : '';
-          showAvatar = currentSender !== nextSender;
+          showAvatar =
+            currentSender !== nextSender ||
+            message.message_type !== nextMessage.message_type;
         }
         return {
           showAvatar,

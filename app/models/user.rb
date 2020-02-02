@@ -48,6 +48,7 @@ class User < ApplicationRecord
   include Events::Types
   include Pubsubable
   include Avatarable
+  include AvailabilityStatusable
   include Rails.application.routes.url_helpers
 
   devise :database_authenticatable,
@@ -108,9 +109,5 @@ class User < ApplicationRecord
       name: name,
       avatar_url: avatar_url
     }
-  end
-
-  def online?
-    ::OnlineStatusTracker.subscription_count(pubsub_token) != 0
   end
 end
