@@ -63,7 +63,6 @@ class ConversationFinder
 
   def set_assignee_type
     @assignee_type_id = ASSIGNEE_TYPES[ASSIGNEE_TYPES_BY_ID[params[:assignee_type_id].to_i]]
-    # ente budhiparamaya neekam kandit enthu tonunu? ;)
   end
 
   def find_all_conversations
@@ -88,7 +87,7 @@ class ConversationFinder
   end
 
   def filter_by_labels
-    @conversations = @conversations.tagged_with(params[:labels], match_all: true)
+    @conversations = @conversations.tagged_with(params[:labels], any: true)
   end
 
   def set_count_for_all_conversations
