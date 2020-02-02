@@ -1,4 +1,4 @@
-class Devise::ConfirmationsController < Devise::ConfirmationsController
+class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
