@@ -34,7 +34,7 @@ class Webhooks::Twitter
 
   def ensure_contacts
     @params[:users].each do |key, user|
-      return if key == profile_id
+      next if key == profile_id
 
       find_or_create_contact(user)
     end

@@ -12,40 +12,38 @@
 #  profile_id                  :string           not null
 #
 
-module Channel
-  class TwitterProfile < ApplicationRecord
-    self.table_name = 'channel_twitter_profiles'
+class Channel::TwitterProfile < ApplicationRecord
+  self.table_name = 'channel_twitter_profiles'
 
-    validates :account_id, presence: true
-    validates :profile_id, uniqueness: { scope: :account_id }
-    has_one_attached :avatar
-    belongs_to :account
+  validates :account_id, presence: true
+  validates :profile_id, uniqueness: { scope: :account_id }
+  has_one_attached :avatar
+  belongs_to :account
 
-    has_one :inbox, as: :channel, dependent: :destroy
+  has_one :inbox, as: :channel, dependent: :destroy
 
-    before_destroy :unsubscribe
+  before_destroy :unsubscribe
 
-    def name
-      'Twitter'
+  def name
+    'Twitter'
+  end
+
+  def create_contact_inbox(profile_id, name)
+    ActiveRecord::Base.transaction do
+      contact = inbox.account.contacts.create!(name: name)
+      ::ContactInbox.create!(
+        contact_id: contact.id,
+        inbox_id: inbox.id,
+        source_id: profile_id
+      )
+    rescue StandardError => e
+      Rails.logger e
     end
+  end
 
-    def create_contact_inbox(profile_id, name)
-      ActiveRecord::Base.transaction do
-        contact = inbox.account.contacts.create!(name: name)
-        ::ContactInbox.create!(
-          contact_id: contact.id,
-          inbox_id: inbox.id,
-          source_id: profile_id
-        )
-      rescue StandardError => e
-        Rails.logger e
-      end
-    end
+  private
 
-    private
-
-    def unsubscribe
-      # to implement
-    end
+  def unsubscribe
+    # to implement
   end
 end
