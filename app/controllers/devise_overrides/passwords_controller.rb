@@ -1,4 +1,4 @@
-class Devise::PasswordsController < Devise::PasswordsController
+class DeviseOverrides::PasswordsController < Devise::PasswordsController
   include AuthHelper
 
   skip_before_action :require_no_authentication, raise: false
