@@ -4,7 +4,7 @@ class Api::V1::AgentsController < Api::BaseController
   before_action :build_agent, only: [:create]
 
   def index
-    render json: agents
+    @agents = agents
   end
 
   def destroy

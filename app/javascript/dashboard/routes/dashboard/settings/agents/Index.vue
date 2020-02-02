@@ -26,10 +26,11 @@
                 <!-- Gravtar Image -->
                 <td>
                   <thumbnail
-                    :src="gravatarUrl(agent.email)"
+                    :src="agent.thumbnail"
                     class="columns"
                     :username="agent.name"
                     size="40px"
+                    :status="agent.availability_status"
                   />
                 </td>
                 <!-- Agent Name + Email -->
