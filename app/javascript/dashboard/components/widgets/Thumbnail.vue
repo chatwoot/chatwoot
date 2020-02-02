@@ -16,11 +16,23 @@
       :size="avatarSize"
     />
     <img
-      v-if="badge === 'Channel::FacebookPage'"
+      v-if="badge === 'Channel::FacebookPage' && status !== ''"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/fb-badge.png"
+    />
+    <div
+      v-else-if="status === 'online'"
+      class="source-badge user--online"
+      :style="statusStyle"
+    ></div>
+    <img
+      v-if="badge === 'Channel::TwitterProfile' && status !== ''"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/twitter-badge.png"
     />
   </div>
 </template>
@@ -41,6 +53,7 @@ export default {
   props: {
     src: {
       type: String,
+      default: '',
     },
     size: {
       type: String,
@@ -52,6 +65,11 @@ export default {
     },
     username: {
       type: String,
+      default: '',
+    },
+    status: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -67,6 +85,10 @@ export default {
       const badgeSize = `${this.avatarSize / 3}px`;
       return { width: badgeSize, height: badgeSize };
     },
+    statusStyle() {
+      const statusSize = `${this.avatarSize / 4}px`;
+      return { width: statusSize, height: statusSize };
+    },
   },
   methods: {
     onImgError() {
@@ -78,6 +100,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/foundation-settings';
 @import '~dashboard/assets/scss/mixins';
 
 .user-thumbnail-box {
@@ -91,11 +114,21 @@ export default {
   }
 
   .source-badge {
-    bottom: -$space-micro / 2;
+    bottom: -$space-micro;
     height: $space-slab;
     position: absolute;
     right: $zero;
     width: $space-slab;
+  }
+
+  .user--online {
+    background: $success-color;
+    border-radius: 50%;
+    bottom: $space-micro;
+
+    &:after {
+      content: ' ';
+    }
   }
 }
 </style>

@@ -41,6 +41,7 @@
     color: $color-body;
     width: 27rem;
     white-space: nowrap;
+    max-width: 96%;
   }
 
   .conversation--meta {
@@ -89,6 +90,14 @@
 
     .conversation--user {
       font-weight: $font-weight-medium;
+    }
+  }
+
+  &.compact {
+    padding-left: 0;
+
+    .conversation--details {
+      margin-left: 0;
     }
   }
 }

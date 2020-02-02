@@ -12,8 +12,14 @@ export default {
     ChatInputWrap,
   },
   props: {
-    msg: String,
-    onSendMessage: Function,
+    msg: {
+      type: String,
+      default: '',
+    },
+    onSendMessage: {
+      type: Function,
+      default: () => {},
+    },
   },
 };
 </script>
@@ -21,14 +27,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .footer {
   background: $color-white;
-  box-shadow: 0 -$space-micro 3px rgba(50, 50, 93, 0.04),
-    0 -1px 2px rgba(0, 0, 0, 0.03);
   box-sizing: border-box;
-  padding: $space-small;
+  padding: $space-small $space-slab;
   width: 100%;
+  border-radius: 7px;
+  @include shadow-big;
 }
 
 .branding {

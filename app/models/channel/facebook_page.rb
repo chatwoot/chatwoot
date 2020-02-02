@@ -3,7 +3,6 @@
 # Table name: channel_facebook_pages
 #
 #  id                :integer          not null, primary key
-#  avatar            :string
 #  name              :string           not null
 #  page_access_token :string           not null
 #  user_access_token :string           not null
@@ -18,29 +17,29 @@
 #  index_channel_facebook_pages_on_page_id_and_account_id  (page_id,account_id) UNIQUE
 #
 
-module Channel
-  class FacebookPage < ApplicationRecord
-    self.table_name = 'channel_facebook_pages'
+class Channel::FacebookPage < ApplicationRecord
+  include Avatarable
 
-    validates :account_id, presence: true
-    validates :page_id, uniqueness: { scope: :account_id }
-    mount_uploader :avatar, AvatarUploader
-    belongs_to :account
+  self.table_name = 'channel_facebook_pages'
 
-    has_one :inbox, as: :channel, dependent: :destroy
+  validates :account_id, presence: true
+  validates :page_id, uniqueness: { scope: :account_id }
+  has_one_attached :avatar
+  belongs_to :account
 
-    before_destroy :unsubscribe
+  has_one :inbox, as: :channel, dependent: :destroy
 
-    def name
-      'Facebook'
-    end
+  before_destroy :unsubscribe
 
-    private
+  def name
+    'Facebook'
+  end
 
-    def unsubscribe
-      Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
-    rescue => e
-      true
-    end
+  private
+
+  def unsubscribe
+    Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
+  rescue => e
+    true
   end
 end

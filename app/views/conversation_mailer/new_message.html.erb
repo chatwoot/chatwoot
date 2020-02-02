@@ -1,0 +1,14 @@
+<p>Hi <%= @contact.name %>,</p>
+
+<p>You have new messages on your conversation.</p>
+
+<table>
+  <% @messages.each do |message| %>
+    <tr>
+      <td>
+        <b><%= message.incoming? ? 'You' : message.user.name %></b>
+      </td>
+      <td>: <%= message.content %></td>
+    </tr>
+  <% end %>
+</table>

@@ -44,7 +44,7 @@ export default {
   font-size: $font-size-default;
   line-height: 1.5;
   max-width: 80%;
-  padding: $space-small $space-two;
+  padding: $space-small $space-normal;
   text-align: left;
 
   a {

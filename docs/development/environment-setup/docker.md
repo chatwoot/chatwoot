@@ -21,19 +21,19 @@ docker-compose build
 After building the image or after destroying the stack you would have to reset the database using following command
 
 ```bash
-docker-compose run rails bundle exec rails db:reset
+docker-compose run --rm rails bundle exec rails db:reset
 ```
 
 ### Running the app
 
 ```bash
-docker-compose run --service-port rails
+docker-compose run --rm --service-port rails
 ```
 
 open another terminal and also run below command to run sidekiq in a separate service
 
 ```
-docker-compose run rails bundle exec sidekiq
+docker-compose run --rm rails bundle exec sidekiq
 ```
 
 * Access the rails app frontend by visiting `http://0.0.0.0:3000/`
@@ -57,13 +57,13 @@ docker-compose down
 For running the complete rspec tests
 
 ```bash
-docker-compose run rails bundle exec rspec
+docker-compose run --rm rails bundle exec rspec
 ```
 
 For running specific test:
 
 ```bash
-docker-compose run rails bundle exec rspec spec/<path-to-file>:<line-number>
+docker-compose run --rm rails bundle exec rspec spec/<path-to-file>:<line-number>
 ```
 
 ## production environment
