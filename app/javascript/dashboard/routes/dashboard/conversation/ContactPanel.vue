@@ -7,6 +7,7 @@
           size="56px"
           :badge="contact.channel"
           :username="contact.name"
+          :status="contact.availability_status"
         />
         <div class="contact--details">
           <div class="contact--name">
