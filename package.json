@@ -8,7 +8,8 @@
     "test": "jest --no-cache",
     "test:watch": "jest --watch --no-cache",
     "test:coverage": "jest --no-cache --collectCoverage",
-    "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors"
+    "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",
+    "start:dev": "foreman start -f ./Procfile.dev"
   },
   "dependencies": {
     "@babel/polyfill": "^7.6.0",

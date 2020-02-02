@@ -6,17 +6,8 @@
 
 <script>
 import { mapActions } from 'vuex';
-import { setHeader } from './helpers/axios';
-
-export const IFrameHelper = {
-  isIFrame: () => window.self !== window.top,
-  sendMessage: msg => {
-    window.parent.postMessage(
-      `chatwoot-widget:${JSON.stringify({ ...msg })}`,
-      '*'
-    );
-  },
-};
+import { setHeader } from 'widget/helpers/axios';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   name: 'App',

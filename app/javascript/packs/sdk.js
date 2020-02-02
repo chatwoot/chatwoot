@@ -4,8 +4,6 @@ import { SDK_CSS } from '../widget/assets/scss/sdk';
 /* eslint-disable no-param-reassign */
 const bubbleImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAAwgJEBk0TVheY2R5eo+ut8jb5OXs8fX2+cjRDTIAAADsSURBVHgBldZbkoMgFIThRgQv8SKKgGf/C51UnJqaRI30/9zfe+NQUQ3TvG7bOk9DVeCmshmj/CuOTYnrdBfkUOg0zlOtl9OWVuEk4+QyZ3DIevmSt/ioTvK1VH/s5bY3YdM9SBZ/mUUyWgx+U06ycgp7D8msxSvtc4HXL9BLdj2elSEfhBJAI0QNgJEBI1BEBsQClVBVGDgwYOLAhJkDM1YOrNg4sLFAsLJgZsHEgoEFFQt0JAFGFjQsKAMJ0LFAexKgZYFyJIDxJIBNJEDNAtSJBLCeBDCOBFAPzwFA94ED+zmhwDO9358r8ANtIsMXi7qVAwAAAABJRU5ErkJggg==';
-const closeImg =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAP1BMVEUAAAD///////////////////////////////////////////////////////////////////////////////9Du/pqAAAAFHRSTlMACBstLi8wMVB+mcbT2err7O3w8n+sjtQAAAEuSURBVHgBtNLdcoMgGITh1SCGH9DId//X2mnTg7hYxj0oh8w8r+MqgDnmlsIE6UwhtRxnAHge9n2KV7wvP+h4AvPbm73W+359/aJjRjQTCuTNIrJJBfKW0UwqkLeGZJ8Ff2O/T28JwZQCewuYilJgX6buavdDv188br1RIE+jc2H5yy+9VwrXXij0nsflwth7YFRw7N3Y88BcYL+z7wubO/lt6AcFwQMLF9irP8r2eF8/ei8VLrxUkDzguMDejX03WK3dsGJB9lxgrxd0T8PTRxUL5OUCealQz76KXg/or/CvI36VXgcEAAAgCMP6t16IZVDg3zPuI+0rb5g2zlsoW2lbqlvrOyw7bTuuO+8LGIs4C1mLeQuai7oL2437LRytPC1drX0tnq2+Ld+r/wDPIIIJkfdlbQAAAABJRU5ErkJggg==';
 
 const body = document.getElementsByTagName('body')[0];
 const holder = document.createElement('div');
@@ -120,7 +118,7 @@ const IFrameHelper = {
   createFrame: ({ baseUrl, websiteToken }) => {
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = `${baseUrl}/widgets?website_token=${websiteToken}`;
+    let widgetUrl = `${baseUrl}/widget?website_token=${websiteToken}`;
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
@@ -142,6 +140,20 @@ const IFrameHelper = {
       '*'
     );
   },
+  events: {
+    loaded: message => {
+      Cookies.set('cw_conversation', message.config.authToken);
+      IFrameHelper.sendMessage('config-set', {});
+      IFrameHelper.onLoad(message.config.channelConfig);
+      IFrameHelper.setCurrentUrl();
+    },
+    set_auth_token: message => {
+      Cookies.set('cw_conversation', message.authToken);
+    },
+    toggleBubble: () => {
+      bubbleClickCallback();
+    },
+  },
   initPostMessageCommunication: () => {
     window.onmessage = e => {
       if (
@@ -151,11 +163,8 @@ const IFrameHelper = {
         return;
       }
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
-      if (message.event === 'loaded') {
-        Cookies.set('cw_conversation', message.config.authToken);
-        IFrameHelper.sendMessage('config-set', {});
-        IFrameHelper.onLoad(message.config.channelConfig);
-        IFrameHelper.setCurrentUrl();
+      if (typeof IFrameHelper.events[message.event] === 'function') {
+        IFrameHelper.events[message.event](message);
       }
     };
   },
@@ -180,11 +189,8 @@ const IFrameHelper = {
       target: chatBubble,
     });
 
-    const closeIcon = createBubbleIcon({
-      className: 'woot-widget-bubble woot--close woot--hide',
-      src: closeImg,
-      target: closeBubble,
-    });
+    const closeIcon = closeBubble;
+    closeIcon.className = 'woot-widget-bubble woot--close woot--hide';
 
     chatIcon.style.background = widgetColor;
     closeIcon.style.background = widgetColor;
@@ -195,7 +201,6 @@ const IFrameHelper = {
     onClickChatBubble();
   },
   setCurrentUrl: () => {
-    console.log(IFrameHelper.getAppFrame(), document);
     IFrameHelper.sendMessage('set-current-url', {
       refererURL: window.location.href,
     });

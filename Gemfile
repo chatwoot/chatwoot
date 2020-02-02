@@ -23,6 +23,9 @@ gem 'valid_email2'
 gem 'uglifier'
 
 ##-- for active storage --##
+gem 'aws-sdk-s3', require: false
+gem 'azure-storage', require: false
+gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 
 ##-- gems for database --#
@@ -58,6 +61,9 @@ gem 'chargebee'
 gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
 gem 'twitter'
+# twitty will handle subscription of twitter account events
+gem 'twitty', git: 'https://github.com/chatwoot/twitty'
+
 # facebook client
 gem 'koala'
 # Random name generator
@@ -68,9 +74,7 @@ gem 'haikunator'
 gem 'brakeman'
 gem 'sentry-raven'
 
-##-- TODO: move these gems to appropriate groups --##
-# remove this gem in favor of active storage -  github #158
-gem 'carrierwave-aws'
+##-- background job processing --##
 gem 'sidekiq'
 
 group :development do

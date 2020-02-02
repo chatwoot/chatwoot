@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_09_202758) do
+ActiveRecord::Schema.define(version: 2020_01_24_190208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,7 +43,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
-    t.string "file"
     t.integer "file_type", default: 0
     t.string "external_url"
     t.float "coordinates_lat", default: 0.0
@@ -72,9 +71,18 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar"
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_twitter_profiles", force: :cascade do |t|
+    t.string "name"
+    t.string "profile_id", null: false
+    t.string "twitter_access_token", null: false
+    t.string "twitter_access_token_secret", null: false
+    t.integer "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
@@ -107,7 +115,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
     t.integer "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar"
     t.string "pubsub_token"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
@@ -126,8 +133,10 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
+    t.bigint "contact_inbox_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
+    t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -160,6 +169,8 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
     t.integer "user_id"
     t.integer "status", default: 0
     t.string "fb_id"
+    t.integer "content_type", default: 0
+    t.json "content_attributes", default: {}
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
   end
 
@@ -246,5 +257,6 @@ ActiveRecord::Schema.define(version: 2019_12_09_202758) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end

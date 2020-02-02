@@ -11,7 +11,7 @@ json.data do
         json.sender do
           json.id conversation.contact.id
           json.name conversation.contact.name
-          json.thumbnail conversation.contact.avatar.thumb.url
+          json.thumbnail conversation.contact.avatar_url
           json.channel conversation.inbox.try(:channel_type)
         end
         json.assignee conversation.assignee

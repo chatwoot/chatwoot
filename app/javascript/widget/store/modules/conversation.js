@@ -49,7 +49,6 @@ export const getters = {
       Object.values(_state.conversations),
       message => new DateHelper(message.created_at).format()
     );
-
     return Object.keys(conversationGroupedByDate).map(date => {
       const messages = conversationGroupedByDate[date].map((message, index) => {
         let showAvatar = false;
@@ -59,12 +58,11 @@ export const getters = {
           const nextMessage = conversationGroupedByDate[date][index + 1];
           const currentSender = message.sender ? message.sender.name : '';
           const nextSender = nextMessage.sender ? nextMessage.sender.name : '';
-          showAvatar = currentSender !== nextSender;
+          showAvatar =
+            currentSender !== nextSender ||
+            message.message_type !== nextMessage.message_type;
         }
-        return {
-          showAvatar,
-          ...message,
-        };
+        return { showAvatar, ...message };
       });
 
       return {
@@ -134,6 +132,13 @@ export const mutations = {
     }
 
     payload.map(message => Vue.set($state.conversations, message.id, message));
+  },
+
+  updateMessage($state, { id, content_attributes }) {
+    $state.conversations[id] = {
+      ...$state.conversations[id],
+      content_attributes,
+    };
   },
 };
 

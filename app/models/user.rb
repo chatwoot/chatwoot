@@ -47,6 +47,8 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
   include Events::Types
   include Pubsubable
+  include Avatarable
+  include AvailabilityStatusable
   include Rails.application.routes.url_helpers
 
   devise :database_authenticatable,
@@ -56,12 +58,6 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable
-
-  # Used by the actionCable/PubSub Service we use for real time communications
-  has_secure_token :pubsub_token
-
-  # Uses active storage for the avatar
-  has_one_attached :avatar
 
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
@@ -106,14 +102,6 @@ class User < ApplicationRecord
 
   def notify_deletion
     Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
-  end
-
-  def avatar_url
-    if avatar.attached? && avatar.representable?
-      url_for(avatar.representation(resize: '250x250'))
-    else
-      ''
-    end
   end
 
   def push_event_data

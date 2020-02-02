@@ -9,7 +9,13 @@
       />
     </div>
     <div class="message-wrap">
-      <AgentMessageBubble :message="message" />
+      <AgentMessageBubble
+        :content-type="contentType"
+        :message-content-attributes="messageContentAttributes"
+        :message-id="messageId"
+        :message-type="messageType"
+        :message="message"
+      />
       <p v-if="showAvatar" class="agent-name">
         {{ agentName }}
       </p>
@@ -32,7 +38,22 @@ export default {
     avatarUrl: String,
     agentName: String,
     showAvatar: Boolean,
-    createdAt: Number,
+    contentType: {
+      type: String,
+      default: '',
+    },
+    messageContentAttributes: {
+      type: Object,
+      default: () => {},
+    },
+    messageType: {
+      type: Number,
+      default: 1,
+    },
+    messageId: {
+      type: Number,
+      default: 0,
+    },
   },
 };
 </script>
@@ -50,7 +71,7 @@ export default {
     max-width: 88%;
 
     & + .agent-message {
-      margin-bottom: $space-smaller;
+      margin-bottom: $space-micro;
 
       .chat-bubble {
         border-top-left-radius: $space-smaller;
@@ -80,10 +101,10 @@ export default {
 
   .agent-name {
     color: $color-body;
-    font-size: $font-size-default;
+    font-size: $font-size-small;
     font-weight: $font-weight-medium;
-    margin-bottom: $space-small;
-    margin-top: $space-small;
+    margin: $space-small 0;
+    padding-left: $space-micro;
   }
 }
 </style>

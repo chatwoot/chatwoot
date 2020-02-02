@@ -74,13 +74,13 @@ export default {
       return this.formatMessage(this.data.content);
     },
     alignBubble() {
-      return this.data.message_type === 1 ? 'right' : 'left';
+      return !this.data.message_type ? 'left' : 'right';
     },
     readableTime() {
       return this.messageStamp(this.data.created_at);
     },
     isBubble() {
-      return this.data.message_type === 1 || this.data.message_type === 0;
+      return [0, 1, 3].includes(this.data.message_type);
     },
     isPrivate() {
       return this.data.private;

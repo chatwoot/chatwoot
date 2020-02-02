@@ -45,9 +45,7 @@ class ActionCableListener < BaseListener
   def send_to_members(members, event_name, data)
     return if members.blank?
 
-    members.each do |member|
-      ActionCable.server.broadcast(member, event: event_name, data: data)
-    end
+    ::ActionCableBroadcastJob.perform_later(members, event_name, data)
   end
 
   def send_to_contact(contact, event_name, message)
@@ -55,7 +53,7 @@ class ActionCableListener < BaseListener
     return if message.activity?
     return if contact.nil?
 
-    ActionCable.server.broadcast(contact.pubsub_token, event: event_name, data: message.push_event_data)
+    ::ActionCableBroadcastJob.perform_later([contact.pubsub_token], event_name, message.push_event_data)
   end
 
   def push(pubsub_token, data)
