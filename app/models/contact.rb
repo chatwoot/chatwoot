@@ -20,6 +20,7 @@
 class Contact < ApplicationRecord
   include Pubsubable
   include Avatarable
+  include AvailabilityStatusable
   validates :account_id, presence: true
 
   belongs_to :account

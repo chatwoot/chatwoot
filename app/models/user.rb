@@ -48,6 +48,7 @@ class User < ApplicationRecord
   include Events::Types
   include Pubsubable
   include Avatarable
+  include AvailabilityStatusable
   include Rails.application.routes.url_helpers
 
   devise :database_authenticatable,
