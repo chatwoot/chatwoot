@@ -8,7 +8,6 @@
 #  extension        :string
 #  external_url     :string
 #  fallback_title   :string
-#  file             :string
 #  file_type        :integer          default("image")
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -19,12 +18,12 @@
 require 'uri'
 require 'open-uri'
 class Attachment < ApplicationRecord
+  include Rails.application.routes.url_helpers
   belongs_to :account
   belongs_to :message
-  mount_uploader :file, AttachmentUploader # used for images
-  enum file_type: [:image, :audio, :video, :file, :location, :fallback]
+  has_one_attached :file
 
-  before_create :set_file_extension
+  enum file_type: [:image, :audio, :video, :file, :location, :fallback]
 
   def push_event_data
     return base_data.merge(location_metadata) if file_type.to_sym == :location
@@ -68,13 +67,7 @@ class Attachment < ApplicationRecord
     }
   end
 
-  def set_file_extension
-    if external_url && !fallback?
-      self.extension = begin
-                         Pathname.new(URI(external_url).path).extname
-                       rescue StandardError
-                         nil
-                       end
-    end
+  def file_url
+    file.attached? ? url_for(file) : ''
   end
 end

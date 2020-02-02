@@ -4,16 +4,25 @@ require:
   - rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 150
+Metrics/ClassLength:
+  Max: 125
 RSpec/ExampleLength:
   Max: 15
-Documentation:
+Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Style/GlobalVars:
+  Exclude:
+    - 'config/initializers/redis.rb'
+    - 'lib/redis/alfred.rb'
+    - 'app/controllers/api/v1/webhooks_controller.rb'
+    - 'app/services/twitter/send_reply_service.rb'
+    - 'spec/services/twitter/send_reply_service_spec.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*

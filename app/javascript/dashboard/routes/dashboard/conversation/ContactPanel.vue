@@ -3,10 +3,11 @@
     <div class="contact--profile">
       <div class="contact--info">
         <thumbnail
-          :src="contact.avatar_url"
+          :src="contact.thumbnail"
           size="56px"
           :badge="contact.channel"
           :username="contact.name"
+          :status="contact.availability_status"
         />
         <div class="contact--details">
           <div class="contact--name">
@@ -54,16 +55,27 @@
         icon="ion-clock"
       />
     </div>
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
+
+    <conversation-labels :conversation-id="conversationId" />
   </div>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
+import ConversationLabels from './ConversationLabels.vue';
 
 export default {
   components: {
+    ContactConversations,
     ContactDetailsItem,
+    ConversationLabels,
     Thumbnail,
   },
   props: {
@@ -179,7 +191,7 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-normal $space-medium;
+  padding: $space-medium;
   width: 100%;
 }
 

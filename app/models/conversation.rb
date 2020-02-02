@@ -13,6 +13,7 @@
 #  account_id            :integer          not null
 #  assignee_id           :integer
 #  contact_id            :bigint
+#  contact_inbox_id      :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
 #
@@ -20,6 +21,11 @@
 #
 #  index_conversations_on_account_id                 (account_id)
 #  index_conversations_on_account_id_and_display_id  (account_id,display_id) UNIQUE
+#  index_conversations_on_contact_inbox_id           (contact_inbox_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (contact_inbox_id => contact_inboxes.id)
 #
 
 class Conversation < ApplicationRecord
@@ -38,6 +44,7 @@ class Conversation < ApplicationRecord
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :contact
+  belongs_to :contact_inbox
 
   has_many :messages, dependent: :destroy, autosave: true
 

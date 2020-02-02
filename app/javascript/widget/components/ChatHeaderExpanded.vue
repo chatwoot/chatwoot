@@ -1,6 +1,10 @@
 <template>
-  <header class="header-expanded" :style="{ background: widgetColor }">
+  <header class="header-expanded">
     <div>
+      <!-- <img
+        class="logo"
+        src="http://www.hennigcompany.com/wp-content/uploads/2014/06/starbucks-logo.png"
+      /> -->
       <h2 class="title">
         {{ introHeading }}
       </h2>
@@ -37,23 +41,37 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .header-expanded {
-  background: $color-woot;
-  padding: $space-large;
+  background: $color-white;
+  padding: $space-larger $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;
-  color: $color-white;
+  border-radius: $space-normal;
+  @include shadow-large;
+
+  @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    border-radius: 0;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+  }
 
   .title {
+    color: $color-heading;
     font-size: $font-size-mega;
-    font-weight: $font-weight-medium;
-    margin-bottom: $space-two;
+    font-weight: $font-weight-normal;
+    margin-bottom: $space-slab;
+    margin-top: $space-large;
   }
 
   .body {
-    font-size: $font-size-medium;
-    line-height: 1.5;
+    color: $color-body;
+    font-size: 1.8rem;
+    line-height: 1.6;
   }
 }
 </style>

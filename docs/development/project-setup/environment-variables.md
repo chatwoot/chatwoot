@@ -51,13 +51,12 @@ FRONTEND_URL='http://localhost:3000'
 
 ### Configure storage
 
-Chatwoot currently supports only S3 bucket as storage. You can read [Creating an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html) and [Create an IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html) to configure the following details.
+Chatwoot uses [active storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) for storing attachments. The default storage option is the local storage on your server. 
+
+But you can change it to use any of the cloud providers like amazon s3, microsoft azure and google gcs etc. Refer [configuring cloud storage](./configuring-cloud-storage) for additional environment variables required.
 
 ```bash
-S3_BUCKET_NAME=
-AWS_ACCESS_KEY_ID=
-AWS_SECRET_ACCESS_KEY=
-AWS_REGION=
+ACTIVE_STORAGE_SERVICE='local'
 ```
 
 ### Configure Redis

@@ -17,6 +17,8 @@ done
 
 echo "Database ready to accept connections."
 
+bundle install
+
 BUNDLE="bundle check"
 
 until $BUNDLE

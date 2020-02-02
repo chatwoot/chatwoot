@@ -13,12 +13,10 @@
         />
       </div>
     </div>
-    <branding></branding>
   </div>
 </template>
 
 <script>
-import Branding from 'widget/components/Branding.vue';
 import ChatMessage from 'widget/components/ChatMessage.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -27,7 +25,6 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   name: 'ConversationWrap',
   components: {
-    Branding,
     ChatMessage,
     DateSeparator,
     Spinner,

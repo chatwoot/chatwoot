@@ -1,12 +1,14 @@
 require 'rails_helper'
 
-describe WidgetTestsController, type: :controller do
-  let(:channel_widget) { create(:channel_widget) }
+describe '/widget_tests', type: :request do
+  before do
+    create(:channel_widget)
+  end
 
-  describe '#index' do
+  describe 'GET /widget_tests' do
     it 'renders the page correctly' do
-      get :index
-      expect(response.status).to eq 200
+      get widget_tests_url
+      expect(response).to be_successful
     end
   end
 end
