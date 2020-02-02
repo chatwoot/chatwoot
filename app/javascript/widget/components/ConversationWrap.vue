@@ -52,13 +52,10 @@ export default {
     },
   },
   mounted() {
-    console.log(this.groupedMessages);
     this.$el.addEventListener('scroll', this.handleScroll);
     this.scrollToBottom();
   },
   updated() {
-    console.log(this.groupedMessages);
-
     if (this.previousConversationSize !== this.conversationSize) {
       this.previousConversationSize = this.conversationSize;
       this.scrollToBottom();
