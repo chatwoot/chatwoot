@@ -31,6 +31,7 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status
+    filter_by_labels if params[:labels]
 
     mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
@@ -62,7 +63,6 @@ class ConversationFinder
 
   def set_assignee_type
     @assignee_type_id = ASSIGNEE_TYPES[ASSIGNEE_TYPES_BY_ID[params[:assignee_type_id].to_i]]
-    # ente budhiparamaya neekam kandit enthu tonunu? ;)
   end
 
   def find_all_conversations
@@ -84,6 +84,10 @@ class ConversationFinder
 
   def filter_by_status
     @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+  end
+
+  def filter_by_labels
+    @conversations = @conversations.tagged_with(params[:labels], any: true)
   end
 
   def set_count_for_all_conversations

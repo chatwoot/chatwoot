@@ -36,6 +36,18 @@ describe ::ConversationFinder do
       end
     end
 
+    context 'with labels' do
+      let(:params) { { labels: ['resolved'] } }
+
+      it 'filter conversations by labels' do
+        conversation = inbox.conversations.first
+        conversation.update_labels('resolved')
+
+        result = conversation_finder.perform
+        expect(result[:conversations].count).to be 1
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type_id: 0, page: 1 } }
 
