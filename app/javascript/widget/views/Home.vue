@@ -35,22 +35,12 @@ export default {
     Branding,
     AvailableAgents,
   },
-
-  methods: {
-    ...mapActions('conversation', ['sendMessage']),
-    handleSendMessage(content) {
-      this.sendMessage({
-        content,
-      });
-    },
-  },
-
   computed: {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
       conversationSize: 'conversation/getConversationSize',
       availableAgents: 'agent/availableAgents',
-      hasFetched: 'agent/hasFetched',
+      hasFetched: 'agent/uiFlags/hasFetched',
     }),
     isHeaderExpanded() {
       return this.conversationSize === 0;
@@ -60,6 +50,15 @@ export default {
     },
     showAvailableAgents() {
       return this.availableAgents.length > 0;
+    },
+  },
+
+  methods: {
+    ...mapActions('conversation', ['sendMessage']),
+    handleSendMessage(content) {
+      this.sendMessage({
+        content,
+      });
     },
   },
 };

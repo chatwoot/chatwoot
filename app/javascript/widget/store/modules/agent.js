@@ -3,15 +3,18 @@ import { getAvailableAgents } from 'widget/api/agent';
 
 const state = {
   agents: [],
-  isError: false,
-  hasFetched: false,
+  uiFlags: {
+    isError: false,
+    hasFetched: false,
+  },
 };
 
-const getters = {
-  availableAgents: $state => $state.agents,
+export const getters = {
+  availableAgents: $state =>
+    $state.agents.filter(agent => agent.availability_status === 'online'),
 };
 
-const actions = {
+export const actions = {
   fetchAvailableAgents: async ({ commit }, websiteToken) => {
     try {
       const { data } = await getAvailableAgents(websiteToken);
@@ -26,15 +29,15 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   setAgents($state, data) {
     Vue.set($state, 'agents', data);
   },
   setError($state, value) {
-    Vue.set($state, 'isError', value);
+    Vue.set($state.uiFlags, 'isError', value);
   },
   setHasFetched($state, value) {
-    Vue.set($state, 'hasFetched', value);
+    Vue.set($state.uiFlags, 'hasFetched', value);
   },
 };
 

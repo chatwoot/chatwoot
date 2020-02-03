@@ -1,5 +1,5 @@
 <template>
-  <div class="avaiable-agents">
+  <div class="available-agents">
     <div class="toast-bg">
       <div class="avatars-wrap">
         <GroupedAvatars :users="users" />
@@ -13,6 +13,7 @@
 
 <script>
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
+import { getAvailableAgentsText } from 'widget/helpers/utils';
 
 export default {
   name: 'AvailableAgents',
@@ -31,24 +32,14 @@ export default {
     users() {
       return this.agents.map(agent => ({
         id: agent.id,
-        url: agent.avatar_url,
+        avatar: agent.avatar_url,
         name: agent.name,
       }));
     },
     title() {
       const { agents = [] } = this;
-      const count = agents.length;
-      if (count === 1) {
-        const [agent] = agents;
-        return `${agent.name} is available`;
-      }
-      if (count === 2) {
-        const [first, second] = agents;
-        return `${first.name} and ${second.name} is available`;
-      }
-      const [agent] = agents;
-      const rest = agents.length - 1;
-      return `${agent.name} and ${rest} others are available`;
+      const text = getAvailableAgentsText(agents);
+      return text;
     },
   },
 };
@@ -58,7 +49,7 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
 
-.avaiable-agents {
+.available-agents {
   display: flex;
   position: relative;
   justify-content: center;
