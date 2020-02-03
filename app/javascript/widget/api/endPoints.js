@@ -18,8 +18,13 @@ const updateContact = id => ({
   url: `/api/v1/widget/messages/${id}${window.location.search}`,
 });
 
+const getAvailableAgents = () => ({
+  url: '/api/v1/widget/inbox_members',
+});
+
 export default {
   sendMessage,
   getConversation,
   updateContact,
+  getAvailableAgents,
 };

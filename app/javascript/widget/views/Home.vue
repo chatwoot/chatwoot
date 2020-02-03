@@ -4,7 +4,7 @@
       <ChatHeaderExpanded v-if="isHeaderExpanded" />
       <ChatHeader v-else :title="getHeaderName" />
     </div>
-
+    <h4>{{ availableAgents }}</h4>
     <AvailableAgents
       :agents="[
         { name: 'Pulisic', id: 'hgvjb' },
@@ -42,6 +42,7 @@ export default {
     Branding,
     AvailableAgents,
   },
+
   methods: {
     ...mapActions('conversation', ['sendMessage']),
     handleSendMessage(content) {
@@ -50,10 +51,13 @@ export default {
       });
     },
   },
+
   computed: {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
       conversationSize: 'conversation/getConversationSize',
+      availableAgents: 'agent/availableAgents',
+      hasFetched: 'agent/hasFetched',
     }),
     isHeaderExpanded() {
       return this.conversationSize === 0;

@@ -34,6 +34,7 @@ export default {
       const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
       if (message.event === 'config-set') {
         this.fetchOldConversations();
+        this.fetchAvailableAgents();
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
@@ -44,6 +45,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;

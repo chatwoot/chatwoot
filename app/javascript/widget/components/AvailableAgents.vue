@@ -51,7 +51,7 @@ export default {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
     color: $color-white;
-    padding: $space-one $space-normal $space-one $space-large;
+    padding: $space-one $space-normal $space-one $space-larger;
     margin-top: $space-small;
     line-height: 1.4;
     border-radius: $space-large;
