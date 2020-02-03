@@ -100,7 +100,8 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  gem 'simplecov', require: false
+  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
+  gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
 end
