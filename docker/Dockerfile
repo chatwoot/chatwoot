@@ -25,6 +25,7 @@ RUN apk update \
     postgresql-client \
     nodejs \
     yarn \
+    git \
   && mkdir -p /var/app \
   && gem install bundler
 
