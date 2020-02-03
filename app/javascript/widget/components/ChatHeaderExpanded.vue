@@ -44,7 +44,6 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .header-expanded {
-  background: $color-white;
   padding: $space-larger $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;

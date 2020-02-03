@@ -12,10 +12,11 @@ const getters = {
 };
 
 const actions = {
-  fetchAvailableAgents: async ({ commit }) => {
+  fetchAvailableAgents: async ({ commit }, websiteToken) => {
     try {
-      const { data } = await getAvailableAgents();
-      commit('setAgents', data);
+      const { data } = await getAvailableAgents(websiteToken);
+      const { payload = [] } = data;
+      commit('setAgents', payload);
       commit('setError', false);
       commit('setHasFetched', true);
     } catch (error) {

@@ -1,27 +1,22 @@
 <template>
-  <header class="avaiable-agents">
-    <div class="avatars-wrap">
-      <GroupedAvatars :agents="agents" />
+  <div class="avaiable-agents">
+    <div class="toast-bg">
+      <div class="avatars-wrap">
+        <GroupedAvatars :users="users" />
+      </div>
+      <div class="title">
+        {{ title }}
+      </div>
     </div>
-    <div class="title">
-      Pulisic and 2 others are online
-      <span class="online"></span>
-    </div>
-  </header>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'AvailableAgents',
   components: { GroupedAvatars },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-  },
   props: {
     agents: {
       type: Array,
@@ -30,6 +25,30 @@ export default {
     onClose: {
       type: Function,
       default: () => {},
+    },
+  },
+  computed: {
+    users() {
+      return this.agents.map(agent => ({
+        id: agent.id,
+        url: agent.avatar_url,
+        name: agent.name,
+      }));
+    },
+    title() {
+      const { agents = [] } = this;
+      const count = agents.length;
+      if (count === 1) {
+        const [agent] = agents;
+        return `${agent.name} is available`;
+      }
+      if (count === 2) {
+        const [first, second] = agents;
+        return `${first.name} and ${second.name} is available`;
+      }
+      const [agent] = agents;
+      const rest = agents.length - 1;
+      return `${agent.name} and ${rest} others are available`;
     },
   },
 };
@@ -45,35 +64,27 @@ export default {
   justify-content: center;
   margin: $space-normal $space-medium;
   box-sizing: border-box;
-  text-align: center;
 
-  .title {
-    font-size: $font-size-default;
-    font-weight: $font-weight-medium;
-    color: $color-white;
-    padding: $space-one $space-normal $space-one $space-larger;
-    margin-top: $space-small;
-    line-height: 1.4;
+  .toast-bg {
     border-radius: $space-large;
     background: $color-body;
     @include shadow-medium;
   }
 
-  .avatars-wrap {
-    width: 80px;
-    position: absolute;
-    left: 0rem;
-    top: 1.4rem;
+  .title {
+    font-size: $font-size-default;
+    font-weight: $font-weight-medium;
+    color: $color-white;
+    padding: $space-one $space-normal $space-one $space-small;
+    line-height: 1.4;
+    display: inline-block;
+    vertical-align: middle;
   }
 
-  .online {
-    width: $space-one;
-    height: $space-one;
-    border-radius: $space-one;
-    background: #13ce66;
+  .avatars-wrap {
     display: inline-block;
-    @include light-shadow;
-    margin-left: $space-smaller;
+    vertical-align: middle;
+    margin-left: $space-small;
   }
 }
 </style>

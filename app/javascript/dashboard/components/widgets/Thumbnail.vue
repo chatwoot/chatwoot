@@ -4,13 +4,13 @@
       v-if="!imgError && Boolean(src)"
       id="image"
       :src="src"
-      class="user-thumbnail"
+      :class="thumbnailClass"
       @error="onImgError()"
     />
     <Avatar
       v-else
       :username="username"
-      class="user-thumbnail"
+      :class="thumbnailClass"
       background-color="#1f93ff"
       color="white"
       :size="avatarSize"
@@ -71,6 +71,10 @@ export default {
       type: String,
       default: '',
     },
+    hasBorder: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -88,6 +92,10 @@ export default {
     statusStyle() {
       const statusSize = `${this.avatarSize / 4}px`;
       return { width: statusSize, height: statusSize };
+    },
+    thumbnailClass() {
+      const classname = this.hasBorder ? 'border' : '';
+      return `user-thumbnail ${classname}`;
     },
   },
   methods: {
@@ -111,6 +119,11 @@ export default {
     border-radius: 50%;
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
+
+    &.border {
+      border: 1px solid white;
+    }
   }
 
   .source-badge {

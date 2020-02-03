@@ -4,14 +4,7 @@
       <ChatHeaderExpanded v-if="isHeaderExpanded" />
       <ChatHeader v-else :title="getHeaderName" />
     </div>
-    <h4>{{ availableAgents }}</h4>
-    <AvailableAgents
-      :agents="[
-        { name: 'Pulisic', id: 'hgvjb' },
-        { name: 'Hazard', id: 'hgvjb' },
-        { name: 'Kelly', id: 'hgvjb' },
-      ]"
-    />
+    <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
     <ConversationWrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
       <div class="input-wrap">
@@ -64,6 +57,9 @@ export default {
     },
     getHeaderName() {
       return window.chatwootWebChannel.website_name;
+    },
+    showAvailableAgents() {
+      return this.availableAgents.length > 0;
     },
   },
 };

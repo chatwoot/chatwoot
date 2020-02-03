@@ -18,8 +18,11 @@ const updateContact = id => ({
   url: `/api/v1/widget/messages/${id}${window.location.search}`,
 });
 
-const getAvailableAgents = () => ({
+const getAvailableAgents = token => ({
   url: '/api/v1/widget/inbox_members',
+  params: {
+    website_token: token,
+  },
 });
 
 export default {

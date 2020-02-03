@@ -1,22 +1,25 @@
 <template>
   <div class="avatars">
-    <span class="avatar">
-      <img src="https://picsum.photos/70" />
-    </span>
-    <span class="avatar">
-      <img src="https://picsum.photos/80" />
-    </span>
-    <span class="avatar">
-      <img src="https://picsum.photos/90" />
+    <span v-for="user in users" :key="user.id" class="avatar">
+      <Thumbnail
+        size="24px"
+        :username="user.name"
+        status="online"
+        :src="user.avatar"
+        has-border
+      />
     </span>
   </div>
 </template>
 
 <script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
 export default {
   name: 'GroupedAvatars',
+  components: { Thumbnail },
   props: {
-    photos: {
+    users: {
       type: Array,
       default: () => [],
     },
@@ -30,22 +33,15 @@ export default {
 
 .avatars {
   display: inline-block;
-  transform: scale(-1, 1);
+  padding-left: $space-one;
 
   .avatar {
-    margin-left: -$space-two;
+    margin-left: -$space-slab;
     position: relative;
     display: inline-block;
-    border: 1px solid #fff;
-    border-radius: 50%;
     overflow: hidden;
     width: $space-medium;
     height: $space-medium;
-  }
-  .avatar img {
-    width: $space-medium;
-    height: $space-medium;
-    transform: scale(-1, 1);
   }
 }
 </style>
