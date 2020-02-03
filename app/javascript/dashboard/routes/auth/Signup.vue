@@ -9,9 +9,6 @@
       <h2 class="hero--title">
         {{ $t('REGISTER.TRY_WOOT') }}
       </h2>
-      <p class="hero--sub">
-        {{ $t('REGISTER.TRY_WOOT_SUB') }}
-      </p>
     </div>
     <div class="row align-center">
       <div class="medium-5 column">
