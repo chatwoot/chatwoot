@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chatwoot/twitty
-  revision: a005f8f6740fc8d2d3500701e1ab4ab0f1416c26
+  revision: 58b4958d7f4a58eec8fe9543caedb232308253f6
   specs:
     twitty (0.1.0)
       oauth
@@ -73,9 +73,9 @@ GEM
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
     ast (2.4.0)
-    attr_extras (6.2.2)
+    attr_extras (6.2.3)
     aws-eventstream (1.0.3)
-    aws-partitions (1.268.0)
+    aws-partitions (1.269.0)
     aws-sdk-core (3.89.1)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -169,7 +169,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.14.0)
       faraday (>= 0.7.4, < 1.0)
-    ffi (1.12.1)
+    ffi (1.12.2)
     foreman (0.87.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -202,7 +202,7 @@ GEM
       os (>= 0.9, < 2.0)
       signet (~> 0.12)
     haikunator (1.1.0)
-    hashie (4.0.0)
+    hashie (4.1.0)
     http (3.3.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -228,18 +228,18 @@ GEM
     json (2.3.0)
     json_pure (2.2.0)
     jwt (2.2.1)
-    kaminari (1.1.1)
+    kaminari (1.2.0)
       activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
+      kaminari-actionview (= 1.2.0)
+      kaminari-activerecord (= 1.2.0)
+      kaminari-core (= 1.2.0)
+    kaminari-actionview (1.2.0)
       actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
+      kaminari-core (= 1.2.0)
+    kaminari-activerecord (1.2.0)
       activerecord
-      kaminari-core (= 1.1.1)
-    kaminari-core (1.1.1)
+      kaminari-core (= 1.2.0)
+    kaminari-core (1.2.0)
     koala (3.0.0)
       addressable
       faraday
@@ -265,7 +265,7 @@ GEM
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2019.1009)
-    mimemagic (0.3.3)
+    mimemagic (0.3.4)
     mini_magick (4.10.1)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -298,7 +298,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
-    rack (2.1.1)
+    rack (2.1.2)
     rack-cache (1.11.0)
       rack (>= 0.4)
     rack-cors (1.1.1)
@@ -387,7 +387,7 @@ GEM
       unicode-display_width (>= 1.4.0, < 1.7)
     rubocop-performance (1.5.2)
       rubocop (>= 0.71.0)
-    rubocop-rails (2.4.1)
+    rubocop-rails (2.4.2)
       rack (>= 1.1)
       rubocop (>= 0.72.0)
     rubocop-rspec (1.37.1)
@@ -411,11 +411,10 @@ GEM
       jwt (>= 1.5, < 3.0)
       multi_json (~> 1.10)
     simple_oauth (0.3.1)
-    simplecov (0.17.1)
+    simplecov (0.18.1)
       docile (~> 1.1)
-      json (>= 1.8, < 3)
-      simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.2)
+      simplecov-html (~> 0.11.0)
+    simplecov-html (0.11.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -427,7 +426,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    telegram-bot-ruby (0.11.0)
+    telegram-bot-ruby (0.12.0)
       faraday
       inflecto
       virtus
