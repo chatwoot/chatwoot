@@ -12,6 +12,7 @@ import { IFrameHelper } from 'widget/helpers/utils';
 export default {
   name: 'App',
   mounted() {
+    const { website_token: websiteToken = '' } = window.chatwootWebChannel;
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
@@ -25,15 +26,16 @@ export default {
     this.setWidgetColor(window.chatwootWebChannel);
 
     window.addEventListener('message', e => {
-      if (
-        typeof e.data !== 'string' ||
-        e.data.indexOf('chatwoot-widget:') !== 0
-      ) {
-        return;
-      }
-      const message = JSON.parse(e.data.replace('chatwoot-widget:', ''));
+      const wootPrefix = 'chatwoot-widget:';
+      const isDataNotString = typeof e.data !== 'string';
+      const isNotFromWoot = isDataNotString || e.data.indexOf(wootPrefix) !== 0;
+
+      if (isNotFromWoot) return;
+
+      const message = JSON.parse(e.data.replace(wootPrefix, ''));
       if (message.event === 'config-set') {
         this.fetchOldConversations();
+        this.fetchAvailableAgents(websiteToken);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
@@ -44,6 +46,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
