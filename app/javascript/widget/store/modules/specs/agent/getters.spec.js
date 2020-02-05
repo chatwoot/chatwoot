@@ -2,7 +2,7 @@ import { getters } from '../../agent';
 import { agents } from './data';
 
 describe('#getters', () => {
-  it('getConversation', () => {
+  it('availableAgents', () => {
     const state = {
       records: agents,
     };

@@ -37,9 +37,7 @@ export default {
       }));
     },
     title() {
-      const { agents = [] } = this;
-      const text = getAvailableAgentsText(agents);
-      return text;
+      return getAvailableAgentsText(this.agents);
     },
   },
 };
