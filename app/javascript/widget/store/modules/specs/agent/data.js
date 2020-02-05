@@ -1,25 +1,25 @@
 export const agents = [
   {
     id: 1,
-    name: 'Adi',
+    name: 'John',
     avatar_url: '',
     availability_status: 'online',
   },
   {
-    id: 1,
-    name: 'Idi',
+    id: 2,
+    name: 'Xavier',
     avatar_url: '',
     availability_status: 'offline',
   },
   {
-    id: 1,
-    name: 'Subi',
+    id: 3,
+    name: 'Pranav',
     avatar_url: '',
     availability_status: 'online',
   },
   {
-    id: 1,
-    name: 'Jibi',
+    id: 4,
+    name: 'Nithin',
     avatar_url: '',
     availability_status: 'online',
   },

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { getAvailableAgents } from 'widget/api/agent';
 
 const state = {
-  agents: [],
+  records: [],
   uiFlags: {
     isError: false,
     hasFetched: false,
@@ -11,7 +11,7 @@ const state = {
 
 export const getters = {
   availableAgents: $state =>
-    $state.agents.filter(agent => agent.availability_status === 'online'),
+    $state.records.filter(agent => agent.availability_status === 'online'),
 };
 
 export const actions = {
@@ -31,7 +31,7 @@ export const actions = {
 
 export const mutations = {
   setAgents($state, data) {
-    Vue.set($state, 'agents', data);
+    Vue.set($state, 'records', data);
   },
   setError($state, value) {
     Vue.set($state.uiFlags, 'isError', value);

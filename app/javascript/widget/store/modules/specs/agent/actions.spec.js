@@ -1,20 +1,28 @@
-import axios from 'axios';
+import { API } from 'widget/helpers/axios';
 import { actions } from '../../agent';
 import { agents } from './data';
 
 const commit = jest.fn();
-global.axios = axios;
-jest.mock('axios');
+jest.mock('widget/helpers/axios');
 
 describe('#actions', () => {
-  describe('#get', () => {
+  describe('#fetchAvailableAgents', () => {
     it('sends correct actions if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: agents } });
-      await actions.fetchAvailableAgents({ commit }, 'ni');
-      /* commit('setAgents', payload);
-      commit('setError', false);
-      commit('setHasFetched', true);      */
-      expect(commit.mock.calls).toEqual([]);
+      API.get.mockResolvedValue({ data: { payload: agents } });
+      await actions.fetchAvailableAgents({ commit }, 'Hi');
+      expect(commit.mock.calls).toEqual([
+        ['setAgents', agents],
+        ['setError', false],
+        ['setHasFetched', true],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      API.get.mockRejectedValue({ message: 'Authentication required' });
+      await actions.fetchAvailableAgents({ commit }, 'Hi');
+      expect(commit.mock.calls).toEqual([
+        ['setError', true],
+        ['setHasFetched', true],
+      ]);
     });
   });
 });
