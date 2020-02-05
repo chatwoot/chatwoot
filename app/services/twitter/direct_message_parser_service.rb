@@ -71,16 +71,4 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
   def outgoing_message?
     message_create_data['sender_id'] == @inbox.channel.profile_id
   end
-
-  def direct_message_events
-    set_inbox
-    ensure_contacts
-    set_conversation
-    @conversation.messages.create(
-      content: message_create_data['message_data']['text'],
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: outgoing_message? ? :outgoing : :incoming
-    )
-  end
 end
