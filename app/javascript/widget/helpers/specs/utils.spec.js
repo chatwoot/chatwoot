@@ -10,7 +10,7 @@ describe('#getAvailableAgentsText', () => {
   it('returns the correct text is there are two online agents', () => {
     expect(
       getAvailableAgentsText([{ name: 'Pranav' }, { name: 'Nithin' }])
-    ).toEqual('Pranav and Nithin is available');
+    ).toEqual('Pranav and Nithin are available');
   });
 
   it('returns the correct text is there are more than two online agents', () => {

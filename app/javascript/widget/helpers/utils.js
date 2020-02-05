@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 export const isEmptyObject = obj =>
   Object.keys(obj).length === 0 && obj.constructor === Object;
 
@@ -28,7 +27,7 @@ export const getAvailableAgentsText = (agents = []) => {
 
   if (count === 2) {
     const [first, second] = agents;
-    return `${first.name} and ${second.name} is available`;
+    return `${first.name} and ${second.name} are available`;
   }
 
   const [agent] = agents;
