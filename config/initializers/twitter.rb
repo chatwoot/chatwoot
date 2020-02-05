@@ -4,5 +4,5 @@ $twitter = Twitty::Facade.new do |config|
   config.access_token = ENV.fetch('TWITTER_ACCESS_TOKEN', nil)
   config.access_token_secret = ENV.fetch('TWITTER_ACCESS_TOKEN_SECRET', nil)
   config.base_url = 'https://api.twitter.com'
-  config.environment = 'chatwootstaging'
+  config.environment = ENV.fetch('TWITTER_ENVIRONMENT', '')
 end
