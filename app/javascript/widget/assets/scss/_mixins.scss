@@ -36,14 +36,14 @@ $color-shadow-outline: rgba(66, 153, 225, 0.5);
 }
 
 @mixin shadow {
-  box-shadow: 0 1px 10px -4 $color-shadow-medium,
+  box-shadow: 0 1px 10px 4px $color-shadow-medium,
     0 1px 5px 2px $color-shadow-light;
 }
 
 
 @mixin shadow-medium {
-  box-shadow: 0 4px 6px -8px $color-shadow-medium,
-    0 2px 4px -4px $color-shadow-light;
+  box-shadow: 0 4px 24px 8px $color-shadow-medium,
+    0 2px 16px 4px $color-shadow-light;
 }
 
 
