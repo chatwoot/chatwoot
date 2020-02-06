@@ -33,7 +33,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   describe 'POST /api/v1/widget/messages' do
     context 'when post request is made' do
       it 'creates message in conversation' do
-        message_params = { content: 'hello world' }
+        conversation.destroy # Test all params
+        message_params = { content: 'hello world', timestamp: Time.current }
         post api_v1_widget_messages_url,
              params: { website_token: web_widget.website_token, message: message_params },
              headers: { 'X-Auth-Token' => token },
@@ -61,6 +62,19 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         message.reload
         expect(message.input_submitted_email).to eq(email)
         expect(message.conversation.contact.email).to eq(email)
+      end
+    end
+
+    context 'when put request is made with invalid email' do
+      it 'rescues the error' do
+        message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        contact_params = { email: nil }
+        put api_v1_widget_message_url(message.id),
+            params: { website_token: web_widget.website_token, contact: contact_params },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:internal_server_error)
       end
     end
 
