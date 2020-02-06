@@ -3,7 +3,7 @@ class Twitter::SendReplyService
 
   def perform
     return if message.private
-    return if message.fb_id
+    return if message.source_id
     return if inbox.channel.class.to_s != 'Channel::TwitterProfile'
     return unless outgoing_message_from_chatwoot?
 
@@ -16,6 +16,10 @@ class Twitter::SendReplyService
     conversation.additional_attributes['type']
   end
 
+  def screen_name
+    "@#{additional_attributes ? additional_attributes['screen_name'] : ''} "
+  end
+
   def send_direct_message
     $twitter.send_direct_message(
       recipient_id: contact_inbox.source_id,
@@ -26,7 +30,7 @@ class Twitter::SendReplyService
   def send_tweet_reply
     $twitter.send_tweet_reply(
       reply_to_tweet_id: conversation.additional_attributes['tweet_id'],
-      tweet: message.content
+      tweet: screen_name + message.content
     )
   end
 
@@ -38,6 +42,8 @@ class Twitter::SendReplyService
     message.outgoing?
   end
 
+  delegate :additional_attributes, to: :contact
+  delegate :contact, to: :conversation
   delegate :contact_inbox, to: :conversation
   delegate :conversation, to: :message
   delegate :inbox, to: :conversation

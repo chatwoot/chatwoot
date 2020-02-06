@@ -6,11 +6,12 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
     find_or_create_contact(user)
     set_conversation
     @conversation.messages.create(
-      content: tweet_text,
       account_id: @inbox.account_id,
+      contact_id: @contact.id,
+      content: tweet_text,
       inbox_id: @inbox.id,
       message_type: message_type,
-      fb_id: tweet_data['id']
+      source_id: tweet_data['id'].to_s
     )
   end
 
@@ -37,7 +38,7 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
   end
 
   def parent_tweet_id
-    tweet_data['in_reply_to_status_id_str'].nil? ? tweet_data['id'] : tweet_data['in_reply_to_status_id_str']
+    tweet_data['in_reply_to_status_id_str'].nil? ? tweet_data['id'].to_s : tweet_data['in_reply_to_status_id_str']
   end
 
   def conversation_params
@@ -48,15 +49,19 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: {
         type: 'tweet',
-        tweet_id: tweet_data['id_str'],
+        tweet_id: parent_tweet_id,
         tweet_source: tweet_data['source']
       }
     }
   end
 
   def set_conversation
-    tweet_conversations = @contact_inbox.conversations.where("additional_attributes ->> 'tweet_id' = ?", tweet_data['id_str'])
+    tweet_conversations = @contact_inbox.conversations.where("additional_attributes ->> 'tweet_id' = ?", parent_tweet_id)
     @conversation = tweet_conversations.first
+    return if @conversation
+
+    tweet_message = @inbox.messages.find_by(source_id: parent_tweet_id)
+    @conversation = tweet_message.conversation if tweet_message
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
