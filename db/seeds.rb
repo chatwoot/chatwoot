@@ -1,8 +1,14 @@
 account = Account.create!(name: 'Acme Inc')
 
-user = User.new(name: 'John', email: 'john@acme.inc', password: '123456', account: account, role: :administrator)
+user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
 user.skip_confirmation!
 user.save!
+
+AccountUser.create!(
+  account_id: account.id,
+  user_id: user.id,
+  role: :administrator
+)
 
 web_widget = Channel::WebWidget.create!(account: account, website_name: 'Acme', website_url: 'https://acme.inc')
 

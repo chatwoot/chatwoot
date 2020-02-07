@@ -15,12 +15,13 @@ class Api::V1::AgentsController < Api::BaseController
   end
 
   def update
-    @agent.update!(agent_params)
-    render json: @agent
+    @agent.update!(agent_params.except(:role))
+    @agent.account_users.first.update!(role: agent_params[:role]) if agent_params[:role]
+    render 'api/v1/models/user.json', locals: { resource: @agent }
   end
 
   def create
-    render json: @user
+    render 'api/v1/models/user.json', locals: { resource: @user }
   end
 
   private
