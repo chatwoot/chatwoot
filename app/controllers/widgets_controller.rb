@@ -4,9 +4,7 @@ class WidgetsController < ActionController::Base
   before_action :set_contact
   before_action :build_contact
 
-  def index
-    render
-  end
+  def index; end
 
   private
 
