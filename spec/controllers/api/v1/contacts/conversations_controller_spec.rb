@@ -9,6 +9,7 @@ RSpec.describe '/api/v1/contacts/:id/conversations', type: :request do
   let(:contact_inbox_2) { create(:contact_inbox, contact: contact, inbox: inbox_2) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:unknown) { create(:user, account: account, role: nil) }
 
   before do
     create(:inbox_member, user: agent, inbox: inbox_1)
@@ -44,6 +45,17 @@ RSpec.describe '/api/v1/contacts/:id/conversations', type: :request do
           json_response = JSON.parse(response.body)
 
           expect(json_response['payload'].length).to eq 2
+        end
+      end
+
+      context 'with user as unknown role' do
+        it 'returns conversations from no inboxes' do
+          get "/api/v1/contacts/#{contact.id}/conversations", headers: unknown.create_new_auth_token
+
+          expect(response).to have_http_status(:success)
+          json_response = JSON.parse(response.body)
+
+          expect(json_response['payload'].length).to eq 0
         end
       end
     end
