@@ -10,4 +10,3 @@ json.role resource.account_users.first.role
 json.inviter_id resource.account_users.first.inviter_id
 json.confirmed resource.confirmed?
 json.avatar_url resource.avatar_url
-
