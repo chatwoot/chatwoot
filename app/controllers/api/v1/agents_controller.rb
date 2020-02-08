@@ -10,13 +10,13 @@ class Api::V1::AgentsController < Api::BaseController
   end
 
   def destroy
-    @agent.destroy
+    @agent.account_user.destroy
     head :ok
   end
 
   def update
     @agent.update!(agent_params.except(:role))
-    @agent.account_users.first.update!(role: agent_params[:role]) if agent_params[:role]
+    @agent.account_user.update!(role: agent_params[:role]) if agent_params[:role]
     render 'api/v1/models/user.json', locals: { resource: @agent }
   end
 

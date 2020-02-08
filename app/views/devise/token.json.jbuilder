@@ -9,8 +9,8 @@ json.payload do
     json.email @resource.email
     json.account_id @resource.account.id
     json.pubsub_token @resource.pubsub_token
-    json.role @resource.account_users.first.role
-    json.inviter_id @resource.account_users.first.inviter_id
+    json.role @resource.account_user.role
+    json.inviter_id @resource.account_user.inviter_id
     json.confirmed @resource.confirmed?
     json.avatar_url @resource.avatar_url
   end

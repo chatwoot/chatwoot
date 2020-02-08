@@ -79,24 +79,30 @@ class User < ApplicationRecord
     self.uid = email
   end
 
-  def account
+  def account_user
     # FIXME : temporary hack to transition over to multiple accounts per user
-    account_users&.first&.account
+    # We should be fetching the current account user relationship here.
+    account_users&.first
+  end
+
+  def account
+    account_user&.account
   end
 
   def administrator?
-    # FIXME : temporary hack to transition over to multiple accounts per user
-    account_users&.first&.administrator?
+    account_user&.administrator?
   end
 
   def agent?
-    # FIXME : temporary hack to transition over to multiple accounts per user
-    account_users&.first&.agent?
+    account_user&.agent?
+  end
+
+  def role
+    account_user&.role
   end
 
   def inviter
-    # FIXME : temporary hack to transition over to multiple accounts per user
-    account_users&.first&.inviter
+    account_user&.inviter
   end
 
   def serializable_hash(options = nil)

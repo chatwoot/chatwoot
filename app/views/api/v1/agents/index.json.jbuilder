@@ -5,6 +5,6 @@ json.array! @agents do |agent|
   json.email agent.email
   json.id agent.id
   json.name agent.name
-  json.role agent.account_users.first.role
+  json.role agent.role
   json.thumbnail agent.avatar_url
 end
