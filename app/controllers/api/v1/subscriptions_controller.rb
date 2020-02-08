@@ -1,4 +1,4 @@
-class Api::V1::SubscriptionsController < ApplicationController
+class Api::V1::SubscriptionsController < Api::BaseController
   skip_before_action :check_subscription
 
   def index
