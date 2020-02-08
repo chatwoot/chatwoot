@@ -10,6 +10,6 @@ json.payload do
     json.source_id message.source_id
     json.attachment message.attachment.push_event_data if message.attachment
     json.sender message.user.push_event_data if message.user
-    json.contact message.contact.
+    json.contact message.contact
   end
 end
