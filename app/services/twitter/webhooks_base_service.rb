@@ -5,7 +5,7 @@ class Twitter::WebhooksBaseService
     payload[:for_user_id]
   end
 
-  def additional_contact_attributes
+  def additional_contact_attributes(user)
     {
       screen_name: user['screen_name'],
       location: user['location'],
@@ -27,7 +27,7 @@ class Twitter::WebhooksBaseService
     return if @contact
 
     @contact_inbox = @inbox.channel.create_contact_inbox(
-      user['id'], user['name'], additional_contact_attributes
+      user['id'], user['name'], additional_contact_attributes(user)
     )
     @contact = @contact_inbox.contact
     avatar_resource = LocalResource.new(user['profile_image_url'])
