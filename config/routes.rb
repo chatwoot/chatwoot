@@ -104,6 +104,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :twitter do
+    resource :authorization, only: [:create]
+    resource :callback, only: [:show]
+  end
+
   # Used in mailer templates
   resource :app, only: [:index] do
     resources :conversations, only: [:show]
