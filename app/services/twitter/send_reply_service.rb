@@ -12,6 +12,17 @@ class Twitter::SendReplyService
 
   private
 
+  def twitter_client
+    Twitty::Facade.new do |config|
+      config.consumer_key = ENV.fetch('TWITTER_CONSUMER_KEY', nil)
+      config.consumer_secret = ENV.fetch('TWITTER_CONSUMER_SECRET', nil)
+      config.access_token = channel.twitter_access_token
+      config.access_token_secret = channel.twitter_access_token_secret
+      config.base_url = 'https://api.twitter.com'
+      config.environment = ENV.fetch('TWITTER_ENVIRONMENT', '')
+    end
+  end
+
   def conversation_type
     conversation.additional_attributes['type']
   end
@@ -21,14 +32,14 @@ class Twitter::SendReplyService
   end
 
   def send_direct_message
-    $twitter.send_direct_message(
+    twitter_client.send_direct_message(
       recipient_id: contact_inbox.source_id,
       message: message.content
     )
   end
 
   def send_tweet_reply
-    $twitter.send_tweet_reply(
+    twitter_client.send_tweet_reply(
       reply_to_tweet_id: conversation.additional_attributes['tweet_id'],
       tweet: screen_name + message.content
     )
@@ -47,4 +58,5 @@ class Twitter::SendReplyService
   delegate :contact_inbox, to: :conversation
   delegate :conversation, to: :message
   delegate :inbox, to: :conversation
+  delegate :channel, to: :inbox
 end
