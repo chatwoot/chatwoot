@@ -20,6 +20,16 @@
           >
             {{ contact.email }}
           </a>
+
+          <div
+            v-if="
+              contact.additional_attributes &&
+                contact.additional_attributes.screen_name
+            "
+            class="contact--location"
+          >
+            {{ `@${contact.additional_attributes.screen_name}` }}
+          </div>
           <div class="contact--location">
             {{ contact.location }}
           </div>
@@ -27,6 +37,15 @@
       </div>
       <div v-if="contact.bio" class="contact--bio">
         {{ contact.bio }}
+      </div>
+      <div
+        v-if="
+          contact.additional_attributes &&
+            contact.additional_attributes.description
+        "
+        class="contact--bio"
+      >
+        {{ contact.additional_attributes.description }}
       </div>
     </div>
     <div v-if="browser" class="conversation--details">
