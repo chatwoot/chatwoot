@@ -2,7 +2,7 @@ require 'open-uri'
 
 # This class creates both outgoing messages from chatwoot and echo outgoing messages based on the flag `outgoing_echo`
 # Assumptions
-# 1. Incase of an outgoing message which is echo, fb_id will NOT be nil,
+# 1. Incase of an outgoing message which is echo, source_id will NOT be nil,
 #    based on this we are showing "not sent from chatwoot" message in frontend
 #    Hence there is no need to set user_id in message for outgoing echo messages.
 
@@ -121,7 +121,7 @@ class Messages::MessageBuilder
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
       content: response.content,
-      fb_id: response.identifier
+      source_id: response.identifier
     }
   end
 

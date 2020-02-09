@@ -16,19 +16,19 @@
       :size="avatarSize"
     />
     <img
-      v-if="badge === 'Channel::FacebookPage' && status !== ''"
+      v-if="badge === 'Channel::FacebookPage'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"
       src="~dashboard/assets/images/fb-badge.png"
     />
     <div
-      v-else-if="status === 'online'"
+      v-else-if="badge === 'Channel::WebWidget' && status === 'online'"
       class="source-badge user--online"
       :style="statusStyle"
     ></div>
     <img
-      v-if="badge === 'Channel::TwitterProfile' && status !== ''"
+      v-if="badge === 'Channel::TwitterProfile'"
       id="badge"
       class="source-badge"
       :style="badgeStyle"

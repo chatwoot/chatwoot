@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_190208) do
+ActiveRecord::Schema.define(version: 2020_02_06_182948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 2020_01_24_190208) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
+    t.jsonb "additional_attributes"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
@@ -168,10 +169,13 @@ ActiveRecord::Schema.define(version: 2020_01_24_190208) do
     t.boolean "private", default: false
     t.integer "user_id"
     t.integer "status", default: 0
-    t.string "fb_id"
+    t.string "source_id"
     t.integer "content_type", default: 0
     t.json "content_attributes", default: {}
+    t.bigint "contact_id"
+    t.index ["contact_id"], name: "index_messages_on_contact_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
@@ -200,11 +204,9 @@ ActiveRecord::Schema.define(version: 2020_01_24_190208) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -258,5 +260,6 @@ ActiveRecord::Schema.define(version: 2020_01_24_190208) do
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
+  add_foreign_key "messages", "contacts"
   add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end
