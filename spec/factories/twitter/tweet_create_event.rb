@@ -42,21 +42,6 @@ FactoryBot.define do
         }
       ]
     end
-    users do
-      {
-        '1' => {
-          id: '1',
-          name: 'person 1',
-          profile_image_url: 'https://via.placeholder.com/250x250.png'
-        },
-        '2' => {
-          id: '1',
-          name: 'person 1',
-          profile_image_url: 'https://via.placeholder.com/250x250.png'
-        }
-      }
-    end
-
     initialize_with { attributes }
   end
 end
