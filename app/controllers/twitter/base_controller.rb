@@ -1,4 +1,4 @@
-class TwitterBaseController < ApplicationController
+class Twitter::BaseController < ApplicationController
   private
 
   def parsed_body
