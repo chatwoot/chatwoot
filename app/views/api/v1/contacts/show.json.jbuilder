@@ -5,4 +5,5 @@ json.payload do
   json.name @contact.name
   json.phone_number @contact.phone_number
   json.thumbnail @contact.avatar_url
+  json.additional_attributes @contact.additional_attributes
 end

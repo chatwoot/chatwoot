@@ -28,9 +28,9 @@ class Channel::TwitterProfile < ApplicationRecord
     'Twitter'
   end
 
-  def create_contact_inbox(profile_id, name)
+  def create_contact_inbox(profile_id, name, additional_attributes)
     ActiveRecord::Base.transaction do
-      contact = inbox.account.contacts.create!(name: name)
+      contact = inbox.account.contacts.create!(additional_attributes: additional_attributes, name: name)
       ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
