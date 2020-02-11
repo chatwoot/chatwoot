@@ -4,9 +4,9 @@ sidekiq_redis_config = {
 }
 
 Sidekiq.configure_client do |config|
-  config.redis = sidekiq_redis_config.merge(size: 15)
+  config.redis = sidekiq_redis_config.merge(size: 25)
 end
 
 Sidekiq.configure_server do |config|
-  config.redis = sidekiq_redis_config.merge(size: 15)
+  config.redis = sidekiq_redis_config.merge(size: 25)
 end
