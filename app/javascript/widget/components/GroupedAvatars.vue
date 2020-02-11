@@ -4,7 +4,6 @@
       <Thumbnail
         size="24px"
         :username="user.name"
-        status="online"
         :src="user.avatar"
         has-border
       />

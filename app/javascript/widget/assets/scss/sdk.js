@@ -101,10 +101,10 @@ export const SDK_CSS = ` .woot-widget-holder {
     width: 400px !important;
     min-height: 250px !important;
     max-height: 590px !important;
-    -o-border-radius: 8px !important;
-    -moz-border-radius: 8px !important;
-    -webkit-border-radius: 8px !important;
-    border-radius: 8px !important;
+    -o-border-radius: 16px !important;
+    -moz-border-radius: 16px !important;
+    -webkit-border-radius: 16px !important;
+    border-radius: 16px !important;
   }
 }
 
