@@ -15,6 +15,9 @@
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot."
       },
+      "TWITTER": {
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website channel",
         "DESC": "Create a channel for your website and start supporting your customers via our website widget.",

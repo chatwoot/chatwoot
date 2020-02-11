@@ -18,6 +18,7 @@ class Account < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
+  has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
