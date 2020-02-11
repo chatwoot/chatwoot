@@ -41,9 +41,21 @@ class Channel::TwitterProfile < ApplicationRecord
     end
   end
 
+  def twitter_client
+    Twitty::Facade.new do |config|
+      config.consumer_key = ENV.fetch('TWITTER_CONSUMER_KEY', nil)
+      config.consumer_secret = ENV.fetch('TWITTER_CONSUMER_SECRET', nil)
+      config.access_token = twitter_access_token
+      config.access_token_secret = twitter_access_token_secret
+      config.base_url = 'https://api.twitter.com'
+      config.environment = ENV.fetch('TWITTER_ENVIRONMENT', '')
+    end
+  end
+
   private
 
   def unsubscribe
-    # to implement
+    webhooks_list = twitter_client.fetch_webhooks.body
+    twitter_client.unsubscribe_webhook(id: webhooks_list.first['id']) if webhooks_list.present?
   end
 end

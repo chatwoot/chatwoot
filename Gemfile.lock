@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/chatwoot/twitty
-  revision: 58b4958d7f4a58eec8fe9543caedb232308253f6
+  revision: c1edd557401d1e8a197b19e738f82e39507a8e2d
   specs:
     twitty (0.1.0)
       oauth

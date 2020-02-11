@@ -1,9 +1,11 @@
 import Facebook from './channels/Facebook';
 import Website from './channels/Website';
+import Twitter from './channels/Twitter';
 
 const channelViewList = {
   facebook: Facebook,
   website: Website,
+  twitter: Twitter,
 };
 
 export default {

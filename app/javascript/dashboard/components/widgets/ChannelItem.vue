@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     isActive(channel) {
-      return ['facebook', 'website'].includes(channel);
+      return ['facebook', 'website', 'twitter'].includes(channel);
     },
     onItemClick() {
       if (this.isActive(this.channel)) {
