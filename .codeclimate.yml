@@ -11,14 +11,15 @@ plugins:
     enabled: true
   brakeman:
     enabled: false
-  scss-lint:
-    enabled: true
 checks:
   similar-code:
     enabled: false
-  SpaceAroundOperator:
-    enabled: false
-
+  engines:
+    scss-lint:
+      enabled: true
+      checks:
+      SpaceAroundOperator:
+        enabled: false
 exclude_patterns:
   - 'spec/'
   - '**/specs/'
