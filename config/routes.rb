@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
+  get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+  get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
   match '/status', to: 'home#status', via: [:get]
 
@@ -102,6 +104,11 @@ Rails.application.routes.draw do
         end
       end
     end
+  end
+
+  namespace :twitter do
+    resource :authorization, only: [:create]
+    resource :callback, only: [:show]
   end
 
   # Used in mailer templates
