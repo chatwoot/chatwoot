@@ -8,7 +8,7 @@
         :username="chat.meta.sender.name"
       />
       <div class="user--profile__meta">
-        <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
+        <h3 class="user--name text-truncate">
           {{ chat.meta.sender.name }}
         </h3>
         <button
@@ -93,7 +93,9 @@ export default {
       ];
     },
     viewProfileButtonLabel() {
-      return `${this.isContactPanelOpen ? 'Hide' : 'View'}  Profile`;
+      return `${
+        this.isContactPanelOpen ? 'Close' : 'Open'
+      }  Conversation Details`;
     },
   },
 

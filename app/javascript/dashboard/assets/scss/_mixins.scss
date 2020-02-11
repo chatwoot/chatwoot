@@ -1,3 +1,5 @@
+@import '~widget/assets/scss/mixins';
+
 //borders
 @mixin border-nil() {
   border-color: transparent;
@@ -139,7 +141,7 @@
 }
 
 @mixin elegent-shadow() {
-  box-shadow: 0 10px 25px 0 rgba(49,49,93,0.15);
+  box-shadow: 0 10px 25px 0 rgba(49, 49, 93, 0.15);
 }
 
 @mixin elegant-card() {
@@ -181,41 +183,55 @@
 // .element{
 //     @include arrow(top, #000, 50px);
 // }
-@mixin arrow($direction, $color, $size){
-    display: block;
-    height: 0;
-    width: 0;
-    content: '';
+@mixin arrow($direction, $color, $size) {
+  display: block;
+  height: 0;
+  width: 0;
+  content: '';
 
-    @if $direction == 'top' {
-      border-left: $size solid transparent;
-      border-right: $size solid transparent;
-      border-bottom: $size solid $color;
-    } @else if $direction == 'right' {
-      border-top: $size solid transparent;
-      border-bottom: $size solid transparent;
-      border-left: $size solid $color;
-    } @else if $direction == 'bottom' {
-      border-top: $size solid $color;
-      border-right: $size solid transparent;
-      border-left: $size solid transparent;
-    } @else if $direction == 'left' {
-      border-top: $size solid transparent;
-      border-right: $size solid $color;
-      border-bottom: $size solid transparent;
-    } @else if $direction == 'top-left' {
-      border-top: $size solid $color;
-      border-right: $size solid transparent;
-    } @else if $direction == 'top-right' {
-      border-top: $size solid $color;
-      border-left: $size solid transparent;
-    } @else if $direction == 'bottom-left' {
-      border-bottom: $size solid $color;
-      border-right: $size solid transparent;
-    } @else if $direction == 'bottom-right' {
-      border-bottom: $size solid $color;
-      border-left: $size solid transparent;
-    }
+  @if $direction=='top' {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-bottom: $size solid $color;
+  }
+
+  @else if $direction=='right' {
+    border-top: $size solid transparent;
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+  }
+
+  @else if $direction=='bottom' {
+    border-top: $size solid $color;
+    border-right: $size solid transparent;
+    border-left: $size solid transparent;
+  }
+
+  @else if $direction=='left' {
+    border-top: $size solid transparent;
+    border-right: $size solid $color;
+    border-bottom: $size solid transparent;
+  }
+
+  @else if $direction=='top-left' {
+    border-top: $size solid $color;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction=='top-right' {
+    border-top: $size solid $color;
+    border-left: $size solid transparent;
+  }
+
+  @else if $direction=='bottom-left' {
+    border-bottom: $size solid $color;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction=='bottom-right' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+  }
 }
 
 @mixin text-ellipsis {
