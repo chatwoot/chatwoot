@@ -72,11 +72,11 @@ gem 'haikunator'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+gem 'scout_apm'
 gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
-gem 'scout_apm'
 
 group :development do
   gem 'annotate'
