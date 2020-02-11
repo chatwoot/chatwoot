@@ -53,16 +53,6 @@ $color-body: #3C4858;
 $color-heading: #1F2D3D;
 $color-extra-light-blue: #F5F7F9;
 
-$primary-color: $color-woot;
-$secondary-color: #FF5216;
-$success-color: #13ce66;
-$warning-color: #ffc82c;
-$alert-color: #ff4949;
-
-// Color-palettes
-
-$color-primary-dark: darken($color-woot, 20%);
-
 // Thumbnail
 $thumbnail-radius: 4rem;
 
@@ -91,6 +81,3 @@ $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !d
 
 // Ionicons
 $ionicons-font-path: '~ionicons/fonts';
-
-// Transitions
-$transition-ease-in: all 0.250s ease-in;

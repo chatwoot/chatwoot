@@ -24,17 +24,8 @@
     }
   }
 
-  >.icon {
+  > .icon {
     font-size: $font-size-default;
-  }
-
-  &.tiny {
-    font-size: $font-size-mini;
-    padding: $space-small $space-slab;
-  }
-
-  &.round {
-    border-radius: $space-larger;
   }
 }
 
