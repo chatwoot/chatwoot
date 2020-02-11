@@ -1,9 +1,9 @@
 <template>
   <div class="conv-details--item">
-    <div class="conv-details--item__label">
+    <h4 class="conv-details--item__label">
       <i :class="icon" class="conv-details--item__icon"></i>
       {{ title }}
-    </div>
+    </h4>
     <div v-if="value" class="conv-details--item__value">
       {{ value }}
     </div>
@@ -14,7 +14,7 @@
 export default {
   props: {
     title: { type: String, required: true },
-    icon: { type: String, required: true },
+    icon: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
   },
 };
@@ -32,16 +32,18 @@ export default {
   }
 
   .conv-details--item__icon {
-    padding-right: $space-micro;
+    padding-right: $space-smaller;
   }
 
   .conv-details--item__label {
     font-weight: $font-weight-medium;
     margin-bottom: $space-micro;
+    font-size: $font-size-small;
   }
 
   .conv-details--item__value {
     word-break: break-all;
+    margin-top: $space-slab;
   }
 }
 </style>
