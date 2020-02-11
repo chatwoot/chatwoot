@@ -4,7 +4,7 @@
 # pick it up automatically.
 ---
 :verbose: false
-:concurrency: 3
+:concurrency: 5
 :timeout: 25
 
 # Sidekiq will run this file through ERB when reading it so you can
@@ -18,6 +18,6 @@
 
 # you can override concurrency based on environment
 production:
-  :concurrency: 10
+  :concurrency: 20
 staging:
-  :concurrency: 5
+  :concurrency: 10
