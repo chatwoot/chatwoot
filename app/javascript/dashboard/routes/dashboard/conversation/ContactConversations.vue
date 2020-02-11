@@ -1,10 +1,13 @@
 <template>
   <div class="contact-conversation--panel">
-    <contact-details-item :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')" />
+    <contact-details-item
+      icon="ion-chatbubbles"
+      :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
+    />
     <div v-if="!uiFlags.isFetching">
-      <p v-if="!previousConversations.length" class="no-results">
+      <i v-if="!previousConversations.length">
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
-      </p>
+      </i>
       <div v-else class="contact-conversation--list">
         <conversation-card
           v-for="conversation in previousConversations"
@@ -75,17 +78,11 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal;
-  padding-top: 0;
+  @include border-normal-top;
+  padding: $space-medium;
 }
 
 .contact-conversation--list {
-  margin-top: $space-normal;
-}
-
-.no-results {
-  margin: 0;
-  color: $color-gray;
-  padding: 0 $space-small;
+  margin-top: -$space-normal;
 }
 </style>

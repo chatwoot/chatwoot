@@ -47,19 +47,16 @@
   @include background-gray;
   @include margin(0);
   @include border-normal-left;
-
   .current-chat {
     @include flex;
     @include full-height;
     flex-direction: column;
     @include flex-align(center, middle);
-
     div {
       @include flex;
       @include full-height;
       flex-direction: column;
       @include flex-align(center, middle);
-
       img {
         @include margin($space-normal);
         width: 10rem;
@@ -90,7 +87,7 @@
   height: 100%;
   overflow-y: scroll;
 
-  >li {
+  > li {
     @include flex;
     @include flex-shrink;
     @include margin($zero $zero $space-smaller);
@@ -150,7 +147,7 @@
       @include flex-align(right, null);
 
       .wrap {
-        margin-right: $space-normal;
+        margin-right: $space-small;
         text-align: right;
       }
 

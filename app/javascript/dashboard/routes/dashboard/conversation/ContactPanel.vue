@@ -48,12 +48,6 @@
         {{ contact.additional_attributes.description }}
       </div>
     </div>
-    <conversation-labels :conversation-id="conversationId" />
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
     <div v-if="browser" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"
@@ -80,6 +74,13 @@
         icon="ion-clock"
       />
     </div>
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
+
+    <conversation-labels :conversation-id="conversationId" />
   </div>
 </template>
 
@@ -168,11 +169,9 @@ export default {
 }
 
 .contact--profile {
-  padding: $space-normal;
+  width: 100%;
+  padding: $space-normal $space-medium $zero;
   align-items: center;
-  margin: $space-medium $space-normal 0;
-  @include elegant-card;
-  @include light-shadow;
 
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -192,10 +191,9 @@ export default {
 
 .contact--name {
   @include text-ellipsis;
-  text-transform: capitalize;
 
   font-weight: $font-weight-bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-default;
 }
 
 .contact--email {
@@ -212,7 +210,8 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-two $space-normal;
+  padding: $space-medium;
+  width: 100%;
 }
 
 .conversation--labels {
