@@ -271,5 +271,4 @@ ActiveRecord::Schema.define(version: 2020_02_06_182948) do
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "messages", "contacts"
-  add_foreign_key "users", "users", column: "inviter_id", on_delete: :nullify
 end
