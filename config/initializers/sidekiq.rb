@@ -1,12 +1,12 @@
 sidekiq_redis_config = {
-    url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
-    password: ENV.fetch('REDIS_PASSWORD', nil)
+  url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
+  password: ENV.fetch('REDIS_PASSWORD', nil)
 }
 
 Sidekiq.configure_client do |config|
-    config.redis = sidekiq_redis_config.merge(size: 5)
+  config.redis = sidekiq_redis_config.merge(size: 15)
 end
 
 Sidekiq.configure_server do |config|
-    config.redis = sidekiq_redis_config.merge(size: 10)
+  config.redis = sidekiq_redis_config.merge(size: 15)
 end
