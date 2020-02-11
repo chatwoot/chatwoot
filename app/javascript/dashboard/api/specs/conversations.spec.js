@@ -10,6 +10,6 @@ describe('#ConversationApi', () => {
     expect(conversations).toHaveProperty('update');
     expect(conversations).toHaveProperty('delete');
     expect(conversations).toHaveProperty('getLabels');
-    expect(conversations).toHaveProperty('createLabels');
+    expect(conversations).toHaveProperty('updateLabels');
   });
 });
