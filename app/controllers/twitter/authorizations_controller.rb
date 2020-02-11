@@ -1,12 +1,12 @@
 class Twitter::AuthorizationsController < Twitter::BaseController
   def create
-    @response = twitter_client.request_oauth_token(url: callback_url)
+    @response = twitter_client.request_oauth_token(url: twitter_callback_url)
 
     if @response.status == '200'
       ::Redis::Alfred.setex(oauth_token, account.id)
       redirect_to oauth_authorize_endpoint(oauth_token)
     else
-      redirect_to twitter_inbox_url
+      redirect_to app_new_twitter_inbox_url
     end
   end
 
@@ -14,14 +14,6 @@ class Twitter::AuthorizationsController < Twitter::BaseController
 
   def oauth_token
     parsed_body['oauth_token']
-  end
-
-  def callback_url
-    "#{host}/twitter/callback"
-  end
-
-  def twitter_inbox_url
-    "#{host}/app/settings/inboxes/new/twitter"
   end
 
   def user

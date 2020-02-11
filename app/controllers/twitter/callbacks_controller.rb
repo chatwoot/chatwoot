@@ -7,9 +7,9 @@ class Twitter::CallbacksController < Twitter::BaseController
     if @response.status == '200'
       inbox = build_inbox
       ::Redis::Alfred.delete(permitted_params[:oauth_token])
-      redirect_to "/app/settings/inboxes/new/#{inbox.id}/agents"
+      redirect_to app_twitter_inbox_agents(inbox_id: inbox.id)
     else
-      redirect_to '/app/settings/inboxes/new/twitter'
+      redirect_to app_new_twitter_inbox_url
     end
   end
 
