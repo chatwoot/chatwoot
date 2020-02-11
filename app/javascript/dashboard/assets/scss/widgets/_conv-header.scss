@@ -5,7 +5,6 @@
   @include flex;
   @include flex-align($x: justify, $y: middle);
   @include border-normal-bottom;
-
   // Resolve Button
   .button {
     @include margin(0);
@@ -45,7 +44,6 @@
     .user--name {
       @include margin(0);
       font-size: $font-size-medium;
-      text-transform: capitalize;
     }
 
     .user--profile__meta {
@@ -66,7 +64,7 @@
 }
 
 .button.resolve--button {
-  >.icon {
+  > .icon {
     padding-right: $space-small;
     font-size: $font-size-default;
   }

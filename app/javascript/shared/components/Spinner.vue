@@ -1,16 +1,7 @@
 <template>
-  <span class="spinner" :class="size"></span>
+  <span class="spinner small"></span>
 </template>
-<script>
-export default {
-  props: {
-    size: {
-      type: String,
-      default: 'small',
-    },
-  },
-};
-</script>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables';
 
@@ -48,7 +39,7 @@ export default {
   vertical-align: middle;
 
   &.message {
-    padding: $space-one;
+    padding: $space-normal;
     top: 0;
     left: 0;
     margin: 0 auto;
@@ -70,18 +61,6 @@ export default {
       width: $space-normal;
       height: $space-normal;
       margin-top: -$space-small;
-    }
-  }
-
-  &.tiny {
-    width: $space-one;
-    height: $space-one;
-    padding: 0 $space-smaller;
-
-    &:before {
-      width: $space-one;
-      height: $space-one;
-      margin-top: -$space-small + $space-micro;
     }
   }
 }
