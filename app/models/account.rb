@@ -22,6 +22,7 @@ class Account < ApplicationRecord
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
+  has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
 
   after_create :create_subscription
