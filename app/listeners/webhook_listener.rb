@@ -9,7 +9,7 @@ class WebhookListener < BaseListener
     payload = message.push_event_data
 
     webhook.urls.each do |url|
-      Webhooks::Trigger.execute(url, payload)
+      WebhookJob.perform_later(url, payload)
     end
   end
 end

@@ -8,7 +8,7 @@ describe Webhooks::Trigger do
       params = { hello: 'hello' }
       url = 'htpps://test.com'
 
-      allow(RestClient).to receive(:post).with(url, params)
+      expect(RestClient).to receive(:post).with(url, params).once
       trigger.execute(url, params)
     end
   end

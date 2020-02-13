@@ -39,6 +39,8 @@ Style/ClassAndModuleChildren:
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
+RSpec/MessageSpies:
+  Enabled: false
 AllCops:
   Exclude:
     - db/*
