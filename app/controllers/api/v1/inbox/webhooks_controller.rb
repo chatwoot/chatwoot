@@ -1,4 +1,5 @@
 class Api::V1::Inbox::WebhooksController < Api::BaseController
+  before_action :check_authorization
   before_action :fetch_webhook, only: [:update, :destroy]
 
   def index
@@ -27,5 +28,9 @@ class Api::V1::Inbox::WebhooksController < Api::BaseController
 
   def fetch_webhook
     @webhook = current_account.webhooks.find(params[:id])
+  end
+
+  def check_authorization
+    authorize(Webhook)
   end
 end
