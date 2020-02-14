@@ -14,4 +14,5 @@ RSpec.describe Account do
   it { is_expected.to have_many(:facebook_pages).class_name('::Channel::FacebookPage').dependent(:destroy) }
   it { is_expected.to have_many(:web_widgets).class_name('::Channel::WebWidget').dependent(:destroy) }
   it { is_expected.to have_one(:subscription).dependent(:destroy) }
+  it { is_expected.to have_many(:webhooks).dependent(:destroy) }
 end
