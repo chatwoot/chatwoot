@@ -393,6 +393,8 @@ GEM
     rubocop-rspec (1.37.1)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
+    scout_apm (2.6.6)
+      parser
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
@@ -536,6 +538,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  scout_apm
   seed_dump
   sentry-raven
   shoulda-matchers
