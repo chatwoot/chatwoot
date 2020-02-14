@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 plugins:
   rubocop:
     enabled: true
@@ -14,21 +14,15 @@ plugins:
 checks:
   similar-code:
     enabled: false
-  engines:
-    scss-lint:
-      enabled: true
-      checks:
-      SpaceAroundOperator:
-        enabled: false
 exclude_patterns:
-  - 'spec/'
-  - '**/specs/'
-  - 'db/*'
-  - 'bin/**/*'
-  - 'db/**/*'
-  - 'config/**/*'
-  - 'public/**/*'
-  - 'vendor/**/*'
-  - 'node_modules/**/*'
-  - 'lib/tasks/auto_annotate_models.rake'
-  - 'app/test-matchers.js'
+  - "spec/"
+  - "**/specs/"
+  - "db/*"
+  - "bin/**/*"
+  - "db/**/*"
+  - "config/**/*"
+  - "public/**/*"
+  - "vendor/**/*"
+  - "node_modules/**/*"
+  - "lib/tasks/auto_annotate_models.rake"
+  - "app/test-matchers.js"
