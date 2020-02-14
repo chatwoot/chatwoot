@@ -4,7 +4,7 @@
 # pick it up automatically.
 ---
 :verbose: false
-:concurrency: 3
+:concurrency: 5
 :timeout: 25
 
 # Sidekiq will run this file through ERB when reading it so you can
@@ -15,6 +15,7 @@
   - [default, 2]
   - [low, 1]
   - [mailers, 2]
+  - [webhooks, 1]
 
 # you can override concurrency based on environment
 production:
