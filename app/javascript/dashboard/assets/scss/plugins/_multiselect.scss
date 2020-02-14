@@ -8,61 +8,6 @@
     }
   }
 
-  >.multiselect__tags {
-    @include margin(0);
-    border: 1px solid $color-border;
-    min-height: 44px;
-    padding-top: $zero;
-
-    .multiselect__tags-wrap {
-      line-height: 1;
-      display: inline-block;
-      margin-top: $space-smaller;
-    }
-
-    .multiselect__placeholder {
-      padding-top: $space-small;
-    }
-
-    .multiselect__tag {
-      $vertical-space: $space-smaller+$space-micro;
-      margin-top: $space-smaller;
-      background: $color-background;
-      color: $color-heading;
-      padding: $vertical-space $space-medium $vertical-space $space-one;
-    }
-
-    .multiselect__tag-icon {
-      line-height: $space-medium + $space-micro;
-
-      &:after {
-        color: $color-primary-dark;
-      }
-
-      &:hover {
-        background: $color-background;
-
-        &:after {
-          color: $color-woot;
-        }
-      }
-    }
-
-    .multiselect__input {
-      @include ghost-input;
-      @include padding($zero);
-      font-size: $font-size-small;
-
-      margin-bottom: $zero;
-    }
-
-    .multiselect__single {
-      @include padding($space-one);
-
-      margin-bottom: 0;
-    }
-  }
-
   .multiselect__select {
     min-height: 44px;
     padding: 0;
@@ -82,6 +27,63 @@
     &.multiselect__option--highlight {
       font-weight: $font-weight-medium;
     }
+  }
+}
+
+.multiselect>.multiselect__tags {
+  @include margin(0);
+  border: 1px solid $color-border;
+  min-height: 44px;
+  padding-top: $zero;
+
+  .multiselect__tags-wrap {
+    display: inline-block;
+    line-height: 1;
+    margin-top: $space-smaller;
+  }
+
+  .multiselect__placeholder {
+    padding-top: $space-small;
+  }
+
+  .multiselect__tag {
+    $vertical-space: $space-smaller + $space-micro;
+    background: $color-background;
+    color: $color-heading;
+    margin-top: $space-smaller;
+    padding: $vertical-space $space-medium $vertical-space $space-one;
+  }
+
+  .multiselect__tag-icon {
+    line-height: $space-medium + $space-micro;
+
+    &::after {
+      color: $color-primary-dark;
+    }
+  }
+
+  .multiselect__tag-icon {
+    &:hover {
+      background: $color-background;
+
+      &::after {
+        color: $color-woot;
+      }
+    }
+  }
+
+  .multiselect__input {
+    @include ghost-input;
+    @include padding($zero);
+    font-size: $font-size-small;
+
+    margin-bottom: $zero;
+  }
+
+  .multiselect__single {
+    @include padding($space-one);
+
+    margin-bottom: 0;
   }
 }
 
