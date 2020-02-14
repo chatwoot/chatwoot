@@ -25,6 +25,7 @@ Metrics/BlockLength:
     - spec/**/*
     - '**/routes.rb'
     - 'config/environments/*'
+    - db/schema.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -38,6 +39,8 @@ Style/ClassAndModuleChildren:
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
+RSpec/MessageSpies:
+  Enabled: false
 AllCops:
   Exclude:
     - db/*
