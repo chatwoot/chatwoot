@@ -530,6 +530,7 @@ DEPENDENCIES
   redis-namespace
   redis-rack-cache
   responders
+  rest-client
   rspec-rails (~> 4.0.0.beta2)
   rubocop
   rubocop-performance
