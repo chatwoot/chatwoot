@@ -1,4 +1,4 @@
-class Api::V1::Agents::WebhooksController < Api::BaseController
+class Api::V1::Inbox::WebhooksController < Api::BaseController
   before_action :fetch_webhook, only: [:update, :destroy]
 
   def index

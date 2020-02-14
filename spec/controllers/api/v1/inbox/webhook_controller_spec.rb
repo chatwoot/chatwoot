@@ -6,10 +6,10 @@ RSpec.describe 'Webhooks API', type: :request do
   let(:webhook) { create(:webhook, account: account, inbox: inbox, urls: ['https://hello.com']) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
-  describe 'GET /api/v1/agents/webhooks' do
+  describe 'GET /api/v1/inbox/webhooks' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get '/api/v1/agents/webhooks',
+        get '/api/v1/inbox/webhooks',
             as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -18,7 +18,7 @@ RSpec.describe 'Webhooks API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'gets all webhook' do
-        get '/api/v1/agents/webhooks',
+        get '/api/v1/inbox/webhooks',
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -28,10 +28,10 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/agents/webhooks' do
+  describe 'POST /api/v1/inbox/webhooks' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post '/api/v1/agents/webhooks',
+        post '/api/v1/inbox/webhooks',
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -40,7 +40,7 @@ RSpec.describe 'Webhooks API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'creates webhook' do
-        post '/api/v1/agents/webhooks',
+        post '/api/v1/inbox/webhooks',
              params: { account_id: account.id, inbox_id: inbox.id, urls: ['https://hello.com'] },
              headers: agent.create_new_auth_token,
              as: :json
@@ -52,10 +52,10 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/agents/webhooks/:id' do
+  describe 'PUT /api/v1/inbox/webhooks/:id' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        put "/api/v1/agents/webhooks/#{webhook.id}",
+        put "/api/v1/inbox/webhooks/#{webhook.id}",
             as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -64,7 +64,7 @@ RSpec.describe 'Webhooks API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'updates webhook' do
-        put "/api/v1/agents/webhooks/#{webhook.id}",
+        put "/api/v1/inbox/webhooks/#{webhook.id}",
             params: { urls: ['https://hello.com', 'https://world.com'] },
             headers: agent.create_new_auth_token,
             as: :json
@@ -75,10 +75,10 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/agents/webhooks/:id' do
+  describe 'DELETE /api/v1/inbox/webhooks/:id' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        delete "/api/v1/agents/webhooks/#{webhook.id}",
+        delete "/api/v1/inbox/webhooks/#{webhook.id}",
                as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -87,7 +87,7 @@ RSpec.describe 'Webhooks API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'deletes webhook' do
-        delete "/api/v1/agents/webhooks/#{webhook.id}",
+        delete "/api/v1/inbox/webhooks/#{webhook.id}",
                headers: agent.create_new_auth_token,
                as: :json
 
