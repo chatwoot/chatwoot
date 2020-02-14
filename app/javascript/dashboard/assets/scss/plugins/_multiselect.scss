@@ -14,14 +14,19 @@
     min-height: 44px;
     padding-top: $zero;
 
+    .multiselect__tags-wrap {
+      line-height: 1;
+      display: inline-block;
+      margin-top: $space-smaller;
+    }
+
     .multiselect__placeholder {
       padding-top: $space-small;
     }
 
     .multiselect__tag {
-
       $vertical-space: $space-smaller+$space-micro;
-      margin-top: $space-one;
+      margin-top: $space-smaller;
       background: $color-background;
       color: $color-heading;
       padding: $vertical-space $space-medium $vertical-space $space-one;
@@ -87,7 +92,6 @@
   &:hover {
     .multiselect {
       cursor: pointer;
-      margin-top: $space-small;
 
       >.multiselect__tags {
         border-color: $color-border;
@@ -100,6 +104,7 @@
   }
 
   .multiselect {
+    margin-top: $space-small;
 
     >.multiselect__select {
       visibility: hidden;
@@ -110,6 +115,7 @@
     }
 
     &.multiselect--active {
+
       >.multiselect__tags {
         border-color: $color-woot;
       }

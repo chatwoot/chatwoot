@@ -7,24 +7,15 @@
       <div class="contact-conversation--list">
         <label class="select-tags">
           {{ $t('CONTACT_PANEL.LABELS.TITLE') }}
-          <p v-if="!savedLabels.length && !showLabelInput" class="no-results">
-            {{ $t('CONTACT_PANEL.LABELS.NO_RECORDS_FOUND') }}
-            <button
-              type="button success"
-              class="button nice tiny"
-              @click="showLabelBox"
-            >
-              {{ $t('CONTACT_PANEL.LABELS.ADD_BUTTON') }}
-            </button>
-          </p>
           <multiselect
-            v-if="showLabelInput || savedLabels.length"
             v-model="selectedLabels"
             :options="savedLabels"
-            tag-placeholder="Add this as new tag"
-            placeholder="Search or add a tag"
+            tag-placeholder="Add new label"
+            placeholder="Search or add a label"
             :multiple="true"
             :taggable="true"
+            hide-selected
+            :show-labels="false"
             @tag="addLabel"
           />
         </label>
@@ -55,7 +46,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
-import ConversationAPI from '../../../api/conversations';
 
 export default {
   components: {
@@ -71,7 +61,6 @@ export default {
     return {
       isSearching: false,
       selectedLabels: [],
-      showLabelInput: false,
     };
   },
   computed: {
@@ -101,31 +90,17 @@ export default {
   watch: {
     conversationId(newConversationId, prevConversationId) {
       if (newConversationId && newConversationId !== prevConversationId) {
-        this.$store
-          .dispatch('conversationLabels/get', newConversationId)
-          .then(() => {
-            this.selectedLabels = [...this.savedLabels];
-          });
+        this.fetchLabels(newConversationId);
       }
     },
   },
   mounted() {
-    this.$store
-      .dispatch('conversationLabels/get', this.conversationId)
-      .then(() => {
-        this.selectedLabels = [...this.savedLabels];
-      });
+    const { conversationId } = this;
+    this.fetchLabels(conversationId);
   },
   methods: {
     addLabel(label) {
       this.selectedLabels = [...this.selectedLabels, label];
-    },
-    asyncSearchLabels(query) {
-      this.isSearching = true;
-      ConversationAPI(query).then(response => {
-        this.countries = response;
-        this.isLoading = false;
-      });
     },
     onUpdateLabels() {
       this.$store.dispatch('conversationLabels/update', {
@@ -133,8 +108,12 @@ export default {
         labels: this.selectedLabels,
       });
     },
-    showLabelBox() {
-      this.showLabelInput = true;
+    async fetchLabels(conversationId) {
+      try {
+        await this.$store.dispatch('conversationLabels/get', conversationId);
+        this.selectedLabels = [...this.savedLabels];
+        // eslint-disable-next-line no-empty
+      } catch (error) {}
     },
   },
 };
@@ -174,10 +153,12 @@ export default {
   margin-left: auto;
 }
 
+.no-results-wrap {
+  padding: 0 $space-small;
+}
 .no-results {
   margin: $space-normal 0 0 0;
   color: $color-gray;
-  padding: 0 $space-small;
   font-weight: $font-weight-normal;
 }
 

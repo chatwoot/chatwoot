@@ -93,9 +93,7 @@ export default {
       ];
     },
     viewProfileButtonLabel() {
-      return `${
-        this.isContactPanelOpen ? 'Close' : 'Open'
-      }  Conversation Details`;
+      return `${this.isContactPanelOpen ? 'Close' : 'More'} details`;
     },
   },
 

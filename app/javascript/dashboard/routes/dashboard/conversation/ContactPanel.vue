@@ -163,17 +163,13 @@ export default {
   @include border-normal-left;
   font-size: $font-size-small;
   overflow-y: auto;
-  background: $color-white;
+  background: white;
   overflow: auto;
 }
 
 .contact--profile {
-  padding: $space-normal;
+  padding: $space-medium $space-normal 0;
   align-items: center;
-  margin: $space-medium $space-normal 0;
-  @include elegant-card;
-  @include light-shadow;
-
   .user-thumbnail-box {
     margin-right: $space-normal;
   }
