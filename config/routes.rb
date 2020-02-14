@@ -40,6 +40,10 @@ Rails.application.routes.draw do
         resource :contact_merge, only: [:create]
       end
 
+      namespace :inbox do
+        resources :webhooks, except: [:show]
+      end
+
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy]
