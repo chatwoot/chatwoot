@@ -5,6 +5,7 @@
     "BTN_TEXT": "Update Profile",
     "FORM": {
       "AVATAR": "Profile Image",
+      "ERROR": "Please fix form errors",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
@@ -37,8 +38,12 @@
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please enter password confirmation"
+        "PLACEHOLDER": "Please re-enter your password"
       }
     }
+  },
+  "SIDEBAR": {
+    "PROFILE_SETTINGS": "Profile Settings",
+    "LOGOUT": "Logout"
   }
 }

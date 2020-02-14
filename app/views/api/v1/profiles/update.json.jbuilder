@@ -1,0 +1,11 @@
+json.id @user.id
+json.provider @user.provider
+json.uid @user.uid
+json.name @user.name
+json.nickname @user.nickname
+json.email @user.email
+json.account_id @user.account_id
+json.pubsub_token @user.pubsub_token
+json.role @user.role
+json.confirmed @user.confirmed?
+json.avatar_url @user.avatar_url

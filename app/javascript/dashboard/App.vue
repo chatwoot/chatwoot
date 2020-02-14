@@ -18,7 +18,7 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('set_user');
+    this.$store.dispatch('setUser');
     this.$store.dispatch('validityCheck');
   },
 };

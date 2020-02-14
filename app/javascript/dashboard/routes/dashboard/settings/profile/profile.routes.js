@@ -16,7 +16,7 @@ export default {
       },
       children: [
         {
-          path: '',
+          path: 'settings',
           name: 'profile_settings_index',
           component: Index,
           roles: ['administrator', 'agent'],

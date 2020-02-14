@@ -9,14 +9,19 @@ import Cookies from 'js-cookie';
 import endPoints from './endPoints';
 import { frontendURL } from '../helper/URLHelper';
 
+export const setUser = (userData, expiryDate) =>
+  Cookies.set('user', userData, {
+    expires: expiryDate.diff(moment(), 'days'),
+  });
+
+export const getHeaderExpiry = response => moment.unix(response.headers.expiry);
+
 const setAuthCredentials = response => {
-  const expiryDate = moment.unix(response.headers.expiry);
+  const expiryDate = getHeaderExpiry(response);
   Cookies.set('auth_data', response.headers, {
     expires: expiryDate.diff(moment(), 'days'),
   });
-  Cookies.set('user', response.data.data, {
-    expires: expiryDate.diff(moment(), 'days'),
-  });
+  setUser(response.data.data, expiryDate);
 };
 
 const clearCookiesOnLogout = () => {
@@ -64,6 +69,7 @@ export default {
       axios
         .get(urlData.url)
         .then(response => {
+          setUser(response.data.payload.data, getHeaderExpiry(response));
           resolve(response);
         })
         .catch(error => {
@@ -154,5 +160,23 @@ export default {
   resetPassword({ email }) {
     const urlData = endPoints('resetPassword');
     return axios.post(urlData.url, { email });
+  },
+
+  profileUpdate({ name, email, password, password_confirmation, avatar }) {
+    const formData = new FormData();
+    if (name) {
+      formData.append('profile[name]', name);
+    }
+    if (email) {
+      formData.append('profile[email]', email);
+    }
+    if (password && password_confirmation) {
+      formData.append('profile[password]', password);
+      formData.append('profile[password_confirmation]', password_confirmation);
+    }
+    if (avatar) {
+      formData.append('profile[avatar]', avatar);
+    }
+    return axios.put(endPoints('profileUpdate').url, formData);
   },
 };

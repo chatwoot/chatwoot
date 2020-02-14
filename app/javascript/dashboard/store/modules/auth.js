@@ -1,12 +1,10 @@
-/* eslint no-console: 0 */
-/* eslint-env browser */
 /* eslint no-param-reassign: 0 */
 import axios from 'axios';
 import moment from 'moment';
 import Vue from 'vue';
 import * as types from '../mutation-types';
 import router from '../../routes';
-import authAPI from '../../api/auth';
+import authAPI, { setUser, getHeaderExpiry } from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 // initial state
@@ -75,7 +73,7 @@ const actions = {
       authAPI.validityCheck();
     }
   },
-  set_user({ commit }) {
+  setUser({ commit }) {
     if (authAPI.isLoggedIn()) {
       commit(types.default.SET_CURRENT_USER);
     } else {
@@ -84,6 +82,14 @@ const actions = {
   },
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
+  },
+  updateProfile: async (_, params) => {
+    try {
+      const response = await authAPI.profileUpdate(params);
+      setUser(response.data, getHeaderExpiry(response));
+    } catch (error) {
+      // Ignore error
+    }
   },
 };
 
