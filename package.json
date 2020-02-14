@@ -107,6 +107,9 @@
     "*.rb": [
       "rubocop -a",
       "git add"
+    ],
+    "*.scss": [
+      "scss-lint"
     ]
   }
 }
