@@ -29,9 +29,9 @@ const state = {
 };
 
 // getters
-const getters = {
-  isLoggedIn(_state) {
-    return _state.currentUser.id !== null;
+export const getters = {
+  isLoggedIn($state) {
+    return !!$state.currentUser.id;
   },
 
   getCurrentUserID(_state) {
@@ -59,7 +59,7 @@ const getters = {
 };
 
 // actions
-const actions = {
+export const actions = {
   login({ commit }, credentials) {
     return new Promise((resolve, reject) => {
       authAPI
