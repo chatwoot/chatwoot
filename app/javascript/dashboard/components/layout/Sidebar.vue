@@ -107,6 +107,7 @@ export default {
       daysLeft: 'getTrialLeft',
       subscriptionData: 'getSubscription',
       inboxes: 'inboxes/getInboxes',
+      currentUser: 'getCurrentUser',
     }),
     accessibleMenuItems() {
       // get all keys in menuGroup
@@ -152,9 +153,6 @@ export default {
         })),
       };
     },
-    currentUser() {
-      return Auth.getCurrentUser();
-    },
     dashboardPath() {
       return frontendURL('dashboard');
     },
@@ -189,6 +187,9 @@ export default {
     },
     filterMenuItemsByRole(menuItems) {
       const { role } = this.currentUser;
+      if (!role) {
+        return [];
+      }
       return menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1

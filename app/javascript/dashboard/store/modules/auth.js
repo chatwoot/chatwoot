@@ -4,7 +4,11 @@ import moment from 'moment';
 import Vue from 'vue';
 import * as types from '../mutation-types';
 import router from '../../routes';
-import authAPI, { setUser, getHeaderExpiry } from '../../api/auth';
+import authAPI, {
+  setUser,
+  getHeaderExpiry,
+  clearCookiesOnLogout,
+} from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 // initial state
@@ -32,6 +36,10 @@ const getters = {
 
   getCurrentUserID(_state) {
     return _state.currentUser.id;
+  },
+
+  getCurrentUser(_state) {
+    return _state.currentUser;
   },
 
   getSubscription(_state) {
@@ -68,9 +76,17 @@ const actions = {
         });
     });
   },
-  validityCheck(context) {
+  async validityCheck(context) {
     if (context.getters.isLoggedIn) {
-      authAPI.validityCheck();
+      try {
+        const response = await authAPI.validityCheck();
+        setUser(response.data.payload.data, getHeaderExpiry(response));
+        context.commit(types.default.SET_CURRENT_USER);
+      } catch (error) {
+        if (error.response.status === 401) {
+          clearCookiesOnLogout();
+        }
+      }
     }
   },
   setUser({ commit }) {
@@ -83,10 +99,11 @@ const actions = {
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
   },
-  updateProfile: async (_, params) => {
+  updateProfile: async ({ commit }, params) => {
     try {
       const response = await authAPI.profileUpdate(params);
       setUser(response.data, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
     } catch (error) {
       // Ignore error
     }
@@ -99,8 +116,12 @@ const mutations = {
     _state.currentUser.id = null;
   },
   [types.default.SET_CURRENT_USER](_state) {
-    Object.assign(_state.currentUser, authAPI.getAuthData());
-    Object.assign(_state.currentUser, authAPI.getCurrentUser());
+    const currentUser = {
+      ...authAPI.getAuthData(),
+      ...authAPI.getCurrentUser(),
+    };
+
+    Vue.set(_state, 'currentUser', currentUser);
   },
 };
 

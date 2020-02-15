@@ -98,7 +98,8 @@
 
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
-import Auth from '../../../../api/auth';
+import { mapGetters } from 'vuex';
+import { clearCookiesOnLogout } from '../../../../api/auth';
 
 export default {
   components: {
@@ -137,16 +138,29 @@ export default {
     },
   },
   computed: {
-    currentUser() {
-      return Auth.getCurrentUser();
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+      currentUserId: 'getCurrentUserID',
+    }),
+  },
+  watch: {
+    currentUserId(newCurrentUserId, prevCurrentUserId) {
+      if (prevCurrentUserId !== newCurrentUserId) {
+        this.initializeUser();
+      }
     },
   },
   mounted() {
-    this.name = this.currentUser.name;
-    this.email = this.currentUser.email;
-    this.avatarUrl = this.currentUser.avatar_url;
+    if (this.currentUserId) {
+      this.initializeUser();
+    }
   },
   methods: {
+    initializeUser() {
+      this.name = this.currentUser.name;
+      this.email = this.currentUser.email;
+      this.avatarUrl = this.currentUser.avatar_url;
+    },
     async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
@@ -154,6 +168,7 @@ export default {
         return;
       }
       this.isUpdating = true;
+      const hasEmailChanged = this.currentUser.email !== this.email;
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
@@ -163,6 +178,13 @@ export default {
           password_confirmation: this.passwordConfirmation,
         });
         this.isUpdating = false;
+        if (hasEmailChanged) {
+          clearCookiesOnLogout();
+          bus.$emit(
+            'newToastMessage',
+            this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
+          );
+        }
       } catch (error) {
         this.isUpdating = false;
       }

@@ -16,7 +16,7 @@ export const setUser = (userData, expiryDate) =>
 
 export const getHeaderExpiry = response => moment.unix(response.headers.expiry);
 
-const setAuthCredentials = response => {
+export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
   Cookies.set('auth_data', response.headers, {
     expires: expiryDate.diff(moment(), 'days'),
@@ -24,7 +24,7 @@ const setAuthCredentials = response => {
   setUser(response.data.data, expiryDate);
 };
 
-const clearCookiesOnLogout = () => {
+export const clearCookiesOnLogout = () => {
   Cookies.remove('auth_data');
   Cookies.remove('user');
   window.location = frontendURL('login');
@@ -65,21 +65,7 @@ export default {
   },
   validityCheck() {
     const urlData = endPoints('validityCheck');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url)
-        .then(response => {
-          setUser(response.data.payload.data, getHeaderExpiry(response));
-          resolve(response);
-        })
-        .catch(error => {
-          if (error.response.status === 401) {
-            clearCookiesOnLogout();
-          }
-          reject(error);
-        });
-    });
-    return fetchPromise;
+    return axios.get(urlData.url);
   },
   logout() {
     const urlData = endPoints('logout');
@@ -142,13 +128,7 @@ export default {
           password,
         })
         .then(response => {
-          const expiryDate = moment.unix(response.headers.expiry);
-          Cookies.set('auth_data', response.headers, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
-          Cookies.set('user', response.data.data, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
+          setAuthCredentials(response);
           resolve(response);
         })
         .catch(error => {
