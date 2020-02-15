@@ -73,6 +73,7 @@ gem 'haikunator'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+gem 'scout_apm'
 gem 'sentry-raven'
 
 ##-- background job processing --##
