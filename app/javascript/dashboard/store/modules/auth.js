@@ -77,21 +77,20 @@ const actions = {
     });
   },
   async validityCheck(context) {
-    if (context.getters.isLoggedIn) {
-      try {
-        const response = await authAPI.validityCheck();
-        setUser(response.data.payload.data, getHeaderExpiry(response));
-        context.commit(types.default.SET_CURRENT_USER);
-      } catch (error) {
-        if (error.response.status === 401) {
-          clearCookiesOnLogout();
-        }
+    try {
+      const response = await authAPI.validityCheck();
+      setUser(response.data.payload.data, getHeaderExpiry(response));
+      context.commit(types.default.SET_CURRENT_USER);
+    } catch (error) {
+      if (error.response.status === 401) {
+        clearCookiesOnLogout();
       }
     }
   },
-  setUser({ commit }) {
+  setUser({ commit, dispatch }) {
     if (authAPI.isLoggedIn()) {
       commit(types.default.SET_CURRENT_USER);
+      dispatch('validityCheck');
     } else {
       commit(types.default.CLEAR_USER);
     }
