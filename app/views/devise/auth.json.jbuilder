@@ -12,4 +12,3 @@ json.data do
   json.confirmed @resource.confirmed?
   json.avatar_url @resource.avatar_url
 end
-
