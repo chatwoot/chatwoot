@@ -95,24 +95,24 @@ jobs:
           command: yarn run eslint
 
       # Run rails tests
-      - run: 
+      - run:
           name: Run backend tests
           command: |
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/backend/.resultset.json
       - persist_to_workspace:
           root: tmp
-          paths: 
+          paths:
             - codeclimate.backend.json
 
-      - run: 
+      - run:
           name: Run frontend tests
           command: |
             yarn test:coverage
             ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json buildreports/lcov.info
       - persist_to_workspace:
           root: tmp
-          paths: 
+          paths:
             - codeclimate.frontend.json
 
       # collect reports

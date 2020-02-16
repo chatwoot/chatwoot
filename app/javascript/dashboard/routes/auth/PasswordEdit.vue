@@ -1,23 +1,40 @@
 <template>
-  <form class="login-box medium-4 column align-self-middle" v-on:submit.prevent="login()">
+  <form
+    class="login-box medium-4 column align-self-middle"
+    @submit.prevent="login()"
+  >
     <div class="column log-in-form">
-      <h4>{{$t('SET_NEW_PASSWORD.TITLE')}}</h4>
-      <label :class="{ 'error': $v.credentials.password.$error }">
-        {{$t('LOGIN.PASSWORD.LABEL')}}
-        <input type="password" v-bind:placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')" v-model.trim="credentials.password" @input="$v.credentials.password.$touch">
-        <span class="message" v-if="$v.credentials.password.$error">
-          {{$t('SET_NEW_PASSWORD.PASSWORD.ERROR')}}
+      <h4>{{ $t('SET_NEW_PASSWORD.TITLE') }}</h4>
+      <label :class="{ error: $v.credentials.password.$error }">
+        {{ $t('LOGIN.PASSWORD.LABEL') }}
+        <input
+          v-model.trim="credentials.password"
+          type="password"
+          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+          @input="$v.credentials.password.$touch"
+        />
+        <span v-if="$v.credentials.password.$error" class="message">
+          {{ $t('SET_NEW_PASSWORD.PASSWORD.ERROR') }}
         </span>
       </label>
-      <label :class="{ 'error': $v.credentials.confirmPassword.$error }">
-        {{$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')}}
-        <input type="password" v-bind:placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')" v-model.trim="credentials.confirmPassword" @input="$v.credentials.confirmPassword.$touch">
-        <span class="message" v-if="$v.credentials.confirmPassword.$error">
-          {{$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')}}
+      <label :class="{ error: $v.credentials.confirmPassword.$error }">
+        {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL') }}
+        <input
+          v-model.trim="credentials.confirmPassword"
+          type="password"
+          :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+          @input="$v.credentials.confirmPassword.$touch"
+        />
+        <span v-if="$v.credentials.confirmPassword.$error" class="message">
+          {{ $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR') }}
         </span>
       </label>
       <woot-submit-button
-        :disabled="$v.credentials.password.$invalid || $v.credentials.confirmPassword.$invalid || newPasswordAPI.showLoading"
+        :disabled="
+          $v.credentials.password.$invalid ||
+            $v.credentials.confirmPassword.$invalid ||
+            newPasswordAPI.showLoading
+        "
         :button-text="$t('SET_NEW_PASSWORD.SUBMIT')"
         :loading="newPasswordAPI.showLoading"
         button-class="expanded"
@@ -99,7 +116,7 @@ export default {
         resetPasswordToken: this.resetPasswordToken,
       };
       Auth.setNewPassword(credentials)
-        .then((res) => {
+        .then(res => {
           if (res.status === 200) {
             window.location = res.data.redirect_url;
           }
