@@ -79,10 +79,6 @@ export default {
   padding-top: 0;
 }
 
-.contact-conversation--list {
-  margin-top: $space-normal;
-}
-
 .no-results {
   margin: 0;
   color: $color-gray;
