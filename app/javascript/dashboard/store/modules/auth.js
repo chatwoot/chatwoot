@@ -4,14 +4,11 @@ import moment from 'moment';
 import Vue from 'vue';
 import * as types from '../mutation-types';
 import router from '../../routes';
-import authAPI, {
-  setUser,
-  getHeaderExpiry,
-  clearCookiesOnLogout,
-} from '../../api/auth';
+import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
-// initial state
+import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+
 const state = {
   currentUser: {
     id: null,
@@ -82,6 +79,7 @@ export const actions = {
       setUser(response.data.payload.data, getHeaderExpiry(response));
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
+      console.log(error);
       if (error.response.status === 401) {
         clearCookiesOnLogout();
       }

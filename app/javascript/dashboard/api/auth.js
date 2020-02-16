@@ -1,34 +1,10 @@
 /* eslint no-console: 0 */
 /* global axios */
 /* eslint no-undef: "error" */
-/* eslint-env browser */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
 
-import moment from 'moment';
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
-import { frontendURL } from '../helper/URLHelper';
-
-export const setUser = (userData, expiryDate) =>
-  Cookies.set('user', userData, {
-    expires: expiryDate.diff(moment(), 'days'),
-  });
-
-export const getHeaderExpiry = response => moment.unix(response.headers.expiry);
-
-export const setAuthCredentials = response => {
-  const expiryDate = getHeaderExpiry(response);
-  Cookies.set('auth_data', response.headers, {
-    expires: expiryDate.diff(moment(), 'days'),
-  });
-  setUser(response.data.data, expiryDate);
-};
-
-export const clearCookiesOnLogout = () => {
-  Cookies.remove('auth_data');
-  Cookies.remove('user');
-  window.location = frontendURL('login');
-};
+import { setAuthCredentials, clearCookiesOnLogout } from '../store/utils/api';
 
 export default {
   login(creds) {
