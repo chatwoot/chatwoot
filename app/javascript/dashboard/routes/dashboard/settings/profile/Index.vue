@@ -99,7 +99,7 @@
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { clearCookiesOnLogout } from '../../../../api/auth';
+import { clearCookiesOnLogout } from '../../../../store/utils/api';
 
 export default {
   components: {
