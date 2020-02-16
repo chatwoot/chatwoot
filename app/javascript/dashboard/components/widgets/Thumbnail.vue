@@ -23,7 +23,7 @@
       src="~dashboard/assets/images/fb-badge.png"
     />
     <div
-      v-else-if="badge === 'Channel::WebWidget' && status === 'online'"
+      v-else-if="status === 'online'"
       class="source-badge user--online"
       :style="statusStyle"
     ></div>

@@ -87,6 +87,7 @@ group :development do
 end
 
 group :development, :test do
+  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
   gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
@@ -100,9 +101,9 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'scss_lint', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
