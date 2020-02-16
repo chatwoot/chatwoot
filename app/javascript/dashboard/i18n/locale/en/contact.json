@@ -12,7 +12,9 @@
     "LABELS": {
       "TITLE": "Conversation Labels",
       "UPDATE_BUTTON": "Update Labels",
-      "UPDATE_ERROR": "Couldn't update labels, try again."
+      "UPDATE_ERROR": "Couldn't update labels, try again.",
+      "TAG_PLACEHOLDER": "Add new label",
+      "PLACEHOLDER": "Search or add a label"
     }
   }
 }

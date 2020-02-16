@@ -43,15 +43,6 @@ describe('#actions', () => {
         { conversationId: '1', labels: ['on-hold'] }
       );
 
-      // commit(types.default.SET_CONVERSATION_LABELS, {
-      //   id: conversationId,
-      //   data: response.data.payload,
-      // });
-      // commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
-      //   isUpdating: false,
-      //   isError: false,
-      // });
-
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONVERSATION_LABELS_UI_FLAG, { isUpdating: true }],
         [

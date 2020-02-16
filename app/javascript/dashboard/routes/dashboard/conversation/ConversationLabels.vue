@@ -10,8 +10,8 @@
           <multiselect
             v-model="selectedLabels"
             :options="savedLabels"
-            tag-placeholder="Add new label"
-            placeholder="Search or add a label"
+            :tag-placeholder="$t('CONTACT_PANEL.LABELS.TAG_PLACEHOLDER')"
+            :placeholder="$t('CONTACT_PANEL.LABELS.PLACEHOLDER')"
             :multiple="true"
             :taggable="true"
             hide-selected
@@ -124,7 +124,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal;
+  padding: $space-normal $space-normal $space-normal $space-medium;
 }
 
 .conversation--label {

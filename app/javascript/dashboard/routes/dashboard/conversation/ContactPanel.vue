@@ -168,7 +168,7 @@ export default {
 }
 
 .contact--profile {
-  padding: $space-medium $space-normal 0;
+  padding: $space-medium $space-normal 0 $space-medium;
   align-items: center;
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -208,7 +208,7 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-two $space-normal;
+  padding: $space-two $space-normal $space-two $space-medium;
 }
 
 .conversation--labels {

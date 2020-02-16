@@ -75,7 +75,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal;
+  padding: $space-normal $space-normal $space-normal $space-medium;
   padding-top: 0;
 }
 

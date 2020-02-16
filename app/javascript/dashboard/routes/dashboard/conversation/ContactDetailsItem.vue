@@ -1,7 +1,7 @@
 <template>
   <div class="conv-details--item">
     <h4 class="conv-details--item__label">
-      <i :class="icon" class="conv-details--item__icon"></i>
+      <i v-if="icon" :class="icon" class="conv-details--item__icon"></i>
       {{ title }}
     </h4>
     <div v-if="value" class="conv-details--item__value">
@@ -25,7 +25,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: $space-normal;
+  padding-bottom: $space-medium;
 
   &:last-child {
     padding-bottom: 0;
@@ -43,7 +43,7 @@ export default {
 
   .conv-details--item__value {
     word-break: break-all;
-    margin-top: $space-slab;
+    margin-top: $space-small;
   }
 }
 </style>
