@@ -79,7 +79,6 @@ export const actions = {
       setUser(response.data.payload.data, getHeaderExpiry(response));
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
-      console.log(error);
       if (error.response.status === 401) {
         clearCookiesOnLogout();
       }

@@ -1,8 +1,7 @@
 /* eslint no-param-reassign: 0 */
-
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import { frontendURL } from '../helper/URLHelper';
+import { frontendURL } from '../../helper/URLHelper';
 
 export const getLoadingStatus = state => state.fetchAPIloadingStatus;
 export const setLoadingStatus = (state, status) => {
