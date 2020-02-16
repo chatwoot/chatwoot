@@ -1,29 +1,10 @@
 /* eslint no-console: 0 */
 /* global axios */
 /* eslint no-undef: "error" */
-/* eslint-env browser */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
 
-import moment from 'moment';
 import Cookies from 'js-cookie';
 import endPoints from './endPoints';
-import { frontendURL } from '../helper/URLHelper';
-
-const setAuthCredentials = response => {
-  const expiryDate = moment.unix(response.headers.expiry);
-  Cookies.set('auth_data', response.headers, {
-    expires: expiryDate.diff(moment(), 'days'),
-  });
-  Cookies.set('user', response.data.data, {
-    expires: expiryDate.diff(moment(), 'days'),
-  });
-};
-
-const clearCookiesOnLogout = () => {
-  Cookies.remove('auth_data');
-  Cookies.remove('user');
-  window.location = frontendURL('login');
-};
+import { setAuthCredentials, clearCookiesOnLogout } from '../store/utils/api';
 
 export default {
   login(creds) {
@@ -60,20 +41,7 @@ export default {
   },
   validityCheck() {
     const urlData = endPoints('validityCheck');
-    const fetchPromise = new Promise((resolve, reject) => {
-      axios
-        .get(urlData.url)
-        .then(response => {
-          resolve(response);
-        })
-        .catch(error => {
-          if (error.response.status === 401) {
-            clearCookiesOnLogout();
-          }
-          reject(error);
-        });
-    });
-    return fetchPromise;
+    return axios.get(urlData.url);
   },
   logout() {
     const urlData = endPoints('logout');
@@ -136,13 +104,7 @@ export default {
           password,
         })
         .then(response => {
-          const expiryDate = moment.unix(response.headers.expiry);
-          Cookies.set('auth_data', response.headers, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
-          Cookies.set('user', response.data.data, {
-            expires: expiryDate.diff(moment(), 'days'),
-          });
+          setAuthCredentials(response);
           resolve(response);
         })
         .catch(error => {
@@ -154,5 +116,23 @@ export default {
   resetPassword({ email }) {
     const urlData = endPoints('resetPassword');
     return axios.post(urlData.url, { email });
+  },
+
+  profileUpdate({ name, email, password, password_confirmation, avatar }) {
+    const formData = new FormData();
+    if (name) {
+      formData.append('profile[name]', name);
+    }
+    if (email) {
+      formData.append('profile[email]', email);
+    }
+    if (password && password_confirmation) {
+      formData.append('profile[password]', password);
+      formData.append('profile[password_confirmation]', password_confirmation);
+    }
+    if (avatar) {
+      formData.append('profile[avatar]', avatar);
+    }
+    return axios.put(endPoints('profileUpdate').url, formData);
   },
 };

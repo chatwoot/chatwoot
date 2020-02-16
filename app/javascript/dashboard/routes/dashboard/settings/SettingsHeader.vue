@@ -7,7 +7,7 @@
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link
-      v-if="showNewButton && showButton && currentRole"
+      v-if="showNewButton && showButton && isAdmin"
       :to="buttonRoute"
       class="button icon success nice button--fixed-right-top"
     >
@@ -17,18 +17,30 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import BackButton from '../../../components/widgets/BackButton';
-import Auth from '../../../api/auth';
 
 export default {
   components: {
     BackButton,
   },
   props: {
-    headerTitle: String,
-    buttonRoute: String,
-    buttonText: String,
-    icon: String,
+    headerTitle: {
+      default: '',
+      type: String,
+    },
+    buttonRoute: {
+      default: '',
+      type: String,
+    },
+    buttonText: {
+      default: '',
+      type: String,
+    },
+    icon: {
+      default: '',
+      type: String,
+    },
     showButton: Boolean,
     showNewButton: Boolean,
     hideButtonRoutes: {
@@ -39,11 +51,14 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
     iconClass() {
       return `icon ${this.icon} header--icon`;
     },
-    currentRole() {
-      const { role } = Auth.getCurrentUser();
+    isAdmin() {
+      const { role } = this.currentUser;
       return role === 'administrator';
     },
   },

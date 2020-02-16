@@ -42,12 +42,21 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <li><a href="#" @click.prevent="logout()">Logout</a></li>
+            <li>
+              <router-link to="/app/profile/settings">
+                {{ $t('SIDEBAR.PROFILE_SETTINGS') }}
+              </router-link>
+            </li>
+            <li>
+              <a href="#" @click.prevent="logout()">
+                {{ $t('SIDEBAR.LOGOUT') }}
+              </a>
+            </li>
           </ul>
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="gravatarUrl()" :username="currentUser.name" />
+        <thumbnail :src="currentUser.avatar_url" :username="currentUser.name" />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -65,7 +74,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import md5 from 'md5';
 import { mixin as clickaway } from 'vue-clickaway';
 
 import adminMixin from '../../mixins/isAdmin';
@@ -99,6 +107,7 @@ export default {
       daysLeft: 'getTrialLeft',
       subscriptionData: 'getSubscription',
       inboxes: 'inboxes/getInboxes',
+      currentUser: 'getCurrentUser',
     }),
     accessibleMenuItems() {
       // get all keys in menuGroup
@@ -144,9 +153,6 @@ export default {
         })),
       };
     },
-    currentUser() {
-      return Auth.getCurrentUser();
-    },
     dashboardPath() {
       return frontendURL('dashboard');
     },
@@ -174,10 +180,6 @@ export default {
     this.$store.dispatch('inboxes/get');
   },
   methods: {
-    gravatarUrl() {
-      const hash = md5(this.currentUser.email);
-      return `${window.WootConstants.GRAVATAR_URL}${hash}?default=404`;
-    },
     filterBillingRoutes(menuItems) {
       return menuItems.filter(
         menuItem => !menuItem.toState.includes('billing')
@@ -185,6 +187,9 @@ export default {
     },
     filterMenuItemsByRole(menuItems) {
       const { role } = this.currentUser;
+      if (!role) {
+        return [];
+      }
       return menuItems.filter(
         menuItem =>
           window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1

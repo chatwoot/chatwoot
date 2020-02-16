@@ -1,5 +1,5 @@
 class Api::V1::ProfilesController < Api::BaseController
-  before_action :fetch_user
+  before_action :set_user
 
   def show
     render json: @user
@@ -7,12 +7,11 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def update
     @user.update!(profile_params)
-    render json: @user
   end
 
   private
 
-  def fetch_user
+  def set_user
     @user = current_user
   end
 
