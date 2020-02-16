@@ -1,3 +1,8 @@
+@import '~widget/assets/scss/mixins';
+
+$elegant-shadow-color: rgba(49, 49, 93, 0.15);
+$spinner-before-border-color: rgba(255, 255, 255, 0.7);
+
 //borders
 @mixin border-nil() {
   border-color: transparent;
@@ -77,8 +82,8 @@
   &:active,
   &:hover,
   &:focus {
-    box-shadow: none;
     border-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -117,7 +122,6 @@
 // full height
 @mixin full-height() {
   height: 100%;
-  // COmmenting because unneccessary scroll is apprearing on some pages eg: settings/agents / inboxes
 }
 
 @mixin round-corner() {
@@ -139,7 +143,7 @@
 }
 
 @mixin elegent-shadow() {
-  box-shadow: 0 10px 25px 0 rgba(49,49,93,0.15);
+  box-shadow: 0 10px 25px 0 $elegant-shadow-color;
 }
 
 @mixin elegant-card() {
@@ -154,20 +158,20 @@
     }
   }
 
-  &:before {
-    content: '';
+  &::before {
+    animation: spinner .9s linear infinite;
+    border: 2px solid $spinner-before-border-color;
+    border-radius: 50%;
+    border-top-color: lighten($color-woot, 10%);
     box-sizing: border-box;
+    content: '';
+    height: $space-medium;
+    left: 50%;
+    margin-left: -$space-one;
+    margin-top: -$space-one;
     position: absolute;
     top: 50%;
-    left: 50%;
     width: $space-medium;
-    height: $space-medium;
-    margin-top: -$space-one;
-    margin-left: -$space-one;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.7);
-    border-top-color: lighten($color-woot, 10%);
-    animation: spinner .9s linear infinite;
   }
 }
 
@@ -181,41 +185,41 @@
 // .element{
 //     @include arrow(top, #000, 50px);
 // }
-@mixin arrow($direction, $color, $size){
-    display: block;
-    height: 0;
-    width: 0;
-    content: '';
+@mixin arrow($direction, $color, $size) {
+  display: block;
+  height: 0;
+  width: 0;
+  content: '';
 
-    @if $direction == 'top' {
-      border-left: $size solid transparent;
-      border-right: $size solid transparent;
-      border-bottom: $size solid $color;
-    } @else if $direction == 'right' {
-      border-top: $size solid transparent;
-      border-bottom: $size solid transparent;
-      border-left: $size solid $color;
-    } @else if $direction == 'bottom' {
-      border-top: $size solid $color;
-      border-right: $size solid transparent;
-      border-left: $size solid transparent;
-    } @else if $direction == 'left' {
-      border-top: $size solid transparent;
-      border-right: $size solid $color;
-      border-bottom: $size solid transparent;
-    } @else if $direction == 'top-left' {
-      border-top: $size solid $color;
-      border-right: $size solid transparent;
-    } @else if $direction == 'top-right' {
-      border-top: $size solid $color;
-      border-left: $size solid transparent;
-    } @else if $direction == 'bottom-left' {
-      border-bottom: $size solid $color;
-      border-right: $size solid transparent;
-    } @else if $direction == 'bottom-right' {
-      border-bottom: $size solid $color;
-      border-left: $size solid transparent;
-    }
+  @if $direction == 'top' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  } @else if $direction == 'right' {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == 'bottom' {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  } @else if $direction == 'left' {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  } @else if $direction == 'top-left' {
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  } @else if $direction == 'top-right' {
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  } @else if $direction == 'bottom-left' {
+    border-bottom: $size solid $color;
+    border-right: $size solid transparent;
+  } @else if $direction == 'bottom-right' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+  }
 }
 
 @mixin text-ellipsis {

@@ -93,7 +93,11 @@ export default {
       ];
     },
     viewProfileButtonLabel() {
-      return `${this.isContactPanelOpen ? 'Hide' : 'View'}  Profile`;
+      return `${
+        this.isContactPanelOpen
+          ? this.$t('CONVERSATION.HEADER.CLOSE')
+          : this.$t('CONVERSATION.HEADER.OPEN')
+      } ${this.$t('CONVERSATION.HEADER.DETAILS')}`;
     },
   },
 
