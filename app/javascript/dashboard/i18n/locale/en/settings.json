@@ -1,0 +1,50 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profile Settings",
+    "TITLE": "Profile Settings",
+    "BTN_TEXT": "Update Profile",
+    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "FORM": {
+      "AVATAR": "Profile Image",
+      "ERROR": "Please fix form errors",
+      "REMOVE_IMAGE": "Remove",
+      "UPLOAD_IMAGE": "Upload image",
+      "UPDATE_IMAGE": "Update image",
+      "PROFILE_SECTION" : {
+        "TITLE": "Profile",
+        "NOTE": "Your email address is your identity and is used to log in."
+      },
+      "PASSWORD_SECTION" : {
+        "TITLE": "Password",
+        "NOTE": "Updating your password would reset your logins in multiple devices."
+      },
+      "PROFILE_IMAGE":{
+        "LABEL": "Profile Image"
+      },
+      "NAME": {
+        "LABEL": "Your name",
+        "ERROR": "Please enter a valid name",
+        "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
+      },
+      "EMAIL": {
+        "LABEL": "Your email address",
+        "ERROR": "Please enter a valid email address",
+        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+      },
+      "PASSWORD": {
+        "LABEL": "Password",
+        "ERROR": "Please enter a password of length 6 or more",
+        "PLACEHOLDER": "Please enter a new password"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirm new password",
+        "ERROR": "Confirm password should match the password",
+        "PLACEHOLDER": "Please re-enter your password"
+      }
+    }
+  },
+  "SIDEBAR": {
+    "PROFILE_SETTINGS": "Profile Settings",
+    "LOGOUT": "Logout"
+  }
+}

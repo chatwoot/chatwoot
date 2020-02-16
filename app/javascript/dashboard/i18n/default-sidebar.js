@@ -8,6 +8,8 @@ export default {
       'inbox_conversation',
       'settings_account_reports',
       'billing_deactivated',
+      'profile_settings',
+      'profile_settings_index',
     ],
     menuItems: {
       assignedToMe: {
