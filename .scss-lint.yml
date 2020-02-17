@@ -249,7 +249,7 @@ linters:
     enabled: false
 
   UnnecessaryMantissa:
-    enabled: true
+    enabled: false
 
   UnnecessaryParentReference:
     enabled: true
