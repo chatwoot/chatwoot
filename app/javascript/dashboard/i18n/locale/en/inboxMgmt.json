@@ -103,7 +103,7 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations"
     }
   }
 }
