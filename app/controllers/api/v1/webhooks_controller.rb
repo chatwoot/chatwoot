@@ -4,6 +4,7 @@ class Api::V1::WebhooksController < ApplicationController
   skip_before_action :check_subscription
 
   before_action :login_from_basic_auth, only: [:chargebee]
+  before_action :check_billing_enabled, only: [:chargebee]
   def chargebee
     chargebee_consumer.consume
     head :ok
