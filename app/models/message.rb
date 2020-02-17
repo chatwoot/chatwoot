@@ -49,6 +49,7 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation
+  belongs_to :contact, required: false
   belongs_to :user, required: false
 
   has_one :attachment, dependent: :destroy, autosave: true
