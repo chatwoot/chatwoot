@@ -91,6 +91,15 @@ To debug the production build locally, set `SECRET_KEY_BASE` environment variabl
     $ docker-compose -f docker-compose.production.yaml up
     ```
 
+## Debugging mode
+
+To use debuggers like `byebug` or `binding.pry`, use the following command to bring up the app instead of `docker-compose up`.
+
+    ```bash
+       $ docker-compose run --rm --service-port rails  
+    ```
+
+
 ## Troubleshooting
 If there is an update to any of the following 
 - `dockerfile`
