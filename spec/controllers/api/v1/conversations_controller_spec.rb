@@ -110,33 +110,4 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
-
-  describe 'GET /api/v1/conversations/:id/get_messages' do
-    let(:conversation) { create(:conversation, account: account) }
-    let!(:message) { create(:message, conversation: conversation, account: account, inbox: conversation.inbox) }
-
-    context 'when it is an unauthenticated user' do
-      it 'returns the messages' do
-        get "/api/v1/conversations/#{conversation.id}/get_messages"
-
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(4)
-        expect(response.body).to include(message.content)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-
-      it 'returns the messages' do
-        get "/api/v1/conversations/#{conversation.id}/get_messages",
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(4)
-        expect(response.body).to include(message.content)
-      end
-    end
-  end
 end
