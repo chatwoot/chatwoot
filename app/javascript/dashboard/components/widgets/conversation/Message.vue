@@ -22,7 +22,6 @@
           :label="data.attachment.fallback_title"
           :readable-time="readableTime"
         />
-        <i v-if="data.message_type === 2" class="icon ion-person" />
         <bubble-text
           v-if="data.content"
           :message="message"
