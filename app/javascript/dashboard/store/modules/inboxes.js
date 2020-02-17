@@ -76,6 +76,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+  updateAutoAssignment: async (nil, { id, ...inboxParams }) => {
+    try {
+      await InboxesAPI.update(id, inboxParams);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   delete: async ({ commit }, inboxId) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isDeleting: true });
     try {

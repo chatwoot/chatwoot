@@ -151,6 +151,7 @@ class Conversation < ApplicationRecord
   def run_round_robin
     # return unless conversation.account.has_feature?(round_robin)
     # return unless conversation.account.round_robin_enabled?
+    return unless inbox.enable_auto_assignment
     return if assignee
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }

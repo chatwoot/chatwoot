@@ -91,6 +91,15 @@ describe('#actions', () => {
       ]);
     });
   });
+  
+  describe('#updateAutoAssignment', () => {
+    it('throws error if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.updateAutoAssignment({ commit }, { id: 1, inbox: { enable_auto_assignment: false} })
+      ).rejects.toThrow(Error);
+    });
+  });
 
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
