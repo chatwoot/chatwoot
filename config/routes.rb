@@ -83,7 +83,6 @@ Rails.application.routes.draw do
         member do
           post :toggle_status
           post :update_last_seen
-          get :get_messages
         end
       end
 
