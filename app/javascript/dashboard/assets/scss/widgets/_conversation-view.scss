@@ -168,6 +168,7 @@
   flex-direction: column;
   // Firefox flexbox fix
   height: 100%;
+  margin-bottom: $space-small;
   overflow-y: scroll;
 
   >li {

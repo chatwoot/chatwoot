@@ -42,7 +42,9 @@
       margin-top: $space-micro;
 
       >.inbox-icon {
-        margin-right: $space-smaller;
+        display: inline-block;
+        margin-right: $space-micro;
+        min-width: $space-normal;
       }
     }
   }
