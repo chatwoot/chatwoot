@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy]
+      resources :inboxes, only: [:index, :destroy, :update]
       resources :agents, except: [:show, :edit, :new]
       resources :labels, only: [:index] do
         collection do
