@@ -57,11 +57,9 @@ RSpec.describe 'Contacts API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'creates the contact' do
-        post '/api/v1/contacts',
-             params: valid_params
+        expect { post '/api/v1/contacts', params: valid_params }.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        expect(Contact.count).to eq(1)
       end
     end
 
@@ -69,13 +67,9 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'creates the contact' do
-        post '/api/v1/contacts',
-             headers: admin.create_new_auth_token,
-             params: valid_params,
-             as: :json
+        expect { post '/api/v1/contacts', headers: admin.create_new_auth_token, params: valid_params }.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        expect(Contact.count).to eq(1)
       end
     end
   end
