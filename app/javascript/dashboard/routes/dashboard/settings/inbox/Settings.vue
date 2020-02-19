@@ -65,7 +65,7 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT')"
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :is-updating="isAutoAssignmentUpdating"
+        :is-updating="uiFlags.isUpdatingAutoAssignment"
         @update="updateAutoAssignment"
       >
       </settings-form-header>
@@ -99,7 +99,6 @@ export default {
       autoAssignment: false,
       isUpdating: false,
       isAgentListUpdating: false,
-      isAutoAssignmentUpdating: false,
     };
   },
   computed: {
@@ -190,7 +189,6 @@ export default {
       }
     },
     async updateAutoAssignment() {
-      this.isAutoAssignmentUpdating = true;
       try {
         await this.$store.dispatch('inboxes/updateAutoAssignment', {
           id: this.currentInboxId,
@@ -202,7 +200,6 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE'));
       }
-      this.isAutoAssignmentUpdating = false;
     },
     getWidgetColor() {
       return typeof this.inbox.widget_color !== 'object'

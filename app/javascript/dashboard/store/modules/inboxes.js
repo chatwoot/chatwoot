@@ -11,6 +11,7 @@ export const state = {
     isFetchingItem: false,
     isCreating: false,
     isUpdating: false,
+    isUpdatingAutoAssignment: false,
     isDeleting: false,
   },
 };
@@ -76,10 +77,14 @@ export const actions = {
       throw new Error(error);
     }
   },
-  updateAutoAssignment: async (nil, { id, ...inboxParams }) => {
+  updateAutoAssignment: async ({ commit }, { id, ...inboxParams }) => {
+    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true });
     try {
-      await InboxesAPI.update(id, inboxParams);
+      const response = await InboxesAPI.update(id, inboxParams);
+      commit(types.default.EDIT_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: false });
     } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: false });
       throw new Error(error);
     }
   },
