@@ -8,6 +8,7 @@ export default [
     page_id: '12345',
     widget_color: null,
     website_token: null,
+    enable_auto_assignment: true,
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export default [
     page_id: null,
     widget_color: '#7B64FF',
     website_token: 'randomid123',
+    enable_auto_assignment: true,
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ export default [
     page_id: null,
     widget_color: '#68BC00',
     website_token: 'randomid124',
+    enable_auto_assignment: true,
   },
   {
     id: 4,
@@ -38,5 +41,6 @@ export default [
     page_id: null,
     widget_color: '#68BC00',
     website_token: 'randomid125',
+    enable_auto_assignment: true,
   },
 ];
