@@ -24,11 +24,17 @@
         v-for="child in menuItem.children"
         :key="child.id"
         active-class="active flex-container"
-        :class="computedInboxClass(child)"
         tag="li"
         :to="child.toState"
       >
-        <a>{{ child.label }}</a>
+        <a href="#">
+          <i
+            v-if="computedInboxClass(child)"
+            class="inbox-icon"
+            :class="computedInboxClass(child)"
+          ></i>
+          {{ child.label }}
+        </a>
       </router-link>
     </ul>
   </router-link>
@@ -40,6 +46,27 @@ import { mapGetters } from 'vuex';
 
 import router from '../../routes';
 import auth from '../../api/auth';
+
+const INBOX_TYPES = {
+  WEB: 'Channel::WebWidget',
+  FB: 'Channel::FacebookPage',
+  TWITTER: 'Channel::TwitterProfile',
+};
+const getInboxClassByType = type => {
+  switch (type) {
+    case INBOX_TYPES.WEB:
+      return 'ion-earth';
+
+    case INBOX_TYPES.FB:
+      return 'ion-social-facebook';
+
+    case INBOX_TYPES.TWITTER:
+      return 'ion-social-twitter';
+
+    default:
+      return '';
+  }
+};
 
 export default {
   props: {
@@ -75,10 +102,9 @@ export default {
   },
   methods: {
     computedInboxClass(child) {
-      if (parseInt(this.activeInbox, 10) === child.channel_id) {
-        return 'active flex-container';
-      }
-      return ' ';
+      const { type } = child;
+      const classByType = getInboxClassByType(type);
+      return classByType;
     },
     newLinkClick() {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
