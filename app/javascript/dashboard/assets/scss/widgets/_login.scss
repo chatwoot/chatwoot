@@ -5,7 +5,7 @@
 // Outside login wrapper
 .login {
   @include full-height;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-top: $space-larger * 1.2;
 
   .login__hero {

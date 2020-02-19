@@ -35,11 +35,11 @@ body {
   flex-direction: column;
   @include margin($zero);
   @include padding($space-normal);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .content-box {
-  overflow: scroll;
+  overflow: auto;
   @include padding($space-normal);
 }
 
