@@ -48,11 +48,15 @@ export default {
   text-align: left;
 
   a {
-    color: $color-white;
+    color: $color-primary;
   }
 
   &.user {
     border-bottom-right-radius: $space-smaller;
+    
+    a {
+      color: $color-white;
+    }
   }
 }
 </style>
