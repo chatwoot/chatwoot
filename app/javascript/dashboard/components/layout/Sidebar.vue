@@ -150,6 +150,7 @@ export default {
           id: inbox.id,
           label: inbox.name,
           toState: frontendURL(`inbox/${inbox.id}`),
+          type: inbox.channel_type,
         })),
       };
     },
