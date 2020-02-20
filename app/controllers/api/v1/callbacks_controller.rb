@@ -28,11 +28,9 @@ class Api::V1::CallbacksController < Api::BaseController
       fb_page_id = @inbox.channel.page_id
       page_details = fb_object.get_connections('me', 'accounts')
 
-      (page_details || []).each do |page_detail|
-        if fb_page_id == page_detail['id'] # found the page which has to be reauthorised
-          update_fb_page(fb_page_id, page_detail['access_token'])
-          head :ok and return
-        end
+      if (page_detail = (page_details || []).detect { |page| fb_page_id == page['id'] })
+        update_fb_page(fb_page_id, page_detail['access_token'])
+        return head :ok
       end
     end
 
@@ -76,10 +74,11 @@ class Api::V1::CallbacksController < Api::BaseController
 
   def set_avatar(facebook_channel, page_id)
     uri = get_avatar_url(page_id)
-    if uri
-      avatar_resource = LocalResource.new(uri)
-      facebook_channel.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
-    end
+
+    return unless uri
+
+    avatar_resource = LocalResource.new(uri)
+    facebook_channel.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
   end
 
   def get_avatar_url(page_id)
