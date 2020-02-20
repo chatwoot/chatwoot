@@ -37,13 +37,24 @@ export default {
   data() {
     return {
       pageTitle: this.$state,
-      isContactPanelOpen: false,
+      panelToggleState: false,
     };
   },
   computed: {
     ...mapGetters({
       chatList: 'getAllConversations',
     }),
+    isContactPanelOpen: {
+      get() {
+        if (this.conversationId) {
+          return this.panelToggleState;
+        }
+        return false;
+      },
+      set(val) {
+        this.panelToggleState = val;
+      },
+    },
   },
   props: ['inboxId', 'conversationId'],
 
