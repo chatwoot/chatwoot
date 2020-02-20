@@ -44,6 +44,8 @@ body {
 }
 
 .back-button {
+  @include flex;
+  align-items: center;
   color: $color-woot;
   font-size: $font-size-default;
   font-weight: $font-weight-normal;
