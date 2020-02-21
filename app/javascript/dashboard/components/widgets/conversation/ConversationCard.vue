@@ -95,9 +95,12 @@ export default {
 
   methods: {
     cardClick(chat) {
-      router.push({
-        path: frontendURL(`conversations/${chat.id}`),
-      });
+      const { activeInbox } = this;
+      const path = activeInbox
+        ? `inbox/${activeInbox}/conversations/${chat.id}`
+        : `conversations/${chat.id}`;
+
+      router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {
       if (chatItem.content) {
