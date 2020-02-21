@@ -45,6 +45,7 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
