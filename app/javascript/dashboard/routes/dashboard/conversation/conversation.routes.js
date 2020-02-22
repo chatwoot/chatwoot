@@ -33,7 +33,7 @@ export default {
     },
     {
       path: frontendURL('inbox/:inbox_id/conversations/:conversation_id'),
-      name: 'conversation_thorugh_inbox',
+      name: 'conversation_through_inbox',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => {

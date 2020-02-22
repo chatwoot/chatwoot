@@ -69,7 +69,7 @@ export default {
             this.$store.dispatch('setActiveInbox', this.inboxId);
           }
           break;
-        case 'conversation_thorugh_inbox':
+        case 'conversation_through_inbox':
           if (this.inboxId) {
             this.$store.dispatch('setActiveInbox', this.inboxId);
           }
