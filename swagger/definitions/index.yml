@@ -7,6 +7,8 @@ request_error:
 # RESOURCE
 contact:
   $ref: ./resource/contact.yml
+conversation:
+  $ref: ./resource/conversation.yml
 
 # RESPONSE
 extended_contact:
@@ -23,6 +25,12 @@ contact_list:
     allOf:
       - $ref: '#/definitions/contact'
       - $ref: ./resource/extension/generic.yml
+contact_conversations:
+  type: array
+  items:
+    allOf:
+      - $ref: '#/definitions/conversation'
+      - $ref: ./resource/extension/contact/conversation.yml
 
 # REQUEST
 contact_create:
