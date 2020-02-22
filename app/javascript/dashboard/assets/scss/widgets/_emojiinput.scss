@@ -23,7 +23,7 @@
     @include padding($space-small);
     box-sizing: border-box;
     height: 180px;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .emoji {
       border-radius: 4px;
