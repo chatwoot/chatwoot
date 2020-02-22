@@ -133,13 +133,13 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   overflow: hidden;
 
   &:hover {
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 
 
 @mixin horizontal-scroll() {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 @mixin elegent-shadow() {
