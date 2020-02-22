@@ -5,9 +5,9 @@
   "scripts": {
     "eslint": "eslint app/javascript --fix",
     "pretest": "rimraf .jest-cache",
-    "test": "jest --no-cache",
-    "test:watch": "jest --watch --no-cache",
-    "test:coverage": "jest --no-cache --collectCoverage",
+    "test": "jest  -w 1 --no-cache",
+    "test:watch": "jest -w 1 --watch --no-cache",
+    "test:coverage": "jest -w 1 --no-cache --collectCoverage",
     "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",
     "start:dev": "foreman start -f ./Procfile.dev"
   },
