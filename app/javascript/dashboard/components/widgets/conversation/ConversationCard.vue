@@ -46,7 +46,7 @@ import getEmojiSVG from '../emoji/utils';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
-import { frontendURL } from '../../../helper/URLHelper';
+import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 
 export default {
   components: {
@@ -96,10 +96,7 @@ export default {
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = activeInbox
-        ? `inbox/${activeInbox}/conversations/${chat.id}`
-        : `conversations/${chat.id}`;
-
+      const path = conversationUrl(activeInbox, chat.id);
       router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {
