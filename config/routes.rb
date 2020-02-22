@@ -100,6 +100,7 @@ Rails.application.routes.draw do
       resources :webhooks, only: [] do
         collection do
           post :chargebee
+          post :agent_bot
         end
       end
     end

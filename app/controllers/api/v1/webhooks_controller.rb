@@ -5,6 +5,7 @@ class Api::V1::WebhooksController < ApplicationController
 
   before_action :login_from_basic_auth, only: [:chargebee]
   before_action :check_billing_enabled, only: [:chargebee]
+
   def chargebee
     chargebee_consumer.consume
     head :ok
@@ -19,6 +20,16 @@ class Api::V1::WebhooksController < ApplicationController
 
   def twitter_events
     twitter_consumer.consume
+    head :ok
+  rescue StandardError => e
+    Raven.capture_exception(e)
+    head :ok
+  end
+
+  def agent_bot
+    # TODO: Setup basic auth
+    # TODO Use builder based on the bot vendor
+    Integrations::AnswerWise::OutgoingMessageBuilder.new(params).perform
     head :ok
   rescue StandardError => e
     Raven.capture_exception(e)

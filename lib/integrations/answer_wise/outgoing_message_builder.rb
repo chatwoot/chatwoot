@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Integrations::AnswerWise::OutgoingMessageBuilder
+  # TODO: Tweak message params based on the bot vendor and message types.
   # params = {
   #   agent_bot_id: 1,
   #   inbox_id: 1,

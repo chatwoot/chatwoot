@@ -1,15 +1,13 @@
 require 'rails_helper'
 
-describe Integrations::AnswerWise::OutgoingMessageBuilder do
-  subject(:message_builder) { described_class.new(options).perform }
-
+RSpec.describe 'Webhooks API', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:agent_bot) { create(:agent_bot, user: user, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
-  let!(:options) do
+  let!(:params) do
     {
       agent_bot_id: agent_bot.id,
       inbox_id: inbox.id,
@@ -21,15 +19,18 @@ describe Integrations::AnswerWise::OutgoingMessageBuilder do
     }
   end
 
-  describe '#perform' do
+  describe 'POST /api/v1/webhooks/agent_bot' do
     it 'creates message from agent bot' do
       create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
       expect(conversation.messages.count).to eq 0
-      message_builder
 
+      post '/api/v1/webhooks/agent_bot',
+           params: params
+
+      expect(response).to have_http_status(:success)
       expect(conversation.messages.count).to eq 1
       message = conversation.messages.first
-      expect(message.content).to eq(options[:message][:content])
+      expect(message.content).to eq(params[:message][:content])
     end
   end
 end
