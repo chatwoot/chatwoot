@@ -55,13 +55,14 @@ export default {
   }
 
   .close {
+    cursor: pointer;
     position: relative;
-    margin-right: $space-small;
+    width: $space-two;
 
     &:before,
     &:after {
       position: absolute;
-      left: 0;
+      left: $space-small;
       top: $space-smaller;
       content: ' ';
       height: $space-normal;
