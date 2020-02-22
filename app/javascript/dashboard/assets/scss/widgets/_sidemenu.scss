@@ -1,7 +1,7 @@
 .side-menu {
   i {
-    min-width: $space-two;
     margin-right: $space-smaller;
+    min-width: $space-two;
   }
 }
 
@@ -27,6 +27,26 @@
       border-radius: $space-smaller;
       color: $color-gray;
       font-size: $font-size-default;
+      font-weight: $font-weight-medium;
+    }
+
+    .active a {
+      color: $color-woot;
+    }
+  }
+
+  .nested {
+    a {
+      font-size: $font-size-small;
+      margin-bottom: $space-micro;
+      margin-top: $space-micro;
+
+      >.inbox-icon {
+        display: inline-block;
+        margin-right: $space-micro;
+        min-width: $space-normal;
+        text-align: center;
+      }
     }
   }
 }
@@ -36,17 +56,17 @@
   @include flex;
   @include space-between-column;
   @include padding($space-one $space-normal $space-one $space-one);
-  flex-direction: column;
   @include border-normal-top;
+  flex-direction: column;
   position: relative;
 
   .dropdown-pane {
     @include elegant-card;
     @include border-light;
+    display: block;
     left: 18%;
     top: -110%;
     visibility: visible;
-    display: block;
     width: 80%;
     z-index: 999;
 
@@ -79,23 +99,23 @@
     font-size: $font-size-medium;
     margin-top: $space-medium;
 
-    > span {
+    >span {
       margin-left: auto;
     }
   }
 }
 
-.menu-title + ul > li > a {
+.menu-title+ul>li>a {
   @include padding($space-micro null);
   color: $medium-gray;
   line-height: $global-lineheight;
 }
 
 .current-user {
-  align-items: center;
   @include flex;
-  flex-direction: row;
+  align-items: center;
   cursor: pointer;
+  flex-direction: row;
 
   .current-user--data {
     @include flex;
@@ -105,7 +125,7 @@
       font-size: $font-size-small;
       font-weight: $font-weight-medium;
       line-height: 1;
-      margin-bottom: $zero;
+      margin-bottom: $space-smaller;
       margin-left: $space-one;
       margin-top: $space-micro;
     }
@@ -132,7 +152,7 @@
   display: none;
   margin-right: $space-normal;
 
-  @media screen and (max-width: 1200px){
+  @media screen and (max-width: 1200px) {
     display: block;
   }
 }
@@ -141,7 +161,7 @@
   display: block;
   margin-right: $space-normal;
 
-  @media screen and (max-width: 1200px){
+  @media screen and (max-width: 1200px) {
     display: none;
   }
 }

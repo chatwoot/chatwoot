@@ -22,6 +22,7 @@ describe('#getters', () => {
       page_id: '12345',
       widget_color: null,
       website_token: null,
+      enable_auto_assignment: true,
     });
   });
 
@@ -32,6 +33,7 @@ describe('#getters', () => {
         isFetchingItem: false,
         isCreating: false,
         isUpdating: false,
+        isUpdatingAutoAssignment: false,
         isDeleting: false,
       },
     };
@@ -40,6 +42,7 @@ describe('#getters', () => {
       isFetchingItem: false,
       isCreating: false,
       isUpdating: false,
+      isUpdatingAutoAssignment: false,
       isDeleting: false,
     });
   });

@@ -15,8 +15,6 @@ Rails.application.routes.draw do
   get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
   get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
-  match '/status', to: 'home#status', via: [:get]
-
   resource :widget, only: [:show]
 
   namespace :api, defaults: { format: 'json' } do
@@ -46,7 +44,7 @@ Rails.application.routes.draw do
 
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy]
+      resources :inboxes, only: [:index, :destroy, :update]
       resources :agents, except: [:show, :edit, :new]
       resources :labels, only: [:index] do
         collection do

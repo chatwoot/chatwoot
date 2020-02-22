@@ -74,7 +74,12 @@
     "EDIT": {
       "API": {
         "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
       }
     },
     "DELETE": {
@@ -96,7 +101,9 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update"
+      "UPDATE": "Update",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations"
     }
   }
 }
