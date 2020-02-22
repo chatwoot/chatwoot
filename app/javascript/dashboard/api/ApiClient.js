@@ -17,10 +17,7 @@ class ApiClient {
   }
 
   create(data) {
-    return axios.post(this.url, data)
-      .catch(error => {
-        throw error;
-      });
+    return axios.post(this.url, data);
   }
 
   update(id, data) {
