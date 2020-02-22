@@ -34,6 +34,7 @@ class Inbox < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
   has_one :webhook, dependent: :destroy
+  has_one :agent_bot_inbox, dependent: :destroy
   after_create :subscribe_webhook, if: :facebook?
   after_destroy :delete_round_robin_agents
 

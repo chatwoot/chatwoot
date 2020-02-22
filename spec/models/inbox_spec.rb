@@ -24,6 +24,7 @@ RSpec.describe Inbox do
 
     it { is_expected.to have_many(:messages).through(:conversations) }
     it { is_expected.to have_one(:webhook) }
+    it { is_expected.to have_one(:agent_bot_inbox) }
   end
 
   describe '#add_member' do
