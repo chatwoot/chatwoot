@@ -7,8 +7,8 @@ GIT
 
 GIT
   remote: https://github.com/sony-mathew/json_refs
-  revision: 308cbf08d57ae0bf8d78c39c075b84344663b051
-  ref: 308cbf0
+  revision: b6c142ae486e399d00fbc758e21a7ed63a934f61
+  ref: b6c142a
   specs:
     json_refs (0.1.2)
       hana
