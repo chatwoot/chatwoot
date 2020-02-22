@@ -20,4 +20,5 @@ class AgentBot < ApplicationRecord
   belongs_to :user
   has_many :agent_bot_inboxes, dependent: :destroy
   has_many :inboxes, through: :agent_bot_inboxes
+  # TODO: Add bot avatar
 end
