@@ -69,6 +69,12 @@ export default {
             this.$store.dispatch('setActiveInbox', this.inboxId);
           }
           break;
+        case 'conversation_through_inbox':
+          if (this.inboxId) {
+            this.$store.dispatch('setActiveInbox', this.inboxId);
+          }
+          this.setActiveChat();
+          break;
         default:
           this.$store.dispatch('setActiveInbox', null);
           break;
