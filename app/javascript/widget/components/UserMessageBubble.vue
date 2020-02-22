@@ -49,11 +49,12 @@ export default {
 
   a {
     color: $color-primary;
+    word-break: break-all;
   }
 
   &.user {
     border-bottom-right-radius: $space-smaller;
-    
+
     a {
       color: $color-white;
     }
