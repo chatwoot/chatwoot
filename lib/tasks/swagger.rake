@@ -3,7 +3,8 @@ namespace :swagger do
   task build: :environment do
     require 'json_refs'
 
-    Dir.chdir(Rails.root.join('swagger')) do
+    base_path = Rails.root.join('swagger')
+    Dir.chdir(base_path) do
       swagger_index = YAML.safe_load(File.open('index.yml'))
 
       final_build = JsonRefs.call(
@@ -14,7 +15,7 @@ namespace :swagger do
       )
       File.write('swagger.json', JSON.pretty_generate(final_build))
       puts 'Swagger build was succesful.'
-      puts 'Generated', Rails.root.join('swagger/swagger.json')
+      puts "Generated #{base_path}/swagger.json"
       puts 'Go to http://localhost:3000/swagger see the changes.'
     end
   end

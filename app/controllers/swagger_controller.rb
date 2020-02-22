@@ -1,6 +1,6 @@
 class SwaggerController < ApplicationController
   def respond
-    if Rails.env.development?
+    if Rails.env.development? || Rails.env.test?
       render inline: File.read(Rails.root.join('swagger', derived_path))
     else
       head 404
