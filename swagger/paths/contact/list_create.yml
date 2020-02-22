@@ -24,7 +24,7 @@ post:
       in: body
       required: true
       schema:
-        $ref: '#/definitions/contact_input'
+        $ref: '#/definitions/contact_create'
   responses:
     200:
       description: Success

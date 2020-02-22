@@ -1,7 +1,7 @@
 # Contacts
 /contacts:
-  $ref: ./contacts/list_create.yml
+  $ref: ./contact/list_create.yml
 /contacts/{id}:
-  $ref: ./contacts/crud.yml
+  $ref: ./contact/crud.yml
 # /contacts/{id}/conversations:
-#   $ref: ./contacts/conversations.yml
+#   $ref: ./contact/conversations.yml
