@@ -29,7 +29,6 @@ class Api::V1::WebhooksController < ApplicationController
   def agent_bot
     # TODO: Setup basic auth
     # TODO Use builder based on the bot vendor
-    Integrations::AnswerWise::OutgoingMessageBuilder.new(params).perform
     head :ok
   rescue StandardError => e
     Raven.capture_exception(e)
