@@ -24,10 +24,12 @@ module.exports = {
       'multiline': {
         'max': 1,
         'allowFirstLine': false
-      }
+      },
     }],
     'vue/html-self-closing': 'off',
-    "vue/no-v-html": 'off'
+    "vue/no-v-html": 'off',
+    'import/extensions': ['never']
+
   },
   settings: {
     'import/resolver': {
