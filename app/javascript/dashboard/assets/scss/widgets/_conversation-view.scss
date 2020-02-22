@@ -169,7 +169,7 @@
   // Firefox flexbox fix
   height: 100%;
   margin-bottom: $space-small;
-  overflow-y: scroll;
+  overflow-y: auto;
 
   >li {
     @include flex;
