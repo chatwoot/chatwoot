@@ -78,13 +78,19 @@ export const actions = {
     }
   },
   updateAutoAssignment: async ({ commit }, { id, ...inboxParams }) => {
-    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true });
+    commit(types.default.SET_INBOXES_UI_FLAG, {
+      isUpdatingAutoAssignment: true,
+    });
     try {
       const response = await InboxesAPI.update(id, inboxParams);
       commit(types.default.EDIT_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: false });
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingAutoAssignment: false,
+      });
     } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: false });
+      commit(types.default.SET_INBOXES_UI_FLAG, {
+        isUpdatingAutoAssignment: false,
+      });
       throw new Error(error);
     }
   },
