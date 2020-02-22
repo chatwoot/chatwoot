@@ -43,7 +43,7 @@ export const actions = {
       commit(types.default.SET_AGENT_CREATING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_AGENT_CREATING_STATUS, false);
-      throw new Error(error);
+      throw error;
     }
   },
   update: async ({ commit }, { id, ...agentParams }) => {
