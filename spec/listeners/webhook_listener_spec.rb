@@ -24,8 +24,8 @@ describe WebhookListener do
 
     context 'when webhook is configured' do
       it 'triggers webhook' do
-        create(:webhook, inbox: inbox, account: account)
-        expect(WebhookJob).to receive(:perform_later).once
+        webhook = create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).to receive(:perform_later).with(webhook.urls[0], message.push_event_data.merge(event: 'message_created')).once
         listener.message_created(event)
       end
     end
