@@ -11,7 +11,8 @@ export default {
       return m.messages.filter(
         chat =>
           chat.created_at * 1000 > m.agent_last_seen_at * 1000 &&
-          (chat.message_type === 0 && chat.private !== true)
+          chat.message_type === 0 &&
+          chat.private !== true
       ).length;
     },
     readMessages(m) {
