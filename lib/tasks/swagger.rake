@@ -10,7 +10,8 @@ namespace :swagger do
         swagger_index,
         { 
           resolve_local_ref: false,
-          resolve_file_ref: true
+          resolve_file_ref: true,
+          logging: true
         }
       )
       File.write("swagger.json", JSON.pretty_generate(final_build))

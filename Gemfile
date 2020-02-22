@@ -85,7 +85,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/sony-mathew/json_refs', ref: 'aa35e13'
+  gem 'json_refs', git: 'https://github.com/sony-mathew/json_refs', ref: '308cbf0'
 end
 
 group :development, :test do
