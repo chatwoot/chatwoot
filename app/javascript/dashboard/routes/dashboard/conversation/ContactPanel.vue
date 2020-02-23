@@ -1,6 +1,9 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
     <div class="contact--profile">
+      <span class="close-button" @click="onPanelToggle">
+        <i class="ion-close-round"></i>
+      </span>
       <div class="contact--info">
         <thumbnail
           :src="contact.thumbnail"
@@ -101,6 +104,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+    onToggle: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     currentConversationMetaData() {
@@ -152,6 +159,11 @@ export default {
       id: this.currentConversationMetaData.contact_id,
     });
   },
+  methods: {
+    onPanelToggle() {
+      this.onToggle();
+    },
+  },
 };
 </script>
 
@@ -165,8 +177,16 @@ export default {
   overflow-y: auto;
   background: white;
   overflow: auto;
+  position: relative;
 }
 
+.close-button {
+  position: absolute;
+  right: $space-slab;
+  top: $space-slab;
+  font-size: $font-size-default;
+  color: $color-heading;
+}
 .contact--profile {
   padding: $space-medium $space-normal 0 $space-medium;
   align-items: center;
