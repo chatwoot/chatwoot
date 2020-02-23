@@ -42,6 +42,14 @@ Rails.application.routes.draw do
         resources :webhooks, except: [:show]
       end
 
+      namespace :agent_bot do
+        resources :webhooks, only: [] do
+          collection do
+            post :agent_bot
+          end
+        end
+      end
+
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy, :update]
@@ -100,7 +108,6 @@ Rails.application.routes.draw do
       resources :webhooks, only: [] do
         collection do
           post :chargebee
-          post :agent_bot
         end
       end
     end

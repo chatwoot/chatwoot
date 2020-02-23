@@ -26,15 +26,6 @@ class Api::V1::WebhooksController < ApplicationController
     head :ok
   end
 
-  def agent_bot
-    # TODO: Setup basic auth
-    # TODO Use builder based on the bot vendor
-    head :ok
-  rescue StandardError => e
-    Raven.capture_exception(e)
-    head :ok
-  end
-
   private
 
   def twitter_client
