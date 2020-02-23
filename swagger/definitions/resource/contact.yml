@@ -1,0 +1,12 @@
+type: object
+properties:
+  email:
+    type: string
+  name:
+    type: string
+  phone_number:
+    type: string
+  thumbnail:
+    type: string
+  additional_attributes:
+    type: object

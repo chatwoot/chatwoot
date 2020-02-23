@@ -1,0 +1,39 @@
+# ERROR
+bad_request_error:
+  $ref: ./error/bad_request.yml
+request_error:
+  $ref: ./error/request.yml
+
+# RESOURCE
+contact:
+  $ref: ./resource/contact.yml
+conversation:
+  $ref: ./resource/conversation.yml
+
+# RESPONSE
+extended_contact:
+  allOf:
+    - $ref: '#/definitions/contact'
+    - $ref: ./resource/extension/contact/show.yml
+contact_base:
+  allOf:
+    - $ref: '#/definitions/contact'
+    - $ref: ./resource/extension/generic.yml
+contact_list:
+  type: array
+  items:
+    allOf:
+      - $ref: '#/definitions/contact'
+      - $ref: ./resource/extension/generic.yml
+contact_conversations:
+  type: array
+  items:
+    allOf:
+      - $ref: '#/definitions/conversation'
+      - $ref: ./resource/extension/contact/conversation.yml
+
+# REQUEST
+contact_create:
+  $ref: ./request/contact/create.yml
+contact_update:
+  $ref: ./request/contact/update.yml
