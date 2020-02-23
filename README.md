@@ -52,15 +52,9 @@ Follow this [link](https://www.chatwoot.com/docs/environment-variables) to under
 
 ## Docker
 
-You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
-
-```bash
-docker pull chatwoot/chatwoot
-```
+Follow our [docker development guide](https://www.chatwoot.com/docs/installation-guide-docker) to develop and debug the application using `docker-compose`.
 
 Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup environment for Docker.
-
-Follow our [docker development guide](https://www.chatwoot.com/docs/installation-guide-docker) to develop and debug the application using docker composer.
 
 ## Contributors ✨
 
