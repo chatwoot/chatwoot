@@ -5,3 +5,19 @@
   $ref: ./contact/crud.yml
 /contacts/{id}/conversations:
   $ref: ./contact/conversations.yml
+
+# Conversations
+/conversations:
+  $ref: ./conversation/list.yml
+/conversations/{id}:
+  $ref: ./conversation/crud.yml
+/conversations/{id}/toggle_status:
+  $ref: ./conversation/toggle_status.yml
+/conversations/{id}/update_last_seen:
+  $ref: ./conversation/update_last_seen.yml
+/conversations/{id}/labels:
+  $ref: ./conversation/labels.yml
+/conversations/{id}/assignments:
+  $ref: ./conversation/assignments.yml
+/conversations/{id}/messages:
+  $ref: ./conversation/messages.yml
