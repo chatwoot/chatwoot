@@ -144,4 +144,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: '/sidekiq'
   end
   # ----------------------------------------------------------------------
+
+  # Routes for swagger docs
+  get '/swagger/*path', to: 'swagger#respond'
+  get '/swagger', to: 'swagger#respond'
 end

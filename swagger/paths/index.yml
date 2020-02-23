@@ -1,0 +1,7 @@
+# Contacts
+/contacts:
+  $ref: ./contact/list_create.yml
+/contacts/{id}:
+  $ref: ./contact/crud.yml
+/contacts/{id}/conversations:
+  $ref: ./contact/conversations.yml
