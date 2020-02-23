@@ -1,7 +1,5 @@
 type: object
 properties:
-  display_id:
-    type: number
   messages:
     type: array
     items:

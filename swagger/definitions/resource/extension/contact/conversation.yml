@@ -15,4 +15,4 @@ properties:
           channel:
             type: string
       assignee:
-        type: object
+        $ref: '#/definitions/user'

@@ -1,7 +1,7 @@
 get:
   tags: [Contact]
-  description: Listing all contacts with pagination
-  summary: List contacts
+  description: Listing all the contacts with pagination
+  summary: List Contacts
   parameters:
     - name: query_hash
       in: query
@@ -18,7 +18,7 @@ get:
 
 post:
   tags: [Contact]
-  description: Create a contact
+  description: Create New Contact
   parameters:
     - name: data
       in: body

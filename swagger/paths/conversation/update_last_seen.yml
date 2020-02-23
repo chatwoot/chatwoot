@@ -1,17 +1,16 @@
-get:
-  tags: [Contact]
-  summary: Conversations
+post:
+  tags: [Conversation]
+  summary: Update Last Seen
+  description: Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen
   parameters:
     - name: id
       in: path
       type: number
-      description: id of the contact
+      description: id of the conversation
       required: true
   responses:
     200:
       description: Success
-      schema:
-        $ref: '#/definitions/contact_conversations'
     404:
       description: Contact not found
     403:

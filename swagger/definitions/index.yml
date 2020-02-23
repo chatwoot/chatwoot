@@ -5,35 +5,68 @@ request_error:
   $ref: ./error/request.yml
 
 # RESOURCE
+generic_id:
+  $ref: ./resource/extension/generic.yml
 contact:
   $ref: ./resource/contact.yml
 conversation:
   $ref: ./resource/conversation.yml
+message:
+  $ref: ./resource/message.yml
+user:
+  $ref: ./resource/user.yml
 
 # RESPONSE
+
+## contact
 extended_contact:
   allOf:
     - $ref: '#/definitions/contact'
     - $ref: ./resource/extension/contact/show.yml
 contact_base:
   allOf:
+    - $ref: '#/definitions/generic_id'
     - $ref: '#/definitions/contact'
-    - $ref: ./resource/extension/generic.yml
 contact_list:
   type: array
+  description: 'array of contacts'
   items:
     allOf:
+      - $ref: '#/definitions/generic_id'
       - $ref: '#/definitions/contact'
-      - $ref: ./resource/extension/generic.yml
 contact_conversations:
   type: array
+  description: 'array of conversations'
   items:
     allOf:
       - $ref: '#/definitions/conversation'
       - $ref: ./resource/extension/contact/conversation.yml
+      - $ref: ./resource/extension/conversation/with_display_id.yml
+
+## conversation
+conversation_list:
+  $ref: ./resource/extension/conversation/list.yml
+conversation_show:
+  $ref: ./resource/extension/conversation/show.yml
+conversation_status_toggle:
+  $ref: ./resource/extension/conversation/status_toggle.yml
+conversation_labels:
+  $ref: ./resource/extension/conversation/labels.yml
+
+## message
+extended_message:
+  allOf:
+    - $ref: '#/definitions/generic_id'
+    - $ref: '#/definitions/message'
+    - $ref: ./resource/extension/message/with_source_sender.yml
 
 # REQUEST
+
+## contact
 contact_create:
   $ref: ./request/contact/create.yml
 contact_update:
   $ref: ./request/contact/update.yml
+## conversation
+conversation_message_create:
+  $ref: ./request/conversation/create_message.yml
