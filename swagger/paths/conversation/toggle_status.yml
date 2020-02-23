@@ -1,0 +1,19 @@
+post:
+  tags: [Conversation]
+  summary: Toggle Status
+  description: Toggles the status of the conversation between open and resolved
+  parameters:
+    - name: id
+      in: path
+      type: number
+      description: id of the conversation
+      required: true
+  responses:
+    204:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_status_toggle'
+    404:
+      description: Conversation not found
+    403:
+      description: Access denied

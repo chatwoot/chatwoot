@@ -5,7 +5,7 @@ get:
     - name: id
       in: path
       type: number
-      description: ID of contact
+      description: id of the contact
       required: true
   responses:
     200:
@@ -24,7 +24,7 @@ put:
     - name: id
       in: path
       type: number
-      description: ID of the contact
+      description: id of the contact
       required: true
     - name: data
       in: body
