@@ -1,0 +1,386 @@
+{
+  "swagger": 2.0,
+  "info": {
+    "description": "This is the api documentation for Chatwoot server.",
+    "version": "1.0.0",
+    "title": "Chatwoot",
+    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "contact": {
+      "email": "support@chatwoot.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "host": "app.chatwoot.com",
+    "basePath": "/api/v1/"
+  },
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Listing all contacts with pagination",
+        "summary": "List contacts",
+        "parameters": [
+          {
+            "name": "query_hash",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_list"
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "description": "Create a contact",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contact_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/extended_contact"
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
+    "/contacts/{id}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Show Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/extended_contact"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Update Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the contact",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contact_update"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_base"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/contacts/{id}/conversations": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "summary": "Conversations",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_conversations"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "bad_request_error": {
+      "title": "data",
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/request_error"
+          }
+        }
+      }
+    },
+    "request_error": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "additional_attributes": {
+          "type": "object"
+        }
+      }
+    },
+    "conversation": {
+      "type": "object",
+      "properties": {
+        "display_id": {
+          "type": "number"
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "inbox_id": {
+          "type": "number"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "open",
+            "resolved"
+          ]
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "user_last_seen_at": {
+          "type": "string"
+        },
+        "agent_last_seen_at": {
+          "type": "agent_last_seen_at"
+        },
+        "unread_count": {
+          "type": "number"
+        }
+      }
+    },
+    "extended_contact": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/contact"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "availability_status": {
+              "type": "string",
+              "enum": [
+                "online",
+                "offline"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contact_base": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/contact"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            }
+          }
+        }
+      ]
+    },
+    "contact_list": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/contact"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "contact_conversations": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/definitions/conversation"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "sender": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "thumbnail": {
+                        "type": "string"
+                      },
+                      "channel": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "assignee": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "contact_create": {
+      "type": "object",
+      "properties": {
+        "account_id": {
+          "type": "number"
+        },
+        "inbox_id": {
+          "type": "number"
+        }
+      }
+    },
+    "contact_update": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
