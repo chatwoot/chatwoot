@@ -1,5 +1,0 @@
-type: object
-properties:
-  allOf:
-    - $ref: '#/definitions/contact'
-    - $ref: ./resource/extension/contact.yaml
