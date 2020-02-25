@@ -33,7 +33,7 @@ export const actions = {
     commit(types.default.SET_CURRENT_PAGE, { filter, page });
   },
   setEndReached({ commit }, { filter }) {
-    commit(types.default.SET_CURRENT_PAGE, { filter });
+    commit(types.default.SET_CONVERSATION_END_REACHED, { filter });
   },
 };
 

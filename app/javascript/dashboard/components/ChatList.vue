@@ -22,21 +22,25 @@
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
-    <div v-if="chatListLoading" class="text-center">
-      <span class="spinner message"></span>
-    </div>
-
-    <transition-group
-      name="conversations-list"
-      tag="div"
-      class="conversations-list"
-    >
+    <div class="conversations-list">
       <conversation-card
         v-for="chat in getChatsForTab(activeStatus)"
         :key="chat.id"
         :chat="chat"
       />
-    </transition-group>
+
+      <div v-if="chatListLoading" class="text-center">
+        <span class="spinner"></span>
+      </div>
+
+      <div
+        v-if="!hasCurrentPageEndReached && !chatListLoading"
+        class="text-center load-more-conversations"
+        @click="fetchConversations"
+      >
+        Load more conversations...
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,6 +92,11 @@ export default {
     },
     currentPage() {
       return this.$store.getters['conversationPage/getCurrentPage'](
+        this.activeAssigneeTab
+      );
+    },
+    hasCurrentPageEndReached() {
+      return this.$store.getters['conversationPage/getHasEndReached'](
         this.activeAssigneeTab
       );
     },

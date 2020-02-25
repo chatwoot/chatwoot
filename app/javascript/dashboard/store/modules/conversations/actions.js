@@ -20,10 +20,17 @@ const actions = {
         'conversationPage/setCurrentPage',
         {
           filter: params.assigneeType,
-          page: params.page + 1,
+          page: params.page,
         },
         { root: true }
       );
+      if (!chatList.length) {
+        dispatch(
+          'conversationPage/setEndReached',
+          { filter: params.assigneeType },
+          { root: true }
+        );
+      }
     } catch (error) {
       // Handle error
     }
