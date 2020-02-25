@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_222_143_259) do
+ActiveRecord::Schema.define(version: 2020_02_25_172811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -50,8 +50,6 @@ ActiveRecord::Schema.define(version: 20_200_222_143_259) do
   end
 
   create_table 'agent_bots', force: :cascade do |t|
-    t.integer 'account_id'
-    t.integer 'user_id'
     t.string 'name'
     t.string 'description'
     t.string 'outgoing_url'

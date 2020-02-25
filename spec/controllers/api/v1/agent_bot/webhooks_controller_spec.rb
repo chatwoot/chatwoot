@@ -4,7 +4,7 @@ RSpec.describe 'Webhooks API', type: :request do
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
-  let!(:agent_bot) { create(:agent_bot, user: user, account: account) }
+  let!(:agent_bot) { create(:agent_bot) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
   let!(:params) do
@@ -19,12 +19,12 @@ RSpec.describe 'Webhooks API', type: :request do
     }
   end
 
-  describe 'POST /api/v1/agent_bot/webhooks/agent_bot' do
+  describe 'POST /api/v1/agent_bot/webhooks' do
     it 'creates message from agent bot' do
       create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
       expect(conversation.messages.count).to eq 0
 
-      post '/api/v1/agent_bot/webhooks/agent_bot',
+      post '/api/v1/agent_bot/webhooks',
            params: params
 
       expect(response).to have_http_status(:success)
