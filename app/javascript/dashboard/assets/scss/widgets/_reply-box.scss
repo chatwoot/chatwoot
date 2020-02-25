@@ -1,10 +1,10 @@
 .reply-box {
+  @include elegant-card;
+  border-bottom: 0;
   margin: $space-normal;
   margin-top: 0;
-  border-bottom: 0;
-  @include elegant-card;
-  transition: height 2s $ease-in-out-cubic;
   max-height: $space-jumbo * 2;
+  transition: height 2s $ease-in-out-cubic;
 
   .reply-box__top {
     @include flex;
@@ -12,26 +12,25 @@
     @include padding($space-one $space-normal);
     @include background-white;
     @include margin(0);
-    position: relative;
     border-top-left-radius: $space-small;
     border-top-right-radius: $space-small;
+    position: relative;
 
     .canned {
       @include elegant-card;
-      z-index: 100;
-      position: absolute;
-      background: #fff;
-      width: 24rem;
-      left: 0;
-      border-top: $space-small solid $color-white;
+      background: $color-white;
       border-bottom: $space-small solid $color-white;
-      max-height: 14rem;
-      overflow: scroll;
+      border-top: $space-small solid $color-white;
+      left: 0;
 
-      .active {
-        a {
-          background: $color-woot;
-        }
+      max-height: 14rem;
+      overflow: auto;
+      position: absolute;
+      width: 24rem;
+      z-index: 100;
+
+      .active a {
+        background: $color-woot;
       }
     }
 
@@ -43,30 +42,30 @@
     &.is-private {
       background: lighten($warning-color, 38%);
 
-      > input {
+      >input {
         background: lighten($warning-color, 38%);
       }
     }
 
-    > .icon {
-      font-size: $font-size-medium;
+    >.icon {
       color: $medium-gray;
-      margin-right: $space-small;
       cursor: pointer;
+      font-size: $font-size-medium;
+      margin-right: $space-small;
 
       &.active {
         color: $color-woot;
       }
     }
 
-    > textarea {
+    >textarea {
       @include ghost-input();
       @include margin(0);
-      resize: none;
       background: transparent;
       // Override min-height : 50px in foundation
       //
       min-height: 1rem;
+      resize: none;
     }
   }
 
@@ -80,48 +79,47 @@
 
     .tabs {
       border: 0;
-      padding: 0;
       flex: 1;
+      padding: 0;
 
       .tabs-title {
         margin: 0;
-        transition: background .2s $ease-in-out-cubic;
-        transition: color .2s $ease-in-out-cubic;
+        transition: all .2s $ease-in-out-cubic;
+        transition-property: color, background;
 
         a {
+          font-weight: $font-weight-medium;
           padding: $space-one $space-two;
         }
 
-        &:first-child {
-          border-bottom-left-radius: $space-small;
+        &.is-private.is-active {
+          background: lighten($warning-color, 38%);
 
-          &.is-active {
-            @include border-light-right;
-            border-left: 0;
-
-            a {
-              border-bottom-left-radius: $space-small;
-            }
+          a {
+            border-bottom-color: darken($warning-color, 15%);
+            color: darken($warning-color, 15%);
           }
         }
+      }
 
-        &.is-private {
-          &.is-active {
-            background: lighten($warning-color, 38%);
+      .tabs-title:first-child {
+        border-bottom-left-radius: $space-small;
 
-            a {
-              border-bottom-color: darken($warning-color, 15%);
-              color: darken($warning-color, 15%);
-            }
+        &.is-active {
+          @include border-light-right;
+          border-left: 0;
+
+          a {
+            border-bottom-left-radius: $space-small;
           }
         }
       }
 
       .is-active {
         @include background-white;
-        margin-top: -1px;
         @include border-light-left;
         @include border-light-right;
+        margin-top: -1px;
       }
 
       .message-length {
@@ -138,11 +136,11 @@
     }
 
     .send-button {
-      height: 3.6rem;
       border-bottom-right-radius: $space-small;
-      padding-top: $space-small;
-      padding-right: $space-two;
+      height: 3.6rem;
       padding-left: $space-two;
+      padding-right: $space-two;
+      padding-top: $space-small;
 
       .icon {
         margin-left: $space-small;

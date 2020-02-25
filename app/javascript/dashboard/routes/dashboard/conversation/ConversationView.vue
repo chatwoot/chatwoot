@@ -14,6 +14,7 @@
     <contact-panel
       v-if="isContactPanelOpen"
       :conversation-id="conversationId"
+      :on-toggle="onToggleContactPanel"
     />
   </section>
 </template>
@@ -37,13 +38,24 @@ export default {
   data() {
     return {
       pageTitle: this.$state,
-      isContactPanelOpen: false,
+      panelToggleState: false,
     };
   },
   computed: {
     ...mapGetters({
       chatList: 'getAllConversations',
     }),
+    isContactPanelOpen: {
+      get() {
+        if (this.conversationId) {
+          return this.panelToggleState;
+        }
+        return false;
+      },
+      set(val) {
+        this.panelToggleState = val;
+      },
+    },
   },
   props: ['inboxId', 'conversationId'],
 
@@ -57,6 +69,12 @@ export default {
           if (this.inboxId) {
             this.$store.dispatch('setActiveInbox', this.inboxId);
           }
+          break;
+        case 'conversation_through_inbox':
+          if (this.inboxId) {
+            this.$store.dispatch('setActiveInbox', this.inboxId);
+          }
+          this.setActiveChat();
           break;
         default:
           this.$store.dispatch('setActiveInbox', null);

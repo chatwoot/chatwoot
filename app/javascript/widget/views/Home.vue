@@ -49,7 +49,7 @@ export default {
       return window.chatwootWebChannel.website_name;
     },
     showAvailableAgents() {
-      return this.availableAgents.length > 0;
+      return this.availableAgents.length > 0 && this.conversationSize < 1;
     },
   },
 

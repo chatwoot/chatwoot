@@ -92,6 +92,43 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateAutoAssignment', () => {
+    it('sends correct actions if API is success', async () => {
+      const updatedInbox = inboxList[0];
+      updatedInbox.enable_auto_assignment = false;
+
+      axios.patch.mockResolvedValue({ data: updatedInbox });
+      await actions.updateAutoAssignment(
+        { commit },
+        { id: updatedInbox.id, inbox: { enable_auto_assignment: false } }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
+        [types.default.EDIT_INBOXES, updatedInbox],
+        [
+          types.default.SET_INBOXES_UI_FLAG,
+          { isUpdatingAutoAssignment: false },
+        ],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.updateAutoAssignment(
+          { commit },
+          { id: inboxList[0].id, inbox: { enable_auto_assignment: false } }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INBOXES_UI_FLAG, { isUpdatingAutoAssignment: true }],
+        [
+          types.default.SET_INBOXES_UI_FLAG,
+          { isUpdatingAutoAssignment: false },
+        ],
+      ]);
+    });
+  });
+
   describe('#delete', () => {
     it('sends correct actions if API is success', async () => {
       axios.delete.mockResolvedValue({ data: inboxList[0] });

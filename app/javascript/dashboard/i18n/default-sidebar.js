@@ -6,8 +6,11 @@ export default {
       'home',
       'inbox_dashboard',
       'inbox_conversation',
+      'conversation_through_inbox',
       'settings_account_reports',
       'billing_deactivated',
+      'profile_settings',
+      'profile_settings_index',
     ],
     menuItems: {
       assignedToMe: {

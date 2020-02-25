@@ -14,15 +14,19 @@ export default {
   props: {
     username: {
       type: String,
+      default: '',
     },
     backgroundColor: {
       type: String,
+      default: 'white',
     },
     color: {
       type: String,
+      default: '#1f93ff',
     },
     customStyle: {
       type: Object,
+      default: undefined,
     },
     size: {
       type: Number,
@@ -30,6 +34,7 @@ export default {
     },
     src: {
       type: String,
+      default: '',
     },
     rounded: {
       type: Boolean,
@@ -72,7 +77,7 @@ export default {
 <style lang="scss" scoped>
 .avatar-container {
   display: flex;
-  font-weight: bold;
+  font-weight: 500;
   align-items: center;
   justify-content: center;
   text-align: center;

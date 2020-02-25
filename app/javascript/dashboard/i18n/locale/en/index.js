@@ -10,6 +10,7 @@ import { default as _login } from './login.json';
 import { default as _report } from './report.json';
 import { default as _resetPassword } from './resetPassword.json';
 import { default as _setNewPassword } from './setNewPassword.json';
+import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
 
 export default {
@@ -24,5 +25,6 @@ export default {
   ..._report,
   ..._resetPassword,
   ..._setNewPassword,
+  ..._settings,
   ..._signup,
 };

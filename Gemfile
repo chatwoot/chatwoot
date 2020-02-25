@@ -61,7 +61,6 @@ gem 'chargebee'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
-gem 'twitter'
 # twitty will handle subscription of twitter account events
 gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 
@@ -84,9 +83,13 @@ group :development do
   gem 'bullet'
   gem 'letter_opener'
   gem 'web-console'
+
+  # used in swagger build
+  gem 'json_refs', git: 'https://github.com/sony-mathew/json_refs', ref: 'b6c142a'
 end
 
 group :development, :test do
+  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
   gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
@@ -100,9 +103,9 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'scss_lint', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'

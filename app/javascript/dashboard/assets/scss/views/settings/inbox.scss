@@ -212,7 +212,7 @@
 
   .code {
     max-height: $space-mega;
-    overflow: scroll;
+    overflow: auto;
     white-space: nowrap;
     @include padding($space-one);
     background: $color-background;

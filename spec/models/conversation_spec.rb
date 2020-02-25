@@ -97,6 +97,17 @@ RSpec.describe Conversation, type: :model do
       # run_round_robin
       expect(conversation.reload.assignee).to eq(agent)
     end
+
+    it 'will not auto assign agent if enable_auto_assignment is false' do
+      inbox.update(enable_auto_assignment: false)
+
+      # send_events
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+
+      # run_round_robin
+      expect(conversation.reload.assignee).to eq(nil)
+    end
   end
 
   describe '#update_assignee' do

@@ -15,8 +15,6 @@ Rails.application.routes.draw do
   get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
   get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
-  match '/status', to: 'home#status', via: [:get]
-
   resource :widget, only: [:show]
 
   namespace :api, defaults: { format: 'json' } do
@@ -46,7 +44,7 @@ Rails.application.routes.draw do
 
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy]
+      resources :inboxes, only: [:index, :destroy, :update]
       resources :agents, except: [:show, :edit, :new]
       resources :labels, only: [:index] do
         collection do
@@ -83,7 +81,6 @@ Rails.application.routes.draw do
         member do
           post :toggle_status
           post :update_last_seen
-          get :get_messages
         end
       end
 
@@ -94,17 +91,15 @@ Rails.application.routes.draw do
       end
 
       # this block is only required if subscription via chargebee is enabled
-      if ENV['BILLING_ENABLED']
-        resources :subscriptions, only: [:index] do
-          collection do
-            get :summary
-          end
+      resources :subscriptions, only: [:index] do
+        collection do
+          get :summary
         end
+      end
 
-        resources :webhooks, only: [] do
-          collection do
-            post :chargebee
-          end
+      resources :webhooks, only: [] do
+        collection do
+          post :chargebee
         end
       end
     end
@@ -149,4 +144,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: '/sidekiq'
   end
   # ----------------------------------------------------------------------
+
+  # Routes for swagger docs
+  get '/swagger/*path', to: 'swagger#respond'
+  get '/swagger', to: 'swagger#respond'
 end

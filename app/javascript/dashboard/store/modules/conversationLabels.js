@@ -6,6 +6,8 @@ const state = {
   records: {},
   uiFlags: {
     isFetching: false,
+    isUpdating: false,
+    isError: false,
   },
 };
 
@@ -35,6 +37,30 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
         isFetching: false,
+      });
+    }
+  },
+  update: async ({ commit }, { conversationId, labels }) => {
+    commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
+      isUpdating: true,
+    });
+    try {
+      const response = await ConversationAPI.updateLabels(
+        conversationId,
+        labels
+      );
+      commit(types.default.SET_CONVERSATION_LABELS, {
+        id: conversationId,
+        data: response.data.payload,
+      });
+      commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
+        isUpdating: false,
+        isError: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_CONVERSATION_LABELS_UI_FLAG, {
+        isUpdating: false,
+        isError: true,
       });
     }
   },
