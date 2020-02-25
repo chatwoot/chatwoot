@@ -52,6 +52,7 @@ export default {
       'settings_inboxes_add_agents',
       'settings_inbox_finish',
       'billing',
+      'webhook_settings',
     ],
     menuItems: {
       back: {
@@ -89,12 +90,12 @@ export default {
         toState: frontendURL('settings/billing'),
         toStateName: 'billing',
       },
-      account: {
-        icon: 'ion-beer',
-        label: 'Account Settings',
+      webhook_settings: {
+        icon: 'ion-flash',
+        label: 'Webhooks',
         hasSubMenu: false,
-        toState: frontendURL('settings/account'),
-        toStateName: 'account',
+        toState: frontendURL('settings/webhooks'),
+        toStateName: 'webhook_settings',
       },
     },
   },
