@@ -1,5 +1,5 @@
 json.id webhook.id
-json.urls webhook.urls
+json.url webhook.url
 json.account_id webhook.account_id
 json.inbox do
   json.id webhook.inbox.id
