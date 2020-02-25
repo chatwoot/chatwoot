@@ -10,9 +10,9 @@
 
     <chat-type-tabs
       :items="assigneeTabItems"
-      :active-tab-index="activeAssigneeTab"
+      :active-tab="activeAssigneeTab"
       class="tab--chat-type"
-      @chatTabChange="getDataForTab"
+      @chatTabChange="updateAssigneeTab"
     />
 
     <p
@@ -50,7 +50,6 @@ import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import conversationMixin from '../mixins/conversations';
-import wootConstants from '../constants';
 
 export default {
   components: {
@@ -62,7 +61,7 @@ export default {
   props: ['conversationInbox', 'pageTitle'],
   data() {
     return {
-      activeAssigneeTab: 0,
+      activeAssigneeTab: 'me',
       activeStatus: 0,
     };
   },
@@ -78,20 +77,19 @@ export default {
       convStats: 'getConvTabStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map((item, index) => ({
-        id: index,
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
+        key: item.KEY,
         name: item.NAME,
-        count: this.convStats[item.KEY] || 0,
+        count: this.convStats[item.COUNT_KEY] || 0,
       }));
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
-    getToggleStatus() {
-      if (this.toggleType) {
-        return 'Open';
-      }
-      return 'Resolved';
+    currentPage() {
+      return this.$store.getters['conversationPage/getCurrentPage'](
+        this.activeAssigneeTab
+      );
     },
   },
   mounted() {
@@ -117,12 +115,15 @@ export default {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus ? 'resolved' : 'open',
+        page: this.currentPage + 1,
       });
     },
-    getDataForTab(index) {
-      if (this.activeAssigneeTab !== index) {
-        this.activeAssigneeTab = index;
-        this.fetchConversations();
+    updateAssigneeTab(selectedTab) {
+      if (this.activeAssigneeTab !== selectedTab) {
+        this.activeAssigneeTab = selectedTab;
+        if (!this.currentPage) {
+          this.fetchConversations();
+        }
       }
     },
     getDataForStatusTab(index) {
@@ -133,11 +134,9 @@ export default {
     },
     getChatsForTab() {
       let copyList = [];
-      if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.MINE) {
+      if (this.activeAssigneeTab === 'me') {
         copyList = this.mineChatsList.slice();
-      } else if (
-        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.UNASSIGNED
-      ) {
+      } else if (this.activeAssigneeTab === 'unassigned') {
         copyList = this.unAssignedChatsList.slice();
       } else {
         copyList = this.allChatList.slice();

@@ -1,8 +1,8 @@
 <template>
-  <woot-tabs :index="tabsIndex" @change="onTabChange">
+  <woot-tabs :index="activeTabIndex" @change="onTabChange">
     <woot-tabs-item
       v-for="item in items"
-      :key="item.name"
+      :key="item.key"
       :name="item.name"
       :count="item.count"
     />
@@ -17,24 +17,25 @@ export default {
       type: Array,
       default: () => [],
     },
-    activeTabIndex: {
-      type: Number,
-      default: 0,
+    activeTab: {
+      type: String,
+      default: 'me',
     },
   },
   data() {
     return {
-      tabsIndex: 0,
+      tabsIndex: 'me',
     };
   },
-  created() {
-    this.tabsIndex = this.activeTabIndex;
+  computed: {
+    activeTabIndex() {
+      return this.items.findIndex(item => item.key === this.activeTab);
+    },
   },
   methods: {
     onTabChange(selectedTabIndex) {
-      if (selectedTabIndex !== this.tabsIndex) {
-        this.$emit('chatTabChange', selectedTabIndex);
-        this.tabsIndex = selectedTabIndex;
+      if (this.items[selectedTabIndex].key !== this.activeTab) {
+        this.$emit('chatTabChange', this.items[selectedTabIndex].key);
       }
     },
   },

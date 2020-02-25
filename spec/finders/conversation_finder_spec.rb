@@ -19,7 +19,7 @@ describe ::ConversationFinder do
 
   describe '#perform' do
     context 'with status' do
-      let(:params) { { status: 'open', assignee_type_id: 0 } }
+      let(:params) { { status: 'open', assignee_type: 'me' } }
 
       it 'filter conversations by status' do
         result = conversation_finder.perform
@@ -28,7 +28,7 @@ describe ::ConversationFinder do
     end
 
     context 'with assignee' do
-      let(:params) { { assignee_type_id: 2 } }
+      let(:params) { { assignee_type: 'all' } }
 
       it 'filter conversations by assignee' do
         result = conversation_finder.perform
@@ -49,7 +49,7 @@ describe ::ConversationFinder do
     end
 
     context 'with pagination' do
-      let(:params) { { status: 'open', assignee_type_id: 0, page: 1 } }
+      let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
       it 'returns paginated conversations' do
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1)

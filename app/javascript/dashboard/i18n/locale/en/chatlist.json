@@ -14,9 +14,9 @@
     ],
 
     "ASSIGNEE_TYPE_TABS": [
-      { "NAME": "Mine", "KEY": "mineCount"},
-      { "NAME": "Unassigned", "KEY": "unAssignedCount"},
-      { "NAME": "All", "KEY": "allCount"}
+      { "NAME": "Mine", "KEY": "me", "COUNT_KEY": "mineCount" },
+      { "NAME": "Unassigned", "KEY": "unassigned", "COUNT_KEY": "unAssignedCount"},
+      { "NAME": "All", "KEY": "all", "COUNT_KEY": "allCount" }
     ],
 
     "ASSIGNEE_TYPE_SLUG": {
