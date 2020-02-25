@@ -5,8 +5,7 @@ class WebhookListener < BaseListener
 
     return unless message.reportable?
 
-    payload = message.push_event_data.merge(event: __method__.to_s)
-
+    payload = message.webhook_data.merge(event: __method__.to_s)
     # Account webhooks
     inbox.account.webhooks.account.each do |webhook|
       WebhookJob.perform_later(webhook.url, payload)

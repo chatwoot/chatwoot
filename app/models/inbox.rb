@@ -60,6 +60,13 @@ class Inbox < ApplicationRecord
     account.users.find_by(id: user_id)
   end
 
+  def webhook_data
+    {
+      id: id,
+      name: name
+    }
+  end
+
   private
 
   def delete_round_robin_agents

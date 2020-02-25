@@ -60,6 +60,13 @@ class Account < ApplicationRecord
     }
   end
 
+  def webhook_data
+    {
+      id: id,
+      name: name
+    }
+  end
+
   private
 
   def create_subscription
