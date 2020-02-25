@@ -2,7 +2,6 @@
 /* eslint no-param-reassign: 0 */
 import Vue from 'vue';
 import * as types from '../../mutation-types';
-import wootConstants from '../../../constants';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 
@@ -22,7 +21,7 @@ const state = {
     dataFetched: false,
   },
   listLoadingStatus: true,
-  chatStatusFilter: wootConstants.ASSIGNEE_TYPE_SLUG.OPEN,
+  chatStatusFilter: 'open',
   currentInbox: null,
 };
 

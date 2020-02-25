@@ -26,8 +26,8 @@
     },
 
     "CHAT_STATUS_ITEMS": [
-      { "TEXT": "Open", "VALUE": 0 },
-      { "TEXT": "Resolved", "VALUE": 1 }
+      { "TEXT": "Open", "VALUE": "open" },
+      { "TEXT": "Resolved", "VALUE": "resolved" }
     ],
 
     "ATTACHMENTS": {

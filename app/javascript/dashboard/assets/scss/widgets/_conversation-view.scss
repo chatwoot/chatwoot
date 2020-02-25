@@ -86,11 +86,16 @@
     color: $color-woot;
     cursor: pointer;
     font-size: $font-size-small;
-    padding: $space-medium;
+    padding: $space-normal;
 
     &:hover {
       background: $color-background;
     }
+  }
+
+  .end-of-list-text {
+    font-style: italic;
+    padding: $space-normal;
   }
 
   .conversations-list {

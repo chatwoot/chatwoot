@@ -18,6 +18,9 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 
 export default {
+  components: {
+    Spinner,
+  },
   props: ['conversationId'],
   data() {
     return {
@@ -29,18 +32,18 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     currentStatus() {
-      const ButtonName = this.currentChat.status === 0 ? 'Resolve' : 'Reopen';
+      const ButtonName =
+        this.currentChat.status === 'open' ? 'Resolve' : 'Reopen';
       return ButtonName;
     },
     buttonClass() {
-      return this.currentChat.status === 0 ? 'success' : 'warning';
+      return this.currentChat.status === 'open' ? 'success' : 'warning';
     },
     buttonIconClass() {
-      return this.currentChat.status === 0 ? 'ion-checkmark' : 'ion-refresh';
+      return this.currentChat.status === 'open'
+        ? 'ion-checkmark'
+        : 'ion-refresh';
     },
-  },
-  components: {
-    Spinner,
   },
   methods: {
     toggleStatus() {

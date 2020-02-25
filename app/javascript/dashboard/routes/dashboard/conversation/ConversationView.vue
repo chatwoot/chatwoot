@@ -60,7 +60,15 @@ export default {
   props: ['inboxId', 'conversationId'],
 
   mounted() {
-    this.$watch('$store.state.route', () => {
+    this.initialize();
+    this.$watch('$store.state.route', () => this.initialize());
+    this.$watch('chatList.length', () => {
+      this.setActiveChat();
+    });
+  },
+
+  methods: {
+    initialize() {
       switch (this.$store.state.route.name) {
         case 'inbox_conversation':
           this.setActiveChat();
@@ -80,13 +88,8 @@ export default {
           this.$store.dispatch('setActiveInbox', null);
           break;
       }
-    });
-    this.$watch('chatList.length', () => {
-      this.setActiveChat();
-    });
-  },
+    },
 
-  methods: {
     setActiveChat() {
       const conversationId = parseInt(this.conversationId, 10);
       const [chat] = this.chatList.filter(c => c.id === conversationId);

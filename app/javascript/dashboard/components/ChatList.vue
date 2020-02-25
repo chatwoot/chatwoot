@@ -5,7 +5,7 @@
         <woot-sidemenu-icon />
         {{ inbox.name || pageTitle }}
       </h1>
-      <chat-filter @statusFilterChange="getDataForStatusTab" />
+      <chat-filter @statusFilterChange="updateStatusType" />
     </div>
 
     <chat-type-tabs
@@ -15,16 +15,13 @@
       @chatTabChange="updateAssigneeTab"
     />
 
-    <p
-      v-if="!chatListLoading && !getChatsForTab(activeStatus).length"
-      class="content-box"
-    >
+    <p v-if="!chatListLoading && !getChatsForTab().length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
     <div class="conversations-list">
       <conversation-card
-        v-for="chat in getChatsForTab(activeStatus)"
+        v-for="chat in getChatsForTab()"
         :key="chat.id"
         :chat="chat"
       />
@@ -40,6 +37,17 @@
       >
         Load more conversations...
       </div>
+
+      <p
+        v-if="
+          getChatsForTab().length &&
+            hasCurrentPageEndReached &&
+            !chatListLoading
+        "
+        class="text-center text-muted end-of-list-text"
+      >
+        You have reached the end of the list
+      </p>
     </div>
   </div>
 </template>
@@ -66,7 +74,7 @@ export default {
   data() {
     return {
       activeAssigneeTab: 'me',
-      activeStatus: 0,
+      activeStatus: 'open',
     };
   },
   computed: {
@@ -101,29 +109,26 @@ export default {
       );
     },
   },
+  watch: {
+    conversationInbox() {
+      this.resetAndFetchData();
+    },
+  },
   mounted() {
-    this.$watch('$store.state.route', () => {
-      if (this.$store.state.route.name !== 'inbox_conversation') {
-        this.$store.dispatch('emptyAllConversations');
-        this.fetchData();
-      }
-    });
-
-    this.$store.dispatch('emptyAllConversations');
-    this.fetchData();
+    this.resetAndFetchData();
     this.$store.dispatch('agents/get');
   },
   methods: {
-    fetchData() {
-      if (this.chatLists.length === 0) {
-        this.fetchConversations();
-      }
+    resetAndFetchData() {
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('emptyAllConversations');
+      this.fetchConversations();
     },
     fetchConversations() {
       this.$store.dispatch('fetchAllConversations', {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus ? 'resolved' : 'open',
+        status: this.activeStatus,
         page: this.currentPage + 1,
       });
     },
@@ -135,10 +140,10 @@ export default {
         }
       }
     },
-    getDataForStatusTab(index) {
+    updateStatusType(index) {
       if (this.activeStatus !== index) {
         this.activeStatus = index;
-        this.fetchConversations();
+        this.resetAndFetchData();
       }
     },
     getChatsForTab() {

@@ -1,5 +1,5 @@
 <template>
-  <select v-model="activeIndex" class="status--filter" @change="onTabChange()">
+  <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
     <option
       v-for="item in $t('CHAT_LIST.CHAT_STATUS_ITEMS')"
       :key="item['VALUE']"
@@ -13,13 +13,12 @@
 <script>
 export default {
   data: () => ({
-    activeIndex: 0,
+    activeStatus: 'open',
   }),
-  mounted() {},
   methods: {
     onTabChange() {
-      this.$store.dispatch('setChatFilter', this.activeIndex);
-      this.$emit('statusFilterChange', this.activeIndex);
+      this.$store.dispatch('setChatFilter', this.activeStatus);
+      this.$emit('statusFilterChange', this.activeStatus);
     },
   },
 };

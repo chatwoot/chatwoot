@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import * as types from '../mutation-types';
 
-const initialState = {
+const state = {
   currentPage: {
     me: 0,
     unassigned: 0,
@@ -35,6 +35,9 @@ export const actions = {
   setEndReached({ commit }, { filter }) {
     commit(types.default.SET_CONVERSATION_END_REACHED, { filter });
   },
+  reset({ commit }) {
+    commit(types.default.CLEAR_CONVERSATION_PAGE);
+  },
 };
 
 export const mutations = {
@@ -48,15 +51,23 @@ export const mutations = {
     Vue.set($state.hasEndReached, filter, true);
   },
   [types.default.CLEAR_CONVERSATION_PAGE]: $state => {
-    $state.currentPage = initialState.currentPage;
-    $state.hasEndReached = initialState.hasEndReached;
-    $state.activeFilter = initialState.activeFilter;
+    $state.currentPage = {
+      me: 0,
+      unassigned: 0,
+      all: 0,
+    };
+
+    $state.hasEndReached = {
+      me: false,
+      unassigned: false,
+      all: false,
+    };
   },
 };
 
 export default {
   namespaced: true,
-  state: initialState,
+  state,
   getters,
   actions,
   mutations,
