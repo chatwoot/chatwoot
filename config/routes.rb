@@ -43,11 +43,7 @@ Rails.application.routes.draw do
       end
 
       namespace :agent_bot do
-        resources :webhooks, only: [] do
-          collection do
-            post :agent_bot
-          end
-        end
+        resources :webhooks, only: [:create]
       end
 
       resource :profile, only: [:show, :update]
