@@ -93,6 +93,13 @@ class Conversation < ApplicationRecord
     Conversations::EventDataPresenter.new(self).lock_data
   end
 
+  def webhook_data
+    {
+      display_id: display_id,
+      additional_attributes: additional_attributes
+    }
+  end
+
   private
 
   def dispatch_events

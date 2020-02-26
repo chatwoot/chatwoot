@@ -50,6 +50,7 @@ class Message < ApplicationRecord
   belongs_to :inbox
   belongs_to :conversation
   belongs_to :user, required: false
+  belongs_to :contact, required: false
 
   has_one :attachment, dependent: :destroy, autosave: true
 
@@ -76,6 +77,21 @@ class Message < ApplicationRecord
 
   def reportable?
     incoming? || outgoing?
+  end
+
+  def webhook_data
+    {
+      id: id,
+      content: content,
+      created_at: created_at,
+      message_type: message_type,
+      source_id: source_id,
+      sender: user.try(:webhook_data),
+      contact: contact.try(:webhook_data),
+      inbox: inbox.webhook_data,
+      conversation: conversation.webhook_data,
+      account: account.webhook_data
+    }
   end
 
   private
