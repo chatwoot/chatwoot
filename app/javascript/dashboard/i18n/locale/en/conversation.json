@@ -11,6 +11,7 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
+      "REOPEN_ACTION": "Reopen",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details"
