@@ -110,4 +110,12 @@ class User < ApplicationRecord
       avatar_url: avatar_url
     }
   end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      email: email
+    }
+  end
 end
