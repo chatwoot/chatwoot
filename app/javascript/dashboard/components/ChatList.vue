@@ -115,6 +115,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
     this.$store.dispatch('agents/get');
   },
