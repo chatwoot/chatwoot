@@ -9,7 +9,7 @@
   </woot-tabs>
 </template>
 <script>
-/* eslint no-console: 0 */
+import wootConstants from '../../constants';
 
 export default {
   props: {
@@ -19,12 +19,12 @@ export default {
     },
     activeTab: {
       type: String,
-      default: 'me',
+      default: wootConstants.ASSIGNEE_TYPE.ME,
     },
   },
   data() {
     return {
-      tabsIndex: 'me',
+      tabsIndex: wootConstants.ASSIGNEE_TYPE.ME,
     };
   },
   computed: {
