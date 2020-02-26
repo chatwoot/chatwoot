@@ -16,6 +16,7 @@
 /* global bus */
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
+import wootConstants from '../../constants';
 
 export default {
   components: {
@@ -33,14 +34,18 @@ export default {
     }),
     currentStatus() {
       const ButtonName =
-        this.currentChat.status === 'open' ? 'Resolve' : 'Reopen';
+        this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
+          ? this.$t('CONVERSATION.HEADER.RESOLVE_ACTION')
+          : this.$t('CONVERSATION.HEADER.REOPEN_ACTION');
       return ButtonName;
     },
     buttonClass() {
-      return this.currentChat.status === 'open' ? 'success' : 'warning';
+      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
+        ? 'success'
+        : 'warning';
     },
     buttonIconClass() {
-      return this.currentChat.status === 'open'
+      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
         ? 'ion-checkmark'
         : 'ion-refresh';
     },

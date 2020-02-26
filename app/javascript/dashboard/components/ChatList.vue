@@ -62,6 +62,7 @@ import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
 import timeMixin from '../mixins/time';
 import conversationMixin from '../mixins/conversations';
+import wootConstants from '../constants';
 
 export default {
   components: {
@@ -73,8 +74,8 @@ export default {
   props: ['conversationInbox'],
   data() {
     return {
-      activeAssigneeTab: 'me',
-      activeStatus: 'open',
+      activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
+      activeStatus: wootConstants.STATUS_TYPE.OPEN,
     };
   },
   computed: {

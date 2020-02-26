@@ -11,9 +11,11 @@
 </template>
 
 <script>
+import wootConstants from '../../../constants';
+
 export default {
   data: () => ({
-    activeStatus: 'open',
+    activeStatus: wootConstants.STATUS_TYPE.OPEN,
   }),
   methods: {
     onTabChange() {

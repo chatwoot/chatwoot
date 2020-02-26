@@ -21,12 +21,6 @@
       { "NAME": "All", "KEY": "all", "COUNT_KEY": "allCount" }
     ],
 
-    "ASSIGNEE_TYPE_SLUG": {
-      "MINE": 0,
-      "UNASSIGNED": 1,
-      "ALL": 2
-    },
-
     "CHAT_STATUS_ITEMS": [
       { "TEXT": "Open", "VALUE": "open" },
       { "TEXT": "Resolved", "VALUE": "resolved" }

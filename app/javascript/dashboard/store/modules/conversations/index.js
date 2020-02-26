@@ -4,6 +4,7 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
+import wootConstants from '../../../constants';
 
 const state = {
   allConversations: [],
@@ -21,7 +22,7 @@ const state = {
     dataFetched: false,
   },
   listLoadingStatus: true,
-  chatStatusFilter: 'open',
+  chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
 };
 
