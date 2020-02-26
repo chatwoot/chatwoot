@@ -6,9 +6,9 @@ GIT
       oauth
 
 GIT
-  remote: https://github.com/sony-mathew/json_refs
-  revision: b6c142ae486e399d00fbc758e21a7ed63a934f61
-  ref: b6c142a
+  remote: https://github.com/tzmfreedom/json_refs
+  revision: e32deb073ce9aef39bdd63556bffd7fe7c2a803d
+  ref: e32deb0
   specs:
     json_refs (0.1.2)
       hana
