@@ -1,10 +1,6 @@
 <template>
   <section class="app-content columns">
-    <chat-list
-      :conversation-inbox="inboxId"
-      :page-title="$t('CHAT_LIST.TAB_HEADING')"
-    >
-    </chat-list>
+    <chat-list :conversation-inbox="inboxId"></chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -37,7 +33,6 @@ export default {
 
   data() {
     return {
-      pageTitle: this.$state,
       panelToggleState: false,
     };
   },

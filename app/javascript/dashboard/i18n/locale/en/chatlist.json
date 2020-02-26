@@ -1,6 +1,8 @@
 {
   "CHAT_LIST": {
     "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Load more conversations...",
+    "EOF": "You have reached the end of the list",
     "LIST": {
       "404": "There are no active conversations in this group."
     },

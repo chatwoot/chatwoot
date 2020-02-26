@@ -3,7 +3,7 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ inbox.name || pageTitle }}
+        {{ inbox.name || $t('CHAT_LIST.TAB_HEADING') }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
     </div>
@@ -35,7 +35,7 @@
         class="text-center load-more-conversations"
         @click="fetchConversations"
       >
-        Load more conversations...
+        {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
       </div>
 
       <p
@@ -46,7 +46,7 @@
         "
         class="text-center text-muted end-of-list-text"
       >
-        You have reached the end of the list
+        {{ $t('CHAT_LIST.EOF') }}
       </p>
     </div>
   </div>
@@ -70,7 +70,7 @@ export default {
     ChatFilter,
   },
   mixins: [timeMixin, conversationMixin],
-  props: ['conversationInbox', 'pageTitle'],
+  props: ['conversationInbox'],
   data() {
     return {
       activeAssigneeTab: 'me',

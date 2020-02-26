@@ -7,7 +7,6 @@ const state = {
     unassigned: 0,
     all: 0,
   },
-  activeFilter: 'me',
   hasEndReached: {
     me: false,
     unassigned: false,
@@ -22,13 +21,9 @@ export const getters = {
   getCurrentPage: $state => filter => {
     return $state.currentPage[filter];
   },
-  getActiveFilter: $state => $state.activeFilter,
 };
 
 export const actions = {
-  setActiveFilter({ commit }, filter) {
-    commit(types.default.SET_CONVERSATION_PAGE_FILTER, filter);
-  },
   setCurrentPage({ commit }, { filter, page }) {
     commit(types.default.SET_CURRENT_PAGE, { filter, page });
   },
@@ -41,13 +36,14 @@ export const actions = {
 };
 
 export const mutations = {
-  [types.default.SET_CONVERSATION_PAGE_FILTER]: ($state, filter) => {
-    $state.activeFilter = filter;
-  },
   [types.default.SET_CURRENT_PAGE]: ($state, { filter, page }) => {
     Vue.set($state.currentPage, filter, page);
   },
   [types.default.SET_CONVERSATION_END_REACHED]: ($state, { filter }) => {
+    if (filter === 'all') {
+      Vue.set($state.hasEndReached, 'unassigned', true);
+      Vue.set($state.hasEndReached, 'me', true);
+    }
     Vue.set($state.hasEndReached, filter, true);
   },
   [types.default.CLEAR_CONVERSATION_PAGE]: $state => {
