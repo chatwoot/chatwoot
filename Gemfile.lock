@@ -277,7 +277,7 @@ GEM
     netrc (0.11.0)
     nightfury (1.0.1)
     nio4r (2.5.2)
-    nokogiri (1.10.7)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     oauth (0.5.4)
     orm_adapter (0.5.0)
