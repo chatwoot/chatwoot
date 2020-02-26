@@ -41,4 +41,11 @@ class Contact < ApplicationRecord
       pubsub_token: pubsub_token
     }
   end
+
+  def webhook_data
+    {
+      id: id,
+      name: name
+    }
+  end
 end

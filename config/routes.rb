@@ -38,7 +38,7 @@ Rails.application.routes.draw do
         resource :contact_merge, only: [:create]
       end
 
-      namespace :inbox do
+      namespace :account do
         resources :webhooks, except: [:show]
       end
 
