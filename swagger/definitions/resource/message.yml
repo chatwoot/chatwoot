@@ -1,0 +1,16 @@
+type: object
+properties:
+  content:
+    type: string
+  inbox_id:
+    type: number
+  conversation_id:
+    type: number
+  message_type:
+    type: string
+  created_at:
+    type: integer
+  private:
+    type: boolean
+  attachment:
+    type: object

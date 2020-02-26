@@ -1,0 +1,36 @@
+get:
+  tags: [Contact]
+  description: Listing all the contacts with pagination
+  summary: List Contacts
+  parameters:
+    - name: query_hash
+      in: query
+      type: string
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/contact_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+
+post:
+  tags: [Contact]
+  description: Create New Contact
+  parameters:
+    - name: data
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/contact_create'
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/extended_contact'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
