@@ -1,10 +1,6 @@
 <template>
   <section class="app-content columns">
-    <chat-list
-      :conversation-inbox="inboxId"
-      :page-title="$t('CHAT_LIST.TAB_HEADING')"
-    >
-    </chat-list>
+    <chat-list :conversation-inbox="inboxId"></chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -37,7 +33,6 @@ export default {
 
   data() {
     return {
-      pageTitle: this.$state,
       panelToggleState: false,
     };
   },
@@ -60,7 +55,15 @@ export default {
   props: ['inboxId', 'conversationId'],
 
   mounted() {
-    this.$watch('$store.state.route', () => {
+    this.initialize();
+    this.$watch('$store.state.route', () => this.initialize());
+    this.$watch('chatList.length', () => {
+      this.setActiveChat();
+    });
+  },
+
+  methods: {
+    initialize() {
       switch (this.$store.state.route.name) {
         case 'inbox_conversation':
           this.setActiveChat();
@@ -80,13 +83,8 @@ export default {
           this.$store.dispatch('setActiveInbox', null);
           break;
       }
-    });
-    this.$watch('chatList.length', () => {
-      this.setActiveChat();
-    });
-  },
+    },
 
-  methods: {
     setActiveChat() {
       const conversationId = parseInt(this.conversationId, 10);
       const [chat] = this.chatList.filter(c => c.id === conversationId);

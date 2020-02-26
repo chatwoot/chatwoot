@@ -21,10 +21,14 @@ jest.mock('../constants', () => {
     CHANNELS: {
       FACEBOOK: 'facebook',
     },
-    ASSIGNEE_TYPE_SLUG: {
-      MINE: 0,
-      UNASSIGNED: 1,
-      OPEN: 1,
+    ASSIGNEE_TYPE: {
+      ME: 'me',
+      UNASSIGNED: 'unassigned',
+      ALL: 'all',
+    },
+    STATUS_TYPE: {
+      OPEN: 'open',
+      RESOLVED: 'resolved',
     },
   };
 });
