@@ -80,7 +80,8 @@
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack": "4.41.6",
+    "webpack-dev-server": "^3.10.3"
   },
   "engines": {
     "node": ">=10.x",
