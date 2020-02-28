@@ -55,6 +55,7 @@
     "vuex-router-sync": "~4.1.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.6",
     "@vue/babel-preset-app": "^3.11.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
