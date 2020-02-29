@@ -6,9 +6,7 @@ const state = {
   records: [],
   uiFlags: {
     fetchingList: false,
-    fetchingItem: false,
     creatingItem: false,
-    updatingItem: false,
     deletingItem: false,
   },
 };
