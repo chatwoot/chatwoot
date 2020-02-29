@@ -177,6 +177,7 @@ GEM
     faraday_middleware (0.14.0)
       faraday (>= 0.7.4, < 1.0)
     ffi (1.12.2)
+    flag_shih_tzu (0.3.23)
     foreman (0.87.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -502,6 +503,7 @@ DEPENDENCIES
   facebook-messenger
   factory_bot_rails
   faker
+  flag_shih_tzu
   foreman
   google-cloud-storage
   haikunator

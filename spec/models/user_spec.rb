@@ -16,6 +16,7 @@ RSpec.describe User do
     it { is_expected.to belong_to(:inviter).class_name('User').required(false) }
     it { is_expected.to have_many(:assigned_conversations).class_name('Conversation').dependent(:nullify) }
     it { is_expected.to have_many(:inbox_members).dependent(:destroy) }
+    it { is_expected.to have_many(:notification_settings).dependent(:destroy) }
     it { is_expected.to have_many(:assigned_inboxes).through(:inbox_members) }
     it { is_expected.to have_many(:messages) }
   end

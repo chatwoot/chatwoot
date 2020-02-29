@@ -102,6 +102,10 @@ Rails.application.routes.draw do
           post :chargebee
         end
       end
+
+      namespace :user do
+        resource :notification_settings, only: [:show, :update]
+      end
     end
   end
 
