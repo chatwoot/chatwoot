@@ -15,6 +15,7 @@ import conversations from './modules/conversations';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
 import reports from './modules/reports';
+import webhooks from './modules/webhooks';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     inboxes,
     inboxMembers,
     reports,
+    webhooks,
   },
 });
