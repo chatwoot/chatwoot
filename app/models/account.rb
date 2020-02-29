@@ -24,6 +24,7 @@ class Account < ApplicationRecord
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
+  has_many :notification_settings, dependent: :destroy
 
   after_create :create_subscription
   after_create :notify_creation
