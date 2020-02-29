@@ -13,8 +13,8 @@ class AddNotificationSettings < ActiveRecord::Migration[6.0]
     ::User.find_in_batches do |users_batch|
       users_batch.each do |user|
         user_notification_setting = user.notification_settings.new(account_id: user.account_id)
+        user_notification_setting.conversation_creation = false
         user_notification_setting.conversation_assignment = true
-        user_notification_setting.new_conversation_when_auto_assign_disabled = true
         user_notification_setting.save!
       end
     end

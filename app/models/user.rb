@@ -103,7 +103,7 @@ class User < ApplicationRecord
 
   def create_notification_setting
     setting = notification_settings.new(account_id: account_id)
-    setting.select_all_email_flags
+    setting.selected_email_flags = [:conversation_assignment]
     setting.save!
   end
 

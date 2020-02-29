@@ -26,7 +26,7 @@ class NotificationSetting < ApplicationRecord
   }.freeze
 
   EMAIL_NOTIFCATION_FLAGS = {
-    1 => :new_conversation_when_auto_assign_disabled,
+    1 => :conversation_creation,
     2 => :conversation_assignment
   }.freeze
 
