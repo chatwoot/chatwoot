@@ -117,6 +117,7 @@ class Message < ApplicationRecord
     if incoming? && conversation.resolved?
       conversation.toggle_status
       Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: conversation)
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_META_CHANGED, Time.zone.now, conversation: conversation)
     end
   end
 

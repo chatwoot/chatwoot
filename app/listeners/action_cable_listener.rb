@@ -40,6 +40,12 @@ class ActionCableListener < BaseListener
     send_to_members(members, ASSIGNEE_CHANGED, conversation.push_event_data)
   end
 
+  def conversation_meta_changed(event)
+    conversation, account, timestamp = extract_conversation_and_account(event)
+    members = conversation.inbox.members.pluck(:pubsub_token)
+    send_to_members(members, CONVERSATION_META_CHANGED, conversation.push_event_data)
+  end
+
   private
 
   def send_to_members(members, event_name, data)
