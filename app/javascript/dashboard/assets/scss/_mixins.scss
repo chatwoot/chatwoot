@@ -129,7 +129,6 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
 }
 
 @mixin scroll-on-hover() {
-  transition: all .4s $ease-in-out-cubic;
   overflow: hidden;
 
   &:hover {
