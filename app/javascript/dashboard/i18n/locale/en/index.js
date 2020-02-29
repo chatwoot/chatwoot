@@ -12,7 +12,7 @@ import { default as _resetPassword } from './resetPassword.json';
 import { default as _setNewPassword } from './setNewPassword.json';
 import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
-import { default as _webhooks } from './webhooks.json';
+import { default as _integrations } from './integrations.json';
 
 export default {
   ..._agentMgmt,
@@ -28,5 +28,5 @@ export default {
   ..._setNewPassword,
   ..._settings,
   ..._signup,
-  ..._webhooks,
+  ..._integrations,
 };

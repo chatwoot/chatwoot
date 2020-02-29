@@ -1,0 +1,27 @@
+.integrations-wrap {
+  .integration {
+    background: $color-white;
+    border: 2px solid $color-border;
+    border-radius: $space-slab;
+    padding: $space-normal;
+
+    .image-wrap {
+      margin-right: $space-normal;
+      width: 8rem;
+    }
+
+    .image {
+      max-width: 8rem;
+      padding: $space-small;
+    }
+
+    .button-wrap {
+      @include flex;
+      @include flex-align(center, middle);
+    }
+  }
+}
+
+.help-wrap {
+  padding-left: $space-large;
+}

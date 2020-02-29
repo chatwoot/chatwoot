@@ -52,7 +52,8 @@ export default {
       'settings_inboxes_add_agents',
       'settings_inbox_finish',
       'billing',
-      'webhook_settings',
+      'settings_integrations',
+      'settings_integrations_webhook',
     ],
     menuItems: {
       back: {
@@ -90,12 +91,12 @@ export default {
         toState: frontendURL('settings/billing'),
         toStateName: 'billing',
       },
-      webhook_settings: {
+      settings_integrations: {
         icon: 'ion-flash',
-        label: 'Webhooks',
+        label: 'Integrations',
         hasSubMenu: false,
-        toState: frontendURL('settings/webhooks'),
-        toStateName: 'webhook_settings',
+        toState: frontendURL('settings/integrations'),
+        toStateName: 'settings_integrations',
       },
     },
   },

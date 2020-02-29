@@ -1,0 +1,50 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrations",
+    "WEBHOOK": {
+      "HEADER": "Webhook settings",
+      "HEADER_BTN_TXT": "Add New Webhook",
+      "LOADING": "Fetching attached webhooks",
+      "SEARCH_404": "There are no items matching this query",
+      "SIDEBAR_TXT": "<p><b>webhooks</b> </p><p> webhooks are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> webhooks are used with the help of <b>Short Codes</b>. Agents can access webhooks while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+      "LIST": {
+        "404": "There are no webhooks available in this account.",
+        "TITLE": "Manage webhooks",
+        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "Actions"
+        ]
+      },
+      "ADD": {
+        "TITLE": "Add new webhook",
+        "DESC": "webhooks are saved reply templates which can be used to quickly send out reply to conversation .",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Your request endpoint URL",
+            "PLACEHOLDER": "https://example/api/webhook",
+            "ERROR": "URL is required"
+          },
+          "SUBMIT": "Create webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook added successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Delete",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook deleted successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        },
+        "CONFIRM": {
+          "TITLE": "Confirm Deletion",
+          "MESSAGE": "Are you sure to delete ",
+          "YES": "Yes, Delete ",
+          "NO": "No, Keep "
+        }
+      }
+    }
+  }
+}
