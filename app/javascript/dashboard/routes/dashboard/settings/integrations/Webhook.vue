@@ -7,7 +7,6 @@
       <i class="icon ion-android-add-circle"></i>
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
     </button>
-    <!-- List Canned Response -->
     <div class="row">
       <div class="small-8 columns">
         <p
@@ -26,7 +25,6 @@
           class="woot-table"
         >
           <thead>
-            <!-- Header -->
             <th
               v-for="thHeader in $t(
                 'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER'
@@ -38,9 +36,7 @@
           </thead>
           <tbody>
             <tr v-for="(webHookItem, index) in records" :key="webHookItem.id">
-              <!-- Short Code  -->
               <td>{{ webHookItem.url }}</td>
-              <!-- Action Buttons -->
               <td class="button-wrapper">
                 <div @click="openDeletePopup(webHookItem, index)">
                   <woot-submit-button
@@ -63,12 +59,10 @@
       </div>
     </div>
 
-    <!-- Add Agent -->
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <new-webhook :on-close="hideAddPopup" />
     </woot-modal>
 
-    <!-- Delete Canned Response -->
     <delete-webhook
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
@@ -81,9 +75,7 @@
   </div>
 </template>
 <script>
-/* eslint no-console: 0 */
-/* eslint-env browser */
-
+/* global bus */
 import { mapGetters } from 'vuex';
 import NewWebhook from './New';
 import DeleteWebhook from './Delete';
@@ -103,24 +95,23 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'getWebHooks',
-      uiFlags: 'getUIFlags',
+      records: 'webhooks/getWebhooks',
+      uiFlags: 'webhooks/getUIFlags',
     }),
   },
   mounted() {
-    // Fetch API Call
-    this.$store.dispatch('getAllWebHooks');
+    this.$store.dispatch('webhooks/get');
   },
   methods: {
-    // Edit Function
+    showAlert(message) {
+      bus.$emit('newToastMessage', message);
+    },
     openAddPopup() {
       this.showAddPopup = true;
     },
     hideAddPopup() {
       this.showAddPopup = false;
     },
-
-    // Delete Modal Functions
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
       this.selectedWebHook = response;
@@ -128,25 +119,22 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    // Set loading and call Delete API
     confirmDeletion() {
       this.loading[this.selectedWebHook.id] = true;
       this.closeDeletePopup();
-      this.deleteCannedResponse(this.selectedWebHook.id);
+      this.deleteWebhook(this.selectedWebHook.id);
     },
-    deleteCannedResponse(id) {
-      this.$store
-        .dispatch('deleteWebHook', id)
-        .then(() => {
-          this.showAlert(
-            this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
-          );
-        })
-        .catch(() => {
-          this.showAlert(
-            this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-          );
-        });
+    async deleteWebhook(id) {
+      try {
+        await this.$store.dispatch('webhooks/delete', id);
+        this.showAlert(
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
+        );
+      }
     },
   },
 };

@@ -14,7 +14,7 @@ const state = {
 };
 
 const getters = {
-  getWebHooks(_state) {
+  getWebhooks(_state) {
     return _state.records;
   },
   getUIFlags(_state) {
@@ -23,7 +23,7 @@ const getters = {
 };
 
 const actions = {
-  async getAllWebHooks({ commit }) {
+  async get({ commit }) {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { fetchingList: true });
     try {
       const response = await webHookAPI.get();
@@ -34,18 +34,19 @@ const actions = {
     }
   },
 
-  async createWebHook({ commit }, endPoint) {
+  async create({ commit }, params) {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: true });
     try {
-      const response = await webHookAPI.create(endPoint);
+      const response = await webHookAPI.create(params);
       commit(types.default.DELETE_WEBHOOK, response.data.payload.webhook);
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
+      throw error;
     }
   },
 
-  async deleteWebHook({ commit }, id) {
+  async delete({ commit }, id) {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
     try {
       await webHookAPI.delete(id);
@@ -53,6 +54,7 @@ const actions = {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
+      throw error;
     }
   },
 };
@@ -71,6 +73,7 @@ const mutations = {
 };
 
 export default {
+  namespaced: true,
   state,
   getters,
   actions,

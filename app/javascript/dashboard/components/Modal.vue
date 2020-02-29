@@ -12,9 +12,19 @@
 <script>
 export default {
   props: {
+    closeOnBackdropClick: {
+      type: Boolean,
+      default: true,
+    },
     show: Boolean,
-    onClose: Function,
-    className: String,
+    onClose: {
+      type: Function,
+      required: true,
+    },
+    className: {
+      type: String,
+      default: '',
+    },
   },
   mounted() {
     document.addEventListener('keydown', e => {
@@ -25,7 +35,9 @@ export default {
   },
   methods: {
     close() {
-      this.onClose();
+      if (this.closeOnBackdropClick) {
+        this.onClose();
+      }
     },
   },
 };

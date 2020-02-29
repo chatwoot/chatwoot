@@ -28,9 +28,6 @@ export default {
           component: Webhook,
           name: 'settings_integrations_webhook',
           roles: ['administrator'],
-          meta: {
-            title: ['Webhooks'],
-          },
         },
       ],
     },

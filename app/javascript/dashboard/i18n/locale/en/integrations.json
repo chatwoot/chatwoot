@@ -2,13 +2,16 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrations",
     "WEBHOOK": {
+      "TITLE": "Webhook",
+      "CONFIGURE": "Configure",
       "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add New Webhook",
+      "HEADER_BTN_TXT": "Add new webhook",
+      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
       "LOADING": "Fetching attached webhooks",
       "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>webhooks</b> </p><p> webhooks are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> webhooks are used with the help of <b>Short Codes</b>. Agents can access webhooks while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
       "LIST": {
-        "404": "There are no webhooks available in this account.",
+        "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
         "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
         "TABLE_HEADER": [
@@ -17,13 +20,14 @@
         ]
       },
       "ADD": {
+        "CANCEL": "Cancel",
         "TITLE": "Add new webhook",
-        "DESC": "webhooks are saved reply templates which can be used to quickly send out reply to conversation .",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Your request endpoint URL",
-            "PLACEHOLDER": "https://example/api/webhook",
-            "ERROR": "URL is required"
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "ERROR": "Please enter a valid URL"
           },
           "SUBMIT": "Create webhook"
         },
@@ -42,7 +46,7 @@
           "TITLE": "Confirm Deletion",
           "MESSAGE": "Are you sure to delete ",
           "YES": "Yes, Delete ",
-          "NO": "No, Keep "
+          "NO": "No, Keep it "
         }
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <modal :show.sync="show" :on-close="onClose">
+  <modal :show.sync="show" :on-close="onClose" :close-on-backdrop-click="false">
     <div class="column content-box">
       <woot-modal-header
         :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.TITLE')"
@@ -11,7 +11,7 @@
             {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.END_POINT.LABEL') }}
             <input
               v-model.trim="endPoint"
-              type="url"
+              type="text"
               name="endPoint"
               :placeholder="
                 $t(
@@ -20,6 +20,9 @@
               "
               @input="$v.endPoint.$touch"
             />
+            <span v-if="$v.endPoint.$error" class="message">
+              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.END_POINT.ERROR') }}
+            </span>
           </label>
         </div>
 
@@ -30,7 +33,9 @@
               :button-text="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.SUBMIT')"
               :loading="addWebHook.showLoading"
             />
-            <a @click="onClose">Cancel</a>
+            <a @click="onClose">
+              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.CANCEL') }}
+            </a>
           </div>
         </div>
       </form>
@@ -40,25 +45,25 @@
 
 <script>
 /* global bus */
-/* eslint no-console: 0 */
-import { required, url } from 'vuelidate/lib/validators';
+import { required, url, minLength } from 'vuelidate/lib/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
-
-const cannedImg = require('assets/images/canned.svg');
 
 export default {
   components: {
     WootSubmitButton,
     Modal,
   },
-  props: ['onClose'],
+  props: {
+    onClose: {
+      type: Function,
+      required: true,
+    },
+  },
   data() {
     return {
       endPoint: '',
-      vertical: 'bottom',
-      horizontal: 'center',
       addWebHook: {
         showAlert: false,
         showLoading: false,
@@ -67,18 +72,13 @@ export default {
       show: true,
     };
   },
-  computed: {
-    headerImage() {
-      return cannedImg;
-    },
-  },
   validations: {
     endPoint: {
       required,
+      minLength: minLength(7),
       url,
     },
   },
-
   methods: {
     showAlert() {
       bus.$emit('newToastMessage', this.addWebHook.message);
@@ -87,31 +87,27 @@ export default {
       this.endPoint = '';
       this.$v.endPoint.$reset();
     },
-    addWebhook() {
-      // Show loading on button
+    async addWebhook() {
       this.addWebHook.showLoading = true;
-      // Make API Calls
-      this.$store
-        .dispatch('createWebHook', {
+
+      try {
+        await this.$store.dispatch('webhooks/create', {
           webhook: { url: this.endPoint },
-        })
-        .then(() => {
-          // Reset Form, Show success message
-          this.addWebHook.showLoading = false;
-          this.addWebHook.message = this.$t(
-            'INTEGRATION_SETTINGS.WEBHOOK.ADD.API.SUCCESS_MESSAGE'
-          );
-          this.showAlert();
-          this.resetForm();
-          this.onClose();
-        })
-        .catch(() => {
-          this.addWebHook.showLoading = false;
-          this.addWebHook.message = this.$t(
-            'INTEGRATION_SETTINGS.WEBHOOK.ADD.API.ERROR_MESSAGE'
-          );
-          this.showAlert();
         });
+        this.addWebHook.showLoading = false;
+        this.addWebHook.message = this.$t(
+          'INTEGRATION_SETTINGS.WEBHOOK.ADD.API.SUCCESS_MESSAGE'
+        );
+        this.showAlert();
+        this.resetForm();
+        this.onClose();
+      } catch (error) {
+        this.addWebHook.showLoading = false;
+        this.addWebHook.message =
+          error.response.data.message ||
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.API.ERROR_MESSAGE');
+        this.showAlert();
+      }
     },
   },
 };
