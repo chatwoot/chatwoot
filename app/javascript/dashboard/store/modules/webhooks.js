@@ -13,7 +13,7 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getWebhooks(_state) {
     return _state.records;
   },
@@ -22,7 +22,7 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   async get({ commit }) {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { fetchingList: true });
     try {
@@ -38,7 +38,7 @@ const actions = {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: true });
     try {
       const response = await webHookAPI.create(params);
-      commit(types.default.DELETE_WEBHOOK, response.data.payload.webhook);
+      commit(types.default.ADD_WEBHOOK, response.data.payload.webhook);
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
@@ -50,16 +50,16 @@ const actions = {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
     try {
       await webHookAPI.delete(id);
-      commit(types.default.ADD_WEBHOOK, id);
-      commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
+      commit(types.default.DELETE_WEBHOOK, id);
+      commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: false });
     } catch (error) {
-      commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: true });
+      commit(types.default.SET_WEBHOOK_UI_FLAG, { deletingItem: false });
       throw error;
     }
   },
 };
 
-const mutations = {
+export const mutations = {
   [types.default.SET_WEBHOOK_UI_FLAG](_state, data) {
     _state.uiFlags = {
       ..._state.uiFlags,
@@ -68,8 +68,8 @@ const mutations = {
   },
 
   [types.default.SET_WEBHOOK]: MutationHelpers.set,
-  [types.default.DELETE_WEBHOOK]: MutationHelpers.create,
-  [types.default.ADD_WEBHOOK]: MutationHelpers.destroy,
+  [types.default.ADD_WEBHOOK]: MutationHelpers.create,
+  [types.default.DELETE_WEBHOOK]: MutationHelpers.destroy,
 };
 
 export default {
