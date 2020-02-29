@@ -10466,10 +10466,10 @@ vue@^2.5.8, vue@^2.6.0:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
 
-vuelidate@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.2.0.tgz#7c50b220ef3700b1a28900f32825c442df809337"
-  integrity sha1-fFCyIO83ALGiiQDzKCXEQt+Akzc=
+vuelidate@~0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.5.tgz#ff48c75ae9d24ea24c24e9ea08065eda0a0cba0a"
+  integrity sha512-GAAG8QAFVp7BFeQlNaThpTbimq3+HypBPNwdkCkHZZeVaD5zmXXfhp357dcUJXHXTZjSln0PvP6wiwLZXkFTwg==
 
 vuex-router-sync@~4.1.2:
   version "4.1.3"
