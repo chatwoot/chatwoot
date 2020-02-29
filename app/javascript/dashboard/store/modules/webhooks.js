@@ -38,7 +38,7 @@ const actions = {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: true });
     try {
       const response = await webHookAPI.create(endPoint);
-      commit(types.default.DELETE_WEBHOOK, response.data);
+      commit(types.default.DELETE_WEBHOOK, response.data.payload.webhook);
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });

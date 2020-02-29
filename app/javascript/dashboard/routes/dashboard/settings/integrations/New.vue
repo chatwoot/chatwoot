@@ -11,7 +11,7 @@
             {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.END_POINT.LABEL') }}
             <input
               v-model.trim="endPoint"
-              type="text"
+              type="url"
               name="endPoint"
               :placeholder="
                 $t(
@@ -41,7 +41,7 @@
 <script>
 /* global bus */
 /* eslint no-console: 0 */
-import { required, minLength } from 'vuelidate/lib/validators';
+import { required, url } from 'vuelidate/lib/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
@@ -57,7 +57,6 @@ export default {
   data() {
     return {
       endPoint: '',
-      agentType: '',
       vertical: 'bottom',
       horizontal: 'center',
       addWebHook: {
@@ -65,7 +64,6 @@ export default {
         showLoading: false,
         message: '',
       },
-      agentTypeList: this.$t('INTEGRATION_SETTINGS.WEBHOOK.AGENT_TYPES'),
       show: true,
     };
   },
@@ -77,18 +75,11 @@ export default {
   validations: {
     endPoint: {
       required,
-      minLength: minLength(2),
-    },
-    agentType: {
-      required,
+      url,
     },
   },
 
   methods: {
-    setPageName({ name }) {
-      this.$v.agentType.$touch();
-      this.agentType = name;
-    },
     showAlert() {
       bus.$emit('newToastMessage', this.addWebHook.message);
     },
