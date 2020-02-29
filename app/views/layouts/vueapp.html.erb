@@ -31,8 +31,9 @@
     <%= yield %>
     <script>
       window.chatwootConfig = {
-        fbAppId: '<%= ENV['FB_APP_ID'] %>',
-        billingEnabled: '<%= ENV['BILLING_ENABLED'] %>'
+        fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
+        billingEnabled: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('BILLING_ENABLED', false)) %>,
+        signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>'
       }
     </script>
   </body>
