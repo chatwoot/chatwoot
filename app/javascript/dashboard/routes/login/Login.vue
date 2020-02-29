@@ -110,10 +110,7 @@ export default {
       bus.$emit('newToastMessage', this.loginApi.message);
     },
     showSignupLink() {
-      if (window.chatwootConfig.signupEnabled === 'true') {
-        return true;
-      }
-      return false;
+      return window.chatwootConfig.signupEnabled === 'true';
     },
     login() {
       this.loginApi.showLoading = true;
