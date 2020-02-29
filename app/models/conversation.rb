@@ -112,8 +112,9 @@ class Conversation < ApplicationRecord
 
   def send_email_notification_to_assignee
     return if self_assign?(assignee_id)
-    return unless saved_change_to_assignee_id? && assignee_id.present?
-    return unless assignee.notification_settings.find_by(account_id: account_id).conversation_assignment?
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.blank?
+    return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
 
     AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
   end

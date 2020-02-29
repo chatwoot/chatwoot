@@ -7,7 +7,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
 
     @agent = agent
     @conversation = conversation
-    subject = "#{@agent.name}, A new conversation [ID - #{@conversation.display_id}] has been created in #{@conversation.inbox.name}."
+    subject = "#{@agent.name}, A new conversation [ID - #{@conversation.display_id}] has been created in #{@conversation.inbox&.name}."
     mail(to: @agent.email, subject: subject)
   end
 
