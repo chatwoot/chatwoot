@@ -117,10 +117,22 @@ RSpec.describe Conversation, type: :model do
     let(:agent) do
       create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
     end
+    let(:assignment_mailer) { double(deliver: true) }
 
     it 'assigns the agent to conversation' do
       expect(update_assignee).to eq(true)
       expect(conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'does not send assignment mailer if notification setting is turned off' do
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+
+      notification_setting = agent.notification_settings.first
+      notification_setting.unselect_all_email_flags
+      notification_setting.save!
+
+      expect(update_assignee).to eq(true)
+      expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_assigned).with(conversation, agent)
     end
   end
 
