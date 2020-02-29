@@ -74,12 +74,13 @@ class User < ApplicationRecord
   has_many :inbox_members, dependent: :destroy
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
+  has_many :notification_settings, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
 
   accepts_nested_attributes_for :account
 
-  after_create :notify_creation
+  after_create :notify_creation, :create_notification_setting
   after_destroy :notify_deletion
 
   def send_devise_notification(notification, *args)
@@ -98,6 +99,12 @@ class User < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
+  end
+
+  def create_notification_setting
+    setting = notification_settings.new(account_id: account_id)
+    setting.selected_email_flags = [:conversation_assignment]
+    setting.save!
   end
 
   def notify_deletion
