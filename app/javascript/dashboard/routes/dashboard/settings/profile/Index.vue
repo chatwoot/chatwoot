@@ -3,12 +3,12 @@
     <form @submit.prevent="updateUser">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3 ">
-          <p class="section--title">
+          <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
-          </p>
+          </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
         </div>
-        <div class="columns small-9">
+        <div class="columns small-9 medium-5">
           <label>
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL') }}
             <thumbnail size="80px" :src="avatarUrl"></thumbnail>
@@ -48,12 +48,12 @@
       </div>
       <div class="profile--settings--row row">
         <div class="columns small-3 ">
-          <p class="section--title">
+          <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
-          </p>
+          </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
         </div>
-        <div class="columns small-9">
+        <div class="columns small-9 medium-5">
           <label :class="{ error: $v.password.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
             <input
@@ -218,9 +218,5 @@ export default {
   .small-9 {
     padding: 16px;
   }
-}
-
-.section--title {
-  color: $color-woot;
 }
 </style>
