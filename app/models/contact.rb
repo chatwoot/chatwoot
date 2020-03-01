@@ -2,14 +2,15 @@
 #
 # Table name: contacts
 #
-#  id           :integer          not null, primary key
-#  email        :string
-#  name         :string
-#  phone_number :string
-#  pubsub_token :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :integer          not null
+#  id                    :integer          not null, primary key
+#  additional_attributes :jsonb
+#  email                 :string
+#  name                  :string
+#  phone_number          :string
+#  pubsub_token          :string
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
 #
 # Indexes
 #
@@ -38,6 +39,13 @@ class Contact < ApplicationRecord
       name: name,
       thumbnail: avatar_url,
       pubsub_token: pubsub_token
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name
     }
   end
 end

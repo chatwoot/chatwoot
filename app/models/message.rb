@@ -12,14 +12,21 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
+#  contact_id         :bigint
 #  conversation_id    :integer          not null
-#  fb_id              :string
 #  inbox_id           :integer          not null
+#  source_id          :string
 #  user_id            :integer
 #
 # Indexes
 #
+#  index_messages_on_contact_id       (contact_id)
 #  index_messages_on_conversation_id  (conversation_id)
+#  index_messages_on_source_id        (source_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (contact_id => contacts.id)
 #
 
 class Message < ApplicationRecord
@@ -43,6 +50,7 @@ class Message < ApplicationRecord
   belongs_to :inbox
   belongs_to :conversation
   belongs_to :user, required: false
+  belongs_to :contact, required: false
 
   has_one :attachment, dependent: :destroy, autosave: true
 
@@ -69,6 +77,21 @@ class Message < ApplicationRecord
 
   def reportable?
     incoming? || outgoing?
+  end
+
+  def webhook_data
+    {
+      id: id,
+      content: content,
+      created_at: created_at,
+      message_type: message_type,
+      source_id: source_id,
+      sender: user.try(:webhook_data),
+      contact: contact.try(:webhook_data),
+      inbox: inbox.webhook_data,
+      conversation: conversation.webhook_data,
+      account: account.webhook_data
+    }
   end
 
   private
@@ -110,7 +133,7 @@ class Message < ApplicationRecord
 
       # Since this is live chat, send the email after few minutes so the only one email with
       # last few messages coupled together is sent rather than email for each message
-      ConversationEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
+      ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
   end
 end

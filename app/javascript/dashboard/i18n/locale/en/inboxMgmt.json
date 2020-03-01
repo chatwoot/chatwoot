@@ -15,6 +15,9 @@
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot."
       },
+      "TWITTER": {
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+      },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website channel",
         "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
@@ -34,11 +37,11 @@
       },
       "AUTH": {
         "TITLE": "Channels",
-        "DESC": "Currently we support website live chat widgets and Facebook Pages as platforms. We have more platforms like Twitter, Telegram and Line in the works, which will be out soon."
+        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
         "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents whcih are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
       },
       "DETAILS": {
         "TITLE": "Inbox Details",
@@ -71,7 +74,12 @@
     "EDIT": {
       "API": {
         "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
       }
     },
     "DELETE": {
@@ -80,7 +88,7 @@
         "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete ",
         "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "NO": "No, Keep it "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -93,7 +101,9 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update"
+      "UPDATE": "Update",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations"
     }
   }
 }

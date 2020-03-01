@@ -35,7 +35,7 @@ describe Facebook::SendReplyService do
       end
 
       it 'if message has an FB ID' do
-        create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, fb_id: SecureRandom.uuid)
+        create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, source_id: SecureRandom.uuid)
         expect(bot).not_to have_received(:deliver)
       end
     end

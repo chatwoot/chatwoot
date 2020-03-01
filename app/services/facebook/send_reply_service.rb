@@ -22,8 +22,8 @@ class Facebook::SendReplyService
   end
 
   def outgoing_message_from_chatwoot?
-    # messages sent directly from chatwoot won't have fb_id.
-    message.outgoing? && !message.fb_id
+    # messages sent directly from chatwoot won't have source_id.
+    message.outgoing? && !message.source_id
   end
 
   # def reopen_lock

@@ -1,32 +1,24 @@
+@mixin label-multiselect-hover {
+  &::after {
+    color: $color-primary-dark;
+  }
+
+  &:hover {
+    background: $color-background;
+
+    &::after {
+      color: $color-woot;
+    }
+  }
+}
+
 .multiselect {
   margin-bottom: $space-normal;
   min-height: 38px;
 
-  > .multiselect__tags {
-    @include margin(0);
-    border: 1px solid $color-border;
-    min-height: 44px;
-    padding-top: $zero;
-
-    .multiselect__placeholder {
-      padding-top: $space-small;
-    }
-
-    .multiselect__tag {
-      margin-top: $space-one;
-    }
-
-    .multiselect__input {
-      @include ghost-input;
-      @include padding($zero);
-
-      margin-bottom: $zero;
-    }
-
-    .multiselect__single {
-      @include padding($space-one);
-
-      margin-bottom: 0;
+  &.multiselect--active {
+    >.multiselect__tags {
+      border-color: $color-woot;
     }
   }
 
@@ -39,6 +31,95 @@
     &::before {
       right: 0;
       top: 60%;
+    }
+  }
+
+  .multiselect__content .multiselect__option {
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+
+    &.multiselect__option--highlight {
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+
+.multiselect>.multiselect__tags {
+  @include margin(0);
+  border: 1px solid $color-border;
+  min-height: 44px;
+  padding-top: $zero;
+
+  .multiselect__tags-wrap {
+    display: inline-block;
+    line-height: 1;
+    margin-top: $space-smaller;
+  }
+
+  .multiselect__placeholder {
+    color: $color-gray;
+    font-weight: $font-weight-normal;
+    padding-top: $space-small;
+  }
+
+  .multiselect__tag {
+    $vertical-space: $space-smaller + $space-micro;
+    background: $color-background;
+    color: $color-heading;
+    margin-top: $space-smaller;
+    padding: $vertical-space $space-medium $vertical-space $space-one;
+  }
+
+  .multiselect__tag-icon {
+    @include label-multiselect-hover;
+    line-height: $space-medium + $space-micro;
+  }
+
+  .multiselect__input {
+    @include ghost-input;
+    @include padding($zero);
+    font-size: $font-size-small;
+
+    margin-bottom: $zero;
+  }
+
+  .multiselect__single {
+    @include padding($space-one);
+
+    margin-bottom: 0;
+  }
+}
+
+.sidebar-labels-wrap {
+
+  &.has-edited,
+  &:hover {
+    .multiselect {
+      cursor: pointer;
+    }
+
+    .multiselect>.multiselect__tags {
+      border-color: $color-border;
+    }
+
+    .multiselect>.multiselect__select {
+      visibility: visible;
+    }
+  }
+
+  .multiselect {
+    margin-top: $space-small;
+
+    >.multiselect__select {
+      visibility: hidden;
+    }
+
+    >.multiselect__tags {
+      border-color: transparent;
+    }
+
+    &.multiselect--active>.multiselect__tags {
+      border-color: $color-woot;
     }
   }
 }

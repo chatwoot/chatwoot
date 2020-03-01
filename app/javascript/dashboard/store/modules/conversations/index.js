@@ -2,9 +2,9 @@
 /* eslint no-param-reassign: 0 */
 import Vue from 'vue';
 import * as types from '../../mutation-types';
-import wootConstants from '../../../constants';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
+import wootConstants from '../../../constants';
 
 const state = {
   allConversations: [],
@@ -22,7 +22,7 @@ const state = {
     dataFetched: false,
   },
   listLoadingStatus: true,
-  chatStatusFilter: wootConstants.ASSIGNEE_TYPE_SLUG.OPEN,
+  chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
 };
 

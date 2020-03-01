@@ -60,6 +60,20 @@
         @select="$v.selectedAgents.$touch"
       />
     </div>
+    <div class="settings--content">
+      <settings-form-header
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT')"
+        :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT')"
+        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+        :is-updating="uiFlags.isUpdatingAutoAssignment"
+        @update="updateAutoAssignment"
+      >
+      </settings-form-header>
+      <select v-model="autoAssignment">
+        <option value="true">{{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}</option>
+        <option value="false">{{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}</option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -82,6 +96,7 @@ export default {
   data() {
     return {
       selectedAgents: [],
+      autoAssignment: false,
       isUpdating: false,
       isAgentListUpdating: false,
     };
@@ -123,6 +138,7 @@ export default {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
+        this.autoAssignment = this.inbox.enable_auto_assignment;
       });
     },
     async fetchAttachedAgents() {
@@ -170,6 +186,19 @@ export default {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      }
+    },
+    async updateAutoAssignment() {
+      try {
+        await this.$store.dispatch('inboxes/updateAutoAssignment', {
+          id: this.currentInboxId,
+          inbox: {
+            enable_auto_assignment: this.autoAssignment,
+          },
+        });
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE'));
       }
     },
     getWidgetColor() {

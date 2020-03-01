@@ -97,6 +97,14 @@ export const validateAuthenticateRoutePermission = (to, from, next) => {
 };
 
 const validateRouteAccess = (to, from, next) => {
+  if (
+    window.chatwootConfig.signupEnabled !== 'true' &&
+    to.meta &&
+    to.meta.requireSignupEnabled
+  ) {
+    next(frontendURL('dashboard'));
+  }
+
   if (authIgnoreRoutes.includes(to.name)) {
     return next();
   }

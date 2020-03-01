@@ -1,0 +1,7 @@
+type: object
+properties:
+  id:
+    type: number
+  availability_status:
+    type: string
+    enum: ['online', 'offline']

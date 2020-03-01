@@ -1,10 +1,6 @@
 <template>
   <section class="app-content columns">
-    <chat-list
-      :conversation-inbox="inboxId"
-      :page-title="$t('CHAT_LIST.TAB_HEADING')"
-    >
-    </chat-list>
+    <chat-list :conversation-inbox="inboxId"></chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -14,6 +10,7 @@
     <contact-panel
       v-if="isContactPanelOpen"
       :conversation-id="conversationId"
+      :on-toggle="onToggleContactPanel"
     />
   </section>
 </template>
@@ -36,19 +33,37 @@ export default {
 
   data() {
     return {
-      pageTitle: this.$state,
-      isContactPanelOpen: false,
+      panelToggleState: false,
     };
   },
   computed: {
     ...mapGetters({
       chatList: 'getAllConversations',
     }),
+    isContactPanelOpen: {
+      get() {
+        if (this.conversationId) {
+          return this.panelToggleState;
+        }
+        return false;
+      },
+      set(val) {
+        this.panelToggleState = val;
+      },
+    },
   },
   props: ['inboxId', 'conversationId'],
 
   mounted() {
-    this.$watch('$store.state.route', () => {
+    this.initialize();
+    this.$watch('$store.state.route', () => this.initialize());
+    this.$watch('chatList.length', () => {
+      this.setActiveChat();
+    });
+  },
+
+  methods: {
+    initialize() {
       switch (this.$store.state.route.name) {
         case 'inbox_conversation':
           this.setActiveChat();
@@ -58,17 +73,18 @@ export default {
             this.$store.dispatch('setActiveInbox', this.inboxId);
           }
           break;
+        case 'conversation_through_inbox':
+          if (this.inboxId) {
+            this.$store.dispatch('setActiveInbox', this.inboxId);
+          }
+          this.setActiveChat();
+          break;
         default:
           this.$store.dispatch('setActiveInbox', null);
           break;
       }
-    });
-    this.$watch('chatList.length', () => {
-      this.setActiveChat();
-    });
-  },
+    },
 
-  methods: {
     setActiveChat() {
       const conversationId = parseInt(this.conversationId, 10);
       const [chat] = this.chatList.filter(c => c.id === conversationId);

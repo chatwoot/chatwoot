@@ -2,8 +2,8 @@
   @include flex;
   @include flex-shrink;
   @include padding($space-normal $zero $zero $space-normal);
-  position: relative;
   cursor: pointer;
+  position: relative;
 
   &.active {
     background: $color-background;
@@ -18,63 +18,63 @@
   .conversation--user {
     font-size: $font-size-small;
     margin-bottom: $zero;
+    text-transform: capitalize;
 
     .label {
-      position: relative;
-      top: $space-micro;
       left: $space-micro;
       max-width: $space-jumbo;
       overflow: hidden;
+      position: relative;
       text-overflow: ellipsis;
+      top: $space-micro;
       white-space: nowrap;
     }
   }
 
   .conversation--message {
-    height: $space-medium;
-    margin: $zero;
-    font-size: $font-size-small;
-    line-height: $space-medium;
-    font-weight: $font-weight-light;
-    text-overflow: ellipsis;
-    overflow: hidden;
     color: $color-body;
-    width: 27rem;
-    white-space: nowrap;
+    font-size: $font-size-small;
+    font-weight: $font-weight-normal;
+    height: $space-medium;
+    line-height: $space-medium;
+    margin: $zero;
     max-width: 96%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 27rem;
   }
 
   .conversation--meta {
+    @include flex;
     display: block;
+    flex-direction: column;
     position: absolute;
     right: $space-normal;
     top: $space-normal;
-    @include flex;
-    flex-direction: column;
 
     .unread {
       $unread-size: $space-two - $space-micro;
-      display: none;
-      height: $unread-size;
-      min-width: $unread-size;
-      background: darken($success-color, 3%);
-      text-align: center;
-      padding: 0 $space-smaller;
-      line-height: $unread-size;
-      color: $color-white;
-      font-weight: $font-weight-medium;
-      font-size: $font-size-mini;
-      margin-left: auto;
       @include round-corner;
+      background: darken($success-color, 3%);
+      color: $color-white;
+      display: none;
+      font-size: $font-size-mini;
+      font-weight: $font-weight-medium;
+      height: $unread-size;
+      line-height: $unread-size;
+      margin-left: auto;
       margin-top: $space-smaller;
+      min-width: $unread-size;
+      padding: 0 $space-smaller;
+      text-align: center;
     }
 
     .timestamp {
-      font-size: $font-size-mini;
       color: $dark-gray;
-      line-height: $space-normal;
-      font-weight: $font-weight-normal;
       font-size: $font-size-micro;
+      font-weight: $font-weight-normal;
+      line-height: $space-normal;
       margin-left: auto;
     }
   }

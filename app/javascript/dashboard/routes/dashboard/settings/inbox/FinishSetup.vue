@@ -39,7 +39,7 @@ export default {
       );
     },
     message() {
-      if (!this.$route.params.website_token) {
+      if (!this.currentInbox.website_token) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');

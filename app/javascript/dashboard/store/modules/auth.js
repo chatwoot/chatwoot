@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-/* eslint-env browser */
 /* eslint no-param-reassign: 0 */
 import axios from 'axios';
 import moment from 'moment';
@@ -9,7 +7,8 @@ import router from '../../routes';
 import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
-// initial state
+import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+
 const state = {
   currentUser: {
     id: null,
@@ -27,13 +26,17 @@ const state = {
 };
 
 // getters
-const getters = {
-  isLoggedIn(_state) {
-    return _state.currentUser.id !== null;
+export const getters = {
+  isLoggedIn($state) {
+    return !!$state.currentUser.id;
   },
 
   getCurrentUserID(_state) {
     return _state.currentUser.id;
+  },
+
+  getCurrentUser(_state) {
+    return _state.currentUser;
   },
 
   getSubscription(_state) {
@@ -53,7 +56,7 @@ const getters = {
 };
 
 // actions
-const actions = {
+export const actions = {
   login({ commit }, credentials) {
     return new Promise((resolve, reject) => {
       authAPI
@@ -70,20 +73,36 @@ const actions = {
         });
     });
   },
-  validityCheck(context) {
-    if (context.getters.isLoggedIn) {
-      authAPI.validityCheck();
+  async validityCheck(context) {
+    try {
+      const response = await authAPI.validityCheck();
+      setUser(response.data.payload.data, getHeaderExpiry(response));
+      context.commit(types.default.SET_CURRENT_USER);
+    } catch (error) {
+      if (error.response.status === 401) {
+        clearCookiesOnLogout();
+      }
     }
   },
-  set_user({ commit }) {
+  setUser({ commit, dispatch }) {
     if (authAPI.isLoggedIn()) {
       commit(types.default.SET_CURRENT_USER);
+      dispatch('validityCheck');
     } else {
       commit(types.default.CLEAR_USER);
     }
   },
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
+  },
+  updateProfile: async ({ commit }, params) => {
+    try {
+      const response = await authAPI.profileUpdate(params);
+      setUser(response.data, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
+    } catch (error) {
+      // Ignore error
+    }
   },
 };
 
@@ -93,8 +112,12 @@ const mutations = {
     _state.currentUser.id = null;
   },
   [types.default.SET_CURRENT_USER](_state) {
-    Object.assign(_state.currentUser, authAPI.getAuthData());
-    Object.assign(_state.currentUser, authAPI.getCurrentUser());
+    const currentUser = {
+      ...authAPI.getAuthData(),
+      ...authAPI.getCurrentUser(),
+    };
+
+    Vue.set(_state, 'currentUser', currentUser);
   },
 };
 

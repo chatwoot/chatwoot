@@ -108,7 +108,6 @@
 /* global bus */
 
 import { mapGetters } from 'vuex';
-import md5 from 'md5';
 import Thumbnail from '../../../../components/widgets/Thumbnail';
 
 import AddAgent from './AddAgent';
@@ -181,10 +180,6 @@ export default {
       return this.agentList.filter(
         agent => agent.role === 'administrator' && agent.confirmed
       );
-    },
-    gravatarUrl(email) {
-      const hash = md5(email);
-      return `${window.WootConstants.GRAVATAR_URL}${hash}?default=404`;
     },
     // Edit Function
     openAddPopup() {

@@ -9,7 +9,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       inbox_id: inbox_id,
       messages: push_messages,
       meta: push_meta,
-      status: status_before_type_cast.to_i,
+      status: status,
       unread_count: unread_incoming_messages.count,
       **push_timestamps
     }
