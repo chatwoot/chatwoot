@@ -1,8 +1,8 @@
-class ConversationMailer < ApplicationMailer
+class ConversationReplyMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   layout 'mailer'
 
-  def new_message(conversation, message_queued_time)
+  def reply_with_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
 
     @conversation = conversation
