@@ -14,11 +14,15 @@ export default {
     {
       path: frontendURL('settings/inboxes'),
       component: SettingsContent,
-      props: {
-        headerTitle: 'INBOX_MGMT.HEADER',
-        headerButtonText: 'SETTINGS.INBOXES.NEW_INBOX',
-        icon: 'ion-archive',
-        newButtonRoutes: ['settings_inbox_list'],
+      props: params => {
+        const showBackButton = params.name !== 'settings_inbox_list';
+        return {
+          headerTitle: 'INBOX_MGMT.HEADER',
+          headerButtonText: 'SETTINGS.INBOXES.NEW_INBOX',
+          icon: 'ion-archive',
+          newButtonRoutes: ['settings_inbox_list'],
+          showBackButton,
+        };
       },
       children: [
         {

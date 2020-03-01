@@ -17,7 +17,7 @@ json.payload do
       json.messages conversation.unread_messages.map(&:push_event_data)
     end
     json.inbox_id conversation.inbox_id
-    json.status conversation.status_before_type_cast
+    json.status conversation.status
     json.timestamp conversation.messages.last.try(:created_at).try(:to_i)
     json.user_last_seen_at conversation.user_last_seen_at.to_i
     json.agent_last_seen_at conversation.agent_last_seen_at.to_i

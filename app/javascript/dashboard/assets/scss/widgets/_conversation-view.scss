@@ -82,6 +82,27 @@
   @include flex;
   flex-direction: column;
 
+  .load-more-conversations {
+    color: $color-woot;
+    cursor: pointer;
+    font-size: $font-size-small;
+    padding: $space-normal;
+
+    &:hover {
+      background: $color-background;
+    }
+  }
+
+  .end-of-list-text {
+    font-style: italic;
+    padding: $space-normal;
+  }
+
+  .conversations-list {
+    @include flex-weight(1);
+    @include scroll-on-hover;
+  }
+
   .chat-list__top {
     @include flex;
     @include padding($space-normal $zero $space-small $zero);
@@ -108,10 +129,7 @@
     }
   }
 
-  .conversations-list {
-    @include flex-weight(1);
-    @include scroll-on-hover;
-  }
+
 
   .content-box {
     text-align: center;

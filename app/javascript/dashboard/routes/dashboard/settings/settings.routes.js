@@ -6,6 +6,7 @@ import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
+import integrations from './integrations/integrations.routes';
 
 export default {
   routes: [
@@ -26,5 +27,6 @@ export default {
     ...inbox.routes,
     ...profile.routes,
     ...reports.routes,
+    ...integrations.routes,
   ],
 };

@@ -2,12 +2,12 @@
   <div class="settings-header">
     <h1 class="page-title">
       <woot-sidemenu-icon></woot-sidemenu-icon>
-      <back-button v-if="!showButton"></back-button>
+      <back-button v-if="showBackButton"></back-button>
       <i :class="iconClass"></i>
       <span>{{ headerTitle }}</span>
     </h1>
     <router-link
-      v-if="showNewButton && showButton && isAdmin"
+      v-if="showNewButton && isAdmin"
       :to="buttonRoute"
       class="button icon success nice button--fixed-right-top"
     >
@@ -41,14 +41,8 @@ export default {
       default: '',
       type: String,
     },
-    showButton: Boolean,
-    showNewButton: Boolean,
-    hideButtonRoutes: {
-      type: Array,
-      default() {
-        return ['agent_list', 'settings_inbox_list'];
-      },
-    },
+    showBackButton: { type: Boolean, default: false },
+    showNewButton: { type: Boolean, default: false },
   },
   computed: {
     ...mapGetters({

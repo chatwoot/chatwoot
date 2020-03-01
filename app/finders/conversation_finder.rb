@@ -1,23 +1,18 @@
 class ConversationFinder
   attr_reader :current_user, :current_account, :params
 
-  ASSIGNEE_TYPES = { me: 0, unassigned: 1, all: 2 }.freeze
-
-  ASSIGNEE_TYPES_BY_ID = ASSIGNEE_TYPES.invert
-  ASSIGNEE_TYPES_BY_ID.default = :me
-
   DEFAULT_STATUS = 'open'.freeze
 
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
-  # assignee_type if not given, take 'me'
+  # assignee_type if not given, take 'all'
   # conversation_status if not given, take 'open'
 
   # response of this class will be of type
   # {conversations: [array of conversations], count: {open: count, resolved: count}}
 
   # params
-  # assignee_type_id, inbox_id, :status
+  # assignee_type, inbox_id, :status
 
   def initialize(current_user, params)
     @current_user = current_user
@@ -62,7 +57,7 @@ class ConversationFinder
   end
 
   def set_assignee_type
-    @assignee_type_id = ASSIGNEE_TYPES[ASSIGNEE_TYPES_BY_ID[params[:assignee_type_id].to_i]]
+    @assignee_type = params[:assignee_type]
   end
 
   def find_all_conversations
@@ -72,12 +67,10 @@ class ConversationFinder
   end
 
   def filter_by_assignee_type
-    if @assignee_type_id == ASSIGNEE_TYPES[:me]
+    if @assignee_type == 'me'
       @conversations = @conversations.assigned_to(current_user)
-    elsif @assignee_type_id == ASSIGNEE_TYPES[:unassigned]
+    elsif @assignee_type == 'unassigned'
       @conversations = @conversations.unassigned
-    elsif @assignee_type_id == ASSIGNEE_TYPES[:all]
-      @conversations
     end
     @conversations
   end

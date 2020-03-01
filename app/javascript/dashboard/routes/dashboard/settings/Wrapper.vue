@@ -5,8 +5,8 @@
       :icon="icon"
       :header-title="$t(headerTitle)"
       :button-text="$t(headerButtonText)"
-      :show-button="showButton()"
-      :show-new-button="showNewButton()"
+      :show-back-button="showBackButton"
+      :show-new-button="showNewButton"
     />
     <keep-alive>
       <router-view></router-view>
@@ -26,7 +26,14 @@ export default {
     headerTitle: String,
     headerButtonText: String,
     icon: String,
-    newButtonRoutes: Array,
+    newButtonRoutes: {
+      type: Array,
+      default: () => [],
+    },
+    showBackButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {};
@@ -35,16 +42,8 @@ export default {
     currentPage() {
       return this.$store.state.route.name;
     },
-  },
-  methods: {
-    showButton() {
-      /* eslint-disable no-unneeded-ternary */
-      return this.newButtonRoutes
-        ? this.newButtonRoutes.indexOf(this.currentPage) > -1
-        : true;
-    },
     showNewButton() {
-      return this.newButtonRoutes ? true : false;
+      return this.newButtonRoutes.length !== 0 && !this.showBackButton;
     },
   },
 };

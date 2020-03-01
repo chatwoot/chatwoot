@@ -78,6 +78,9 @@ gem 'sentry-raven'
 ##-- background job processing --##
 gem 'sidekiq'
 
+##-- used for single column multiple binary flags in notification settings/feature flagging --##
+gem 'flag_shih_tzu'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -85,7 +88,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/sony-mathew/json_refs', ref: 'b6c142a'
+  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
 end
 
 group :development, :test do

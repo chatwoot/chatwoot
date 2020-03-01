@@ -3,40 +3,52 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ inbox.name || pageTitle }}
+        {{ inbox.name || $t('CHAT_LIST.TAB_HEADING') }}
       </h1>
-      <chat-filter @statusFilterChange="getDataForStatusTab" />
+      <chat-filter @statusFilterChange="updateStatusType" />
     </div>
 
     <chat-type-tabs
       :items="assigneeTabItems"
-      :active-tab-index="activeAssigneeTab"
+      :active-tab="activeAssigneeTab"
       class="tab--chat-type"
-      @chatTabChange="getDataForTab"
+      @chatTabChange="updateAssigneeTab"
     />
 
-    <p
-      v-if="!chatListLoading && !getChatsForTab(activeStatus).length"
-      class="content-box"
-    >
+    <p v-if="!chatListLoading && !getChatsForTab().length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
-    <div v-if="chatListLoading" class="text-center">
-      <span class="spinner message"></span>
-    </div>
-
-    <transition-group
-      name="conversations-list"
-      tag="div"
-      class="conversations-list"
-    >
+    <div class="conversations-list">
       <conversation-card
-        v-for="chat in getChatsForTab(activeStatus)"
+        v-for="chat in getChatsForTab()"
         :key="chat.id"
         :chat="chat"
       />
-    </transition-group>
+
+      <div v-if="chatListLoading" class="text-center">
+        <span class="spinner"></span>
+      </div>
+
+      <div
+        v-if="!hasCurrentPageEndReached && !chatListLoading"
+        class="text-center load-more-conversations"
+        @click="fetchConversations"
+      >
+        {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
+      </div>
+
+      <p
+        v-if="
+          getChatsForTab().length &&
+            hasCurrentPageEndReached &&
+            !chatListLoading
+        "
+        class="text-center text-muted end-of-list-text"
+      >
+        {{ $t('CHAT_LIST.EOF') }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -59,11 +71,11 @@ export default {
     ChatFilter,
   },
   mixins: [timeMixin, conversationMixin],
-  props: ['conversationInbox', 'pageTitle'],
+  props: ['conversationInbox'],
   data() {
     return {
-      activeAssigneeTab: 0,
-      activeStatus: 0,
+      activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
+      activeStatus: wootConstants.STATUS_TYPE.OPEN,
     };
   },
   computed: {
@@ -78,66 +90,69 @@ export default {
       convStats: 'getConvTabStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map((item, index) => ({
-        id: index,
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
+        key: item.KEY,
         name: item.NAME,
-        count: this.convStats[item.KEY] || 0,
+        count: this.convStats[item.COUNT_KEY] || 0,
       }));
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
-    getToggleStatus() {
-      if (this.toggleType) {
-        return 'Open';
-      }
-      return 'Resolved';
+    currentPage() {
+      return this.$store.getters['conversationPage/getCurrentPage'](
+        this.activeAssigneeTab
+      );
+    },
+    hasCurrentPageEndReached() {
+      return this.$store.getters['conversationPage/getHasEndReached'](
+        this.activeAssigneeTab
+      );
+    },
+  },
+  watch: {
+    conversationInbox() {
+      this.resetAndFetchData();
     },
   },
   mounted() {
-    this.$watch('$store.state.route', () => {
-      if (this.$store.state.route.name !== 'inbox_conversation') {
-        this.$store.dispatch('emptyAllConversations');
-        this.fetchData();
-      }
-    });
-
-    this.$store.dispatch('emptyAllConversations');
-    this.fetchData();
+    this.$store.dispatch('setChatFilter', this.activeStatus);
+    this.resetAndFetchData();
     this.$store.dispatch('agents/get');
   },
   methods: {
-    fetchData() {
-      if (this.chatLists.length === 0) {
-        this.fetchConversations();
-      }
+    resetAndFetchData() {
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('emptyAllConversations');
+      this.fetchConversations();
     },
     fetchConversations() {
       this.$store.dispatch('fetchAllConversations', {
         inboxId: this.conversationInbox ? this.conversationInbox : undefined,
         assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus ? 'resolved' : 'open',
+        status: this.activeStatus,
+        page: this.currentPage + 1,
       });
     },
-    getDataForTab(index) {
-      if (this.activeAssigneeTab !== index) {
-        this.activeAssigneeTab = index;
-        this.fetchConversations();
+    updateAssigneeTab(selectedTab) {
+      if (this.activeAssigneeTab !== selectedTab) {
+        this.activeAssigneeTab = selectedTab;
+        if (!this.currentPage) {
+          this.fetchConversations();
+        }
       }
     },
-    getDataForStatusTab(index) {
+    updateStatusType(index) {
       if (this.activeStatus !== index) {
         this.activeStatus = index;
-        this.fetchConversations();
+        this.resetAndFetchData();
       }
     },
     getChatsForTab() {
       let copyList = [];
-      if (this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.MINE) {
+      if (this.activeAssigneeTab === 'me') {
         copyList = this.mineChatsList.slice();
-      } else if (
-        this.activeAssigneeTab === wootConstants.ASSIGNEE_TYPE_SLUG.UNASSIGNED
-      ) {
+      } else if (this.activeAssigneeTab === 'unassigned') {
         copyList = this.unAssignedChatsList.slice();
       } else {
         copyList = this.allChatList.slice();

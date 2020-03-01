@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_25_172811) do
+ActiveRecord::Schema.define(version: 20_200_226_194_012) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -155,17 +156,6 @@ ActiveRecord::Schema.define(version: 2020_02_25_172811) do
     t.index ['contact_inbox_id'], name: 'index_conversations_on_contact_inbox_id'
   end
 
-  create_table 'hooks_inbox_apps', force: :cascade do |t|
-    t.integer 'inbox_id'
-    t.integer 'agent_id'
-    t.integer 'account_id'
-    t.string 'app_slug'
-    t.string 'status'
-    t.text 'settings'
-    t.datetime 'created_at', precision: 6, null: false
-    t.datetime 'updated_at', precision: 6, null: false
-  end
-
   create_table 'inbox_members', id: :serial, force: :cascade do |t|
     t.integer 'user_id', null: false
     t.integer 'inbox_id', null: false
@@ -203,6 +193,15 @@ ActiveRecord::Schema.define(version: 2020_02_25_172811) do
     t.index ['contact_id'], name: 'index_messages_on_contact_id'
     t.index ['conversation_id'], name: 'index_messages_on_conversation_id'
     t.index ['source_id'], name: 'index_messages_on_source_id'
+  end
+
+  create_table 'notification_settings', force: :cascade do |t|
+    t.integer 'account_id'
+    t.integer 'user_id'
+    t.integer 'email_flags', default: 0, null: false
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index %w[account_id user_id], name: 'by_account_user', unique: true
   end
 
   create_table 'subscriptions', id: :serial, force: :cascade do |t|
@@ -288,9 +287,10 @@ ActiveRecord::Schema.define(version: 2020_02_25_172811) do
   create_table 'webhooks', force: :cascade do |t|
     t.integer 'account_id'
     t.integer 'inbox_id'
-    t.string 'urls'
+    t.string 'url'
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.integer 'webhook_type', default: 0
   end
 
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
