@@ -18,6 +18,14 @@
         "TITLE": "Password",
         "NOTE": "Updating your password would reset your logins in multiple devices."
       },
+      "EMAIL_NOTIFICATIONS_SECTION" : {
+        "TITLE": "Email Notifications",
+        "NOTE": "Update your email notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
+        "UPDATE_SUCCESS": "Your email notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
       "PROFILE_IMAGE":{
         "LABEL": "Profile Image"
       },
