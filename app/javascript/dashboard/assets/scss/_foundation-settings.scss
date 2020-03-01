@@ -41,29 +41,34 @@
 //  36. Tooltip
 //  37. Top Bar
 
-@import "~foundation-sites/scss/util/util";
+@import '~foundation-sites/scss/util/util';
 // 1. Global
 // ---------
 
 $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;
-$foundation-palette: (
-  primary: $color-woot,
+$foundation-palette: (primary: $color-woot,
   secondary: #777,
   success: #13ce66,
   warning: #ffc82c,
-  alert: #ff4949
-);
+  alert: #ff4949);
 $light-gray: #c0ccda;
 $medium-gray: #8492a6;
 $dark-gray: $color-gray;
-$black: #000000;
+$black: #000;
 $white: #fff;
 $body-background: $white;
 $body-font-color: $color-body;
-$body-font-family: 'Inter', -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
-  Roboto, "Helvetica Neue", Arial, sans-serif;
+$body-font-family: 'Inter',
+-apple-system,
+system-ui,
+BlinkMacSystemFont,
+"Segoe UI",
+Roboto,
+"Helvetica Neue",
+Arial,
+sans-serif;
 $body-antialiased: true;
 $global-margin: $space-one;
 $global-padding: $space-one;
@@ -79,13 +84,11 @@ $print-transparent-backgrounds: true;
 // 2. Breakpoints
 // --------------
 
-$breakpoints: (
-  small: 0,
+$breakpoints: (small: 0,
   medium: 640px,
   large: 1024px,
   xlarge: 1200px,
-  xxlarge: 1440px
-);
+  xxlarge: 1440px);
 $print-breakpoint: large;
 $breakpoint-classes: (small medium large);
 
@@ -94,10 +97,8 @@ $breakpoint-classes: (small medium large);
 
 $grid-row-width: $global-width;
 $grid-column-count: 12;
-$grid-column-gutter: (
-  small: $zero,
-  medium: $zero
-);
+$grid-column-gutter: (small: $zero,
+  medium: $zero);
 $grid-column-align-edge: true;
 $block-grid-max: 8;
 
@@ -105,54 +106,24 @@ $block-grid-max: 8;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: $font-weight-medium;
 $header-font-style: normal;
 $font-family-monospace: $body-font-family;
 $header-color: $color-heading;
 $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
-$header-styles: (
-  small: (
-    "h1": (
-      "font-size": 24
-    ),
-    "h2": (
-      "font-size": 20
-    ),
-    "h3": (
-      "font-size": 19
-    ),
-    "h4": (
-      "font-size": 18
-    ),
-    "h5": (
-      "font-size": 17
-    ),
-    "h6": (
-      "font-size": 16
-    )
-  ),
-  medium: (
-    "h1": (
-      "font-size": 48
-    ),
-    "h2": (
-      "font-size": 40
-    ),
-    "h3": (
-      "font-size": 31
-    ),
-    "h4": (
-      "font-size": 25
-    ),
-    "h5": (
-      "font-size": 20
-    ),
-    "h6": (
-      "font-size": 16
-    )
-  )
-);
+$header-styles: (small: ("h1": ("font-size": 24),
+    "h2": ("font-size": 20),
+    "h3": ("font-size": 19),
+    "h4": ("font-size": 18),
+    "h5": ("font-size": 17),
+    "h6": ("font-size": 16)),
+  medium: ("h1": ("font-size": 48),
+    "h2": ("font-size": 40),
+    "h3": ("font-size": 31),
+    "h4": ("font-size": 25),
+    "h5": ("font-size": 20),
+    "h6": ("font-size": 16)));
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
@@ -186,7 +157,7 @@ $blockquote-padding: rem-calc(9 20 0 19);
 $blockquote-border: 1px solid $medium-gray;
 $cite-font-size: rem-calc(13);
 $cite-color: $dark-gray;
-$cite-pseudo-content: "\2014 \0020";
+$cite-pseudo-content: '\2014 \0020';
 $keystroke-font: $font-family-monospace;
 $keystroke-color: $black;
 $keystroke-background: $light-gray;
@@ -272,24 +243,23 @@ $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
 $button-radius: $global-radius;
-$button-sizes: (
-  tiny: $font-size-micro,
+$button-sizes: (tiny: $font-size-micro,
   small: $font-size-mini,
   default: $font-size-default,
-  large: $font-size-large
-);
+  large: $font-size-large);
 $button-palette: $foundation-palette;
 $button-opacity-disabled: 0.25;
 $button-background-hover-lightness: -20%;
 $button-hollow-hover-lightness: -50%;
-$button-transition: background-color 0.25s ease-out, color 0.25s ease-out;
+$button-transition: background-color 0.25s ease-out,
+color 0.25s ease-out;
 
 // 12. Button Group
 // ----------------
 
 $buttongroup-margin: 1rem;
 $buttongroup-spacing: 1px;
-$buttongroup-child-selector: ".button";
+$buttongroup-child-selector: '.button';
 $buttongroup-expand-max: 6;
 $buttongroup-radius-on-each: true;
 
@@ -322,18 +292,12 @@ $card-margin: $global-margin;
 // ----------------
 
 $closebutton-position: right top;
-$closebutton-offset-horizontal: (
-  small: 0.66rem,
-  medium: 1rem
-);
-$closebutton-offset-vertical: (
-  small: 0.33em,
-  medium: 0.5rem
-);
-$closebutton-size: (
-  small: 1.5em,
-  medium: 2em
-);
+$closebutton-offset-horizontal: (small: 0.66rem,
+  medium: 1rem);
+$closebutton-offset-vertical: (small: 0.33em,
+  medium: 0.5rem);
+$closebutton-size: (small: 1.5em,
+  medium: 2em);
 $closebutton-lineheight: 1;
 $closebutton-color: $dark-gray;
 $closebutton-color-hover: $black;
@@ -356,11 +320,9 @@ $dropdown-border: 1px solid $medium-gray;
 $dropdown-font-size: 1rem;
 $dropdown-width: 300px;
 $dropdown-radius: $global-radius;
-$dropdown-sizes: (
-  tiny: 100px,
+$dropdown-sizes: (tiny: 100px,
   small: 200px,
-  large: 400px
-);
+  large: 400px);
 
 // 18. Dropdown Menu
 // -----------------
@@ -455,12 +417,10 @@ $meter-fill-bad: $alert-color;
 // 24. Off-canvas
 // --------------
 
-$offcanvas-sizes: (
-  small: 23rem,
+$offcanvas-sizes: (small: 23rem,
   medium: 23rem,
 );
-$offcanvas-vertical-sizes: (
-  small: 23rem,
+$offcanvas-vertical-sizes: (small: 23rem,
   medium: 23rem,
 );
 $offcanvas-background: $light-gray;
@@ -472,7 +432,7 @@ $offcanvas-transition-length: 0.5s;
 $offcanvas-transition-timing: ease;
 $offcanvas-fixed-reveal: true;
 $offcanvas-exit-background: rgba($white, 0.25);
-$maincontent-class: "off-canvas-content";
+$maincontent-class: 'off-canvas-content';
 
 // 25. Orbit
 // ---------
@@ -520,10 +480,8 @@ $progress-radius: $global-radius;
 // --------------------
 
 $responsive-embed-margin-bottom: rem-calc(16);
-$responsive-embed-ratios: (
-  default: 4 by 3,
-  widescreen: 16 by 9
-);
+$responsive-embed-ratios: (default: 4 by 3,
+  widescreen: 16 by 9);
 
 // 29. Reveal
 // ----------
@@ -576,10 +534,8 @@ $table-border: 1px solid transparent;
 $table-padding: rem-calc(8 10 10);
 $table-hover-scale: 2%;
 $table-row-hover: darken($table-background, $table-hover-scale);
-$table-row-stripe-hover: darken(
-  $table-background,
-  $table-color-scale + $table-hover-scale
-);
+$table-row-stripe-hover: darken($table-background,
+  $table-color-scale + $table-hover-scale);
 $table-is-striped: false;
 $table-striped-background: smart-scale($table-background, $table-color-scale);
 $table-stripe: even;

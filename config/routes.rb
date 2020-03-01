@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
-
-  match '/status', to: 'home#status', via: [:get]
+  get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+  get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
   resource :widget, only: [:show]
 
@@ -38,9 +38,13 @@ Rails.application.routes.draw do
         resource :contact_merge, only: [:create]
       end
 
+      namespace :account do
+        resources :webhooks, except: [:show]
+      end
+
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy]
+      resources :inboxes, only: [:index, :destroy, :update]
       resources :agents, except: [:show, :edit, :new]
       resources :labels, only: [:index] do
         collection do
@@ -77,7 +81,6 @@ Rails.application.routes.draw do
         member do
           post :toggle_status
           post :update_last_seen
-          get :get_messages
         end
       end
 
@@ -88,20 +91,27 @@ Rails.application.routes.draw do
       end
 
       # this block is only required if subscription via chargebee is enabled
-      if ENV['BILLING_ENABLED']
-        resources :subscriptions, only: [:index] do
-          collection do
-            get :summary
-          end
-        end
-
-        resources :webhooks, only: [] do
-          collection do
-            post :chargebee
-          end
+      resources :subscriptions, only: [:index] do
+        collection do
+          get :summary
         end
       end
+
+      resources :webhooks, only: [] do
+        collection do
+          post :chargebee
+        end
+      end
+
+      namespace :user do
+        resource :notification_settings, only: [:show, :update]
+      end
     end
+  end
+
+  namespace :twitter do
+    resource :authorization, only: [:create]
+    resource :callback, only: [:show]
   end
 
   # Used in mailer templates
@@ -138,4 +148,8 @@ Rails.application.routes.draw do
     mount Sidekiq::Web, at: '/sidekiq'
   end
   # ----------------------------------------------------------------------
+
+  # Routes for swagger docs
+  get '/swagger/*path', to: 'swagger#respond'
+  get '/swagger', to: 'swagger#respond'
 end

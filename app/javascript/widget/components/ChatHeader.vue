@@ -43,14 +43,10 @@ export default {
 .header-collapsed {
   display: flex;
   justify-content: space-between;
-  background: $color-white;
   padding: $space-two $space-medium;
   width: 100%;
   box-sizing: border-box;
   color: $color-white;
-  border-bottom-left-radius: $space-small;
-  border-bottom-right-radius: $space-small;
-  @include shadow-large;
 
   .title {
     font-size: $font-size-large;
@@ -59,13 +55,14 @@ export default {
   }
 
   .close {
+    cursor: pointer;
     position: relative;
-    margin-right: $space-small;
+    width: $space-two;
 
     &:before,
     &:after {
       position: absolute;
-      left: 0;
+      left: $space-small;
       top: $space-smaller;
       content: ' ';
       height: $space-normal;

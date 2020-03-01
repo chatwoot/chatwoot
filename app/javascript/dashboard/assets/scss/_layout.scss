@@ -35,15 +35,17 @@ body {
   flex-direction: column;
   @include margin($zero);
   @include padding($space-normal);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .content-box {
-  overflow: scroll;
+  overflow: auto;
   @include padding($space-normal);
 }
 
 .back-button {
+  @include flex;
+  align-items: center;
   color: $color-woot;
   font-size: $font-size-default;
   font-weight: $font-weight-normal;

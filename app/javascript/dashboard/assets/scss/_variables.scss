@@ -12,7 +12,7 @@ $font-size-mega: 3.4rem;
 $font-size-giga: 4.0rem;
 
 // spaces
-$zero: 0rem;
+$zero: 0;
 $space-micro: 0.2rem;
 $space-smaller: 0.4rem;
 $space-small: 0.8rem;
@@ -42,16 +42,27 @@ $woot-logo-padding: $space-large $space-two;
 
 // Colors
 $color-woot: #1f93ff;
-$color-gray: #6E6F73;
-$color-light-gray: #999A9B;
-$color-border: #E0E6ED;
+$color-gray: #6e6f73;
+$color-light-gray: #999a9b;
+$color-border: #e0e6ed;
 $color-border-light: #f0f4f5;
-$color-background: #EFF2F7;
-$color-background-light: #F9FAFC;
-$color-white: #FFF;
-$color-body: #3C4858;
-$color-heading: #1F2D3D;
-$color-extra-light-blue: #F5F7F9;
+$color-background: #eff2f7;
+$color-background-light: #f9fafc;
+$color-white: #fff;
+$color-body: #3c4858;
+$color-heading: #1f2d3d;
+$color-extra-light-blue: #f5f7f9;
+
+$primary-color: $color-woot;
+$secondary-color: #ff5216;
+$success-color: #13ce66;
+$warning-color: #ffc82c;
+$alert-color: #ff4949;
+
+// Color-palettes
+
+$color-primary-light: #c7e3ff;
+$color-primary-dark: darken($color-woot, 20%);
 
 // Thumbnail
 $thumbnail-radius: 4rem;
@@ -81,3 +92,6 @@ $swift-ease-out: all $swift-ease-out-duration $swift-ease-out-timing-function !d
 
 // Ionicons
 $ionicons-font-path: '~ionicons/fonts';
+
+// Transitions
+$transition-ease-in: all 0.250s ease-in;

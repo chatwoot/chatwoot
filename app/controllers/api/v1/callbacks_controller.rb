@@ -1,8 +1,7 @@
 require 'rest-client'
 require 'telegram/bot'
-class Api::V1::CallbacksController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:register_facebook_page]
-  skip_before_action :authenticate_user!, only: [:register_facebook_page], raise: false
+class Api::V1::CallbacksController < Api::BaseController
+  before_action :inbox, only: [:reauthorize_page]
 
   def register_facebook_page
     user_access_token = params[:user_access_token]
@@ -25,15 +24,13 @@ class Api::V1::CallbacksController < ApplicationController
 
   # get params[:inbox_id], current_account, params[:omniauth_token]
   def reauthorize_page
-    if @inbox&.first&.facebook?
+    if @inbox&.facebook?
       fb_page_id = @inbox.channel.page_id
       page_details = fb_object.get_connections('me', 'accounts')
 
-      (page_details || []).each do |page_detail|
-        if fb_page_id == page_detail['id'] # found the page which has to be reauthorised
-          update_fb_page(fb_page_id, page_detail['access_token'])
-          head :ok
-        end
+      if (page_detail = (page_details || []).detect { |page| fb_page_id == page['id'] })
+        update_fb_page(fb_page_id, page_detail['access_token'])
+        return head :ok
       end
     end
 
@@ -46,18 +43,13 @@ class Api::V1::CallbacksController < ApplicationController
     @inbox = current_account.inboxes.find_by(id: params[:inbox_id])
   end
 
-  def update_fb_page
-    if fb_page(fb_page_id)
-      fb_page.update_attributes!(
-        user_access_token: @user_access_token, page_access_token: access_token
-      )
-      head :ok
-    else
-      head :unprocessable_entity
-    end
+  def update_fb_page(fb_page_id, access_token)
+    get_fb_page(fb_page_id)&.update!(
+      user_access_token: @user_access_token, page_access_token: access_token
+    )
   end
 
-  def fb_page(fb_page_id)
+  def get_fb_page(fb_page_id)
     current_account.facebook_pages.find_by(page_id: fb_page_id)
   end
 
@@ -68,7 +60,7 @@ class Api::V1::CallbacksController < ApplicationController
 
   def long_lived_token(omniauth_token)
     koala = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_APP_SECRET'])
-    long_lived_token = koala.exchange_access_token_info(omniauth_token)['access_token']
+    koala.exchange_access_token_info(omniauth_token)['access_token']
   end
 
   def mark_already_existing_facebook_pages(data)
@@ -81,7 +73,11 @@ class Api::V1::CallbacksController < ApplicationController
   end
 
   def set_avatar(facebook_channel, page_id)
-    avatar_resource = LocalResource.new(get_avatar_url(page_id))
+    uri = get_avatar_url(page_id)
+
+    return unless uri
+
+    avatar_resource = LocalResource.new(uri)
     facebook_channel.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
   end
 
@@ -98,7 +94,6 @@ class Api::V1::CallbacksController < ApplicationController
         raise
       end
       pic_url = response.base_uri.to_s
-      Rails.logger.info(pic_url)
     rescue StandardError => e
       pic_url = nil
     end

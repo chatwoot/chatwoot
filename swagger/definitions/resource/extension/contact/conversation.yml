@@ -1,0 +1,18 @@
+type: object
+properties:
+  meta:
+    type: object
+    properties:
+      sender:
+        type: object
+        properties:
+          id:
+            type: number
+          name:
+            type: string
+          thumbnail:
+            type: string
+          channel:
+            type: string
+      assignee:
+        $ref: '#/definitions/user'

@@ -23,7 +23,7 @@ class Messages::Outgoing::NormalBuilder
       content: @content,
       private: @private,
       user_id: @user.id,
-      fb_id: @fb_id
+      source_id: @fb_id
     }
   end
 end

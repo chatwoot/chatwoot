@@ -1,0 +1,9 @@
+title: data
+type: object
+properties:
+  description:
+    type: string
+  errors:
+    type: array
+    items:
+      $ref: '#/definitions/request_error'

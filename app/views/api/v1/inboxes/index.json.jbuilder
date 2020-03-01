@@ -8,5 +8,6 @@ json.payload do
     json.page_id inbox.channel.try(:page_id)
     json.widget_color inbox.channel.try(:widget_color)
     json.website_token inbox.channel.try(:website_token)
+    json.enable_auto_assignment inbox.enable_auto_assignment
   end
 end

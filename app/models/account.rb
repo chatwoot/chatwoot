@@ -18,10 +18,13 @@ class Account < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
+  has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
+  has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
+  has_many :notification_settings, dependent: :destroy
 
   after_create :create_subscription
   after_create :notify_creation
@@ -55,6 +58,13 @@ class Account < ApplicationRecord
       trial_expired: subscription.trial_expired?,
       account_suspended: subscription.suspended?,
       payment_source_added: subscription.payment_source_added
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name
     }
   end
 

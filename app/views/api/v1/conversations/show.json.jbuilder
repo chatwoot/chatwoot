@@ -13,7 +13,7 @@ json.payload do
     json.message_type message.message_type_before_type_cast
     json.created_at message.created_at.to_i
     json.private message.private
-    json.fb_id message.fb_id
+    json.source_id message.source_id
     json.attachment message.attachment.push_event_data if message.attachment
     json.sender message.user.push_event_data if message.user
   end

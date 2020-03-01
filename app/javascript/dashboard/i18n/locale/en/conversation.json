@@ -10,7 +10,11 @@
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve"
+      "RESOLVE_ACTION": "Resolve",
+      "REOPEN_ACTION": "Reopen",
+      "OPEN": "More",
+      "CLOSE": "Close",
+      "DETAILS": "details"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",

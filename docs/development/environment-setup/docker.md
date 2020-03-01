@@ -1,76 +1,117 @@
 ---
 path: "/docs/installation-guide-docker"
-title: "Docker Setup and Debugging Guide"
+title: "Docker Setup"
 ---
 
-### Development environment
+### Pre-requisites
+Before proceeding, make sure you have the latest version of `docker` and `docker-compose` installed.
 
-After cloning the repo and installing docker on your machine, run the following command from the root directory of the project.
+As of now[at the time of writing this doc], we recommend 
 
-```bash
-cp .env.example .env
-```
+    ```bash
+    $ docker --version
+    Docker version 19.03.3, build a872fc2f86
+    $ docker-compose --version
+    docker-compose version 1.25.3, build d4d1b42b
+    ```
 
-Make changes to the `.env` file as required [Optional]. If you want to set the password for redis when you run
-docker-compose, set any string value to the environment variable `REDIS_PASSWORD` in the `.env` file. which will secure the redis running inside docker-compose with this password. This will be automatically picked up by app server and sidekiq, to authenticate while making connections to redis server.
+## Development environment
 
-```bash
-docker-compose build
-```
+1. Clone the repository.
 
-After building the image or after destroying the stack you would have to reset the database using following command
+    ```bash
+    $ git clone https://github.com/chatwoot/chatwoot.git
+    ```
 
-```bash
-docker-compose run --rm rails bundle exec rails db:reset
-```
+2. Make a copy of the example environment file and modify as required [optional].
 
-### Running the app
+    ```bash
+    $ cp .env.example .env
+    ```
 
-```bash
-docker-compose run --rm --service-port rails
-```
+    If you want to set the password for redis when you run docker-compose, set any string value to the environment variable `REDIS_PASSWORD` in the `.env` file.
+    This will secure the redis running inside docker-compose with the given password. 
+    Also this will be automatically picked up by the app server and sidekiq, to authenticate while making connections to redis server.
 
-open another terminal and also run below command to run sidekiq in a separate service
+3. Build the images.
 
-```
-docker-compose run --rm rails bundle exec sidekiq
-```
+    ```bash
+    $ docker-compose build
+    ```
 
-* Access the rails app frontend by visiting `http://0.0.0.0:3000/`
-* Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
-* Access Sidekiq Web UI by visiting `http://0.0.0.0:3000/sidekiq` (You need to login with administrator account to access sidekiq)
+4. After building the image or after destroying the stack you would have to reset the database using the following command.
 
-you can also use the below command instead to run the app and see the full logs.
+    ```bash
+    $ docker-compose run --rm rails bundle exec rails db:reset
+    ```
 
-```bash
-docker-compose up
-```
+5. To run the app,
 
-### Destroying the complete composer stack
+    ```bash
+    $ docker-compose up
+    ```
 
-```bash
-docker-compose down
-```
+    * Access the rails app frontend by visiting `http://0.0.0.0:3000/`
+    * Access Mailhog inbox by visiting `http://0.0.0.0:8025/` (You will receive all emails going out of the application here)
+    * Access Sidekiq Web UI by visiting `http://0.0.0.0:3000/sidekiq` (You need to login with administrator account to access sidekiq)
+
+    #### Login with credentials
+    ```
+        url: http://localhost:3000
+        user_name: john@acme.inc
+        password: 123456
+    ````
+
+6. To stop the app,
+
+    ```bash
+    $ docker-compose down
+    ```
 
 ### Running rspec tests
 
-For running the complete rspec tests
+For running the complete rspec tests,
 
-```bash
-docker-compose run --rm rails bundle exec rspec
-```
+    ```bash
+    $ docker-compose run --rm rails bundle exec rspec
+    ```
 
-For running specific test:
+For running specific test,
 
-```bash
-docker-compose run --rm rails bundle exec rspec spec/<path-to-file>:<line-number>
-```
+    ```bash
+    $ docker-compose run --rm rails bundle exec rspec spec/<path-to-file>:<line-number>
+    ```
 
-## production environment
+## Production environment
 
-Sometimes you might want to debug the production build locally. You would first need to set `SECRET_KEY_BASE` environment variable in your .env.example file and then run the below commands:
+To debug the production build locally, set `SECRET_KEY_BASE` environment variable in your `.env` file and then run the below commands:
 
-```bash
-docker-compose -f docker-compose.production.yaml build
-docker-compose -f docker-compose.production.yaml up
-```
+    ```bash
+    $ docker-compose -f docker-compose.production.yaml build
+    $ docker-compose -f docker-compose.production.yaml up
+    ```
+
+## Debugging mode
+
+To use debuggers like `byebug` or `binding.pry`, use the following command to bring up the app instead of `docker-compose up`.
+
+    ```bash
+       $ docker-compose run --rm --service-port rails  
+    ```
+
+
+## Troubleshooting
+If there is an update to any of the following 
+- `dockerfile`
+- `gemfile`
+- `package.json` 
+- schema change
+
+Make sure to rebuild the containers and run `db:reset`.
+
+    ```bash
+    $ docker-compose down
+    $ docker-compose build
+    $ docker-compose run --rm rails bundle exec rails db:reset
+    $ docker-compose up
+    ```
