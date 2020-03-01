@@ -82,7 +82,7 @@
           </label>
         </div>
       </div>
-
+      <email-notifications />
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
@@ -100,9 +100,11 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import EmailNotifications from './EmailNotifications';
 
 export default {
   components: {
+    EmailNotifications,
     Thumbnail,
   },
   data() {
@@ -198,7 +200,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~dashboard/assets/scss/variables.scss';
 @import '~dashboard/assets/scss/mixins.scss';
 
