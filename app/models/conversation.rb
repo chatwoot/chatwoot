@@ -112,8 +112,11 @@ class Conversation < ApplicationRecord
 
   def send_email_notification_to_assignee
     return if self_assign?(assignee_id)
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.blank?
+    return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
 
-    AssignmentMailer.conversation_assigned(self, assignee).deliver_later if saved_change_to_assignee_id? && assignee_id.present?
+    AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
   end
 
   def self_assign?(assignee_id)
@@ -156,8 +159,6 @@ class Conversation < ApplicationRecord
   end
 
   def run_round_robin
-    # return unless conversation.account.has_feature?(round_robin)
-    # return unless conversation.account.round_robin_enabled?
     return unless inbox.enable_auto_assignment
     return if assignee
 
