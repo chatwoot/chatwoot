@@ -1,0 +1,19 @@
+type: object
+properties:
+  id:
+    type: number
+  uid:
+    type: string
+  name:
+    type: string
+  email:
+    type: string
+  account_id:
+    type: number
+  role:
+    type: string
+    enum: ['agent', 'administrator']
+  confirmed:
+    type: boolean
+  nickname:
+    type: string

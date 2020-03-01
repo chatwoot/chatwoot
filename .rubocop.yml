@@ -20,14 +20,12 @@ Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'
     - 'lib/redis/alfred.rb'
-    - 'app/controllers/api/v1/webhooks_controller.rb'
-    - 'app/services/twitter/send_reply_service.rb'
-    - 'spec/services/twitter/send_reply_service_spec.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
     - '**/routes.rb'
     - 'config/environments/*'
+    - db/schema.rb
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -41,6 +39,8 @@ Style/ClassAndModuleChildren:
 RSpec/NestedGroups:
   Enabled: true
   Max: 4
+RSpec/MessageSpies:
+  Enabled: false
 AllCops:
   Exclude:
     - db/*

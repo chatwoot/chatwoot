@@ -4,13 +4,14 @@
 #
 # Table name: inboxes
 #
-#  id           :integer          not null, primary key
-#  channel_type :string
-#  name         :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :integer          not null
-#  channel_id   :integer          not null
+#  id                     :integer          not null, primary key
+#  channel_type           :string
+#  enable_auto_assignment :boolean          default(TRUE)
+#  name                   :string           not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :integer          not null
+#  channel_id             :integer          not null
 #
 # Indexes
 #
@@ -32,6 +33,7 @@ class Inbox < ApplicationRecord
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
+  has_many :webhooks, dependent: :destroy
   after_create :subscribe_webhook, if: :facebook?
   after_destroy :delete_round_robin_agents
 
@@ -56,6 +58,13 @@ class Inbox < ApplicationRecord
   def next_available_agent
     user_id = Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
     account.users.find_by(id: user_id)
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name
+    }
   end
 
   private

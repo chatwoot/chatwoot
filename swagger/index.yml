@@ -1,0 +1,17 @@
+swagger: 2.0
+info:
+  description: This is the api documentation for Chatwoot server.
+  version: 1.0.0
+  title: Chatwoot
+  termsOfService:	https://www.chatwoot.com/terms-of-service/
+  contact:
+    email: support@chatwoot.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  host: app.chatwoot.com
+  basePath: /api/v1/
+paths:
+  $ref: ./paths/index.yml
+definitions:
+  $ref: ./definitions/index.yml

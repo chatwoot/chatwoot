@@ -1,24 +1,44 @@
 <template>
   <div class="medium-12 column login">
     <div class="text-center medium-12 login__hero align-self-top">
-      <img src="~dashboard/assets/images/woot-logo.svg" alt="Woot-logo" class="hero__logo" />
-      <h2 class="hero__title">{{$t('LOGIN.TITLE')}}</h2>
+      <img
+        src="~dashboard/assets/images/woot-logo.svg"
+        alt="Woot-logo"
+        class="hero__logo"
+      />
+      <h2 class="hero__title">
+        {{ $t('LOGIN.TITLE') }}
+      </h2>
     </div>
     <div class="row align-center">
       <div class="small-12 medium-4 column">
-        <form class="login-box column align-self-top" v-on:submit.prevent="login()">
+        <form class="login-box column align-self-top" @submit.prevent="login()">
           <div class="column log-in-form">
             <!-- <h4 class="text-center">{{$t('LOGIN.TITLE')}}</h4> -->
-            <label :class="{ 'error': $v.credentials.email.$error }">
-              {{$t('LOGIN.EMAIL.LABEL')}}
-              <input type="text" v-bind:placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')" v-model.trim="credentials.email" @input="$v.credentials.email.$touch">
+            <label :class="{ error: $v.credentials.email.$error }">
+              {{ $t('LOGIN.EMAIL.LABEL') }}
+              <input
+                v-model.trim="credentials.email"
+                type="text"
+                :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+                @input="$v.credentials.email.$touch"
+              />
             </label>
-            <label :class="{ 'error': $v.credentials.password.$error }">
-              {{$t('LOGIN.PASSWORD.LABEL')}}
-              <input type="password" v-bind:placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')" v-model.trim="credentials.password" @input="$v.credentials.password.$touch">
+            <label :class="{ error: $v.credentials.password.$error }">
+              {{ $t('LOGIN.PASSWORD.LABEL') }}
+              <input
+                v-model.trim="credentials.password"
+                type="password"
+                :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
+                @input="$v.credentials.password.$touch"
+              />
             </label>
             <woot-submit-button
-              :disabled="$v.credentials.email.$invalid || $v.credentials.password.$invalid || loginApi.showLoading"
+              :disabled="
+                $v.credentials.email.$invalid ||
+                  $v.credentials.password.$invalid ||
+                  loginApi.showLoading
+              "
               :button-text="$t('LOGIN.SUBMIT')"
               :loading="loginApi.showLoading"
               button-class="large expanded"
@@ -30,10 +50,10 @@
         <div class="column text-center sigin__footer">
           <p>
             <router-link to="auth/reset/password">
-              {{$t('LOGIN.FORGOT_PASSWORD')}}
+              {{ $t('LOGIN.FORGOT_PASSWORD') }}
             </router-link>
           </p>
-          <p>
+          <p v-if="showSignupLink()">
             <router-link to="auth/signup">
               {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
             </router-link>
@@ -89,6 +109,9 @@ export default {
       this.loginApi.message = message;
       bus.$emit('newToastMessage', this.loginApi.message);
     },
+    showSignupLink() {
+      return window.chatwootConfig.signupEnabled === 'true';
+    },
     login() {
       this.loginApi.showLoading = true;
       const credentials = {
@@ -100,7 +123,7 @@ export default {
         .then(() => {
           this.showAlert(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
-        .catch((response) => {
+        .catch(response => {
           if (response && response.status === 401) {
             this.showAlert(this.$t('LOGIN.API.UNAUTH'));
             return;

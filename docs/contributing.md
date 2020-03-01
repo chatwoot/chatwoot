@@ -3,7 +3,7 @@ path: "/docs/contributing-guide"
 title: "Contributing Guide"
 ---
 
-Thanks for taking interest in contributing to Chatwoot source code. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
+Thank you for taking an interest in contributing to Chatwoot. Before submitting your contribution, please make sure to take a moment and read through the following guidelines:
 
 - [Code of Conduct](https://www.chatwoot.com/docs/code-of-conduct)
 - [Development Setup](https://www.chatwoot.com/docs/installation-guide-ubuntu)
@@ -13,11 +13,11 @@ Thanks for taking interest in contributing to Chatwoot source code. Before submi
 
 - We use [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is develop. 
 
-- Assign the corresponding issue to you whenever you start working on it. This helps in resolving collision (mutliple people working on the same item)
+- Comment on an issue before you start work on it. This helps to avoid multiple people working on similar issues.
 
 - Please raise the PR against `develop` branch
 
-- It's OK to have multiple small commits as you work on the PR - We will squash the commits before merging.
+- It's okay and encouraged to have multiple small commits as you work on the PR - we will squash the commits before merging.
 
 - If adding a new feature:
   - Please create the branch in the format `feature/<issue-id>-<issue-name>` (eg: `feature/235-contact-panel`)

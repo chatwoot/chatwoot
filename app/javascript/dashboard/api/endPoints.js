@@ -10,6 +10,9 @@ const endPoints = {
   validityCheck: {
     url: '/auth/validate_token',
   },
+  profileUpdate: {
+    url: '/api/v1/profile',
+  },
   logout: {
     url: 'auth/sign_out',
   },

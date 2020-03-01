@@ -23,7 +23,7 @@ export default [
         private: false,
         user_id: 1,
         status: 'sent',
-        fb_id: null,
+        source_id: null,
         content_type: 'text',
         content_attributes: {},
         sender: {
@@ -63,7 +63,7 @@ export default [
         private: false,
         user_id: 2,
         status: 'sent',
-        fb_id: null,
+        source_id: null,
         content_type: 'text',
         content_attributes: {},
         sender: {

@@ -1,0 +1,17 @@
+get:
+  tags: [Conversation]
+  description: List all the conversations with pagination
+  summary: Conversations List
+  parameters:
+    - name: query_hash
+      in: query
+      type: string
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'

@@ -1,0 +1,33 @@
+require 'rails_helper'
+
+RSpec.describe 'Conversation Assignment API', type: :request do
+  let(:account) { create(:account) }
+
+  describe 'POST /api/v1/conversations/<id>/assignments' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post api_v1_conversation_assignments_url(conversation.display_id)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'assigns a user to the conversation' do
+        params = { assignee_id: agent.id }
+
+        post api_v1_conversation_assignments_url(conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+  end
+end

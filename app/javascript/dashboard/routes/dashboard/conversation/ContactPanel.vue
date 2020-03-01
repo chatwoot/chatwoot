@@ -1,6 +1,9 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
     <div class="contact--profile">
+      <span class="close-button" @click="onPanelToggle">
+        <i class="ion-close-round"></i>
+      </span>
       <div class="contact--info">
         <thumbnail
           :src="contact.thumbnail"
@@ -20,6 +23,16 @@
           >
             {{ contact.email }}
           </a>
+
+          <div
+            v-if="
+              contact.additional_attributes &&
+                contact.additional_attributes.screen_name
+            "
+            class="contact--location"
+          >
+            {{ `@${contact.additional_attributes.screen_name}` }}
+          </div>
           <div class="contact--location">
             {{ contact.location }}
           </div>
@@ -28,7 +41,22 @@
       <div v-if="contact.bio" class="contact--bio">
         {{ contact.bio }}
       </div>
+      <div
+        v-if="
+          contact.additional_attributes &&
+            contact.additional_attributes.description
+        "
+        class="contact--bio"
+      >
+        {{ contact.additional_attributes.description }}
+      </div>
     </div>
+    <conversation-labels :conversation-id="conversationId" />
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
     <div v-if="browser" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"
@@ -55,13 +83,6 @@
         icon="ion-clock"
       />
     </div>
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
-
-    <conversation-labels :conversation-id="conversationId" />
   </div>
 </template>
 
@@ -82,6 +103,10 @@ export default {
     conversationId: {
       type: [Number, String],
       required: true,
+    },
+    onToggle: {
+      type: Function,
+      default: () => {},
     },
   },
   computed: {
@@ -134,6 +159,11 @@ export default {
       id: this.currentConversationMetaData.contact_id,
     });
   },
+  methods: {
+    onPanelToggle() {
+      this.onToggle();
+    },
+  },
 };
 </script>
 
@@ -145,15 +175,21 @@ export default {
   @include border-normal-left;
   font-size: $font-size-small;
   overflow-y: auto;
-  background: $color-white;
+  background: white;
   overflow: auto;
+  position: relative;
 }
 
+.close-button {
+  position: absolute;
+  right: $space-slab;
+  top: $space-slab;
+  font-size: $font-size-default;
+  color: $color-heading;
+}
 .contact--profile {
-  width: 100%;
-  padding: $space-normal $space-medium $zero;
+  padding: $space-medium $space-normal 0 $space-medium;
   align-items: center;
-
   .user-thumbnail-box {
     margin-right: $space-normal;
   }
@@ -172,9 +208,10 @@ export default {
 
 .contact--name {
   @include text-ellipsis;
+  text-transform: capitalize;
 
   font-weight: $font-weight-bold;
-  font-size: $font-size-default;
+  font-size: $font-size-medium;
 }
 
 .contact--email {
@@ -191,8 +228,7 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-medium;
-  width: 100%;
+  padding: $space-two $space-normal $space-two $space-medium;
 }
 
 .conversation--labels {

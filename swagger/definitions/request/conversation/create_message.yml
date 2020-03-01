@@ -1,0 +1,10 @@
+type: object
+properties:
+  conversation_id:
+    type: number
+  message:
+    type: string
+  private:
+    type: boolean
+  fb_id:
+    type: number

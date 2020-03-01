@@ -1,6 +1,8 @@
 {
   "CHAT_LIST": {
     "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Load more conversations...",
+    "EOF": "You have reached the end of the list",
     "LIST": {
       "404": "There are no active conversations in this group."
     },
@@ -14,20 +16,14 @@
     ],
 
     "ASSIGNEE_TYPE_TABS": [
-      { "NAME": "Mine", "KEY": "mineCount"},
-      { "NAME": "Unassigned", "KEY": "unAssignedCount"},
-      { "NAME": "All", "KEY": "allCount"}
+      { "NAME": "Mine", "KEY": "me", "COUNT_KEY": "mineCount" },
+      { "NAME": "Unassigned", "KEY": "unassigned", "COUNT_KEY": "unAssignedCount"},
+      { "NAME": "All", "KEY": "all", "COUNT_KEY": "allCount" }
     ],
 
-    "ASSIGNEE_TYPE_SLUG": {
-      "MINE": 0,
-      "UNASSIGNED": 1,
-      "ALL": 2
-    },
-
     "CHAT_STATUS_ITEMS": [
-      { "TEXT": "Open", "VALUE": 0 },
-      { "TEXT": "Resolved", "VALUE": 1 }
+      { "TEXT": "Open", "VALUE": "open" },
+      { "TEXT": "Resolved", "VALUE": "resolved" }
     ],
 
     "ATTACHMENTS": {

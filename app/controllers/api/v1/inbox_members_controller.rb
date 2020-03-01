@@ -4,17 +4,11 @@ class Api::V1::InboxMembersController < Api::BaseController
 
   def create
     # update also done via same action
-    if @inbox
-      begin
-        update_agents_list
-        head :ok
-      rescue StandardError => e
-        Rails.logger.debug "Rescued: #{e.inspect}"
-        render_could_not_create_error('Could not add agents to inbox')
-      end
-    else
-      render_not_found_error('Agents or inbox not found')
-    end
+    update_agents_list
+    head :ok
+  rescue StandardError => e
+    Rails.logger.debug "Rescued: #{e.inspect}"
+    render_could_not_create_error('Could not add agents to inbox')
   end
 
   def show

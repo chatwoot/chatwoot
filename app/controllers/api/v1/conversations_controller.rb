@@ -1,11 +1,5 @@
 class Api::V1::ConversationsController < Api::BaseController
-  before_action :set_conversation, except: [:index, :get_messages]
-
-  # TODO: move this to public controller
-  skip_before_action :authenticate_user!, only: [:get_messages]
-  skip_before_action :set_current_user, only: [:get_messages]
-  skip_before_action :check_subscription, only: [:get_messages]
-  skip_around_action :handle_with_exception, only: [:get_messages]
+  before_action :set_conversation, except: [:index]
 
   def index
     result = conversation_finder.perform
@@ -25,11 +19,6 @@ class Api::V1::ConversationsController < Api::BaseController
     @conversation.agent_last_seen_at = parsed_last_seen_at
     @conversation.save!
     head :ok
-  end
-
-  def get_messages
-    @conversation = Conversation.find(params[:id])
-    @messages = messages_finder.perform
   end
 
   private
