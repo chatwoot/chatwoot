@@ -1,6 +1,11 @@
 <template>
   <transition name="modal-fade">
-    <div v-if="show" class="modal-mask" transition="modal" @click="close">
+    <div
+      v-if="show"
+      class="modal-mask"
+      transition="modal"
+      @click="onBackDropClick"
+    >
       <i class="ion-android-close modal--close" @click="close"></i>
       <div class="modal-container" :class="className" @click.stop>
         <slot />
@@ -35,6 +40,9 @@ export default {
   },
   methods: {
     close() {
+      this.onClose();
+    },
+    onBackDropClick() {
       if (this.closeOnBackdropClick) {
         this.onClose();
       }
