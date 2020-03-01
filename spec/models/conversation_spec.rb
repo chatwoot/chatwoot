@@ -34,7 +34,7 @@ RSpec.describe Conversation, type: :model do
       new_assignee
 
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
-      allow(AssignmentMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
       allow(assignment_mailer).to receive(:deliver_later)
       Current.user = old_assignee
 
@@ -58,7 +58,7 @@ RSpec.describe Conversation, type: :model do
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
 
       # send_email_notification_to_assignee
-      expect(AssignmentMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
+      expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
 
       expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
@@ -117,10 +117,22 @@ RSpec.describe Conversation, type: :model do
     let(:agent) do
       create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
     end
+    let(:assignment_mailer) { double(deliver: true) }
 
     it 'assigns the agent to conversation' do
       expect(update_assignee).to eq(true)
       expect(conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'does not send assignment mailer if notification setting is turned off' do
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+
+      notification_setting = agent.notification_settings.first
+      notification_setting.unselect_all_email_flags
+      notification_setting.save!
+
+      expect(update_assignee).to eq(true)
+      expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_assigned).with(conversation, agent)
     end
   end
 

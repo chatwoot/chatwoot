@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-RSpec.describe ConversationMailer, type: :mailer do
-  describe 'new_message' do
+RSpec.describe ConversationReplyMailer, type: :mailer do
+  describe 'reply_with_summary' do
     let(:agent) { create(:user, email: 'agent1@example.com') }
     let(:conversation) { create(:conversation, assignee: agent) }
     let(:message) { create(:message, conversation: conversation) }
-    let(:mail) { described_class.new_message(message.conversation, Time.zone.now).deliver_now }
+    let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
     let(:class_instance) { described_class.new }
 
     before do
