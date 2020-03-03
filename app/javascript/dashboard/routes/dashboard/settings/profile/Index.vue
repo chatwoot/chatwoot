@@ -211,12 +211,12 @@ export default {
 
 .profile--settings--row {
   @include border-normal-bottom;
-  padding: 16px;
+  padding: $space-normal;
   .small-3 {
-    padding: 16px 16px 16px 0;
+    padding: $space-normal $space-medium $space-normal 0;
   }
   .small-9 {
-    padding: 16px;
+    padding: $space-normal;
   }
 }
 </style>
