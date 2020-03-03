@@ -1,5 +1,7 @@
 get:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationList
   description: List all the conversations with pagination
   summary: Conversations List
   parameters:

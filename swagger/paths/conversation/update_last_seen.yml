@@ -1,5 +1,7 @@
 post:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationUpdateLastSeen
   summary: Update Last Seen
   description: Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen
   parameters:
