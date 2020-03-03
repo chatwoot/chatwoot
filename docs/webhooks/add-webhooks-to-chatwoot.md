@@ -24,23 +24,23 @@ Chatwoot currently supports webhooks for message creation only. Once a new messa
 ```json
 {
 
-  "event": "message_created" // The name of the event
-  "id": "3371", // Message ID
+  "event": "message_created", // The name of the event
+  "id": "1", // Message ID
   "content": "Hi", // Content of the message
   "created_at": "2020-03-03 13:05:57 UTC", // Time at which the message was sent
   "message_type": "incoming", // This will have a type incoming or outgoing. Incoming messages are sent by the user from the widget, Outgoing messages are sent by the agent to the user.
   "source_id": "", // This would the external id if the inbox is a Twitter or Facebook integration.
   "sender": { // This would provide the details of the agent who sent this message
     "id": "1",
-    "name": "Pranav",
-    "email": "pranavrajs@gmail.com"
+    "name": "Agent",
+    "email": "agent@example.com"
   },
   "contact": { // This would provide the details of the user who sent this message
-    "id": "14425",
-    "name": "empty-wind-641"
+    "id": "1",
+    "name": "contact-name"
   },
   "conversation": { // This would provide the details of the conversation
-    "display_id": "624", // This is the ID of the conversation which you can see in the dashboard.
+    "display_id": "1", // This is the ID of the conversation which you can see in the dashboard.
     "additional_attributes": {
       "browser": {
         "device_name": "Macbook",
