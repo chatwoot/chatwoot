@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import getUuid from '../../helpers/uuid';
 import DateHelper from '../../../shared/helpers/DateHelper';
 
@@ -93,6 +94,10 @@ export const actions = {
   },
 
   addMessage({ commit }, data) {
+    if (data.message_type === MESSAGE_TYPE.OUTGOING) {
+      playNotificationAudio();
+    }
+
     commit('pushMessageToConversation', data);
   },
 };

@@ -1,0 +1,5 @@
+<p>Hi <%= @agent.name %>,</p>
+
+<p>Time to save the world. A new conversation has been created in <%= @conversation.inbox.name %></p>
+
+<p>Click <%= link_to 'here', app_conversation_url(id: @conversation.display_id) %> to get cracking. </p>
