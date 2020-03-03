@@ -1,5 +1,7 @@
 post:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationNewMessage
   summary: Create New Message
   description: All the agent replies are created as new messages through this endpoint
   parameters:

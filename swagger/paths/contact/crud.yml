@@ -1,5 +1,7 @@
 get:
-  tags: [Contact]
+  tags:
+    - Contact
+  operationId: contactDetails
   summary: Show Contact
   parameters:
     - name: id
@@ -18,7 +20,9 @@ get:
       description: Access denied
 
 put:
-  tags: [Contact]
+  tags:
+    - Contact
+  operationId: contactUpdate
   summary: Update Contact
   parameters:
     - name: id
