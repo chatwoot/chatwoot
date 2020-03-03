@@ -47,7 +47,7 @@
       }
     }
 
-    >.icon {
+    .icon {
       color: $medium-gray;
       cursor: pointer;
       font-size: $font-size-medium;
@@ -56,6 +56,10 @@
       &.active {
         color: $color-woot;
       }
+    }
+
+    .attachment {
+      margin-right: $space-normal;
     }
 
     >textarea {

@@ -23,6 +23,30 @@
         @click="onClick()"
         @blur="onBlur()"
       />
+      <file-upload
+        v-if="!showFileUpload"
+        @input-file="onImage"
+        accept="image/*"
+      >
+        <i class="icon ion-image attachment" v-if="!isUploading.image" />
+        <woot-spinner v-if="isUploading.image" />
+      </file-upload>
+      <file-upload
+        v-if="!showFileUpload"
+        @input-file="onVideo"
+        accept="video/*"
+      >
+        <i class="icon ion-videocamera attachment" v-if="!isUploading.video" />
+        <woot-spinner v-if="isUploading.video" />
+      </file-upload>
+      <file-upload
+        v-if="!showFileUpload"
+        @input-file="onAudio"
+        accept="audio/*"
+      >
+        <i class="icon ion-mic-a attachment" v-if="!isUploading.audio" />
+        <woot-spinner v-if="isUploading.audio" />
+      </file-upload>
       <i
         class="icon ion-happy-outline"
         :class="{ active: showEmojiPicker }"
@@ -77,6 +101,7 @@
 import { mapGetters } from 'vuex';
 import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
+import FileUpload from 'vue-upload-component';
 
 import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -92,7 +117,13 @@ export default {
       message: '',
       isPrivate: false,
       showEmojiPicker: false,
+      showFileUpload: false,
       showCannedResponsesList: false,
+      isUploading: {
+        audio: false,
+        video: false,
+        image: false,
+      },
     };
   },
   computed: {
@@ -132,6 +163,11 @@ export default {
       }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
     },
+  },
+  components: {
+    EmojiInput,
+    CannedResponse,
+    FileUpload,
   },
   watch: {
     message(val) {
@@ -271,6 +307,52 @@ export default {
         ? 'CONVERSATION.FOOTER.PRIVATE_MSG_INPUT'
         : 'CONVERSATION.FOOTER.MSG_INPUT';
       return placeHolder;
+    },
+
+    onImage(file) {
+      this.isUploading.image = true;
+      this.$store
+        .dispatch('sendAttachment', [
+          this.currentChat.id,
+          {
+            file_type: 'image',
+            file: file.file,
+          },
+        ])
+        .then(() => {
+          this.isUploading.image = false;
+          this.$emit('scrollToMessage');
+        });
+    },
+    onVideo({ file }) {
+      this.isUploading.video = true;
+      this.$store
+        .dispatch('sendAttachment', [
+          this.currentChat.id,
+          {
+            file_type: 'video',
+            file,
+          },
+        ])
+        .then(() => {
+          this.isUploading.video = false;
+          this.$emit('scrollToMessage');
+        });
+    },
+    onAudio({ file }) {
+      this.isUploading.audio = true;
+      this.$store
+        .dispatch('sendAttachment', [
+          this.currentChat.id,
+          {
+            file_type: 'audio',
+            file,
+          },
+        ])
+        .then(() => {
+          this.isUploading.audio = false;
+          this.$emit('scrollToMessage');
+        });
     },
   },
 };
