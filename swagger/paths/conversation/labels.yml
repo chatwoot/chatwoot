@@ -1,5 +1,7 @@
 get:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationLabelsList
   summary: List Labels
   description: Lists all the labels of a conversation
   parameters:
@@ -19,9 +21,11 @@ get:
       description: Access denied
 
 post:
-  tags: [Conversation]
-  summary: Add Label
-  description: Creates a new label and associates it with the conversation
+  tags:
+    - Conversation
+  operationId: conversationAddLabels
+  summary: Add Labels
+  description: Creates new labels and associates it with the conversation
   parameters:
     - name: id
       in: path

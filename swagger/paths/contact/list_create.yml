@@ -1,5 +1,7 @@
 get:
-  tags: [Contact]
+  tags:
+    - Contact
+  operationId: contactList
   description: Listing all the contacts with pagination
   summary: List Contacts
   parameters:
@@ -17,7 +19,9 @@ get:
         $ref: '#/definitions/bad_request_error'
 
 post:
-  tags: [Contact]
+  tags:
+    - Contact
+  operationId: contactCreate
   description: Create New Contact
   parameters:
     - name: data
