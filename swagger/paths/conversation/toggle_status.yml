@@ -1,5 +1,7 @@
 post:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationToggleStatus
   summary: Toggle Status
   description: Toggles the status of the conversation between open and resolved
   parameters:
