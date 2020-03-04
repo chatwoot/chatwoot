@@ -43,7 +43,7 @@ Rails.application.routes.draw do
       end
 
       namespace :agent_bot do
-        resources :webhooks, only: [:create]
+        resources :messages, only: [:create]
       end
 
       resource :profile, only: [:show, :update]

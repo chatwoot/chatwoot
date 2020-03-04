@@ -34,7 +34,7 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 
-  enum status: [:open, :resolved]
+  enum status: { open: 0, resolved: 1, bot: 2 }
 
   scope :latest, -> { order(created_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }

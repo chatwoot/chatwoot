@@ -8,6 +8,7 @@
 #  content_type       :integer          default("text")
 #  message_type       :integer          not null
 #  private            :boolean          default(FALSE)
+#  sender_type        :string
 #  status             :integer          default("sent")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -15,14 +16,16 @@
 #  contact_id         :bigint
 #  conversation_id    :integer          not null
 #  inbox_id           :integer          not null
+#  sender_id          :bigint
 #  source_id          :string
 #  user_id            :integer
 #
 # Indexes
 #
-#  index_messages_on_contact_id       (contact_id)
-#  index_messages_on_conversation_id  (conversation_id)
-#  index_messages_on_source_id        (source_id)
+#  index_messages_on_contact_id                 (contact_id)
+#  index_messages_on_conversation_id            (conversation_id)
+#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
+#  index_messages_on_source_id                  (source_id)
 #
 # Foreign Keys
 #
@@ -51,6 +54,7 @@ class Message < ApplicationRecord
   belongs_to :conversation
   belongs_to :user, required: false
   belongs_to :contact, required: false
+  belongs_to :sender, polymorphic: true, optional: true
 
   has_one :attachment, dependent: :destroy, autosave: true
 

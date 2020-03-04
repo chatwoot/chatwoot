@@ -1,11 +1,11 @@
 class Messages::Outgoing::NormalBuilder
   attr_reader :message
 
-  def initialize(user, conversation, params)
+  def initialize(sender, conversation, params)
     @content = params[:message]
-    @private = ['1', 'true', 1, true].include? params[:private]
+    @private = params[:private]
     @conversation = conversation
-    @user = user
+    @sender = sender
     @fb_id = params[:fb_id]
   end
 
@@ -22,7 +22,8 @@ class Messages::Outgoing::NormalBuilder
       message_type: :outgoing,
       content: @content,
       private: @private,
-      user_id: @user.id,
+      sender: @sender,
+      user_id: @sender.id,
       source_id: @fb_id
     }
   end

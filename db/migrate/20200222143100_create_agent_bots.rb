@@ -6,6 +6,7 @@ class CreateAgentBots < ActiveRecord::Migration[6.0]
       t.string :name
       t.string :description
       t.string :outgoing_url
+      t.string :auth_token, unique: true
 
       t.timestamps
     end
