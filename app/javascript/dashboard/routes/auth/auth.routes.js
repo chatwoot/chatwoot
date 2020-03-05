@@ -36,6 +36,7 @@ export default {
           path: 'signup',
           name: 'auth_signup',
           component: Signup,
+          meta: { requireSignupEnabled: true },
         },
         {
           path: 'reset/password',

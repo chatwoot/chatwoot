@@ -38,7 +38,7 @@ Rails.application.routes.draw do
         resource :contact_merge, only: [:create]
       end
 
-      namespace :inbox do
+      namespace :account do
         resources :webhooks, except: [:show]
       end
 
@@ -101,6 +101,10 @@ Rails.application.routes.draw do
         collection do
           post :chargebee
         end
+      end
+
+      namespace :user do
+        resource :notification_settings, only: [:show, :update]
       end
     end
   end

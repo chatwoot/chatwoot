@@ -7,7 +7,7 @@ import FBChannel from '../../../api/channel/fbChannel';
 
 // actions
 const actions = {
-  fetchAllConversations: async ({ commit }, params) => {
+  fetchAllConversations: async ({ commit, dispatch }, params) => {
     commit(types.default.SET_LIST_LOADING_STATUS);
     try {
       const response = await ConversationApi.get(params);
@@ -16,6 +16,21 @@ const actions = {
       commit(types.default.SET_ALL_CONVERSATION, chatList);
       commit(types.default.SET_CONV_TAB_META, metaData);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      dispatch(
+        'conversationPage/setCurrentPage',
+        {
+          filter: params.assigneeType,
+          page: params.page,
+        },
+        { root: true }
+      );
+      if (!chatList.length) {
+        dispatch(
+          'conversationPage/setEndReached',
+          { filter: params.assigneeType },
+          { root: true }
+        );
+      }
     } catch (error) {
       // Handle error
     }

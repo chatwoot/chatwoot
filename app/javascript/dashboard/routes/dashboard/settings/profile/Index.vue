@@ -3,12 +3,12 @@
     <form @submit.prevent="updateUser">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3 ">
-          <p class="section--title">
+          <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
-          </p>
+          </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
         </div>
-        <div class="columns small-9">
+        <div class="columns small-9 medium-5">
           <label>
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL') }}
             <thumbnail size="80px" :src="avatarUrl"></thumbnail>
@@ -48,12 +48,12 @@
       </div>
       <div class="profile--settings--row row">
         <div class="columns small-3 ">
-          <p class="section--title">
+          <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
-          </p>
+          </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
         </div>
-        <div class="columns small-9">
+        <div class="columns small-9 medium-5">
           <label :class="{ error: $v.password.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
             <input
@@ -82,7 +82,7 @@
           </label>
         </div>
       </div>
-
+      <email-notifications />
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
@@ -100,9 +100,11 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
+import EmailNotifications from './EmailNotifications';
 
 export default {
   components: {
+    EmailNotifications,
     Thumbnail,
   },
   data() {
@@ -198,7 +200,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~dashboard/assets/scss/variables.scss';
 @import '~dashboard/assets/scss/mixins.scss';
 
@@ -209,16 +211,12 @@ export default {
 
 .profile--settings--row {
   @include border-normal-bottom;
-  padding: 16px;
+  padding: $space-normal;
   .small-3 {
-    padding: 16px 16px 16px 0;
+    padding: $space-normal $space-medium $space-normal 0;
   }
   .small-9 {
-    padding: 16px;
+    padding: $space-normal;
   }
-}
-
-.section--title {
-  color: $color-woot;
 }
 </style>

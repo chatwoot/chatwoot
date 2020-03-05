@@ -1,5 +1,7 @@
 get:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationDetails
   summary: Conversation Details
   description: Get all details regarding a conversation with all messages in the conversation
   parameters:

@@ -1,6 +1,7 @@
 class ApplicationMailer < ActionMailer::Base
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   layout 'mailer'
+  append_view_path Rails.root.join('app/views/mailers')
 
   # helpers
   helper :frontend_urls
