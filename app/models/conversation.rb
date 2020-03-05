@@ -121,6 +121,7 @@ class Conversation < ApplicationRecord
     return unless saved_change_to_assignee_id?
     return if assignee_id.blank?
     return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
+    return if bot?
 
     AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
   end
@@ -167,6 +168,7 @@ class Conversation < ApplicationRecord
   def run_round_robin
     return unless inbox.enable_auto_assignment
     return if assignee
+    return if bot?
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end
