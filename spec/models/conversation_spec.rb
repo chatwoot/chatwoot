@@ -226,6 +226,7 @@ RSpec.describe Conversation, type: :model do
     let(:conversation) { create(:conversation) }
     let(:expected_data) do
       {
+        additional_attributes: nil,
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee
