@@ -3,7 +3,7 @@ class Messages::Outgoing::NormalBuilder
 
   def initialize(user, conversation, params)
     @content = params[:message]
-    @private = ['1', 'true', 1, true].include? params[:private]
+    @private = params[:private] || false
     @conversation = conversation
     @user = user
     @fb_id = params[:fb_id]

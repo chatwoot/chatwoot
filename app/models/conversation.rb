@@ -34,7 +34,7 @@ class Conversation < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 
-  enum status: [:open, :resolved]
+  enum status: { open: 0, resolved: 1, bot: 2 }
 
   scope :latest, -> { order(created_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
@@ -49,6 +49,8 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy, autosave: true
 
   before_create :set_display_id, unless: :display_id?
+
+  before_create :set_bot_conversation
 
   after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
 
@@ -102,6 +104,10 @@ class Conversation < ApplicationRecord
 
   private
 
+  def set_bot_conversation
+    self.status = :bot if inbox.agent_bot_inbox&.active?
+  end
+
   def dispatch_events
     dispatcher_dispatch(CONVERSATION_RESOLVED)
   end
@@ -110,11 +116,18 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def notifiable_assignee_change?
+    return false if self_assign?(assignee_id)
+    return false unless saved_change_to_assignee_id?
+    return false if assignee_id.blank?
+
+    true
+  end
+
   def send_email_notification_to_assignee
-    return if self_assign?(assignee_id)
-    return unless saved_change_to_assignee_id?
-    return if assignee_id.blank?
+    return unless notifiable_assignee_change?
     return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
+    return if bot?
 
     AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
   end
@@ -161,6 +174,7 @@ class Conversation < ApplicationRecord
   def run_round_robin
     return unless inbox.enable_auto_assignment
     return if assignee
+    return if bot?
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end
