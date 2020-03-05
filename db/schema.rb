@@ -41,6 +41,23 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
     t.index ['key'], name: 'index_active_storage_blobs_on_key', unique: true
   end
 
+  create_table 'agent_bot_inboxes', force: :cascade do |t|
+    t.integer 'inbox_id'
+    t.integer 'agent_bot_id'
+    t.integer 'status', default: 0
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
+  create_table 'agent_bots', force: :cascade do |t|
+    t.string 'name'
+    t.string 'description'
+    t.string 'outgoing_url'
+    t.string 'auth_token'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+  end
+
   create_table 'attachments', id: :serial, force: :cascade do |t|
     t.integer 'file_type', default: 0
     t.string 'external_url'
