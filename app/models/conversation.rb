@@ -116,10 +116,16 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def notifiable_assignee_change?
+    return false if self_assign?(assignee_id)
+    return false unless saved_change_to_assignee_id?
+    return false if assignee_id.blank?
+
+    true
+  end
+
   def send_email_notification_to_assignee
-    return if self_assign?(assignee_id)
-    return unless saved_change_to_assignee_id?
-    return if assignee_id.blank?
+    return unless notifiable_assignee_change?
     return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
     return if bot?
 
