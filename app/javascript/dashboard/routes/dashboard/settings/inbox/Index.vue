@@ -39,6 +39,9 @@
                 <span v-if="item.channel_type === 'Channel::WebWidget'">
                   Website
                 </span>
+                <span v-if="item.channel_type === 'Channel::TwitterProfile'">
+                  Twitter
+                </span>
               </td>
 
               <!-- Action Buttons -->

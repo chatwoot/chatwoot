@@ -39,10 +39,16 @@ class Twitter::SendReplyService
   end
 
   def send_tweet_reply
-    twitter_client.send_tweet_reply(
+    response = twitter_client.send_tweet_reply(
       reply_to_tweet_id: conversation.additional_attributes['tweet_id'],
       tweet: screen_name + message.content
     )
+    if response.status == '200'
+      tweet_data = response.body
+      message.update!(source_id: tweet_data['id_str'])
+    else
+      Rails.logger 'TWITTER_TWEET_REPLY_ERROR' + response.body
+    end
   end
 
   def send_reply
