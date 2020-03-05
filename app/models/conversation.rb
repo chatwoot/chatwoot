@@ -50,6 +50,8 @@ class Conversation < ApplicationRecord
 
   before_create :set_display_id, unless: :display_id?
 
+  before_create :set_bot_conversation
+
   after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
 
   after_create :send_events, :run_round_robin
@@ -101,6 +103,10 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def set_bot_conversation
+    self.status = :bot if inbox.agent_bot_inbox&.active?
+  end
 
   def dispatch_events
     dispatcher_dispatch(CONVERSATION_RESOLVED)

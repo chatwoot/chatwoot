@@ -42,10 +42,6 @@ Rails.application.routes.draw do
         resources :webhooks, except: [:show]
       end
 
-      namespace :agent_bot do
-        resources :messages, only: [:create]
-      end
-
       resource :profile, only: [:show, :update]
       resources :accounts, only: [:create]
       resources :inboxes, only: [:index, :destroy, :update]
