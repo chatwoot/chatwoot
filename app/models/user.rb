@@ -69,7 +69,7 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
 
-  after_create :notify_creation, :create_notification_setting
+  after_create :notify_creation
 
   after_destroy :notify_deletion
 
@@ -118,7 +118,7 @@ class User < ApplicationRecord
   end
 
   def create_notification_setting
-    setting = notification_settings.new(account_id: account_id)
+    setting = notification_settings.new(account_id: account.id)
     setting.selected_email_flags = [:conversation_assignment]
     setting.save!
   end

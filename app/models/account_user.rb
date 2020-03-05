@@ -30,5 +30,13 @@ class AccountUser < ApplicationRecord
   enum role: { agent: 0, administrator: 1 }
   accepts_nested_attributes_for :account
 
+  after_create :create_notification_setting
+
   validates :user_id, uniqueness: { scope: :account_id }
+
+  def create_notification_setting
+    setting = user.notification_settings.new(account_id: account.id)
+    setting.selected_email_flags = [:conversation_assignment]
+    setting.save!
+  end
 end

@@ -47,7 +47,7 @@ class AccountBuilder
                      password_confirmation: password,
                      name: email_to_name(@email))
     if @user.save!
-      link_user_to_account(user, @account)
+      link_user_to_account(@user, @account)
       @user
     else
       raise UserErrors.new(errors: @user.errors)
