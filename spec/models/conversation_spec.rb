@@ -257,4 +257,13 @@ RSpec.describe Conversation, type: :model do
       expect(lock_event_data).to eq(id: 505, locked: false)
     end
   end
+
+  describe '#botinbox: when conversation created inside inbox with agent bot' do
+    let!(:bot_inbox) { create(:agent_bot_inbox) }
+    let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
+
+    it 'returns conversation status as bot' do
+      expect(conversation.status).to eq('bot')
+    end
+  end
 end

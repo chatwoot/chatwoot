@@ -16,6 +16,7 @@
   - [low, 1]
   - [mailers, 2]
   - [webhooks, 1]
+  - [bots, 1]
 
 # you can override concurrency based on environment
 production:

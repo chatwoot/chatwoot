@@ -23,6 +23,9 @@ RSpec.describe Inbox do
     it { is_expected.to have_many(:conversations).dependent(:destroy) }
 
     it { is_expected.to have_many(:messages).through(:conversations) }
+
+    it { is_expected.to have_one(:agent_bot_inbox) }
+
     it { is_expected.to have_many(:webhooks).dependent(:destroy) }
   end
 
