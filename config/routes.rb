@@ -19,7 +19,27 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      scope 'account/:account_id', as: 'account' do
+      resources :accounts, only: [:create]
+
+      # ----------------------------------
+      # start of account scoped api routes
+
+      scope 'account/:account_id', as: 'account', module: 'account' do
+        namespace :actions do
+          resource :contact_merge, only: [:create]
+        end
+
+        resources :agents, except: [:show, :edit, :new]
+        resources :callbacks, only: [] do
+          collection do
+            post :register_facebook_page
+            get :register_facebook_page
+            post :facebook_pages
+            post :reauthorize_page
+          end
+        end
+        resources :canned_responses, except: [:show, :edit, :new]
+
         resources :conversations, only: [:index, :show] do
           scope module: :conversations do # for nested controller
             resources :messages, only: [:create]
@@ -31,16 +51,56 @@ Rails.application.routes.draw do
             post :update_last_seen
           end
         end
+
+        resources :contacts, only: [:index, :show, :update, :create] do
+          scope module: :contacts do
+            resources :conversations, only: [:index]
+          end
+        end
+
+        resources :facebook_indicators, only: [] do
+          collection do
+            post :mark_seen
+            post :typing_on
+            post :typing_off
+          end
+        end
+
+        resources :inboxes, only: [:index, :destroy, :update]
+        resources :inbox_members, only: [:create, :show], param: :inbox_id
+        resources :labels, only: [:index] do
+          collection do
+            get :most_used
+          end
+        end
+
+        resource :notification_settings, only: [:show, :update]
+
+        resources :reports, only: [] do
+          collection do
+            get :account
+            get :agent
+          end
+          member do
+            get :account_summary
+            get :agent_summary
+          end
+        end
+
+        # this block is only required if subscription via chargebee is enabled
+        resources :subscriptions, only: [:index] do
+          collection do
+            get :summary
+          end
+        end
+
+        resources :webhooks, except: [:show]
       end
 
-      resources :callbacks, only: [] do
-        collection do
-          post :register_facebook_page
-          get :register_facebook_page
-          post :get_facebook_pages
-          post :reauthorize_page
-        end
-      end
+      # end of account scoped api routes
+      # ----------------------------------
+
+      resource :profile, only: [:show, :update]
 
       namespace :widget do
         resources :messages, only: [:index, :create, :update]
@@ -48,65 +108,10 @@ Rails.application.routes.draw do
         resources :inbox_members, only: [:index]
       end
 
-      namespace :actions do
-        resource :contact_merge, only: [:create]
-      end
-
-      namespace :account do
-        resources :webhooks, except: [:show]
-      end
-
-      resource :profile, only: [:show, :update]
-      resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy, :update]
-      resources :agents, except: [:show, :edit, :new]
-      resources :labels, only: [:index] do
-        collection do
-          get :most_used
-        end
-      end
-      resources :canned_responses, except: [:show, :edit, :new]
-      resources :inbox_members, only: [:create, :show], param: :inbox_id
-      resources :facebook_indicators, only: [] do
-        collection do
-          post :mark_seen
-          post :typing_on
-          post :typing_off
-        end
-      end
-
-      resources :reports, only: [] do
-        collection do
-          get :account
-          get :agent
-        end
-        member do
-          get :account_summary
-          get :agent_summary
-        end
-      end
-
-      resources :contacts, only: [:index, :show, :update, :create] do
-        scope module: :contacts do
-          resources :conversations, only: [:index]
-        end
-      end
-
-      # this block is only required if subscription via chargebee is enabled
-      resources :subscriptions, only: [:index] do
-        collection do
-          get :summary
-        end
-      end
-
       resources :webhooks, only: [] do
         collection do
           post :chargebee
         end
-      end
-
-      namespace :user do
-        resource :notification_settings, only: [:show, :update]
       end
     end
   end
