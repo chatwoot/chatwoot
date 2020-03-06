@@ -35,7 +35,7 @@ class AccountUser < ApplicationRecord
   validates :user_id, uniqueness: { scope: :account_id }
 
   def create_notification_setting
-    setting = user.notification_settings.new(account_id: account.id)
+    setting = user.notification_settings.find_or_initialize_by(account_id: account.id)
     setting.selected_email_flags = [:conversation_assignment]
     setting.save!
   end
