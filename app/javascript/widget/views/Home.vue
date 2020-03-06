@@ -79,6 +79,7 @@ export default {
     flex-shrink: 0;
     border-radius: $space-normal;
     background: white;
+    z-index: 99;
     @include shadow-large;
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {

@@ -131,6 +131,8 @@ const IFrameHelper = {
     body.appendChild(holder);
     IFrameHelper.initPostMessageCommunication();
     IFrameHelper.initLocationListener();
+    IFrameHelper.initWindowSizeListener();
+    IFrameHelper.toggleCloseButton();
   },
   getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
   sendMessage: (key, value) => {
@@ -173,6 +175,11 @@ const IFrameHelper = {
       IFrameHelper.setCurrentUrl();
     };
   },
+  initWindowSizeListener: () => {
+    wootOn(window, 'resize', () => {
+      IFrameHelper.toggleCloseButton();
+    });
+  },
   onLoad: ({ widget_color: widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
@@ -204,6 +211,13 @@ const IFrameHelper = {
     IFrameHelper.sendMessage('set-current-url', {
       refererURL: window.location.href,
     });
+  },
+  toggleCloseButton: () => {
+    if (window.matchMedia('(max-width: 668px)').matches) {
+      IFrameHelper.sendMessage('toggle-close-button', { showClose: true });
+    } else {
+      IFrameHelper.sendMessage('toggle-close-button', { showClose: false });
+    }
   },
 };
 

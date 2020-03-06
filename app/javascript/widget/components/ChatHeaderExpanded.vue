@@ -1,22 +1,22 @@
 <template>
   <header class="header-expanded">
-    <div>
-      <!-- <img
+    <!-- <img
         class="logo"
         src="http://www.hennigcompany.com/wp-content/uploads/2014/06/starbucks-logo.png"
       /> -->
-      <h2 class="title">
-        {{ introHeading }}
-      </h2>
-      <p class="body">
-        {{ introBody }}
-      </p>
-    </div>
+    <span class="close" @click="closeWindow"></span>
+    <h2 class="title">
+      {{ introHeading }}
+    </h2>
+    <p class="body">
+      {{ introBody }}
+    </p>
   </header>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   name: 'ChatHeaderExpanded',
@@ -36,9 +36,25 @@ export default {
         'We make it simple to connect with us. Ask us anything, or share your feedback.',
     },
   },
+  methods: {
+    closeWindow() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'toggleBubble',
+        });
+      }
+    },
+  },
 };
 </script>
 
+<style lang="scss">
+.is-mobile {
+  .close {
+    display: block !important;
+  }
+}
+</style>
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
@@ -47,12 +63,38 @@ export default {
   padding: $space-larger $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 
   .logo {
     width: 64px;
     height: 64px;
   }
 
+  .close {
+    cursor: pointer;
+    position: absolute;
+    right: $space-medium;
+    top: $space-medium;
+    width: $space-two;
+    display: none;
+
+    &:before,
+    &:after {
+      position: absolute;
+      left: $space-small;
+      top: $space-smaller;
+      content: ' ';
+      height: $space-normal;
+      width: 2px;
+      background-color: $color-heading;
+    }
+    &:before {
+      transform: rotate(45deg);
+    }
+    &:after {
+      transform: rotate(-45deg);
+    }
+  }
   .title {
     color: $color-heading;
     font-size: $font-size-mega;
