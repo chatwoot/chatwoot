@@ -6,7 +6,7 @@ RSpec.describe 'Conversations API', type: :request do
   describe 'GET /api/v1/conversations' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get '/api/v1/conversations'
+        get "/api/v1/account/#{account.id}/conversations"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -21,7 +21,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'returns all conversations' do
-        get '/api/v1/conversations',
+        get "/api/v1/account/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -36,7 +36,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v1/conversations/#{conversation.display_id}"
+        get "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -46,7 +46,7 @@ RSpec.describe 'Conversations API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'shows the conversation' do
-        get "/api/v1/conversations/#{conversation.display_id}",
+        get "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}",
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -61,7 +61,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/api/v1/conversations/#{conversation.display_id}/toggle_status"
+        post "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}/toggle_status"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -73,7 +73,7 @@ RSpec.describe 'Conversations API', type: :request do
       it 'toggles the conversation status' do
         expect(conversation.status).to eq('open')
 
-        post "/api/v1/conversations/#{conversation.display_id}/toggle_status",
+        post "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
              as: :json
 
@@ -88,7 +88,7 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post "/api/v1/conversations/#{conversation.display_id}/update_last_seen"
+        post "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}/update_last_seen"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -100,7 +100,7 @@ RSpec.describe 'Conversations API', type: :request do
       it 'updates last seen' do
         params = { agent_last_seen_at: '-1' }
 
-        post "/api/v1/conversations/#{conversation.display_id}/update_last_seen",
+        post "/api/v1/account/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              params: params,
              as: :json

@@ -8,7 +8,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        post api_v1_conversation_assignments_url(conversation.display_id)
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id)
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -20,7 +20,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       it 'assigns a user to the conversation' do
         params = { assignee_id: agent.id }
 
-        post api_v1_conversation_assignments_url(conversation.display_id),
+        post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
              headers: agent.create_new_auth_token,
              as: :json

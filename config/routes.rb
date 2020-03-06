@@ -19,6 +19,20 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      scope 'account/:account_id', as: 'account' do
+        resources :conversations, only: [:index, :show] do
+          scope module: :conversations do # for nested controller
+            resources :messages, only: [:create]
+            resources :assignments, only: [:create]
+            resources :labels, only: [:create, :index]
+          end
+          member do
+            post :toggle_status
+            post :update_last_seen
+          end
+        end
+      end
+
       resources :callbacks, only: [] do
         collection do
           post :register_facebook_page
@@ -72,18 +86,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :conversations, only: [:index, :show] do
-        scope module: :conversations do # for nested controller
-          resources :messages, only: [:create]
-          resources :assignments, only: [:create]
-          resources :labels, only: [:create, :index]
-        end
-        member do
-          post :toggle_status
-          post :update_last_seen
-        end
-      end
-
       resources :contacts, only: [:index, :show, :update, :create] do
         scope module: :contacts do
           resources :conversations, only: [:index]
@@ -114,17 +116,19 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  # ----------------------------------------------------------------------
   # Used in mailer templates
   resource :app, only: [:index] do
     resources :conversations, only: [:show]
   end
 
+  # ----------------------------------------------------------------------
+  # Routes for social integrations
   mount Facebook::Messenger::Server, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
-  post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
-
+  # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
@@ -147,8 +151,8 @@ Rails.application.routes.draw do
 
     mount Sidekiq::Web, at: '/sidekiq'
   end
-  # ----------------------------------------------------------------------
 
+  # ---------------------------------------------------------------------
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
