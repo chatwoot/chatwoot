@@ -85,6 +85,7 @@ export default {
     .avatar-wrap {
       height: $space-medium;
       width: $space-medium;
+      flex-shrink: 0;
 
       .user-thumbnail-box {
         margin-top: -$space-large;
