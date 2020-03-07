@@ -31,12 +31,18 @@ class AccountUser < ApplicationRecord
   accepts_nested_attributes_for :account
 
   after_create :create_notification_setting
+  after_destroy :destroy_notification_setting
 
   validates :user_id, uniqueness: { scope: :account_id }
 
   def create_notification_setting
-    setting = user.notification_settings.find_or_initialize_by(account_id: account.id)
+    setting = user.notification_settings.new(account_id: account.id)
     setting.selected_email_flags = [:conversation_assignment]
     setting.save!
+  end
+
+  def destroy_notification_setting
+    setting = user.notification_settings.new(account_id: account.id)
+    setting.destroy!
   end
 end
