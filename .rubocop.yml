@@ -41,6 +41,9 @@ RSpec/NestedGroups:
   Max: 4
 RSpec/MessageSpies:
   Enabled: false
+Rails/BulkChangeTable:
+  Exclude:
+    - 'db/migrate/20200121190901_create_account_users.rb'
 AllCops:
   Exclude:
     - db/*

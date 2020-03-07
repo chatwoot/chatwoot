@@ -42,16 +42,24 @@ class AccountBuilder
 
   def create_and_link_user
     password = Time.now.to_i
-    @user = @account.users.new(email: @email,
-                               password: password,
-                               password_confirmation: password,
-                               role: User.roles['administrator'],
-                               name: email_to_name(@email))
+    @user = User.new(email: @email,
+                     password: password,
+                     password_confirmation: password,
+                     name: email_to_name(@email))
     if @user.save!
+      link_user_to_account(@user, @account)
       @user
     else
       raise UserErrors.new(errors: @user.errors)
     end
+  end
+
+  def link_user_to_account(user, account)
+    AccountUser.create!(
+      account_id: account.id,
+      user_id: user.id,
+      role: AccountUser.roles['administrator']
+    )
   end
 
   def email_to_name(email)
