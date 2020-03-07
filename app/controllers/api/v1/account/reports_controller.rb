@@ -47,14 +47,16 @@ class Api::V1::Account::ReportsController < Api::BaseController
   def summary_metrics(metrics, calc_function, avg_metrics)
     metrics.each_with_object({}) do |metric, result|
       data = ReportBuilder.new(current_account, send(calc_function, metric)).build
-
-      sum = data.inject(0) { |val, hash| val + hash[:value].to_i }
-      if avg_metrics.include?(metric)
-        sum /= data.length unless sum.zero?
-      end
-
-      result[metric] = sum
+      result[metric] = calculate_metric(data, metric, avg_metrics)
     end
+  end
+
+  def calculate_metric(data, metric, avg_metrics)
+    sum = data.inject(0) { |val, hash| val + hash[:value].to_i }
+    if avg_metrics.include?(metric)
+      sum /= data.length unless sum.zero?
+    end
+    sum
   end
 
   def account_summary_params(metric)
