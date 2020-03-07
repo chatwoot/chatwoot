@@ -4,7 +4,7 @@
         class="logo"
         src=""
       /> -->
-    <span class="close" @click="closeWindow"></span>
+    <span class="close close-button" @click="closeWindow"></span>
     <h2 class="title">
       {{ introHeading }}
     </h2>
@@ -48,13 +48,6 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.is-mobile {
-  .close {
-    display: block !important;
-  }
-}
-</style>
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
@@ -71,29 +64,10 @@ export default {
   }
 
   .close {
-    cursor: pointer;
     position: absolute;
     right: $space-medium;
     top: $space-medium;
-    width: $space-two;
     display: none;
-
-    &:before,
-    &:after {
-      position: absolute;
-      left: $space-small;
-      top: $space-smaller;
-      content: ' ';
-      height: $space-normal;
-      width: 2px;
-      background-color: $color-heading;
-    }
-    &:before {
-      transform: rotate(45deg);
-    }
-    &:after {
-      transform: rotate(-45deg);
-    }
   }
   .title {
     color: $color-heading;

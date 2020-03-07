@@ -82,7 +82,7 @@ linters:
     enabled: true
 
   ImportantRule:
-    enabled: true
+    enabled: false
 
   ImportPath:
     enabled: true
