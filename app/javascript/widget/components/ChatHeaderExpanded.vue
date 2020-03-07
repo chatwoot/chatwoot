@@ -2,7 +2,7 @@
   <header class="header-expanded">
     <!-- <img
         class="logo"
-        src="http://www.hennigcompany.com/wp-content/uploads/2014/06/starbucks-logo.png"
+        src=""
       /> -->
     <span class="close" @click="closeWindow"></span>
     <h2 class="title">
