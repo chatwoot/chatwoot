@@ -19,27 +19,19 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :integer          default("agent")
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  account_id             :integer          not null
-#  inviter_id             :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email)
-#  index_users_on_inviter_id            (inviter_id)
 #  index_users_on_pubsub_token          (pubsub_token) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (inviter_id => users.id) ON DELETE => nullify
 #
 
 class User < ApplicationRecord
@@ -62,25 +54,23 @@ class User < ApplicationRecord
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
-  validates :email, :name, :account_id, presence: true
+  validates :email, :name, presence: true
 
-  enum role: [:agent, :administrator]
-
-  belongs_to :account
-  belongs_to :inviter, class_name: 'User', required: false
-  has_many :invitees, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
+  has_many :account_users, dependent: :destroy
+  has_many :accounts, through: :account_users
+  accepts_nested_attributes_for :account_users
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   has_many :inbox_members, dependent: :destroy
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
+  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
   has_many :notification_settings, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
 
-  accepts_nested_attributes_for :account
+  after_create :notify_creation
 
-  after_create :notify_creation, :create_notification_setting
   after_destroy :notify_deletion
 
   def send_devise_notification(notification, *args)
@@ -89,6 +79,32 @@ class User < ApplicationRecord
 
   def set_password_and_uid
     self.uid = email
+  end
+
+  def account_user
+    # FIXME : temporary hack to transition over to multiple accounts per user
+    # We should be fetching the current account user relationship here.
+    account_users&.first
+  end
+
+  def account
+    account_user&.account
+  end
+
+  def administrator?
+    account_user&.administrator?
+  end
+
+  def agent?
+    account_user&.agent?
+  end
+
+  def role
+    account_user&.role
+  end
+
+  def inviter
+    account_user&.inviter
   end
 
   def serializable_hash(options = nil)
@@ -102,7 +118,7 @@ class User < ApplicationRecord
   end
 
   def create_notification_setting
-    setting = notification_settings.new(account_id: account_id)
+    setting = notification_settings.new(account_id: account.id)
     setting.selected_email_flags = [:conversation_assignment]
     setting.save!
   end
