@@ -132,7 +132,6 @@ const IFrameHelper = {
     IFrameHelper.initPostMessageCommunication();
     IFrameHelper.initLocationListener();
     IFrameHelper.initWindowSizeListener();
-    IFrameHelper.toggleCloseButton();
   },
   getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
   sendMessage: (key, value) => {
@@ -148,6 +147,7 @@ const IFrameHelper = {
       IFrameHelper.sendMessage('config-set', {});
       IFrameHelper.onLoad(message.config.channelConfig);
       IFrameHelper.setCurrentUrl();
+      IFrameHelper.toggleCloseButton();
     },
     set_auth_token: message => {
       Cookies.set('cw_conversation', message.authToken);
@@ -213,6 +213,7 @@ const IFrameHelper = {
     });
   },
   toggleCloseButton: () => {
+    console.log(window.matchMedia('(max-width: 668px)'));
     if (window.matchMedia('(max-width: 668px)').matches) {
       IFrameHelper.sendMessage('toggle-close-button', { showClose: true });
     } else {
