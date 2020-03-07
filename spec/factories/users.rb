@@ -4,6 +4,9 @@ FactoryBot.define do
   factory :user do
     transient do
       skip_confirmation { true }
+      role { 'agent' }
+      account { nil }
+      inviter { nil }
     end
 
     provider { 'email' }
@@ -11,12 +14,11 @@ FactoryBot.define do
     name { Faker::Name.name }
     nickname { Faker::Name.first_name }
     email { nickname + '@example.com' }
-    role { 'agent' }
     password { 'password' }
-    account
 
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.skip_confirmation
+      create(:account_user, user: user, account: evaluator.account, role: evaluator.role, inviter: evaluator.inviter) if evaluator.account
     end
 
     trait :with_avatar do
