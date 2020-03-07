@@ -14,6 +14,18 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
+  create_table 'account_users', force: :cascade do |t|
+    t.bigint 'account_id'
+    t.bigint 'user_id'
+    t.integer 'role', default: 0
+    t.bigint 'inviter_id'
+    t.datetime 'created_at', precision: 6, null: false
+    t.datetime 'updated_at', precision: 6, null: false
+    t.index %w[account_id user_id], name: 'uniq_user_id_per_account_id', unique: true
+    t.index ['account_id'], name: 'index_account_users_on_account_id'
+    t.index ['user_id'], name: 'index_account_users_on_user_id'
+  end
+
   create_table 'accounts', id: :serial, force: :cascade do |t|
     t.string 'name', null: false
     t.datetime 'created_at', null: false
@@ -230,11 +242,9 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
     t.index %w[taggable_id taggable_type context], name: 'index_taggings_on_taggable_id_and_taggable_type_and_context'
     t.index %w[taggable_id taggable_type tagger_id context], name: 'taggings_idy'
     t.index ['taggable_id'], name: 'index_taggings_on_taggable_id'
-    t.index %w[taggable_type taggable_id], name: 'index_taggings_on_taggable_type_and_taggable_id'
     t.index ['taggable_type'], name: 'index_taggings_on_taggable_type'
     t.index %w[tagger_id tagger_type], name: 'index_taggings_on_tagger_id_and_tagger_type'
     t.index ['tagger_id'], name: 'index_taggings_on_tagger_id'
-    t.index %w[tagger_type tagger_id], name: 'index_taggings_on_tagger_type_and_tagger_id'
   end
 
   create_table 'tags', id: :serial, force: :cascade do |t|
@@ -271,14 +281,10 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
     t.string 'nickname'
     t.string 'email'
     t.json 'tokens'
-    t.integer 'account_id', null: false
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.string 'pubsub_token'
-    t.integer 'role', default: 0
-    t.bigint 'inviter_id'
     t.index ['email'], name: 'index_users_on_email'
-    t.index ['inviter_id'], name: 'index_users_on_inviter_id'
     t.index ['pubsub_token'], name: 'index_users_on_pubsub_token', unique: true
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
     t.index %w[uid provider], name: 'index_users_on_uid_and_provider', unique: true
@@ -293,10 +299,11 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
     t.integer 'webhook_type', default: 0
   end
 
+  add_foreign_key 'account_users', 'accounts'
+  add_foreign_key 'account_users', 'users'
   add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
   add_foreign_key 'contact_inboxes', 'contacts'
   add_foreign_key 'contact_inboxes', 'inboxes'
   add_foreign_key 'conversations', 'contact_inboxes'
   add_foreign_key 'messages', 'contacts'
-  add_foreign_key 'users', 'users', column: 'inviter_id', on_delete: :nullify
 end
