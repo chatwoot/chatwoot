@@ -19,6 +19,11 @@ class CreateAccountUsers < ActiveRecord::Migration[6.0]
     ::User.find_in_batches.each do |users|
       users.each do |user|
         account_user = ::AccountUser.find_by(account_id: user.account_id, user_id: user.id, role: user.role)
+
+        notification_setting = ::NotificationSetting.find_by(account_id: user.account_id, user_id: user.id)
+        selected_email_flags = notification_setting.selected_email_flags
+        notification_setting.destroy!
+
         next if account_user.present?
 
         ::AccountUser.create!(
@@ -27,6 +32,10 @@ class CreateAccountUsers < ActiveRecord::Migration[6.0]
           role: user[:role], # since we are overriding role method, lets fetch value from attribute
           inviter_id: user.inviter_id
         )
+
+        updated_notification_setting = ::NotificationSetting.find_by(account_id: user.account_id, user_id: user.id)
+        updated_notification_setting.selected_email_flags = selected_email_flags
+        updated_notification_setting.save!
       end
     end
   end
