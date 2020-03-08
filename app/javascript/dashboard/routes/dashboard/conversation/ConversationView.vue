@@ -58,6 +58,7 @@ export default {
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
+      this.fetchConversation();
       this.setActiveChat();
     });
   },
@@ -81,13 +82,28 @@ export default {
           break;
         default:
           this.$store.dispatch('setActiveInbox', null);
+          this.$store.dispatch('clearSelectedState');
           break;
       }
     },
 
-    setActiveChat() {
+    fetchConversation() {
+      if (!this.conversationId) {
+        return;
+      }
+      const chat = this.findConversation();
+      if (!chat) {
+        this.$store.dispatch('getConversation', this.conversationId);
+      }
+    },
+    findConversation() {
       const conversationId = parseInt(this.conversationId, 10);
       const [chat] = this.chatList.filter(c => c.id === conversationId);
+      return chat;
+    },
+
+    setActiveChat() {
+      const chat = this.findConversation();
       if (!chat) return;
       this.$store.dispatch('setActiveChat', chat).then(() => {
         bus.$emit('scrollToMessage');
