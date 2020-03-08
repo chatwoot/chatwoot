@@ -1,5 +1,7 @@
 post:
-  tags: [Conversation]
+  tags:
+    - Conversation
+  operationId: conversationAssignment
   summary: Assign Conversation
   description: Assign a conversation to an agent
   parameters:

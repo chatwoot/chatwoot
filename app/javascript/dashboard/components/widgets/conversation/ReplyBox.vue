@@ -33,14 +33,18 @@
     <div class="reply-box__bottom">
       <ul class="tabs">
         <li class="tabs-title" :class="{ 'is-active': !isPrivate }">
-          <a href="#" @click="makeReply">Reply</a>
+          <a href="#" @click="makeReply">{{
+            $t('CONVERSATION.REPLYBOX.REPLY')
+          }}</a>
         </li>
         <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
-          <a href="#" @click="makePrivate">Private Note</a>
+          <a href="#" @click="makePrivate">{{
+            $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')
+          }}</a>
         </li>
         <li v-if="message.length" class="tabs-title message-length">
-          <a :class="{ 'message-error': message.length > 620 }">
-            {{ message.length }} / 640
+          <a :class="{ 'message-error': message.length > maxLength - 40 }">
+            {{ message.length }} / {{ maxLength }}
           </a>
         </li>
       </ul>
@@ -49,16 +53,12 @@
         class="button send-button"
         :disabled="disableButton()"
         :class="{
-          disabled: message.length === 0 || message.length > 640,
+          disabled: message.length === 0 || message.length > maxLength,
           warning: isPrivate,
         }"
         @click="sendMessage"
       >
-        {{
-          isPrivate
-            ? $t('CONVERSATION.REPLYBOX.CREATE')
-            : $t('CONVERSATION.REPLYBOX.SEND')
-        }}
+        {{ replyButtonLabel }}
         <i
           class="icon"
           :class="{
@@ -82,6 +82,10 @@ import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 
 export default {
+  components: {
+    EmojiInput,
+    CannedResponse,
+  },
   mixins: [clickaway],
   data() {
     return {
@@ -103,10 +107,32 @@ export default {
       } = this.currentChat;
       return channel;
     },
-  },
-  components: {
-    EmojiInput,
-    CannedResponse,
+    conversationType() {
+      const {
+        additional_attributes: additionalAttributes = {},
+      } = this.currentChat;
+      return additionalAttributes.type || '';
+    },
+    maxLength() {
+      if (this.channelType === 'Channel::FacebookPage') {
+        return 640;
+      }
+      if (this.channelType === 'Channel::TwitterProfile') {
+        if (this.conversationType === 'tweet') {
+          return 280;
+        }
+      }
+      return 10000;
+    },
+    replyButtonLabel() {
+      if (this.isPrivate) {
+        return this.$t('CONVERSATION.REPLYBOX.CREATE');
+      }
+      if (this.conversationType === 'tweet') {
+        return this.$t('CONVERSATION.REPLYBOX.TWEET');
+      }
+      return this.$t('CONVERSATION.REPLYBOX.SEND');
+    },
   },
   watch: {
     message(val) {
