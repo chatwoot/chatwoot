@@ -7,6 +7,15 @@ import FBChannel from '../../../api/channel/fbChannel';
 
 // actions
 const actions = {
+  getConversation: async ({ commit }, conversationId) => {
+    try {
+      const response = await ConversationApi.show(conversationId);
+      commit(types.default.ADD_CONVERSATION, response.data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
   fetchAllConversations: async ({ commit, dispatch }, params) => {
     commit(types.default.SET_LIST_LOADING_STATUS);
     try {
