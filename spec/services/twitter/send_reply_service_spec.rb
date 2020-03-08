@@ -4,6 +4,7 @@ describe Twitter::SendReplyService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   let(:twitter_client) { instance_double(::Twitty::Facade) }
+  let(:twitter_response) { instance_double(::Twitty::Response) }
   let(:account) { create(:account) }
   let(:widget_inbox) { create(:inbox, account: account) }
   let(:twitter_channel) { create(:channel_twitter_profile, account: account) }
@@ -32,7 +33,9 @@ describe Twitter::SendReplyService do
   before do
     allow(::Twitty::Facade).to receive(:new).and_return(twitter_client)
     allow(twitter_client).to receive(:send_direct_message).and_return(true)
-    allow(twitter_client).to receive(:send_tweet_reply).and_return(true)
+    allow(twitter_client).to receive(:send_tweet_reply).and_return(twitter_response)
+    allow(twitter_response).to receive(:status).and_return('200')
+    allow(twitter_response).to receive(:body).and_return(JSON.parse({ id_str: '12345' }.to_json))
   end
 
   describe '#perform' do
@@ -61,14 +64,15 @@ describe Twitter::SendReplyService do
     context 'with reply' do
       it 'if conversation is a direct message' do
         create(:message, message_type: :incoming, inbox: twitter_inbox, account: account, conversation: dm_conversation)
-        create(:message, message_type: 'outgoing', inbox: twitter_inbox, account: account, conversation: dm_conversation)
+        create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: dm_conversation)
         expect(twitter_client).to have_received(:send_direct_message)
       end
 
       it 'if conversation is a tweet' do
         create(:message, message_type: :incoming, inbox: twitter_inbox, account: account, conversation: tweet_conversation)
-        create(:message, message_type: 'outgoing', inbox: twitter_inbox, account: account, conversation: tweet_conversation)
+        tweet = create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: tweet_conversation)
         expect(twitter_client).to have_received(:send_tweet_reply)
+        expect(tweet.reload.source_id).to eq '12345'
       end
     end
   end
