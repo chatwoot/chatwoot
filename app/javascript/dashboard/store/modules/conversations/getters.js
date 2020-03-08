@@ -33,12 +33,13 @@ const getters = {
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
   getAllMessagesLoaded(_state) {
     const [chat] = getSelectedChatConversation(_state);
-    return chat.allMessagesLoaded === undefined
+    return !chat || chat.allMessagesLoaded === undefined
       ? false
       : chat.allMessagesLoaded;
   },
   getUnreadCount(_state) {
     const [chat] = getSelectedChatConversation(_state);
+    if (!chat) return [];
     return chat.messages.filter(
       chatMessage =>
         chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&

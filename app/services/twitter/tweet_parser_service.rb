@@ -3,16 +3,9 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
 
   def perform
     set_inbox
-    find_or_create_contact(user)
-    set_conversation
-    @conversation.messages.create(
-      account_id: @inbox.account_id,
-      contact_id: @contact.id,
-      content: tweet_text,
-      inbox_id: @inbox.id,
-      message_type: message_type,
-      source_id: tweet_data['id'].to_s
-    )
+    return if message_already_exist?
+
+    create_message
   end
 
   private
@@ -35,6 +28,10 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
 
   def user
     tweet_data['user']
+  end
+
+  def tweet_id
+    tweet_data['id'].to_s
   end
 
   def parent_tweet_id
@@ -65,5 +62,22 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
+  end
+
+  def message_already_exist?
+    @inbox.messages.find_by(source_id: tweet_id)
+  end
+
+  def create_message
+    find_or_create_contact(user)
+    set_conversation
+    @conversation.messages.create(
+      account_id: @inbox.account_id,
+      contact_id: @contact.id,
+      content: tweet_text,
+      inbox_id: @inbox.id,
+      message_type: message_type,
+      source_id: tweet_id
+    )
   end
 end

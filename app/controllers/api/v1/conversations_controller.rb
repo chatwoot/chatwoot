@@ -7,9 +7,7 @@ class Api::V1::ConversationsController < Api::BaseController
     @conversations_count = result[:count]
   end
 
-  def show
-    @messages = messages_finder.perform
-  end
+  def show; end
 
   def toggle_status
     @status = @conversation.toggle_status
@@ -33,9 +31,5 @@ class Api::V1::ConversationsController < Api::BaseController
 
   def conversation_finder
     @conversation_finder ||= ConversationFinder.new(current_user, params)
-  end
-
-  def messages_finder
-    @message_finder ||= MessageFinder.new(@conversation, params)
   end
 end
