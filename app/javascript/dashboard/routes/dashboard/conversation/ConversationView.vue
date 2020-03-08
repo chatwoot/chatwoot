@@ -82,6 +82,7 @@ export default {
           break;
         default:
           this.$store.dispatch('setActiveInbox', null);
+          this.$store.dispatch('clearSelectedState');
           break;
       }
     },
