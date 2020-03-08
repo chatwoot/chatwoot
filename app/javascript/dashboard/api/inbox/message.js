@@ -15,7 +15,7 @@ class MessageApi extends ApiClient {
   }
 
   getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}`, {
+    return axios.get(`${this.url}/${conversationId}/messages`, {
       params: { before },
     });
   }

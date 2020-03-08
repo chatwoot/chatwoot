@@ -28,7 +28,7 @@ export default {
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => {
-        return { conversationId: route.params.conversation_id };
+        return { inboxId: 0, conversationId: route.params.conversation_id };
       },
     },
     {

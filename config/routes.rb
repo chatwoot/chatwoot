@@ -41,8 +41,8 @@ Rails.application.routes.draw do
         resources :canned_responses, except: [:show, :edit, :new]
 
         resources :conversations, only: [:index, :show] do
-          scope module: :conversations do # for nested controller
-            resources :messages, only: [:create]
+          scope module: :conversations do
+            resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
             resources :labels, only: [:create, :index]
           end

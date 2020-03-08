@@ -39,9 +39,7 @@ const getters = {
   },
   getUnreadCount(_state) {
     const [chat] = getSelectedChatConversation(_state);
-    if (!chat) {
-      return [];
-    }
+    if (!chat) return [];
     return chat.messages.filter(
       chatMessage =>
         chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
