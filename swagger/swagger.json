@@ -21,6 +21,7 @@
         "tags": [
           "Contact"
         ],
+        "operationId": "contactList",
         "description": "Listing all the contacts with pagination",
         "summary": "List Contacts",
         "parameters": [
@@ -49,6 +50,7 @@
         "tags": [
           "Contact"
         ],
+        "operationId": "contactCreate",
         "description": "Create New Contact",
         "parameters": [
           {
@@ -81,6 +83,7 @@
         "tags": [
           "Contact"
         ],
+        "operationId": "contactDetails",
         "summary": "Show Contact",
         "parameters": [
           {
@@ -110,6 +113,7 @@
         "tags": [
           "Contact"
         ],
+        "operationId": "contactUpdate",
         "summary": "Update Contact",
         "parameters": [
           {
@@ -149,6 +153,7 @@
         "tags": [
           "Contact"
         ],
+        "operationId": "contactConversations",
         "summary": "Conversations",
         "parameters": [
           {
@@ -180,6 +185,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationList",
         "description": "List all the conversations with pagination",
         "summary": "Conversations List",
         "parameters": [
@@ -210,6 +216,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationDetails",
         "summary": "Conversation Details",
         "description": "Get all details regarding a conversation with all messages in the conversation",
         "parameters": [
@@ -242,6 +249,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationToggleStatus",
         "summary": "Toggle Status",
         "description": "Toggles the status of the conversation between open and resolved",
         "parameters": [
@@ -274,6 +282,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationUpdateLastSeen",
         "summary": "Update Last Seen",
         "description": "Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen",
         "parameters": [
@@ -303,6 +312,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationLabelsList",
         "summary": "List Labels",
         "description": "Lists all the labels of a conversation",
         "parameters": [
@@ -333,8 +343,9 @@
         "tags": [
           "Conversation"
         ],
-        "summary": "Add Label",
-        "description": "Creates a new label and associates it with the conversation",
+        "operationId": "conversationAddLabels",
+        "summary": "Add Labels",
+        "description": "Creates new labels and associates it with the conversation",
         "parameters": [
           {
             "name": "id",
@@ -382,6 +393,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationAssignment",
         "summary": "Assign Conversation",
         "description": "Assign a conversation to an agent",
         "parameters": [
@@ -427,6 +439,7 @@
         "tags": [
           "Conversation"
         ],
+        "operationId": "conversationNewMessage",
         "summary": "Create New Message",
         "description": "All the agent replies are created as new messages through this endpoint",
         "parameters": [

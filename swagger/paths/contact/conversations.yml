@@ -1,5 +1,7 @@
 get:
-  tags: [Contact]
+  tags:
+    - Contact
+  operationId: contactConversations
   summary: Conversations
   parameters:
     - name: id

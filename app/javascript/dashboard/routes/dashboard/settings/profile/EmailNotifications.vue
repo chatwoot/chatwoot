@@ -1,9 +1,9 @@
 <template>
   <div class="profile--settings--row row">
     <div class="columns small-3 ">
-      <p class="section--title">
+      <h4 class="block-title">
         {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
-      </p>
+      </h4>
       <p>{{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.NOTE') }}</p>
     </div>
     <div class="columns small-9">

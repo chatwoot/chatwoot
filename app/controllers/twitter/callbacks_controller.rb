@@ -1,5 +1,7 @@
 class Twitter::CallbacksController < Twitter::BaseController
   def show
+    return redirect_to app_new_twitter_inbox_url if permitted_params[:denied]
+
     @response = twitter_client.access_token(
       oauth_token: permitted_params[:oauth_token],
       oauth_verifier: permitted_params[:oauth_verifier]
@@ -46,6 +48,6 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def permitted_params
-    params.permit(:oauth_token, :oauth_verifier)
+    params.permit(:oauth_token, :oauth_verifier, :denied)
   end
 end
