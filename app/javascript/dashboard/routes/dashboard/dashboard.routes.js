@@ -6,7 +6,7 @@ import { frontendURL } from '../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL(''),
+      path: frontendURL('account/:account_id'),
       component: AppContainer,
       children: [...conversation.routes, ...settings.routes],
     },

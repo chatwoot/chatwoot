@@ -17,7 +17,13 @@
                 </p>
               </div>
               <div class="small-2 column button-wrap">
-                <router-link :to="frontendURL('settings/integrations/webhook')">
+                <router-link
+                  :to="
+                    frontendURL(
+                      `account/${accountId}/settings/integrations/webhook`
+                    )
+                  "
+                >
                   <button class="button success nice">
                     {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
                   </button>
@@ -35,8 +41,14 @@
 </template>
 <script>
 import { frontendURL } from '../../../../helper/URLHelper';
+import auth from '../../../../api/auth';
 
 export default {
+  computed: {
+    accountId() {
+      return auth.getCurrentUser().account_id;
+    },
+  },
   methods: {
     frontendURL,
   },
