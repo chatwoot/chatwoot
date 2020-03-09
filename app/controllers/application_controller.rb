@@ -20,19 +20,19 @@ class ApplicationController < ActionController::Base
   def find_current_account
     account = Account.find(params[:account_id])
     if current_user
-      render_unauthorized('You are not authorized to access this account') unless account_accessible_for_user?(account)
+      account_accessible_for_user?(account)
     elsif @resource&.is_a?(AgentBot)
-      render_unauthorized('You are not authorized to access this account') unless account_accessible_for_bot?(account)
+      account_accessible_for_bot?(account)
     end
     account
   end
 
   def account_accessible_for_user?(account)
-    account.account_users.find_by(user_id: current_user.id)
+    render_unauthorized('You are not authorized to access this account') unless account.account_users.find_by(user_id: current_user.id)
   end
 
   def account_accessible_for_bot?(account)
-    @resource.agent_bot_inboxes.find_by(account_id: account.id)
+    render_unauthorized('You are not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
   end
 
   def handle_with_exception
