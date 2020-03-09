@@ -63,7 +63,7 @@
         </form>
         <div class="column text-center sigin--footer">
           <span>Already have an account?</span>
-          <router-link to="auth/login">
+          <router-link to="/app/login">
             {{ $t('LOGIN.TITLE') }}
           </router-link>
         </div>
