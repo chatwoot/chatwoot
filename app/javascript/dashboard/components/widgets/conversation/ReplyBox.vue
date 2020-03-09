@@ -108,10 +108,9 @@ export default {
       return channel;
     },
     conversationType() {
-      const {
-        additional_attributes: additionalAttributes = {},
-      } = this.currentChat;
-      return additionalAttributes.type || '';
+      const { additional_attributes: additionalAttributes } = this.currentChat;
+      const type = additionalAttributes ? additionalAttributes.type : '';
+      return type || '';
     },
     maxLength() {
       if (this.channelType === 'Channel::FacebookPage') {
