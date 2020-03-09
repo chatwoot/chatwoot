@@ -17,5 +17,13 @@ InboxMember.create!(user: user, inbox: inbox)
 
 contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)
 contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id)
-conversation = Conversation.create!(account: account, inbox: inbox, status: :open, assignee: user, contact: contact, contact_inbox: contact_inbox)
+conversation = Conversation.create!(
+  account: account,
+  inbox: inbox,
+  status: :open,
+  assignee: user,
+  contact: contact,
+  contact_inbox: contact_inbox,
+  additional_attributes: {}
+)
 Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
