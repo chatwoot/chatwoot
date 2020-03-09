@@ -41,17 +41,54 @@ RSpec/NestedGroups:
   Max: 4
 RSpec/MessageSpies:
   Enabled: false
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
+Rails/CreateTableWithTimestamps:
+  Exclude:
+    - 'db/migrate/20170207092002_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb'
+Style/GuardClause:
+  Exclude:
+    - 'app/builders/account_builder.rb'
+    - 'app/models/attachment.rb'
+    - 'app/models/message.rb'
+    - 'lib/webhooks/chargebee.rb'
+    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
+Metrics/AbcSize:
+  Exclude: 
+    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
+Rails/ReversibleMigration:
+  Exclude:
+    - 'db/migrate/20161025070152_removechannelsfrommodels.rb'
+    - 'db/migrate/20161025070645_remchannel.rb'
+    - 'db/migrate/20161025070645_remchannel.rb'
+    - 'db/migrate/20161110102609_removeinboxid.rb'
+    - 'db/migrate/20170519091539_add_avatar_to_fb.rb'
+    - 'db/migrate/20191020085608_rename_old_tables.rb'
+    - 'db/migrate/20191126185833_update_user_invite_foreign_key.rb'
+    - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
 Rails/BulkChangeTable:
   Exclude:
+    - 'db/migrate/20161025070152_removechannelsfrommodels.rb'
     - 'db/migrate/20200121190901_create_account_users.rb'
+    - 'db/migrate/20170211092540_notnullableusers.rb'
+    - 'db/migrate/20170403095203_contactadder.rb'
+    - 'db/migrate/20170406104018_add_default_status_conv.rb'
+    - 'db/migrate/20170511134418_latlong.rb'
+    - 'db/migrate/20191027054756_create_contact_inboxes.rb'
+    - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
 AllCops:
   Exclude:
-    - db/*
-    - bin/**/*
-    - db/**/*
-    - config/**/*
-    - public/**/*
-    - vendor/**/*
-    - node_modules/**/*
-    - lib/tasks/auto_annotate_models.rake
-    - config/environments/**/*
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'config/**/*'
+    - 'public/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'config/environments/**/*'
+    - 'tmp/**/*'
+    - 'storage/**/*'

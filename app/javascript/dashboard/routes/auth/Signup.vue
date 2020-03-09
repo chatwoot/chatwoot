@@ -63,7 +63,7 @@
         </form>
         <div class="column text-center sigin--footer">
           <span>Already have an account?</span>
-          <router-link to="auth/login">
+          <router-link to="/app/login">
             {{ $t('LOGIN.TITLE') }}
           </router-link>
         </div>
@@ -77,7 +77,6 @@
 
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
-import { frontendURL } from '../../helper/URLHelper';
 
 export default {
   data() {
@@ -118,7 +117,7 @@ export default {
       Auth.register(this.credentials)
         .then(res => {
           if (res.status === 200) {
-            window.location = frontendURL('dashboard');
+            window.location = '/';
           }
         })
         .catch(error => {
