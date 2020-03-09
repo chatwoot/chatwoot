@@ -32,19 +32,6 @@ const endPoints = {
     params: { omniauth_token: '' },
   },
 
-  reports: {
-    account(metric, from, to) {
-      return {
-        url: `/api/v1/reports/account?metric=${metric}&since=${from}&to=${to}`,
-      };
-    },
-    accountSummary(accountId, from, to) {
-      return {
-        url: `/api/v1/reports/${accountId}/account_summary?since=${from}&to=${to}`,
-      };
-    },
-  },
-
   subscriptions: {
     get() {
       return {

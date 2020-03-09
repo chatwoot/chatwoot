@@ -47,7 +47,6 @@ import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
-import auth from '../../../api/auth';
 
 export default {
   components: {
@@ -75,6 +74,7 @@ export default {
       currentChat: 'getSelectedChat',
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
+      currentUser: 'getCurrentUser',
     }),
 
     isActiveChat() {
@@ -98,7 +98,7 @@ export default {
     cardClick(chat) {
       const { activeInbox } = this;
       const path = conversationUrl(
-        auth.getCurrentUser().account_id,
+        this.currentUser.account_id,
         activeInbox,
         chat.id
       );
