@@ -1,6 +1,6 @@
 get:
   tags:
-    - Conversation
+    - ConversationLabels
   operationId: conversationLabelsList
   summary: List Labels
   description: Lists all the labels of a conversation
@@ -22,7 +22,7 @@ get:
 
 post:
   tags:
-    - Conversation
+    - ConversationLabels
   operationId: conversationAddLabels
   summary: Add Labels
   description: Creates new labels and associates it with the conversation

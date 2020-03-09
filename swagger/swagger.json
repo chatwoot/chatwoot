@@ -1,7 +1,7 @@
 {
   "swagger": 2.0,
   "info": {
-    "description": "This is the api documentation for Chatwoot server.",
+    "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
     "title": "Chatwoot",
     "termsOfService": "https://www.chatwoot.com/terms-of-service/",
@@ -11,54 +11,54 @@
     "license": {
       "name": "MIT License",
       "url": "https://opensource.org/licenses/MIT"
-    },
-    "host": "app.chatwoot.com",
-    "basePath": "/api/v1/"
+    }
   },
+  "host": "app.chatwoot.com",
+  "basePath": "/api/v1/",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json; charset=utf-8"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8"
+  ],
   "paths": {
-    "/contacts": {
-      "get": {
-        "tags": [
-          "Contact"
-        ],
-        "operationId": "contactList",
-        "description": "Listing all the contacts with pagination",
-        "summary": "List Contacts",
-        "parameters": [
-          {
-            "name": "query_hash",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/contact_list"
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "schema": {
-              "$ref": "#/definitions/bad_request_error"
-            }
-          }
-        }
-      },
+    "/widget/inboxes": {
       "post": {
         "tags": [
-          "Contact"
+          "Widget"
         ],
-        "operationId": "contactCreate",
-        "description": "Create New Contact",
+        "operationId": "widgetInboxCreation",
+        "summary": "Create a website inbox",
+        "description": "You can create more than one website inbox in each account",
         "parameters": [
           {
             "name": "data",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/contact_create"
+              "type": "object",
+              "properties": {
+                "website": {
+                  "type": "object",
+                  "properties": {
+                    "website_name": {
+                      "type": "string",
+                      "description": "The name of the inbox"
+                    },
+                    "website_url": {
+                      "type": "string",
+                      "description": "URL at which the widget will be loaded"
+                    },
+                    "widget_color": {
+                      "type": "string",
+                      "description": "A Hex-color string used to customize the widget"
+                    }
+                  }
+                }
+              }
             }
           }
         ],
@@ -66,113 +66,56 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/extended_contact"
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "schema": {
-              "$ref": "#/definitions/bad_request_error"
-            }
-          }
-        }
-      }
-    },
-    "/contacts/{id}": {
-      "get": {
-        "tags": [
-          "Contact"
-        ],
-        "operationId": "contactDetails",
-        "summary": "Show Contact",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the contact",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/extended_contact"
+              "$ref": "#/definitions/inbox"
             }
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Inbox not found"
           },
           "403": {
             "description": "Access denied"
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/widget/inboxes/${id}": {
+      "patch": {
         "tags": [
-          "Contact"
+          "Widget"
         ],
-        "operationId": "contactUpdate",
-        "summary": "Update Contact",
+        "operationId": "widgetInboxUpdate",
+        "summary": "Update a website inbox",
+        "description": "Update widget color of an inbox",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the contact",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/contact_update"
+              "type": "object",
+              "properties": {
+                "website": {
+                  "type": "object",
+                  "properties": {
+                    "widget_color": {
+                      "type": "string",
+                      "description": "A Hex-color string used to customize the widget"
+                    }
+                  }
+                }
+              }
             }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/contact_base"
-            }
-          },
-          "404": {
-            "description": "Contact not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/contacts/{id}/conversations": {
-      "get": {
-        "tags": [
-          "Contact"
-        ],
-        "operationId": "contactConversations",
-        "summary": "Conversations",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the contact",
-            "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/contact_conversations"
+              "$ref": "#/definitions/inbox"
             }
           },
           "404": {
-            "description": "Contact not found"
+            "description": "Inbox not found"
           },
           "403": {
             "description": "Access denied"
@@ -180,7 +123,7 @@
         }
       }
     },
-    "/conversations": {
+    "/account/{account_id}/conversations": {
       "get": {
         "tags": [
           "Conversation"
@@ -190,9 +133,45 @@
         "summary": "Conversations List",
         "parameters": [
           {
-            "name": "query_hash",
+            "name": "assignee_type",
             "in": "query",
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "me",
+              "unassigned",
+              "all"
+            ],
+            "required": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "bot"
+            ],
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "labels",
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -211,7 +190,7 @@
         }
       }
     },
-    "/conversations/{id}": {
+    "/account/{account_id}/conversations/{id}": {
       "get": {
         "tags": [
           "Conversation"
@@ -244,7 +223,7 @@
         }
       }
     },
-    "/conversations/{id}/toggle_status": {
+    "/account/{account_id}/conversations/{id}/toggle_status": {
       "post": {
         "tags": [
           "Conversation"
@@ -277,40 +256,10 @@
         }
       }
     },
-    "/conversations/{id}/update_last_seen": {
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationUpdateLastSeen",
-        "summary": "Update Last Seen",
-        "description": "Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Contact not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/labels": {
+    "/account/{account_id}/conversations/{id}/labels": {
       "get": {
         "tags": [
-          "Conversation"
+          "ConversationLabels"
         ],
         "operationId": "conversationLabelsList",
         "summary": "List Labels",
@@ -388,10 +337,10 @@
         }
       }
     },
-    "/conversations/{id}/assignments": {
+    "/account/{account_id}/conversations/{id}/assignments": {
       "post": {
         "tags": [
-          "Conversation"
+          "ConversationAssignment"
         ],
         "operationId": "conversationAssignment",
         "summary": "Assign Conversation",
@@ -434,10 +383,10 @@
         }
       }
     },
-    "/conversations/{id}/messages": {
+    "/account/{account_id}/conversations/{id}/messages": {
       "post": {
         "tags": [
-          "Conversation"
+          "Messages"
         ],
         "operationId": "conversationNewMessage",
         "summary": "Create New Message",
@@ -447,7 +396,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the conversation",
+            "description": "ID of the conversation",
             "required": true
           },
           {
@@ -475,6 +424,170 @@
           },
           "404": {
             "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/contacts": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactList",
+        "description": "Listing all the contacts with pagination",
+        "summary": "List Contacts",
+        "parameters": [
+          {
+            "name": "query_hash",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_list"
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactCreate",
+        "description": "Create New Contact",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contact_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/extended_contact"
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
+    "/account/{account_id}/contacts/{id}": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactDetails",
+        "summary": "Show Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "id of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/extended_contact"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactUpdate",
+        "summary": "Update Contact",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "id of the contact",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/contact_update"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_base"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/contacts/{id}/conversations": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactConversations",
+        "summary": "Conversations",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "id of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_conversations"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
           },
           "403": {
             "description": "Access denied"
@@ -525,43 +638,53 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "Email address of the contact"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the contact"
         },
         "phone_number": {
-          "type": "string"
+          "type": "string",
+          "description": "Phone number of the contact"
         },
         "thumbnail": {
-          "type": "string"
+          "type": "string",
+          "description": "Avatar URL of the contact"
         },
         "additional_attributes": {
-          "type": "object"
+          "type": "object",
+          "description": "The object containing additional attributes related to the contact"
         }
       }
     },
     "conversation": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the conversation"
+        },
         "messages": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "type": "array"
         },
         "inbox_id": {
-          "type": "number"
+          "type": "number",
+          "description": "ID of the inbox"
         },
         "status": {
           "type": "string",
           "enum": [
             "open",
-            "resolved"
-          ]
+            "resolved",
+            "bot"
+          ],
+          "description": "The status of the conversation"
         },
         "timestamp": {
-          "type": "string"
+          "type": "string",
+          "description": "The time at which conversation was created"
         },
         "user_last_seen_at": {
           "type": "string"
@@ -570,7 +693,12 @@
           "type": "agent_last_seen_at"
         },
         "unread_count": {
-          "type": "number"
+          "type": "number",
+          "description": "The number of unread messages"
+        },
+        "additional_attributes": {
+          "type": "object",
+          "description": "The object containing additional attributes related to the conversation"
         }
       }
     },
@@ -578,25 +706,38 @@
       "type": "object",
       "properties": {
         "content": {
-          "type": "string"
-        },
-        "inbox_id": {
-          "type": "number"
-        },
-        "conversation_id": {
-          "type": "number"
+          "type": "string",
+          "description": "The text content of the message"
         },
         "message_type": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "incoming",
+            "outgoing",
+            "activity",
+            "template"
+          ],
+          "description": "The type of the message"
         },
         "created_at": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The time at which message was created"
         },
         "private": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "The flags which shows whether the message is private or not"
         },
         "attachment": {
-          "type": "object"
+          "type": "object",
+          "description": "The file object attached to the image"
+        },
+        "sender": {
+          "type": "object",
+          "description": "User/Agent/AgentBot object"
+        },
+        "conversation_id": {
+          "type": "number",
+          "description": "ID of the conversation"
         }
       }
     },
@@ -633,6 +774,35 @@
         }
       }
     },
+    "inbox": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the inbox"
+        },
+        "channel_type": {
+          "type": "string",
+          "description": "The type of the inbox"
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The avatar image of the inbox"
+        },
+        "widget_color": {
+          "type": "string",
+          "description": "Widget Color used for customization of the widget"
+        },
+        "website_token": {
+          "type": "string",
+          "description": "Website Token"
+        },
+        "enable_auto_assignment": {
+          "type": "boolean",
+          "description": "The flag which shows whether Auto Assignment is enabled or not"
+        }
+      }
+    },
     "extended_contact": {
       "allOf": [
         {
@@ -642,14 +812,16 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "number"
+              "type": "number",
+              "description": "Id of the user"
             },
             "availability_status": {
               "type": "string",
               "enum": [
                 "online",
                 "offline"
-              ]
+              ],
+              "description": "Availability status of the user"
             }
           }
         }
@@ -697,16 +869,20 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "ID fo the sender"
                       },
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The name of the sender"
                       },
                       "thumbnail": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Avatar URL of the contact"
                       },
                       "channel": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Channel Type"
                       }
                     }
                   },
@@ -769,16 +945,20 @@
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "number"
+                                "type": "number",
+                                "description": "ID fo the sender"
                               },
                               "name": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The name of the sender"
                               },
                               "thumbnail": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Avatar URL of the contact"
                               },
                               "channel": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Channel Type"
                               }
                             }
                           },
@@ -798,36 +978,48 @@
     },
     "conversation_show": {
       "type": "object",
-      "properties": {
-        "meta": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/generic_id"
+        },
+        {
+          "$ref": "#/definitions/conversation"
+        },
+        {
           "type": "object",
           "properties": {
-            "labels": {
-              "type": "array",
-              "items": {
-                "type": "string"
+            "meta": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "ID fo the sender"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the sender"
+                    },
+                    "thumbnail": {
+                      "type": "string",
+                      "description": "Avatar URL of the contact"
+                    },
+                    "channel": {
+                      "type": "string",
+                      "description": "Channel Type"
+                    }
+                  }
+                },
+                "assignee": {
+                  "$ref": "#/definitions/user"
+                }
               }
-            },
-            "additional_attributes": {
-              "type": "object"
-            },
-            "contact_id": {
-              "type": "number"
             }
           }
-        },
-        "payload": {
-          "type": "array",
-          "description": "array of messages",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/extended_message"
-              }
-            ]
-          }
         }
-      }
+      ]
     },
     "conversation_status_toggle": {
       "type": "object",
@@ -860,7 +1052,7 @@
       "properties": {
         "payload": {
           "type": "array",
-          "description": "array of labels",
+          "description": "Array of labels",
           "items": {
             "type": "string"
           }
@@ -917,16 +1109,18 @@
       "type": "object",
       "properties": {
         "conversation_id": {
-          "type": "number"
+          "type": "number",
+          "description": "ID of the conversation",
+          "required": true
         },
         "message": {
-          "type": "string"
+          "type": "string",
+          "description": "The content of the message",
+          "required": true
         },
         "private": {
-          "type": "boolean"
-        },
-        "fb_id": {
-          "type": "number"
+          "type": "boolean",
+          "description": "Flag to identify if it is a private note"
         }
       }
     }

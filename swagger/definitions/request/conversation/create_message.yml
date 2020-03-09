@@ -2,9 +2,12 @@ type: object
 properties:
   conversation_id:
     type: number
+    description: ID of the conversation
+    required: true
   message:
     type: string
+    description: The content of the message
+    required: true
   private:
     type: boolean
-  fb_id:
-    type: number
+    description: Flag to identify if it is a private note

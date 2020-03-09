@@ -1,0 +1,17 @@
+patch:
+  tags:
+    - Widget
+  operationId: listAllInboxes
+  summary: List all inboxes
+  description: List all inboxes available in the current account
+  responses:
+    200:
+      description: Success
+      schema:
+        type: array
+        description: 'array of conversations'
+        $ref: '#/definitions/inbox'
+    404:
+      description: Inbox not found
+    403:
+      description: Access denied
