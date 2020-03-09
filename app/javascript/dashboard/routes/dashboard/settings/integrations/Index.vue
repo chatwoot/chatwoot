@@ -17,7 +17,13 @@
                 </p>
               </div>
               <div class="small-2 column button-wrap">
-                <router-link :to="frontendURL('settings/integrations/webhook')">
+                <router-link
+                  :to="
+                    frontendURL(
+                      `accounts/${accountId}/settings/integrations/webhook`
+                    )
+                  "
+                >
                   <button class="button success nice">
                     {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
                   </button>
@@ -34,9 +40,18 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
+  computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
+    accountId() {
+      return this.currentUser.account_id;
+    },
+  },
   methods: {
     frontendURL,
   },

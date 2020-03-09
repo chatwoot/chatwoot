@@ -11,9 +11,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     @recoverable = User.find_by(reset_password_token: reset_password_token)
     if @recoverable && reset_password_and_confirmation(@recoverable)
       send_auth_headers(@recoverable)
-      render json: {
-        data: @recoverable.token_validation_response
-      }
+      render 'devise/auth.json', locals: { resource: @recoverable }
     else
       render json: { "message": 'Invalid token', "redirect_url": '/' }, status: 422
     end

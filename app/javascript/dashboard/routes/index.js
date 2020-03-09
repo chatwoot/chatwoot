@@ -7,13 +7,14 @@ import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
 
+const loggedInUser = auth.getCurrentUser() || {};
 const routes = [
   ...login.routes,
   ...dashboard.routes,
   ...authRoute.routes,
   {
     path: '/',
-    redirect: frontendURL('dashboard'),
+    redirect: frontendURL(`accounts/${loggedInUser.account_id}/dashboard`),
   },
 ];
 
@@ -102,7 +103,8 @@ const validateRouteAccess = (to, from, next) => {
     to.meta &&
     to.meta.requireSignupEnabled
   ) {
-    next(frontendURL('dashboard'));
+    const user = auth.getCurrentUser();
+    next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   if (authIgnoreRoutes.includes(to.name)) {
@@ -114,7 +116,8 @@ const validateRouteAccess = (to, from, next) => {
 // protecting routes
 router.beforeEach((to, from, next) => {
   if (!to.name) {
-    return next(frontendURL('dashboard'));
+    const user = auth.getCurrentUser();
+    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   return validateRouteAccess(to, from, next);
