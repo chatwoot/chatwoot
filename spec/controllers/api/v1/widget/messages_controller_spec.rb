@@ -44,6 +44,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['content']).to eq(message_params[:content])
       end
+
+      it 'creates attachment message in conversation' do
+        conversation.destroy # Test all params
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        message_params = { content: 'hello world', timestamp: Time.current, attachment: { file: file } }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['content']).to eq(message_params[:content])
+        expect(conversation.messages.last.attachment.count).to eq(1)
+      end
     end
   end
 

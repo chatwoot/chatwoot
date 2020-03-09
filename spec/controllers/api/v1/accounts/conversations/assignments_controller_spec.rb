@@ -28,6 +28,18 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee).to eq(agent)
       end
+
+      it 'creates a new outgoing message with attachment' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        params = { message: 'test-message', attachment: { file: file } }
+
+        post api_v1_conversation_messages_url(conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.last.attachment.count).to eq(1)
+      end
     end
   end
 end
