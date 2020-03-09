@@ -40,13 +40,16 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import auth from '../../../../api/auth';
 
 export default {
   computed: {
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
     accountId() {
-      return auth.getCurrentUser().account_id;
+      return this.currentUser.account_id;
     },
   },
   methods: {
