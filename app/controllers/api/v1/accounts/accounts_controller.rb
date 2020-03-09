@@ -18,9 +18,7 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
     ).perform
     if @user
       send_auth_headers(@user)
-      render json: {
-        data: @user.token_validation_response
-      }
+      render 'devise/auth.json', locals: { resource: @user }
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
