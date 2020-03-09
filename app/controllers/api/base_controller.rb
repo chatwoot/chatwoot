@@ -1,13 +1,13 @@
 class Api::BaseController < ApplicationController
   include AccessTokenAuthHelper
   respond_to :json
-  before_action :authenticate_access_token!
-  before_action :authenticate_user!, if: :should_authenticate_user?
+  before_action :authenticate_access_token!, if: :authenticate_by_access_token?
+  before_action :authenticate_user!, unless: :authenticate_by_access_token?
 
   private
 
-  def should_authenticate_user?
-    current_user.blank?
+  def authenticate_by_access_token?
+    request.headers[:api_access_token].present?
   end
 
   def set_conversation
