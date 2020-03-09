@@ -282,15 +282,6 @@ Style/GlobalVars:
   Exclude:
     - 'lib/redis/alfred.rb'
 
-# Offense count: 7
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/builders/account_builder.rb'
-    - 'app/models/attachment.rb'
-    - 'app/models/message.rb'
-    - 'lib/webhooks/chargebee.rb'
-
 # Offense count: 4
 Style/IdenticalConditionalBranches:
   Exclude:
