@@ -3,7 +3,6 @@ import axios from 'axios';
 import moment from 'moment';
 import Vue from 'vue';
 import * as types from '../mutation-types';
-import router from '../../routes';
 import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
@@ -65,7 +64,7 @@ export const actions = {
           commit(types.default.SET_CURRENT_USER);
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-          router.replace({ name: 'home' });
+          window.location = '/';
           resolve();
         })
         .catch(error => {

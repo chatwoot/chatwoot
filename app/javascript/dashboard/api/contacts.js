@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 class ContactAPI extends ApiClient {
   constructor() {
-    super('contacts');
+    super('contacts', { accountScoped: true });
   }
 
   getConversations(contactId) {

@@ -6,7 +6,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('settings/billing'),
+      path: frontendURL('accounts/:accountId/settings/billing'),
       component: SettingsContent,
       props: {
         headerTitle: 'BILLING.HEADER',
