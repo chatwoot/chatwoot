@@ -11,14 +11,14 @@ import integrations from './integrations/integrations.routes';
 export default {
   routes: [
     {
-      path: frontendURL('settings'),
+      path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (Auth.isAdmin()) {
-          return frontendURL('settings/agents');
+          return frontendURL('accounts/:accountId/settings/agents');
         }
-        return frontendURL('settings/canned-response');
+        return frontendURL('accounts/:accountId/settings/canned-response');
       },
     },
     ...agent.routes,

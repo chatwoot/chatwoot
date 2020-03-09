@@ -2,7 +2,7 @@ import ApiClient from './ApiClient';
 
 class Inboxes extends ApiClient {
   constructor() {
-    super('inboxes');
+    super('inboxes', { accountScoped: true });
   }
 }
 

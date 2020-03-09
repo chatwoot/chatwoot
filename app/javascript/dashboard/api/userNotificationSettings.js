@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 class UserNotificationSettings extends ApiClient {
   constructor() {
-    super('user/notification_settings');
+    super('notification_settings', { accountScoped: true });
   }
 
   update(params) {

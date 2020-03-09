@@ -5,7 +5,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('profile'),
+      path: frontendURL('accounts/:accountId/profile'),
       name: 'profile_settings',
       roles: ['administrator', 'agent'],
       component: SettingsContent,
