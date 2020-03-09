@@ -3,9 +3,25 @@
 const API_VERSION = `/api/v1`;
 
 class ApiClient {
-  constructor(url) {
+  constructor(resource, options = {}) {
     this.apiVersion = API_VERSION;
-    this.url = `${this.apiVersion}/${url}`;
+    this.options = options;
+    this.resource = resource;
+  }
+
+  get url() {
+    let url = this.apiVersion;
+    if (this.options.accountScoped) {
+      const isInsideAccountScopedURLs = window.location.pathname.includes(
+        '/app/accounts'
+      );
+
+      if (isInsideAccountScopedURLs) {
+        const accountId = window.location.pathname.split('/')[3];
+        url = `${url}/accounts/${accountId}`;
+      }
+    }
+    return `${url}/${this.resource}`;
   }
 
   get() {

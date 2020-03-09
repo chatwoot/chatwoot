@@ -6,7 +6,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('settings/integrations'),
+      path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
       props: params => {
         const showBackButton = params.name !== 'settings_integrations';

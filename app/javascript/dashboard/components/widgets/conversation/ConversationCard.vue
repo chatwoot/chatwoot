@@ -74,6 +74,7 @@ export default {
       currentChat: 'getSelectedChat',
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
+      currentUser: 'getCurrentUser',
     }),
 
     isActiveChat() {
@@ -96,7 +97,11 @@ export default {
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(activeInbox, chat.id);
+      const path = conversationUrl(
+        this.currentUser.account_id,
+        activeInbox,
+        chat.id
+      );
       router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {

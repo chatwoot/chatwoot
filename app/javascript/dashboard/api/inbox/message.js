@@ -4,7 +4,7 @@ import ApiClient from '../ApiClient';
 
 class MessageApi extends ApiClient {
   constructor() {
-    super('conversations');
+    super('conversations', { accountScoped: true });
   }
 
   create({ conversationId, message, private: isPrivate }) {
