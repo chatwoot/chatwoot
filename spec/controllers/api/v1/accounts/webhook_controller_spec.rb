@@ -7,7 +7,7 @@ RSpec.describe 'Webhooks API', type: :request do
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
-  describe 'GET /api/v1/account/<account_id>/webhooks' do
+  describe 'GET /api/v1/accounts/<account_id>/webhooks' do
     context 'when it is an authenticated agent' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/webhooks",
@@ -28,7 +28,7 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/account/<account_id>/webhooks' do
+  describe 'POST /api/v1/accounts/<account_id>/webhooks' do
     context 'when it is an authenticated agent' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/webhooks",
@@ -51,7 +51,7 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/account/<account_id>/webhooks/:id' do
+  describe 'PUT /api/v1/accounts/<account_id>/webhooks/:id' do
     context 'when it is an authenticated agent' do
       it 'returns unauthorized' do
         put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
@@ -73,7 +73,7 @@ RSpec.describe 'Webhooks API', type: :request do
     end
   end
 
-  describe 'DELETE /api/v1/account/<account_id>/webhooks/:id' do
+  describe 'DELETE /api/v1/accounts/<account_id>/webhooks/:id' do
     context 'when it is an authenticated agent' do
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",

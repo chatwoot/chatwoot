@@ -20,7 +20,7 @@
                 <router-link
                   :to="
                     frontendURL(
-                      `account/${accountId}/settings/integrations/webhook`
+                      `accounts/${accountId}/settings/integrations/webhook`
                     )
                   "
                 >

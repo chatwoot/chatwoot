@@ -3,25 +3,25 @@
 const API_VERSION = `/api/v1`;
 
 class ApiClient {
-  constructor(modelName, options = {}) {
+  constructor(resource, options = {}) {
     this.apiVersion = API_VERSION;
     this.options = options;
-    this.modelName = modelName;
+    this.resource = resource;
   }
 
   get url() {
     let url = this.apiVersion;
     if (this.options.accountScoped) {
       const isInsideAccountScopedURLs = window.location.pathname.includes(
-        '/app/account'
+        '/app/accounts'
       );
 
       if (isInsideAccountScopedURLs) {
         const accountId = window.location.pathname.split('/')[3];
-        url = `${url}/account/${accountId}`;
+        url = `${url}/accounts/${accountId}`;
       }
     }
-    return `${url}/${this.modelName}`;
+    return `${url}/${this.resource}`;
   }
 
   get() {

@@ -5,7 +5,7 @@ import { frontendURL } from '../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('account/:accountId/dashboard'),
+      path: frontendURL('accounts/:accountId/dashboard'),
       name: 'home',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -14,7 +14,7 @@ export default {
       },
     },
     {
-      path: frontendURL('account/:accountId/inbox/:inbox_id'),
+      path: frontendURL('accounts/:accountId/inbox/:inbox_id'),
       name: 'inbox_dashboard',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -23,7 +23,7 @@ export default {
       },
     },
     {
-      path: frontendURL('account/:accountId/conversations/:conversation_id'),
+      path: frontendURL('accounts/:accountId/conversations/:conversation_id'),
       name: 'inbox_conversation',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -33,7 +33,7 @@ export default {
     },
     {
       path: frontendURL(
-        'account/:accountId/inbox/:inbox_id/conversations/:conversation_id'
+        'accounts/:accountId/inbox/:inbox_id/conversations/:conversation_id'
       ),
       name: 'conversation_through_inbox',
       roles: ['administrator', 'agent'],

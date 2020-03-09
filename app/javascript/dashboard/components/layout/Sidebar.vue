@@ -145,14 +145,14 @@ export default {
         key: 'inbox',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(
-          `account/${Auth.getCurrentUser().account_id}/settings/inboxes`
+          `accounts/${Auth.getCurrentUser().account_id}/settings/inboxes`
         ),
         toStateName: 'settings_inbox_list',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
           toState: frontendURL(
-            `account/${Auth.getCurrentUser().account_id}/inbox/${inbox.id}`
+            `accounts/${Auth.getCurrentUser().account_id}/inbox/${inbox.id}`
           ),
           type: inbox.channel_type,
         })),
@@ -160,7 +160,7 @@ export default {
     },
     dashboardPath() {
       return frontendURL(
-        `account/${Auth.getCurrentUser().account_id}/dashboard`
+        `accounts/${Auth.getCurrentUser().account_id}/dashboard`
       );
     },
     shouldShowStatusBox() {

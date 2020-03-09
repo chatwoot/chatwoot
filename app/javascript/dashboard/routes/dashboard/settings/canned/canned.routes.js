@@ -5,7 +5,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('account/:accountId/settings/canned-response'),
+      path: frontendURL('accounts/:accountId/settings/canned-response'),
       component: SettingsContent,
       props: {
         headerTitle: 'CANNED_MGMT.HEADER',

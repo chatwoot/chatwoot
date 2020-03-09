@@ -7,7 +7,7 @@ export const frontendURL = (path, params) => {
 
 export const conversationUrl = (accountId, activeInbox, id) => {
   const path = activeInbox
-    ? `account/${accountId}/inbox/${activeInbox}/conversations/${id}`
-    : `account/${accountId}/conversations/${id}`;
+    ? `accounts/${accountId}/inbox/${activeInbox}/conversations/${id}`
+    : `accounts/${accountId}/conversations/${id}`;
   return path;
 };

@@ -14,7 +14,7 @@ const routes = [
   ...authRoute.routes,
   {
     path: '/',
-    redirect: frontendURL(`account/${loggedInUser.account_id}/dashboard`),
+    redirect: frontendURL(`accounts/${loggedInUser.account_id}/dashboard`),
   },
 ];
 
@@ -104,7 +104,7 @@ const validateRouteAccess = (to, from, next) => {
     to.meta.requireSignupEnabled
   ) {
     const user = auth.getCurrentUser();
-    next(frontendURL(`account/${user.account_id}/dashboard`));
+    next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   if (authIgnoreRoutes.includes(to.name)) {
@@ -117,7 +117,7 @@ const validateRouteAccess = (to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (!to.name) {
     const user = auth.getCurrentUser();
-    return next(frontendURL(`account/${user.account_id}/dashboard`));
+    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
   return validateRouteAccess(to, from, next);

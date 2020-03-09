@@ -49,7 +49,7 @@
                 <div class="button-wrapper">
                   <router-link
                     :to="
-                      `/app/account/${accountId}/settings/inboxes/${item.id}`
+                      `/app/accounts/${accountId}/settings/inboxes/${item.id}`
                     "
                   >
                     <woot-submit-button
