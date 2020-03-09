@@ -5,7 +5,8 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:email) { Faker::Internet.email }
-      let(:user) { create(:user, email: email) }
+      let(:account) { create(:account) }
+      let(:user) { create(:user, email: email, account: account) }
 
       before do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
