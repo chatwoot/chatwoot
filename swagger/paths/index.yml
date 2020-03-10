@@ -5,13 +5,10 @@
   $ref: ./widget/inboxes/update.yml
 
 # Inboxes
-
-/account/{account_id}/inboxes/{id}/labels:
-  $ref: ./conversation/labels.yml
-
-/account/{account_id}/conversations/{id}/assignments:
-  $ref: ./conversation/assignments.yml
-
+/account/{account_id}/inboxes:
+  $ref: ./inboxes/index.yml
+/account/{account_id}/inboxes/{id}:
+  $ref: ./inboxes/update.yml
 
 # Conversations
 /account/{account_id}/conversations:
@@ -21,11 +18,12 @@
 /account/{account_id}/conversations/{id}/toggle_status:
   $ref: ./conversation/toggle_status.yml
 
+# Messages
 /account/{account_id}/conversations/{id}/messages:
-  $ref: ./conversation/messages.yml
+  $ref: ./conversation/messages/index_create.yml
 
 /account/{account_id}/conversations/{id}/labels:
-$ref: ./conversation/labels.yml
+  $ref: ./conversation/labels.yml
 
 /account/{account_id}/conversations/{id}/assignments:
   $ref: ./conversation/assignments.yml

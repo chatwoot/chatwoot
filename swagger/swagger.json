@@ -25,7 +25,7 @@
     "application/json; charset=utf-8"
   ],
   "paths": {
-    "/widget/inboxes": {
+    "/account/{account_id}/widget/inboxes": {
       "post": {
         "tags": [
           "Widget"
@@ -78,7 +78,7 @@
         }
       }
     },
-    "/widget/inboxes/${id}": {
+    "/account/{account_id}/widget/inboxes/${id}": {
       "patch": {
         "tags": [
           "Widget"
@@ -102,6 +102,78 @@
                       "description": "A Hex-color string used to customize the widget"
                     }
                   }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/inboxes": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "listAllInboxes",
+        "summary": "List all inboxes",
+        "description": "List all inboxes available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/inboxes/{id}": {
+      "patch": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "disableAutoAssignment",
+        "summary": "Disable auto assignment",
+        "description": "Disable Auto Assignment for an inbox",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "enable_auto_assignment": {
+                  "type": "boolean",
+                  "required": true,
+                  "description": "Enable Auto Assignment"
                 }
               }
             }
@@ -236,15 +308,121 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the conversation",
+            "description": "ID of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved"
+                  ],
+                  "required": true,
+                  "description": "The status of the conversation"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_status_toggle"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}/messages": {
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "listAllMessages",
+        "summary": "Get messages",
+        "description": "List all messages of a conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
             "required": true
           }
         ],
         "responses": {
-          "204": {
+          "200": {
+            "description": "Array of messages",
+            "type": "array",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "conversationNewMessage",
+        "summary": "Create New Message",
+        "description": "All the agent replies are created as new messages through this endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/conversation_message_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/conversation_status_toggle"
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
             }
           },
           "404": {
@@ -269,7 +447,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the conversation",
+            "description": "ID of the conversation",
             "required": true
           }
         ],
@@ -290,7 +468,7 @@
       },
       "post": {
         "tags": [
-          "Conversation"
+          "ConversationLabels"
         ],
         "operationId": "conversationAddLabels",
         "summary": "Add Labels",
@@ -300,7 +478,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the conversation",
+            "description": "ID of the conversation",
             "required": true
           },
           {
@@ -312,7 +490,7 @@
               "properties": {
                 "labels": {
                   "type": "array",
-                  "description": "array of labels",
+                  "description": "Array of labels",
                   "properties": {
                     "type": "string"
                   }
@@ -322,7 +500,7 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/conversation_labels"
@@ -368,58 +546,10 @@
           }
         ],
         "responses": {
-          "204": {
+          "200": {
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/user"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/account/{account_id}/conversations/{id}/messages": {
-      "post": {
-        "tags": [
-          "Messages"
-        ],
-        "operationId": "conversationNewMessage",
-        "summary": "Create New Message",
-        "description": "All the agent replies are created as new messages through this endpoint",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
-            "required": true
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/conversation_message_create"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
             }
           },
           "404": {

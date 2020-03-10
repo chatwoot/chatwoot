@@ -1,6 +1,6 @@
-patch:
+get:
   tags:
-    - Widget
+    - Inbox
   operationId: listAllInboxes
   summary: List all inboxes
   description: List all inboxes available in the current account
@@ -9,7 +9,7 @@ patch:
       description: Success
       schema:
         type: array
-        description: 'array of conversations'
+        description: 'Array of inboxes'
         $ref: '#/definitions/inbox'
     404:
       description: Inbox not found

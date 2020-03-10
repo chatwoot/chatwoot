@@ -1,3 +1,29 @@
+get:
+  tags:
+    - Messages
+  operationId: listAllMessages
+  summary: Get messages
+  description: List all messages of a conversation
+  parameters:
+    - name: id
+      in: path
+      type: number
+      description: ID of the conversation
+      required: true
+  responses:
+    200:
+      description: Success
+      type: array
+      description: Array of messages
+      schema:
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
+    404:
+      description: Conversation not found
+    403:
+      description: Access denied
+
 post:
   tags:
     - Messages
@@ -16,7 +42,7 @@ post:
       schema:
         $ref: '#/definitions/conversation_message_create'
   responses:
-    204:
+    200:
       description: Success
       schema:
         allOf:

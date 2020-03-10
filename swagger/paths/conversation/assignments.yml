@@ -19,7 +19,7 @@ post:
           assignee_id:
             type: number
   responses:
-    204:
+    200:
       description: Success
       schema:
         $ref: '#/definitions/user'
