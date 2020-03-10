@@ -1,8 +1,16 @@
 # Widget
-/widget/inboxes:
+/account/{account_id}/widget/inboxes:
   $ref: ./widget/inboxes/create.yml
-/widget/inboxes/${id}:
+/account/{account_id}/widget/inboxes/${id}:
   $ref: ./widget/inboxes/update.yml
+
+# Inboxes
+
+/account/{account_id}/inboxes/{id}/labels:
+  $ref: ./conversation/labels.yml
+
+/account/{account_id}/conversations/{id}/assignments:
+  $ref: ./conversation/assignments.yml
 
 
 # Conversations
@@ -15,7 +23,6 @@
 
 /account/{account_id}/conversations/{id}/messages:
   $ref: ./conversation/messages.yml
-
 
 /account/{account_id}/conversations/{id}/labels:
 $ref: ./conversation/labels.yml
