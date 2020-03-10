@@ -12,6 +12,14 @@
 #  inbox_id        :integer
 #  user_id         :integer
 #
+# Indexes
+#
+#  index_events_on_account_id  (account_id)
+#  index_events_on_created_at  (created_at)
+#  index_events_on_inbox_id    (inbox_id)
+#  index_events_on_name        (name)
+#  index_events_on_user_id     (user_id)
+#
 
 class Event < ApplicationRecord
   validates :account_id, presence: true

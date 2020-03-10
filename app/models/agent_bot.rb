@@ -3,7 +3,6 @@
 # Table name: agent_bots
 #
 #  id           :bigint           not null, primary key
-#  auth_token   :string
 #  description  :string
 #  name         :string
 #  outgoing_url :string

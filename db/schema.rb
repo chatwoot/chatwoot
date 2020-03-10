@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_10_062527) do
+ActiveRecord::Schema.define(version: 2020_03_10_070540) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -177,6 +177,11 @@ ActiveRecord::Schema.define(version: 2020_03_10_062527) do
     t.integer "conversation_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_events_on_account_id"
+    t.index ["created_at"], name: "index_events_on_created_at"
+    t.index ["inbox_id"], name: "index_events_on_inbox_id"
+    t.index ["name"], name: "index_events_on_name"
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table 'inbox_members', id: :serial, force: :cascade do |t|
