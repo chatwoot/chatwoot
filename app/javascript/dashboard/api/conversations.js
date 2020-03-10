@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 class ConversationApi extends ApiClient {
   constructor() {
-    super('conversations');
+    super('conversations', { accountScoped: true });
   }
 
   getLabels(conversationID) {

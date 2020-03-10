@@ -2,7 +2,7 @@ import ApiClient from './ApiClient';
 
 class Agents extends ApiClient {
   constructor() {
-    super('agents');
+    super('agents', { accountScoped: true });
   }
 }
 

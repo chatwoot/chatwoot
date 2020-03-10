@@ -4,7 +4,7 @@ import ApiClient from '../ApiClient';
 
 class MessageApi extends ApiClient {
   constructor() {
-    super('conversations');
+    super('conversations', { accountScoped: true });
   }
 
   create({ conversationId, message, private: isPrivate }) {
@@ -15,7 +15,7 @@ class MessageApi extends ApiClient {
   }
 
   getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}`, {
+    return axios.get(`${this.url}/${conversationId}/messages`, {
       params: { before },
     });
   }

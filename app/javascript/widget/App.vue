@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="woot-widget-wrap">
+  <div id="app" class="woot-widget-wrap" :class="{ 'is-mobile': isMobile }">
     <router-view />
   </div>
 </template>
@@ -11,6 +11,11 @@ import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      isMobile: false,
+    };
+  },
   mounted() {
     const { website_token: websiteToken = '' } = window.chatwootWebChannel;
     if (IFrameHelper.isIFrame()) {
@@ -40,6 +45,8 @@ export default {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
         window.refererURL = message.refererURL;
+      } else if (message.event === 'toggle-close-button') {
+        this.isMobile = message.showClose;
       }
     });
   },

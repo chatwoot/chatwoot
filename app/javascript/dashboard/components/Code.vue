@@ -26,7 +26,8 @@ export default {
     },
   },
   methods: {
-    onCopy() {
+    onCopy(e) {
+      e.preventDefault();
       copy(this.script);
       bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
