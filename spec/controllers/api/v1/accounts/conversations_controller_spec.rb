@@ -80,6 +80,17 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('resolved')
       end
+
+      it 'toggles the conversation status to open from bot' do
+        conversation.update!(status: 'bot')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('open')
+      end
     end
   end
 

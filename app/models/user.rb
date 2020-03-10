@@ -35,12 +35,13 @@
 #
 
 class User < ApplicationRecord
+  include AccessTokenable
+  include AvailabilityStatusable
+  include Avatarable
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
   include Events::Types
   include Pubsubable
-  include Avatarable
-  include AvailabilityStatusable
   include Rails.application.routes.url_helpers
 
   devise :database_authenticatable,
@@ -69,7 +70,7 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
 
-  after_create :notify_creation
+  after_create :notify_creation, :create_access_token
 
   after_destroy :notify_deletion
 

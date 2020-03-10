@@ -13,5 +13,6 @@ json.payload do
     json.inviter_id @resource.account_user.inviter_id
     json.confirmed @resource.confirmed?
     json.avatar_url @resource.avatar_url
+    json.access_token @resource.access_token&.token
   end
 end
