@@ -1,4 +1,4 @@
-class Api::V1::Widget::InboxesController < Api::BaseController
+class Api::V1::Accounts::Widget::InboxesController < Api::BaseController
   before_action :authorize_request
   before_action :set_web_widget_channel, only: [:update]
   before_action :set_inbox, only: [:update]
