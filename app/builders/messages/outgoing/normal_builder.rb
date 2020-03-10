@@ -22,7 +22,7 @@ class Messages::Outgoing::NormalBuilder
       message_type: :outgoing,
       content: @content,
       private: @private,
-      user_id: @user.id,
+      user_id: @user&.id,
       source_id: @fb_id
     }
   end

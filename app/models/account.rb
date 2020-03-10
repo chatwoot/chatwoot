@@ -14,6 +14,7 @@ class Account < ApplicationRecord
   validates :name, presence: true
 
   has_many :account_users, dependent: :destroy
+  has_many :agent_bot_inboxes, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy

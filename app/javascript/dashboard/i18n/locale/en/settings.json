@@ -18,6 +18,10 @@
         "TITLE": "Password",
         "NOTE": "Updating your password would reset your logins in multiple devices."
       },
+      "ACCESS_TOKEN": {
+        "TITLE": "Access Token",
+        "NOTE": "This token can be used if you are building an API based integration"
+      },
       "EMAIL_NOTIFICATIONS_SECTION" : {
         "TITLE": "Email Notifications",
         "NOTE": "Update your email notification preferences here",
