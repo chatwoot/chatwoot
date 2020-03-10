@@ -39,9 +39,9 @@ describe ::V2::ReportBuilder do
       it 'return conversations count' do
         params = {
           metric: 'conversations_count',
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -54,9 +54,9 @@ describe ::V2::ReportBuilder do
       it 'return incoming messages count' do
         params = {
           metric: 'incoming_messages_count',
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -69,9 +69,9 @@ describe ::V2::ReportBuilder do
       it 'return outgoing messages count' do
         params = {
           metric: 'outgoing_messages_count',
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -84,9 +84,9 @@ describe ::V2::ReportBuilder do
       it 'return resolutions count' do
         params = {
           metric: 'resolutions_count',
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         conversations = account.conversations.where('created_at < ?', 1.day.ago)
@@ -101,9 +101,9 @@ describe ::V2::ReportBuilder do
       it 'returns average first response time' do
         params = {
           metric: 'avg_first_response_time',
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)
@@ -114,9 +114,9 @@ describe ::V2::ReportBuilder do
 
       it 'returns summary' do
         params = {
-          type: 'account',
-          since: (Time.zone.today - 3.days),
-          until: Time.zone.today
+          type: :account,
+          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
+          until: Time.zone.today.to_time.to_i.to_s
         }
 
         builder = V2::ReportBuilder.new(account, params)

@@ -83,7 +83,7 @@ class V2::ReportBuilder
   end
 
   def range
-    params[:since]..params[:until]
+    parse_date_time(params[:since])..parse_date_time(params[:until])
   end
 
   def avg_resolution_time_summary
@@ -96,5 +96,12 @@ class V2::ReportBuilder
     return 0 if avg_first_response_time.values.empty?
 
     (avg_first_response_time.values.sum / avg_first_response_time.values.length)
+  end
+
+  def parse_date_time(datetime)
+    return datetime if datetime.is_a?(DateTime)
+    return datetime.to_datetime if datetime.is_a?(Time) || datetime.is_a?(Date)
+
+    DateTime.strptime(datetime, '%s')
   end
 end
