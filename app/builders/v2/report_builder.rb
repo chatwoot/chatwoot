@@ -10,6 +10,17 @@ class V2::ReportBuilder
     send(params[:metric])
   end
 
+  def summary
+    {
+      conversations_count: conversations_count.values.sum,
+      incoming_messages_count: incoming_messages_count.values.sum,
+      outgoing_messages_count: outgoing_messages_count.values.sum,
+      avg_first_response_time: avg_first_response_time_summary,
+      avg_resolution_time: avg_resolution_time_summary,
+      resolutions_count: resolutions_count.values.sum
+    }
+  end
+
   private
 
   def scope
@@ -66,5 +77,17 @@ class V2::ReportBuilder
 
   def range
     params[:since]..params[:until]
+  end
+
+  def avg_resolution_time_summary
+    return 0 if avg_resolution_time.values.empty?
+
+    (avg_first_response_time.values.sum / avg_first_response_time.values.length)
+  end
+
+  def avg_first_response_time_summary
+    return 0 if avg_first_response_time.values.empty?
+
+    (avg_first_response_time.values.sum / avg_first_response_time.values.length)
   end
 end

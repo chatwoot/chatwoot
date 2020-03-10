@@ -111,6 +111,24 @@ describe ::V2::ReportBuilder do
 
         expect(metrics[Time.zone.today]).to be 7200.0
       end
+
+      it 'returns summary' do
+        params = {
+          type: 'account',
+          since: (Time.zone.today - 3.days),
+          until: Time.zone.today
+        }
+
+        builder = V2::ReportBuilder.new(account, params)
+        metrics = builder.summary
+
+        expect(metrics[:conversations_count]).to be 15
+        expect(metrics[:incoming_messages_count]).to be 25
+        expect(metrics[:outgoing_messages_count]).to be 65
+        expect(metrics[:avg_first_response_time]).to be 7200.0
+        expect(metrics[:avg_resolution_time]).to be 0
+        expect(metrics[:resolutions_count]).to be 0
+      end
     end
   end
 end
