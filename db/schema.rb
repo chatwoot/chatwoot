@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_200_226_194_012) do
+ActiveRecord::Schema.define(version: 2020_03_10_062527) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -166,6 +166,17 @@ ActiveRecord::Schema.define(version: 20_200_226_194_012) do
     t.index %w[account_id display_id], name: 'index_conversations_on_account_id_and_display_id', unique: true
     t.index ['account_id'], name: 'index_conversations_on_account_id'
     t.index ['contact_inbox_id'], name: 'index_conversations_on_contact_inbox_id'
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.integer "user_id"
+    t.integer "conversation_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table 'inbox_members', id: :serial, force: :cascade do |t|

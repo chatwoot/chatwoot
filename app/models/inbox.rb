@@ -19,6 +19,8 @@
 #
 
 class Inbox < ApplicationRecord
+  include Reportable
+
   validates :account_id, presence: true
 
   belongs_to :account

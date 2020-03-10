@@ -10,6 +10,7 @@
 
 class Account < ApplicationRecord
   include Events::Types
+  include Reportable
 
   validates :name, presence: true
 

@@ -42,6 +42,7 @@ class User < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
   include Rails.application.routes.url_helpers
+  include Reportable
 
   devise :database_authenticatable,
          :registerable,
