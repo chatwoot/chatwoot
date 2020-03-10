@@ -30,11 +30,12 @@ gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 
 ##-- gems for database --#
+gem 'active_median'
+gem 'groupdate'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rack-cache'
-gem 'groupdate'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'
