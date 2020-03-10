@@ -1,8 +1,15 @@
 class Api::BaseController < ApplicationController
+  include AccessTokenAuthHelper
   respond_to :json
-  before_action :authenticate_user!
+  before_action :authenticate_access_token!, if: :authenticate_by_access_token?
+  before_action :validate_bot_access_token!, if: :authenticate_by_access_token?
+  before_action :authenticate_user!, unless: :authenticate_by_access_token?
 
   private
+
+  def authenticate_by_access_token?
+    request.headers[:api_access_token].present?
+  end
 
   def set_conversation
     @conversation ||= current_account.conversations.find_by(display_id: params[:conversation_id])
