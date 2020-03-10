@@ -34,6 +34,7 @@ gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rack-cache'
+gem 'groupdate'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'
