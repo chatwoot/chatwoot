@@ -10,8 +10,8 @@ class V2::ReportBuilder
     send(params[:metric])
   end
 
-  # Formatting response to make backward compatible with old report implementation
-  def formatted_timeseries
+  # For backward compatible with old report
+  def build
     timeseries.each_with_object([]) do |p, arr|
       arr << { value: p[1], timestamp: p[0].to_time.to_i }
     end
@@ -46,39 +46,39 @@ class V2::ReportBuilder
 
   def conversations_count
     scope.conversations
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def incoming_messages_count
     scope.messages.unscoped.incoming
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def outgoing_messages_count
     scope.messages.unscoped.outgoing
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def resolutions_count
     scope.conversations
          .resolved
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .count
   end
 
   def avg_first_response_time
     scope.events
          .where(name: 'first_response')
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .median(:value)
   end
 
   def avg_resolution_time
     scope.events.where(name: 'conversation_resolved')
-         .group_by_day(:created_at, range: range, series: false)
+         .group_by_day(:created_at, range: range, default_value: 0)
          .median(:value)
   end
 
