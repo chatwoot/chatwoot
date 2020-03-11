@@ -1,19 +1,5 @@
 type: object
-properties:
-  meta:
-    type: object
-    properties:
-      labels:
-        type: array
-        items:
-          type: string
-      additional_attributes:
-        type: object
-      contact_id:
-        type: number
-  payload:
-    type: array
-    description: 'array of messages'
-    items:
-      allOf:
-        - $ref: '#/definitions/extended_message'
+allOf:
+  - $ref: '#/definitions/generic_id'
+  - $ref: '#/definitions/conversation'
+  - $ref: '../contact/conversation.yml'
