@@ -1,9 +1,9 @@
 get:
   tags:
-    - ConversationLabels
-  operationId: conversationLabelsList
-  summary: List Labels
-  description: Lists all the labels of a conversation
+    - Messages
+  operationId: listAllMessages
+  summary: Get messages
+  description: List all messages of a conversation
   parameters:
     - name: id
       in: path
@@ -13,8 +13,12 @@ get:
   responses:
     200:
       description: Success
+      type: array
+      description: Array of messages
       schema:
-        $ref: '#/definitions/conversation_labels'
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
     404:
       description: Conversation not found
     403:
@@ -22,10 +26,10 @@ get:
 
 post:
   tags:
-    - ConversationLabels
-  operationId: conversationAddLabels
-  summary: Add Labels
-  description: Creates new labels and associates it with the conversation
+    - Messages
+  operationId: conversationNewMessage
+  summary: Create New Message
+  description: All the agent replies are created as new messages through this endpoint
   parameters:
     - name: id
       in: path
@@ -36,18 +40,14 @@ post:
       in: body
       required: true
       schema:
-        type: object
-        properties:
-          labels:
-            type: array
-            description: 'Array of labels'
-            properties:
-              type: string
+        $ref: '#/definitions/conversation_message_create'
   responses:
     200:
       description: Success
       schema:
-        $ref: '#/definitions/conversation_labels'
+        allOf:
+          - $ref: '#/definitions/generic_id'
+          - $ref: '#/definitions/message'
     404:
       description: Conversation not found
     403:

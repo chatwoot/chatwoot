@@ -1,0 +1,20 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the inbox
+  channel_type:
+    type: string
+    description: The type of the inbox
+  avatar_url:
+    type: string
+    description: The avatar image of the inbox
+  widget_color:
+    type: string
+    description: Widget Color used for customization of the widget
+  website_token:
+    type: string
+    description: Website Token
+  enable_auto_assignment:
+    type: boolean
+    description: The flag which shows whether Auto Assignment is enabled or not

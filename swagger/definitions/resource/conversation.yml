@@ -1,19 +1,27 @@
 type: object
 properties:
+  id:
+    type: number
+    description: ID of the conversation
   messages:
     type: array
-    items:
-      type: object
   inbox_id:
     type: number
+    description: ID of the inbox
   status:
     type: string
-    enum: ['open', 'resolved']
+    enum: ['open', 'resolved', 'bot']
+    description: The status of the conversation
   timestamp:
     type: string
+    description: The time at which conversation was created
   user_last_seen_at:
     type: string
   agent_last_seen_at:
     type: agent_last_seen_at
   unread_count:
     type: number
+    description: The number of unread messages
+  additional_attributes:
+    type: object
+    description: The object containing additional attributes related to the conversation
