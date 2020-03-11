@@ -15,7 +15,8 @@ message:
   $ref: ./resource/message.yml
 user:
   $ref: ./resource/user.yml
-
+inbox:
+  $ref: ./resource/inbox.yml
 # RESPONSE
 
 ## contact
