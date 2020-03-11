@@ -54,8 +54,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_median (0.2.3)
-      activesupport (>= 5)
     activejob (6.0.2.1)
       activesupport (= 6.0.2.1)
       globalid (>= 0.3.6)
@@ -489,7 +487,6 @@ PLATFORMS
 
 DEPENDENCIES
   action-cable-testing
-  active_median
   acts-as-taggable-on
   annotate
   attr_extras

@@ -30,7 +30,6 @@ gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 
 ##-- gems for database --#
-gem 'active_median'
 gem 'groupdate'
 gem 'pg'
 gem 'redis'
