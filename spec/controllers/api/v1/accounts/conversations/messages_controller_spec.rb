@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe 'Conversation Messages API', type: :request do
-  let(:account) { create(:account) }
+  let!(:account) { create(:account) }
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/<id>/messages' do
-    let(:conversation) { create(:conversation, account: account) }
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:conversation) { create(:conversation, inbox: inbox, account: account) }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -23,6 +24,24 @@ RSpec.describe 'Conversation Messages API', type: :request do
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
              headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.first.content).to eq(params[:message])
+      end
+    end
+
+    context 'when it is an authenticated agent bot' do
+      let!(:agent_bot) { create(:agent_bot) }
+
+      it 'creates a new outgoing message' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        params = { message: 'test-message' }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: { api_access_token: agent_bot.access_token.token },
              as: :json
 
         expect(response).to have_http_status(:success)

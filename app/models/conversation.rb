@@ -67,7 +67,9 @@ class Conversation < ApplicationRecord
   end
 
   def toggle_status
+    # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
+    self.status = :open if bot?
     save
   end
 

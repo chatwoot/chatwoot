@@ -92,6 +92,9 @@ Rails.application.routes.draw do
         end
 
         resources :webhooks, except: [:show]
+        namespace :widget do
+          resources :inboxes, only: [:create, :update]
+        end
       end
 
       # end of account scoped api routes
@@ -101,7 +104,6 @@ Rails.application.routes.draw do
 
       namespace :widget do
         resources :messages, only: [:index, :create, :update]
-        resources :inboxes, only: [:create, :update]
         resources :inbox_members, only: [:index]
       end
 

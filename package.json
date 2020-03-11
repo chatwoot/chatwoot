@@ -103,7 +103,7 @@
       "eslint --fix",
       "git add"
     ],
-    "*.rb": [
+    "!(*schema).rb": [
       "rubocop -a",
       "git add"
     ],
