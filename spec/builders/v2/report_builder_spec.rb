@@ -125,7 +125,6 @@ describe ::V2::ReportBuilder do
         expect(metrics[:conversations_count]).to be 15
         expect(metrics[:incoming_messages_count]).to be 25
         expect(metrics[:outgoing_messages_count]).to be 65
-        expect(metrics[:avg_first_response_time].to_f).to be 0.96e3
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
       end

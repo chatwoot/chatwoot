@@ -39,7 +39,7 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        current_day_metric = json_response.select { |x| x['timestamp'] == 1_583_865_000 }
+        current_day_metric = json_response.select { |x| x['timestamp'] == Time.zone.today.to_time.to_i }
         expect(current_day_metric.length).to eq(1)
         expect(current_day_metric[0]['value']).to eq(10)
       end
