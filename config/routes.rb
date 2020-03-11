@@ -111,6 +111,19 @@ Rails.application.routes.draw do
         end
       end
     end
+    
+    namespace :v2  do
+      resources :accounts, only: [], module: :accounts do
+        resources :reports, only: [] do
+          collection do
+            get :account
+          end
+          member do
+            get :account_summary
+          end
+        end
+      end
+    end
   end
 
   namespace :twitter do
