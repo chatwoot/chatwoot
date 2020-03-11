@@ -86,6 +86,9 @@ class V2::ReportBuilder
     parse_date_time(params[:since])..parse_date_time(params[:until])
   end
 
+  # Taking average of average is not too accurate
+  # https://en.wikipedia.org/wiki/Simpson's_paradox
+  # TODO: Will optimize this later
   def avg_resolution_time_summary
     return 0 if avg_resolution_time.values.empty?
 
