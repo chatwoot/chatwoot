@@ -73,13 +73,13 @@ class V2::ReportBuilder
     scope.events
          .where(name: 'first_response')
          .group_by_day(:created_at, range: range, default_value: 0)
-         .median(:value)
+         .average(:value)
   end
 
   def avg_resolution_time
     scope.events.where(name: 'conversation_resolved')
          .group_by_day(:created_at, range: range, default_value: 0)
-         .median(:value)
+         .average(:value)
   end
 
   def range
@@ -89,7 +89,7 @@ class V2::ReportBuilder
   def avg_resolution_time_summary
     return 0 if avg_resolution_time.values.empty?
 
-    (avg_first_response_time.values.sum / avg_first_response_time.values.length)
+    (avg_resolution_time.values.sum / avg_resolution_time.values.length)
   end
 
   def avg_first_response_time_summary

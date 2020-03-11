@@ -94,7 +94,7 @@ describe ::V2::ReportBuilder do
         builder = V2::ReportBuilder.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today]).to be nil
+        expect(metrics[Time.zone.today]).to be 0
         expect(metrics[Time.zone.today - 2.days]).to be 5
       end
 
@@ -109,7 +109,7 @@ describe ::V2::ReportBuilder do
         builder = V2::ReportBuilder.new(account, params)
         metrics = builder.timeseries
 
-        expect(metrics[Time.zone.today]).to be 7200.0
+        expect(metrics[Time.zone.today]).to be 4800.0
       end
 
       it 'returns summary' do
@@ -125,7 +125,7 @@ describe ::V2::ReportBuilder do
         expect(metrics[:conversations_count]).to be 15
         expect(metrics[:incoming_messages_count]).to be 25
         expect(metrics[:outgoing_messages_count]).to be 65
-        expect(metrics[:avg_first_response_time]).to be 7200.0
+        expect(metrics[:avg_first_response_time]).to be 960.0
         expect(metrics[:avg_resolution_time]).to be 0
         expect(metrics[:resolutions_count]).to be 0
       end
