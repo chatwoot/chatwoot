@@ -63,13 +63,14 @@ export default {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
     margin-top: $space-smaller;
-    margin-bottom: $space-small;
+    margin-bottom: $space-smaller;
     color: $color-heading;
     line-height: 1.5;
   }
 
   .body {
     color: $color-body;
+    margin-bottom: $space-smaller;
   }
 
   .media {
