@@ -7,6 +7,8 @@ class Messages::Outgoing::NormalBuilder
     @conversation = conversation
     @user = user
     @fb_id = params[:fb_id]
+    @content_type = params[:content_type]
+    @items = params[:content_attribute_items]
   end
 
   def perform
@@ -23,7 +25,9 @@ class Messages::Outgoing::NormalBuilder
       content: @content,
       private: @private,
       user_id: @user&.id,
-      source_id: @fb_id
+      source_id: @fb_id,
+      content_type: @content_type,
+      items: @items
     }
   end
 end

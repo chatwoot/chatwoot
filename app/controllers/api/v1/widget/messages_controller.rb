@@ -15,7 +15,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def update
-    @message.update!(input_submitted_email: contact_email)
+    @message.update!(submitted_email: contact_email)
     update_contact(contact_email)
     head :no_content
   rescue StandardError => e
