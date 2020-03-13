@@ -60,7 +60,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(response).to have_http_status(:success)
         message.reload
-        expect(message.input_submitted_email).to eq(email)
+        expect(message.submitted_email).to eq(email)
         expect(message.conversation.contact.email).to eq(email)
       end
     end
