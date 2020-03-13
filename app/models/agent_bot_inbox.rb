@@ -3,7 +3,7 @@
 # Table name: agent_bot_inboxes
 #
 #  id           :bigint           not null, primary key
-#  status       :integer
+#  status       :integer          default("active")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
 #  account_id   :integer
