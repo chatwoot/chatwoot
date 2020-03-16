@@ -61,14 +61,14 @@ export default {
 .options-message {
   @include border-normal;
   background: white;
-  width: 55%;
-  max-width: 16rem;
+  width: 60%;
+  max-width: 17rem;
   padding: $space-small $space-normal;
   border-radius: $space-small;
   overflow: hidden;
 
   .title {
-    font-size: $font-size-default;
+    font-size: $font-size-small;
     font-weight: $font-weight-normal;
     margin-top: $space-smaller;
     margin-bottom: $space-smaller;
