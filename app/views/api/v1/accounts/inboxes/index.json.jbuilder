@@ -9,5 +9,6 @@ json.payload do
     json.widget_color inbox.channel.try(:widget_color)
     json.website_token inbox.channel.try(:website_token)
     json.enable_auto_assignment inbox.enable_auto_assignment
+    json.web_widget_script inbox.channel.try(:web_widget_script)
   end
 end
