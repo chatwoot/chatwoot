@@ -50,11 +50,5 @@ export default {
   margin-top: $space-smaller;
   border-radius: $space-micro;
   font-weight: $font-weight-medium;
-
-  + .action-button {
-    background: white;
-    @include thin-border($color-woot);
-    color: $color-woot;
-  }
 }
 </style>
