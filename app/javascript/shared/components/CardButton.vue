@@ -4,6 +4,8 @@
     :key="action.uri"
     class="action-button button"
     :href="action.uri"
+    target="_blank"
+    rel="noopener nofollow noreferrer"
   >
     {{ action.text }}
   </a>
@@ -44,11 +46,14 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .action-button {
-  width: 100%;
-  padding: 0;
-  max-height: 34px;
-  margin-top: $space-smaller;
+  align-items: center;
   border-radius: $space-micro;
+  display: flex;
   font-weight: $font-weight-medium;
+  justify-content: center;
+  margin-top: $space-smaller;
+  max-height: 34px;
+  padding: 0;
+  width: 100%;
 }
 </style>

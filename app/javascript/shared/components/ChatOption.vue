@@ -3,7 +3,7 @@
     <button class="option-button button" @click="onClick">
       <span v-if="isSelected" class="icon ion-checkmark-circled" />
       <span v-else class="icon ion-android-radio-button-off" />
-      <span>{{ action.text }}</span>
+      <span>{{ action.title }}</span>
     </button>
   </li>
 </template>
