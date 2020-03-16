@@ -31,6 +31,23 @@ class Channel::WebWidget < ApplicationRecord
     'Website'
   end
 
+  def web_widget_script
+    "<script>
+      (function(d,t) {
+        var BASE_URL = \"#{ENV.fetch('FRONTEND_URL', '')}\";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src= BASE_URL + \"/packs/js/sdk.js\";
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          window.chatwootSDK.run({
+            websiteToken: '#{website_token}',
+            baseUrl: BASE_URL
+          })
+        }
+      })(document,\"script\");
+    </script>"
+  end
+
   def create_contact_inbox
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(name: ::Haikunator.haikunate(1000))

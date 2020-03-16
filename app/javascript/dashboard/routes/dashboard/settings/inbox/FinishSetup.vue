@@ -7,7 +7,10 @@
     >
       <div class="medium-12 columns text-center">
         <div class="website--code">
-          <woot-code v-if="currentInbox.website_token" :script="websiteScript">
+          <woot-code
+            v-if="currentInbox.website_token"
+            :script="currentInbox.web_widget_script"
+          >
           </woot-code>
         </div>
         <router-link
@@ -25,7 +28,6 @@
 </template>
 
 <script>
-import { createWebsiteWidgetScript } from 'dashboard/helper/scriptGenerator';
 import EmptyState from '../../../../components/widgets/EmptyState';
 
 export default {
@@ -43,9 +45,6 @@ export default {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
-    },
-    websiteScript() {
-      return createWebsiteWidgetScript(this.currentInbox.website_token);
     },
   },
 };
