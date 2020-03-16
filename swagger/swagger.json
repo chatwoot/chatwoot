@@ -930,6 +930,10 @@
         "enable_auto_assignment": {
           "type": "boolean",
           "description": "The flag which shows whether Auto Assignment is enabled or not"
+        },
+        "web_widget_script": {
+          "type": "string",
+          "description": "Script used to load the website widget"
         }
       }
     },

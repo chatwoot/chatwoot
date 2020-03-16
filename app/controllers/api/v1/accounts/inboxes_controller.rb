@@ -6,13 +6,13 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
     @inboxes = policy_scope(current_account.inboxes)
   end
 
+  def update
+    @inbox.update(inbox_update_params)
+  end
+
   def destroy
     @inbox.destroy
     head :ok
-  end
-
-  def update
-    @inbox.update(inbox_update_params)
   end
 
   private

@@ -213,7 +213,6 @@ const IFrameHelper = {
     });
   },
   toggleCloseButton: () => {
-    console.log(window.matchMedia('(max-width: 668px)'));
     if (window.matchMedia('(max-width: 668px)').matches) {
       IFrameHelper.sendMessage('toggle-close-button', { showClose: true });
     } else {
