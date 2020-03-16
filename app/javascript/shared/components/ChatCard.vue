@@ -79,5 +79,11 @@ export default {
     object-fit: contain;
     max-height: 150px;
   }
+
+  .action-button + .action-button {
+    background: white;
+    @include thin-border($color-woot);
+    color: $color-woot;
+  }
 }
 </style>
