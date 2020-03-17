@@ -93,6 +93,13 @@ Rails.application.configure do
   # Disable host check during development
   config.hosts = nil
 
+  # customize using the environment variables
+  config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+
+  # Use a different logger for distributed setups.
+  # require 'syslog/logger'
+  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', Rails.env + '.log'), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
     Bullet.enable = true
