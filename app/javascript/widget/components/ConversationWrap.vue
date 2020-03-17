@@ -90,7 +90,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .conversation--container {
   display: flex;
