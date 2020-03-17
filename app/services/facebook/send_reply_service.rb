@@ -48,15 +48,19 @@ class Facebook::SendReplyService
   end
 
   def twenty_four_hour_window_over?
-    last_incoming_message = conversation.messages.incoming.last
-
-    is_after_24_hours = (Time.current - last_incoming_message.created_at) / 3600 >= 24
-
-    return false unless is_after_24_hours
+    return false unless is_after_24_hours?
 
     return false if last_incoming_message && sent_first_outgoing_message_after_24_hours?(last_incoming_message.id)
 
     true
+  end
+
+  def is_after_24_hours?
+    (Time.current - last_incoming_message.created_at) / 3600 >= 24
+  end
+
+  def last_incoming_message
+    conversation.messages.incoming.last
   end
 
   def sent_first_outgoing_message_after_24_hours?(last_incoming_message_id)
