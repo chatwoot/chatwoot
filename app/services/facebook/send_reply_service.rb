@@ -50,6 +50,7 @@ class Facebook::SendReplyService
   def twenty_four_hour_window_over?
     return false unless after_24_hours?
     return false if last_incoming_and_outgoing_message_after_one_day?
+
     true
   end
 
