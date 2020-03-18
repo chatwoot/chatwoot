@@ -43,6 +43,7 @@ class User < ApplicationRecord
   include Events::Types
   include Pubsubable
   include Rails.application.routes.url_helpers
+  include Reportable
 
   devise :database_authenticatable,
          :registerable,
