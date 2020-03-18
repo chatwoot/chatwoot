@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_09_213132) do
+ActiveRecord::Schema.define(version: 2020_03_11_083854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -179,6 +179,22 @@ ActiveRecord::Schema.define(version: 2020_03_09_213132) do
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
   end
 
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.float "value"
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.integer "user_id"
+    t.integer "conversation_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_events_on_account_id"
+    t.index ["created_at"], name: "index_events_on_created_at"
+    t.index ["inbox_id"], name: "index_events_on_inbox_id"
+    t.index ["name"], name: "index_events_on_name"
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -213,9 +229,12 @@ ActiveRecord::Schema.define(version: 2020_03_09_213132) do
     t.integer "content_type", default: 0
     t.json "content_attributes", default: {}
     t.bigint "contact_id"
+    t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["contact_id"], name: "index_messages_on_contact_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notification_settings", force: :cascade do |t|

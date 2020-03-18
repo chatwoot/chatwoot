@@ -1,5 +1,7 @@
 class AddNotificationSettings < ActiveRecord::Migration[6.0]
   def change
+    return if ActiveRecord::Base.connection.data_source_exists? 'notification_settings'
+
     create_table :notification_settings do |t|
       t.integer :account_id
       t.integer :user_id
