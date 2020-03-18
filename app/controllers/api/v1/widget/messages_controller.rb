@@ -108,7 +108,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [content_attributes: [:submitted_values]])
+    params.permit(message: [:submitted_values])
   end
 
   def permitted_params
