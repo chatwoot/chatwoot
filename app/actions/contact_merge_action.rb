@@ -5,6 +5,7 @@ class ContactMergeAction
     ActiveRecord::Base.transaction do
       validate_contacts
       merge_conversations
+      merge_messages
       merge_contact_inboxes
       remove_mergee_contact
     end
@@ -24,6 +25,10 @@ class ContactMergeAction
 
   def merge_conversations
     Conversation.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+  end
+
+  def merge_messages
+    Message.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
   def merge_contact_inboxes
