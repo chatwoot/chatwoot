@@ -41,7 +41,7 @@ class Message < ApplicationRecord
   validates_with ContentAttributeValidator
 
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
-  enum content_type: { text: 0, input_text: 1, input_textarea: 2, input_email: 3, input_select: 4, cards: 5 }
+  enum content_type: { text: 0, input_text: 1, input_textarea: 2, input_email: 3, input_select: 4, cards: 5, form: 6 }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   store :content_attributes, accessors: [:submitted_email, :items], coder: JSON
 
