@@ -4,6 +4,7 @@ module Events::Types
   CONVERSATION_CREATED = 'conversation.created'
   CONVERSATION_RESOLVED = 'conversation.resolved'
   CONVERSATION_READ = 'conversation.read'
+  WEBWIDGET_TRIGGERED = 'webwidget.triggered'
 
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
