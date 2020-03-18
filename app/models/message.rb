@@ -64,6 +64,8 @@ class Message < ApplicationRecord
                :execute_message_template_hooks,
                :notify_via_mail
 
+  after_update :dispatch_update_event
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
@@ -89,6 +91,8 @@ class Message < ApplicationRecord
       content: content,
       created_at: created_at,
       message_type: message_type,
+      items: items,
+      submitted_values: submitted_values,
       source_id: source_id,
       sender: user.try(:webhook_data),
       contact: contact.try(:webhook_data),
@@ -106,6 +110,10 @@ class Message < ApplicationRecord
     if outgoing? && conversation.messages.outgoing.count == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
     end
+  end
+
+  def dispatch_update_event
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
   end
 
   def send_reply

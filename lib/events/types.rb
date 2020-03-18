@@ -8,6 +8,7 @@ module Events::Types
 
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
+  MESSAGE_UPDATED = 'message.updated'
   CONVERSATION_REOPENED = 'conversation.reopened'
   CONVERSATION_LOCK_TOGGLE = 'conversation.lock_toggle'
   ASSIGNEE_CHANGED = 'assignee.changed'
