@@ -10,6 +10,7 @@
 
 class Account < ApplicationRecord
   include Events::Types
+  include Reportable
 
   validates :name, presence: true
 
@@ -18,6 +19,7 @@ class Account < ApplicationRecord
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
   has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'

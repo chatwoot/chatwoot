@@ -27,6 +27,8 @@ RSpec.describe Inbox do
     it { is_expected.to have_one(:agent_bot_inbox) }
 
     it { is_expected.to have_many(:webhooks).dependent(:destroy) }
+
+    it { is_expected.to have_many(:events) }
   end
 
   describe '#add_member' do
