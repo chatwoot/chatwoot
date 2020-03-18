@@ -28,6 +28,7 @@ class Contact < ApplicationRecord
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes
+  has_many :messages, dependent: :destroy
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
