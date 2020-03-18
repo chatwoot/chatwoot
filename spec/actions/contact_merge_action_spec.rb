@@ -34,7 +34,7 @@ describe ::ContactMergeAction do
     end
 
     context 'when mergee contact has messages' do
-      it 'moves the contact inboxes to base contact' do
+      it 'moves the messages to base contact' do
         contact_merge
         expect(base_contact.messages.count).to be 2
       end
