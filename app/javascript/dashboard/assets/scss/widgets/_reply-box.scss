@@ -58,8 +58,14 @@
       }
     }
 
+    .file-uploads>label {
+      cursor: pointer;
+    }
+
     .attachment {
-      margin-right: $space-normal;
+      cursor: pointer;
+      margin-right: $space-one;
+      padding: 0 $space-small;
     }
 
     >textarea {
