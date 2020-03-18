@@ -7,7 +7,7 @@ class Messages::Outgoing::NormalBuilder
     @conversation = conversation
     @user = user
     @fb_id = params[:fb_id]
-    @attachment = params[:attachment]
+    @attachment = params
   end
 
   def perform

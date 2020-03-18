@@ -25,27 +25,14 @@
       />
       <file-upload
         v-if="!showFileUpload"
-        @input-file="onImage"
         accept="image/*"
+        @input-file="onFileUpload"
       >
-        <i class="icon ion-image attachment" v-if="!isUploading.image" />
+        <i
+          v-if="!isUploading.image"
+          class="icon ion-android-attach attachment"
+        />
         <woot-spinner v-if="isUploading.image" />
-      </file-upload>
-      <file-upload
-        v-if="!showFileUpload"
-        @input-file="onVideo"
-        accept="video/*"
-      >
-        <i class="icon ion-videocamera attachment" v-if="!isUploading.video" />
-        <woot-spinner v-if="isUploading.video" />
-      </file-upload>
-      <file-upload
-        v-if="!showFileUpload"
-        @input-file="onAudio"
-        accept="audio/*"
-      >
-        <i class="icon ion-mic-a attachment" v-if="!isUploading.audio" />
-        <woot-spinner v-if="isUploading.audio" />
       </file-upload>
       <i
         class="icon ion-happy-outline"
@@ -110,6 +97,7 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
+    FileUpload,
   },
   mixins: [clickaway],
   data() {
@@ -163,11 +151,6 @@ export default {
       }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
     },
-  },
-  components: {
-    EmojiInput,
-    CannedResponse,
-    FileUpload,
   },
   watch: {
     message(val) {
@@ -309,48 +292,22 @@ export default {
       return placeHolder;
     },
 
-    onImage(file) {
+    onFileUpload(file) {
       this.isUploading.image = true;
       this.$store
         .dispatch('sendAttachment', [
           this.currentChat.id,
           {
-            file_type: 'image',
+            file_type: file.type,
             file: file.file,
           },
         ])
         .then(() => {
           this.isUploading.image = false;
           this.$emit('scrollToMessage');
-        });
-    },
-    onVideo({ file }) {
-      this.isUploading.video = true;
-      this.$store
-        .dispatch('sendAttachment', [
-          this.currentChat.id,
-          {
-            file_type: 'video',
-            file,
-          },
-        ])
-        .then(() => {
-          this.isUploading.video = false;
-          this.$emit('scrollToMessage');
-        });
-    },
-    onAudio({ file }) {
-      this.isUploading.audio = true;
-      this.$store
-        .dispatch('sendAttachment', [
-          this.currentChat.id,
-          {
-            file_type: 'audio',
-            file,
-          },
-        ])
-        .then(() => {
-          this.isUploading.audio = false;
+        })
+        .catch(() => {
+          this.isUploading.image = false;
           this.$emit('scrollToMessage');
         });
     },
