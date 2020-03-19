@@ -37,7 +37,7 @@ Rails.application.routes.draw do
         end
         resources :canned_responses, except: [:show, :edit, :new]
 
-        resources :conversations, only: [:index, :show] do
+        resources :conversations, only: [:index, :create, :show] do
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -113,8 +113,8 @@ Rails.application.routes.draw do
         end
       end
     end
-    
-    namespace :v2  do
+
+    namespace :v2 do
       resources :accounts, only: [], module: :accounts do
         resources :reports, only: [] do
           collection do

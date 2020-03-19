@@ -36,7 +36,7 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   end
 
   def contact_inbox
-    @contact_inbox ||= ContactInboxes.find_by(source_id: params[:conversation][:source_id])
+    @contact_inbox ||= ::ContactInbox.find_by(source_id: params[:conversation][:source_id])
   end
 
   def conversation_params
