@@ -22,7 +22,6 @@ class WebhookListener < BaseListener
   def webwidget_triggered(event)
     contact_inbox = event.data[:contact_inbox]
     inbox = contact_inbox.inbox
-    return unless inbox.agent_bot_inbox.active?
 
     payload = contact_inbox.webhook_data.merge(event: __method__.to_s)
     deliver_webhook_payloads(payload, inbox)

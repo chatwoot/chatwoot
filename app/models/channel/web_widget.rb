@@ -60,6 +60,7 @@ class Channel::WebWidget < ApplicationRecord
       )
 
       Rails.configuration.dispatcher.dispatch(WEBWIDGET_TRIGGERED, Time.zone.now, contact_inbox: contact_inbox)
+      contact_inbox
     rescue StandardError => e
       Rails.logger e
     end
