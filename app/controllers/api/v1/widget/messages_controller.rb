@@ -19,7 +19,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
       @message.update!(submitted_email: contact_email)
       update_contact(contact_email)
     else
-      @message.update!(message_update_params)
+      @message.update!(message_update_params[:message])
     end
     head :no_content
   rescue StandardError => e
@@ -108,7 +108,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [:submitted_values])
+    params.permit(message: [submitted_values: [:name, :title, :value]])
   end
 
   def permitted_params

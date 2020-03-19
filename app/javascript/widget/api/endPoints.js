@@ -14,7 +14,7 @@ const getConversation = ({ before }) => ({
   params: { before },
 });
 
-const updateContact = id => ({
+const updateMessage = id => ({
   url: `/api/v1/widget/messages/${id}${window.location.search}`,
 });
 
@@ -28,6 +28,6 @@ const getAvailableAgents = token => ({
 export default {
   sendMessage,
   getConversation,
-  updateContact,
+  updateMessage,
   getAvailableAgents,
 };

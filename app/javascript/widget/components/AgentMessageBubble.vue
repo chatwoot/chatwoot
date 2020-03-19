@@ -9,10 +9,20 @@
       />
     </div>
     <div v-if="isOptions">
-      <chat-options :title="message" :options="messageContentAttributes.items">
+      <chat-options
+        :title="message"
+        :options="messageContentAttributes.items"
+        :hide-fields="!!messageContentAttributes.submitted_values"
+        @click="onOptionSelect"
+      >
       </chat-options>
     </div>
-    <chat-form v-if="isForm" :items="messageContentAttributes.items">
+    <chat-form
+      v-if="isForm"
+      :items="messageContentAttributes.items"
+      :submitted-values="messageContentAttributes.submitted_values"
+      @submit="onFormSubmit"
+    >
     </chat-form>
     <div v-if="isCards">
       <chat-card
@@ -69,6 +79,24 @@ export default {
     },
     isForm() {
       return this.contentType === 'form';
+    },
+  },
+  methods: {
+    onOptionSelect(selectedOption) {
+      this.$store.dispatch('contact/updateMessage', {
+        submittedValues: [selectedOption],
+        messageId: this.messageId,
+      });
+    },
+    onFormSubmit(formValues) {
+      const formValuesAsArray = Object.keys(formValues).map(key => ({
+        name: key,
+        value: formValues[key],
+      }));
+      this.$store.dispatch('contact/updateMessage', {
+        submittedValues: formValuesAsArray,
+        messageId: this.messageId,
+      });
     },
   },
 };

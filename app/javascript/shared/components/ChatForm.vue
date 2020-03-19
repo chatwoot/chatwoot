@@ -9,15 +9,22 @@
           :type="item.type"
           :name="item.name"
           :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
         />
         <textarea
           v-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
           :name="item.name"
           :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
         />
       </div>
-      <button class="button small block" type="submit">
+      <button
+        v-if="!submittedValues.length"
+        class="button small block"
+        type="submit"
+        :disabled="!isFormValid"
+      >
         Submit
       </button>
     </form>
@@ -31,16 +38,41 @@ export default {
       type: Array,
       default: () => [],
     },
+    submittedValues: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {
       formValues: {},
     };
   },
+  computed: {
+    isFormValid() {
+      return this.items.reduce((acc, { name }) => {
+        return !!this.formValues[name] && acc;
+      }, true);
+    },
+  },
+  mounted() {
+    this.updateFormValues();
+  },
   methods: {
     onSubmit(e) {
       e.preventDefault();
-      console.log(this.formValues);
+      if (!this.isFormValid) {
+        return;
+      }
+      this.$emit('submit', this.formValues);
+    },
+    updateFormValues() {
+      this.formValues = this.submittedValues.reduce((acc, obj) => {
+        return {
+          ...acc,
+          [obj.name]: obj.value,
+        };
+      }, {});
     },
   },
 };
@@ -75,6 +107,10 @@ export default {
     border-radius: 4px;
     border: 1px solid $color-border;
     font-size: $font-size-default;
+
+    &:disabled {
+      background: $color-background-light;
+    }
   }
 }
 </style>

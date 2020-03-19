@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     onClick() {
-      // Do postback here
+      this.$emit('click', this.action);
     },
   },
 };

@@ -1,37 +1,43 @@
 <template>
-  <div class="agent-message">
-    <div class="avatar-wrap">
-      <thumbnail
-        v-if="showAvatar"
-        :src="avatarUrl"
-        size="24px"
-        :username="agentName"
-      />
+  <div class="agent-bubble">
+    <div class="agent-message">
+      <div class="avatar-wrap">
+        <thumbnail
+          v-if="showAvatar || hasRecordedResponse"
+          :src="avatarUrl"
+          size="24px"
+          :username="agentName"
+        />
+      </div>
+      <div class="message-wrap">
+        <AgentMessageBubble
+          :content-type="contentType"
+          :message-content-attributes="messageContentAttributes"
+          :message-id="messageId"
+          :message-type="messageType"
+          :message="message"
+        />
+        <p v-if="showAvatar || hasRecordedResponse" class="agent-name">
+          {{ agentName }}
+        </p>
+      </div>
     </div>
-    <div class="message-wrap">
-      <AgentMessageBubble
-        :content-type="contentType"
-        :message-content-attributes="messageContentAttributes"
-        :message-id="messageId"
-        :message-type="messageType"
-        :message="message"
-      />
-      <p v-if="showAvatar" class="agent-name">
-        {{ agentName }}
-      </p>
-    </div>
+
+    <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
   </div>
 </template>
 
 <script>
 import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import UserMessage from './UserMessage.vue';
 
 export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
     Thumbnail,
+    UserMessage,
   },
   props: {
     message: String,
@@ -55,6 +61,30 @@ export default {
       default: 0,
     },
   },
+  computed: {
+    hasRecordedResponse() {
+      return (
+        this.messageContentAttributes.submitted_email ||
+        (this.messageContentAttributes.submitted_values &&
+          this.contentType !== 'form')
+      );
+    },
+    responseMessage() {
+      if (this.messageContentAttributes.submitted_email) {
+        return this.messageContentAttributes.submitted_email;
+      }
+
+      if (this.messageContentAttributes.submitted_values) {
+        if (this.contentType === 'input_select') {
+          const [
+            selectionOption = {},
+          ] = this.messageContentAttributes.submitted_values;
+          return selectionOption.title || selectionOption.value;
+        }
+      }
+      return '';
+    },
+  },
 };
 </script>
 
@@ -62,6 +92,22 @@ export default {
 <style lang="scss">
 @import '~widget/assets/scss/variables.scss';
 .conversation-wrap {
+  .agent-bubble {
+    margin-bottom: $space-micro;
+
+    & + .agent-bubble {
+      .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+
+      .user-message {
+        .chat-bubble {
+          border-top-left-radius: $space-two;
+        }
+      }
+    }
+  }
+
   .agent-message {
     align-items: flex-end;
     display: flex;
@@ -69,14 +115,6 @@ export default {
     justify-content: flex-start;
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
-
-    & + .agent-message {
-      margin-bottom: $space-micro;
-
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
 
     & + .user-message {
       margin-top: $space-normal;
