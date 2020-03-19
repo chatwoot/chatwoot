@@ -17,6 +17,7 @@ class Messages::Outgoing::NormalBuilder
       @message.attachment.file.attach(@attachment[:file])
     end
     @message.save
+    @message
   end
 
   private
