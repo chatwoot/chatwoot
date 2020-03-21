@@ -116,7 +116,7 @@ export default {
       }
       const key = `CHAT_LIST.ATTACHMENTS.${fileType}`;
       return `
-        <i class="${this.$t(`${key}.ICON`)}"></i>
+        <i class="small-icon ${this.$t(`${key}.ICON`)}"></i>
         ${this.$t(`${key}.CONTENT`)}
       `;
     },
