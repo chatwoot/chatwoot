@@ -28,7 +28,7 @@ module.exports = {
     }],
     'vue/html-self-closing': 'off',
     "vue/no-v-html": 'off',
-    'import/extensions': ['never']
+    'import/extensions': ['off']
 
   },
   settings: {
