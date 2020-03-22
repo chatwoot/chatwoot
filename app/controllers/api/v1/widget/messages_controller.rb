@@ -11,6 +11,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def create
     @message = conversation.messages.new(message_params)
     @message.save!
+    if params[:message][:attachment].present?
+      @message.attachment = Attachment.new(account_id: @message.account_id)
+      @message.attachment.file.attach(params[:message][:attachment][:file])
+    end
     render json: @message
   end
 
