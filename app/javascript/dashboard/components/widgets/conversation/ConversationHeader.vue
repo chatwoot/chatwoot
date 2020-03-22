@@ -12,7 +12,7 @@
           {{ chat.meta.sender.name }}
         </h3>
         <button
-          class="user--profile__button"
+          class="user--profile__button clear button small"
           @click="$emit('contactPanelToggle')"
         >
           {{ viewProfileButtonLabel }}

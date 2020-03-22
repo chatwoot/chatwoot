@@ -83,18 +83,12 @@
   flex-direction: column;
 
   .load-more-conversations {
-    color: $color-woot;
-    cursor: pointer;
     font-size: $font-size-small;
     padding: $space-normal;
-
-    &:hover {
-      background: $color-background;
-    }
+    width: 100%;
   }
 
   .end-of-list-text {
-    font-style: italic;
     padding: $space-normal;
   }
 
