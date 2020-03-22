@@ -1,10 +1,7 @@
 <template>
   <li v-if="data.attachment || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <p
-        v-tooltip.top-start="sentByMessage"
-        :class="{ bubble: isBubble, 'is-private': isPrivate }"
-      >
+      <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-image
           v-if="data.attachment && data.attachment.file_type === 'image'"
           :url="data.attachment.data_url"
@@ -81,6 +78,11 @@ export default {
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
     },
+    hasImageAttachment() {
+      const { attachment = {} } = this.data;
+      const { file_type: fileType } = attachment;
+      return fileType === 'image';
+    },
     isPrivate() {
       return this.data.private;
     },
@@ -102,9 +104,30 @@ export default {
         'activity-wrap': !this.isBubble,
       };
     },
+    bubbleClass() {
+      return {
+        bubble: this.isBubble,
+        'is-private': this.isPrivate,
+        'is-image': this.hasImageAttachment,
+      };
+    },
   },
   methods: {
     getEmojiSVG,
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables.scss';
+.wrap {
+  .is-image {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .image {
+    max-width: 32rem;
+    padding: 0;
+  }
+}
+</style>
