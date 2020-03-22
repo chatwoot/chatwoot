@@ -79,7 +79,7 @@ export default {
       return [0, 1, 3].includes(this.data.message_type);
     },
     hasImageAttachment() {
-      const { attachment = '' } = this.data;
+      const { attachment = {} } = this.data;
       const { file_type: fileType } = attachment;
       return fileType === 'image';
     },

@@ -1,6 +1,6 @@
 <template>
   <a :href="url" target="_blank" class="image message-text__wrap">
-    <img :src="url" />
+    <img :src="url" alt="Picture message" />
     <span class="time">{{ readableTime }}</span>
   </a>
 </template>

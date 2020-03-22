@@ -1,5 +1,5 @@
 /* eslint no-console: 0 */
-/* global axios, FormData */
+/* global axios */
 import ApiClient from '../ApiClient';
 
 class MessageApi extends ApiClient {

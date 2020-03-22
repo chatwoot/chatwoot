@@ -199,21 +199,21 @@ export default {
     isEscape(e) {
       return e.keyCode === 27; // ESCAPE
     },
-    sendMessage() {
+    async sendMessage() {
       const isMessageEmpty = !this.message.replace(/\n/g, '').length;
-      if (isMessageEmpty) {
-        return;
-      }
+      if (isMessageEmpty) return;
+
       if (!this.showCannedResponsesList) {
-        this.$store
-          .dispatch('sendMessage', {
+        try {
+          await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
             message: this.message,
             private: this.isPrivate,
-          })
-          .then(() => {
-            this.$emit('scrollToMessage');
           });
+          this.$emit('scrollToMessage');
+        } catch (error) {
+          // Error
+        }
         this.clearMessage();
         this.hideEmojiPicker();
       }
