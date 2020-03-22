@@ -20,12 +20,12 @@
     border-radius: $space-smaller;
     margin-right: $space-normal;
 
-    &:before {
-      line-height: 3.8rem;
+    &::before {
+      color: $medium-gray;
       font-size: $font-size-default;
+      line-height: 3.8rem;
       padding-left: $space-slab;
       padding-right: $space-smaller;
-      color: $medium-gray;
     }
 
     .multiselect {
@@ -49,33 +49,32 @@
     }
 
     .user--profile__meta {
+      align-items: flex-start;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       justify-content: center;
       margin-left: $space-slab;
     }
 
     .user--profile__button {
-      color: $color-woot;
       font-size: $font-size-mini;
       margin-top: $space-micro;
-      cursor: pointer;
+      padding: 0;
     }
   }
 }
 
 .button.resolve--button {
   >.icon {
-    padding-right: $space-small;
     font-size: $font-size-default;
+    padding-right: $space-small;
   }
 
   .spinner {
-    padding: 0 $space-one;
     margin-right: $space-smaller;
+    padding: 0 $space-one;
 
-    &:before {
+    &::before {
       border-top-color: $color-white;
     }
   }
