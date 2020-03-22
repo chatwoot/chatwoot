@@ -10,6 +10,7 @@ describe ::ContactMergeAction do
   before do
     2.times.each { create(:conversation, contact: base_contact) }
     2.times.each { create(:conversation, contact: mergee_contact) }
+    2.times.each { create(:message, contact: mergee_contact) }
   end
 
   describe '#perform' do
@@ -29,6 +30,13 @@ describe ::ContactMergeAction do
       it 'moves the contact inboxes to base contact' do
         contact_merge
         expect(base_contact.contact_inboxes.count).to be 4
+      end
+    end
+
+    context 'when mergee contact has messages' do
+      it 'moves the messages to base contact' do
+        contact_merge
+        expect(base_contact.messages.count).to be 2
       end
     end
 
