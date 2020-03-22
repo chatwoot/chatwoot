@@ -28,9 +28,16 @@
       color: $color-gray;
       font-size: $font-size-default;
       font-weight: $font-weight-medium;
+
+      .wrap,
+      .child-icon {
+        &:hover {
+          color: $color-woot;
+        }
+      }
     }
 
-    .active a {
+    .active a .wrap {
       color: $color-woot;
     }
   }
@@ -100,7 +107,7 @@
     margin-top: $space-medium;
 
     >span {
-      margin-left: auto;
+      margin-left: $space-one;
     }
   }
 }

@@ -11,7 +11,6 @@
       v-else
       :username="username"
       :class="thumbnailClass"
-      background-color="#1f93ff"
       color="white"
       :size="avatarSize"
     />
