@@ -15,8 +15,6 @@
 #  message_id       :integer          not null
 #
 
-require 'uri'
-require 'open-uri'
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
   belongs_to :account
@@ -38,7 +36,7 @@ class Attachment < ApplicationRecord
     {
       extension: extension,
       data_url: file_url,
-      thumb_url: file.try(:thumb).try(:url) # will exist only for images
+      thumb_url: thumb_url
     }
   end
 
@@ -69,5 +67,13 @@ class Attachment < ApplicationRecord
 
   def file_url
     file.attached? ? url_for(file) : ''
+  end
+
+  def thumb_url
+    if file.attached? && file.representable?
+      url_for(file.representation(resize: '250x250'))
+    else
+      ''
+    end
   end
 end
