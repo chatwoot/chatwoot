@@ -48,6 +48,7 @@
     "vue-router": "~2.2.0",
     "vue-select": "~2.0.0",
     "vue-template-compiler": "^2.6.10",
+    "vue-upload-component": "^2.8.20",
     "vuelidate": "~0.7.5",
     "vuex": "~2.1.1",
     "vuex-router-sync": "~4.1.2"
