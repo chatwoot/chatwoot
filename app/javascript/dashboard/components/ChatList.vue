@@ -32,7 +32,7 @@
 
       <div
         v-if="!hasCurrentPageEndReached && !chatListLoading"
-        class="text-center load-more-conversations"
+        class="clear button load-more-conversations"
         @click="fetchConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
