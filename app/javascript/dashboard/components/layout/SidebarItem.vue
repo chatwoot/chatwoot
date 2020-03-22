@@ -6,16 +6,19 @@
     :class="computedClass"
   >
     <a
+      class="sub-menu-title"
       :class="getMenuItemClass"
       data-tooltip
       aria-haspopup="true"
       :title="menuItem.toolTip"
     >
-      <i :class="menuItem.icon" />
-      {{ menuItem.label }}
+      <div class="wrap">
+        <i :class="menuItem.icon" />
+        {{ menuItem.label }}
+      </div>
       <span
         v-if="showItem(menuItem)"
-        class="ion-ios-plus-outline"
+        class="child-icon ion-android-add-circle"
         @click.prevent="newLinkClick"
       />
     </a>
@@ -28,12 +31,14 @@
         :to="child.toState"
       >
         <a href="#">
-          <i
-            v-if="computedInboxClass(child)"
-            class="inbox-icon"
-            :class="computedInboxClass(child)"
-          ></i>
-          {{ child.label }}
+          <div class="wrap">
+            <i
+              v-if="computedInboxClass(child)"
+              class="inbox-icon"
+              :class="computedInboxClass(child)"
+            ></i>
+            {{ child.label }}
+          </div>
         </a>
       </router-link>
     </ul>
@@ -115,3 +120,9 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.sub-menu-title {
+  display: flex;
+  justify-content: space-between;
+}
+</style>

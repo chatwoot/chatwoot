@@ -21,7 +21,17 @@
 }
 
 .tabs-title {
-  @include margin($zero $space-one);
+  @include margin($zero $space-slab);
+
+  .badge {
+    background: $color-background;
+    border-radius: $space-small;
+    color: $color-gray;
+    font-size: $font-size-micro;
+    font-weight: $font-weight-black;
+    margin-left: $space-smaller;
+    padding: $space-smaller;
+  }
 
   &:first-child {
     margin-left: 0;
@@ -40,15 +50,23 @@
 
   a {
     @include position(relative, 1px null null null);
-    transition: all .15s $ease-in-out-cubic;
+    align-items: center;
     border-bottom: 2px solid transparent;
     color: $medium-gray;
+    display: flex;
+    flex-direction: row;
     font-size: $font-size-small;
+    transition: all .15s $ease-in-out-cubic;
   }
 
   &.is-active {
     a {
       border-bottom-color: $color-woot;
+      color: $color-woot;
+    }
+
+    .badge {
+      background: $color-extra-light-blue;
       color: $color-woot;
     }
   }
