@@ -10,7 +10,6 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
 
   def create
     @conversation = ::Conversation.create!(conversation_params)
-    render json: @conversation
   end
 
   def show; end
