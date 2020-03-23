@@ -60,7 +60,16 @@ post:
     200:
       description: Success
       schema:
-        allOf:
-          - $ref: '#/definitions/generic_id'
+        type: object
+        properties:
+          id:
+            type: number
+            description: ID of the conversation
+          account_id:
+            type: number
+            description: Account Id
+          inbox_id:
+            type: number
+            description: ID of the inbox
     403:
       description: Access denied
