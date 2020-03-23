@@ -23,6 +23,7 @@ class ContentAttributeValidator < ActiveModel::Validator
 
   def validate_items!(record)
     record.errors.add(:content_attributes, 'At least one item is required.') if record.items.blank?
+    record.errors.add(:content_attributes, 'Items should be a hash.') if record.items.reject { |item| item.is_a?(Hash) }.present?
   end
 
   def validate_item_attributes!(record, valid_keys)
