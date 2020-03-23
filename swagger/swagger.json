@@ -258,6 +258,46 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
+          },
+          "description": "Access denied"
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "newConversation",
+        "summary": "Create New Conversation",
+        "description": "Create conversation",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "source_id": {
+                  "type": "string",
+                  "description": "Contact Source Id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                }
+              ]
+            }
+          },
+          "403": {
+            "description": "Access denied"
           }
         }
       }
@@ -838,6 +878,20 @@
         "content": {
           "type": "string",
           "description": "The text content of the message"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "input_select",
+            "cards",
+            "form"
+          ],
+          "description": "The type of the template message"
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "The content attributes for each content_type"
         },
         "message_type": {
           "type": "string",

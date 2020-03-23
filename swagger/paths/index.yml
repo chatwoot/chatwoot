@@ -12,7 +12,7 @@
 
 # Conversations
 /account/{account_id}/conversations:
-  $ref: ./conversation/list.yml
+  $ref: ./conversation/index_or_create.yml
 /account/{account_id}/conversations/{id}:
   $ref: ./conversation/crud.yml
 /account/{account_id}/conversations/{id}/toggle_status:
