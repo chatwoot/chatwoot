@@ -53,7 +53,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         select_item1 = build(:bot_message_select)
         select_item2 = build(:bot_message_select)
-        params = { content_type: 'input_select', content_attribute_items: [select_item1, select_item2] }
+        params = { content_type: 'input_select', content_attributes: { items: [select_item1, select_item2] } }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -68,7 +68,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
       it 'creates a new outgoing cards message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
         card = build(:bot_message_card)
-        params = { content_type: 'cards', content_attribute_items: [card] }
+        params = { content_type: 'cards', content_attributes: { items: [card] } }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,

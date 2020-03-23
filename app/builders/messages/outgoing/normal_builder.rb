@@ -8,7 +8,7 @@ class Messages::Outgoing::NormalBuilder
     @user = user
     @fb_id = params[:fb_id]
     @content_type = params[:content_type]
-    @items = params[:content_attribute_items]
+    @items = params&.dig(:content_attributes, :items)
   end
 
   def perform
