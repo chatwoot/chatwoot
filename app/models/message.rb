@@ -51,7 +51,7 @@ class Message < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :conversation
+  belongs_to :conversation, touch: true
   belongs_to :user, required: false
   belongs_to :contact, required: false
 
