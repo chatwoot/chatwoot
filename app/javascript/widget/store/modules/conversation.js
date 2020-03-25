@@ -1,6 +1,10 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
-import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
+import {
+  sendMessageAPI,
+  getConversationAPI,
+  sendAttachmentAPI,
+} from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import getUuid from '../../helpers/uuid';
@@ -8,11 +12,12 @@ import DateHelper from '../../../shared/helpers/DateHelper';
 
 const groupBy = require('lodash.groupby');
 
-export const createTemporaryMessage = content => {
+export const createTemporaryMessage = ({ attachment, content }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
+    attachment,
     status: 'in_progress',
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
@@ -78,8 +83,13 @@ export const getters = {
 export const actions = {
   sendMessage: async ({ commit }, params) => {
     const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage(content));
+    commit('pushMessageToConversation', createTemporaryMessage({ content }));
     await sendMessageAPI(content);
+  },
+
+  sendAttachment: async ({ commit }, attachment) => {
+    commit('pushMessageToConversation', createTemporaryMessage({ attachment }));
+    await sendAttachmentAPI(attachment);
   },
 
   fetchOldConversations: async ({ commit }, { before } = {}) => {

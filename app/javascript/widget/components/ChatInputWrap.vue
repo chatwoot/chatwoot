@@ -1,5 +1,6 @@
 <template>
   <div class="chat-message--input">
+    <chat-attchment-button :on-attach="onSendAttachment" />
     <ChatInputArea v-model="userInput" :placeholder="placeholder" />
     <ChatSendButton
       :on-click="handleButtonClick"
@@ -12,11 +13,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
+import ChatAttchmentButton from 'widget/components/ChatAttachment.vue';
 import ChatInputArea from 'widget/components/ChatInputArea.vue';
 
 export default {
   name: 'ChatInputWrap',
   components: {
+    ChatAttchmentButton,
     ChatSendButton,
     ChatInputArea,
   },
@@ -27,6 +30,10 @@ export default {
       default: 'Type your message',
     },
     onSendMessage: {
+      type: Function,
+      default: () => {},
+    },
+    onSendAttachment: {
       type: Function,
       default: () => {},
     },
