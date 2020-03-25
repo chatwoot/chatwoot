@@ -3,6 +3,7 @@
 # Table name: accounts
 #
 #  id         :integer          not null, primary key
+#  locale     :integer          default("English")
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -29,6 +30,8 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+
+  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_3_code], key] }.to_h
 
   after_create :create_subscription
   after_create :notify_creation
