@@ -70,6 +70,7 @@ import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader';
+import auth from '../../../../../api/auth';
 import router from '../../../../index';
 
 export default {
@@ -195,7 +196,8 @@ export default {
     },
 
     fetchPages(_token) {
-      ChannelApi.fetchFacebookPages(_token)
+      const accountId = this.accountId();
+      ChannelApi.fetchFacebookPages(_token, accountId)
         .then(response => {
           this.pageList = response.data.data.page_details;
           this.user_access_token = response.data.data.user_access_token;
@@ -230,6 +232,9 @@ export default {
             this.isCreating = false;
           });
       }
+    },
+    accountId() {
+      return auth.getCurrentUser().account_id;
     },
   },
 };

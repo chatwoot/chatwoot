@@ -59,6 +59,8 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
   def long_lived_token(omniauth_token)
     koala = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_APP_SECRET'])
     koala.exchange_access_token_info(omniauth_token)['access_token']
+  rescue StandardError => e
+    Rails.logger e
   end
 
   def mark_already_existing_facebook_pages(data)
