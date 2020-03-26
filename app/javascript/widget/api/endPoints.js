@@ -9,7 +9,7 @@ const sendMessage = content => ({
   },
 });
 
-const sendAttachmnet = attachment => {
+const sendAttachmnet = ({ attachment }) => {
   const { refererURL = '' } = window;
   const timestamp = new Date().toString();
   const { file, file_type: fileType } = attachment;

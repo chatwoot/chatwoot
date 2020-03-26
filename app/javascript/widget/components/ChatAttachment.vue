@@ -58,7 +58,7 @@ export default {
     display: block;
     background: white center center no-repeat;
     background-size: contain;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='red' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-paperclip'%3E%3Cpath d='M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%23999a9b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-paperclip'%3E%3Cpath d='M21 11l-9 9a6 6 0 01-8-8l9-9a4 4 0 016 5L9 17a2 2 0 01-2-2l8-9' /%3E%3C/svg%3E");
   }
 }
 </style>
