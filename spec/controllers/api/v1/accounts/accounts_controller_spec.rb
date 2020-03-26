@@ -76,6 +76,40 @@ RSpec.describe 'Accounts API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:admin) { create(:user, account: account, role: :administrator) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an unauthorized user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}",
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'shows an account' do
+        get "/api/v1/accounts/#{account.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(account.name)
+        expect(response.body).to include(account.locale)
+      end
+    end
+  end
+
   describe 'PUT /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }

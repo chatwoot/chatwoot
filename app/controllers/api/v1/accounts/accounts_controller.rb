@@ -26,6 +26,10 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
     end
   end
 
+  def show
+    render 'api/v1/accounts/show.json'
+  end
+
   def update
     @account.update!(account_params.slice(:name, :locale))
   end
@@ -37,7 +41,7 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   end
 
   def fetch_account
-    @account = Account.find(params[:id])
+    @account = current_user.accounts.find(params[:id])
   end
 
   def account_params
