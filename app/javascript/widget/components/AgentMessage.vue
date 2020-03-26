@@ -17,10 +17,10 @@
         :message-type="messageType"
         :message="message.content"
       />
-      <div v-else class="chat-bubble has-attachment agent">
+      <div v-if="hasImage" class="chat-bubble has-attachment agent">
         <image-bubble
-          v-if="message.attachment && message.attachment.file_type === 'image'"
           :url="message.attachment.data_url"
+          :thumb="message.attachment.thumb_url"
           :readable-time="readableTime"
         />
       </div>
@@ -53,9 +53,14 @@ export default {
     },
   },
   computed: {
+    hasImage() {
+      const { attachment = {} } = this.message;
+      const { file_type: fileType } = attachment;
+      return fileType === 'image';
+    },
     showTextBubble() {
       const { message } = this;
-      return !!message.content && !message.attachment;
+      return !!message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
