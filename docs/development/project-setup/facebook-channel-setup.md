@@ -20,7 +20,7 @@ Once you register your facebook App, You will have to obtain the The `App Id` an
 
 ### Configuring the Environment Variables in Chatwoot
 
-configure the following chatwoot environment variables with the values you have obtained during the facebook app setup.
+Configure the following Chatwoot environment variables with the values you have obtained during the facebook app setup.
 
 ```bash
 FB_VERIFY_TOKEN=
@@ -30,38 +30,39 @@ FB_APP_ID=
 
 ### Things to note before going into production. 
 
-Before you can start using your facebook app in production, you will have to get it verified by facebook. Refer the [docs](https://developers.facebook.com/docs/apps/review/) on getting your app verified. 
+Before you can start using your Facebook app in production, you will have to get it verified by Facebook. Refer the [docs](https://developers.facebook.com/docs/apps/review/) on getting your app verified. 
 
 
 
 ### Developing or Testing Facebook Integration in You Local
 
-Install a [ngrok](https://ngrok.com/docs) on your machine. This will be required since facebook messeger API's will only communicate via https. 
+Install [ngrok](https://ngrok.com/docs) on your machine. This will be required since Facebook Messenger API's will only communicate via https. 
 
 ```
 brew cask install ngrok
 ```
 
 Configure ngrok to route to your Rails server port.
+
 ```
 ngrok http 3000
 ```
 
-Go to facebook developers page and navigate into your app settings. In the app settings add `localhost` as your app domain.
-In the Messenger settings page, configure the callback url with the following value
+Go to Facebook developers page and navigate into your app settings. In the app settings, add `localhost` as your app domain.
+In the Messenger settings page, configure the callback url with the following value.
 
 ```
-{your ngrock url}/bot
+{Your ngrok url}/bot
 ```
-Update verify token in your chatwoot environment variables. 
+Update verify token in your Chatwoot environment variables. 
 
-You will also have to add a facebook page to your `Access Tokens` section in your messgenger settings page. 
-Restart the chatwoot local server. Your chatwoot setup will be ready to recieve facebook messages. 
+You will also have to add a Facebook page to your `Access Tokens` section in your Messenger settings page. 
+Restart the Chatwoot local server. Your Chatwoot setup will be ready to receive Facebook messages. 
 
 ### Test your local Setup
 
-1. After finishing the set up above, create a facebook inbox after logging in to your chatwoot Installation. 
-2. Send a Message to your page from facebook.
+1. After finishing the set up above, create a Facebook inbox after logging in to your Chatwoot Installation. 
+2. Send a message to your page from Facebook.
 3. Wait and confirm incoming requests to `/bot` endpoint in your ngrok screen. 
 
 
