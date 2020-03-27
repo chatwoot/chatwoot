@@ -68,9 +68,9 @@
 /* global FB */
 import { required } from 'vuelidate/lib/validators';
 import LoadingState from 'dashboard/components/widgets/LoadingState';
+import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader';
-import auth from '../../../../../api/auth';
 import router from '../../../../index';
 
 export default {
@@ -111,6 +111,12 @@ export default {
     },
     getSelectablePages() {
       return this.pageList.filter(item => !item.exists);
+    },
+    ...mapGetters({
+      currentUser: 'getCurrentUser',
+    }),
+    accountId() {
+      return this.currentUser.account_id;
     },
   },
 
@@ -195,14 +201,20 @@ export default {
       );
     },
 
-    fetchPages(_token) {
-      const accountId = this.accountId();
-      ChannelApi.fetchFacebookPages(_token, accountId)
-        .then(response => {
-          this.pageList = response.data.data.page_details;
-          this.user_access_token = response.data.data.user_access_token;
-        })
-        .catch();
+    async fetchPages(_token) {
+      try {
+        const response = await ChannelApi.fetchFacebookPages(
+          _token,
+          this.accountId
+        );
+        const {
+          data: { data },
+        } = response;
+        this.pageList = data.page_details;
+        this.user_access_token = data.user_access_token;
+      } catch (error) {
+        // Ignore error
+      }
     },
 
     channelParams() {
@@ -232,9 +244,6 @@ export default {
             this.isCreating = false;
           });
       }
-    },
-    accountId() {
-      return auth.getCurrentUser().account_id;
     },
   },
 };
