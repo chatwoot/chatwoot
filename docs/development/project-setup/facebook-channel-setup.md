@@ -16,6 +16,7 @@ Once you register your facebook App, You will have to obtain the The `App Id` an
 3) Go to the Messenger settings and configure the call Back URL with `{your chatwoot url}/bot`
 4) Configure a `verify token`, you will need this value for configuring the chatwoot environment variables
 5) You might have to add a facebook page to your `Access Tokens` section in your messgenger settings page if your app is still in development.
+6) You will also have to add your facebook page to webhooks sections in your messenger settings with all the webhook events checked.
 
 
 ### Configuring the Environment Variables in Chatwoot
