@@ -30,6 +30,18 @@ class Attachment < ApplicationRecord
     base_data.merge(file_metadata)
   end
 
+  def file_url
+    file.attached? ? url_for(file) : ''
+  end
+
+  def thumb_url
+    if file.attached? && file.representable?
+      url_for(file.representation(resize: '250x250'))
+    else
+      ''
+    end
+  end
+
   private
 
   def file_metadata
@@ -63,17 +75,5 @@ class Attachment < ApplicationRecord
       file_type: file_type,
       account_id: account_id
     }
-  end
-
-  def file_url
-    file.attached? ? url_for(file) : ''
-  end
-
-  def thumb_url
-    if file.attached? && file.representable?
-      url_for(file.representation(resize: '250x250'))
-    else
-      ''
-    end
   end
 end
