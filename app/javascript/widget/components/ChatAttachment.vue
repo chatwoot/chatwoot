@@ -26,9 +26,11 @@ export default {
     async onFileUpload(file) {
       this.isUploading = true;
       try {
+        const thumbUrl = window.URL.createObjectURL(file.file);
         await this.onAttach({
           file_type: file.type,
           file: file.file,
+          thumbUrl,
         });
       } catch (error) {
         // Error

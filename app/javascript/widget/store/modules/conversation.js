@@ -87,9 +87,21 @@ export const actions = {
     await sendMessageAPI(content);
   },
 
-  sendAttachment: async ({ commit }, attachment) => {
-    commit('pushMessageToConversation', createTemporaryMessage({ attachment }));
-    await sendAttachmentAPI(attachment);
+  sendAttachment: async ({ commit }, data) => {
+    const { attachment } = data;
+    const { thumbUrl } = attachment;
+    const attachmentBlob = {
+      thumb_url: thumbUrl,
+      data_url: thumbUrl,
+      file_type: 'image',
+      status: 'in_progress',
+    };
+
+    commit(
+      'pushMessageToConversation',
+      createTemporaryMessage({ attachment: attachmentBlob })
+    );
+    await sendAttachmentAPI(data);
   },
 
   fetchOldConversations: async ({ commit }, { before } = {}) => {

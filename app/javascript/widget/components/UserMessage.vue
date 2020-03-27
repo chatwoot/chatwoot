@@ -1,6 +1,6 @@
 <template>
   <div class="user-message">
-    <div class="message-wrap">
+    <div class="message-wrap" :class="{ 'in-progress': isInProgress }">
       <UserMessageBubble
         v-if="showTextBubble"
         :message="message.content"
@@ -36,6 +36,10 @@ export default {
     },
   },
   computed: {
+    isInProgress() {
+      const { status = '' } = this.message;
+      return status === 'in_progress';
+    },
     hasImage() {
       const { attachment = {} } = this.message;
       const { file_type: fileType } = attachment;
@@ -79,6 +83,10 @@ export default {
     }
     .message-wrap {
       margin-right: $space-small;
+    }
+
+    .in-progress {
+      opacity: 0.6;
     }
   }
 
