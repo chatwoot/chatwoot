@@ -38,11 +38,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # If you want to use letter opener instead of mailhog for testing emails locally,
   # uncomment the following line L49 and comment lines L51 through to L65
@@ -64,7 +64,7 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = smtp_settings
 
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
