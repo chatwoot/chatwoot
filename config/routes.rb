@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
-  get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
   resource :widget, only: [:show]
 
@@ -113,8 +113,8 @@ Rails.application.routes.draw do
         end
       end
     end
-    
-    namespace :v2  do
+
+    namespace :v2 do
       resources :accounts, only: [], module: :accounts do
         resources :reports, only: [] do
           collection do
