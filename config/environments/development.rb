@@ -41,8 +41,6 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
-  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
-
   # If you want to use letter opener instead of mailhog for testing emails locally,
   # uncomment the following line L49 and comment lines L51 through to L65
   # config.action_mailer.delivery_method = :letter_opener
