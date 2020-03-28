@@ -4,7 +4,7 @@ class Twitter::WebhookSubscribeService
   pattr_initialize [:inbox_id]
 
   def perform
-    register_response = twitter_client.register_webhook(url: webhooks_twitter_url)
+    register_response = twitter_client.register_webhook(url: webhooks_twitter_url(protocol: 'https'))
     twitter_client.subscribe_webhook if register_response.status == '200'
     Rails.logger.info 'TWITTER_REGISTER_WEBHOOK_FAILURE: ' + register_response.body.to_s
   end
