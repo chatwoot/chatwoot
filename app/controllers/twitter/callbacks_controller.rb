@@ -1,6 +1,6 @@
 class Twitter::CallbacksController < Twitter::BaseController
   def show
-    return redirect_to app_new_twitter_inbox_url if permitted_params[:denied]
+    return redirect_to twitter_app_redirect_url if permitted_params[:denied]
 
     @response = twitter_client.access_token(
       oauth_token: permitted_params[:oauth_token],
@@ -10,9 +10,9 @@ class Twitter::CallbacksController < Twitter::BaseController
       inbox = build_inbox
       ::Redis::Alfred.delete(permitted_params[:oauth_token])
       ::Twitter::WebhookSubscribeService.new(inbox_id: inbox.id).perform
-      redirect_to app_twitter_inbox_agents_url(inbox_id: inbox.id)
+      redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     else
-      redirect_to app_new_twitter_inbox_url
+      redirect_to twitter_app_redirect_url
     end
   end
 
@@ -28,6 +28,10 @@ class Twitter::CallbacksController < Twitter::BaseController
 
   def account
     @account ||= Account.find_by!(id: account_id)
+  end
+
+  def twitter_app_redirect_url
+    app_new_twitter_inbox_url(account_id: account.id)
   end
 
   def build_inbox
