@@ -32,11 +32,33 @@ class Facebook::SendReplyService
   #   end
   # end
 
-  def fb_message_params
+  def fb_text_message_params
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: { text: message.content }
     }
+  end
+
+  def fb_attachment_message_params
+    {
+      recipient: { id: contact.get_source_id(inbox.id) },
+      message: {
+        attachment: {
+          type: 'image',
+          payload: {
+            url: message.attachment.file_url
+          }
+        }
+      }
+    }
+  end
+
+  def fb_message_params
+    if message.attachment.blank?
+      fb_text_message_params
+    else
+      fb_attachment_message_params
+    end
   end
 
   def delivery_params

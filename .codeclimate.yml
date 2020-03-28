@@ -26,3 +26,6 @@ exclude_patterns:
   - "node_modules/**/*"
   - "lib/tasks/auto_annotate_models.rake"
   - "app/test-matchers.js"
+  - "docs/*"
+  - "**/*.md"
+  - "**/*.yml"
