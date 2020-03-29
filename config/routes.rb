@@ -12,8 +12,8 @@ Rails.application.routes.draw do
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
-  get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
   resource :widget, only: [:show]
 
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # ----------------------------------
       # start of account scoped api routes
-      resources :accounts, only: [:create], module: :accounts do
+      resources :accounts, only: [:create, :show, :update], module: :accounts do
         namespace :actions do
           resource :contact_merge, only: [:create]
         end
@@ -136,7 +136,9 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Used in mailer templates
   resource :app, only: [:index] do
-    resources :conversations, only: [:show]
+    resources :accounts do
+      resources :conversations, only: [:show]
+    end
   end
 
   # ----------------------------------------------------------------------

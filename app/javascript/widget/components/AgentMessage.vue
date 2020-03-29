@@ -11,12 +11,22 @@
       </div>
       <div class="message-wrap">
         <AgentMessageBubble
+          v-if="showTextBubble"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
           :message-id="messageId"
           :message-type="messageType"
           :message="message"
         />
+        <div v-else class="chat-bubble has-attachment agent">
+          <image-bubble
+            v-if="
+              message.attachment && message.attachment.file_type === 'image'
+            "
+            :url="message.attachment.data_url"
+            :readable-time="readableTime"
+          />
+        </div>
         <p v-if="showAvatar || hasRecordedResponse" class="agent-name">
           {{ agentName }}
         </p>
@@ -28,40 +38,62 @@
 </template>
 
 <script>
-import AgentMessageBubble from 'widget/components/AgentMessageBubble.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import UserMessage from './UserMessage.vue';
+import AgentMessageBubble from 'widget/components/AgentMessageBubble';
+import timeMixin from 'dashboard/mixins/time';
+import ImageBubble from 'widget/components/ImageBubble';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
     Thumbnail,
-    UserMessage,
+    ImageBubble,
   },
+  mixins: [timeMixin],
   props: {
-    message: String,
-    avatarUrl: String,
-    agentName: String,
-    showAvatar: Boolean,
-    contentType: {
-      type: String,
-      default: '',
-    },
-    messageContentAttributes: {
+    message: {
       type: Object,
       default: () => {},
     },
-    messageType: {
-      type: Number,
-      default: 1,
-    },
-    messageId: {
-      type: Number,
-      default: 0,
-    },
   },
   computed: {
+    showTextBubble() {
+      const { message } = this;
+      return !!message.content && !message.attachment;
+    },
+    readableTime() {
+      const { created_at: createdAt = '' } = this.message;
+      return this.messageStamp(createdAt);
+    },
+    messageType() {
+      const { message_type: type = 1 } = this.message;
+      return type;
+    },
+    contentType() {
+      const { content_type: type = '' } = this.message;
+      return type;
+    },
+    messageContentAttributes() {
+      const { content_attributes: attribute = {} } = this.message;
+      return attribute;
+    },
+    agentName() {
+      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
+        return 'Bot';
+      }
+
+      return this.message.sender ? this.message.sender.name : '';
+    },
+    avatarUrl() {
+      if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
+        // eslint-disable-next-line
+        return require('dashboard/assets/images/chatwoot_bot.png');
+      }
+
+      return this.message.sender ? this.message.sender.avatar_url : '';
+    },
     hasRecordedResponse() {
       return (
         this.messageContentAttributes.submitted_email ||
@@ -89,8 +121,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+
 .conversation-wrap {
   .agent-bubble {
     margin-bottom: $space-micro;
@@ -144,6 +177,30 @@ export default {
     font-weight: $font-weight-medium;
     margin: $space-small 0;
     padding-left: $space-micro;
+  }
+
+  .has-attachment {
+    padding: 0;
+    overflow: hidden;
+  }
+}
+</style>
+<style lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
+.conversation-wrap {
+  .agent-message {
+    + .agent-message {
+      margin-bottom: $space-micro;
+
+      .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+    }
+
+    + .user-message {
+      margin-top: $space-normal;
+    }
   }
 }
 </style>

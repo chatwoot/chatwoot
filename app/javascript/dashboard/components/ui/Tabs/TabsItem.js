@@ -80,7 +80,8 @@ export default {
             }
           }}
         >
-          {`${this.name}  (${this.getItemCount})`}
+          {`${this.name}`}
+          <span class="badge">{this.getItemCount}</span>
         </a>
       </li>
     );

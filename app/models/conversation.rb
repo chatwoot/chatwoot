@@ -36,7 +36,7 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, bot: 2 }
 
-  scope :latest, -> { order(created_at: :desc) }
+  scope :latest, -> { order(updated_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 

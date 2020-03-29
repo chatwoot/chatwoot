@@ -47,7 +47,7 @@ COPY . /app
 
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder bundle exec rake assets:precompile; \
+  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile; \
   fi
 
 # final build stage

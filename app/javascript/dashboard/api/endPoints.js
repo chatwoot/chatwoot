@@ -28,7 +28,9 @@ const endPoints = {
   },
 
   fetchFacebookPages: {
-    url: 'api/v1/callbacks/facebook_pages.json',
+    url(accountId) {
+      return `api/v1/accounts/${accountId}/callbacks/facebook_pages.json`;
+    },
     params: { omniauth_token: '' },
   },
 
