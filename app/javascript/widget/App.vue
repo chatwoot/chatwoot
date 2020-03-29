@@ -47,6 +47,10 @@ export default {
         window.refererURL = message.refererURL;
       } else if (message.event === 'toggle-close-button') {
         this.isMobile = message.showClose;
+      } else if (message.event === 'set-label') {
+        this.$store.dispatch('conversationLabels/create', message.label);
+      } else if (message.event === 'remove-label') {
+        this.$store.dispatch('conversationLabels/destroy', message.label);
       }
     });
   },

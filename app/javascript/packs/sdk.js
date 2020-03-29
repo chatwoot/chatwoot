@@ -14,15 +14,15 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     setUser(user) {
       window.$chatwoot.user = user || {};
-      IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
+      IFrameHelper.sendMessage('set-user', { user: window.$chatwoot.user });
     },
 
     setLabel(label = '') {
-      IFrameHelper.sendMessage('set-label', label);
+      IFrameHelper.sendMessage('set-label', { label });
     },
 
     removeLabel(label = '') {
-      IFrameHelper.sendMessage('remove-label', label);
+      IFrameHelper.sendMessage('remove-label', { label });
     },
 
     reset() {},

@@ -105,6 +105,7 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :messages, only: [:index, :create, :update]
         resources :inbox_members, only: [:index]
+        resources :labels, only: [:create, :destroy]
       end
 
       resources :webhooks, only: [] do
