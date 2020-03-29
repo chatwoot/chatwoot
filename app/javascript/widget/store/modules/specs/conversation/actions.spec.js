@@ -42,4 +42,30 @@ describe('#actions', () => {
       });
     });
   });
+
+  describe('#sendAttachment', () => {
+    it('sends correct mutations', () => {
+      const mockDate = new Date(1466424490000);
+      getUuid.mockImplementationOnce(() => '1111');
+      const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const thumbUrl = '';
+      const attachment = { thumbUrl };
+
+      actions.sendAttachment({ commit }, { attachment });
+      spy.mockRestore();
+      expect(commit).toBeCalledWith('pushMessageToConversation', {
+        id: '1111',
+        content: undefined,
+        status: 'in_progress',
+        created_at: 1466424490,
+        message_type: 0,
+        attachment: {
+          thumb_url: '',
+          data_url: '',
+          file_type: 'image',
+          status: 'in_progress',
+        },
+      });
+    });
+  });
 });

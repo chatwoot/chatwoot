@@ -87,8 +87,8 @@ export const actions = {
     await sendMessageAPI(content);
   },
 
-  sendAttachment: async ({ commit }, data) => {
-    const { attachment } = data;
+  sendAttachment: async ({ commit }, params) => {
+    const { attachment } = params;
     const { thumbUrl } = attachment;
     const attachmentBlob = {
       thumb_url: thumbUrl,
@@ -96,12 +96,14 @@ export const actions = {
       file_type: 'image',
       status: 'in_progress',
     };
-
-    commit(
-      'pushMessageToConversation',
-      createTemporaryMessage({ attachment: attachmentBlob })
-    );
-    await sendAttachmentAPI(data);
+    const tempMessage = createTemporaryMessage({ attachment: attachmentBlob });
+    commit('pushMessageToConversation', tempMessage);
+    try {
+      const { data } = await sendAttachmentAPI(params);
+      commit('setMessageStatus', { message: data, tempId: tempMessage.id });
+    } catch (error) {
+      // Show error
+    }
   },
 
   fetchOldConversations: async ({ commit }, { before } = {}) => {
@@ -145,6 +147,19 @@ export const mutations = {
     } else {
       Vue.delete(messagesInbox, messageInConversation.id);
       Vue.set(messagesInbox, id, message);
+    }
+  },
+
+  setMessageStatus($state, { message, tempId }) {
+    const { status, id } = message;
+    const messagesInbox = $state.conversations;
+
+    const messageInConversation = messagesInbox[tempId];
+
+    if (messageInConversation) {
+      Vue.delete(messagesInbox, tempId);
+      const newMessage = { ...messageInConversation };
+      Vue.set(messagesInbox, id, { ...newMessage, id, status });
     }
   },
 
