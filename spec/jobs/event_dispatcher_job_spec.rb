@@ -13,4 +13,10 @@ RSpec.describe EventDispatcherJob, type: :job do
       .with(event_name, timestamp, event_data)
       .on_queue('events')
   end
+
+  it 'publishes event' do
+    expect(Rails.configuration.dispatcher.async_dispatcher).to receive(:publish_event).with(event_name, timestamp, event_data).once
+    event_dispatcher = described_class.new
+    event_dispatcher.perform(event_name, timestamp, event_data)
+  end
 end
