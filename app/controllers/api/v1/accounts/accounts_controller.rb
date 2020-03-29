@@ -4,7 +4,9 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   skip_before_action :verify_authenticity_token, only: [:create]
   skip_before_action :authenticate_user!, :set_current_user, :check_subscription, :handle_with_exception,
                      only: [:create], raise: false
-  before_action :check_signup_enabled
+  before_action :check_signup_enabled, only: [:create]
+  before_action :check_authorization, except: [:create]
+  before_action :fetch_account, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -24,10 +26,26 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
     end
   end
 
+  def show
+    render 'api/v1/accounts/show.json'
+  end
+
+  def update
+    @account.update!(account_params.slice(:name, :locale))
+  end
+
   private
 
+  def check_authorization
+    authorize(Account)
+  end
+
+  def fetch_account
+    @account = current_user.accounts.find(params[:id])
+  end
+
   def account_params
-    params.permit(:account_name, :email)
+    params.permit(:account_name, :email, :name, :locale)
   end
 
   def check_signup_enabled

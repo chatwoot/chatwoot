@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # ----------------------------------
       # start of account scoped api routes
-      resources :accounts, only: [:create], module: :accounts do
+      resources :accounts, only: [:create, :show, :update], module: :accounts do
         namespace :actions do
           resource :contact_merge, only: [:create]
         end
