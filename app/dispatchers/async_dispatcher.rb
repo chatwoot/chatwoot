@@ -1,7 +1,10 @@
 class AsyncDispatcher < BaseDispatcher
   def dispatch(event_name, timestamp, data)
+    EventDispatcherJob.perform_later(event_name, timestamp, data)
+  end
+
+  def publish_event(event_name, timestamp, data)
     event_object = Events::Base.new(event_name, timestamp, data)
-    # TODO: Move this to worker
     publish(event_object.method_name, event_object)
   end
 

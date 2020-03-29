@@ -6,6 +6,16 @@ describe ::V2::ReportBuilder do
   let!(:inbox) { create(:inbox, account: account) }
   let(:inbox_member) { create(:inbox_member, user: user, inbox: inbox) }
 
+  # Running jobs inline to calculate the exact metrics
+  around do |test|
+    current_adapter = ActiveJob::Base.queue_adapter
+    ActiveJob::Base.queue_adapter = :inline
+
+    test.run
+  ensure
+    ActiveJob::Base.queue_adapter = current_adapter
+  end
+
   describe '#timeseries' do
     context 'when report type is account' do
       before do
