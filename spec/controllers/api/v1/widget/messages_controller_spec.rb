@@ -50,7 +50,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   describe 'PUT /api/v1/widget/messages' do
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
-        message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         contact_params = { email: email }
         put api_v1_widget_message_url(message.id),
@@ -67,7 +67,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
     context 'when put request is made with invalid email' do
       it 'rescues the error' do
-        message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         contact_params = { email: nil }
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
@@ -80,7 +80,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
     context 'when put request is made with existing email' do
       it 'updates message in conversation and deletes the current contact' do
-        message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         create(:contact, account: account, email: email)
         contact_params = { email: email }
@@ -95,7 +95,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       end
 
       it 'ignores the casing of email, updates message in conversation and deletes the current contact' do
-        message = create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         create(:contact, account: account, email: email)
         contact_params = { email: email.upcase }
