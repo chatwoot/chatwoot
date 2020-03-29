@@ -136,7 +136,9 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Used in mailer templates
   resource :app, only: [:index] do
-    resources :conversations, only: [:show]
+    resources :accounts do
+      resources :conversations, only: [:show]
+    end
   end
 
   # ----------------------------------------------------------------------
