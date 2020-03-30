@@ -1,6 +1,10 @@
 /* eslint-disable no-param-reassign */
 import Vue from 'vue';
-import { sendMessageAPI, getConversationAPI } from 'widget/api/conversation';
+import {
+  sendMessageAPI,
+  getConversationAPI,
+  sendAttachmentAPI,
+} from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import getUuid from '../../helpers/uuid';
@@ -8,11 +12,12 @@ import DateHelper from '../../../shared/helpers/DateHelper';
 
 const groupBy = require('lodash.groupby');
 
-export const createTemporaryMessage = content => {
+export const createTemporaryMessage = ({ attachment, content }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
+    attachment,
     status: 'in_progress',
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
@@ -78,8 +83,27 @@ export const getters = {
 export const actions = {
   sendMessage: async ({ commit }, params) => {
     const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage(content));
+    commit('pushMessageToConversation', createTemporaryMessage({ content }));
     await sendMessageAPI(content);
+  },
+
+  sendAttachment: async ({ commit }, params) => {
+    const { attachment } = params;
+    const { thumbUrl } = attachment;
+    const attachmentBlob = {
+      thumb_url: thumbUrl,
+      data_url: thumbUrl,
+      file_type: 'image',
+      status: 'in_progress',
+    };
+    const tempMessage = createTemporaryMessage({ attachment: attachmentBlob });
+    commit('pushMessageToConversation', tempMessage);
+    try {
+      const { data } = await sendAttachmentAPI(params);
+      commit('setMessageStatus', { message: data, tempId: tempMessage.id });
+    } catch (error) {
+      // Show error
+    }
   },
 
   fetchOldConversations: async ({ commit }, { before } = {}) => {
@@ -123,6 +147,19 @@ export const mutations = {
     } else {
       Vue.delete(messagesInbox, messageInConversation.id);
       Vue.set(messagesInbox, id, message);
+    }
+  },
+
+  setMessageStatus($state, { message, tempId }) {
+    const { status, id } = message;
+    const messagesInbox = $state.conversations;
+
+    const messageInConversation = messagesInbox[tempId];
+
+    if (messageInConversation) {
+      Vue.delete(messagesInbox, tempId);
+      const newMessage = { ...messageInConversation };
+      Vue.set(messagesInbox, id, { ...newMessage, id, status });
     }
   },
 
