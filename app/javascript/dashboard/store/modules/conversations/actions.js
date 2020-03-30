@@ -189,6 +189,15 @@ const actions = {
   setActiveInbox({ commit }, inboxId) {
     commit(types.default.SET_ACTIVE_INBOX, inboxId);
   },
+
+  sendAttachment: async ({ commit }, data) => {
+    try {
+      const response = MessageApi.sendAttachment(data);
+      commit(types.default.SEND_MESSAGE, response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
 };
 
 export default actions;

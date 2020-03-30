@@ -9,10 +9,17 @@ class Messages::Outgoing::NormalBuilder
     @fb_id = params[:fb_id]
     @content_type = params[:content_type]
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
+    @attachment = params[:attachment]
   end
 
   def perform
-    @message = @conversation.messages.create!(message_params)
+    @message = @conversation.messages.build(message_params)
+    if @attachment
+      @message.attachment = Attachment.new(account_id: message.account_id)
+      @message.attachment.file.attach(@attachment[:file])
+    end
+    @message.save
+    @message
   end
 
   private

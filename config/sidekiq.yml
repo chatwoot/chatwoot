@@ -17,7 +17,8 @@
   - [mailers, 2]
   - [webhooks, 1]
   - [bots, 1]
-
+  - [events, 3]
+  
 # you can override concurrency based on environment
 production:
   :concurrency: 10

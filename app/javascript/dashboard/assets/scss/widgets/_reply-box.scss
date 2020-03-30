@@ -47,7 +47,7 @@
       }
     }
 
-    >.icon {
+    .icon {
       color: $medium-gray;
       cursor: pointer;
       font-size: $font-size-medium;
@@ -56,6 +56,16 @@
       &.active {
         color: $color-woot;
       }
+    }
+
+    .file-uploads>label {
+      cursor: pointer;
+    }
+
+    .attachment {
+      cursor: pointer;
+      margin-right: $space-one;
+      padding: 0 $space-small;
     }
 
     >textarea {

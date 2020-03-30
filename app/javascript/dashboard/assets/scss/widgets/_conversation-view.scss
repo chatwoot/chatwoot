@@ -31,25 +31,35 @@
   }
 
   .image {
-    @include flex;
-    align-items: flex-end;
-    justify-content: center;
-    text-align: center;
-
-    img {
-      @include padding($space-small);
-      max-height: 30rem;
-      max-width: 20rem;
-    }
+    cursor: pointer;
+    position: relative;
 
     .time {
-      margin-left: -$space-large;
+      bottom: $space-smaller;
+      color: $color-white;
+      position: absolute;
+      right: $space-small;
       white-space: nowrap;
     }
 
+    .modal-container {
+      text-align: center;
+    }
+
     .modal-image {
-      max-height: 80%;
       max-width: 80%;
+    }
+
+    &::before {
+      $color-black: #000;
+      background-image: linear-gradient(-180deg, transparent 3%, $color-black 70%);
+      bottom: 0;
+      content: '';
+      height: 20%;
+      left: 0;
+      opacity: .8;
+      position: absolute;
+      width: 100%;
     }
   }
 
@@ -83,18 +93,12 @@
   flex-direction: column;
 
   .load-more-conversations {
-    color: $color-woot;
-    cursor: pointer;
     font-size: $font-size-small;
     padding: $space-normal;
-
-    &:hover {
-      background: $color-background;
-    }
+    width: 100%;
   }
 
   .end-of-list-text {
-    font-style: italic;
     padding: $space-normal;
   }
 
