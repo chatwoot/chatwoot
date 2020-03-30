@@ -8,7 +8,13 @@
       <td>
         <b><%= message.incoming? ? 'You' : message.user.name %></b>
       </td>
-      <td>: <%= message.content %></td>
+      <td>:
+        <% if message.attachment %>
+          attachment [<a href="<%= message.attachment.file_url %>" _target="blank">click here to view</a>]
+        <% else %>
+          <%= message.content %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 </table>

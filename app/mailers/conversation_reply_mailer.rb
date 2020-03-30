@@ -20,7 +20,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   private
 
-  def mail_subject(last_message, trim_length = 30)
-    "[##{@conversation.display_id}] #{last_message.content.truncate(trim_length)}"
+  def mail_subject(last_message, trim_length = 50)
+    subject_line = last_message&.content&.truncate(trim_length) || 'New messages on this conversation'
+    "[##{@conversation.display_id}] #{subject_line}"
   end
 end
