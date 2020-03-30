@@ -7,10 +7,16 @@ const sendMessageAPI = async content => {
   return result;
 };
 
+const sendAttachmentAPI = async attachment => {
+  const urlData = endPoints.sendAttachmnet(attachment);
+  const result = await API.post(urlData.url, urlData.params);
+  return result;
+};
+
 const getConversationAPI = async ({ before }) => {
   const urlData = endPoints.getConversation({ before });
   const result = await API.get(urlData.url, { params: urlData.params });
   return result;
 };
 
-export { sendMessageAPI, getConversationAPI };
+export { sendMessageAPI, getConversationAPI, sendAttachmentAPI };

@@ -1,25 +1,58 @@
 <template>
   <div class="user-message">
-    <div class="message-wrap">
-      <UserMessageBubble :message="message" :status="status" />
+    <div class="message-wrap" :class="{ 'in-progress': isInProgress }">
+      <UserMessageBubble
+        v-if="showTextBubble"
+        :message="message.content"
+        :status="message.status"
+      />
+      <div v-if="hasImage" class="chat-bubble has-attachment user">
+        <image-bubble
+          :url="message.attachment.data_url"
+          :thumb="message.attachment.thumb_url"
+          :readable-time="readableTime"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import UserMessageBubble from 'widget/components/UserMessageBubble.vue';
+import UserMessageBubble from 'widget/components/UserMessageBubble';
+import ImageBubble from 'widget/components/ImageBubble';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   name: 'UserMessage',
   components: {
     UserMessageBubble,
+    ImageBubble,
   },
+  mixins: [timeMixin],
   props: {
-    avatarUrl: String,
-    message: String,
-    status: {
-      type: String,
-      default: '',
+    message: {
+      type: Object,
+      default: () => {},
+    },
+  },
+  computed: {
+    isInProgress() {
+      const { status = '' } = this.message;
+      return status === 'in_progress';
+    },
+    hasImage() {
+      const { attachment = {} } = this.message;
+      const { file_type: fileType } = attachment;
+
+      return fileType === 'image';
+    },
+    showTextBubble() {
+      const { message } = this;
+      return !!message.content;
+    },
+    readableTime() {
+      const { created_at: createdAt = '' } = this.message;
+      return this.messageStamp(createdAt);
     },
   },
 };
@@ -51,6 +84,15 @@ export default {
     .message-wrap {
       margin-right: $space-small;
     }
+
+    .in-progress {
+      opacity: 0.6;
+    }
+  }
+
+  .has-attachment {
+    padding: 0;
+    overflow: hidden;
   }
 }
 </style>
