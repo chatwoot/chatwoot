@@ -1,10 +1,14 @@
 <template>
   <footer class="footer">
-    <ChatInputWrap :on-send-message="onSendMessage" />
+    <ChatInputWrap
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
   </footer>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 
 export default {
@@ -16,9 +20,16 @@ export default {
       type: String,
       default: '',
     },
-    onSendMessage: {
-      type: Function,
-      default: () => {},
+  },
+  methods: {
+    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
+    handleSendMessage(content) {
+      this.sendMessage({
+        content,
+      });
+    },
+    handleSendAttachment(attachment) {
+      this.sendAttachment({ attachment });
     },
   },
 };

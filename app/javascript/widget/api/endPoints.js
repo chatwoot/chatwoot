@@ -9,6 +9,22 @@ const sendMessage = content => ({
   },
 });
 
+const sendAttachmnet = ({ attachment }) => {
+  const { refererURL = '' } = window;
+  const timestamp = new Date().toString();
+  const { file, file_type: fileType } = attachment;
+
+  const formData = new FormData();
+  formData.append('message[attachment][file]', file);
+  formData.append('message[attachment][file_type]', fileType);
+  formData.append('message[referer_url]', refererURL);
+  formData.append('message[timestamp]', timestamp);
+  return {
+    url: `/api/v1/widget/messages${window.location.search}`,
+    params: formData,
+  };
+};
+
 const getConversation = ({ before }) => ({
   url: `/api/v1/widget/messages${window.location.search}`,
   params: { before },
@@ -27,6 +43,7 @@ const getAvailableAgents = token => ({
 
 export default {
   sendMessage,
+  sendAttachmnet,
   getConversation,
   updateContact,
   getAvailableAgents,
