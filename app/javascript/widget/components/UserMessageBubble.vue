@@ -57,7 +57,7 @@ export default {
   &.user {
     border-bottom-right-radius: $space-smaller;
 
-    a {
+    > a {
       color: $color-white;
     }
   }

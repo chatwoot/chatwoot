@@ -3,7 +3,7 @@
     <div class="agent-message">
       <div class="avatar-wrap">
         <thumbnail
-          v-if="showAvatar || hasRecordedResponse"
+          v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
           size="24px"
           :username="agentName"
@@ -14,7 +14,7 @@
           v-if="showTextBubble"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
-          :message-id="messageId"
+          :message-id="message.id"
           :message-type="messageType"
           :message="message.content"
         />
@@ -27,7 +27,7 @@
             :readable-time="readableTime"
           />
         </div>
-        <p v-if="showAvatar || hasRecordedResponse" class="agent-name">
+        <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
           {{ agentName }}
         </p>
       </div>
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import UserMessage from 'widget/components/UserMessage';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble';
 import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble';
@@ -48,8 +49,9 @@ export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
-    Thumbnail,
     ImageBubble,
+    Thumbnail,
+    UserMessage,
   },
   mixins: [timeMixin],
   props: {
@@ -103,7 +105,7 @@ export default {
     },
     responseMessage() {
       if (this.messageContentAttributes.submitted_email) {
-        return this.messageContentAttributes.submitted_email;
+        return { content: this.messageContentAttributes.submitted_email };
       }
 
       if (this.messageContentAttributes.submitted_values) {
@@ -111,7 +113,7 @@ export default {
           const [
             selectionOption = {},
           ] = this.messageContentAttributes.submitted_values;
-          return selectionOption.title || selectionOption.value;
+          return { content: selectionOption.title || selectionOption.value };
         }
       }
       return '';
