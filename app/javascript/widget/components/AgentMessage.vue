@@ -61,7 +61,7 @@ export default {
   computed: {
     showTextBubble() {
       const { message } = this;
-      return !!message.content && !message.attachment;
+      return !message.attachment;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
