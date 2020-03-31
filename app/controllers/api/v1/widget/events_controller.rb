@@ -11,6 +11,6 @@ class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
   private
 
   def permitted_params
-    params.permit(:name)
+    params.permit(:name, :website_token)
   end
 end

@@ -97,9 +97,15 @@ function createNotificationBubble() {
 }
 
 function bubbleClickCallback() {
+  window.$chatwoot.isOpen = !window.$chatwoot.isOpen;
   toggleClass(chatBubble, 'woot--hide');
   toggleClass(closeBubble, 'woot--hide');
   toggleClass(holder, 'woot--hide');
+
+  if (window.$chatwoot.isOpen) {
+    // eslint-disable-next-line
+    IFrameHelper.pushEvent('webwidget.triggered');
+  }
 }
 
 function onClickChatBubble() {
@@ -219,9 +225,13 @@ const IFrameHelper = {
       IFrameHelper.sendMessage('toggle-close-button', { showClose: false });
     }
   },
+  pushEvent: eventName => {
+    IFrameHelper.sendMessage('push-event', { eventName });
+  },
 };
 
 function loadIframe({ baseUrl, websiteToken }) {
+  window.$chatwoot = { isOpen: false };
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
