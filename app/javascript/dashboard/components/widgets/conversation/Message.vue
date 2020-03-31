@@ -3,12 +3,12 @@
     <div :class="wrapClass">
       <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-image
-          v-if="data.attachment && data.attachment.file_type !== 'image'"
+          v-if="data.attachment && data.attachment.file_type === 'image'"
           :url="data.attachment.data_url"
           :readable-time="readableTime"
         />
         <bubble-file
-          v-if="data.attachment && data.attachment.file_type === 'image'"
+          v-if="data.attachment && data.attachment.file_type !== 'image'"
           :url="data.attachment.data_url"
           :readable-time="readableTime"
         />
