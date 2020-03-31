@@ -16,7 +16,7 @@
           :message-content-attributes="messageContentAttributes"
           :message-id="messageId"
           :message-type="messageType"
-          :message="message"
+          :message="message.content"
         />
         <div v-else class="chat-bubble has-attachment agent">
           <image-bubble
