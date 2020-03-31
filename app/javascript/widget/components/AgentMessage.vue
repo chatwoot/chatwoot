@@ -18,7 +18,12 @@
         :message="message.content"
       />
       <div v-if="hasImage" class="chat-bubble has-attachment agent">
+        <file-bubble
+          v-if="message.attachment && message.attachment.file_type !== 'image'"
+          :url="message.attachment.data_url"
+        />
         <image-bubble
+          v-else
           :url="message.attachment.data_url"
           :thumb="message.attachment.thumb_url"
           :readable-time="readableTime"
@@ -35,6 +40,7 @@
 import AgentMessageBubble from 'widget/components/AgentMessageBubble';
 import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble';
+import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
@@ -44,6 +50,7 @@ export default {
     AgentMessageBubble,
     Thumbnail,
     ImageBubble,
+    FileBubble,
   },
   mixins: [timeMixin],
   props: {

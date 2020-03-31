@@ -7,7 +7,12 @@
         :status="message.status"
       />
       <div v-if="hasImage" class="chat-bubble has-attachment user">
+        <file-bubble
+          v-if="message.attachment && message.attachment.file_type !== 'image'"
+          :url="message.attachment.data_url"
+        />
         <image-bubble
+          v-else
           :url="message.attachment.data_url"
           :thumb="message.attachment.thumb_url"
           :readable-time="readableTime"
@@ -20,6 +25,7 @@
 <script>
 import UserMessageBubble from 'widget/components/UserMessageBubble';
 import ImageBubble from 'widget/components/ImageBubble';
+import FileBubble from 'widget/components/FileBubble';
 import timeMixin from 'dashboard/mixins/time';
 
 export default {
@@ -27,6 +33,7 @@ export default {
   components: {
     UserMessageBubble,
     ImageBubble,
+    FileBubble,
   },
   mixins: [timeMixin],
   props: {
@@ -93,6 +100,15 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
+  }
+  .user.has-attachment {
+    .icon-wrap {
+      color: $color-white;
+    }
+
+    .download {
+      opacity: 0.8;
+    }
   }
 }
 </style>

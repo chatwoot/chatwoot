@@ -25,7 +25,7 @@
       />
       <file-upload
         v-if="!showFileUpload"
-        accept="image/*"
+        :size="4096 * 4096"
         @input-file="onFileUpload"
       >
         <i

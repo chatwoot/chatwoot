@@ -1,5 +1,5 @@
 <template>
-  <file-upload accept="image/*" @input-file="onFileUpload">
+  <file-upload :size="4096 * 2048" @input-file="onFileUpload">
     <span class="attachment-button ">
       <i v-if="!isUploading.image"></i>
       <spinner v-if="isUploading" size="small" />

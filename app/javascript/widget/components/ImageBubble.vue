@@ -1,5 +1,10 @@
 <template>
-  <a :href="url" target="_blank" class="image">
+  <a
+    :href="url"
+    target="_blank"
+    rel="noreferrer noopener nofollow"
+    class="image"
+  >
     <div class="wrap">
       <img :src="thumb" alt="Picture message" />
       <span class="time">{{ readableTime }}</span>

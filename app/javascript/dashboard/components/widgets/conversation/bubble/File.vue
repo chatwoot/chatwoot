@@ -1,0 +1,71 @@
+<template>
+  <div class="file message-text__wrap" @click="openLink">
+    <div class="icon-wrap">
+      <i class="ion-document-text"></i>
+    </div>
+    <div class="meta">
+      <h5 class="text-block-title">
+        {{ decodeURI(fileName) }}
+      </h5>
+      <a
+        class="download clear button small"
+        rel="noreferrer noopener nofollow"
+        target="_blank"
+        :href="url"
+      >
+        {{ $t('CONVERSATION.DOWNLOAD') }}
+      </a>
+    </div>
+    <span class="time">{{ readableTime }}</span>
+  </div>
+</template>
+
+<script>
+export default {
+  props: ['url', 'readableTime'],
+  computed: {
+    fileName() {
+      const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
+      return filename;
+    },
+  },
+  methods: {
+    openLink() {
+      const win = window.open(this.url, '_blank');
+      win.focus();
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+
+.file {
+  display: flex;
+  flex-direction: row;
+  padding: $space-normal;
+  cursor: pointer;
+
+  .icon-wrap {
+    font-size: $font-size-giga;
+    color: $color-woot;
+    line-height: 1;
+    margin-left: $space-smaller;
+    margin-right: $space-slab;
+  }
+
+  .text-block-title {
+    margin: 0;
+  }
+
+  .button {
+    padding: 0;
+    margin: 0;
+  }
+
+  .meta {
+    padding-right: $space-two;
+  }
+}
+</style>
