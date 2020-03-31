@@ -17,8 +17,6 @@
 #
 
 class Channel::WebWidget < ApplicationRecord
-  include Events::Types
-
   self.table_name = 'channel_web_widgets'
 
   validates :website_name, presence: true
@@ -58,8 +56,6 @@ class Channel::WebWidget < ApplicationRecord
         inbox_id: inbox.id,
         source_id: SecureRandom.uuid
       )
-
-      Rails.configuration.dispatcher.dispatch(WEBWIDGET_TRIGGERED, Time.zone.now, contact_inbox: contact_inbox)
       contact_inbox
     rescue StandardError => e
       Rails.logger e

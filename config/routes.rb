@@ -103,6 +103,7 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :update]
 
       namespace :widget do
+        resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
         resources :inbox_members, only: [:index]
       end
