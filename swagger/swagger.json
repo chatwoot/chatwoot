@@ -25,7 +25,7 @@
     "application/json; charset=utf-8"
   ],
   "paths": {
-    "/account/{account_id}/widget/inboxes": {
+    "/accounts/{account_id}/widget/inboxes": {
       "post": {
         "tags": [
           "Widget"
@@ -78,7 +78,7 @@
         }
       }
     },
-    "/account/{account_id}/widget/inboxes/${id}": {
+    "/accounts/{account_id}/widget/inboxes/${id}": {
       "patch": {
         "tags": [
           "Widget"
@@ -123,7 +123,7 @@
         }
       }
     },
-    "/account/{account_id}/inboxes": {
+    "/accounts/{account_id}/inboxes": {
       "get": {
         "tags": [
           "Inbox"
@@ -147,7 +147,7 @@
         }
       }
     },
-    "/account/{account_id}/inboxes/{id}": {
+    "/accounts/{account_id}/inboxes/{id}": {
       "patch": {
         "tags": [
           "Inbox"
@@ -195,7 +195,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations": {
+    "/accounts/{account_id}/conversations": {
       "get": {
         "tags": [
           "Conversation"
@@ -312,7 +312,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}": {
+    "/accounts/{account_id}/conversations/{id}": {
       "get": {
         "tags": [
           "Conversation"
@@ -345,7 +345,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/toggle_status": {
+    "/accounts/{account_id}/conversations/{id}/toggle_status": {
       "post": {
         "tags": [
           "Conversation"
@@ -397,7 +397,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/messages": {
+    "/accounts/{account_id}/conversations/{id}/messages": {
       "get": {
         "tags": [
           "Messages"
@@ -484,7 +484,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/labels": {
+    "/accounts/{account_id}/conversations/{id}/labels": {
       "get": {
         "tags": [
           "ConversationLabels"
@@ -565,7 +565,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/assignments": {
+    "/accounts/{account_id}/conversations/{id}/assignments": {
       "post": {
         "tags": [
           "ConversationAssignment"
@@ -611,7 +611,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts": {
+    "/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
           "Contact"
@@ -673,7 +673,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts/{id}": {
+    "/accounts/{account_id}/contacts/{id}": {
       "get": {
         "tags": [
           "Contact"
@@ -743,7 +743,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts/{id}/conversations": {
+    "/accounts/{account_id}/contacts/{id}/conversations": {
       "get": {
         "tags": [
           "Contact"
@@ -1315,7 +1315,7 @@
           "description": "ID of the conversation",
           "required": true
         },
-        "message": {
+        "content": {
           "type": "string",
           "description": "The content of the message",
           "required": true
@@ -1323,6 +1323,18 @@
         "private": {
           "type": "boolean",
           "description": "Flag to identify if it is a private note"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "input_select",
+            "form",
+            "cards"
+          ]
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "options/form object"
         }
       }
     }

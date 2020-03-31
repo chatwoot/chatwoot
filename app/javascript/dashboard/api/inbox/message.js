@@ -9,7 +9,7 @@ class MessageApi extends ApiClient {
 
   create({ conversationId, message, private: isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/messages`, {
-      message,
+      content: message,
       private: isPrivate,
     });
   }

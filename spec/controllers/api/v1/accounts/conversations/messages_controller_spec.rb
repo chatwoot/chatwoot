@@ -19,7 +19,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'creates a new outgoing message' do
-        params = { message: 'test-message', private: true }
+        params = { content: 'test-message', private: true }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -33,7 +33,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing message with attachment' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        params = { message: 'test-message', attachment: { file: file } }
+        params = { content: 'test-message', attachment: { file: file } }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -49,7 +49,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        params = { message: 'test-message' }
+        params = { content: 'test-message' }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -75,6 +75,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content_type).to eq(params[:content_type])
+        expect(conversation.messages.first.content).to eq nil
       end
 
       it 'creates a new outgoing cards message' do

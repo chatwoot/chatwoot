@@ -11,7 +11,7 @@
       </div>
       <div class="message-wrap">
         <AgentMessageBubble
-          v-if="showTextBubble"
+          v-if="showTextBubble && shouldDisplayAgentMessage"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
           :message-id="message.id"
@@ -61,6 +61,16 @@ export default {
     },
   },
   computed: {
+    shouldDisplayAgentMessage() {
+      if (
+        this.contentType === 'input_select' &&
+        this.messageContentAttributes.submitted_values &&
+        !this.message.content
+      ) {
+        return false;
+      }
+      return true;
+    },
     showTextBubble() {
       const { message } = this;
       return !message.attachment;
@@ -86,15 +96,16 @@ export default {
         return 'Bot';
       }
 
-      return this.message.sender ? this.message.sender.name : '';
+      return this.message.sender ? this.message.sender.name : 'Bot';
     },
     avatarUrl() {
+      // eslint-disable-next-line
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png')
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        // eslint-disable-next-line
-        return require('dashboard/assets/images/chatwoot_bot.png');
+        return BotImage;
       }
 
-      return this.message.sender ? this.message.sender.avatar_url : '';
+      return this.message.sender ? this.message.sender.avatar_url : BotImage;
     },
     hasRecordedResponse() {
       return (

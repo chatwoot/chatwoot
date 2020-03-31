@@ -2,7 +2,7 @@ class Messages::Outgoing::NormalBuilder
   attr_reader :message
 
   def initialize(user, conversation, params)
-    @content = params[:message]
+    @content = params[:content]
     @private = params[:private] || false
     @conversation = conversation
     @user = user
