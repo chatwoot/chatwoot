@@ -5,6 +5,15 @@
       :header-title="inbox.name"
     />
     <div
+      v-if="inbox.channel_type === 'Channel::TwilioSms'"
+      class="settings--content"
+    >
+      Configure the following webhook URL in Twilio account.
+      {{
+        `${window.location.host}/twilio/callback/${inbox.channel_identifier}`
+      }}
+    </div>
+    <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
       class="settings--content"
     >

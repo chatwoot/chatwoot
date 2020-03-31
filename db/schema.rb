@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_03_31_095710) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -113,6 +112,16 @@ ActiveRecord::Schema.define(version: 2020_03_31_095710) do
     t.datetime "updated_at", null: false
     t.index ["page_id", "account_id"], name: "index_channel_facebook_pages_on_page_id_and_account_id", unique: true
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
+  end
+
+  create_table "channel_twilio_sms", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "channel_identifier", null: false
+    t.string "auth_token", null: false
+    t.string "account_sid", null: false
+    t.integer "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|

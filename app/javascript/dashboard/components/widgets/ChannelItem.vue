@@ -24,6 +24,10 @@
       v-if="channel === 'website'"
       src="~dashboard/assets/images/channels/website.png"
     />
+    <img
+      v-if="channel === 'twilio'"
+      src="~dashboard/assets/images/channels/twilio.png"
+    />
     <h3 class="channel__title">
       {{ channel }}
     </h3>
@@ -39,7 +43,7 @@ export default {
   },
   methods: {
     isActive(channel) {
-      return ['facebook', 'website', 'twitter'].includes(channel);
+      return ['facebook', 'website', 'twitter', 'twilio'].includes(channel);
     },
     onItemClick() {
       if (this.isActive(this.channel)) {

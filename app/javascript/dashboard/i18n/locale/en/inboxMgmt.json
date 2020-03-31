@@ -35,6 +35,23 @@
         },
         "SUBMIT_BUTTON":"Create inbox"
       },
+      "TWILIO": {
+        "TITLE": "Twilio SMS Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS.",
+        "ACCOUNT_SID": {
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Please enter your Twilio Account SID"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Please enter your Twilio Auth Token"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone number",
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent."
+        },
+        "SUBMIT_BUTTON": "Create Twilio Channel"
+      },
       "AUTH": {
         "TITLE": "Channels",
         "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
