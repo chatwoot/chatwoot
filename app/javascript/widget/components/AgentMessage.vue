@@ -123,23 +123,22 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~widget/assets/scss/variables.scss';
 
 .conversation-wrap {
   .agent-bubble {
     margin-bottom: $space-micro;
-
     & + .agent-bubble {
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-
-      .user-message {
+      .agent-message {
         .chat-bubble {
-          border-top-left-radius: $space-two;
+          border-top-left-radius: $space-smaller;
         }
       }
+    }
+
+    .user-message {
+      margin-top: $space-normal;
     }
   }
 
@@ -184,25 +183,6 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
-  }
-}
-</style>
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.conversation-wrap {
-  .agent-message {
-    + .agent-message {
-      margin-bottom: $space-micro;
-
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    + .user-message {
-      margin-top: $space-normal;
-    }
   }
 }
 </style>

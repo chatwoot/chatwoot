@@ -71,7 +71,6 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .options-message {
-  @include border-normal;
   background: white;
   width: 60%;
   max-width: 17rem;
