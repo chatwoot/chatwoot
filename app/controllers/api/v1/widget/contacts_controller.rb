@@ -7,8 +7,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
       contact: @contact,
       params: permitted_params.to_h.deep_symbolize_keys
     )
-    contact_identify_action.perform
-    head :no_content
+    render json: contact_identify_action.perform
   end
 
   private

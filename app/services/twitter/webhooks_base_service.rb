@@ -30,11 +30,6 @@ class Twitter::WebhooksBaseService
       user['id'], user['name'], additional_contact_attributes(user)
     )
     @contact = @contact_inbox.contact
-    avatar_resource = LocalResource.new(user['profile_image_url'])
-    @contact.avatar.attach(
-      io: avatar_resource.file,
-      filename: avatar_resource.tmp_filename,
-      content_type: avatar_resource.encoding
-    )
+    ContactAvatarJob.perform_later(@contact, user['profile_image_url']) if user['profile_image_url']
   end
 end
