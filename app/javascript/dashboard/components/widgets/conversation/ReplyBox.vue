@@ -24,7 +24,7 @@
         @blur="onBlur()"
       />
       <file-upload
-        v-if="!showFileUpload"
+        v-if="showFileUpload"
         :size="4096 * 4096"
         @input-file="onFileUpload"
       >
@@ -105,7 +105,6 @@ export default {
       message: '',
       isPrivate: false,
       showEmojiPicker: false,
-      showFileUpload: false,
       showCannedResponsesList: false,
       isUploading: {
         audio: false,
@@ -141,6 +140,9 @@ export default {
         }
       }
       return 10000;
+    },
+    showFileUpload() {
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
