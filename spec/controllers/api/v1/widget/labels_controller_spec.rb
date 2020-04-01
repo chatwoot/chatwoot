@@ -13,7 +13,7 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
     let(:params) { { website_token: web_widget.website_token, label: 'customer-support' } }
 
     context 'with correct website token' do
-      it 'returns the list of agents' do
+      it 'returns the list of labels' do
         post '/api/v1/widget/labels',
              params: params,
              headers: { 'X-Auth-Token' => token },
@@ -26,7 +26,7 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
     end
 
     context 'with invalid website token' do
-      it 'returns the list of agents' do
+      it 'returns the list of labels' do
         post '/api/v1/widget/labels', params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
@@ -42,7 +42,7 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
     let(:params) { { website_token: web_widget.website_token, label: 'customer-support' } }
 
     context 'with correct website token' do
-      it 'returns the list of agents' do
+      it 'returns the list of labels' do
         delete "/api/v1/widget/labels/#{params[:label]}",
                params: params,
                headers: { 'X-Auth-Token' => token },
@@ -54,7 +54,7 @@ RSpec.describe '/api/v1/widget/labels', type: :request do
     end
 
     context 'with invalid website token' do
-      it 'returns the list of agents' do
+      it 'returns the list of labels' do
         delete "/api/v1/widget/labels/#{params[:label]}", params: { website_token: '' }
         expect(response).to have_http_status(:not_found)
       end
