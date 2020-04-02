@@ -28,7 +28,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.first.content).to eq(params[:message])
+        expect(conversation.messages.first.content).to eq(params[:content])
       end
 
       it 'creates a new outgoing message with attachment' do
@@ -58,7 +58,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.first.content).to eq(params[:message])
+        expect(conversation.messages.first.content).to eq(params[:content])
       end
 
       it 'creates a new outgoing input select message' do
