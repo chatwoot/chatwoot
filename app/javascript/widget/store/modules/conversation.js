@@ -88,15 +88,16 @@ export const actions = {
   },
 
   sendAttachment: async ({ commit }, params) => {
-    const { attachment } = params;
-    const { thumbUrl } = attachment;
-    const attachmentBlob = {
+    const {
+      attachment: { thumbUrl, fileType },
+    } = params;
+    const attachment = {
       thumb_url: thumbUrl,
       data_url: thumbUrl,
-      file_type: 'image',
+      file_type: fileType,
       status: 'in_progress',
     };
-    const tempMessage = createTemporaryMessage({ attachment: attachmentBlob });
+    const tempMessage = createTemporaryMessage({ attachment });
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
@@ -158,8 +159,16 @@ export const mutations = {
 
     if (messageInConversation) {
       Vue.delete(messagesInbox, tempId);
-      const newMessage = { ...messageInConversation };
-      Vue.set(messagesInbox, id, { ...newMessage, id, status });
+      const { attachment } = messageInConversation;
+      if (attachment.file_type === 'file') {
+        attachment.data_url = message.attachment.data_url;
+      }
+      Vue.set(messagesInbox, id, {
+        ...messageInConversation,
+        attachment,
+        id,
+        status,
+      });
     }
   },
 
