@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     hasAttachment() {
-      return !!this.message.attachemnt;
+      return !!this.message.attachment;
     },
     showTextBubble() {
       const { message } = this;

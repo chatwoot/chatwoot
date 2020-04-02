@@ -23,12 +23,15 @@ export default {
     return { isUploading: false };
   },
   methods: {
+    getFileType(fileType) {
+      return fileType.includes('image') ? 'image' : 'file';
+    },
     async onFileUpload(file) {
       this.isUploading = true;
       try {
         const thumbUrl = window.URL.createObjectURL(file.file);
         await this.onAttach({
-          file_type: file.type,
+          fileType: this.getFileType(file.type),
           file: file.file,
           thumbUrl,
         });

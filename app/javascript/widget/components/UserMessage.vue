@@ -10,6 +10,7 @@
         <file-bubble
           v-if="message.attachment && message.attachment.file_type !== 'image'"
           :url="message.attachment.data_url"
+          :is-in-progress="isInProgress"
         />
         <image-bubble
           v-else

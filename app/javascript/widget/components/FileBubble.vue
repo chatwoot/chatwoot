@@ -5,7 +5,7 @@
     </div>
     <div class="meta">
       <div class="title">
-        {{ decodeURI(fileName) }}
+        {{ title }}
       </div>
       <div class="link-wrap">
         <a
@@ -14,7 +14,7 @@
           target="_blank"
           :href="url"
         >
-          download
+          {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
         </a>
       </div>
     </div>
@@ -23,8 +23,22 @@
 
 <script>
 export default {
-  props: ['url'],
+  props: {
+    url: {
+      type: String,
+      default: '',
+    },
+    isInProgress: {
+      type: Boolean,
+      default: false,
+    },
+  },
   computed: {
+    title() {
+      return this.isInProgress
+        ? this.$t('COMPONENTS.FILE_BUBBLE.UPLOADING')
+        : decodeURI(this.fileName);
+    },
     fileName() {
       const filename = this.url.substring(this.url.lastIndexOf('/') + 1);
       return filename;

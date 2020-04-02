@@ -297,13 +297,7 @@ export default {
     onFileUpload(file) {
       this.isUploading.image = true;
       this.$store
-        .dispatch('sendAttachment', [
-          this.currentChat.id,
-          {
-            file_type: file.type,
-            file: file.file,
-          },
-        ])
+        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
         .then(() => {
           this.isUploading.image = false;
           this.$emit('scrollToMessage');
