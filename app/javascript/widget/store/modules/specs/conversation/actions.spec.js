@@ -49,7 +49,7 @@ describe('#actions', () => {
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
       const thumbUrl = '';
-      const attachment = { thumbUrl };
+      const attachment = { thumbUrl, fileType: 'file' };
 
       actions.sendAttachment({ commit }, { attachment });
       spy.mockRestore();
@@ -62,7 +62,7 @@ describe('#actions', () => {
         attachment: {
           thumb_url: '',
           data_url: '',
-          file_type: 'image',
+          file_type: 'file',
           status: 'in_progress',
         },
       });

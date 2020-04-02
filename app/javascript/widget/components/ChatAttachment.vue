@@ -1,5 +1,5 @@
 <template>
-  <file-upload accept="image/*" @input-file="onFileUpload">
+  <file-upload :size="4096 * 2048" @input-file="onFileUpload">
     <span class="attachment-button ">
       <i v-if="!isUploading.image"></i>
       <spinner v-if="isUploading" size="small" />
@@ -23,12 +23,15 @@ export default {
     return { isUploading: false };
   },
   methods: {
+    getFileType(fileType) {
+      return fileType.includes('image') ? 'image' : 'file';
+    },
     async onFileUpload(file) {
       this.isUploading = true;
       try {
         const thumbUrl = window.URL.createObjectURL(file.file);
         await this.onAttach({
-          file_type: file.type,
+          fileType: this.getFileType(file.type),
           file: file.file,
           thumbUrl,
         });

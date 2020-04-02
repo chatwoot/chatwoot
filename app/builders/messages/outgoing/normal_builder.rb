@@ -1,4 +1,5 @@
 class Messages::Outgoing::NormalBuilder
+  include ::FileTypeHelper
   attr_reader :message
 
   def initialize(user, conversation, params)
@@ -13,7 +14,10 @@ class Messages::Outgoing::NormalBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     if @attachment
-      @message.attachment = Attachment.new(account_id: message.account_id)
+      @message.attachment = Attachment.new(
+        account_id: message.account_id,
+        file_type: file_type(@attachment[:file]&.content_type)
+      )
       @message.attachment.file.attach(@attachment[:file])
     end
     @message.save
