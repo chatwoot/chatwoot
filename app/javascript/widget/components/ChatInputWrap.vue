@@ -1,6 +1,6 @@
 <template>
   <div class="chat-message--input">
-    <chat-attchment-button :on-attach="onSendAttachment" />
+    <chat-attachment-button :on-attach="onSendAttachment" />
     <ChatInputArea v-model="userInput" :placeholder="placeholder" />
     <ChatSendButton
       :on-click="handleButtonClick"
@@ -13,13 +13,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
-import ChatAttchmentButton from 'widget/components/ChatAttachment.vue';
+import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatInputArea from 'widget/components/ChatInputArea.vue';
 
 export default {
   name: 'ChatInputWrap',
   components: {
-    ChatAttchmentButton,
+    ChatAttachmentButton,
     ChatSendButton,
     ChatInputArea,
   },
@@ -44,6 +44,13 @@ export default {
       userInput: '',
     };
   },
+
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+  },
+
   destroyed() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
@@ -51,11 +58,6 @@ export default {
     document.addEventListener('keypress', this.handleEnterKeyPress);
   },
 
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-  },
   methods: {
     handleButtonClick() {
       if (this.userInput && this.userInput.trim()) {

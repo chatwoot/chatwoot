@@ -24,8 +24,8 @@
         @blur="onBlur()"
       />
       <file-upload
-        v-if="!showFileUpload"
-        accept="image/*"
+        v-if="showFileUpload"
+        :size="4096 * 4096"
         @input-file="onFileUpload"
       >
         <i
@@ -105,7 +105,6 @@ export default {
       message: '',
       isPrivate: false,
       showEmojiPicker: false,
-      showFileUpload: false,
       showCannedResponsesList: false,
       isUploading: {
         audio: false,
@@ -141,6 +140,9 @@ export default {
         }
       }
       return 10000;
+    },
+    showFileUpload() {
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -295,13 +297,7 @@ export default {
     onFileUpload(file) {
       this.isUploading.image = true;
       this.$store
-        .dispatch('sendAttachment', [
-          this.currentChat.id,
-          {
-            file_type: file.type,
-            file: file.file,
-          },
-        ])
+        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
         .then(() => {
           this.isUploading.image = false;
           this.$emit('scrollToMessage');
