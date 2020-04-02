@@ -6,7 +6,7 @@
         :message="message.content"
         :status="message.status"
       />
-      <div v-if="hasImage" class="chat-bubble has-attachment user">
+      <div v-if="hasAttachment" class="chat-bubble has-attachment user">
         <file-bubble
           v-if="message.attachment && message.attachment.file_type !== 'image'"
           :url="message.attachment.data_url"
@@ -47,11 +47,8 @@ export default {
       const { status = '' } = this.message;
       return status === 'in_progress';
     },
-    hasImage() {
-      const { attachment = {} } = this.message;
-      const { file_type: fileType } = attachment;
-
-      return fileType === 'image';
+    hasAttachment() {
+      return !!this.message.attachment;
     },
     showTextBubble() {
       const { message } = this;

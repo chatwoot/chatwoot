@@ -17,7 +17,7 @@
         :message-type="messageType"
         :message="message.content"
       />
-      <div v-if="hasImage" class="chat-bubble has-attachment agent">
+      <div v-if="hasAttachment" class="chat-bubble has-attachment agent">
         <file-bubble
           v-if="message.attachment && message.attachment.file_type !== 'image'"
           :url="message.attachment.data_url"
@@ -60,10 +60,8 @@ export default {
     },
   },
   computed: {
-    hasImage() {
-      const { attachment = {} } = this.message;
-      const { file_type: fileType } = attachment;
-      return fileType === 'image';
+    hasAttachment() {
+      return !!this.message.attachemnt;
     },
     showTextBubble() {
       const { message } = this;

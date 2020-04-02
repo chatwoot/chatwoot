@@ -57,6 +57,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['content']).to eq(message_params[:content])
 
         expect(conversation.messages.last.attachment.file.present?).to eq(true)
+        expect(conversation.messages.last.attachment.file_type).to eq('image')
       end
     end
   end
