@@ -51,6 +51,8 @@ export default {
         this.$store.dispatch('conversationLabels/create', message.label);
       } else if (message.event === 'remove-label') {
         this.$store.dispatch('conversationLabels/destroy', message.label);
+      } else if (message.event === 'set-user') {
+        this.$store.dispatch('contacts/update', message);
       }
     });
   },
