@@ -10,8 +10,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def create
     @message = conversation.messages.new(message_params)
-    @message.save!
     build_attachment
+    @message.save!
     render json: @message
   end
 
