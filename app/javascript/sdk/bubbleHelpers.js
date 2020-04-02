@@ -32,6 +32,7 @@ export const createNotificationBubble = () => {
 };
 
 export const onBubbleClick = () => {
+  window.$chatwoot.isOpen = !window.$chatwoot.isOpen;
   toggleClass(chatBubble, 'woot--hide');
   toggleClass(closeBubble, 'woot--hide');
   toggleClass(widgetHolder, 'woot--hide');

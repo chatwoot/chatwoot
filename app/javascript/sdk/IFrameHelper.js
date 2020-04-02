@@ -17,10 +17,13 @@ import {
 } from './bubbleHelpers';
 
 export const IFrameHelper = {
+  getUrl({ baseUrl, websiteToken }) {
+    return `${baseUrl}/widget?website_token=${websiteToken}`;
+  },
   createFrame: ({ baseUrl, websiteToken }) => {
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = `${baseUrl}/widget?website_token=${websiteToken}`;
+    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
     if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
@@ -69,7 +72,9 @@ export const IFrameHelper = {
   },
   events: {
     loaded: message => {
-      Cookies.set('cw_conversation', message.config.authToken);
+      Cookies.set('cw_conversation', message.config.authToken, {
+        expires: 365,
+      });
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {});
       IFrameHelper.onLoad(message.config.channelConfig);

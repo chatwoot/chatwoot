@@ -1,4 +1,4 @@
-import { updateContact } from 'widget/api/contact';
+import MessageAPI from 'widget/api/message';
 
 const state = {
   uiFlags: {
@@ -14,7 +14,7 @@ const actions = {
   updateContactAttributes: async ({ commit }, { email, messageId }) => {
     commit('toggleUpdateStatus', true);
     try {
-      await updateContact({ email, messageId });
+      await MessageAPI.update({ email, messageId });
       commit(
         'conversation/updateMessage',
         {
