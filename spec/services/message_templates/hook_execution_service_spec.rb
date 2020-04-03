@@ -3,7 +3,10 @@ require 'rails_helper'
 describe ::MessageTemplates::HookExecutionService do
   context 'when it is a first message from web widget' do
     it 'calls ::MessageTemplates::Template::EmailCollect' do
-      message = create(:message)
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact)
+      message = create(:message, conversation: conversation)
+
       # this hook will only get executed for conversations with out any template messages
       message.conversation.messages.template.destroy_all
 

@@ -2,8 +2,8 @@ import { createConsumer } from '@rails/actioncable';
 
 class BaseActionCableConnector {
   constructor(app, pubsubToken) {
-    const consumer = createConsumer();
-    consumer.subscriptions.create(
+    this.consumer = createConsumer();
+    this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
         pubsub_token: pubsubToken,
@@ -14,6 +14,10 @@ class BaseActionCableConnector {
     );
     this.app = app;
     this.events = {};
+  }
+
+  disconnect() {
+    this.consumer.disconnect();
   }
 
   onReceived = ({ event, data } = {}) => {
