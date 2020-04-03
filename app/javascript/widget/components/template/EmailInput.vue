@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiFlags: 'contact/getUIFlags',
+      uiFlags: 'message/getUIFlags',
       widgetColor: 'appConfig/getWidgetColor',
     }),
     hasSubmitted() {
@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('contact/updateContactAttributes', {
+      this.$store.dispatch('message/updateContactAttributes', {
         email: this.email,
         messageId: this.messageId,
       });

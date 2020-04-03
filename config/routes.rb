@@ -103,8 +103,10 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :update]
 
       namespace :widget do
-        resources :messages, only: [:index, :create, :update]
+        resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
+        resources :labels, only: [:create, :destroy]
+        resources :messages, only: [:index, :create, :update]
       end
 
       resources :webhooks, only: [] do

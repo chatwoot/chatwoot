@@ -1,4 +1,5 @@
-import { updateContact } from 'widget/api/contact';
+import MessageAPI from 'widget/api/message';
+import { refreshActionCableConnector } from '../../helpers/actionCable';
 
 const state = {
   uiFlags: {
@@ -14,7 +15,11 @@ const actions = {
   updateContactAttributes: async ({ commit }, { email, messageId }) => {
     commit('toggleUpdateStatus', true);
     try {
-      await updateContact({ email, messageId });
+      const {
+        data: {
+          contact: { pubsub_token: pubsubToken },
+        },
+      } = await MessageAPI.update({ email, messageId });
       commit(
         'conversation/updateMessage',
         {
@@ -23,6 +28,7 @@ const actions = {
         },
         { root: true }
       );
+      refreshActionCableConnector(pubsubToken);
     } catch (error) {
       // Ignore error
     }
