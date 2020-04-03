@@ -13,6 +13,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   private
 
   def permitted_params
-    params.permit(:website_token, :identifier, :email, :name, custom_attributes: [:avatar_url])
+    params.permit(:website_token, :identifier, :email, :name, :avatar_url)
   end
 end
