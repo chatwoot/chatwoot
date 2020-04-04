@@ -2,14 +2,13 @@
 #
 # Table name: channel_twilio_sms
 #
-#  id                 :bigint           not null, primary key
-#  account_sid        :string           not null
-#  auth_token         :string           not null
-#  channel_identifier :string           not null
-#  phone_number       :string           not null
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  account_id         :integer          not null
+#  id           :bigint           not null, primary key
+#  account_sid  :string           not null
+#  auth_token   :string           not null
+#  phone_number :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  account_id   :integer          not null
 #
 
 class Channel::TwilioSms < ApplicationRecord
@@ -19,8 +18,6 @@ class Channel::TwilioSms < ApplicationRecord
   validates :account_sid, presence: true
   validates :auth_token, presence: true
   validates :phone_number, presence: true
-
-  has_secure_token :channel_identifier
 
   belongs_to :account
 

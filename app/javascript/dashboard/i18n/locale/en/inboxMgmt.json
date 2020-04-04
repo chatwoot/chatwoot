@@ -50,7 +50,10 @@
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel"
+        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+        }
       },
       "AUTH": {
         "TITLE": "Channels",

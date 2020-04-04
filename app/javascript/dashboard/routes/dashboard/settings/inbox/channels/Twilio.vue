@@ -56,6 +56,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
@@ -63,6 +64,7 @@ export default {
   components: {
     PageHeader,
   },
+  mixins: [alertMixin],
   data() {
     return {
       accountSID: '',
@@ -78,21 +80,26 @@ export default {
   },
   methods: {
     async createChannel() {
-      const twilioChannel = await this.$store.dispatch(
-        'inboxes/createTwilioChannel',
-        {
-          account_sid: this.accountSID,
-          auth_token: this.authToken,
-          phone_number: this.phoneNumber,
-        }
-      );
-      router.replace({
-        name: 'settings_inboxes_add_agents',
-        params: {
-          page: 'new',
-          inbox_id: twilioChannel.id,
-        },
-      });
+      try {
+        const twilioChannel = await this.$store.dispatch(
+          'inboxes/createTwilioChannel',
+          {
+            account_sid: this.accountSID,
+            auth_token: this.authToken,
+            phone_number: this.phoneNumber,
+          }
+        );
+
+        router.replace({
+          name: 'settings_inboxes_add_agents',
+          params: {
+            page: 'new',
+            inbox_id: twilioChannel.id,
+          },
+        });
+      } catch (error) {
+        this.showAlert(this.$t('INBOX_MGMT.ADD.TWILIO.API.ERROR_MESSAGE'));
+      }
     },
   },
 };

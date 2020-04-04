@@ -11,6 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_03_31_095710) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -116,7 +117,6 @@ ActiveRecord::Schema.define(version: 2020_03_31_095710) do
 
   create_table "channel_twilio_sms", force: :cascade do |t|
     t.string "phone_number", null: false
-    t.string "channel_identifier", null: false
     t.string "auth_token", null: false
     t.string "account_sid", null: false
     t.integer "account_id", null: false
