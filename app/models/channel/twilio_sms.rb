@@ -10,6 +10,10 @@
 #  updated_at   :datetime         not null
 #  account_id   :integer          not null
 #
+# Indexes
+#
+#  index_channel_twilio_sms_on_account_id_and_phone_number  (account_id,phone_number) UNIQUE
+#
 
 class Channel::TwilioSms < ApplicationRecord
   self.table_name = 'channel_twilio_sms'
@@ -17,7 +21,7 @@ class Channel::TwilioSms < ApplicationRecord
   validates :account_id, presence: true
   validates :account_sid, presence: true
   validates :auth_token, presence: true
-  validates :phone_number, presence: true
+  validates :phone_number, uniqueness: { scope: :account_id }, presence: true
 
   belongs_to :account
 
