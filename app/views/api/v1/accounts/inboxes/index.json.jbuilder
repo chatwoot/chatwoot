@@ -10,6 +10,5 @@ json.payload do
     json.website_token inbox.channel.try(:website_token)
     json.enable_auto_assignment inbox.enable_auto_assignment
     json.web_widget_script inbox.channel.try(:web_widget_script)
-    json.channel_identifier inbox.channel.try(:channel_identifier)
   end
 end

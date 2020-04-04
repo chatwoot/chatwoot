@@ -137,8 +137,8 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
-  resources :twilio, only: []  do
-    resources :callback, only: [:create], module: 'twilio'
+  namespace :twilio do
+    resources :callback, only: [:create]
   end
 
   # ----------------------------------------------------------------------

@@ -7,12 +7,7 @@
     >
       <div class="medium-12 columns text-center">
         <div class="website--code">
-          <woot-code
-            :script="
-              `${origin}/twilio/callback/${currentInbox.channel_identifier}`
-            "
-          >
-          </woot-code>
+          <woot-code :script="`${hostURL}/twilio/callback`"></woot-code>
         </div>
         <div class="website--code">
           <woot-code
@@ -36,20 +31,19 @@
 </template>
 
 <script>
+import configMixin from 'shared/mixins/configMixin';
 import EmptyState from '../../../../components/widgets/EmptyState';
 
 export default {
   components: {
     EmptyState,
   },
+  mixins: [configMixin],
   computed: {
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
         this.$route.params.inbox_id
       );
-    },
-    origin() {
-      return window.location.origin;
     },
     message() {
       if (!this.currentInbox.website_token) {

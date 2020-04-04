@@ -5,7 +5,7 @@ class Twilio::IncomingMessageService
     set_contact
     set_conversation
     @conversation.messages.create(
-      content: params[:body],
+      content: params[:Body],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -32,11 +32,14 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
-    @contact, @contact_inbox = ::ContactBuider.new(
-      source_id: permitted_params[:From],
+    contact_inbox = ::ContactBuilder.new(
+      source_id: params[:From],
       inbox: inbox,
       contact_attributes: contact_attributes
-    )
+    ).perform
+
+    @contact_inbox = contact_inbox
+    @contact = contact_inbox.contact
   end
 
   def conversation_params
@@ -58,8 +61,8 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: permitted_params[:From],
-      phone_number: permitted_params[:From],
+      name: params[:From],
+      phone_number: params[:From],
       contact_attributes: additional_attributes
     }
   end

@@ -2,9 +2,8 @@ class ContactBuilder
   pattr_initialize [:source_id!, :inbox!, :contact_attributes!]
 
   def perform
-    contact_inbox = inbox.contact_inboxes.find_by!(source_id: source_id)
-    contact = contact_inbox.contact if contact_inbox
-    return contact, contact_inbox if contact
+    contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
+    return contact_inbox if contact_inbox
 
     build_contact
   end
@@ -30,7 +29,7 @@ class ContactBuilder
         source_id: source_id
       )
       ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
-      return contact, contact_inbox
+      contact_inbox
     rescue StandardError => e
       Rails.logger e
     end

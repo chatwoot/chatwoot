@@ -114,7 +114,7 @@ class Message < ApplicationRecord
     elsif channel_name == 'Channel::TwitterProfile'
       ::Twitter::SendReplyService.new(message: self).perform
     elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::OutgoingMessageService(message: self).perform
+      ::Twilio::OutgoingMessageService.new(message: self).perform
     end
   end
 

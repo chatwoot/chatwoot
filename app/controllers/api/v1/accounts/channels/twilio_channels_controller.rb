@@ -27,7 +27,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::BaseControlle
         channel: twilio_sms
       )
     rescue StandardError => e
-      Rails.logger e
+      render_could_not_create_error(e.message)
     end
   end
 

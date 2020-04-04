@@ -1,13 +1,8 @@
-class Twilio::CallbackController < Twitter::BaseController
+class Twilio::CallbackController < ApplicationController
   def create
-    ::Twilio::MessageService.new(params: permitted_params).perform
+    ::Twilio::IncomingMessageService.new(params: permitted_params).perform
 
-    twiml = Twilio::TwiML::MessagingResponse.new do |r|
-      r.message body: ''
-    end
-
-    content_type 'text/xml'
-    render twiml.to_s
+    head :no_content
   end
 
   private

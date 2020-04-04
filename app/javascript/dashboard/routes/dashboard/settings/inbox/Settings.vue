@@ -9,9 +9,7 @@
       class="settings--content"
     >
       Configure the following webhook URL in Twilio account.
-      {{
-        `${window.location.host}/twilio/callback/${inbox.channel_identifier}`
-      }}
+      {{ `${hostURL}/twilio/callback` }}
     </div>
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
@@ -96,6 +94,7 @@
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { Compact } from 'vue-color';
+import configMixin from 'shared/mixins/configMixin';
 import SettingsFormHeader from '../../../../components/SettingsFormHeader.vue';
 
 export default {
@@ -103,6 +102,7 @@ export default {
     Compact,
     SettingsFormHeader,
   },
+  mixins: [configMixin],
   data() {
     return {
       selectedAgents: [],

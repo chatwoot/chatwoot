@@ -1,5 +1,5 @@
 class Twilio::OutgoingMessageService
-  pattr_initialize [:content!]
+  pattr_initialize [:message!]
 
   def perform
     return if message.private
@@ -8,14 +8,17 @@ class Twilio::OutgoingMessageService
     return unless message.outgoing?
 
     twilio_message = client.messages.create(
-      body: content,
+      body: message.content,
       from: channel.phone_number,
-      to: message.contact.phone_number
+      to: contact.phone_number
     )
     message.update!(source_id: twilio_message.sid)
   end
 
   private
+
+  delegate :conversation, to: :message
+  delegate :contact, to: :conversation
 
   def inbox
     @inbox ||= message.inbox
