@@ -7,6 +7,7 @@ module AccessTokenAuthHelper
   def authenticate_access_token!
     access_token = AccessToken.find_by(token: request.headers[:api_access_token])
     render_unauthorized('Invalid Access Token') && return unless access_token
+
     token_owner = access_token.owner
     @resource = token_owner
   end
