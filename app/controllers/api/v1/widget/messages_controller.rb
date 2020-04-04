@@ -30,11 +30,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def build_attachment
     return if params[:message][:attachment].blank?
 
-    @message.attachment = Attachment.new(
+    attachment = @message.attachments.new(
       account_id: @message.account_id,
       file_type: helpers.file_type(params[:message][:attachment][:file]&.content_type)
     )
-    @message.attachment.file.attach(params[:message][:attachment][:file])
+    attachment.file.attach(params[:message][:attachment][:file])
   end
 
   def set_conversation

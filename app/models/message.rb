@@ -65,7 +65,7 @@ class Message < ApplicationRecord
   belongs_to :user, required: false
   belongs_to :contact, required: false
 
-  has_one :attachment, dependent: :destroy, autosave: true
+  has_many :attachments, dependent: :destroy, autosave: true
 
   after_create :reopen_conversation,
                :dispatch_event,
@@ -85,7 +85,7 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
-    data.merge!(attachment: attachment.push_event_data) if attachment
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments
     data.merge!(sender: user.push_event_data) if user
     data
   end

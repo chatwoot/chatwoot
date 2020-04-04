@@ -16,11 +16,11 @@ class Messages::Outgoing::NormalBuilder
   def perform
     @message = @conversation.messages.build(message_params)
     if @attachment
-      @message.attachment = Attachment.new(
+      attachment = @message.attachments.new(
         account_id: message.account_id,
         file_type: file_type(@attachment[:file]&.content_type)
       )
-      @message.attachment.file.attach(@attachment[:file])
+      attachment.file.attach(@attachment[:file])
     end
     @message.save
     @message
