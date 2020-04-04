@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, account: account, email: nil) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
@@ -57,6 +57,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['content']).to eq(message_params[:content])
 
         expect(conversation.messages.last.attachment.file.present?).to eq(true)
+        expect(conversation.messages.last.attachment.file_type).to eq('image')
       end
     end
   end

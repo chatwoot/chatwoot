@@ -11,6 +11,10 @@ export default {
       BUTTON_TEXT: 'Copy',
       COPY_SUCCESSFUL: 'Code copied to clipboard successfully',
     },
+    FILE_BUBBLE: {
+      DOWNLOAD: 'Download',
+      UPLOADING: 'Uploading...',
+    },
   },
   CONFIRM_EMAIL: 'Verifying...',
   SETTINGS: {

@@ -49,6 +49,12 @@ export default {
         this.isMobile = message.showClose;
       } else if (message.event === 'push-event') {
         this.$store.dispatch('events/create', { name: message.eventName });
+      } else if (message.event === 'set-label') {
+        this.$store.dispatch('conversationLabels/create', message.label);
+      } else if (message.event === 'remove-label') {
+        this.$store.dispatch('conversationLabels/destroy', message.label);
+      } else if (message.event === 'set-user') {
+        this.$store.dispatch('contacts/update', message);
       }
     });
   },

@@ -45,7 +45,6 @@ export default {
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
-  max-width: 80%;
   padding: $space-small $space-normal;
   text-align: left;
 

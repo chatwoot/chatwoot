@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_210612) do
+ActiveRecord::Schema.define(version: 2020_03_31_095710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,7 +157,10 @@ ActiveRecord::Schema.define(version: 2020_03_25_210612) do
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
     t.jsonb "additional_attributes"
+    t.string "identifier"
     t.index ["account_id"], name: "index_contacts_on_account_id"
+    t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
+    t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 

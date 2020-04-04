@@ -41,6 +41,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.messages.last.attachment.file.present?).to eq(true)
+        expect(conversation.messages.last.attachment.file_type).to eq('image')
       end
     end
 

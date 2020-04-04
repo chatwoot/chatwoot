@@ -102,6 +102,10 @@ describe('#mutations', () => {
             id: 'rand_id_123',
             message_type: 0,
             status: 'in_progress',
+            attachment: {
+              file: '',
+              file_type: 'image',
+            },
           },
         },
       };
@@ -109,11 +113,24 @@ describe('#mutations', () => {
         id: '1',
         content: '',
         status: 'sent',
+        attachment: {
+          file: '',
+          file_type: 'image',
+        },
       };
       mutations.setMessageStatus(state, { message, tempId: 'rand_id_123' });
 
       expect(state.conversations).toEqual({
-        1: { id: '1', content: '', message_type: 0, status: 'sent' },
+        1: {
+          id: '1',
+          content: '',
+          message_type: 0,
+          status: 'sent',
+          attachment: {
+            file: '',
+            file_type: 'image',
+          },
+        },
       });
     });
   });

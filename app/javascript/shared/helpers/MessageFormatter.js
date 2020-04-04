@@ -15,7 +15,8 @@ class MessageFormatter {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return this.message.replace(
       urlRegex,
-      url => `<a href="${url}" target="_blank">${url}</a>`
+      url =>
+        `<a rel="noreferrer noopener nofollow" href="${url}" target="_blank">${url}</a>`
     );
   }
 
