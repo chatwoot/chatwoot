@@ -1,51 +1,55 @@
 class ConversationMailbox < ApplicationMailbox
-  attr_accessor :account_id, :inbox_id, :conversation_id, :processed_email
-  EMAIL_PART_PATTERN = /(\d+)\+(\d+)\+(\d+)/i.freeze
+  attr_accessor :conversation_uuid, :processed_mail
 
-  before_processing :pre_process_to_address,
+  # Last part is the regex for the UUID
+  # Eg: email should be something like : reply+to+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
+  EMAIL_PART_PATTERN = /^reply\+to\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i.freeze
+
+  before_processing :conversation_uuid_from_to_address,
                     :verify_decoded_params,
-                    :find_account,
-                    :find_inbox,
                     :find_conversation,
-                    :process_email
+                    :process_mail
 
   def process
-    @conversation.messages.create(
-      account_id: @conversation.account_id,
-      contact_id: @conversation.contact_id,
-      content: processed_email.content,
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      source_id: processed_email.message_id
-    )
+    create_message
+    add_attachments_to_message
   end
 
   private
 
-  def pre_process_to_address
-    email_first_part = mail.to[0].split('@')[0]
+  def create_message
+    @message = @conversation.messages.create(
+      account_id: @conversation.account_id,
+      contact_id: @conversation.contact_id,
+      content: processed_mail.content,
+      inbox_id: @conversation.inbox_id,
+      message_type: 'incoming',
+      source_id: processed_mail.message_id
+    )
+  end
 
-    @account_id, @inbox_id, @conversation_id = email_first_part.match(EMAIL_PART_PATTERN).captures if email_first_part.match(EMAIL_PART_PATTERN)
+  def add_attachments_to_message
+    # add attachments
+    # processed_mail.attachments
+  end
+
+  def conversation_uuid_from_to_address
+    mail.to.each do |email|
+      username = email.split('@')[0]
+      match_result = username.match(EMAIL_PART_PATTERN)
+      if match_result
+        @conversation_uuid = match_result.captures
+        return true
+      end
+    end
   end
 
   def verify_decoded_params
-    raise 'Account id not found' if account_id.nil?
-    raise 'Inbox id not found' if inbox_id.nil?
-    raise 'Conversation id not found' if conversation_id.nil?
-  end
-
-  def find_account
-    @account = Account.find account_id
-    validate_resource @account
-  end
-
-  def find_inbox
-    @inbox = @account.inboxes.find inbox_id
-    validate_resource @inbox
+    raise 'Conversation uuid not found' if conversation_uuid.nil?
   end
 
   def find_conversation
-    @conversation = @inbox.conversations.find conversation_id
+    @conversation = Conversations.find_by(uuid: conversation_uuid)
     validate_resource @conversation
   end
 
@@ -55,7 +59,7 @@ class ConversationMailbox < ApplicationMailbox
     resource
   end
 
-  def process_email
-    @processed_email = EmailContentExtractor.new(mail)
+  def process_mail
+    @processed_mail = EmailContentExtractor.new(mail)
   end
 end
