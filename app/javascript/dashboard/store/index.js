@@ -17,6 +17,7 @@ import inboxMembers from './modules/inboxMembers';
 import reports from './modules/reports';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import accounts from './modules/accounts';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -37,5 +38,6 @@ export default new Vuex.Store({
     reports,
     userNotificationSettings,
     webhooks,
+    accounts,
   },
 });

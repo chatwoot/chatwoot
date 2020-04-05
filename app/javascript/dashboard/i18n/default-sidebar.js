@@ -58,6 +58,8 @@ export default {
       'billing',
       'settings_integrations',
       'settings_integrations_webhook',
+      'general_settings',
+      'general_settings_index',
     ],
     menuItems: {
       back: {
@@ -103,6 +105,13 @@ export default {
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
+      },
+      general_settings: {
+        icon: 'ion-gear-a',
+        label: 'Account settings',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/general`),
+        toStateName: 'general_settings',
       },
     },
   },

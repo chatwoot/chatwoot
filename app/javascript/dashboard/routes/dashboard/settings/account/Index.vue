@@ -1,0 +1,143 @@
+<template>
+  <div class="columns profile--settings ">
+    <form @submit.prevent="updateAccount()">
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3 ">
+          <h4 class="block-title">
+            {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
+          </h4>
+          <p>{{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE') }}</p>
+        </div>
+        <div class="columns small-9 medium-5">
+          <label :class="{ error: $v.name.$error }">
+            {{ $t('GENERAL_SETTINGS.FORM.NAME.LABEL') }}
+            <input
+              v-model="name"
+              type="text"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
+              @input="$v.name.$touch"
+            />
+            <span v-if="$v.name.$error" class="message">
+              {{ $t('GENERAL_SETTINGS.FORM.NAME.ERROR') }}
+            </span>
+          </label>
+          <label :class="{ error: $v.locale.$error }">
+            {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
+            <select v-model="locale">
+              <option value="eng">English</option>
+            </select>
+            <span v-if="$v.locale.$error" class="message">
+              {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
+            </span>
+          </label>
+        </div>
+      </div>
+      <woot-submit-button
+        class="button nice success button--fixed-right-top"
+        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
+        :loading="isUpdating"
+      >
+      </woot-submit-button>
+    </form>
+  </div>
+</template>
+
+<script>
+/* global bus */
+import { required } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
+
+export default {
+  data() {
+    return {
+      id: '',
+      name: '',
+      locale: 'eng',
+      isUpdating: false,
+    };
+  },
+  validations: {
+    name: {
+      required,
+    },
+    locale: {
+      required,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+    }),
+    accountIdFromUrl() {
+      const isInsideAccountScopedURLs = window.location.pathname.includes(
+        '/app/accounts'
+      );
+      const accountId = isInsideAccountScopedURLs
+        ? window.location.pathname.split('/')[3]
+        : '';
+      return accountId;
+    },
+  },
+  mounted() {
+    if (!this.id) {
+      this.initializeAccount();
+    }
+  },
+  methods: {
+    async initializeAccount() {
+      try {
+        const accountId = +this.accountIdFromUrl;
+        await this.$store.dispatch('accounts/get');
+        if (accountId) {
+          const { name, locale, id } = await this.getAccount(accountId);
+          this.name = name;
+          this.locale = locale;
+          this.id = id;
+        }
+      } catch (error) {
+        // Show error
+      }
+      return null;
+    },
+
+    async updateAccount() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.FORM.ERROR'));
+        return;
+      }
+      this.isUpdating = true;
+      try {
+        await this.$store.dispatch('accounts/update', {
+          name: this.name,
+          locale: this.locale,
+        });
+        this.isUpdating = false;
+      } catch (error) {
+        this.isUpdating = false;
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+@import '~dashboard/assets/scss/variables.scss';
+@import '~dashboard/assets/scss/mixins.scss';
+
+.profile--settings {
+  padding: 24px;
+  overflow: auto;
+}
+
+.profile--settings--row {
+  @include border-normal-bottom;
+  padding: $space-normal;
+  .small-3 {
+    padding: $space-normal $space-medium $space-normal 0;
+  }
+  .small-9 {
+    padding: $space-normal;
+  }
+}
+</style>
