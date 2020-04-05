@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Twitter::CallbacksController', type: :request do
+RSpec.describe 'Twilio::CallbacksController', type: :request do
   include Rails.application.routes.url_helpers
   let(:twilio_service) { instance_double(Twilio::IncomingMessageService) }
 
