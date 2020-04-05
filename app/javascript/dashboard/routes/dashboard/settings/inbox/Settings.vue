@@ -2,7 +2,7 @@
   <div class="settings columns container">
     <woot-modal-header
       :header-image="inbox.avatarUrl"
-      :header-title="inbox.name"
+      :header-title="inboxName"
     />
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
@@ -87,6 +87,7 @@
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { Compact } from 'vue-color';
+import configMixin from 'shared/mixins/configMixin';
 import SettingsFormHeader from '../../../../components/SettingsFormHeader.vue';
 
 export default {
@@ -94,6 +95,7 @@ export default {
     Compact,
     SettingsFormHeader,
   },
+  mixins: [configMixin],
   data() {
     return {
       selectedAgents: [],
@@ -112,6 +114,12 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    inboxName() {
+      if (this.inbox.channel_type === 'Channel::TwilioSms') {
+        return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      return this.inbox.name;
     },
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);

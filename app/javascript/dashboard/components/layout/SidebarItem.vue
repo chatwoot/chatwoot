@@ -56,6 +56,7 @@ const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
+  TWILIO: 'Channel::TwilioSms',
 };
 const getInboxClassByType = type => {
   switch (type) {
@@ -67,6 +68,9 @@ const getInboxClassByType = type => {
 
     case INBOX_TYPES.TWITTER:
       return 'ion-social-twitter';
+
+    case INBOX_TYPES.TWILIO:
+      return 'ion-android-textsms';
 
     default:
       return '';

@@ -3,6 +3,7 @@ import * as types from '../mutation-types';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
+import TwilioChannel from '../../api/channel/twilioChannel';
 
 export const state = {
   records: [],
@@ -46,6 +47,18 @@ export const actions = {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
       const response = await WebChannel.create(params);
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw new Error(error);
+    }
+  },
+  createTwilioChannel: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await TwilioChannel.create(params);
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       return response.data;
