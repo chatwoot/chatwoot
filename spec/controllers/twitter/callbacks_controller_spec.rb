@@ -21,7 +21,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   end
 
   describe 'GET /twitter/callback' do
-    it 'renders the page correctly when called with website_token' do
+    it 'returns correct response' do
       get twitter_callback_url
       account.reload
       expect(response).to redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)

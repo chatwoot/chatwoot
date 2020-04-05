@@ -28,12 +28,14 @@
 </template>
 
 <script>
+import configMixin from 'shared/mixins/configMixin';
 import EmptyState from '../../../../components/widgets/EmptyState';
 
 export default {
   components: {
     EmptyState,
   },
+  mixins: [configMixin],
   computed: {
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
