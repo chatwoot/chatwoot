@@ -17,5 +17,5 @@ export const accountIdFromUrl = () => {
   const accountId = isInsideAccountScopedURLs
     ? window.location.pathname.split('/')[3]
     : '';
-  return accountId;
+  return Number(accountId);
 };

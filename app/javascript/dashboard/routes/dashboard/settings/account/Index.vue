@@ -44,8 +44,10 @@
 
 <script>
 /* global bus */
+import Vue from 'vue';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
+import { accountIdFromUrl } from 'dashboard/helper/commons';
 
 export default {
   data() {
@@ -76,19 +78,16 @@ export default {
   },
   methods: {
     async initializeAccount() {
-      try {
-        const accountId = +this.accountIdFromUrl;
+      const accountId = accountIdFromUrl();
+      if (accountId) {
         await this.$store.dispatch('accounts/get');
-        if (accountId) {
-          const { name, locale, id } = await this.getAccount(accountId);
-          this.name = name;
-          this.locale = locale;
-          this.id = id;
-        }
-      } catch (error) {
-        // Show error
+        const { name, locale, id } = this.getAccount(accountId);
+
+        Vue.config.lang = locale;
+        this.name = name;
+        this.locale = locale;
+        this.id = id;
       }
-      return null;
     },
 
     async updateAccount() {
@@ -106,6 +105,7 @@ export default {
         this.isUpdating = false;
       } catch (error) {
         this.isUpdating = false;
+        bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
   },

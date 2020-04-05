@@ -28,21 +28,17 @@ export default {
 
   mounted() {
     this.$store.dispatch('setUser');
+    this.initializeAccount();
   },
 
   methods: {
     async initializeAccount() {
-      try {
-        const accountId = +accountIdFromUrl();
+      const accountId = accountIdFromUrl();
+      if (accountId) {
         await this.$store.dispatch('accounts/get');
-        if (accountId) {
-          const { locale } = await this.getAccount(accountId);
-          Vue.config.lang = locale;
-        }
-      } catch (error) {
-        // Show error
+        const { locale } = this.getAccount(accountId);
+        Vue.config.lang = locale;
       }
-      return null;
     },
   },
 };
