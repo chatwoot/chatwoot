@@ -49,12 +49,8 @@ export default {
       if (!this.currentInbox.website_token) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }
-
       if (this.currentInbox.channel_type === 'Channel::TwilioSms') {
-        return `${this.$t(
-          'INBOX_MGMT.FINISH.MESSAGE'
-        )} You have successfully created a Twilio SMS inbox, please configure the
-          following webhook URL in Twilio account.`;
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')} `;
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
     },

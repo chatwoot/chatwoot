@@ -42,6 +42,9 @@
                 <span v-if="item.channel_type === 'Channel::TwitterProfile'">
                   Twitter
                 </span>
+                <span v-if="item.channel_type === 'Channel::TwilioSms'">
+                  Twilio SMS
+                </span>
               </td>
 
               <!-- Action Buttons -->

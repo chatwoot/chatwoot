@@ -447,11 +447,12 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    tzinfo (1.2.7)
     twilio-ruby (5.32.0)
       faraday (~> 1.0.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
+    tzinfo (1.2.7)
+      thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
