@@ -68,15 +68,6 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
     }),
-    accountIdFromUrl() {
-      const isInsideAccountScopedURLs = window.location.pathname.includes(
-        '/app/accounts'
-      );
-      const accountId = isInsideAccountScopedURLs
-        ? window.location.pathname.split('/')[3]
-        : '';
-      return accountId;
-    },
   },
   mounted() {
     if (!this.id) {

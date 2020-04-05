@@ -8,7 +8,10 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import { mapGetters } from 'vuex';
 import WootSnackbarBox from './components/SnackbarContainer';
+import { accountIdFromUrl } from './helper/commons';
 
 export default {
   name: 'App',
@@ -17,8 +20,30 @@ export default {
     WootSnackbarBox,
   },
 
+  computed: {
+    ...mapGetters({
+      getAccount: 'accounts/getAccount',
+    }),
+  },
+
   mounted() {
     this.$store.dispatch('setUser');
+  },
+
+  methods: {
+    async initializeAccount() {
+      try {
+        const accountId = +accountIdFromUrl();
+        await this.$store.dispatch('accounts/get');
+        if (accountId) {
+          const { locale } = await this.getAccount(accountId);
+          Vue.config.lang = locale;
+        }
+      } catch (error) {
+        // Show error
+      }
+      return null;
+    },
   },
 };
 </script>
