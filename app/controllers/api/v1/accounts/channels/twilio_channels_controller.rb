@@ -4,6 +4,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::BaseControlle
   def create
     authenticate_twilio
     build_inbox
+    setup_webhooks
   rescue Twilio::REST::TwilioError => e
     render_could_not_create_error(e.message)
   rescue StandardError => e
@@ -19,6 +20,10 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::BaseControlle
   def authenticate_twilio
     client = Twilio::REST::Client.new(permitted_params[:account_sid], permitted_params[:auth_token])
     client.messages.list(limit: 1)
+  end
+
+  def setup_webhooks
+    ::Twilio::WebhookSetupService.new(inbox: @inbox).perform
   end
 
   def build_inbox

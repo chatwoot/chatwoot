@@ -61,7 +61,7 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = smtp_settings
 
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

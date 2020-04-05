@@ -7,9 +7,6 @@
     >
       <div class="medium-12 columns text-center">
         <div class="website--code">
-          <woot-code :script="`${hostURL}/twilio/callback`"></woot-code>
-        </div>
-        <div class="website--code">
           <woot-code
             v-if="currentInbox.website_token"
             :script="currentInbox.web_widget_script"
@@ -48,9 +45,6 @@ export default {
     message() {
       if (!this.currentInbox.website_token) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
-      }
-      if (this.currentInbox.channel_type === 'Channel::TwilioSms') {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')} `;
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');
     },
