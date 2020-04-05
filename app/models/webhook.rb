@@ -10,6 +10,10 @@
 #  account_id   :integer
 #  inbox_id     :integer
 #
+# Indexes
+#
+#  index_webhooks_on_account_id_and_url  (account_id,url) UNIQUE
+#
 
 class Webhook < ApplicationRecord
   belongs_to :account

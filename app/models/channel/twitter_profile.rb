@@ -11,6 +11,10 @@
 #  account_id                  :integer          not null
 #  profile_id                  :string           not null
 #
+# Indexes
+#
+#  index_channel_twitter_profiles_on_account_id_and_profile_id  (account_id,profile_id) UNIQUE
+#
 
 class Channel::TwitterProfile < ApplicationRecord
   self.table_name = 'channel_twitter_profiles'

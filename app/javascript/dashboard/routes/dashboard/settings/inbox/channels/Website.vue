@@ -5,11 +5,15 @@
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
     />
     <woot-loading-state
-      v-if="isCreating"
-      message="Creating Website Support Channel"
+      v-if="uiFlags.isCreating"
+      :message="$('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
     >
     </woot-loading-state>
-    <form v-if="!isCreating" class="row" @submit.prevent="createChannel()">
+    <form
+      v-if="!uiFlags.isCreating"
+      class="row"
+      @submit.prevent="createChannel()"
+    >
       <div class="medium-12 columns">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
@@ -45,6 +49,7 @@
       <div class="modal-footer">
         <div class="medium-12 columns">
           <woot-submit-button
+            :loading="uiFlags.isCreating"
             :disabled="!websiteUrl || !websiteName"
             :button-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
           />
@@ -70,7 +75,6 @@ export default {
       websiteName: '',
       websiteUrl: '',
       widgetColor: { hex: '#009CE0' },
-      isCreating: false,
     };
   },
   computed: {
