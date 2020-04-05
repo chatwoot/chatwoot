@@ -2,15 +2,8 @@
   <div class="settings columns container">
     <woot-modal-header
       :header-image="inbox.avatarUrl"
-      :header-title="inbox.name"
+      :header-title="inboxName"
     />
-    <div
-      v-if="inbox.channel_type === 'Channel::TwilioSms'"
-      class="settings--content"
-    >
-      Configure the following webhook URL in Twilio account.
-      {{ `${hostURL}/twilio/callback` }}
-    </div>
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
       class="settings--content"
@@ -121,6 +114,12 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    inboxName() {
+      if (this.inbox.channel_type === 'Channel::TwilioSms') {
+        return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      return this.inbox.name;
     },
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);
