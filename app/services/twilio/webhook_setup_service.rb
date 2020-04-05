@@ -4,12 +4,12 @@ class Twilio::WebhookSetupService
   pattr_initialize [:inbox!]
 
   def perform
-    if phone_numbers.length
+    if phone_numbers.empty?
+      Rails.logger.info "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
+    else
       twilio_client
         .incoming_phone_numbers(phonenumber_sid)
         .update(sms_method: 'POST', sms_url: twilio_callback_index_url)
-    else
-      Rails.logger.info "TWILIO_PHONE_NUMBER_NOT_FOUND: #{channel.phone_number}"
     end
   rescue Twilio::REST::TwilioError => e
     Rails.logger.info "TWILIO_FAILURE: #{e.message}"
