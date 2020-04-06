@@ -12,17 +12,15 @@
     "start:dev": "foreman start -f ./Procfile.dev"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
-    "@babel/preset-env": "~7.8.4",
     "@rails/actioncable": "^6.0.0",
     "@rails/webpacker": "^4.2.2",
     "axios": "^0.19.0",
-    "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",
     "chart.js": "~2.5.0",
     "copy-text-to-clipboard": "^2.1.1",
+    "core-js": "2",
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
     "foundation-sites": "~6.5.3",
@@ -50,15 +48,20 @@
     "vue-router": "~2.2.0",
     "vue-select": "~2.0.0",
     "vue-template-compiler": "^2.6.10",
+    "vue-upload-component": "^2.8.20",
     "vuelidate": "~0.7.5",
     "vuex": "~2.1.1",
     "vuex-router-sync": "~4.1.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "~7.8.4",
     "@vue/babel-preset-app": "^3.11.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
@@ -81,7 +84,7 @@
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.10.3"
   },
   "engines": {
     "node": ">=10.x",
@@ -105,7 +108,7 @@
       "eslint --fix",
       "git add"
     ],
-    "*.rb": [
+    "!(*schema).rb": [
       "rubocop -a",
       "git add"
     ],

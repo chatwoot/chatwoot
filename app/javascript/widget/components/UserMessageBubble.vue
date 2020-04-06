@@ -1,7 +1,7 @@
 <template>
   <div
     class="chat-bubble user"
-    :style="{ background: backgroundColor }"
+    :style="{ background: widgetColor }"
     v-html="formatMessage(message)"
   ></div>
 </template>
@@ -12,14 +12,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserMessageBubble',
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    backgroundColor() {
-      return this.status !== 'in_progress' ? this.widgetColor : '#c0ccda';
-    },
-  },
   mixins: [messageFormatterMixin],
   props: {
     message: String,
@@ -27,6 +19,16 @@ export default {
       type: String,
       default: '',
     },
+    computed: {
+      ...mapGetters({
+        widgetColor: 'appConfig/getWidgetColor',
+      }),
+    },
+  },
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
   },
 };
 </script>
@@ -43,7 +45,6 @@ export default {
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
-  max-width: 80%;
   padding: $space-small $space-normal;
   text-align: left;
 

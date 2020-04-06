@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 class InboxMembers extends ApiClient {
   constructor() {
-    super('inbox_members');
+    super('inbox_members', { accountScoped: true });
   }
 
   create({ inboxId, agentList }) {

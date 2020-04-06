@@ -23,6 +23,17 @@
         @click="onClick()"
         @blur="onBlur()"
       />
+      <file-upload
+        v-if="showFileUpload"
+        :size="4096 * 4096"
+        @input-file="onFileUpload"
+      >
+        <i
+          v-if="!isUploading.image"
+          class="icon ion-android-attach attachment"
+        />
+        <woot-spinner v-if="isUploading.image" />
+      </file-upload>
       <i
         class="icon ion-happy-outline"
         :class="{ active: showEmojiPicker }"
@@ -77,6 +88,7 @@
 import { mapGetters } from 'vuex';
 import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
+import FileUpload from 'vue-upload-component';
 
 import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -85,6 +97,7 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
+    FileUpload,
   },
   mixins: [clickaway],
   data() {
@@ -93,6 +106,11 @@ export default {
       isPrivate: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
+      isUploading: {
+        audio: false,
+        video: false,
+        image: false,
+      },
     };
   },
   computed: {
@@ -122,6 +140,9 @@ export default {
         }
       }
       return 10000;
+    },
+    showFileUpload() {
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -180,21 +201,21 @@ export default {
     isEscape(e) {
       return e.keyCode === 27; // ESCAPE
     },
-    sendMessage() {
+    async sendMessage() {
       const isMessageEmpty = !this.message.replace(/\n/g, '').length;
-      if (isMessageEmpty) {
-        return;
-      }
+      if (isMessageEmpty) return;
+
       if (!this.showCannedResponsesList) {
-        this.$store
-          .dispatch('sendMessage', {
+        try {
+          await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
             message: this.message,
             private: this.isPrivate,
-          })
-          .then(() => {
-            this.$emit('scrollToMessage');
           });
+          this.$emit('scrollToMessage');
+        } catch (error) {
+          // Error
+        }
         this.clearMessage();
         this.hideEmojiPicker();
       }
@@ -271,6 +292,20 @@ export default {
         ? 'CONVERSATION.FOOTER.PRIVATE_MSG_INPUT'
         : 'CONVERSATION.FOOTER.MSG_INPUT';
       return placeHolder;
+    },
+
+    onFileUpload(file) {
+      this.isUploading.image = true;
+      this.$store
+        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
+        .then(() => {
+          this.isUploading.image = false;
+          this.$emit('scrollToMessage');
+        })
+        .catch(() => {
+          this.isUploading.image = false;
+          this.$emit('scrollToMessage');
+        });
     },
   },
 };

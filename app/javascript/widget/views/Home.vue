@@ -8,7 +8,7 @@
     <ConversationWrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
       <div class="input-wrap">
-        <ChatFooter :on-send-message="handleSendMessage" />
+        <ChatFooter />
       </div>
       <branding></branding>
     </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import { mapGetters } from 'vuex';
 
 import Branding from 'widget/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
@@ -52,15 +52,6 @@ export default {
       return this.availableAgents.length > 0 && this.conversationSize < 1;
     },
   },
-
-  methods: {
-    ...mapActions('conversation', ['sendMessage']),
-    handleSendMessage(content) {
-      this.sendMessage({
-        content,
-      });
-    },
-  },
 };
 </script>
 
@@ -79,9 +70,10 @@ export default {
     flex-shrink: 0;
     border-radius: $space-normal;
     background: white;
+    z-index: 99;
     @include shadow-large;
 
-    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
       border-radius: 0;
     }
   }

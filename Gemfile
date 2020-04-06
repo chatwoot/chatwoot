@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.5'
+ruby '2.7.0'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -25,11 +25,12 @@ gem 'uglifier'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-gem 'azure-storage', require: false
+gem 'azure-storage-blob', require: false
 gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 
 ##-- gems for database --#
+gem 'groupdate'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
@@ -61,9 +62,9 @@ gem 'chargebee'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
+gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
 gem 'twitty', git: 'https://github.com/chatwoot/twitty'
-
 # facebook client
 gem 'koala'
 # Random name generator

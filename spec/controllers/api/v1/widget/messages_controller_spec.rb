@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/api/v1/widget/messages', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
-  let(:contact) { create(:contact, account: account) }
+  let(:contact) { create(:contact, account: account, email: nil) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: web_widget.inbox) }
   let(:conversation) { create(:conversation, contact: contact, account: account, inbox: web_widget.inbox, contact_inbox: contact_inbox) }
   let(:payload) { { source_id: contact_inbox.source_id, inbox_id: web_widget.inbox.id } }
@@ -43,6 +43,21 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['content']).to eq(message_params[:content])
+      end
+
+      it 'creates attachment message in conversation' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        message_params = { content: 'hello world', timestamp: Time.current, attachment: { file: file } }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token }
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['content']).to eq(message_params[:content])
+
+        expect(conversation.messages.last.attachment.file.present?).to eq(true)
+        expect(conversation.messages.last.attachment.file_type).to eq('image')
       end
     end
   end

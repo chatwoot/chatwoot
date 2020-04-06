@@ -43,13 +43,13 @@
         >
           <ul class="vertical dropdown menu">
             <li>
-              <router-link to="/app/profile/settings">
-                {{ $t('SIDEBAR.PROFILE_SETTINGS') }}
+              <router-link :to="`/app/accounts/${accountId}/profile/settings`">
+                {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
               </router-link>
             </li>
             <li>
               <a href="#" @click.prevent="logout()">
-                {{ $t('SIDEBAR.LOGOUT') }}
+                {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
               </a>
             </li>
           </ul>
@@ -139,23 +139,23 @@ export default {
     inboxSection() {
       return {
         icon: 'ion-folder',
-        label: 'Inboxes',
+        label: 'INBOXES',
         hasSubMenu: true,
         newLink: true,
         key: 'inbox',
         cssClass: 'menu-title align-justify',
-        toState: frontendURL('settings/inboxes'),
+        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
         toStateName: 'settings_inbox_list',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
-          toState: frontendURL(`inbox/${inbox.id}`),
+          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
           type: inbox.channel_type,
         })),
       };
     },
     dashboardPath() {
-      return frontendURL('dashboard');
+      return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
     shouldShowStatusBox() {
       return (
@@ -175,6 +175,9 @@ export default {
     },
     trialMessage() {
       return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
+    },
+    accountId() {
+      return this.currentUser.account_id;
     },
   },
   mounted() {

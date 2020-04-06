@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Gespräche abrufen",
+    "LOAD_MORE_CONVERSATIONS": "Laden Sie weitere Gespräche",
+    "EOF": "Alle Gespräche geladen 🎉",
+    "LIST": {
+      "404": "In dieser Gruppe gibt es keine aktiven Gespräche."
+    },
+    "TAB_HEADING": "Gespräche",
+    "SEARCH": {
+      "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
+    },
+    "STATUS_TABS": [{
+        "NAME": "Öffnen",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Aufgelöst",
+        "KEY": "allConvCount"
+      }
+    ],
+
+    "ASSIGNEE_TYPE_TABS": [{
+        "NAME": "Bergwerk",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Nicht zugewiesen",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Alle",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+
+    "CHAT_STATUS_ITEMS": [{
+        "TEXT": "Öffnen",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Aufgelöst",
+        "VALUE": "resolved"
+      }
+    ],
+
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Bildnachricht"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Audio-Nachricht"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Videonachricht"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Dateianhang"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Ort"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "hat eine URL geteilt"
+      }
+    }
+  }
+}

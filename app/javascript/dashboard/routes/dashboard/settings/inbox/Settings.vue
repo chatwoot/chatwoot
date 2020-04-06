@@ -2,7 +2,7 @@
   <div class="settings columns container">
     <woot-modal-header
       :header-image="inbox.avatarUrl"
-      :header-title="inbox.name"
+      :header-title="inboxName"
     />
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
@@ -22,7 +22,7 @@
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
         >
         </settings-form-header>
-        <woot-code :script="webWidgetScript"></woot-code>
+        <woot-code :script="inbox.web_widget_script"></woot-code>
       </div>
       <div class="settings--content">
         <settings-form-header
@@ -70,8 +70,12 @@
       >
       </settings-form-header>
       <select v-model="autoAssignment">
-        <option value="true">{{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}</option>
-        <option value="false">{{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}</option>
+        <option value="true">
+          {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
+        </option>
+        <option value="false">
+          {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
+        </option>
       </select>
     </div>
   </div>
@@ -81,11 +85,9 @@
 /* eslint no-console: 0 */
 /* global bus */
 import { mapGetters } from 'vuex';
-import {
-  createWebsiteWidgetScript,
-  createMessengerScript,
-} from 'dashboard/helper/scriptGenerator';
+import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { Compact } from 'vue-color';
+import configMixin from 'shared/mixins/configMixin';
 import SettingsFormHeader from '../../../../components/SettingsFormHeader.vue';
 
 export default {
@@ -93,6 +95,7 @@ export default {
     Compact,
     SettingsFormHeader,
   },
+  mixins: [configMixin],
   data() {
     return {
       selectedAgents: [],
@@ -112,8 +115,11 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
-    webWidgetScript() {
-      return createWebsiteWidgetScript(this.inbox.website_token);
+    inboxName() {
+      if (this.inbox.channel_type === 'Channel::TwilioSms') {
+        return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      return this.inbox.name;
     },
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);
@@ -196,9 +202,13 @@ export default {
             enable_auto_assignment: this.autoAssignment,
           },
         });
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE'));
+        this.showAlert(
+          this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE')
+        );
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE'));
+        this.showAlert(
+          this.$t('INBOX_MGMT.EDIT.API.AUTO_ASSIGNMENT_SUCCESS_MESSAGE')
+        );
       }
     },
     getWidgetColor() {

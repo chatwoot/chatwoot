@@ -10,19 +10,28 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def create
     @message = conversation.messages.new(message_params)
+    build_attachment
     @message.save!
-    render json: @message
   end
 
   def update
     @message.update!(input_submitted_email: contact_email)
     update_contact(contact_email)
-    head :no_content
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
   end
 
   private
+
+  def build_attachment
+    return if params[:message][:attachment].blank?
+
+    @message.attachment = Attachment.new(
+      account_id: @message.account_id,
+      file_type: helpers.file_type(params[:message][:attachment][:file]&.content_type)
+    )
+    @message.attachment.file.attach(params[:message][:attachment][:file])
+  end
 
   def set_conversation
     @conversation = ::Conversation.create!(conversation_params) if conversation.nil?
@@ -86,7 +95,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def update_contact(email)
     contact_with_email = @account.contacts.find_by(email: email)
     if contact_with_email
-      ::ContactMergeAction.new(account: @account, base_contact: contact_with_email, mergee_contact: @contact).perform
+      @contact = ::ContactMergeAction.new(
+        account: @account,
+        base_contact: contact_with_email,
+        mergee_contact: @contact
+      ).perform
     else
       @contact.update!(
         email: email,

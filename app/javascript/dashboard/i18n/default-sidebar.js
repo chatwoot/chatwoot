@@ -1,4 +1,8 @@
 import { frontendURL } from '../helper/URLHelper';
+import auth from '../api/auth';
+
+const user = auth.getCurrentUser() || {};
+const accountId = user.account_id;
 
 export default {
   common: {
@@ -15,25 +19,25 @@ export default {
     menuItems: {
       assignedToMe: {
         icon: 'ion-chatbox-working',
-        label: 'Conversations',
+        label: 'CONVERSATIONS',
         hasSubMenu: false,
         key: '',
-        toState: frontendURL('dashboard'),
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
         toolTip: 'Conversation from all subscribed inboxes',
         toStateName: 'home',
       },
       report: {
         icon: 'ion-arrow-graph-up-right',
-        label: 'Reports',
+        label: 'REPORTS',
         hasSubMenu: false,
-        toState: frontendURL('reports'),
+        toState: frontendURL(`accounts/${accountId}/reports`),
         toStateName: 'settings_account_reports',
       },
       settings: {
         icon: 'ion-settings',
-        label: 'Settings',
+        label: 'SETTINGS',
         hasSubMenu: false,
-        toState: frontendURL('settings'),
+        toState: frontendURL(`accounts/${accountId}/settings`),
         toStateName: 'settings_home',
       },
     },
@@ -54,49 +58,60 @@ export default {
       'billing',
       'settings_integrations',
       'settings_integrations_webhook',
+      'general_settings',
+      'general_settings_index',
     ],
     menuItems: {
       back: {
         icon: 'ion-ios-arrow-back',
-        label: 'Home',
+        label: 'HOME',
         hasSubMenu: false,
         toStateName: 'home',
-        toState: frontendURL('dashboard'),
+        toState: frontendURL(`accounts/${accountId}/dashboard`),
       },
       agents: {
         icon: 'ion-person-stalker',
-        label: 'Agents',
+        label: 'AGENTS',
         hasSubMenu: false,
-        toState: frontendURL('settings/agents/list'),
+        toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
         toStateName: 'agent_list',
       },
       inboxes: {
         icon: 'ion-archive',
-        label: 'Inboxes',
+        label: 'INBOXES',
         hasSubMenu: false,
-        toState: frontendURL('settings/inboxes/list'),
+        toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
         toStateName: 'settings_inbox_list',
       },
       cannedResponses: {
         icon: 'ion-chatbox-working',
-        label: 'Canned Responses',
+        label: 'CANNED_RESPONSES',
         hasSubMenu: false,
-        toState: frontendURL('settings/canned-response/list'),
+        toState: frontendURL(
+          `accounts/${accountId}/settings/canned-response/list`
+        ),
         toStateName: 'canned_list',
       },
       billing: {
         icon: 'ion-card',
-        label: 'Billing',
+        label: 'BILLING',
         hasSubMenu: false,
-        toState: frontendURL('settings/billing'),
+        toState: frontendURL(`accounts/${accountId}/settings/billing`),
         toStateName: 'billing',
       },
       settings_integrations: {
         icon: 'ion-flash',
-        label: 'Integrations',
+        label: 'INTEGRATIONS',
         hasSubMenu: false,
-        toState: frontendURL('settings/integrations'),
+        toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
+      },
+      general_settings: {
+        icon: 'ion-gear-a',
+        label: 'ACCOUNT_SETTINGS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/general`),
+        toStateName: 'general_settings',
       },
     },
   },

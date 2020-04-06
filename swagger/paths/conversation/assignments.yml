@@ -1,6 +1,6 @@
 post:
   tags:
-    - Conversation
+    - ConversationAssignment
   operationId: conversationAssignment
   summary: Assign Conversation
   description: Assign a conversation to an agent
@@ -19,7 +19,7 @@ post:
           assignee_id:
             type: number
   responses:
-    204:
+    200:
       description: Success
       schema:
         $ref: '#/definitions/user'

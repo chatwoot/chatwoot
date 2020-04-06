@@ -42,12 +42,19 @@
                 <span v-if="item.channel_type === 'Channel::TwitterProfile'">
                   Twitter
                 </span>
+                <span v-if="item.channel_type === 'Channel::TwilioSms'">
+                  Twilio SMS
+                </span>
               </td>
 
               <!-- Action Buttons -->
               <td>
                 <div class="button-wrapper">
-                  <router-link :to="`/app/settings/inboxes/${item.id}`">
+                  <router-link
+                    :to="
+                      `/app/accounts/${accountId}/settings/inboxes/${item.id}`
+                    "
+                  >
                     <woot-submit-button
                       v-if="isAdmin()"
                       :button-text="$t('INBOX_MGMT.SETTINGS')"
@@ -101,6 +108,7 @@ import Settings from './Settings';
 import DeleteInbox from './DeleteInbox';
 import adminMixin from '../../../../mixins/isAdmin';
 import { frontendURL } from '../../../../helper/URLHelper';
+import auth from '../../../../api/auth';
 
 export default {
   components: {
@@ -135,6 +143,9 @@ export default {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
       } ?`;
+    },
+    accountId() {
+      return auth.getCurrentUser().account_id;
     },
   },
   methods: {
