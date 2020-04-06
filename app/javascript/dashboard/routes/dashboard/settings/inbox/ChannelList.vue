@@ -27,7 +27,14 @@ export default {
   },
   data() {
     return {
-      channelList: ['website', 'facebook', 'twitter', 'telegram', 'line'],
+      channelList: [
+        'website',
+        'facebook',
+        'twitter',
+        'twilio',
+        'telegram',
+        'line',
+      ],
     };
   },
   methods: {

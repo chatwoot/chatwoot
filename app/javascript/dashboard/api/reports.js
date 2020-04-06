@@ -1,14 +1,22 @@
 /* global axios */
+import ApiClient from './ApiClient';
 
-import endPoints from './endPoints';
+class ReportsAPI extends ApiClient {
+  constructor() {
+    super('reports', { accountScoped: true });
+  }
 
-export default {
-  getAccountReports(metric, from, to) {
-    const { url } = endPoints('reports').account(metric, from, to);
-    return axios.get(url);
-  },
-  getAccountSummary(accountId, from, to) {
-    const urlData = endPoints('reports').accountSummary(accountId, from, to);
-    return axios.get(urlData.url);
-  },
-};
+  getAccountReports(metric, since, until) {
+    return axios.get(`${this.url}/account`, {
+      params: { metric, since, until },
+    });
+  }
+
+  getAccountSummary(accountId, since, until) {
+    return axios.get(`${this.url}/${accountId}/account_summary`, {
+      params: { since, until },
+    });
+  }
+}
+
+export default new ReportsAPI();

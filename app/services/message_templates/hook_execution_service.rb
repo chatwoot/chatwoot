@@ -2,6 +2,8 @@ class MessageTemplates::HookExecutionService
   pattr_initialize [:message!]
 
   def perform
+    return if inbox.agent_bot_inbox&.active?
+
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
   end
 
@@ -15,6 +17,10 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_email_collect?
-    conversation.inbox.web_widget? && first_message_from_contact?
+    !contact_has_email? && conversation.inbox.web_widget? && first_message_from_contact?
+  end
+
+  def contact_has_email?
+    contact.email
   end
 end

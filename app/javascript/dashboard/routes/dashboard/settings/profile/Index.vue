@@ -83,6 +83,17 @@
         </div>
       </div>
       <email-notifications />
+      <div class="profile--settings--row row">
+        <div class="columns small-3 ">
+          <h4 class="block-title">
+            {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
+          </h4>
+          <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
+        </div>
+        <div class="columns small-9 medium-5">
+          <woot-code :script="currentUser.access_token"></woot-code>
+        </div>
+      </div>
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"

@@ -118,7 +118,7 @@ export default {
       Auth.setNewPassword(credentials)
         .then(res => {
           if (res.status === 200) {
-            window.location = res.data.redirect_url;
+            window.location = '/';
           }
         })
         .catch(() => {

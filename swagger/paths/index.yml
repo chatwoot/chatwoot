@@ -1,23 +1,37 @@
-# Contacts
-/contacts:
-  $ref: ./contact/list_create.yml
-/contacts/{id}:
-  $ref: ./contact/crud.yml
-/contacts/{id}/conversations:
-  $ref: ./contact/conversations.yml
+# Widget
+/account/{account_id}/widget/inboxes:
+  $ref: ./widget/inboxes/create.yml
+/account/{account_id}/widget/inboxes/${id}:
+  $ref: ./widget/inboxes/update.yml
+
+# Inboxes
+/account/{account_id}/inboxes:
+  $ref: ./inboxes/index.yml
+/account/{account_id}/inboxes/{id}:
+  $ref: ./inboxes/update.yml
 
 # Conversations
-/conversations:
+/account/{account_id}/conversations:
   $ref: ./conversation/list.yml
-/conversations/{id}:
+/account/{account_id}/conversations/{id}:
   $ref: ./conversation/crud.yml
-/conversations/{id}/toggle_status:
+/account/{account_id}/conversations/{id}/toggle_status:
   $ref: ./conversation/toggle_status.yml
-/conversations/{id}/update_last_seen:
-  $ref: ./conversation/update_last_seen.yml
-/conversations/{id}/labels:
+
+# Messages
+/account/{account_id}/conversations/{id}/messages:
+  $ref: ./conversation/messages/index_create.yml
+
+/account/{account_id}/conversations/{id}/labels:
   $ref: ./conversation/labels.yml
-/conversations/{id}/assignments:
+
+/account/{account_id}/conversations/{id}/assignments:
   $ref: ./conversation/assignments.yml
-/conversations/{id}/messages:
-  $ref: ./conversation/messages.yml
+
+# Contacts
+/account/{account_id}/contacts:
+  $ref: ./contact/list_create.yml
+/account/{account_id}/contacts/{id}:
+  $ref: ./contact/crud.yml
+/account/{account_id}/contacts/{id}/conversations:
+  $ref: ./contact/conversations.yml

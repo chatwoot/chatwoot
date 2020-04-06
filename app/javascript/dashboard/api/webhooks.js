@@ -2,7 +2,7 @@ import ApiClient from './ApiClient';
 
 class WebHooks extends ApiClient {
   constructor() {
-    super('account/webhooks');
+    super('webhooks', { accountScoped: true });
   }
 }
 

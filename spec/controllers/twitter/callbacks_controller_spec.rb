@@ -21,10 +21,10 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   end
 
   describe 'GET /twitter/callback' do
-    it 'renders the page correctly when called with website_token' do
+    it 'returns correct response' do
       get twitter_callback_url
       account.reload
-      expect(response).to redirect_to app_twitter_inbox_agents_url(inbox_id: account.inboxes.last.id)
+      expect(response).to redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
       expect(account.inboxes.count).to be 1
       expect(account.twitter_profiles.last.inbox.name).to eq 'chatwoot'
       expect(account.twitter_profiles.last.profile_id).to eq '100'
