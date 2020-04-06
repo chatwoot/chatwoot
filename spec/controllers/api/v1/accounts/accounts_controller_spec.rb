@@ -132,7 +132,7 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = { name: 'New Name', locale: 'ara' }
+      params = { name: 'New Name', locale: 'ar' }
 
       it 'modifies an account' do
         put "/api/v1/accounts/#{account.id}",

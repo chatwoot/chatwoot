@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Bitte wählen Sie eine Konversation aus dem linken Bereich",
+    "NO_MESSAGE_1": "Oh oh! Anscheinend befinden sich keine Nachrichten von Kunden in Ihrem Posteingang.",
+    "NO_MESSAGE_2": "um eine Nachricht an Ihre Seite zu senden!",
+    "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
+    "NO_INBOX_2": " um loszulegen",
+    "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
+    "CLICK_HERE": "Hier klicken",
+    "LOADING_INBOXES": "Posteingänge laden",
+    "LOADING_CONVERSATIONS": "Gespräche laden",
+    "DOWNLOAD": "Herunterladen",
+    "HEADER": {
+      "RESOLVE_ACTION": "Entschlossenheit",
+      "REOPEN_ACTION": "Wieder öffnen",
+      "OPEN": "Mehr",
+      "CLOSE": "Schließen",
+      "DETAILS": "Einzelheiten"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
+      "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar"
+    },
+    "REPLYBOX": {
+      "REPLY": "Antworten",
+      "PRIVATE_NOTE": "Private Notiz",
+      "SEND": "Senden",
+      "CREATE": "Notiz hinzufügen",
+      "TWEET": "Tweet"
+    },
+    "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
+    "CHANGE_STATUS": "Gesprächsstatus geändert",
+    "CHANGE_AGENT": "Konversationsempfänger geändert"
+  }
+}
