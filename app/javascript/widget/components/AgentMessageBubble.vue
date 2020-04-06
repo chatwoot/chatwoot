@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="!isCards && !isOptions && !isForm" class="chat-bubble agent">
+    <div
+      v-if="!isCards && !isOptions && !isForm && !isArticle"
+      class="chat-bubble agent"
+    >
       <span v-html="formatMessage(message)"></span>
       <email-input
         v-if="isTemplateEmail"
@@ -35,6 +38,9 @@
       >
       </chat-card>
     </div>
+    <div v-if="isArticle">
+      <chat-article :items="messageContentAttributes.items"></chat-article>
+    </div>
   </div>
 </template>
 
@@ -43,11 +49,13 @@ import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import ChatCard from 'shared/components/ChatCard';
 import ChatForm from 'shared/components/ChatForm';
 import ChatOptions from 'shared/components/ChatOptions';
+import ChatArticle from './template/Article';
 import EmailInput from './template/EmailInput';
 
 export default {
   name: 'AgentMessageBubble',
   components: {
+    ChatArticle,
     ChatCard,
     ChatForm,
     ChatOptions,
@@ -79,6 +87,9 @@ export default {
     },
     isForm() {
       return this.contentType === 'form';
+    },
+    isArticle() {
+      return this.contentType === 'article';
     },
   },
   methods: {
