@@ -5,9 +5,11 @@ require 'rails_helper'
 RSpec.describe UserPolicy, type: :policy do
   subject(:user_policy) { described_class }
 
-  let(:administrator) { create(:user, :administrator) }
-  let(:agent) { create(:user) }
-  let(:user) { create(:user) }
+  let(:account) { create(:account) }
+
+  let(:administrator) { create(:user, :administrator, account: account) }
+  let(:agent) { create(:user, account: account) }
+  let(:user) { create(:user, account: account) }
 
   permissions :create?, :update?, :destroy? do
     context 'when administrator' do

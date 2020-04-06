@@ -20,9 +20,12 @@
 #
 # Indexes
 #
+#  index_messages_on_account_id       (account_id)
 #  index_messages_on_contact_id       (contact_id)
 #  index_messages_on_conversation_id  (conversation_id)
+#  index_messages_on_inbox_id         (inbox_id)
 #  index_messages_on_source_id        (source_id)
+#  index_messages_on_user_id          (user_id)
 #
 # Foreign Keys
 #
@@ -48,7 +51,7 @@ class Message < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :conversation
+  belongs_to :conversation, touch: true
   belongs_to :user, required: false
   belongs_to :contact, required: false
 
@@ -110,6 +113,8 @@ class Message < ApplicationRecord
       ::Facebook::SendReplyService.new(message: self).perform
     elsif channel_name == 'Channel::TwitterProfile'
       ::Twitter::SendReplyService.new(message: self).perform
+    elsif channel_name == 'Channel::TwilioSms'
+      ::Twilio::OutgoingMessageService.new(message: self).perform
     end
   end
 

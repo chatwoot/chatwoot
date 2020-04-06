@@ -3,6 +3,7 @@
 # Table name: accounts
 #
 #  id         :integer          not null, primary key
+#  locale     :integer          default("eng")
 #  name       :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -10,21 +11,28 @@
 
 class Account < ApplicationRecord
   include Events::Types
+  include Reportable
 
   validates :name, presence: true
 
-  has_many :users, dependent: :destroy
+  has_many :account_users, dependent: :destroy
+  has_many :agent_bot_inboxes, dependent: :destroy
+  has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy
+  has_many :messages, dependent: :destroy
   has_many :contacts, dependent: :destroy
   has_many :facebook_pages, dependent: :destroy, class_name: '::Channel::FacebookPage'
+  has_many :telegram_bots, dependent: :destroy
+  has_many :twilio_sms, dependent: :destroy, class_name: '::Channel::TwilioSms'
   has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
-  has_many :telegram_bots, dependent: :destroy
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+
+  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
   after_create :create_subscription
   after_create :notify_creation

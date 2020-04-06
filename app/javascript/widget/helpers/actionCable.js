@@ -13,4 +13,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 }
 
+export const refreshActionCableConnector = pubsubToken => {
+  window.chatwootPubsubToken = pubsubToken;
+  window.actionCable.disconnect();
+  window.actionCable = new ActionCableConnector(
+    window.WOOT_WIDGET,
+    window.chatwootPubsubToken
+  );
+};
+
 export default ActionCableConnector;

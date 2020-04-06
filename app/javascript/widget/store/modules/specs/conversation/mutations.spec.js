@@ -92,4 +92,46 @@ describe('#mutations', () => {
       expect(state.uiFlags.allMessagesLoaded).toEqual(false);
     });
   });
+
+  describe('#setMessageStatus', () => {
+    it('Updates status of loading messages if payload is not empty', () => {
+      const state = {
+        conversations: {
+          rand_id_123: {
+            content: '',
+            id: 'rand_id_123',
+            message_type: 0,
+            status: 'in_progress',
+            attachment: {
+              file: '',
+              file_type: 'image',
+            },
+          },
+        },
+      };
+      const message = {
+        id: '1',
+        content: '',
+        status: 'sent',
+        attachment: {
+          file: '',
+          file_type: 'image',
+        },
+      };
+      mutations.setMessageStatus(state, { message, tempId: 'rand_id_123' });
+
+      expect(state.conversations).toEqual({
+        1: {
+          id: '1',
+          content: '',
+          message_type: 0,
+          status: 'sent',
+          attachment: {
+            file: '',
+            file_type: 'image',
+          },
+        },
+      });
+    });
+  });
 });

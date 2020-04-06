@@ -1,0 +1,24 @@
+class Api::V1::Widget::LabelsController < Api::V1::Widget::BaseController
+  before_action :set_web_widget
+  before_action :set_contact
+
+  def create
+    conversation.label_list.add(permitted_params[:label])
+    conversation.save!
+
+    head :no_content
+  end
+
+  def destroy
+    conversation.label_list.remove(permitted_params[:id])
+    conversation.save!
+
+    head :no_content
+  end
+
+  private
+
+  def permitted_params
+    params.permit(:id, :label, :website_token)
+  end
+end

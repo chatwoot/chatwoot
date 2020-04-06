@@ -22,9 +22,9 @@ export default {
       Auth.verifyPasswordToken({
         confirmationToken: this.confirmationToken
       }).then(res => {
-        window.location = res.data.redirect_url;
+        window.location = '/';
       }).catch(res => {
-        window.location = res.data.redirect_url;
+        window.location = '/';
       });
     }
   }

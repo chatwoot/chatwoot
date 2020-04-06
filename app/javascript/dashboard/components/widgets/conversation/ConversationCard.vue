@@ -74,6 +74,7 @@ export default {
       currentChat: 'getSelectedChat',
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
+      currentUser: 'getCurrentUser',
     }),
 
     isActiveChat() {
@@ -96,7 +97,11 @@ export default {
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(activeInbox, chat.id);
+      const path = conversationUrl(
+        this.currentUser.account_id,
+        activeInbox,
+        chat.id
+      );
       router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {
@@ -111,7 +116,7 @@ export default {
       }
       const key = `CHAT_LIST.ATTACHMENTS.${fileType}`;
       return `
-        <i class="${this.$t(`${key}.ICON`)}"></i>
+        <i class="small-icon ${this.$t(`${key}.ICON`)}"></i>
         ${this.$t(`${key}.CONTENT`)}
       `;
     },

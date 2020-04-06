@@ -5,7 +5,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('settings/agents'),
+      path: frontendURL('accounts/:accountId/settings/agents'),
       component: SettingsContent,
       props: {
         headerTitle: 'AGENT_MGMT.HEADER',

@@ -2,4 +2,9 @@
 
 <p>Time to save the world. A new conversation has been assigned to you</p>
 
-<p>Click <%= link_to 'here', app_conversation_url(id: @conversation.display_id) %> to get cracking. </p>
+<p>
+Click <%=
+  link_to 'here',
+  app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
+%> to get cracking.
+</p>

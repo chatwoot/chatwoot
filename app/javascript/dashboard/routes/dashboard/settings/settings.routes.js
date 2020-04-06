@@ -7,18 +7,19 @@ import inbox from './inbox/inbox.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import integrations from './integrations/integrations.routes';
+import account from './account/account.routes';
 
 export default {
   routes: [
     {
-      path: frontendURL('settings'),
+      path: frontendURL('accounts/:accountId/settings'),
       name: 'settings_home',
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (Auth.isAdmin()) {
-          return frontendURL('settings/agents');
+          return frontendURL('accounts/:accountId/settings/agents');
         }
-        return frontendURL('settings/canned-response');
+        return frontendURL('accounts/:accountId/settings/canned-response');
       },
     },
     ...agent.routes,
@@ -28,5 +29,6 @@ export default {
     ...profile.routes,
     ...reports.routes,
     ...integrations.routes,
+    ...account.routes,
   ],
 };

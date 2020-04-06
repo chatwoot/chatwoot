@@ -19,6 +19,8 @@
 #
 
 class Inbox < ApplicationRecord
+  include Reportable
+
   validates :account_id, presence: true
 
   belongs_to :account
@@ -33,7 +35,10 @@ class Inbox < ApplicationRecord
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy
   has_many :messages, through: :conversations
+
+  has_one :agent_bot_inbox, dependent: :destroy
   has_many :webhooks, dependent: :destroy
+
   after_create :subscribe_webhook, if: :facebook?
   after_destroy :delete_round_robin_agents
 

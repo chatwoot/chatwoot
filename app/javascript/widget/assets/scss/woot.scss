@@ -17,3 +17,36 @@ body {
 .woot-widget-wrap {
   height: 100%;
 }
+
+.close-button {
+  cursor: pointer;
+  position: relative;
+  width: $space-two;
+
+  &::before,
+  &::after {
+    background-color: $color-heading;
+    content: ' ';
+    height: $space-normal;
+    left: $space-small;
+    position: absolute;
+    top: $space-micro;
+    width: 2px;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+.is-mobile {
+  .header-wrap {
+    .close-button {
+      display: block !important;
+    }
+  }
+}

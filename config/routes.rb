@@ -12,89 +12,103 @@ Rails.application.routes.draw do
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
-  get '/app/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
   resource :widget, only: [:show]
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-      resources :callbacks, only: [] do
-        collection do
-          post :register_facebook_page
-          get :register_facebook_page
-          post :get_facebook_pages
-          post :reauthorize_page
+      # ----------------------------------
+      # start of account scoped api routes
+      resources :accounts, only: [:create, :show, :update], module: :accounts do
+        namespace :actions do
+          resource :contact_merge, only: [:create]
+        end
+
+        resources :agents, except: [:show, :edit, :new]
+        resources :callbacks, only: [] do
+          collection do
+            post :register_facebook_page
+            get :register_facebook_page
+            post :facebook_pages
+            post :reauthorize_page
+          end
+        end
+        resources :canned_responses, except: [:show, :edit, :new]
+        namespace :channels do
+          resource :twilio_channel, only: [:create]
+        end
+        resources :conversations, only: [:index, :show] do
+          scope module: :conversations do
+            resources :messages, only: [:index, :create]
+            resources :assignments, only: [:create]
+            resources :labels, only: [:create, :index]
+          end
+          member do
+            post :toggle_status
+            post :update_last_seen
+          end
+        end
+
+        resources :contacts, only: [:index, :show, :update, :create] do
+          scope module: :contacts do
+            resources :conversations, only: [:index]
+          end
+        end
+
+        resources :facebook_indicators, only: [] do
+          collection do
+            post :mark_seen
+            post :typing_on
+            post :typing_off
+          end
+        end
+
+        resources :inboxes, only: [:index, :destroy, :update]
+        resources :inbox_members, only: [:create, :show], param: :inbox_id
+        resources :labels, only: [:index] do
+          collection do
+            get :most_used
+          end
+        end
+
+        resource :notification_settings, only: [:show, :update]
+
+        resources :reports, only: [] do
+          collection do
+            get :account
+            get :agent
+          end
+          member do
+            get :account_summary
+            get :agent_summary
+          end
+        end
+
+        # this block is only required if subscription via chargebee is enabled
+        resources :subscriptions, only: [:index] do
+          collection do
+            get :summary
+          end
+        end
+
+        resources :webhooks, except: [:show]
+        namespace :widget do
+          resources :inboxes, only: [:create, :update]
         end
       end
 
-      namespace :widget do
-        resources :messages, only: [:index, :create, :update]
-        resources :inboxes, only: [:create, :update]
-        resources :inbox_members, only: [:index]
-      end
-
-      namespace :actions do
-        resource :contact_merge, only: [:create]
-      end
-
-      namespace :account do
-        resources :webhooks, except: [:show]
-      end
+      # end of account scoped api routes
+      # ----------------------------------
 
       resource :profile, only: [:show, :update]
-      resources :accounts, only: [:create]
-      resources :inboxes, only: [:index, :destroy, :update]
-      resources :agents, except: [:show, :edit, :new]
-      resources :labels, only: [:index] do
-        collection do
-          get :most_used
-        end
-      end
-      resources :canned_responses, except: [:show, :edit, :new]
-      resources :inbox_members, only: [:create, :show], param: :inbox_id
-      resources :facebook_indicators, only: [] do
-        collection do
-          post :mark_seen
-          post :typing_on
-          post :typing_off
-        end
-      end
 
-      resources :reports, only: [] do
-        collection do
-          get :account
-          get :agent
-        end
-        member do
-          get :account_summary
-          get :agent_summary
-        end
-      end
-
-      resources :conversations, only: [:index, :show] do
-        scope module: :conversations do
-          resources :messages, only: [:index, :create]
-          resources :assignments, only: [:create]
-          resources :labels, only: [:create, :index]
-        end
-        member do
-          post :toggle_status
-          post :update_last_seen
-        end
-      end
-
-      resources :contacts, only: [:index, :show, :update, :create] do
-        scope module: :contacts do
-          resources :conversations, only: [:index]
-        end
-      end
-
-      # this block is only required if subscription via chargebee is enabled
-      resources :subscriptions, only: [:index] do
-        collection do
-          get :summary
-        end
+      namespace :widget do
+        resource :contact, only: [:update]
+        resources :inbox_members, only: [:index]
+        resources :labels, only: [:create, :destroy]
+        resources :messages, only: [:index, :create, :update]
       end
 
       resources :webhooks, only: [] do
@@ -102,9 +116,18 @@ Rails.application.routes.draw do
           post :chargebee
         end
       end
+    end
 
-      namespace :user do
-        resource :notification_settings, only: [:show, :update]
+    namespace :v2 do
+      resources :accounts, only: [], module: :accounts do
+        resources :reports, only: [] do
+          collection do
+            get :account
+          end
+          member do
+            get :account_summary
+          end
+        end
       end
     end
   end
@@ -114,17 +137,25 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
-  # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :conversations, only: [:show]
+  namespace :twilio do
+    resources :callback, only: [:create]
   end
 
+  # ----------------------------------------------------------------------
+  # Used in mailer templates
+  resource :app, only: [:index] do
+    resources :accounts do
+      resources :conversations, only: [:show]
+    end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for social integrations
   mount Facebook::Messenger::Server, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
-  post '/webhooks/telegram/:account_id/:inbox_id' => 'home#telegram'
-
+  # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
@@ -147,8 +178,8 @@ Rails.application.routes.draw do
 
     mount Sidekiq::Web, at: '/sidekiq'
   end
-  # ----------------------------------------------------------------------
 
+  # ---------------------------------------------------------------------
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'

@@ -30,7 +30,7 @@ describe('#findUndeliveredMessage', () => {
 
 describe('#createTemporaryMessage', () => {
   it('returns message object', () => {
-    const message = createTemporaryMessage('hello');
+    const message = createTemporaryMessage({ content: 'hello' });
     expect(message.content).toBe('hello');
     expect(message.status).toBe('in_progress');
   });

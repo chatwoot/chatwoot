@@ -1,7 +1,7 @@
 {
   "swagger": 2.0,
   "info": {
-    "description": "This is the api documentation for Chatwoot server.",
+    "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
     "title": "Chatwoot",
     "termsOfService": "https://www.chatwoot.com/terms-of-service/",
@@ -11,12 +11,557 @@
     "license": {
       "name": "MIT License",
       "url": "https://opensource.org/licenses/MIT"
-    },
-    "host": "app.chatwoot.com",
-    "basePath": "/api/v1/"
+    }
   },
+  "host": "app.chatwoot.com",
+  "basePath": "/api/v1/",
+  "schemes": [
+    "https"
+  ],
+  "produces": [
+    "application/json; charset=utf-8"
+  ],
+  "consumes": [
+    "application/json; charset=utf-8"
+  ],
   "paths": {
-    "/contacts": {
+    "/account/{account_id}/widget/inboxes": {
+      "post": {
+        "tags": [
+          "Widget"
+        ],
+        "operationId": "widgetInboxCreation",
+        "summary": "Create a website inbox",
+        "description": "You can create more than one website inbox in each account",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "website": {
+                  "type": "object",
+                  "properties": {
+                    "website_name": {
+                      "type": "string",
+                      "description": "The name of the inbox"
+                    },
+                    "website_url": {
+                      "type": "string",
+                      "description": "URL at which the widget will be loaded"
+                    },
+                    "widget_color": {
+                      "type": "string",
+                      "description": "A Hex-color string used to customize the widget"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/widget/inboxes/${id}": {
+      "patch": {
+        "tags": [
+          "Widget"
+        ],
+        "operationId": "widgetInboxUpdate",
+        "summary": "Update a website inbox",
+        "description": "Update widget color of an inbox",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "website": {
+                  "type": "object",
+                  "properties": {
+                    "widget_color": {
+                      "type": "string",
+                      "description": "A Hex-color string used to customize the widget"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/inboxes": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "listAllInboxes",
+        "summary": "List all inboxes",
+        "description": "List all inboxes available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/inboxes/{id}": {
+      "patch": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "disableAutoAssignment",
+        "summary": "Disable auto assignment",
+        "description": "Disable Auto Assignment for an inbox",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "enable_auto_assignment": {
+                  "type": "boolean",
+                  "required": true,
+                  "description": "Enable Auto Assignment"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "conversationList",
+        "description": "List all the conversations with pagination",
+        "summary": "Conversations List",
+        "parameters": [
+          {
+            "name": "assignee_type",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "me",
+              "unassigned",
+              "all"
+            ],
+            "required": true
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "bot"
+            ],
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "name": "inbox_id",
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "labels",
+            "in": "query",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_list"
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}": {
+      "get": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "conversationDetails",
+        "summary": "Conversation Details",
+        "description": "Get all details regarding a conversation with all messages in the conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of Conversation",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_show"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}/toggle_status": {
+      "post": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "conversationToggleStatus",
+        "summary": "Toggle Status",
+        "description": "Toggles the status of the conversation between open and resolved",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved"
+                  ],
+                  "required": true,
+                  "description": "The status of the conversation"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_status_toggle"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}/messages": {
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "listAllMessages",
+        "summary": "Get messages",
+        "description": "List all messages of a conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of messages",
+            "type": "array",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "conversationNewMessage",
+        "summary": "Create New Message",
+        "description": "All the agent replies are created as new messages through this endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/conversation_message_create"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}/labels": {
+      "get": {
+        "tags": [
+          "ConversationLabels"
+        ],
+        "operationId": "conversationLabelsList",
+        "summary": "List Labels",
+        "description": "Lists all the labels of a conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_labels"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ConversationLabels"
+        ],
+        "operationId": "conversationAddLabels",
+        "summary": "Add Labels",
+        "description": "Creates new labels and associates it with the conversation",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "labels": {
+                  "type": "array",
+                  "description": "Array of labels",
+                  "properties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/conversation_labels"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/conversations/{id}/assignments": {
+      "post": {
+        "tags": [
+          "ConversationAssignment"
+        ],
+        "operationId": "conversationAssignment",
+        "summary": "Assign Conversation",
+        "description": "Assign a conversation to an agent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "id of the conversation",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "assignee_id": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/account/{account_id}/contacts": {
       "get": {
         "tags": [
           "Contact"
@@ -78,7 +623,7 @@
         }
       }
     },
-    "/contacts/{id}": {
+    "/account/{account_id}/contacts/{id}": {
       "get": {
         "tags": [
           "Contact"
@@ -148,7 +693,7 @@
         }
       }
     },
-    "/contacts/{id}/conversations": {
+    "/account/{account_id}/contacts/{id}/conversations": {
       "get": {
         "tags": [
           "Contact"
@@ -173,308 +718,6 @@
           },
           "404": {
             "description": "Contact not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations": {
-      "get": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationList",
-        "description": "List all the conversations with pagination",
-        "summary": "Conversations List",
-        "parameters": [
-          {
-            "name": "query_hash",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_list"
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "schema": {
-              "$ref": "#/definitions/bad_request_error"
-            }
-          }
-        }
-      }
-    },
-    "/conversations/{id}": {
-      "get": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationDetails",
-        "summary": "Conversation Details",
-        "description": "Get all details regarding a conversation with all messages in the conversation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of Conversation",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_show"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/toggle_status": {
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationToggleStatus",
-        "summary": "Toggle Status",
-        "description": "Toggles the status of the conversation between open and resolved",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_status_toggle"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/update_last_seen": {
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationUpdateLastSeen",
-        "summary": "Update Last Seen",
-        "description": "Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "404": {
-            "description": "Contact not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/labels": {
-      "get": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationLabelsList",
-        "summary": "List Labels",
-        "description": "Lists all the labels of a conversation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_labels"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationAddLabels",
-        "summary": "Add Labels",
-        "description": "Creates new labels and associates it with the conversation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "labels": {
-                  "type": "array",
-                  "description": "array of labels",
-                  "properties": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/conversation_labels"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/assignments": {
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationAssignment",
-        "summary": "Assign Conversation",
-        "description": "Assign a conversation to an agent",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "assignee_id": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/user"
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/conversations/{id}/messages": {
-      "post": {
-        "tags": [
-          "Conversation"
-        ],
-        "operationId": "conversationNewMessage",
-        "summary": "Create New Message",
-        "description": "All the agent replies are created as new messages through this endpoint",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          },
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/conversation_message_create"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Success",
-            "schema": {
-              "allOf": [
-                {
-                  "$ref": "#/definitions/generic_id"
-                },
-                {
-                  "$ref": "#/definitions/message"
-                }
-              ]
-            }
-          },
-          "404": {
-            "description": "Conversation not found"
           },
           "403": {
             "description": "Access denied"
@@ -525,43 +768,53 @@
       "type": "object",
       "properties": {
         "email": {
-          "type": "string"
+          "type": "string",
+          "description": "Email address of the contact"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the contact"
         },
         "phone_number": {
-          "type": "string"
+          "type": "string",
+          "description": "Phone number of the contact"
         },
         "thumbnail": {
-          "type": "string"
+          "type": "string",
+          "description": "Avatar URL of the contact"
         },
         "additional_attributes": {
-          "type": "object"
+          "type": "object",
+          "description": "The object containing additional attributes related to the contact"
         }
       }
     },
     "conversation": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the conversation"
+        },
         "messages": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
+          "type": "array"
         },
         "inbox_id": {
-          "type": "number"
+          "type": "number",
+          "description": "ID of the inbox"
         },
         "status": {
           "type": "string",
           "enum": [
             "open",
-            "resolved"
-          ]
+            "resolved",
+            "bot"
+          ],
+          "description": "The status of the conversation"
         },
         "timestamp": {
-          "type": "string"
+          "type": "string",
+          "description": "The time at which conversation was created"
         },
         "user_last_seen_at": {
           "type": "string"
@@ -570,7 +823,12 @@
           "type": "agent_last_seen_at"
         },
         "unread_count": {
-          "type": "number"
+          "type": "number",
+          "description": "The number of unread messages"
+        },
+        "additional_attributes": {
+          "type": "object",
+          "description": "The object containing additional attributes related to the conversation"
         }
       }
     },
@@ -578,25 +836,38 @@
       "type": "object",
       "properties": {
         "content": {
-          "type": "string"
-        },
-        "inbox_id": {
-          "type": "number"
-        },
-        "conversation_id": {
-          "type": "number"
+          "type": "string",
+          "description": "The text content of the message"
         },
         "message_type": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "incoming",
+            "outgoing",
+            "activity",
+            "template"
+          ],
+          "description": "The type of the message"
         },
         "created_at": {
-          "type": "integer"
+          "type": "integer",
+          "description": "The time at which message was created"
         },
         "private": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "The flags which shows whether the message is private or not"
         },
         "attachment": {
-          "type": "object"
+          "type": "object",
+          "description": "The file object attached to the image"
+        },
+        "sender": {
+          "type": "object",
+          "description": "User/Agent/AgentBot object"
+        },
+        "conversation_id": {
+          "type": "number",
+          "description": "ID of the conversation"
         }
       }
     },
@@ -633,6 +904,39 @@
         }
       }
     },
+    "inbox": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the inbox"
+        },
+        "channel_type": {
+          "type": "string",
+          "description": "The type of the inbox"
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The avatar image of the inbox"
+        },
+        "widget_color": {
+          "type": "string",
+          "description": "Widget Color used for customization of the widget"
+        },
+        "website_token": {
+          "type": "string",
+          "description": "Website Token"
+        },
+        "enable_auto_assignment": {
+          "type": "boolean",
+          "description": "The flag which shows whether Auto Assignment is enabled or not"
+        },
+        "web_widget_script": {
+          "type": "string",
+          "description": "Script used to load the website widget"
+        }
+      }
+    },
     "extended_contact": {
       "allOf": [
         {
@@ -642,14 +946,16 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "number"
+              "type": "number",
+              "description": "Id of the user"
             },
             "availability_status": {
               "type": "string",
               "enum": [
                 "online",
                 "offline"
-              ]
+              ],
+              "description": "Availability status of the user"
             }
           }
         }
@@ -697,16 +1003,20 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "ID fo the sender"
                       },
                       "name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The name of the sender"
                       },
                       "thumbnail": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Avatar URL of the contact"
                       },
                       "channel": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Channel Type"
                       }
                     }
                   },
@@ -769,16 +1079,20 @@
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "number"
+                                "type": "number",
+                                "description": "ID fo the sender"
                               },
                               "name": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "The name of the sender"
                               },
                               "thumbnail": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Avatar URL of the contact"
                               },
                               "channel": {
-                                "type": "string"
+                                "type": "string",
+                                "description": "Channel Type"
                               }
                             }
                           },
@@ -798,36 +1112,48 @@
     },
     "conversation_show": {
       "type": "object",
-      "properties": {
-        "meta": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/generic_id"
+        },
+        {
+          "$ref": "#/definitions/conversation"
+        },
+        {
           "type": "object",
           "properties": {
-            "labels": {
-              "type": "array",
-              "items": {
-                "type": "string"
+            "meta": {
+              "type": "object",
+              "properties": {
+                "sender": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number",
+                      "description": "ID fo the sender"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "The name of the sender"
+                    },
+                    "thumbnail": {
+                      "type": "string",
+                      "description": "Avatar URL of the contact"
+                    },
+                    "channel": {
+                      "type": "string",
+                      "description": "Channel Type"
+                    }
+                  }
+                },
+                "assignee": {
+                  "$ref": "#/definitions/user"
+                }
               }
-            },
-            "additional_attributes": {
-              "type": "object"
-            },
-            "contact_id": {
-              "type": "number"
             }
           }
-        },
-        "payload": {
-          "type": "array",
-          "description": "array of messages",
-          "items": {
-            "allOf": [
-              {
-                "$ref": "#/definitions/extended_message"
-              }
-            ]
-          }
         }
-      }
+      ]
     },
     "conversation_status_toggle": {
       "type": "object",
@@ -860,7 +1186,7 @@
       "properties": {
         "payload": {
           "type": "array",
-          "description": "array of labels",
+          "description": "Array of labels",
           "items": {
             "type": "string"
           }
@@ -917,16 +1243,18 @@
       "type": "object",
       "properties": {
         "conversation_id": {
-          "type": "number"
+          "type": "number",
+          "description": "ID of the conversation",
+          "required": true
         },
         "message": {
-          "type": "string"
+          "type": "string",
+          "description": "The content of the message",
+          "required": true
         },
         "private": {
-          "type": "boolean"
-        },
-        "fb_id": {
-          "type": "number"
+          "type": "boolean",
+          "description": "Flag to identify if it is a private note"
         }
       }
     }

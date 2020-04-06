@@ -4,7 +4,7 @@ import ApiClient from '../ApiClient';
 
 class MessageApi extends ApiClient {
   constructor() {
-    super('conversations');
+    super('conversations', { accountScoped: true });
   }
 
   create({ conversationId, message, private: isPrivate }) {
@@ -17,6 +17,16 @@ class MessageApi extends ApiClient {
   getPreviousMessages({ conversationId, before }) {
     return axios.get(`${this.url}/${conversationId}/messages`, {
       params: { before },
+    });
+  }
+
+  sendAttachment([conversationId, { file }]) {
+    const formData = new FormData();
+    formData.append('attachment[file]', file);
+    return axios({
+      method: 'post',
+      url: `${this.url}/${conversationId}/messages`,
+      data: formData,
     });
   }
 }
