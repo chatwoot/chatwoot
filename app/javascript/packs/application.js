@@ -47,6 +47,7 @@ Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
 Object.keys(i18n).forEach(lang => {
+  console.log(i18n);
   Vue.locale(lang, i18n[lang]);
 });
 

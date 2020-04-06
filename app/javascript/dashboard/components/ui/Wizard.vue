@@ -29,12 +29,6 @@
 /* eslint no-console: 0 */
 export default {
   props: {
-    items: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
     isFullwidth: Boolean,
   },
 
@@ -44,6 +38,9 @@ export default {
     },
     activeIndex() {
       return this.items.findIndex(i => i.route === this.$route.name);
+    },
+    items() {
+      return this.$t('INBOX_MGMT.CREATE_FLOW');
     },
   },
   methods: {

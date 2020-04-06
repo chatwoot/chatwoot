@@ -16,7 +16,7 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
-    return $state.records.find(record => record.id === id);
+    return $state.records.find(record => record.id === Number(id));
   },
   getUIFlags($state) {
     return $state.uiFlags;
@@ -38,10 +38,7 @@ export const actions = {
       });
     }
   },
-  update: async ({ commit, getters }, accountId) => {
-    const { getAccount } = getters;
-    const account = getAccount(accountId);
-    const { id, ...updateObj } = account;
+  update: async ({ commit }, updateObj) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {
       await AccountAPI.update('', updateObj);

@@ -15,7 +15,7 @@
               v-model="name"
               type="text"
               :placeholder="$t('GENERAL_SETTINGS.FORM.NAME.PLACEHOLDER')"
-              @input="$v.name.$touch"
+              @blur="$v.name.$touch"
             />
             <span v-if="$v.name.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.NAME.ERROR') }}
@@ -24,7 +24,8 @@
           <label :class="{ error: $v.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
-              <option value="eng">English</option>
+              <option value="en">English</option>
+              <option value="de">German</option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
@@ -43,18 +44,19 @@
 </template>
 
 <script>
-/* global bus */
 import Vue from 'vue';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   data() {
     return {
       id: '',
       name: '',
-      locale: 'eng',
+      locale: 'en',
     };
   },
   validations: {
@@ -99,18 +101,18 @@ export default {
     async updateAccount() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.FORM.ERROR'));
+        this.showAlert(this.$t('GENERAL_SETTINGS.FORM.ERROR'));
         return;
       }
       try {
-        await this.$store.dispatch('accounts/update', this.id);
-        bus.$emit(
-          'newToastMessage',
-          this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS')
-        );
+        await this.$store.dispatch('accounts/update', {
+          locale: this.locale,
+          name: this.name,
+        });
+        Vue.config.lang = this.locale;
+        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
-        console.log(error);
-        bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
+        this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
   },

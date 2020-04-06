@@ -1,0 +1,27 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Kontoeinstellungen",
+    "SUBMIT": "Update Einstellungen",
+    "UPDATE": {
+      "ERROR": "Einstellungen konnten nicht aktualisiert werden, versuchen Sie es erneut!",
+      "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
+    },
+    "FORM": {
+      "ERROR": "Bitte korrigieren Sie Formularfehler",
+      "GENERAL_SECTION": {
+        "TITLE": "Allgemeine Einstellungen",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Kontobezeichnung",
+        "PLACEHOLDER": "Ihr Kontoname",
+        "ERROR": "Bitte geben Sie einen gültigen Kontonamen ein"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site-Sprache (Beta)",
+        "PLACEHOLDER": "Your account name",
+        "ERROR": ""
+      }
+    }
+  }
+}

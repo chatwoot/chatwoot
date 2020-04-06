@@ -14,7 +14,7 @@
     >
       <div class="wrap">
         <i :class="menuItem.icon" />
-        {{ menuItem.label }}
+        {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </div>
       <span
         v-if="showItem(menuItem)"

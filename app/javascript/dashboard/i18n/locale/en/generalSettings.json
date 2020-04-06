@@ -18,7 +18,7 @@
         "ERROR": "Please enter a valid account name"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Site language (Beta)",
         "PLACEHOLDER": "Your account name",
         "ERROR": ""
       }
