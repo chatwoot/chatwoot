@@ -122,6 +122,8 @@ class Message < ApplicationRecord
       ::Facebook::SendReplyService.new(message: self).perform
     elsif channel_name == 'Channel::TwitterProfile'
       ::Twitter::SendReplyService.new(message: self).perform
+    elsif channel_name == 'Channel::TwilioSms'
+      ::Twilio::OutgoingMessageService.new(message: self).perform
     end
   end
 

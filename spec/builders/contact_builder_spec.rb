@@ -1,0 +1,40 @@
+require 'rails_helper'
+
+describe ::ContactBuilder do
+  let(:account) { create(:account) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:contact) { create(:contact, account: account) }
+  let(:existing_contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+
+  describe '#perform' do
+    it 'doesnot create contact if it already exist' do
+      contact_inbox = described_class.new(
+        source_id: existing_contact_inbox.source_id,
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+1234567890',
+          email: 'testemail@example.com'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).to be(contact.id)
+    end
+
+    it 'creates contact if contact doesnot exist' do
+      contact_inbox = described_class.new(
+        source_id: '123456',
+        inbox: inbox,
+        contact_attributes: {
+          name: 'Contact',
+          phone_number: '+1234567890',
+          email: 'testemail@example.com'
+        }
+      ).perform
+
+      expect(contact_inbox.contact.id).not_to eq(contact.id)
+      expect(contact_inbox.contact.name).to eq('Contact')
+      expect(contact_inbox.inbox_id).to eq(inbox.id)
+    end
+  end
+end

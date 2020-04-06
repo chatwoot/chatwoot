@@ -36,7 +36,9 @@ Rails.application.routes.draw do
           end
         end
         resources :canned_responses, except: [:show, :edit, :new]
-
+        namespace :channels do
+          resource :twilio_channel, only: [:create]
+        end
         resources :conversations, only: [:index, :create, :show] do
           scope module: :conversations do
             resources :messages, only: [:index, :create]
@@ -134,6 +136,10 @@ Rails.application.routes.draw do
   namespace :twitter do
     resource :authorization, only: [:create]
     resource :callback, only: [:show]
+  end
+
+  namespace :twilio do
+    resources :callback, only: [:create]
   end
 
   # ----------------------------------------------------------------------
