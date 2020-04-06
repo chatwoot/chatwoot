@@ -32,7 +32,7 @@ class Account < ApplicationRecord
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
 
-  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_3_code], key] }.to_h
+  enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
   after_create :create_subscription
   after_create :notify_creation

@@ -22,4 +22,16 @@ export default {
       NEW_INBOX: 'Add Inbox',
     },
   },
+  SIDEBAR: {
+    CONVERSATIONS: 'Conversations',
+    REPORTS: 'Reports',
+    SETTINGS: 'Settings',
+    HOME: 'Home',
+    AGENTS: 'Agents',
+    INBOXES: 'Inboxes',
+    CANNED_RESPONSES: 'Canned Responses',
+    BILLING: 'Billing',
+    INTEGRATIONS: 'Integrations',
+    ACCOUNT_SETTINGS: 'Account Settings',
+  },
 };

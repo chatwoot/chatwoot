@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Unterhaltungsdetails",
+    "BROWSER": "Browser",
+    "OS": "Betriebssystem",
+    "INITIATED_FROM": "Initiiert von",
+    "INITIATED_AT": "Initiiert bei",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
+      "TITLE": "Vorherige Gespräche"
+    },
+    "LABELS": {
+      "TITLE": "Konversationsetiketten",
+      "UPDATE_BUTTON": "Etiketten aktualisieren",
+      "UPDATE_ERROR": "Etiketten konnten nicht aktualisiert werden. Versuchen Sie es erneut.",
+      "TAG_PLACEHOLDER": "Neues Etikett hinzufügen",
+      "PLACEHOLDER": "Suchen oder fügen Sie ein Etikett hinzu"
+    }
+  }
+}

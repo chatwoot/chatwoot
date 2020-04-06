@@ -5,21 +5,21 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/profile'),
-      name: 'profile_settings',
-      roles: ['administrator', 'agent'],
+      path: frontendURL('accounts/:accountId/settings/general'),
+      name: 'general_settings',
+      roles: ['administrator'],
       component: SettingsContent,
       props: {
         headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'ion-compose',
+        icon: 'ion-gear-a',
         showNewButton: false,
       },
       children: [
         {
-          path: 'settings',
+          path: '',
           name: 'general_settings_index',
           component: Index,
-          roles: ['administrator', 'agent'],
+          roles: ['administrator'],
         },
       ],
     },

@@ -1,4 +1,8 @@
-import { frontendURL, conversationUrl } from '../URLHelper';
+import {
+  frontendURL,
+  conversationUrl,
+  accountIdFromPathname,
+} from '../URLHelper';
 
 describe('#URL Helpers', () => {
   describe('conversationUrl', () => {
@@ -20,6 +24,28 @@ describe('#URL Helpers', () => {
     });
     it('should return url without params if params passed is not nil', () => {
       expect(frontendURL('main', { ping: 'pong' })).toBe('/app/main?ping=pong');
+    });
+  });
+
+  /* 
+  
+  export const accountIdFromPathname = pathname => {
+  const isInsideAccountScopedURLs = pathname.includes('/app/accounts');
+  const accountId = isInsideAccountScopedURLs ? pathname.split('/')[3] : '';
+  return Number(accountId);
+};
+
+  */
+
+  describe('accountIdFromPathname', () => {
+    it('should return account id if accont scoped url is passed', () => {
+      expect(accountIdFromPathname('/app/accounts/1/settings/general')).toBe(1);
+    });
+    it('should return empty string if accont scoped url not is passed', () => {
+      expect(accountIdFromPathname('/app/accounts/settings/general')).toBe('');
+    });
+    it('should return empty string if empty string is passed', () => {
+      expect(accountIdFromPathname('')).toBe('');
     });
   });
 });
