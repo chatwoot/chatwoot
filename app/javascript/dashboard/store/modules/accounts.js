@@ -18,6 +18,9 @@ export const getters = {
   getAccount: $state => id => {
     return $state.records.find(record => record.id === id);
   },
+  getUIFlags($state) {
+    return $state.uiFlags;
+  },
 };
 
 export const actions = {
@@ -26,16 +29,22 @@ export const actions = {
     try {
       const response = await AccountAPI.get();
       commit(types.default.ADD_ACCOUNT, response.data);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false });
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
     } catch (error) {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: false });
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
     }
   },
-  update: async ({ commit }, { id, ...updateObj }) => {
+  update: async ({ commit, getters }, accountId) => {
+    const { getAccount } = getters;
+    const account = getAccount(accountId);
+    const { id, ...updateObj } = account;
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {
-      const response = await AccountAPI.update('', updateObj);
-      commit(types.default.EDIT_ACCOUNT, response.data.payload);
+      await AccountAPI.update('', updateObj);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });

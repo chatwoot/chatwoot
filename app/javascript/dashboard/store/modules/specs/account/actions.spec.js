@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { actions } from '../../accounts';
+import { actions, getters } from '../../accounts';
 import * as types from '../../../mutation-types';
 
 const accountData = {
@@ -35,19 +35,18 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: { payload: accountData } });
-      await actions.update({ commit }, accountData);
+      axios.patch.mockResolvedValue();
+      await actions.update({ commit, getters }, accountData);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true }],
-        [types.default.EDIT_ACCOUNT, accountData],
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(actions.update({ commit }, accountData)).rejects.toThrow(
-        Error
-      );
+      await expect(
+        actions.update({ commit, getters }, accountData)
+      ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true }],
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false }],

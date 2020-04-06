@@ -3,7 +3,8 @@
     "TITLE": "Account settings",
     "SUBMIT": "Update settings",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!"
+      "ERROR": "Could not update settings, try again!",
+      "SUCCESS": "Successfully updated account settings"
     },
     "FORM": {
       "ERROR": "Please fix form errors",

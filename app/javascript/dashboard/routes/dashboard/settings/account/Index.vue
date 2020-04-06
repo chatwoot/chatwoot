@@ -55,7 +55,6 @@ export default {
       id: '',
       name: '',
       locale: 'eng',
-      isUpdating: false,
     };
   },
   validations: {
@@ -69,7 +68,12 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      uiFlags: 'accounts/getUIFlags',
     }),
+
+    isUpdating() {
+      return this.uiFlags.isUpdating;
+    },
   },
   mounted() {
     if (!this.id) {
@@ -98,15 +102,14 @@ export default {
         bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.FORM.ERROR'));
         return;
       }
-      this.isUpdating = true;
       try {
-        await this.$store.dispatch('accounts/update', {
-          name: this.name,
-          locale: this.locale,
-        });
-        this.isUpdating = false;
+        await this.$store.dispatch('accounts/update', this.id);
+        bus.$emit(
+          'newToastMessage',
+          this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS')
+        );
       } catch (error) {
-        this.isUpdating = false;
+        console.log(error);
         bus.$emit('newToastMessage', this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
       }
     },
