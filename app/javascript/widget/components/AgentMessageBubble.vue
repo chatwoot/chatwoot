@@ -82,8 +82,11 @@ export default {
     },
   },
   methods: {
+    onResponse(messageResponse) {
+      this.$store.dispatch('message/update', messageResponse);
+    },
     onOptionSelect(selectedOption) {
-      this.$store.dispatch('contact/updateMessage', {
+      this.onResponse({
         submittedValues: [selectedOption],
         messageId: this.messageId,
       });
@@ -93,7 +96,7 @@ export default {
         name: key,
         value: formValues[key],
       }));
-      this.$store.dispatch('contact/updateMessage', {
+      this.onResponse({
         submittedValues: formValuesAsArray,
         messageId: this.messageId,
       });

@@ -157,10 +157,6 @@ export default {
         }
       }
     }
-
-    .user-message {
-      margin-top: $space-normal;
-    }
   }
 
   .agent-message {
@@ -172,7 +168,7 @@ export default {
     max-width: 88%;
 
     & + .user-message {
-      margin-top: $space-normal;
+      margin-top: $space-one;
     }
 
     .avatar-wrap {

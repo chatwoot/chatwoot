@@ -21,7 +21,6 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     else
       @message.update!(message_update_params[:message])
     end
-    head :no_content
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
   end

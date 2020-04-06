@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('message/updateContactAttributes', {
+      this.$store.dispatch('message/update', {
         email: this.email,
         messageId: this.messageId,
       });
