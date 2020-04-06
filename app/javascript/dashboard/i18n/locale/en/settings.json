@@ -55,7 +55,7 @@
       }
     }
   },
-  "SIDEBAR": {
+  "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Profile Settings",
     "LOGOUT": "Logout"
   }

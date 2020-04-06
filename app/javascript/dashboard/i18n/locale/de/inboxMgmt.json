@@ -1,0 +1,138 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Posteingänge",
+    "SIDEBAR_TXT": "<p> <b> Posteingang </b> </p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird dies als <b> Posteingang </b> bezeichnet. Sie können unbegrenzt Posteingänge in Ihrem Chatwoot-Konto haben. </p> <p> Klicken Sie auf <b> Posteingang hinzufügen </b>, um eine Website oder eine Facebook-Seite zu verbinden. </p> <p> Im <a href=\"/app/dashboard\"> Dashboard </a> können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort anzeigen und unter 'Konversationen' darauf antworten `tab. </p> <p> Sie können Konversationen auch für einen Posteingang anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
+    "LIST": {
+      "404": "Diesem Konto sind keine Posteingänge zugeordnet."
+    },
+    "CREATE_FLOW": [
+      { "title": "Wählen Sie Kanal", "route": "settings_inbox_new", "body": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten." },
+      { "title": "Posteingang erstellen", "route": "settings_inboxes_page_channel", "body": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang." },
+      { "title": "Agenten hinzufügen", "route": "settings_inboxes_add_agents", "body": "Fügen Sie dem erstellten Posteingang Agenten hinzu." },
+      { "title": "Voila!", "route": "settings_inbox_finish", "body": "Sie sind bereit zu gehen!" }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen."
+      },
+      "TWITTER": {
+        "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken."
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Website-Kanal",
+        "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
+        "CHANNEL_NAME": {
+          "LABEL": "Webseiten-Name",
+          "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (eg: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Website Domain",
+          "PLACEHOLDER": "Geben Sie Ihre Website-Domain ein (eg: acme.com)"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widget Farbe",
+          "PLACEHOLDER": "Aktualisieren Sie die im Widget verwendete Widget-Farbe"
+        },
+        "SUBMIT_BUTTON":"Posteingang erstellen"
+      },
+
+      "TWILIO": {
+        "TITLE": "Twilio SMS Channel",
+        "DESC": "Integrieren Sie Twilio und unterstützen Sie Ihre Kunden per SMS.",
+        "ACCOUNT_SID": {
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Account SID ein",
+          "ERROR": "Dieses Feld wird benötigt"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Bitte geben Sie Ihr Twilio Auth Token ein",
+          "ERROR": "Dieses Feld wird benötigt"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Kanal Name",
+          "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
+          "ERROR": "Dieses Feld wird benötigt"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
+          "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+        },
+        "SUBMIT_BUTTON": "Erstellen Sie Twilio Channel",
+        "API": {
+          "ERROR_MESSAGE": "Wir konnten die Twilio-Anmeldeinformationen nicht authentifizieren. Bitte versuchen Sie es erneut"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Kanäle",
+        "DESC": "Derzeit unterstützen wir Website-Live-Chat-Widgets, Facebook-Seiten und Twitter-Profile als Plattformen. Wir haben weitere Plattformen wie WhatsApp, Email, Telegram und Line in Arbeit, die bald veröffentlicht werden."
+      },
+      "AGENTS": {
+        "TITLE": "Agenten",
+        "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen."
+      },
+      "DETAILS": {
+        "TITLE": "Posteingangsdetails",
+        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Chatwoot herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
+      },
+      "FINISH":{
+        "TITLE": "Geschafft!",
+        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Chatwoot erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Chatwoot angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Authentifizierung mit Facebook ...",
+      "ERROR_FB_AUTH": "Es ist ein Fehler aufgetreten. Bitte Seite aktualisieren ...",
+      "CREATING_CHANNEL": "Erstellen Sie Ihren Posteingang ...",
+      "TITLE": "Posteingangsdetails konfigurieren",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Agenten hinzufügen",
+      "ADD_AGENTS": "Adding Agents to your Inbox...Hinzufügen von Agenten zu Ihrem Posteingang ..."
+    },
+    "FINISH": {
+      "TITLE": "Ihr Posteingang ist fertig!",
+      "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Viel Spaß beim Unterstützen",
+      "BUTTON_TEXT": "Bring mich dahin",
+      "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt."
+    },
+    "REAUTH": "Neu autorisieren",
+    "VIEW": "Aussicht",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Widget-Farbe erfolgreich aktualisiert",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Behindert"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Löschen",
+      "CONFIRM": {
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
+        "YES": "Ja, löschen",
+        "NO": "Nein, behalte es "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal."
+      }
+    },
+    "SETTINGS": "die Einstellungen",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger-Skript",
+      "MESSENGER_SUB_HEAD": "Platzieren Sie diese Schaltfläche in Ihrem Body-Tag",
+      "INBOX_AGENTS": "Agenten",
+      "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
+      "UPDATE": "Aktualisieren",
+      "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen"
+    }
+  }
+}

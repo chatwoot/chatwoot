@@ -44,12 +44,12 @@
           <ul class="vertical dropdown menu">
             <li>
               <router-link :to="`/app/accounts/${accountId}/profile/settings`">
-                {{ $t('SIDEBAR.PROFILE_SETTINGS') }}
+                {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
               </router-link>
             </li>
             <li>
               <a href="#" @click.prevent="logout()">
-                {{ $t('SIDEBAR.LOGOUT') }}
+                {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
               </a>
             </li>
           </ul>
@@ -139,7 +139,7 @@ export default {
     inboxSection() {
       return {
         icon: 'ion-folder',
-        label: 'Inboxes',
+        label: 'INBOXES',
         hasSubMenu: true,
         newLink: true,
         key: 'inbox',
