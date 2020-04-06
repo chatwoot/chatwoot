@@ -14,13 +14,13 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getAccount: $state => id => {
     return $state.records.find(record => record.id === id);
   },
 };
 
-const actions = {
+export const actions = {
   get: async ({ commit }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
     try {
@@ -44,7 +44,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [types.default.SET_ACCOUNT_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,

@@ -11,7 +11,7 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import WootSnackbarBox from './components/SnackbarContainer';
-import { accountIdFromUrl } from './helper/commons';
+import { accountIdFromPathname } from './helper/URLHelper';
 
 export default {
   name: 'App',
@@ -33,7 +33,9 @@ export default {
 
   methods: {
     async initializeAccount() {
-      const accountId = accountIdFromUrl();
+      const { pathname } = window.location;
+      const accountId = accountIdFromPathname(pathname);
+
       if (accountId) {
         await this.$store.dispatch('accounts/get');
         const { locale } = this.getAccount(accountId);

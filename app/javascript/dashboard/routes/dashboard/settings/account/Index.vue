@@ -47,7 +47,7 @@
 import Vue from 'vue';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { accountIdFromUrl } from 'dashboard/helper/commons';
+import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
 
 export default {
   data() {
@@ -78,7 +78,9 @@ export default {
   },
   methods: {
     async initializeAccount() {
-      const accountId = accountIdFromUrl();
+      const { pathname } = window.location;
+      const accountId = accountIdFromPathname(pathname);
+
       if (accountId) {
         await this.$store.dispatch('accounts/get');
         const { name, locale, id } = this.getAccount(accountId);
