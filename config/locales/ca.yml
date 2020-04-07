@@ -39,7 +39,7 @@ ca:
     signup:
       disposable_email: Els correus electrònics d\'un sol ús no s\'accepten
       invalid_email: El correu electrònic no es vàlid
-      email_already_exists: "Ja t\'has registrat en un compte amb %{email}"
+      email_already_exists: "Ja t'has registrat en un compte amb %{email}"
       failed: El registre ha fallat
 
   conversations:
@@ -49,8 +49,8 @@ ca:
         open: "La conversa es va reobrir per %{user_name}"
       assignee:
         assigned: "Asignada a %{assignee_name} per %{user_name}"
-        removed: "%{user_name} ha tret l\'assignació"
+        removed: "%{user_name} ha tret l'assignació"
     templates:
       typical_reply_message_body: "%{account_name} normalment respon a les poques hores."
-      ways_to_reach_you_message_body: "Fes saber a l\'equip la forma de posar-nos en contacte amb tu."
+      ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
