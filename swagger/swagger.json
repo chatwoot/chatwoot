@@ -201,13 +201,13 @@
       }
     },
     "/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
-      "patch": {
+      "post": {
         "tags": [
           "Inbox"
         ],
-        "operationId": "updateInbox",
-        "summary": "Update Inbox",
-        "description": "Add avatar and disable auto assignment for an inbox",
+        "operationId": "updateAgentBot",
+        "summary": "Add or remove agent bot",
+        "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
         "parameters": [
           {
             "name": "id",
@@ -223,29 +223,21 @@
             "schema": {
               "type": "object",
               "properties": {
-                "enable_auto_assignment": {
-                  "type": "boolean",
+                "agent_bot": {
+                  "type": "number",
                   "required": true,
-                  "description": "Enable Auto Assignment"
-                },
-                "avatar": {
-                  "type": "file",
-                  "required": false,
-                  "description": "Image file for avatar"
+                  "description": "Agent bot ID"
                 }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/inbox"
-            }
+          "204": {
+            "description": "Success"
           },
           "404": {
-            "description": "Inbox not found"
+            "description": "Inbox not found, Agent bot not found"
           },
           "403": {
             "description": "Access denied"
