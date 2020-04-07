@@ -113,6 +113,19 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.reload.enable_auto_assignment).to be_falsey
       end
 
+      it 'updates avatar' do
+        # no avatar before upload
+        expect(inbox.avatar.attached?).to eq(false)
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: { inbox: { avatar: file } },
+              headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        inbox.reload
+        expect(inbox.avatar.attached?).to eq(true)
+      end
+
       it 'will not update inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 

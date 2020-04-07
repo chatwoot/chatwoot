@@ -26,6 +26,6 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
   end
 
   def inbox_update_params
-    params.require(:inbox).permit(:enable_auto_assignment)
+    params.require(:inbox).permit(:enable_auto_assignment, :avatar)
   end
 end

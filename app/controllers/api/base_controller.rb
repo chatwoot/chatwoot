@@ -8,7 +8,7 @@ class Api::BaseController < ApplicationController
   private
 
   def authenticate_by_access_token?
-    request.headers[:api_access_token].present?
+    request.headers[:api_access_token].present? || request.headers[:HTTP_API_ACCESS_TOKEN].present?
   end
 
   def set_conversation

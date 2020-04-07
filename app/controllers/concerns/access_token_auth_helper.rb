@@ -5,7 +5,8 @@ module AccessTokenAuthHelper
   }.freeze
 
   def authenticate_access_token!
-    access_token = AccessToken.find_by(token: request.headers[:api_access_token])
+    token = request.headers[:api_access_token] || request.headers[:HTTP_API_ACCESS_TOKEN]
+    access_token = AccessToken.find_by(token: token)
     render_unauthorized('Invalid Access Token') && return unless access_token
 
     token_owner = access_token.owner
