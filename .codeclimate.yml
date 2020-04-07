@@ -29,3 +29,4 @@ exclude_patterns:
   - "docs/*"
   - "**/*.md"
   - "**/*.yml"
+  - "app/javascript/dashboard/i18n/locale"

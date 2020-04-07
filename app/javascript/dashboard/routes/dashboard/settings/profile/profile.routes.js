@@ -10,14 +10,14 @@ export default {
       roles: ['administrator', 'agent'],
       component: SettingsContent,
       props: {
-        headerTitle: 'PROFILE_SETTINGS.TITLE',
+        headerTitle: 'GENERAL_SETTINGS.TITLE',
         icon: 'ion-compose',
         showNewButton: false,
       },
       children: [
         {
           path: 'settings',
-          name: 'profile_settings_index',
+          name: 'general_settings_index',
           component: Index,
           roles: ['administrator', 'agent'],
         },

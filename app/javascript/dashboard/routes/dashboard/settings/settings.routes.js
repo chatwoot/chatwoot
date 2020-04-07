@@ -7,6 +7,7 @@ import inbox from './inbox/inbox.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
 import integrations from './integrations/integrations.routes';
+import account from './account/account.routes';
 
 export default {
   routes: [
@@ -28,5 +29,6 @@ export default {
     ...profile.routes,
     ...reports.routes,
     ...integrations.routes,
+    ...account.routes,
   ],
 };

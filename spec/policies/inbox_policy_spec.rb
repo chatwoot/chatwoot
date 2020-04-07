@@ -11,7 +11,7 @@ RSpec.describe InboxPolicy, type: :policy do
   let(:agent) { create(:user, account: account) }
   let(:inbox) { create(:inbox) }
 
-  permissions :create?, :destroy? do
+  permissions :create?, :destroy?, :update?, :set_agent_bot? do
     context 'when administrator' do
       it { expect(inbox_policy).to permit(administrator, inbox) }
     end
