@@ -38,6 +38,7 @@ class Inbox < ApplicationRecord
   has_many :messages, through: :conversations
 
   has_one :agent_bot_inbox, dependent: :destroy
+  has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy
 
   after_create :subscribe_webhook, if: :facebook?

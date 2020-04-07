@@ -200,6 +200,83 @@
         }
       }
     },
+    "/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
+      "patch": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "updateInbox",
+        "summary": "Update Inbox",
+        "description": "Add avatar and disable auto assignment for an inbox",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "enable_auto_assignment": {
+                  "type": "boolean",
+                  "required": true,
+                  "description": "Enable Auto Assignment"
+                },
+                "avatar": {
+                  "type": "file",
+                  "required": false,
+                  "description": "Image file for avatar"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/agent_bots": {
+      "get": {
+        "tags": [
+          "AgentBot"
+        ],
+        "operationId": "listAgentBots",
+        "summary": "List all agentbots",
+        "description": "List all available agentbots for the current installation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/agent_bot"
+            }
+          },
+          "404": {
+            "description": "Inbox not found, Agent bot not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
     "/accounts/{account_id}/conversations": {
       "get": {
         "tags": [
@@ -939,6 +1016,27 @@
         "web_widget_script": {
           "type": "string",
           "description": "Script used to load the website widget"
+        }
+      }
+    },
+    "agent_bot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the agent bot"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the agent bot"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the agent bot"
+        },
+        "outgoing_url": {
+          "type": "string",
+          "description": "The webhook URL for the bot"
         }
       }
     },
