@@ -37,7 +37,7 @@ es:
 
     errors:
     signup:
-      disposable_email: Los correos electrónico desechables no son aceptados
+      disposable_email: Los correos electrónicos desechables no son aceptados
       invalid_email: El correo electrónico no es válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       failed: El registro ha fallado
