@@ -65,7 +65,9 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :inboxes, only: [:index, :destroy, :update]
+        resources :inboxes, only: [:index, :destroy, :update] do
+          post :set_agent_bot, on: :member
+        end
         resources :inbox_members, only: [:create, :show], param: :inbox_id
         resources :labels, only: [:index] do
           collection do
@@ -103,6 +105,8 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       resource :profile, only: [:show, :update]
+
+      resources :agent_bots, only: [:index]
 
       namespace :widget do
         resource :contact, only: [:update]

@@ -31,4 +31,8 @@ class InboxPolicy < ApplicationPolicy
   def destroy?
     @user.administrator?
   end
+
+  def set_agent_bot?
+    @user.administrator?
+  end
 end
