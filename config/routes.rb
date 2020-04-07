@@ -106,6 +106,8 @@ Rails.application.routes.draw do
 
       resource :profile, only: [:show, :update]
 
+      resources :agent_bots, only: [:index]
+
       namespace :widget do
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
