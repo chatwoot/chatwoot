@@ -38,9 +38,12 @@ class Account < ApplicationRecord
   after_create :notify_creation
   after_destroy :notify_deletion
 
-  def channel
-    # This should be unique for account
-    'test_channel'
+  def agents
+    users.where(account_users: { role: :agent })
+  end
+
+  def administrators
+    users.where(account_users: { role: :administrator })
   end
 
   def all_conversation_tags
