@@ -4,5 +4,8 @@ export default {
       DOWNLOAD: 'Download',
       UPLOADING: 'Uploading...',
     },
+    FORM_BUBBLE: {
+      SUBMIT: 'Submit',
+    },
   },
 };

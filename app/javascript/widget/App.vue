@@ -47,6 +47,8 @@ export default {
         window.refererURL = message.refererURL;
       } else if (message.event === 'toggle-close-button') {
         this.isMobile = message.showClose;
+      } else if (message.event === 'push-event') {
+        this.$store.dispatch('events/create', { name: message.eventName });
       } else if (message.event === 'set-label') {
         this.$store.dispatch('conversationLabels/create', message.label);
       } else if (message.event === 'remove-label') {
