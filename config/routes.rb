@@ -164,6 +164,15 @@ Rails.application.routes.draw do
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
+  devise_for :super_admins do
+    namespace :admin do
+      resources :users
+      resources :accounts
+
+      root to: 'users#index'
+    end
+  end
+
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
