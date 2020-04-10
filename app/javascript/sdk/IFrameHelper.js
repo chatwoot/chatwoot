@@ -89,7 +89,6 @@ export const IFrameHelper = {
     toggleBubble: () => {
       onBubbleClick();
       if (window.$chatwoot.isOpen) {
-        // eslint-disable-next-line
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },

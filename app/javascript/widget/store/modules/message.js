@@ -35,7 +35,6 @@ const actions = {
       );
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
-      console.log(error);
       // Ignore error
     }
     commit('toggleUpdateStatus', false);

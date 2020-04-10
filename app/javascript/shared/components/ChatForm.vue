@@ -1,6 +1,6 @@
 <template>
   <div class="form chat-bubble agent">
-    <form @submit="onSubmit">
+    <form @submit.prevent="onSubmit">
       <div v-for="item in items" :key="item.key" class="form-block">
         <label>{{ item.label }}</label>
         <input
@@ -12,7 +12,7 @@
           :disabled="!!submittedValues.length"
         />
         <textarea
-          v-if="item.type === 'text_area'"
+          v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
           :name="item.name"
           :placeholder="item.placeholder"
@@ -25,7 +25,7 @@
         type="submit"
         :disabled="!isFormValid"
       >
-        Submit
+        {{ $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
       </button>
     </form>
   </div>
@@ -59,8 +59,7 @@ export default {
     this.updateFormValues();
   },
   methods: {
-    onSubmit(e) {
-      e.preventDefault();
+    onSubmit() {
       if (!this.isFormValid) {
         return;
       }
@@ -82,31 +81,30 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .form {
-  padding: 16px;
+  padding: $space-normal;
   width: 100%;
 
   .form-block {
     max-width: 100%;
-    padding-bottom: 8px;
+    padding-bottom: $space-small;
   }
 
   label {
     display: block;
-    font-weight: 600;
-    padding: 4px 0;
+    font-weight: $font-weight-bold;
+    padding: $space-smaller 0;
     text-transform: capitalize;
   }
 
   input,
   textarea {
-    display: block;
-
-    width: 90%;
-    padding: 4px 8px;
-    line-height: 1.5;
-    border-radius: 4px;
+    border-radius: $space-smaller;
     border: 1px solid $color-border;
+    display: block;
     font-size: $font-size-default;
+    line-height: 1.5;
+    padding: $space-smaller $space-small;
+    width: 90%;
 
     &:disabled {
       background: $color-background-light;
