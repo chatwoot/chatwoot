@@ -30,7 +30,7 @@ const getConversation = ({ before }) => ({
   params: { before },
 });
 
-const updateContact = id => ({
+const updateMessage = id => ({
   url: `/api/v1/widget/messages/${id}${window.location.search}`,
 });
 
@@ -45,6 +45,6 @@ export default {
   sendMessage,
   sendAttachmnet,
   getConversation,
-  updateContact,
+  updateMessage,
   getAvailableAgents,
 };

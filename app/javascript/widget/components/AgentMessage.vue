@@ -1,42 +1,49 @@
 <template>
-  <div class="agent-message">
-    <div class="avatar-wrap">
-      <thumbnail
-        v-if="message.showAvatar"
-        :src="avatarUrl"
-        size="24px"
-        :username="agentName"
-      />
-    </div>
-    <div class="message-wrap">
-      <AgentMessageBubble
-        v-if="showTextBubble"
-        :content-type="contentType"
-        :message-content-attributes="messageContentAttributes"
-        :message-id="message.id"
-        :message-type="messageType"
-        :message="message.content"
-      />
-      <div v-if="hasAttachment" class="chat-bubble has-attachment agent">
-        <file-bubble
-          v-if="message.attachment && message.attachment.file_type !== 'image'"
-          :url="message.attachment.data_url"
-        />
-        <image-bubble
-          v-else
-          :url="message.attachment.data_url"
-          :thumb="message.attachment.thumb_url"
-          :readable-time="readableTime"
+  <div class="agent-bubble">
+    <div class="agent-message">
+      <div class="avatar-wrap">
+        <thumbnail
+          v-if="message.showAvatar || hasRecordedResponse"
+          :src="avatarUrl"
+          size="24px"
+          :username="agentName"
         />
       </div>
-      <p v-if="message.showAvatar" class="agent-name">
-        {{ agentName }}
-      </p>
+      <div class="message-wrap">
+        <AgentMessageBubble
+          v-if="showTextBubble && shouldDisplayAgentMessage"
+          :content-type="contentType"
+          :message-content-attributes="messageContentAttributes"
+          :message-id="message.id"
+          :message-type="messageType"
+          :message="message.content"
+        />
+        <div v-if="hasAttachment" class="chat-bubble has-attachment agent">
+          <file-bubble
+            v-if="
+              message.attachment && message.attachment.file_type !== 'image'
+            "
+            :url="message.attachment.data_url"
+          />
+          <image-bubble
+            v-else
+            :url="message.attachment.data_url"
+            :thumb="message.attachment.thumb_url"
+            :readable-time="readableTime"
+          />
+        </div>
+        <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
+          {{ agentName }}
+        </p>
+      </div>
     </div>
+
+    <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
   </div>
 </template>
 
 <script>
+import UserMessage from 'widget/components/UserMessage';
 import AgentMessageBubble from 'widget/components/AgentMessageBubble';
 import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble';
@@ -48,8 +55,9 @@ export default {
   name: 'AgentMessage',
   components: {
     AgentMessageBubble,
-    Thumbnail,
     ImageBubble,
+    Thumbnail,
+    UserMessage,
     FileBubble,
   },
   mixins: [timeMixin],
@@ -60,12 +68,22 @@ export default {
     },
   },
   computed: {
+    shouldDisplayAgentMessage() {
+      if (
+        this.contentType === 'input_select' &&
+        this.messageContentAttributes.submitted_values &&
+        !this.message.content
+      ) {
+        return false;
+      }
+      return true;
+    },
     hasAttachment() {
       return !!this.message.attachment;
     },
     showTextBubble() {
       const { message } = this;
-      return !!message.content;
+      return !message.attachment;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
@@ -88,25 +106,59 @@ export default {
         return 'Bot';
       }
 
-      return this.message.sender ? this.message.sender.name : '';
+      return this.message.sender ? this.message.sender.name : 'Bot';
     },
     avatarUrl() {
+      // eslint-disable-next-line
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png')
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        // eslint-disable-next-line
-        return require('dashboard/assets/images/chatwoot_bot.png');
+        return BotImage;
       }
 
-      return this.message.sender ? this.message.sender.avatar_url : '';
+      return this.message.sender ? this.message.sender.avatar_url : BotImage;
+    },
+    hasRecordedResponse() {
+      return (
+        this.messageContentAttributes.submitted_email ||
+        (this.messageContentAttributes.submitted_values &&
+          this.contentType !== 'form')
+      );
+    },
+    responseMessage() {
+      if (this.messageContentAttributes.submitted_email) {
+        return { content: this.messageContentAttributes.submitted_email };
+      }
+
+      if (this.messageContentAttributes.submitted_values) {
+        if (this.contentType === 'input_select') {
+          const [
+            selectionOption = {},
+          ] = this.messageContentAttributes.submitted_values;
+          return { content: selectionOption.title || selectionOption.value };
+        }
+      }
+      return '';
     },
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~widget/assets/scss/variables.scss';
 
 .conversation-wrap {
+  .agent-bubble {
+    margin-bottom: $space-micro;
+    & + .agent-bubble {
+      .agent-message {
+        .chat-bubble {
+          border-top-left-radius: $space-smaller;
+        }
+      }
+    }
+  }
+
   .agent-message {
     align-items: flex-end;
     display: flex;
@@ -114,6 +166,10 @@ export default {
     justify-content: flex-start;
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
+
+    & + .user-message {
+      margin-top: $space-one;
+    }
 
     .avatar-wrap {
       height: $space-medium;
@@ -144,25 +200,6 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
-  }
-}
-</style>
-<style lang="scss">
-@import '~widget/assets/scss/variables.scss';
-
-.conversation-wrap {
-  .agent-message {
-    + .agent-message {
-      margin-bottom: $space-micro;
-
-      .chat-bubble {
-        border-top-left-radius: $space-smaller;
-      }
-    }
-
-    + .user-message {
-      margin-top: $space-normal;
-    }
   }
 }
 </style>

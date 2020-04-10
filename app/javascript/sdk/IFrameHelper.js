@@ -88,6 +88,9 @@ export const IFrameHelper = {
 
     toggleBubble: () => {
       onBubbleClick();
+      if (window.$chatwoot.isOpen) {
+        IFrameHelper.pushEvent('webwidget.triggered');
+      }
     },
   },
   onLoad: ({ widget_color: widgetColor }) => {

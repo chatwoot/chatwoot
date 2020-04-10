@@ -38,11 +38,21 @@ class Message < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
+  validates_with ContentAttributeValidator
 
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
-  enum content_type: { text: 0, input: 1, input_textarea: 2, input_email: 3 }
+  enum content_type: {
+    text: 0,
+    input_text: 1,
+    input_textarea: 2,
+    input_email: 3,
+    input_select: 4,
+    cards: 5,
+    form: 6,
+    article: 7
+  }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  store :content_attributes, accessors: [:submitted_email], coder: JSON, prefix: :input
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -62,6 +72,8 @@ class Message < ApplicationRecord
                :send_reply,
                :execute_message_template_hooks,
                :notify_via_mail
+
+  after_update :dispatch_update_event
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -88,6 +100,8 @@ class Message < ApplicationRecord
       content: content,
       created_at: created_at,
       message_type: message_type,
+      content_type: content_type,
+      content_attributes: content_attributes,
       source_id: source_id,
       sender: user.try(:webhook_data),
       contact: contact.try(:webhook_data),
@@ -105,6 +119,10 @@ class Message < ApplicationRecord
     if outgoing? && conversation.messages.outgoing.count == 1
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self)
     end
+  end
+
+  def dispatch_update_event
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
   end
 
   def send_reply
