@@ -48,7 +48,7 @@ gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
-# admin pannel for installation
+# super admin
 gem 'administrate'
 
 ##--- gems for pubsub service ---##

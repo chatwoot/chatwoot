@@ -164,33 +164,22 @@ Rails.application.routes.draw do
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
-  devise_for :super_admins do
-    namespace :admin do
+  # ----------------------------------------------------------------------
+  # Internal Admin Routes
+  require 'sidekiq/web'
+
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_scope :super_admin do
+    get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
+    namespace :super_admin do
       resources :users
       resources :accounts
 
       root to: 'users#index'
     end
-  end
-
-  # ----------------------------------------------------------------------
-  # Internal Monitoring Routes
-  require 'sidekiq/web'
-
-  scope :monitoring do
-    # Sidekiq should use basic auth in production environment
-    if Rails.env.production?
-      Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-        ENV['SIDEKIQ_AUTH_USERNAME'] &&
-          ENV['SIDEKIQ_AUTH_PASSWORD'] &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_USERNAME'])) &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_PASSWORD']))
-      end
+    authenticated :super_admin do
+      mount Sidekiq::Web => '/monitoring/sidekiq'
     end
-
-    mount Sidekiq::Web, at: '/sidekiq'
   end
 
   # ---------------------------------------------------------------------
