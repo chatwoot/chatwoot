@@ -188,7 +188,10 @@ export const mutations = {
   updateMessage($state, { id, content_attributes }) {
     $state.conversations[id] = {
       ...$state.conversations[id],
-      content_attributes,
+      content_attributes: {
+        ...($state.conversations[id].content_attributes || {}),
+        ...content_attributes,
+      },
     };
   },
 };

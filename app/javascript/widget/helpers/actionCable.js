@@ -14,6 +14,9 @@ class ActionCableConnector extends BaseActionCableConnector {
 }
 
 export const refreshActionCableConnector = pubsubToken => {
+  if (!pubsubToken) {
+    return;
+  }
   window.chatwootPubsubToken = pubsubToken;
   window.actionCable.disconnect();
   window.actionCable = new ActionCableConnector(

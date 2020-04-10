@@ -10,15 +10,14 @@
 /accounts/{account_id}/inboxes/{id}:
   $ref: ./inboxes/update.yml
 /accounts/{account_id}/inboxes/{id}/set_agent_bot:
-  $ref: ./inboxes/update.yml
+  $ref: ./inboxes/set_agent_bot.yml
 
 /agent_bots:
   $ref: ./agent_bots/index.yml
 
-
 # Conversations
 /accounts/{account_id}/conversations:
-  $ref: ./conversation/list.yml
+  $ref: ./conversation/index_or_create.yml
 /accounts/{account_id}/conversations/{id}:
   $ref: ./conversation/crud.yml
 /accounts/{account_id}/conversations/{id}/toggle_status:

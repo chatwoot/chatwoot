@@ -15,8 +15,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def update
-    @message.update!(input_submitted_email: contact_email)
-    update_contact(contact_email)
+    if @message.content_type == 'input_email'
+      @message.update!(submitted_email: contact_email)
+      update_contact(contact_email)
+    else
+      @message.update!(message_update_params[:message])
+    end
   rescue StandardError => e
     render json: { error: @contact.errors, message: e.message }.to_json, status: 500
   end
@@ -114,6 +118,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   def contact_name
     contact_email.split('@')[0]
+  end
+
+  def message_update_params
+    params.permit(message: [submitted_values: [:name, :title, :value]])
   end
 
   def permitted_params

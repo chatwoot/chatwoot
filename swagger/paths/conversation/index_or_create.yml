@@ -37,3 +37,39 @@ get:
       description: Bad Request Error
       schema:
         $ref: '#/definitions/bad_request_error'
+    description: Access denied
+
+post:
+  tags:
+    - Conversation
+  operationId: newConversation
+  summary: Create New Conversation
+  description: Create conversation
+  parameters:
+    - name: data
+      in: body
+      required: true
+      schema:
+        type: object
+        properties:
+          source_id:
+            type: string
+            description: Contact Source Id
+
+  responses:
+    200:
+      description: Success
+      schema:
+        type: object
+        properties:
+          id:
+            type: number
+            description: ID of the conversation
+          account_id:
+            type: number
+            description: Account Id
+          inbox_id:
+            type: number
+            description: ID of the inbox
+    403:
+      description: Access denied

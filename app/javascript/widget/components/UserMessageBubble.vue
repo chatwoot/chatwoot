@@ -48,7 +48,7 @@ export default {
   padding: $space-small $space-normal;
   text-align: left;
 
-  a {
+  > a {
     color: $color-primary;
     word-break: break-all;
   }
@@ -56,7 +56,7 @@ export default {
   &.user {
     border-bottom-right-radius: $space-smaller;
 
-    a {
+    > a {
       color: $color-white;
     }
   }

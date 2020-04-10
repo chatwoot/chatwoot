@@ -201,13 +201,13 @@
       }
     },
     "/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
-      "patch": {
+      "post": {
         "tags": [
           "Inbox"
         ],
-        "operationId": "updateInbox",
-        "summary": "Update Inbox",
-        "description": "Add avatar and disable auto assignment for an inbox",
+        "operationId": "updateAgentBot",
+        "summary": "Add or remove agent bot",
+        "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
         "parameters": [
           {
             "name": "id",
@@ -223,29 +223,21 @@
             "schema": {
               "type": "object",
               "properties": {
-                "enable_auto_assignment": {
-                  "type": "boolean",
+                "agent_bot": {
+                  "type": "number",
                   "required": true,
-                  "description": "Enable Auto Assignment"
-                },
-                "avatar": {
-                  "type": "file",
-                  "required": false,
-                  "description": "Image file for avatar"
+                  "description": "Agent bot ID"
                 }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/inbox"
-            }
+          "204": {
+            "description": "Success"
           },
           "404": {
-            "description": "Inbox not found"
+            "description": "Inbox not found, Agent bot not found"
           },
           "403": {
             "description": "Access denied"
@@ -340,6 +332,56 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
+          },
+          "description": "Access denied"
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "newConversation",
+        "summary": "Create New Conversation",
+        "description": "Create conversation",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "source_id": {
+                  "type": "string",
+                  "description": "Contact Source Id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "ID of the conversation"
+                },
+                "account_id": {
+                  "type": "number",
+                  "description": "Account Id"
+                },
+                "inbox_id": {
+                  "type": "number",
+                  "description": "ID of the inbox"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
           }
         }
       }
@@ -881,6 +923,10 @@
         "messages": {
           "type": "array"
         },
+        "account_id": {
+          "type": "number",
+          "description": "Account Id"
+        },
         "inbox_id": {
           "type": "number",
           "description": "ID of the inbox"
@@ -920,6 +966,20 @@
         "content": {
           "type": "string",
           "description": "The text content of the message"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "input_select",
+            "cards",
+            "form"
+          ],
+          "description": "The type of the template message"
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "The content attributes for each content_type"
         },
         "message_type": {
           "type": "string",
@@ -1350,7 +1410,7 @@
           "description": "ID of the conversation",
           "required": true
         },
-        "message": {
+        "content": {
           "type": "string",
           "description": "The content of the message",
           "required": true
@@ -1358,6 +1418,18 @@
         "private": {
           "type": "boolean",
           "description": "Flag to identify if it is a private note"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "input_select",
+            "form",
+            "cards"
+          ]
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "options/form object"
         }
       }
     }
