@@ -174,6 +174,8 @@ Rails.application.routes.draw do
     namespace :super_admin do
       resources :users
       resources :accounts
+      resources :super_admins
+      resources :access_tokens
 
       root to: 'users#index'
     end
