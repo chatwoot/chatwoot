@@ -1,6 +1,13 @@
 Rails.application.configure do
   # Prepare the ingress controller used to receive mail
-  # config.action_mailbox.ingress = :relay
+
+  # Set this to appropriate ingress service for which the options are :
+  # :relay for Exim, Postfix, Qmail
+  # :mailgun for Mailgun
+  # :mandrill for Mandrill
+  # :postmark for Postmark
+  # :sendgrid for Sendgrid
+  config.action_mailbox.ingress = :sendgrid
 
   # Settings specified here will take precedence over those in config/application.rb.
 
