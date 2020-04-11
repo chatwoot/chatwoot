@@ -24,24 +24,35 @@ class ConversationMailbox < ApplicationMailbox
       content: processed_mail.content,
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',
-      source_id: processed_mail.message_id
+      content_type: 'incoming_email',
+      source_id: processed_mail.message_id,
+      content_attributes: {
+        email: processed_mail.serialized_data
+      }
     )
   end
 
   def add_attachments_to_message
-    # add attachments
-    # processed_mail.attachments
+    processed_mail.attachments.each do |mail_attachment|
+      attachment = @message.attachments.new(
+        account_id: @conversation.account_id,
+        file_type: 'file'
+      )
+      attachment.file.attach(mail_attachment)
+    end
+    @message.save!
   end
 
   def conversation_uuid_from_to_address
     mail.to.each do |email|
       username = email.split('@')[0]
-      match_result = username.match(EMAIL_PART_PATTERN)
+      match_result = username.match(ApplicationMailbox::REPLY_EMAIL_USERNAME_PATTERN)
       if match_result
         @conversation_uuid = match_result.captures
-        return true
+        break
       end
     end
+    @conversation_uuid
   end
 
   def verify_decoded_params
