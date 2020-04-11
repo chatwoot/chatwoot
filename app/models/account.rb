@@ -10,8 +10,19 @@
 #
 
 class Account < ApplicationRecord
+  # used for single column multi flags
+  include FlagShihTzu
+
   include Events::Types
   include Reportable
+
+  DEFAULT_QUERY_SETTING = {
+    flag_query_mode: :bit_operator
+  }.freeze
+
+  ACCOUNT_SETTINGS_FLAGS = {
+    1 => :domain_emails_enabled
+  }.freeze
 
   validates :name, presence: true
 
@@ -31,6 +42,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 

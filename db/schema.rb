@@ -43,6 +43,9 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
+    t.string "domain", limit: 100
+    t.string "support_email", limit: 100
+    t.integer "settings_flags", default: 0, null: false
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|

@@ -24,4 +24,12 @@ class ConversationReplyMailer < ApplicationMailer
     subject_line = last_message&.content&.truncate(trim_length) || 'New messages on this conversation'
     "[##{@conversation.display_id}] #{subject_line}"
   end
+
+  def reply_email
+    if @conversation.account.domain_emails_enabled? && @conversation.account.domain.present?
+      "reply+to+#{@conversation.uuid}@#{@conversation.account.domain}"
+    else
+      @agent&.email
+    end
+  end
 end
