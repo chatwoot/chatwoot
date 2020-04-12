@@ -1,0 +1,100 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agentes",
+    "HEADER_BTN_TXT": "Añadir agente",
+    "LOADING": "Se esta recogiendo la lista de agentes",
+    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Un <b>Agente</b> es un miembro de tu equipo de soporte al cliente. </p><p> Los agents podran ver y responder los mensajes de vuestros usuarios. La lista muestra todos los agentes que hay actualmente en tu cuenta. </p><p> Clica en <b>Añadir Agente</b> para añadir un nuevo agente. El agente recibirá un correo electrónico con un enlace de confirmación para activar su cuenta. Después del cual podra acceder a Chatwoot y responder a los mensajes. </p><p> El acceso a las funciones de Chatwoot se basa en los siguientes roles. </p><p> <b>Agente</b> - los agentes con este rol solo podran acceder a bandejas de entrada, informes y conversaciones. </p><p> <b>Administrador</b> - El/La administrador/a tendrá acceso a todas las funciones de Chatwoot habilitadas para tu cuenta, incluidas las configuraciones y la facturación, junto a todos los privilegios de los agentes normales.</p>",
+    "AGENT_TYPES": [
+      {
+        "name": "administrador",
+        "label": "Administrador"
+      }, {
+        "name": "agente",
+        "label": "Agente"
+      }
+    ],
+    "LIST": {
+      "404": "There are no agents associated to this account",
+      "TITLE": "Manage agents in your team",
+      "DESC": "You can add/remove agents to/in your team.",
+      "NAME": "Name",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "VERIFIED": "Verified",
+      "VERIFICATION_PENDING": "Verification Pending"
+    },
+    "ADD": {
+      "TITLE": "Add agent to your team",
+      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "FORM": {
+        "NAME" : {
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
+        },
+        "AGENT_TYPE" : {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL" : {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "SUBMIT": "Add Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep it "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit agent",
+      "FORM": {
+        "NAME" : {
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
+        },
+        "AGENT_TYPE" : {
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
+        },
+        "EMAIL" : {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "SUBMIT": "Edit Agent"
+      },
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Reset Password",
+        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
+        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No agents found."
+    }
+  }
+}
