@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Facturació",
+    "LOADING": "S'estan obtenin les suscripcions",
+    "ACCOUNT_STATE": "Estat del compte",
+    "AGENT_COUNT": "Compte d'agent",
+    "PER_AGENT_COST": "Per cost d'agent",
+    "TOTAL_COST": "Cost total",
+    "BUTTON": {
+      "ADD": "Afegir mètode de pagament",
+      "EDIT": "EDITAR Mètode de pagament"
+    },
+    "TRIAL": {
+      "TITLE": "S'ha acabat el període de prova",
+      "MESSAGE": "Afegiu un mètode de pagament per continuar utilitzant Chatwoot."
+    },
+    "ACCOUNT_LOCKED": "El seu compte no està disponible de moment. <br>Poseu-vos en contacte amb l'administrador per reactivar-lo."
+  }
+}
