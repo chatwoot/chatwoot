@@ -19,23 +19,23 @@
 zh-CN:
   hello: "Hello world"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
+    reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Wir erlauben keine Einweg-E-Mails
+      invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
+      email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
+      failed: Anmeldung gescheitert
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
+        resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
+        open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
       assignee:
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        assigned: "%{user_name} von %{assignee_name} zugewiesen"
+        removed: "Gespräch nicht zugewiesen von %{user_name}"
     templates:
-      typical_reply_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      typical_reply_message_body: "%{account_name} Antworten in der Regel in wenigen Stunden."
+      ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
+      email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
