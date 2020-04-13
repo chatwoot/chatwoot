@@ -8,7 +8,8 @@
       {
         "name": "administrator",
         "label": "Administrator"
-      }, {
+      },
+      {
         "name": "agent",
         "label": "Agent"
       }
@@ -28,16 +29,16 @@
       "TITLE": "Fügen Sie Ihrem Team einen Agenten hinzu",
       "DESC": "Sie können Personen hinzufügen, die die Unterstützung für Ihre Posteingänge übernehmen können.",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agentenname",
           "PLACEHOLDER": "Bitte geben Sie einen Namen des Agenten ein"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agententyp",
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Agententyp ist erforderlich"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },
@@ -65,16 +66,16 @@
     "EDIT": {
       "TITLE": "Agent bearbeiten",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agentenname",
           "PLACEHOLDER": "Bitte geben Sie einen Namen des Agenten ein"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agententyp",
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Agententyp ist erforderlich"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },
