@@ -8,7 +8,8 @@
       {
         "name": "administrator",
         "label": "Administrator"
-      }, {
+      },
+      {
         "name": "agent",
         "label": "Agent"
       }
@@ -28,16 +29,16 @@
       "TITLE": "Add agent to your team",
       "DESC": "You can add people who will be able to handle support for your inboxes.",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agent Name",
           "PLACEHOLDER": "Please enter a name of the agent"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agent Type",
           "PLACEHOLDER": "Please select a type",
           "ERROR": "Agent type is required"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
@@ -65,16 +66,16 @@
     "EDIT": {
       "TITLE": "Edit agent",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agent Name",
           "PLACEHOLDER": "Please enter a name of the agent"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agent Type",
           "PLACEHOLDER": "Please select a type",
           "ERROR": "Agent type is required"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
