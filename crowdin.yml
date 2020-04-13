@@ -1,0 +1,6 @@
+files:
+  - source: app/javascript/dashboard/i18n/locale/en/*.json
+    translation: >-
+      app/javascript/dashboard/i18n/locale/%two_letters_code%/%original_file_name%
+  - source: config/locales/*.yml
+    translation: config/locales/%two_letters_code%.yml
