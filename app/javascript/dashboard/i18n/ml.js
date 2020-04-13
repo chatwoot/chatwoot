@@ -1,7 +1,7 @@
-import en from './locale/en';
+import ml from './locale/ml';
 
 export default {
-  ...en,
+  ...ml,
   APP_GLOBAL: {
     TRIAL_MESSAGE: 'ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.',
     TRAIL_BUTTON: 'ഇപ്പോൾ വാങ്ങുക',
