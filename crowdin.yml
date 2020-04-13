@@ -1,6 +1,8 @@
 files:
-  - source: app/javascript/dashboard/i18n/locale/en/*.json
+  - source: /app/javascript/dashboard/i18n/locale/en/*.json
     translation: >-
-      app/javascript/dashboard/i18n/locale/%two_letters_code%/%original_file_name%
-  - source: config/locales/*.yml
-    translation: config/locales/%two_letters_code%.yml
+      /app/javascript/dashboard/i18n/locale/%two_letters_code%/%original_file_name%
+  - source: /config/locales/en.yml
+    translation: /config/locales/%two_letters_code%.yml
+  - source: /config/locales/devise.en.yml
+    translation: /config/locales/devise.%two_letters_code%.yml
