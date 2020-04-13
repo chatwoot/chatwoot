@@ -1,0 +1,27 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Account settings",
+    "SUBMIT": "Update settings",
+    "UPDATE": {
+      "ERROR": "Could not update settings, try again!",
+      "SUCCESS": "Successfully updated account settings"
+    },
+    "FORM": {
+      "ERROR": "Please fix form errors",
+      "GENERAL_SECTION": {
+        "TITLE": "General settings",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Account name",
+        "PLACEHOLDER": "Your account name",
+        "ERROR": "Please enter a valid account name"
+      },
+      "LANGUAGE": {
+        "LABEL": "Site language (Beta)",
+        "PLACEHOLDER": "Your account name",
+        "ERROR": ""
+      }
+    }
+  }
+}
