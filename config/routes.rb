@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resource :widget, only: [:show]
 
+  get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------
