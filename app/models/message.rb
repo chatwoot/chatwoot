@@ -162,7 +162,7 @@ class Message < ApplicationRecord
     end
   end
 
-  def validate_attachments_limit
+  def validate_attachments_limit(_attachment)
     errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 end
