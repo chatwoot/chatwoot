@@ -12,7 +12,7 @@
       "UPDATE_IMAGE": "Puja imatge",
       "PROFILE_SECTION" : {
         "TITLE": "Perfil",
-        "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió.",
+        "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
       },
       "PASSWORD_SECTION" : {
         "TITLE": "Contrasenya",

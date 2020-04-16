@@ -13,13 +13,13 @@ export default {
     },
     FILE_BUBBLE: {
       DOWNLOAD: 'Descarrega',
-      UPLOADING: 'S\'està pujant...',
+      UPLOADING: "S'està pujant...",
     },
   },
-  CONFIRM_EMAIL: 'S\'està verificant...',
+  CONFIRM_EMAIL: "S'està verificant...",
   SETTINGS: {
     INBOXES: {
-      NEW_INBOX: 'Afegeix una safata d\'entrada',
+      NEW_INBOX: "Afegeix una safata d'entrada",
     },
   },
   SIDEBAR: {
@@ -28,7 +28,7 @@ export default {
     SETTINGS: 'Configuració',
     HOME: 'Inici',
     AGENTS: 'Agents',
-    INBOXES: 'Safates d\'entrada',
+    INBOXES: "Safates d'entrada",
     CANNED_RESPONSES: 'Respostes Predeterminades',
     BILLING: 'Facturació',
     INTEGRATIONS: 'Integracions',
