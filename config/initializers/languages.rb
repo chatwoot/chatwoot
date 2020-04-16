@@ -15,5 +15,6 @@ LANGUAGES_CONFIG = {
   10 => { name: 'Russian', iso_639_3_code: 'rus', iso_639_1_code: 'ru' },
   11 => { name: 'Chinese', iso_639_3_code: 'zho', iso_639_1_code: 'zh' },
   12 => { name: 'Spanish', iso_639_3_code: 'spa', iso_639_1_code: 'es' },
-  13 => { name: 'Malayalam', iso_639_3_code: 'mal', iso_639_1_code: 'ml' }
+  13 => { name: 'Malayalam', iso_639_3_code: 'mal', iso_639_1_code: 'ml' },
+  14 => { name: 'Catalan', iso_639_3_code: 'cat', iso_639_1_code: 'ca' }
 }.freeze
