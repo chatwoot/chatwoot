@@ -1,0 +1,138 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Safates d'entrada",
+    "SIDEBAR_TXT": "<p><b>Safata d'entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de facebook a Chatwoot, es diu <b>Safata d'entrada</b>. Teniu bústies d'entrada il·limitades al vostre compte de Chatwoot. </p><p> Feu click a <b>Afegir safata d'entrada</b> per connectar-vos a un lloc web o a una pàgina de Facebook. </p><p> Al <a href=\"/app/dashboard\">Tauler de control</a>, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-les a la pestanya `Converses`. </p><p> També pots veure converses específiques per a una safata d’entrada si feu clic al nom de la safata d'entrada, al panell esquerre de la taula. </p>",
+    "LIST": {
+      "404": "No hi ha cap safata d'entrada connectat a aquest compte."
+    },
+    "CREATE_FLOW": [
+      { "title": "Triar canal", "route": "settings_inbox_new", "body": "Trieu el proveïdor que vulgueu integrar amb Chatwoot." },
+      { "title": "Crear safata d'entrada", "route": "settings_inboxes_page_channel", "body": "Autentiqueu el vostre compte i creeu una safata d'entrada." },
+      { "title": "Afegir agents", "route": "settings_inboxes_add_agents", "body": "Afegir agents a la safata d'entrada creada." },
+      { "title": "Voila!", "route": "settings_inbox_finish", "body": "Ja estàs preparat!" }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats."
+      },
+      "TWITTER": {
+        "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Canal Web",
+        "DESC": "Crea un canal per al vostre lloc web i comença a donar suport als vostres clients mitjançant el teu widget del lloc web.",
+        "LOADING_MESSAGE": "S'està creant el canal de suport web",
+        "CHANNEL_NAME": {
+          "LABEL": "Nom del lloc web",
+          "PLACEHOLDER": "Introduïu el nom del vostre lloc web (per exemple, Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Domini del lloc web",
+          "PLACEHOLDER": "Introduïu el vostre domini de lloc web (pe: acme.com)"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Color del Widget",
+          "PLACEHOLDER": "Actualitza el color del widget"
+        },
+        "SUBMIT_BUTTON":"Crea la safata entrada"
+      },
+      "TWILIO": {
+        "TITLE": "Canal Twilio SMS",
+        "DESC": "Integra Twilio i comença a donar suport als teus clients mitjançant SMS.",
+        "ACCOUNT_SID": {
+          "LABEL": "Compte SID",
+          "PLACEHOLDER": "Introduïu el vostre compte Twilio SID",
+          "ERROR": "Aquest camp és obligatori"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Introduïu el vostre Twilio Auth Token",
+          "ERROR": "Aquest camp és obligatori"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nom del canal",
+          "PLACEHOLDER": "Introduïu el nom del canal",
+          "ERROR": "Aquest camp és obligatori"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de telèfon",
+          "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
+          "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
+        },
+        "SUBMIT_BUTTON": "Crear un canal Twilio",
+        "API": {
+          "ERROR_MESSAGE": "No hem pogut autenticar les credencials de Twilio, prova de nou"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Canals",
+        "DESC": "Actualment estan suportats widgets de xat en directe per a llocs web, pàgines de Facebook i perfils de Twitter. Estem treballant en més plataformes com Whatsapp, correu electrònic, Telegram i Line, que estaran disponibles en breu"
+      },
+      "AGENTS": {
+        "TITLE": "Agents",
+        "DESC": "Aquí podeu afegir agents per gestionar la vostra safata d'entrada de nova creació. Només aquests agents seleccionats tindran accés a la vostra safata d'entrada. Els agents que no formen part d'aquesta safata d'entrada no podran veure ni respondre als missatges d'aquesta safata d'entrada quan s’inicien. <br><b>PD:</b> Com a administrador, si necessiteu accés a totes les bústies d’entrada, heu d’afegir-vos com a agent a totes les bústies de sortida que creeu."
+      },
+      "DETAILS": {
+        "TITLE": "Detalls de la safata d'entrada",
+        "DESC": "Des del següent menú desplegable, seleccioneu la pàgina de Facebook que voleu connectar a Chatwoot. També podeu donar un nom personalitzat a la safata d'entrada per a una millor identificació."
+      },
+      "FINISH":{
+        "TITLE": "L'has clavat!",
+        "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb Chatwoot. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a Chatwoot. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "S'està autenticant amb Facebook...",
+      "ERROR_FB_AUTH": "Alguna cosa ha anat malament, actualitza la pàgina ...",
+      "CREATING_CHANNEL": "S'està creant la safata d'entrada...",
+      "TITLE": "Configura els detalls de la safata d'entrada",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Afegir agents",
+      "ADD_AGENTS": "S'estan afegint agents a la vostre safata d'entrada..."
+    },
+    "FINISH": {
+      "TITLE": "La vostra safata d'entrada està a punt!",
+      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
+      "BUTTON_TEXT": "Porta'm allà",
+      "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
+    },
+    "REAUTH": "Reautoritza",
+    "VIEW": "Veure",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "El color del widget s'ha actualitzat correctament",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assignació automàtica actualitzada correctament",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar el color del widget. Torneu-ho a provar més endavant."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Habilita",
+        "DISABLED": "Inhabilita"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Suprimeix",
+      "CONFIRM": {
+        "TITLE": "Confirma esborrat",
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra ",
+        "NO": "No, manten-la "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "S'ha suprimit la safata d'entrada correctament",
+        "ERROR_MESSAGE": "No s'ha pogut eliminar la safata d'entrada. Torneu-ho a provar més endavant."
+      }
+    },
+    "SETTINGS": "Configuracions",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Script del missatger",
+      "MESSENGER_SUB_HEAD": "Col·loca aquest botó dins de l'etiqueta body",
+      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
+      "UPDATE": "Actualitza",
+      "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses"
+    }
+  }
+}
