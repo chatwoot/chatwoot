@@ -33,15 +33,15 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing message with attachment' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        params = { content: 'test-message', attachment: { file: file } }
+        params = { content: 'test-message', attachments: [file] }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(conversation.messages.last.attachment.file.present?).to eq(true)
-        expect(conversation.messages.last.attachment.file_type).to eq('image')
+        expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+        expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
     end
 
