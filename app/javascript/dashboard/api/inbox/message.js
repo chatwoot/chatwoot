@@ -22,7 +22,7 @@ class MessageApi extends ApiClient {
 
   sendAttachment([conversationId, { file }]) {
     const formData = new FormData();
-    formData.append('attachment[file]', file);
+    formData.append('attachments[]', file, file.name);
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,

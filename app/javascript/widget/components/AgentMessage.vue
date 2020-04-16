@@ -19,18 +19,18 @@
           :message="message.content"
         />
         <div v-if="hasAttachment" class="chat-bubble has-attachment agent">
-          <file-bubble
-            v-if="
-              message.attachment && message.attachment.file_type !== 'image'
-            "
-            :url="message.attachment.data_url"
-          />
-          <image-bubble
-            v-else
-            :url="message.attachment.data_url"
-            :thumb="message.attachment.thumb_url"
-            :readable-time="readableTime"
-          />
+          <div v-for="attachment in message.attachments" :key="attachment.id">
+            <file-bubble
+              v-if="attachment.file_type !== 'image'"
+              :url="attachment.data_url"
+            />
+            <image-bubble
+              v-else
+              :url="attachment.data_url"
+              :thumb="attachment.thumb_url"
+              :readable-time="readableTime"
+            />
+          </div>
         </div>
         <p v-if="message.showAvatar || hasRecordedResponse" class="agent-name">
           {{ agentName }}
@@ -79,11 +79,11 @@ export default {
       return true;
     },
     hasAttachment() {
-      return !!this.message.attachment;
+      return !!this.message.attachments;
     },
     showTextBubble() {
       const { message } = this;
-      return !message.attachment;
+      return !message.attachments;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

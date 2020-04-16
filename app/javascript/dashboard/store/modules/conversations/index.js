@@ -124,10 +124,11 @@ const mutations = {
 
   [types.default.SEND_MESSAGE](_state, data) {
     const [chat] = getSelectedChatConversation(_state);
-    const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(data.id)) {
-      chat.messages.push(data);
-    }
+    const allMessages = (chat.messages || []).filter(
+      message => message.id !== data.id
+    );
+    allMessages.push(data);
+    chat.messages = allMessages;
   },
 
   [types.default.ADD_MESSAGE](_state, message) {

@@ -192,7 +192,7 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
-      const response = MessageApi.sendAttachment(data);
+      const response = await MessageApi.sendAttachment(data);
       commit(types.default.SEND_MESSAGE, response.data);
     } catch (error) {
       // Handle error
