@@ -15,6 +15,10 @@ export default {
       DOWNLOAD: 'Herunterladen',
       UPLOADING: 'Hochladen...',
     },
+
+    FORM_BUBBLE: {
+      SUBMIT: 'Einreichen',
+    },
   },
   CONFIRM_EMAIL: 'Überprüfen...',
   SETTINGS: {

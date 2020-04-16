@@ -51,11 +51,12 @@ class Channel::WebWidget < ApplicationRecord
   def create_contact_inbox
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(name: ::Haikunator.haikunate(1000))
-      ::ContactInbox.create!(
+      contact_inbox = ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
         source_id: SecureRandom.uuid
       )
+      contact_inbox
     rescue StandardError => e
       Rails.logger e
     end

@@ -28,7 +28,9 @@ Chatwoot currently supports webhooks for message creation only. Once a new messa
   "id": "1", // Message ID
   "content": "Hi", // Content of the message
   "created_at": "2020-03-03 13:05:57 UTC", // Time at which the message was sent
-  "message_type": "incoming", // This will have a type incoming or outgoing. Incoming messages are sent by the user from the widget, Outgoing messages are sent by the agent to the user.
+  "message_type": "incoming", // This will have a type incoming, outgoing or template. Incoming messages are sent by the user from the widget, Outgoing messages are sent by the agent to the user.
+  "content_type": "enum", // This is an enum, it can be input_select, cards, form or text. The message_type will be template if content_type is one og these. Default value is text
+  "content_attributes": {} // This will an object, different values are defined below
   "source_id": "", // This would the external id if the inbox is a Twitter or Facebook integration.
   "sender": { // This would provide the details of the agent who sent this message
     "id": "1",
@@ -57,5 +59,72 @@ Chatwoot currently supports webhooks for message creation only. Once a new messa
     "id": "1",
     "name": "Chatwoot",
   }
+}
+```
+
+### Content Attributes
+
+#### 1. Options
+
+```json
+{
+  "items": [
+    {
+      "title": "Option 1",
+      "value": "option_1"
+    },
+    {
+      "title": "Option 2",
+      "value": "option_2"
+    }
+  ],
+  "submitted_values": [
+    {
+      "title": "Option 1",
+      "value": "option_1"
+    }
+  ]
+}
+```
+
+#### 2. Form
+
+```json
+{
+  "items": [
+    {
+      "type": "text/text_area/email",
+      "placeholder": "Placeholder",
+      "name": "unique_name_of_the_field",
+      "label": "Label"
+    },
+  ],
+  "submitted_values": [
+    {
+      "name": "unique_name_of_the_field 1",
+      "value": "sample_value"
+    }
+  ]
+}
+```
+
+#### 3. Cards
+
+```json
+{
+  "items": [
+    {
+      "media_url": "", // Url of the image to be displayed
+      "title": "", // Title of the card
+      "description": "", // Description of the card
+      "actions": [
+        {
+          "type": "link",
+          "text": "View More",
+          "uri": "" // Link to the website
+        }
+      ]
+    },
+  ],
 }
 ```
