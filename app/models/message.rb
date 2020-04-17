@@ -87,7 +87,7 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: user.push_event_data) if user
     data
   end

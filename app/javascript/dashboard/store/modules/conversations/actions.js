@@ -145,6 +145,10 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
+  updateMessage({ commit }, message) {
+    commit(types.default.UPDATE_MESSAGE, message);
+  },
+
   addConversation({ commit }, conversation) {
     commit(types.default.ADD_CONVERSATION, conversation);
   },

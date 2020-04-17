@@ -145,6 +145,19 @@ const mutations = {
     }
   },
 
+  [types.default.UPDATE_MESSAGE](_state, currentMessage) {
+    const [chat] = _state.allConversations.filter(
+      c => c.id === currentMessage.conversation_id
+    );
+    if (!chat) return;
+    const allMessagesExceptCurrent = (chat.messages || []).filter(
+      message => message.id !== currentMessage.id
+    );
+    allMessagesExceptCurrent.push(currentMessage);
+    chat.messages = allMessagesExceptCurrent;
+    window.bus.$emit('scrollToMessage');
+  },
+
   [types.default.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
   },
