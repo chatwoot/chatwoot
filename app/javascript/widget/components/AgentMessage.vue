@@ -11,7 +11,7 @@
       </div>
       <div class="message-wrap">
         <AgentMessageBubble
-          v-if="showTextBubble && shouldDisplayAgentMessage"
+          v-if="!hasAttachments && shouldDisplayAgentMessage"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
           :message-id="message.id"
@@ -82,10 +82,6 @@ export default {
       return !!(
         this.message.attachments && this.message.attachments.length > 0
       );
-    },
-    showTextBubble() {
-      const { message } = this;
-      return !!message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
