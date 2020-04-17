@@ -18,7 +18,7 @@
           :message-type="messageType"
           :message="message.content"
         />
-        <div v-if="hasAttachment" class="chat-bubble has-attachment agent">
+        <div v-if="hasAttachments" class="chat-bubble has-attachment agent">
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <file-bubble
               v-if="attachment.file_type !== 'image'"
@@ -78,12 +78,14 @@ export default {
       }
       return true;
     },
-    hasAttachment() {
-      return !!this.message.attachments;
+    hasAttachments() {
+      return !!(
+        this.message.attachments && this.message.attachments.length > 0
+      );
     },
     showTextBubble() {
       const { message } = this;
-      return !message.attachments;
+      return !!message.content;
     },
     readableTime() {
       const { created_at: createdAt = '' } = this.message;

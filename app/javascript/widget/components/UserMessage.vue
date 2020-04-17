@@ -6,7 +6,7 @@
         :message="message.content"
         :status="message.status"
       />
-      <div v-if="hasAttachment" class="chat-bubble has-attachment user">
+      <div v-if="hasAttachments" class="chat-bubble has-attachment user">
         <div v-for="attachment in message.attachments" :key="attachment.id">
           <file-bubble
             v-if="attachment.file_type !== 'image'"
@@ -50,8 +50,10 @@ export default {
       const { status = '' } = this.message;
       return status === 'in_progress';
     },
-    hasAttachment() {
-      return !!this.message.attachments;
+    hasAttachments() {
+      return !!(
+        this.message.attachments && this.message.attachments.length > 0
+      );
     },
     showTextBubble() {
       const { message } = this;

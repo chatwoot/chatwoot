@@ -1,5 +1,5 @@
 <template>
-  <li v-if="data.attachments || data.content" :class="alignBubble">
+  <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
       <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-text
@@ -7,17 +7,19 @@
           :message="message"
           :readable-time="readableTime"
         />
-        <span v-for="attachment in data.attachments" :key="attachment.id">
-          <bubble-image
-            v-if="attachment.file_type === 'image'"
-            :url="attachment.data_url"
-            :readable-time="readableTime"
-          />
-          <bubble-file
-            v-if="attachment.file_type !== 'image'"
-            :url="attachment.data_url"
-            :readable-time="readableTime"
-          />
+        <span v-if="hasAttachments">
+          <span v-for="attachment in data.attachments" :key="attachment.id">
+            <bubble-image
+              v-if="attachment.file_type === 'image'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
+            <bubble-file
+              v-if="attachment.file_type !== 'image'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
+          </span>
         </span>
         <i
           v-if="isPrivate"
@@ -74,7 +76,7 @@ export default {
       return [0, 1, 3].includes(this.data.message_type);
     },
     hasAttachments() {
-      return !!this.data.attachments;
+      return !!(this.data.attachments && this.data.attachments.length > 0);
     },
     hasImageAttachment() {
       if (this.hasAttachments && this.data.attachments.length > 0) {

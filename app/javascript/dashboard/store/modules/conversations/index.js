@@ -122,13 +122,13 @@ const mutations = {
     _state.selectedChat.status = status;
   },
 
-  [types.default.SEND_MESSAGE](_state, data) {
+  [types.default.SEND_MESSAGE](_state, currentMessage) {
     const [chat] = getSelectedChatConversation(_state);
-    const allMessages = (chat.messages || []).filter(
-      message => message.id !== data.id
+    const allMessagesExceptCurrent = (chat.messages || []).filter(
+      message => message.id !== currentMessage.id
     );
-    allMessages.push(data);
-    chat.messages = allMessages;
+    allMessagesExceptCurrent.push(currentMessage);
+    chat.messages = allMessagesExceptCurrent;
   },
 
   [types.default.ADD_MESSAGE](_state, message) {
