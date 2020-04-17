@@ -10,7 +10,7 @@ AccountUser.create!(
   role: :administrator
 )
 
-web_widget = Channel::WebWidget.create!(account: account, website_name: 'Acme', website_url: 'https://acme.inc')
+web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
 
 inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
 InboxMember.create!(user: user, inbox: inbox)

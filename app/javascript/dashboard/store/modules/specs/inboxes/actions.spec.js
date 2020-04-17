@@ -70,29 +70,7 @@ describe('#actions', () => {
     });
   });
 
-  describe('#updateWebsiteChannel', () => {
-    it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: inboxList[0] });
-      await actions.updateWebsiteChannel({ commit }, inboxList[0]);
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
-        [types.default.EDIT_INBOXES, inboxList[0]],
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
-      ]);
-    });
-    it('sends correct actions if API is error', async () => {
-      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
-      await expect(
-        actions.updateWebsiteChannel({ commit }, inboxList[0])
-      ).rejects.toThrow(Error);
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: true }],
-        [types.default.SET_INBOXES_UI_FLAG, { isUpdating: false }],
-      ]);
-    });
-  });
-
-  describe('#updateAutoAssignment', () => {
+  describe('#updateInbox', () => {
     it('sends correct actions if API is success', async () => {
       const updatedInbox = inboxList[0];
       updatedInbox.enable_auto_assignment = false;

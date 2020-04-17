@@ -7,7 +7,7 @@ RSpec.describe '/api/v1/accounts/{account.id}/widget/inboxes', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   describe 'POST /api/v1/accounts/{account.id}/widget/inboxes' do
-    let(:params) { { website: { website_name: 'test', website_url: 'test.com', widget_color: '#eaeaea' } } }
+    let(:params) { { name: 'test', website: { website_url: 'test.com', widget_color: '#eaeaea' } } }
 
     context 'when unauthenticated user' do
       it 'returns unauthorized' do

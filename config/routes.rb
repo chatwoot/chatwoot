@@ -66,7 +66,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :inboxes, only: [:index, :destroy, :update] do
+        resources :inboxes, only: [:index, :create, :update, :destroy] do
           post :set_agent_bot, on: :member
         end
         resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -97,9 +97,6 @@ Rails.application.routes.draw do
         end
 
         resources :webhooks, except: [:show]
-        namespace :widget do
-          resources :inboxes, only: [:create, :update]
-        end
       end
 
       # end of account scoped api routes
