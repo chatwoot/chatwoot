@@ -8,7 +8,7 @@ const sendMessageAPI = async content => {
 };
 
 const sendAttachmentAPI = async attachment => {
-  const urlData = endPoints.sendAttachmnet(attachment);
+  const urlData = endPoints.sendAttachment(attachment);
   const result = await API.post(urlData.url, urlData.params);
   return result;
 };

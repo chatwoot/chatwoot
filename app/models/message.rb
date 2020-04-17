@@ -35,6 +35,8 @@
 class Message < ApplicationRecord
   include Events::Types
 
+  NUMBER_OF_PERMITTED_ATTACHMENTS = 15
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
@@ -65,7 +67,7 @@ class Message < ApplicationRecord
   belongs_to :user, required: false
   belongs_to :contact, required: false
 
-  has_one :attachment, dependent: :destroy, autosave: true
+  has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
   after_create :reopen_conversation,
                :dispatch_event,
@@ -85,7 +87,7 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
-    data.merge!(attachment: attachment.push_event_data) if attachment
+    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: user.push_event_data) if user
     data
   end
@@ -158,5 +160,9 @@ class Message < ApplicationRecord
       # last few messages coupled together is sent rather than email for each message
       ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
+  end
+
+  def validate_attachments_limit(_attachment)
+    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 end

@@ -1,22 +1,26 @@
 <template>
-  <li v-if="data.attachment || data.content" :class="alignBubble">
+  <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
       <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
-        <bubble-image
-          v-if="data.attachment && data.attachment.file_type === 'image'"
-          :url="data.attachment.data_url"
-          :readable-time="readableTime"
-        />
-        <bubble-file
-          v-if="data.attachment && data.attachment.file_type !== 'image'"
-          :url="data.attachment.data_url"
-          :readable-time="readableTime"
-        />
         <bubble-text
           v-if="data.content"
           :message="message"
           :readable-time="readableTime"
         />
+        <span v-if="hasAttachments">
+          <span v-for="attachment in data.attachments" :key="attachment.id">
+            <bubble-image
+              v-if="attachment.file_type === 'image'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
+            <bubble-file
+              v-if="attachment.file_type !== 'image'"
+              :url="attachment.data_url"
+              :readable-time="readableTime"
+            />
+          </span>
+        </span>
         <i
           v-if="isPrivate"
           v-tooltip.top-start="toolTipMessage"
@@ -71,10 +75,16 @@ export default {
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
     },
+    hasAttachments() {
+      return !!(this.data.attachments && this.data.attachments.length > 0);
+    },
     hasImageAttachment() {
-      const { attachment = {} } = this.data;
-      const { file_type: fileType } = attachment;
-      return fileType === 'image';
+      if (this.hasAttachments && this.data.attachments.length > 0) {
+        const { attachments = [{}] } = this.data;
+        const { file_type: fileType } = attachments[0];
+        return fileType === 'image';
+      }
+      return false;
     },
     isPrivate() {
       return this.data.private;
