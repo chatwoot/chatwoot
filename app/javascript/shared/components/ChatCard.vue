@@ -52,7 +52,6 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .card-message {
-  @include border-normal;
   background: white;
   max-width: 220px;
   padding: $space-small;

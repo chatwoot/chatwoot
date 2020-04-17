@@ -1,1 +1,1 @@
-json.contact @contact
+json.contact @contact if @contact

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   resource :widget, only: [:show]
 
+  get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------
@@ -39,7 +40,7 @@ Rails.application.routes.draw do
         namespace :channels do
           resource :twilio_channel, only: [:create]
         end
-        resources :conversations, only: [:index, :show] do
+        resources :conversations, only: [:index, :create, :show] do
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -109,10 +110,11 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index]
 
       namespace :widget do
+        resources :events, only: [:create]
+        resources :messages, only: [:index, :create, :update]
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
-        resources :messages, only: [:index, :create, :update]
       end
 
       resources :webhooks, only: [] do

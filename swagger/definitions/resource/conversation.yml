@@ -5,6 +5,9 @@ properties:
     description: ID of the conversation
   messages:
     type: array
+  account_id:
+    type: number
+    description: Account Id
   inbox_id:
     type: number
     description: ID of the inbox
