@@ -93,7 +93,7 @@ describe('#mutations', () => {
     });
   });
 
-  describe('#setMessageStatus', () => {
+  describe('#updateAttachmentMessageStatus', () => {
     it('Updates status of loading messages if payload is not empty', () => {
       const state = {
         conversations: {
@@ -113,12 +113,18 @@ describe('#mutations', () => {
         id: '1',
         content: '',
         status: 'sent',
-        attachment: {
-          file: '',
-          file_type: 'image',
-        },
+        message_type: 0,
+        attachments: [
+          {
+            file: '',
+            file_type: 'image',
+          },
+        ],
       };
-      mutations.setMessageStatus(state, { message, tempId: 'rand_id_123' });
+      mutations.updateAttachmentMessageStatus(state, {
+        message,
+        tempId: 'rand_id_123',
+      });
 
       expect(state.conversations).toEqual({
         1: {
@@ -126,10 +132,12 @@ describe('#mutations', () => {
           content: '',
           message_type: 0,
           status: 'sent',
-          attachment: {
-            file: '',
-            file_type: 'image',
-          },
+          attachments: [
+            {
+              file: '',
+              file_type: 'image',
+            },
+          ],
         },
       });
     });

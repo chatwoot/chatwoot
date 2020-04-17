@@ -99,10 +99,13 @@ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 ```
 
 ### Install imagemagick
+Chatwoot uses `imagemagick` library to resize images for showing previews and smaller size based on context.
 
 ```bash
 brew install imagemagick
 ```
+
+You can read more on installing imagemagick from source from [here](https://imagemagick.org/script/download.php).
 
 ### Install Docker
 

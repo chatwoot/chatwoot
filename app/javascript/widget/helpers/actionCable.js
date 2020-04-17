@@ -5,11 +5,16 @@ class ActionCableConnector extends BaseActionCableConnector {
     super(app, pubsubToken);
     this.events = {
       'message.created': this.onMessageCreated,
+      'message.updated': this.onMessageUpdated,
     };
   }
 
   onMessageCreated = data => {
     this.app.$store.dispatch('conversation/addMessage', data);
+  };
+
+  onMessageUpdated = data => {
+    this.app.$store.dispatch('conversation/updateMessage', data);
   };
 }
 
