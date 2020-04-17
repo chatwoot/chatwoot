@@ -101,7 +101,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { inbox: { enable_auto_assignment: false } } }
+      let(:valid_params) { {  enable_auto_assignment: false } }
 
       it 'updates inbox' do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
@@ -118,7 +118,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.avatar.attached?).to eq(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-              params: { inbox: { avatar: file } },
+              params: { avatar: file },
               headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)

@@ -18,7 +18,7 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
 
   def update
     @inbox.update(inbox_update_params.except(:channel))
-    @inbox.channel.update!(inbox_update_params[:channel]) if @inbox.channel.is_a?(Channel::WebWidget)
+    @inbox.channel.update!(inbox_update_params[:channel]) if @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
   end
 
   def set_agent_bot

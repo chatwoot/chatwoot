@@ -4,12 +4,11 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
   def register_facebook_page
     user_access_token = params[:user_access_token]
     page_access_token = params[:page_access_token]
-    page_name = params[:page_name]
     page_id = params[:page_id]
     inbox_name = params[:inbox_name]
     ActiveRecord::Base.transaction do
       facebook_channel = current_account.facebook_pages.create!(
-        name: page_name, page_id: page_id, user_access_token: user_access_token,
+        page_id: page_id, user_access_token: user_access_token,
         page_access_token: page_access_token
       )
       facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
