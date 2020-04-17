@@ -122,12 +122,13 @@ const mutations = {
     _state.selectedChat.status = status;
   },
 
-  [types.default.SEND_MESSAGE](_state, data) {
+  [types.default.SEND_MESSAGE](_state, currentMessage) {
     const [chat] = getSelectedChatConversation(_state);
-    const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(data.id)) {
-      chat.messages.push(data);
-    }
+    const allMessagesExceptCurrent = (chat.messages || []).filter(
+      message => message.id !== currentMessage.id
+    );
+    allMessagesExceptCurrent.push(currentMessage);
+    chat.messages = allMessagesExceptCurrent;
   },
 
   [types.default.ADD_MESSAGE](_state, message) {
@@ -135,12 +136,16 @@ const mutations = {
       c => c.id === message.conversation_id
     );
     if (!chat) return;
-    const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(message.id)) {
+    const previousMessageIndex = chat.messages.findIndex(
+      m => m.id === message.id
+    );
+    if (previousMessageIndex === -1) {
       chat.messages.push(message);
       if (_state.selectedChat.id === message.conversation_id) {
         window.bus.$emit('scrollToMessage');
       }
+    } else {
+      chat.messages[previousMessageIndex] = message;
     }
   },
 

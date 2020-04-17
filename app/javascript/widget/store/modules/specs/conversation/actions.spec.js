@@ -26,6 +26,13 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateMessage', () => {
+    it('sends correct mutations', () => {
+      actions.updateMessage({ commit }, { id: 1 });
+      expect(commit).toBeCalledWith('pushMessageToConversation', { id: 1 });
+    });
+  });
+
   describe('#sendMessage', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);
@@ -59,12 +66,14 @@ describe('#actions', () => {
         status: 'in_progress',
         created_at: 1466424490,
         message_type: 0,
-        attachment: {
-          thumb_url: '',
-          data_url: '',
-          file_type: 'file',
-          status: 'in_progress',
-        },
+        attachments: [
+          {
+            thumb_url: '',
+            data_url: '',
+            file_type: 'file',
+            status: 'in_progress',
+          },
+        ],
       });
     });
   });

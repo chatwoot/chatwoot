@@ -6,6 +6,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     super(app, pubsubToken);
     this.events = {
       'message.created': this.onMessageCreated,
+      'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
       'status_change:conversation': this.onStatusChange,
       'user:logout': this.onLogout,
@@ -13,6 +14,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       'assignee.changed': this.onAssigneeChanged,
     };
   }
+
+  onMessageUpdated = data => {
+    this.app.$store.dispatch('updateMessage', data);
+  };
 
   onAssigneeChanged = payload => {
     const { meta = {}, id } = payload;

@@ -145,6 +145,10 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
+  updateMessage({ commit }, message) {
+    commit(types.default.ADD_MESSAGE, message);
+  },
+
   addConversation({ commit }, conversation) {
     commit(types.default.ADD_CONVERSATION, conversation);
   },
@@ -192,7 +196,7 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
-      const response = MessageApi.sendAttachment(data);
+      const response = await MessageApi.sendAttachment(data);
       commit(types.default.SEND_MESSAGE, response.data);
     } catch (error) {
       // Handle error

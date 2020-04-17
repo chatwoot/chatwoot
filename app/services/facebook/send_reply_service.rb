@@ -46,7 +46,7 @@ class Facebook::SendReplyService
         attachment: {
           type: 'image',
           payload: {
-            url: message.attachment.file_url
+            url: message.attachments.first.file_url
           }
         }
       }
@@ -54,7 +54,7 @@ class Facebook::SendReplyService
   end
 
   def fb_message_params
-    if message.attachment.blank?
+    if message.attachments.blank?
       fb_text_message_params
     else
       fb_attachment_message_params

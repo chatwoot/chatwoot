@@ -6,18 +6,20 @@
         :message="message.content"
         :status="message.status"
       />
-      <div v-if="hasAttachment" class="chat-bubble has-attachment user">
-        <file-bubble
-          v-if="message.attachment && message.attachment.file_type !== 'image'"
-          :url="message.attachment.data_url"
-          :is-in-progress="isInProgress"
-        />
-        <image-bubble
-          v-else
-          :url="message.attachment.data_url"
-          :thumb="message.attachment.thumb_url"
-          :readable-time="readableTime"
-        />
+      <div v-if="hasAttachments" class="chat-bubble has-attachment user">
+        <div v-for="attachment in message.attachments" :key="attachment.id">
+          <file-bubble
+            v-if="attachment.file_type !== 'image'"
+            :url="attachment.data_url"
+            :is-in-progress="isInProgress"
+          />
+          <image-bubble
+            v-else
+            :url="attachment.data_url"
+            :thumb="attachment.thumb_url"
+            :readable-time="readableTime"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -48,8 +50,10 @@ export default {
       const { status = '' } = this.message;
       return status === 'in_progress';
     },
-    hasAttachment() {
-      return !!this.message.attachment;
+    hasAttachments() {
+      return !!(
+        this.message.attachments && this.message.attachments.length > 0
+      );
     },
     showTextBubble() {
       const { message } = this;
