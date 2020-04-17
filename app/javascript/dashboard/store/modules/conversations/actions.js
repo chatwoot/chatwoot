@@ -146,7 +146,7 @@ const actions = {
   },
 
   updateMessage({ commit }, message) {
-    commit(types.default.UPDATE_MESSAGE, message);
+    commit(types.default.ADD_MESSAGE, message);
   },
 
   addConversation({ commit }, conversation) {

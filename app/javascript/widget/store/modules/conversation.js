@@ -102,7 +102,6 @@ export const actions = {
     try {
       const { data } = await sendAttachmentAPI(params);
       commit('setMessageStatus', { message: data, tempId: tempMessage.id });
-      commit('pushMessageToConversation', data);
     } catch (error) {
       // Show error
     }
@@ -124,6 +123,10 @@ export const actions = {
       playNotificationAudio();
     }
 
+    commit('pushMessageToConversation', data);
+  },
+
+  updateMessage({ commit }, data) {
     commit('pushMessageToConversation', data);
   },
 };
@@ -153,23 +156,14 @@ export const mutations = {
   },
 
   setMessageStatus($state, { message, tempId }) {
-    const { status, id } = message;
+    const { id } = message;
     const messagesInbox = $state.conversations;
 
     const messageInConversation = messagesInbox[tempId];
 
     if (messageInConversation) {
       Vue.delete(messagesInbox, tempId);
-      const { attachment } = messageInConversation;
-      if (attachment.file_type === 'file') {
-        attachment.data_url = message.attachment.data_url;
-      }
-      Vue.set(messagesInbox, id, {
-        ...messageInConversation,
-        attachment,
-        id,
-        status,
-      });
+      Vue.set(messagesInbox, id, { ...message });
     }
   },
 

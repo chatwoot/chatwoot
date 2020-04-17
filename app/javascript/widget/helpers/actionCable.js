@@ -5,7 +5,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     super(app, pubsubToken);
     this.events = {
       'message.created': this.onMessageCreated,
-      'message.udpated': this.onMessageUpdated,
+      'message.updated': this.onMessageUpdated,
     };
   }
 
