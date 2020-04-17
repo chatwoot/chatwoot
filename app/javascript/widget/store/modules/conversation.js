@@ -101,7 +101,10 @@ export const actions = {
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
-      commit('setMessageStatus', { message: data, tempId: tempMessage.id });
+      commit('updateAttachmentMessageStatus', {
+        message: data,
+        tempId: tempMessage.id,
+      });
     } catch (error) {
       // Show error
     }
@@ -155,7 +158,7 @@ export const mutations = {
     }
   },
 
-  setMessageStatus($state, { message, tempId }) {
+  updateAttachmentMessageStatus($state, { message, tempId }) {
     const { id } = message;
     const messagesInbox = $state.conversations;
 
