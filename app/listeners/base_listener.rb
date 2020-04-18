@@ -10,4 +10,9 @@ class BaseListener
     message = event.data[:message]
     [message, message.account, event.timestamp]
   end
+
+  def extract_contact_and_account(event)
+    contact = event.data[:contact]
+    [contact, contact.account, event.timestamp]
+  end
 end
