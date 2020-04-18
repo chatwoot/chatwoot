@@ -13,6 +13,9 @@ module Events::Types
   CONVERSATION_LOCK_TOGGLE = 'conversation.lock_toggle'
   ASSIGNEE_CHANGED = 'assignee.changed'
 
+  CONTACT_CREATED = 'contact.created'
+  CONTACT_UPDATED = 'contact.updated'
+
   ACCOUNT_CREATED = 'account.created'
   ACCOUNT_DESTROYED = 'account.destroyed'
 
