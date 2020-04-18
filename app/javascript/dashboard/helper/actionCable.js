@@ -8,7 +8,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
-      'status_change:conversation': this.onStatusChange,
+      'conversation.opened': this.onStatusChange,
+      'conversation.resolved': this.onStatusChange,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
       'assignee.changed': this.onAssigneeChanged,
@@ -40,7 +41,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
-    this.app.$store.dispatch('addConversation', data);
+    this.app.$store.dispatch('updateConversation', data);
   };
 }
 

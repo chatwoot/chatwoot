@@ -100,7 +100,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
-  gem 'mock_redis'
+  gem 'mock_redis', git: 'https://github.com/sds/mock_redis', ref: '16d00789f0341a3aac35126c0ffe97a596753ff9'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'rubocop', require: false
