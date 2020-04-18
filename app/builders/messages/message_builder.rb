@@ -41,7 +41,7 @@ class Messages::MessageBuilder
   def build_message
     @message = conversation.messages.create!(message_params)
     (response.attachments || []).each do |attachment|
-      attachment_obj = @message.build_attachment(attachment_params(attachment).except(:remote_file_url))
+      attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
       attachment_obj.save!
       attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
     end

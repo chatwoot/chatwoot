@@ -9,14 +9,13 @@ const sendMessage = content => ({
   },
 });
 
-const sendAttachmnet = ({ attachment }) => {
+const sendAttachment = ({ attachment }) => {
   const { refererURL = '' } = window;
   const timestamp = new Date().toString();
-  const { file, file_type: fileType } = attachment;
+  const { file } = attachment;
 
   const formData = new FormData();
-  formData.append('message[attachment][file]', file);
-  formData.append('message[attachment][file_type]', fileType);
+  formData.append('message[attachments][]', file, file.name);
   formData.append('message[referer_url]', refererURL);
   formData.append('message[timestamp]', timestamp);
   return {
@@ -43,7 +42,7 @@ const getAvailableAgents = token => ({
 
 export default {
   sendMessage,
-  sendAttachmnet,
+  sendAttachment,
   getConversation,
   updateMessage,
   getAvailableAgents,

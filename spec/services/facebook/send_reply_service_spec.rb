@@ -50,8 +50,8 @@ describe Facebook::SendReplyService do
       it 'if message with attachment is sent from chatwoot and is outgoing' do
         create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
         message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
-        message.attachment = Attachment.new(account_id: message.account_id, file_type: :image)
-        message.attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
         message.save!
         expect(bot).to have_received(:deliver)
       end
