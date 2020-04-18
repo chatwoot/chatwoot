@@ -139,10 +139,7 @@ class Message < ApplicationRecord
   end
 
   def reopen_conversation
-    if incoming? && conversation.resolved?
-      conversation.toggle_status
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: conversation)
-    end
+    conversation.open! if incoming? && conversation.resolved?
   end
 
   def execute_message_template_hooks

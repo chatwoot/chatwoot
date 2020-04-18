@@ -6,6 +6,13 @@ GIT
       oauth
 
 GIT
+  remote: https://github.com/sds/mock_redis
+  revision: 16d00789f0341a3aac35126c0ffe97a596753ff9
+  ref: 16d00789f0341a3aac35126c0ffe97a596753ff9
+  specs:
+    mock_redis (0.22.0)
+
+GIT
   remote: https://github.com/tzmfreedom/json_refs
   revision: e32deb073ce9aef39bdd63556bffd7fe7c2a803d
   ref: e32deb0
@@ -270,7 +277,6 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    mock_redis (0.22.0)
     msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
@@ -526,7 +532,7 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
-  mock_redis
+  mock_redis!
   nightfury
   pg
   pry-rails
