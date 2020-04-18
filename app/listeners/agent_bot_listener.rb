@@ -11,7 +11,7 @@ class AgentBotListener < BaseListener
     AgentBotJob.perform_later(agent_bot.outgoing_url, payload)
   end
 
-  def conversation_reopened(event)
+  def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
     return if inbox.agent_bot_inbox.blank?

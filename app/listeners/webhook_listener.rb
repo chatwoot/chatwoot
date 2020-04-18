@@ -6,7 +6,7 @@ class WebhookListener < BaseListener
     deliver_webhook_payloads(payload, inbox)
   end
 
-  def conversation_reopened(event)
+  def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
     payload = conversation.webhook_data.merge(event: __method__.to_s)

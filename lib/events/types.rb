@@ -11,7 +11,7 @@ module Events::Types
   # conversation events
   CONVERSATION_CREATED = 'conversation.created'
   CONVERSATION_READ = 'conversation.read'
-  CONVERSATION_REOPENED = 'conversation.reopened'
+  CONVERSATION_OPENED = 'conversation.opened'
   CONVERSATION_RESOLVED = 'conversation.resolved'
   CONVERSATION_LOCK_TOGGLE = 'conversation.lock_toggle'
   ASSIGNEE_CHANGED = 'assignee.changed'

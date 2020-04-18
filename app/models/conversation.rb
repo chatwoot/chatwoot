@@ -156,7 +156,7 @@ class Conversation < ApplicationRecord
 
   def notify_status_change
     {
-      CONVERSATION_REOPENED => -> { saved_change_to_status? && open? },
+      CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
