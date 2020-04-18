@@ -20,9 +20,12 @@ describe ActionCableListener do
     let(:event_name) { :'message.created' }
 
     it 'sends message to account admins, inbox agents and the contact' do
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with([admin.pubsub_token], 'message.created', message.push_event_data)
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with([agent.pubsub_token], 'message.created', message.push_event_data)
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with([conversation.contact.pubsub_token], 'message.created', message.push_event_data)
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [agent.pubsub_token, admin.pubsub_token], 'message.created', message.push_event_data
+      )
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        [conversation.contact.pubsub_token], 'message.created', message.push_event_data
+      )
       listener.message_created(event)
     end
   end

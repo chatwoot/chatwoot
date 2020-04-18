@@ -153,6 +153,24 @@ const mutations = {
     _state.allConversations.push(conversation);
   },
 
+  [types.default.UPDATE_CONVERSATION](_state, conversation) {
+    const { allConversations } = _state;
+    const currentConversationIndex = allConversations.findIndex(
+      c => c.id === conversation.id
+    );
+    if (currentConversationIndex > -1) {
+      const currentConversation = {
+        ...allConversations[currentConversationIndex],
+        status: conversation.status,
+      };
+      Vue.set(allConversations, currentConversationIndex, currentConversation);
+      if (_state.selectedChat.id === conversation.id) {
+        _state.selectedChat.status = conversation.status;
+        window.bus.$emit('scrollToMessage');
+      }
+    }
+  },
+
   [types.default.MARK_SEEN](_state) {
     _state.selectedChat.seen = true;
   },

@@ -149,8 +149,15 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
-  addConversation({ commit }, conversation) {
-    commit(types.default.ADD_CONVERSATION, conversation);
+  addConversation({ commit, state }, conversation) {
+    const { currentInbox } = state;
+    if (!currentInbox || Number(currentInbox) === conversation.inbox_id) {
+      commit(types.default.ADD_CONVERSATION, conversation);
+    }
+  },
+
+  updateConversation({ commit }, conversation) {
+    commit(types.default.UPDATE_CONVERSATION, conversation);
   },
 
   toggleTyping: async ({ commit }, { status, inboxId, contactId }) => {
