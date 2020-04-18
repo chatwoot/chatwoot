@@ -26,8 +26,15 @@ class ActionCableListener < BaseListener
     conversation = message.conversation
     contact = conversation.contact
     members = conversation.inbox.members.pluck(:pubsub_token)
-    send_to_members(members, MESSAGE_UPDATED, message.push_event_data)
+    send_to_administrators(account.administrators, MESSAGE_UPDATED, message.push_event_data)
+    send_to_agents(conversation.inbox.members, MESSAGE_UPDATED, message.push_event_data)
     send_to_contact(contact, MESSAGE_UPDATED, message)
+  end
+
+  def conversation_resolved(event)
+    conversation, account, timestamp = extract_conversation_and_account(event)
+    send_to_administrators(account.administrators, CONVERSATION_RESOLVED, conversation.push_event_data)
+    send_to_agents(conversation.inbox.members, CONVERSATION_RESOLVED, conversation.push_event_data)
   end
 
   def conversation_reopened(event)
