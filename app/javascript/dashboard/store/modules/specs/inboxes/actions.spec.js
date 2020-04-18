@@ -76,7 +76,7 @@ describe('#actions', () => {
       updatedInbox.enable_auto_assignment = false;
 
       axios.patch.mockResolvedValue({ data: updatedInbox });
-      await actions.updateAutoAssignment(
+      await actions.updateInbox(
         { commit },
         { id: updatedInbox.id, inbox: { enable_auto_assignment: false } }
       );
@@ -92,7 +92,7 @@ describe('#actions', () => {
     it('sends correct actions if API is error', async () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(
-        actions.updateAutoAssignment(
+        actions.updateInbox(
           { commit },
           { id: inboxList[0].id, inbox: { enable_auto_assignment: false } }
         )
