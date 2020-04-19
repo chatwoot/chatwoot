@@ -20,11 +20,6 @@ import { IFrameHelper } from 'widget/helpers/utils';
 
 export default {
   name: 'ChatHeaderExpanded',
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-  },
   props: {
     introHeading: {
       type: String,
@@ -35,6 +30,11 @@ export default {
       default:
         'We make it simple to connect with us. Ask us anything, or share your feedback.',
     },
+  },
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
   },
   methods: {
     closeWindow() {

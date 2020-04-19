@@ -6,7 +6,7 @@ class Twitter::AuthorizationsController < Twitter::BaseController
       ::Redis::Alfred.setex(oauth_token, account.id)
       redirect_to oauth_authorize_endpoint(oauth_token)
     else
-      redirect_to app_new_twitter_inbox_url
+      redirect_to app_new_twitter_inbox_url(account_id: account.id)
     end
   end
 

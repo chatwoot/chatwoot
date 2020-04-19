@@ -2,7 +2,7 @@ import ApiClient from '../ApiClient';
 
 class WebChannel extends ApiClient {
   constructor() {
-    super('widget/inboxes', { accountScoped: true });
+    super('inboxes', { accountScoped: true });
   }
 }
 
