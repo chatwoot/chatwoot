@@ -11,12 +11,11 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
         page_id: page_id, user_access_token: user_access_token,
         page_access_token: page_access_token
       )
-      facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
-      set_avatar(facebook_inbox, page_id)
+      @facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
+      set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
       Rails.logger e
     end
-    render json: inbox
   end
 
   def facebook_pages
