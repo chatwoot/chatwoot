@@ -83,7 +83,7 @@
         background: $color-woot;
       }
 
-      &.item {
+      & + .item {
         &::before {
           background: $color-woot;
         }
