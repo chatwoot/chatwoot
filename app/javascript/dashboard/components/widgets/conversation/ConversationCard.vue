@@ -105,15 +105,17 @@ export default {
       router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {
-      if (chatItem.content) {
-        return chatItem.content;
+      const { content, attachments } = chatItem;
+
+      if (content) {
+        return content;
       }
-      let fileType = '';
-      if (chatItem.attachment) {
-        fileType = chatItem.attachment.file_type;
-      } else {
+      if (!attachments) {
         return ' ';
       }
+
+      const [attachment] = attachments;
+      const { file_type: fileType } = attachment;
       const key = `CHAT_LIST.ATTACHMENTS.${fileType}`;
       return `
         <i class="small-icon ${this.$t(`${key}.ICON`)}"></i>

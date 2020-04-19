@@ -12,12 +12,12 @@ import DateHelper from '../../../shared/helpers/DateHelper';
 
 const groupBy = require('lodash.groupby');
 
-export const createTemporaryMessage = ({ attachment, content }) => {
+export const createTemporaryMessage = ({ attachments, content }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
     content,
-    attachment,
+    attachments,
     status: 'in_progress',
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
@@ -97,11 +97,14 @@ export const actions = {
       file_type: fileType,
       status: 'in_progress',
     };
-    const tempMessage = createTemporaryMessage({ attachment });
+    const tempMessage = createTemporaryMessage({ attachments: [attachment] });
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
-      commit('setMessageStatus', { message: data, tempId: tempMessage.id });
+      commit('updateAttachmentMessageStatus', {
+        message: data,
+        tempId: tempMessage.id,
+      });
     } catch (error) {
       // Show error
     }
@@ -123,6 +126,10 @@ export const actions = {
       playNotificationAudio();
     }
 
+    commit('pushMessageToConversation', data);
+  },
+
+  updateMessage({ commit }, data) {
     commit('pushMessageToConversation', data);
   },
 };
@@ -151,24 +158,15 @@ export const mutations = {
     }
   },
 
-  setMessageStatus($state, { message, tempId }) {
-    const { status, id } = message;
+  updateAttachmentMessageStatus($state, { message, tempId }) {
+    const { id } = message;
     const messagesInbox = $state.conversations;
 
     const messageInConversation = messagesInbox[tempId];
 
     if (messageInConversation) {
       Vue.delete(messagesInbox, tempId);
-      const { attachment } = messageInConversation;
-      if (attachment.file_type === 'file') {
-        attachment.data_url = message.attachment.data_url;
-      }
-      Vue.set(messagesInbox, id, {
-        ...messageInConversation,
-        attachment,
-        id,
-        status,
-      });
+      Vue.set(messagesInbox, id, { ...message });
     }
   },
 

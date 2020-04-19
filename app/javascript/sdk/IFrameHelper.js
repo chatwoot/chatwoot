@@ -93,7 +93,7 @@ export const IFrameHelper = {
       }
     },
   },
-  onLoad: ({ widget_color: widgetColor }) => {
+  onLoad: ({ widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);

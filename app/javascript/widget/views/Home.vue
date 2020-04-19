@@ -1,8 +1,12 @@
 <template>
   <div class="home">
     <div class="header-wrap">
-      <ChatHeaderExpanded v-if="isHeaderExpanded" />
-      <ChatHeader v-else :title="getHeaderName" />
+      <ChatHeaderExpanded
+        v-if="isHeaderExpanded"
+        :intro-heading="channelConfig.welcomeTitle"
+        :intro-body="channelConfig.welcomeTagline"
+      />
+      <ChatHeader v-else :title="channelConfig.websiteName" />
     </div>
     <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
     <ConversationWrap :grouped-messages="groupedMessages" />
@@ -45,8 +49,8 @@ export default {
     isHeaderExpanded() {
       return this.conversationSize === 0;
     },
-    getHeaderName() {
-      return window.chatwootWebChannel.website_name;
+    channelConfig() {
+      return window.chatwootWebChannel;
     },
     showAvailableAgents() {
       return this.availableAgents.length > 0 && this.conversationSize < 1;

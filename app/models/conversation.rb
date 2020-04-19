@@ -54,7 +54,7 @@ class Conversation < ApplicationRecord
 
   after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
 
-  after_create :send_events, :run_round_robin
+  after_create :notify_conversation_creation, :run_round_robin
 
   acts_as_taggable_on :labels
 
@@ -110,11 +110,7 @@ class Conversation < ApplicationRecord
     self.status = :bot if inbox.agent_bot_inbox&.active?
   end
 
-  def dispatch_events
-    dispatcher_dispatch(CONVERSATION_RESOLVED)
-  end
-
-  def send_events
+  def notify_conversation_creation
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
@@ -160,7 +156,8 @@ class Conversation < ApplicationRecord
 
   def notify_status_change
     {
-      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? && assignee.present? },
+      CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
+      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? }

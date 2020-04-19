@@ -6,7 +6,7 @@
     "ACCOUNT_NAME": {
       "LABEL": "Account Name",
       "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too small"
+      "ERROR": "Account Name is too short"
     },
     "EMAIL": {
       "LABEL": "Email",

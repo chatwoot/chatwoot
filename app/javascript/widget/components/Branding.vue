@@ -5,7 +5,7 @@
     rel="noreferrer noopener nofollow"
     target="_blank"
   >
-    <img src="~widget/assets/images/logo.svg" />
+    <img src="~widget/assets/images/logo.svg" alt="ChatwootLogo" />
     <span>Powered by Chatwoot</span>
   </a>
 </template>
@@ -36,6 +36,7 @@
   img {
     margin-right: $space-smaller;
     max-width: $space-slab;
+    max-height: $space-slab;
   }
 }
 </style>

@@ -24,8 +24,10 @@
           <label :class="{ error: $v.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
-              <option value="en">English</option>
+              <option value="ca">Catalan</option>
               <option value="de">German</option>
+              <option value="en">English</option>
+              <option value="ml">Malayalam</option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
