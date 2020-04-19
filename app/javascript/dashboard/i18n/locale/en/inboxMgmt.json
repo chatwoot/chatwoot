@@ -31,11 +31,11 @@
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Chatwidget Heading",
+          "LABEL": "Welcome Heading",
           "PLACEHOLDER": "Hi there !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Chatwidget Tagline",
+          "LABEL": "Welcome Tagline",
           "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
         },
         "CHANNEL_AGENT_AWAY_MESSAGE": {
@@ -114,7 +114,7 @@
     "VIEW": "View",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },

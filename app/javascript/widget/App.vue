@@ -17,7 +17,7 @@ export default {
     };
   },
   mounted() {
-    const { website_token: websiteToken = '' } = window.chatwootWebChannel;
+    const { websiteToken } = window.chatwootWebChannel;
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
