@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_04_135009) do
+ActiveRecord::Schema.define(version: 2020_04_17_093432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,7 +104,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_135009) do
   end
 
   create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
     t.string "page_id", null: false
     t.string "user_access_token", null: false
     t.string "page_access_token", null: false
@@ -126,7 +125,6 @@ ActiveRecord::Schema.define(version: 2020_04_04_135009) do
   end
 
   create_table "channel_twitter_profiles", force: :cascade do |t|
-    t.string "name"
     t.string "profile_id", null: false
     t.string "twitter_access_token", null: false
     t.string "twitter_access_token_secret", null: false
@@ -137,13 +135,15 @@ ActiveRecord::Schema.define(version: 2020_04_04_135009) do
   end
 
   create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
-    t.string "website_name"
     t.string "website_url"
     t.integer "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "website_token"
     t.string "widget_color", default: "#1f93ff"
+    t.string "welcome_title"
+    t.string "welcome_tagline"
+    t.string "agent_away_message"
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 

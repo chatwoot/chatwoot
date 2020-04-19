@@ -79,18 +79,7 @@ export const actions = {
       throw new Error(error);
     }
   },
-  updateWebsiteChannel: async ({ commit }, { id, ...inboxParams }) => {
-    commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
-    try {
-      const response = await WebChannel.update(id, inboxParams);
-      commit(types.default.EDIT_INBOXES, response.data);
-      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
-    } catch (error) {
-      commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
-    }
-  },
-  updateAutoAssignment: async ({ commit }, { id, ...inboxParams }) => {
+  updateInbox: async ({ commit }, { id, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, {
       isUpdatingAutoAssignment: true,
     });

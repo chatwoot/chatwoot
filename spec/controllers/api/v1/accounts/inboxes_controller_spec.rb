@@ -88,6 +88,44 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
+
+      it 'creates inbox' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('test.com')
+      end
+
+      it 'will not create inbox for agent' do
+        agent = create(:user, account: account, role: :agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account) }
 
@@ -101,7 +139,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { inbox: { enable_auto_assignment: false } } }
+      let(:valid_params) { {  enable_auto_assignment: false, channel: { website_url: 'test.com' } } }
 
       it 'updates inbox' do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
@@ -118,10 +156,11 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.avatar.attached?).to eq(false)
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
-              params: { inbox: { avatar: file } },
+              params: valid_params.merge(avatar: file),
               headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
+        expect(response.body).to include('test.com')
         inbox.reload
         expect(inbox.avatar.attached?).to eq(true)
       end

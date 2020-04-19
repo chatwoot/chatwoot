@@ -3,7 +3,6 @@
 # Table name: channel_facebook_pages
 #
 #  id                :integer          not null, primary key
-#  name              :string           not null
 #  page_access_token :string           not null
 #  user_access_token :string           not null
 #  created_at        :datetime         not null
@@ -18,22 +17,18 @@
 #
 
 class Channel::FacebookPage < ApplicationRecord
+  # FIXME: this should be removed post 1.4 release. we moved avatars to inbox
   include Avatarable
 
   self.table_name = 'channel_facebook_pages'
 
   validates :account_id, presence: true
   validates :page_id, uniqueness: { scope: :account_id }
-  has_one_attached :avatar
   belongs_to :account
 
   has_one :inbox, as: :channel, dependent: :destroy
 
   before_destroy :unsubscribe
-
-  def name
-    'Facebook'
-  end
 
   private
 

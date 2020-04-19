@@ -30,6 +30,18 @@
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_AGENT_AWAY_MESSAGE": {
+          "LABEL": "Agents Away Message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
@@ -102,7 +114,7 @@
     "VIEW": "View",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
@@ -132,7 +144,9 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations"
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
     }
   }
 }
