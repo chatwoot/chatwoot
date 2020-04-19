@@ -221,9 +221,8 @@ export default {
       return {
         user_access_token: this.user_access_token,
         page_access_token: this.selectedPage.access_token,
-        page_name: this.selectedPage.name,
         page_id: this.selectedPage.id,
-        inbox_name: this.pageName,
+        inbox_name: this.selectedPage.name,
       };
     },
 
