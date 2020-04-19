@@ -1,12 +1,15 @@
 <template>
-  <div class="row settings--form--header">
-    <div class="medium-8">
-      <p class="title">
+  <div class="row settings--section">
+    <div class="medium-4">
+      <p class="sub-block-title">
         {{ title }}
       </p>
       <p class="sub-head">
         {{ subTitle }}
       </p>
+    </div>
+    <div class="medium-6">
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -29,15 +32,15 @@ export default {
 <style lang="scss">
 @import '~dashboard/assets/scss/variables';
 
-.settings--form--header {
-  align-items: center;
-  border-top: 1px solid $color-border;
+.settings--section {
+  border-bottom: 1px solid $color-border;
   display: flex;
   padding: $space-normal 0;
 
-  .title {
+  .sub-block-title {
+    color: $color-woot;
+    font-weight: $font-weight-medium;
     margin-bottom: 0;
-    font-size: $font-size-default;
   }
 }
 </style>

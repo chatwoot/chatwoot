@@ -6,172 +6,174 @@
     />
 
     <div class="settings--content">
-      <settings-form-header
-        :title="$t('')"
+      <settings-section
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
       >
-      </settings-form-header>
-      <div v-if="inbox.channel_type === 'Channel::WebWidget'">
-        <div class="medium-12 columns">
-          <label>
-            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
-            <input
-              v-model.trim="inboxName"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-              "
-            />
-          </label>
-        </div>
-        <div class="medium-12 columns">
-          <label>
-            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL') }}
-            <input
-              v-model.trim="channelWebsiteUrl"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
-              "
-            />
-          </label>
-        </div>
-        <div class="medium-12 columns">
-          <label>
-            {{
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
-            }}
-            <input
-              v-model.trim="channelWelcomeTitle"
-              type="text"
-              :placeholder="
+        <div v-if="inbox.channel_type === 'Channel::WebWidget'">
+          <div class="medium-12 columns">
+            <label>
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
+              <input
+                v-model.trim="inboxName"
+                type="text"
+                :placeholder="
+                  $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
+                "
+              />
+            </label>
+          </div>
+          <div class="medium-12 columns">
+            <label>
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL') }}
+              <input
+                v-model.trim="channelWebsiteUrl"
+                type="text"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER'
+                  )
+                "
+              />
+            </label>
+          </div>
+          <div class="medium-12 columns">
+            <label>
+              {{
+                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
+              }}
+              <input
+                v-model.trim="channelWelcomeTitle"
+                type="text"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
+                  )
+                "
+              />
+            </label>
+          </div>
+          <div class="medium-12 columns">
+            <label>
+              {{
                 $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL'
                 )
-              "
-            />
-          </label>
-        </div>
-        <div class="medium-12 columns">
-          <label>
-            {{
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
-            }}
-            <input
-              v-model.trim="channelWelcomeTagline"
-              type="text"
-              :placeholder="
+              }}
+              <input
+                v-model.trim="channelWelcomeTagline"
+                type="text"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+                  )
+                "
+              />
+            </label>
+          </div>
+          <div class="medium-12 columns">
+            <label>
+              {{
                 $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
                 )
-              "
-            />
-          </label>
+              }}
+              <input
+                v-model.trim="channelAgentAwayMessage"
+                type="text"
+                :placeholder="
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
+                  )
+                "
+              />
+            </label>
+          </div>
+
+          <div class="medium-12 columns">
+            <label>
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+              <compact
+                v-model="inbox.widget_color"
+                class="widget-color--selector"
+              />
+            </label>
+          </div>
         </div>
-        <div class="medium-12 columns">
+
+        <div>
           <label>
-            {{
-              $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
-              )
-            }}
-            <input
-              v-model.trim="channelAgentAwayMessage"
-              type="text"
-              :placeholder="
-                $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
-                )
-              "
-            />
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
+            <select v-model="autoAssignment">
+              <option value="true">
+                {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
+              </option>
+              <option value="false">
+                {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
+              </option>
+            </select>
+            <p class="help-text">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
+            </p>
           </label>
         </div>
 
-        <div class="medium-12 columns">
-          <label>
-            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-            <compact
-              v-model="inbox.widget_color"
-              class="widget-color--selector"
-            />
-          </label>
-        </div>
-      </div>
-
-      <div>
-        <label>
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
-          <select v-model="autoAssignment">
-            <option value="true">
-              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
-            </option>
-            <option value="false">
-              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
-            </option>
-          </select>
-          <p id="autoAssignmentHelpText" class="help-text">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
-          </p>
-        </label>
-      </div>
-
-      <settings-form-footer
-        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :is-updating="uiFlags.isUpdatingInbox"
-        @update="updateInbox"
-      >
-      </settings-form-footer>
+        <woot-submit-button
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="uiFlags.isUpdatingInbox"
+          @click="updateInbox"
+        >
+        </woot-submit-button>
+      </settings-section>
     </div>
 
     <!-- update agents in inbox -->
 
     <div class="settings--content">
-      <settings-form-header
+      <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
       >
-      </settings-form-header>
-      <multiselect
-        v-model="selectedAgents"
-        :options="agentList"
-        track-by="id"
-        label="name"
-        :multiple="true"
-        :close-on-select="false"
-        :clear-on-select="false"
-        :hide-selected="true"
-        placeholder="Pick some"
-        @select="$v.selectedAgents.$touch"
-      />
-      <settings-form-footer
-        :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        :is-updating="isAgentListUpdating"
-        @update="updateAgents"
-      >
-      </settings-form-footer>
+        <multiselect
+          v-model="selectedAgents"
+          :options="agentList"
+          track-by="id"
+          label="name"
+          :multiple="true"
+          :close-on-select="false"
+          :clear-on-select="false"
+          :hide-selected="true"
+          placeholder="Pick some"
+          @select="$v.selectedAgents.$touch"
+        />
+
+        <woot-submit-button
+          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :loading="isAgentListUpdating"
+          @click="updateAgents"
+        >
+        </woot-submit-button>
+      </settings-section>
     </div>
-
-    <!-- widget script tags -->
-
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
       class="settings--content"
     >
-      <settings-form-header
+      <settings-section
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
       >
-      </settings-form-header>
-      <woot-code :script="messengerScript"></woot-code>
+        <woot-code :script="messengerScript"></woot-code>
+      </settings-section>
     </div>
     <div v-else-if="inbox.channel_type === 'Channel::WebWidget'">
       <div class="settings--content">
-        <settings-form-header
+        <settings-section
           :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
         >
-        </settings-form-header>
-        <woot-code :script="inbox.web_widget_script"></woot-code>
+          <woot-code :script="inbox.web_widget_script"></woot-code>
+        </settings-section>
       </div>
     </div>
   </div>
@@ -184,14 +186,12 @@ import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import { Compact } from 'vue-color';
 import configMixin from 'shared/mixins/configMixin';
-import SettingsFormHeader from '../../../../components/SettingsFormHeader.vue';
-import SettingsFormFooter from '../../../../components/SettingsFormFooter.vue';
+import SettingsSection from '../../../../components/SettingsSection';
 
 export default {
   components: {
     Compact,
-    SettingsFormHeader,
-    SettingsFormFooter,
+    SettingsSection,
   },
   mixins: [configMixin],
   data() {
@@ -321,3 +321,26 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
+
+.settings {
+  background: $color-white;
+
+  .settings--content {
+    &:last-child {
+      .settings--section {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .page-top-bar {
+    @include background-light;
+    @include border-normal-bottom;
+    padding: $space-normal $space-larger;
+  }
+}
+</style>

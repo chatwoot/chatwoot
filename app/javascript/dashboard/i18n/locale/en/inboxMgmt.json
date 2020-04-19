@@ -144,6 +144,7 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
     }
