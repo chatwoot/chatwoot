@@ -3,10 +3,15 @@
     <div class="header-wrap">
       <ChatHeaderExpanded
         v-if="isHeaderExpanded"
-        :intro-heading="channelConfig.welcomeTitle"
-        :intro-body="channelConfig.welcomeTagline"
+        :intro-heading="introHeading"
+        :intro-body="introBody"
+        :avatar-url="channelConfig.avatarUrl"
       />
-      <ChatHeader v-else :title="channelConfig.websiteName" />
+      <ChatHeader
+        v-else
+        :title="channelConfig.websiteName"
+        :avatar-url="channelConfig.avatarUrl"
+      />
     </div>
     <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
     <ConversationWrap :grouped-messages="groupedMessages" />
@@ -54,6 +59,15 @@ export default {
     },
     showAvailableAgents() {
       return this.availableAgents.length > 0 && this.conversationSize < 1;
+    },
+    introHeading() {
+      return this.channelConfig.welcomeTitle || 'Hi there ! 🙌🏼';
+    },
+    introBody() {
+      return (
+        this.channelConfig.welcomeTagline ||
+        'We make it simple to connect with us. Ask us anything, or share your feedback.'
+      );
     },
   },
 };

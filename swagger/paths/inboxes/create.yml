@@ -1,8 +1,8 @@
 post:
   tags:
-    - Widget
-  operationId: widgetInboxCreation
-  summary: Create a website inbox
+    - Inbox
+  operationId: inboxCreation
+  summary: Create an inbox
   description: You can create more than one website inbox in each account
   parameters:
     - name: data
@@ -11,15 +11,30 @@ post:
       schema:
         type: object
         properties:
-          website:
+          name:
+            type: string
+            description: The name of the inbox
+          avatar:
+            type: file
+            description: File for avatar image
+          channel:
             type: object
             properties:
-              website_name:
+              type:
                 type: string
-                description: The name of the inbox
+                enum: ['web_widget']
               website_url:
                 type: string
                 description: URL at which the widget will be loaded
+              welcome_title:
+                type: string
+                description: Welcome title to be displayed on the widget
+              welcome_tagline:
+                type: string
+                description: Welcome tagline to be displayed on the widget
+              agent_away_message:
+                type: string
+                description: A message which will be sent if there is not agent available. This is not available if agentbot is connected
               widget_color:
                 type: string
                 description: A Hex-color string used to customize the widget
