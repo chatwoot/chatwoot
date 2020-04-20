@@ -3,6 +3,12 @@ properties:
   id:
     type: number
     description: ID of the inbox
+  name:
+    type: string
+    description: The name of the inbox
+  website_url:
+    type: string
+    description: Website URL
   channel_type:
     type: string
     description: The type of the inbox
