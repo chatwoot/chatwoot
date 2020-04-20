@@ -1,12 +1,10 @@
-# Widget
-/accounts/{account_id}/widget/inboxes:
-  $ref: ./widget/inboxes/create.yml
-/accounts/{account_id}/widget/inboxes/${id}:
-  $ref: ./widget/inboxes/update.yml
+
 
 # Inboxes
 /accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
+/accounts/{account_id}/inboxes:
+  $ref: ./inboxes/create.yml
 /accounts/{account_id}/inboxes/{id}:
   $ref: ./inboxes/update.yml
 /accounts/{account_id}/inboxes/{id}/set_agent_bot:
