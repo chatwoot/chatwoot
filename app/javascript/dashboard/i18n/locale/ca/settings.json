@@ -3,18 +3,18 @@
     "LINK": "Configuració del Perfil",
     "TITLE": "Configuració del Perfil",
     "BTN_TEXT": "Actualització del Perfil",
-    "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat.",
+    "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
     "FORM": {
       "AVATAR": "Imatge del Perfil",
       "ERROR": "Corregiu els errors del formulari",
       "REMOVE_IMAGE": "Suprimeix",
       "UPLOAD_IMAGE": "Puja imatge",
       "UPDATE_IMAGE": "Puja imatge",
-      "PROFILE_SECTION" : {
+      "PROFILE_SECTION": {
         "TITLE": "Perfil",
         "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
       },
-      "PASSWORD_SECTION" : {
+      "PASSWORD_SECTION": {
         "TITLE": "Contrasenya",
         "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius."
       },
@@ -22,7 +22,7 @@
         "TITLE": "Token d'accés",
         "NOTE": "Aquest token es pot utilitzar si creeu una integració basada en l'API"
       },
-      "EMAIL_NOTIFICATIONS_SECTION" : {
+      "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificacions per correu electrònic",
         "NOTE": "Actualitza aqui les preferències de les notificacions per correu electrònic",
         "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
@@ -30,7 +30,7 @@
         "UPDATE_SUCCESS": "Les preferències de notificació per correu electrònic s’han actualitzat correctament",
         "UPDATE_ERROR": "S'ha produït un error en actualitzar les preferències. Torneu-ho a provar"
       },
-      "PROFILE_IMAGE":{
+      "PROFILE_IMAGE": {
         "LABEL": "Imatge del Perfil"
       },
       "NAME": {
