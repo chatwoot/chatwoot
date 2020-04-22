@@ -25,10 +25,7 @@ class NotificationSetting < ApplicationRecord
     flag_query_mode: :bit_operator
   }.freeze
 
-  EMAIL_NOTIFICATION_FLAGS = {
-    1 => :conversation_creation,
-    2 => :conversation_assignment
-  }.freeze
+  EMAIL_NOTIFICATION_FLAGS = Notification::NOTIFICATION_TYPES.invert.freeze
 
   has_flags EMAIL_NOTIFICATION_FLAGS.merge(column: 'email_flags').merge(DEFAULT_QUERY_SETTING)
 end
