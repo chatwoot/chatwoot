@@ -1,0 +1,27 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Configuración de la cuenta",
+    "SUBMIT": "Actualizar ajustes",
+    "UPDATE": {
+      "ERROR": "No se pudo actualizar la configuración, ¡inténtalo de nuevo!",
+      "SUCCESS": "Configuración de cuenta actualizada correctamente"
+    },
+    "FORM": {
+      "ERROR": "Por favor, corrija los errores de formulario",
+      "GENERAL_SECTION": {
+        "TITLE": "Ajustes generales",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nombre de cuenta",
+        "PLACEHOLDER": "Tu nombre de cuenta",
+        "ERROR": "Por favor, introduzca un nombre de cuenta válido"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma del sitio (Beta)",
+        "PLACEHOLDER": "Tu nombre de cuenta",
+        "ERROR": ""
+      }
+    }
+  }
+}

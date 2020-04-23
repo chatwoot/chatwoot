@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Αναφορές",
+    "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
+    "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
+    "METRICS": [
+      {
+        "NAME": "Συζητήσεις",
+        "KEY": "conversations_count",
+        "DESC": "(Σύνολο)"
+      },
+      {
+        "NAME": "Εισερχόμενα Μηνύματα",
+        "KEY": "incoming_messages_count",
+        "DESC": "(Σύνολο)"
+      },
+      {
+        "NAME": "Εξερχόμενα Μηνύματα",
+        "KEY": "outgoing_messages_count",
+        "DESC": "(Σύνολο)"
+      },
+      {
+        "NAME": "Χρόνος πρώτης ανταπόκρισης",
+        "KEY": "avg_first_response_time",
+        "DESC": "(Μ.Ο.)"
+      },
+      {
+        "NAME": "Χρόνος ανάλυσης",
+        "KEY": "avg_resolution_time",
+        "DESC": "(Μ.Ο.)"
+      },
+      {
+        "NAME": "Αριθμός Αναλύσεων",
+        "KEY": "resolutions_count",
+        "DESC": "(Σύνολο)"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Τελευταίες 7 ημέρες"
+      },
+      {
+        "id": 1,
+        "name": "Τελευταίες 30 ημέρες"
+      }
+    ]
+  }
+}
