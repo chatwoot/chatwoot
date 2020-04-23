@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Detalhes da conversa",
+    "BROWSER": "Navegador",
+    "OS": "Sistema operacional",
+    "INITIATED_FROM": "Iniciado de",
+    "INITIATED_AT": "Iniciado em",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
+      "TITLE": "Conversas anteriores"
+    },
+    "LABELS": {
+      "TITLE": "Rótulos da conversa",
+      "UPDATE_BUTTON": "Atualizar Marcadores",
+      "UPDATE_ERROR": "Não foi possível atualizar os rótulos, tente novamente.",
+      "TAG_PLACEHOLDER": "Adicionar nova etiqueta",
+      "PLACEHOLDER": "Pesquisar ou adicionar um rótulo"
+    }
+  }
+}
