@@ -24,7 +24,7 @@
         v-for="chat in getChatsForTab()"
         :key="chat.id"
         :chat="chat"
-        :ref="'conversation-card-' + chat.id"
+        :ref="`conversation-card-${chat.id}`"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -123,7 +123,7 @@ export default {
     this.$store.dispatch('agents/get');
 
     bus.$on('openNextChat', (chatId) => {
-      const element = this.$refs['conversation-card-' + chatId][0]
+      const element = this.$refs[`conversation-card-${chatId}`][0]
       element.cardClick()
     });
   },
