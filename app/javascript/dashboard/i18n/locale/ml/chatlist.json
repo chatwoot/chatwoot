@@ -10,7 +10,8 @@
     "SEARCH": {
       "INPUT": "ആളുകൾ, ചാറ്റുകൾ, ക്യാൻഡ് മറുപടികൾ എന്നിവയ്ക്കായി തിരയുക .."
     },
-    "STATUS_TABS": [{
+    "STATUS_TABS": [
+      {
         "NAME": "സജീവം",
         "KEY": "openCount"
       },
@@ -19,8 +20,8 @@
         "KEY": "allConvCount"
       }
     ],
-
-    "ASSIGNEE_TYPE_TABS": [{
+    "ASSIGNEE_TYPE_TABS": [
+      {
         "NAME": "എന്റേത്",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
@@ -36,8 +37,8 @@
         "COUNT_KEY": "allCount"
       }
     ],
-
-    "CHAT_STATUS_ITEMS": [{
+    "CHAT_STATUS_ITEMS": [
+      {
         "TEXT": "സജീവം",
         "VALUE": "open"
       },
@@ -46,7 +47,6 @@
         "VALUE": "resolved"
       }
     ],
-
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
@@ -70,7 +70,7 @@
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "ഒരു യു.ആർ.എൽ പങ്കിട്ടു"
+        "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
       }
     }
   }
