@@ -168,14 +168,15 @@ export default {
         (a, b) =>
           this.lastMessage(b).created_at - this.lastMessage(a).created_at
       );
-      return sorted.map((chat, index) => {
-        const nextChat = sorted[index + 1]
+      const sortedWithNextChat = sorted.map((chat, index) => {
+        const nextChat = sorted[index + 1];
         if (nextChat) {
-          chat.nextId = nextChat.id
+          chat.nextId = nextChat.id;
         }
 
-        return chat
-      })
+        return chat;
+      });
+      return sortedWithNextChat;
     },
   },
 };
