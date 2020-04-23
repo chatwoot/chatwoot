@@ -123,8 +123,13 @@ export default {
     this.$store.dispatch('agents/get');
 
     bus.$on('openNextChat', (chatId) => {
-      const element = this.$refs[`conversation-card-${chatId}`][0]
-      element.cardClick()
+      const chatRef = this.$refs[`conversation-card-${chatId}`]
+      const [element = {}] = chatRef;
+      const clickable = element.cardClick;
+
+      if (clickable) {
+        element.cardClick()
+      }
     });
   },
   methods: {
