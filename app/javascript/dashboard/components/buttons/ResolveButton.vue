@@ -57,7 +57,8 @@ export default {
         bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_STATUS'));
         this.isLoading = false;
 
-        if (this.currentChat.nextId && wootConstants.STATUS_TYPE.RESOLVED == this.currentChat.status) {
+        const canOpenNextChat = this.currentChat.nextId && wootConstants.STATUS_TYPE.RESOLVED == this.currentChat.status
+        if (canOpenNextChat) {
           bus.$emit('openNextChat', this.currentChat.nextId);
         }
       });
