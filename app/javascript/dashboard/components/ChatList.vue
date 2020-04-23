@@ -175,10 +175,7 @@ export default {
       );
       const sortedWithNextChat = sorted.map((chat, index) => {
         const nextChat = sorted[index + 1];
-        if (nextChat) {
-          chat.nextId = nextChat.id;
-        }
-
+        chat.nextId = nextChat ? nextChat.id : sorted[0].id;
         return chat;
       });
       return sortedWithNextChat;
