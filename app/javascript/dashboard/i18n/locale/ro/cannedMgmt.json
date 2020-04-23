@@ -1,0 +1,74 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Răspunsuri predefinite",
+    "HEADER_BTN_TXT": "Adauga Răspunsuri predefinite",
+    "LOADING": "Preluarea Răspunsuri predefinite",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+    "SIDEBAR_TXT": "<p><b>Răspunsuri ajustate</b> </p><p> Răspunsurile ajustate sunt salvate șabloanele de răspuns care pot fi folosite pentru a trimite rapid un răspuns la o conversație . </p><p> Pentru a crea un răspuns programat, doar fă clic pe <b>Adaugă Răspuns Ajustat</b>. De asemenea, poți edita sau șterge un răspuns existent făcând clic pe butonul Editare sau Șterge </p><p> Răspunsurile ajustate sunt folosite cu ajutorul a <b>Coduri scurte</b>. Agenții pot accesa mesajele conservate în timpul unei conversații scriind <b>'/'</b> urmat de codul scurt. </p>",
+    "LIST": {
+      "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
+      "TITLE": "Gestionare Răspunsuri predefinite",
+      "DESC": "Răspunsurile predefinite sunt șabloane de răspuns predefinite, care pot fi utilizate pentru a trimite rapid răspunsuri la tichete.",
+      "TABLE_HEADER": [
+        "Cod scurt",
+        "Conținut",
+        "Acțiuni"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Adauga Răspunsuri predefinite",
+      "DESC": "Răspunsurile definite sunt șabloane de răspuns salvate care pot fi folosite pentru a trimite rapid un răspuns la conversație .",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Cod scurt",
+          "PLACEHOLDER": "Te rugăm să introduci un cod scurt",
+          "ERROR": "Codul scurt este necesar"
+        },
+        "CONTENT": {
+          "LABEL": "Conținut",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Conținutul este obligatoriu"
+        },
+        "SUBMIT": "Trimite"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Răspuns predefinit adaugat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Adauga Răspunsuri predefinite",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Cod scurt",
+          "PLACEHOLDER": "Te rugăm să introduci un cod scurt",
+          "ERROR": "Este necesar un cod scurt"
+        },
+        "CONTENT": {
+          "LABEL": "Conținut",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Conținutul este obligatoriu"
+        },
+        "SUBMIT": "Trimite"
+      },
+      "BUTTON_TEXT": "Editare",
+      "API": {
+        "SUCCESS_MESSAGE": "Răspuns predefinit actualizat cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Răspunsul predefinit a fost sters",
+        "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza"
+      }
+    }
+  }
+}

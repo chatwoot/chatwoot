@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Λήψη συζητήσεων",
+    "LOAD_MORE_CONVERSATIONS": "Φόρτωση περισσότερων συζητήσεων",
+    "EOF": "Όλες οι συζητήσεις φορτώθηκαν 🎉",
+    "LIST": {
+      "404": "Δεν υπάρχουν ενεργές συζητήσεις σε αυτήν την ομάδα."
+    },
+    "TAB_HEADING": "Συζητήσεις",
+    "SEARCH": {
+      "INPUT": "Αναζήτηση Ανθρώπων, συνομιλιών, αποθηκευμένων απαντήσεων .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Ανοιχτές",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Επιλύθηκαν",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Δικές μου",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Χωρίς Αντιστοίχιση",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Όλες",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Ανοιχτές",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Επιλυθείσες",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Μήνυμα εικόνας"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Μήνυμα ήχου"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Μήνυμα βίντεο"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Επισυναπτόμενο αρχείο"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Θέση"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "έχει μοιράσει ένα σύνδεσμο"
+      }
+    }
+  }
+}
