@@ -56,6 +56,10 @@ export default {
       this.$store.dispatch('toggleStatus', this.currentChat.id).then(() => {
         bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_STATUS'));
         this.isLoading = false;
+
+        if (wootConstants.STATUS_TYPE.RESOLVED == this.currentChat.status) {
+          bus.$emit('openNextChat', this.currentChat.nextId);
+        }
       });
     },
   },
