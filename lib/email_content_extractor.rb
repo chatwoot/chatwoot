@@ -7,15 +7,23 @@ class EmailContentExtractor < SimpleDelegator
   end
 
   def content
-    if parts.present?
-      parts[0].body.decoded
-    else
-      decoded
-    end
+    return @decoded_content if @decoded_content
+
+    @decoded_content = parts.present? ? parts[0].body.decoded : decoded
+    @decoded_content = encode_to_unicode(@decoded_content)
+    @decoded_content
   end
 
   def attachments
-    mail.attachments.map(&:decode)
+    # ref : https://github.com/gorails-screencasts/action-mailbox-action-text/blob/master/app/mailboxes/posts_mailbox.rb
+    mail.attachments.map do |attachment|
+      blob = ActiveStorage::Blob.create_after_upload!(
+        io: StringIO.new(attachment.body.to_s),
+        filename: attachment.filename,
+        content_type: attachment.content_type
+      )
+      { original: attachment, blob: blob }
+    end
   end
 
   def number_of_attachments
@@ -26,14 +34,21 @@ class EmailContentExtractor < SimpleDelegator
     {
       content: content,
       number_of_attachments: number_of_attachments,
-      subject: subject,
+      subject: encode_to_unicode(subject),
       to: to,
       from: from,
       in_reply_to: in_reply_to,
       cc: cc,
       bcc: bcc,
-      source_id: source_id,
       message_id: message_id
     }
+  end
+
+  private
+
+  # forcing the encoding of the content to UTF-8 so as to be compatible with database and serializers
+  def encode_to_unicode(str)
+    current_encoding = str.encoding.name
+    str.encode(current_encoding, 'UTF-8', invalid: :replace, undef: :replace, replace: '?')
   end
 end

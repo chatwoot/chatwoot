@@ -38,7 +38,7 @@ class ConversationMailbox < ApplicationMailbox
         account_id: @conversation.account_id,
         file_type: 'file'
       )
-      attachment.file.attach(mail_attachment)
+      attachment.file.attach(mail_attachment[:blob])
     end
     @message.save!
   end
@@ -60,7 +60,7 @@ class ConversationMailbox < ApplicationMailbox
   end
 
   def find_conversation
-    @conversation = Conversations.find_by(uuid: conversation_uuid)
+    @conversation = Conversation.find_by(uuid: conversation_uuid)
     validate_resource @conversation
   end
 

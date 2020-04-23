@@ -4,9 +4,9 @@ class ApplicationMailbox < ActionMailbox::Base
   REPLY_EMAIL_USERNAME_PATTERN = /^reply\+to\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i.freeze
 
   def self.reply_match_proc
-    proc do |mail|
+    proc do |inbound_mail_obj|
       is_a_reply_email = false
-      mail.to.each do |email|
+      inbound_mail_obj.mail.to.each do |email|
         username = email.split('@')[0]
         match_result = username.match(REPLY_EMAIL_USERNAME_PATTERN)
         if match_result
