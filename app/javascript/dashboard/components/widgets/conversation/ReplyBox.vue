@@ -311,8 +311,6 @@ export default {
 
     autoExpandTextarea() {
       const textarea = document.querySelector('.reply-box textarea');
-
-      // dont do this if height already adjusted
       if (textarea.value.length >= 80) {
         textarea.style.minHeight = '11rem';
       } else {
