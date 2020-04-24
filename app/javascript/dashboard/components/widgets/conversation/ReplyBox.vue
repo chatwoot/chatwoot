@@ -313,8 +313,8 @@ export default {
       const textarea = document.querySelector('.reply-box textarea');
 
       // dont do this if height already adjusted
-      if (textarea.value.length >= 110) {
-        textarea.style.minHeight = '7rem';
+      if (textarea.value.length >= 80) {
+        textarea.style.minHeight = '11rem';
       } else {
         textarea.style.minHeight = '1rem';
       }
