@@ -22,6 +22,7 @@
         :placeholder="$t(messagePlaceHolder())"
         @click="onClick()"
         @blur="onBlur()"
+        @keydown="autoExpandTextarea()"
       />
       <file-upload
         v-if="showFileUpload"
@@ -306,6 +307,17 @@ export default {
           this.isUploading.image = false;
           this.$emit('scrollToMessage');
         });
+    },
+
+    autoExpandTextarea() {
+      const textarea = document.querySelector('.reply-box textarea');
+
+      // dont do this if height already adjusted
+      if (textarea.value.length >= 110) {
+        textarea.style.minHeight = '7rem';
+      } else {
+        textarea.style.minHeight = '1rem';
+      }
     },
   },
 };
