@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Conectează-te la Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "Email ex: someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Autentificare reușită",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu",
+      "UNAUTH": "Nume utilizator / parolă incorectă. Vă rugăm să încercaţi din nou"
+    },
+    "FORGOT_PASSWORD": "Ai uitat parola?",
+    "CREATE_NEW_ACCOUNT": "Creează un cont nou",
+    "SUBMIT": "Conectează-te"
+  }
+}

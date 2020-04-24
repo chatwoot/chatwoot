@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Facturación",
+    "LOADING": "Obteniendo suscripciones",
+    "ACCOUNT_STATE": "Estado de cuenta",
+    "AGENT_COUNT": "Contador de agentes",
+    "PER_AGENT_COST": "Coste por agente",
+    "TOTAL_COST": "Coste total",
+    "BUTTON": {
+      "ADD": "Añadir método de pago",
+      "EDIT": "Método de pago EDIT"
+    },
+    "TRIAL": {
+      "TITLE": "Su período de prueba ha terminado",
+      "MESSAGE": "Añadir un método de pago para seguir usando Chatwoot."
+    },
+    "ACCOUNT_LOCKED": "Su cuenta no está disponible en este momento. <br>Póngase en contacto con su administrador para reactivación."
+  }
+}

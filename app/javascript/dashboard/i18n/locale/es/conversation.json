@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
+    "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
+    "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
+    "NO_INBOX_2": " para empezar",
+    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
+    "CLICK_HERE": "Haz clic aquí",
+    "LOADING_INBOXES": "Cargando bandeja de entrada",
+    "LOADING_CONVERSATIONS": "Cargando conversaciones",
+    "DOWNLOAD": "Descargar",
+    "HEADER": {
+      "RESOLVE_ACTION": "Resolver",
+      "REOPEN_ACTION": "Reabrir",
+      "OPEN": "Más",
+      "CLOSE": "Cerrar",
+      "DETAILS": "detalles"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
+      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
+    },
+    "REPLYBOX": {
+      "REPLY": "Responder",
+      "PRIVATE_NOTE": "Nota privada",
+      "SEND": "Enviar",
+      "CREATE": "Añadir nota",
+      "TWEET": "Tweet"
+    },
+    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
+    "CHANGE_STATUS": "Estado de la conversación cambiado",
+    "CHANGE_AGENT": "Conversación cambiada de asignatario"
+  }
+}
