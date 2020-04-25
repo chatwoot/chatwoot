@@ -196,7 +196,7 @@ export default {
         },
         {
           scope:
-            'manage_pages,read_page_mailboxes,pages_messaging,pages_messaging_phone_number',
+            'manage_pages,pages_messaging,pages_messaging_phone_number',
         }
       );
     },
