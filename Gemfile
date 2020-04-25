@@ -80,6 +80,9 @@ gem 'sidekiq'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
 
+##-- Push notification service --##
+gem 'webpush'
+
 group :development do
   gem 'annotate'
   gem 'bullet'

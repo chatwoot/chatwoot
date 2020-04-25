@@ -34,7 +34,8 @@
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
         billingEnabled: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('BILLING_ENABLED', false)) %>,
-        signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>'
+        signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>',
+        vapidPublicKey: new Uint8Array(<%= Base64.urlsafe_decode64(ENV['VAPID_PUBLIC_KEY']).bytes %>),
       }
     </script>
   </body>

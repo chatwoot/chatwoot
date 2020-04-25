@@ -101,6 +101,26 @@
       >
       </woot-submit-button>
     </form>
+    <div class="profile--settings--row row">
+      <div class="columns small-3 ">
+        <h4 class="block-title">
+          Push Notifications
+        </h4>
+        <p>Enable push notifications on this browser</p>
+      </div>
+      <div class="columns small-9 medium-5">
+        <div v-if="hasEnabledPushPermissions">
+          You have enabled push for this browser.
+        </div>
+        <div v-else>
+          <woot-submit-button
+            class="button nice"
+            button-text="Request push permission"
+            @click="requestPushPermissions"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -112,6 +132,10 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import EmailNotifications from './EmailNotifications';
+import {
+  hasPushPermissions,
+  requestPushPermissions,
+} from '../../../../helper/pushHelper';
 
 export default {
   components: {
@@ -155,6 +179,9 @@ export default {
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
     }),
+    hasEnabledPushPermissions() {
+      return hasPushPermissions();
+    },
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
@@ -169,6 +196,7 @@ export default {
     }
   },
   methods: {
+    requestPushPermissions,
     initializeUser() {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
