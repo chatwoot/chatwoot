@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Деталі бесіди",
+    "BROWSER": "Браузер",
+    "OS": "Операційна система",
+    "INITIATED_FROM": "Почалося з",
+    "INITIATED_AT": "Час початку",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
+      "TITLE": "Попередні бесіди"
+    },
+    "LABELS": {
+      "TITLE": "Мітки бесіди",
+      "UPDATE_BUTTON": "Оновити мітки",
+      "UPDATE_ERROR": "Не вдалося оновити мітки, спробуйте ще раз.",
+      "TAG_PLACEHOLDER": "Додати нову мітку",
+      "PLACEHOLDER": "Знайти або додати мітку"
+    }
+  }
+}

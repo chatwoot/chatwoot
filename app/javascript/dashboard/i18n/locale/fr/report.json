@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Rapports",
+    "LOADING_CHART": "Chargement des données du graphique ...",
+    "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
+    "METRICS": [
+      {
+        "NAME": "Conversations",
+        "KEY": "conversations_count",
+        "DESC": "(Total)"
+      },
+      {
+        "NAME": "Messages entrants",
+        "KEY": "incoming_messages_count",
+        "DESC": "(Total)"
+      },
+      {
+        "NAME": "Messages sortants",
+        "KEY": "outgoing_messages_count",
+        "DESC": "(Total)"
+      },
+      {
+        "NAME": "Délai de la première réponse",
+        "KEY": "avg_first_response_time",
+        "DESC": "(Moy.)"
+      },
+      {
+        "NAME": "Temps de résolution",
+        "KEY": "avg_resolution_time",
+        "DESC": "(Moy.)"
+      },
+      {
+        "NAME": "Nombre de résolutions",
+        "KEY": "resolutions_count",
+        "DESC": "(Total)"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 derniers jours"
+      },
+      {
+        "id": 1,
+        "name": "30 derniers jours"
+      }
+    ]
+  }
+}

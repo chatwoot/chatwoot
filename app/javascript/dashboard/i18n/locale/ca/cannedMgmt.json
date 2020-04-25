@@ -19,12 +19,12 @@
       "TITLE": "Afegeix Resposta Predeterminada",
       "DESC": "Les respostes predeterminades són plantilles de resposta que es poden utilitzar per enviar ràpidament les respostes a les converses.",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Codi curt",
           "PLACEHOLDER": "Introduïu un codi curt",
           "ERROR": "És necessari el codi curt"
         },
-        "CONTENT" : {
+        "CONTENT": {
           "LABEL": "Contingut",
           "PLACEHOLDER": "Introduïu un contingut",
           "ERROR": "És necessari un contingut"
@@ -39,13 +39,13 @@
     "EDIT": {
       "TITLE": "Edita la resposta predeterminada",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Codi curt",
           "PLACEHOLDER": "Introduïu un codi curt",
           "ERROR": "És necessari el codi curt"
         },
-        "CONTENT" : {
-          "LABEL": "Content",
+        "CONTENT": {
+          "LABEL": "Contingut",
           "PLACEHOLDER": "Introduïu un contingut",
           "ERROR": "És necessari un contingut"
         },
@@ -65,9 +65,9 @@
       },
       "CONFIRM": {
         "TITLE": "Confirma esborrat",
-        "MESSAGE": "N'estas segur? ",
+        "MESSAGE": "N'estas segur ",
         "YES": "Si, esborra ",
-        "NO": "No, manten-la "
+        "NO": "No, mantén-la "
       }
     }
   }
