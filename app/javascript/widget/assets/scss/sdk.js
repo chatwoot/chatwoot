@@ -30,10 +30,27 @@ export const SDK_CSS = ` .woot-widget-holder {
   background: #1f93ff;
   position: fixed;
   cursor: pointer;
-  right: 20px;
   bottom: 20px;
   width: 64px !important;
   height: 64px !important;
+}
+
+.woot-widget-bubble.woot-elements--left {
+  left: 20px;
+}
+
+.woot-widget-bubble.woot-elements--right {
+  right: 20px;
+}
+
+@media only screen and (min-width: 667px) {
+  .woot-widget-holder.woot-elements--left {
+    left: 20px;
+  }
+
+  .woot-widget-holder.woot-elements--right {
+    right: 20px;
+  }
 }
 
 .woot-widget-bubble:hover {
@@ -53,6 +70,7 @@ export const SDK_CSS = ` .woot-widget-holder {
 .woot--close:hover {
   opacity: 1;
 }
+
 .woot--close:before, .woot--close:after {
   position: absolute;
   left: 32px;
@@ -62,9 +80,11 @@ export const SDK_CSS = ` .woot-widget-holder {
   width: 2px;
   background-color: white;
 }
+
 .woot--close:before {
   transform: rotate(45deg);
 }
+
 .woot--close:after {
   transform: rotate(-45deg);
 }
@@ -96,7 +116,6 @@ export const SDK_CSS = ` .woot-widget-holder {
 @media only screen and (min-width: 667px) {
   .woot-widget-holder {
     bottom: 104px;
-    right: 20px;
     height: calc(85% - 64px - 20px);
     width: 400px !important;
     min-height: 250px !important;
@@ -107,5 +126,4 @@ export const SDK_CSS = ` .woot-widget-holder {
     border-radius: 16px !important;
   }
 }
-
 `;
