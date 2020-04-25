@@ -35,12 +35,20 @@ export const SDK_CSS = ` .woot-widget-holder {
   height: 64px !important;
 }
 
+.woot-widget-bubble.woot-elements--left {
+  left: 20px;
+}
+
+.woot-widget-bubble.woot-elements--right {
+  right: 20px;
+}
+
 @media only screen and (min-width: 667px) {
-  .woot-elements--left {
+  .woot-widget-holder.woot-elements--left {
     left: 20px;
   }
 
-  .woot-elements--right {
+  .woot-widget-holder.woot-elements--right {
     right: 20px;
   }
 }
