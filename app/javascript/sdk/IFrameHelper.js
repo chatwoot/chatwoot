@@ -31,7 +31,7 @@ export const IFrameHelper = {
 
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
-    widgetHolder.className = 'woot-widget-holder woot--hide';
+    widgetHolder.className = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -111,7 +111,7 @@ export const IFrameHelper = {
       });
 
       const closeIcon = closeBubble;
-      closeIcon.className = 'woot-widget-bubble woot--close woot--hide';
+      closeIcon.className = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
 
       chatIcon.style.background = widgetColor;
       closeIcon.style.background = widgetColor;
