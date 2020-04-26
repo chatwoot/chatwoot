@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Καταχωρήστε ένα λογαριασμό",
+    "TITLE": "Καταχώρηση",
+    "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Ονομασία Λογαριασμού",
+      "PLACEHOLDER": "Wayne Α. Ε",
+      "ERROR": "Το όνομα του λογαριασμού είναι πολύ σύντομο"
+    },
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "Το email είναι ακατάλληλο"
+    },
+    "PASSWORD": {
+      "LABEL": "Κωδικός",
+      "PLACEHOLDER": "Κωδικός",
+      "ERROR": "Ο κωδικός είναι πολύ σύντομος"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Επιβεβαίωση κωδικού",
+      "PLACEHOLDER": "Επιβεβαίωση κωδικού",
+      "ERROR": "Οι κωδικοί δεν συμφωνούν"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Επιτυχής καταχώρηση",
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+    },
+    "SUBMIT": "Καταχώρηση"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Vă rugăm să selectați o conversație din panoul din stânga",
+    "NO_MESSAGE_1": "Uh oh! Se pare că nu există niciun mesaj de la clienți în căsuța poștală.",
+    "NO_MESSAGE_2": " pentru a trimite un mesaj către pagina ta!",
+    "NO_INBOX_1": "Hola! Se pare că nu ai adăugat încă nici o căsuță poștală.",
+    "NO_INBOX_2": " pentru a începe",
+    "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
+    "CLICK_HERE": "Click aici",
+    "LOADING_INBOXES": "Încărcare mesaje primite",
+    "LOADING_CONVERSATIONS": "Încărcare conversații",
+    "DOWNLOAD": "Descărcare",
+    "HEADER": {
+      "RESOLVE_ACTION": "Rezolvă",
+      "REOPEN_ACTION": "Redeschide",
+      "OPEN": "Mai mult",
+      "CLOSE": "Închide",
+      "DETAILS": "detalii"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
+      "PRIVATE_MSG_INPUT": "Shift + enter pentru linie nouă. Acest lucru va fi vizibil doar pentru Agenți"
+    },
+    "REPLYBOX": {
+      "REPLY": "Răspunde",
+      "PRIVATE_NOTE": "Notă privată",
+      "SEND": "Trimite",
+      "CREATE": "Adaugă Notă",
+      "TWEET": "Tweet"
+    },
+    "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
+    "CHANGE_STATUS": "Stare conversație schimbată",
+    "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată"
+  }
+}

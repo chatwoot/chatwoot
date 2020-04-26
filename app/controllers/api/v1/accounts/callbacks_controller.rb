@@ -4,16 +4,18 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
   def register_facebook_page
     user_access_token = params[:user_access_token]
     page_access_token = params[:page_access_token]
-    page_name = params[:page_name]
     page_id = params[:page_id]
     inbox_name = params[:inbox_name]
-    facebook_channel = current_account.facebook_pages.create!(
-      name: page_name, page_id: page_id, user_access_token: user_access_token,
-      page_access_token: page_access_token
-    )
-    set_avatar(facebook_channel, page_id)
-    inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
-    render json: inbox
+    ActiveRecord::Base.transaction do
+      facebook_channel = current_account.facebook_pages.create!(
+        page_id: page_id, user_access_token: user_access_token,
+        page_access_token: page_access_token
+      )
+      @facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
+      set_avatar(@facebook_inbox, page_id)
+    rescue StandardError => e
+      Rails.logger e
+    end
   end
 
   def facebook_pages
@@ -72,13 +74,13 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
     end
   end
 
-  def set_avatar(facebook_channel, page_id)
+  def set_avatar(facebook_inbox, page_id)
     uri = get_avatar_url(page_id)
 
     return unless uri
 
     avatar_resource = LocalResource.new(uri)
-    facebook_channel.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
+    facebook_inbox.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
   end
 
   def get_avatar_url(page_id)
