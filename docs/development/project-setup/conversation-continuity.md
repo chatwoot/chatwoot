@@ -5,13 +5,13 @@ title: "Configuring Conversation Continuity with Email"
 
 ### Conversation continuity
 
-Conversation contuinity is a de-facto most expected feature for all kind of support platforms. When we support multiple channels and integrations it becomes really difficult to implement this from the start. As for Chatwoot, with Facebook or Twitter channels, the users ususally expect you to reach back on the same platform itself. 
+Conversation continuity is a de-facto most expected feature for all kind of support platforms. When we support multiple channels and integrations it becomes really difficult to implement this from the start. As for Chatwoot, with Facebook or Twitter channels, the users usually expect you to reach back on the same platform itself. 
 
-When it comes to the Web Widget which is embedded in a website, this is not the case. There are technical limitations for us to maintain this conversation continuity. When an end user initiates the chat from the Web Widget and an agent is not online, there are questions on how you reach back to that user and how a conversation can progress.
+When it comes to the Web Widget which is embedded in a website, this is not the case. There are technical limitations for us to maintain this conversation continuity. When an end-user initiates the chat from the Web Widget and an agent is not online, there are questions on how you reach back to that user and how a conversation can progress.
 
-As a first step what we did for this was to capture the email of the user when the chat is initiated. The chat window prompts user for an email when the user starts a conversation. This is captured in the sytem as part of the contact's information. The agent can reach back to the user using this given email, but until now the replies used to come back to agent's email address directly and not Chatwoot.
+As a first step what we did for this was to capture the email of the user when the chat is initiated. The chat window prompts the user for an email when the user starts a conversation. This is captured in the system as part of the contact's information. The agent can reach back to the user using this given email, but until now the replies used to come back to the agent's email address directly and not Chatwoot.
 
-With a second step that we have done, we are now introducing the capability of conversation contuinity directly in Chatwoot Inbox. How this works is, once you have configured all the email settings (which will discussed shortly in the upcoming sections below), you can send a reply as an email to any of the conversations with a contact having an email and receive the email reply back in the conversation thread. This is irrespective of the channel from where the conversation was first initiated. It can be Facebook, Twitter, Web Widget, Twilio, Whatsapp and what not. You conversation always continues seemlessly.
+With a second step that we have done, we are now introducing the capability of conversation continuity directly in Chatwoot Inbox. How this works is, once you have configured all the email settings (which will be discussed shortly in the upcoming sections below), you can send a reply as an email to any of the conversations with a contact having an email and receive the email reply in the conversation thread. This is irrespective of the channel from where the conversation was first initiated. It can be Facebook, Twitter, Web Widget, Twilio, Whatsapp and what not. You conversation always continues seamlessly.
 
 
 ### Configuring inbound reply emails
