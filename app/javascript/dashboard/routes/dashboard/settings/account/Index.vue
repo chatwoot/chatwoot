@@ -33,6 +33,46 @@
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
             </span>
           </label>
+          <label>
+            {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
+            <input
+              v-model="domain"
+              type="text"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
+            />
+          </label>
+          <label>
+            {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.LABEL') }}
+            <select v-model="domainEmailsEnabled">
+              <option value="true">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.ENABLED'
+                  )
+                }}
+              </option>
+              <option value="false">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.DISABLED'
+                  )
+                }}
+              </option>
+            </select>
+            <p class="help-text">
+              {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.PLACEHOLDER') }}
+            </p>
+          </label>
+          <label>
+            {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
+            <input
+              v-model="supportEmail"
+              type="text"
+              :placeholder="
+                $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')
+              "
+            />
+          </label>
         </div>
       </div>
       <woot-submit-button
@@ -59,6 +99,9 @@ export default {
       id: '',
       name: '',
       locale: 'en',
+      domain: '',
+      domainEmailsEnabled: false,
+      supportEmail: '',
     };
   },
   validations: {
@@ -91,12 +134,22 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const { name, locale, id } = this.getAccount(accountId);
+        const {
+          name,
+          locale,
+          id,
+          domain,
+          support_email,
+          domain_emails_enabled,
+        } = this.getAccount(accountId);
 
         Vue.config.lang = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
+        this.domain = domain;
+        this.supportEmail = support_email;
+        this.domainEmailsEnabled = domain_emails_enabled;
       }
     },
 
@@ -110,6 +163,9 @@ export default {
         await this.$store.dispatch('accounts/update', {
           locale: this.locale,
           name: this.name,
+          domain: this.domain,
+          support_email: this.supportEmail,
+          domain_emails_enabled: this.domainEmailsEnabled,
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
