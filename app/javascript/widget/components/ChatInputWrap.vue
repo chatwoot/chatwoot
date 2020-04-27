@@ -1,10 +1,23 @@
 <template>
   <div class="chat-message--input">
-    <chat-attachment-button :on-attach="onSendAttachment" />
-    <ChatInputArea v-model="userInput" :placeholder="placeholder" />
-    <ChatSendButton
+    <chat-input-area v-model="userInput" :placeholder="placeholder" />
+    <chat-attachment-button
+      v-if="showAttachment"
+      :on-attach="onSendAttachment"
+    />
+    <emoji-input
+      v-if="showEmojiPicker"
+      v-on-clickaway="hideEmojiPicker"
+      :on-click="emojiOnClick"
+    />
+    <i
+      class="emoji-toggle icon ion-happy-outline"
+      :class="{ active: showEmojiPicker }"
+      @click="toggleEmojiPicker()"
+    />
+    <chat-send-button
+      v-if="showSendButton"
       :on-click="handleButtonClick"
-      :disabled="!userInput.length"
       :color="widgetColor"
     />
   </div>
@@ -12,9 +25,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import emojione from 'emojione';
+import { mixin as clickaway } from 'vue-clickaway';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatInputArea from 'widget/components/ChatInputArea.vue';
+import EmojiInput from 'dashboard/components/widgets/emoji/EmojiInput';
 
 export default {
   name: 'ChatInputWrap',
@@ -22,8 +38,9 @@ export default {
     ChatAttachmentButton,
     ChatSendButton,
     ChatInputArea,
+    EmojiInput,
   },
-
+  mixins: [clickaway],
   props: {
     placeholder: {
       type: String,
@@ -42,6 +59,7 @@ export default {
   data() {
     return {
       userInput: '',
+      showEmojiPicker: false,
     };
   },
 
@@ -49,6 +67,12 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    showAttachment() {
+      return this.userInput.length === 0;
+    },
+    showSendButton() {
+      return this.userInput.length > 0;
+    },
   },
 
   destroyed() {
@@ -71,6 +95,19 @@ export default {
         this.handleButtonClick();
       }
     },
+    toggleEmojiPicker() {
+      this.showEmojiPicker = !this.showEmojiPicker;
+    },
+    hideEmojiPicker() {
+      if (this.showEmojiPicker) {
+        this.toggleEmojiPicker();
+      }
+    },
+    emojiOnClick(emoji) {
+      this.userInput = emojione.shortnameToUnicode(
+        `${this.userInput}${emoji.shortname} `
+      );
+    },
   },
 };
 </script>
@@ -81,5 +118,13 @@ export default {
 .chat-message--input {
   align-items: center;
   display: flex;
+}
+
+.emoji-toggle {
+  font-size: $font-size-medium;
+  color: $color-gray;
+}
+.file-uploads {
+  margin-right: $space-small;
 }
 </style>
