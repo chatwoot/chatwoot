@@ -24,7 +24,6 @@
         v-for="chat in getChatsForTab()"
         :key="chat.id"
         :chat="chat"
-        :ref="`conversation-card-${chat.id}`"
       />
 
       <div v-if="chatListLoading" class="text-center">
@@ -54,7 +53,6 @@
 </template>
 
 <script>
-/* global bus */
 /* eslint-env browser */
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
@@ -121,16 +119,6 @@ export default {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
     this.$store.dispatch('agents/get');
-
-    bus.$on('openNextChat', (chatId) => {
-      const chatRef = this.$refs[`conversation-card-${chatId}`]
-      const [element = {}] = chatRef;
-      const clickable = element.cardClick;
-
-      if (clickable) {
-        element.cardClick()
-      }
-    });
   },
   methods: {
     resetAndFetchData() {
@@ -173,12 +161,7 @@ export default {
         (a, b) =>
           this.lastMessage(b).created_at - this.lastMessage(a).created_at
       );
-      const sortedWithNextChat = sorted.map((chat, index) => {
-        const nextChat = sorted[index + 1];
-        chat.nextId = nextChat ? nextChat.id : sorted[0].id;
-        return chat;
-      });
-      return sortedWithNextChat;
+      return sorted;
     },
   },
 };
