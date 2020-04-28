@@ -8,7 +8,7 @@ class ConversationMailbox < ApplicationMailbox
   before_processing :conversation_uuid_from_to_address,
                     :verify_decoded_params,
                     :find_conversation,
-                    :process_mail
+                    :decorate_mail
 
   def process
     create_message
@@ -70,7 +70,7 @@ class ConversationMailbox < ApplicationMailbox
     resource
   end
 
-  def process_mail
-    @processed_mail = EmailContentExtractor.new(mail)
+  def decorate_mail
+    @processed_mail = MailPresenter.new(mail)
   end
 end

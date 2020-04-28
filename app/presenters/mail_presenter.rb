@@ -1,9 +1,13 @@
-class EmailContentExtractor < SimpleDelegator
+class MailPresenter < SimpleDelegator
   attr_accessor :mail
 
   def initialize(mail)
     super(mail)
     @mail = mail
+  end
+
+  def subject
+    encode_to_unicode(@mail.subject)
   end
 
   def content
@@ -34,7 +38,8 @@ class EmailContentExtractor < SimpleDelegator
     {
       content: content,
       number_of_attachments: number_of_attachments,
-      subject: encode_to_unicode(subject),
+      subject: subject,
+      date: date,
       to: to,
       from: from,
       in_reply_to: in_reply_to,
