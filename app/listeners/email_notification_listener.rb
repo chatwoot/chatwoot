@@ -4,7 +4,7 @@ class EmailNotificationListener < BaseListener
     return if conversation.bot?
 
     conversation.inbox.members.each do |agent|
-      next unless agent.notification_settings.find_by(account_id: conversation.account_id).conversation_creation?
+      next unless agent.notification_settings.find_by(account_id: conversation.account_id).email_conversation_creation?
 
       AgentNotifications::ConversationNotificationsMailer.conversation_created(conversation, agent).deliver_later
     end

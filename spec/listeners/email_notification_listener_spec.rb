@@ -20,7 +20,7 @@ describe EmailNotificationListener do
     context 'when conversation is created' do
       it 'sends email to inbox members who have notifications turned on' do
         notification_setting = agent_with_notification.notification_settings.first
-        notification_setting.selected_email_flags = [:conversation_creation]
+        notification_setting.selected_email_flags = [:email_conversation_creation]
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_notification, inbox: inbox)

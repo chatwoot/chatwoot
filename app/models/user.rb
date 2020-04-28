@@ -119,12 +119,6 @@ class User < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
   end
 
-  def create_notification_setting
-    setting = notification_settings.new(account_id: account.id)
-    setting.selected_email_flags = [:conversation_assignment]
-    setting.save!
-  end
-
   def notify_deletion
     Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
   end

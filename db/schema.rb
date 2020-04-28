@@ -258,7 +258,17 @@ ActiveRecord::Schema.define(version: 2020_04_22_130153) do
     t.integer "email_flags", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "push_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "subscription_type", null: false
+    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
   end
 
   create_table "notifications", force: :cascade do |t|
