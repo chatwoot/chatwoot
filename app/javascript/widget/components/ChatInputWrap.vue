@@ -126,10 +126,17 @@ export default {
   font-size: $font-size-large;
   color: $color-gray;
   padding-right: $space-smaller;
+  cursor: pointer;
 }
+
+.emoji-dialog {
+  right: $space-one;
+}
+
 .file-uploads {
   margin-right: $space-small;
 }
+
 .button-wrap {
   display: flex;
   align-items: center;
