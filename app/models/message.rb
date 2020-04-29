@@ -74,7 +74,8 @@ class Message < ApplicationRecord
                :execute_message_template_hooks,
                :notify_via_mail
 
-  after_commit :send_reply
+  # we need to wait for the active storage attachments to be available
+  after_create_commit :send_reply
 
   after_update :dispatch_update_event
 
