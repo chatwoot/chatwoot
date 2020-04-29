@@ -71,11 +71,10 @@ class Message < ApplicationRecord
 
   after_create :reopen_conversation,
                :dispatch_event,
-               :send_reply,
                :execute_message_template_hooks,
                :notify_via_mail
 
-  after_update :dispatch_update_event
+  after_update :dispatch_update_event, :send_reply
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
