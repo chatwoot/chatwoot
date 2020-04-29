@@ -31,9 +31,8 @@ class Integration::App
     end
 
     def all
-      apps.values.inject([]) do |result,app|
-        result << self.new(app)
-        result
+      apps.values.each_with_object([]) do |app, result|
+        result << new(app)
       end
     end
 

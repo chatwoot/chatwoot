@@ -2,11 +2,9 @@ class Api::V1::Account::Integrations::AppsController < ApplicationController
   before_action :fetch_apps, only: [:index]
   before_action :fetch_app, only: [:show]
 
-  def index
-  end
+  def index; end
 
-  def show
-  end
+  def show; end
 
   private
 
@@ -15,6 +13,5 @@ class Api::V1::Account::Integrations::AppsController < ApplicationController
   end
 
   def fetch_app
-    @app = Integrations::App.find_by_id(params[:id])
   end
 end
