@@ -55,7 +55,7 @@ export default {
   width: 20px;
 
   i {
-    font-size: $font-size-medium;
+    font-size: $font-size-large;
     color: $color-gray;
   }
 }

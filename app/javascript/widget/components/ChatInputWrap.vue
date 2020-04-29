@@ -1,25 +1,27 @@
 <template>
   <div class="chat-message--input">
     <chat-input-area v-model="userInput" :placeholder="placeholder" />
-    <chat-attachment-button
-      v-if="showAttachment"
-      :on-attach="onSendAttachment"
-    />
-    <emoji-input
-      v-if="showEmojiPicker"
-      v-on-clickaway="hideEmojiPicker"
-      :on-click="emojiOnClick"
-    />
-    <i
-      class="emoji-toggle icon ion-happy-outline"
-      :class="{ active: showEmojiPicker }"
-      @click="toggleEmojiPicker()"
-    />
-    <chat-send-button
-      v-if="showSendButton"
-      :on-click="handleButtonClick"
-      :color="widgetColor"
-    />
+    <div class="button-wrap">
+      <chat-attachment-button
+        v-if="showAttachment"
+        :on-attach="onSendAttachment"
+      />
+      <emoji-input
+        v-if="showEmojiPicker"
+        v-on-clickaway="hideEmojiPicker"
+        :on-click="emojiOnClick"
+      />
+      <i
+        class="emoji-toggle icon ion-happy-outline"
+        :class="{ active: showEmojiPicker }"
+        @click="toggleEmojiPicker()"
+      />
+      <chat-send-button
+        v-if="showSendButton"
+        :on-click="handleButtonClick"
+        :color="widgetColor"
+      />
+    </div>
   </div>
 </template>
 
@@ -121,10 +123,15 @@ export default {
 }
 
 .emoji-toggle {
-  font-size: $font-size-medium;
+  font-size: $font-size-large;
   color: $color-gray;
+  padding-right: $space-smaller;
 }
 .file-uploads {
   margin-right: $space-small;
+}
+.button-wrap {
+  display: flex;
+  align-items: center;
 }
 </style>
