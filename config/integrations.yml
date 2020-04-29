@@ -1,8 +1,0 @@
-slack:
-  id: cw_slack
-  name: Slack
-  description: "'Be less busy' -  Slack is the chat tool that brings all your communication together in one place. By integrating Slack with SupportBee, you can get notified in your Slack channels for important events in your support desk"
-  fields:
-    - 
-      name: webhook_url
-      type: url
