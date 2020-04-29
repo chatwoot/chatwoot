@@ -70,10 +70,11 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
   after_create :reopen_conversation,
-               :dispatch_event,
-               :send_reply,
                :execute_message_template_hooks,
                :notify_via_mail
+
+  # we need to wait for the active storage attachments to be available
+  after_create_commit :dispatch_event, :send_reply
 
   after_update :dispatch_update_event
 

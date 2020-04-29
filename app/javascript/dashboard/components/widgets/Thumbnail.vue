@@ -33,6 +33,14 @@
       :style="badgeStyle"
       src="~dashboard/assets/images/twitter-badge.png"
     />
+
+    <img
+      v-if="badge === 'Channel::TwilioSms'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/channels/whatsapp.png"
+    />
   </div>
 </template>
 <script>

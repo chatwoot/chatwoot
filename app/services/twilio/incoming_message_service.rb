@@ -1,10 +1,12 @@
 class Twilio::IncomingMessageService
+  include ::FileTypeHelper
+
   pattr_initialize [:params!]
 
   def perform
     set_contact
     set_conversation
-    @conversation.messages.create(
+    @message = @conversation.messages.create(
       content: params[:Body],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -12,6 +14,7 @@ class Twilio::IncomingMessageService
       contact_id: @contact.id,
       source_id: params[:SmsSid]
     )
+    attach_files
   end
 
   private
@@ -29,6 +32,14 @@ class Twilio::IncomingMessageService
 
   def account
     @account ||= inbox.account
+  end
+
+  def phone_number
+    twilio_inbox.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
+  end
+
+  def formatted_phone_number
+    TelephoneNumber.parse(phone_number).international_number
   end
 
   def set_contact
@@ -61,17 +72,40 @@ class Twilio::IncomingMessageService
 
   def contact_attributes
     {
-      name: params[:From],
-      phone_number: params[:From],
-      contact_attributes: additional_attributes
+      name: formatted_phone_number,
+      phone_number: phone_number,
+      additional_attributes: additional_attributes
     }
   end
 
   def additional_attributes
-    {
-      from_zip_code: params[:FromZip],
-      from_country: params[:FromCountry],
-      from_state: params[:FromState]
-    }
+    if twilio_inbox.sms?
+      {
+        from_zip_code: params[:FromZip],
+        from_country: params[:FromCountry],
+        from_state: params[:FromState]
+      }
+    else
+      {}
+    end
+  end
+
+  def attach_files
+    return if params[:MediaUrl0].blank?
+
+    file_resource = LocalResource.new(params[:MediaUrl0], params[:MediaContentType0])
+
+    attachment = @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_type(params[:MediaContentType0])
+    )
+
+    attachment.file.attach(
+      io: file_resource.file,
+      filename: file_resource.tmp_filename,
+      content_type: file_resource.encoding
+    )
+
+    @message.save!
   end
 end
