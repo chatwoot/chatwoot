@@ -26,6 +26,7 @@
       <file-upload
         v-if="showFileUpload"
         :size="4096 * 4096"
+        accept="jpg,jpeg,png,mp3,ogg,amr,pdf,mp4"
         @input-file="onFileUpload"
       >
         <i
@@ -142,7 +143,10 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return this.channelType === 'Channel::WebWidget';
+      return (
+        this.channelType === 'Channel::WebWidget' ||
+        this.channelType === 'Channel::TwilioSms'
+      );
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -295,6 +299,9 @@ export default {
     },
 
     onFileUpload(file) {
+      if (!file) {
+        return;
+      }
       this.isUploading.image = true;
       this.$store
         .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
