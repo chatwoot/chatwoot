@@ -17,6 +17,10 @@ class Integration::App
     params[:description]
   end
 
+  def logo
+    params[:logo]
+  end
+
   def fields
     params[:fields]
   end

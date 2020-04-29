@@ -1,6 +1,7 @@
 slack:
   id: cw_slack
   name: Slack
+  logo: https://a.slack-edge.com/80588/marketing/img/media-kit/img-logos@2x.png
   description: "'Be less busy' -  Slack is the chat tool that brings all your communication together in one place. By integrating Slack with SupportBee, you can get notified in your Slack channels for important events in your support desk"
   fields:
     - 
