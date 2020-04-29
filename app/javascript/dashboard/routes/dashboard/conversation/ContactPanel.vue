@@ -23,6 +23,13 @@
           >
             {{ contact.email }}
           </a>
+          <a
+            v-if="contact.phone_number"
+            :href="`tel:${contact.phone_number}`"
+            class="contact--email"
+          >
+            {{ contact.phone_number }}
+          </a>
 
           <div
             v-if="
@@ -211,7 +218,7 @@ export default {
   text-transform: capitalize;
 
   font-weight: $font-weight-bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-default;
 }
 
 .contact--email {
