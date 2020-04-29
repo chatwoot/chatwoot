@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe EmailNotificationListener do
+describe NotificationListener do
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }

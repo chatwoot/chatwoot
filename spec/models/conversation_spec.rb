@@ -34,8 +34,6 @@ RSpec.describe Conversation, type: :model do
       new_assignee
 
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
-      allow(assignment_mailer).to receive(:deliver_later)
       Current.user = old_assignee
 
       conversation.update(
@@ -56,11 +54,6 @@ RSpec.describe Conversation, type: :model do
         .with(described_class::CONVERSATION_LOCK_TOGGLE, kind_of(Time), conversation: conversation)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
-
-      # send_email_notification_to_assignee
-      expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
-
-      expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
 
     it 'creates conversation activities' do
@@ -122,6 +115,19 @@ RSpec.describe Conversation, type: :model do
     it 'assigns the agent to conversation' do
       expect(update_assignee).to eq(true)
       expect(conversation.reload.assignee).to eq(agent)
+    end
+
+    it 'send assignment mailer' do
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+      allow(assignment_mailer).to receive(:deliver_later)
+
+      Current.user = conversation.assignee
+
+      expect(update_assignee).to eq(true)
+      # send_email_notification_to_assignee
+      expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_assigned).with(conversation, agent)
+
+      expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
 
     it 'does not send assignment mailer if notification setting is turned off' do
