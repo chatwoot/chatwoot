@@ -74,7 +74,9 @@ class Message < ApplicationRecord
                :execute_message_template_hooks,
                :notify_via_mail
 
-  after_update :dispatch_update_event, :send_reply
+  after_commit :send_reply
+
+  after_update :dispatch_update_event
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
