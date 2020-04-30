@@ -13,7 +13,7 @@ describe NotificationListener do
 
     before do
       creation_mailer = double
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_created).and_return(creation_mailer)
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_creation).and_return(creation_mailer)
       allow(creation_mailer).to receive(:deliver_later).and_return(true)
     end
 
@@ -29,7 +29,7 @@ describe NotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_created)
+        expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_creation)
           .with(conversation, agent_with_notification)
       end
 
@@ -44,7 +44,7 @@ describe NotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_created)
+        expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_creation)
           .with(conversation, agent_with_out_notification)
       end
     end

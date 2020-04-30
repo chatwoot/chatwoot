@@ -26,10 +26,22 @@ class Notification < ApplicationRecord
   belongs_to :account
   belongs_to :user
 
+  belongs_to :primary_actor, polymorphic: true
+  belongs_to :secondary_actor, polymorphic: true, optional: true
+
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
     conversation_assignment: 2
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
+
+  after_create_commit :process_notification_delivery
+
+  private
+
+  def process_notification_delivery
+    Notification::EmailNotificationService.new(notification: self).perform
+    # Notification::PushNotificationService.new(notification: self).perform
+  end
 end
