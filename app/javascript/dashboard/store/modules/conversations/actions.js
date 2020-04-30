@@ -128,9 +128,11 @@ const actions = {
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
       );
-      nextChat
-        ? dispatch('setActiveChat', nextChat)
-        : dispatch('clearSelectedState');
+      if (nextChat) {
+        dispatch('setActiveChat', nextChat);
+      } else {
+        dispatch('clearSelectedState');
+      }
     } catch (error) {
       // Handle error
     }

@@ -52,7 +52,7 @@ const getters = {
   getConvTabStats: ({ convTabStats }) => convTabStats,
   getNextChatConversation: ({ allConversations, selectedChat }) => {
     if (allConversations.length <= 1) {
-      return;
+      return null;
     }
 
     const currentIndex = allConversations.findIndex(
