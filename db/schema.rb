@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_093432) do
+ActiveRecord::Schema.define(version: 2020_04_30_163438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -227,6 +227,16 @@ ActiveRecord::Schema.define(version: 2020_04_17_093432) do
     t.string "channel_type"
     t.boolean "enable_auto_assignment", default: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
+  end
+
+  create_table "integrations_app_inboxes", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.integer "inbox_id"
+    t.integer "account_id"
+    t.string "app_id"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
