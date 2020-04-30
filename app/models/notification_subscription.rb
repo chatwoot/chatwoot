@@ -14,7 +14,7 @@
 #  index_notification_subscriptions_on_user_id  (user_id)
 #
 
-class NotificationSubscriptions < ApplicationRecord
+class NotificationSubscription < ApplicationRecord
   belongs_to :user
 
   SUBSCRIPTION_TYPES = {
