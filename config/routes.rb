@@ -76,7 +76,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resource :notifications, only: [:show, :update]
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
 
         resources :reports, only: [] do

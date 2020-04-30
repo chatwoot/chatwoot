@@ -22,11 +22,11 @@ class NotificationBuilder
   end
 
   def build_notification
-    user.notifications.create!({
-                                 notification_type: notification_type,
-                                 account: account,
-                                 primary_actor: primary_actor,
-                                 secondary_actor: secondary_actor
-                               })
+    user.notifications.create!(
+      notification_type: notification_type,
+      account: account,
+      primary_actor: primary_actor,
+      secondary_actor: secondary_actor
+    )
   end
 end
