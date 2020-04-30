@@ -1,4 +1,8 @@
-account = Account.create!(name: 'Acme Inc')
+account = Account.create!(
+  name: 'Acme Inc',
+  domain: 'support.chatwoot.com',
+  from_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+)
 
 user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
 user.skip_confirmation!

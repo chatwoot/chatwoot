@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_04_29_082655) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: :cascade do |t|
@@ -42,6 +43,18 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
+    t.string "domain", limit: 100
+    t.string "support_email", limit: 100
+    t.integer "settings_flags", default: 0, null: false
+  end
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -190,6 +203,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
