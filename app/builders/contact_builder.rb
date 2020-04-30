@@ -21,13 +21,14 @@ class ContactBuilder
         phone_number: contact_attributes[:phone_number],
         email: contact_attributes[:email],
         identifier: contact_attributes[:identifier],
-        additional_attributes: contact_attributes[:identifier]
+        additional_attributes: contact_attributes[:additional_attributes]
       )
       contact_inbox = ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
         source_id: source_id
       )
+
       ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
       contact_inbox
     rescue StandardError => e

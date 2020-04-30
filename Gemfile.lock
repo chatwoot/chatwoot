@@ -448,6 +448,7 @@ GEM
       faraday
       inflecto
       virtus
+    telephone_number (1.4.6)
     thor (0.20.3)
     thread_safe (0.3.6)
     time_diff (0.3.0)
@@ -560,6 +561,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   telegram-bot-ruby
+  telephone_number
   time_diff
   twilio-ruby (~> 5.32.0)
   twitty!
