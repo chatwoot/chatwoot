@@ -1,4 +1,4 @@
-class Api::V1::Account::Integrations::AppsController < ApplicationController
+class Api::V1::Accounts::Integrations::AppsController < Api::BaseController
   before_action :fetch_apps, only: [:index]
   before_action :fetch_app, only: [:show]
 
@@ -13,5 +13,6 @@ class Api::V1::Account::Integrations::AppsController < ApplicationController
   end
 
   def fetch_app
+    @app = Integrations::App.find(id: params[:id])
   end
 end

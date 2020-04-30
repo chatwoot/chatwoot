@@ -1,4 +1,4 @@
-class Integration::App
+class Integrations::App
   attr_accessor :params
 
   def initialize(params)
@@ -36,8 +36,8 @@ class Integration::App
       end
     end
 
-    def find_by_id(id)
-      all.detect { |app| app.id == id }
+    def find(params)
+      all.detect { |app| app.id == params[:id] }
     end
   end
 end
