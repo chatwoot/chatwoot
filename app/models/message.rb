@@ -51,10 +51,11 @@ class Message < ApplicationRecord
     input_select: 4,
     cards: 5,
     form: 6,
-    article: 7
+    article: 7,
+    incoming_email: 8
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values], coder: JSON
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
