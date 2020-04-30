@@ -51,12 +51,16 @@ const getters = {
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConvTabStats: ({ convTabStats }) => convTabStats,
   getNextChatConversation: ({ allConversations, selectedChat }) => {
-    if (allConversations.length <= 1) { return }
+    if (allConversations.length <= 1) {
+      return;
+    }
 
-    const currentIndex = allConversations.findIndex(conversation => conversation.id === selectedChat.id);
+    const currentIndex = allConversations.findIndex(
+      conversation => conversation.id === selectedChat.id
+    );
     const nextIndex = (currentIndex + 1) % allConversations.length;
     return allConversations[nextIndex];
-  }
+  },
 };
 
 export default getters;
