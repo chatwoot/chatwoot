@@ -9,7 +9,7 @@ class Api::V1::Accounts::NotificationsController < Api::BaseController
   end
 
   def update
-    @notification.update(read_at: DateTime.now)
+    @notification.update(read_at: DateTime.now.utc)
     render json: @notification
   end
 
