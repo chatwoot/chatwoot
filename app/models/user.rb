@@ -67,7 +67,10 @@ class User < ApplicationRecord
   has_many :assigned_inboxes, through: :inbox_members, source: :inbox
   has_many :messages
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
+
+  has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :notification_subscriptions, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
 
@@ -117,12 +120,6 @@ class User < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
-  end
-
-  def create_notification_setting
-    setting = notification_settings.new(account_id: account.id)
-    setting.selected_email_flags = [:conversation_assignment]
-    setting.save!
   end
 
   def notify_deletion

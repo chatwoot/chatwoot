@@ -6,11 +6,6 @@ describe ActionCableListener do
   let!(:inbox) { create(:inbox, account: account) }
   let!(:agent) { create(:user, account: account, role: :agent) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent) }
-  let!(:message) do
-    create(:message, message_type: 'outgoing',
-                     account: account, inbox: inbox, conversation: conversation)
-  end
-  let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
 
   before do
     create(:inbox_member, inbox: inbox, user: agent)
@@ -18,13 +13,18 @@ describe ActionCableListener do
 
   describe '#message_created' do
     let(:event_name) { :'message.created' }
+    let!(:message) do
+      create(:message, message_type: 'outgoing',
+                       account: account, inbox: inbox, conversation: conversation)
+    end
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, message: message) }
 
     it 'sends message to account admins, inbox agents and the contact' do
+      # HACK: to reload conversation inbox members
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token], 'message.created', message.push_event_data
-      )
-      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [conversation.contact.pubsub_token], 'message.created', message.push_event_data
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token], 'message.created', message.push_event_data
       )
       listener.message_created(event)
     end
