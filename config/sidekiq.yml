@@ -11,13 +11,18 @@
 # even put in dynamic logic, like a host-specific queue.
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
 :queues:
-  - [critical, 5]
-  - [default, 2]
   - [low, 1]
-  - [mailers, 2]
   - [webhooks, 1]
   - [bots, 1]
+  - [active_storage_analysis, 1]
+  - [action_mailbox_incineration, 1]
+  - [default, 2]
+  - [mailers, 2]
+  - [medium, 3]
   - [events, 3]
+  - [action_mailbox_routing, 3]
+  - [high, 5]
+  - [critical, 10]
   
 # you can override concurrency based on environment
 production:

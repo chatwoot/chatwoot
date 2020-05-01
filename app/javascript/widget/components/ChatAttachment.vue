@@ -1,7 +1,7 @@
 <template>
   <file-upload :size="4096 * 2048" @input-file="onFileUpload">
     <span class="attachment-button ">
-      <i v-if="!isUploading.image"></i>
+      <i v-if="!isUploading.image" class="ion-android-attach" />
       <spinner v-if="isUploading" size="small" />
     </span>
   </file-upload>
@@ -52,18 +52,16 @@ export default {
   cursor: pointer;
   position: relative;
   padding-right: $space-smaller;
-  display: block;
   width: 20px;
-  height: 20px;
 
   i {
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    background: white center center no-repeat;
-    background-size: contain;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' stroke='%23999a9b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-paperclip'%3E%3Cpath d='M21 11l-9 9a6 6 0 01-8-8l9-9a4 4 0 016 5L9 17a2 2 0 01-2-2l8-9' /%3E%3C/svg%3E");
+    font-size: $font-size-large;
+    color: $color-gray;
   }
+}
+</style>
+<style lang="scss">
+.file-uploads .attachment-button + label {
+  cursor: pointer;
 }
 </style>
