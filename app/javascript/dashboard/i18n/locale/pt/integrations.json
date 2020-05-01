@@ -4,28 +4,28 @@
     "WEBHOOK": {
       "TITLE": "Webhook",
       "CONFIGURE": "Configurar",
-      "HEADER": "Configurações do Webhook",
-      "HEADER_BTN_TXT": "Adicionar novo Webhook",
-      "INTEGRATION_TXT": "Os eventos do Webhook fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Você pode usar os webhooks para comunicar os eventos aos seus aplicativos favoritos, como Slack ou Github. Clique em Configurar para configurar seus webhooks.",
-      "LOADING": "Buscando Webhooks anexados",
+      "HEADER": "Configurações de webhook",
+      "HEADER_BTN_TXT": "Adicionar novo webhook",
+      "INTEGRATION_TXT": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta Chatwoot. Você pode usar os webhooks para comunicar os eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks.",
+      "LOADING": "Buscando webhooks anexados",
       "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são retornos de chamada HTTP que podem ser definidos para todas as contas. Eles são acionados por eventos como a criação de mensagens no Chatwoot. Você pode criar mais de um webhook para esta conta. <br /> <br /> Para criar um <b> webhook </b>, clique no botão <b> Adicionar novo webhook </b>. Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks são chamadas HTTP que podem ser definidas para cada conta. Eles são acionados por eventos como criação de mensagens no Chatwoot. Você pode criar mais de um webhook para esta conta. <br /><br /> Para criar um <b>webhook</b>, clique no botão <b>Adicionar novo webhook</b> . Você também pode remover qualquer webhook existente clicando no botão Excluir.</p>",
       "LIST": {
         "404": "Não há webhooks configurados para esta conta.",
         "TITLE": "Gerenciar webhooks",
-        "DESC": "Webhooks são modelos de resposta que podem ser usados para enviar rapidamente respostas a tickets.",
+        "DESC": "Webhooks são modelos de resposta pré-definidos, que podem ser usados para enviar respostas rapidamente para tickets.",
         "TABLE_HEADER": [
-          "Webhook URL (endpoint)",
-          "Ações"
+          "endpoint do webhook",
+          "Ações."
         ]
       },
       "ADD": {
-        "CANCEL": "Cancelar",
+        "CANCEL": "cancelar",
         "TITLE": "Adicionar novo webhook",
-        "DESC": "Webhook Os eventos fornecem informações em tempo real sobre o que está acontecendo na sua conta do Chatwoot. Digite um URL válido para configurar um retorno de chamada.",
+        "DESC": "Eventos Webhook fornecem informações em tempo real sobre o que está acontecendo em sua conta Chatwoot. Por favor, insira uma URL válida para configurar uma callback.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "URL do webhook",
+            "LABEL": "URL do Webhook",
             "PLACEHOLDER": "Exemplo: https://example/api/webhook",
             "ERROR": "Por favor, insira uma URL válida"
           },
@@ -37,16 +37,16 @@
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Excluir",
+        "BUTTON_TEXT": "excluir",
         "API": {
           "SUCCESS_MESSAGE": "Webhook excluído com sucesso",
           "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
         },
         "CONFIRM": {
-          "TITLE": "Confirmar exclusão",
-          "MESSAGE": "Você tem certeza que deseja excluir ",
+          "TITLE": "Confirmar Exclusão",
+          "MESSAGE": "Tem certeza que deseja excluir ",
           "YES": "Sim, excluir ",
-          "NO": "Não, mantenha "
+          "NO": "Não, mantenha isso "
         }
       }
     }
