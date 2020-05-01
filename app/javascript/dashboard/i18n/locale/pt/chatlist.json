@@ -16,23 +16,23 @@
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolvido",
+        "NAME": "Resolvida",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Minerar",
+        "NAME": "Minha",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Não atribuído",
+        "NAME": "Não atribuída",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "TODOS",
+        "NAME": "Todos",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
@@ -43,7 +43,7 @@
         "VALUE": "open"
       },
       {
-        "TEXT": "Resolvido",
+        "TEXT": "Resolvidas",
         "VALUE": "resolved"
       }
     ],
@@ -66,11 +66,11 @@
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Local:"
+        "CONTENT": "Localização"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "compartilhou uma url"
+        "CONTENT": "compartilhou uma URL"
       }
     }
   }
