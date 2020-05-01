@@ -6,11 +6,11 @@
     "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Un <b>Agente</b> es un miembro de tu equipo de soporte al cliente. </p><p> Los agents podran ver y responder los mensajes de vuestros usuarios. La lista muestra todos los agentes que hay actualmente en tu cuenta. </p><p> Clica en <b>Añadir Agente</b> para añadir un nuevo agente. El agente recibirá un correo electrónico con un enlace de confirmación para activar su cuenta. Después del cual podra acceder a Chatwoot y responder a los mensajes. </p><p> El acceso a las funciones de Chatwoot se basa en los siguientes roles. </p><p> <b>Agente</b> - los agentes con este rol solo podran acceder a bandejas de entrada, informes y conversaciones. </p><p> <b>Administrador</b> - El/La administrador/a tendrá acceso a todas las funciones de Chatwoot habilitadas para tu cuenta, incluidas las configuraciones y la facturación, junto a todos los privilegios de los agentes normales.</p>",
     "AGENT_TYPES": [
       {
-        "name": "administrador",
+        "name": "administrator",
         "label": "Administrador"
       },
       {
-        "name": "agente",
+        "name": "agent",
         "label": "Agente"
       }
     ],
