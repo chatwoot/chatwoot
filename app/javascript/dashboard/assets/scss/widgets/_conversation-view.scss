@@ -23,6 +23,10 @@
       font-size: $font-size-micro;
       line-height: 1.8;
     }
+
+    .link {
+      color: $color-white;
+    }
   }
 
   .message-text {
@@ -256,6 +260,24 @@
 
       .image .time {
         color: $color-white;
+      }
+
+      .link {
+        color: $color-primary-dark;
+      }
+
+      .file {
+        .text-block-title {
+          color: $color-body;
+        }
+
+        .icon-wrap {
+          color: $color-woot;
+        }
+
+        .download {
+          color: $color-primary-dark;
+        }
       }
     }
 

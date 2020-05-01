@@ -102,7 +102,7 @@ export default {
     }
 
     .download {
-      opacity: 0.8;
+      color: $color-white;
     }
   }
 

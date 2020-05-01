@@ -149,12 +149,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .conversation-wrap {
-  /* .agent-message {
-    .chat-bubble {
-      border-top-left-radius: $space-smaller;
-    }
-  } */
-
   .agent-message {
     align-items: flex-end;
     display: flex;
