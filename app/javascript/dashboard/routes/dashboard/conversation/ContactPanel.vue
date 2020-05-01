@@ -146,7 +146,7 @@ export default {
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     contactId() {
-      return this.currentConversationMetaData.contact_id;
+      return this.currentConversationMetaData.contact?.id;
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
@@ -155,16 +155,12 @@ export default {
   watch: {
     contactId(newContactId, prevContactId) {
       if (newContactId && newContactId !== prevContactId) {
-        this.$store.dispatch('contacts/show', {
-          id: this.currentConversationMetaData.contact_id,
-        });
+        this.$store.dispatch('contacts/show', { id: newContactId });
       }
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/show', {
-      id: this.currentConversationMetaData.contact_id,
-    });
+    this.$store.dispatch('contacts/show', { id: this.contactId });
   },
   methods: {
     onPanelToggle() {
