@@ -25,7 +25,7 @@ class CreateNotifications < ActiveRecord::Migration[6.0]
   def add_push_settings_to_users
     ::User.find_in_batches do |users_batch|
       users_batch.each do |user|
-        user_notification_setting = user.notification_settings
+        user_notification_setting = user.notification_settings.first
         user_notification_setting.push_conversation_assignment = true
         user_notification_setting.save!
       end
