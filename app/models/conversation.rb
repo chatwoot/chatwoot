@@ -8,6 +8,7 @@
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
+#  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
