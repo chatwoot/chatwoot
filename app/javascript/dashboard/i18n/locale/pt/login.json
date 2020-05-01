@@ -6,16 +6,16 @@
       "PLACEHOLDER": "E-mail: alguém@exemplo.com"
     },
     "PASSWORD": {
-      "LABEL": "Senha",
-      "PLACEHOLDER": "Senha"
+      "LABEL": "Palavra-passe",
+      "PLACEHOLDER": "Palavra-passe"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Acesso bem sucedido",
+      "SUCCESS_MESSAGE": "Login bem sucedido",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde",
       "UNAUTH": "Nome de usuário / senha incorreta. Por favor, tente novamente"
     },
     "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",
-    "SUBMIT": "Registrar"
+    "SUBMIT": "Iniciar sessão"
   }
 }
