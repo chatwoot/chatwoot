@@ -76,6 +76,7 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
 
         resources :reports, only: [] do
@@ -103,6 +104,7 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       resource :profile, only: [:show, :update]
+      resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]
 

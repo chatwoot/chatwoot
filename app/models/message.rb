@@ -75,7 +75,7 @@ class Message < ApplicationRecord
                :notify_via_mail
 
   # we need to wait for the active storage attachments to be available
-  after_create_commit :dispatch_event, :send_reply
+  after_create_commit :dispatch_create_events, :send_reply
 
   after_update :dispatch_update_event
 
@@ -117,7 +117,7 @@ class Message < ApplicationRecord
 
   private
 
-  def dispatch_event
+  def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
 
     if outgoing? && conversation.messages.outgoing.count == 1
