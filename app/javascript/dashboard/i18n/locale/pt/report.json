@@ -1,8 +1,8 @@
 {
   "REPORT": {
-    "HEADER": "relatórios",
-    "LOADING_CHART": "Carregando dados da carta...",
-    "NO_ENOUGH_DATA": "Não recebemos pontos de dados suficientes para gerar o relatório. Por favor, tente novamente mais tarde.",
+    "HEADER": "Relatórios",
+    "LOADING_CHART": "Carregando dados do gráfico...",
+    "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "METRICS": [
       {
         "NAME": "Conversas",
@@ -10,27 +10,27 @@
         "DESC": "( Total )"
       },
       {
-        "NAME": "Mensagens de entrada",
+        "NAME": "Mensagens Recebidas",
         "KEY": "incoming_messages_count",
         "DESC": "( Total )"
       },
       {
-        "NAME": "Mensagens de saída",
+        "NAME": "Mensagens enviadas",
         "KEY": "outgoing_messages_count",
         "DESC": "( Total )"
       },
       {
-        "NAME": "Primeiro tempo de resposta",
+        "NAME": "Primeira resposta",
         "KEY": "avg_first_response_time",
-        "DESC": "(Méd. )"
+        "DESC": "(Média)"
       },
       {
         "NAME": "Tempo de resolução",
         "KEY": "avg_resolution_time",
-        "DESC": "(Méd. )"
+        "DESC": "(Média)"
       },
       {
-        "NAME": "Contagem de resolução",
+        "NAME": "Qtde de resolução",
         "KEY": "resolutions_count",
         "DESC": "( Total )"
       }
@@ -38,11 +38,11 @@
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Últimos 7 Dias"
+        "name": "Últimos 7 dias"
       },
       {
         "id": 1,
-        "name": "Últimos 30 Dias"
+        "name": "Últimos 30 dias"
       }
     ]
   }
