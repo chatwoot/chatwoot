@@ -5,7 +5,7 @@
   border-radius: $space-one;
   color: $color-white;
   font-size: $font-size-small;
-  font-weight: $font-weight-medium;
+  font-weight: $font-weight-normal;
   position: relative;
 
   .icon {
@@ -59,8 +59,7 @@
     }
 
     &::before {
-      $color-black: #000;
-      background-image: linear-gradient(-180deg, transparent 3%, $color-black 70%);
+      background-image: linear-gradient(-180deg, transparent 3%, $color-heading 130%);
       bottom: 0;
       content: '';
       height: 20%;
@@ -248,11 +247,15 @@
       background: $white;
       border-bottom-left-radius: $space-smaller;
       border-top-left-radius: $space-smaller;
-      color: $color-heading;
+      color: $color-body;
       margin-right: auto;
 
       .time {
         color: $color-light-gray;
+      }
+
+      .image .time {
+        color: $color-white;
       }
     }
 
