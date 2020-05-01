@@ -9,27 +9,27 @@
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
-    "DOWNLOAD": "BAIXAR",
+    "DOWNLOAD": "Baixar",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN": "MAIS",
-      "CLOSE": "FECHAR",
-      "DETAILS": "Detalhes"
+      "OPEN": "Mais",
+      "CLOSE": "Fechar",
+      "DETAILS": "detalhes"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
-      "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes"
+      "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
+      "PRIVATE_MSG_INPUT": "A mensagem será visível apenas para agentes"
     },
     "REPLYBOX": {
       "REPLY": "Responder",
-      "PRIVATE_NOTE": "Nota Privada",
-      "SEND": "Mandar",
-      "CREATE": "Adicionar Nota",
-      "TWEET": "Tuitar"
+      "PRIVATE_NOTE": "Mensagem Privada",
+      "SEND": "Enviar",
+      "CREATE": "Enviar",
+      "TWEET": "Tweet"
     },
-    "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
-    "CHANGE_STATUS": "Estado da conversa alterado",
+    "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
+    "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_AGENT": "Responsável da conversa alterado"
   }
 }
