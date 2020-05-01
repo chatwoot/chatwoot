@@ -86,7 +86,7 @@ export default {
 
   .header-wrap {
     flex-shrink: 0;
-    border-radius: $space-normal;
+    border-radius: $space-normal $space-normal $space-small $space-small;
     background: white;
     z-index: 99;
     @include shadow-large;

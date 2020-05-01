@@ -5,6 +5,7 @@
     @include padding($space-normal $space-two $zero);
   }
 }
+
 // Conversation header - Light BG
 .settings-header {
   @include padding($space-small $space-normal);
@@ -14,6 +15,7 @@
   @include border-normal-bottom;
   height: $header-height;
   min-height: $header-height;
+
   // Resolve Button
   .button {
     @include margin(0);
@@ -83,7 +85,7 @@
         background: $color-woot;
       }
 
-      & + .item {
+      &+.item {
         &::before {
           background: $color-woot;
         }
@@ -112,7 +114,7 @@
       background: $color-border;
       border-radius: 20px;
       color: $color-white;
-      font-size: $font-size-small;
+      font-size: $font-size-micro;
       font-weight: $font-weight-medium;
       height: $space-normal;
       left: $space-normal;
@@ -161,6 +163,7 @@
 
     &:hover {
       @include background-gray;
+
       .arrow {
         opacity: 1;
         transform: translateX($space-small);
@@ -228,7 +231,7 @@
     @include padding($space-medium);
   }
 
-  > a > img {
+  >a>img {
     width: $space-larger * 5;
   }
 }
