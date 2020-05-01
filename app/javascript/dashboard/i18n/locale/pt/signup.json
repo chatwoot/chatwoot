@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Registrar uma conta",
+    "TITLE": "Cadastrar",
+    "TERMS_ACCEPT": "Ao se inscrever, você concorda com nossa <a href=\"https://www.chatwoot.com/terms\">T & C</a> e <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privacidade</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Nome da Conta",
+      "PLACEHOLDER": "Wayne Enterprises",
+      "ERROR": "O nome da conta é muito curto"
+    },
+    "EMAIL": {
+      "LABEL": "e-mail",
+      "PLACEHOLDER": "bruce@wayne.business",
+      "ERROR": "E-mail inválido"
+    },
+    "PASSWORD": {
+      "LABEL": "Palavra-passe",
+      "PLACEHOLDER": "Palavra-passe",
+      "ERROR": "A senha é muito curta"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmar senha",
+      "PLACEHOLDER": "Confirmar senha",
+      "ERROR": "As senhas não conferem"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registro Bem Sucedido",
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+    },
+    "SUBMIT": "submeter"
+  }
+}

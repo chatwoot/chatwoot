@@ -4,12 +4,17 @@
       <h4 class="title">
         {{ title }}
       </h4>
-      <ul class="options" :class="{ 'has-selected': !!selected }">
+      <ul
+        v-if="!hideFields"
+        class="options"
+        :class="{ 'has-selected': !!selected }"
+      >
         <chat-option
           v-for="option in options"
           :key="option.id"
           :action="option"
           :is-selected="isSelected(option)"
+          @click="onClick"
         />
       </ul>
     </div>
@@ -36,10 +41,17 @@ export default {
       type: String,
       default: '',
     },
+    hideFields: {
+      type: Boolean,
+      default: false,
+    },
   },
   methods: {
     isSelected(option) {
       return this.selected === option.id;
+    },
+    onClick(selectedOption) {
+      this.$emit('click', selectedOption);
     },
   },
 };
@@ -59,7 +71,6 @@ export default {
 @import '~dashboard/assets/scss/mixins.scss';
 
 .options-message {
-  @include border-normal;
   background: white;
   width: 60%;
   max-width: 17rem;

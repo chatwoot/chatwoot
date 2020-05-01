@@ -1,5 +1,3 @@
-import '@babel/polyfill';
-
 /* eslint no-console: 0 */
 /* eslint-env browser */
 /* eslint-disable no-new */

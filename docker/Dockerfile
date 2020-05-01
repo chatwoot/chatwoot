@@ -87,4 +87,8 @@ RUN rm -rf /gems/ruby/2.7.0/cache/*.gem \
   && find /gems/ruby/2.7.0/gems/ -name "*.c" -delete \
   && find /gems/ruby/2.7.0/gems/ -name "*.o" -delete
 
+# creating a log directory so that image wont fail when  RAILS_LOG_TO_STDOUT is false
+# https://github.com/chatwoot/chatwoot/issues/701
+RUN mkdir -p /app/log
+
 WORKDIR /app

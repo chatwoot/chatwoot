@@ -2,7 +2,6 @@
 
 FactoryBot.define do
   factory :channel_twitter_profile, class: 'Channel::TwitterProfile' do
-    name { Faker::Name.name }
     twitter_access_token { SecureRandom.uuid }
     twitter_access_token_secret { SecureRandom.uuid }
     profile_id { SecureRandom.uuid }

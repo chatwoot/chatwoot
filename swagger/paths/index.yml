@@ -1,37 +1,40 @@
-# Widget
-/account/{account_id}/widget/inboxes:
-  $ref: ./widget/inboxes/create.yml
-/account/{account_id}/widget/inboxes/${id}:
-  $ref: ./widget/inboxes/update.yml
+
 
 # Inboxes
-/account/{account_id}/inboxes:
+/accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
-/account/{account_id}/inboxes/{id}:
+/accounts/{account_id}/inboxes:
+  $ref: ./inboxes/create.yml
+/accounts/{account_id}/inboxes/{id}:
   $ref: ./inboxes/update.yml
+/accounts/{account_id}/inboxes/{id}/set_agent_bot:
+  $ref: ./inboxes/set_agent_bot.yml
+
+/agent_bots:
+  $ref: ./agent_bots/index.yml
 
 # Conversations
-/account/{account_id}/conversations:
-  $ref: ./conversation/list.yml
-/account/{account_id}/conversations/{id}:
+/accounts/{account_id}/conversations:
+  $ref: ./conversation/index_or_create.yml
+/accounts/{account_id}/conversations/{id}:
   $ref: ./conversation/crud.yml
-/account/{account_id}/conversations/{id}/toggle_status:
+/accounts/{account_id}/conversations/{id}/toggle_status:
   $ref: ./conversation/toggle_status.yml
 
 # Messages
-/account/{account_id}/conversations/{id}/messages:
+/accounts/{account_id}/conversations/{id}/messages:
   $ref: ./conversation/messages/index_create.yml
 
-/account/{account_id}/conversations/{id}/labels:
+/accounts/{account_id}/conversations/{id}/labels:
   $ref: ./conversation/labels.yml
 
-/account/{account_id}/conversations/{id}/assignments:
+/accounts/{account_id}/conversations/{id}/assignments:
   $ref: ./conversation/assignments.yml
 
 # Contacts
-/account/{account_id}/contacts:
+/accounts/{account_id}/contacts:
   $ref: ./contact/list_create.yml
-/account/{account_id}/contacts/{id}:
+/accounts/{account_id}/contacts/{id}:
   $ref: ./contact/crud.yml
-/account/{account_id}/contacts/{id}/conversations:
+/accounts/{account_id}/contacts/{id}/conversations:
   $ref: ./contact/conversations.yml

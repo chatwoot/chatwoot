@@ -21,9 +21,6 @@
         <spinner v-else />
       </button>
     </form>
-    <span v-else>
-      <i>{{ messageContentAttributes.submitted_email }}</i>
-    </span>
   </div>
 </template>
 
@@ -71,7 +68,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('message/updateContactAttributes', {
+      this.$store.dispatch('message/update', {
         email: this.email,
         messageId: this.messageId,
       });

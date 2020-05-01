@@ -7,11 +7,7 @@ class Twilio::OutgoingMessageService
     return if inbox.channel.class.to_s != 'Channel::TwilioSms'
     return unless message.outgoing?
 
-    twilio_message = client.messages.create(
-      body: message.content,
-      from: channel.phone_number,
-      to: contact.phone_number
-    )
+    twilio_message = client.messages.create(message_params)
     message.update!(source_id: twilio_message.sid)
   end
 
@@ -19,6 +15,21 @@ class Twilio::OutgoingMessageService
 
   delegate :conversation, to: :message
   delegate :contact, to: :conversation
+  delegate :contact_inbox, to: :conversation
+
+  def message_params
+    params = {
+      body: message.content,
+      from: channel.phone_number,
+      to: contact_inbox.source_id
+    }
+    params[:media_url] = attachments if channel.whatsapp? && message.attachments.present?
+    params
+  end
+
+  def attachments
+    message.attachments.map(&:file_url)
+  end
 
   def inbox
     @inbox ||= message.inbox

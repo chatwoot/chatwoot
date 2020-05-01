@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ca:
+  hello: "Hola món"
+  messages:
+    reset_password_success: Woot! S'ha restablert la contrasenya amb èxit. Revisa el correu per més instruccions.
+    reset_password_failure: Uh ho! No s'ha trobat cap compte amb aquest correu electrònic.
+  errors:
+    signup:
+      disposable_email: Els correus d'un sol ús no s'accepten
+      invalid_email: Heu introduït un correu electrònic no vàlid
+      email_already_exists: "Ja us heu registrat amb el compte %{email}"
+      failed: El registre ha fallat
+  conversations:
+    activity:
+      status:
+        resolved: "La conversa va ser marcada com resolta per %{user_name}"
+        open: "La conversa es va reobrir per %{user_name}"
+      assignee:
+        assigned: "Assignada a %{assignee_name} per %{user_name}"
+        removed: "%{user_name} ha tret l'assignació de la conversa"
+    templates:
+      typical_reply_message_body: "%{account_name} normalment respon a les poques hores."
+      ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
+      email_input_box_message_body: "Rep les notificacions per correu electrònic"

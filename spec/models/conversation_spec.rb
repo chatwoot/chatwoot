@@ -14,6 +14,11 @@ RSpec.describe Conversation, type: :model do
     it 'runs before_create callbacks' do
       expect(conversation.display_id).to eq(1)
     end
+
+    it 'creates a UUID for every conversation automatically' do
+      uuid_pattern = /[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/i
+      expect(conversation.uuid).to  match(uuid_pattern)
+    end
   end
 
   describe '.after_update' do

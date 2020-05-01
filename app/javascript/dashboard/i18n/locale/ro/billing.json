@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Facturare",
+    "LOADING": "Preluare abonamente",
+    "ACCOUNT_STATE": "Stare cont",
+    "AGENT_COUNT": "Număr de agenți",
+    "PER_AGENT_COST": "Cost per Agent",
+    "TOTAL_COST": "Cost total",
+    "BUTTON": {
+      "ADD": "Adaugă metodă de plată",
+      "EDIT": "Adaugă metodă de plată"
+    },
+    "TRIAL": {
+      "TITLE": "Perioada de evaluare s-a încheiat",
+      "MESSAGE": "Adaugă o metodă de plată pentru a continua să folosești Chatwoot."
+    },
+    "ACCOUNT_LOCKED": "Contul dvs. nu este disponibil momentan. <br>Vă rugăm să contactaţi administratorul pentru reactivare."
+  }
+}

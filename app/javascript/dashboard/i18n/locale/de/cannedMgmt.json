@@ -19,12 +19,12 @@
       "TITLE": "Eingemachte Antwort hinzufügen",
       "DESC": "Gespeicherte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell Antworten auf Konversationen gesendet werden können.",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Funktionscode",
           "PLACEHOLDER": "Bitte geben Sie einen Shortcode ein",
           "ERROR": "Funktionscode ist erforderlich"
         },
-        "CONTENT" : {
+        "CONTENT": {
           "LABEL": "Inhalt",
           "PLACEHOLDER": "Bitte geben Sie einen Inhalt ein",
           "ERROR": "Inhalt ist erforderlich"
@@ -39,12 +39,12 @@
     "EDIT": {
       "TITLE": "Eingemachte Antwort bearbeiten",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Funktionscode",
           "PLACEHOLDER": "Bitte geben Sie einen Shortcode ein",
           "ERROR": "Funktionscode ist erforderlich"
         },
-        "CONTENT" : {
+        "CONTENT": {
           "LABEL": "Inhalt",
           "PLACEHOLDER": "Bitte geben Sie einen Inhalt ein",
           "ERROR": "Inhalt ist erforderlich"

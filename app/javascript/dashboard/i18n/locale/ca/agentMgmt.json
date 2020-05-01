@@ -1,0 +1,101 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agents",
+    "HEADER_BTN_TXT": "Afegir Agent",
+    "LOADING": "S'està recollint la llista d'agents",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>Agent</b> és un membre del teu equip de suport al client. </p><p> Els agents podran veure i respondre als missatges dels vostres usuaris. La llista mostra tots els agents que hi ha actualment al vostre compte. </p><p> Clica en <b>Afegir Agent</b> per afegir un nou agent. L’agent que afegiu rebrà un correu electrònic amb un enllaç de confirmació per activar el seu compte, després del qual podran accedir a Chatwoot i respondre als missatges. </p><p> L’accés a les funcions de Chatwoot es basa en els següents rols. </p><p> <b>Agent</b> - els agents amb aquest rol només poden accedir a bústies de sortida, informes i converses. </p><p> <b>Administrador/a</b> - L’administrador/a tindrà accés a totes les funcions de Chatwoot habilitades per al vostre compte, incloses les configuracions i la facturació, juntament amb tots els privilegis dels agents normals.</p>",
+    "AGENT_TYPES": [
+      {
+        "name": "administrador/a",
+        "label": "Administrador/a"
+      },
+      {
+        "name": "agent",
+        "label": "Agent"
+      }
+    ],
+    "LIST": {
+      "404": "No hi ha agents associats a aquest compte",
+      "TITLE": "Gestiona agents en el teu equip",
+      "DESC": "Pots afegir/esborrar agents del teu equip.",
+      "NAME": "Nom",
+      "EMAIL": "Correu electrònic",
+      "STATUS": "Estat",
+      "ACTIONS": "Accions",
+      "VERIFIED": "Verificat",
+      "VERIFICATION_PENDING": "Verificació pendent"
+    },
+    "ADD": {
+      "TITLE": "Afegir agent al teu equip",
+      "DESC": "Podeu afegir persones que podran gestionar suport per a les vostres safates d'entrada.",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de l'Agent",
+          "PLACEHOLDER": "Introduïu el nom de l'agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tipus d'Agent",
+          "PLACEHOLDER": "Selecciona un tipus",
+          "ERROR": "El tipus d'Agent és necessari"
+        },
+        "EMAIL": {
+          "LABEL": "Adreça de correu electrònic",
+          "PLACEHOLDER": "Introduïu l'adreça de correu electrònic de l'agent"
+        },
+        "SUBMIT": "Afegir Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent afegit correctament",
+        "EXIST_MESSAGE": "L'adreça de correu electrònic de l'agent ja està en ús. Introduïu una altre adreça",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Esborrar",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent esborrat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "N'estas segur? ",
+        "YES": "Si, esborra ",
+        "NO": "No, manten-la "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edita l'agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nom de l'Agent",
+          "PLACEHOLDER": "Introduïu el nom de l'agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Tipus d'Agent",
+          "PLACEHOLDER": "Selecciona un tipus",
+          "ERROR": "El tipus d'Agent és necessari"
+        },
+        "EMAIL": {
+          "LABEL": "Adreça de correu electrònic",
+          "PLACEHOLDER": "Introduïu l'adreça de correu electrònic de l'agent"
+        },
+        "SUBMIT": "Editar l'agent"
+      },
+      "BUTTON_TEXT": "Edita",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent actualitzat correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Reinicialització de la contrasenya",
+        "ADMIN_SUCCESS_MESSAGE": "S'ha enviat a l'agent un correu electrònic amb instruccions per restablir la contrasenya",
+        "SUCCESS_MESSAGE": "La contrasenya de l'agent s'ha restablit correctament",
+        "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No s'han trobat agents."
+    }
+  }
+}

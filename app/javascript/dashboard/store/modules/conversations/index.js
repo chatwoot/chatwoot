@@ -122,12 +122,13 @@ const mutations = {
     _state.selectedChat.status = status;
   },
 
-  [types.default.SEND_MESSAGE](_state, data) {
+  [types.default.SEND_MESSAGE](_state, currentMessage) {
     const [chat] = getSelectedChatConversation(_state);
-    const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(data.id)) {
-      chat.messages.push(data);
-    }
+    const allMessagesExceptCurrent = (chat.messages || []).filter(
+      message => message.id !== currentMessage.id
+    );
+    allMessagesExceptCurrent.push(currentMessage);
+    chat.messages = allMessagesExceptCurrent;
   },
 
   [types.default.ADD_MESSAGE](_state, message) {
@@ -135,17 +136,39 @@ const mutations = {
       c => c.id === message.conversation_id
     );
     if (!chat) return;
-    const previousMessageIds = chat.messages.map(m => m.id);
-    if (!previousMessageIds.includes(message.id)) {
+    const previousMessageIndex = chat.messages.findIndex(
+      m => m.id === message.id
+    );
+    if (previousMessageIndex === -1) {
       chat.messages.push(message);
       if (_state.selectedChat.id === message.conversation_id) {
         window.bus.$emit('scrollToMessage');
       }
+    } else {
+      chat.messages[previousMessageIndex] = message;
     }
   },
 
   [types.default.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
+  },
+
+  [types.default.UPDATE_CONVERSATION](_state, conversation) {
+    const { allConversations } = _state;
+    const currentConversationIndex = allConversations.findIndex(
+      c => c.id === conversation.id
+    );
+    if (currentConversationIndex > -1) {
+      const currentConversation = {
+        ...allConversations[currentConversationIndex],
+        status: conversation.status,
+      };
+      Vue.set(allConversations, currentConversationIndex, currentConversation);
+      if (_state.selectedChat.id === conversation.id) {
+        _state.selectedChat.status = conversation.status;
+        window.bus.$emit('scrollToMessage');
+      }
+    }
   },
 
   [types.default.MARK_SEEN](_state) {

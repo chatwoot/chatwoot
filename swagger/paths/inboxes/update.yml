@@ -1,9 +1,9 @@
 patch:
   tags:
     - Inbox
-  operationId: disableAutoAssignment
-  summary: Disable auto assignment
-  description: Disable Auto Assignment for an inbox
+  operationId: updateInbox
+  summary: Update Inbox
+  description: Add avatar and disable auto assignment for an inbox
   parameters:
     - name: id
       in: path
@@ -16,10 +16,35 @@ patch:
       schema:
         type: object
         properties:
+          name:
+            type: string
+            description: The name of the inbox
           enable_auto_assignment:
             type: boolean
             required: true
             description: 'Enable Auto Assignment'
+          avatar:
+            type: file
+            required: false
+            description: 'Image file for avatar'
+          channel:
+            type: object
+            properties:
+              website_url:
+                type: string
+                description: URL at which the widget will be loaded
+              welcome_title:
+                type: string
+                description: Welcome title to be displayed on the widget
+              welcome_tagline:
+                type: string
+                description: Welcome tagline to be displayed on the widget
+              agent_away_message:
+                type: string
+                description: A message which will be sent if there is not agent available. This is not available if agentbot is connected
+              widget_color:
+                type: string
+                description: A Hex-color string used to customize the widget
   responses:
     200:
       description: Success
