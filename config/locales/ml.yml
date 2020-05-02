@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ml:
+  hello: "ലോകത്തിനു നമസ്ക്കാരം 🙏"
+  messages:
+    reset_password_success: Woot! പാസ്‌വേഡ് പുനസജ്ജീകരണത്തിനുള്ള അഭ്യർത്ഥന വിജയകരമാണ്. നിർദ്ദേശങ്ങൾക്കായി നിങ്ങളുടെ മെയിൽ പരിശോധിക്കുക.
+    reset_password_failure: ക്ഷമിക്കണം! നിർദ്ദിഷ്ട ഇമെയിൽ ഉള്ള ഒരു ഉപയോക്താവിനെയും ഞങ്ങൾക്ക് കണ്ടെത്താൻ കഴിഞ്ഞില്ല.
+  errors:
+    signup:
+      disposable_email: ഡിസ്പോസിബിൾ ഇമെയിലുകൾ ഞങ്ങൾ അനുവദിക്കുന്നില്ല
+      invalid_email: നിങ്ങൾ ഒരു അസാധുവായ ഇമെയിൽ നൽകി
+      email_already_exists: "നിങ്ങൾ ഇതിനകം ഈ %{email} ഉപയോഗിച്ചു ഒരു അക്കൗണ്ടിനായി സൈൻ അപ്പ് ചെയ്തു"
+      failed: സൈനപ്പ് പരാജയപ്പെട്ടു
+  conversations:
+    activity:
+      status:
+        resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
+        open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
+      assignee:
+        assigned: "%{assignee_name} %{user_name}-നെ നിയുക്തനാക്കി "
+        removed: "%{user_name} സംഭാഷണം നിയുക്തമല്ലാതാക്കി"
+    templates:
+      typical_reply_message_body: "%{account_name} സാധാരണ കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു."
+      ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."
+      email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"

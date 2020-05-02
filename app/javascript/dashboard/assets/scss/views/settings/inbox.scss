@@ -5,6 +5,7 @@
     @include padding($space-normal $space-two $zero);
   }
 }
+
 // Conversation header - Light BG
 .settings-header {
   @include padding($space-small $space-normal);
@@ -14,6 +15,7 @@
   @include border-normal-bottom;
   height: $header-height;
   min-height: $header-height;
+
   // Resolve Button
   .button {
     @include margin(0);
@@ -31,42 +33,39 @@
 .wizard-box {
   .item {
     @include padding($space-normal $space-normal $space-normal $space-medium);
-    position: relative;
     @include background-light;
-    cursor: pointer;
 
-    &:before,
-    &:after {
-      content: '';
-      position: absolute;
-      width: 2px;
-      height: 100%;
+    cursor: pointer;
+    position: relative;
+
+    &::before,
+    &::after {
       background: $color-border;
+      content: '';
+      height: 100%;
+      position: absolute;
       top: $space-normal;
+      width: 2px;
     }
 
-    &:before {
-      top: $zero;
+    &::before {
       height: $space-normal;
+      top: $zero;
     }
 
     &:first-child {
-      &:before {
+      &::before {
         height: 0;
       }
     }
 
     &:last-child {
-      &:after {
+      &::after {
         height: $zero;
       }
     }
 
     &.active {
-      // left: 1px;
-      // @include background-white;
-      // @include border-light;
-      // border-right: 0;
       h3 {
         color: $color-woot;
       }
@@ -78,7 +77,7 @@
 
     &.over {
 
-      &:after {
+      &::after {
         background: $color-woot;
       }
 
@@ -87,17 +86,17 @@
       }
 
       &+.item {
-        &:before {
+        &::before {
           background: $color-woot;
         }
       }
     }
 
     h3 {
-      font-size: $font-size-default;
-      padding-left: $space-medium;
-      line-height: 1;
       color: $color-body;
+      font-size: $font-size-default;
+      line-height: 1;
+      padding-left: $space-medium;
 
       .completed {
         color: $success-color;
@@ -105,25 +104,25 @@
     }
 
     p {
-      font-size: $font-size-small;
       color: $color-light-gray;
-      padding-left: $space-medium;
+      font-size: $font-size-small;
       margin: 0;
+      padding-left: $space-medium;
     }
 
     .step {
-      position: absolute;
-      left: $space-normal;
-      top: $space-normal;
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
       background: $color-border;
       border-radius: 20px;
-      width: $space-normal;
+      color: $color-white;
+      font-size: $font-size-micro;
+      font-weight: $font-weight-medium;
       height: $space-normal;
-      text-align: center;
+      left: $space-normal;
       line-height: $space-normal;
-      color: #fff;
+      position: absolute;
+      text-align: center;
+      top: $space-normal;
+      width: $space-normal;
       z-index: 999;
 
       i {
@@ -141,10 +140,6 @@
 }
 
 .inoboxes-list {
-  // @include margin(auto);
-  // @include background-white;
-  // @include border-light;
-  // width: 50%;
 
   .inbox-item {
     @include margin($space-normal);
@@ -152,20 +147,23 @@
     @include flex-shrink;
     @include padding($space-normal $space-normal);
     @include border-light-bottom();
-    flex-direction: column;
+
     background: $color-white;
     cursor: pointer;
-    width: 20%;
+    flex-direction: column;
     float: left;
     min-height: 10rem;
+    width: 20%;
 
     &:last-child {
-      margin-bottom: $zero;
       @include border-nil;
+
+      margin-bottom: $zero;
     }
 
     &:hover {
       @include background-gray;
+
       .arrow {
         opacity: 1;
         transform: translateX($space-small);
@@ -174,8 +172,8 @@
 
     .switch {
       align-self: center;
-      margin-right: $space-normal;
       margin-bottom: $zero;
+      margin-right: $space-normal;
     }
 
     .item--details {
@@ -187,15 +185,15 @@
       }
 
       .item--sub {
-        margin-bottom: 0;
         font-size: $font-size-small;
+        margin-bottom: 0;
       }
     }
 
     .arrow {
       align-self: center;
-      font-size: $font-size-small;
       color: $medium-gray;
+      font-size: $font-size-small;
       opacity: .7;
       transform: translateX(0);
       transition: opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s;
@@ -204,18 +202,19 @@
 }
 
 .settings--content {
-  @include margin($space-small $space-medium);
+  @include margin($space-small $space-larger);
 
   .title {
     font-weight: $font-weight-medium;
   }
 
   .code {
+    @include padding($space-one);
+
+    background: $color-background;
     max-height: $space-mega;
     overflow: auto;
     white-space: nowrap;
-    @include padding($space-one);
-    background: $color-background;
 
     code {
       background: transparent;
@@ -225,14 +224,14 @@
 }
 
 .login-init {
-  text-align: center;
   padding-top: 30%;
+  text-align: center;
 
   p {
     @include padding($space-medium);
   }
 
-  > a > img {
+  >a>img {
     width: $space-larger * 5;
   }
 }

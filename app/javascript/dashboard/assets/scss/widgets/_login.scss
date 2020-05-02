@@ -42,14 +42,18 @@
       font-size: $font-size-default;
 
       input {
-        padding: $space-slab;
-        height: $space-larger;
         font-size: $font-size-default;
+        height: $space-larger;
+        padding: $space-slab;
       }
 
       .error {
         font-size: $font-size-small;
       }
+    }
+
+    .button {
+      height: $space-larger;
     }
   }
 
@@ -57,7 +61,7 @@
     font-size: $font-size-default;
     padding: $space-medium;
 
-    > a {
+    >a {
       font-weight: $font-weight-bold;
     }
   }

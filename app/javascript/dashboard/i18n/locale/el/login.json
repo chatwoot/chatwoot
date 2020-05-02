@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Είσοδος στο Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "Email π.χ.: someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "Κωδικός",
+      "PLACEHOLDER": "Κωδικός"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Επιτυχής είσοδος",
+      "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα",
+      "UNAUTH": "Το όνομα χρήστη ή ο κωδικός δεν είναι σωστός. Παρακαλώ ξαναπροσπαθήστε"
+    },
+    "FORGOT_PASSWORD": "Ξεχάσατε τον κωδικό;",
+    "CREATE_NEW_ACCOUNT": "Δημιουργία νέου Λογαριασμού",
+    "SUBMIT": "Είσοδος"
+  }
+}

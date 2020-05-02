@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ro:
+  hello: "Salutare lume"
+  messages:
+    reset_password_success: Woot! Cererea de resetare a parolei a reusit. Verifica emailul pentru instructiuni.
+    reset_password_failure: Nu am putut găsi niciun utilizator cu e-mailul specificat.
+  errors:
+    signup:
+      disposable_email: Nu permitem email-uri de unică folosință
+      invalid_email: Ați introdus un e-mail invalid
+      email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
+      failed: Înregistrare eșuată
+  conversations:
+    activity:
+      status:
+        resolved: "Conversația a fost marcată de %{user_name}"
+        open: "Conversația a fost redeschisă de %{user_name}"
+      assignee:
+        assigned: "Atribuit lui %{assignee_name} de %{user_name}"
+        removed: "Conversație neasociată de %{user_name}"
+    templates:
+      typical_reply_message_body: "%{account_name} răspunde de obicei în câteva ore."
+      ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
+      email_input_box_message_body: "Primește notificări prin e-mail"

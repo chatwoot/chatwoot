@@ -64,7 +64,7 @@ export default {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
     color: $color-white;
-    padding: $space-one $space-normal $space-one $space-small;
+    padding: $space-small $space-normal $space-small $space-small;
     line-height: 1.4;
     display: inline-block;
     vertical-align: middle;

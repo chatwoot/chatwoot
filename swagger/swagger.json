@@ -25,13 +25,13 @@
     "application/json; charset=utf-8"
   ],
   "paths": {
-    "/account/{account_id}/widget/inboxes": {
+    "/accounts/{account_id}/inboxes": {
       "post": {
         "tags": [
-          "Widget"
+          "Inbox"
         ],
-        "operationId": "widgetInboxCreation",
-        "summary": "Create a website inbox",
+        "operationId": "inboxCreation",
+        "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
         "parameters": [
           {
@@ -41,17 +41,39 @@
             "schema": {
               "type": "object",
               "properties": {
-                "website": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the inbox"
+                },
+                "avatar": {
+                  "type": "file",
+                  "description": "File for avatar image"
+                },
+                "channel": {
                   "type": "object",
                   "properties": {
-                    "website_name": {
+                    "type": {
                       "type": "string",
-                      "description": "The name of the inbox"
+                      "enum": [
+                        "web_widget"
+                      ]
                     },
                     "website_url": {
                       "type": "string",
                       "description": "URL at which the widget will be loaded"
                     },
+                    "welcome_title": {
+                      "type": "string",
+                      "description": "Welcome title to be displayed on the widget"
+                    },
+                    "welcome_tagline": {
+                      "type": "string",
+                      "description": "Welcome tagline to be displayed on the widget"
+                    },
+                    "agent_away_message": {
+                      "type": "string",
+                      "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
+                    },
                     "widget_color": {
                       "type": "string",
                       "description": "A Hex-color string used to customize the widget"
@@ -78,83 +100,14 @@
         }
       }
     },
-    "/account/{account_id}/widget/inboxes/${id}": {
-      "patch": {
-        "tags": [
-          "Widget"
-        ],
-        "operationId": "widgetInboxUpdate",
-        "summary": "Update a website inbox",
-        "description": "Update widget color of an inbox",
-        "parameters": [
-          {
-            "name": "data",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "website": {
-                  "type": "object",
-                  "properties": {
-                    "widget_color": {
-                      "type": "string",
-                      "description": "A Hex-color string used to customize the widget"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/inbox"
-            }
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/account/{account_id}/inboxes": {
-      "get": {
-        "tags": [
-          "Inbox"
-        ],
-        "operationId": "listAllInboxes",
-        "summary": "List all inboxes",
-        "description": "List all inboxes available in the current account",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/inbox"
-            }
-          },
-          "404": {
-            "description": "Inbox not found"
-          },
-          "403": {
-            "description": "Access denied"
-          }
-        }
-      }
-    },
-    "/account/{account_id}/inboxes/{id}": {
+    "/accounts/{account_id}/inboxes/{id}": {
       "patch": {
         "tags": [
           "Inbox"
         ],
-        "operationId": "disableAutoAssignment",
-        "summary": "Disable auto assignment",
-        "description": "Disable Auto Assignment for an inbox",
+        "operationId": "updateInbox",
+        "summary": "Update Inbox",
+        "description": "Add avatar and disable auto assignment for an inbox",
         "parameters": [
           {
             "name": "id",
@@ -170,10 +123,44 @@
             "schema": {
               "type": "object",
               "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the inbox"
+                },
                 "enable_auto_assignment": {
                   "type": "boolean",
                   "required": true,
                   "description": "Enable Auto Assignment"
+                },
+                "avatar": {
+                  "type": "file",
+                  "required": false,
+                  "description": "Image file for avatar"
+                },
+                "channel": {
+                  "type": "object",
+                  "properties": {
+                    "website_url": {
+                      "type": "string",
+                      "description": "URL at which the widget will be loaded"
+                    },
+                    "welcome_title": {
+                      "type": "string",
+                      "description": "Welcome title to be displayed on the widget"
+                    },
+                    "welcome_tagline": {
+                      "type": "string",
+                      "description": "Welcome tagline to be displayed on the widget"
+                    },
+                    "agent_away_message": {
+                      "type": "string",
+                      "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
+                    },
+                    "widget_color": {
+                      "type": "string",
+                      "description": "A Hex-color string used to customize the widget"
+                    }
+                  }
                 }
               }
             }
@@ -195,7 +182,76 @@
         }
       }
     },
-    "/account/{account_id}/conversations": {
+    "/accounts/{account_id}/inboxes/{id}/set_agent_bot": {
+      "post": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "updateAgentBot",
+        "summary": "Add or remove agent bot",
+        "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "type": "number",
+            "description": "ID of the inbox",
+            "required": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_bot": {
+                  "type": "number",
+                  "required": true,
+                  "description": "Agent bot ID"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Inbox not found, Agent bot not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/agent_bots": {
+      "get": {
+        "tags": [
+          "AgentBot"
+        ],
+        "operationId": "listAgentBots",
+        "summary": "List all agentbots",
+        "description": "List all available agentbots for the current installation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/agent_bot"
+            }
+          },
+          "404": {
+            "description": "Inbox not found, Agent bot not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/conversations": {
       "get": {
         "tags": [
           "Conversation"
@@ -258,11 +314,61 @@
             "schema": {
               "$ref": "#/definitions/bad_request_error"
             }
+          },
+          "description": "Access denied"
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversation"
+        ],
+        "operationId": "newConversation",
+        "summary": "Create New Conversation",
+        "description": "Create conversation",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "source_id": {
+                  "type": "string",
+                  "description": "Contact Source Id"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "ID of the conversation"
+                },
+                "account_id": {
+                  "type": "number",
+                  "description": "Account Id"
+                },
+                "inbox_id": {
+                  "type": "number",
+                  "description": "ID of the inbox"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied"
           }
         }
       }
     },
-    "/account/{account_id}/conversations/{id}": {
+    "/accounts/{account_id}/conversations/{id}": {
       "get": {
         "tags": [
           "Conversation"
@@ -295,7 +401,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/toggle_status": {
+    "/accounts/{account_id}/conversations/{id}/toggle_status": {
       "post": {
         "tags": [
           "Conversation"
@@ -347,7 +453,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/messages": {
+    "/accounts/{account_id}/conversations/{id}/messages": {
       "get": {
         "tags": [
           "Messages"
@@ -434,7 +540,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/labels": {
+    "/accounts/{account_id}/conversations/{id}/labels": {
       "get": {
         "tags": [
           "ConversationLabels"
@@ -515,7 +621,7 @@
         }
       }
     },
-    "/account/{account_id}/conversations/{id}/assignments": {
+    "/accounts/{account_id}/conversations/{id}/assignments": {
       "post": {
         "tags": [
           "ConversationAssignment"
@@ -561,7 +667,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts": {
+    "/accounts/{account_id}/contacts": {
       "get": {
         "tags": [
           "Contact"
@@ -623,7 +729,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts/{id}": {
+    "/accounts/{account_id}/contacts/{id}": {
       "get": {
         "tags": [
           "Contact"
@@ -693,7 +799,7 @@
         }
       }
     },
-    "/account/{account_id}/contacts/{id}/conversations": {
+    "/accounts/{account_id}/contacts/{id}/conversations": {
       "get": {
         "tags": [
           "Contact"
@@ -799,6 +905,10 @@
         "messages": {
           "type": "array"
         },
+        "account_id": {
+          "type": "number",
+          "description": "Account Id"
+        },
         "inbox_id": {
           "type": "number",
           "description": "ID of the inbox"
@@ -838,6 +948,20 @@
         "content": {
           "type": "string",
           "description": "The text content of the message"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "input_select",
+            "cards",
+            "form"
+          ],
+          "description": "The type of the template message"
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "The content attributes for each content_type"
         },
         "message_type": {
           "type": "string",
@@ -934,6 +1058,39 @@
         "web_widget_script": {
           "type": "string",
           "description": "Script used to load the website widget"
+        },
+        "welcome_title": {
+          "type": "string",
+          "description": "Welcome title to be displayed on the widget"
+        },
+        "welcome_tagline": {
+          "type": "string",
+          "description": "Welcome tagline to be displayed on the widget"
+        },
+        "agent_away_message": {
+          "type": "string",
+          "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
+        }
+      }
+    },
+    "agent_bot": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "ID of the agent bot"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the agent bot"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the agent bot"
+        },
+        "outgoing_url": {
+          "type": "string",
+          "description": "The webhook URL for the bot"
         }
       }
     },
@@ -1247,7 +1404,7 @@
           "description": "ID of the conversation",
           "required": true
         },
-        "message": {
+        "content": {
           "type": "string",
           "description": "The content of the message",
           "required": true
@@ -1255,6 +1412,18 @@
         "private": {
           "type": "boolean",
           "description": "Flag to identify if it is a private note"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "input_select",
+            "form",
+            "cards"
+          ]
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "options/form object"
         }
       }
     }

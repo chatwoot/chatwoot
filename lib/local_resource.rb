@@ -1,8 +1,9 @@
 class LocalResource
   attr_reader :uri
 
-  def initialize(uri)
+  def initialize(uri, file_type = nil)
     @uri = URI(uri)
+    @file_type = file_type
   end
 
   def file
@@ -23,11 +24,12 @@ class LocalResource
     io.read.encoding
   end
 
+  def find_file_type
+    @file_type ? @file_type.split('/').last : Pathname.new(uri.path).extname
+  end
+
   def tmp_filename
-    [
-      Time.now.to_i.to_s,
-      Pathname.new(uri.path).extname
-    ]
+    [Time.now.to_i.to_s, find_file_type].join('.')
   end
 
   def tmp_folder

@@ -33,16 +33,16 @@ Enable `Run command as a login shell` in terminal `Preferences`. Restart your co
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.5
+Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.7.0
 
 ```bash
-rvm install ruby-2.6.5
+rvm install ruby-2.7.0
 ```
 
-Use ruby 2.6.5 as default
+Use ruby 2.7.0 as default
 
 ```bash
-rvm use 2.6.5 --default
+rvm use 2.7.0 --default
 ```
 
 ### Install Node.js

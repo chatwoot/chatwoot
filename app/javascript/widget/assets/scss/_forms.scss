@@ -22,7 +22,10 @@ $input-height: $space-two * 2;
   outline: none;
   padding: $space-smaller;
   position: relative;
-  transition: background .2s, border .2s, box-shadow .2s, color .2s;
+  transition: background .2s,
+  border .2s,
+  box-shadow .2s,
+  color .2s;
   width: 100%;
 
   &:focus {
@@ -37,7 +40,7 @@ $input-height: $space-two * 2;
   &.small {
     font-size: $font-size-small;
     height: $space-large;
-    padding: $space-small $space-slab;
+    padding: $space-small $space-one;
   }
 
   &.default {

@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Preluare conversații",
+    "LOAD_MORE_CONVERSATIONS": "Încarcă mai multe conversații",
+    "EOF": "Toate conversațiile au fost încărcate 🎉",
+    "LIST": {
+      "404": "Nu sunt conversații active în acest grup."
+    },
+    "TAB_HEADING": "Conversații",
+    "SEARCH": {
+      "INPUT": "Caută persoane, conversații, răspunsuri salvate .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Deschide",
+        "KEY": "număr"
+      },
+      {
+        "NAME": "Rezolvat",
+        "KEY": "status"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Ale mele",
+        "KEY": "eu",
+        "COUNT_KEY": "conversatii alocate mie"
+      },
+      {
+        "NAME": "Neatribuit",
+        "KEY": "neatribuit",
+        "COUNT_KEY": "conversatii nealocate"
+      },
+      {
+        "NAME": "Toate",
+        "KEY": "toate",
+        "COUNT_KEY": "toate conversatiile"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Deschide",
+        "VALUE": "deschide"
+      },
+      {
+        "TEXT": "Rezolvat",
+        "VALUE": "rezolvat"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "icon",
+        "CONTENT": "Mesaj imagine"
+      },
+      "audio": {
+        "ICON": "icon volum mare",
+        "CONTENT": "Mesaj audio"
+      },
+      "video": {
+        "ICON": "Icon ios videocam",
+        "CONTENT": "Mesaj video"
+      },
+      "file": {
+        "ICON": "icon document",
+        "CONTENT": "Fişier ataşat"
+      },
+      "location": {
+        "ICON": "icon ios-location",
+        "CONTENT": "Locaţie"
+      },
+      "fallback": {
+        "ICON": "icon link",
+        "CONTENT": "a partajat un URL"
+      }
+    }
+  }
+}

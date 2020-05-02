@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Callbacks API', type: :request do
   let(:account) { create(:account) }
-  let(:valid_params) { attributes_for(:channel_facebook_page).merge(page_name: 'Test', inbox_name: 'Test Inbox') }
+  let(:valid_params) { attributes_for(:channel_facebook_page).merge(inbox_name: 'Test Inbox') }
   let(:inbox) { create(:inbox, account: account) }
   let!(:facebook_page) { create(:channel_facebook_page, inbox: inbox, account: account) }
 

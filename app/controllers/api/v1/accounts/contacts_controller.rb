@@ -4,11 +4,6 @@ class Api::V1::Accounts::ContactsController < Api::BaseController
   before_action :check_authorization
   before_action :fetch_contact, only: [:show, :update]
 
-  skip_before_action :authenticate_user!, only: [:create]
-  skip_before_action :set_current_user, only: [:create]
-  skip_before_action :check_subscription, only: [:create]
-  skip_around_action :handle_with_exception, only: [:create]
-
   def index
     @contacts = current_account.contacts
   end

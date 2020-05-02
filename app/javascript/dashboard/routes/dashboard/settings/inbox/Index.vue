@@ -7,7 +7,7 @@
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
             v-if="isAdmin()"
-            :to="frontendURL('settings/inboxes/new')"
+            :to="addAccountScoping('settings/inboxes/new')"
           >
             {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
           </router-link>
@@ -51,9 +51,7 @@
               <td>
                 <div class="button-wrapper">
                   <router-link
-                    :to="
-                      `/app/accounts/${accountId}/settings/inboxes/${item.id}`
-                    "
+                    :to="addAccountScoping(`settings/inboxes/${item.id}`)"
                   >
                     <woot-submit-button
                       v-if="isAdmin()"
@@ -107,15 +105,15 @@ import { mapGetters } from 'vuex';
 import Settings from './Settings';
 import DeleteInbox from './DeleteInbox';
 import adminMixin from '../../../../mixins/isAdmin';
-import { frontendURL } from '../../../../helper/URLHelper';
 import auth from '../../../../api/auth';
+import accountMixin from '../../../../mixins/account';
 
 export default {
   components: {
     Settings,
     DeleteInbox,
   },
-  mixins: [adminMixin],
+  mixins: [adminMixin, accountMixin],
   data() {
     return {
       loading: {},
@@ -184,7 +182,6 @@ export default {
       this.showDeletePopup = false;
       this.selectedInbox = {};
     },
-    frontendURL,
   },
 };
 </script>

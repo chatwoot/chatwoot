@@ -37,19 +37,19 @@ source ~/.rvm/scripts/rvm
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.6.5
+Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.7.0
 
 If you are using `rvm` :
 
 ```bash
-rvm install ruby-2.6.5
-rvm use 2.6.5
+rvm install ruby-2.7.0
+rvm use 2.7.0
 ```
 
 If you are using `rbenv` to manage ruby versions do :
 
 ```bash
-rbenv install 2.6.5
+rbenv install 2.7.0
 ```
 
 `rbenv` identifies the ruby version from `.ruby-version` file on the root of the project and loads it automatically.
@@ -99,10 +99,13 @@ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
 ```
 
 ### Install imagemagick
+Chatwoot uses `imagemagick` library to resize images for showing previews and smaller size based on context.
 
 ```bash
 brew install imagemagick
 ```
+
+You can read more on installing imagemagick from source from [here](https://imagemagick.org/script/download.php).
 
 ### Install Docker
 

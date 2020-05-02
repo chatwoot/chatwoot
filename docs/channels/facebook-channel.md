@@ -37,4 +37,4 @@ If you are using self-hosted Chatwoot installation, please configure the Faceboo
 
 **Step 7**. If you want to update the agents who have access to the inbox, you can go to Settings > Inboxes.
 
-![inbox_settings](./images/inbox_settings.png)
+![inbox_settings](./images/facebook/inbox_settings.png)

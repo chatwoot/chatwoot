@@ -195,8 +195,7 @@ export default {
           }
         },
         {
-          scope:
-            'manage_pages,read_page_mailboxes,pages_messaging,pages_messaging_phone_number',
+          scope: 'manage_pages,pages_messaging,pages_messaging_phone_number',
         }
       );
     },
@@ -221,9 +220,8 @@ export default {
       return {
         user_access_token: this.user_access_token,
         page_access_token: this.selectedPage.access_token,
-        page_name: this.selectedPage.name,
         page_id: this.selectedPage.id,
-        inbox_name: this.pageName,
+        inbox_name: this.selectedPage.name,
       };
     },
 
