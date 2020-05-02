@@ -185,7 +185,7 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-slab;
+  right: $space-normal;
   top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
