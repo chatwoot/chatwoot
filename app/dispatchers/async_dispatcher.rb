@@ -9,7 +9,7 @@ class AsyncDispatcher < BaseDispatcher
   end
 
   def listeners
-    listeners = [EventListener.instance, ReportingListener.instance, WebhookListener.instance]
+    listeners = [EventListener.instance, WebhookListener.instance]
     listeners << SubscriptionListener.instance if ENV['BILLING_ENABLED']
     listeners
   end

@@ -54,9 +54,6 @@ gem 'pundit'
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
-##--- gems for reporting ---##
-gem 'nightfury'
-
 ##--- gems for billing ---##
 gem 'chargebee'
 
