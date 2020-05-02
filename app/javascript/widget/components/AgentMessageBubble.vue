@@ -124,6 +124,11 @@ export default {
     background: $color-white;
     border-bottom-left-radius: $space-smaller;
     color: $color-body;
+
+    .link {
+      word-break: break-word;
+      color: $color-woot;
+    }
   }
 }
 </style>
