@@ -79,17 +79,6 @@ Rails.application.routes.draw do
         resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
 
-        resources :reports, only: [] do
-          collection do
-            get :account
-            get :agent
-          end
-          member do
-            get :account_summary
-            get :agent_summary
-          end
-        end
-
         # this block is only required if subscription via chargebee is enabled
         resources :subscriptions, only: [:index] do
           collection do
