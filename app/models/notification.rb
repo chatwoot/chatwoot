@@ -42,6 +42,6 @@ class Notification < ApplicationRecord
 
   def process_notification_delivery
     Notification::EmailNotificationService.new(notification: self).perform
-    # Notification::PushNotificationService.new(notification: self).perform
+    Notification::PushNotificationService.new(notification: self).perform
   end
 end

@@ -536,7 +536,7 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
-  mock_redis
+  mock_redis!
   pg
   pry-rails
   puma

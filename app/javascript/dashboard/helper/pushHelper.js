@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import NotificationSubscriptions from '../api/notificationSubscription';
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -48,12 +49,14 @@ export const requestPushPermissions = () => {
               applicationServerKey: window.chatwootConfig.vapidPublicKey,
             })
             .then(subscription => {
-              var data = {
-                endpoint: subscription.endpoint,
-                p256dh: generateKeys(subscription.getKey('p256dh')),
-                auth: generateKeys(subscription.getKey('auth')),
-              };
-              console.log(data);
+              return NotificationSubscriptions.create({
+                subscription_type: 'browser_push',
+                subscription_attributes: {
+                  endpoint: subscription.endpoint,
+                  p256dh: generateKeys(subscription.getKey('p256dh')),
+                  auth: generateKeys(subscription.getKey('auth')),
+                },
+              });
             });
         });
       }

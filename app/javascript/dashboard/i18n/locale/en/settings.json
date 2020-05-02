@@ -26,9 +26,17 @@
         "TITLE": "Email Notifications",
         "NOTE": "Update your email notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "UPDATE_SUCCESS": "Your email notification preferences are updated successfully",
+        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
         "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION" : {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created"
       },
       "PROFILE_IMAGE":{
         "LABEL": "Profile Image"

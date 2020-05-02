@@ -109,9 +109,9 @@
         <p>Enable push notifications on this browser</p>
       </div>
       <div class="columns small-9 medium-5">
-        <div v-if="hasEnabledPushPermissions">
+        <p v-if="hasEnabledPushPermissions">
           You have enabled push for this browser.
-        </div>
+        </p>
         <div v-else>
           <woot-submit-button
             class="button nice"

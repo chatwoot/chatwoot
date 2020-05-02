@@ -9,11 +9,11 @@
     <div class="columns small-9">
       <div>
         <input
-          v-model="selectedNotifications"
-          class="email-notification--checkbox"
+          v-model="selectedEmailFlags"
+          class="notification--checkbox"
           type="checkbox"
           value="email_conversation_creation"
-          @input="handleInput"
+          @input="handleEmailInput"
         />
         <label for="conversation_creation">
           {{
@@ -26,11 +26,11 @@
 
       <div>
         <input
-          v-model="selectedNotifications"
-          class="email-notification--checkbox"
+          v-model="selectedEmailFlags"
+          class="notification--checkbox"
           type="checkbox"
           value="email_conversation_assignment"
-          @input="handleInput"
+          @input="handleEmailInput"
         />
         <label for="conversation_assignment">
           {{
@@ -41,65 +41,114 @@
         </label>
       </div>
     </div>
+
+    <div class="columns small-3 ">
+      <h4 class="block-title">
+        {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
+      </h4>
+      <p>{{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.NOTE') }}</p>
+    </div>
+    <div class="columns small-9">
+      <div>
+        <input
+          v-model="selectedPushFlags"
+          class="notification--checkbox"
+          type="checkbox"
+          value="push_conversation_creation"
+          @input="handlePushInput"
+        />
+        <label for="conversation_creation">
+          {{
+            $t(
+              'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_CREATION'
+            )
+          }}
+        </label>
+      </div>
+
+      <div>
+        <input
+          v-model="selectedPushFlags"
+          class="notification--checkbox"
+          type="checkbox"
+          value="push_conversation_assignment"
+          @input="handlePushInput"
+        />
+        <label for="conversation_assignment">
+          {{
+            $t(
+              'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_ASSIGNMENT'
+            )
+          }}
+        </label>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
+  mixins: [alertMixin],
   data() {
     return {
-      selectedNotifications: [],
+      selectedEmailFlags: [],
+      selectedPushFlags: [],
     };
   },
   computed: {
     ...mapGetters({
-      selectedEmailFlags: 'userNotificationSettings/getSelectedEmailFlags',
+      emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
+      pushFlags: 'userNotificationSettings/getSelectedPushFlags',
     }),
   },
   watch: {
-    selectedEmailFlags(value) {
-      this.selectedNotifications = value;
+    emailFlags(value) {
+      this.selectedEmailFlags = value;
+    },
+    pushFlags(value) {
+      this.selectedPushFlags = value;
     },
   },
   mounted() {
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
-    async handleInput(e) {
-      const selectedValue = e.target.value;
-      if (this.selectedEmailFlags.includes(e.target.value)) {
-        const selectedEmailFlags = this.selectedEmailFlags.filter(
-          flag => flag !== selectedValue
-        );
-        this.selectedNotifications = selectedEmailFlags;
-      } else {
-        this.selectedNotifications = [
-          ...this.selectedEmailFlags,
-          selectedValue,
-        ];
-      }
+    async updateNotificationSettings() {
       try {
-        this.$store.dispatch(
-          'userNotificationSettings/update',
-          this.selectedNotifications
-        );
-        bus.$emit(
-          'newToastMessage',
-          this.$t(
-            'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.UPDATE_SUCCESS'
-          )
-        );
+        this.$store.dispatch('userNotificationSettings/update', {
+          selectedEmailFlags: this.selectedEmailFlags,
+          selectedPushFlags: this.selectedPushFlags,
+        });
+        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
       } catch (error) {
-        bus.$emit(
-          'newToastMessage',
-          this.$t(
-            'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.UPDATE_ERROR'
-          )
-        );
+        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_ERROR'));
       }
+    },
+    handleEmailInput(e) {
+      this.selectedEmailFlags = this.toggleInput(
+        this.selectedEmailFlags,
+        e.target.value
+      );
+
+      this.updateNotificationSettings();
+    },
+    handlePushInput(e) {
+      this.selectedPushFlags = this.toggleInput(
+        this.selectedPushFlags,
+        e.target.value
+      );
+
+      this.updateNotificationSettings();
+    },
+    toggleInput(selected, current) {
+      if (selected.includes(current)) {
+        const newSelectedFlags = selected.filter(flag => flag !== current);
+        return newSelectedFlags;
+      }
+      return [...selected, current];
     },
   },
 };
@@ -108,7 +157,7 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables.scss';
 
-.email-notification--checkbox {
+.notification--checkbox {
   font-size: $font-size-large;
 }
 </style>
