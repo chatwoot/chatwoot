@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # set this to appropriate ingress channel when you are doing development in local with regards to incoming emails
-  # config.action_mailbox.ingress = :sendgrid
+  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
