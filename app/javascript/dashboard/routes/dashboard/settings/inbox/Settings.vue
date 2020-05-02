@@ -100,7 +100,6 @@
             </label>
           </div>
         </div>
-
         <div>
           <label>
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
@@ -155,6 +154,19 @@
         </woot-submit-button>
       </settings-section>
     </div>
+
+    <div
+      v-if="inbox.channel_type === 'Channel::TwilioSms'"
+      class="settings--content"
+    >
+      <settings-section
+        :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
+        :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
+      >
+        <woot-code :script="twilioCallbackURL" lang="html"></woot-code>
+      </settings-section>
+    </div>
+
     <div
       v-if="inbox.channel_type === 'Channel::FacebookPage'"
       class="settings--content"
