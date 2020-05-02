@@ -1,14 +1,4 @@
 Rails.application.configure do
-  # Prepare the ingress controller used to receive mail
-
-  # Set this to appropriate ingress service for which the options are :
-  # :relay for Exim, Postfix, Qmail
-  # :mailgun for Mailgun
-  # :mandrill for Mandrill
-  # :postmark for Postmark
-  # :sendgrid for Sendgrid
-  config.action_mailbox.ingress = :sendgrid
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -75,12 +65,6 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   # config.active_job.queue_name_prefix = "Chatwoot_#{Rails.env}"
 
-  config.action_mailer.perform_caching = false
-
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
@@ -110,6 +94,12 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  config.action_mailer.perform_caching = false
+
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  # config.action_mailer.raise_delivery_errors = false
+
   # Chatwoot production settings
   config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
   config.action_mailer.smtp_settings = {
@@ -120,6 +110,14 @@ Rails.application.configure do
     authentication: :login,
     enable_starttls_auto: true
   }
+
+  # Set this to appropriate ingress service for which the options are :
+  # :relay for Exim, Postfix, Qmail
+  # :mailgun for Mailgun
+  # :mandrill for Mandrill
+  # :postmark for Postmark
+  # :sendgrid for Sendgrid
+  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 end
