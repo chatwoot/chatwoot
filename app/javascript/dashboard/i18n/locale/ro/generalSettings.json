@@ -1,0 +1,27 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Setări cont",
+    "SUBMIT": "Actualizați setările",
+    "UPDATE": {
+      "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
+      "SUCCESS": "Setările contului actualizate cu succes"
+    },
+    "FORM": {
+      "ERROR": "Vă rugăm să remediați erorile din formular",
+      "GENERAL_SECTION": {
+        "TITLE": "Setări generale",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nume cont",
+        "PLACEHOLDER": "Numele contului tău",
+        "ERROR": "Te rugăm să introduci un nume de cont valid"
+      },
+      "LANGUAGE": {
+        "LABEL": "Limba site-ului (Beta)",
+        "PLACEHOLDER": "Numele contului tău",
+        "ERROR": ""
+      }
+    }
+  }
+}

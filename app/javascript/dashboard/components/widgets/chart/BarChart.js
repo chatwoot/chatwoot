@@ -14,7 +14,7 @@ const chartOptions = {
   scales: {
     xAxes: [
       {
-        barPercentage: 1.9,
+        barPercentage: 1.26,
         ticks: {
           fontFamily,
         },
@@ -27,6 +27,7 @@ const chartOptions = {
       {
         ticks: {
           fontFamily,
+          beginAtZero: true,
         },
         gridLines: {
           display: false,

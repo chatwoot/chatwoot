@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Отримання бесід",
+    "LOAD_MORE_CONVERSATIONS": "Завантажити більше бесід",
+    "EOF": "Всі бесіди завантажені 🎉",
+    "LIST": {
+      "404": "В цій групі немає активних бесід."
+    },
+    "TAB_HEADING": "Бесіди",
+    "SEARCH": {
+      "INPUT": "Пошук людей, чатів та збережених відповідей.."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Відкриті",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Вирішені",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Мої",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Непризначені",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Всі",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Відкритий",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Вирішений",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Повідомлення з картинкою"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Аудіо-повідомлення"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Відеоповідомлення"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Повідомлення з файлом"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Місцезнаходження"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "поділився посиланням"
+      }
+    }
+  }
+}

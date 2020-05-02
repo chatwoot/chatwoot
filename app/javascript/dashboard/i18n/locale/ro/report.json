@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Rapoarte",
+    "LOADING_CHART": "Încărcare date grafic...",
+    "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
+    "METRICS": [
+      {
+        "NAME": "Conversații",
+        "KEY": "numar conversații",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Mesaje primite",
+        "KEY": "numărul_mesajelor_intrate",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Mesaje trimise",
+        "KEY": "numarul_mesajelor_iesite",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Primul răspuns",
+        "KEY": "media_primului_timp_de_raspuns",
+        "DESC": "(Medie)"
+      },
+      {
+        "NAME": "Timp Rezolutie",
+        "KEY": "timpul_mediu_rezolutie",
+        "DESC": "(Medie)"
+      },
+      {
+        "NAME": "Număr de rezoluții",
+        "KEY": "numar_rezolutii",
+        "DESC": "( Total )"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Ultimele 7 zile"
+      },
+      {
+        "id": 1,
+        "name": "Ultimele 30 zile"
+      }
+    ]
+  }
+}

@@ -17,6 +17,7 @@ gem 'jbuilder'
 gem 'kaminari'
 gem 'responders'
 gem 'rest-client'
+gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
@@ -54,9 +55,6 @@ gem 'administrate'
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
-
-##--- gems for reporting ---##
-gem 'nightfury'
 
 ##--- gems for billing ---##
 gem 'chargebee'
