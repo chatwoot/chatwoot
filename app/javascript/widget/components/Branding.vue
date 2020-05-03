@@ -6,7 +6,7 @@
     target="_blank"
   >
     <img src="~widget/assets/images/logo.svg" alt="ChatwootLogo" />
-    <span>Powered by Chatwoot</span>
+    <span>{{ $t('POWERED_BY') }}</span>
   </a>
 </template>
 
