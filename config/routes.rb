@@ -49,6 +49,7 @@ Rails.application.routes.draw do
           end
           member do
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end

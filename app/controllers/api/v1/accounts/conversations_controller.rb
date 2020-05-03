@@ -1,4 +1,5 @@
 class Api::V1::Accounts::ConversationsController < Api::BaseController
+  include Events::Types
   before_action :conversation, except: [:index]
   before_action :contact_inbox, only: [:create]
 
@@ -21,6 +22,16 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
 
   def toggle_status
     @status = @conversation.toggle_status
+  end
+
+  def toggle_typing_status
+    user = current_user.presence || @resource
+    if params[:typing_status] == 'on'
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_ON, Time.zone.now,  conversation: @conversation, user: user)
+    elsif params[:typing_status] == 'off'
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, conversation: @conversation)
+    end
+    head :ok
   end
 
   def update_last_seen
