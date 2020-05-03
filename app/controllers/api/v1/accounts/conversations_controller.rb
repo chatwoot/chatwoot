@@ -29,7 +29,7 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
     if params[:typing_status] == 'on'
       Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_ON, Time.zone.now,  conversation: @conversation, user: user)
     elsif params[:typing_status] == 'off'
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, conversation: @conversation)
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, conversation: @conversation, user: user)
     end
     head :ok
   end
