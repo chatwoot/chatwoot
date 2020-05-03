@@ -8,6 +8,11 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
     @conversations_count = result[:count]
   end
 
+  def meta
+    result = conversation_finder.perform
+    @conversations_count = result[:count]
+  end
+
   def create
     @conversation = ::Conversation.create!(conversation_params)
   end
