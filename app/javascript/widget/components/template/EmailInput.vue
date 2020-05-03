@@ -69,6 +69,10 @@ export default {
   },
   methods: {
     onSubmit() {
+      if (this.$v.$invalid) {
+        return;
+      }
+
       this.$store.dispatch('message/update', {
         email: this.email,
         messageId: this.messageId,
