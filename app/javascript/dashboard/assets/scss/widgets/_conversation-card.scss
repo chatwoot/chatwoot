@@ -2,11 +2,13 @@
   @include flex;
   @include flex-shrink;
   @include padding($space-normal $zero $zero $space-normal);
+  border-left: 4px solid transparent;
   cursor: pointer;
   position: relative;
 
   &.active {
     background: $color-background;
+    border-left-color: $color-woot;
   }
 
   .conversation--details {
@@ -64,7 +66,7 @@
       background: darken($success-color, 3%);
       color: $color-white;
       display: none;
-      font-size: $font-size-mini;
+      font-size: $font-size-micro;
       font-weight: $font-weight-medium;
       height: $unread-size;
       line-height: $unread-size;

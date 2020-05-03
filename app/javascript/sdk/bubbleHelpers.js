@@ -15,7 +15,7 @@ export const notificationBubble = document.createElement('span');
 const bodyOverFlowStyle = document.body.style.overflow;
 
 export const createBubbleIcon = ({ className, src, target }) => {
-  target.className = className;
+  target.className = `${className} woot-elements--${window.$chatwoot.position}`;
   const bubbleIcon = document.createElement('img');
   bubbleIcon.src = src;
   target.appendChild(bubbleIcon);

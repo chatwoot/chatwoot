@@ -65,12 +65,16 @@
         "SUBMIT_BUTTON": "Créer une boîte de réception"
       },
       "TWILIO": {
-        "TITLE": "Canal SMS Twilio",
-        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS.",
+        "TITLE": "Canal Twilio SMS/WhatsApp",
+        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
           "ERROR": "Ce champ est requis"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Type de canal",
+          "ERROR": "Veuillez sélectionner votre type de canal"
         },
         "AUTH_TOKEN": {
           "LABEL": "Jeton d'authentification",

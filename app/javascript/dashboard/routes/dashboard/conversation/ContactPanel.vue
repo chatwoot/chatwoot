@@ -23,6 +23,13 @@
           >
             {{ contact.email }}
           </a>
+          <a
+            v-if="contact.phone_number"
+            :href="`tel:${contact.phone_number}`"
+            class="contact--email"
+          >
+            {{ contact.phone_number }}
+          </a>
 
           <div
             v-if="
@@ -139,7 +146,7 @@ export default {
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     contactId() {
-      return this.currentConversationMetaData.contact_id;
+      return this.currentConversationMetaData.contact?.id;
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
@@ -148,16 +155,12 @@ export default {
   watch: {
     contactId(newContactId, prevContactId) {
       if (newContactId && newContactId !== prevContactId) {
-        this.$store.dispatch('contacts/show', {
-          id: this.currentConversationMetaData.contact_id,
-        });
+        this.$store.dispatch('contacts/show', { id: newContactId });
       }
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/show', {
-      id: this.currentConversationMetaData.contact_id,
-    });
+    this.$store.dispatch('contacts/show', { id: this.contactId });
   },
   methods: {
     onPanelToggle() {
@@ -182,7 +185,7 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-slab;
+  right: $space-normal;
   top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
@@ -211,7 +214,7 @@ export default {
   text-transform: capitalize;
 
   font-weight: $font-weight-bold;
-  font-size: $font-size-medium;
+  font-size: $font-size-default;
 }
 
 .contact--email {

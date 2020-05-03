@@ -282,7 +282,6 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.1.1)
     netrc (0.11.0)
-    nightfury (1.0.1)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
@@ -448,6 +447,7 @@ GEM
       faraday
       inflecto
       virtus
+    telephone_number (1.4.6)
     thor (0.20.3)
     thread_safe (0.3.6)
     time_diff (0.3.0)
@@ -532,8 +532,7 @@ DEPENDENCIES
   letter_opener
   listen
   mini_magick
-  mock_redis!
-  nightfury
+  mock_redis
   pg
   pry-rails
   puma
@@ -560,6 +559,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen
   telegram-bot-ruby
+  telephone_number
   time_diff
   twilio-ruby (~> 5.32.0)
   twitty!

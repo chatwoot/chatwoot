@@ -1,5 +1,5 @@
 require 'rails_helper'
-describe EmailNotificationListener do
+describe NotificationListener do
   let(:listener) { described_class.instance }
   let!(:account) { create(:account) }
   let!(:user) { create(:user, account: account) }
@@ -13,14 +13,14 @@ describe EmailNotificationListener do
 
     before do
       creation_mailer = double
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_created).and_return(creation_mailer)
+      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_creation).and_return(creation_mailer)
       allow(creation_mailer).to receive(:deliver_later).and_return(true)
     end
 
     context 'when conversation is created' do
       it 'sends email to inbox members who have notifications turned on' do
         notification_setting = agent_with_notification.notification_settings.first
-        notification_setting.selected_email_flags = [:conversation_creation]
+        notification_setting.selected_email_flags = [:email_conversation_creation]
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_notification, inbox: inbox)
@@ -29,7 +29,7 @@ describe EmailNotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_created)
+        expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_creation)
           .with(conversation, agent_with_notification)
       end
 
@@ -44,7 +44,7 @@ describe EmailNotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_created)
+        expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_creation)
           .with(conversation, agent_with_out_notification)
       end
     end

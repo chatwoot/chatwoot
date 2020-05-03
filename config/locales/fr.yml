@@ -19,23 +19,23 @@
 fr:
   hello: "Bonjour le monde"
   messages:
-    reset_password_success: Woot ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
-    reset_password_failure: Uh ho! Nous n'avons trouvé aucun utilisateur avec l'e-mail spécifié.
+    reset_password_success: Super ! La demande de réinitialisation du mot de passe a réussi. Consultez vos e-mails pour obtenir des instructions.
+    reset_password_failure: Oh oh ! Nous n'avons trouvé aucun utilisateur avec le courriel spécifié.
   errors:
     signup:
-      disposable_email: Nous n'autorisons pas les emails jetables
-      invalid_email: Vous avez entré un e-mail non valide
+      disposable_email: Nous n'autorisons pas les courriels jetables
+      invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
       failed: L'inscription a échoué
   conversations:
     activity:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
-        open: "La conversation a été rouverte par %{user_name}"
+        open: "La conversation a été ré-ouverte par %{user_name}"
       assignee:
         assigned: "Assigné à %{assignee_name} par %{user_name}"
-        removed: "Conversation non assignée par %{user_name}"
+        removed: "Responsable de la conversation supprimé par %{user_name}"
     templates:
-      typical_reply_message_body: "%{account_name} répond généralement dans quelques heures."
-      ways_to_reach_you_message_body: "Donnez à l'équipe un moyen de vous rejoindre."
-      email_input_box_message_body: "Recevez une notification par e-mail"
+      typical_reply_message_body: "%{account_name} répond généralement en quelques heures."
+      ways_to_reach_you_message_body: "Donnez à l'équipe un moyen de vous recontacter."
+      email_input_box_message_body: "Recevez des notifications par courriel"

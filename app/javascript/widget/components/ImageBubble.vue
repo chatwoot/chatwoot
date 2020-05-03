@@ -29,11 +29,10 @@ export default {
     max-width: 100%;
 
     &::before {
-      $color-black: #000;
       background-image: linear-gradient(
         -180deg,
         transparent 3%,
-        $color-black 70%
+        $color-heading 130%
       );
       bottom: 0;
       content: '';
@@ -55,7 +54,7 @@ export default {
     bottom: $space-smaller;
     color: $color-white;
     position: absolute;
-    right: $space-small;
+    right: $space-slab;
     white-space: nowrap;
   }
 }

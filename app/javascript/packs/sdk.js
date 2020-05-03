@@ -8,7 +8,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
-    position: chatwootSettings.position || 'right',
+    position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
 
     toggle() {

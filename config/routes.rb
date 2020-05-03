@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
           end
           member do
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end
@@ -76,18 +78,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
-
-        resources :reports, only: [] do
-          collection do
-            get :account
-            get :agent
-          end
-          member do
-            get :account_summary
-            get :agent_summary
-          end
-        end
 
         # this block is only required if subscription via chargebee is enabled
         resources :subscriptions, only: [:index] do
@@ -103,6 +95,7 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       resource :profile, only: [:show, :update]
+      resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]
 
@@ -161,6 +154,10 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  # ----------------------------------------------------------------------
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
