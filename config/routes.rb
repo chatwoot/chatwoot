@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
