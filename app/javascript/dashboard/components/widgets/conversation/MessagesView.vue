@@ -26,6 +26,9 @@
         :key="message.id"
         :data="message"
       />
+      <p>
+        {{ typingUserList }}
+      </p>
     </ul>
     <ReplyBox
       :conversation-id="currentChat.id"
@@ -80,6 +83,22 @@ export default {
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+
+    typingUserList() {
+      const userList = this.$store.getters[
+        'conversationTypingStatus/getUserList'
+      ](this.currentChat.id);
+
+      const userListAsName = userList.reduce(
+        (acc, user) => acc + ' ' + user.name,
+        ''
+      );
+      if (userList.length) {
+        return `${userListAsName} is typing`;
+      }
+
+      return '';
+    },
 
     getMessages() {
       const [chat] = this.allConversations.filter(

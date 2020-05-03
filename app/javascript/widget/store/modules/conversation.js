@@ -4,6 +4,7 @@ import {
   sendMessageAPI,
   getConversationAPI,
   sendAttachmentAPI,
+  toggleTyping,
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
@@ -137,6 +138,14 @@ export const actions = {
 
   toggleAgentTyping({ commit }, data) {
     commit('toggleAgentTypingStatus', data);
+  },
+
+  toggleUserTyping: async (_, data) => {
+    try {
+      await toggleTyping(data);
+    } catch (error) {
+      // console error
+    }
   },
 };
 

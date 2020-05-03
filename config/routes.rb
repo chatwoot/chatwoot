@@ -102,6 +102,11 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
+        resources :conversations do
+          collection do
+            post :toggle_typing
+          end
+        end
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]

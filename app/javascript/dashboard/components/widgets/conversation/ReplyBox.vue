@@ -20,8 +20,8 @@
         class="input"
         type="text"
         :placeholder="$t(messagePlaceHolder())"
-        @focus="onFocus()"
-        @blur="onBlur()"
+        @focus="onFocus"
+        @blur="onBlur"
       />
       <file-upload
         v-if="showFileUpload"

@@ -13,6 +13,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
       'assignee.changed': this.onAssigneeChanged,
+      'conversation.typing_on': this.onTypingOn,
+      'conversation.typing_off': this.onTypingOff,
     };
   }
 
@@ -42,6 +44,20 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
+  };
+
+  onTypingOn = ({ conversation, user }) => {
+    this.app.$store.dispatch('conversationTypingStatus/create', {
+      conversationId: conversation.id,
+      user,
+    });
+  };
+
+  onTypingOff = ({ conversation, user }) => {
+    this.app.$store.dispatch('conversationTypingStatus/destroy', {
+      conversationId: conversation.id,
+      user,
+    });
   };
 }
 
