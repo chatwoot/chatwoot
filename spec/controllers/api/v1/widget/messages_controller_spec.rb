@@ -14,28 +14,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'GET /api/v1/widget/messages' do
-    context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id)
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-    end
-
-    context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
-
-      it 'creates a new outgoing message' do
-        params = { content: 'test-message', private: true }
-
-        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: params,
-             headers: agent.create_new_auth_token,
-             as: :json
+    context 'when get request is made' do
+      it 'returns messages in conversation' do
+        get api_v1_widget_messages_url,
+            params: { website_token: web_widget.website_token },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.first.content).to eq(params[:content])
+        json_response = JSON.parse(response.body)
+
+        # 2 messages created + 3 messages by the template hook
+        expect(json_response.length).to eq(5)
       end
     end
   end
