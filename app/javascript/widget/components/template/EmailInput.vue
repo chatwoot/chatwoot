@@ -7,10 +7,11 @@
     >
       <input
         v-model.trim="email"
-        class="form-input small"
+        class="form-input"
         placeholder="Please enter your email"
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
+        @keyup.enter="onSubmit"
       />
       <button
         class="button"
@@ -86,8 +87,9 @@ export default {
   min-width: 200px;
 
   input {
-    border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    padding: $space-one;
 
     &.error {
       border-color: $color-error;
