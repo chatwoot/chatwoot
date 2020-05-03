@@ -22,9 +22,9 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   def toggle_typing_status
     user = current_user.presence || @resource
     if params[:typing_status] == 'on'
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_ON, Time.zone.now, { conversation: @conversation, user: user })
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_ON, Time.zone.now,  conversation: @conversation, user: user)
     elsif params[:typing_status] == 'off'
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, { conversation: @conversation })
+      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, conversation: @conversation)
     end
     head :ok
   end
