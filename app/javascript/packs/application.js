@@ -26,7 +26,10 @@ import router from '../dashboard/routes';
 import store from '../dashboard/store';
 import vueActionCable from '../dashboard/helper/actionCable';
 import constants from '../dashboard/constants';
-import { verifyServiceWorkerExistence } from '../dashboard/helper/pushHelper';
+import {
+  verifyServiceWorkerExistence,
+  registerSubscription,
+} from '../dashboard/helper/pushHelper';
 
 Vue.config.env = process.env;
 
@@ -68,5 +71,13 @@ window.onload = () => {
 };
 
 window.addEventListener('load', () => {
-  verifyServiceWorkerExistence();
+  verifyServiceWorkerExistence(registration =>
+    registration.pushManager.getSubscription().then(subscription => {
+      if (!subscription) {
+        console.log('Not subscribed to push service!');
+      } else {
+        registerSubscription(subscription);
+      }
+    })
+  );
 });

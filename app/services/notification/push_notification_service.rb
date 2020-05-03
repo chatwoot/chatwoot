@@ -9,7 +9,6 @@ class Notification::PushNotificationService
     notification_subscriptions.each do |subscription|
       send_browser_push(subscription) if subscription.browser_push?
     end
-    # TODO: implement the push delivery logic here
   end
 
   private
@@ -29,7 +28,7 @@ class Notification::PushNotificationService
     @conversation ||= notification.primary_actor
   end
 
-  def push_message
+  def push_message_title
     if notification.notification_type == 'conversation_creation'
       return "A new conversation [ID -#{conversation.display_id}] has been created in #{conversation.inbox.name}"
     end
@@ -41,13 +40,20 @@ class Notification::PushNotificationService
     ''
   end
 
+  def push_message
+    {
+      title: push_message_title,
+      type: notification.notification_type
+    }
+  end
+
   def push_url
     app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id)
   end
 
   def send_browser_push(subscription)
     Webpush.payload_send(
-      message: push_message,
+      message: JSON.generate(push_message),
       endpoint: subscription.subscription_attributes['endpoint'],
       p256dh: subscription.subscription_attributes['p256dh'],
       auth: subscription.subscription_attributes['auth'],
@@ -60,5 +66,7 @@ class Notification::PushNotificationService
       open_timeout: 5,
       read_timeout: 5
     )
+  rescue Webpush::ExpiredSubscription
+    subscription.destroy!
   end
 end

@@ -23,7 +23,6 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
 
 export const hasPushPermissions = () => {
   if ('Notification' in window) {
-    console.log(Notification);
     return Notification.permission === 'granted';
   }
   return false;
@@ -34,6 +33,21 @@ const generateKeys = str =>
     .replace(/\+/g, '-')
     .replace(/\//g, '_');
 
+export const getPushSubscriptionPayload = subscription => ({
+  subscription_type: 'browser_push',
+  subscription_attributes: {
+    endpoint: subscription.endpoint,
+    p256dh: generateKeys(subscription.getKey('p256dh')),
+    auth: generateKeys(subscription.getKey('auth')),
+  },
+});
+
+export const registerSubscription = subscription => {
+  return NotificationSubscriptions.create(
+    getPushSubscriptionPayload(subscription)
+  );
+};
+
 export const requestPushPermissions = () => {
   if (!('Notification' in window)) {
     console.error('This browser does not support desktop notification');
@@ -42,23 +56,17 @@ export const requestPushPermissions = () => {
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission(permission => {
       if (permission === 'granted') {
-        navigator.serviceWorker.ready.then(serviceWorkerRegistration => {
-          serviceWorkerRegistration.pushManager
-            .subscribe({
+        navigator.serviceWorker.ready
+          .then(serviceWorkerRegistration =>
+            serviceWorkerRegistration.pushManager.subscribe({
               userVisibleOnly: true,
               applicationServerKey: window.chatwootConfig.vapidPublicKey,
             })
-            .then(subscription => {
-              return NotificationSubscriptions.create({
-                subscription_type: 'browser_push',
-                subscription_attributes: {
-                  endpoint: subscription.endpoint,
-                  p256dh: generateKeys(subscription.getKey('p256dh')),
-                  auth: generateKeys(subscription.getKey('auth')),
-                },
-              });
-            });
-        });
+          )
+          .then(registerSubscription)
+          .catch(error => {
+            console.log('Push subscription error: ', error);
+          });
       }
     });
   }

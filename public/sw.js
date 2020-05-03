@@ -1,15 +1,13 @@
-// serviceworker.js
-// The serviceworker context can respond to 'push' events and trigger
-// notifications on the registration property
-/* eslint-disable  */
+/* eslint-disable no-restricted-globals, no-console */
 self.addEventListener('push', event => {
-  console.log(event, event.data.text())
-  let title = event.data && event.data.text();
-  let body = "We have received a push message";
-  let tag = "push-simple-demo-notification-tag";
-  let icon = '/assets/my-logo-120x120.png';
+  console.log(event, event.data.json());
+  let notification = event.data && event.data.json();
+  let icon = '/favicon-512x512.png';
 
   event.waitUntil(
-    self.registration.showNotification(title, { body, icon, tag })
-  )
+    self.registration.showNotification(notification.title, {
+      icon,
+      tag: notification.type,
+    })
+  );
 });
