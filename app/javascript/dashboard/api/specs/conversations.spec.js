@@ -11,6 +11,5 @@ describe('#ConversationApi', () => {
     expect(conversations).toHaveProperty('delete');
     expect(conversations).toHaveProperty('getLabels');
     expect(conversations).toHaveProperty('updateLabels');
-    expect(conversations).toHaveProperty('toggleTyping');
   });
 });
