@@ -6,6 +6,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
+      'conversation.typing_on': this.onTypingOn,
+      'conversation.typing_off': this.onTypingOff,
     };
   }
 
@@ -15,6 +17,18 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('conversation/updateMessage', data);
+  };
+
+  onTypingOn = () => {
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+      status: 'on',
+    });
+  };
+
+  onTypingOff = () => {
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+      status: 'off',
+    });
   };
 }
 

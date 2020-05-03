@@ -36,11 +36,13 @@ const state = {
   uiFlags: {
     allMessagesLoaded: false,
     isFetchingList: false,
+    isAgentTyping: false,
   },
 };
 
 export const getters = {
   getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
+  getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
   getEarliestMessage: _state => {
@@ -132,6 +134,10 @@ export const actions = {
   updateMessage({ commit }, data) {
     commit('pushMessageToConversation', data);
   },
+
+  toggleAgentTyping({ commit }, data) {
+    commit('toggleAgentTypingStatus', data);
+  },
 };
 
 export const mutations = {
@@ -191,6 +197,11 @@ export const mutations = {
         ...content_attributes,
       },
     };
+  },
+
+  toggleAgentTypingStatus($state, { status }) {
+    const isTyping = status === 'on';
+    $state.uiFlags.isAgentTyping = isTyping;
   },
 };
 
