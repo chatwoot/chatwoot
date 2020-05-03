@@ -23,6 +23,12 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'on',
     });
+    // Turn off typing automatically after 30 seconds
+    setTimeout(() => {
+      this.app.$store.dispatch('conversation/toggleAgentTyping', {
+        status: 'off',
+      });
+    }, 30000);
   };
 
   onTypingOff = () => {
