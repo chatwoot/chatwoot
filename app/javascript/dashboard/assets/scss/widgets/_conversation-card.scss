@@ -2,7 +2,7 @@
   @include flex;
   @include flex-shrink;
   @include padding($space-normal $zero $zero $space-normal);
-  border-left: 4px solid transparent;
+  border-left: $space-micro solid transparent;
   cursor: pointer;
   position: relative;
 
