@@ -155,6 +155,10 @@ Rails.application.routes.draw do
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
   # ----------------------------------------------------------------------
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
+
+  # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
 
