@@ -48,6 +48,28 @@ class ActionCableListener < BaseListener
     broadcast(user_tokens(account, conversation.inbox.members), CONVERSATION_LOCK_TOGGLE, conversation.lock_event_data)
   end
 
+  def conversation_typing_on(event)
+    conversation = event.data[:conversation]
+    account = conversation.account
+    user = event.data[:user]
+    tokens = user_tokens(account, conversation.inbox.members) +
+             [conversation.contact.pubsub_token]
+
+    broadcast(tokens, CONVERSATION_TYPING_ON,
+              conversation: conversation.push_event_data, user: user.push_event_data)
+  end
+
+  def conversation_typing_off(event)
+    conversation = event.data[:conversation]
+    account = conversation.account
+    user = event.data[:user]
+    tokens = user_tokens(account, conversation.inbox.members) +
+             [conversation.contact.pubsub_token]
+
+    broadcast(tokens, CONVERSATION_TYPING_OFF,
+              conversation: conversation.push_event_data, user: user.push_event_data)
+  end
+
   def assignee_changed(event)
     conversation, account, timestamp = extract_conversation_and_account(event)
 

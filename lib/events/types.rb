@@ -15,6 +15,8 @@ module Events::Types
   CONVERSATION_RESOLVED = 'conversation.resolved'
   CONVERSATION_LOCK_TOGGLE = 'conversation.lock_toggle'
   ASSIGNEE_CHANGED = 'assignee.changed'
+  CONVERSATION_TYPING_ON = 'conversation.typing_on'
+  CONVERSATION_TYPING_OFF = 'conversation.typing_off'
 
   # message events
   MESSAGE_CREATED = 'message.created'
