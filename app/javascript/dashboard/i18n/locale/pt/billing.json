@@ -3,12 +3,12 @@
     "HEADER": "Faturamento",
     "LOADING": "Buscando Assinaturas",
     "ACCOUNT_STATE": "Estado do cliente",
-    "AGENT_COUNT": "Número de Representantes",
+    "AGENT_COUNT": "Número de Agente",
     "PER_AGENT_COST": "Custo por agente",
     "TOTAL_COST": "Custo Total",
     "BUTTON": {
-      "ADD": "Adicionar método de pagamento",
-      "EDIT": "EDIT Método de Pagamento"
+      "ADD": "Adicionar Forma de Pagamento",
+      "EDIT": "Editar Forma de Pagamento"
     },
     "TRIAL": {
       "TITLE": "Seu período de avaliação terminou",
