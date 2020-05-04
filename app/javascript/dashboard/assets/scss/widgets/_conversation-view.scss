@@ -403,11 +403,11 @@
 }
 
 .typing-indicator-wrap {
-  $typing--bubble-offset: 5.6rem;
   align-items: center;
   display: flex;
+  height: 0;
   position: absolute;
-  top: -$typing--bubble-offset;
+  top: -$space-large;
   width: 100%;
 
   .typing-indicator {
