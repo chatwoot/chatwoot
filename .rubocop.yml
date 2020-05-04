@@ -10,8 +10,6 @@ Lint/StructNewOverride:
   Enabled: true
 Layout/LineLength:
   Max: 150
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
 Metrics/ClassLength:
   Max: 125
 RSpec/ExampleLength:
