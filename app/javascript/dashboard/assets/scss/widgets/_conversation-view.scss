@@ -1,5 +1,5 @@
 @mixin bubble-with-types {
-  @include padding($space-one $space-normal);
+  @include padding($space-small $space-normal);
   @include margin($zero);
   background: $color-woot;
   border-radius: $space-one;
@@ -204,12 +204,14 @@
   height: 100%;
   margin-bottom: $space-small;
   overflow-y: auto;
+  position: relative;
 }
 
 .conversation-panel>li {
   @include flex;
   @include flex-shrink;
   @include margin($zero $zero $space-micro);
+  position: relative;
 
   &:first-child {
     margin-top: auto;
@@ -390,6 +392,37 @@
       color: $medium-gray;
       font-size: $font-size-micro;
       margin-left: $space-slab;
+    }
+  }
+}
+
+.conversation-footer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.typing-indicator-wrap {
+  align-items: center;
+  display: flex;
+  height: 0;
+  position: absolute;
+  top: -$space-large;
+  width: 100%;
+
+  .typing-indicator {
+    @include elegant-card;
+    @include round-corner;
+    background: $color-white;
+    color: $color-light-gray;
+    font-size: $font-size-mini;
+    font-weight: $font-weight-bold;
+    margin: $space-one auto;
+    padding: $space-small $space-normal $space-small $space-two;
+
+    .gif {
+      margin-left: $space-small;
+      width: $space-medium;
     }
   }
 }
