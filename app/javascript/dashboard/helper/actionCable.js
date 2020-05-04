@@ -4,6 +4,7 @@ import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnec
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     super(app, pubsubToken);
+    this.CancelTyping = [];
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
@@ -47,33 +48,40 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onTypingOn = ({ conversation, user }) => {
-    this.clearTimer();
+    const conversationId = conversation.id;
+
+    this.clearTimer(conversationId);
     this.app.$store.dispatch('conversationTypingStatus/create', {
-      conversationId: conversation.id,
+      conversationId,
       user,
     });
-    this.initTimer();
+    this.initTimer({ conversation, user });
   };
 
   onTypingOff = ({ conversation, user }) => {
-    this.clearTimer();
+    const conversationId = conversation.id;
+
+    this.clearTimer(conversationId);
     this.app.$store.dispatch('conversationTypingStatus/destroy', {
-      conversationId: conversation.id,
+      conversationId,
       user,
     });
   };
 
-  clearTimer = () => {
-    if (this.CancelTyping) {
-      clearTimeout(this.CancelTyping);
-      this.CancelTyping = null;
+  clearTimer = conversationId => {
+    const timerEvent = this.CancelTyping[conversationId];
+
+    if (timerEvent) {
+      clearTimeout(timerEvent);
+      this.CancelTyping[conversationId] = null;
     }
   };
 
-  initTimer = () => {
+  initTimer = ({ conversation, user }) => {
+    const conversationId = conversation.id;
     // Turn off typing automatically after 30 seconds
-    this.CancelTyping = setTimeout(() => {
-      this.onTypingOff();
+    this.CancelTyping[conversationId] = setTimeout(() => {
+      this.onTypingOff({ conversation, user });
     }, 30000);
   };
 }
