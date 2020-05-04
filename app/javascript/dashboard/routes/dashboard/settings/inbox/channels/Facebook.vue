@@ -195,8 +195,7 @@ export default {
           }
         },
         {
-          scope:
-            'manage_pages,pages_messaging,pages_messaging_phone_number',
+          scope: 'manage_pages,pages_messaging,pages_messaging_phone_number',
         }
       );
     },

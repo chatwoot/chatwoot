@@ -102,7 +102,7 @@ export default {
 
 .conversation-wrap {
   flex: 1;
-  padding: $space-large $space-small $zero $space-small;
+  padding: $space-large $space-small $space-small $space-small;
 }
 
 .message--loader {

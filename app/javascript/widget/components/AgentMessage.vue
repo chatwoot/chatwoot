@@ -1,5 +1,8 @@
 <template>
-  <div class="agent-bubble">
+  <div
+    class="agent-message-wrap"
+    :class="{ 'has-response': hasRecordedResponse }"
+  >
     <div class="agent-message">
       <div class="avatar-wrap">
         <thumbnail
@@ -108,7 +111,7 @@ export default {
     },
     avatarUrl() {
       // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png')
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return BotImage;
       }
@@ -146,17 +149,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .conversation-wrap {
-  .agent-bubble {
-    margin-bottom: $space-micro;
-    & + .agent-bubble {
-      .agent-message {
-        .chat-bubble {
-          border-top-left-radius: $space-smaller;
-        }
-      }
-    }
-  }
-
   .agent-message {
     align-items: flex-end;
     display: flex;
@@ -164,10 +156,6 @@ export default {
     justify-content: flex-start;
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
-
-    & + .user-message {
-      margin-top: $space-one;
-    }
 
     .avatar-wrap {
       height: $space-medium;
@@ -198,6 +186,27 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
+  }
+
+  .agent-message-wrap {
+    + .agent-message-wrap {
+      margin-top: $space-micro;
+
+      .agent-message .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+    }
+
+    + .user-message-wrap {
+      margin-top: $space-normal;
+    }
+
+    &.has-response + .user-message-wrap {
+      margin-top: $space-micro;
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
   }
 }
 </style>

@@ -3,7 +3,6 @@ app_redis_config = {
   password: ENV.fetch('REDIS_PASSWORD', nil).presence
 }
 redis = Rails.env.test? ? MockRedis.new : Redis.new(app_redis_config)
-Nightfury.redis = Redis::Namespace.new('reports', redis: redis)
 
 # Alfred - Used currently for round robin and conversation emails.
 # Add here as you use it for more features

@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_04_29_082655) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: :cascade do |t|
@@ -42,6 +43,18 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
+    t.string "domain", limit: 100
+    t.string "support_email", limit: 100
+    t.integer "settings_flags", default: 0, null: false
+  end
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -190,6 +203,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -259,7 +273,34 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.integer "email_flags", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "push_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "subscription_type", null: false
+    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "notification_type", null: false
+    t.string "primary_actor_type", null: false
+    t.bigint "primary_actor_id", null: false
+    t.string "secondary_actor_type"
+    t.bigint "secondary_actor_id"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
+    t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|

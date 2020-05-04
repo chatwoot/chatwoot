@@ -1,6 +1,10 @@
 <template>
   <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
-    <woot-snackbar :message="snackMessage" v-for="snackMessage in snackMessages" v-bind:key="snackMessage" />
+    <woot-snackbar
+      v-for="snackMessage in snackMessages"
+      :key="snackMessage"
+      :message="snackMessage"
+    />
   </transition-group>
 </template>
 
@@ -9,8 +13,12 @@
 import WootSnackbar from './Snackbar';
 
 export default {
+  components: {
+    WootSnackbar,
+  },
   props: {
     duration: {
+      type: Number,
       default: 2500,
     },
   },
@@ -22,16 +30,12 @@ export default {
   },
 
   mounted() {
-    bus.$on('newToastMessage', (message) => {
+    bus.$on('newToastMessage', message => {
       this.snackMessages.push(message);
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
       }, this.duration);
     });
-  },
-
-  components: {
-    WootSnackbar,
   },
 };
 </script>

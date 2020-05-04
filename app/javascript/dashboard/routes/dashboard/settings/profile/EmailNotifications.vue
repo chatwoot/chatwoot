@@ -12,7 +12,7 @@
           v-model="selectedNotifications"
           class="email-notification--checkbox"
           type="checkbox"
-          value="conversation_creation"
+          value="email_conversation_creation"
           @input="handleInput"
         />
         <label for="conversation_creation">
@@ -29,7 +29,7 @@
           v-model="selectedNotifications"
           class="email-notification--checkbox"
           type="checkbox"
-          value="conversation_assignment"
+          value="email_conversation_assignment"
           @input="handleInput"
         />
         <label for="conversation_assignment">

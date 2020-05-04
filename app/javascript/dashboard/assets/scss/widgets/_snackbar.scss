@@ -1,33 +1,32 @@
 .ui-snackbar-container {
-  position: absolute;
+  left: 0;
+  margin: 0 auto;
+  max-width: 40rem;
   overflow: hidden;
-  z-index: 9999;
-  top: $space-normal;
-  left: $space-normal;
-  width: 100%;
+  position: absolute;
+  right: 0;
   text-align: center;
+  top: $space-normal;
+  z-index: 9999;
 }
 
 .ui-snackbar {
-  text-align: left;
+  @include padding($space-slab $space-medium);
+  @include shadow;
+  background-color: $woot-snackbar-bg;
+  border-radius: $space-smaller;
   display: inline-block;
-  min-width: 24rem;
+  margin-bottom: $space-small;
   max-width: 40rem;
   min-height: 3rem;
-  background-color: $woot-snackbar-bg;
-  @include padding($space-slab $space-medium);
-  @include border-top-radius($space-micro);
-  @include border-right-radius($space-micro);
-  @include border-bottom-radius($space-micro);
-  @include border-left-radius($space-micro);
-  margin-bottom: $space-small;
-
-  // box-shadow: 0 1px 3px alpha(black, 0.12), 0 1px 2px alpha(black, 0.24);
+  min-width: 24rem;
+  text-align: left;
 }
 
 .ui-snackbar-text {
-  font-size: $font-size-small;
   color: $color-white;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
 }
 
 .ui-snackbar-action {
@@ -35,12 +34,12 @@
   padding-left: 3rem;
 
   button {
+    @include margin(0);
+    @include padding(0);
     background: none;
     border: 0;
     color: $woot-snackbar-button;
     font-size: $font-size-small;
     text-transform: uppercase;
-    @include margin(0);
-    @include padding(0);
   }
 }
