@@ -52,22 +52,28 @@ class ActionCableListener < BaseListener
     conversation = event.data[:conversation]
     account = conversation.account
     user = event.data[:user]
-    tokens = user_tokens(account, conversation.inbox.members) +
-             [conversation.contact.pubsub_token]
+    tokens = typing_event_listener_tokens(account, conversation, user)
 
-    broadcast(tokens, CONVERSATION_TYPING_ON,
-              conversation: conversation.push_event_data, user: user.push_event_data)
+    broadcast(
+      tokens,
+      CONVERSATION_TYPING_ON,
+      conversation: conversation.push_event_data,
+      user: user.push_event_data
+    )
   end
 
   def conversation_typing_off(event)
     conversation = event.data[:conversation]
     account = conversation.account
     user = event.data[:user]
-    tokens = user_tokens(account, conversation.inbox.members) +
-             [conversation.contact.pubsub_token]
+    tokens = typing_event_listener_tokens(account, conversation, user)
 
-    broadcast(tokens, CONVERSATION_TYPING_OFF,
-              conversation: conversation.push_event_data, user: user.push_event_data)
+    broadcast(
+      tokens,
+      CONVERSATION_TYPING_OFF,
+      conversation: conversation.push_event_data,
+      user: user.push_event_data
+    )
   end
 
   def assignee_changed(event)
@@ -89,6 +95,10 @@ class ActionCableListener < BaseListener
   end
 
   private
+
+  def typing_event_listener_tokens(account, conversation, user)
+    (user_tokens(account, conversation.inbox.members) + [conversation.contact.pubsub_token]) - [user&.pubsub_token]
+  end
 
   def user_tokens(account, agents)
     agent_tokens = agents.pluck(:pubsub_token)

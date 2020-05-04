@@ -6,6 +6,14 @@ import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import wootConstants from '../../../constants';
 
+const initialSelectedChat = {
+  id: null,
+  meta: {},
+  status: null,
+  seen: false,
+  agentTyping: 'off',
+  dataFetched: false,
+};
 const state = {
   allConversations: [],
   convTabStats: {
@@ -13,14 +21,7 @@ const state = {
     unAssignedCount: 0,
     allCount: 0,
   },
-  selectedChat: {
-    id: null,
-    meta: {},
-    status: null,
-    seen: false,
-    agentTyping: 'off',
-    dataFetched: false,
-  },
+  selectedChat: { ...initialSelectedChat },
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
@@ -42,14 +43,7 @@ const mutations = {
   },
   [types.default.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
-    _state.selectedChat = {
-      id: null,
-      meta: {},
-      status: null,
-      seen: false,
-      agentTyping: 'off',
-      dataFetched: false,
-    };
+    _state.selectedChat = { ...initialSelectedChat };
   },
   [types.default.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -175,7 +169,7 @@ const mutations = {
     _state.selectedChat.seen = true;
   },
 
-  [types.default.FB_TYPING](_state, { status }) {
+  [types.default.SET_AGENT_TYPING](_state, { status }) {
     _state.selectedChat.agentTyping = status;
   },
 
