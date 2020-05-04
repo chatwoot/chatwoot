@@ -33,6 +33,15 @@ describe('#actions', () => {
     });
   });
 
+  describe('#toggleAgentTyping', () => {
+    it('sends correct mutations', () => {
+      actions.toggleAgentTyping({ commit }, { status: true });
+      expect(commit).toBeCalledWith('toggleAgentTypingStatus', {
+        status: true,
+      });
+    });
+  });
+
   describe('#sendMessage', () => {
     it('sends correct mutations', () => {
       const mockDate = new Date(1466424490000);

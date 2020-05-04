@@ -38,7 +38,7 @@ describe ActionCableListener do
       # HACK: to reload conversation inbox members
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token],
+        [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_on', conversation: conversation.push_event_data,
                                   user: agent.push_event_data
       )
@@ -54,7 +54,7 @@ describe ActionCableListener do
       # HACK: to reload conversation inbox members
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token],
+        [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_off', conversation: conversation.push_event_data,
                                    user: agent.push_event_data
       )
