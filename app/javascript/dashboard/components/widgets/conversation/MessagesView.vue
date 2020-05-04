@@ -27,10 +27,22 @@
         :data="message"
       />
     </ul>
-    <ReplyBox
-      :conversation-id="currentChat.id"
-      @scrollToMessage="focusLastMessage"
-    />
+    <div class="conversation-footer">
+      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
+        <div class="typing-indicator">
+          {{ typingUserNames }}
+          <img
+            class="gif"
+            src="~dashboard/assets/images/typing.gif"
+            alt="Someone is typing"
+          />
+        </div>
+      </div>
+      <ReplyBox
+        :conversation-id="currentChat.id"
+        @scrollToMessage="focusLastMessage"
+      />
+    </div>
   </div>
 </template>
 
@@ -42,6 +54,7 @@ import ConversationHeader from './ConversationHeader';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
+import { getTypingUsersText } from '../../../helper/commons';
 
 export default {
   components: {
@@ -80,6 +93,27 @@ export default {
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+
+    typingUsersList() {
+      const userList = this.$store.getters[
+        'conversationTypingStatus/getUserList'
+      ](this.currentChat.id);
+      return userList;
+    },
+    isAnyoneTyping() {
+      const userList = this.typingUsersList;
+      return userList.length !== 0;
+    },
+    typingUserNames() {
+      const userList = this.typingUsersList;
+
+      if (this.isAnyoneTyping) {
+        const userListAsName = getTypingUsersText(userList);
+        return userListAsName;
+      }
+
+      return '';
+    },
 
     getMessages() {
       const [chat] = this.allConversations.filter(
