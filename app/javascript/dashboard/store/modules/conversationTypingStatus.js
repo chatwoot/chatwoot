@@ -33,7 +33,7 @@ export const mutations = {
   ) => {
     const records = $state.records[conversationId] || [];
     const hasUserRecordAlready = !!records.filter(
-      record => record.id === user.id || record.type === user.type
+      record => record.id === user.id && record.type === user.type
     ).length;
     if (!hasUserRecordAlready) {
       Vue.set($state.records, conversationId, [...records, user]);
