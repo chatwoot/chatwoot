@@ -16,17 +16,17 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-pt:
+pt-BR:
   hello: "Olá, mundo"
   messages:
-    reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
+    reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
   errors:
     signup:
       disposable_email: Não permitimos e-mails descartáveis
       invalid_email: Você digitou um email inválido
-      email_already_exists: "Você já se inscreveu para uma conta com %{email}"
-      failed: Falha na inscrição
+      email_already_exists: "Você já se cadastrou para uma conta com %{email}"
+      failed: Registro falhou
   conversations:
     activity:
       status:
@@ -37,5 +37,5 @@ pt:
         removed: "Conversa não atribuída por %{user_name}"
     templates:
       typical_reply_message_body: "%{account_name} normalmente responde em algumas horas."
-      ways_to_reach_you_message_body: "Dê à equipe um jeito de contatá-lo."
+      ways_to_reach_you_message_body: "Informe uma forma para entrarmos em contato com você."
       email_input_box_message_body: "Seja notificado por e-mail"
