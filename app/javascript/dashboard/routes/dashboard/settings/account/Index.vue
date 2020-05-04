@@ -41,7 +41,7 @@
               :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
             />
           </label>
-          <label>
+          <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.LABEL') }}
             <select v-model="domainEmailsEnabled">
               <option value="true">
@@ -63,7 +63,7 @@
               {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.PLACEHOLDER') }}
             </p>
           </label>
-          <label>
+          <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
             <input
               v-model="supportEmail"
@@ -102,6 +102,7 @@ export default {
       domain: '',
       domainEmailsEnabled: false,
       supportEmail: '',
+      features: {},
     };
   },
   validations: {
@@ -120,6 +121,10 @@ export default {
 
     isUpdating() {
       return this.uiFlags.isUpdating;
+    },
+
+    featureInboundEmailEnabled() {
+      return !!this.features.inbound_emails;
     },
   },
   mounted() {
@@ -141,6 +146,7 @@ export default {
           domain,
           support_email,
           domain_emails_enabled,
+          features,
         } = this.getAccount(accountId);
 
         Vue.config.lang = locale;
@@ -150,6 +156,7 @@ export default {
         this.domain = domain;
         this.supportEmail = support_email;
         this.domainEmailsEnabled = domain_emails_enabled;
+        this.features = features;
       }
     },
 
