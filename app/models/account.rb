@@ -4,6 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  domain         :string(100)
+#  feature_flags  :integer          default(0), not null
 #  locale         :integer          default("en")
 #  name           :string           not null
 #  settings_flags :integer          default(0), not null
@@ -18,6 +19,7 @@ class Account < ApplicationRecord
 
   include Events::Types
   include Reportable
+  include Features
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator
