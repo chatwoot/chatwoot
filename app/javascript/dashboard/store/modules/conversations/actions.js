@@ -122,8 +122,8 @@ const actions = {
 
   toggleStatus: async ({ commit, dispatch, getters }, data) => {
     try {
-      const response = await ConversationApi.toggleStatus(data);
       const nextChat = getters.getNextChatConversation;
+      const response = await ConversationApi.toggleStatus(data);
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
