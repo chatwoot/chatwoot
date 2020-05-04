@@ -17,7 +17,7 @@ Metrics/ClassLength:
 RSpec/ExampleLength:
   Max: 25
 Style/ExponentialNotation:
-  Enabled: true
+  Enabled: false
 Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
