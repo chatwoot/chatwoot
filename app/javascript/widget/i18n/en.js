@@ -8,4 +8,5 @@ export default {
       SUBMIT: 'Submit',
     },
   },
+  POWERED_BY: 'Powered by Chatwoot',
 };
