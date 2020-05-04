@@ -91,6 +91,10 @@
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
           "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
         },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
+        },
         "SUBMIT_BUTTON": "Créer le canal Twilio",
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
