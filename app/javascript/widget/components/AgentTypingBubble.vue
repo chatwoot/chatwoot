@@ -6,7 +6,7 @@
         <div class="typing-bubble chat-bubble agent">
           <img
             src="~widget/assets/images/typing.gif"
-            alt="Agent is typing a mesage"
+            alt="Agent is typing a message"
           />
         </div>
       </div>

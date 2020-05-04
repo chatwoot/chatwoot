@@ -47,17 +47,34 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onTypingOn = ({ conversation, user }) => {
+    this.clearTimer();
     this.app.$store.dispatch('conversationTypingStatus/create', {
+      conversationId: conversation.id,
+      user,
+    });
+    this.initTimer();
+  };
+
+  onTypingOff = ({ conversation, user }) => {
+    this.clearTimer();
+    this.app.$store.dispatch('conversationTypingStatus/destroy', {
       conversationId: conversation.id,
       user,
     });
   };
 
-  onTypingOff = ({ conversation, user }) => {
-    this.app.$store.dispatch('conversationTypingStatus/destroy', {
-      conversationId: conversation.id,
-      user,
-    });
+  clearTimer = () => {
+    if (this.CancelTyping) {
+      clearTimeout(this.CancelTyping);
+      this.CancelTyping = null;
+    }
+  };
+
+  initTimer = () => {
+    // Turn off typing automatically after 30 seconds
+    this.CancelTyping = setTimeout(() => {
+      this.onTypingOff();
+    }, 30000);
   };
 }
 
