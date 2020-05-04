@@ -4,6 +4,7 @@
 #OS: Ubuntu 18.04 LTS
 #script_version: 0.1
 
+
 apt update && apt upgrade -y
 apt install -y curl
 curl -sL https://deb.nodesource.com/setup_12.x | bash -
@@ -23,7 +24,6 @@ apt install -y \
 adduser --disabled-login --gecos "" chatwoot
 
 sudo -i -u chatwoot bash << EOF
-whoami
 gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
 curl -sSL https://get.rvm.io | bash -s stable
 EOF
@@ -33,6 +33,7 @@ sudo -i -u postgres psql << EOF
 \set pass `echo $pg_pass`
 CREATE USER chatwoot CREATEDB;
 ALTER USER chatwoot PASSWORD :'pass';
+ALTER ROLE chatwoot SUPERUSER;
 EOF
 
 systemctl enable redis-server.service
@@ -41,21 +42,7 @@ systemctl enable postgresql
 secret=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 63 ; echo '')
 RAILS_ENV=production
 
-# sudo -i -u chatwoot << EOF
-# git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-# echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-# echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-# git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-# echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
-# git clone https://github.com/rbenv/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
-# EOF
-
 sudo -i -u chatwoot << EOF
-# rbenv install 2.7.0
-# rbenv global 2.7.0
-# gem install bundler
-# gem install procsd
-
 rvm --version
 rvm autolibs disable
 rvm install "ruby-2.7.0"
@@ -63,6 +50,7 @@ rvm use 2.7.0 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
+git checkout master
 bundle
 yarn
 
@@ -77,10 +65,16 @@ sed -i -e '/RAILS_ENV/ s/=.*/=$RAILS_ENV/' .env
 RAILS_ENV=production bundle exec rake db:create
 RAILS_ENV=production bundle exec rake db:reset
 rake assets:precompile RAILS_ENV=production
-RAILS_ENV=production foreman start -f Procfile
 EOF
 
-#TODO: systemd
+cp /home/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
+cp /home/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
+cp /home/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
+
+systemctl enable chatwoot.target
+systemctl start chatwoot.target
+
+echo "Woot! Woot!! Chatwoot installation is complete."
+echo "Goto http://<server-ip>.com/3000"
+
 #TODO: nginx
-
-
