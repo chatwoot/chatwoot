@@ -1,5 +1,5 @@
 @mixin bubble-with-types {
-  @include padding($space-small $space-slab);
+  @include padding($space-small $space-normal);
   @include margin($zero);
   background: $color-woot;
   border-radius: $space-one;
