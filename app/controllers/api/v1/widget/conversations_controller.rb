@@ -4,7 +4,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   before_action :set_contact
 
   def toggle_typing
-    head :ok if conversation.nil?
+    head :ok && return if conversation.nil?
 
     if permitted_params[:typing_status] == 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
