@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import NotificationSubscriptions from '../api/notificationSubscription';
+import auth from '../api/auth';
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -42,31 +43,44 @@ export const getPushSubscriptionPayload = subscription => ({
   },
 });
 
-export const registerSubscription = subscription => {
-  return NotificationSubscriptions.create(
-    getPushSubscriptionPayload(subscription)
-  );
+export const sendRegistrationToServer = subscription => {
+  if (auth.isLoggedIn()) {
+    return NotificationSubscriptions.create(
+      getPushSubscriptionPayload(subscription)
+    );
+  }
+  return null;
+};
+
+export const registerSubscription = () => {
+  navigator.serviceWorker.ready
+    .then(serviceWorkerRegistration =>
+      serviceWorkerRegistration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: window.chatwootConfig.vapidPublicKey,
+      })
+    )
+    .then(sendRegistrationToServer)
+    .catch(() => {
+      window.bus.$emit(
+        'newToastMessage',
+        'This browser does not support desktop notification'
+      );
+    });
 };
 
 export const requestPushPermissions = () => {
   if (!('Notification' in window)) {
-    console.error('This browser does not support desktop notification');
+    window.bus.$emit(
+      'newToastMessage',
+      'This browser does not support desktop notification'
+    );
   } else if (Notification.permission === 'granted') {
-    console.log('Permission to receive notifications has been granted');
+    registerSubscription();
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission(permission => {
       if (permission === 'granted') {
-        navigator.serviceWorker.ready
-          .then(serviceWorkerRegistration =>
-            serviceWorkerRegistration.pushManager.subscribe({
-              userVisibleOnly: true,
-              applicationServerKey: window.chatwootConfig.vapidPublicKey,
-            })
-          )
-          .then(registerSubscription)
-          .catch(error => {
-            console.log('Push subscription error: ', error);
-          });
+        registerSubscription();
       }
     });
   }

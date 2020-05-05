@@ -43,7 +43,8 @@ class Notification::PushNotificationService
   def push_message
     {
       title: push_message_title,
-      type: notification.notification_type
+      tag: "#{notification.notification_type}_#{conversation.display_id}",
+      url: push_url
     }
   end
 
