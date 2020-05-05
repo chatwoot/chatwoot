@@ -128,6 +128,7 @@ class User < ApplicationRecord
 
   def push_event_data
     {
+      id: id,
       name: name,
       avatar_url: avatar_url,
       type: 'user'

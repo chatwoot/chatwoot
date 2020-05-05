@@ -70,7 +70,7 @@ RSpec.describe 'Contacts API', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
                                                           params: valid_params
-        end .to change(Contact, :count).by(1)
+        end.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
       end

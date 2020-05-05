@@ -13,7 +13,7 @@ Layout/LineLength:
 Metrics/ClassLength:
   Max: 125
 RSpec/ExampleLength:
-  Max: 15
+  Max: 25
 Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
