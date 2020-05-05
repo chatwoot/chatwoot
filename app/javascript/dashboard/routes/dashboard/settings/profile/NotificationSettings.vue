@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="profile--settings--row row push-row">
+    <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
@@ -113,6 +113,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 import {
   hasPushPermissions,
   requestPushPermissions,
@@ -120,7 +121,7 @@ import {
 } from '../../../../helper/pushHelper';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, configMixin],
   data() {
     return {
       selectedEmailFlags: [],
@@ -150,18 +151,27 @@ export default {
     this.$store.dispatch('userNotificationSettings/get');
   },
   methods: {
+    onRegistrationSuccess() {
+      this.hasEnabledPushPermissions = true;
+    },
     onRequestPermissions() {
-      requestPushPermissions();
+      requestPushPermissions({
+        onSuccess: this.onRegistrationSuccess,
+      });
     },
     getPushSubscription() {
       verifyServiceWorkerExistence(registration =>
-        registration.pushManager.getSubscription().then(subscription => {
-          if (!subscription) {
-            this.hasEnabledPushPermissions = false;
-          } else {
-            this.hasEnabledPushPermissions = true;
-          }
-        })
+        registration.pushManager
+          .getSubscription()
+          .then(subscription => {
+            console.log(subscription);
+            if (!subscription) {
+              this.hasEnabledPushPermissions = false;
+            } else {
+              this.hasEnabledPushPermissions = true;
+            }
+          })
+          .catch(error => console.log(error))
       );
     },
     async updateNotificationSettings() {

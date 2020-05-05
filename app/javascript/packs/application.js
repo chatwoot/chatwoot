@@ -73,10 +73,8 @@ window.onload = () => {
 window.addEventListener('load', () => {
   verifyServiceWorkerExistence(registration =>
     registration.pushManager.getSubscription().then(subscription => {
-      if (!subscription) {
-        console.log('Not subscribed to push service!');
-      } else {
-        registerSubscription(subscription);
+      if (subscription) {
+        registerSubscription();
       }
     })
   );

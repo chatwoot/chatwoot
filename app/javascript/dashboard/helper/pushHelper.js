@@ -52,7 +52,10 @@ export const sendRegistrationToServer = subscription => {
   return null;
 };
 
-export const registerSubscription = () => {
+export const registerSubscription = (onSuccess = () => {}) => {
+  if (!window.chatwootConfig.vapidPublicKey) {
+    return;
+  }
   navigator.serviceWorker.ready
     .then(serviceWorkerRegistration =>
       serviceWorkerRegistration.pushManager.subscribe({
@@ -61,6 +64,9 @@ export const registerSubscription = () => {
       })
     )
     .then(sendRegistrationToServer)
+    .then(() => {
+      onSuccess();
+    })
     .catch(() => {
       window.bus.$emit(
         'newToastMessage',
@@ -69,18 +75,18 @@ export const registerSubscription = () => {
     });
 };
 
-export const requestPushPermissions = () => {
+export const requestPushPermissions = ({ onSuccess }) => {
   if (!('Notification' in window)) {
     window.bus.$emit(
       'newToastMessage',
       'This browser does not support desktop notification'
     );
   } else if (Notification.permission === 'granted') {
-    registerSubscription();
+    registerSubscription(onSuccess);
   } else if (Notification.permission !== 'denied') {
     Notification.requestPermission(permission => {
       if (permission === 'granted') {
-        registerSubscription();
+        registerSubscription(onSuccess);
       }
     });
   }
