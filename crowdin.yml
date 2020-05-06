@@ -6,3 +6,5 @@ files:
     translation: /config/locales/%two_letters_code%.yml
   - source: /config/locales/devise.en.yml
     translation: /config/locales/devise.%two_letters_code%.yml
+  - source: /app/javascript/widget/i18n/en.js
+    translation: /app/javascript/widget/i18n/%two_letters_code%.js
