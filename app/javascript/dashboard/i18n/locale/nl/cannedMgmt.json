@@ -1,0 +1,74 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Standaard antwoorden",
+    "HEADER_BTN_TXT": "Voorgedefinieerde antwoorden toevoegen",
+    "LOADING": "Voorgedefinieerde antwoorden ophalen",
+    "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
+    "SIDEBAR_TXT": "<p><b> Voorgedefinieerde antwoorden</b> </p><p> Voorgedefinieerde antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel een antwoord te sturen naar een gesprek. </p><p> Voor het maken van een voorgedefinieerd antwoord, klik op de <b>Voeg voorgedefinieerd antwoord toe</b>. U kunt een bestaande antwoorden bewerken of verwijderen door op de knop Bewerken of Verwijderen te klikken </p><p> Voorgedefinieerde antwoorden worden gebruikt met behulp van <b>korte codes</b>. Agents hebben toegang tot standaard antwoorden in een chat door <b>'/'</b> te typen gevolgd door de korte code. </p>",
+    "LIST": {
+      "404": "Er zijn geen voorgedefinieerde antwoorden beschikbaar in dit account.",
+      "TITLE": "Beheer voorgedefinieerde antwoorden",
+      "DESC": "Voorgedefinieerde antwoorden zijn vooraf gedefinieerde antwoordsjablonen die kunnen worden gebruikt om snel antwoorden naar tickets te sturen.",
+      "TABLE_HEADER": [
+        "Korte code",
+        "Inhoud",
+        "Acties"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Voorgedefinieerde antwoord toevoegen",
+      "DESC": "Voorgedefinieerde antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel te reageren op gesprek.",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in",
+          "ERROR": "Korte code is vereist"
+        },
+        "CONTENT": {
+          "LABEL": "Inhoud",
+          "PLACEHOLDER": "Voer een inhoud in",
+          "ERROR": "Inhoud is vereist"
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Voorgedefinieerd antwoord met succes toegevoegd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk voorgedefineerd antwoord",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Korte code",
+          "PLACEHOLDER": "Vul een korte code in",
+          "ERROR": "Korte code is vereist"
+        },
+        "CONTENT": {
+          "LABEL": "Inhoud",
+          "PLACEHOLDER": "Voer een inhoud in",
+          "ERROR": "Inhoud is vereist"
+        },
+        "SUBMIT": "Bevestigen"
+      },
+      "BUTTON_TEXT": "Bewerken",
+      "API": {
+        "SUCCESS_MESSAGE": "Voorgedefinieerd antwoord succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Voorgedefinieerd antwoord succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, bewaar het "
+      }
+    }
+  }
+}
