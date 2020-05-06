@@ -1,0 +1,46 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Setări cont",
+    "SUBMIT": "Actualizați setările",
+    "UPDATE": {
+      "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
+      "SUCCESS": "Setările contului actualizate cu succes"
+    },
+    "FORM": {
+      "ERROR": "Vă rugăm să remediați erorile din formular",
+      "GENERAL_SECTION": {
+        "TITLE": "Setări generale",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nume cont",
+        "PLACEHOLDER": "Numele contului tău",
+        "ERROR": "Te rugăm să introduci un nume de cont valid"
+      },
+      "LANGUAGE": {
+        "LABEL": "Limba site-ului (Beta)",
+        "PLACEHOLDER": "Numele contului tău",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domeniu",
+        "PLACEHOLDER": "Domeniul website-ului tău",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail de suport",
+        "PLACEHOLDER": "E-mailul de asistență al companiei dumneavoastră",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Activare e-mail domeniu",
+        "PLACEHOLDER": "Activați domeniul personalizat de e-mail",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Activat",
+          "DISABLED": "Dezactivat"
+        }
+      }
+    }
+  }
+}

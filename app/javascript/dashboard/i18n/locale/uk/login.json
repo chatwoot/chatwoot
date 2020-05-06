@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Увійти до Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "Email як: someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "Пароль",
+      "PLACEHOLDER": "Пароль"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Вхід успішно здійснено",
+      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше",
+      "UNAUTH": "Неправильне ім'я користувача / пароль. Будь ласка, спробуйте ще раз"
+    },
+    "FORGOT_PASSWORD": "Забули пароль?",
+    "CREATE_NEW_ACCOUNT": "Створити новий обліковий запис",
+    "SUBMIT": "Увійти"
+  }
+}

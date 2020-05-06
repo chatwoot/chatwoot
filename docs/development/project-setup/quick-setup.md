@@ -92,7 +92,7 @@ docker pull chatwoot/chatwoot
 You can create an image yourselves by running the following command on the root directory.
 
 ```bash
-docker image build -f docker/Dockerfile .
+docker-compose -f docker-compose.production.yaml build
 ```
 
 This will build the image which you can depoy in Kubernetes (GCP, Openshift, AWS, Azure or anywhere), Amazon ECS or Docker Swarm. You can tag this image and push this image to docker registry of your choice.

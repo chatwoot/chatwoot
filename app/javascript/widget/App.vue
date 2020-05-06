@@ -8,6 +8,7 @@
 import { mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper } from 'widget/helpers/utils';
+import Vue from 'vue';
 
 export default {
   name: 'App',
@@ -17,7 +18,9 @@ export default {
     };
   },
   mounted() {
-    const { website_token: websiteToken = '' } = window.chatwootWebChannel;
+    const { websiteToken, locale } = window.chatwootWebChannel;
+    Vue.config.lang = locale;
+
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
@@ -47,6 +50,8 @@ export default {
         window.refererURL = message.refererURL;
       } else if (message.event === 'toggle-close-button') {
         this.isMobile = message.showClose;
+      } else if (message.event === 'push-event') {
+        this.$store.dispatch('events/create', { name: message.eventName });
       } else if (message.event === 'set-label') {
         this.$store.dispatch('conversationLabels/create', message.label);
       } else if (message.event === 'remove-label') {

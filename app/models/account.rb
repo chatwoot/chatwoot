@@ -2,16 +2,32 @@
 #
 # Table name: accounts
 #
-#  id         :integer          not null, primary key
-#  locale     :integer          default("eng")
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id             :integer          not null, primary key
+#  domain         :string(100)
+#  feature_flags  :integer          default(0), not null
+#  locale         :integer          default("en")
+#  name           :string           not null
+#  settings_flags :integer          default(0), not null
+#  support_email  :string(100)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
 #
 
 class Account < ApplicationRecord
+  # used for single column multi flags
+  include FlagShihTzu
+
   include Events::Types
   include Reportable
+  include Features
+
+  DEFAULT_QUERY_SETTING = {
+    flag_query_mode: :bit_operator
+  }.freeze
+
+  ACCOUNT_SETTINGS_FLAGS = {
+    1 => :domain_emails_enabled
+  }.freeze
 
   validates :name, presence: true
 
@@ -31,6 +47,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
@@ -38,9 +55,12 @@ class Account < ApplicationRecord
   after_create :notify_creation
   after_destroy :notify_deletion
 
-  def channel
-    # This should be unique for account
-    'test_channel'
+  def agents
+    users.where(account_users: { role: :agent })
+  end
+
+  def administrators
+    users.where(account_users: { role: :administrator })
   end
 
   def all_conversation_tags

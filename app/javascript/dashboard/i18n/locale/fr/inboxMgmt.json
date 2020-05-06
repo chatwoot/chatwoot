@@ -1,0 +1,176 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Boîtes de réception",
+    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le <a href=\"/app/dashboard\">tableau de bord</a>, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
+    "LIST": {
+      "404": "Il n'y a aucune boîte de réception associée à ce compte."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Choisir un canal",
+        "route": "settings_inbox_new",
+        "body": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
+      },
+      {
+        "title": "Créer une boîte de réception",
+        "route": "settings_inboxes_page_channel",
+        "body": "Authentifiez votre compte et créez une boîte de réception."
+      },
+      {
+        "title": "Ajouter des agents",
+        "route": "settings_inboxes_add_agents",
+        "body": "Ajouter des agents à la boîte de réception créée."
+      },
+      {
+        "title": "Voilà !",
+        "route": "settings_inbox_finish",
+        "body": "Vous êtes paré !"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot."
+      },
+      "TWITTER": {
+        "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Canal site Web",
+        "DESC": "Créez un canal pour votre site Web et commencez à assister vos clients à l'aide de notre widget de site Web.",
+        "LOADING_MESSAGE": "Création du canal de support du site Web",
+        "CHANNEL_NAME": {
+          "LABEL": "Nom du site Web",
+          "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Domaine du site Web",
+          "PLACEHOLDER": "Entrez le domaine de votre site Web (ex : acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Titre de Bienvenue",
+          "PLACEHOLDER": "Salut !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Slogan d'accueil",
+          "PLACEHOLDER": "C'est simple de rentrer en contact avec nous. Demandez-nous quoi que ce soit ou partagez vos commentaires."
+        },
+        "CHANNEL_AGENT_AWAY_MESSAGE": {
+          "LABEL": "Message lorsque les agents sont absents",
+          "PLACEHOLDER": "Acme Inc répond en général en quelques heures."
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Couleur du Widget",
+          "PLACEHOLDER": "Mettre à jour la couleur utilisée dans le widget"
+        },
+        "SUBMIT_BUTTON": "Créer une boîte de réception"
+      },
+      "TWILIO": {
+        "TITLE": "Canal Twilio SMS/WhatsApp",
+        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS ou WhatsApp.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID du compte",
+          "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
+          "ERROR": "Ce champ est requis"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Type de canal",
+          "ERROR": "Veuillez sélectionner votre type de canal"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Jeton d'authentification",
+          "PLACEHOLDER": "Veuillez entrer votre jeton d'authentification Twilio",
+          "ERROR": "Ce champ est requis"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nom du canal",
+          "PLACEHOLDER": "Veuillez entrer un nom de canal",
+          "ERROR": "Ce champ est requis"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numéro de téléphone",
+          "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
+          "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
+        },
+        "SUBMIT_BUTTON": "Créer le canal Twilio",
+        "API": {
+          "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Canaux",
+        "DESC": "Actuellement, nous prenons en charge les widgets de chat en direct, les pages Facebook et les profils Twitter en tant que plateformes. Plus de plateformes telles que Whatsapp, Courriels, Telegram et Line sont en cours de développement et seront prochainement disponibles."
+      },
+      "AGENTS": {
+        "TITLE": "Agents",
+        "DESC": "Ici vous pouvez ajouter des agents pour gérer votre boîte de réception nouvellement créée. Seuls ces agents sélectionnés auront accès à votre boîte de réception. Les agents qui ne font pas partie de cette boîte de réception ne seront pas en mesure de voir ou de répondre aux messages de cette boîte de réception lorsqu'ils se connectent. <br> <b>PS :</b> En tant qu'administrateur, si vous avez besoin d'accéder à toutes les boîtes de réception, vous devriez vous ajouter en tant qu'agent à toutes les boîtes de réception que vous créez."
+      },
+      "DETAILS": {
+        "TITLE": "Détails de la boîte de réception",
+        "DESC": "Dans le menu déroulant ci-dessous, sélectionnez la page Facebook que vous voulez connecter à Chatwoot. Vous pouvez également donner un nom personnalisé à votre boîte de réception pour une meilleure identification."
+      },
+      "FINISH": {
+        "TITLE": "Mission accomplie !",
+        "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Chatwoot. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Chatwoot.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Authentification avec Facebook ...",
+      "ERROR_FB_AUTH": "Une erreur s'est produite, veuillez rafraîchir la page ...",
+      "CREATING_CHANNEL": "Création de votre boîte de réception ...",
+      "TITLE": "Configurer les détails de la boîte de réception",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Ajouter des agents",
+      "ADD_AGENTS": "Ajout d'agents à votre boîte de réception ..."
+    },
+    "FINISH": {
+      "TITLE": "Votre boîte de réception est prête !",
+      "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance ",
+      "BUTTON_TEXT": "Emmenez-moi là",
+      "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception."
+    },
+    "REAUTH": "Réautoriser",
+    "VIEW": "Voir",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Paramètres de boîte de réception mis à jour avec succès",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Affectation automatique mise à jour avec succès",
+        "ERROR_MESSAGE": "Impossible de mettre à jour la couleur du widget. Veuillez réessayer plus tard."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "CONFIRM": {
+        "TITLE": "Confirmer la suppression",
+        "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "YES": "Oui, supprimer ",
+        "NO": "Non, conservez-le "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Boîte de réception supprimée avec succès",
+        "ERROR_MESSAGE": "Impossible de supprimer la boîte de réception. Veuillez réessayer plus tard."
+      }
+    },
+    "SETTINGS": "Paramètres",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Script du Widget Web",
+      "MESSENGER_SUB_HEAD": "Placez ce code avant la fermeture de votre balise body",
+      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
+      "UPDATE": "Mettre à jour",
+      "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
+      "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
+      "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception."
+    }
+  }
+}

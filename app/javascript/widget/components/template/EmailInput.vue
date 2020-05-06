@@ -7,10 +7,11 @@
     >
       <input
         v-model.trim="email"
-        class="form-input small"
-        placeholder="Please enter your email"
+        class="form-input"
+        :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
+        @keyup.enter="onSubmit"
       />
       <button
         class="button"
@@ -21,9 +22,6 @@
         <spinner v-else />
       </button>
     </form>
-    <span v-else>
-      <i>{{ messageContentAttributes.submitted_email }}</i>
-    </span>
   </div>
 </template>
 
@@ -71,7 +69,11 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$store.dispatch('message/updateContactAttributes', {
+      if (this.$v.$invalid) {
+        return;
+      }
+
+      this.$store.dispatch('message/update', {
         email: this.email,
         messageId: this.messageId,
       });
@@ -89,8 +91,9 @@ export default {
   min-width: 200px;
 
   input {
-    border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    padding: $space-one;
 
     &.error {
       border-color: $color-error;

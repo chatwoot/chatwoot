@@ -1,0 +1,94 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Configuració del Perfil",
+    "TITLE": "Configuració del Perfil",
+    "BTN_TEXT": "Actualització del Perfil",
+    "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
+    "FORM": {
+      "AVATAR": "Imatge del Perfil",
+      "ERROR": "Corregiu els errors del formulari",
+      "REMOVE_IMAGE": "Suprimeix",
+      "UPLOAD_IMAGE": "Puja imatge",
+      "UPDATE_IMAGE": "Puja imatge",
+      "PROFILE_SECTION": {
+        "TITLE": "Perfil",
+        "NOTE": "La vostra adreça de correu electrònic és la vostra identitat i s'utilitza per iniciar la sessió."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Contrasenya",
+        "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token d'accés",
+        "NOTE": "Aquest token es pot utilitzar si creeu una integració basada en l'API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificacions per correu electrònic",
+        "NOTE": "Actualitza aqui les preferències de les notificacions per correu electrònic",
+        "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
+        "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
+        "UPDATE_SUCCESS": "Les preferències de notificació per correu electrònic s’han actualitzat correctament",
+        "UPDATE_ERROR": "S'ha produït un error en actualitzar les preferències. Torneu-ho a provar"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Imatge del Perfil"
+      },
+      "NAME": {
+        "LABEL": "El teu nom",
+        "ERROR": "Introduïu un nom vàlid",
+        "PLACEHOLDER": "Introdueix el teu nom, serà mostrat a les converses"
+      },
+      "EMAIL": {
+        "LABEL": "La teva adreça de correu electrònic",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida",
+        "PLACEHOLDER": "Introduïu la vostra adreça de correu electrònic, que es mostrarà a les converses"
+      },
+      "PASSWORD": {
+        "LABEL": "Contrasenya",
+        "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
+        "PLACEHOLDER": "Introduïu una nova contrasenya"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirmació de la nova contrasenya",
+        "ERROR": "Confirmeu que les contrasenyes coincideixin",
+        "PLACEHOLDER": "Torneu a introduir la vostra contrasenya"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "PROFILE_SETTINGS": "Configuració del Perfil",
+    "LOGOUT": "Sortir"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dies de prova restants.",
+    "TRAIL_BUTTON": "Comprar ara"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copiar",
+      "COPY_SUCCESSFUL": "Codi copiat al porta-retalls correctament"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descarrega",
+      "UPLOADING": "S'està pujant..."
+    }
+  },
+  "CONFIRM_EMAIL": "S'està verificant...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Afegeix una safata d'entrada"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversacions",
+    "REPORTS": "Informes",
+    "SETTINGS": "Configuració",
+    "HOME": "Inici",
+    "AGENTS": "Agents",
+    "INBOXES": "Safates d'entrada",
+    "CANNED_RESPONSES": "Respostes Predeterminades",
+    "BILLING": "Facturació",
+    "INTEGRATIONS": "Integracions",
+    "ACCOUNT_SETTINGS": "Configuració del compte"
+  }
+}

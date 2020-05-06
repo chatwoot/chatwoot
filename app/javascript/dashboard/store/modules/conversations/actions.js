@@ -145,14 +145,25 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
-  addConversation({ commit }, conversation) {
-    commit(types.default.ADD_CONVERSATION, conversation);
+  updateMessage({ commit }, message) {
+    commit(types.default.ADD_MESSAGE, message);
   },
 
-  toggleTyping: async ({ commit }, { status, inboxId, contactId }) => {
+  addConversation({ commit, state }, conversation) {
+    const { currentInbox } = state;
+    if (!currentInbox || Number(currentInbox) === conversation.inbox_id) {
+      commit(types.default.ADD_CONVERSATION, conversation);
+    }
+  },
+
+  updateConversation({ commit }, conversation) {
+    commit(types.default.UPDATE_CONVERSATION, conversation);
+  },
+
+  toggleTyping: async ({ commit }, { status, conversationId }) => {
     try {
-      await FBChannel.toggleTyping({ status, inboxId, contactId });
-      commit(types.default.FB_TYPING, { status });
+      commit(types.default.SET_AGENT_TYPING, { status });
+      await ConversationApi.toggleTyping({ status, conversationId });
     } catch (error) {
       // Handle error
     }
@@ -192,7 +203,7 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
-      const response = MessageApi.sendAttachment(data);
+      const response = await MessageApi.sendAttachment(data);
       commit(types.default.SEND_MESSAGE, response.data);
     } catch (error) {
       // Handle error

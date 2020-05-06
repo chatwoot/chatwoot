@@ -10,7 +10,8 @@
     "SEARCH": {
       "INPUT": "Suche nach Personen, Chats, gespeicherten Antworten .."
     },
-    "STATUS_TABS": [{
+    "STATUS_TABS": [
+      {
         "NAME": "Öffnen",
         "KEY": "openCount"
       },
@@ -19,8 +20,8 @@
         "KEY": "allConvCount"
       }
     ],
-
-    "ASSIGNEE_TYPE_TABS": [{
+    "ASSIGNEE_TYPE_TABS": [
+      {
         "NAME": "Bergwerk",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
@@ -36,8 +37,8 @@
         "COUNT_KEY": "allCount"
       }
     ],
-
-    "CHAT_STATUS_ITEMS": [{
+    "CHAT_STATUS_ITEMS": [
+      {
         "TEXT": "Öffnen",
         "VALUE": "open"
       },
@@ -46,7 +47,6 @@
         "VALUE": "resolved"
       }
     ],
-
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

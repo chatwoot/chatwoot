@@ -1,0 +1,27 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Configuració del compte",
+    "SUBMIT": "Actualització de la configuració",
+    "UPDATE": {
+      "ERROR": "No s'ha pogut actualitzar la configuració, torna-ho a provar!",
+      "SUCCESS": "La configuració del compte s'ha actualitzat correctament"
+    },
+    "FORM": {
+      "ERROR": "Corregiu els errors del formulari",
+      "GENERAL_SECTION": {
+        "TITLE": "Configuració general",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nom del compte",
+        "PLACEHOLDER": "El nom del vostre compte",
+        "ERROR": "Introduïu un nom de compte vàlid"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma del lloc (Beta)",
+        "PLACEHOLDER": "El nom del vostre compte",
+        "ERROR": ""
+      }
+    }
+  }
+}

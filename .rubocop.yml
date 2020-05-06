@@ -4,18 +4,28 @@ require:
   - rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
+Lint/RaiseException:
+  Enabled: true
+Lint/StructNewOverride:
+  Enabled: true
 Layout/LineLength:
   Max: 150
 Metrics/ClassLength:
   Max: 125
 RSpec/ExampleLength:
-  Max: 15
+  Max: 25
 Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+Style/HashTransformValues:
+  Enabled: true
 Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'

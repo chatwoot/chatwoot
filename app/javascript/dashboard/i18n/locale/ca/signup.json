@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Registra un compte",
+    "TITLE": "Registre",
+    "TERMS_ACCEPT": "En registrar-vos, esteu d’acord amb el nostre <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Polítiques de Privadesa</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Nom del compte",
+      "PLACEHOLDER": "Wayne Enterprises",
+      "ERROR": "El nom del compte és massa curt"
+    },
+    "EMAIL": {
+      "LABEL": "Correu electrònic",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "El correu electrònic no és correcte"
+    },
+    "PASSWORD": {
+      "LABEL": "Contrasenya",
+      "PLACEHOLDER": "Contrasenya",
+      "ERROR": "La contrasenya és massa curta"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirma la contrasenya",
+      "PLACEHOLDER": "Confirma la contrasenya",
+      "ERROR": "Les contrasenyes no coincideixen"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registrat correctament",
+      "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
+    },
+    "SUBMIT": "Envia"
+  }
+}

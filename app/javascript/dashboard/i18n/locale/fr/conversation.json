@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Veuillez sélectionner une conversation à partir du panneau de gauche",
+    "NO_MESSAGE_1": "Oh oh ! Il semble qu'il n'y ait aucun message de clients dans votre boîte de réception.",
+    "NO_MESSAGE_2": " pour envoyer un message à votre page !",
+    "NO_INBOX_1": "Oh ! On dirait que vous n'avez pas encore ajouté de boîte de réception.",
+    "NO_INBOX_2": " pour commencer",
+    "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
+    "CLICK_HERE": "Cliquez ici",
+    "LOADING_INBOXES": "Chargement des boîtes de réception",
+    "LOADING_CONVERSATIONS": "Chargement des conversations",
+    "DOWNLOAD": "Télécharger",
+    "HEADER": {
+      "RESOLVE_ACTION": "Résoudre",
+      "REOPEN_ACTION": "Ré-ouvrir",
+      "OPEN": "Plus",
+      "CLOSE": "Fermer",
+      "DETAILS": "détails"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
+      "PRIVATE_MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Cela ne sera visible que par les agents"
+    },
+    "REPLYBOX": {
+      "REPLY": "Répondre",
+      "PRIVATE_NOTE": "Note privée",
+      "SEND": "Envoyer",
+      "CREATE": "Ajouter une note",
+      "TWEET": "Tweeter"
+    },
+    "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
+    "CHANGE_STATUS": "Statut de la conversation modifié",
+    "CHANGE_AGENT": "Responsable de la conversation modifié"
+  }
+}

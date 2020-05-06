@@ -10,11 +10,11 @@
       "REMOVE_IMAGE": "Entfernen",
       "UPLOAD_IMAGE": "Bild hochladen",
       "UPDATE_IMAGE": "Bild aktualisieren",
-      "PROFILE_SECTION" : {
+      "PROFILE_SECTION": {
         "TITLE": "Profil",
         "NOTE": "Ihre E-Mail-Adresse ist Ihre Identität und wird zum Anmelden verwendet."
       },
-      "PASSWORD_SECTION" : {
+      "PASSWORD_SECTION": {
         "TITLE": "Passwort",
         "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt."
       },
@@ -22,7 +22,7 @@
         "TITLE": "Zugangstoken",
         "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen"
       },
-      "EMAIL_NOTIFICATIONS_SECTION" : {
+      "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
@@ -30,7 +30,7 @@
         "UPDATE_SUCCESS": "Ihre E-Mail-Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
         "UPDATE_ERROR": "Beim Aktualisieren der Einstellungen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       },
-      "PROFILE_IMAGE":{
+      "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
       },
       "NAME": {
@@ -58,5 +58,41 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Profileinstellungen",
     "LOGOUT": "Ausloggen"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "verbleibende Tage Probezeit.",
+    "TRAIL_BUTTON": "Kaufe jetzt"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopieren",
+      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Herunterladen",
+      "UPLOADING": "Hochladen..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Einreichen"
+    }
+  },
+  "CONFIRM_EMAIL": "Überprüfen...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Posteingang hinzufügen"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Gespräche",
+    "REPORTS": "Berichte",
+    "SETTINGS": "Die Einstellungen",
+    "HOME": "Zuhause",
+    "AGENTS": "Agenten",
+    "INBOXES": "Posteingänge",
+    "CANNED_RESPONSES": "Vorgefertigte Antworten",
+    "BILLING": "Abrechnung",
+    "INTEGRATIONS": "Integrationen",
+    "ACCOUNT_SETTINGS": "Kontoeinstellungen"
   }
+
 }

@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "S'estan obtenint converses",
+    "LOAD_MORE_CONVERSATIONS": "Carrega més converses",
+    "EOF": "Totes les converses carregades 🎉",
+    "LIST": {
+      "404": "No hi ha converses actives en aquest grup."
+    },
+    "TAB_HEADING": "Converses",
+    "SEARCH": {
+      "INPUT": "Cerca persones, xats, respostes desades .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Obrir",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Resoltes",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Meves",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Sense assignar",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Totes",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Obertes",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Resoltes",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Missatge d'imatge"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Missatge d'àudio"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Missatge de vídeo"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Fitxer adjunt"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Ubicació"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "ha compartit una URL"
+      }
+    }
+  }
+}

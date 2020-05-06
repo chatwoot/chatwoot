@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Si prega di selezionare una conversazione dal pannello sinistro",
+    "NO_MESSAGE_1": "Oh oh! Sembra che non ci siano messaggi da parte dei clienti nella tua casella di posta.",
+    "NO_MESSAGE_2": " per inviare un messaggio alla tua pagina!",
+    "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna posta in arrivo.",
+    "NO_INBOX_2": " per iniziare",
+    "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella di posta. Per favore contatta il tuo amministratore",
+    "CLICK_HERE": "Clicca qui",
+    "LOADING_INBOXES": "Caricamento posta in arrivo",
+    "LOADING_CONVERSATIONS": "Caricamento conversazioni",
+    "DOWNLOAD": "Scaricare",
+    "HEADER": {
+      "RESOLVE_ACTION": "Risolvi",
+      "REOPEN_ACTION": "Riapri",
+      "OPEN": "Ulteriori",
+      "CLOSE": "Chiudi",
+      "DETAILS": "Dettagli"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "MAIUSC + INVIO per la nuova linea. Inizia con '/' per selezionare una risposta preconfezionata.",
+      "PRIVATE_MSG_INPUT": "Shift + enter per nuova linea. Questo sarà visibile solo agli agenti"
+    },
+    "REPLYBOX": {
+      "REPLY": "Rispondere",
+      "PRIVATE_NOTE": "Nota Privata",
+      "SEND": "Inviare",
+      "CREATE": "Aggiungi nota",
+      "TWEET": "Twitta"
+    },
+    "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
+    "CHANGE_STATUS": "Stato conversazione cambiato",
+    "CHANGE_AGENT": "Modifica conversazione assegnatario"
+  }
+}

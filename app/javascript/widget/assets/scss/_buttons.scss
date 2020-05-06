@@ -54,4 +54,8 @@ $button-border-width: 1px;
     height: $space-larger;
     padding: $space-small $space-medium;
   }
+
+  &.block {
+    width: 100%;
+  }
 }

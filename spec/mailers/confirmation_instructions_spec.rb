@@ -28,7 +28,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
 
       it 'refers to the inviter and their account' do
         expect(mail.body).to match(
-          "#{inviter_val.name}, with #{inviter_val.account.name}, has invited you to try out Chatwoot!"
+          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(inviter_val.account.name)}, has invited you to try out Chatwoot!"
         )
       end
     end

@@ -48,10 +48,12 @@ describe('#getters', () => {
       uiFlags: {
         allMessagesLoaded: false,
         isFetchingList: false,
+        isAgentTyping: false,
       },
     };
     expect(getters.getAllMessagesLoaded(state)).toEqual(false);
     expect(getters.getIsFetchingList(state)).toEqual(false);
+    expect(getters.getIsAgentTyping(state)).toEqual(false);
   });
 
   it('uiFlags', () => {

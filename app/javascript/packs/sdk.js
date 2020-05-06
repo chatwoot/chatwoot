@@ -1,6 +1,5 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
-import { onBubbleClick } from '../sdk/bubbleHelpers';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};
@@ -9,11 +8,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
-    position: chatwootSettings.position || 'right',
+    position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
 
     toggle() {
-      onBubbleClick();
+      IFrameHelper.events.toggleBubble();
     },
 
     setUser(identifier, user) {
@@ -39,7 +38,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     reset() {
       if (window.$chatwoot.isOpen) {
-        onBubbleClick();
+        IFrameHelper.events.toggleBubble();
       }
 
       Cookies.remove('cw_conversation');

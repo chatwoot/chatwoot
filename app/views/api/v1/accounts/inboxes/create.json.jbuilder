@@ -1,0 +1,13 @@
+json.id @inbox.id
+json.channel_id @inbox.channel_id
+json.name @inbox.name
+json.channel_type @inbox.channel_type
+json.avatar_url @inbox.try(:avatar_url)
+json.website_token @inbox.channel.try(:website_token)
+json.widget_color @inbox.channel.try(:widget_color)
+json.website_url @inbox.channel.try(:website_url)
+json.welcome_title @inbox.channel.try(:welcome_title)
+json.welcome_tagline @inbox.channel.try(:welcome_tagline)
+json.agent_away_message @inbox.channel.try(:agent_away_message)
+json.web_widget_script @inbox.channel.try(:web_widget_script)
+json.enable_auto_assignment @inbox.enable_auto_assignment

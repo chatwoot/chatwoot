@@ -4,10 +4,16 @@ properties:
     type: number
     description: ID of the conversation
     required: true
-  message:
+  content:
     type: string
     description: The content of the message
     required: true
   private:
     type: boolean
     description: Flag to identify if it is a private note
+  content_type:
+    type: string
+    enum: ['input_select', 'form', 'cards']
+  content_attributes:
+    type: object
+    description: options/form object
