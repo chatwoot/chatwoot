@@ -17,7 +17,6 @@ LANGUAGES_CONFIG = {
   12 => { name: 'Spanish', iso_639_3_code: 'spa', iso_639_1_code: 'es', enabled: false },
   13 => { name: 'Malayalam', iso_639_3_code: 'mal', iso_639_1_code: 'ml', enabled: true },
   14 => { name: 'Catalan', iso_639_3_code: 'cat', iso_639_1_code: 'ca', enabled: true }
-}.freeze
+}.filter { |_key, val| val[:enabled] }.freeze
 
-Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.filter { |_index, lang| lang[:enabled] }
-                                                             .map { |_index, lang| lang[:iso_639_1_code].to_sym }
+Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }
