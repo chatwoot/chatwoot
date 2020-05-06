@@ -28,6 +28,8 @@
               <option value="de">German</option>
               <option value="en">English</option>
               <option value="ml">Malayalam</option>
+              <option value="el">Greek</option>
+              <option value="pt">Portugese</option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
