@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Dettagli conversazione",
+    "BROWSER": "Browser",
+    "OS": "Sistema Operativo",
+    "INITIATED_FROM": "Iniziato da",
+    "INITIATED_AT": "Iniziato alle",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
+      "TITLE": "Conversazioni precedenti"
+    },
+    "LABELS": {
+      "TITLE": "Etichette conversazione",
+      "UPDATE_BUTTON": "Aggiorna etichette",
+      "UPDATE_ERROR": "Impossibile aggiornare le etichette, riprova.",
+      "TAG_PLACEHOLDER": "Aggiungi nuova etichetta",
+      "PLACEHOLDER": "Cerca o aggiungi un'etichetta"
+    }
+  }
+}

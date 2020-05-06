@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Szczegóły konwersacji",
+    "BROWSER": "Przeglądarki",
+    "OS": "System operacyjny",
+    "INITIATED_FROM": "Zainicjowano z",
+    "INITIATED_AT": "Zainicjowano w",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
+      "TITLE": "Poprzednie rozmowy"
+    },
+    "LABELS": {
+      "TITLE": "Etykiety konwersacji",
+      "UPDATE_BUTTON": "Aktualizuj etykiety",
+      "UPDATE_ERROR": "Nie można zaktualizować etykiet, spróbuj ponownie.",
+      "TAG_PLACEHOLDER": "Dodaj nową etykietę",
+      "PLACEHOLDER": "Szukaj lub dodaj etykietę"
+    }
+  }
+}

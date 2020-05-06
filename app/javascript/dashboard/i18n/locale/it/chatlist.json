@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Recupero conversazioni",
+    "LOAD_MORE_CONVERSATIONS": "Carica altre conversazioni",
+    "EOF": "Tutte le conversazioni caricate 🎉",
+    "LIST": {
+      "404": "Non ci sono conversazioni attive in questo gruppo."
+    },
+    "TAB_HEADING": "Conversazioni",
+    "SEARCH": {
+      "INPUT": "Cerca persone, Chat, risposte salvate .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Apri",
+        "KEY": "contaaperture"
+      },
+      {
+        "NAME": "Risolti",
+        "KEY": "Conteggio"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Miniera",
+        "KEY": "Io",
+        "COUNT_KEY": "contaMinore"
+      },
+      {
+        "NAME": "Non assegnato",
+        "KEY": "non assegnato",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Tutti",
+        "KEY": "Tutti",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Apri",
+        "VALUE": "Aperto"
+      },
+      {
+        "TEXT": "Risolti",
+        "VALUE": "risolto"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Messaggio immagine"
+      },
+      "audio": {
+        "ICON": "-quantità-alto",
+        "CONTENT": "Messaggio audio"
+      },
+      "video": {
+        "ICON": "videocam",
+        "CONTENT": "Messaggio video"
+      },
+      "file": {
+        "ICON": "e-documento",
+        "CONTENT": "File Allegato"
+      },
+      "location": {
+        "ICON": "Posizione-ios",
+        "CONTENT": "Localizzazione"
+      },
+      "fallback": {
+        "ICON": "e-link",
+        "CONTENT": "ha condiviso un url"
+      }
+    }
+  }
+}

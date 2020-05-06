@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Gesprekken ophalen",
+    "LOAD_MORE_CONVERSATIONS": "Meer gesprekken laden",
+    "EOF": "Alle gesprekken geladen 🎉",
+    "LIST": {
+      "404": "Er zijn geen actieve gesprekken in deze groep."
+    },
+    "TAB_HEADING": "Gesprekken",
+    "SEARCH": {
+      "INPUT": "Zoek naar mensen, Chat, opgeslagen antwoorden .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Open",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Opgelost",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Mijn",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Niet-toegewezen",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Allemaal",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Open",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Opgelost",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Bericht met foto"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Audio bericht"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Video bericht"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Bestand bijlage"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Locatie"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "heeft een url gedeeld"
+      }
+    }
+  }
+}

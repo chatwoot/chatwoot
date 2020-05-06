@@ -1,0 +1,101 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agenten",
+    "HEADER_BTN_TXT": "Agent toevoegen",
+    "LOADING": "Ophalen van agent lijst",
+    "SIDEBAR_TXT": "<p><b>Agenten</b></p> <p> Een <b>Agent</b> is lid van uw Klantenservice team. </p><p> Agenten kunnen berichten van uw gebruikers bekijken en beantwoorden. De lijst toont alle agenten die momenteel in uw account bestaan. </p><p> Klik op <b>Agent toevoegen</b> om een nieuwe agent toe te voegen. De medewerker die je toevoegt ontvangt een e-mail met een bevestigingslink om zijn account te activeren, waarna hij Chatwoot kan bezoeken en op berichten kan reageren. </p><p> Toegang tot Chatwoots functies zijn gebaseerd op de volgende rollen. </p><p> <b>Agent</b> - Agenten met deze rol kunnen alleen inboxen, rapporten en gesprekken gebruiken. Ze kunnen gesprekken toewijzen aan andere agenten of zichzelf en gesprekken oplossen.</p><p> <b>Beheerder</b> - Een beheerder heeft toegang tot alle Chatwoot functies ingeschakeld voor uw account, inclusief instellingen en facturering, aangevuld met de gebruikelijke rechten van een agent.</p>",
+    "AGENT_TYPES": [
+      {
+        "name": "administrator",
+        "label": "Beheerder"
+      },
+      {
+        "name": "agent",
+        "label": "Agent"
+      }
+    ],
+    "LIST": {
+      "404": "Er zijn geen agenten gekoppeld aan dit account",
+      "TITLE": "Beheer agenten in uw team",
+      "DESC": "U kunt agenten toevoegen aan/in uw team verwijderen.",
+      "NAME": "Naam",
+      "EMAIL": "E-mailadres",
+      "STATUS": "Status",
+      "ACTIONS": "Acties",
+      "VERIFIED": "Geverifieerd",
+      "VERIFICATION_PENDING": "Verificatie in behandeling"
+    },
+    "ADD": {
+      "TITLE": "Voeg agent toe aan je team",
+      "DESC": "U kunt medewerkers toevoegen die de ondersteunen verzorgen voor berichten in uw inboxen.",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent naam",
+          "PLACEHOLDER": "Voer een naam in voor de agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent type",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Agent type is vereist"
+        },
+        "EMAIL": {
+          "LABEL": "Uw e-mailadres",
+          "PLACEHOLDER": "Voer een e-mailadres in van de agent"
+        },
+        "SUBMIT": "Agent toevoegen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent toegevoegd",
+        "EXIST_MESSAGE": "Agent e-mailadres al in gebruik, probeer een ander e-mailadres",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent succesvol verwijderd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, bewaar het "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk medewerker",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent naam",
+          "PLACEHOLDER": "Voer een naam in voor de agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Agent type",
+          "PLACEHOLDER": "Selecteer een type",
+          "ERROR": "Agent type is vereist"
+        },
+        "EMAIL": {
+          "LABEL": "Uw e-mailadres",
+          "PLACEHOLDER": "Voer een e-mailadres in van de medewerker"
+        },
+        "SUBMIT": "Bewerk Agent"
+      },
+      "BUTTON_TEXT": "Bewerken",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Wachtwoord opnieuw instellen",
+        "ADMIN_SUCCESS_MESSAGE": "Een e-mail met instructies om het wachtwoord te resetten is verstuurd naar de medewerker",
+        "SUCCESS_MESSAGE": "Agent wachtwoord opnieuw instellen geslaagd",
+        "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Geen agenten gevonden."
+    }
+  }
+}

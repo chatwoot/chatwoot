@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Pobieranie konwersacji",
+    "LOAD_MORE_CONVERSATIONS": "Załaduj więcej rozmów",
+    "EOF": "Wszystkie rozmowy załadowane 🎉",
+    "LIST": {
+      "404": "W tej grupie nie ma aktywnych konwersacji."
+    },
+    "TAB_HEADING": "Rozmowy",
+    "SEARCH": {
+      "INPUT": "Szukaj ludzi, czatów, zapisanych odpowiedzi .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Otwórz",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Rozwiązano",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Kopalnia",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Nieprzypisane",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Wszystkie",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Otwórz",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Rozwiązano",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Wiadomość obrazkowa"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Wiadomość audio"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Wiadomość wideo"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Załącznik pliku"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Lokalizacja"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "udostępnił adres url"
+      }
+    }
+  }
+}
