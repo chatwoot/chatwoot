@@ -1,0 +1,74 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Configurações do Perfil",
+    "TITLE": "Configurações do Perfil",
+    "BTN_TEXT": "Atualizar o Perfil",
+    "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
+    "FORM": {
+      "AVATAR": "Imagem de Perfil",
+      "ERROR": "Por favor, corrija os erros",
+      "REMOVE_IMAGE": "Excluir",
+      "UPLOAD_IMAGE": "Carregar imagem",
+      "UPDATE_IMAGE": "Atualizar Imagem",
+      "PROFILE_SECTION": {
+        "TITLE": "Perfil",
+        "NOTE": "Seu endereço de e-mail é sua identidade e é usado para fazer login."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Senha",
+        "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token de acesso",
+        "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificações por e-mail",
+        "NOTE": "Atualize suas preferências de notificação por e-mail aqui",
+        "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa for atribuída a mim",
+        "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada",
+        "UPDATE_SUCCESS": "Suas preferências de notificação de e-mail foram atualizadas com sucesso",
+        "UPDATE_ERROR": "Ocorreu um erro ao atualizar as preferências, por favor, tente novamente"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Imagem do Perfil"
+      },
+      "NAME": {
+        "LABEL": "Seu Nome",
+        "ERROR": "Por favor, insira um nome válido",
+        "PLACEHOLDER": "Por favor, insira seu nome, isto seria exibido em conversas"
+      },
+      "EMAIL": {
+        "LABEL": "Seu e-mail",
+        "ERROR": "Por favor, insira um endereço de e-mail válido",
+        "PLACEHOLDER": "Por favor, insira seu endereço de e-mail, que será exibido em conversas"
+      },
+      "PASSWORD": {
+        "LABEL": "Senha",
+        "ERROR": "Por favor, digite uma senha de comprimento 6 ou mais",
+        "PLACEHOLDER": "Por favor, digite uma nova senha"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirme a nova senha",
+        "ERROR": "A confirmação da senha é diferente. Favor digitar novamente",
+        "PLACEHOLDER": "Por favor, digite sua senha novamente"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "PROFILE_SETTINGS": "Configurações do Perfil",
+    "LOGOUT": "Sair"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversas",
+    "REPORTS": "Relatórios",
+    "SETTINGS": "Definições",
+    "HOME": "Casa",
+    "AGENTS": "Agentes",
+    "INBOXES": "Caixas de entrada",
+    "CANNED_RESPONSES": "Respostas Enlatadas",
+    "BILLING": "Faturamento",
+    "INTEGRATIONS": "Integrações",
+    "ACCOUNT_SETTINGS": "Configurações da conta"
+  }
+}

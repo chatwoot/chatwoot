@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Facturatie",
+    "LOADING": "Ophalen Abonnementen",
+    "ACCOUNT_STATE": "Status account",
+    "AGENT_COUNT": "Aantal Agent",
+    "PER_AGENT_COST": "Kost per agent",
+    "TOTAL_COST": "Totale kosten",
+    "BUTTON": {
+      "ADD": "Betaalmethode toevoegen",
+      "EDIT": "Betalingsmethode bewerken"
+    },
+    "TRIAL": {
+      "TITLE": "Uw proefperiode is voorbij",
+      "MESSAGE": "Voeg een betaalmethode toe om Chatwood te blijven gebruiken."
+    },
+    "ACCOUNT_LOCKED": "Uw account is op dit moment niet beschikbaar. <br>Neem contact op met uw beheerder voor heractivatie."
+  }
+}

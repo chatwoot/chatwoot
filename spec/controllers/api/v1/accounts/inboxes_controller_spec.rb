@@ -88,6 +88,44 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
+
+      it 'creates inbox' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('test.com')
+      end
+
+      it 'will not create inbox for agent' do
+        agent = create(:user, account: account, role: :agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account) }
 
@@ -101,7 +139,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { inbox: { enable_auto_assignment: false } } }
+      let(:valid_params) { {  enable_auto_assignment: false, channel: { website_url: 'test.com' } } }
 
       it 'updates inbox' do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
@@ -113,6 +151,20 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(inbox.reload.enable_auto_assignment).to be_falsey
       end
 
+      it 'updates avatar' do
+        # no avatar before upload
+        expect(inbox.avatar.attached?).to eq(false)
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: valid_params.merge(avatar: file),
+              headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('test.com')
+        inbox.reload
+        expect(inbox.avatar.attached?).to eq(true)
+      end
+
       it 'will not update inbox for agent' do
         agent = create(:user, account: account, role: :agent)
 
@@ -120,6 +172,64 @@ RSpec.describe 'Inboxes API', type: :request do
               headers: agent.create_new_auth_token,
               params: valid_params,
               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/set_agent_bot' do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:agent_bot) { create(:agent_bot) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:valid_params) { { agent_bot: agent_bot.id } }
+
+      it 'sets the agent bot' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.agent_bot.id).to eq agent_bot.id
+      end
+
+      it 'throw error when invalid agent bot id' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: { agent_bot: 0 },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'disconnects the agent bot' do
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: { agent_bot: nil },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.agent_bot).to be_falsey
+      end
+
+      it 'will not update agent bot when its an agent' do
+        agent = create(:user, account: account, role: :agent)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end

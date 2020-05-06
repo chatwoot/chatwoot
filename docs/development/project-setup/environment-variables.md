@@ -51,7 +51,7 @@ FRONTEND_URL='http://localhost:3000'
 
 ### Configure storage
 
-Chatwoot uses [active storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) for storing attachments. The default storage option is the local storage on your server. 
+Chatwoot uses [active storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) for storing attachments. The default storage option is the local storage on your server.
 
 But you can change it to use any of the cloud providers like amazon s3, microsoft azure and google gcs etc. Refer [configuring cloud storage](./configuring-cloud-storage) for additional environment variables required.
 
@@ -104,8 +104,8 @@ You can generate `SECRET_KEY_BASE` using `rake secret` command from project root
 
 ### Rails Logging Variables
 
-By default chatwoot will capture `info` level logs in production. Ref [rails docs](https://guides.rubyonrails.org/debugging_rails_applications.html#log-levels) for the additional log level options.  
-We will also retain 1 GB of your recent logs and your last shifted log file.  
+By default chatwoot will capture `info` level logs in production. Ref [rails docs](https://guides.rubyonrails.org/debugging_rails_applications.html#log-levels) for the additional log level options.
+We will also retain 1 GB of your recent logs and your last shifted log file.
 You can fine tune these settings using the following environment variables
 
 ```bash

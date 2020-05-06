@@ -1,6 +1,6 @@
 <template>
   <div class="columns profile--settings ">
-    <form @submit.prevent="updateAccount()">
+    <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3 ">
           <h4 class="block-title">
@@ -24,12 +24,57 @@
           <label :class="{ error: $v.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
-              <option value="en">English</option>
-              <option value="de">German</option>
+              <option
+                v-for="lang in enabledLanguages"
+                :key="lang.iso_639_1_code"
+                :value="lang.iso_639_1_code"
+              >
+                {{ lang.name }}
+              </option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
             </span>
+          </label>
+          <label>
+            {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
+            <input
+              v-model="domain"
+              type="text"
+              :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
+            />
+          </label>
+          <label v-if="featureInboundEmailEnabled">
+            {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.LABEL') }}
+            <select v-model="domainEmailsEnabled">
+              <option value="true">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.ENABLED'
+                  )
+                }}
+              </option>
+              <option value="false">
+                {{
+                  $t(
+                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.DISABLED'
+                  )
+                }}
+              </option>
+            </select>
+            <p class="help-text">
+              {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.PLACEHOLDER') }}
+            </p>
+          </label>
+          <label v-if="featureInboundEmailEnabled">
+            {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
+            <input
+              v-model="supportEmail"
+              type="text"
+              :placeholder="
+                $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.PLACEHOLDER')
+              "
+            />
           </label>
         </div>
       </div>
@@ -40,6 +85,8 @@
       >
       </woot-submit-button>
     </form>
+
+    <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
 
@@ -49,14 +96,19 @@ import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, configMixin],
   data() {
     return {
       id: '',
       name: '',
       locale: 'en',
+      domain: '',
+      domainEmailsEnabled: false,
+      supportEmail: '',
+      features: {},
     };
   },
   validations: {
@@ -76,6 +128,10 @@ export default {
     isUpdating() {
       return this.uiFlags.isUpdating;
     },
+
+    featureInboundEmailEnabled() {
+      return !!this.features.inbound_emails;
+    },
   },
   mounted() {
     if (!this.id) {
@@ -89,12 +145,24 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const { name, locale, id } = this.getAccount(accountId);
+        const {
+          name,
+          locale,
+          id,
+          domain,
+          support_email,
+          domain_emails_enabled,
+          features,
+        } = this.getAccount(accountId);
 
         Vue.config.lang = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
+        this.domain = domain;
+        this.supportEmail = support_email;
+        this.domainEmailsEnabled = domain_emails_enabled;
+        this.features = features;
       }
     },
 
@@ -108,6 +176,9 @@ export default {
         await this.$store.dispatch('accounts/update', {
           locale: this.locale,
           name: this.name,
+          domain: this.domain,
+          support_email: this.supportEmail,
+          domain_emails_enabled: this.domainEmailsEnabled,
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));

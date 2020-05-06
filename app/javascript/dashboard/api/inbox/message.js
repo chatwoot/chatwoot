@@ -9,7 +9,7 @@ class MessageApi extends ApiClient {
 
   create({ conversationId, message, private: isPrivate }) {
     return axios.post(`${this.url}/${conversationId}/messages`, {
-      message,
+      content: message,
       private: isPrivate,
     });
   }
@@ -22,7 +22,7 @@ class MessageApi extends ApiClient {
 
   sendAttachment([conversationId, { file }]) {
     const formData = new FormData();
-    formData.append('attachment[file]', file);
+    formData.append('attachments[]', file, file.name);
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,

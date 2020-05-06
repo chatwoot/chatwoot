@@ -1,0 +1,46 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Ρυθμίσεις",
+    "SUBMIT": "Ενημέρωση Ρυθμίσεων",
+    "UPDATE": {
+      "ERROR": "Δεν μπορεί να ενημερωθεί η ρύθμιση προσπαθήστε ξανά!",
+      "SUCCESS": "Επιτυχής Ενημέρωση Ρυθμίσεων"
+    },
+    "FORM": {
+      "ERROR": "Παρακαλώ διορθώστε τα λάθη της Φόρμας",
+      "GENERAL_SECTION": {
+        "TITLE": "Γενικές Ρυθμίσεις",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Ονομασία Λογαριασμού",
+        "PLACEHOLDER": "Η ονομασία του Λογαριασμού σας",
+        "ERROR": "Παρακαλώ συμπληρώστε ένα έγκυρο όνομα λογαριασμού"
+      },
+      "LANGUAGE": {
+        "LABEL": "Γλώσσα Ιστοσελίδας (Beta)",
+        "PLACEHOLDER": "Το όνομα του Λογαριασμού",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACEHOLDER": "Το domain της ιστοσελίδας σας",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Email Υποστήριξης",
+        "PLACEHOLDER": "To email υποστήριξης της εταιρίας σας",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Ενεργοποίηση emai του domain",
+        "PLACEHOLDER": "Ενεργοποιήση του custom domain email",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Ενεργό",
+          "DISABLED": "Ανενεργό"
+        }
+      }
+    }
+  }
+}

@@ -6,9 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <script>
       window.chatwootWebChannel = {
-        website_name: '<%= @web_widget.website_name %>',
-        widget_color: '<%= @web_widget.widget_color %>',
-        website_token: '<%= @web_widget.website_token %>'
+        avatarUrl: '<%= @web_widget.inbox.avatar_url %>',
+        locale: '<%= @web_widget.account.locale %>',
+        websiteName: '<%= @web_widget.inbox.name %>',
+        websiteToken: '<%= @web_widget.website_token %>',
+        welcomeTagline: '<%= @web_widget.welcome_tagline %>',
+        welcomeTitle: '<%= @web_widget.welcome_title %>',
+        widgetColor: '<%= @web_widget.widget_color %>',
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'

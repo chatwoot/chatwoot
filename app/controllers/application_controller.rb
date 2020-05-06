@@ -24,7 +24,12 @@ class ApplicationController < ActionController::Base
     elsif @resource&.is_a?(AgentBot)
       account_accessible_for_bot?(account)
     end
+    switch_locale account
     account
+  end
+
+  def switch_locale(account)
+    I18n.locale = (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil) || I18n.default_locale
   end
 
   def account_accessible_for_user?(account)

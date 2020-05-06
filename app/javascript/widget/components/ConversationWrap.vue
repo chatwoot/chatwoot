@@ -1,23 +1,29 @@
 <template>
   <div class="conversation--container">
-    <div class="conversation-wrap">
+    <div class="conversation-wrap" :class="{ 'is-typing': isAgentTyping }">
       <div v-if="isFetchingList" class="message--loader">
         <spinner></spinner>
       </div>
-      <div v-for="groupedMessage in groupedMessages" :key="groupedMessage.date">
+      <div
+        v-for="groupedMessage in groupedMessages"
+        :key="groupedMessage.date"
+        class="messages-wrap"
+      >
         <date-separator :date="groupedMessage.date"></date-separator>
-        <ChatMessage
+        <chat-message
           v-for="message in groupedMessage.messages"
           :key="message.id"
           :message="message"
         />
       </div>
+      <agent-typing-bubble v-if="isAgentTyping" />
     </div>
   </div>
 </template>
 
 <script>
 import ChatMessage from 'widget/components/ChatMessage.vue';
+import AgentTypingBubble from 'widget/components/AgentTypingBubble.vue';
 import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapActions, mapGetters } from 'vuex';
@@ -26,6 +32,7 @@ export default {
   name: 'ConversationWrap',
   components: {
     ChatMessage,
+    AgentTypingBubble,
     DateSeparator,
     Spinner,
   },
@@ -44,6 +51,7 @@ export default {
       allMessagesLoaded: 'conversation/getAllMessagesLoaded',
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
+      isAgentTyping: 'conversation/getIsAgentTyping',
     }),
   },
   watch: {
@@ -102,10 +110,22 @@ export default {
 
 .conversation-wrap {
   flex: 1;
-  padding: $space-large $space-small $zero $space-small;
+  padding: $space-large $space-small $space-small $space-small;
 }
 
 .message--loader {
   text-align: center;
+}
+</style>
+<style lang="scss">
+.conversation-wrap.is-typing .messages-wrap div:last-child {
+  .agent-message {
+    .agent-name {
+      display: none;
+    }
+    .user-thumbnail-box {
+      margin-top: 0;
+    }
+  }
 }
 </style>

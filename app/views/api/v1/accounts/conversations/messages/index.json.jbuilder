@@ -1,7 +1,9 @@
 json.meta do
   json.labels @conversation.label_list
   json.additional_attributes @conversation.additional_attributes
-  json.contact_id @conversation.contact_id
+  json.contact @conversation.contact.push_event_data
+  json.assignee @conversation.assignee.push_event_data if @conversation.assignee.present?
+  json.agent_last_seen_at @conversation.agent_last_seen_at
 end
 
 json.payload do
@@ -14,7 +16,7 @@ json.payload do
     json.created_at message.created_at.to_i
     json.private message.private
     json.source_id message.source_id
-    json.attachment message.attachment.push_event_data if message.attachment
+    json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
     json.sender message.user.push_event_data if message.user
   end
 end

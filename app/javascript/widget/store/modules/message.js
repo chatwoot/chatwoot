@@ -1,4 +1,4 @@
-import MessageAPI from 'widget/api/message';
+import MessageAPI from '../../api/message';
 import { refreshActionCableConnector } from '../../helpers/actionCable';
 
 const state = {
@@ -12,19 +12,24 @@ const getters = {
 };
 
 const actions = {
-  updateContactAttributes: async ({ commit }, { email, messageId }) => {
+  update: async ({ commit }, { email, messageId, submittedValues }) => {
     commit('toggleUpdateStatus', true);
     try {
       const {
-        data: {
-          contact: { pubsub_token: pubsubToken },
-        },
-      } = await MessageAPI.update({ email, messageId });
+        data: { contact: { pubsub_token: pubsubToken } = {} },
+      } = await MessageAPI.update({
+        email,
+        messageId,
+        values: submittedValues,
+      });
       commit(
         'conversation/updateMessage',
         {
           id: messageId,
-          content_attributes: { submitted_email: email },
+          content_attributes: {
+            submitted_email: email,
+            submitted_values: email ? null : submittedValues,
+          },
         },
         { root: true }
       );

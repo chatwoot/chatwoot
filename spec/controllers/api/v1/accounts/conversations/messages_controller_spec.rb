@@ -19,7 +19,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'creates a new outgoing message' do
-        params = { message: 'test-message', private: true }
+        params = { content: 'test-message', private: true }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -28,20 +28,20 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.first.content).to eq(params[:message])
+        expect(conversation.messages.first.content).to eq(params[:content])
       end
 
       it 'creates a new outgoing message with attachment' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-        params = { message: 'test-message', attachment: { file: file } }
+        params = { content: 'test-message', attachments: [file] }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
              headers: agent.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(conversation.messages.last.attachment.file.present?).to eq(true)
-        expect(conversation.messages.last.attachment.file_type).to eq('image')
+        expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
+        expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates a new outgoing message' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        params = { message: 'test-message' }
+        params = { content: 'test-message' }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -59,7 +59,39 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.first.content).to eq(params[:message])
+        expect(conversation.messages.first.content).to eq(params[:content])
+      end
+
+      it 'creates a new outgoing input select message' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        select_item1 = build(:bot_message_select)
+        select_item2 = build(:bot_message_select)
+        params = { content_type: 'input_select', content_attributes: { items: [select_item1, select_item2] } }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: { api_access_token: agent_bot.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.first.content_type).to eq(params[:content_type])
+        expect(conversation.messages.first.content).to eq nil
+      end
+
+      it 'creates a new outgoing cards message' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        card = build(:bot_message_card)
+        params = { content_type: 'cards', content_attributes: { items: [card] } }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: { api_access_token: agent_bot.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.first.content_type).to eq(params[:content_type])
       end
     end
   end
@@ -84,7 +116,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact_id]).to eq(conversation.contact_id)
+        expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact][:id]).to eq(conversation.contact_id)
       end
     end
   end

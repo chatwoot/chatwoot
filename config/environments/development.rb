@@ -61,6 +61,14 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = smtp_settings
 
+  # Set this to appropriate ingress service for which the options are :
+  # :relay for Exim, Postfix, Qmail
+  # :mailgun for Mailgun
+  # :mandrill for Mandrill
+  # :postmark for Postmark
+  # :sendgrid for Sendgrid
+  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
+
   Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
 
   # Print deprecation notices to the Rails logger.
