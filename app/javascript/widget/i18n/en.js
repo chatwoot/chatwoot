@@ -9,4 +9,6 @@ export default {
     },
   },
   POWERED_BY: 'Powered by Chatwoot',
+  EMAIL_PLACEHOLDER: 'Please enter your email',
+  CHAT_PLACEHOLDER: 'Type your message',
 };
