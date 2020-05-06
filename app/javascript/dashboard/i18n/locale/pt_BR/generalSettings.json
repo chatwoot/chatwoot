@@ -24,7 +24,7 @@
       },
       "DOMAIN": {
         "LABEL": "Domínio",
-        "PLACEHOLDER": "Domínio do seu site",
+        "PLACEHOLDER": "Domínio do seu website",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,12 +33,12 @@
         "ERROR": ""
       },
       "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Habilitar e-mail de domínio",
-        "PLACEHOLDER": "Ativar o e-mail de domínio personalizado",
+        "LABEL": "Ativar domínio de e-mail",
+        "PLACEHOLDER": "Ativar domínio de e-mail personalizado",
         "ERROR": "",
         "OPTIONS": {
           "ENABLED": "Ativado",
-          "DISABLED": "Desabilitado"
+          "DISABLED": "Desativado"
         }
       }
     }

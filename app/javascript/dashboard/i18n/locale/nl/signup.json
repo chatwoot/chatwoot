@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Registreer een account",
+    "TITLE": "Registreren",
+    "TERMS_ACCEPT": "Door je aan te melden ga je akkoord met onze <a href=\"https://www.chatwoot.com/terms\">T & C</a> en <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy Policy</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Klant naam",
+      "PLACEHOLDER": "Wayne Ondernemingen",
+      "ERROR": "Accountnaam is te kort"
+    },
+    "EMAIL": {
+      "LABEL": "E-mailadres",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "E-mailadres is ongeldig"
+    },
+    "PASSWORD": {
+      "LABEL": "Wachtwoord",
+      "PLACEHOLDER": "Wachtwoord",
+      "ERROR": "Wachtwoord is te kort"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Bevestig wachtwoord",
+      "PLACEHOLDER": "Bevestig wachtwoord",
+      "ERROR": "Wachtwoord komt niet overeen"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registratie geslaagd",
+      "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
+    },
+    "SUBMIT": "Bevestigen"
+  }
+}
