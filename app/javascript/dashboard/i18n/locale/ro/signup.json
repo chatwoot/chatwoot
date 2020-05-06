@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Înregistrați un cont",
+    "TITLE": "Inregistrare",
+    "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\"></a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Nume cont",
+      "PLACEHOLDER": "Wayne Enterprises",
+      "ERROR": "Nume cont prea scurt"
+    },
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "bruce@wayne.business",
+      "ERROR": "Email invalid"
+    },
+    "PASSWORD": {
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola",
+      "ERROR": "Parola este prea scurta"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Confirmă parola",
+      "PLACEHOLDER": "Confirmă parola",
+      "ERROR": "Parola nu coincide"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Înregistrare cu succes",
+      "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
+    },
+    "SUBMIT": "Trimite"
+  }
+}
