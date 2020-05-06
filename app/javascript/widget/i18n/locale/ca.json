@@ -1,0 +1,14 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descarrega",
+      "UPLOADING": "S'està pujant..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "sotmetre's"
+    }
+  },
+  "POWERED_BY": "Desenvolupat per Chatwoot",
+  "EMAIL_PLACEHOLDER": "Introduïu el vostre correu electrònic",
+  "CHAT_PLACEHOLDER": "Escriu el teu missatge"
+}

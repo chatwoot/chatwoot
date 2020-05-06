@@ -136,7 +136,7 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when it is an authenticated user' do
       params = {
         name: 'New Name',
-        locale: 'ar',
+        locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
         domain_emails_enabled: true

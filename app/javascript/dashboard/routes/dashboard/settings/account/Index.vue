@@ -1,6 +1,6 @@
 <template>
   <div class="columns profile--settings ">
-    <form @submit.prevent="updateAccount()">
+    <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3 ">
           <h4 class="block-title">
@@ -24,10 +24,13 @@
           <label :class="{ error: $v.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
-              <option value="ca">Catalan</option>
-              <option value="de">German</option>
-              <option value="en">English</option>
-              <option value="ml">Malayalam</option>
+              <option
+                v-for="lang in enabledLanguages"
+                :key="lang.iso_639_1_code"
+                :value="lang.iso_639_1_code"
+              >
+                {{ lang.name }}
+              </option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
@@ -82,6 +85,8 @@
       >
       </woot-submit-button>
     </form>
+
+    <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
 
@@ -91,9 +96,10 @@ import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [alertMixin, configMixin],
   data() {
     return {
       id: '',
