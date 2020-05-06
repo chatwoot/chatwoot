@@ -8,7 +8,7 @@ const sendMessageAPI = async content => {
 };
 
 const sendAttachmentAPI = async attachment => {
-  const urlData = endPoints.sendAttachmnet(attachment);
+  const urlData = endPoints.sendAttachment(attachment);
   const result = await API.post(urlData.url, urlData.params);
   return result;
 };
@@ -19,4 +19,11 @@ const getConversationAPI = async ({ before }) => {
   return result;
 };
 
-export { sendMessageAPI, getConversationAPI, sendAttachmentAPI };
+const toggleTyping = async ({ typingStatus }) => {
+  return API.post(
+    `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
+    { typing_status: typingStatus }
+  );
+};
+
+export { sendMessageAPI, getConversationAPI, sendAttachmentAPI, toggleTyping };

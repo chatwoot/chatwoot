@@ -22,3 +22,4 @@ json.user_last_seen_at conversation.user_last_seen_at.to_i
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i
 json.unread_count conversation.unread_incoming_messages.count
 json.additional_attributes conversation.additional_attributes
+json.account_id conversation.account_id

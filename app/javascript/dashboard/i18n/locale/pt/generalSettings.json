@@ -1,0 +1,46 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Configurações da conta",
+    "SUBMIT": "Atualizar configurações",
+    "UPDATE": {
+      "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
+      "SUCCESS": "Configurações de conta atualizadas com sucesso"
+    },
+    "FORM": {
+      "ERROR": "Por favor, corrigir erros de formulário",
+      "GENERAL_SECTION": {
+        "TITLE": "Configurações gerais",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nome da Conta",
+        "PLACEHOLDER": "Nome da sua conta",
+        "ERROR": "Por favor, insira um nome de conta válido"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma do site (Beta)",
+        "PLACEHOLDER": "Nome da sua conta",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domínio",
+        "PLACEHOLDER": "Domínio do seu site",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail de Suporte",
+        "PLACEHOLDER": "E-mail de suporte da sua empresa",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Habilitar e-mail de domínio",
+        "PLACEHOLDER": "Ativar o e-mail de domínio personalizado",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Ativado",
+          "DISABLED": "Desabilitado"
+        }
+      }
+    }
+  }
+}

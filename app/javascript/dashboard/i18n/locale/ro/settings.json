@@ -1,0 +1,74 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Setări profil",
+    "TITLE": "Setări profil",
+    "BTN_TEXT": "Actualizeaza profil",
+    "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
+    "FORM": {
+      "AVATAR": "Imagine de profil",
+      "ERROR": "Vă rugăm să remediați erorile din formular",
+      "REMOVE_IMAGE": "Elimină",
+      "UPLOAD_IMAGE": "Încarcă imaginea",
+      "UPDATE_IMAGE": "Actualizare imagine",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Adresa ta de email este identitatea ta și este folosită pentru a te autentifica."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Parola",
+        "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token acces",
+        "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificări prin e-mail",
+        "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
+        "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
+        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
+        "UPDATE_SUCCESS": "Preferințele de notificare prin e-mail sunt actualizate cu succes",
+        "UPDATE_ERROR": "A apărut o eroare la actualizarea preferințelor, încercați din nou"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Imagine de profil"
+      },
+      "NAME": {
+        "LABEL": "Numele tau",
+        "ERROR": "Te rugăm să introduci un nume valid",
+        "PLACEHOLDER": "Te rugăm să introduci numele tău, care va fi folosit în conversații"
+      },
+      "EMAIL": {
+        "LABEL": "Adresa ta de email",
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă",
+        "PLACEHOLDER": "Te rugăm să introduci adresa ta de e-mail, aceasta va fi afișată în conversații"
+      },
+      "PASSWORD": {
+        "LABEL": "Parola",
+        "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
+        "PLACEHOLDER": "Te rog introdu o noua parola"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirmare parolă nouă",
+        "ERROR": "Confirmarea parolei trebuie să se potrivească cu parola",
+        "PLACEHOLDER": "Vă rugăm să reintroduceţi parola"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "PROFILE_SETTINGS": "Setări profil",
+    "LOGOUT": "Deconectare"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversaţii",
+    "REPORTS": "Rapoarte",
+    "SETTINGS": "Setări",
+    "HOME": "Acasă",
+    "AGENTS": "agenţi",
+    "INBOXES": "cutiile poștale",
+    "CANNED_RESPONSES": "Răspunsuri conserve",
+    "BILLING": "Facturare",
+    "INTEGRATIONS": "integrările",
+    "ACCOUNT_SETTINGS": "Setările contului"
+  }
+}

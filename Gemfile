@@ -17,6 +17,7 @@ gem 'jbuilder'
 gem 'kaminari'
 gem 'responders'
 gem 'rest-client'
+gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
@@ -53,9 +54,6 @@ gem 'pundit'
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
-##--- gems for reporting ---##
-gem 'nightfury'
-
 ##--- gems for billing ---##
 gem 'chargebee'
 
@@ -82,6 +80,9 @@ gem 'sidekiq'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
 
+##-- Push notification service --##
+gem 'webpush'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -100,7 +101,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'listen'
-  gem 'mock_redis'
+  gem 'mock_redis', git: 'https://github.com/sds/mock_redis', ref: '16d00789f0341a3aac35126c0ffe97a596753ff9'
   gem 'pry-rails'
   gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'rubocop', require: false

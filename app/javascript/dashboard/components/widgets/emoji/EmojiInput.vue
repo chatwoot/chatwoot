@@ -3,37 +3,39 @@
     <header class="emoji-dialog-header" role="menu">
       <ul>
         <li
-          v-bind:class="{ 'active': selectedKey === category.key }"
           v-for="category in categoryList"
+          :key="category.key"
+          :class="{ active: selectedKey === category.key }"
           @click="changeCategory(category)"
         >
           <div
-            @click="changeCategory(category)"
             role="menuitem"
             class="emojione"
-            v-html="getEmojiUnicode(`:${category.emoji}:`)"
-          >
-          </div>
+            @click="changeCategory(category)"
+            v-html="` ${getEmojiUnicode(`:${category.emoji}:`)}`"
+          ></div>
         </li>
       </ul>
     </header>
     <div class="emoji-row">
-      <h5 class="emoji-category-title">{{selectedKey}}</h5>
+      <h5 class="emoji-category-title">
+        {{ selectedKey }}
+      </h5>
       <div
-        v-for="(emoji, key) in selectedEmojis"
+        v-for="emoji in filteredSelectedEmojis"
+        :key="emoji.shortname"
         role="menuitem"
-        :class="`emojione`"
-        v-html="getEmojiUnicode(emoji[emoji.length - 1].shortname)"
-        v-if="filterEmoji(emoji[emoji.length - 1].shortname)"
+        class="emojione"
         track-by="$index"
-        @click="onClick(emoji[emoji.length - 1])"
+        @click="onClick(emoji)"
+        v-html="getEmojiUnicode(emoji.shortname)"
       />
-      </div>
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable no-restricted-syntax */
 import strategy from 'emojione/emoji.json';
 import categoryList from './categories';
 import { getEmojiUnicode } from './utils';
@@ -44,7 +46,7 @@ export default {
     return {
       selectedKey: 'people',
       categoryList,
-      selectedEmojis: [],
+      selectedEmojis: {},
     };
   },
   computed: {
@@ -76,13 +78,29 @@ export default {
       }
       return emojiArr;
     },
+    filteredSelectedEmojis() {
+      const emojis = this.selectedEmojis;
+      const filteredEmojis = Object.keys(emojis)
+        .map(key => {
+          const emoji = emojis[key];
+          const [lastEmoji] = emoji.slice(-1);
+          return { ...lastEmoji, key };
+        })
+        .filter(emoji => {
+          const { shortname } = emoji;
+          if (shortname) {
+            return this.filterEmoji(shortname);
+          }
+          return false;
+        });
+      return filteredEmojis;
+    },
   },
   // On mount render initial emoji
   mounted() {
     this.getInitialEmoji();
   },
   methods: {
-
     // Change category and associated emojis
     changeCategory(category) {
       this.selectedKey = category.key;
@@ -101,3 +119,6 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '~dashboard/assets/scss/widgets/emojiinput';
+</style>

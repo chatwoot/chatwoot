@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Si us plau, selecciona una conversa al panell de l’esquerra",
+    "NO_MESSAGE_1": "Uh oh! Sembla que no hi ha missatges de clients a la safata d'entrada.",
+    "NO_MESSAGE_2": " per enviar un missatge a la vostra pàgina!",
+    "NO_INBOX_1": "Hola! Sembla que encara no heu afegit cap safata d'entrada.",
+    "NO_INBOX_2": " per començar",
+    "NO_INBOX_AGENT": "Uh Oh! Sembla que no ets a cap safata d'entrada. Si us plau, poseu-vos en contacte amb l'administrador",
+    "CLICK_HERE": "Clica aquí",
+    "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
+    "LOADING_CONVERSATIONS": "S'estan carregant les converses",
+    "DOWNLOAD": "Descarrega",
+    "HEADER": {
+      "RESOLVE_ACTION": "Resoldre",
+      "REOPEN_ACTION": "Tornar a obrir",
+      "OPEN": "Més",
+      "CLOSE": "Tanca",
+      "DETAILS": "detalls"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
+      "PRIVATE_MSG_INPUT": "Shift + enter per una línia nova. Això serà visible només per als Agents"
+    },
+    "REPLYBOX": {
+      "REPLY": "Respon",
+      "PRIVATE_NOTE": "Nota privada",
+      "SEND": "Envia",
+      "CREATE": "Afegeix una nota",
+      "TWEET": "Tuit"
+    },
+    "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
+    "CHANGE_STATUS": "Estat de la conversa canviat",
+    "CHANGE_AGENT": "Assignació de la conversa canviat"
+  }
+}

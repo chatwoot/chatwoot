@@ -1,8 +1,17 @@
 <template>
   <div class="home">
     <div class="header-wrap">
-      <ChatHeaderExpanded v-if="isHeaderExpanded" />
-      <ChatHeader v-else :title="getHeaderName" />
+      <ChatHeaderExpanded
+        v-if="isHeaderExpanded"
+        :intro-heading="introHeading"
+        :intro-body="introBody"
+        :avatar-url="channelConfig.avatarUrl"
+      />
+      <ChatHeader
+        v-else
+        :title="channelConfig.websiteName"
+        :avatar-url="channelConfig.avatarUrl"
+      />
     </div>
     <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
     <ConversationWrap :grouped-messages="groupedMessages" />
@@ -45,11 +54,20 @@ export default {
     isHeaderExpanded() {
       return this.conversationSize === 0;
     },
-    getHeaderName() {
-      return window.chatwootWebChannel.website_name;
+    channelConfig() {
+      return window.chatwootWebChannel;
     },
     showAvailableAgents() {
       return this.availableAgents.length > 0 && this.conversationSize < 1;
+    },
+    introHeading() {
+      return this.channelConfig.welcomeTitle || 'Hi there ! 🙌🏼';
+    },
+    introBody() {
+      return (
+        this.channelConfig.welcomeTagline ||
+        'We make it simple to connect with us. Ask us anything, or share your feedback.'
+      );
     },
   },
 };
@@ -68,7 +86,7 @@ export default {
 
   .header-wrap {
     flex-shrink: 0;
-    border-radius: $space-normal;
+    border-radius: $space-normal $space-normal $space-small $space-small;
     background: white;
     z-index: 99;
     @include shadow-large;

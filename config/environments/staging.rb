@@ -40,7 +40,7 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = ENV.fetch('FORCE_SSL', false)
+  config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
 
   # customize using the environment variables
   config.log_level = ENV.fetch('LOG_LEVEL', 'info').to_sym
@@ -70,6 +70,14 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+
+  # Set this to appropriate ingress service for which the options are :
+  # :relay for Exim, Postfix, Qmail
+  # :mailgun for Mailgun
+  # :mandrill for Mandrill
+  # :postmark for Postmark
+  # :sendgrid for Sendgrid
+  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

@@ -8,6 +8,7 @@
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
+#  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -52,9 +53,9 @@ class Conversation < ApplicationRecord
 
   before_create :set_bot_conversation
 
-  after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
+  after_update :notify_status_change, :create_activity
 
-  after_create :send_events, :run_round_robin
+  after_create :notify_conversation_creation, :run_round_robin
 
   acts_as_taggable_on :labels
 
@@ -104,20 +105,6 @@ class Conversation < ApplicationRecord
     }
   end
 
-  private
-
-  def set_bot_conversation
-    self.status = :bot if inbox.agent_bot_inbox&.active?
-  end
-
-  def dispatch_events
-    dispatcher_dispatch(CONVERSATION_RESOLVED)
-  end
-
-  def send_events
-    dispatcher_dispatch(CONVERSATION_CREATED)
-  end
-
   def notifiable_assignee_change?
     return false if self_assign?(assignee_id)
     return false unless saved_change_to_assignee_id?
@@ -126,12 +113,14 @@ class Conversation < ApplicationRecord
     true
   end
 
-  def send_email_notification_to_assignee
-    return unless notifiable_assignee_change?
-    return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
-    return if bot?
+  private
 
-    AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
+  def set_bot_conversation
+    self.status = :bot if inbox.agent_bot_inbox&.active?
+  end
+
+  def notify_conversation_creation
+    dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
   def self_assign?(assignee_id)
@@ -160,7 +149,8 @@ class Conversation < ApplicationRecord
 
   def notify_status_change
     {
-      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? && assignee.present? },
+      CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
+      CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? }

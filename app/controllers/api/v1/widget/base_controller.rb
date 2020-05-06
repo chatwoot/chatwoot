@@ -2,9 +2,9 @@ class Api::V1::Widget::BaseController < ApplicationController
   private
 
   def conversation
-    @conversation ||= @contact_inbox.conversations.find_by(
+    @conversation ||= @contact_inbox.conversations.where(
       inbox_id: auth_token_params[:inbox_id]
-    )
+    ).last
   end
 
   def auth_token_params
@@ -18,6 +18,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
     @account = @web_widget.account
+    switch_locale @account
   end
 
   def set_contact

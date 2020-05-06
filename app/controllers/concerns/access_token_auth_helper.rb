@@ -1,11 +1,12 @@
 module AccessTokenAuthHelper
   BOT_ACCESSIBLE_ENDPOINTS = {
-    'api/v1/accounts/conversations' => ['toggle_status'],
+    'api/v1/accounts/conversations' => %w[toggle_status create],
     'api/v1/accounts/conversations/messages' => ['create']
   }.freeze
 
   def authenticate_access_token!
-    access_token = AccessToken.find_by(token: request.headers[:api_access_token])
+    token = request.headers[:api_access_token] || request.headers[:HTTP_API_ACCESS_TOKEN]
+    access_token = AccessToken.find_by(token: token)
     render_unauthorized('Invalid Access Token') && return unless access_token
 
     token_owner = access_token.owner

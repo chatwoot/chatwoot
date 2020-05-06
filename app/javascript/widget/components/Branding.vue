@@ -5,8 +5,8 @@
     rel="noreferrer noopener nofollow"
     target="_blank"
   >
-    <img src="~widget/assets/images/logo.svg" />
-    <span>Powered by Chatwoot</span>
+    <img src="~widget/assets/images/logo.svg" alt="ChatwootLogo" />
+    <span>{{ $t('POWERED_BY') }}</span>
   </a>
 </template>
 
@@ -36,6 +36,7 @@
   img {
     margin-right: $space-smaller;
     max-width: $space-slab;
+    max-height: $space-slab;
   }
 }
 </style>

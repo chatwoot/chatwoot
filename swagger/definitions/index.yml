@@ -17,6 +17,8 @@ user:
   $ref: ./resource/user.yml
 inbox:
   $ref: ./resource/inbox.yml
+agent_bot:
+  $ref: ./resource/agent_bot.yml
 # RESPONSE
 
 ## contact

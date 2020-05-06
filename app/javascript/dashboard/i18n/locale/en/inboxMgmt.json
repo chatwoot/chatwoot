@@ -6,10 +6,26 @@
       "404": "There are no inboxes attached to this account."
     },
     "CREATE_FLOW": [
-      { "title": "Choose Channel", "route": "settings_inbox_new", "body": "Choose the provider you want to integrate with Chatwoot." },
-      { "title": "Create Inbox", "route": "settings_inboxes_page_channel", "body": "Authenticate your account and create an inbox." },
-      { "title": "Add Agents", "route": "settings_inboxes_add_agents", "body": "Add agents to the created inbox." },
-      { "title": "Voila!", "route": "settings_inbox_finish", "body": "You are all set to go!" }
+      {
+        "title": "Choose Channel",
+        "route": "settings_inbox_new",
+        "body": "Choose the provider you want to integrate with Chatwoot."
+      },
+      {
+        "title": "Create Inbox",
+        "route": "settings_inboxes_page_channel",
+        "body": "Authenticate your account and create an inbox."
+      },
+      {
+        "title": "Add Agents",
+        "route": "settings_inboxes_add_agents",
+        "body": "Add agents to the created inbox."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "You are all set to go!"
+      }
     ],
     "ADD": {
       "FB": {
@@ -30,19 +46,35 @@
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_AGENT_AWAY_MESSAGE": {
+          "LABEL": "Agents Away Message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON":"Create inbox"
+        "SUBMIT_BUTTON": "Create inbox"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS.",
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Please enter your Twilio Account SID",
           "ERROR": "This field is required"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
@@ -58,6 +90,10 @@
           "LABEL": "Phone number",
           "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
           "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Create Twilio Channel",
         "API": {
@@ -76,7 +112,7 @@
         "TITLE": "Inbox Details",
         "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
       },
-      "FINISH":{
+      "FINISH": {
         "TITLE": "Nailed It!",
         "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
       }
@@ -102,7 +138,7 @@
     "VIEW": "View",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Widget color updated successfully",
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
         "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
@@ -132,7 +168,9 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of available agents on new conversations"
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
     }
   }
 }

@@ -45,10 +45,10 @@ export default {
   display: inline-block;
   font-size: $font-size-default;
   line-height: 1.5;
-  padding: $space-small $space-normal;
+  padding: $space-slab $space-normal $space-slab $space-normal;
   text-align: left;
 
-  a {
+  > a {
     color: $color-primary;
     word-break: break-all;
   }
@@ -56,7 +56,7 @@ export default {
   &.user {
     border-bottom-right-radius: $space-smaller;
 
-    a {
+    > a {
       color: $color-white;
     }
   }

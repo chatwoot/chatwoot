@@ -3,6 +3,13 @@ properties:
   content:
     type: string
     description: The text content of the message
+  content_type:
+    type: string
+    enum: ["text", "input_select", "cards", "form"]
+    description: The type of the template message
+  content_attributes:
+    type: object
+    description: The content attributes for each content_type
   message_type:
     type: string
     enum: ["incoming", "outgoing", "activity", "template"]
