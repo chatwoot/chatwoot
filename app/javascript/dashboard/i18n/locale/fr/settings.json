@@ -68,5 +68,17 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Paramètres de profil",
     "LOGOUT": "Se déconnecter"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Rapports",
+    "SETTINGS": "Réglages",
+    "HOME": "Accueil",
+    "AGENTS": "Agentes",
+    "INBOXES": "Boîtes de réception",
+    "CANNED_RESPONSES": "Réponses en conserve",
+    "BILLING": "Facturation",
+    "INTEGRATIONS": "Intégrations",
+    "ACCOUNT_SETTINGS": "Paramètres du compte"
   }
 }
