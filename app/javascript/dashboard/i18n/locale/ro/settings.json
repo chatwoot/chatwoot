@@ -58,5 +58,17 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Setări profil",
     "LOGOUT": "Deconectare"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversaţii",
+    "REPORTS": "Rapoarte",
+    "SETTINGS": "Setări",
+    "HOME": "Acasă",
+    "AGENTS": "agenţi",
+    "INBOXES": "cutiile poștale",
+    "CANNED_RESPONSES": "Răspunsuri conserve",
+    "BILLING": "Facturare",
+    "INTEGRATIONS": "integrările",
+    "ACCOUNT_SETTINGS": "Setările contului"
   }
 }
