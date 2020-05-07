@@ -128,8 +128,10 @@ class User < ApplicationRecord
 
   def push_event_data
     {
+      id: id,
       name: name,
-      avatar_url: avatar_url
+      avatar_url: avatar_url,
+      type: 'user'
     }
   end
 
@@ -137,7 +139,8 @@ class User < ApplicationRecord
     {
       id: id,
       name: name,
-      email: email
+      email: email,
+      type: 'user'
     }
   end
 end

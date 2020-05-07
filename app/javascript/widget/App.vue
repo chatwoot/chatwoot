@@ -8,6 +8,7 @@
 import { mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper } from 'widget/helpers/utils';
+import Vue from 'vue';
 
 export default {
   name: 'App',
@@ -17,7 +18,9 @@ export default {
     };
   },
   mounted() {
-    const { websiteToken } = window.chatwootWebChannel;
+    const { websiteToken, locale } = window.chatwootWebChannel;
+    Vue.config.lang = locale;
+
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
         event: 'loaded',

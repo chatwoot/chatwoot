@@ -1,0 +1,14 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Herunterladen",
+      "UPLOADING": "Hochladen..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "POWERED_BY": "Unterstützt von Chatwoot",
+  "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
+  "CHAT_PLACEHOLDER": "Geben Sie Ihre Nachricht ein"
+}

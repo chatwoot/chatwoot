@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
           end
           member do
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end
@@ -100,6 +102,11 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
+        resources :conversations do
+          collection do
+            post :toggle_typing
+          end
+        end
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
@@ -154,7 +161,11 @@ Rails.application.routes.draw do
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
   # ----------------------------------------------------------------------
-  # Internal Admin Routes
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
+
+  # ----------------------------------------------------------------------
+  # Internal Monitoring Routes
   require 'sidekiq/web'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }

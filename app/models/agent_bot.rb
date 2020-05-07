@@ -16,4 +16,21 @@ class AgentBot < ApplicationRecord
 
   has_many :agent_bot_inboxes, dependent: :destroy
   has_many :inboxes, through: :agent_bot_inboxes
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url,
+      type: 'agent_bot'
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      type: 'agent_bot'
+    }
+  end
 end

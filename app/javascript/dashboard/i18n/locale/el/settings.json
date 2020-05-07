@@ -58,5 +58,17 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
     "LOGOUT": "Έξοδος (Logout)"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Συνομιλίες",
+    "REPORTS": "Αναφορές",
+    "SETTINGS": "Ρυθμίσεις",
+    "HOME": "Σπίτι",
+    "AGENTS": "Πράκτορες",
+    "INBOXES": "Εισερχόμενα",
+    "CANNED_RESPONSES": "Κονσερβοποιημένες απαντήσεις",
+    "BILLING": "Χρέωση",
+    "INTEGRATIONS": "Ολοκληρώσεις",
+    "ACCOUNT_SETTINGS": "Ρυθμίσεις λογαριασμού"
   }
 }
