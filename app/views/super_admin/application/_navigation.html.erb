@@ -8,8 +8,8 @@ as defined by the routes in the `admin/` namespace
 %>
 
 <nav class="navigation" role="navigation">
-  <%= link_to "Back to app", root_url, class: "button button--alt" %> 
-  <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %> 
+  <%= link_to "Back to app", root_url, class: "button button--alt" %>
+  <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
 
   <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
     <%= link_to(
@@ -19,5 +19,5 @@ as defined by the routes in the `admin/` namespace
     ) if valid_action? :index, resource  %>
   <% end %>
 
-  <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %> 
+  <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %>
 </nav>

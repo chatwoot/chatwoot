@@ -1,87 +1,43 @@
-<head>
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<style>
-html,
-body {
-  height: 100%;
-}
-
-body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #f5f5f5;
-}
-
-.form-signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-}
-.form-signin .checkbox {
-  font-weight: 400;
-}
-.form-signin .form-control {
-  position: relative;
-  box-sizing: border-box;
-  height: auto;
-  padding: 10px;
-  font-size: 16px;
-}
-.form-signin .form-control:focus {
-  z-index: 2;
-}
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-</style>
-</head>
-
-
-<body class="text-center" data-gr-c-s-loaded="true" cz-shortcut-listen="true">
- <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'form-signin'}) do |f| %>
-  <img class="mb-4" src="https://camo.githubusercontent.com/577aaacaf2007ba808d49442860b7edc8d7f10c1/68747470733a2f2f73332e75732d776573742d322e616d617a6f6e6177732e636f6d2f67682d6173736574732e63686174776f6f742e636f6d2f6272616e642e737667" alt=""  height="50">
-
-  <label for="inputEmail" class="sr-only">Email address</label>
-    <%= f.email_field :email, autofocus: true, autocomplete: "email", id:"inputEmail" , class:"form-control",  placeholder: "Email" %>
-
-  <label for="inputPassword" class="sr-only">Password</label>
-   <%= f.password_field :password, autocomplete: "current-password", id:"inputPassword" , class:"form-control",  placeholder: "Password" %>
-  <div class="checkbox mb-3">
-    <label>
-      <%= f.check_box :remember_me %> Remember me
-    </label>
-  </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted">© Chatwoot</p>
-<% end %>
-
-
-</body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SuperAdmin | Chatwoot</title>
+    <%= javascript_pack_tag 'superadmin' %>
+    <%= stylesheet_pack_tag 'superadmin' %>
+  </head>
+  <body data-gr-c-s-loaded="true">
+    <div id="app" class="superadmin-body app-wrapper app-root">
+      <div class="medium column login">
+        <div class="text-center medium-12 login__hero align-self-top">
+          <h2 class="hero__title">
+            Howdy, admin 👋
+          </h2>
+        </div>
+        <div class="row align-center">
+          <div class="small-12 medium-4 column">
+            <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'login-box column align-self-top'}) do |f| %>
+              <div class="column log-in-form">
+                <label>
+                  Email
+                  <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com" %>
+                </label>
+                <label>
+                  Password
+                  <%= f.password_field :password, autocomplete: "current-password",  placeholder: "Password" %>
+                </label>
+                <p>
+                  <%= f.check_box :remember_me %> Remember me
+                </p>
+                <button type="submit" class="button nice large expanded">
+                  Login
+                </button>
+              </div>
+            <% end %>
+            <div class="column text-center sigin__footer">
+              © Chatwoot
+            </div>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>
