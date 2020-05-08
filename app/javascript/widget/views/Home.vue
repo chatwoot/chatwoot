@@ -2,7 +2,7 @@
   <div class="home">
     <div class="header-wrap">
       <ChatHeaderExpanded
-        v-if="isHeaderExpanded"
+        v-if="isHeaderExpanded && !hideWelcomeHeader"
         :intro-heading="introHeading"
         :intro-body="introBody"
         :avatar-url="channelConfig.avatarUrl"
@@ -16,7 +16,7 @@
     <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
     <ConversationWrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
-      <div class="input-wrap">
+      <div v-if="showInputTextArea" class="input-wrap">
         <ChatFooter />
       </div>
       <branding></branding>
@@ -33,6 +33,7 @@ import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
+import configMixin from '../mixins/configMixin';
 
 export default {
   name: 'Home',
@@ -44,18 +45,32 @@ export default {
     Branding,
     AvailableAgents,
   },
+  mixins: [configMixin],
   computed: {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
       conversationSize: 'conversation/getConversationSize',
       availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/uiFlags/hasFetched',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
+    isOpen() {
+      return this.conversationAttributes.status === 'open';
+    },
+    showInputTextArea() {
+      if (this.hideInputForBotConversations) {
+        if (!this.hasAConnectedAgentBot) {
+          return true;
+        }
+        if (this.isOpen) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    },
     isHeaderExpanded() {
       return this.conversationSize === 0;
-    },
-    channelConfig() {
-      return window.chatwootWebChannel;
     },
     showAvailableAgents() {
       return this.availableAgents.length > 0 && this.conversationSize < 1;

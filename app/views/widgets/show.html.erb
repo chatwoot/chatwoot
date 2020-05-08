@@ -13,6 +13,12 @@
         welcomeTagline: '<%= @web_widget.welcome_tagline %>',
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
+        hasAConnectedAgentBot: '<%= @web_widget.inbox.agent_bot %>'
+      }
+      window.chatwootWidgetDefaults = {
+        hideInputForBotConversations: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('HIDE_INPUT_FOR_BOT_CONVERSATIONS', false)) %>,
+        hideWelcomeHeader: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('HIDE_WELCOME_HEADER', false)) %>,
+        useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'

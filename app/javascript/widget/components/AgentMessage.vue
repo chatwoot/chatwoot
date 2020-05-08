@@ -53,6 +53,7 @@ import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import configMixin from '../mixins/configMixin';
 
 export default {
   name: 'AgentMessage',
@@ -63,7 +64,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, configMixin],
   props: {
     message: {
       type: Object,
@@ -112,11 +113,17 @@ export default {
     avatarUrl() {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const displayImage = this.useInboxAvatarForBot
+        ? this.inboxAvatarUrl
+        : BotImage;
+
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return BotImage;
+        return displayImage;
       }
 
-      return this.message.sender ? this.message.sender.avatar_url : BotImage;
+      return this.message.sender
+        ? this.message.sender.avatar_url
+        : displayImage;
     },
     hasRecordedResponse() {
       return (
