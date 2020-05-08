@@ -180,7 +180,7 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
-    content = I18n.t("conversations.activity.assignee.#{key}", params)
+    content = I18n.t("conversations.activity.assignee.#{key}", **params)
 
     messages.create(activity_message_params(content))
   end
