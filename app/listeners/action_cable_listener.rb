@@ -32,8 +32,9 @@ class ActionCableListener < BaseListener
 
   def conversation_resolved(event)
     conversation, account, timestamp = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact&.pubsub_token]
 
-    broadcast(user_tokens(account, conversation.inbox.members), CONVERSATION_RESOLVED, conversation.push_event_data)
+    broadcast(tokens, CONVERSATION_RESOLVED, conversation.push_event_data)
   end
 
   def conversation_opened(event)

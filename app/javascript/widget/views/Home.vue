@@ -59,9 +59,6 @@ export default {
     },
     showInputTextArea() {
       if (this.hideInputForBotConversations) {
-        if (!this.hasAConnectedAgentBot) {
-          return true;
-        }
         if (this.isOpen) {
           return true;
         }
@@ -76,13 +73,13 @@ export default {
       return this.availableAgents.length > 0 && this.conversationSize < 1;
     },
     introHeading() {
-      return this.channelConfig.welcomeTitle || 'Hi there ! 🙌🏼';
+      return this.channelConfig.welcomeTitle;
     },
     introBody() {
-      return (
-        this.channelConfig.welcomeTagline ||
-        'We make it simple to connect with us. Ask us anything, or share your feedback.'
-      );
+      return this.channelConfig.welcomeTagline;
+    },
+    hideWelcomeHeader() {
+      return !(this.introHeading || this.introBody);
     },
   },
 };

@@ -1,4 +1,7 @@
-import { SET_CONVERSATION_ATTRIBUTES } from '../types';
+import {
+  SET_CONVERSATION_ATTRIBUTES,
+  UPDATE_CONVERSATION_ATTRIBUTES,
+} from '../types';
 import { getConversationAPI } from '../../api/conversation';
 
 const state = {
@@ -20,7 +23,7 @@ const actions = {
     }
   },
   update({ commit }, data) {
-    commit(SET_CONVERSATION_ATTRIBUTES, data);
+    commit(UPDATE_CONVERSATION_ATTRIBUTES, data);
   },
 };
 
@@ -28,6 +31,12 @@ const mutations = {
   [SET_CONVERSATION_ATTRIBUTES]($state, data) {
     $state.id = data.id;
     $state.status = data.status;
+  },
+  [UPDATE_CONVERSATION_ATTRIBUTES]($state, data) {
+    if (data.id === $state.id) {
+      $state.id = data.id;
+      $state.status = data.status;
+    }
   },
 };
 
