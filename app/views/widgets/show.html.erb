@@ -7,12 +7,17 @@
     <script>
       window.chatwootWebChannel = {
         avatarUrl: '<%= @web_widget.inbox.avatar_url %>',
+        hasAConnectedAgentBot: '<%= @web_widget.inbox.agent_bot&.name %>',
+        hideInputForBotConversations: <%= ActiveModel::Type::Boolean.new.cast(@web_widget.inbox.agent_bot&.hide_input_for_bot_conversations) %>,
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',
         websiteToken: '<%= @web_widget.website_token %>',
         welcomeTagline: '<%= @web_widget.welcome_tagline %>',
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
+      }
+      window.chatwootWidgetDefaults = {
+        useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'
