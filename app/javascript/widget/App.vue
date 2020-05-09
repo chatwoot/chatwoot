@@ -60,6 +60,8 @@ export default {
         this.$store.dispatch('contacts/update', message);
       }
     });
+
+    this.$store.dispatch('conversationAttributes/get');
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
