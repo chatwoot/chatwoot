@@ -260,10 +260,13 @@ ActiveRecord::Schema.define(version: 2020_05_04_144712) do
     t.integer "content_type", default: 0
     t.json "content_attributes", default: {}
     t.bigint "contact_id"
+    t.string "sender_type"
+    t.bigint "sender_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["contact_id"], name: "index_messages_on_contact_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
     t.index ["user_id"], name: "index_messages_on_user_id"
   end
