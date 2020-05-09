@@ -1,0 +1,74 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Konserverade svar",
+    "HEADER_BTN_TXT": "Lägg till konserverat svar",
+    "LOADING": "Hämtar konserverade svar",
+    "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
+    "SIDEBAR_TXT": "<p><b>Konserverade svar</b> </p><p> Konserverade svar sparas svarsmallar som kan användas för att snabbt skicka ett svar till en konversation. </p><p> För att skapa ett konserverat svar, klicka bara på <b>Add Canned Response</b>. Du kan också redigera eller ta bort ett befintligt konserverat svar genom att klicka på knappen Redigera eller Ta bort </p><p> Konserverade svar används med hjälp av <b>Korta koder</b>. Agenter kan komma åt konserverade svar medan de är på en chatt genom att skriva <b>'/'</b> följt av kortkoden. </p>",
+    "LIST": {
+      "404": "Det finns inga konserverade svar tillgängliga på detta konto.",
+      "TITLE": "Hantera konserverade svar",
+      "DESC": "Konserverade svar är fördefinierade svarsmallar som kan användas för att snabbt skicka ut svar till ärenden.",
+      "TABLE_HEADER": [
+        "Kort kod",
+        "Innehåll",
+        "Åtgärder"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Lägg till konserverat svar",
+      "DESC": "Konserverade svar sparas svarsmallar som kan användas för att snabbt skicka svar till konversation.",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kort kod",
+          "PLACEHOLDER": "Ange en kortkod",
+          "ERROR": "Kort kod krävs"
+        },
+        "CONTENT": {
+          "LABEL": "Innehåll",
+          "PLACEHOLDER": "Ange ett innehåll",
+          "ERROR": "Innehåll krävs"
+        },
+        "SUBMIT": "Skicka"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Konserverat svar har lagts till",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Redigera konserverat svar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Kort kod",
+          "PLACEHOLDER": "Ange en kortkod",
+          "ERROR": "Kort kod krävs"
+        },
+        "CONTENT": {
+          "LABEL": "Innehåll",
+          "PLACEHOLDER": "Ange ett innehåll",
+          "ERROR": "Innehåll krävs"
+        },
+        "SUBMIT": "Skicka"
+      },
+      "BUTTON_TEXT": "Redigera",
+      "API": {
+        "SUCCESS_MESSAGE": "Konserverat svar har uppdaterats",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "API": {
+        "SUCCESS_MESSAGE": "Konserverat svar har tagits bort",
+        "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+      },
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Är du säker på att ta bort ",
+        "YES": "Ja, ta bort ",
+        "NO": "Nej, behåll den "
+      }
+    }
+  }
+}

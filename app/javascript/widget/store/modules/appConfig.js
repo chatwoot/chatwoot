@@ -16,7 +16,7 @@ const actions = {
 
 const mutations = {
   [SET_WIDGET_COLOR]($state, data) {
-    $state.widgetColor = data.widget_color;
+    $state.widgetColor = data.widgetColor;
   },
 };
 

@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
           end
           member do
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end
@@ -66,7 +68,7 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :inboxes, only: [:index, :destroy, :update] do
+        resources :inboxes, only: [:index, :create, :update, :destroy] do
           post :set_agent_bot, on: :member
         end
         resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -76,18 +78,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
-
-        resources :reports, only: [] do
-          collection do
-            get :account
-            get :agent
-          end
-          member do
-            get :account_summary
-            get :agent_summary
-          end
-        end
 
         # this block is only required if subscription via chargebee is enabled
         resources :subscriptions, only: [:index] do
@@ -97,21 +89,24 @@ Rails.application.routes.draw do
         end
 
         resources :webhooks, except: [:show]
-        namespace :widget do
-          resources :inboxes, only: [:create, :update]
-        end
       end
 
       # end of account scoped api routes
       # ----------------------------------
 
       resource :profile, only: [:show, :update]
+      resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]
 
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
+        resources :conversations do
+          collection do
+            post :toggle_typing
+          end
+        end
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
@@ -164,6 +159,10 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
+
+  # ----------------------------------------------------------------------
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes

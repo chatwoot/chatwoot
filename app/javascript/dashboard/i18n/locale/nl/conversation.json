@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Selecteer een gesprek in het linker paneel",
+    "NO_MESSAGE_1": "Oh oh! Het lijkt erop dat er geen berichten van klanten in uw inbox staan.",
+    "NO_MESSAGE_2": " om een bericht naar uw pagina te sturen!",
+    "NO_INBOX_1": "Hola! Het lijkt erop dat je nog geen inboxes hebt toegevoegd.",
+    "NO_INBOX_2": " om te beginnen",
+    "NO_INBOX_AGENT": "Oh Oh! Het lijkt erop dat u geen deel uitmaakt van een inbox. Neem contact op met uw beheerder",
+    "CLICK_HERE": "Klik hier",
+    "LOADING_INBOXES": "Inboxen laden",
+    "LOADING_CONVERSATIONS": "Conversaties laden",
+    "DOWNLOAD": "Downloaden",
+    "HEADER": {
+      "RESOLVE_ACTION": "Oplossen",
+      "REOPEN_ACTION": "Heropenen",
+      "OPEN": "Meer",
+      "CLOSE": "Afsluiten",
+      "DETAILS": "Details"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een voorgedefinieerd antwoord te selecteren.",
+      "PRIVATE_MSG_INPUT": "Shift + nieuwe regel invoeren. Dit is alleen zichtbaar voor agenten"
+    },
+    "REPLYBOX": {
+      "REPLY": "Beantwoorden",
+      "PRIVATE_NOTE": "Privé notitie",
+      "SEND": "Verzenden",
+      "CREATE": "Notitie toevoegen",
+      "TWEET": "Tweet"
+    },
+    "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
+    "CHANGE_STATUS": "Gesprek status veranderd",
+    "CHANGE_AGENT": "Gesprek toegewezen persoon veranderd"
+  }
+}

@@ -20,15 +20,18 @@ class AgentBot < ApplicationRecord
 
   def push_event_data
     {
+      id: id,
       name: name,
-      avatar_url: avatar_url
+      avatar_url: avatar_url,
+      type: 'agent_bot'
     }
   end
 
   def webhook_data
     {
       id: id,
-      name: name
+      name: name,
+      type: 'agent_bot'
     }
   end
 end

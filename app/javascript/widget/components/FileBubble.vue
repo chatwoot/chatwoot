@@ -59,11 +59,11 @@ export default {
 .file {
   display: flex;
   flex-direction: row;
-  padding: $space-one $space-slab;
+  padding: $space-slab;
   cursor: pointer;
 
   .icon-wrap {
-    font-size: $font-size-bigger;
+    font-size: $font-size-mega;
     color: $color-woot;
     line-height: 1;
     margin-left: $space-smaller;
@@ -72,11 +72,14 @@ export default {
 
   .title {
     font-weight: $font-weight-medium;
-    font-size: $font-size-small;
+    font-size: $font-size-default;
     margin: 0;
   }
 
   .download {
+    color: $color-woot;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-mini;
     padding: 0;
     margin: 0;
     font-size: $font-size-small;

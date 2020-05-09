@@ -14,6 +14,11 @@ RSpec.describe Conversation, type: :model do
     it 'runs before_create callbacks' do
       expect(conversation.display_id).to eq(1)
     end
+
+    it 'creates a UUID for every conversation automatically' do
+      uuid_pattern = /[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/i
+      expect(conversation.uuid).to  match(uuid_pattern)
+    end
   end
 
   describe '.after_update' do
@@ -34,8 +39,6 @@ RSpec.describe Conversation, type: :model do
       new_assignee
 
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
-      allow(assignment_mailer).to receive(:deliver_later)
       Current.user = old_assignee
 
       conversation.update(
@@ -56,11 +59,6 @@ RSpec.describe Conversation, type: :model do
         .with(described_class::CONVERSATION_LOCK_TOGGLE, kind_of(Time), conversation: conversation)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
-
-      # send_email_notification_to_assignee
-      expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
-
-      expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
 
     it 'creates conversation activities' do
@@ -124,15 +122,19 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
-    it 'does not send assignment mailer if notification setting is turned off' do
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+    it 'creates a new notification for the agent' do
+      expect(update_assignee).to eq(true)
+      expect(agent.notifications.count).to eq(1)
+    end
 
+    it 'does not create assignment notification if notification setting is turned off' do
       notification_setting = agent.notification_settings.first
       notification_setting.unselect_all_email_flags
+      notification_setting.unselect_all_push_flags
       notification_setting.save!
 
       expect(update_assignee).to eq(true)
-      expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_assigned).with(conversation, agent)
+      expect(agent.notifications.count).to eq(0)
     end
   end
 

@@ -39,8 +39,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       twitter_profile = account.twitter_profiles.create(
         twitter_access_token: parsed_body['oauth_token'],
         twitter_access_token_secret: parsed_body['oauth_token_secret'],
-        profile_id: parsed_body['user_id'],
-        name: parsed_body['screen_name']
+        profile_id: parsed_body['user_id']
       )
       account.inboxes.create(
         name: parsed_body['screen_name'],

@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Detalles de la conversación",
+    "BROWSER": "Navegador",
+    "OS": "Sistema operativo",
+    "INITIATED_FROM": "Iniciado desde",
+    "INITIATED_AT": "Iniciado el",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
+      "TITLE": "Conversaciones anteriores"
+    },
+    "LABELS": {
+      "TITLE": "Etiquetas de conversación",
+      "UPDATE_BUTTON": "Actualizar etiquetas",
+      "UPDATE_ERROR": "No se pudo actualizar las etiquetas, inténtelo de nuevo.",
+      "TAG_PLACEHOLDER": "Añadir nueva etiqueta",
+      "PLACEHOLDER": "Buscar o añadir una etiqueta"
+    }
+  }
+}

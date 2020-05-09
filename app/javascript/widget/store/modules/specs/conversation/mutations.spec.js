@@ -93,6 +93,20 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#toggleAgentTypingStatus', () => {
+    it('sets isAgentTyping flag to true', () => {
+      const state = { uiFlags: { isAgentTyping: false } };
+      mutations.toggleAgentTypingStatus(state, { status: 'on' });
+      expect(state.uiFlags.isAgentTyping).toEqual(true);
+    });
+
+    it('sets isAgentTyping flag to false', () => {
+      const state = { uiFlags: { isAgentTyping: false } };
+      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      expect(state.uiFlags.isAgentTyping).toEqual(false);
+    });
+  });
+
   describe('#updateAttachmentMessageStatus', () => {
     it('Updates status of loading messages if payload is not empty', () => {
       const state = {

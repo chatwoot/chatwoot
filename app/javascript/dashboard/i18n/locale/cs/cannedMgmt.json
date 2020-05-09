@@ -1,0 +1,74 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Konzervované odpovědi",
+    "HEADER_BTN_TXT": "Přidat konzervovanou odpověď",
+    "LOADING": "Načítání Konzervovaných odpovědí",
+    "SEARCH_404": "Neexistují žádné položky odpovídající tomuto dotazu",
+    "SIDEBAR_TXT": "<p><b>Canned Response</b> </p><p> Canned Response are saved šablony odpovědí, které mohou být použity pro rychlé odeslání odpovědi do konverzace . </p><p> Pro vytvoření Canned Response klikněte na <b>Přidat Canned Response</b>. Můžete také upravit nebo odstranit existující Canned Response kliknutím na tlačítko Upravit nebo vymazat </p><p> Rušené odpovědi jsou použity s pomocí <b>Krátké kódy</b>. Pracovníci mohou během chatu získat přístup k uloženým odpovědím napsaním <b>'/'</b> následovaným krátkým kódem. </p>",
+    "LIST": {
+      "404": "V tomto účtu nejsou k dispozici žádné konzervované odpovědi.",
+      "TITLE": "Spravovat konzervované odpovědi",
+      "DESC": "Konzervované odpovědi jsou předdefinované šablony odpovědí, které lze použít k rychlému zasílání odpovědí na tikety.",
+      "TABLE_HEADER": [
+        "Krátký kód",
+        "Obsah",
+        "Akce"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Přidat konzervovanou odpověď",
+      "DESC": "Konzervované odpovědi jsou uložené šablony odpovědí, které lze použít pro rychlé odeslání odpovědi do konverzace .",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Krátký kód",
+          "PLACEHOLDER": "Zadejte zkratkový kód",
+          "ERROR": "Krátký kód je povinný"
+        },
+        "CONTENT": {
+          "LABEL": "Obsah",
+          "PLACEHOLDER": "Zadejte prosím obsah",
+          "ERROR": "Je vyžadován obsah"
+        },
+        "SUBMIT": "Odeslat"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Odpověď v konzervě byla úspěšně přidána",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Upravit konzervovanou odpověď",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Krátký kód",
+          "PLACEHOLDER": "Zadejte zkratkový kód",
+          "ERROR": "Krátký kód je povinný"
+        },
+        "CONTENT": {
+          "LABEL": "Obsah",
+          "PLACEHOLDER": "Zadejte prosím obsah",
+          "ERROR": "Je vyžadován obsah"
+        },
+        "SUBMIT": "Odeslat"
+      },
+      "BUTTON_TEXT": "Upravit",
+      "API": {
+        "SUCCESS_MESSAGE": "Reakce v konzervě byla úspěšně aktualizována",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazat",
+      "API": {
+        "SUCCESS_MESSAGE": "Odpověď v konzervě byla úspěšně odstraněna",
+        "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+      },
+      "CONFIRM": {
+        "TITLE": "Potvrdit odstranění",
+        "MESSAGE": "Opravdu chcete odstranit ",
+        "YES": "Ano, odstranit ",
+        "NO": "Ne, ponechat "
+      }
+    }
+  }
+}

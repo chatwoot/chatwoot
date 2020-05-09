@@ -106,6 +106,8 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(account.name)
         expect(response.body).to include(account.locale)
+        expect(response.body).to include(account.domain)
+        expect(response.body).to include(account.support_email)
       end
     end
   end
@@ -132,7 +134,13 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      params = { name: 'New Name', locale: 'ar' }
+      params = {
+        name: 'New Name',
+        locale: 'en',
+        domain: 'example.com',
+        support_email: 'care@example.com',
+        domain_emails_enabled: true
+      }
 
       it 'modifies an account' do
         put "/api/v1/accounts/#{account.id}",
@@ -143,6 +151,9 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.reload.name).to eq(params[:name])
         expect(account.reload.locale).to eq(params[:locale])
+        expect(account.reload.domain).to eq(params[:domain])
+        expect(account.reload.domain_emails_enabled).to eq(params[:domain_emails_enabled])
+        expect(account.reload.support_email).to eq(params[:support_email])
       end
     end
   end

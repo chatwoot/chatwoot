@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+pt:
+  hello: "Olá, mundo"
+  messages:
+    reset_password_success: Legal! Pedido de redefinição de senha bem sucedido. Verifique seu e-mail para obter instruções.
+    reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+  errors:
+    signup:
+      disposable_email: Não permitimos e-mails descartáveis
+      invalid_email: Você digitou um email inválido
+      email_already_exists: "Você já se inscreveu para uma conta com %{email}"
+      failed: Falha na inscrição
+  conversations:
+    activity:
+      status:
+        resolved: "Conversa foi marcada como resolvida por %{user_name}"
+        open: "Conversa foi reaberta por %{user_name}"
+      assignee:
+        assigned: "Atribuído a %{assignee_name} por %{user_name}"
+        removed: "Conversa não atribuída por %{user_name}"
+    templates:
+      typical_reply_message_body: "%{account_name} normalmente responde em algumas horas."
+      ways_to_reach_you_message_body: "Dê à equipe um jeito de contatá-lo."
+      email_input_box_message_body: "Seja notificado por e-mail"

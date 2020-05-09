@@ -50,6 +50,7 @@ class Contact < ApplicationRecord
       id: id,
       name: name,
       thumbnail: avatar_url,
+      type: 'contact',
       pubsub_token: pubsub_token
     }
   end
@@ -58,7 +59,8 @@ class Contact < ApplicationRecord
     {
       id: id,
       name: name,
-      avatar: avatar_url
+      avatar: avatar_url,
+      type: 'contact'
     }
   end
 

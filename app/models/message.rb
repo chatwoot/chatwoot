@@ -51,10 +51,11 @@ class Message < ApplicationRecord
     input_select: 4,
     cards: 5,
     form: 6,
-    article: 7
+    article: 7,
+    incoming_email: 8
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values], coder: JSON
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -73,10 +74,11 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
   after_create :reopen_conversation,
-               :dispatch_event,
-               :send_reply,
                :execute_message_template_hooks,
                :notify_via_mail
+
+  # we need to wait for the active storage attachments to be available
+  after_create_commit :dispatch_create_events, :send_reply
 
   after_update :dispatch_update_event
 
@@ -117,7 +119,7 @@ class Message < ApplicationRecord
 
   private
 
-  def dispatch_event
+  def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
 
     if outgoing? && conversation.messages.outgoing.count == 1
@@ -141,10 +143,7 @@ class Message < ApplicationRecord
   end
 
   def reopen_conversation
-    if incoming? && conversation.resolved?
-      conversation.toggle_status
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_REOPENED, Time.zone.now, conversation: conversation)
-    end
+    conversation.open! if incoming? && conversation.resolved?
   end
 
   def execute_message_template_hooks

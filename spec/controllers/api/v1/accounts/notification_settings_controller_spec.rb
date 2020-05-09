@@ -42,7 +42,7 @@ RSpec.describe 'Notification Settings API', type: :request do
 
       it 'updates the email related notification flags' do
         put "/api/v1/accounts/#{account.id}/notification_settings",
-            params: { notification_settings: { selected_email_flags: ['conversation_assignment'] } },
+            params: { notification_settings: { selected_email_flags: ['email_conversation_assignment'] } },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -51,7 +51,7 @@ RSpec.describe 'Notification Settings API', type: :request do
         agent.reload
         expect(json_response['user_id']).to eq(agent.id)
         expect(json_response['account_id']).to eq(account.id)
-        expect(json_response['selected_email_flags']).to eq(['conversation_assignment'])
+        expect(json_response['selected_email_flags']).to eq(['email_conversation_assignment'])
       end
     end
   end

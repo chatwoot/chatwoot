@@ -6,6 +6,14 @@ import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import wootConstants from '../../../constants';
 
+const initialSelectedChat = {
+  id: null,
+  meta: {},
+  status: null,
+  seen: false,
+  agentTyping: 'off',
+  dataFetched: false,
+};
 const state = {
   allConversations: [],
   convTabStats: {
@@ -13,14 +21,7 @@ const state = {
     unAssignedCount: 0,
     allCount: 0,
   },
-  selectedChat: {
-    id: null,
-    meta: {},
-    status: null,
-    seen: false,
-    agentTyping: 'off',
-    dataFetched: false,
-  },
+  selectedChat: { ...initialSelectedChat },
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
@@ -42,14 +43,7 @@ const mutations = {
   },
   [types.default.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
-    _state.selectedChat = {
-      id: null,
-      meta: {},
-      status: null,
-      seen: false,
-      agentTyping: 'off',
-      dataFetched: false,
-    };
+    _state.selectedChat = { ...initialSelectedChat };
   },
   [types.default.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -153,11 +147,29 @@ const mutations = {
     _state.allConversations.push(conversation);
   },
 
+  [types.default.UPDATE_CONVERSATION](_state, conversation) {
+    const { allConversations } = _state;
+    const currentConversationIndex = allConversations.findIndex(
+      c => c.id === conversation.id
+    );
+    if (currentConversationIndex > -1) {
+      const currentConversation = {
+        ...allConversations[currentConversationIndex],
+        status: conversation.status,
+      };
+      Vue.set(allConversations, currentConversationIndex, currentConversation);
+      if (_state.selectedChat.id === conversation.id) {
+        _state.selectedChat.status = conversation.status;
+        window.bus.$emit('scrollToMessage');
+      }
+    }
+  },
+
   [types.default.MARK_SEEN](_state) {
     _state.selectedChat.seen = true;
   },
 
-  [types.default.FB_TYPING](_state, { status }) {
+  [types.default.SET_AGENT_TYPING](_state, { status }) {
     _state.selectedChat.agentTyping = status;
   },
 

@@ -2,14 +2,16 @@
 #
 # Table name: channel_web_widgets
 #
-#  id            :integer          not null, primary key
-#  website_name  :string
-#  website_token :string
-#  website_url   :string
-#  widget_color  :string           default("#1f93ff")
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :integer
+#  id                 :integer          not null, primary key
+#  agent_away_message :string
+#  website_token      :string
+#  website_url        :string
+#  welcome_tagline    :string
+#  welcome_title      :string
+#  widget_color       :string           default("#1f93ff")
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer
 #
 # Indexes
 #
@@ -19,17 +21,12 @@
 class Channel::WebWidget < ApplicationRecord
   self.table_name = 'channel_web_widgets'
 
-  validates :website_name, presence: true
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
   belongs_to :account
   has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
-
-  def name
-    'Website'
-  end
 
   def web_widget_script
     "<script>

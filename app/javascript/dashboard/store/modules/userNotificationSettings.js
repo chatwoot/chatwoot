@@ -17,6 +17,9 @@ export const getters = {
   getSelectedEmailFlags: $state => {
     return $state.record.selected_email_flags;
   },
+  getSelectedPushFlags: $state => {
+    return $state.record.selected_push_flags;
+  },
 };
 
 export const actions = {
@@ -35,12 +38,13 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, params) => {
+  update: async ({ commit }, { selectedEmailFlags, selectedPushFlags }) => {
     commit(types.default.SET_USER_NOTIFICATION_UI_FLAG, { isUpdating: true });
     try {
       const response = await UserNotificationSettings.update({
         notification_settings: {
-          selected_email_flags: params,
+          selected_email_flags: selectedEmailFlags,
+          selected_push_flags: selectedPushFlags,
         },
       });
       commit(types.default.SET_USER_NOTIFICATION, response.data);

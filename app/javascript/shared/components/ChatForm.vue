@@ -21,7 +21,7 @@
       </div>
       <button
         v-if="!submittedValues.length"
-        class="button small block"
+        class="button block"
         type="submit"
         :disabled="!isFormValid"
       >
@@ -56,7 +56,11 @@ export default {
     },
   },
   mounted() {
-    this.updateFormValues();
+    if (this.submittedValues.length) {
+      this.updateFormValues();
+    } else {
+      this.setFormDefaults();
+    }
   },
   methods: {
     onSubmit() {
@@ -65,13 +69,19 @@ export default {
       }
       this.$emit('submit', this.formValues);
     },
-    updateFormValues() {
-      this.formValues = this.submittedValues.reduce((acc, obj) => {
+    buildFormObject(formObjectArray) {
+      return formObjectArray.reduce((acc, obj) => {
         return {
           ...acc,
-          [obj.name]: obj.value,
+          [obj.name]: obj.value || obj.default,
         };
       }, {});
+    },
+    updateFormValues() {
+      this.formValues = this.buildFormObject(this.submittedValues);
+    },
+    setFormDefaults() {
+      this.formValues = this.buildFormObject(this.items);
     },
   },
 };
@@ -82,16 +92,16 @@ export default {
 
 .form {
   padding: $space-normal;
-  width: 100%;
+  width: 80%;
 
   .form-block {
-    max-width: 100%;
+    width: 90%;
     padding-bottom: $space-small;
   }
 
   label {
     display: block;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     padding: $space-smaller 0;
     text-transform: capitalize;
   }
@@ -103,12 +113,16 @@ export default {
     display: block;
     font-size: $font-size-default;
     line-height: 1.5;
-    padding: $space-smaller $space-small;
-    width: 90%;
+    padding: $space-one;
+    width: 100%;
 
     &:disabled {
       background: $color-background-light;
     }
+  }
+
+  .button {
+    font-size: $font-size-default;
   }
 }
 </style>

@@ -40,10 +40,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import adminMixin from '../../../mixins/isAdmin';
-import { frontendURL } from '../../../helper/URLHelper';
+import accountMixin from '../../../mixins/account';
 
 export default {
-  mixins: [adminMixin],
+  mixins: [accountMixin, adminMixin],
 
   computed: {
     ...mapGetters({
@@ -60,7 +60,7 @@ export default {
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');
     },
     newInboxURL() {
-      return frontendURL('settings/inboxes/new');
+      return this.addAccountScoping('settings/inboxes/new');
     },
   },
 };

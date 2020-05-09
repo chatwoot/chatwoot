@@ -57,7 +57,7 @@ export const mutations = {
       ...data,
     };
   },
-  [types.default.ADD_ACCOUNT]: MutationHelpers.create,
+  [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
 };
 

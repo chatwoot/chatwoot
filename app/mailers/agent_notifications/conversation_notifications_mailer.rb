@@ -2,7 +2,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   layout 'mailer'
 
-  def conversation_created(conversation, agent)
+  def conversation_creation(conversation, agent)
     return unless smtp_config_set_or_development?
 
     @agent = agent
@@ -11,7 +11,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
     mail(to: @agent.email, subject: subject)
   end
 
-  def conversation_assigned(conversation, agent)
+  def conversation_assignment(conversation, agent)
     return unless smtp_config_set_or_development?
 
     @agent = agent

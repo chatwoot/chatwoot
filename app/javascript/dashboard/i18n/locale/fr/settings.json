@@ -1,0 +1,84 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Paramètres de profil",
+    "TITLE": "Paramètres de profil",
+    "BTN_TEXT": "Mettre à jour le profil",
+    "AFTER_EMAIL_CHANGED": "Votre profil a été mis à jour avec succès, veuillez vous reconnecter car vos identifiants de connexion ont été modifiés",
+    "FORM": {
+      "AVATAR": "Image de profil",
+      "ERROR": "Veuillez corriger les erreurs du formulaire",
+      "REMOVE_IMAGE": "Supprimer",
+      "UPLOAD_IMAGE": "Téléverser une image",
+      "UPDATE_IMAGE": "Mettre à jour l'image",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Votre adresse de courriel est votre identité et est utilisée pour vous connecter."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Mot de passe",
+        "NOTE": "Mettre à jour votre mot de passe réinitialisera vos connexions sur plusieurs appareils."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Jeton d'accès",
+        "NOTE": "Ce jeton peut être utilisé si vous construisez une intégration basée sur l'API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifications par courriel",
+        "NOTE": "Mettez à jour vos préférences de notification par courriel ici",
+        "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
+        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
+        "UPDATE_ERROR": "Une erreur est survenue lors de la mise à jour des préférences, veuillez réessayer"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifications push",
+        "NOTE": "Mettez à jour vos préférences de notification push ici",
+        "CONVERSATION_ASSIGNMENT": "Envoyer des notifications push lorsqu'une conversation m'est assignée",
+        "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
+        "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
+        "REQUEST_PUSH": "Activer les notifications push"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Image de profil"
+      },
+      "NAME": {
+        "LABEL": "Votre nom",
+        "ERROR": "Veuillez entrer un nom valide",
+        "PLACEHOLDER": "Veuillez entrer votre nom, cela sera affiché dans les conversations"
+      },
+      "EMAIL": {
+        "LABEL": "Votre adresse de courriel",
+        "ERROR": "Veuillez saisir une adresse de courriel valide",
+        "PLACEHOLDER": "Veuillez entrer votre adresse de courriel, cela sera affiché dans les conversations"
+      },
+      "PASSWORD": {
+        "LABEL": "Mot de passe",
+        "ERROR": "Veuillez entrer un mot de passe de 6 caractères ou plus",
+        "PLACEHOLDER": "Veuillez entrer un nouveau mot de passe"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirmer le nouveau mot de passe",
+        "ERROR": "La confirmation du mot de passe doit correspondre au mot de passe",
+        "PLACEHOLDER": "Veuillez saisir à nouveau votre mot de passe"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "PROFILE_SETTINGS": "Paramètres de profil",
+    "LOGOUT": "Se déconnecter"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Rapports",
+    "SETTINGS": "Réglages",
+    "HOME": "Accueil",
+    "AGENTS": "Agentes",
+    "INBOXES": "Boîtes de réception",
+    "CANNED_RESPONSES": "Réponses en conserve",
+    "BILLING": "Facturation",
+    "INTEGRATIONS": "Intégrations",
+    "ACCOUNT_SETTINGS": "Paramètres du compte"
+  }
+}

@@ -15,7 +15,7 @@
         "TITLE": "Gestiona els webhooks",
         "DESC": "Els webhooks són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a una conversa.",
         "TABLE_HEADER": [
-          "Webhook endpoint",
+          "Punt final del webhook",
           "Accions"
         ]
       },
@@ -25,7 +25,7 @@
         "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Introduïu una URL vàlid per configurar un callback.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
+            "LABEL": "URL del webhook",
             "PLACEHOLDER": "Exemple: https://example/api/webhook",
             "ERROR": "Introduïu una URL vàlid"
           },
@@ -44,9 +44,9 @@
         },
         "CONFIRM": {
           "TITLE": "Confirma l'esborrat",
-          "MESSAGE": "N'estas segur? ",
+          "MESSAGE": "N'estàs segur ",
           "YES": "Si, esborra ",
-          "NO": "No, manten-la "
+          "NO": "No, mantén-la "
         }
       }
     }

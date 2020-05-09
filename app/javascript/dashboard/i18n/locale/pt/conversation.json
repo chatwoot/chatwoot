@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Por favor, selecione uma conversa no painel da esquerda",
+    "NO_MESSAGE_1": "Oh oh! Parece que não há mensagens de clientes na sua caixa de entrada.",
+    "NO_MESSAGE_2": " para enviar uma mensagem para sua página!",
+    "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
+    "NO_INBOX_2": " para começar",
+    "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
+    "CLICK_HERE": "Clique aqui",
+    "LOADING_INBOXES": "Carregando caixas de entrada",
+    "LOADING_CONVERSATIONS": "Carregando conversas",
+    "DOWNLOAD": "BAIXAR",
+    "HEADER": {
+      "RESOLVE_ACTION": "Resolver",
+      "REOPEN_ACTION": "Reabrir",
+      "OPEN": "MAIS",
+      "CLOSE": "FECHAR",
+      "DETAILS": "Detalhes"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
+      "PRIVATE_MSG_INPUT": "Shift + Enter para a nova linha. Isto será visível apenas para Agentes"
+    },
+    "REPLYBOX": {
+      "REPLY": "Responder",
+      "PRIVATE_NOTE": "Nota Privada",
+      "SEND": "Mandar",
+      "CREATE": "Adicionar Nota",
+      "TWEET": "Tuitar"
+    },
+    "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
+    "CHANGE_STATUS": "Estado da conversa alterado",
+    "CHANGE_AGENT": "Responsável da conversa alterado"
+  }
+}
