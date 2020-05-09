@@ -7,4 +7,4 @@ json.created_at @message.created_at.to_i
 json.private @message.private
 json.source_id @message.source_id
 json.attachments @message.attachments.map(&:push_event_data) if @message.attachments.present?
-json.sender @message.user.push_event_data if @message.user
+json.sender @message.sender.push_event_data if @message.sender

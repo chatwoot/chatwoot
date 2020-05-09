@@ -7,4 +7,5 @@ json.content_type @message.content_type
 json.content_attributes @message.content_attributes
 json.created_at @message.created_at.to_i
 json.private @message.private
+json.sender @message.sender.push_event_data
 json.attachments @message.attachments.map(&:push_event_data) if @message.attachments.present?
