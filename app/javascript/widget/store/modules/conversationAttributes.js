@@ -9,11 +9,11 @@ const state = {
   status: '',
 };
 
-const getters = {
+export const getters = {
   getConversationParams: $state => $state,
 };
 
-const actions = {
+export const actions = {
   get: async ({ commit }) => {
     try {
       const { data } = await getConversationAPI();
@@ -27,7 +27,7 @@ const actions = {
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_CONVERSATION_ATTRIBUTES]($state, data) {
     $state.id = data.id;
     $state.status = data.status;
