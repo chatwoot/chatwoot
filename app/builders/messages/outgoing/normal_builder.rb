@@ -37,7 +37,7 @@ class Messages::Outgoing::NormalBuilder
       message_type: :outgoing,
       content: @content,
       private: @private,
-      user_id: @user&.id,
+      sender: @user,
       source_id: @fb_id,
       content_type: @content_type,
       items: @items

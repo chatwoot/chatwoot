@@ -29,7 +29,7 @@ class ContactMergeAction
   end
 
   def merge_messages
-    Message.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
+    Message.where(sender: @mergee_contact).update(sender: @base_contact)
   end
 
   def merge_contact_inboxes

@@ -13,26 +13,18 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
-#  contact_id         :bigint
 #  conversation_id    :integer          not null
 #  inbox_id           :integer          not null
 #  sender_id          :bigint
 #  source_id          :string
-#  user_id            :integer
 #
 # Indexes
 #
 #  index_messages_on_account_id                 (account_id)
-#  index_messages_on_contact_id                 (contact_id)
 #  index_messages_on_conversation_id            (conversation_id)
 #  index_messages_on_inbox_id                   (inbox_id)
 #  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
 #  index_messages_on_source_id                  (source_id)
-#  index_messages_on_user_id                    (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (contact_id => contacts.id)
 #
 
 class Message < ApplicationRecord

@@ -117,7 +117,8 @@ class Messages::MessageBuilder
       inbox_id: conversation.inbox_id,
       message_type: @message_type,
       content: response.content,
-      source_id: response.identifier
+      source_id: response.identifier,
+      sender: contact
     }
   end
 

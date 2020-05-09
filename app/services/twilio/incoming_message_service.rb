@@ -11,7 +11,7 @@ class Twilio::IncomingMessageService
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
-      contact_id: @contact.id,
+      sender: @contact,
       source_id: params[:SmsSid]
     )
     attach_files
