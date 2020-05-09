@@ -24,4 +24,22 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/widget/conversations' do
+    context 'with a conversation' do
+      it 'returns the correct conversation params' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        get '/api/v1/widget/conversations',
+            headers: { 'X-Auth-Token' => token },
+            params: { website_token: web_widget.website_token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+
+        expect(json_response['id']).to eq(conversation.display_id)
+        expect(json_response['status']).to eq(conversation.status)
+      end
+    end
+  end
 end
