@@ -88,7 +88,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
-    data.merge!(sender: user.push_event_data) if user
+    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
+    data.merge!(sender: user.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
   end
 
