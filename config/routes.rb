@@ -104,6 +104,10 @@ Rails.application.routes.draw do
       # end of account scoped api routes
       # ----------------------------------
 
+      namespace :integrations do
+        resources :webhooks, only: [:create]
+      end
+
       resource :profile, only: [:show, :update]
 
       resources :agent_bots, only: [:index]
