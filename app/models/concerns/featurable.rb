@@ -1,4 +1,4 @@
-module Features
+module Featurable
   extend ActiveSupport::Concern
 
   QUERY_MODE = {
@@ -51,7 +51,10 @@ module Features
   private
 
   def enable_default_features
-    features_to_enabled = FEATURE_LIST.select { |f| f['enabled'] }.map { |f| f['name'] }
+    config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
+    return true if config.blank?
+
+    features_to_enabled = config.value.select { |f| f[:enabled] }.map { |f| f[:name] }
     enable_features(features_to_enabled)
   end
 end
