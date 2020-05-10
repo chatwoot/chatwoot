@@ -12,7 +12,7 @@ class Integrations::Slack::IncomingMessageBuilder
   def perform
     return unless supported_event_type?
     return unless supported_event?
-    
+
     if hook_verification?
       verify_hook
     elsif create_message?
@@ -35,7 +35,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def hook_verification?
-    params[:type] = "url_verification"
+    params[:type] == "url_verification"
   end
 
   def create_message?
@@ -57,10 +57,16 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def conversation
-    # find conversation by thread_id
+    @conversation ||= Conversation.where(reference_id: params[:event][:thread_ts]).first
   end
 
-  def create_message
-    # create message
+  def create_message    
+    return unless conversation
+    conversation.messages.create(
+      message_type: 0,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      content: message[:elements].first[:elements].first[:text]
+    )
   end
 end

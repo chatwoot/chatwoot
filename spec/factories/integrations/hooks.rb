@@ -6,6 +6,7 @@ FactoryBot.define do
     app_id { 'cw_slack' }
     settings { 'MyText' }
     hook_type { 1 }
-    access_token { 'random token' }
+    access_token { SecureRandom.hex }
+    reference_id { SecureRandom.hex }
   end
 end

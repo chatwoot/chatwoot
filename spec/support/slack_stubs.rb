@@ -22,7 +22,7 @@ module SlackStubs
         "team": "TLST3048H",
         "blocks": [
           {
-            "type": "message_type",
+            "type": message_type,
             "block_id": "jaIv3",
             "elements": [
               {
