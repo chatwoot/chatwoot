@@ -37,23 +37,25 @@ class ConfigLoader
   end
 
   def reconcile_general_config
-    general_configs.each do |g_config|
-      general_config = g_config.with_indifferent_access
-      config = InstallationConfig.find_by(name: general_config[:name])
-
-      if config
-        # save config only if reconcile flag is false and existing configs value does not match default value
-        save_as_new_config(general_config) if !@reconcile_only_new && config.value != general_config[:value]
-      else
-        save_as_new_config(general_config)
-      end
+    general_configs.each do |config|
+      new_config = config.with_indifferent_access
+      existing_config = InstallationConfig.find_by(name: new_config[:name])
+      save_general_config(existing_config, new_config)
     end
   end
 
-  def save_as_new_config(general_config)
-    general_config = general_config.with_indifferent_access
-    config = InstallationConfig.new(name: general_config[:name])
-    config.value = general_config[:value]
+  def save_general_config(existing_config, new_config)
+    if existing_config
+      # save config only if reconcile flag is false and existing configs value does not match default value
+      save_as_new_config(new_config) if !@reconcile_only_new && existing_config.value != new_config[:value]
+    else
+      save_as_new_config(new_config)
+    end
+  end
+
+  def save_as_new_config(new_config)
+    config = InstallationConfig.new(name: new_config[:name])
+    config.value = new_config[:value]
     config.save
   end
 
@@ -63,15 +65,20 @@ class ConfigLoader
     if config
       return false if config.value.to_s == account_features.to_s
 
-      features = if @reconcile_only_new
-                   (account_features + config.value).uniq { |h| h['name'] }
-                 else
-                   (config.value + account_features).uniq { |h| h['name'] }
-                 end
-
-      save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features })
+      compare_and_save(config)
     else
       save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: account_features })
     end
+  end
+
+  def compare_and_save_feature(config)
+    features = if @reconcile_only_new
+                 # leave the existing feature flag values as it is and add new feature flags with default values
+                 (account_features + config.value).uniq { |h| h['name'] }
+               else
+                 # update the existing feature flag values with default values and add new feature flags with default values
+                 (config.value + account_features).uniq { |h| h['name'] }
+               end
+    save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features })
   end
 end
