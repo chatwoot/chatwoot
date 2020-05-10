@@ -1,9 +1,9 @@
 class Integrations::Slack::IncomingMessageBuilder
   attr_reader :params
 
-  SUPPORTED_EVENT_TYPES = %w(event_callback url_verification)
-  SUPPORTED_EVENTS = %w(message)
-  SUPPORTED_MESSAGE_TYPES = %w(rich_text)
+  SUPPORTED_EVENT_TYPES = %w[event_callback url_verification].freeze
+  SUPPORTED_EVENTS = %w[message].freeze
+  SUPPORTED_MESSAGE_TYPES = %w[rich_text].freeze
 
   def initialize(params)
     @params = params
@@ -35,7 +35,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def hook_verification?
-    params[:type] == "url_verification"
+    params[:type] == 'url_verification'
   end
 
   def create_message?
@@ -60,8 +60,9 @@ class Integrations::Slack::IncomingMessageBuilder
     @conversation ||= Conversation.where(reference_id: params[:event][:thread_ts]).first
   end
 
-  def create_message    
+  def create_message
     return unless conversation
+
     conversation.messages.create(
       message_type: 0,
       account_id: conversation.account_id,
