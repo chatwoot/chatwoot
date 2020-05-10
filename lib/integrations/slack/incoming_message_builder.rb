@@ -53,7 +53,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def integration_hook
-    @hook ||= Integrations::Hook.where(reference_id: params[:event][:channel])
+    @integration_hook ||= Integrations::Hook.where(reference_id: params[:event][:channel])
   end
 
   def conversation
@@ -69,5 +69,7 @@ class Integrations::Slack::IncomingMessageBuilder
       inbox_id: conversation.inbox_id,
       content: message[:elements].first[:elements].first[:text]
     )
+
+    { status: 'success' }
   end
 end

@@ -1,9 +1,7 @@
 class Api::V1::Integrations::WebhooksController < ApplicationController
   def create
-    if params[:type] == 'url_verification'
-      render json: { challenge: params[:challenge] }
-    else
-      head :ok
-  end
+    builder = Integrations::Slack::IncomingMessageBuilder.new(params)
+    response = builder.perform
+    render json: response
   end
 end

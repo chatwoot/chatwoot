@@ -5,7 +5,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let(:message_params) { slack_message_created_stub }
   let(:verification_params) { slack_url_verification_stub }
 
-  let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
+  let(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, reference_id: message_params[:event][:thread_ts]) }
 
   describe '#perform' do

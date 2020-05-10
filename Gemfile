@@ -67,6 +67,8 @@ gem 'twilio-ruby', '~> 5.32.0'
 gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 # facebook client
 gem 'koala'
+# slack client
+gem 'slack-ruby-client'
 # Random name generator
 gem 'haikunator'
 
@@ -113,4 +115,5 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'webmock'
 end
