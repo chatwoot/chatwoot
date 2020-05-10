@@ -1,4 +1,4 @@
-module Features
+module Featurable
   extend ActiveSupport::Concern
 
   QUERY_MODE = {
