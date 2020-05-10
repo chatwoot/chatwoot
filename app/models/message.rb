@@ -59,7 +59,7 @@ class Message < ApplicationRecord
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
-  scope :chat, -> { where.not(message_type: :activity).where.not(private: true) }
+  scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   default_scope { order(created_at: :asc) }
 
   belongs_to :account
