@@ -1,3 +1,6 @@
+# loading installation configs
+ConfigLoader.new.process
+
 account = Account.create!(
   name: 'Acme Inc',
   domain: 'support.chatwoot.com',

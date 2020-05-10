@@ -94,6 +94,8 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+RSpec/NamedSubject:
+  Enabled: false
 AllCops:
   Exclude:
     - 'bin/**/*'
