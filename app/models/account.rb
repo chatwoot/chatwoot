@@ -19,7 +19,7 @@ class Account < ApplicationRecord
 
   include Events::Types
   include Reportable
-  include Features
+  include Featurable
 
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator
