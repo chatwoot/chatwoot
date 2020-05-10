@@ -9,8 +9,8 @@ class ConversationReplyMailer < ApplicationMailer
     @contact = @conversation.contact
     @agent = @conversation.assignee
 
-    recap_messages = @conversation.messages.where('created_at < ?', message_queued_time).order(created_at: :asc).last(10)
-    new_messages = @conversation.messages.where('created_at >= ?', message_queued_time)
+    recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
+    new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
 
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:reportable?)
