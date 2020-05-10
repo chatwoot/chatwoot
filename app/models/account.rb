@@ -31,7 +31,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-  has_many :app_inboxes, dependent: :destroy, class_name: 'Integrations::AppInbox'
+  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 

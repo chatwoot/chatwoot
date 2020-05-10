@@ -229,12 +229,15 @@ ActiveRecord::Schema.define(version: 2020_04_30_163438) do
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
-  create_table "integrations_app_inboxes", force: :cascade do |t|
+  create_table "integrations_hooks", force: :cascade do |t|
     t.integer "status", default: 0
     t.integer "inbox_id"
     t.integer "account_id"
     t.string "app_id"
     t.text "settings"
+    t.integer "hook_type", default: 0
+    t.string "reference_id"
+    t.string "access_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
