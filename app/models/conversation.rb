@@ -16,6 +16,7 @@
 #  contact_inbox_id      :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
+#  reference_id          :string
 #
 # Indexes
 #

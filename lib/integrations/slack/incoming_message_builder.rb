@@ -15,8 +15,8 @@ class Integrations::Slack::IncomingMessageBuilder
     
     if hook_verification?
       verify_hook
-    elsif integration_hook
-      create_messages
+    elsif create_message?
+      create_message
     end
   end
 
@@ -30,8 +30,20 @@ class Integrations::Slack::IncomingMessageBuilder
     hook_verification? || SUPPORTED_EVENTS.include?(params[:event][:type])
   end
 
+  def supported_message?
+    SUPPORTED_MESSAGE_TYPES.include?(message[:type])
+  end
+
   def hook_verification?
     params[:type] = "url_verification"
+  end
+
+  def create_message?
+    supported_message? && integration_hook
+  end
+
+  def message
+    params[:event][:blocks].first
   end
 
   def verify_hook
