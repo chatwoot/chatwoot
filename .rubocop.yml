@@ -30,6 +30,7 @@ Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'
     - 'lib/redis/alfred.rb'
+    - 'lib/global_config.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
