@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import {
   sendMessageAPI,
-  getConversationAPI,
+  getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
 } from 'widget/api/conversation';
@@ -116,7 +116,7 @@ export const actions = {
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getConversationAPI({ before });
+      const { data } = await getMessagesAPI({ before });
       commit('setMessagesInConversation', data);
       commit('setConversationListLoading', false);
     } catch (error) {
