@@ -4,6 +4,8 @@
   value: '/brand-assets/logo.svg'
 - name: INSTALLATION_NAME
   value: 'Chatwoot'
+- name: BRAND_URL
+  value: 'https://www.chatwoot.com'
 - name: WIDGET_BRAND_URL
   value: 'https://www.chatwoot.com'
 - name: TERMS_URL
