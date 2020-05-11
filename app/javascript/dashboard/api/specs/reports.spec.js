@@ -11,6 +11,6 @@ describe('#Reports API', () => {
     expect(reports).toHaveProperty('update');
     expect(reports).toHaveProperty('delete');
     expect(reports).toHaveProperty('getAccountReports');
-    expect(reports).toHaveProperty('getAccountReports');
+    expect(reports).toHaveProperty('getAccountSummary');
   });
 });
