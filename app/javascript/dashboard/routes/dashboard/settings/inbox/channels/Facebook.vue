@@ -7,7 +7,14 @@
           alt="Facebook-logo"
         />
       </a>
-      <p>{{ $t('INBOX_MGMT.ADD.FB.HELP') }}</p>
+      <p>
+        {{
+          useInstallationName(
+            $t('INBOX_MGMT.ADD.FB.HELP'),
+            globalConfig.installationName
+          )
+        }}
+      </p>
     </div>
     <div v-else>
       <loading-state
@@ -18,7 +25,12 @@
         <div class="medium-12 columns">
           <page-header
             :header-title="$t('INBOX_MGMT.ADD.DETAILS.TITLE')"
-            :header-content="$t('INBOX_MGMT.ADD.DETAILS.DESC')"
+            :header-content="
+              useInstallationName(
+                $t('INBOX_MGMT.ADD.DETAILS.DESC'),
+                globalConfig.installationName
+              )
+            "
           />
         </div>
         <div class="medium-7 columns">
@@ -72,13 +84,14 @@ import { mapGetters } from 'vuex';
 import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader';
 import router from '../../../../index';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     LoadingState,
     PageHeader,
   },
-
+  mixins: [globalConfigMixin],
   data() {
     return {
       isCreating: false,
@@ -114,6 +127,7 @@ export default {
     },
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
     }),
     accountId() {
       return this.currentUser.account_id;
