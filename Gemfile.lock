@@ -84,11 +84,24 @@ GEM
       activerecord (>= 5.0, < 6.1)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
+    administrate (0.13.0)
+      actionpack (>= 4.2)
+      actionview (>= 4.2)
+      activerecord (>= 4.2)
+      autoprefixer-rails (>= 6.0)
+      datetime_picker_rails (~> 0.0.7)
+      jquery-rails (>= 4.0)
+      kaminari (>= 1.0)
+      momentjs-rails (~> 2.8)
+      sassc-rails (~> 2.1)
+      selectize-rails (~> 0.6)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
     ast (2.4.0)
     attr_extras (6.2.3)
+    autoprefixer-rails (9.7.6)
+      execjs
     aws-eventstream (1.1.0)
     aws-partitions (1.310.0)
     aws-sdk-core (3.94.1)
@@ -141,6 +154,8 @@ GEM
     concurrent-ruby (1.1.6)
     connection_pool (2.2.2)
     crass (1.0.6)
+    datetime_picker_rails (0.0.7)
+      momentjs-rails (>= 2.8.1)
     declarative (0.0.10)
     declarative-option (0.1.0)
     descendants_tracker (0.0.4)
@@ -235,6 +250,10 @@ GEM
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
+    jquery-rails (4.3.5)
+      rails-dom-testing (>= 1, < 3)
+      railties (>= 4.2.0)
+      thor (>= 0.14, < 2.0)
     json (2.3.0)
     json_pure (2.3.0)
     jwt (2.2.1)
@@ -278,6 +297,8 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
+    momentjs-rails (2.20.1)
+      railties (>= 3.1)
     msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
@@ -406,6 +427,14 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    sassc (2.3.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     scout_apm (2.6.7)
       parser
     scss_lint (0.59.0)
@@ -413,6 +442,7 @@ GEM
     seed_dump (3.3.1)
       activerecord (>= 4)
       activesupport (>= 4)
+    selectize-rails (0.12.6)
     semantic_range (2.3.0)
     sentry-raven (3.0.0)
       faraday (>= 1.0)
@@ -451,6 +481,7 @@ GEM
     telephone_number (1.4.6)
     thor (0.20.3)
     thread_safe (0.3.6)
+    tilt (2.0.10)
     time_diff (0.3.0)
       activesupport
       i18n
@@ -505,6 +536,7 @@ PLATFORMS
 DEPENDENCIES
   action-cable-testing
   acts-as-taggable-on
+  administrate
   annotate
   attr_extras
   aws-sdk-s3
