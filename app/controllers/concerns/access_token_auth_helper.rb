@@ -4,17 +4,25 @@ module AccessTokenAuthHelper
     'api/v1/accounts/conversations/messages' => ['create']
   }.freeze
 
-  def authenticate_access_token!
+  def ensure_access_token
     token = request.headers[:api_access_token] || request.headers[:HTTP_API_ACCESS_TOKEN]
-    access_token = AccessToken.find_by(token: token)
-    render_unauthorized('Invalid Access Token') && return unless access_token
+    @access_token = AccessToken.find_by(token: token) if token.present?
+  end
 
-    token_owner = access_token.owner
-    @resource = token_owner
+  def authenticate_access_token!
+    ensure_access_token
+    render_unauthorized('Invalid Access Token') && return if @access_token.blank?
+
+    @resource = @access_token.owner
+  end
+
+  def super_admin?
+    @resource.present? && @resource.is_a?(SuperAdmin)
   end
 
   def validate_bot_access_token!
     return if current_user.is_a?(User)
+    return if super_admin?
     return if agent_bot_accessible?
 
     render_unauthorized('Access to this endpoint is not authorized for bots')

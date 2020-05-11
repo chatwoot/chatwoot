@@ -49,6 +49,8 @@ gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
+# super admin
+gem 'administrate'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
