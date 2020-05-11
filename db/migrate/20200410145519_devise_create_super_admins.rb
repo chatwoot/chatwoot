@@ -2,6 +2,8 @@
 
 class DeviseCreateSuperAdmins < ActiveRecord::Migration[6.0]
   def change
+    return if ActiveRecord::Base.connection.table_exists? 'super_admins'
+
     create_table :super_admins do |t|
       ## Database authenticatable
       t.string :email,              null: false, default: ''
