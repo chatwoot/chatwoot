@@ -2,8 +2,8 @@
   <div class="medium-10 column signup">
     <div class="text-center medium-12 signup--hero">
       <img
-        src="~dashboard/assets/images/woot-logo.svg"
-        alt="Woot-logo"
+        :src="globalConfig.logo"
+        :alt="globalConfig.installationName"
         class="hero--logo"
       />
       <h2 class="hero--title">
@@ -58,13 +58,18 @@
               button-class="large expanded"
             >
             </woot-submit-button>
-            <p class="accept--terms" v-html="$t('REGISTER.TERMS_ACCEPT')"></p>
+            <p class="accept--terms" v-html="termsLink"></p>
           </div>
         </form>
         <div class="column text-center sigin--footer">
           <span>Already have an account?</span>
           <router-link to="/app/login">
-            {{ $t('LOGIN.TITLE') }}
+            {{
+              useInstallationName(
+                $t('LOGIN.TITLE'),
+                globalConfig.installationName
+              )
+            }}
           </router-link>
         </div>
       </div>
@@ -77,12 +82,13 @@
 
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
+import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
+  mixins: [globalConfigMixin],
   data() {
     return {
-      // We need to initialize the component with any
-      // properties that will be used in it
       credentials: {
         name: '',
         email: '',
@@ -104,6 +110,19 @@ export default {
         required,
         email,
       },
+    },
+  },
+  computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
+    termsLink() {
+      return this.$t('REGISTER.TERMS_ACCEPT')
+        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
+        .replace(
+          'https://www.chatwoot.com/privacy-policy',
+          this.globalConfig.privacyURL
+        );
     },
   },
   methods: {

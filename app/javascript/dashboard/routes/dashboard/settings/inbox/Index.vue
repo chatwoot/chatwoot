@@ -77,7 +77,14 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('INBOX_MGMT.SIDEBAR_TXT')"></span>
+        <span
+          v-html="
+            useInstallationName(
+              $t('INBOX_MGMT.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
+          "
+        />
       </div>
     </div>
     <settings
@@ -107,13 +114,14 @@ import DeleteInbox from './DeleteInbox';
 import adminMixin from '../../../../mixins/isAdmin';
 import auth from '../../../../api/auth';
 import accountMixin from '../../../../mixins/account';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     Settings,
     DeleteInbox,
   },
-  mixins: [adminMixin, accountMixin],
+  mixins: [adminMixin, accountMixin, globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -125,6 +133,7 @@ export default {
   computed: {
     ...mapGetters({
       inboxesList: 'inboxes/getInboxes',
+      globalConfig: 'globalConfig/get',
     }),
     // Delete Modal
     deleteConfirmText() {

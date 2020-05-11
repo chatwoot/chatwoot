@@ -2,7 +2,7 @@
   <aside class="sidebar animated shrink columns">
     <div class="logo">
       <router-link :to="dashboardPath" replace>
-        <img src="~dashboard/assets/images/woot-logo.svg" alt="Woot-logo" />
+        <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
       </router-link>
     </div>
 
@@ -104,10 +104,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      daysLeft: 'getTrialLeft',
-      subscriptionData: 'getSubscription',
-      inboxes: 'inboxes/getInboxes',
       currentUser: 'getCurrentUser',
+      daysLeft: 'getTrialLeft',
+      globalConfig: 'globalConfig/get',
+      inboxes: 'inboxes/getInboxes',
+      subscriptionData: 'getSubscription',
     }),
     accessibleMenuItems() {
       // get all keys in menuGroup

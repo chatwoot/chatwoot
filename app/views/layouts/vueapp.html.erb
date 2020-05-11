@@ -22,13 +22,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/manifest.json">
     <%= csrf_meta_tags %>
-    <%= javascript_pack_tag 'application' %>
-    <%= stylesheet_pack_tag 'application' %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
-    <%= yield %>
     <script>
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
@@ -40,6 +33,14 @@
         <% end %>
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>
       }
+      window.globalConfig = <%= raw GlobalConfig.get('LOGO', 'INSTALLATION_NAME', 'WIDGET_BRAND_URL', 'TERMS_URL', 'PRIVACY_URL').to_json %>
     </script>
+    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_pack_tag 'application' %>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
+    <%= yield %>
   </body>
 </html>
