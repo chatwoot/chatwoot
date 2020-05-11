@@ -1,0 +1,27 @@
+<%#
+# Navigation
+
+This partial is used to display the navigation in Administrate.
+By default, the navigation contains navigation links
+for all resources in the admin dashboard,
+as defined by the routes in the `admin/` namespace
+%>
+
+<%= javascript_pack_tag 'superadmin_pages' %>
+<%= stylesheet_pack_tag 'superadmin_pages' %>
+
+
+<nav class="navigation" role="navigation">
+  <%= link_to "Back to app", root_url, class: "button button--alt" %>
+  <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
+
+  <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+    <%= link_to(
+      display_resource_name(resource),
+      [namespace, resource_index_route_key(resource)],
+      class: "navigation__link navigation__link--#{nav_link_state(resource)}"
+    ) if valid_action? :index, resource  %>
+  <% end %>
+
+  <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %>
+</nav>

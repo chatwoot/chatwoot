@@ -2,9 +2,10 @@ require 'rails_helper'
 
 RSpec.describe 'Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
+    let(:email) { Faker::Internet.email }
+
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
-      let(:email) { Faker::Internet.email }
       let(:account) { create(:account) }
       let(:user) { create(:user, email: email, account: account) }
 
@@ -22,7 +23,7 @@ RSpec.describe 'Accounts API', type: :request do
              params: params,
              as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params)
+        expect(AccountBuilder).to have_received(:new).with(params.merge(confirmed: false))
         expect(account_builder).to have_received(:perform)
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
       end
@@ -36,16 +37,45 @@ RSpec.describe 'Accounts API', type: :request do
              params: params,
              as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params)
+        expect(AccountBuilder).to have_received(:new).with(params.merge(confirmed: false))
+        expect(account_builder).to have_received(:perform)
+        expect(response).to have_http_status(:forbidden)
+        expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
+      end
+
+      it 'ignores confirmed param when called with out super admin token' do
+        allow(account_builder).to receive(:perform).and_return(nil)
+
+        params = { account_name: 'test', email: email, confirmed: true }
+
+        post api_v1_accounts_url,
+             params: params,
+             as: :json
+
+        expect(AccountBuilder).to have_received(:new).with(params.merge(confirmed: false))
         expect(account_builder).to have_received(:perform)
         expect(response).to have_http_status(:forbidden)
         expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
       end
     end
 
-    context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
-      let(:email) { Faker::Internet.email }
+    context 'when called with super admin token' do
+      let(:super_admin) { create(:super_admin) }
 
+      it 'calls account builder with confirmed true when confirmed param is passed' do
+        params = { account_name: 'test', email: email, confirmed: true }
+
+        post api_v1_accounts_url,
+             params: params,
+             headers: { api_access_token: super_admin.access_token.token },
+             as: :json
+
+        expect(User.find_by(email: email).confirmed?).to eq(true)
+        expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+      end
+    end
+
+    context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
         params = { account_name: 'test', email: email }
         ENV['ENABLE_ACCOUNT_SIGNUP'] = 'false'
@@ -60,8 +90,6 @@ RSpec.describe 'Accounts API', type: :request do
     end
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
-      let(:email) { Faker::Internet.email }
-
       it 'does not respond 404 on requests' do
         params = { account_name: 'test', email: email }
         ENV['ENABLE_ACCOUNT_SIGNUP'] = 'api_only'

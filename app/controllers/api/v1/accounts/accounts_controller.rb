@@ -16,7 +16,8 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   def create
     @user = AccountBuilder.new(
       account_name: account_params[:account_name],
-      email: account_params[:email]
+      email: account_params[:email],
+      confirmed: confirmed?
     ).perform
     if @user
       send_auth_headers(@user)
@@ -38,6 +39,10 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
 
   def check_authorization
     authorize(Account)
+  end
+
+  def confirmed?
+    super_admin? && params[:confirmed]
   end
 
   def fetch_account
