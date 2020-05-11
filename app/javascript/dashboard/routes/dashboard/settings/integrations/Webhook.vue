@@ -55,7 +55,14 @@
       </div>
 
       <div class="small-4 columns">
-        <span v-html="$t('INTEGRATION_SETTINGS.WEBHOOK.SIDEBAR_TXT')"></span>
+        <span
+          v-html="
+            useInstallationName(
+              $t('INTEGRATION_SETTINGS.WEBHOOK.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
+          "
+        />
       </div>
     </div>
 
@@ -79,12 +86,14 @@
 import { mapGetters } from 'vuex';
 import NewWebhook from './New';
 import DeleteWebhook from './Delete';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NewWebhook,
     DeleteWebhook,
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -97,6 +106,7 @@ export default {
     ...mapGetters({
       records: 'webhooks/getWebhooks',
       uiFlags: 'webhooks/getUIFlags',
+      globalConfig: 'globalConfig/get',
     }),
   },
   mounted() {

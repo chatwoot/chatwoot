@@ -74,7 +74,14 @@
         </div>
       </div>
       <div class="small-4 columns">
-        <span v-html="$t('AGENT_MGMT.SIDEBAR_TXT')"></span>
+        <span
+          v-html="
+            useInstallationName(
+              $t('AGENT_MGMT.SIDEBAR_TXT'),
+              globalConfig.installationName
+            )
+          "
+        />
       </div>
     </div>
     <!-- Add Agent -->
@@ -108,8 +115,8 @@
 /* global bus */
 
 import { mapGetters } from 'vuex';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail';
-
 import AddAgent from './AddAgent';
 import EditAgent from './EditAgent';
 import DeleteAgent from './DeleteAgent';
@@ -121,6 +128,7 @@ export default {
     DeleteAgent,
     Thumbnail,
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -138,6 +146,7 @@ export default {
       agentList: 'agents/getAgents',
       uiFlags: 'agents/getUIFlags',
       currentUserId: 'getCurrentUserID',
+      globalConfig: 'globalConfig/get',
     }),
     deleteConfirmText() {
       return `${this.$t('AGENT_MGMT.DELETE.CONFIRM.YES')} ${
