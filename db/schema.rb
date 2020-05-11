@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_29_082655) do
+ActiveRecord::Schema.define(version: 2020_05_10_112339) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
+    t.integer "feature_flags", default: 0, null: false
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -93,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.string "outgoing_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "hide_input_for_bot_conversations", default: false
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -244,6 +246,14 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
+  create_table "installation_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "serialized_value", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -283,6 +293,8 @@ ActiveRecord::Schema.define(version: 2020_04_29_082655) do
     t.jsonb "subscription_attributes", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "identifier"
+    t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
     t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
   end
 

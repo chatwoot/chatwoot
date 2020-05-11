@@ -2,8 +2,9 @@
 import Vue from 'vue';
 import {
   sendMessageAPI,
-  getConversationAPI,
+  getMessagesAPI,
   sendAttachmentAPI,
+  toggleTyping,
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
@@ -36,11 +37,13 @@ const state = {
   uiFlags: {
     allMessagesLoaded: false,
     isFetchingList: false,
+    isAgentTyping: false,
   },
 };
 
 export const getters = {
   getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
+  getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
   getEarliestMessage: _state => {
@@ -113,7 +116,7 @@ export const actions = {
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getConversationAPI({ before });
+      const { data } = await getMessagesAPI({ before });
       commit('setMessagesInConversation', data);
       commit('setConversationListLoading', false);
     } catch (error) {
@@ -131,6 +134,18 @@ export const actions = {
 
   updateMessage({ commit }, data) {
     commit('pushMessageToConversation', data);
+  },
+
+  toggleAgentTyping({ commit }, data) {
+    commit('toggleAgentTypingStatus', data);
+  },
+
+  toggleUserTyping: async (_, data) => {
+    try {
+      await toggleTyping(data);
+    } catch (error) {
+      // console error
+    }
   },
 };
 
@@ -191,6 +206,11 @@ export const mutations = {
         ...content_attributes,
       },
     };
+  },
+
+  toggleAgentTypingStatus($state, { status }) {
+    const isTyping = status === 'on';
+    $state.uiFlags.isAgentTyping = isTyping;
   },
 };
 

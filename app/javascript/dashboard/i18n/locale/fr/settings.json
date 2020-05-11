@@ -26,9 +26,19 @@
         "TITLE": "Notifications par courriel",
         "NOTE": "Mettez à jour vos préférences de notification par courriel ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
-        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
-        "UPDATE_SUCCESS": "Vos préférences de notifications par courriel ont été mises à jour avec succès",
+        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
         "UPDATE_ERROR": "Une erreur est survenue lors de la mise à jour des préférences, veuillez réessayer"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifications push",
+        "NOTE": "Mettez à jour vos préférences de notification push ici",
+        "CONVERSATION_ASSIGNMENT": "Envoyer des notifications push lorsqu'une conversation m'est assignée",
+        "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
+        "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
+        "REQUEST_PUSH": "Activer les notifications push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Image de profil"
@@ -58,5 +68,17 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Paramètres de profil",
     "LOGOUT": "Se déconnecter"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Rapports",
+    "SETTINGS": "Réglages",
+    "HOME": "Accueil",
+    "AGENTS": "Agentes",
+    "INBOXES": "Boîtes de réception",
+    "CANNED_RESPONSES": "Réponses en conserve",
+    "BILLING": "Facturation",
+    "INTEGRATIONS": "Intégrations",
+    "ACCOUNT_SETTINGS": "Paramètres du compte"
   }
 }

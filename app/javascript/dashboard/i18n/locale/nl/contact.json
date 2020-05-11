@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Gesprek details",
+    "BROWSER": "Browser",
+    "OS": "Operating systeem",
+    "INITIATED_FROM": "Geïnitieerd vanuit",
+    "INITIATED_AT": "Geïnitieerd op",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Er zijn geen eerdere gesprekken gekoppeld aan dit contact.",
+      "TITLE": "Vorige gesprekken"
+    },
+    "LABELS": {
+      "TITLE": "Labels voor gesprekken",
+      "UPDATE_BUTTON": "Labels bijwerken",
+      "UPDATE_ERROR": "Kon labels niet updaten, probeer het opnieuw.",
+      "TAG_PLACEHOLDER": "Nieuw label toevoegen",
+      "PLACEHOLDER": "Zoek of voeg een label toe"
+    }
+  }
+}

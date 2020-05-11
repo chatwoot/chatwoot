@@ -21,6 +21,25 @@
         "LABEL": "Idioma do site (Beta)",
         "PLACEHOLDER": "Nome da sua conta",
         "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domínio",
+        "PLACEHOLDER": "Domínio do seu site",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail de Suporte",
+        "PLACEHOLDER": "E-mail de suporte da sua empresa",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Habilitar e-mail de domínio",
+        "PLACEHOLDER": "Ativar o e-mail de domínio personalizado",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Ativado",
+          "DISABLED": "Desabilitado"
+        }
       }
     }
   }

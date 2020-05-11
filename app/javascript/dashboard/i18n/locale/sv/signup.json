@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Registrera ett konto",
+    "TITLE": "Registrera",
+    "TERMS_ACCEPT": "Genom att registrera dig godkänner du vår <a href=\"https://www.chatwoot.com/terms\">T & C</a> och <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Kontonamn",
+      "PLACEHOLDER": "Wayne Företag",
+      "ERROR": "Kontonamnet är för kort"
+    },
+    "EMAIL": {
+      "LABEL": "E-post",
+      "PLACEHOLDER": "bruce@wayne.företag",
+      "ERROR": "E-postadressen är ogiltig"
+    },
+    "PASSWORD": {
+      "LABEL": "Lösenord",
+      "PLACEHOLDER": "Lösenord",
+      "ERROR": "Lösenordet är för kort"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Bekräfta lösenord",
+      "PLACEHOLDER": "Bekräfta lösenord",
+      "ERROR": "Lösenordet matchar inte"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registreringen lyckades",
+      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+    },
+    "SUBMIT": "Skicka"
+  }
+}

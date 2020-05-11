@@ -25,11 +25,10 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   end
 
   def toggle_typing_status
-    user = current_user.presence || @resource
     if params[:typing_status] == 'on'
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_ON, Time.zone.now,  conversation: @conversation, user: user)
+      trigger_typing_event(CONVERSATION_TYPING_ON)
     elsif params[:typing_status] == 'off'
-      Rails.configuration.dispatcher.dispatch(CONVERSATION_TYPING_OFF, Time.zone.now, conversation: @conversation)
+      trigger_typing_event(CONVERSATION_TYPING_OFF)
     end
     head :ok
   end
@@ -41,6 +40,11 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   end
 
   private
+
+  def trigger_typing_event(event)
+    user = current_user.presence || @resource
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user)
+  end
 
   def parsed_last_seen_at
     DateTime.strptime(params[:agent_last_seen_at].to_s, '%s')

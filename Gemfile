@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.0'
+ruby '2.7.1'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -79,6 +79,9 @@ gem 'sidekiq'
 
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
+
+##-- Push notification service --##
+gem 'webpush'
 
 group :development do
   gem 'annotate'

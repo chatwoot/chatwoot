@@ -8,7 +8,7 @@
       <input
         v-model.trim="email"
         class="form-input"
-        placeholder="Please enter your email"
+        :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="{ error: $v.email.$error }"
         @input="$v.email.$touch"
         @keyup.enter="onSubmit"
