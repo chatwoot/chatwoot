@@ -1,4 +1,3 @@
-import commonHelpers from '../../../../helper/commons';
 import getters from '../../conversations/getters';
 
 describe('#getters', () => {
