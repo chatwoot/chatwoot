@@ -12,3 +12,5 @@
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
   value: 'https://www.chatwoot.com/privacy-policy'
+- name: DISPLAY_MANIFEST
+  value: true
