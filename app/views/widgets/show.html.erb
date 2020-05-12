@@ -23,6 +23,7 @@
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'
+      window.globalConfig = <%= raw GlobalConfig.get('LOGO_THUMBNAIL', 'INSTALLATION_NAME', 'WIDGET_BRAND_URL').to_json %>
     </script>
     <%= javascript_pack_tag 'widget' %>
     <%= stylesheet_pack_tag 'widget' %>

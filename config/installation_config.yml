@@ -1,2 +1,14 @@
-- name: SHOW_WIDGET_HEADER
-  value: true
+- name: LOGO_THUMBNAIL
+  value: '/brand-assets/logo_thumbnail.svg'
+- name: LOGO
+  value: '/brand-assets/logo.svg'
+- name: INSTALLATION_NAME
+  value: 'Chatwoot'
+- name: BRAND_URL
+  value: 'https://www.chatwoot.com'
+- name: WIDGET_BRAND_URL
+  value: 'https://www.chatwoot.com'
+- name: TERMS_URL
+  value: 'https://www.chatwoot.com/terms-of-service'
+- name: PRIVACY_URL
+  value: 'https://www.chatwoot.com/privacy-policy'

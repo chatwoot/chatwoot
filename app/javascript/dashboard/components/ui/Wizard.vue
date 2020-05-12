@@ -27,20 +27,23 @@
 
 <script>
 /* eslint no-console: 0 */
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
 export default {
+  mixins: [globalConfigMixin],
   props: {
     isFullwidth: Boolean,
+    items: {
+      type: Array,
+      default: () => [],
+    },
   },
-
   computed: {
     classObject() {
       return 'full-width';
     },
     activeIndex() {
       return this.items.findIndex(i => i.route === this.$route.name);
-    },
-    items() {
-      return this.$t('INBOX_MGMT.CREATE_FLOW');
     },
   },
   methods: {
