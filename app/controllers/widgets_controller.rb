@@ -1,4 +1,5 @@
 class WidgetsController < ActionController::Base
+  before_action :set_global_config
   before_action :set_web_widget
   before_action :set_token
   before_action :set_contact
@@ -7,6 +8,10 @@ class WidgetsController < ActionController::Base
   def index; end
 
   private
+
+  def set_global_config
+    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'INSTALLATION_NAME', 'WIDGET_BRAND_URL')
+  end
 
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
