@@ -53,7 +53,9 @@ class Channel::TwitterProfile < ApplicationRecord
   private
 
   def unsubscribe
-    webhooks_list = twitter_client.fetch_webhooks.body
-    twitter_client.unsubscribe_webhook(id: webhooks_list.first['id']) if webhooks_list.present?
+    unsubscribe_response = twitter_client.remove_subscription(user_id: profile_id)
+    Rails.logger.info 'TWITTER_UNSUBSCRIBE: ' + unsubscribe_response.body.to_s
+  rescue StandardError => e
+    Rails.logger e
   end
 end

@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/chatwoot/twitty
-  revision: af4f3e45dca55e42c64f7741a1fedfaa94d36419
-  specs:
-    twitty (0.1.0)
-      oauth
-
-GIT
   remote: https://github.com/sds/mock_redis
   revision: 16d00789f0341a3aac35126c0ffe97a596753ff9
   ref: 16d00789f0341a3aac35126c0ffe97a596753ff9
@@ -489,6 +482,8 @@ GEM
       faraday (~> 1.0.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
+    twitty (0.1.1)
+      oauth
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.1)
@@ -598,7 +593,7 @@ DEPENDENCIES
   telephone_number
   time_diff
   twilio-ruby (~> 5.32.0)
-  twitty!
+  twitty
   tzinfo-data
   uglifier
   valid_email2
