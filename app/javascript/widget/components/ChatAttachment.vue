@@ -51,7 +51,6 @@ export default {
   border: 0;
   cursor: pointer;
   position: relative;
-  padding-right: $space-smaller;
   width: 20px;
 
   i {
