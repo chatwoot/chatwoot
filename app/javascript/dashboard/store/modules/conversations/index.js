@@ -143,6 +143,21 @@ const mutations = {
     }
   },
 
+  [types.default.DELETE_OR_UPDATE_PENDING_MESSAGE](_state, message) {
+    const [chat] = _state.allConversations.filter(
+      c => c.id === message.conversation_id
+    );
+    if (!chat) return;
+
+    const { tempMessageId } = message;
+    const pendingMessageIndex = chat.messages.findIndex(
+      m => m.id === tempMessageId
+    );
+    if (pendingMessageIndex !== -1) {
+      chat.messages.splice(pendingMessageIndex, 1);
+    }
+  },
+
   [types.default.ADD_CONVERSATION](_state, conversation) {
     _state.allConversations.push(conversation);
   },

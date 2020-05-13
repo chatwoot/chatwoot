@@ -4,6 +4,8 @@ import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import FBChannel from '../../../api/channel/fbChannel';
+import { createTemporaryMessage } from 'dashboard/helper/commons';
+import { MESSAGE_STATUS } from 'widget/helpers/constants';
 
 // actions
 const actions = {
@@ -134,8 +136,16 @@ const actions = {
 
   sendMessage: async ({ commit }, data) => {
     try {
+      const pendingMessage = createTemporaryMessage(data);
+      const { id: tempMessageId } = pendingMessage;
+      commit(types.default.ADD_MESSAGE, pendingMessage);
       const response = await MessageApi.create(data);
-      commit(types.default.SEND_MESSAGE, response.data);
+
+      commit(types.default.DELETE_OR_UPDATE_PENDING_MESSAGE, {
+        ...response.data,
+        tempMessageId,
+        status: MESSAGE_STATUS.SUCCESS,
+      });
     } catch (error) {
       // Handle error
     }
@@ -203,8 +213,15 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
+      const pendingMessage = createTemporaryMessage(data);
+      const { id: tempMessageId } = pendingMessage;
+      commit(types.default.ADD_MESSAGE, pendingMessage);
       const response = await MessageApi.sendAttachment(data);
-      commit(types.default.SEND_MESSAGE, response.data);
+      commit(types.default.DELETE_OR_UPDATE_PENDING_MESSAGE, {
+        ...response.data,
+        tempMessageId,
+        status: MESSAGE_STATUS.SUCCESS,
+      });
     } catch (error) {
       // Handle error
     }

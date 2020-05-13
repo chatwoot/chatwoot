@@ -29,6 +29,7 @@
           @mouseleave="isHovered = false"
         />
       </p>
+      <spinner v-if="isPending" size="tiny" />
     </div>
     <!-- <img
       src="https://randomuser.me/api/portraits/women/94.jpg"
@@ -37,7 +38,10 @@
   </li>
 </template>
 <script>
+import Spinner from 'shared/components/Spinner';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { MESSAGE_STATUS } from 'widget/helpers/constants';
+
 import getEmojiSVG from '../emoji/utils';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
@@ -49,6 +53,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    Spinner,
   },
   mixins: [timeMixin, messageFormatterMixin],
   props: {
@@ -101,10 +106,15 @@ export default {
         ? { content: `Sent by: ${this.data.sender.name}`, classes: 'top' }
         : false;
     },
+    isPending() {
+      const isPending = this.data.status === MESSAGE_STATUS.PROGRESS;
+      return isPending;
+    },
     wrapClass() {
       return {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
+        'is-pending': this.isPending,
       };
     },
     bubbleClass() {
@@ -131,6 +141,22 @@ export default {
   .image {
     max-width: 32rem;
     padding: 0;
+  }
+
+  &.is-pending {
+    opacity: 0.7;
+    position: relative;
+
+    .spinner {
+      position: absolute;
+      left: -$space-slab;
+      bottom: $space-micro;
+
+      &:before {
+        border-color: $color-light-gray;
+        border-top-color: $color-woot;
+      }
+    }
   }
 }
 </style>
