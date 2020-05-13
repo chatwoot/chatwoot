@@ -5,8 +5,8 @@ class Twitter::WebhookSubscribeService
 
   def perform
     ensure_webhook
-    subscribe_response = twitter_client.subscribe_webhook
-    Rails.logger.info 'TWITTER_SUBSCRIBE: ' + register_response.body.to_s
+    subscribe_response = twitter_client.create_subscription
+    Rails.logger.info 'TWITTER_SUBSCRIBE: ' + subscribe_response.body.to_s
     raise StandardError, 'Twitter Subscription Failed' unless subscribe_response.status == '200'
 
     true
@@ -27,16 +27,16 @@ class Twitter::WebhookSubscribeService
 
   def ensure_webhook
     webhooks = fetch_webhooks
-    return true if webhooks.first['url'] == twitter_url
+    return true if webhooks&.first&.try(:[], 'url') == twitter_url
 
     # twitter supports only one webhook url per environment
     # so we will delete the existing one if its not chatwoot
-    unregister_webhook(webhook.first)
+    unregister_webhook(webhooks.first) if webhooks&.first
     register_webhook
   end
 
   def unregister_webhook(webhook)
-    unregister_response = twitter_client.unregister_webhook(id: webhook['id'])
+    unregister_response = twitter_client.unregister_webhook(id: webhook.try(:[], 'id'))
     Rails.logger.info 'TWITTER_UNREGISTER_WEBHOOK: ' + unregister_response.body.to_s
   end
 
