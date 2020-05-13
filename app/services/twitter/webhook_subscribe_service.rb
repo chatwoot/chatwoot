@@ -5,9 +5,10 @@ class Twitter::WebhookSubscribeService
 
   def perform
     ensure_webhook
-    subscribe_response = twitter_client.create_subscription
-    Rails.logger.info 'TWITTER_SUBSCRIBE: ' + subscribe_response.body.to_s
-    raise StandardError, 'Twitter Subscription Failed' unless subscribe_response.status == '200'
+    unless subscription?
+      subscribe_response = twitter_client.create_subscription
+      raise StandardError, 'Twitter Subscription Failed' unless subscribe_response.status == '204'
+    end
 
     true
   end
@@ -43,6 +44,11 @@ class Twitter::WebhookSubscribeService
   def register_webhook
     register_response = twitter_client.register_webhook(url: twitter_url)
     Rails.logger.info 'TWITTER_UNREGISTER_WEBHOOK: ' + register_response.body.to_s
+  end
+
+  def subscription?
+    response = twitter_client.fetch_subscriptions
+    response.status == '204'
   end
 
   def fetch_webhooks

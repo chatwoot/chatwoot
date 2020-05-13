@@ -53,6 +53,7 @@ class Channel::TwitterProfile < ApplicationRecord
   private
 
   def unsubscribe
+    ### Fix unsubscription with new endpoint
     unsubscribe_response = twitter_client.remove_subscription(user_id: profile_id)
     Rails.logger.info 'TWITTER_UNSUBSCRIBE: ' + unsubscribe_response.body.to_s
   rescue StandardError => e
