@@ -1,14 +1,14 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Vorgefertigte Antworten",
-    "HEADER_BTN_TXT": "Eingemachte Antwort hinzufügen",
-    "LOADING": "Eingemachte Antworten abrufen",
+    "HEADER_BTN_TXT": "Vorgefertigte Antwort hinzufügen",
+    "LOADING": "Vorgefertigte Antworten abrufen",
     "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
-    "SIDEBAR_TXT": "<p> <b> Eingemachte Antworten </b> </p> <p> Eingemachte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell eine Antwort auf eine Konversation gesendet werden kann. </p> <p> Um eine vordefinierte Antwort zu erstellen, klicken Sie einfach auf <b> vordefinierte Antwort hinzufügen </b>. Sie können eine vorhandene gespeicherte Antwort auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken. </p> <p> Gespeicherte Antworten werden mithilfe von <b> Funktionscodes </b> verwendet. Agenten können während eines Chats auf vordefinierte Antworten zugreifen, indem sie <b> '/' </b> gefolgt vom Funktionscode eingeben. </p>",
+    "SIDEBAR_TXT": "<p> <b> Vorgefertigte Antworten </b> </p> <p> Vorgefertigte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell eine Antwort auf eine Konversation gesendet werden kann. </p> <p> Um eine vordefinierte Antwort zu erstellen, klicken Sie einfach auf <b> vordefinierte Antwort hinzufügen </b>. Sie können eine vorhandene gespeicherte Antwort auch bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken. </p> <p> Gespeicherte Antworten werden mithilfe von <b> Funktionscodes </b> verwendet. Agenten können während eines Chats auf vordefinierte Antworten zugreifen, indem sie <b> '/' </b> gefolgt vom Funktionscode eingeben. </p>",
     "LIST": {
       "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
       "TITLE": "Verwalten Sie vordefinierte Antworten",
-      "DESC": "Eingemachte Antworten sind vordefinierte Antwortvorlagen, mit denen schnell Antworten auf Tickets gesendet werden können.",
+      "DESC": "Vorgefertigte Antworten sind vordefinierte Antwortvorlagen, mit denen schnell Antworten auf Tickets gesendet werden können.",
       "TABLE_HEADER": [
         "Funktionscode",
         "Inhalt",
@@ -16,7 +16,7 @@
       ]
     },
     "ADD": {
-      "TITLE": "Eingemachte Antwort hinzufügen",
+      "TITLE": "Vorgefertigte Antwort hinzufügen",
       "DESC": "Gespeicherte Antworten sind gespeicherte Antwortvorlagen, mit denen schnell Antworten auf Konversationen gesendet werden können.",
       "FORM": {
         "SHORT_CODE": {
@@ -32,12 +32,12 @@
         "SUBMIT": "Einreichen"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Eingemachte Antwort erfolgreich hinzugefügt",
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort erfolgreich hinzugefügt",
         "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "EDIT": {
-      "TITLE": "Eingemachte Antwort bearbeiten",
+      "TITLE": "Vorgefertigte Antwort bearbeiten",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Funktionscode",
@@ -53,14 +53,14 @@
       },
       "BUTTON_TEXT": "Bearbeiten",
       "API": {
-        "SUCCESS_MESSAGE": "Eingemachte Antwort erfolgreich aktualisiert",
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Eingemachte Antwort erfolgreich gelöscht",
+        "SUCCESS_MESSAGE": "Vorgefertigte Antwort erfolgreich gelöscht",
         "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
       },
       "CONFIRM": {
