@@ -12,7 +12,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
   rescue StandardError => e
-    Rails.logger e
+    Rails.logger.info e
     redirect_to twitter_app_redirect_url
   end
 
