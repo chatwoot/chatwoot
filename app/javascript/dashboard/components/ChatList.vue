@@ -157,11 +157,7 @@ export default {
       } else {
         copyList = this.allChatList.slice();
       }
-      const sorted = copyList.sort(
-        (a, b) =>
-          this.lastMessage(b).created_at - this.lastMessage(a).created_at
-      );
-      return sorted;
+      return copyList;
     },
   },
 };
