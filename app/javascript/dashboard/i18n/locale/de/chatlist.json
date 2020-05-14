@@ -12,17 +12,17 @@
     },
     "STATUS_TABS": [
       {
-        "NAME": "Offen",
+        "NAME": "Öffnen",
         "KEY": "openCount"
       },
       {
-        "NAME": "Gelöst",
+        "NAME": "Aufgelöst",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Meine",
+        "NAME": "Bergwerk",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
@@ -39,11 +39,11 @@
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Offen",
+        "TEXT": "Öffnen",
         "VALUE": "open"
       },
       {
-        "TEXT": "Gelöst",
+        "TEXT": "Aufgelöst",
         "VALUE": "resolved"
       }
     ],
