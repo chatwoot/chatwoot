@@ -8,6 +8,7 @@ class Notification::PushNotificationService
 
     notification_subscriptions.each do |subscription|
       send_browser_push(subscription) if subscription.browser_push?
+      send_fcm_push(subscription) if subscription.fcm?
     end
   end
 
@@ -69,5 +70,15 @@ class Notification::PushNotificationService
     )
   rescue Webpush::ExpiredSubscription
     subscription.destroy!
+  end
+
+  def fcm_push(subscription)
+    fcm = FCM.new(ENV['FCM_SERVER_KEY'])
+    options = { "notification": {
+      "title": notification.notification_type.titleize,
+      "body": push_message_title
+    } }
+    response = fcm.send(registration_ids, options)
+    subscription.destroy! if response.status_code == 'DEVICE_UNREGISTERED'
   end
 end

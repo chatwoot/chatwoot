@@ -22,7 +22,7 @@ class NotificationSubscription < ApplicationRecord
 
   SUBSCRIPTION_TYPES = {
     browser_push: 1,
-    gcm: 2
+    fcm: 2
   }.freeze
 
   enum subscription_type: SUBSCRIPTION_TYPES
