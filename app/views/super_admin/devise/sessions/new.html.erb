@@ -17,6 +17,9 @@
           <div class="small-12 medium-4 column">
             <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'login-box column align-self-top'}) do |f| %>
               <div class="column log-in-form">
+                <% if flash[:error].present? %>
+                <div data-alert class="alert-box warning"><%= flash[:error] %></div>
+                <% end %>
                 <label>
                   Email
                   <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email eg: someone@example.com" %>
