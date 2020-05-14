@@ -1,0 +1,46 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Accountinstellingen",
+    "SUBMIT": "Instellingen bijwerken",
+    "UPDATE": {
+      "ERROR": "Instellingen konden niet worden bijgewerkt, probeer het opnieuw!",
+      "SUCCESS": "Accountinstellingen succesvol bijgewerkt"
+    },
+    "FORM": {
+      "ERROR": "Corrigeer formulierfouten",
+      "GENERAL_SECTION": {
+        "TITLE": "Algemene instellingen",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "accountnaam",
+        "PLACEHOLDER": "Uw accountnaam",
+        "ERROR": "Voer een geldige accountnaam in"
+      },
+      "LANGUAGE": {
+        "LABEL": "Website taal (Beta)",
+        "PLACEHOLDER": "Uw accountnaam",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domeinnaam",
+        "PLACEHOLDER": "Domeinnaam website",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mailadres support",
+        "PLACEHOLDER": "E-mailadres support van uw bedrijf",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "E-mail voor domein activeren",
+        "PLACEHOLDER": "Aangepaste e-mail voor domein activeren",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Ingeschakeld",
+          "DISABLED": "Uitgeschakeld"
+        }
+      }
+    }
+  }
+}
