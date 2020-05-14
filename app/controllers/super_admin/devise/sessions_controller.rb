@@ -6,7 +6,7 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
   end
 
   def create
-    return unless valid_credentials?
+    redirect_to(super_admin_session_path, flash: { error: @error_message }) && return unless valid_credentials?
 
     sign_in(@super_admin, scope: :super_admin)
     flash.discard
@@ -23,6 +23,11 @@ class SuperAdmin::Devise::SessionsController < Devise::SessionsController
 
   def valid_credentials?
     @super_admin = SuperAdmin.find_by!(email: params[:super_admin][:email])
-    @super_admin.valid_password?(params[:super_admin][:password])
+    raise StandardError, 'Invalid Password' unless @super_admin.valid_password?(params[:super_admin][:password])
+
+    true
+  rescue StandardError => e
+    @error_message = e.message
+    false
   end
 end
