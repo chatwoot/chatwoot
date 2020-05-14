@@ -2,25 +2,19 @@
   <div class="wizard-body columns content-box small-9">
     <div v-if="!hasLoginStarted" class="login-init full-height">
       <a href="#" @click="startLogin()">
-        <img
-          src="~dashboard/assets/images/channels/facebook_login.png"
-          alt="Facebook-logo"
-        />
+        <img src="~dashboard/assets/images/channels/facebook_login.png" alt="Facebook-logo" />
       </a>
       <p>
         {{
-          useInstallationName(
-            $t('INBOX_MGMT.ADD.FB.HELP'),
-            globalConfig.installationName
-          )
+        useInstallationName(
+        $t('INBOX_MGMT.ADD.FB.HELP'),
+        globalConfig.installationName
+        )
         }}
       </p>
     </div>
     <div v-else>
-      <loading-state
-        v-if="showLoader"
-        :message="emptyStateMessage"
-      ></loading-state>
+      <loading-state v-if="showLoader" :message="emptyStateMessage"></loading-state>
       <form v-if="!showLoader" class="row" @submit.prevent="createChannel()">
         <div class="medium-12 columns">
           <page-header
@@ -45,12 +39,10 @@
                 track-by="id"
                 label="name"
                 placeholder="Pick a value"
-                selected-label=""
+                selected-label
                 @select="setPageName"
               />
-              <span v-if="$v.selectedPage.$error" class="message">
-                Select a page from the list
-              </span>
+              <span v-if="$v.selectedPage.$error" class="message">Select a page from the list</span>
             </div>
           </div>
           <div class="medium-12 columns">
@@ -62,9 +54,7 @@
                 placeholder="Pick A Name Your Inbox"
                 @input="$v.pageName.$touch"
               />
-              <span v-if="$v.pageName.$error" class="message">
-                Add a name for your inbox
-              </span>
+              <span v-if="$v.pageName.$error" class="message">Add a name for your inbox</span>
             </label>
           </div>
           <div class="medium-12 columns text-right">
@@ -166,7 +156,7 @@ export default {
           FB.init({
             appId: window.chatwootConfig.fbAppId,
             xfbml: true,
-            version: 'v4.0',
+            version: 'v7.0',
             status: true,
           });
           window.fbSDKLoaded = true;
@@ -209,7 +199,8 @@ export default {
           }
         },
         {
-          scope: 'manage_pages,pages_messaging,pages_messaging_phone_number',
+          scope:
+            'pages_read_engagement,pages_read_user_content,pages_messaging,pages_messaging_phone_number',
         }
       );
     },

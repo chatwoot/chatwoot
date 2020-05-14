@@ -85,7 +85,7 @@ class Inbox < ApplicationRecord
   end
 
   def subscribe_webhook
-    Facebook::Messenger::Subscriptions.subscribe(
+    response = Facebook::Messenger::Subscriptions.subscribe(
       access_token: channel.page_access_token,
       subscribed_fields: %w[
         messages messaging_postbacks messaging_optins message_deliveries
