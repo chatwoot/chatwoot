@@ -120,13 +120,19 @@ const actions = {
     }
   },
 
-  toggleStatus: async ({ commit }, data) => {
+  toggleStatus: async ({ commit, dispatch, getters }, data) => {
     try {
+      const nextChat = getters.getNextChatConversation;
       const response = await ConversationApi.toggleStatus(data);
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
       );
+      if (nextChat) {
+        dispatch('setActiveChat', nextChat);
+      } else {
+        dispatch('clearSelectedState');
+      }
     } catch (error) {
       // Handle error
     }
