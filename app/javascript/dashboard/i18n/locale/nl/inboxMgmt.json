@@ -1,0 +1,176 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Inboxen",
+    "SIDEBAR_TXT": "<p><b>Inboxen</b></p> <p> Wanneer u een website of een Facebook-pagina verbindt met Chatwoot, het heet een <b>inbox</b>. U kunt een oneindig aantal inboxen hebben in uw Chatwoot account. </p><p> Klik op <b>Voeg Postvak in</b> toe om een website of een Facebook-pagina te verbinden. </p><p> in het <a href=\"/app/dashboard\">Dashboard</a>, u kunt alle gesprekken van al uw inboxen op één plek zien en erop reageren onder het `Conversations` tabblad. </p><p> U kunt ook gesprekken zien die specifiek zijn voor een inbox door te klikken op de naam van de inbox op het linkerpaneel van het dashboard. </p>",
+    "LIST": {
+      "404": "Er zijn geen inboxen aan dit account gekoppeld."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Kies kanaal",
+        "route": "settings_inbox_new",
+        "body": "Kies de aanbieder die je wilt integreren met Chatwoot."
+      },
+      {
+        "title": "Maak inbox",
+        "route": "settings_inboxes_page_channel",
+        "body": "Verifieer je account en maak een inbox."
+      },
+      {
+        "title": "Agenten toevoegen",
+        "route": "settings_inboxes_add_agents",
+        "body": "Voeg agenten toe aan de aangemaakte inbox."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Je bent helemaal klaar om te beginnen!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten."
+      },
+      "TWITTER": {
+        "HELP": "Om uw Twitterprofiel als kanaal toe te voegen moet u uw Twitterprofiel verifiëren door te klikken op 'Meld je aan met Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Website kanaal",
+        "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
+        "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
+        "CHANNEL_NAME": {
+          "LABEL": "Website naam",
+          "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Website domein",
+          "PLACEHOLDER": "Voer uw website domein in (bv. acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welkom op titel",
+          "PLACEHOLDER": "Hallo daar!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welkom Tagline",
+          "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
+        },
+        "CHANNEL_AGENT_AWAY_MESSAGE": {
+          "LABEL": "Agents Afwezig Bericht",
+          "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Kleur van widget",
+          "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
+        },
+        "SUBMIT_BUTTON": "Postvak in maken"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp-kanaal",
+        "DESC": "Integreer Twilio en ondersteun uw klanten via SMS of Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Klant SID",
+          "PLACEHOLDER": "Voer uw Twilio Account-ID in",
+          "ERROR": "Dit veld is verplicht"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Kanaaltype",
+          "ERROR": "Selecteer uw kanaaltype"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Authenticatie Token",
+          "PLACEHOLDER": "Voer je Twilio Auth Token in",
+          "ERROR": "Dit veld is verplicht"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in",
+          "ERROR": "Dit veld is verplicht"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefoon nummer",
+          "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
+          "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "U moet de callback URL voor berichten configureren in Twilio met de URL die hier wordt vermeld."
+        },
+        "SUBMIT_BUTTON": "Twilio-kanaal aanmaken",
+        "API": {
+          "ERROR_MESSAGE": "Het is niet gelukt om Twilio referenties te verifiëren, probeer het opnieuw"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Kanalen",
+        "DESC": "Momenteel ondersteunen we website live chat widgets, Facebook pagina's en Twitter-profielen als platformen. We hebben meer platforms zoals Whatsapp, E-mail, Telegram en Lijn in de werken, die binnenkort zullen verschijnen."
+      },
+      "AGENTS": {
+        "TITLE": "Agenten",
+        "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt."
+      },
+      "DETAILS": {
+        "TITLE": "Details inbox",
+        "DESC": "Selecteer de Facebook-pagina die je wilt verbinden met Chatwood uit de dropdown hieronder. U kunt ook een aangepaste naam geven aan uw inbox voor een betere identificatie."
+      },
+      "FINISH": {
+        "TITLE": "Geïnstalleerd het!",
+        "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op Chatwoot.<br>Koel, toch? Wel, proberen we zeker om te zijn :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Verifiëren met Facebook...",
+      "ERROR_FB_AUTH": "Er ging iets mis, gelieve pagina te vernieuwen...",
+      "CREATING_CHANNEL": "Uw postvak wordt gemaakt...",
+      "TITLE": "Configureer Postvak in details",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Voeg agenten toe",
+      "ADD_AGENTS": "Agents toevoegen aan uw Postvak IN..."
+    },
+    "FINISH": {
+      "TITLE": "Uw postvak is klaar!",
+      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning ",
+      "BUTTON_TEXT": "Breng me ernaar toe",
+      "WEBSITE_SUCCESS": "Het aanmaken van een website kanaal is gelukt. Kopieer de code hieronder weergegeven en plak deze op uw website. De volgende keer dat een klant de live chat gebruikt, verschijnt het gesprek automatisch op uw inbox."
+    },
+    "REAUTH": "Autoriseer",
+    "VIEW": "Bekijken",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox instellingen succesvol bijgewerkt",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische toewijzing succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Kan de kleur van de widget niet bijwerken. Probeer het later opnieuw."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Bewaar het "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox succesvol verwijderd",
+        "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw."
+      }
+    },
+    "SETTINGS": "Instellingen",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Plaats deze knop in je lichaam tag",
+      "INBOX_AGENTS": "Agenten",
+      "INBOX_AGENTS_SUB_TEXT": "Voeg agenten toe of verwijder ze uit deze inbox",
+      "UPDATE": "Vernieuwen",
+      "AUTO_ASSIGNMENT": "Automatische toewijzing inschakelen",
+      "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
+      "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd."
+    }
+  }
+}
