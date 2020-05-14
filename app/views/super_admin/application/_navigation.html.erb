@@ -12,9 +12,8 @@ as defined by the routes in the `admin/` namespace
 
 
 <nav class="navigation" role="navigation">
-  <%= link_to "Back to app", root_url, class: "button button--alt" %>
-  <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
-
+  <%= link_to "Dashboard", super_admin_root_url, class: "button button--alt" %>
+ 
   <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
     <%= link_to(
       display_resource_name(resource),
@@ -24,4 +23,8 @@ as defined by the routes in the `admin/` namespace
   <% end %>
 
   <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %>
+  
+  <div style="margin-top: 300px;">
+    <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
+  </div>
 </nav>
