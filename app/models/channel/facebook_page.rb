@@ -39,6 +39,9 @@ class Channel::FacebookPage < ApplicationRecord
         messages message_deliveries message_echoes message_reads
       ]
     )
+  rescue => e
+    Rails.logger.debug "Rescued: #{e.inspect}"
+    true
   end
 
   def unsubscribe
