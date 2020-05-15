@@ -114,3 +114,14 @@ LOG_LEVEL=
 # value in megabytes
 LOG_SIZE= 1024
 ```
+
+### Push Notification
+
+Chatwoot uses browser push for push notification on the dashboard. Inorder to get the push notifications working you have to setup the following [VAPID](https://tools.ietf.org/html/draft-thomson-webpush-vapid-02) keys.
+
+```bash
+VAPID_PUBLIC_KEY=
+VAPID_PRIVATE_KEY=
+```
+
+You can generate a VAPID key from https://d3v.one/vapid-key-generator/
