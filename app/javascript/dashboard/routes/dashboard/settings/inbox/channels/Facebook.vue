@@ -200,7 +200,7 @@ export default {
         },
         {
           scope:
-            'pages_read_engagement,pages_read_user_content,pages_messaging,pages_messaging_phone_number',
+            'pages_manage_metadata pages_messaging',
         }
       );
     },
