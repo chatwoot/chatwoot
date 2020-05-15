@@ -117,11 +117,21 @@ LOG_SIZE= 1024
 
 ### Push Notification
 
-Chatwoot uses browser push for push notification on the dashboard. Inorder to get the push notifications working you have to setup the following [VAPID](https://tools.ietf.org/html/draft-thomson-webpush-vapid-02) keys.
+Chatwoot uses web push for push notification on the dashboard. Inorder to get the push notifications working you have to setup the following [VAPID](https://tools.ietf.org/html/draft-thomson-webpush-vapid-02) keys.
 
 ```bash
 VAPID_PUBLIC_KEY=
 VAPID_PRIVATE_KEY=
 ```
 
-You can generate a VAPID key from https://d3v.one/vapid-key-generator/
+If you are comfortable with the Rails console, you could run `rails console` and run the following commands
+
+```rb
+vapid_key = Webpush.generate_key
+
+# Copy the following to environment variables
+vapid_key.public_key
+vapid_key.private_key
+```
+
+Or you can generate a VAPID key from https://d3v.one/vapid-key-generator/
