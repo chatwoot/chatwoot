@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
-    Vue.config.lang = locale;
+    this.setLocale(locale);
 
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
@@ -58,6 +58,8 @@ export default {
         this.$store.dispatch('conversationLabels/destroy', message.label);
       } else if (message.event === 'set-user') {
         this.$store.dispatch('contacts/update', message);
+      } else if (message.event === 'set-locale') {
+        this.setLocale(message.locale);
       }
     });
 
@@ -70,6 +72,12 @@ export default {
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
+    },
+    setLocale(locale) {
+      const { enabledLanguages } = window.chatwootWebChannel;
+      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
+        Vue.config.lang = locale;
+      }
     },
   },
 };

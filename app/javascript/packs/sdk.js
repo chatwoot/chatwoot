@@ -36,6 +36,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.sendMessage('remove-label', { label });
     },
 
+    setLocale(locale = 'en') {
+      IFrameHelper.sendMessage('set-locale', { locale });
+    },
+
     reset() {
       if (window.$chatwoot.isOpen) {
         IFrameHelper.events.toggleBubble();
