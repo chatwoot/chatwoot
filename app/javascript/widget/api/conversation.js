@@ -13,10 +13,27 @@ const sendAttachmentAPI = async attachment => {
   return result;
 };
 
-const getConversationAPI = async ({ before }) => {
+const getMessagesAPI = async ({ before }) => {
   const urlData = endPoints.getConversation({ before });
   const result = await API.get(urlData.url, { params: urlData.params });
   return result;
 };
 
-export { sendMessageAPI, getConversationAPI, sendAttachmentAPI };
+const getConversationAPI = async () => {
+  return API.get(`/api/v1/widget/conversations${window.location.search}`);
+};
+
+const toggleTyping = async ({ typingStatus }) => {
+  return API.post(
+    `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
+    { typing_status: typingStatus }
+  );
+};
+
+export {
+  sendMessageAPI,
+  getConversationAPI,
+  getMessagesAPI,
+  sendAttachmentAPI,
+  toggleTyping,
+};

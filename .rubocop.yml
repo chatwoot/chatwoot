@@ -13,7 +13,7 @@ Layout/LineLength:
 Metrics/ClassLength:
   Max: 125
 RSpec/ExampleLength:
-  Max: 15
+  Max: 25
 Style/Documentation:
   Enabled: false
 Style/FrozenStringLiteralComment:
@@ -30,6 +30,7 @@ Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'
     - 'lib/redis/alfred.rb'
+    - 'lib/global_config.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -94,6 +95,8 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+RSpec/NamedSubject:
+  Enabled: false
 AllCops:
   Exclude:
     - 'bin/**/*'

@@ -8,6 +8,7 @@
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
+#  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -53,7 +54,7 @@ class Conversation < ApplicationRecord
 
   before_create :set_bot_conversation
 
-  after_update :notify_status_change, :create_activity, :send_email_notification_to_assignee
+  after_update :notify_status_change, :create_activity
 
   after_create :notify_conversation_creation, :run_round_robin
 
@@ -105,16 +106,6 @@ class Conversation < ApplicationRecord
     }
   end
 
-  private
-
-  def set_bot_conversation
-    self.status = :bot if inbox.agent_bot_inbox&.active?
-  end
-
-  def notify_conversation_creation
-    dispatcher_dispatch(CONVERSATION_CREATED)
-  end
-
   def notifiable_assignee_change?
     return false if self_assign?(assignee_id)
     return false unless saved_change_to_assignee_id?
@@ -123,12 +114,14 @@ class Conversation < ApplicationRecord
     true
   end
 
-  def send_email_notification_to_assignee
-    return unless notifiable_assignee_change?
-    return if assignee.notification_settings.find_by(account_id: account_id).not_conversation_assignment?
-    return if bot?
+  private
 
-    AgentNotifications::ConversationNotificationsMailer.conversation_assigned(self, assignee).deliver_later
+  def set_bot_conversation
+    self.status = :bot if inbox.agent_bot_inbox&.active?
+  end
+
+  def notify_conversation_creation
+    dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
   def self_assign?(assignee_id)
@@ -188,7 +181,7 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
-    content = I18n.t("conversations.activity.assignee.#{key}", params)
+    content = I18n.t("conversations.activity.assignee.#{key}", **params)
 
     messages.create(activity_message_params(content))
   end

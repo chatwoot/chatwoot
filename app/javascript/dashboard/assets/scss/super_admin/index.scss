@@ -1,0 +1,15 @@
+@import '../variables';
+
+.superadmin-body {
+  background: $color-background;
+}
+
+.alert-box {
+  background-color: $alert-color;
+  border-radius: 5px;
+  color: $color-white;
+  font-size: 14px;
+  margin-bottom: 14px;
+  padding: 10px;
+  text-align: center;
+}

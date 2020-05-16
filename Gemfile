@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.0'
+ruby '2.7.1'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -17,6 +17,7 @@ gem 'jbuilder'
 gem 'kaminari'
 gem 'responders'
 gem 'rest-client'
+gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
@@ -48,13 +49,12 @@ gem 'devise_token_auth'
 # authorization
 gem 'jwt'
 gem 'pundit'
+# super admin
+gem 'administrate'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
-
-##--- gems for reporting ---##
-gem 'nightfury'
 
 ##--- gems for billing ---##
 gem 'chargebee'
@@ -64,7 +64,8 @@ gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
-gem 'twitty', git: 'https://github.com/chatwoot/twitty'
+# gem 'twitty', git: 'https://github.com/chatwoot/twitty'
+gem 'twitty'
 # facebook client
 gem 'koala'
 # slack client
@@ -83,6 +84,9 @@ gem 'sidekiq'
 
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
+
+##-- Push notification service --##
+gem 'webpush'
 
 group :development do
   gem 'annotate'

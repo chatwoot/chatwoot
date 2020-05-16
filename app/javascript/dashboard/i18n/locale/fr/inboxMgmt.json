@@ -65,12 +65,16 @@
         "SUBMIT_BUTTON": "Créer une boîte de réception"
       },
       "TWILIO": {
-        "TITLE": "Canal SMS Twilio",
-        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS.",
+        "TITLE": "Canal Twilio SMS/WhatsApp",
+        "DESC": "Intégrez Twilio et commencez à aider vos clients par SMS ou WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID du compte",
           "PLACEHOLDER": "Veuillez entrer le SID de votre compte Twilio",
           "ERROR": "Ce champ est requis"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Type de canal",
+          "ERROR": "Veuillez sélectionner votre type de canal"
         },
         "AUTH_TOKEN": {
           "LABEL": "Jeton d'authentification",
@@ -86,6 +90,10 @@
           "LABEL": "Numéro de téléphone",
           "PLACEHOLDER": "Veuillez entrer le numéro de téléphone à partir duquel le message sera envoyé.",
           "ERROR": "Veuillez entrer une valeur valide. Le numéro de téléphone doit commencer par le signe `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de rappel (callback)",
+          "SUBTITLE": "Vous devez configurer l'URL de rappel (callback) du message dans Twilio avec l'URL mentionnée ici."
         },
         "SUBMIT_BUTTON": "Créer le canal Twilio",
         "API": {

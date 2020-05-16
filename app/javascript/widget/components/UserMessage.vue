@@ -1,24 +1,26 @@
 <template>
-  <div class="user-message">
-    <div class="message-wrap" :class="{ 'in-progress': isInProgress }">
-      <UserMessageBubble
-        v-if="showTextBubble"
-        :message="message.content"
-        :status="message.status"
-      />
-      <div v-if="hasAttachments" class="chat-bubble has-attachment user">
-        <div v-for="attachment in message.attachments" :key="attachment.id">
-          <file-bubble
-            v-if="attachment.file_type !== 'image'"
-            :url="attachment.data_url"
-            :is-in-progress="isInProgress"
-          />
-          <image-bubble
-            v-else
-            :url="attachment.data_url"
-            :thumb="attachment.thumb_url"
-            :readable-time="readableTime"
-          />
+  <div class="user-message-wrap">
+    <div class="user-message">
+      <div class="message-wrap" :class="{ 'in-progress': isInProgress }">
+        <UserMessageBubble
+          v-if="showTextBubble"
+          :message="message.content"
+          :status="message.status"
+        />
+        <div v-if="hasAttachments" class="chat-bubble has-attachment user">
+          <div v-for="attachment in message.attachments" :key="attachment.id">
+            <file-bubble
+              v-if="attachment.file_type !== 'image'"
+              :url="attachment.data_url"
+              :is-in-progress="isInProgress"
+            />
+            <image-bubble
+              v-else
+              :url="attachment.data_url"
+              :thumb="attachment.thumb_url"
+              :readable-time="readableTime"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -80,16 +82,6 @@ export default {
     max-width: 85%;
     text-align: right;
 
-    & + .user-message {
-      margin-bottom: $space-micro;
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-    & + .agent-message {
-      margin-top: $space-normal;
-      margin-bottom: $space-micro;
-    }
     .message-wrap {
       margin-right: $space-small;
     }
@@ -103,13 +95,28 @@ export default {
     padding: 0;
     overflow: hidden;
   }
+
   .user.has-attachment {
     .icon-wrap {
       color: $color-white;
     }
 
     .download {
-      opacity: 0.8;
+      color: $color-white;
+    }
+  }
+
+  .user-message-wrap {
+    + .user-message-wrap {
+      margin-top: $space-micro;
+
+      .user-message .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+
+    + .agent-message-wrap {
+      margin-top: $space-normal;
     }
   }
 }

@@ -1,5 +1,5 @@
 # pre-build stage
-FROM ruby:2.7.0-alpine AS pre-builder
+FROM ruby:2.7.1-alpine AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
@@ -36,7 +36,7 @@ COPY Gemfile Gemfile.lock ./
 
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  bundle install -j 4 -r 3 --without development test; \
+  bundle config set without 'development test'; bundle install -j 4 -r 3; \
   else bundle install -j 4 -r 3; \
   fi
 
@@ -51,7 +51,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # final build stage
-FROM ruby:2.7.0-alpine
+FROM ruby:2.7.1-alpine
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
@@ -82,9 +82,13 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
 
-# Remove unecessary files
+# Remove unnecessary files
 RUN rm -rf /gems/ruby/2.7.0/cache/*.gem \
   && find /gems/ruby/2.7.0/gems/ -name "*.c" -delete \
   && find /gems/ruby/2.7.0/gems/ -name "*.o" -delete
+
+# creating a log directory so that image wont fail when  RAILS_LOG_TO_STDOUT is false
+# https://github.com/chatwoot/chatwoot/issues/701
+RUN mkdir -p /app/log
 
 WORKDIR /app

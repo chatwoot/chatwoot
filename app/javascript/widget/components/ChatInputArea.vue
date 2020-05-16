@@ -5,6 +5,8 @@
       :placeholder="placeholder"
       :value="value"
       @input="$emit('input', $event.target.value)"
+      @focus="onFocus"
+      @blur="onBlur"
     />
   </resizable-textarea>
 </template>
@@ -17,8 +19,25 @@ export default {
     ResizableTextarea,
   },
   props: {
-    placeholder: String,
-    value: String,
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    value: {
+      type: String,
+      default: '',
+    },
+  },
+  methods: {
+    onBlur() {
+      this.toggleTyping('off');
+    },
+    onFocus() {
+      this.toggleTyping('on');
+    },
+    toggleTyping(typingStatus) {
+      this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
+    },
   },
 };
 </script>

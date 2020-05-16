@@ -41,6 +41,7 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
@@ -48,6 +49,7 @@ Rails.application.routes.draw do
           end
           member do
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end
@@ -76,18 +78,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
-
-        resources :reports, only: [] do
-          collection do
-            get :account
-            get :agent
-          end
-          member do
-            get :account_summary
-            get :agent_summary
-          end
-        end
 
         # this block is only required if subscription via chargebee is enabled
         resources :subscriptions, only: [:index] do
@@ -110,6 +102,7 @@ Rails.application.routes.draw do
       end
 
       resource :profile, only: [:show, :update]
+      resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]
 
@@ -117,6 +110,11 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
+        resources :conversations do
+          collection do
+            post :toggle_typing
+          end
+        end
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
@@ -171,23 +169,28 @@ Rails.application.routes.draw do
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
   # ----------------------------------------------------------------------
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
+
+  # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
 
-  scope :monitoring do
-    # Sidekiq should use basic auth in production environment
-    if Rails.env.production?
-      Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-        ENV['SIDEKIQ_AUTH_USERNAME'] &&
-          ENV['SIDEKIQ_AUTH_PASSWORD'] &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_USERNAME'])) &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_PASSWORD']))
-      end
-    end
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_scope :super_admin do
+    get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
+    namespace :super_admin do
+      resources :users
+      resources :accounts
+      resources :account_users
+      resources :super_admins
+      resources :access_tokens
 
-    mount Sidekiq::Web, at: '/sidekiq'
+      root to: 'users#index'
+    end
+    authenticated :super_admin do
+      mount Sidekiq::Web => '/monitoring/sidekiq'
+    end
   end
 
   # ---------------------------------------------------------------------

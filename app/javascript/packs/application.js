@@ -26,6 +26,10 @@ import router from '../dashboard/routes';
 import store from '../dashboard/store';
 import vueActionCable from '../dashboard/helper/actionCable';
 import constants from '../dashboard/constants';
+import {
+  verifyServiceWorkerExistence,
+  registerSubscription,
+} from '../dashboard/helper/pushHelper';
 
 Vue.config.env = process.env;
 
@@ -66,15 +70,12 @@ window.onload = () => {
   vueActionCable.init();
 };
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker
-      .register('/sw.js')
-      .then(registration => {
-        console.log('SW registered: ', registration);
-      })
-      .catch(registrationError => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
-}
+window.addEventListener('load', () => {
+  verifyServiceWorkerExistence(registration =>
+    registration.pushManager.getSubscription().then(subscription => {
+      if (subscription) {
+        registerSubscription();
+      }
+    })
+  );
+});

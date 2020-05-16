@@ -1,4 +1,11 @@
-account = Account.create!(name: 'Acme Inc')
+# loading installation configs
+ConfigLoader.new.process
+
+account = Account.create!(
+  name: 'Acme Inc',
+  domain: 'support.chatwoot.com',
+  support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+)
 
 user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
 user.skip_confirmation!

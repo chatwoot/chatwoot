@@ -1,5 +1,8 @@
 <template>
-  <div class="agent-bubble">
+  <div
+    class="agent-message-wrap"
+    :class="{ 'has-response': hasRecordedResponse }"
+  >
     <div class="agent-message">
       <div class="avatar-wrap">
         <thumbnail
@@ -50,6 +53,7 @@ import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import configMixin from '../mixins/configMixin';
 
 export default {
   name: 'AgentMessage',
@@ -60,7 +64,7 @@ export default {
     UserMessage,
     FileBubble,
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, configMixin],
   props: {
     message: {
       type: Object,
@@ -108,12 +112,18 @@ export default {
     },
     avatarUrl() {
       // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png')
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const displayImage = this.useInboxAvatarForBot
+        ? this.inboxAvatarUrl
+        : BotImage;
+
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return BotImage;
+        return displayImage;
       }
 
-      return this.message.sender ? this.message.sender.avatar_url : BotImage;
+      return this.message.sender
+        ? this.message.sender.avatar_url
+        : displayImage;
     },
     hasRecordedResponse() {
       return (
@@ -146,17 +156,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .conversation-wrap {
-  .agent-bubble {
-    margin-bottom: $space-micro;
-    & + .agent-bubble {
-      .agent-message {
-        .chat-bubble {
-          border-top-left-radius: $space-smaller;
-        }
-      }
-    }
-  }
-
   .agent-message {
     align-items: flex-end;
     display: flex;
@@ -164,10 +163,6 @@ export default {
     justify-content: flex-start;
     margin: 0 0 $space-micro $space-small;
     max-width: 88%;
-
-    & + .user-message {
-      margin-top: $space-one;
-    }
 
     .avatar-wrap {
       height: $space-medium;
@@ -198,6 +193,27 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
+  }
+
+  .agent-message-wrap {
+    + .agent-message-wrap {
+      margin-top: $space-micro;
+
+      .agent-message .chat-bubble {
+        border-top-left-radius: $space-smaller;
+      }
+    }
+
+    + .user-message-wrap {
+      margin-top: $space-normal;
+    }
+
+    &.has-response + .user-message-wrap {
+      margin-top: $space-micro;
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
   }
 }
 </style>

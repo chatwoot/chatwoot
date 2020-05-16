@@ -116,7 +116,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact_id]).to eq(conversation.contact_id)
+        expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact][:id]).to eq(conversation.contact_id)
       end
     end
   end

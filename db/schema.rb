@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_05_10_154151) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
   create_table "access_tokens", force: :cascade do |t|
@@ -42,6 +43,19 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "locale", default: 0
+    t.string "domain", limit: 100
+    t.string "support_email", limit: 100
+    t.integer "settings_flags", default: 0, null: false
+    t.integer "feature_flags", default: 0, null: false
+  end
+
+  create_table "action_mailbox_inbound_emails", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.string "message_id", null: false
+    t.string "message_checksum", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["message_id", "message_checksum"], name: "index_action_mailbox_inbound_emails_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
@@ -80,6 +94,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.string "outgoing_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "hide_input_for_bot_conversations", default: false
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -121,6 +136,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.integer "account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "medium", default: 0
     t.index ["account_id", "phone_number"], name: "index_channel_twilio_sms_on_account_id_and_phone_number", unique: true
   end
 
@@ -190,6 +206,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
     t.string "reference_id"
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -243,6 +260,14 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "installation_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "serialized_value", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -272,7 +297,36 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.integer "email_flags", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "push_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "subscription_type", null: false
+    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "identifier"
+    t.index ["identifier"], name: "index_notification_subscriptions_on_identifier", unique: true
+    t.index ["user_id"], name: "index_notification_subscriptions_on_user_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "notification_type", null: false
+    t.string "primary_actor_type", null: false
+    t.bigint "primary_actor_id", null: false
+    t.string "secondary_actor_type"
+    t.bigint "secondary_actor_id"
+    t.datetime "read_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_notifications_on_account_id"
+    t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
+    t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "subscriptions", id: :serial, force: :cascade do |t|
@@ -285,6 +339,20 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.datetime "updated_at", null: false
     t.integer "state", default: 0
     t.boolean "payment_source_added", default: false
+  end
+
+  create_table "super_admins", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_super_admins_on_email", unique: true
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -301,11 +369,9 @@ ActiveRecord::Schema.define(version: 2020_05_10_154151) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

@@ -16,7 +16,8 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   def create
     @user = AccountBuilder.new(
       account_name: account_params[:account_name],
-      email: account_params[:email]
+      email: account_params[:email],
+      confirmed: confirmed?
     ).perform
     if @user
       send_auth_headers(@user)
@@ -31,7 +32,7 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   end
 
   def update
-    @account.update!(account_params.slice(:name, :locale))
+    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :domain_emails_enabled))
   end
 
   private
@@ -40,12 +41,16 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
     authorize(Account)
   end
 
+  def confirmed?
+    super_admin? && params[:confirmed]
+  end
+
   def fetch_account
     @account = current_user.accounts.find(params[:id])
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale)
+    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :domain_emails_enabled)
   end
 
   def check_signup_enabled

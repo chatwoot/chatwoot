@@ -120,13 +120,19 @@ const actions = {
     }
   },
 
-  toggleStatus: async ({ commit }, data) => {
+  toggleStatus: async ({ commit, dispatch, getters }, data) => {
     try {
+      const nextChat = getters.getNextChatConversation;
       const response = await ConversationApi.toggleStatus(data);
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
       );
+      if (nextChat) {
+        dispatch('setActiveChat', nextChat);
+      } else {
+        dispatch('clearSelectedState');
+      }
     } catch (error) {
       // Handle error
     }
@@ -160,10 +166,10 @@ const actions = {
     commit(types.default.UPDATE_CONVERSATION, conversation);
   },
 
-  toggleTyping: async ({ commit }, { status, inboxId, contactId }) => {
+  toggleTyping: async ({ commit }, { status, conversationId }) => {
     try {
-      await FBChannel.toggleTyping({ status, inboxId, contactId });
-      commit(types.default.FB_TYPING, { status });
+      commit(types.default.SET_AGENT_TYPING, { status });
+      await ConversationApi.toggleTyping({ status, conversationId });
     } catch (error) {
       // Handle error
     }

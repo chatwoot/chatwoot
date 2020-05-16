@@ -14,7 +14,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
       @facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
-      Rails.logger e
+      Rails.logger.info e
     end
   end
 
@@ -62,7 +62,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
     koala = Koala::Facebook::OAuth.new(ENV['FB_APP_ID'], ENV['FB_APP_SECRET'])
     koala.exchange_access_token_info(omniauth_token)['access_token']
   rescue StandardError => e
-    Rails.logger e
+    Rails.logger.info e
   end
 
   def mark_already_existing_facebook_pages(data)

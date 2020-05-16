@@ -13,6 +13,14 @@
           >
           </woot-code>
         </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
+            v-if="isATwilioInbox"
+            lang="html"
+            :script="twilioCallbackURL"
+          >
+          </woot-code>
+        </div>
         <router-link
           class="button success nice"
           :to="{
@@ -42,7 +50,16 @@ export default {
         this.$route.params.inbox_id
       );
     },
+    isATwilioInbox() {
+      return this.currentInbox.channel_type === 'Channel::TwilioSms';
+    },
     message() {
+      if (this.isATwilioInbox) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
+        )}`;
+      }
+
       if (!this.currentInbox.website_token) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }

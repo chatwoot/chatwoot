@@ -10,11 +10,11 @@
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
       "UPDATE_IMAGE": "Update image",
-      "PROFILE_SECTION" : {
+      "PROFILE_SECTION": {
         "TITLE": "Profile",
         "NOTE": "Your email address is your identity and is used to log in."
       },
-      "PASSWORD_SECTION" : {
+      "PASSWORD_SECTION": {
         "TITLE": "Password",
         "NOTE": "Updating your password would reset your logins in multiple devices."
       },
@@ -22,15 +22,25 @@
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration"
       },
-      "EMAIL_NOTIFICATIONS_SECTION" : {
+      "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
         "NOTE": "Update your email notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "UPDATE_SUCCESS": "Your email notification preferences are updated successfully",
+        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
         "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
       },
-      "PROFILE_IMAGE":{
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
         "LABEL": "Profile Image"
       },
       "NAME": {
@@ -58,5 +68,40 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Profile Settings",
     "LOGOUT": "Logout"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Reports",
+    "SETTINGS": "Settings",
+    "HOME": "Home",
+    "AGENTS": "Agents",
+    "INBOXES": "Inboxes",
+    "CANNED_RESPONSES": "Canned Responses",
+    "BILLING": "Billing",
+    "INTEGRATIONS": "Integrations",
+    "ACCOUNT_SETTINGS": "Account Settings"
   }
 }
