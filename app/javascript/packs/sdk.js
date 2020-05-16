@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
+const runSDK = ({ baseUrl, websiteToken, locale }) => {
   const chatwootSettings = window.chatwootSettings || {};
   window.$chatwoot = {
     baseUrl,
@@ -10,6 +10,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     isOpen: false,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
+    locale: locale || 'en',
 
     toggle() {
       IFrameHelper.events.toggleBubble();
@@ -36,8 +37,8 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       IFrameHelper.sendMessage('remove-label', { label });
     },
 
-    setLocale(locale = 'en') {
-      IFrameHelper.sendMessage('set-locale', { locale });
+    setLocale(localeToBeUsed = 'en') {
+      IFrameHelper.sendMessage('set-locale', { locale: localeToBeUsed });
     },
 
     reset() {

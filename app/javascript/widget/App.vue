@@ -44,6 +44,7 @@ export default {
       if (message.event === 'config-set') {
         this.fetchOldConversations();
         this.fetchAvailableAgents(websiteToken);
+        this.setLocale(message.locale);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {

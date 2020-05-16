@@ -1,5 +1,7 @@
+import Vue from 'vue';
+
 const sendMessage = content => ({
-  url: `/api/v1/widget/messages${window.location.search}`,
+  url: `/api/v1/widget/messages${window.location.search}&locale=${Vue.config.lang}`,
   params: {
     message: {
       content,
