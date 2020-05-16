@@ -15,12 +15,14 @@ describe Integrations::Slack::OutgoingMessageBuilder do
       stub_request(:post, 'https://slack.com/api/chat.postMessage')
         .to_return(status: 200, body: '', headers: {})
 
+      # rubocop:disable RSpec/AnyInstance
       allow_any_instance_of(Slack::Web::Client).to receive(:chat_postMessage).with(
         channel: hook.reference_id,
         text: message.content,
         username: contact.name,
         thread_ts: conversation.reference_id
       )
+      # rubocop:enable RSpec/AnyInstance
 
       builder.perform
     end

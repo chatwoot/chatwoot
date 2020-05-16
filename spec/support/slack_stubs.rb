@@ -7,21 +7,22 @@ module SlackStubs
     }
   end
 
-  def slack_message_created_stub(type = 'message', channel = 'G01354F6A6Q', message_type = 'rich_text')
+  # rubocop:disable  Metrics/MethodLength
+  def slack_message_stub
     {
       "token": '[FILTERED]',
       "team_id": 'TLST3048H',
       "api_app_id": 'A012S5UETV4',
       "event": {
         "client_msg_id": 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
-        "type": type,
+        "type": 'message',
         "text": 'this is test',
         "user": 'ULYPAKE5S',
         "ts": '1588623033.006000',
         "team": 'TLST3048H',
         "blocks": [
           {
-            "type": message_type,
+            "type": 'rich_text',
             "block_id": 'jaIv3',
             "elements": [
               {
@@ -37,7 +38,7 @@ module SlackStubs
           }
         ],
         "thread_ts": '1588623023.005900',
-        "channel": channel,
+        "channel": 'G01354F6A6Q',
         "event_ts": '1588623033.006000',
         "channel_type": 'group'
       },
@@ -48,4 +49,5 @@ module SlackStubs
       "webhook": {}
     }
   end
+  # rubocop:enable  Metrics/MethodLength
 end

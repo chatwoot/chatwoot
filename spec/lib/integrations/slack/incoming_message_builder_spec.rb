@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
-  let(:message_params) { slack_message_created_stub }
+  let(:message_params) { slack_message_stub }
   let(:verification_params) { slack_url_verification_stub }
 
   let(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
