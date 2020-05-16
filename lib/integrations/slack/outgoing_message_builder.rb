@@ -8,6 +8,7 @@ class Integrations::Slack::OutgoingMessageBuilder
 
   def perform
     send_message
+    update_reference_id
   end
 
   private
@@ -21,12 +22,18 @@ class Integrations::Slack::OutgoingMessageBuilder
   end
 
   def send_message
-    slack_client.chat_postMessage(
+    @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message.content,
       username: contact.try(:name),
       thread_ts: conversation.reference_id
     )
+  end
+
+  def update_reference_id
+    return if conversation.reference_id
+    conversation.reference_id = @slack_message["ts"]
+    conversation.save!
   end
 
   def slack_client
