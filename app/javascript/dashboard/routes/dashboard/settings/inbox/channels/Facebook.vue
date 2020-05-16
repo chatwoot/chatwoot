@@ -200,7 +200,7 @@ export default {
         },
         {
           scope:
-            'pages_manage_metadata pages_messaging',
+            'pages_manage_metadata,pages_messaging',
         }
       );
     },
