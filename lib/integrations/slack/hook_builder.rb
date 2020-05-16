@@ -7,7 +7,7 @@ class Integrations::Slack::HookBuilder
 
   def perform
     token = fetch_access_token
-    
+
     hook = account.hooks.new(
       access_token: token,
       status: 'enabled',
@@ -17,6 +17,7 @@ class Integrations::Slack::HookBuilder
     )
 
     hook.save!
+    hook
   end
 
   private

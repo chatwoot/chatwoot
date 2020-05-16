@@ -8,7 +8,6 @@ class Integrations::Slack::ChannelBuilder
   def perform
     create_channel
     update_reference_id
-    #send_welcome_message
   end
 
   private
@@ -27,12 +26,8 @@ class Integrations::Slack::ChannelBuilder
   def create_channel
     @channel = slack_client.conversations_create(name: params[:channel])
   end
-  
+
   def update_reference_id
     @hook.reference_id = channel['channel']['id']
   end
-
-  # def send_welcome_message
-  #   client.chat_postMessage(channel: @hook.reference_id, text: 'Hello World')
-  # end
 end

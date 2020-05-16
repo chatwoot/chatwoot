@@ -32,7 +32,8 @@ class Integrations::Slack::OutgoingMessageBuilder
 
   def update_reference_id
     return if conversation.reference_id
-    conversation.reference_id = @slack_message["ts"]
+
+    conversation.reference_id = @slack_message['ts']
     conversation.save!
   end
 

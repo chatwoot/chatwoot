@@ -6,7 +6,6 @@ describe Integrations::Slack::HookBuilder do
   let(:token) { SecureRandom.hex }
 
   describe '#perform' do
-
     it 'creates hook' do
       hooks_count = account.hooks.count
 
@@ -14,7 +13,7 @@ describe Integrations::Slack::HookBuilder do
       builder.stub(:fetch_access_token) { token }
 
       builder.perform
-      expect(account.hooks.count).to eql(hooks_count+1)
+      expect(account.hooks.count).to eql(hooks_count + 1)
 
       hook = account.hooks.last
       expect(hook.access_token).to eql(token)

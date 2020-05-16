@@ -99,6 +99,7 @@ Rails.application.routes.draw do
         resources :webhooks, except: [:show]
         namespace :integrations do
           resources :apps, only: [:index, :show]
+          resources :slack, only: [:create, :update, :destroy]
         end
       end
       # end of account scoped api routes
