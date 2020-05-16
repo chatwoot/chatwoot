@@ -10,8 +10,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def perform
-    return unless supported_event_type?
-    return unless supported_event?
+    return unless valid_event?
 
     if hook_verification?
       verify_hook
@@ -21,6 +20,10 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   private
+
+  def valid_event?
+    supported_event_type? && supported_event?
+  end
 
   def supported_event_type?
     SUPPORTED_EVENT_TYPES.include?(params[:type])
