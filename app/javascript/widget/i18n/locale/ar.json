@@ -1,0 +1,14 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "تحميل",
+      "UPLOADING": "جاري الرفع..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "إرسال"
+    }
+  },
+  "POWERED_BY": "مدعوم بواسطة Chatwoot",
+  "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
+  "CHAT_PLACEHOLDER": "أكتب رسالتك"
+}
