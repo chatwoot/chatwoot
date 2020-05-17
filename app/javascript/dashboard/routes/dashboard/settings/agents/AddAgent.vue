@@ -2,7 +2,6 @@
   <woot-modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header
-        :header-image="headerImage"
         :header-title="$t('AGENT_MGMT.ADD.TITLE')"
         :header-content="$t('AGENT_MGMT.ADD.DESC')"
       />
@@ -59,7 +58,9 @@
               :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
             />
-            <a @click="onClose">Cancel</a>
+            <button class="button clear" @click.prevent="onClose">
+              {{ $t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+            </button>
           </div>
         </div>
       </form>
@@ -73,10 +74,13 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
-const agentImg = require('assets/images/agent.svg');
-
 export default {
-  props: ['onClose'],
+  props: {
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+  },
   data() {
     return {
       agentName: '',
@@ -89,9 +93,6 @@ export default {
     };
   },
   computed: {
-    headerImage() {
-      return agentImg;
-    },
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
     }),
