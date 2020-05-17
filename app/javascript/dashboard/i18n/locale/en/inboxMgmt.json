@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot."
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
