@@ -26,6 +26,19 @@ export const createTemporaryMessage = ({ attachments, content }) => {
   };
 };
 
+const getSenderName = message => (message.sender ? message.sender.name : '');
+
+const shouldShowAvatar = (message, nextMessage) => {
+  const currentSender = getSenderName(message);
+  const nextSender = getSenderName(nextMessage);
+
+  return (
+    currentSender !== nextSender ||
+    message.message_type !== nextMessage.message_type ||
+    isASubmittedFormMessage(nextMessage)
+  );
+};
+
 const groupConversationBySender = conversationsForADate =>
   conversationsForADate.map((message, index) => {
     let showAvatar = false;
@@ -36,12 +49,7 @@ const groupConversationBySender = conversationsForADate =>
       showAvatar = true;
     } else {
       const nextMessage = conversationsForADate[index + 1];
-      const currentSender = message.sender ? message.sender.name : '';
-      const nextSender = nextMessage.sender ? nextMessage.sender.name : '';
-      showAvatar =
-        currentSender !== nextSender ||
-        message.message_type !== nextMessage.message_type ||
-        isASubmittedFormMessage(nextMessage);
+      showAvatar = shouldShowAvatar(message, nextMessage);
     }
     return { showAvatar, ...message };
   });
