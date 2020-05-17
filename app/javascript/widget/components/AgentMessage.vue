@@ -61,7 +61,7 @@ import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
-
+import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
   name: 'AgentMessage',
   components: {
@@ -155,10 +155,7 @@ export default {
       return '';
     },
     isASubmittedForm() {
-      return (
-        this.contentType === 'form' &&
-        this.messageContentAttributes.submitted_values
-      );
+      return isASubmittedFormMessage(this.message);
     },
     submittedFormValues() {
       return this.messageContentAttributes.submitted_values.map(
