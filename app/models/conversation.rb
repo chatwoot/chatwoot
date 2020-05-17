@@ -48,6 +48,8 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
 
   has_many :messages, dependent: :destroy, autosave: true
+  has_many :conversation_participants, dependent: :destroy
+  has_many :participants, through: :conversation_participants, source: :contact
 
   before_create :set_display_id, unless: :display_id?
 

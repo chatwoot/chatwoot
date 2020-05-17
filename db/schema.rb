@@ -193,6 +193,18 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
   end
 
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "contact_id", null: false
+    t.bigint "conversation_id", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.boolean "primary", default: true, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contact_id", "conversation_id"], name: "index_conversation_participants_contact_conversation", unique: true
+    t.index ["contact_id"], name: "index_conversation_participants_on_contact_id"
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+  end
+
   create_table "conversations", id: :serial, force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "inbox_id", null: false
@@ -357,9 +369,11 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -420,6 +434,8 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "conversation_participants", "contacts"
+  add_foreign_key "conversation_participants", "conversations"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "messages", "contacts"
 end
