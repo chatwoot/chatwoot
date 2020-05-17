@@ -22,8 +22,9 @@
         <div class="medium-12 columns">
           <label :class="{ error: $v.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
-            <input
+            <textarea
               v-model.trim="content"
+              rows="5"
               type="text"
               :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
               @input="$v.content.$touch"
@@ -41,7 +42,9 @@
               :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
               :loading="addCanned.showLoading"
             />
-            <a @click="onClose">Cancel</a>
+            <button class="button clear" @click.prevent="onClose">
+              {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+            </button>
           </div>
         </div>
       </form>

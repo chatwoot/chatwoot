@@ -33,9 +33,9 @@
               :button-text="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.SUBMIT')"
               :loading="addWebHook.showLoading"
             />
-            <a @click="onClose">
+            <button class="button clear" @click.prevent="onClose">
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.CANCEL') }}
-            </a>
+            </button>
           </div>
         </div>
       </form>

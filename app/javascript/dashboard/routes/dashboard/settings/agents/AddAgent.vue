@@ -59,7 +59,9 @@
               :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
             />
-            <a @click="onClose">Cancel</a>
+            <button class="button clear" @click.prevent="onClose">
+              {{ $t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+            </button>
           </div>
         </div>
       </form>
