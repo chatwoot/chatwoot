@@ -2,18 +2,18 @@
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header :header-title="title" :header-content="message" />
     <div class="modal-footer delete-item">
-      <button class="button" @click="onClose">
-        {{ rejectText }}
-      </button>
-      <button class="alert button" @click="onConfirm">
+      <button class="alert button nice" @click="onConfirm">
         {{ confirmText }}
+      </button>
+      <button class="button clear" @click="onClose">
+        {{ rejectText }}
       </button>
     </div>
   </modal>
 </template>
 
 <script>
-import Modal from '../../../../components/Modal';
+import Modal from '../../Modal';
 
 export default {
   components: {
