@@ -1,5 +1,7 @@
 module Redis::Alfred
   CONVERSATION_MAILER_KEY = 'CONVERSATION::%d'.freeze
+  ONLINE_STATUS = 'ONLINE_STATUS::%s'.freeze
+  ONLINE_PRESENCE = 'ONLINE_PRESENCE::%s'.freeze
 
   class << self
     def rpoplpush(source, destination)
@@ -20,6 +22,10 @@ module Redis::Alfred
 
     def setex(key, value, expiry = 1.day)
       $alfred.setex(key, expiry, value)
+    end
+
+    def set(key, value)
+      $alfred.set(key, value)
     end
 
     def get(key)

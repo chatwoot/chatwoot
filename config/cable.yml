@@ -1,17 +1,18 @@
-development:
+default: &default
   adapter: redis
   url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
   password: <%= ENV.fetch('REDIS_PASSWORD', nil).presence %>
+  channel_prefix: <%= "chatwoot_#{Rails.env}_action_cable"  %>
+
+development:
+  <<: *default
 
 test:
   adapter: test
+  channel_prefix: <%= "chatwoot_#{Rails.env}_action_cable"  %>
 
 staging:
-  adapter: redis
-  url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
-  password: <%= ENV.fetch('REDIS_PASSWORD', nil).presence %>
+  <<: *default
 
 production:
-  adapter: redis
-  url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
-  password: <%= ENV.fetch('REDIS_PASSWORD', nil).presence %>
+  <<: *default
