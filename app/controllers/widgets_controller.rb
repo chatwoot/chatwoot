@@ -1,9 +1,10 @@
 class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
-  before_action :set_token
+  before_action :set_decoded_token
   before_action :set_contact
-  before_action :build_contact
+  before_action :set_participant
+  before_action :build_participant_token
 
   def index; end
 
@@ -17,37 +18,89 @@ class WidgetsController < ActionController::Base
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
   end
 
-  def set_token
-    @token = permitted_params[:cw_conversation]
-    @auth_token_params = if @token.present?
-                           ::Widget::TokenService.new(token: @token).decode_token
-                         else
-                           {}
-                         end
+  def set_decoded_token
+    @auth_token_params = find_token || {}
+  end
+
+  def find_token
+    @share_link        = permitted_params[:chatwoot_share_link]
+    cw_conversation    = permitted_params[:cw_conversation]
+    @token             = @share_link || cw_conversation
+    ::Widget::TokenService.new(token: @token).decode_token if @token.present?
+  end
+
+  def build_token
+    payload = {
+      source_id: @contact_inbox.source_id,
+      inbox_id: @web_widget.inbox.id
+    }
+
+    @token = ::Widget::TokenService.new(payload: payload).generate_token
+  end
+
+  def set_participant_token
+    # TODO
+  end
+
+  def build_participant_token
+    return if @participant.blank?
+
+    conversation_participant = ConversationParticipant.find_by(
+      contact: @participant,
+      conversation: @conversation
+    )
+    payload = {
+      participant_uuid: conversation_participant.uuid
+    }
+
+    @participant_token = ::Widget::TokenService.new(payload: payload).generate_token
   end
 
   def set_contact
-    return if @auth_token_params[:source_id].nil?
+    @contact = find_contact || build_contact
+  end
 
-    contact_inbox = ::ContactInbox.find_by(
+  def find_contact
+    return if @auth_token_params.empty?
+
+    @contact_inbox = ::ContactInbox.find_by(
       inbox_id: @web_widget.inbox.id,
       source_id: @auth_token_params[:source_id]
     )
 
-    @contact = contact_inbox ? contact_inbox.contact : nil
+    @contact_inbox ? @contact_inbox.contact : nil
   end
 
   def build_contact
-    return if @contact.present?
+    @contact_inbox = @web_widget.create_contact_inbox
 
-    contact_inbox = @web_widget.create_contact_inbox
-    @contact = contact_inbox.contact
+    build_token
 
-    payload = { source_id: contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
-    @token = ::Widget::TokenService.new(payload: payload).generate_token
+    @contact_inbox.contact
+  end
+
+  def set_participant
+    return if @share_link.blank?
+
+    @participant = find_participant || build_participant
+  end
+
+  def find_participant
+    # TODO
+  end
+
+  def build_participant
+    @conversation = find_conversation
+    conversation_participant = @web_widget.create_conversation_participant(@conversation)
+
+    conversation_participant.contact
+  end
+
+  def find_conversation
+    @contact_inbox.conversations.order(:created_at).last
   end
 
   def permitted_params
-    params.permit(:website_token, :cw_conversation)
+    params.permit(:website_token, :cw_conversation, :chatwoot_share_link)
   end
 end

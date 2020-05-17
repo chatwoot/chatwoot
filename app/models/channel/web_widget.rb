@@ -58,4 +58,19 @@ class Channel::WebWidget < ApplicationRecord
       Rails.logger.info e
     end
   end
+
+  def create_conversation_participant(conversation)
+    ActiveRecord::Base.transaction do
+      participant = inbox.account.contacts.create!(
+        name:    ::Haikunator.haikunate(1000)
+      )
+      ConversationParticipant.create!(
+        contact: participant,
+        conversation: conversation,
+        primary: false
+      )
+    rescue StandardError => e
+      Rails.logger e
+    end
+  end
 end

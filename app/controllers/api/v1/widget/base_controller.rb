@@ -25,6 +25,14 @@ class Api::V1::Widget::BaseController < ApplicationController
     @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
       source_id: auth_token_params[:source_id]
     )
-    @contact = @contact_inbox.contact
+    @contact = set_participant || @contact_inbox.contact
+  end
+
+  def set_participant
+    uuid = ::Widget::TokenService.new(token: request.headers['X-Participant-Token']).decode_token[:participant_uuid]
+    return if uuid.blank?
+
+    conversation_participant = ConversationParticipant.find_by!(uuid: uuid)
+    @participant = conversation_participant.contact
   end
 end

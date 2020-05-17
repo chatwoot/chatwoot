@@ -3,11 +3,12 @@ import { IFrameHelper } from '../sdk/IFrameHelper';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};
+  const shareLink = IFrameHelper.getShareLink();
   window.$chatwoot = {
     baseUrl,
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
-    isOpen: false,
+    isOpen: Boolean(shareLink),
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale: chatwootSettings.locale,
@@ -58,6 +59,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
+    shareLink,
   });
 };
 

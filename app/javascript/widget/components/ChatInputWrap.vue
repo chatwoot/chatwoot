@@ -4,18 +4,21 @@
       v-model="userInput"
       :placeholder="$t('CHAT_PLACEHOLDER')"
     />
-    <div class="button-wrap">
-      <chat-attachment-button
-        v-if="showAttachment"
-        :on-attach="onSendAttachment"
-      />
+    <div v-if="showCopiedMessage" class="share-link">
+      <span>
+        Share link copied!
+      </span>
+    </div>
+    <div v-if="!showCopiedMessage" class="button-wrap">
+      <chat-attachment-button v-if="showIcon" :on-attach="onSendAttachment" />
+      <i v-if="showIcon" class="icon ion-link" @click="onCopy" />
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
       <i
-        class="emoji-toggle icon ion-happy-outline"
+        class="icon ion-happy-outline"
         :class="{ active: showEmojiPicker }"
         @click="toggleEmojiPicker()"
       />
@@ -36,6 +39,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatInputArea from 'widget/components/ChatInputArea.vue';
 import EmojiInput from 'dashboard/components/widgets/emoji/EmojiInput';
+import copy from 'copy-text-to-clipboard';
 
 export default {
   name: 'ChatInputWrap',
@@ -61,6 +65,7 @@ export default {
     return {
       userInput: '',
       showEmojiPicker: false,
+      showCopiedMessage: false,
     };
   },
 
@@ -68,7 +73,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-    showAttachment() {
+    showIcon() {
       return this.userInput.length === 0;
     },
     showSendButton() {
@@ -96,6 +101,24 @@ export default {
         this.handleButtonClick();
       }
     },
+    displayCopiedMessage() {
+      if (this.showCopiedMessage) {
+        return;
+      }
+
+      this.showCopiedMessage = true;
+      setTimeout(() => {
+        this.showCopiedMessage = false;
+      }, 3000);
+    },
+    onCopy(e) {
+      e.preventDefault();
+      let url_base = window.chatwootWebChannel.websiteURL;
+      let share_link = window.authToken;
+
+      copy(`${url_base}?chatwoot_share_link=${share_link}`);
+      this.displayCopiedMessage();
+    },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
     },
@@ -121,10 +144,10 @@ export default {
   display: flex;
 }
 
-.emoji-toggle {
+.icon {
   font-size: $font-size-large;
   color: $color-gray;
-  padding-right: $space-smaller;
+  margin-right: $space-small;
   cursor: pointer;
 }
 
@@ -139,5 +162,10 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
+}
+
+.share-link {
+  min-width: 13rem;
+  font-size: $font-size-default;
 }
 </style>

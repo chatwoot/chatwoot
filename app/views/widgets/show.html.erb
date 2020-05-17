@@ -18,6 +18,7 @@
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
+        websiteURL: '<%= @web_widget.website_url %>',
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
@@ -25,6 +26,9 @@
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
+      window.shareLink = `<%= ActiveModel::Type::Boolean.new.cast(@share_link)
+      %>`,
+      window.participantToken = `<%= @participant_token  %>`
     </script>
     <%= javascript_pack_tag 'widget' %>
     <%= stylesheet_pack_tag 'widget' %>

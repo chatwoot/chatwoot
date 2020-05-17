@@ -27,9 +27,11 @@ export default {
         config: {
           authToken: window.authToken,
           channelConfig: window.chatwootWebChannel,
+          shareLink: window.shareLink,
         },
       });
       setHeader('X-Auth-Token', window.authToken);
+      setHeader('X-Participant-Token', window.participantToken);
     }
     this.setWidgetColor(window.chatwootWebChannel);
 
