@@ -61,7 +61,12 @@ export const getters = {
     return Object.keys(conversationGroupedByDate).map(date => {
       const messages = conversationGroupedByDate[date].map((message, index) => {
         let showAvatar = false;
-        if (index === conversationGroupedByDate[date].length - 1) {
+        if (
+          message.content_type === 'form' &&
+          message.content_attributes?.submitted_values
+        ) {
+          showAvatar = false;
+        } else if (index === conversationGroupedByDate[date].length - 1) {
           showAvatar = true;
         } else {
           const nextMessage = conversationGroupedByDate[date][index + 1];
@@ -69,7 +74,9 @@ export const getters = {
           const nextSender = nextMessage.sender ? nextMessage.sender.name : '';
           showAvatar =
             currentSender !== nextSender ||
-            message.message_type !== nextMessage.message_type;
+            message.message_type !== nextMessage.message_type ||
+            (nextMessage.content_type === 'form' &&
+              !!nextMessage.content_attributes?.submitted_values);
         }
         return { showAvatar, ...message };
       });
