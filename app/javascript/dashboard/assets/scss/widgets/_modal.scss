@@ -1,4 +1,5 @@
 @import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
 
 .modal-mask {
   @include flex;
@@ -38,9 +39,10 @@
 }
 
 .modal-container {
+  @include normal-shadow;
+
   background-color: $color-white;
   border-radius: $space-smaller;
-  box-shadow: $shadow;
   max-height: 100%;
   overflow: auto;
   position: relative;
@@ -54,9 +56,9 @@
 
 
   h2 {
-    color: $color-woot;
+    color: $color-heading;
     font-size: $font-size-medium;
-    font-weight: $font-weight-medium;
+    font-weight: $font-weight-bold;
   }
 
   p {

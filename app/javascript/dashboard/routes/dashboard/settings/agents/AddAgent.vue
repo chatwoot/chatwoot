@@ -2,7 +2,6 @@
   <woot-modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header
-        :header-image="headerImage"
         :header-title="$t('AGENT_MGMT.ADD.TITLE')"
         :header-content="$t('AGENT_MGMT.ADD.DESC')"
       />
@@ -75,10 +74,13 @@
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
-const agentImg = require('assets/images/agent.svg');
-
 export default {
-  props: ['onClose'],
+  props: {
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+  },
   data() {
     return {
       agentName: '',
@@ -91,9 +93,6 @@ export default {
     };
   },
   computed: {
-    headerImage() {
-      return agentImg;
-    },
     ...mapGetters({
       uiFlags: 'agents/getUIFlags',
     }),

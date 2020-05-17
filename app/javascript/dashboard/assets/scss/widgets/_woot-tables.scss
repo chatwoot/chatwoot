@@ -9,11 +9,11 @@ table {
     }
   }
 
-  tr {
-    border-bottom: 1px solid $color-border-light;
-  }
-
   tbody {
+    tr {
+      border-bottom: 1px solid $color-border-light;
+    }
+
     td {
       @include padding($space-one $space-small);
     }
