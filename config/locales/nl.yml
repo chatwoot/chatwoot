@@ -19,7 +19,7 @@
 nl:
   hello: "Hallo wereld"
   messages:
-    reset_password_success: Woot! Verzoek om opnieuw instellen van wachtwoord is gelukt. Controleer je e-mail voor instructies.
+    reset_password_success: Woot! Verzoek om wachtwoord te resetten is gelukt. Controleer je e-mail voor instructies.
     reset_password_failure: Oh ho! We konden geen gebruiker vinden met het opgegeven e-mailadres.
   errors:
     signup:
