@@ -10,6 +10,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     isOpen: false,
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
+    locale: chatwootSettings.locale || 'en',
 
     toggle() {
       IFrameHelper.events.toggleBubble();
@@ -34,6 +35,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
     removeLabel(label = '') {
       IFrameHelper.sendMessage('remove-label', { label });
+    },
+
+    setLocale(localeToBeUsed = 'en') {
+      IFrameHelper.sendMessage('set-locale', { locale: localeToBeUsed });
     },
 
     reset() {
