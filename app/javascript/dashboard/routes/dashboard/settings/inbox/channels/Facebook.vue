@@ -2,19 +2,22 @@
   <div class="wizard-body columns content-box small-9">
     <div v-if="!hasLoginStarted" class="login-init full-height">
       <a href="#" @click="startLogin()">
-        <img src="~dashboard/assets/images/channels/facebook_login.png" alt="Facebook-logo" />
+        <img
+          src="~dashboard/assets/images/channels/facebook_login.png"
+          alt="Facebook-logo"
+        />
       </a>
       <p>
         {{
-        useInstallationName(
-        $t('INBOX_MGMT.ADD.FB.HELP'),
-        globalConfig.installationName
-        )
+          useInstallationName(
+            $t('INBOX_MGMT.ADD.FB.HELP'),
+            globalConfig.installationName
+          )
         }}
       </p>
     </div>
     <div v-else>
-      <loading-state v-if="showLoader" :message="emptyStateMessage"></loading-state>
+      <loading-state v-if="showLoader" :message="emptyStateMessage" />
       <form v-if="!showLoader" class="row" @submit.prevent="createChannel()">
         <div class="medium-12 columns">
           <page-header
@@ -30,7 +33,7 @@
         <div class="medium-7 columns">
           <div class="medium-12 columns">
             <div class="input-wrap" :class="{ error: $v.selectedPage.$error }">
-              Choose Page
+              {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PAGE') }}
               <multiselect
                 v-model.trim="selectedPage"
                 :close-on-select="true"
@@ -38,23 +41,27 @@
                 :options="getSelectablePages"
                 track-by="id"
                 label="name"
-                placeholder="Pick a value"
+                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
                 selected-label
                 @select="setPageName"
               />
-              <span v-if="$v.selectedPage.$error" class="message">Select a page from the list</span>
+              <span v-if="$v.selectedPage.$error" class="message">
+                {{ $t('INBOX_MGMT.ADD.FB.CHOOSE_PLACEHOLDER') }}
+              </span>
             </div>
           </div>
           <div class="medium-12 columns">
             <label :class="{ error: $v.pageName.$error }">
-              Inbox Name
+              {{ $t('INBOX_MGMT.ADD.FB.INBOX_NAME') }}
               <input
                 v-model.trim="pageName"
                 type="text"
-                placeholder="Pick A Name Your Inbox"
+                :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_NAME')"
                 @input="$v.pageName.$touch"
               />
-              <span v-if="$v.pageName.$error" class="message">Add a name for your inbox</span>
+              <span v-if="$v.pageName.$error" class="message">
+                {{ $t('INBOX_MGMT.ADD.FB.ADD_NAME') }}
+              </span>
             </label>
           </div>
           <div class="medium-12 columns text-right">
@@ -199,8 +206,7 @@ export default {
           }
         },
         {
-          scope:
-            'pages_manage_metadata,pages_messaging',
+          scope: 'pages_manage_metadata,pages_messaging',
         }
       );
     },
