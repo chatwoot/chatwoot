@@ -1,9 +1,9 @@
 <template>
   <div
     class="agent-message-wrap"
-    :class="{ 'has-response': hasRecordedResponse }"
+    :class="{ 'has-response': hasRecordedResponse || isASubmittedForm }"
   >
-    <div class="agent-message">
+    <div v-if="!isASubmittedForm" class="agent-message">
       <div class="avatar-wrap">
         <thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
@@ -42,6 +42,13 @@
     </div>
 
     <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
+    <div v-if="isASubmittedForm">
+      <UserMessage
+        v-for="submittedValue in submittedFormValues"
+        :key="submittedValue.id"
+        :message="submittedValue"
+      />
+    </div>
   </div>
 </template>
 
@@ -54,7 +61,7 @@ import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
-
+import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
   name: 'AgentMessage',
   components: {
@@ -147,6 +154,17 @@ export default {
       }
       return '';
     },
+    isASubmittedForm() {
+      return isASubmittedFormMessage(this.message);
+    },
+    submittedFormValues() {
+      return this.messageContentAttributes.submitted_values.map(
+        submittedValue => ({
+          id: submittedValue.name,
+          content: submittedValue.value,
+        })
+      );
+    },
   },
 };
 </script>
@@ -213,6 +231,10 @@ export default {
       .chat-bubble {
         border-top-right-radius: $space-smaller;
       }
+    }
+
+    &.has-response + .agent-message-wrap {
+      margin-top: $space-normal;
     }
   }
 }
