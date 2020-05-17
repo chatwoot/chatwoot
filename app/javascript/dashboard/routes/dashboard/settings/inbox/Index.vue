@@ -94,7 +94,7 @@
       :inbox="selectedInbox"
     />
 
-    <delete-inbox
+    <woot-delete-modal
       :show.sync="showDeletePopup"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
@@ -110,7 +110,6 @@
 
 import { mapGetters } from 'vuex';
 import Settings from './Settings';
-import DeleteInbox from './DeleteInbox';
 import adminMixin from '../../../../mixins/isAdmin';
 import auth from '../../../../api/auth';
 import accountMixin from '../../../../mixins/account';
@@ -119,7 +118,6 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 export default {
   components: {
     Settings,
-    DeleteInbox,
   },
   mixins: [adminMixin, accountMixin, globalConfigMixin],
   data() {
