@@ -14,6 +14,7 @@ To hide the bubble, you can use the following setting. Please not if you use thi
 window.chatwootSettings = {
   hideMessageBubble: false,
   position: 'left', // This can be left or right
+  locale: 'en', // Language to be set
 }
 ```
 
@@ -36,6 +37,14 @@ window.$chatwoot.setUser('identifier_key', {
 `setUser` accepts an identifier which can be a `user_id` in your database or any unique parameter which represents a user. You can pass email, name, avatar_url as params, support for additional parameters are in progress.
 
 Make sure that you reset the session when the user logouts of your app.
+
+### To set language manually
+
+```js
+window.$chatwoot.setLocale('en')
+```
+
+To set the language manually use the setLocale function.
 
 ### To set labels on the conversation
 
