@@ -41,7 +41,6 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy
 
-  after_create :subscribe_webhook, if: :facebook?
   after_destroy :delete_round_robin_agents
 
   def add_member(user_id)
@@ -82,17 +81,5 @@ class Inbox < ApplicationRecord
 
   def round_robin_key
     format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: id)
-  end
-
-  def subscribe_webhook
-    Facebook::Messenger::Subscriptions.subscribe(
-      access_token: channel.page_access_token,
-      subscribed_fields: %w[
-        messages messaging_postbacks messaging_optins message_deliveries
-        message_reads messaging_payments messaging_pre_checkouts messaging_checkout_updates
-        messaging_account_linking messaging_referrals message_echoes messaging_game_plays
-        standby messaging_handovers messaging_policy_enforcement message_reactions
-      ]
-    )
   end
 end

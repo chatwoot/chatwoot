@@ -6,7 +6,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
   describe 'GET /super_admin/users' do
     context 'when it is an unauthenticated super admin' do
       it 'returns unauthorized' do
-        get '/super_admin/'
+        get '/super_admin/users'
         expect(response).to have_http_status(:redirect)
       end
     end
@@ -16,7 +16,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
 
       it 'shows the list of users' do
         sign_in super_admin
-        get '/super_admin'
+        get '/super_admin/users'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New user')
         expect(response.body).to include(user.name)

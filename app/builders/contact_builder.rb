@@ -14,6 +14,18 @@ class ContactBuilder
     @account ||= inbox.account
   end
 
+  def create_contact_inbox(contact)
+    ::ContactInbox.create!(
+      contact_id: contact.id,
+      inbox_id: inbox.id,
+      source_id: source_id
+    )
+  end
+
+  def update_contact_avatar(contact)
+    ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+  end
+
   def build_contact
     ActiveRecord::Base.transaction do
       contact = account.contacts.create!(
@@ -23,16 +35,12 @@ class ContactBuilder
         identifier: contact_attributes[:identifier],
         additional_attributes: contact_attributes[:additional_attributes]
       )
-      contact_inbox = ::ContactInbox.create!(
-        contact_id: contact.id,
-        inbox_id: inbox.id,
-        source_id: source_id
-      )
 
-      ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+      contact_inbox = create_contact_inbox(contact)
+      update_contact_avatar(contact)
       contact_inbox
     rescue StandardError => e
-      Rails.logger e
+      Rails.logger.info e
     end
   end
 end

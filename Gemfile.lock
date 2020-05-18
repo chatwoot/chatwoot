@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/chatwoot/twitty
-  revision: af4f3e45dca55e42c64f7741a1fedfaa94d36419
-  specs:
-    twitty (0.1.0)
-      oauth
-
-GIT
   remote: https://github.com/sds/mock_redis
   revision: 16d00789f0341a3aac35126c0ffe97a596753ff9
   ref: 16d00789f0341a3aac35126c0ffe97a596753ff9
@@ -103,16 +96,16 @@ GEM
     autoprefixer-rails (9.7.6)
       execjs
     aws-eventstream (1.1.0)
-    aws-partitions (1.310.0)
-    aws-sdk-core (3.94.1)
+    aws-partitions (1.315.0)
+    aws-sdk-core (3.95.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
       aws-sigv4 (~> 1.1)
       jmespath (~> 1.0)
-    aws-sdk-kms (1.30.0)
+    aws-sdk-kms (1.31.0)
       aws-sdk-core (~> 3, >= 3.71.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.63.1)
+    aws-sdk-s3 (1.64.0)
       aws-sdk-core (~> 3, >= 3.83.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
@@ -133,8 +126,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.4.6)
       msgpack (~> 1.0)
-    brakeman (4.8.1)
-    browser (4.0.0)
+    brakeman (4.8.2)
+    browser (4.1.0)
     builder (3.2.4)
     bullet (6.1.0)
       activesupport (>= 3.0.0)
@@ -203,7 +196,7 @@ GEM
     foreman (0.87.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    google-api-client (0.38.0)
+    google-api-client (0.39.3)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (~> 0.9)
       httpclient (>= 2.8.1, < 3.0)
@@ -217,7 +210,7 @@ GEM
     google-cloud-env (1.3.1)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.0.0)
-    google-cloud-storage (1.26.0)
+    google-cloud-storage (1.26.1)
       addressable (~> 2.5)
       digest-crc (~> 0.4)
       google-api-client (~> 0.33)
@@ -248,11 +241,10 @@ GEM
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     inflecto (0.0.2)
-    jaro_winkler (1.5.4)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     jmespath (1.4.0)
-    jquery-rails (4.3.5)
+    jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
@@ -293,7 +285,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0425)
+    mime-types-data (3.2020.0512)
     mimemagic (0.3.5)
     mini_magick (4.10.1)
     mini_mime (1.0.2)
@@ -321,7 +313,7 @@ GEM
       method_source (~> 1.0)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    public_suffix (4.0.4)
+    public_suffix (4.0.5)
     puma (4.3.3)
       nio4r (~> 2.0)
     pundit (2.1.0)
@@ -392,7 +384,7 @@ GEM
     rexml (3.2.4)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
-    rspec-expectations (3.9.1)
+    rspec-expectations (3.9.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-mocks (3.9.1)
@@ -407,8 +399,7 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.3)
-    rubocop (0.82.0)
-      jaro_winkler (~> 1.5.1)
+    rubocop (0.83.0)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
       rainbow (>= 2.2.2, < 4.0)
@@ -480,7 +471,7 @@ GEM
       faraday
       inflecto
       virtus
-    telephone_number (1.4.6)
+    telephone_number (1.4.7)
     thor (0.20.3)
     thread_safe (0.3.6)
     tilt (2.0.10)
@@ -491,6 +482,8 @@ GEM
       faraday (~> 1.0.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
+    twitty (0.1.1)
+      oauth
     tzinfo (1.2.7)
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.1)
@@ -601,7 +594,7 @@ DEPENDENCIES
   telephone_number
   time_diff
   twilio-ruby (~> 5.32.0)
-  twitty!
+  twitty
   tzinfo-data
   uglifier
   valid_email2
