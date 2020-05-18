@@ -23,9 +23,12 @@ class WidgetsController < ActionController::Base
   end
 
   def find_token
-    @share_link        = permitted_params[:chatwoot_share_link]
-    cw_conversation    = permitted_params[:cw_conversation]
-    @token             = @share_link || cw_conversation
+    cw_share_link         = permitted_params[:chatwoot_share_link]
+    cw_group_conversation = permitted_params[:cw_group_conversation]
+    @share_link           = cw_group_conversation || cw_share_link
+    cw_conversation       = permitted_params[:cw_conversation]
+    @token                = @share_link || cw_conversation
+
     ::Widget::TokenService.new(token: @token).decode_token if @token.present?
   end
 
@@ -86,7 +89,13 @@ class WidgetsController < ActionController::Base
   end
 
   def find_participant
-    # TODO
+    return if @auth_token_params.empty?
+
+    uuid = @auth_token_params[:participant_uuid]
+    return if uuid.blank?
+
+    conversation_participant = ConversationParticipant.find_by!(uuid: uuid)
+    @participant = conversation_participant.contact
   end
 
   def build_participant
@@ -101,6 +110,9 @@ class WidgetsController < ActionController::Base
   end
 
   def permitted_params
-    params.permit(:website_token, :cw_conversation, :chatwoot_share_link)
+    params.permit(:website_token,
+                  :cw_conversation,
+                  :chatwoot_share_link,
+                  :cw_group_conversation)
   end
 end

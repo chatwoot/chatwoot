@@ -22,13 +22,15 @@ export const IFrameHelper = {
   },
   createFrame: ({ baseUrl, websiteToken, shareLink }) => {
     const iframe = document.createElement('iframe');
+    const cwGroupCookie = IFrameHelper.getCwGroupCookie();
     const cwCookie = Cookies.get('cw_conversation');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
-    if (cwCookie) {
-      widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-    }
-    if (shareLink) {
+    if (cwGroupCookie) {
+      widgetUrl = `${widgetUrl}&cw_group_conversation=${cwGroupCookie}`;
+    } else if (shareLink) {
       widgetUrl = `${widgetUrl}&chatwoot_share_link=${shareLink}`;
+    } else if (cwCookie) {
+      widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
     iframe.src = widgetUrl;
 
@@ -77,7 +79,17 @@ export const IFrameHelper = {
   },
   events: {
     loaded: message => {
-      if (!message.config.shareLink) {
+      if (message.config.shareLink) {
+        let group_cookie = IFrameHelper.getCwGroupCookie();
+        if (!group_cookie) {
+          let value = message.config.authToken;
+          let key = 'cw_group_conversation' + Date.now();
+          Cookies.set(key, value, {
+            expires: 365,
+            conversation: IFrameHelper.getShareLink(),
+          });
+        }
+      } else {
         Cookies.set('cw_conversation', message.config.authToken, {
           expires: 365,
         });
@@ -152,5 +164,20 @@ export const IFrameHelper = {
   getShareLink: () => {
     let url = new URL(window.document.location);
     return url.searchParams.get('chatwoot_share_link');
+  },
+  getCwGroupCookie: () => {
+    let cookies = Cookies.get();
+    let shareLink = IFrameHelper.getShareLink();
+    let target_cookie;
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const cookie in cookies) {
+      if (cookies[cookie] === shareLink) {
+        target_cookie = Cookies.get(cookie);
+        break;
+      }
+    }
+
+    return target_cookie;
   },
 };
