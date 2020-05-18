@@ -86,7 +86,6 @@ export const IFrameHelper = {
           let key = 'cw_group_conversation' + Date.now();
           Cookies.set(key, value, {
             expires: 365,
-            conversation: IFrameHelper.getShareLink(),
           });
         }
       } else {
