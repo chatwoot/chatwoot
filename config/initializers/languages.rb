@@ -4,7 +4,7 @@
 LANGUAGES_CONFIG = {
   0 => { name: 'English', iso_639_3_code: 'eng', iso_639_1_code: 'en', enabled: true },
   1 => { name: 'Arabic', iso_639_3_code: 'ara', iso_639_1_code: 'ar', enabled: false },
-  2 => { name: 'Dutch', iso_639_3_code: 'nld', iso_639_1_code: 'nl', enabled: false },
+  2 => { name: 'Dutch', iso_639_3_code: 'nld', iso_639_1_code: 'nl', enabled: true },
   3 => { name: 'French', iso_639_3_code: 'fra', iso_639_1_code: 'fr', enabled: true },
   4 => { name: 'German', iso_639_3_code: 'deu', iso_639_1_code: 'de', enabled: true },
   5 => { name: 'Hindi', iso_639_3_code: 'hin', iso_639_1_code: 'hi', enabled: false },
