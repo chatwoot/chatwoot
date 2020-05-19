@@ -8,6 +8,12 @@
       "SUBMIT": "sotmetre's"
     }
   },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "està disponible",
+    "ARE_AVAILABLE": "estan disponibles",
+    "OTHERS_ARE_AVAILABLE": "altres estan disponibles",
+    "AND": "i"
+  },
   "POWERED_BY": "Desenvolupat per Chatwoot",
   "EMAIL_PLACEHOLDER": "Introduïu el vostre correu electrònic",
   "CHAT_PLACEHOLDER": "Escriu el teu missatge"
