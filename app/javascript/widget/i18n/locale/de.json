@@ -8,6 +8,12 @@
       "SUBMIT": "Submit"
     }
   },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "ist verfügbar",
+    "ARE_AVAILABLE": "sind verfügbar",
+    "OTHERS_ARE_AVAILABLE": "andere sind verfügbar",
+    "AND": "und"
+  },
   "POWERED_BY": "Unterstützt von Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
   "CHAT_PLACEHOLDER": "Geben Sie Ihre Nachricht ein"
