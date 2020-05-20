@@ -68,7 +68,7 @@ Rails.application.configure do
   # :sendgrid for Sendgrid
   config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
