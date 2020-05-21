@@ -12,9 +12,10 @@ as defined by the routes in the `admin/` namespace
 
 
 <nav class="navigation" role="navigation">
-  <%= link_to "Dashboard", super_admin_root_url, class: "button button--alt" %>
+  <%= link_to "Home", super_admin_root_url, class: "navigation__link" %>
  
   <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+    <% next if ["account_users"].include?  resource.resource %>
     <%= link_to(
       display_resource_name(resource),
       [namespace, resource_index_route_key(resource)],
@@ -22,9 +23,9 @@ as defined by the routes in the `admin/` namespace
     ) if valid_action? :index, resource  %>
   <% end %>
 
-  <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %>
+  <%= link_to "Sidekiq", sidekiq_web_url , class: "navigation__link" %>
   
-  <div style="margin-top: 300px;">
+  <div style="margin-top: 350px;">
     <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
   </div>
 </nav>

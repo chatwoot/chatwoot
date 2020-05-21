@@ -9,14 +9,10 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     account_users: Field::HasMany,
-    accounts: Field::HasMany,
-    invitees: Field::HasMany.with_options(class_name: 'User'),
     id: Field::Number,
     provider: Field::String,
     uid: Field::String,
-    reset_password_token: Field::String,
-    reset_password_sent_at: Field::DateTime,
-    remember_created_at: Field::DateTime,
+    password: Field::Password,
     sign_in_count: Field::Number,
     current_sign_in_at: Field::DateTime,
     last_sign_in_at: Field::DateTime,
@@ -48,7 +44,6 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    accounts
     id
     unconfirmed_email
     name
@@ -56,6 +51,7 @@ class UserDashboard < Administrate::BaseDashboard
     email
     created_at
     updated_at
+    account_users
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -65,6 +61,7 @@ class UserDashboard < Administrate::BaseDashboard
     name
     nickname
     email
+    password
   ].freeze
 
   # COLLECTION_FILTERS

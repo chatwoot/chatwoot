@@ -1,0 +1,32 @@
+$_navigation-link-padding: 0.6em;
+
+.navigation {
+  flex: 1 0 10rem;
+  padding: $base-spacing;
+  padding-left: 0;
+}
+
+.navigation__link {
+  background-color: transparent;
+  color: $base-font-color;
+  display: block;
+  line-height: 1;
+  margin-left: -($_navigation-link-padding);
+  padding: $_navigation-link-padding;
+  transition: background-color $base-duration $base-timing,
+              color $base-duration $base-timing;
+
+  &:not(:last-of-type) {
+    margin-bottom: $small-spacing;
+  }
+
+  &:hover {
+    background-color: mix($black, $base-background-color, 5%);
+    border-radius: $base-border-radius;
+    color: $base-font-color;
+  }
+}
+
+.navigation__link--active {
+  font-weight: $bold-font-weight;
+}

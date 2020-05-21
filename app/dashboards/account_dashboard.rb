@@ -12,7 +12,8 @@ class AccountDashboard < Administrate::BaseDashboard
     name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    locale: Field::String.with_options(searchable: false)
+    locale: Field::String.with_options(searchable: false),
+    account_users: Field::HasMany
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -33,6 +34,7 @@ class AccountDashboard < Administrate::BaseDashboard
     created_at
     updated_at
     locale
+    account_users
   ].freeze
 
   # FORM_ATTRIBUTES

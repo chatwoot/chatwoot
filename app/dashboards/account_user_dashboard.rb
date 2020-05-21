@@ -13,7 +13,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     inviter: Field::BelongsTo.with_options(class_name: 'User'),
     id: Field::Number,
     role: Field::String.with_options(searchable: false),
-    inviter_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -38,7 +37,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     inviter
     id
     role
-    inviter_id
     created_at
     updated_at
   ].freeze
@@ -51,7 +49,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     user
     inviter
     role
-    inviter_id
   ].freeze
 
   # COLLECTION_FILTERS

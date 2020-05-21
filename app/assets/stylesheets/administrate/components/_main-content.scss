@@ -1,0 +1,29 @@
+.main-content {
+  background-color: $white;
+  border-radius: $base-border-radius;
+  box-shadow: 0 0 6px 0 rgba($black, 0.12),
+              0 2px 2px rgba($black, 0.2);
+  flex: 1 1 100%;
+  padding-bottom: 10vh;
+}
+
+.main-content__header,
+.main-content__body {
+  padding: 1rem 2rem;
+}
+
+.main-content__body--flush {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.main-content__header {
+  align-items: center;
+  border-bottom: $base-border;
+  display: flex;
+}
+
+.main-content__page-title {
+  font-size: 1.6em;
+  margin-right: auto;
+}

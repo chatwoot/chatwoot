@@ -172,13 +172,13 @@ Rails.application.routes.draw do
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
-      resources :users
       resources :accounts
       resources :account_users
+      resources :users
       resources :super_admins
       resources :access_tokens
 
-      root to: 'users#index'
+      root to: 'dashboard#index'
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
