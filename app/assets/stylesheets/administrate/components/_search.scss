@@ -9,7 +9,7 @@ $_search-icon-size: 1rem;
 }
 
 .search__input {
-  border-radius: 100rem;
+  background: $grey-1;
   padding-left: $_search-icon-size * 2.5;
   padding-right: $_search-icon-size * 2.5;
 }

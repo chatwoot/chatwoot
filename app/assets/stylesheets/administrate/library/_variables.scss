@@ -1,10 +1,10 @@
 // Typography
-$base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+$base-font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
   "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
   sans-serif !default;
 $heading-font-family: $base-font-family !default;
 
-$base-font-size: 1em !default;
+$base-font-size: 16px !default;
 
 $bold-font-weight: 700 !default;
 
@@ -20,13 +20,13 @@ $small-spacing: $base-spacing / 2 !default;
 $white: #fff !default;
 $black: #000 !default;
 
-$blue: #1976d2 !default;
-$red: #d32f2f !default;
-$light-yellow: #f0cd66 !default;
-$light-green: #4ab471 !default;
+$blue: #1f93ff !default;
+$red: #ff382d !default;
+$light-yellow: #ffc532 !default;
+$light-green: #44ce4b !default;
 
 $grey-0: #f6f7f7 !default;
-$grey-1: #dfe0e1 !default;
+$grey-1: #f0f4f5 !default;
 $grey-2: #cfd8dc !default;
 $grey-5: #adb5bd !default;
 $grey-7: #293f54 !default;

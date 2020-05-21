@@ -1,32 +1,71 @@
-$_navigation-link-padding: 0.6em;
+$_navigation-link-padding: 0.625rem;
+
+.logo-brand {
+  margin-bottom: 1rem;
+  padding: 1rem 0.25rem;
+  text-align: center;
+}
 
 .navigation {
-  flex: 1 0 10rem;
-  padding: $base-spacing;
-  padding-left: 0;
+  background: $white;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-start;
+  left: 0;
+  margin: 0;
+  overflow: auto;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  width: 14.375rem;
+  z-index: 1023;
+
+  li {
+    align-items: center;
+    display: flex;
+
+    a {
+      color: #6e6f73;
+      text-decoration: none;
+    }
+
+    i {
+      min-width: 1.5rem;
+    }
+  }
 }
 
 .navigation__link {
   background-color: transparent;
-  color: $base-font-color;
+  color: #6e6f73;
   display: block;
   line-height: 1;
-  margin-left: -($_navigation-link-padding);
+  margin-bottom: .25rem;
   padding: $_navigation-link-padding;
-  transition: background-color $base-duration $base-timing,
-              color $base-duration $base-timing;
-
-  &:not(:last-of-type) {
-    margin-bottom: $small-spacing;
-  }
 
   &:hover {
-    background-color: mix($black, $base-background-color, 5%);
+    color: $blue;
+
+    a {
+      color: $blue;
+    }
+  }
+
+
+  &.navigation__link--active {
+    background-color: #f4f6fb;
     border-radius: $base-border-radius;
-    color: $base-font-color;
+    color: $blue;
+
+    a {
+      color: $blue;
+    }
   }
 }
 
-.navigation__link--active {
-  font-weight: $bold-font-weight;
+.logout {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
 }
