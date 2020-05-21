@@ -11,7 +11,7 @@ json.data do
   json.inviter_id resource.active_account_user.inviter_id
   json.confirmed resource.confirmed?
   json.avatar_url resource.avatar_url
-  json.accounts do 
+  json.accounts do
     json.array! resource.account_users do |account_user|
       json.id account_user.id
       json.account_id account_user.account_id
@@ -21,4 +21,3 @@ json.data do
     end
   end
 end
-
