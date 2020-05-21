@@ -1,4 +1,5 @@
 class Api::V1::Accounts::Channels::TwilioChannelsController < Api::BaseController
+  before_action :current_account
   before_action :authorize_request
 
   def create

@@ -1,8 +1,11 @@
 class ApplicationPolicy
-  attr_reader :user, :record
+  attr_reader :user_context, :user, :record, :account, :account_user
 
-  def initialize(user, record)
-    @user = user
+  def initialize(user_context, record)
+    @user_context = user_context = user_context
+    @user = user_context[:user]
+    @account = user_context[:account]
+    @account_user = user_context[:account_user]
     @record = record
   end
 
@@ -35,14 +38,17 @@ class ApplicationPolicy
   end
 
   def scope
-    Pundit.policy_scope!(user, record.class)
+    Pundit.policy_scope!(user_context, record.class)
   end
 
   class Scope
-    attr_reader :user, :scope
+    attr_reader :user_context, :user, :scope, :account, :account_user
 
-    def initialize(user, scope)
-      @user = user
+    def initialize(user_context, scope)
+      @user_context = user_context = user_context
+      @user = user_context[:user]
+      @account = user_context[:account]
+      @account_user = user_context[:account_user]
       @scope = scope
     end
 

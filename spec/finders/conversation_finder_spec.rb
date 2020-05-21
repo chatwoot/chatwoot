@@ -15,6 +15,7 @@ describe ::ConversationFinder do
     create(:conversation, account: account, inbox: inbox, assignee: user_1)
     create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
     create(:conversation, account: account, inbox: inbox, assignee: user_2)
+    Current.account = account
   end
 
   describe '#perform' do

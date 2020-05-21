@@ -11,10 +11,6 @@ class Api::V2::Accounts::ReportsController < Api::BaseController
 
   private
 
-  def current_account
-    current_user.account
-  end
-
   def account_summary_params
     {
       type: :account,

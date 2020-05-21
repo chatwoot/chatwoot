@@ -185,4 +185,29 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/update_active_at' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/update_active_at"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'modifies an account' do
+        expect(agent.account_users.first.active_at).to eq(nil)
+        post "/api/v1/accounts/#{account.id}/update_active_at",
+             params: {},
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.account_users.first.active_at).not_to eq(nil)
+      end
+    end
+  end
 end

@@ -1,7 +1,8 @@
 class Api::V1::Accounts::InboxesController < Api::BaseController
-  before_action :check_authorization
+  before_action :current_account
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
+  before_action :check_authorization
 
   def index
     @inboxes = policy_scope(current_account.inboxes)

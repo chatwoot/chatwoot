@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_115645) do
+ActiveRecord::Schema.define(version: 2020_05_20_125815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.bigint "inviter_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "active_at"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
