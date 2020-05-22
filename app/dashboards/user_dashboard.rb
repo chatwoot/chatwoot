@@ -10,6 +10,7 @@ class UserDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     account_users: Field::HasMany,
     id: Field::Number,
+    avatar_url: AvatarField,
     provider: Field::String,
     uid: Field::String,
     password: Field::Password,
@@ -37,6 +38,7 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
+    avatar_url
     id
     name
     email
@@ -46,6 +48,7 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
     id
+    avatar_url
     unconfirmed_email
     name
     nickname
@@ -80,7 +83,7 @@ class UserDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(user)
-  #   "User ##{user.id}"
-  # end
+  def display_resource(user)
+    "##{user.id} #{user.name}"
+  end
 end

@@ -8,11 +8,11 @@ class AccountUserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    account: Field::BelongsTo,
-    user: Field::BelongsTo,
-    inviter: Field::BelongsTo.with_options(class_name: 'User'),
+    account: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name'),
+    user: Field::BelongsTo.with_options(searchable: true, searchable_field: 'name'),
+    inviter: Field::BelongsTo.with_options(class_name: 'User', searchable: true, searchable_field: 'name'),
     id: Field::Number,
-    role: Field::String.with_options(searchable: false),
+    role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
     updated_at: Field::DateTime
   }.freeze
@@ -47,7 +47,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     account
     user
-    inviter
     role
   ].freeze
 
@@ -66,7 +65,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how account users are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(account_user)
-  #   "AccountUser ##{account_user.id}"
-  # end
+  def display_resource(account_user)
+    "AccountUser ##{account_user.id}"
+  end
 end

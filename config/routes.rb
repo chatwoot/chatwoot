@@ -173,7 +173,7 @@ Rails.application.routes.draw do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
       resources :accounts
-      resources :account_users, only: [:create, :destroy]
+      resources :account_users, only: [:new, :create, :destroy]
       resources :users
       resources :super_admins
       resources :access_tokens, only: [:index, :show]

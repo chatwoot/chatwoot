@@ -10,6 +10,7 @@ class SuperAdminDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     email: Field::String,
+    password: Field::Password,
     access_token: Field::HasOne,
     remember_created_at: Field::DateTime,
     sign_in_count: Field::Number,
@@ -52,12 +53,7 @@ class SuperAdminDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     email
-    remember_created_at
-    sign_in_count
-    current_sign_in_at
-    last_sign_in_at
-    current_sign_in_ip
-    last_sign_in_ip
+    password
   ].freeze
 
   # COLLECTION_FILTERS

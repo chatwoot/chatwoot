@@ -12,7 +12,7 @@ class AccountDashboard < Administrate::BaseDashboard
     name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    locale: Field::String.with_options(searchable: false),
+    locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map{ |x,y| y[:iso_639_1_code] }),
     account_users: Field::HasMany
   }.freeze
 
@@ -61,7 +61,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how accounts are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(account)
-  #   "Account ##{account.id}"
-  # end
+  def display_resource(account)
+    "##{account.id} #{account.name}"
+  end
 end
