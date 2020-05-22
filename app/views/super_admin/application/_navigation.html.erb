@@ -21,13 +21,13 @@ as defined by the routes in the `admin/` namespace
 
 <div class="navigation" role="navigation">
   <div class="logo-brand">
-    <img src="/brand-assets/logo.svg" alt="Chatwoot">
+    <%= link_to image_tag('/brand-assets/logo.svg', alt: 'Chatwoot Admin Dashboard'), super_admin_root_url %>
   </div>
 
   <ul>
     <li class="navigation__link">
       <i class="ion ion-ios-keypad"></i>
-      <%= link_to "Home", super_admin_root_url %>
+      <%= link_to "Dashboard", super_admin_root_url %>
     </li>
     <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
       <% next if ["account_users", "dashboard", "devise/sessions"].include?  resource.resource %>
