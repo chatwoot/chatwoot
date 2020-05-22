@@ -7,3 +7,17 @@
   border-radius: 1px solid $color-woot;
   color: $color-white;
 }
+
+
+.report-card {
+    margin: 10px;
+    float: left;
+    padding: 25px 50px;
+    text-align: center;
+
+    .metric{
+    font-size: 30px;
+    padding: 15px;
+    font-weight: 200;
+    }
+}
