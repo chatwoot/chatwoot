@@ -19,7 +19,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq("[##{message.conversation.display_id}] #{message.content.truncate(30)}")
+        expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
       end
 
       it 'not have private notes' do
@@ -44,6 +44,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'renders the reply to email' do
         expect(mail.reply_to).to eq([message&.conversation&.assignee&.email])
       end
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("<conversation/#{conversation.uuid}/messages/#{message.id}@>")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("<account/#{conversation.account.id}/conversation/#{conversation.uuid}@>")
+      end
     end
 
     context 'when the cutsom domain emails are enabled' do
@@ -66,6 +74,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets the from email to be the support email' do
         expect(mail.from).to eq([conversation.account.support_email])
+      end
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{conversation.account.domain}")
       end
     end
   end

@@ -6,6 +6,7 @@ class ConversationReplyMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     @conversation = conversation
+    @account = @conversation.account
     @contact = @conversation.contact
     @agent = @conversation.assignee
 
@@ -15,33 +16,56 @@ class ConversationReplyMailer < ApplicationMailer
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:reportable?)
 
-    mail(to: @contact&.email, from: from_email, reply_to: reply_email, subject: mail_subject(@messages.last))
+    mail({
+           to: @contact&.email,
+           from: from_email,
+           reply_to: reply_email,
+           subject: mail_subject(@messages.last),
+           message_id: custom_message_id,
+           in_reply_to: in_reply_to_email
+         })
   end
 
   private
 
-  def mail_subject(last_message, trim_length = 50)
-    subject_line = last_message&.content&.truncate(trim_length) || 'New messages on this conversation'
+  def mail_subject(_last_message, _trim_length = 50)
+    subject_line = I18n.t('conversations.reply.email_subject')
     "[##{@conversation.display_id}] #{subject_line}"
   end
 
   def reply_email
     if custom_domain_email_enabled?
-      "reply+to+#{@conversation.uuid}@#{@conversation.account.domain}"
+      "reply+to+#{@conversation.uuid}@#{@account.domain}"
     else
       @agent&.email
     end
   end
 
   def from_email
-    if custom_domain_email_enabled? && @conversation.account.support_email.present?
-      @conversation.account.support_email
+    if custom_domain_email_enabled? && @account.support_email.present?
+      @account.support_email
     else
       ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
     end
   end
 
+  def custom_message_id
+    "<conversation/#{@conversation.uuid}/messages/#{@messages.last.id}@#{current_domain}>"
+  end
+
+  def in_reply_to_email
+    "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+  end
+
   def custom_domain_email_enabled?
-    @custom_domain_email_enabled ||= @conversation.account.domain_emails_enabled? && @conversation.account.domain.present?
+    @custom_domain_email_enabled ||= @account.domain_emails_enabled? && @account.domain.present?
+  end
+
+  def current_domain
+    if custom_domain_email_enabled? && @account.domain
+      @account.domain
+    else
+      GlobalConfig.get('FALLBACK_DOMAIN')['FALLBACK_DOMAIN']
+    end
   end
 end
