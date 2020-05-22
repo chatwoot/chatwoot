@@ -19,7 +19,7 @@ RSpec.describe ConversationMailbox, type: :mailbox do
     end
 
     it 'add the mail content as new message on the conversation' do
-      expect(conversation.messages.last.content).to eq("Let's talk about these images:\r\n\r\n")
+      expect(conversation.messages.last.content).to eq("Let's talk about these images:")
     end
 
     it 'add the attachments' do
