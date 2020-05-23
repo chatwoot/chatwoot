@@ -8,6 +8,10 @@
       "SUBMIT": "Enviar"
     }
   },
+  "DATE_HELPER": {
+    "TODAY": "Hoje",
+    "YESTERDAY": "Ontem"
+  },
   "POWERED_BY": "Desenvolvido por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
   "CHAT_PLACEHOLDER": "Digite sua mensagem"

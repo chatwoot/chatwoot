@@ -14,6 +14,10 @@
     "OTHERS_ARE_AVAILABLE": "andere sind verfügbar",
     "AND": "und"
   },
+  "DATE_HELPER": {
+    "TODAY": "Heute",
+    "YESTERDAY": "Gestern"
+  },
   "POWERED_BY": "Unterstützt von Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
   "CHAT_PLACEHOLDER": "Geben Sie Ihre Nachricht ein"

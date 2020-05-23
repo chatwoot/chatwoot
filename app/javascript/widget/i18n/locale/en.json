@@ -14,6 +14,10 @@
     "OTHERS_ARE_AVAILABLE": "others are available",
     "AND": "and"
   },
+  "DATE_HELPER": {
+    "TODAY": "Today",
+    "YESTERDAY": "Yesterday"
+  },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Please enter your email",
   "CHAT_PLACEHOLDER": "Type your message"

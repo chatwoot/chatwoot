@@ -1,5 +1,5 @@
 import moment from 'moment';
-
+import { i18n } from '../../packs/widget';
 class DateHelper {
   constructor(date) {
     this.date = moment(date * 1000);
@@ -9,10 +9,10 @@ class DateHelper {
 
   format(dateFormat = 'MMM DD, YYYY') {
     if (moment(this.date).isSame(this.today, 'day')) {
-      return 'TODAY';
+      return i18n.t('DATE_HELPER.TODAY');
     }
     if (moment(this.date).isSame(this.yesterday, 'day')) {
-      return 'YESTERDAY';
+      return i18n.t('DATE_HELPER.YESTERDAY');
     }
     return this.date.format(dateFormat);
   }

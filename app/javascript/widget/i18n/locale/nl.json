@@ -14,6 +14,10 @@
     "OTHERS_ARE_AVAILABLE": "anderen zijn beschikbaar",
     "AND": "en"
   },
+  "DATE_HELPER": {
+    "TODAY": "Vandaag",
+    "YESTERDAY": "Gisteren"
+  },
   "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
   "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
   "CHAT_PLACEHOLDER": "Typ uw bericht"

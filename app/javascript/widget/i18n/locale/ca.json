@@ -14,6 +14,10 @@
     "OTHERS_ARE_AVAILABLE": "altres estan disponibles",
     "AND": "i"
   },
+  "DATE_HELPER": {
+    "TODAY": "Avui",
+    "YESTERDAY": "Ahir"
+  },
   "POWERED_BY": "Desenvolupat per Chatwoot",
   "EMAIL_PLACEHOLDER": "Introduïu el vostre correu electrònic",
   "CHAT_PLACEHOLDER": "Escriu el teu missatge"
