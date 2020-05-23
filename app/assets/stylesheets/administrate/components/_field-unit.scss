@@ -43,3 +43,12 @@
     content: ' *';
   }
 }
+
+.attribute-data--avatar-field {
+  height: $space-larger;
+  width: $space-larger;
+
+  img {
+    border-radius: 50%;
+  }
+}

@@ -37,9 +37,11 @@ tbody tr {
 
   td {
     &.cell-data--avatar-field {
+      line-height: 1;
       text-align: center;
 
       img {
+        border-radius: 50%;
         height: $space-large;
         max-height: $space-large;
         width: $space-large;
