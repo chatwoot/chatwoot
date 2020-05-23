@@ -4,18 +4,17 @@ input[type="reset"],
 input[type="submit"],
 .button {
   appearance: none;
-  background-color: $action-color;
+  background-color: $color-woot;
   border: 0;
   border-radius: $base-border-radius;
   color: $white;
   cursor: pointer;
   display: inline-block;
-  font-family: $base-font-family;
-  font-size: $base-font-size;
+  font-size: $font-size-default;
   -webkit-font-smoothing: antialiased;
-  font-weight: $bold-font-weight;
+  font-weight: $font-weight-medium;
   line-height: 1;
-  padding: $small-spacing $base-spacing;
+  padding: $space-one $space-two;
   text-decoration: none;
   transition: background-color $base-duration $base-timing;
   user-select: none;
@@ -23,7 +22,7 @@ input[type="submit"],
   white-space: nowrap;
 
   &:hover {
-    background-color: mix($black, $action-color, 20%);
+    background-color: mix($black, $color-woot, 20%);
     color: $white;
   }
 
@@ -37,7 +36,7 @@ input[type="submit"],
     opacity: 0.5;
 
     &:hover {
-      background-color: $action-color;
+      background-color: $color-woot;
     }
   }
 }

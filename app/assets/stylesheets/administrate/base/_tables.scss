@@ -1,6 +1,6 @@
 table {
   border-collapse: collapse;
-  font-size: 0.9em;
+  font-size: $font-size-default;
   text-align: left;
   width: 100%;
 
@@ -10,13 +10,18 @@ table {
   }
 }
 
-thead {
-  font-weight: 500;
-  background-color: $grey-1;
-}
-
 tr {
   border-bottom: $base-border;
+
+  th {
+    font-weight: $font-weight-medium;
+
+    &.cell-label--avatar-field {
+      a {
+        display: none;
+      }
+    }
+  }
 }
 
 tbody tr {
@@ -29,26 +34,34 @@ tbody tr {
     outline: $focus-outline;
     outline-offset: -($focus-outline-width);
   }
+
+  td {
+    &.cell-data--avatar-field {
+      text-align: center;
+
+      img {
+        height: $space-large;
+        max-height: $space-large;
+        width: $space-large;
+      }
+    }
+  }
 }
 
 td,
 th {
-  font-feature-settings: "kern", "liga", "clig", "calt", "lnum", "tnum";
-  font-kerning: normal;
-  font-variant-ligatures: common-ligatures, contextual;
-  font-variant-numeric: lining-nums, tabular-nums;
-  padding: 0.75rem;
+  padding: $space-slab;
   vertical-align: middle;
 }
 
 td:first-child,
 th:first-child {
-  padding-left: 2rem;
+  padding-left: 0;
 }
 
 td:last-child,
 th:last-child {
-  padding-right: 2rem;
+  padding-right: 0;
 }
 
 td img {

@@ -26,7 +26,7 @@ class AccountUserDashboard < Administrate::BaseDashboard
     account
     user
     inviter
-    id
+    role
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

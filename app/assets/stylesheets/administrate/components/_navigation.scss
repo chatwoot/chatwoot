@@ -1,24 +1,25 @@
-$_navigation-link-padding: 0.625rem;
-
 .logo-brand {
-  margin-bottom: 1rem;
-  padding: 1rem 0.25rem;
+  margin-bottom: $space-normal;
+  padding: $space-normal $space-smaller;
   text-align: center;
 }
 
 .navigation {
   background: $white;
+  border-right: 1px solid $color-border;
   display: flex;
   flex-direction: column;
+  font-size: $font-size-default;
+  font-weight: $font-weight-medium;
   height: 100%;
   justify-content: flex-start;
   left: 0;
   margin: 0;
   overflow: auto;
-  padding: 1rem;
+  padding: $space-normal;
   position: fixed;
   top: 0;
-  width: 14.375rem;
+  width: 23rem;
   z-index: 1023;
 
   li {
@@ -26,23 +27,23 @@ $_navigation-link-padding: 0.625rem;
     display: flex;
 
     a {
-      color: #6e6f73;
+      color: $color-gray;
       text-decoration: none;
     }
 
     i {
-      min-width: 1.5rem;
+      min-width: $space-medium;
     }
   }
 }
 
 .navigation__link {
   background-color: transparent;
-  color: #6e6f73;
+  color: $color-gray;
   display: block;
   line-height: 1;
-  margin-bottom: .25rem;
-  padding: $_navigation-link-padding;
+  margin-bottom: $space-smaller;
+  padding: $space-one;
 
   &:hover {
     color: $blue;
@@ -54,7 +55,7 @@ $_navigation-link-padding: 0.625rem;
 
 
   &.navigation__link--active {
-    background-color: #f4f6fb;
+    background-color: $color-background;
     border-radius: $base-border-radius;
     color: $blue;
 
@@ -65,7 +66,7 @@ $_navigation-link-padding: 0.625rem;
 }
 
 .logout {
+  bottom: $space-normal;
+  left: $space-normal;
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
 }

@@ -1,29 +1,26 @@
 .main-content {
-  margin-left: 14.375rem;
-  background-color: $white;
-  border-left: 1px solid $grey-1;
-  flex: 1 1 100%;
-  padding-bottom: 10vh;
+  font-size: $font-size-default;
+  left: 23rem;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .main-content__body {
-  padding: 0 2rem 1rem;
-}
-
-.main-content__body--flush {
-  padding-left: 0;
-  padding-right: 0;
+  padding: $space-two;
 }
 
 .main-content__header {
   align-items: center;
-  border-bottom: $base-border;
+  background-color: $color-white;
+  border-bottom: 1px solid $color-border;
   display: flex;
-  padding: 1rem 2rem;
+  min-height: 5.6rem;
+  padding: $space-small $space-normal;
 }
 
 .main-content__page-title {
-  font-size: 1.6em;
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
   margin-right: auto;
-  font-weight: 500;
 }

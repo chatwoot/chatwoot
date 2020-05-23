@@ -23,7 +23,6 @@ p {
 
 a {
   color: $action-color;
-  text-decoration-skip-ink: auto;
   transition: color $base-duration $base-timing;
 
   &:hover {

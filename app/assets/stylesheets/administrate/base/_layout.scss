@@ -1,6 +1,8 @@
 html {
-  background-color: $base-background-color;
+  background-color: $color-white;
   box-sizing: border-box;
+  font-size: 10px;
+  -webkit-font-smoothing: antialiased;
 }
 
 *,

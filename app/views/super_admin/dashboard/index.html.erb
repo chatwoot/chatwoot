@@ -35,48 +35,34 @@ It renders the `_table` partial to display details about the resources.
 
 <section class="main-content__body main-content__body--flush">
 
-<div class="row" style="
-    height: 200px;
-">
-
-  <div class="small-3 report-card">
-    <h3 class="heading">Accounts</h3> 
-    <h4 class="metric"><%= Account.all.length %></h4> 
-    <p class="desc">(Total)</p>
+<div class="report--list">
+  <div class="report-card">
+    <div class="metric"><%= number_with_delimiter(Account.all.length) %></div>
+    <div>Accounts</div>
   </div>
 
-  <div class="small-3 report-card">
-    <h3 class="heading">Users</h3> 
-    <h4 class="metric"><%= User.all.length %></h4> 
-    <p class="desc">(Total)</p>
+  <div class="report-card">
+    <div class="metric"><%= number_with_delimiter(User.all.length) %></div>
+    <div>Users</div>
   </div>
 
-  <div class="small-3 report-card">
-    <h3 class="heading">Inboxes</h3> 
-    <h4 class="metric"><%= Inbox.all.length %></h4> 
-    <p class="desc">(Total)</p>
+  <div class="report-card">
+    <div class="metric"><%= number_with_delimiter(Inbox.all.length) %></div>
+    <div>Inboxes</div>
   </div>
 
-  <div class="small-3 report-card">
-    <h3 class="heading">Conversations</h3> 
-    <h4 class="metric"><%= Conversation.all.length %></h4> 
-    <p class="desc">(Total)</p>
+  <div class="report-card">
+    <div class="metric"><%= number_with_delimiter(Conversation.all.length) %></div>
+    <div>Conversations</div>
   </div>
 
-  <div class="small-3 report-card">
-    <h3 class="heading">Messages</h3> 
-    <h4 class="metric"><%= Message.all.length %></h4> 
-    <p class="desc">(Total)</p>
-  </div>
-
-  <div class="small-3 report-card">
-    <h3 class="heading">Incoming Messages</h3> 
-    <h4 class="metric"><%= Message.where(message_type: 'incoming').all.length %></h4> 
-    <p class="desc">(Total)</p>
+  <div class="report-card">
+    <div class="metric"><%= number_with_delimiter(Message.all.length) %></div>
+    <div>Messages</div>
   </div>
 </div>
 
-  
+
 
   <div id="chart" style="width: 100%; padding: 0px 50px; height: 500px;"></div>
 

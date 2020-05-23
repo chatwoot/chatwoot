@@ -1,4 +1,5 @@
 .pagination {
+  font-size: $font-size-default;
   margin-top: $base-spacing;
   padding-left: $base-spacing;
   padding-right: $base-spacing;
@@ -13,6 +14,6 @@
   }
 
   .current {
-    font-weight: $bold-font-weight;
+    font-weight: $font-weight-medium;
   }
 }
