@@ -10,14 +10,23 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
     if resource.save
       redirect_to(
         [namespace, redirect_resource],
-        notice: translate_with_resource("create.success"),
+        notice: translate_with_resource('create.success')
       )
     else
       redirect_to(
         [namespace, redirect_resource],
-        notice: resource.errors.full_messages.first,
+        notice: resource.errors.full_messages.first
       )
     end
+  end
+
+  def destroy
+    if requested_resource.destroy
+      flash[:notice] = translate_with_resource('destroy.success')
+    else
+      flash[:error] = requested_resource.errors.full_messages.join('<br/>')
+    end
+    redirect_to([namespace, requested_resource.account])
   end
 
   # Override this method to specify custom lookup behavior.
