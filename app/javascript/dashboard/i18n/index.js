@@ -9,7 +9,7 @@ import pt from './locale/pt';
 import pt_BR from './locale/pt_BR';
 import ro from './locale/ro';
 
-export default {
+export const translations = {
   ca,
   de,
   el,

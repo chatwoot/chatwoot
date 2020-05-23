@@ -9,7 +9,7 @@ import { default as nl } from './locale/nl.json';
 import { default as pt } from './locale/pt.json';
 import { default as pt_BR } from './locale/pt_BR.json';
 
-export default {
+export const translations = {
   ar,
   ca,
   de,

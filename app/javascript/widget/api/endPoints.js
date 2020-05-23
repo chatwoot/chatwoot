@@ -1,7 +1,7 @@
-import Vue from 'vue';
+import { i18n } from '../../packs/widget';
 
 const sendMessage = content => {
-  const locale = Vue.config.lang;
+  const locale = i18n.locale;
   const refererURL = window.refererURL || '';
   let search = window.location.search;
   if (search) {

@@ -8,7 +8,7 @@
 import { mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper } from 'widget/helpers/utils';
-import Vue from 'vue';
+import { i18n } from '../packs/widget';
 
 export default {
   name: 'App',
@@ -77,7 +77,7 @@ export default {
     setLocale(locale) {
       const { enabledLanguages } = window.chatwootWebChannel;
       if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
-        Vue.config.lang = locale;
+        i18n.locale = locale;
       }
     },
   },

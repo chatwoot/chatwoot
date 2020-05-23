@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import WootSnackbarBox from './components/SnackbarContainer';
 import { accountIdFromPathname } from './helper/URLHelper';
+import { i18n } from '../packs/application';
 
 export default {
   name: 'App',
@@ -39,7 +39,7 @@ export default {
       if (accountId) {
         await this.$store.dispatch('accounts/get');
         const { locale } = this.getAccount(accountId);
-        Vue.config.lang = locale;
+        i18n.locale = locale;
       }
     },
   },

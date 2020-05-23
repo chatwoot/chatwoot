@@ -19,7 +19,7 @@ import javascript from 'highlight.js/lib/languages/javascript';
 
 import WootUiKit from '../dashboard/components';
 import App from '../dashboard/App';
-import i18n from '../dashboard/i18n';
+import { translations } from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
 import commonHelpers from '../dashboard/helper/commons';
 import router from '../dashboard/routes';
@@ -48,11 +48,12 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
-Object.keys(i18n).forEach(lang => {
-  Vue.locale(lang, i18n[lang]);
+export const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: translations,
 });
 
-Vue.config.lang = 'en';
 sync(store, router);
 // load common helpers into js
 commonHelpers();
@@ -62,9 +63,10 @@ window.axios = createAxios(axios);
 window.bus = new Vue();
 window.onload = () => {
   window.WOOT = new Vue({
+    components: { App },
+    i18n,
     router,
     store,
-    components: { App },
     template: '<App/>',
   }).$mount('#app');
   vueActionCable.init();
