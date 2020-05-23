@@ -22,6 +22,7 @@ It renders the `_table` partial to display details about the resources.
 
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
 %>
+<%= javascript_include_tag "dashboardChart" %>
 
 <% content_for(:title) do %>
   Admin Dashboard
@@ -37,51 +38,32 @@ It renders the `_table` partial to display details about the resources.
 
 <div class="report--list">
   <div class="report-card">
-    <div class="metric"><%= number_with_delimiter(Account.all.length) %></div>
+    <div class="metric"><%= @accounts_count %></div>
     <div>Accounts</div>
   </div>
-
   <div class="report-card">
-    <div class="metric"><%= number_with_delimiter(User.all.length) %></div>
+    <div class="metric"><%= @users_count  %></div>
     <div>Users</div>
   </div>
-
   <div class="report-card">
-    <div class="metric"><%= number_with_delimiter(Inbox.all.length) %></div>
+    <div class="metric"><%= @inboxes_count  %></div>
     <div>Inboxes</div>
   </div>
-
   <div class="report-card">
-    <div class="metric"><%= number_with_delimiter(Conversation.all.length) %></div>
+    <div class="metric"><%= @conversations_count %></div>
     <div>Conversations</div>
   </div>
-
   <div class="report-card">
-    <div class="metric"><%= number_with_delimiter(Message.all.length) %></div>
+    <div class="metric"><%= @messages_count %></div>
     <div>Messages</div>
   </div>
 </div>
 
-
-
-  <div id="chart" style="width: 100%; padding: 0px 50px; height: 500px;"></div>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="chart--container" style="height:500px">
+  <canvas id="dashboard-chart" width="500" height="250"></canvas>
+</div>
 <%= javascript_tag do -%>
-  google.charts.load('current', {'packages':['bar']});
-  google.charts.setOnLoadCallback(drawChart);
-
-  function drawChart() {
-    var data = JSON.parse('<%= @data.to_json.html_safe -%>');
-    data = [['Date', 'Messages']].concat(data);
-    data = google.visualization.arrayToDataTable(data);
-    var options = {
-      legend: { position: "none" }
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('chart'));
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-  }
+drawSuperAdminDashboard(<%= @data.to_json.html_safe -%>)
 <% end -%>
 
 </section>
