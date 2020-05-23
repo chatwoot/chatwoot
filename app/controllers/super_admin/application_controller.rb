@@ -17,7 +17,7 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   def order
     @order ||= Administrate::Order.new(
       params.fetch(resource_name, {}).fetch(:order, 'id'),
-      params.fetch(resource_name, {}).fetch(:direction, 'desc'),
+      params.fetch(resource_name, {}).fetch(:direction, 'desc')
     )
   end
 end
