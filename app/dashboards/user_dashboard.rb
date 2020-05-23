@@ -29,7 +29,8 @@ class UserDashboard < Administrate::BaseDashboard
     tokens: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    pubsub_token: Field::String
+    pubsub_token: Field::String,
+    accounts: CountField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -42,6 +43,7 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     name
     email
+    accounts
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

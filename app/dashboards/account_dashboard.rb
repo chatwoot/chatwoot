@@ -12,7 +12,9 @@ class AccountDashboard < Administrate::BaseDashboard
     name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map{ |x,y| y[:iso_639_1_code] }),
+    users: CountField,
+    conversations: CountField,
+    locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
     account_users: Field::HasMany
   }.freeze
 
@@ -25,6 +27,8 @@ class AccountDashboard < Administrate::BaseDashboard
     id
     name
     locale
+    users
+    conversations
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -35,6 +39,7 @@ class AccountDashboard < Administrate::BaseDashboard
     created_at
     updated_at
     locale
+    conversations
     account_users
   ].freeze
 
