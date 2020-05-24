@@ -10,21 +10,43 @@ as defined by the routes in the `admin/` namespace
 <%= javascript_pack_tag 'superadmin_pages' %>
 <%= stylesheet_pack_tag 'superadmin_pages' %>
 
+<%
+  sidebar_icons = {
+    accounts: 'ion ion-briefcase',
+    users: 'ion ion-person-stalker',
+    super_admins: 'ion ion-unlocked',
+    access_tokens: 'ion-key'
+  }
+%>
 
-<nav class="navigation" role="navigation">
-  <%= link_to "Dashboard", super_admin_root_url, class: "button button--alt" %>
- 
-  <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-    <%= link_to(
-      display_resource_name(resource),
-      [namespace, resource_index_route_key(resource)],
-      class: "navigation__link navigation__link--#{nav_link_state(resource)}"
-    ) if valid_action? :index, resource  %>
-  <% end %>
-
-  <%= link_to "Sidekiq", sidekiq_web_url , class: "button" %>
-  
-  <div style="margin-top: 300px;">
-    <%= link_to "Logout", super_admin_logout_url , class: "button button--alt" %>
+<div class="navigation" role="navigation">
+  <div class="logo-brand">
+    <%= link_to image_tag('/brand-assets/logo.svg', alt: 'Chatwoot Admin Dashboard'), super_admin_root_url %>
   </div>
-</nav>
+
+  <ul>
+    <li class="navigation__link">
+      <i class="ion ion-ios-keypad"></i>
+      <%= link_to "Dashboard", super_admin_root_url %>
+    </li>
+    <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
+      <% next if ["account_users", "dashboard", "devise/sessions"].include?  resource.resource %>
+      <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
+        <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
+        <%= link_to(
+          display_resource_name(resource),
+          [namespace, resource_index_route_key(resource)],
+        ) if valid_action? :index, resource  %>
+      </li>
+    <% end %>
+
+    <li class="navigation__link">
+      <i class="ion ion ion-network"></i>
+      <%= link_to "Sidekiq", sidekiq_web_url %>
+    </li>
+  </ul>
+  <li class="navigation__link logout">
+    <i class="ion ion-log-out"></i>
+    <%= link_to "Logout", super_admin_logout_url %>
+  </li>
+</div>
