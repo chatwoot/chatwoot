@@ -12,13 +12,11 @@ function prepareData(data) {
   };
 }
 
-// eslint-disable-next-line
-function drawSuperAdminDashboard(data) {
-  var ctx = document.getElementById('dashboard-chart').getContext('2d');
+function getChartOptions() {
   var fontFamily =
     'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
-  var chartOptions = {
+  return {
     responsive: true,
     legend: {
       labels: {
@@ -49,6 +47,11 @@ function drawSuperAdminDashboard(data) {
       ],
     },
   };
+}
+
+// eslint-disable-next-line
+function drawSuperAdminDashboard(data) {
+  var ctx = document.getElementById('dashboard-chart').getContext('2d');
   var chartData = prepareData(data);
   // eslint-disable-next-line
   new Chart(ctx, {
@@ -63,6 +66,6 @@ function drawSuperAdminDashboard(data) {
         },
       ],
     },
-    options: chartOptions,
+    options: getChartOptions(),
   });
 }
