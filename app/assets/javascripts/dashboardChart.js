@@ -6,43 +6,27 @@ function prepareData(data) {
     labels.push(item[0]);
     dataSet.push(item[1]);
   });
-  return {
-    labels,
-    dataSet,
-  };
+  return { labels, dataSet };
 }
 
 function getChartOptions() {
   var fontFamily =
     'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-
   return {
     responsive: true,
-    legend: {
-      labels: {
-        fontFamily,
-      },
-    },
+    legend: { labels: { fontFamily } },
     scales: {
       xAxes: [
         {
           barPercentage: 1.26,
-          ticks: {
-            fontFamily,
-          },
-          gridLines: {
-            display: false,
-          },
+          ticks: { fontFamily },
+          gridLines: { display: false },
         },
       ],
       yAxes: [
         {
-          ticks: {
-            fontFamily,
-          },
-          gridLines: {
-            display: false,
-          },
+          ticks: { fontFamily },
+          gridLines: { display: false },
         },
       ],
     },
