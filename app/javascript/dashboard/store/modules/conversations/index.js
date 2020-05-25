@@ -10,6 +10,7 @@ const initialSelectedChat = {
   id: null,
   meta: {},
   status: null,
+  muted: false,
   seen: false,
   agentTyping: 'off',
   dataFetched: false,
@@ -114,6 +115,12 @@ const mutations = {
     const [chat] = getSelectedChatConversation(_state);
     chat.status = status;
     _state.selectedChat.status = status;
+  },
+
+  [types.default.MUTE_CONVERSATION](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    chat.muted = true;
+    _state.selectedChat.muted = true;
   },
 
   [types.default.SEND_MESSAGE](_state, currentMessage) {

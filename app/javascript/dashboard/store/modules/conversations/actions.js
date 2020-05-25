@@ -215,6 +215,15 @@ const actions = {
       // Handle error
     }
   },
+
+  muteConversation: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.mute(conversationId);
+      commit(types.default.MUTE_CONVERSATION);
+    } catch (error) {
+      //
+    }
+  },
 };
 
 export default actions;

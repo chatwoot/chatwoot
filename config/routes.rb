@@ -48,6 +48,7 @@ Rails.application.routes.draw do
             resources :labels, only: [:create, :index]
           end
           member do
+            post :mute
             post :toggle_status
             post :toggle_typing_status
             post :update_last_seen
