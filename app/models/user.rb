@@ -64,7 +64,7 @@ class User < ApplicationRecord
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
   has_many :inbox_members, dependent: :destroy
-  has_many :assigned_inboxes, through: :inbox_members, source: :inbox
+  has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
 
@@ -94,6 +94,10 @@ class User < ApplicationRecord
 
   def account
     current_account_user&.account
+  end
+
+  def assigned_inboxes
+    inboxes.where(account_id: Current.account.id)
   end
 
   def administrator?
