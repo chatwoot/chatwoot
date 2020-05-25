@@ -13,9 +13,8 @@ json.data do
   json.avatar_url resource.avatar_url
   json.accounts do
     json.array! resource.account_users do |account_user|
-      json.id account_user.id
-      json.account_id account_user.account_id
-      json.account_name account_user.account.name
+      json.id account_user.account_id
+      json.name account_user.account.name
       json.active_at account_user.active_at
       json.role account_user.role
     end
