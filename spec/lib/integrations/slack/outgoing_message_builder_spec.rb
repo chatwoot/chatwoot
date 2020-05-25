@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'webmock/rspec'
 
 describe Integrations::Slack::OutgoingMessageBuilder do
   let(:account) { create(:account) }

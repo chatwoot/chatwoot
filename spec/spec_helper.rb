@@ -1,5 +1,8 @@
 require 'simplecov'
+require 'webmock/rspec'
+
 SimpleCov.start 'rails'
+WebMock.allow_net_connect!
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
