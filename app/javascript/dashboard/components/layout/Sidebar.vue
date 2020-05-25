@@ -41,8 +41,11 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <li>
-              <button class="button clear" @click="changeAccount">
+            <li v-if="currentUser.accounts.length > 1">
+              <button
+                class="button clear change-accounts--button"
+                @click="changeAccount"
+              >
                 {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
               </button>
             </li>
@@ -72,10 +75,26 @@
         <span class="current-user--options icon ion-android-more-vertical" />
       </div>
     </div>
-    <woot-modal :show="showAccountModal" :on-close="onClose">
-      <div v-for="account in currentUser.accounts" :key="account.id">
+    <woot-modal
+      :show="showAccountModal"
+      :on-close="onClose"
+      class="account-selector--modal"
+    >
+      <woot-modal-header
+        :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
+        :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
+      />
+      <div
+        v-for="account in currentUser.accounts"
+        :key="account.id"
+        class="account-selector"
+      >
         <a :href="`/app/accounts/${account.id}/dashboard`">
-          {{ account.name }}
+          <i v-if="account.id === accountId" class="ion ion-ios-checkmark" />
+          <label :for="account.name" class="account--details">
+            <div class="account--name">{{ account.name }}</div>
+            <div class="account--role">{{ account.role }}</div>
+          </label>
         </a>
       </div>
     </woot-modal>
@@ -229,3 +248,71 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import '~dashboard/assets/scss/variables';
+
+.account-selector--modal {
+  .modal-container {
+    width: 40rem;
+  }
+
+  .page-top-bar {
+    padding-bottom: $space-two;
+  }
+}
+
+.change-accounts--button.button {
+  font-weight: $font-weight-normal;
+  font-size: $font-size-small;
+  padding: $space-small $space-one;
+}
+
+.dropdown-pane {
+  li {
+    a {
+      padding: $space-small $space-one !important;
+    }
+  }
+}
+
+.account-selector {
+  cursor: pointer;
+  padding: $space-small $space-large;
+
+  .ion-ios-checkmark {
+    font-size: $font-size-big;
+
+    & + .account--details {
+      padding-left: $space-normal;
+    }
+  }
+
+  .account--details {
+    padding-left: $space-large + $space-smaller;
+  }
+
+  &:last-child {
+    margin-bottom: $space-large;
+  }
+
+  a {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+
+    .account--name {
+      cursor: pointer;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-medium;
+      line-height: 1;
+    }
+
+    .account--role {
+      cursor: pointer;
+      font-size: $font-size-mini;
+      text-transform: capitalize;
+    }
+  }
+}
+</style>
