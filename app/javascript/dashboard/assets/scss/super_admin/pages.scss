@@ -1,13 +1,3 @@
 @import 'shared/assets/fonts/inter';
 @import '../variables';
-
-body {
-  background-color: $color-background;
-  font-family: Inter;
-}
-
-.button {
-  background-color: $color-woot;
-  border-radius: 1px solid $color-woot;
-  color: $color-white;
-}
+@import '~ionicons/scss/ionicons';

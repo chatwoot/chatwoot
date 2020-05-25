@@ -19,7 +19,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
         get '/super_admin/users'
         expect(response).to have_http_status(:success)
         expect(response.body).to include('New user')
-        expect(response.body).to include(user.name)
+        expect(response.body).to include(CGI.escapeHTML(user.name))
       end
     end
   end
