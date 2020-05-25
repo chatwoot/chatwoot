@@ -2,7 +2,6 @@
   <modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header
-        :header-image="headerImage"
         :header-title="$t('CANNED_MGMT.ADD.TITLE')"
         :header-content="$t('CANNED_MGMT.ADD.DESC')"
       />
@@ -22,8 +21,9 @@
         <div class="medium-12 columns">
           <label :class="{ error: $v.content.$error }">
             {{ $t('CANNED_MGMT.ADD.FORM.CONTENT.LABEL') }}
-            <input
+            <textarea
               v-model.trim="content"
+              rows="5"
               type="text"
               :placeholder="$t('CANNED_MGMT.ADD.FORM.CONTENT.PLACEHOLDER')"
               @input="$v.content.$touch"
@@ -41,7 +41,9 @@
               :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
               :loading="addCanned.showLoading"
             />
-            <a @click="onClose">Cancel</a>
+            <button class="button clear" @click.prevent="onClose">
+              {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
+            </button>
           </div>
         </div>
       </form>
@@ -57,14 +59,17 @@ import { required, minLength } from 'vuelidate/lib/validators';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 
-const cannedImg = require('assets/images/canned.svg');
-
 export default {
   components: {
     WootSubmitButton,
     Modal,
   },
-  props: ['onClose'],
+  props: {
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+  },
   data() {
     return {
       shortCode: '',
@@ -80,11 +85,6 @@ export default {
       agentTypeList: this.$t('CANNED_MGMT.AGENT_TYPES'),
       show: true,
     };
-  },
-  computed: {
-    headerImage() {
-      return cannedImg;
-    },
   },
   validations: {
     shortCode: {

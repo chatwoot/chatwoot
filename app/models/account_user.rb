@@ -43,7 +43,7 @@ class AccountUser < ApplicationRecord
   end
 
   def destroy_notification_setting
-    setting = user.notification_settings.new(account_id: account.id)
+    setting = user.notification_settings.find_by(account_id: account.id)
     setting.destroy!
   end
 end

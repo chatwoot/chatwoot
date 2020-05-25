@@ -29,7 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def switch_locale(account)
-    I18n.locale = (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil) || I18n.default_locale
+    # priority is for locale set in query string (mostly for widget/from js sdk)
+    locale ||= (I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil)
+    # if local is not set in param, lets try account
+    locale ||= (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil)
+    I18n.locale = locale || I18n.default_locale
   end
 
   def account_accessible_for_user?(account)

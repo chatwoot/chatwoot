@@ -6,7 +6,7 @@ class Facebook::SendReplyService
     return if inbox.channel.class.to_s != 'Channel::FacebookPage'
     return unless outgoing_message_from_chatwoot?
 
-    Bot.deliver(delivery_params, access_token: message.channel_token)
+    FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
   end
 
   private

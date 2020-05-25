@@ -42,15 +42,15 @@
               :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
               :loading="uiFlags.isUpdating"
             />
-            <a @click="onClose">
+            <button class="button clear" @click.prevent="onClose">
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </a>
+            </button>
           </div>
           <div class="medium-6 columns text-right">
-            <a @click="resetPassword">
+            <button class="button clear" @click.prevent="resetPassword">
               <i class="ion-locked"></i>
               {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-            </a>
+            </button>
           </div>
         </div>
       </form>

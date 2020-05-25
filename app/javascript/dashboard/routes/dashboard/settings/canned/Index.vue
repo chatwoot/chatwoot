@@ -87,7 +87,7 @@
     </woot-modal>
 
     <!-- Delete Canned Response -->
-    <delete-canned
+    <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
@@ -104,13 +104,11 @@ import { mapGetters } from 'vuex';
 
 import AddCanned from './AddCanned';
 import EditCanned from './EditCanned';
-import DeleteCanned from './DeleteCanned';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
-    DeleteCanned,
   },
   data() {
     return {

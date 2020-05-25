@@ -70,7 +70,7 @@
       <new-webhook :on-close="hideAddPopup" />
     </woot-modal>
 
-    <delete-webhook
+    <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
@@ -85,13 +85,11 @@
 /* global bus */
 import { mapGetters } from 'vuex';
 import NewWebhook from './New';
-import DeleteWebhook from './Delete';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NewWebhook,
-    DeleteWebhook,
   },
   mixins: [globalConfigMixin],
   data() {

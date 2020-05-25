@@ -100,7 +100,7 @@
       />
     </woot-modal>
     <!-- Delete Agent -->
-    <delete-agent
+    <woot-delete-modal
       :show.sync="showDeletePopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
@@ -119,13 +119,11 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail';
 import AddAgent from './AddAgent';
 import EditAgent from './EditAgent';
-import DeleteAgent from './DeleteAgent';
 
 export default {
   components: {
     AddAgent,
     EditAgent,
-    DeleteAgent,
     Thumbnail,
   },
   mixins: [globalConfigMixin],

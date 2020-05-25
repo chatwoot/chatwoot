@@ -17,6 +17,7 @@
         welcomeTagline: '<%= @web_widget.welcome_tagline %>',
         welcomeTitle: '<%= @web_widget.welcome_title %>',
         widgetColor: '<%= @web_widget.widget_color %>',
+        enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,

@@ -177,6 +177,8 @@ linters:
     allow_element_with_attribute: false
     allow_element_with_class: false
     allow_element_with_id: false
+    exclude:
+      - 'app/assets/stylesheets/administrate/components/_buttons.scss'
 
   SelectorDepth:
     enabled: true
@@ -279,3 +281,4 @@ linters:
 exclude:
   - 'app/javascript/widget/assets/scss/_reset.scss'
   - 'app/javascript/widget/assets/scss/sdk.css'
+  - 'app/assets/stylesheets/administrate/reset/_normalize.scss'
