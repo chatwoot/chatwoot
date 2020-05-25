@@ -22,6 +22,7 @@ const state = {
       expiry: null,
     },
   },
+  currentAccountId: null,
 };
 
 // getters
@@ -32,6 +33,18 @@ export const getters = {
 
   getCurrentUserID(_state) {
     return _state.currentUser.id;
+  },
+
+  getCurrentAccountId(_state) {
+    return _state.currentAccountId;
+  },
+
+  getCurrentRole(_state) {
+    const { accounts = [] } = _state.currentUser;
+    const [currentAccount = {}] = accounts.filter(
+      account => account.id === _state.currentAccountId
+    );
+    return currentAccount.role;
   },
 
   getCurrentUser(_state) {
@@ -103,6 +116,10 @@ export const actions = {
       // Ignore error
     }
   },
+
+  setCurrentAccountId({ commit }, accountId) {
+    commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
+  },
 };
 
 // mutations
@@ -117,6 +134,9 @@ const mutations = {
     };
 
     Vue.set(_state, 'currentUser', currentUser);
+  },
+  [types.default.SET_CURRENT_ACCOUNT_ID](_state, accountId) {
+    Vue.set(_state, 'currentAccountId', Number(accountId));
   },
 };
 

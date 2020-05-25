@@ -15,11 +15,6 @@ export default {
   components: {
     Sidebar,
   },
-  props: {
-    mainViewComponent: String,
-    sidebarMenu: String,
-    page: String,
-  },
   data() {
     return {
       isSidebarOpen: false,
@@ -50,6 +45,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on('sidemenu_icon_click', () => {

@@ -66,6 +66,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Change Accounts",
+    "SELECT": "Select",
     "PROFILE_SETTINGS": "Profile Settings",
     "LOGOUT": "Logout"
   },

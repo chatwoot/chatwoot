@@ -6,7 +6,7 @@
         <p v-if="!inboxesList.length" class="no-items-error-message">
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
-            v-if="isAdmin()"
+            v-if="isAdmin"
             :to="addAccountScoping('settings/inboxes/new')"
           >
             {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
@@ -54,7 +54,7 @@
                     :to="addAccountScoping(`settings/inboxes/${item.id}`)"
                   >
                     <woot-submit-button
-                      v-if="isAdmin()"
+                      v-if="isAdmin"
                       :button-text="$t('INBOX_MGMT.SETTINGS')"
                       icon-class="ion-gear-b"
                       button-class="link hollow grey-btn"
@@ -62,7 +62,7 @@
                   </router-link>
 
                   <woot-submit-button
-                    v-if="isAdmin()"
+                    v-if="isAdmin"
                     :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                     :loading="loading[item.id]"
                     icon-class="ion-close-circled"
@@ -111,7 +111,6 @@
 import { mapGetters } from 'vuex';
 import Settings from './Settings';
 import adminMixin from '../../../../mixins/isAdmin';
-import auth from '../../../../api/auth';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -148,9 +147,6 @@ export default {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
       } ?`;
-    },
-    accountId() {
-      return auth.getCurrentUser().account_id;
     },
   },
   methods: {

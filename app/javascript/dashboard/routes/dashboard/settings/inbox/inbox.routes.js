@@ -34,7 +34,7 @@ export default {
           path: 'list',
           name: 'settings_inbox_list',
           component: InboxHome,
-          roles: ['administrator', 'agent'],
+          roles: ['administrator'],
         },
         {
           path: 'new',
