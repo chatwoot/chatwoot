@@ -15,6 +15,7 @@
       "UPDATE_ERROR": "Couldn't update labels, try again.",
       "TAG_PLACEHOLDER": "Add new label",
       "PLACEHOLDER": "Search or add a label"
-    }
+    },
+    "MUTE_CONTACT": "Mute Contact"
   }
 }
