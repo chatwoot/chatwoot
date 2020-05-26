@@ -91,7 +91,7 @@
       />
     </div>
     <a v-show="!currentChat.muted" class="contact--mute" @click="mute">
-      Mute Contact
+      {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
     </a>
   </div>
 </template>
@@ -260,7 +260,7 @@ export default {
 }
 
 .contact--mute {
-  color: #ff382d;
+  color: $alert-color;
   display: block;
   text-align: center;
 }
