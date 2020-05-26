@@ -26,6 +26,7 @@ export default {
         event: 'loaded',
         config: {
           authToken: window.authToken,
+          participantToken: window.participantToken,
           channelConfig: window.chatwootWebChannel,
           shareLink: window.shareLink,
         },

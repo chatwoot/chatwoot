@@ -67,7 +67,8 @@ class Channel::WebWidget < ApplicationRecord
       ConversationParticipant.create!(
         contact: participant,
         conversation: conversation,
-        primary: false
+        primary: false,
+        uuid: SecureRandom.uuid
       )
     rescue StandardError => e
       Rails.logger e

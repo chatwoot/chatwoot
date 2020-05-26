@@ -1,10 +1,10 @@
 class WidgetsController < ActionController::Base
   before_action :set_global_config
   before_action :set_web_widget
-  before_action :set_decoded_token
+  before_action :set_decoded_auth_token
   before_action :set_contact
-  before_action :set_participant
-  before_action :build_participant_token
+  before_action :set_share_link
+  before_action :set_decoded_participant_token
 
   def index; end
 
@@ -18,45 +18,53 @@ class WidgetsController < ActionController::Base
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
   end
 
-  def set_decoded_token
-    @auth_token_params = find_token || {}
+  def set_decoded_auth_token
+    @decoded_auth_token = find_token || {}
   end
 
   def find_token
     cw_share_link         = permitted_params[:chatwoot_share_link]
-    cw_group_conversation = permitted_params[:cw_group_conversation]
-    @share_link           = cw_group_conversation || cw_share_link
     cw_conversation       = permitted_params[:cw_conversation]
-    @token                = @share_link || cw_conversation
+    @token                = cw_share_link || cw_conversation
 
-    ::Widget::TokenService.new(token: @token).decode_token if @token.present?
+    decode_token(@token) if @token.present?
   end
 
-  def build_token
-    payload = {
+  def build_token(payload = nil)
+    payload ||= {
       source_id: @contact_inbox.source_id,
       inbox_id: @web_widget.inbox.id
     }
 
-    @token = ::Widget::TokenService.new(payload: payload).generate_token
+    ::Widget::TokenService.new(payload: payload).generate_token
   end
 
-  def set_participant_token
-    # TODO
+  def decode_token(token)
+    ::Widget::TokenService.new(token: token).decode_token
+  end
+
+  def set_share_link
+    share_link = permitted_params[:cw_group_conversation] || permitted_params[:chatwoot_share_link]
+
+    @share_link = share_link.present?
+  end
+
+  def set_decoded_participant_token
+    return unless @share_link
+
+    @participant_token = permitted_params[:cw_group_conversation]
+    if @participant_token
+      @decoded_participant_token = decode_token(@participant_token)
+    else
+      build_participant
+      build_participant_token
+    end
   end
 
   def build_participant_token
-    return if @participant.blank?
-
-    conversation_participant = ConversationParticipant.find_by(
-      contact: @participant,
-      conversation: @conversation
-    )
-    payload = {
-      participant_uuid: conversation_participant.uuid
-    }
-
-    @participant_token = ::Widget::TokenService.new(payload: payload).generate_token
+    participant_token = @decoded_auth_token.clone
+    participant_token[:participant_uuid] = @conversation_participant.uuid
+    @participant_token = build_token(participant_token)
   end
 
   def set_contact
@@ -64,11 +72,11 @@ class WidgetsController < ActionController::Base
   end
 
   def find_contact
-    return if @auth_token_params.empty?
+    return if @decoded_auth_token.empty?
 
     @contact_inbox = ::ContactInbox.find_by(
       inbox_id: @web_widget.inbox.id,
-      source_id: @auth_token_params[:source_id]
+      source_id: @decoded_auth_token[:source_id]
     )
 
     @contact_inbox ? @contact_inbox.contact : nil
@@ -77,32 +85,14 @@ class WidgetsController < ActionController::Base
   def build_contact
     @contact_inbox = @web_widget.create_contact_inbox
 
-    build_token
+    @token = build_token
 
     @contact_inbox.contact
   end
 
-  def set_participant
-    return if @share_link.blank?
-
-    @participant = find_participant || build_participant
-  end
-
-  def find_participant
-    return if @auth_token_params.empty?
-
-    uuid = @auth_token_params[:participant_uuid]
-    return if uuid.blank?
-
-    conversation_participant = ConversationParticipant.find_by!(uuid: uuid)
-    @participant = conversation_participant.contact
-  end
-
   def build_participant
-    @conversation = find_conversation
-    conversation_participant = @web_widget.create_conversation_participant(@conversation)
-
-    conversation_participant.contact
+    conversation = find_conversation
+    @conversation_participant = @web_widget.create_conversation_participant(conversation)
   end
 
   def find_conversation

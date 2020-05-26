@@ -3,12 +3,12 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def conversation
     @conversation ||= @contact_inbox.conversations.where(
-      inbox_id: auth_token_params[:inbox_id]
+      inbox_id: decoded_auth_token[:inbox_id]
     ).last
   end
 
-  def auth_token_params
-    @auth_token_params ||= ::Widget::TokenService.new(token: request.headers[header_name]).decode_token
+  def decoded_auth_token
+    @decoded_auth_token ||= ::Widget::TokenService.new(token: request.headers[header_name]).decode_token
   end
 
   def header_name
@@ -23,7 +23,7 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   def set_contact
     @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-      source_id: auth_token_params[:source_id]
+      source_id: decoded_auth_token[:source_id]
     )
     @contact = set_participant || @contact_inbox.contact
   end

@@ -85,7 +85,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def inbox
-    @inbox ||= ::Inbox.find_by(id: auth_token_params[:inbox_id])
+    @inbox ||= ::Inbox.find_by(id: decoded_auth_token[:inbox_id])
   end
 
   def message_finder_params

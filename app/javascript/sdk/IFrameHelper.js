@@ -25,10 +25,17 @@ export const IFrameHelper = {
     const cwGroupCookie = IFrameHelper.getCwGroupCookie();
     const cwCookie = Cookies.get('cw_conversation');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
+
     if (cwGroupCookie) {
       widgetUrl = `${widgetUrl}&cw_group_conversation=${cwGroupCookie}`;
-    } else if (shareLink) {
-      widgetUrl = `${widgetUrl}&chatwoot_share_link=${shareLink}`;
+    }
+
+    if (shareLink) {
+      if (cwCookie === shareLink) {
+        widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
+      } else {
+        widgetUrl = `${widgetUrl}&chatwoot_share_link=${shareLink}`;
+      }
     } else if (cwCookie) {
       widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
     }
@@ -82,8 +89,9 @@ export const IFrameHelper = {
       if (message.config.shareLink) {
         let group_cookie = IFrameHelper.getCwGroupCookie();
         if (!group_cookie) {
-          let value = message.config.authToken;
-          let key = 'cw_group_conversation' + Date.now();
+          let shareLink = IFrameHelper.getShareLink();
+          let value = message.config.participantToken;
+          let key = 'cw_group_conversation' + shareLink.slice(-10);
           Cookies.set(key, value, {
             expires: 365,
           });
@@ -167,15 +175,21 @@ export const IFrameHelper = {
   getCwGroupCookie: () => {
     let cookies = Cookies.get();
     let shareLink = IFrameHelper.getShareLink();
+    if (shareLink) {
+      shareLink = shareLink.slice(-10);
+    }
     let target_cookie;
 
+    /* eslint-disable guard-for-in */
     // eslint-disable-next-line no-restricted-syntax
     for (const cookie in cookies) {
-      if (cookies[cookie] === shareLink) {
+      let cookie_token = cookie.split('cw_group_conversation')[1];
+      if (cookie_token === shareLink) {
         target_cookie = Cookies.get(cookie);
         break;
       }
     }
+    /* eslint-enable guard-for-in */
 
     return target_cookie;
   },
