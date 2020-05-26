@@ -1,9 +1,12 @@
-import Auth from '../api/auth';
+import { mapGetters } from 'vuex';
 
 export default {
-  methods: {
+  computed: {
+    ...mapGetters({
+      currentUserRole: 'getCurrentRole',
+    }),
     isAdmin() {
-      return Auth.isAdmin();
+      return this.currentUserRole === 'administrator';
     },
   },
 };

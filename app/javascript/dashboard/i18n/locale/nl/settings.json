@@ -66,6 +66,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Verwissel van profiel",
+    "SELECTOR_SUBTITLE": "Selecteer een account in de volgende lijst",
     "PROFILE_SETTINGS": "Profiel instellingen",
     "LOGOUT": "Afmelden"
   },

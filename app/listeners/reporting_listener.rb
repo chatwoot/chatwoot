@@ -1,11 +1,15 @@
 class ReportingListener < BaseListener
   def conversation_created(event)
-    conversation, account, timestamp = extract_conversation_and_account(event)
+    conversation, account = extract_conversation_and_account(event)
+    timestamp = event.timestamp
+
     ::Reports::UpdateAccountIdentity.new(account, timestamp).incr_conversations_count
   end
 
   def conversation_resolved(event)
-    conversation, account, timestamp = extract_conversation_and_account(event)
+    conversation, account = extract_conversation_and_account(event)
+    timestamp = event.timestamp
+
     time_to_resolve = conversation.updated_at.to_i - conversation.created_at.to_i
 
     if conversation.assignee.present?
@@ -19,7 +23,9 @@ class ReportingListener < BaseListener
   end
 
   def first_reply_created(event)
-    message, account, timestamp = extract_message_and_account(event)
+    message, account = extract_message_and_account(event)
+    timestamp = event.timestamp
+
     conversation = message.conversation
     agent = conversation.assignee
     first_response_time = message.created_at.to_i - conversation.created_at.to_i
@@ -28,7 +34,8 @@ class ReportingListener < BaseListener
   end
 
   def message_created(event)
-    message, account, timestamp = extract_message_and_account(event)
+    message, account = extract_message_and_account(event)
+    timestamp = event.timestamp
 
     return unless message.reportable?
 
