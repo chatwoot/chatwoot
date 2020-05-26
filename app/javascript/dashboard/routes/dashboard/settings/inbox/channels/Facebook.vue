@@ -82,13 +82,14 @@ import ChannelApi from '../../../../../api/channels';
 import PageHeader from '../../SettingsSubPageHeader';
 import router from '../../../../index';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import accountMixin from '../../../../../mixins/account';
 
 export default {
   components: {
     LoadingState,
     PageHeader,
   },
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, accountMixin],
   data() {
     return {
       isCreating: false,
@@ -126,9 +127,6 @@ export default {
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
     }),
-    accountId() {
-      return this.currentUser.account_id;
-    },
   },
 
   created() {

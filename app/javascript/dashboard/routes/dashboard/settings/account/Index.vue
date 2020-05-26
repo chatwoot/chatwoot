@@ -94,12 +94,12 @@
 import Vue from 'vue';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
+import accountMixin from '../../../../mixins/account';
 
 export default {
-  mixins: [alertMixin, configMixin],
+  mixins: [accountMixin, alertMixin, configMixin],
   data() {
     return {
       id: '',
@@ -140,10 +140,7 @@ export default {
   },
   methods: {
     async initializeAccount() {
-      const { pathname } = window.location;
-      const accountId = accountIdFromPathname(pathname);
-
-      if (accountId) {
+      try {
         await this.$store.dispatch('accounts/get');
         const {
           name,
@@ -153,7 +150,7 @@ export default {
           support_email,
           domain_emails_enabled,
           features,
-        } = this.getAccount(accountId);
+        } = this.getAccount(this.accountId);
 
         Vue.config.lang = locale;
         this.name = name;
@@ -163,6 +160,8 @@ export default {
         this.supportEmail = support_email;
         this.domainEmailsEnabled = domain_emails_enabled;
         this.features = features;
+      } catch (error) {
+        // Ignore error
       }
     },
 
