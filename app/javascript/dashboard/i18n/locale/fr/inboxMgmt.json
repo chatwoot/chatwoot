@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Boîtes de réception",
-    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le <a href=\"/app/dashboard\">tableau de bord</a>, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
+    "SIDEBAR_TXT": "<p><b>Boîte de réception</b></p> <p> Lorsque vous connectez un site Web ou une page Facebook à Chatwoot, elle est appelée une <b>Boîte de réception</b>. Vous pouvez avoir des boîtes de réception illimitées dans votre compte Chatwoot. </p><p> Cliquez sur <b>Ajouter Boîte de réception</b> pour connecter un site Web ou une page Facebook. </p><p> Dans le tableau de bord, vous pouvez voir toutes les conversations de toutes vos boîtes de réception en un seul endroit et y répondre dans l'onglet `Conversations`. </p><p> Vous pouvez également voir les conversations spécifiques à une boîte de réception en cliquant sur le nom de la boîte de réception sur le volet gauche du tableau de bord. </p>",
     "LIST": {
       "404": "Il n'y a aucune boîte de réception associée à ce compte."
     },
