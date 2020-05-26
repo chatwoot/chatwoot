@@ -5,8 +5,8 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
   skip_before_action :authenticate_user!, :set_current_user, :check_subscription, :handle_with_exception,
                      only: [:create], raise: false
   before_action :check_signup_enabled, only: [:create]
-  before_action :check_authorization, except: [:create]
   before_action :fetch_account, except: [:create]
+  before_action :check_authorization, except: [:create]
 
   rescue_from CustomExceptions::Account::InvalidEmail,
               CustomExceptions::Account::UserExists,
@@ -21,7 +21,7 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
     ).perform
     if @user
       send_auth_headers(@user)
-      render 'devise/auth.json', locals: { resource: @user }
+      render partial: 'devise/auth.json', locals: { resource: @user }
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
@@ -33,6 +33,12 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
 
   def update
     @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :domain_emails_enabled))
+  end
+
+  def update_active_at
+    @current_account_user.active_at = Time.now.utc
+    @current_account_user.save!
+    head :ok
   end
 
   private
@@ -47,6 +53,7 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
 
   def fetch_account
     @account = current_user.accounts.find(params[:id])
+    @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 
   def account_params
@@ -55,5 +62,13 @@ class Api::V1::Accounts::AccountsController < Api::BaseController
 
   def check_signup_enabled
     raise ActionController::RoutingError, 'Not Found' if ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) == 'false'
+  end
+
+  def pundit_user
+    {
+      user: current_user,
+      account: @account,
+      account_user: @current_account_user
+    }
   end
 end

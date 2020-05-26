@@ -9,7 +9,7 @@
       <!-- No inboxes attached -->
       <div v-if="!inboxesList.length">
         <img src="~dashboard/assets/images/inboxes.svg" alt="No Inboxes" />
-        <span v-if="isAdmin()">
+        <span v-if="isAdmin">
           {{ $t('CONVERSATION.NO_INBOX_1') }}
           <br />
           <router-link :to="newInboxURL">
@@ -17,7 +17,7 @@
           </router-link>
           {{ $t('CONVERSATION.NO_INBOX_2') }}
         </span>
-        <span v-if="!isAdmin()">
+        <span v-if="!isAdmin">
           {{ $t('CONVERSATION.NO_INBOX_AGENT') }}
         </span>
       </div>

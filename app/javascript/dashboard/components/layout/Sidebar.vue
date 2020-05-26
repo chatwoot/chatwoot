@@ -13,7 +13,6 @@
           :key="item.toState"
           :menu-item="item"
         />
-
         <sidebar-item
           v-if="shouldShowInboxes"
           :key="inboxSection.toState"
@@ -30,7 +29,7 @@
         :button-text="$t('APP_GLOBAL.TRAIL_BUTTON')"
         :button-route="{ name: 'billing' }"
         :type="statusBarClass"
-        :show-button="isAdmin()"
+        :show-button="isAdmin"
       />
     </transition>
 
@@ -42,6 +41,14 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
+            <li v-if="currentUser.accounts.length > 1">
+              <button
+                class="button clear change-accounts--button"
+                @click="changeAccount"
+              >
+                {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
+              </button>
+            </li>
             <li>
               <router-link :to="`/app/accounts/${accountId}/profile/settings`">
                 {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
@@ -62,13 +69,35 @@
             {{ currentUser.name }}
           </h3>
           <h5 class="current-user--role">
-            {{ currentUser.role }}
+            {{ currentRole }}
           </h5>
         </div>
-        <span class="current-user--options icon ion-android-more-vertical">
-        </span>
+        <span class="current-user--options icon ion-android-more-vertical" />
       </div>
     </div>
+    <woot-modal
+      :show="showAccountModal"
+      :on-close="onClose"
+      class="account-selector--modal"
+    >
+      <woot-modal-header
+        :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
+        :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
+      />
+      <div
+        v-for="account in currentUser.accounts"
+        :key="account.id"
+        class="account-selector"
+      >
+        <a :href="`/app/accounts/${account.id}/dashboard`">
+          <i v-if="account.id === accountId" class="ion ion-ios-checkmark" />
+          <label :for="account.name" class="account--details">
+            <div class="account--name">{{ account.name }}</div>
+            <div class="account--role">{{ account.role }}</div>
+          </label>
+        </a>
+      </div>
+    </woot-modal>
   </aside>
 </template>
 
@@ -82,7 +111,7 @@ import SidebarItem from './SidebarItem';
 import WootStatusBar from '../widgets/StatusBar';
 import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
-import sidemenuItems from '../../i18n/default-sidebar';
+import { getSidebarItems } from '../../i18n/default-sidebar';
 
 export default {
   components: {
@@ -100,6 +129,7 @@ export default {
   data() {
     return {
       showOptionsMenu: false,
+      showAccountModal: false,
     };
   },
   computed: {
@@ -109,15 +139,20 @@ export default {
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
       subscriptionData: 'getSubscription',
+      accountId: 'getCurrentAccountId',
+      currentRole: 'getCurrentRole',
     }),
+    sidemenuItems() {
+      return getSidebarItems(this.accountId);
+    },
     accessibleMenuItems() {
       // get all keys in menuGroup
-      const groupKey = Object.keys(sidemenuItems);
+      const groupKey = Object.keys(this.sidemenuItems);
 
       let menuItems = [];
       // Iterate over menuGroup to find the correct group
       for (let i = 0; i < groupKey.length; i += 1) {
-        const groupItem = sidemenuItems[groupKey[i]];
+        const groupItem = this.sidemenuItems[groupKey[i]];
         // Check if current route is included
         const isRouteIncluded = groupItem.routes.includes(this.currentRoute);
         if (isRouteIncluded) {
@@ -135,7 +170,7 @@ export default {
       return this.$store.state.route.name;
     },
     shouldShowInboxes() {
-      return sidemenuItems.common.routes.includes(this.currentRoute);
+      return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
     inboxSection() {
       return {
@@ -177,9 +212,6 @@ export default {
     trialMessage() {
       return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
     },
-    accountId() {
-      return this.currentUser.account_id;
-    },
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
@@ -191,13 +223,14 @@ export default {
       );
     },
     filterMenuItemsByRole(menuItems) {
-      const { role } = this.currentUser;
-      if (!role) {
+      if (!this.currentRole) {
         return [];
       }
       return menuItems.filter(
         menuItem =>
-          window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1
+          window.roleWiseRoutes[this.currentRole].indexOf(
+            menuItem.toStateName
+          ) > -1
       );
     },
     logout() {
@@ -206,6 +239,80 @@ export default {
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
+    changeAccount() {
+      this.showAccountModal = true;
+    },
+    onClose() {
+      this.showAccountModal = false;
+    },
   },
 };
 </script>
+
+<style lang="scss">
+@import '~dashboard/assets/scss/variables';
+
+.account-selector--modal {
+  .modal-container {
+    width: 40rem;
+  }
+
+  .page-top-bar {
+    padding-bottom: $space-two;
+  }
+}
+
+.change-accounts--button.button {
+  font-weight: $font-weight-normal;
+  font-size: $font-size-small;
+  padding: $space-small $space-one;
+}
+
+.dropdown-pane {
+  li {
+    a {
+      padding: $space-small $space-one !important;
+    }
+  }
+}
+
+.account-selector {
+  cursor: pointer;
+  padding: $space-small $space-large;
+
+  .ion-ios-checkmark {
+    font-size: $font-size-big;
+
+    & + .account--details {
+      padding-left: $space-normal;
+    }
+  }
+
+  .account--details {
+    padding-left: $space-large + $space-smaller;
+  }
+
+  &:last-child {
+    margin-bottom: $space-large;
+  }
+
+  a {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+
+    .account--name {
+      cursor: pointer;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-medium;
+      line-height: 1;
+    }
+
+    .account--role {
+      cursor: pointer;
+      font-size: $font-size-mini;
+      text-transform: capitalize;
+    }
+  }
+}
+</style>

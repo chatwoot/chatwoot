@@ -1,16 +1,19 @@
 class InboxPolicy < ApplicationPolicy
   class Scope
-    attr_reader :user, :scope
+    attr_reader :user_context, :user, :scope, :account, :account_user
 
-    def initialize(user, scope)
-      @user  = user
+    def initialize(user_context, scope)
+      @user_context = user_context
+      @user = user_context[:user]
+      @account = user_context[:account]
+      @account_user = user_context[:account_user]
       @scope = scope
     end
 
     def resolve
-      if user.administrator?
+      if @account_user.administrator?
         scope.all
-      elsif user.agent?
+      elsif @account_user.agent?
         user.assigned_inboxes
       end
     end
@@ -21,18 +24,18 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def create?
-    @user.administrator?
+    @account_user.administrator?
   end
 
   def update?
-    @user.administrator?
+    @account_user.administrator?
   end
 
   def destroy?
-    @user.administrator?
+    @account_user.administrator?
   end
 
   def set_agent_bot?
-    @user.administrator?
+    @account_user.administrator?
   end
 end

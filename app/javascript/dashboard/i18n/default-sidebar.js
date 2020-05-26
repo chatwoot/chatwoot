@@ -1,10 +1,6 @@
 import { frontendURL } from '../helper/URLHelper';
-import auth from '../api/auth';
 
-const user = auth.getCurrentUser() || {};
-const accountId = user.account_id;
-
-export default {
+export const getSidebarItems = accountId => ({
   common: {
     routes: [
       'home',
@@ -106,13 +102,13 @@ export default {
         toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
       },
-      general_settings: {
+      general_settings_index: {
         icon: 'ion-gear-a',
         label: 'ACCOUNT_SETTINGS',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/general`),
-        toStateName: 'general_settings',
+        toStateName: 'general_settings_index',
       },
     },
   },
-};
+});
