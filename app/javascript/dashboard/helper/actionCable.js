@@ -19,6 +19,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     };
   }
 
+  isAValidEvent = data => {
+    return this.app.$store.getters.getCurrentAccountId === data.account_id;
+  };
+
   onMessageUpdated = data => {
     this.app.$store.dispatch('updateMessage', data);
   };

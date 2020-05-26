@@ -107,6 +107,7 @@ RSpec.describe 'Accounts API', type: :request do
   describe 'GET /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
+    let(:user_without_access) { create(:user) }
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     context 'when it is an unauthenticated user' do
@@ -119,9 +120,9 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when it is an unauthorized user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}",
-            headers: agent.create_new_auth_token
+            headers: user_without_access.create_new_auth_token
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:not_found)
       end
     end
 
