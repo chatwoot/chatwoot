@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
-    "SIDEBAR_TXT": "<p><b>Safata d'entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de facebook a Chatwoot, es diu <b>Safata d'entrada</b>. Teniu bústies d'entrada il·limitades al vostre compte de Chatwoot. </p><p> Feu click a <b>Afegir safata d'entrada</b> per connectar-vos a un lloc web o a una pàgina de Facebook. </p><p> Al <a href=\"/app/dashboard\">Tauler de control</a>, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-les a la pestanya `Converses`. </p><p> També pots veure converses específiques per a una safata d’entrada si feu clic al nom de la safata d'entrada, al panell esquerre de la taula. </p>",
+    "SIDEBAR_TXT": "<p><b>Safata d'entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de facebook a Chatwoot, es diu <b>Safata d'entrada</b>. Teniu bústies d'entrada il·limitades al vostre compte de Chatwoot. </p><p> Feu click a <b>Afegir safata d'entrada</b> per connectar-vos a un lloc web o a una pàgina de Facebook. </p><p> Al Tauler de control, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-les a la pestanya `Converses`. </p><p> També pots veure converses específiques per a una safata d’entrada si feu clic al nom de la safata d'entrada, al panell esquerre de la taula. </p>",
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
