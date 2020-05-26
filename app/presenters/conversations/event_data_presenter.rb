@@ -12,7 +12,6 @@ class Conversations::EventDataPresenter < SimpleDelegator
       meta: push_meta,
       status: status,
       unread_count: unread_incoming_messages.count,
-      account_id: account_id,
       **push_timestamps
     }
   end

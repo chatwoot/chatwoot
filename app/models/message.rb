@@ -87,8 +87,7 @@ class Message < ApplicationRecord
     data = attributes.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id,
-      account_id: account_id
+      conversation_id: conversation.display_id
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: user.push_event_data) if user
@@ -112,7 +111,6 @@ class Message < ApplicationRecord
       contact: contact.try(:webhook_data),
       inbox: inbox.webhook_data,
       conversation: conversation.webhook_data,
-      account_id: account_id,
       account: account.webhook_data
     }
   end

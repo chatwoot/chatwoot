@@ -51,8 +51,7 @@ class Contact < ApplicationRecord
       name: name,
       thumbnail: avatar_url,
       type: 'contact',
-      pubsub_token: pubsub_token,
-      account_id: account_id
+      pubsub_token: pubsub_token
     }
   end
 
@@ -61,8 +60,7 @@ class Contact < ApplicationRecord
       id: id,
       name: name,
       avatar: avatar_url,
-      type: 'contact',
-      account_id: account_id
+      type: 'contact'
     }
   end
 
