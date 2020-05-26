@@ -12,6 +12,8 @@ Layout/LineLength:
   Max: 150
 Metrics/ClassLength:
   Max: 125
+  Exclude:
+    - 'app/models/conversation.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:

@@ -21,6 +21,11 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
 
   def show; end
 
+  def mute
+    @conversation.mute!
+    head :ok
+  end
+
   def toggle_status
     @status = @conversation.toggle_status
   end
