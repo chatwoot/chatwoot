@@ -101,6 +101,7 @@ class Conversation < ApplicationRecord
   def webhook_data
     {
       display_id: display_id,
+      account_id: account_id,
       additional_attributes: additional_attributes
     }
   end
