@@ -1,6 +1,6 @@
 <template>
   <UserMessage v-if="isUserMessage" :message="message" />
-  <AgentMessage v-else :message="message" />
+  <AgentMessage v-else-if="showTemplateMessage" :message="message" />
 </template>
 
 <script>
@@ -22,6 +22,16 @@ export default {
   computed: {
     isUserMessage() {
       return this.message.message_type === MESSAGE_TYPE.INCOMING;
+    },
+    showTemplateMessage() {
+      const isTemplate = this.message.message_type === MESSAGE_TYPE.TEMPLATE;
+      const isPrimaryContact =
+        window.chatwootPubsubToken === window.contactPubsubToken;
+
+      if (isTemplate) {
+        return isPrimaryContact;
+      }
+      return true;
     },
   },
 };
