@@ -50,12 +50,10 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy, autosave: true
 
   before_create :set_display_id, unless: :display_id?
-
   before_create :set_bot_conversation
-
+  after_create :notify_conversation_creation
+  after_save :run_round_robin
   after_update :notify_status_change, :create_activity
-
-  after_create :notify_conversation_creation, :run_round_robin
 
   acts_as_taggable_on :labels
 
@@ -173,9 +171,11 @@ class Conversation < ApplicationRecord
   end
 
   def run_round_robin
+    # when ever status of a ticket is changes to open, round robin kicks in
+    return unless saved_change_to_status? && open?
     return unless inbox.enable_auto_assignment
-    return if assignee
-    return if bot?
+    # check whether existing assignee is valid
+    return if assignee&.inboxes&.include?(inbox)
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end
