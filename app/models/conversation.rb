@@ -170,12 +170,17 @@ class Conversation < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
   end
 
+  def should_round_robin?
+    return false unless inbox.enable_auto_assignment?
+
+    # check whether existing assignee is valid
+    assignee.blank? || !assignee&.inboxes&.include?(inbox)
+  end
+
   def run_round_robin
     # when ever status of a ticket is changes to open, round robin kicks in
     return unless saved_change_to_status? && open?
-    return unless inbox.enable_auto_assignment
-    # check whether existing assignee is valid
-    return if assignee&.inboxes&.include?(inbox)
+    return unless should_round_robin?
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
   end

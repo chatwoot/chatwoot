@@ -3,3 +3,6 @@
   enabled: false
 - name: test
   enabled: false
+- name: channel_facebook
+  enabled: true
+
