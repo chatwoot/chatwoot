@@ -5,6 +5,7 @@ class WidgetsController < ActionController::Base
   before_action :set_contact
   before_action :set_share_link
   before_action :set_decoded_participant_token
+  before_action :set_contact_pubsub_token
 
   def index; end
 
@@ -55,8 +56,9 @@ class WidgetsController < ActionController::Base
     @participant_token = permitted_params[:cw_group_conversation]
     if @participant_token
       @decoded_participant_token = decode_token(@participant_token)
+      @participant = find_participant
     else
-      build_participant
+      @participant = build_participant
       build_participant_token
     end
   end
@@ -90,13 +92,30 @@ class WidgetsController < ActionController::Base
     @contact_inbox.contact
   end
 
+  def find_participant
+    conversation_participant = ConversationParticipant.find_by(
+      uuid: @decoded_participant_token[:participant_uuid]
+    )
+
+    conversation_participant.contact
+  end
+
   def build_participant
     conversation = find_conversation
     @conversation_participant = @web_widget.create_conversation_participant(conversation)
+    @conversation_participant.contact
   end
 
   def find_conversation
     @contact_inbox.conversations.order(:created_at).last
+  end
+
+  def set_contact_pubsub_token
+    @contact_pubsub_token = if @share_link
+                              @participant.pubsub_token
+                            else
+                              @contact.pubsub_token
+                            end
   end
 
   def permitted_params

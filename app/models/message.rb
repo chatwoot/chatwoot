@@ -91,6 +91,7 @@ class Message < ApplicationRecord
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: user.push_event_data) if user
+    data.merge!(contact: contact.push_event_data) if contact
     data
   end
 

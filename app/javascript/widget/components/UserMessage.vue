@@ -1,6 +1,6 @@
 <template>
   <div class="user-message-wrap">
-    <div class="user-message">
+    <div :class="{ 'user-message': ownMessage }">
       <div class="message-wrap" :class="{ 'in-progress': isInProgress }">
         <UserMessageBubble
           v-if="showTextBubble"
@@ -24,6 +24,9 @@
         </div>
       </div>
     </div>
+    <p v-if="!ownMessage" class="contact-name">
+      {{ contactName }}
+    </p>
   </div>
 </template>
 
@@ -64,6 +67,12 @@ export default {
     readableTime() {
       const { created_at: createdAt = '' } = this.message;
       return this.messageStamp(createdAt);
+    },
+    ownMessage() {
+      return window.contactPubsubToken === this.message.contact.pubsub_token;
+    },
+    contactName() {
+      return this.message.contact.name;
     },
   },
 };
@@ -118,6 +127,14 @@ export default {
     + .agent-message-wrap {
       margin-top: $space-normal;
     }
+  }
+
+  .contact-name {
+    color: $color-body;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    margin: $space-small 0;
+    padding-left: $space-micro;
   }
 }
 </style>

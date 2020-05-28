@@ -55,6 +55,11 @@ describe('#actions', () => {
         status: 'in_progress',
         created_at: 1466424490,
         message_type: 0,
+        attachments: undefined,
+        contact: {
+          name: '',
+          pubsub_token: undefined,
+        },
       });
     });
   });
@@ -71,6 +76,10 @@ describe('#actions', () => {
       spy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
+        contact: {
+          name: '',
+          pubsub_token: undefined,
+        },
         content: undefined,
         status: 'in_progress',
         created_at: 1466424490,

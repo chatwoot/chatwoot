@@ -24,6 +24,7 @@
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,
       }
       window.chatwootPubsubToken = '<%= @contact.pubsub_token %>'
+      window.contactPubsubToken = '<%= @contact_pubsub_token %>'
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
       window.shareLink = <%= @share_link %>,

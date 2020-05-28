@@ -23,6 +23,10 @@ export const createTemporaryMessage = ({ attachments, content }) => {
     status: 'in_progress',
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
+    contact: {
+      name: '',
+      pubsub_token: window.contactPubsubToken,
+    },
   };
 };
 

@@ -8,4 +8,5 @@ json.array! @messages do |message|
   json.conversation_id message.conversation.display_id
   json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
   json.sender message.user.push_event_data if message.user
+  json.contact message.contact.push_event_data if message.contact
 end
