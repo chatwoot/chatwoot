@@ -6,6 +6,7 @@
           v-if="data.content"
           :message="message"
           :readable-time="readableTime"
+          :contact-name="contactName"
         />
         <span v-if="hasAttachments">
           <span v-for="attachment in data.attachments" :key="attachment.id">
@@ -43,6 +44,8 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -63,6 +66,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+    }),
     message() {
       return this.formatMessage(this.data.content);
     },
@@ -112,7 +118,18 @@ export default {
         bubble: this.isBubble,
         'is-private': this.isPrivate,
         'is-image': this.hasImageAttachment,
+        'contact-border': this.isParticipantMessage,
       };
+    },
+    contactName() {
+      return this.isParticipantMessage ? this.data.contact.name : '';
+    },
+    isParticipantMessage() {
+      const incoming = this.data.message_type === MESSAGE_TYPE.INCOMING;
+      if (!incoming) {
+        return false;
+      }
+      return this.data.contact.id !== this.currentChat.meta.sender.id;
     },
   },
   methods: {
@@ -131,6 +148,12 @@ export default {
   .image {
     max-width: 32rem;
     padding: 0;
+  }
+
+  .contact-border {
+    border: 2px solid $primary-color !important;
+    margin-top: $space-one;
+    margin-bottom: $space-one;
   }
 }
 </style>

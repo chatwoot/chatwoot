@@ -8,3 +8,4 @@ json.content_attributes @message.content_attributes
 json.created_at @message.created_at.to_i
 json.private @message.private
 json.attachments @message.attachments.map(&:push_event_data) if @message.attachments.present?
+jscon.contact @message.contact.push_event_data if @message.contact
