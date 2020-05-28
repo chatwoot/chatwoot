@@ -35,6 +35,7 @@ import UserMessageBubble from 'widget/components/UserMessageBubble';
 import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
 import timeMixin from 'dashboard/mixins/time';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 export default {
   name: 'UserMessage',
@@ -48,6 +49,9 @@ export default {
     message: {
       type: Object,
       default: () => {},
+      validator(message) {
+        return Object.values(MESSAGE_TYPE).includes(message.message_type);
+      },
     },
   },
   computed: {
@@ -69,6 +73,10 @@ export default {
       return this.messageStamp(createdAt);
     },
     ownMessage() {
+      if (this.message.message_type === MESSAGE_TYPE.RESPONSE) {
+        return true;
+      }
+
       return window.contactPubsubToken === this.message.contact.pubsub_token;
     },
     contactName() {

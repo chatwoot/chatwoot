@@ -141,7 +141,10 @@ export default {
     },
     responseMessage() {
       if (this.messageContentAttributes.submitted_email) {
-        return { content: this.messageContentAttributes.submitted_email };
+        return {
+          content: this.messageContentAttributes.submitted_email,
+          message_type: MESSAGE_TYPE.RESPONSE,
+        };
       }
 
       if (this.messageContentAttributes.submitted_values) {
@@ -149,7 +152,10 @@ export default {
           const [
             selectionOption = {},
           ] = this.messageContentAttributes.submitted_values;
-          return { content: selectionOption.title || selectionOption.value };
+          return {
+            content: selectionOption.title || selectionOption.value,
+            message_type: MESSAGE_TYPE.RESPONSE,
+          };
         }
       }
       return '';
@@ -162,6 +168,7 @@ export default {
         submittedValue => ({
           id: submittedValue.name,
           content: submittedValue.value,
+          message_type: MESSAGE_TYPE.RESPONSE,
         })
       );
     },
