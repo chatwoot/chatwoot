@@ -27,7 +27,12 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   end
 
   def toggle_status
-    @status = @conversation.toggle_status
+    if params[:status]
+      @conversation.status = params[:status]
+      @status = @conversation.save
+    else
+      @status = @conversation.toggle_status
+    end
   end
 
   def toggle_typing_status
