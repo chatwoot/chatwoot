@@ -96,14 +96,38 @@ describe('#mutations', () => {
   describe('#toggleAgentTypingStatus', () => {
     it('sets isAgentTyping flag to true', () => {
       const state = { uiFlags: { isAgentTyping: false } };
-      mutations.toggleAgentTypingStatus(state, { status: 'on' });
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'on',
+        user: { type: 'user' },
+      });
       expect(state.uiFlags.isAgentTyping).toEqual(true);
     });
 
     it('sets isAgentTyping flag to false', () => {
       const state = { uiFlags: { isAgentTyping: true } };
-      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        user: { type: 'user' },
+      });
       expect(state.uiFlags.isAgentTyping).toEqual(false);
+    });
+
+    it('fails to set isAgentTyping flag to true', () => {
+      const state = { uiFlags: { isAgentTyping: false } };
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'on',
+        user: { type: 'contact' },
+      });
+      expect(state.uiFlags.isAgentTyping).toEqual(false);
+    });
+
+    it('fails to set isAgentTyping flag to false', () => {
+      const state = { uiFlags: { isAgentTyping: true } };
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        user: { type: 'contact' },
+      });
+      expect(state.uiFlags.isAgentTyping).toEqual(true);
     });
   });
 
