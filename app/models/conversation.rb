@@ -173,13 +173,14 @@ class Conversation < ApplicationRecord
   def should_round_robin?
     return false unless inbox.enable_auto_assignment?
 
-    # check whether existing assignee is valid
-    assignee.blank? || !assignee&.inboxes&.include?(inbox)
+    # check whether existing assignee is present & has access to inbox
+    assignee.blank? || inbox.members.exclude?(assignee)
   end
 
   def run_round_robin
     # when ever status of a ticket is changes to open, round robin kicks in
-    return unless saved_change_to_status? && open?
+    # saved_change_to_status only works in case of update
+    return unless (previous_changes.key?(:id) || saved_change_to_status?) && open?
     return unless should_round_robin?
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
