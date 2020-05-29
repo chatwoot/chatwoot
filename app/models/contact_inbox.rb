@@ -46,4 +46,12 @@ class ContactInbox < ApplicationRecord
   def current_conversation
     conversations.last
   end
+
+  def create_conversation
+    conversations.create!(
+      account: inbox.account,
+      inbox: inbox,
+      contact: contact
+    )
+  end
 end

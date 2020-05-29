@@ -101,9 +101,13 @@ class WidgetsController < ActionController::Base
   end
 
   def build_participant
-    conversation = find_conversation
+    conversation = set_conversation
     @conversation_participant = @web_widget.create_conversation_participant(conversation)
     @conversation_participant.contact
+  end
+
+  def set_conversation
+    find_conversation || @contact_inbox.create_conversation
   end
 
   def find_conversation
