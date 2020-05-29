@@ -178,9 +178,10 @@ class Conversation < ApplicationRecord
   end
 
   def run_round_robin
-    # when ever status of a ticket is changes to open, round robin kicks in
+    # when ever status of a ticket status is changed to open, round robin kicks in
     # saved_change_to_status only works in case of update
-    return unless (previous_changes.key?(:id) || saved_change_to_status?) && open?
+    return unless previous_changes.key?(:id) || saved_change_to_status?
+    return unless open?
     return unless should_round_robin?
 
     inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
