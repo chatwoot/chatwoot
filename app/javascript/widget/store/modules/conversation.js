@@ -224,7 +224,9 @@ export const mutations = {
     };
   },
 
-  toggleAgentTypingStatus($state, { status }) {
+  toggleAgentTypingStatus($state, { status, user }) {
+    if (user.type === 'contact') return;
+
     const isTyping = status === 'on';
     $state.uiFlags.isAgentTyping = isTyping;
   },

@@ -25,18 +25,20 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('conversation/updateMessage', data);
   };
 
-  onTypingOn = () => {
+  onTypingOn = ({ user }) => {
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'on',
+      user,
     });
     this.initTimer();
   };
 
-  onTypingOff = () => {
+  onTypingOff = ({ user }) => {
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'off',
+      user,
     });
   };
 
