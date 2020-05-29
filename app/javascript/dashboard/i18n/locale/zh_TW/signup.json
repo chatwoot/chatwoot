@@ -1,32 +1,32 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "註冊帳戶",
+    "TITLE": "註冊",
+    "TERMS_ACCEPT": "通過註冊，您同意我們的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隱私政策</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "LABEL": "帳戶名稱",
+      "PLACEHOLDER": "Wayne 企業",
+      "ERROR": "帳戶名稱太短了"
     },
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "ERROR": "電子信箱無效"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "密碼",
+      "PLACEHOLDER": "密碼",
+      "ERROR": "密碼太短了"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "請確認密碼",
+      "PLACEHOLDER": "請確認密碼",
+      "ERROR": "密碼不匹配"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "註冊成功",
+      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "送出"
   }
 }
