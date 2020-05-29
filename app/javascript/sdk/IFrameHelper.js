@@ -17,30 +17,35 @@ import {
 } from './bubbleHelpers';
 
 export const IFrameHelper = {
-  getUrl({ baseUrl, websiteToken }) {
-    return `${baseUrl}/widget?website_token=${websiteToken}`;
+  getUrl({ baseUrl, websiteToken, shareLink }) {
+    let url = `${baseUrl}/widget?website_token=${websiteToken}`;
+
+    return IFrameHelper.addParameters(url, shareLink);
   },
-  createFrame: ({ baseUrl, websiteToken, shareLink }) => {
-    const iframe = document.createElement('iframe');
+  addParameters(url, shareLink) {
     const cwGroupCookie = IFrameHelper.getCwGroupCookie();
     const cwCookie = Cookies.get('cw_conversation');
-    let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
 
     if (cwGroupCookie) {
-      widgetUrl = `${widgetUrl}&cw_group_conversation=${cwGroupCookie}`;
+      url = `${url}&cw_group_conversation=${cwGroupCookie}`;
     }
 
     if (shareLink) {
-      if (cwCookie === shareLink) {
-        widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-      } else {
-        widgetUrl = `${widgetUrl}&chatwoot_share_link=${shareLink}`;
-      }
-    } else if (cwCookie) {
-      widgetUrl = `${widgetUrl}&cw_conversation=${cwCookie}`;
-    }
-    iframe.src = widgetUrl;
+      const isOwnChat = cwCookie === shareLink;
+      const param = isOwnChat ? '&cw_conversation=' : '&chatwoot_share_link=';
 
+      url = `${url}${param}${shareLink}`;
+    } else if (cwCookie) {
+      url = `${url}&cw_conversation=${cwCookie}`;
+    }
+
+    return url;
+  },
+  createFrame: ({ baseUrl, websiteToken, shareLink }) => {
+    const iframe = document.createElement('iframe');
+    const widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken, shareLink });
+
+    iframe.src = widgetUrl;
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
     widgetHolder.className = `woot-widget-holder ${IFrameHelper.wootHide()} woot-elements--${
