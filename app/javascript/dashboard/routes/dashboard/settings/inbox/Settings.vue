@@ -210,6 +210,7 @@ export default {
     return {
       selectedAgents: [],
       autoAssignment: false,
+      inboxName: '',
       isUpdating: false,
       isAgentListUpdating: false,
       channelWebsiteUrl: '',
@@ -229,7 +230,7 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
-    inboxName() {
+    currentInboxName() {
       if (this.inbox.channel_type === 'Channel::TwilioSms') {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
       }
@@ -259,6 +260,7 @@ export default {
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.autoAssignment = this.inbox.enable_auto_assignment;
+        this.inboxName = this.currentInboxName;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
