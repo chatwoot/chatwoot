@@ -101,7 +101,7 @@ describe('#mutations', () => {
     });
 
     it('sets isAgentTyping flag to false', () => {
-      const state = { uiFlags: { isAgentTyping: false } };
+      const state = { uiFlags: { isAgentTyping: true } };
       mutations.toggleAgentTypingStatus(state, { status: 'off' });
       expect(state.uiFlags.isAgentTyping).toEqual(false);
     });
