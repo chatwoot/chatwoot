@@ -3,6 +3,7 @@
 
 import Bar from './widgets/chart/BarChart';
 import Code from './Code';
+import ColorPicker from './widgets/ColorPicker';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
 import LoadingState from './widgets/LoadingState';
 import Modal from './Modal';
@@ -17,6 +18,7 @@ import TabsItem from './ui/Tabs/TabsItem';
 const WootUIKit = {
   Bar,
   Code,
+  ColorPicker,
   DeleteModal,
   LoadingState,
   Modal,
