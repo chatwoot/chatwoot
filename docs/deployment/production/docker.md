@@ -25,7 +25,7 @@ ENTRYPOINT [\"docker/entrypoints/rails.sh\"]
 CMD bundle exec sidekiq -C config/sidekiq.yml"
 ```
 
-The app servers will available on prot `3000`. Ensure the images are connected to the same database and redis servers. Provide the configuration for these services via environment variables. 
+The app servers will available on port `3000`. Ensure the images are connected to the same database and redis servers. Provide the configuration for these services via environment variables. 
 
 ## Upgrading 
 
