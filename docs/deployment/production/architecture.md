@@ -9,8 +9,8 @@ This guide will help you to deploy Chatwoot to production!
 
 Running chatwoot in production requires the following set of services. 
 
-* chatwoot web servers
-* chatwoot workers
+* Chatwoot web servers
+* Chatwoot workers
 * PostgreSQL  Database
 * Redis Database
 * Email service (SMTP servers / sendgrid / mailgun etc)
