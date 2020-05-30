@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Gesprekken",
     "SEARCH": {
-      "INPUT": "Zoek naar mensen, Chat, opgeslagen antwoorden .."
+      "INPUT": "Zoek naar mensen, gesprekken, opgeslagen antwoorden .."
     },
     "STATUS_TABS": [
       {
@@ -27,7 +27,7 @@
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Niet-toegewezen",
+        "NAME": "Niet toegewezen",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
@@ -54,15 +54,15 @@
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Audio bericht"
+        "CONTENT": "Audiobericht"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Video bericht"
+        "CONTENT": "Videobericht"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "Bestand bijlage"
+        "CONTENT": "Bestandsbijlage"
       },
       "location": {
         "ICON": "ion-ios-location",

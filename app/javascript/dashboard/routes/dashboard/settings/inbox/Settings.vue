@@ -15,7 +15,7 @@
             <label>
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
               <input
-                v-model.trim="inboxName"
+                v-model.trim="selectedInboxName"
                 type="text"
                 :placeholder="
                   $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
@@ -93,36 +93,32 @@
           <div class="medium-12 columns">
             <label>
               {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-              <compact
-                v-model="inbox.widget_color"
-                class="widget-color--selector"
-              />
+              <woot-color-picker v-model="inbox.widget_color" />
+            </label>
+          </div>
+
+          <div class="medium-12 columns">
+            <label>
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
+              <select v-model="autoAssignment">
+                <option value="true">
+                  {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
+                </option>
+                <option value="false">
+                  {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
+                </option>
+              </select>
+              <p class="help-text">
+                {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
+              </p>
             </label>
           </div>
         </div>
-        <div>
-          <label>
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
-            <select v-model="autoAssignment">
-              <option value="true">
-                {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
-              </option>
-              <option value="false">
-                {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
-              </option>
-            </select>
-            <p class="help-text">
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
-            </p>
-          </label>
-        </div>
-
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
           @click="updateInbox"
-        >
-        </woot-submit-button>
+        />
       </settings-section>
     </div>
 
@@ -150,8 +146,7 @@
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="isAgentListUpdating"
           @click="updateAgents"
-        >
-        </woot-submit-button>
+        />
       </settings-section>
     </div>
 
@@ -196,13 +191,11 @@
 /* global bus */
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
-import { Compact } from 'vue-color';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 
 export default {
   components: {
-    Compact,
     SettingsSection,
   },
   mixins: [configMixin],
@@ -212,6 +205,7 @@ export default {
       autoAssignment: false,
       isUpdating: false,
       isAgentListUpdating: false,
+      selectedInboxName: '',
       channelWebsiteUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
@@ -258,6 +252,7 @@ export default {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
+        this.selectedInboxName = this.inbox.name;
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
@@ -303,10 +298,10 @@ export default {
       try {
         await this.$store.dispatch('inboxes/updateInbox', {
           id: this.currentInboxId,
-          name: this.inboxName,
+          name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
           channel: {
-            widget_color: this.getWidgetColor(this.inbox.widget_color),
+            widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
@@ -317,11 +312,6 @@ export default {
       } catch (error) {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       }
-    },
-    getWidgetColor() {
-      return typeof this.inbox.widget_color !== 'object'
-        ? this.inbox.widget_color
-        : this.inbox.widget_color.hex;
     },
   },
   validations: {

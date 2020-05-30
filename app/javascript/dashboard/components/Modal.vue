@@ -6,8 +6,8 @@
       transition="modal"
       @click="onBackDropClick"
     >
-      <i class="ion-android-close modal--close" @click="close"></i>
       <div class="modal-container" :class="className" @click.stop>
+        <i class="ion-android-close modal--close" @click="close"></i>
         <slot />
       </div>
     </div>

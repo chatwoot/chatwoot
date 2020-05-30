@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Зареєструватися",
+    "TITLE": "Реєстрація",
+    "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Назва облікового запису",
+      "PLACEHOLDER": "Wayne Enterprises",
+      "ERROR": "Ім'я аккаунту закоротке"
+    },
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "Невірна адреса електронної пошти"
+    },
+    "PASSWORD": {
+      "LABEL": "Пароль",
+      "PLACEHOLDER": "Пароль",
+      "ERROR": "Пароль занадто короткий"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Підтвердження пароля",
+      "PLACEHOLDER": "Підтвердження пароля",
+      "ERROR": "Пароль не підходить"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Реєстрація пройшла успішно",
+      "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+    },
+    "SUBMIT": "Додати"
+  }
+}
