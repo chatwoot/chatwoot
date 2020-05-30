@@ -10,6 +10,7 @@ RSpec.describe Contact do
   context 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:conversations).dependent(:destroy) }
+    it { is_expected.to have_many(:conversation_participants).dependent(:destroy) }
   end
 
   describe 'pubsub_token' do
