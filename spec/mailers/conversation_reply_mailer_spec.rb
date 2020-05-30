@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe ConversationReplyMailer, type: :mailer do
   describe 'reply_with_summary' do
-    let(:agent) { create(:user, email: 'agent1@example.com') }
+    let!(:account) { create(:account) }
+    let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
 
     before do
@@ -33,8 +34,10 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     end
 
     context 'when custom domain and email is not enabled' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message) { create(:message, conversation: conversation) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: account) }
+      let!(:message) { create(:message, conversation: conversation, account: account) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the receiver email' do
