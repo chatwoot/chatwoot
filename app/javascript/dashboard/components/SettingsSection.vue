@@ -1,6 +1,6 @@
 <template>
   <div class="row settings--section">
-    <div class="medium-4">
+    <div class="medium-4 small-12">
       <p class="sub-block-title">
         {{ title }}
       </p>
@@ -8,7 +8,7 @@
         {{ subTitle }}
       </p>
     </div>
-    <div class="medium-6">
+    <div class="medium-6 small-12">
       <slot></slot>
     </div>
   </div>
