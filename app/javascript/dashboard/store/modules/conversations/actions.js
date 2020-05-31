@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import * as types from '../../mutation-types';
-
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import FBChannel from '../../../api/channel/fbChannel';
@@ -11,6 +10,10 @@ const actions = {
     try {
       const response = await ConversationApi.show(conversationId);
       commit(types.default.ADD_CONVERSATION, response.data);
+      commit(
+        `contacts/${types.default.SET_CONTACT_ITEM}`,
+        response.data.meta.sender
+      );
     } catch (error) {
       // Ignore error
     }
@@ -25,6 +28,10 @@ const actions = {
       commit(types.default.SET_ALL_CONVERSATION, chatList);
       commit(types.default.SET_CONV_TAB_META, metaData);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      commit(
+        `contacts/${types.default.SET_CONTACTS}`,
+        chatList.map(chat => chat.meta.sender)
+      );
       dispatch(
         'conversationPage/setCurrentPage',
         {
@@ -120,19 +127,13 @@ const actions = {
     }
   },
 
-  toggleStatus: async ({ commit, dispatch, getters }, data) => {
+  toggleStatus: async ({ commit }, data) => {
     try {
-      const nextChat = getters.getNextChatConversation;
       const response = await ConversationApi.toggleStatus(data);
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
       );
-      if (nextChat) {
-        dispatch('setActiveChat', nextChat);
-      } else {
-        dispatch('clearSelectedState');
-      }
     } catch (error) {
       // Handle error
     }
@@ -159,6 +160,10 @@ const actions = {
     const { currentInbox } = state;
     if (!currentInbox || Number(currentInbox) === conversation.inbox_id) {
       commit(types.default.ADD_CONVERSATION, conversation);
+      commit(
+        `contacts/${types.default.SET_CONTACT_ITEM}`,
+        conversation.meta.sender
+      );
     }
   },
 

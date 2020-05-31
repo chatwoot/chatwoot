@@ -1,10 +1,10 @@
 /* eslint no-param-reassign: 0 */
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
+import Vue from 'vue';
 
 const state = {
-  records: [],
+  records: {},
   uiFlags: {
     isFetching: false,
     isFetchingItem: false,
@@ -20,10 +20,8 @@ export const getters = {
     return $state.uiFlags;
   },
   getContact: $state => id => {
-    const [contact = {}] = $state.records.filter(
-      record => record.id === Number(id)
-    );
-    return contact;
+    const contact = $state.records[id];
+    return contact || {};
   },
 };
 
@@ -71,9 +69,19 @@ export const mutations = {
     };
   },
 
-  [types.default.SET_CONTACTS]: MutationHelpers.set,
-  [types.default.SET_CONTACT_ITEM]: MutationHelpers.setSingleRecord,
-  [types.default.EDIT_CONTACT]: MutationHelpers.update,
+  [types.default.SET_CONTACTS]: ($state, data) => {
+    data.forEach(contact => {
+      Vue.set($state.records, contact.id, contact);
+    });
+  },
+
+  [types.default.SET_CONTACT_ITEM]: ($state, data) => {
+    Vue.set($state.records, data.id, data);
+  },
+
+  [types.default.EDIT_CONTACT]: ($state, data) => {
+    Vue.set($state.records, data.id, data);
+  },
 };
 
 export default {

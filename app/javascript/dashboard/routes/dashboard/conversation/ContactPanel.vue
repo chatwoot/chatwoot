@@ -7,7 +7,7 @@
       <div class="contact--info">
         <thumbnail
           :src="contact.thumbnail"
-          size="56px"
+          size="64px"
           :badge="contact.channel"
           :username="contact.name"
           :status="contact.availability_status"
@@ -57,14 +57,17 @@
       >
         {{ contact.additional_attributes.description }}
       </div>
+      <div class="contact--actions">
+        <button
+          v-if="!currentChat.muted"
+          class="button small clear contact--mute small-6"
+          @click="mute"
+        >
+          {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
+        </button>
+      </div>
     </div>
-    <conversation-labels :conversation-id="conversationId" />
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
-    <div v-if="browser" class="conversation--details">
+    <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
@@ -90,9 +93,12 @@
         icon="ion-clock"
       />
     </div>
-    <a v-show="!currentChat.muted" class="contact--mute" @click="mute">
-      {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
-    </a>
+    <conversation-labels :conversation-id="conversationId" />
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
   </div>
 </template>
 
@@ -186,11 +192,13 @@ export default {
 
 .contact--panel {
   @include border-normal-left;
+
+  background: white;
   font-size: $font-size-small;
   overflow-y: auto;
-  background: white;
   overflow: auto;
   position: relative;
+  padding: $space-normal;
 }
 
 .close-button {
@@ -200,23 +208,29 @@ export default {
   font-size: $font-size-default;
   color: $color-heading;
 }
+
 .contact--profile {
-  padding: $space-medium $space-normal 0 $space-medium;
   align-items: center;
+  padding: $space-medium 0 $space-one;
+
   .user-thumbnail-box {
     margin-right: $space-normal;
   }
 }
 
 .contact--details {
+  margin-top: $space-small;
+
   p {
     margin-bottom: 0;
   }
 }
 
 .contact--info {
-  display: flex;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .contact--name {
@@ -230,10 +244,13 @@ export default {
 .contact--email {
   @include text-ellipsis;
 
-  color: $color-body;
+  color: $color-gray;
   display: block;
   line-height: $space-medium;
-  text-decoration: underline;
+
+  &:hover {
+    color: $color-woot;
+  }
 }
 
 .contact--bio {
@@ -241,7 +258,8 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-two $space-normal $space-two $space-medium;
+  border-top: 1px solid $color-border-light;
+  padding: $space-large $space-normal;
 }
 
 .conversation--labels {
@@ -259,9 +277,18 @@ export default {
   }
 }
 
+.contact-conversation--panel {
+  border-top: 1px solid $color-border-light;
+}
+
 .contact--mute {
   color: $alert-color;
   display: block;
   text-align: center;
+}
+
+.contact--actions {
+  display: flex;
+  justify-content: center;
 }
 </style>
