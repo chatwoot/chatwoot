@@ -7,7 +7,7 @@ import TwilioChannel from '../../api/channel/twilioChannel';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
-  const { channel, ...inboxProperties } = inboxParams;
+  const { channel = {}, ...inboxProperties } = inboxParams;
   Object.keys(inboxProperties).forEach(key => {
     formData.append(key, inboxProperties[key]);
   });
