@@ -70,8 +70,10 @@ RSpec.describe 'Accounts API', type: :request do
              headers: { api_access_token: super_admin.access_token.token },
              as: :json
 
-        expect(User.find_by(email: email).confirmed?).to eq(true)
+        created_user = User.find_by(email: email)
+        expect(created_user.confirmed?).to eq(true)
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        expect(response.body).to include(created_user.access_token.token)
       end
     end
 
