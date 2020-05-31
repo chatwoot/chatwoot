@@ -11,7 +11,11 @@
     </div>
     <div v-if="!showCopiedMessage" class="button-wrap">
       <chat-attachment-button v-if="showIcon" :on-attach="onSendAttachment" />
-      <i v-if="showIcon" class="icon ion-link" @click="onCopy" />
+      <i
+        v-if="websiteURL() && showIcon"
+        class="icon ion-link"
+        @click="onCopy"
+      />
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
@@ -113,11 +117,13 @@ export default {
     },
     onCopy(e) {
       e.preventDefault();
-      let url_base = window.chatwootWebChannel.websiteURL;
       let share_link = window.authToken;
 
-      copy(`${url_base}?chatwoot_share_link=${share_link}`);
+      copy(`${this.websiteURL()}?chatwoot_share_link=${share_link}`);
       this.displayCopiedMessage();
+    },
+    websiteURL() {
+      return window.chatwootWebChannel.websiteURL;
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
