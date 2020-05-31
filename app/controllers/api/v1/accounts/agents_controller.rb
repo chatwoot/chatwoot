@@ -17,11 +17,11 @@ class Api::V1::Accounts::AgentsController < Api::BaseController
   def update
     @agent.update!(agent_params.except(:role))
     @agent.current_account_user.update!(role: agent_params[:role]) if agent_params[:role]
-    render 'api/v1/models/user.json', locals: { resource: @agent }
+    render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @agent }
   end
 
   def create
-    render 'api/v1/models/user.json', locals: { resource: @user }
+    render partial: 'api/v1/models/agent.json.jbuilder', locals: { resource: @user }
   end
 
   private
