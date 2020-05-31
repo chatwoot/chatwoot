@@ -29,8 +29,8 @@
       "value": "production"
     },
     "FRONTEND_URL": {
-      "description: "Public root URL of the Chatwoot installation. This will be used in the emails.",
-      "value: "https://CHANGE.herokuapp.com"
+      "description": "Public root URL of the Chatwoot installation. This will be used in the emails.",
+      "value": "https://CHANGE.herokuapp.com"
     }
   },
   "formation": {
