@@ -44,6 +44,9 @@
         "TITLE": "Website channel",
         "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
         "LOADING_MESSAGE": "Creating Website Support Channel",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Website Name",
           "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
