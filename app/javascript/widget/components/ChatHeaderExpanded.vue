@@ -2,12 +2,8 @@
   <header class="header-expanded">
     <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
     <span class="close close-button" @click="closeWindow"></span>
-    <h2 class="title">
-      {{ introHeading }}
-    </h2>
-    <p class="body">
-      {{ introBody }}
-    </p>
+    <h2 class="title" v-html="introHeading"></h2>
+    <p class="body" v-html="introBody"></p>
   </header>
 </template>
 
