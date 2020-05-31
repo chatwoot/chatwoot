@@ -10,110 +10,89 @@
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
       >
-        <div v-if="inbox.channel_type === 'Channel::WebWidget'">
-          <div class="medium-12 columns">
-            <label>
-              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
-              <input
-                v-model.trim="selectedInboxName"
-                type="text"
-                :placeholder="
-                  $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-                "
-              />
-            </label>
-          </div>
-          <div class="medium-12 columns">
-            <label>
-              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL') }}
-              <input
-                v-model.trim="channelWebsiteUrl"
-                type="text"
-                :placeholder="
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER'
-                  )
-                "
-              />
-            </label>
-          </div>
-          <div class="medium-12 columns">
-            <label>
-              {{
-                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
-              }}
-              <input
-                v-model.trim="channelWelcomeTitle"
-                type="text"
-                :placeholder="
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
-                  )
-                "
-              />
-            </label>
-          </div>
-          <div class="medium-12 columns">
-            <label>
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL'
-                )
-              }}
-              <input
-                v-model.trim="channelWelcomeTagline"
-                type="text"
-                :placeholder="
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
-                  )
-                "
-              />
-            </label>
-          </div>
-          <div class="medium-12 columns">
-            <label>
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
-                )
-              }}
-              <input
-                v-model.trim="channelAgentAwayMessage"
-                type="text"
-                :placeholder="
-                  $t(
-                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
-                  )
-                "
-              />
-            </label>
-          </div>
+        <woot-avatar-uploader
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AVATAR.LABEL')"
+          :src="avatarUrl"
+          @change="handleImageUpload"
+        />
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="selectedInboxName"
+          class="medium-12 columns"
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL')"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
+          "
+        />
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="channelWebsiteUrl"
+          class="medium-12 columns"
+          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
+          :placeholder="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
+          "
+        />
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="channelWelcomeTitle"
+          class="medium-12 columns"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.PLACEHOLDER'
+            )
+          "
+        />
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="channelWelcomeTagline"
+          class="medium-12 columns"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+            )
+          "
+        />
 
-          <div class="medium-12 columns">
-            <label>
-              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-              <woot-color-picker v-model="inbox.widget_color" />
-            </label>
-          </div>
-
-          <div class="medium-12 columns">
-            <label>
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
-              <select v-model="autoAssignment">
-                <option value="true">
-                  {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
-                </option>
-                <option value="false">
-                  {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
-                </option>
-              </select>
-              <p class="help-text">
-                {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
-              </p>
-            </label>
-          </div>
-        </div>
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="channelAgentAwayMessage"
+          class="medium-12 columns"
+          :label="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
+            )
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
+            )
+          "
+        />
+        <label v-if="isAWidgetInbox" class="medium-12 columns">
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+          <woot-color-picker v-model="inbox.widget_color" />
+        </label>
+        <label class="medium-12 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
+          <select v-model="autoAssignment">
+            <option value="true">
+              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
+            </option>
+            <option value="false">
+              {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
+          </p>
+        </label>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
@@ -201,15 +180,26 @@ export default {
   mixins: [configMixin],
   data() {
     return {
+      avatarFile: null,
+      avatarUrl: '',
       selectedAgents: [],
       autoAssignment: false,
-      isUpdating: false,
       isAgentListUpdating: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       channelAgentAwayMessage: '',
+      autoAssignmentOptions: [
+        {
+          value: true,
+          label: this.$t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED'),
+        },
+        {
+          value: false,
+          label: this.$t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED'),
+        },
+      ],
     };
   },
   computed: {
@@ -222,6 +212,9 @@ export default {
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
+    },
+    isAWidgetInbox() {
+      return this.inbox.channel_type === 'Channel::WebWidget';
     },
     inboxName() {
       if (this.inbox.channel_type === 'Channel::TwilioSms') {
@@ -252,6 +245,7 @@ export default {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
+        this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.channelWebsiteUrl = this.inbox.website_url;
@@ -296,7 +290,7 @@ export default {
     },
     async updateInbox() {
       try {
-        await this.$store.dispatch('inboxes/updateInbox', {
+        const payload = {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
@@ -307,11 +301,20 @@ export default {
             welcome_tagline: this.channelWelcomeTagline,
             agent_away_message: this.channelAgentAwayMessage,
           },
-        });
+        };
+        if (this.avatarFile) {
+          payload.avatar = this.avatarFile;
+        }
+        await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       }
+    },
+    handleImageUpload({ file, url }) {
+      this.avatarFile = file;
+      this.avatarUrl = url;
+      console.log(this.avatarUrl);
     },
   },
   validations: {
