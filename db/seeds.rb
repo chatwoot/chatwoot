@@ -33,4 +33,9 @@ conversation = Conversation.create!(
   contact_inbox: contact_inbox,
   additional_attributes: {}
 )
-Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+Message.create!(content: 'Hello',
+                account: account,
+                inbox: inbox,
+                conversation: conversation,
+                message_type: :incoming,
+                contact: contact)
