@@ -14,7 +14,7 @@ const state = {
 
 export const getters = {
   getContacts($state) {
-    return $state.records;
+    return Object.values($state.records);
   },
   getUIFlags($state) {
     return $state.uiFlags;
