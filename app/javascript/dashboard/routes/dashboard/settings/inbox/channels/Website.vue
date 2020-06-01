@@ -141,7 +141,7 @@ export default {
           channel: {
             type: 'web_widget',
             website_url: this.channelWebsiteUrl,
-            widget_color: this.channelWidgetColor.hex,
+            widget_color: this.channelWidgetColor,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
             agent_away_message: this.channelAgentAwayMessage,
