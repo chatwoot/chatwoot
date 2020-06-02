@@ -13,11 +13,12 @@
 
 <script>
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
-import { getAvailableAgentsText } from 'widget/helpers/utils';
+import agentMixin from '../mixins/agentMixin';
 
 export default {
   name: 'AvailableAgents',
   components: { GroupedAvatars },
+  mixins: [agentMixin],
   props: {
     agents: {
       type: Array,
@@ -37,7 +38,7 @@ export default {
       }));
     },
     title() {
-      return getAvailableAgentsText(this.agents);
+      return this.getAvailableAgentsText(this.agents);
     },
   },
 };

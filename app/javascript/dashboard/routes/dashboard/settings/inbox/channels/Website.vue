@@ -12,7 +12,7 @@
     <form
       v-if="!uiFlags.isCreating"
       class="row"
-      @submit.prevent="createChannel()"
+      @submit.prevent="createChannel"
     >
       <div class="medium-12 columns">
         <label>
@@ -38,6 +38,14 @@
           />
         </label>
       </div>
+
+      <div class="medium-12 columns">
+        <label>
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+          <woot-color-picker v-model="channelWidgetColor" />
+        </label>
+      </div>
+
       <div class="medium-12 columns">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL') }}
@@ -87,16 +95,6 @@
         </label>
       </div>
 
-      <div class="medium-12 columns">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-          <compact
-            v-model="channelWidgetColor"
-            class="widget-color--selector"
-          />
-        </label>
-      </div>
-
       <div class="modal-footer">
         <div class="medium-12 columns">
           <woot-submit-button
@@ -111,7 +109,6 @@
 </template>
 
 <script>
-import { Compact } from 'vue-color';
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
@@ -119,13 +116,12 @@ import PageHeader from '../../SettingsSubPageHeader';
 export default {
   components: {
     PageHeader,
-    Compact,
   },
   data() {
     return {
       inboxName: '',
       channelWebsiteUrl: '',
-      channelWidgetColor: { hex: '#009CE0' },
+      channelWidgetColor: '#009CE0',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       channelAgentAwayMessage: '',
@@ -145,7 +141,7 @@ export default {
           channel: {
             type: 'web_widget',
             website_url: this.channelWebsiteUrl,
-            widget_color: this.channelWidgetColor.hex,
+            widget_color: this.channelWidgetColor,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
             agent_away_message: this.channelAgentAwayMessage,

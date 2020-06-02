@@ -6,15 +6,15 @@
   >
     <Thumbnail
       v-if="!hideThumbnail"
-      :src="chat.meta.sender.thumbnail"
-      :badge="chat.meta.sender.channel"
+      :src="currentContact.thumbnail"
+      :badge="currentContact.channel"
       class="columns"
-      :username="chat.meta.sender.name"
+      :username="currentContact.name"
       size="40px"
     />
     <div class="conversation--details columns">
       <h4 class="conversation--user">
-        {{ chat.meta.sender.name }}
+        {{ currentContact.name }}
         <span
           v-if="!hideInboxName && isInboxNameVisible"
           v-tooltip.bottom="inboxName(chat.inbox_id)"
@@ -25,12 +25,13 @@
       </h4>
       <p
         class="conversation--message"
-        v-html="extractMessageText(lastMessage(chat))"
-      ></p>
-
+        v-html="extractMessageText(lastMessageInChat)"
+      />
       <div class="conversation--meta">
         <span class="timestamp">
-          {{ dynamicTime(lastMessage(chat).created_at) }}
+          {{
+            lastMessageInChat ? dynamicTime(lastMessageInChat.created_at) : ''
+          }}
         </span>
         <span class="unread">{{ getUnreadCount }}</span>
       </div>
@@ -75,7 +76,14 @@ export default {
       inboxesList: 'inboxes/getInboxes',
       activeInbox: 'getSelectedInbox',
       currentUser: 'getCurrentUser',
+      accountId: 'getCurrentAccountId',
     }),
+
+    currentContact() {
+      return this.$store.getters['contacts/getContact'](
+        this.chat.meta.sender.id
+      );
+    },
 
     isActiveChat() {
       return this.currentChat.id === this.chat.id;
@@ -92,19 +100,23 @@ export default {
     isInboxNameVisible() {
       return !this.activeInbox;
     },
+
+    lastMessageInChat() {
+      return this.lastMessage(this.chat);
+    },
   },
 
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(
-        this.currentUser.account_id,
-        activeInbox,
-        chat.id
-      );
+      const path = conversationUrl(this.accountId, activeInbox, chat.id);
       router.push({ path: frontendURL(path) });
     },
     extractMessageText(chatItem) {
+      if (!chatItem) {
+        return '';
+      }
+
       const { content, attachments } = chatItem;
 
       if (content) {

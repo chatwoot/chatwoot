@@ -18,13 +18,14 @@
     "ADD": {
       "TITLE": "Add Canned Response",
       "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Short Code",
           "PLACEHOLDER": "Please enter a shortcode",
           "ERROR": "Short Code is required"
         },
-        "CONTENT" : {
+        "CONTENT": {
           "LABEL": "Content",
           "PLACEHOLDER": "Please enter a content",
           "ERROR": "Content is required"
@@ -38,13 +39,14 @@
     },
     "EDIT": {
       "TITLE": "Edit Canned Response",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
-        "SHORT_CODE" : {
+        "SHORT_CODE": {
           "LABEL": "Short Code",
           "PLACEHOLDER": "Please enter a shortcode",
           "ERROR": "Short Code is required"
         },
-        "CONTENT" : {
+        "CONTENT": {
           "LABEL": "Content",
           "PLACEHOLDER": "Please enter a content",
           "ERROR": "Content is required"
@@ -67,7 +69,7 @@
         "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete ",
         "YES": "Yes, Delete ",
-        "NO": "No, Keep it "
+        "NO": "No, Keep "
       }
     }
   }

@@ -1,13 +1,26 @@
-const sendMessage = content => ({
-  url: `/api/v1/widget/messages${window.location.search}`,
-  params: {
-    message: {
-      content,
-      timestamp: new Date().toString(),
-      referer_url: window.refererURL || '',
+import Vue from 'vue';
+
+const sendMessage = content => {
+  const locale = Vue.config.lang;
+  const refererURL = window.refererURL || '';
+  let search = window.location.search;
+  if (search) {
+    search = `${search}&locale=${locale}`;
+  } else {
+    search = `?locale=${locale}`;
+  }
+
+  return {
+    url: `/api/v1/widget/messages${search}`,
+    params: {
+      message: {
+        content,
+        timestamp: new Date().toString(),
+        referer_url: refererURL,
+      },
     },
-  },
-});
+  };
+};
 
 const sendAttachment = ({ attachment }) => {
   const { refererURL = '' } = window;

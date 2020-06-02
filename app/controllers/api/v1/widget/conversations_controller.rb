@@ -3,6 +3,10 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   before_action :set_web_widget
   before_action :set_contact
 
+  def index
+    @conversation = conversation
+  end
+
   def toggle_typing
     head :ok && return if conversation.nil?
 

@@ -2,12 +2,13 @@
 #
 # Table name: agent_bots
 #
-#  id           :bigint           not null, primary key
-#  description  :string
-#  name         :string
-#  outgoing_url :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id                               :bigint           not null, primary key
+#  description                      :string
+#  hide_input_for_bot_conversations :boolean          default(FALSE)
+#  name                             :string
+#  outgoing_url                     :string
+#  created_at                       :datetime         not null
+#  updated_at                       :datetime         not null
 #
 
 class AgentBot < ApplicationRecord

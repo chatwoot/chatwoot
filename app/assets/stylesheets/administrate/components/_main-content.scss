@@ -1,0 +1,26 @@
+.main-content {
+  font-size: $font-size-default;
+  left: 23rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.main-content__body {
+  padding: $space-two;
+}
+
+.main-content__header {
+  align-items: center;
+  background-color: $color-white;
+  border-bottom: 1px solid $color-border;
+  display: flex;
+  min-height: 5.6rem;
+  padding: $space-small $space-normal;
+}
+
+.main-content__page-title {
+  font-size: $font-size-large;
+  font-weight: $font-weight-medium;
+  margin-right: auto;
+}

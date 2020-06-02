@@ -26,9 +26,19 @@
         "TITLE": "Notificações por e-mail",
         "NOTE": "Atualize suas preferências de notificação por e-mail aqui",
         "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa for atribuída a mim",
-        "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada",
-        "UPDATE_SUCCESS": "Suas preferências de notificação de e-mail foram atualizadas com sucesso",
+        "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Suas preferências de notificação foram atualizadas com sucesso",
         "UPDATE_ERROR": "Ocorreu um erro ao atualizar as preferências, por favor, tente novamente"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificações via Push",
+        "NOTE": "Atualize suas preferências de notificação Push aqui",
+        "CONVERSATION_ASSIGNMENT": "Enviar notificações push quando uma conversa é atribuída a mim",
+        "CONVERSATION_CREATION": "Enviar notificações push quando uma nova conversa é criada",
+        "HAS_ENABLED_PUSH": "Você ativou push para este navegador.",
+        "REQUEST_PUSH": "Habilitar notificações push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do Perfil"
@@ -59,14 +69,37 @@
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "LOGOUT": "Sair"
   },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dias de teste restantes.",
+    "TRAIL_BUTTON": "Comprar agora"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copiar",
+      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Baixar",
+      "UPLOADING": "Enviando..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Enviar"
+    }
+  },
+  "CONFIRM_EMAIL": "Verificando...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Adicionar Caixa de Entrada"
+    }
+  },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
     "REPORTS": "Relatórios",
-    "SETTINGS": "Definições",
-    "HOME": "Casa",
+    "SETTINGS": "Confirgurações",
+    "HOME": "Principal",
     "AGENTS": "Agentes",
-    "INBOXES": "Caixas de entrada",
-    "CANNED_RESPONSES": "Respostas Enlatadas",
+    "INBOXES": "Caixas de Entrada",
+    "CANNED_RESPONSES": "Atalhos",
     "BILLING": "Faturamento",
     "INTEGRATIONS": "Integrações",
     "ACCOUNT_SETTINGS": "Configurações da conta"
