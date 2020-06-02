@@ -208,6 +208,13 @@ const actions = {
     commit(types.default.UPDATE_ASSIGNEE, data);
   },
 
+  updateConversationContact({ commit }, data) {
+    if (data.id) {
+      commit(`contacts/${types.default.SET_CONTACT_ITEM}`, data);
+    }
+    commit(types.default.UPDATE_CONVERSATION_CONTACT, data);
+  },
+
   setActiveInbox({ commit }, inboxId) {
     commit(types.default.SET_ACTIVE_INBOX, inboxId);
   },

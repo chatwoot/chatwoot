@@ -159,16 +159,16 @@ export default {
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     contactId() {
-      return this.currentConversationMetaData.contact?.id;
+      return this.currentChat.meta?.sender?.id;
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
   },
   watch: {
-    contactId(newContactId, prevContactId) {
-      if (newContactId && newContactId !== prevContactId) {
-        this.$store.dispatch('contacts/show', { id: newContactId });
+    conversationId(newConversationId, prevConversationId) {
+      if (newConversationId && newConversationId !== prevConversationId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
       }
     },
   },
