@@ -26,9 +26,19 @@
         "TITLE": "Notificări prin e-mail",
         "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
         "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
-        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
-        "UPDATE_SUCCESS": "Preferințele de notificare prin e-mail sunt actualizate cu succes",
+        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
         "UPDATE_ERROR": "A apărut o eroare la actualizarea preferințelor, încercați din nou"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificări push",
+        "NOTE": "Actualizați preferințele de notificare push aici",
+        "CONVERSATION_ASSIGNMENT": "Trimite notificări push atunci când o conversație îmi este atribuită",
+        "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
+        "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
+        "REQUEST_PUSH": "Activează notificările push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagine de profil"
@@ -56,19 +66,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Comută contul",
+    "SELECTOR_SUBTITLE": "Selectaţi un cont din următoarea listă",
     "PROFILE_SETTINGS": "Setări profil",
     "LOGOUT": "Deconectare"
   },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "zile de încercare rămase.",
+    "TRAIL_BUTTON": "Cumpara acum"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copiază",
+      "COPY_SUCCESSFUL": "Cod copiat în clipboard cu succes"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descărcare",
+      "UPLOADING": "Încărcare..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Trimite"
+    }
+  },
+  "CONFIRM_EMAIL": "Verificare...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Adaugă Inbox"
+    }
+  },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversaţii",
+    "CONVERSATIONS": "Conversații",
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
-    "HOME": "Acasă",
-    "AGENTS": "agenţi",
-    "INBOXES": "cutiile poștale",
-    "CANNED_RESPONSES": "Răspunsuri conserve",
+    "HOME": "Acasa",
+    "AGENTS": "Agenți",
+    "INBOXES": "Căsuțe",
+    "CANNED_RESPONSES": "Răspunsuri predefinite",
     "BILLING": "Facturare",
-    "INTEGRATIONS": "integrările",
+    "INTEGRATIONS": "Integrări",
     "ACCOUNT_SETTINGS": "Setările contului"
   }
 }
