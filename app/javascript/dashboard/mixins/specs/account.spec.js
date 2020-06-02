@@ -1,33 +1,40 @@
-import { createWrapper } from '@vue/test-utils';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
 import accountMixin from '../account';
-import Vue from 'vue';
+import Vuex from 'vuex';
 
-jest.mock('../../api/auth', () => ({
-  getCurrentUser: () => ({ account_id: 1 }),
-}));
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 describe('accountMixin', () => {
-  test('set accountId properly', () => {
+  let getters;
+  let store;
+
+  beforeEach(() => {
+    getters = {
+      getCurrentAccountId: () => 1,
+    };
+
+    store = new Vuex.Store({ getters });
+  });
+
+  it('set accountId properly', () => {
     const Component = {
       render() {},
       title: 'TestComponent',
       mixins: [accountMixin],
     };
-    const Constructor = Vue.extend(Component);
-    const vm = new Constructor().$mount();
-    const wrapper = createWrapper(vm);
+    const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.accountId).toBe(1);
   });
 
-  test('returns current url', () => {
+  it('returns current url', () => {
     const Component = {
       render() {},
       title: 'TestComponent',
       mixins: [accountMixin],
     };
-    const Constructor = Vue.extend(Component);
-    const vm = new Constructor().$mount();
-    const wrapper = createWrapper(vm);
+
+    const wrapper = shallowMount(Component, { store, localVue });
     expect(wrapper.vm.addAccountScoping('settings/inboxes/new')).toBe(
       '/app/accounts/1/settings/inboxes/new'
     );

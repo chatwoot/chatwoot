@@ -47,7 +47,7 @@ class Twitter::SendReplyService
       tweet_data = response.body
       message.update!(source_id: tweet_data['id_str'])
     else
-      Rails.logger 'TWITTER_TWEET_REPLY_ERROR' + response.body
+      Rails.logger.info 'TWITTER_TWEET_REPLY_ERROR' + response.body
     end
   end
 

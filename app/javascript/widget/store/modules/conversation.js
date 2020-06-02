@@ -2,15 +2,16 @@
 import Vue from 'vue';
 import {
   sendMessageAPI,
-  getConversationAPI,
+  getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import getUuid from '../../helpers/uuid';
-import DateHelper from '../../../shared/helpers/DateHelper';
+import DateHelper from 'shared/helpers/DateHelper';
+import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
+import getUuid from '../../helpers/uuid';
 const groupBy = require('lodash.groupby');
 
 export const createTemporaryMessage = ({ attachments, content }) => {
@@ -24,6 +25,34 @@ export const createTemporaryMessage = ({ attachments, content }) => {
     message_type: MESSAGE_TYPE.INCOMING,
   };
 };
+
+const getSenderName = message => (message.sender ? message.sender.name : '');
+
+const shouldShowAvatar = (message, nextMessage) => {
+  const currentSender = getSenderName(message);
+  const nextSender = getSenderName(nextMessage);
+
+  return (
+    currentSender !== nextSender ||
+    message.message_type !== nextMessage.message_type ||
+    isASubmittedFormMessage(nextMessage)
+  );
+};
+
+const groupConversationBySender = conversationsForADate =>
+  conversationsForADate.map((message, index) => {
+    let showAvatar = false;
+    const isLastMessage = index === conversationsForADate.length - 1;
+    if (isASubmittedFormMessage(message)) {
+      showAvatar = false;
+    } else if (isLastMessage) {
+      showAvatar = true;
+    } else {
+      const nextMessage = conversationsForADate[index + 1];
+      showAvatar = shouldShowAvatar(message, nextMessage);
+    }
+    return { showAvatar, ...message };
+  });
 
 export const findUndeliveredMessage = (messageInbox, { content }) =>
   Object.values(messageInbox).filter(
@@ -58,27 +87,10 @@ export const getters = {
       Object.values(_state.conversations),
       message => new DateHelper(message.created_at).format()
     );
-    return Object.keys(conversationGroupedByDate).map(date => {
-      const messages = conversationGroupedByDate[date].map((message, index) => {
-        let showAvatar = false;
-        if (index === conversationGroupedByDate[date].length - 1) {
-          showAvatar = true;
-        } else {
-          const nextMessage = conversationGroupedByDate[date][index + 1];
-          const currentSender = message.sender ? message.sender.name : '';
-          const nextSender = nextMessage.sender ? nextMessage.sender.name : '';
-          showAvatar =
-            currentSender !== nextSender ||
-            message.message_type !== nextMessage.message_type;
-        }
-        return { showAvatar, ...message };
-      });
-
-      return {
-        date,
-        messages,
-      };
-    });
+    return Object.keys(conversationGroupedByDate).map(date => ({
+      date,
+      messages: groupConversationBySender(conversationGroupedByDate[date]),
+    }));
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
 };
@@ -116,7 +128,7 @@ export const actions = {
   fetchOldConversations: async ({ commit }, { before } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getConversationAPI({ before });
+      const { data } = await getMessagesAPI({ before });
       commit('setMessagesInConversation', data);
       commit('setConversationListLoading', false);
     } catch (error) {

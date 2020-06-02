@@ -21,7 +21,7 @@
       </chat-options>
     </div>
     <chat-form
-      v-if="isForm"
+      v-if="isForm && !messageContentAttributes.submitted_values"
       :items="messageContentAttributes.items"
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"

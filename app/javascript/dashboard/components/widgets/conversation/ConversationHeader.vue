@@ -2,14 +2,14 @@
   <div class="conv-header">
     <div class="user">
       <Thumbnail
-        :src="chat.meta.sender.thumbnail"
+        :src="currentContact.thumbnail"
         size="40px"
-        :badge="chat.meta.sender.channel"
-        :username="chat.meta.sender.name"
+        :badge="currentContact.channel"
+        :username="currentContact.name"
       />
       <div class="user--profile__meta">
         <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
-          {{ chat.meta.sender.name }}
+          {{ currentContact.name }}
         </h3>
         <button
           class="user--profile__button clear button small"
@@ -79,6 +79,13 @@ export default {
       agents: 'agents/getVerifiedAgents',
       currentChat: 'getSelectedChat',
     }),
+
+    currentContact() {
+      return this.$store.getters['contacts/getContact'](
+        this.chat.meta.sender.id
+      );
+    },
+
     agentList() {
       return [
         {

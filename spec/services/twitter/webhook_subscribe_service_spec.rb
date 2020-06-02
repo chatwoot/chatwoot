@@ -12,24 +12,66 @@ describe ::Twitter::WebhookSubscribeService do
 
   before do
     allow(::Twitty::Facade).to receive(:new).and_return(twitter_client)
-    allow(twitter_client).to receive(:register_webhook)
-    allow(twitter_client).to receive(:subscribe_webhook)
+    allow(twitter_client).to receive(:register_webhook).and_return(twitter_success_response)
+    allow(twitter_client).to receive(:unregister_webhook).and_return(twitter_success_response)
+    allow(twitter_client).to receive(:fetch_subscriptions).and_return(instance_double(::Twitty::Response, status: '204', body: { message: 'Valid' }))
+    allow(twitter_client).to receive(:create_subscription).and_return(instance_double(::Twitty::Response, status: '204', body: { message: 'Valid' }))
   end
 
   describe '#perform' do
-    context 'with successful registration' do
-      it 'calls subscribe webhook' do
-        allow(twitter_client).to receive(:register_webhook).and_return(twitter_success_response)
+    context 'when webhook is not registered' do
+      it 'calls register_webhook' do
+        allow(twitter_client).to receive(:fetch_webhooks).and_return(
+          instance_double(::Twitty::Response, status: '200', body: {})
+        )
         webhook_subscribe_service.perform
-        expect(twitter_client).to have_received(:subscribe_webhook)
+        expect(twitter_client).not_to have_received(:unregister_webhook)
+        expect(twitter_client).to have_received(:register_webhook)
       end
     end
 
-    context 'with unsuccessful registration' do
-      it 'does not call subscribe webhook' do
-        allow(twitter_client).to receive(:register_webhook).and_return(twitter_error_response)
+    context 'when valid webhook is registered' do
+      it 'calls unregister_webhook and then register webhook' do
+        allow(twitter_client).to receive(:fetch_webhooks).and_return(
+          instance_double(::Twitty::Response, status: '200',
+                                              body: [{ 'url' => webhook_subscribe_service.send(:twitter_url) }])
+        )
         webhook_subscribe_service.perform
-        expect(twitter_client).not_to have_received(:subscribe_webhook)
+        expect(twitter_client).not_to have_received(:unregister_webhook)
+        expect(twitter_client).not_to have_received(:register_webhook)
+      end
+    end
+
+    context 'when invalid webhook is registered' do
+      it 'calls unregister_webhook and then register webhook' do
+        allow(twitter_client).to receive(:fetch_webhooks).and_return(
+          instance_double(::Twitty::Response, status: '200',
+                                              body: [{ 'url' => 'invalid_url' }])
+        )
+        webhook_subscribe_service.perform
+        expect(twitter_client).to have_received(:unregister_webhook)
+        expect(twitter_client).to have_received(:register_webhook)
+      end
+    end
+
+    context 'when correct webhook is present' do
+      it 'calls create subscription if subscription is not present' do
+        allow(twitter_client).to receive(:fetch_webhooks).and_return(
+          instance_double(::Twitty::Response, status: '200',
+                                              body: [{ 'url' => webhook_subscribe_service.send(:twitter_url) }])
+        )
+        allow(twitter_client).to receive(:fetch_subscriptions).and_return(instance_double(::Twitty::Response, status: '500'))
+        webhook_subscribe_service.perform
+        expect(twitter_client).to have_received(:create_subscription)
+      end
+
+      it 'does not call create subscription if subscription is already present' do
+        allow(twitter_client).to receive(:fetch_webhooks).and_return(
+          instance_double(::Twitty::Response, status: '200',
+                                              body: [{ 'url' => webhook_subscribe_service.send(:twitter_url) }])
+        )
+        webhook_subscribe_service.perform
+        expect(twitter_client).not_to have_received(:create_subscription)
       end
     end
   end

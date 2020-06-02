@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!]
+  pattr_initialize [:account_name!, :email!, :confirmed!]
 
   def perform
     validate_email
@@ -38,6 +38,7 @@ class AccountBuilder
 
   def create_account
     @account = Account.create!(name: @account_name)
+    Current.account = @account
   end
 
   def create_and_link_user
@@ -46,6 +47,7 @@ class AccountBuilder
                      password: password,
                      password_confirmation: password,
                      name: email_to_name(@email))
+    @user.confirm if @confirmed
     if @user.save!
       link_user_to_account(@user, @account)
       @user

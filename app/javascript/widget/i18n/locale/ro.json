@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descărcare",
+      "UPLOADING": "Încărcare..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Trimite"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "este disponibil",
+    "ARE_AVAILABLE": "sunt disponibile",
+    "OTHERS_ARE_AVAILABLE": "altele sunt disponibile",
+    "AND": "şi"
+  },
+  "POWERED_BY": "Oferit de Chatwoot",
+  "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
+  "CHAT_PLACEHOLDER": "Scrie mesajul tău"
+}

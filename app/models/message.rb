@@ -141,7 +141,7 @@ class Message < ApplicationRecord
   end
 
   def reopen_conversation
-    conversation.open! if incoming? && conversation.resolved?
+    conversation.open! if incoming? && conversation.resolved? && !conversation.muted?
   end
 
   def execute_message_template_hooks

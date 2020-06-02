@@ -164,7 +164,6 @@ export default {
         registration.pushManager
           .getSubscription()
           .then(subscription => {
-            console.log(subscription);
             if (!subscription) {
               this.hasEnabledPushPermissions = false;
             } else {

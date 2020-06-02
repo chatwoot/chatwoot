@@ -15,6 +15,7 @@ describe ::MessageFinder do
     create(:message, account: account, inbox: inbox, conversation: conversation)
     create(:message, message_type: 'activity', account: account, inbox: inbox, conversation: conversation)
     create(:message, message_type: 'activity', account: account, inbox: inbox, conversation: conversation)
+    # this outgoing message creates 3 additional messages because of the hook execution service
     create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation)
   end
 

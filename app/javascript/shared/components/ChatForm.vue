@@ -24,6 +24,7 @@
         class="button block"
         type="submit"
         :disabled="!isFormValid"
+        :style="{ background: widgetColor, borderColor: widgetColor }"
       >
         {{ $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
       </button>
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   props: {
     items: {
@@ -49,6 +51,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
         return !!this.formValues[name] && acc;

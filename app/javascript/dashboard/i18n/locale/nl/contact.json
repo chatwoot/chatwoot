@@ -1,8 +1,8 @@
 {
   "CONTACT_PANEL": {
-    "CONVERSATION_TITLE": "Gesprek details",
+    "CONVERSATION_TITLE": "Gesprekdetails",
     "BROWSER": "Browser",
-    "OS": "Operating systeem",
+    "OS": "Besturingssysteem",
     "INITIATED_FROM": "Geïnitieerd vanuit",
     "INITIATED_AT": "Geïnitieerd op",
     "CONVERSATIONS": {
