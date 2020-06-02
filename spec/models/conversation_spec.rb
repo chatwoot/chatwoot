@@ -171,6 +171,37 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '#mute!' do
+    subject(:mute!) { conversation.mute! }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'marks conversation as resolved' do
+      mute!
+      expect(conversation.reload.resolved?).to eq(true)
+    end
+
+    it 'marks conversation as muted in redis' do
+      mute!
+      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
+    end
+  end
+
+  describe '#muted?' do
+    subject(:muted?) { conversation.muted? }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'return true if conversation is muted' do
+      conversation.mute!
+      expect(muted?).to eq(true)
+    end
+
+    it 'returns false if conversation is not muted' do
+      expect(muted?).to eq(false)
+    end
+  end
+
   describe 'unread_messages' do
     subject(:unread_messages) { conversation.unread_messages }
 

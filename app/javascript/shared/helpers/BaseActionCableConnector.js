@@ -14,6 +14,7 @@ class BaseActionCableConnector {
     );
     this.app = app;
     this.events = {};
+    this.isAValidEvent = () => true;
   }
 
   disconnect() {
@@ -21,8 +22,10 @@ class BaseActionCableConnector {
   }
 
   onReceived = ({ event, data } = {}) => {
-    if (this.events[event] && typeof this.events[event] === 'function') {
-      this.events[event](data);
+    if (this.isAValidEvent(data)) {
+      if (this.events[event] && typeof this.events[event] === 'function') {
+        this.events[event](data);
+      }
     }
   };
 }

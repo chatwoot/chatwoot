@@ -39,6 +39,10 @@ class ConversationApi extends ApiClient {
       typing_status: status,
     });
   }
+
+  mute(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/mute`);
+  }
 }
 
 export default new ConversationApi();

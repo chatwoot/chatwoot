@@ -105,6 +105,15 @@ export default {
       return `user-thumbnail ${classname}`;
     },
   },
+  watch: {
+    src: {
+      handler(value, oldValue) {
+        if (value !== oldValue && this.imgError) {
+          this.imgError = false;
+        }
+      },
+    },
+  },
   methods: {
     onImgError() {
       this.imgError = true;

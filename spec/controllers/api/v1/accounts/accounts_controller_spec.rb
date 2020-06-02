@@ -70,8 +70,10 @@ RSpec.describe 'Accounts API', type: :request do
              headers: { api_access_token: super_admin.access_token.token },
              as: :json
 
-        expect(User.find_by(email: email).confirmed?).to eq(true)
+        created_user = User.find_by(email: email)
+        expect(created_user.confirmed?).to eq(true)
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        expect(response.body).to include(created_user.access_token.token)
       end
     end
 
@@ -107,6 +109,7 @@ RSpec.describe 'Accounts API', type: :request do
   describe 'GET /api/v1/accounts/{account.id}' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, account: account, role: :agent) }
+    let(:user_without_access) { create(:user) }
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     context 'when it is an unauthenticated user' do
@@ -119,9 +122,9 @@ RSpec.describe 'Accounts API', type: :request do
     context 'when it is an unauthorized user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}",
-            headers: agent.create_new_auth_token
+            headers: user_without_access.create_new_auth_token
 
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:not_found)
       end
     end
 
@@ -182,6 +185,31 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.domain_emails_enabled).to eq(params[:domain_emails_enabled])
         expect(account.reload.support_email).to eq(params[:support_email])
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/update_active_at' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/update_active_at"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'modifies an account' do
+        expect(agent.account_users.first.active_at).to eq(nil)
+        post "/api/v1/accounts/#{account.id}/update_active_at",
+             params: {},
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.account_users.first.active_at).not_to eq(nil)
       end
     end
   end

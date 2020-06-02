@@ -38,6 +38,7 @@ class AccountBuilder
 
   def create_account
     @account = Account.create!(name: @account_name)
+    Current.account = @account
   end
 
   def create_and_link_user

@@ -75,6 +75,15 @@ class Conversation < ApplicationRecord
     save
   end
 
+  def mute!
+    resolved!
+    Redis::Alfred.setex(mute_key, 1, mute_period)
+  end
+
+  def muted?
+    !Redis::Alfred.get(mute_key).nil?
+  end
+
   def lock!
     update!(locked: true)
   end
@@ -184,5 +193,13 @@ class Conversation < ApplicationRecord
     content = I18n.t("conversations.activity.assignee.#{key}", **params)
 
     messages.create(activity_message_params(content))
+  end
+
+  def mute_key
+    format('CONVERSATION::%<id>d::MUTED', id: id)
+  end
+
+  def mute_period
+    6.hours
   end
 end

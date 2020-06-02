@@ -10242,7 +10242,7 @@ vue-clickaway@~2.1.0:
   dependencies:
     loose-envify "^1.2.0"
 
-vue-color@^2.7.0:
+vue-color@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/vue-color/-/vue-color-2.7.1.tgz#ca035109ea0010f0d60b889b97d63d37ac712f2d"
   integrity sha512-u3yl46B2eEej9zfAOIRRSphX1QfeNQzMwO82EIA+aoi0AKX3o1KcfsmMzm4BFkkj2ukCxLVfQ41k7g1gSI7SlA==

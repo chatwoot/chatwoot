@@ -52,10 +52,8 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
-    accountId() {
-      return this.currentUser.account_id;
-    },
   },
   methods: {
     frontendURL,
