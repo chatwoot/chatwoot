@@ -21,7 +21,7 @@ class ConversationMailbox < ApplicationMailbox
     @message = @conversation.messages.create(
       account_id: @conversation.account_id,
       contact_id: @conversation.contact_id,
-      content: processed_mail.content,
+      content: processed_mail.text_content[:reply],
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',
       content_type: 'incoming_email',
@@ -71,6 +71,6 @@ class ConversationMailbox < ApplicationMailbox
   end
 
   def decorate_mail
-    @processed_mail = MailPresenter.new(mail)
+    @processed_mail = MailPresenter.new(mail, @conversation.account)
   end
 end

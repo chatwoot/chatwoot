@@ -17,7 +17,7 @@
     "LIST": {
       "404": "Il n'y a aucun agent associé à ce compte",
       "TITLE": "Gérer les agents de votre équipe",
-      "DESC": "Vous pouvez ajouter/supprimer des agents dans votre équipe.",
+      "DESC": "Vous pouvez ajouter/supprimer des agents à votre équipe.",
       "NAME": "Nom",
       "EMAIL": "COURRIEL",
       "STATUS": "État",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Ajouter un agent à votre équipe",
       "DESC": "Vous pouvez ajouter des personnes qui pourront gérer le support de vos boîtes de réception.",
+      "CANCEL_BUTTON_TEXT": "Annuler",
       "FORM": {
         "NAME": {
           "LABEL": "Nom de l'agent",
@@ -60,7 +61,7 @@
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
         "YES": "Oui, supprimer ",
-        "NO": "Non, conservez-le "
+        "NO": "Non, Conserver "
       }
     },
     "EDIT": {
@@ -68,7 +69,7 @@
       "FORM": {
         "NAME": {
           "LABEL": "Nom de l'agent",
-          "PLACEHOLDER": "Veuillez entrer le nom de l'agent"
+          "PLACEHOLDER": "Veuillez saisir le nom de l'agent"
         },
         "AGENT_TYPE": {
           "LABEL": "Type d'agent",

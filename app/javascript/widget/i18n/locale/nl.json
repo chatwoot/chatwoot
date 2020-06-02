@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Downloaden",
+      "UPLOADING": "Uploaden..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Bevestigen"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "is beschikbaar",
+    "ARE_AVAILABLE": "zijn beschikbaar",
+    "OTHERS_ARE_AVAILABLE": "anderen zijn beschikbaar",
+    "AND": "en"
+  },
+  "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
+  "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
+  "CHAT_PLACEHOLDER": "Typ uw bericht"
+}

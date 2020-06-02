@@ -4,6 +4,6 @@ class DeviseOverrides::SessionsController < ::DeviseTokenAuth::SessionsControlle
   wrap_parameters format: []
 
   def render_create_success
-    render 'devise/auth.json', locals: { resource: @resource }
+    render partial: 'devise/auth.json', locals: { resource: @resource }
   end
 end

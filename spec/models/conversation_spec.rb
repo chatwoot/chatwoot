@@ -17,7 +17,32 @@ RSpec.describe Conversation, type: :model do
 
     it 'creates a UUID for every conversation automatically' do
       uuid_pattern = /[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/i
-      expect(conversation.uuid).to  match(uuid_pattern)
+      expect(conversation.uuid).to match(uuid_pattern)
+    end
+  end
+
+  describe '.after_create' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        assignee: nil
+      )
+    end
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'runs after_create callbacks' do
+      # send_events
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
     end
   end
 
@@ -68,7 +93,7 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-  describe '.after_create' do
+  describe '#round robin' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:inbox) { create(:inbox, account: account) }
@@ -83,15 +108,10 @@ RSpec.describe Conversation, type: :model do
     end
 
     before do
-      allow(Rails.configuration.dispatcher).to receive(:dispatch)
       allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
     end
 
-    it 'runs after_create callbacks' do
-      # send_events
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
-
+    it 'runs round robin on after_save callbacks' do
       # run_round_robin
       expect(conversation.reload.assignee).to eq(agent)
     end
@@ -99,12 +119,35 @@ RSpec.describe Conversation, type: :model do
     it 'will not auto assign agent if enable_auto_assignment is false' do
       inbox.update(enable_auto_assignment: false)
 
-      # send_events
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+      # run_round_robin
+      expect(conversation.reload.assignee).to eq(nil)
+    end
+
+    it 'will not auto assign agent if its a bot conversation' do
+      conversation = create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        status: 'bot',
+        assignee: nil
+      )
 
       # run_round_robin
       expect(conversation.reload.assignee).to eq(nil)
+    end
+
+    it 'gets triggered on update only when status changes to open' do
+      conversation.status = 'resolved'
+      conversation.save!
+      expect(conversation.reload.assignee).to eq(agent)
+
+      # round robin changes assignee in this case since agent doesn't have access to inbox
+      agent2 = create(:user, email: 'agent2@example.com', account: account)
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent2.id)
+      conversation.status = 'open'
+      conversation.save!
+      expect(conversation.reload.assignee).to eq(agent2)
     end
   end
 
@@ -168,6 +211,37 @@ RSpec.describe Conversation, type: :model do
     it 'unlocks the conversation' do
       expect(unlock!).to eq(true)
       expect(conversation.reload.locked).to eq(false)
+    end
+  end
+
+  describe '#mute!' do
+    subject(:mute!) { conversation.mute! }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'marks conversation as resolved' do
+      mute!
+      expect(conversation.reload.resolved?).to eq(true)
+    end
+
+    it 'marks conversation as muted in redis' do
+      mute!
+      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
+    end
+  end
+
+  describe '#muted?' do
+    subject(:muted?) { conversation.muted? }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'return true if conversation is muted' do
+      conversation.mute!
+      expect(muted?).to eq(true)
+    end
+
+    it 'returns false if conversation is not muted' do
+      expect(muted?).to eq(false)
     end
   end
 

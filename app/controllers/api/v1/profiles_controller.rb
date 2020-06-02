@@ -2,7 +2,7 @@ class Api::V1::ProfilesController < Api::BaseController
   before_action :set_user
 
   def show
-    render json: @user
+    render partial: 'api/v1/models/user.json.jbuilder', locals: { resource: @user }
   end
 
   def update

@@ -76,7 +76,9 @@ export const IFrameHelper = {
         expires: 365,
       });
       window.$chatwoot.hasLoaded = true;
-      IFrameHelper.sendMessage('config-set', {});
+      IFrameHelper.sendMessage('config-set', {
+        locale: window.$chatwoot.locale,
+      });
       IFrameHelper.onLoad(message.config.channelConfig);
       IFrameHelper.setCurrentUrl();
       IFrameHelper.toggleCloseButton();

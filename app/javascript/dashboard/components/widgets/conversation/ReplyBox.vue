@@ -208,7 +208,9 @@ export default {
     async sendMessage() {
       const isMessageEmpty = !this.message.replace(/\n/g, '').length;
       if (isMessageEmpty) return;
-
+      if (this.message.length > this.maxLength) {
+        return;
+      }
       if (!this.showCannedResponsesList) {
         try {
           await this.$store.dispatch('sendMessage', {

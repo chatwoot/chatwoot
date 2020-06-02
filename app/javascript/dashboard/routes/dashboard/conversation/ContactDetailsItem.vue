@@ -25,7 +25,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: $space-medium;
+  padding-bottom: $space-normal;
 
   &:last-child {
     padding-bottom: 0;

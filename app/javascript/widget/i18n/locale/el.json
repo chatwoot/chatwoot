@@ -1,14 +1,20 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Κατεβάστε",
-      "UPLOADING": "Μεταφόρτωση..."
+      "DOWNLOAD": "Κατέβασμα",
+      "UPLOADING": "Ανέβασμα..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "υποβάλλουν"
+      "SUBMIT": "Καταχώρηση"
     }
   },
-  "POWERED_BY": "Με την υποστήριξη του Chatwoot",
-  "EMAIL_PLACEHOLDER": "Εισαγάγετε το email σας",
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "είναι διαθέσιμο",
+    "ARE_AVAILABLE": "είναι διαθέσιμα",
+    "OTHERS_ARE_AVAILABLE": "άλλα είναι διαθέσιμα",
+    "AND": "και"
+  },
+  "POWERED_BY": "με την δύναμη του Chatwoot",
+  "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
   "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας"
 }

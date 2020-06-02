@@ -28,13 +28,26 @@ class Channel::FacebookPage < ApplicationRecord
 
   has_one :inbox, as: :channel, dependent: :destroy
 
+  after_create_commit :subscribe
   before_destroy :unsubscribe
 
-  private
+  def subscribe
+    # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
+    response = Facebook::Messenger::Subscriptions.subscribe(
+      access_token: page_access_token,
+      subscribed_fields: %w[
+        messages message_deliveries message_echoes message_reads
+      ]
+    )
+  rescue => e
+    Rails.logger.debug "Rescued: #{e.inspect}"
+    true
+  end
 
   def unsubscribe
     Facebook::Messenger::Subscriptions.unsubscribe(access_token: page_access_token)
   rescue => e
+    Rails.logger.debug "Rescued: #{e.inspect}"
     true
   end
 end

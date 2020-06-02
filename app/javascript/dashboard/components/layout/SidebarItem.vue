@@ -50,7 +50,7 @@
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
-import auth from '../../api/auth';
+import adminMixin from '../../mixins/isAdmin';
 
 const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
@@ -78,6 +78,7 @@ const getInboxClassByType = type => {
 };
 
 export default {
+  mixins: [adminMixin],
   props: {
     menuItem: {
       type: Object,
@@ -119,7 +120,7 @@ export default {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
     },
     showItem(item) {
-      return auth.isAdmin() && item.newLink !== undefined;
+      return this.isAdmin && item.newLink !== undefined;
     },
   },
 };

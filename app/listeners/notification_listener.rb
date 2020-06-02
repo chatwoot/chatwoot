@@ -1,6 +1,6 @@
 class NotificationListener < BaseListener
   def conversation_created(event)
-    conversation, account, _timestamp = extract_conversation_and_account(event)
+    conversation, account = extract_conversation_and_account(event)
     return if conversation.bot?
 
     conversation.inbox.members.each do |agent|
@@ -14,7 +14,7 @@ class NotificationListener < BaseListener
   end
 
   def assignee_changed(event)
-    conversation, account, _timestamp = extract_conversation_and_account(event)
+    conversation, account = extract_conversation_and_account(event)
     assignee = conversation.assignee
     return unless conversation.notifiable_assignee_change?
     return if conversation.bot?

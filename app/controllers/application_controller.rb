@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
   private
 
   def current_account
-    @_ ||= find_current_account
+    @current_account ||= find_current_account
+    Current.account = @current_account
   end
 
   def find_current_account
@@ -29,11 +30,17 @@ class ApplicationController < ActionController::Base
   end
 
   def switch_locale(account)
-    I18n.locale = (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil) || I18n.default_locale
+    # priority is for locale set in query string (mostly for widget/from js sdk)
+    locale ||= (I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil)
+    # if local is not set in param, lets try account
+    locale ||= (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil)
+    I18n.locale = locale || I18n.default_locale
   end
 
   def account_accessible_for_user?(account)
-    render_unauthorized('You are not authorized to access this account') unless account.account_users.find_by(user_id: current_user.id)
+    @current_account_user = account.account_users.find_by(user_id: current_user.id)
+    Current.account_user = @current_account_user
+    render_unauthorized('You are not authorized to access this account') unless @current_account_user
   end
 
   def account_accessible_for_bot?(account)
@@ -97,5 +104,13 @@ class ApplicationController < ActionController::Base
     elsif current_subscription.cancelled?
       render json: { error: 'Account Suspended' }, status: :account_suspended
     end
+  end
+
+  def pundit_user
+    {
+      user: Current.user,
+      account: Current.account,
+      account_user: Current.account_user
+    }
   end
 end

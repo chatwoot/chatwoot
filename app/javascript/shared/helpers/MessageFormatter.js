@@ -1,6 +1,8 @@
+import { escapeHtml } from './HTMLSanitizer';
+
 class MessageFormatter {
   constructor(message) {
-    this.message = message || '';
+    this.message = escapeHtml(message) || '';
   }
 
   formatMessage() {

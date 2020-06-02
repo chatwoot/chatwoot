@@ -66,17 +66,42 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Changer de compte",
+    "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "LOGOUT": "Se déconnecter"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "jours d'essai restants.",
+    "TRAIL_BUTTON": "Acheter Maintenant"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copier",
+      "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Télécharger",
+      "UPLOADING": "Téléversement..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envoyer"
+    }
+  },
+  "CONFIRM_EMAIL": "Vérification...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Ajouter une boîte de réception"
+    }
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
     "REPORTS": "Rapports",
-    "SETTINGS": "Réglages",
+    "SETTINGS": "Paramètres",
     "HOME": "Accueil",
-    "AGENTS": "Agentes",
+    "AGENTS": "Agents",
     "INBOXES": "Boîtes de réception",
-    "CANNED_RESPONSES": "Réponses en conserve",
+    "CANNED_RESPONSES": "Réponses standardisées",
     "BILLING": "Facturation",
     "INTEGRATIONS": "Intégrations",
     "ACCOUNT_SETTINGS": "Paramètres du compte"

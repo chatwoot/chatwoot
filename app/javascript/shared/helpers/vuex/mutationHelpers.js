@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 export const set = (state, data) => {
   state.records = data;
 };
@@ -18,7 +20,7 @@ export const setSingleRecord = (state, data) => {
 export const update = (state, data) => {
   state.records.forEach((element, index) => {
     if (element.id === data.id) {
-      state.records[index] = data;
+      Vue.set(state.records, index, data);
     }
   });
 };

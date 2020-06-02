@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import * as types from '../../mutation-types';
-
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import FBChannel from '../../../api/channel/fbChannel';
@@ -11,6 +10,10 @@ const actions = {
     try {
       const response = await ConversationApi.show(conversationId);
       commit(types.default.ADD_CONVERSATION, response.data);
+      commit(
+        `contacts/${types.default.SET_CONTACT_ITEM}`,
+        response.data.meta.sender
+      );
     } catch (error) {
       // Ignore error
     }
@@ -25,6 +28,10 @@ const actions = {
       commit(types.default.SET_ALL_CONVERSATION, chatList);
       commit(types.default.SET_CONV_TAB_META, metaData);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
+      commit(
+        `contacts/${types.default.SET_CONTACTS}`,
+        chatList.map(chat => chat.meta.sender)
+      );
       dispatch(
         'conversationPage/setCurrentPage',
         {
@@ -153,6 +160,10 @@ const actions = {
     const { currentInbox } = state;
     if (!currentInbox || Number(currentInbox) === conversation.inbox_id) {
       commit(types.default.ADD_CONVERSATION, conversation);
+      commit(
+        `contacts/${types.default.SET_CONTACT_ITEM}`,
+        conversation.meta.sender
+      );
     }
   },
 
@@ -197,6 +208,13 @@ const actions = {
     commit(types.default.UPDATE_ASSIGNEE, data);
   },
 
+  updateConversationContact({ commit }, data) {
+    if (data.id) {
+      commit(`contacts/${types.default.SET_CONTACT_ITEM}`, data);
+    }
+    commit(types.default.UPDATE_CONVERSATION_CONTACT, data);
+  },
+
   setActiveInbox({ commit }, inboxId) {
     commit(types.default.SET_ACTIVE_INBOX, inboxId);
   },
@@ -207,6 +225,15 @@ const actions = {
       commit(types.default.SEND_MESSAGE, response.data);
     } catch (error) {
       // Handle error
+    }
+  },
+
+  muteConversation: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.mute(conversationId);
+      commit(types.default.MUTE_CONVERSATION);
+    } catch (error) {
+      //
     }
   },
 };

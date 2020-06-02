@@ -1,0 +1,185 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Entradas",
+    "SIDEBAR_TXT": "<p><b>Bandeja de entrada</b></p> <p> Cuando conectas un sitio web o una página de Facebook a Chatwoot, se llama una <b>Bandeja de entrada</b>. Puedes tener bandejas de entrada ilimitadas en tu cuenta de Chatwoot. </p><p> Haga clic en <b>Añadir bandeja de entrada</b> para conectar un sitio web o una página de Facebook. </p><p> en el panel, puedes ver todas las conversaciones de todas tus bandejas de entrada en un solo lugar y responder a ellas en la pestaña `Conversaciones`. </p><p> También puedes ver conversaciones específicas de una bandeja de entrada haciendo clic en el nombre de la bandeja de entrada en el menú izquierdo del panel. </p>",
+    "LIST": {
+      "404": "No hay entradas adjuntas a esta cuenta."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Elegir canal",
+        "route": "settings_inbox_new",
+        "body": "Elija el proveedor que desea integrar con Chatwoot."
+      },
+      {
+        "title": "Crear bandeja de entrada",
+        "route": "settings_inboxes_page_channel",
+        "body": "Autenticar tu cuenta y crear una bandeja de entrada."
+      },
+      {
+        "title": "Añadir agentes",
+        "route": "settings_inboxes_add_agents",
+        "body": "Añadir agentes a la bandeja de entrada creada."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "¡Todo está listo!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
+        "CHOOSE_PAGE": "Elegir página",
+        "CHOOSE_PLACEHOLDER": "Seleccione una página de la lista",
+        "INBOX_NAME": "Nombre de la bandeja de entrada",
+        "ADD_NAME": "Añade un nombre para tu bandeja de entrada",
+        "PICK_NAME": "Elige un nombre para tu bandeja de entrada",
+        "PICK_A_VALUE": "Elige un valor"
+      },
+      "TWITTER": {
+        "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Canal del sitio web",
+        "DESC": "Cree un canal para su sitio web y comience a apoyar a sus clientes a través de nuestro widget de sitio web.",
+        "LOADING_MESSAGE": "Creando Canal de Soporte al Sitio Web",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar del canal"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nombre del sitio web",
+          "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Dominio del sitio web",
+          "PLACEHOLDER": "Introduzca el dominio de su sitio web (por ejemplo: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Cabecera de bienvenida",
+          "PLACEHOLDER": "¡Hola!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Bienvenido Tagline",
+          "PLACEHOLDER": "Facilitamos la conexión con nosotros. Pídanos cualquier cosa o comparte tus comentarios."
+        },
+        "CHANNEL_AGENT_AWAY_MESSAGE": {
+          "LABEL": "Mensaje de Agentes Ausentes",
+          "PLACEHOLDER": "Acme Inc normalmente responde en unas pocas horas."
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Color del widget",
+          "PLACEHOLDER": "Actualizar el color del widget usado en el widget"
+        },
+        "SUBMIT_BUTTON": "Crear bandeja de entrada"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Canal de Whatsapp",
+        "DESC": "Integre Twilio y comience a darle soporte a sus clientes a través de SMS o WhatsApp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Cuenta SID",
+          "PLACEHOLDER": "Introduce tu SID de cuenta de Twilio",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Tipo de canal",
+          "ERROR": "Seleccione su tipo de canal"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token de Auth",
+          "PLACEHOLDER": "Por favor ingrese su Twilio Auth Token",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nombre del canal",
+          "PLACEHOLDER": "Por favor, introduzca un nombre de canal",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Número de teléfono",
+          "PLACEHOLDER": "Por favor, introduzca el número de teléfono desde el que se enviará el mensaje.",
+          "ERROR": "Por favor, introduzca un valor válido. El número de teléfono debe comenzar con la firma `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL de devolución de llamada",
+          "SUBTITLE": "Tienes que configurar la URL de devolución de llamada de mensaje en Twilio con la URL mencionada aquí."
+        },
+        "SUBMIT_BUTTON": "Crear Canal Twilio",
+        "API": {
+          "ERROR_MESSAGE": "No pudimos autenticar credenciales de Twilio, por favor inténtalo de nuevo"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Canales",
+        "DESC": "Actualmente soportamos widgets de chat en vivo, páginas de Facebook y perfiles de Twitter como plataformas. Tenemos más plataformas como Whatsapp, Email, Telegram y Línea en las obras, que estarán en breve."
+      },
+      "AGENTS": {
+        "TITLE": "Agentes",
+        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees."
+      },
+      "DETAILS": {
+        "TITLE": "Detalles de la bandeja de entrada",
+        "DESC": "En el menú desplegable de abajo, selecciona la página de Facebook que quieres conectar a Chatwoot. También puede dar un nombre personalizado a su bandeja de entrada para una mejor identificación."
+      },
+      "FINISH": {
+        "TITLE": "¡Se ha clavado!",
+        "DESC": "Has terminado de integrar correctamente tu página de Facebook con Chatwoot. La próxima vez que un cliente envíe un mensaje a tu Página, la conversación aparecerá automáticamente en tu bandeja de entrada.<br>También le estamos proporcionando un script de widget que puede agregar fácilmente a su sitio web. Una vez que esto está en vivo en tu sitio web, los clientes pueden enviarle mensajes directamente desde su sitio web sin la ayuda de ninguna herramienta externa y la conversación aparecerá aquí, en Chatwoot.<br>¿Genial, eh? Bueno, estamos seguros de que intentaremos ser :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autenticándote con Facebook...",
+      "ERROR_FB_AUTH": "Algo salió mal, Por favor actualiza la página...",
+      "CREATING_CHANNEL": "Creando tu bandeja de entrada...",
+      "TITLE": "Configurar detalles de la Bandeja de Entrada",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Añadir agentes",
+      "ADD_AGENTS": "Añadiendo agentes a tu bandeja de entrada..."
+    },
+    "FINISH": {
+      "TITLE": "¡Tu bandeja de entrada está lista!",
+      "MESSAGE": "Ahora puedes colaborar con tus clientes a través de tu nuevo canal. Feliz soporte ",
+      "BUTTON_TEXT": "Llévame allí",
+      "WEBSITE_SUCCESS": "Has terminado de crear un canal del sitio web. Copia el código que se muestra a continuación y pégalo en tu sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su bandeja de entrada."
+    },
+    "REAUTH": "Reautorizar",
+    "VIEW": "Ver",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Configuración de bandeja de entrada actualizada correctamente",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto-asignación actualizada correctamente",
+        "ERROR_MESSAGE": "No se pudo actualizar el color del widget. Inténtalo de nuevo más tarde."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro de eliminar ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Bandeja de entrada eliminada correctamente",
+        "ERROR_MESSAGE": "No se pudo eliminar la bandeja de entrada. Inténtalo de nuevo más tarde."
+      }
+    },
+    "SETTINGS": "Ajustes",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Script de Messenger",
+      "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
+      "INBOX_AGENTS": "Agentes",
+      "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
+      "UPDATE": "Actualizar",
+      "AUTO_ASSIGNMENT": "Activar asignación automática",
+      "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
+      "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada."
+    }
+  }
+}

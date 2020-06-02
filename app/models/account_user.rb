@@ -3,6 +3,7 @@
 # Table name: account_users
 #
 #  id         :bigint           not null, primary key
+#  active_at  :datetime
 #  role       :integer          default("agent")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -23,6 +24,8 @@
 #
 
 class AccountUser < ApplicationRecord
+  include Events::Types
+
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
@@ -30,8 +33,8 @@ class AccountUser < ApplicationRecord
   enum role: { agent: 0, administrator: 1 }
   accepts_nested_attributes_for :account
 
-  after_create :create_notification_setting
-  after_destroy :destroy_notification_setting
+  after_create :notify_creation, :create_notification_setting
+  after_destroy :notify_deletion, :destroy_notification_setting
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -43,7 +46,17 @@ class AccountUser < ApplicationRecord
   end
 
   def destroy_notification_setting
-    setting = user.notification_settings.new(account_id: account.id)
+    setting = user.notification_settings.find_by(account_id: account.id)
     setting.destroy!
+  end
+
+  private
+
+  def notify_creation
+    Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)
+  end
+
+  def notify_deletion
+    Rails.configuration.dispatcher.dispatch(AGENT_REMOVED, Time.zone.now, account: account)
   end
 end

@@ -12,6 +12,8 @@ Layout/LineLength:
   Max: 150
 Metrics/ClassLength:
   Max: 125
+  Exclude:
+    - 'app/models/conversation.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -30,6 +32,7 @@ Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'
     - 'lib/redis/alfred.rb'
+    - 'lib/global_config.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -94,6 +97,8 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+RSpec/NamedSubject:
+  Enabled: false
 AllCops:
   Exclude:
     - 'bin/**/*'

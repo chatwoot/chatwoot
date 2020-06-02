@@ -5,6 +5,11 @@ class ApplicationMailer < ActionMailer::Base
 
   # helpers
   helper :frontend_urls
+  helper do
+    def global_config
+      @global_config ||= GlobalConfig.get('INSTALLATION_NAME', 'BRAND_URL')
+    end
+  end
 
   def smtp_config_set_or_development?
     ENV.fetch('SMTP_ADDRESS', nil).present? || Rails.env.development?

@@ -119,6 +119,18 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
       end
+
+      it 'toggles the conversation status to specific status when parameter is passed' do
+        expect(conversation.status).to eq('open')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'bot' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('bot')
+      end
     end
   end
 
@@ -174,6 +186,32 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).to eq(DateTime.strptime(params[:agent_last_seen_at].to_s, '%s'))
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/mute' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'mutes conversation' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.resolved?).to eq(true)
+        expect(conversation.reload.muted?).to eq(true)
       end
     end
   end
