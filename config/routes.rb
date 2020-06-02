@@ -180,7 +180,7 @@ Rails.application.routes.draw do
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
-      resources :users
+      resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :super_admins
       resources :access_tokens, only: [:index, :show]
 
