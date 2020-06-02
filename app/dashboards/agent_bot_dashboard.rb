@@ -1,6 +1,6 @@
 require 'administrate/base_dashboard'
 
-class AccessTokenDashboard < Administrate::BaseDashboard
+class AgentBotDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,11 +8,15 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    owner: Field::Polymorphic,
+    access_token: Field::HasOne,
+    avatar_url: AvatarField,
     id: Field::Number,
-    token: Field::String,
+    name: Field::String,
+    description: Field::String,
+    outgoing_url: Field::String,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime
+    updated_at: Field::DateTime,
+    hide_input_for_bot_conversations: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -21,28 +25,31 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    owner
     id
-    token
-    created_at
+    avatar_url
+    name
+    outgoing_url
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    owner
     id
-    token
-    created_at
-    updated_at
+    avatar_url
+    name
+    description
+    outgoing_url
+    hide_input_for_bot_conversations
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    owner
-    token
+    name
+    description
+    outgoing_url
+    hide_input_for_bot_conversations
   ].freeze
 
   # COLLECTION_FILTERS
@@ -55,16 +62,12 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {
-    user: ->(resources) { resources.where(owner_type: 'User') },
-    super_admin: ->(resources) { resources.where(owner_type: 'SuperAdmin') },
-    agent_bot: ->(resources) { resources.where(owner_type: 'AgentBot') }
-  }.freeze
+  COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how access tokens are displayed
+  # Overwrite this method to customize how agent bots are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(access_token)
-  #   "AccessToken ##{access_token.id}"
+  # def display_resource(agent_bot)
+  #   "AgentBot ##{agent_bot.id}"
   # end
 end

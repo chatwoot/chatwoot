@@ -18,8 +18,11 @@ class MessageTemplates::Template::EmailCollect
   delegate :inbox, to: :message
 
   def typical_reply_message_params
-    content = I18n.t('conversations.templates.typical_reply_message_body',
-                     account_name: account.name)
+    content = @conversation.inbox&.channel&.agent_away_message
+    if content.blank?
+      content = I18n.t('conversations.templates.typical_reply_message_body',
+                       account_name: account.name)
+    end
 
     {
       account_id: @conversation.account_id,
