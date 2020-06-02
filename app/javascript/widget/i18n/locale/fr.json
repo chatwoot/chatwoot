@@ -11,7 +11,7 @@
   "AGENT_AVAILABILITY": {
     "IS_AVAILABLE": "est disponible",
     "ARE_AVAILABLE": "sont disponibles",
-    "OTHERS_ARE_AVAILABLE": "autres sont disponibles",
+    "OTHERS_ARE_AVAILABLE": "d'autres sont disponibles",
     "AND": "et"
   },
   "POWERED_BY": "Propulsé par Chatwoot",
