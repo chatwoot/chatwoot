@@ -8,9 +8,10 @@ export const getSelectedChatConversation = ({
 
 // getters
 const getters = {
-  getAllConversations: ({ allConversations }) => allConversations.sort(
-    (a, b) => b.messages.last().created_at - a.messages.last().created_at
-  ),
+  getAllConversations: ({ allConversations }) =>
+    allConversations.sort(
+      (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
+    ),
   getSelectedChat: ({ selectedChat }) => selectedChat,
   getMineChats(_state) {
     const currentUserID = authAPI.getCurrentUser().id;
@@ -52,12 +53,12 @@ const getters = {
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getConvTabStats: ({ convTabStats }) => convTabStats,
-  getNextChatConversation: (_state) => {
+  getNextChatConversation: _state => {
     const { selectedChat } = _state;
     const conversations = getters.getAllStatusChats(_state);
     if (conversations.length <= 1) {
       return null;
-    };
+    }
     const currentIndex = conversations.findIndex(
       conversation => conversation.id === selectedChat.id
     );

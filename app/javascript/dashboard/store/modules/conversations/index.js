@@ -203,6 +203,16 @@ const mutations = {
     chat.meta.assignee = payload.assignee;
   },
 
+  [types.default.UPDATE_CONVERSATION_CONTACT](
+    _state,
+    { conversationId, ...payload }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat.meta, 'sender', payload);
+    }
+  },
+
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
     _state.currentInbox = inboxId;
   },
