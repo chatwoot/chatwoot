@@ -176,13 +176,17 @@ Rails.application.routes.draw do
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
+      root to: 'dashboard#index'
+
+      # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
-      resources :account_users, only: [:new, :create, :destroy]
-      resources :users
+      resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :super_admins
       resources :access_tokens, only: [:index, :show]
 
-      root to: 'dashboard#index'
+      # resources that doesn't appear in primary navigation in super admin
+      resources :account_users, only: [:new, :create, :destroy]
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
