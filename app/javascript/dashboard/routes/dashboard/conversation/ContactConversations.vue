@@ -1,6 +1,9 @@
 <template>
   <div class="contact-conversation--panel">
-    <contact-details-item :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')" />
+    <contact-details-item
+      :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
+      icon="ion-chatboxes"
+    />
     <div v-if="!uiFlags.isFetching">
       <p v-if="!previousConversations.length" class="no-results">
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}
@@ -75,13 +78,11 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal $space-normal $space-normal $space-medium;
-  padding-top: 0;
+  padding: $space-normal;
 }
 
 .no-results {
   margin: 0;
   color: $color-gray;
-  padding: 0 $space-small;
 }
 </style>

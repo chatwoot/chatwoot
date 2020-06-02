@@ -3,40 +3,44 @@
     class="contact-conversation--panel sidebar-labels-wrap"
     :class="hasEditedClass"
   >
-    <div v-if="!conversationUiFlags.isFetching" class="wrap">
-      <div class="contact-conversation--list">
-        <label class="select-tags">
-          {{ $t('CONTACT_PANEL.LABELS.TITLE') }}
-          <multiselect
-            v-model="selectedLabels"
-            :options="savedLabels"
-            :tag-placeholder="$t('CONTACT_PANEL.LABELS.TAG_PLACEHOLDER')"
-            :placeholder="$t('CONTACT_PANEL.LABELS.PLACEHOLDER')"
-            :multiple="true"
-            :taggable="true"
-            hide-selected
-            :show-labels="false"
-            @tag="addLabel"
-          />
-        </label>
-        <div class="row align-middle align-justify">
-          <span v-if="labelUiFlags.isError" class="error">{{
-            $t('CONTACT_PANEL.LABELS.UPDATE_ERROR')
-          }}</span>
-          <button
-            v-if="hasEdited"
-            type="button"
-            class="button nice tiny"
-            @click="onUpdateLabels"
-          >
-            <spinner v-if="labelUiFlags.isUpdating" size="tiny" />
-            {{
-              labelUiFlags.isUpdating
-                ? 'saving...'
-                : $t('CONTACT_PANEL.LABELS.UPDATE_BUTTON')
-            }}
-          </button>
-        </div>
+    <div
+      v-if="!conversationUiFlags.isFetching"
+      class="contact-conversation--list"
+    >
+      <label class="select-tags">
+        <contact-details-item
+          :title="$t('CONTACT_PANEL.LABELS.TITLE')"
+          icon="ion-pricetags"
+        />
+        <multiselect
+          v-model="selectedLabels"
+          :options="savedLabels"
+          :tag-placeholder="$t('CONTACT_PANEL.LABELS.TAG_PLACEHOLDER')"
+          :placeholder="$t('CONTACT_PANEL.LABELS.PLACEHOLDER')"
+          :multiple="true"
+          :taggable="true"
+          hide-selected
+          :show-labels="false"
+          @tag="addLabel"
+        />
+      </label>
+      <div class="row align-middle align-justify">
+        <span v-if="labelUiFlags.isError" class="error">{{
+          $t('CONTACT_PANEL.LABELS.UPDATE_ERROR')
+        }}</span>
+        <button
+          v-if="hasEdited"
+          type="button"
+          class="button nice tiny"
+          @click="onUpdateLabels"
+        >
+          <spinner v-if="labelUiFlags.isUpdating" size="tiny" />
+          {{
+            labelUiFlags.isUpdating
+              ? 'saving...'
+              : $t('CONTACT_PANEL.LABELS.UPDATE_BUTTON')
+          }}
+        </button>
       </div>
     </div>
     <spinner v-else></spinner>
@@ -45,10 +49,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import ContactDetailsItem from './ContactDetailsItem';
 import Spinner from 'shared/components/Spinner';
 
 export default {
   components: {
+    ContactDetailsItem,
     Spinner,
   },
   props: {
@@ -124,7 +130,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal $space-normal $space-normal $space-medium;
+  padding: $space-normal;
 }
 
 .conversation--label {
@@ -133,12 +139,8 @@ export default {
   font-size: $font-size-small;
   padding: $space-smaller;
 }
-.wrap {
-  margin-top: $space-slab;
-}
 
 .select-tags {
-  margin-top: $space-small;
   .multiselect {
     &:hover {
       cursor: pointer;
@@ -156,6 +158,7 @@ export default {
 .no-results-wrap {
   padding: 0 $space-small;
 }
+
 .no-results {
   margin: $space-normal 0 0 0;
   color: $color-gray;
