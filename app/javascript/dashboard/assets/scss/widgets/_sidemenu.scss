@@ -28,6 +28,13 @@
       color: $color-gray;
       font-size: $font-size-default;
       font-weight: $font-weight-medium;
+      
+      .wrap {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: $nav-bar-width - ($space-medium - $space-one);
+      }
 
       .wrap,
       .child-icon {
