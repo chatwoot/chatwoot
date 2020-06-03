@@ -28,12 +28,12 @@
       color: $color-gray;
       font-size: $font-size-default;
       font-weight: $font-weight-medium;
-      
+
       .wrap {
+        max-width: $nav-bar-width - ($space-medium - $space-one);
+        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        overflow: hidden;
-        max-width: $nav-bar-width - ($space-medium - $space-one);
       }
 
       .wrap,
