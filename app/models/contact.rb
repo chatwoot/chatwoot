@@ -47,10 +47,15 @@ class Contact < ApplicationRecord
 
   def push_event_data
     {
+      additional_attributes: additional_attributes,
+      email: email,
       id: id,
+      identifier: identifier,
       name: name,
+      phone_number: phone_number,
+      pubsub_token: pubsub_token,
       thumbnail: avatar_url,
-      pubsub_token: pubsub_token
+      type: 'contact'
     }
   end
 
@@ -58,7 +63,8 @@ class Contact < ApplicationRecord
     {
       id: id,
       name: name,
-      avatar: avatar_url
+      avatar: avatar_url,
+      type: 'contact'
     }
   end
 

@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 class ReportsAPI extends ApiClient {
   constructor() {
-    super('reports', { accountScoped: true });
+    super('reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
   getAccountReports(metric, since, until) {

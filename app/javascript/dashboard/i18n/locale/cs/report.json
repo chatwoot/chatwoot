@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Zprávy",
+    "LOADING_CHART": "Načítání dat mapy...",
+    "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
+    "METRICS": [
+      {
+        "NAME": "Konverzace",
+        "KEY": "conversations_count",
+        "DESC": "( celkem)"
+      },
+      {
+        "NAME": "Příchozí zprávy",
+        "KEY": "incoming_messages_count",
+        "DESC": "( celkem)"
+      },
+      {
+        "NAME": "Odchozí zprávy",
+        "KEY": "outgoing_messages_count",
+        "DESC": "( celkem)"
+      },
+      {
+        "NAME": "Čas první odpovědi",
+        "KEY": "avg_first_response_time",
+        "DESC": "(Průměrný)"
+      },
+      {
+        "NAME": "Čas rozlišení",
+        "KEY": "avg_resolution_time",
+        "DESC": "(Průměrný)"
+      },
+      {
+        "NAME": "Počet rozlišení",
+        "KEY": "resolutions_count",
+        "DESC": "( celkem)"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Posledních 7 dní"
+      },
+      {
+        "id": 1,
+        "name": "Posledních 30 dní"
+      }
+    ]
+  }
+}

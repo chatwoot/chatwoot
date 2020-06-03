@@ -41,7 +41,9 @@ class Notification < ApplicationRecord
   private
 
   def process_notification_delivery
-    Notification::EmailNotificationService.new(notification: self).perform
-    # Notification::PushNotificationService.new(notification: self).perform
+    Notification::PushNotificationJob.perform_later(self)
+
+    # Queuing after 2 minutes so that we won't send emails for read notifications
+    Notification::EmailNotificationJob.set(wait: 2.minutes).perform_later(self)
   end
 end

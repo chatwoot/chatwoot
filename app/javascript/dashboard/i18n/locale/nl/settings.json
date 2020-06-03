@@ -1,0 +1,109 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profielinstellingen",
+    "TITLE": "Profielinstellingen",
+    "BTN_TEXT": "Profiel bijwerken",
+    "AFTER_EMAIL_CHANGED": "Uw profiel is succesvol bijgewerkt. Log opnieuw in als uw inloggegevens zijn gewijzigd",
+    "FORM": {
+      "AVATAR": "Profiel afbeelding",
+      "ERROR": "Corrigeer formulierfouten",
+      "REMOVE_IMAGE": "Verwijderen",
+      "UPLOAD_IMAGE": "Afbeelding uploaden",
+      "UPDATE_IMAGE": "Afbeelding bijwerken",
+      "PROFILE_SECTION": {
+        "TITLE": "Profiel",
+        "NOTE": "Uw e-mailadres is uw identiteit en wordt gebruikt om in te loggen."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Wachtwoord",
+        "NOTE": "Het bijwerken van uw wachtwoord zou uw logins op meerdere apparaten opnieuw instellen."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Toegangs-token",
+        "NOTE": "Dit token kan worden gebruikt als u een API gebaseerde integratie bouwt"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-mail notificaties",
+        "NOTE": "Update hier uw e-mailvoorkeuren",
+        "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
+        "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
+        "UPDATE_ERROR": "Er is een fout opgetreden tijdens het bijwerken van de voorkeuren, probeer het opnieuw"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Pushberichten",
+        "NOTE": "Werk je pushberichtvoorkeuren hier bij",
+        "CONVERSATION_ASSIGNMENT": "Stuur pushberichten wanneer een gesprek aan mij is toegewezen",
+        "CONVERSATION_CREATION": "Stuur pushberichten wanneer een nieuw gesprek is aangemaakt",
+        "HAS_ENABLED_PUSH": "Je hebt pushberichten voor deze browser ingeschakeld.",
+        "REQUEST_PUSH": "Pushberichten inschakelen"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profiel afbeelding"
+      },
+      "NAME": {
+        "LABEL": "Uw naam",
+        "ERROR": "Voer een geldige naam in",
+        "PLACEHOLDER": "Voer je naam in, dit zou worden weergegeven in gesprekken"
+      },
+      "EMAIL": {
+        "LABEL": "Uw e-mailadres",
+        "ERROR": "Voer een geldig e-mailadres in",
+        "PLACEHOLDER": "Voer je e-mailadres in, dit zou worden weergegeven in gesprekken"
+      },
+      "PASSWORD": {
+        "LABEL": "Wachtwoord",
+        "ERROR": "Voer een wachtwoord in van 6 of meer",
+        "PLACEHOLDER": "Voer een nieuw wachtwoord in"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bevestig nieuw wachtwoord",
+        "ERROR": "Bevestig wachtwoord moet overeenkomen met het wachtwoord",
+        "PLACEHOLDER": "Voer uw wachtwoord opnieuw in"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Verwissel van profiel",
+    "SELECTOR_SUBTITLE": "Selecteer een account in de volgende lijst",
+    "PROFILE_SETTINGS": "Profiel instellingen",
+    "LOGOUT": "Afmelden"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dagen proefperiode resterend.",
+    "TRAIL_BUTTON": "Nu kopen"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopiëren",
+      "COPY_SUCCESSFUL": "Code succesvol naar het klembord gekopieerd "
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Downloaden",
+      "UPLOADING": "Uploaden..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Bevestigen"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifiëren...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Postvak toevoegen"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Gesprekken",
+    "REPORTS": "Rapporten",
+    "SETTINGS": "Instellingen",
+    "HOME": "Startpagina",
+    "AGENTS": "Medewerkers",
+    "INBOXES": "Inboxen",
+    "CANNED_RESPONSES": "Standaard antwoorden",
+    "BILLING": "Facturatie",
+    "INTEGRATIONS": "Integraties",
+    "ACCOUNT_SETTINGS": "Accountinstellingen"
+  }
+}

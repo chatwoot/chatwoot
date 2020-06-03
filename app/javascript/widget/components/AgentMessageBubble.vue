@@ -21,7 +21,7 @@
       </chat-options>
     </div>
     <chat-form
-      v-if="isForm"
+      v-if="isForm && !messageContentAttributes.submitted_values"
       :items="messageContentAttributes.items"
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"
@@ -124,6 +124,11 @@ export default {
     background: $color-white;
     border-bottom-left-radius: $space-smaller;
     color: $color-body;
+
+    .link {
+      word-break: break-word;
+      color: $color-woot;
+    }
   }
 }
 </style>

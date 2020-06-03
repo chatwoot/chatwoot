@@ -33,6 +33,16 @@ class ConversationApi extends ApiClient {
       agent_last_seen_at: lastSeen,
     });
   }
+
+  toggleTyping({ conversationId, status }) {
+    return axios.post(`${this.url}/${conversationId}/toggle_typing_status`, {
+      typing_status: status,
+    });
+  }
+
+  mute(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/mute`);
+  }
 }
 
 export default new ConversationApi();

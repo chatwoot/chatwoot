@@ -20,10 +20,11 @@ class Api::V1::Accounts::NotificationSettingsController < Api::BaseController
   end
 
   def notification_setting_params
-    params.require(:notification_settings).permit(selected_email_flags: [])
+    params.require(:notification_settings).permit(selected_email_flags: [], selected_push_flags: [])
   end
 
   def update_flags
     @notification_setting.selected_email_flags = notification_setting_params[:selected_email_flags]
+    @notification_setting.selected_push_flags = notification_setting_params[:selected_push_flags]
   end
 end

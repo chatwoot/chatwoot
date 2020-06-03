@@ -1,6 +1,6 @@
 <template>
   <div class="columns profile--settings ">
-    <form @submit.prevent="updateAccount()">
+    <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3 ">
           <h4 class="block-title">
@@ -24,10 +24,13 @@
           <label :class="{ error: $v.locale.$error }">
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
-              <option value="ca">Catalan</option>
-              <option value="de">German</option>
-              <option value="en">English</option>
-              <option value="ml">Malayalam</option>
+              <option
+                v-for="lang in enabledLanguages"
+                :key="lang.iso_639_1_code"
+                :value="lang.iso_639_1_code"
+              >
+                {{ lang.name }}
+              </option>
             </select>
             <span v-if="$v.locale.$error" class="message">
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
@@ -41,7 +44,7 @@
               :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
             />
           </label>
-          <label>
+          <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.LABEL') }}
             <select v-model="domainEmailsEnabled">
               <option value="true">
@@ -63,7 +66,7 @@
               {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.PLACEHOLDER') }}
             </p>
           </label>
-          <label>
+          <label v-if="featureInboundEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
             <input
               v-model="supportEmail"
@@ -82,6 +85,8 @@
       >
       </woot-submit-button>
     </form>
+
+    <woot-loading-state v-if="uiFlags.isFetchingItem" />
   </div>
 </template>
 
@@ -89,11 +94,12 @@
 import Vue from 'vue';
 import { required } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import { accountIdFromPathname } from 'dashboard/helper/URLHelper';
 import alertMixin from 'shared/mixins/alertMixin';
+import configMixin from 'shared/mixins/configMixin';
+import accountMixin from '../../../../mixins/account';
 
 export default {
-  mixins: [alertMixin],
+  mixins: [accountMixin, alertMixin, configMixin],
   data() {
     return {
       id: '',
@@ -102,6 +108,7 @@ export default {
       domain: '',
       domainEmailsEnabled: false,
       supportEmail: '',
+      features: {},
     };
   },
   validations: {
@@ -121,6 +128,10 @@ export default {
     isUpdating() {
       return this.uiFlags.isUpdating;
     },
+
+    featureInboundEmailEnabled() {
+      return !!this.features.inbound_emails;
+    },
   },
   mounted() {
     if (!this.id) {
@@ -129,10 +140,7 @@ export default {
   },
   methods: {
     async initializeAccount() {
-      const { pathname } = window.location;
-      const accountId = accountIdFromPathname(pathname);
-
-      if (accountId) {
+      try {
         await this.$store.dispatch('accounts/get');
         const {
           name,
@@ -141,7 +149,8 @@ export default {
           domain,
           support_email,
           domain_emails_enabled,
-        } = this.getAccount(accountId);
+          features,
+        } = this.getAccount(this.accountId);
 
         Vue.config.lang = locale;
         this.name = name;
@@ -150,6 +159,9 @@ export default {
         this.domain = domain;
         this.supportEmail = support_email;
         this.domainEmailsEnabled = domain_emails_enabled;
+        this.features = features;
+      } catch (error) {
+        // Ignore error
       }
     },
 

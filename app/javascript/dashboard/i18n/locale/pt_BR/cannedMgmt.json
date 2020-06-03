@@ -1,0 +1,76 @@
+{
+  "CANNED_MGMT": {
+    "HEADER": "Atalhos",
+    "HEADER_BTN_TXT": "Adicionar Atalho",
+    "LOADING": "Buscando Atalhos",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p> <b> Atalho </b> </p> <p> são modelos de resposta pré-configuradas que poderão ser utilizadas ​​para enviar rapidamente uma resposta em uma conversa. </p> <p> Para criar um Atalho, basta clicar em <b> Adicionar Atalho </b>. Você também pode editar ou excluir um Atalho, clicando no botão Editar ou Excluir. </p> <p> Os atalhos são usadas com a ajuda de um <b> código </b>. Durante a conversa, os agentes podem acessar a lista dos atalhos digitando <b> '/' </b> . </p>",
+    "LIST": {
+      "404": "Não há atalhos disponíveis nesta conta.",
+      "TITLE": "Gerenciar Atalhos",
+      "DESC": "Atalhos são modelos de resposta que podem ser usados ​​para enviar rapidamente respostas à conversa.",
+      "TABLE_HEADER": [
+        "Código curto",
+        "Conteúdo",
+        "Ações"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Adicionar Atalho",
+      "DESC": "Atalhos são modelos de resposta que podem ser usados ​​para enviar rapidamente respostas à conversa.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Insira o código",
+          "ERROR": "É necessário um código"
+        },
+        "CONTENT": {
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Favor informe o conteúdo"
+        },
+        "SUBMIT": "Enviar"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Atalho adicionado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar Atalho",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "FORM": {
+        "SHORT_CODE": {
+          "LABEL": "Código curto",
+          "PLACEHOLDER": "Por favor, insira um código",
+          "ERROR": "É necessário um código"
+        },
+        "CONTENT": {
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Favor informe o conteúdo"
+        },
+        "SUBMIT": "Enviar"
+      },
+      "BUTTON_TEXT": "Alterar",
+      "API": {
+        "SUCCESS_MESSAGE": "Atalho atualizado com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Atalho excluído com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Você tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, Mantenha "
+      }
+    }
+  }
+}

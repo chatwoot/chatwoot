@@ -1,6 +1,9 @@
 <template>
   <div class="chat-message--input">
-    <chat-input-area v-model="userInput" :placeholder="placeholder" />
+    <chat-input-area
+      v-model="userInput"
+      :placeholder="$t('CHAT_PLACEHOLDER')"
+    />
     <div class="button-wrap">
       <chat-attachment-button
         v-if="showAttachment"
@@ -44,10 +47,6 @@ export default {
   },
   mixins: [clickaway],
   props: {
-    placeholder: {
-      type: String,
-      default: 'Type your message',
-    },
     onSendMessage: {
       type: Function,
       default: () => {},

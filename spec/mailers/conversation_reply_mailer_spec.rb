@@ -4,7 +4,8 @@ require 'rails_helper'
 
 RSpec.describe ConversationReplyMailer, type: :mailer do
   describe 'reply_with_summary' do
-    let(:agent) { create(:user, email: 'agent1@example.com') }
+    let!(:account) { create(:account) }
+    let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
 
     before do
@@ -12,14 +13,32 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
     end
 
-    context 'when custom domain and email is not enabled' do
+    context 'with all mails' do
       let(:conversation) { create(:conversation, assignee: agent) }
       let(:message) { create(:message, conversation: conversation) }
+      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the subject' do
-        expect(mail.subject).to eq("[##{message.conversation.display_id}] #{message.content.truncate(30)}")
+        expect(mail.subject).to eq("[##{message.conversation.display_id}] New messages on this conversation")
       end
+
+      it 'not have private notes' do
+        # make the message private
+        private_message.private = true
+        private_message.save
+
+        expect(mail.body.decoded).not_to include(private_message.content)
+        expect(mail.body.decoded).to include(message.content)
+      end
+    end
+
+    context 'when custom domain and email is not enabled' do
+      let(:inbox) { create(:inbox, account: account) }
+      let(:inbox_member) { create(:inbox_member, user: agent, inbox: inbox) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: account) }
+      let!(:message) { create(:message, conversation: conversation, account: account) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the receiver email' do
         expect(mail.to).to eq([message&.conversation&.contact&.email])
@@ -27,6 +46,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'renders the reply to email' do
         expect(mail.reply_to).to eq([message&.conversation&.assignee&.email])
+      end
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("<conversation/#{conversation.uuid}/messages/#{message.id}@>")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("<account/#{conversation.account.id}/conversation/#{conversation.uuid}@>")
       end
     end
 
@@ -50,6 +77,14 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets the from email to be the support email' do
         expect(mail.from).to eq([conversation.account.support_email])
+      end
+
+      it 'sets the correct custom message id' do
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+      end
+
+      it 'sets the correct in reply to id' do
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{conversation.account.domain}")
       end
     end
   end

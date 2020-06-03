@@ -11,16 +11,11 @@ describe NotificationListener do
   describe 'conversation_created' do
     let(:event_name) { :'conversation.created' }
 
-    before do
-      creation_mailer = double
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_creation).and_return(creation_mailer)
-      allow(creation_mailer).to receive(:deliver_later).and_return(true)
-    end
-
     context 'when conversation is created' do
-      it 'sends email to inbox members who have notifications turned on' do
+      it 'creates notifications for inbox members who have notifications turned on' do
         notification_setting = agent_with_notification.notification_settings.first
         notification_setting.selected_email_flags = [:email_conversation_creation]
+        notification_setting.selected_push_flags = []
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_notification, inbox: inbox)
@@ -29,13 +24,13 @@ describe NotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_creation)
-          .with(conversation, agent_with_notification)
+        expect(notification_setting.user.notifications.count).to eq(1)
       end
 
-      it 'does not send and email to inbox members who have notifications turned off' do
-        notification_setting = agent_with_notification.notification_settings.first
+      it 'does not create notification for inbox members who have notifications turned off' do
+        notification_setting = agent_with_out_notification.notification_settings.first
         notification_setting.unselect_all_email_flags
+        notification_setting.unselect_all_push_flags
         notification_setting.save!
 
         create(:inbox_member, user: agent_with_out_notification, inbox: inbox)
@@ -44,8 +39,7 @@ describe NotificationListener do
         event = Events::Base.new(event_name, Time.zone.now, conversation: conversation)
 
         listener.conversation_created(event)
-        expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_creation)
-          .with(conversation, agent_with_out_notification)
+        expect(notification_setting.user.notifications.count).to eq(0)
       end
     end
   end

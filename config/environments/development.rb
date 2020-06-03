@@ -1,9 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # set this to appropriate ingress channel when you are doing development in local with regards to incoming emails
-  # config.action_mailbox.ingress = :sendgrid
-
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
@@ -37,18 +34,12 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :sidekiq
 
+  # Email related config
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
 
-  # If you want to use letter opener instead of mailhog for testing emails locally,
-  # uncomment the following line L49 and comment lines L51 through to L65
-  # config.action_mailer.delivery_method = :letter_opener
-
-  config.action_mailer.delivery_method = :smtp
   smtp_settings = {
     port: ENV['SMTP_PORT'] || 25,
     domain: ENV['SMTP_DOMAIN'] || 'localhost',
@@ -62,9 +53,22 @@ Rails.application.configure do
     smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
   end
 
-  config.action_mailer.smtp_settings = smtp_settings
+  if ENV['LETTER_OPENER']
+    config.action_mailer.delivery_method = :letter_opener
+  else
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = smtp_settings
+  end
 
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  # Set this to appropriate ingress service for which the options are :
+  # :relay for Exim, Postfix, Qmail
+  # :mailgun for Mailgun
+  # :mandrill for Mandrill
+  # :postmark for Postmark
+  # :sendgrid for Sendgrid
+  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
+
+  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

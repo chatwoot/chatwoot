@@ -1,7 +1,7 @@
 version: "2"
 plugins:
   rubocop:
-    enabled: true
+    enabled: false
     channel: rubocop-0-73
   eslint:
     enabled: false

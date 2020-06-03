@@ -1,0 +1,35 @@
+{
+  "CONVERSATION": {
+    "404": "Välj en konversation från vänster panel",
+    "NO_MESSAGE_1": "Oj då! Det ser ut som att det inte finns några meddelanden från kunder i din inkorg.",
+    "NO_MESSAGE_2": " för att skicka ett meddelande till din sida!",
+    "NO_INBOX_1": "Hola! Ser ut som om du inte har lagt till några inkorgar än.",
+    "NO_INBOX_2": " att komma igång",
+    "NO_INBOX_AGENT": "Oh Oh! Ser ut som om du inte är en del av någon inkorg. Kontakta administratören",
+    "CLICK_HERE": "Klicka här",
+    "LOADING_INBOXES": "Laddar inkorgar",
+    "LOADING_CONVERSATIONS": "Laddar konversationer",
+    "DOWNLOAD": "Hämta",
+    "HEADER": {
+      "RESOLVE_ACTION": "Lös",
+      "REOPEN_ACTION": "Återöppna",
+      "OPEN": "Mer",
+      "CLOSE": "Stäng",
+      "DETAILS": "detaljer"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Skift + ange för ny rad. Börja med '/' för att välja ett konserverat svar.",
+      "PRIVATE_MSG_INPUT": "Skift + ange för ny rad. Detta kommer endast att vara synligt för agenter"
+    },
+    "REPLYBOX": {
+      "REPLY": "Svara",
+      "PRIVATE_NOTE": "Privat anteckning",
+      "SEND": "Skicka",
+      "CREATE": "Lägg till anteckning",
+      "TWEET": "Twittra"
+    },
+    "VISIBLE_TO_AGENTS": "Privat Obs: Endast synlig för dig och ditt team",
+    "CHANGE_STATUS": "Konversation status ändrad",
+    "CHANGE_AGENT": "Konversation förvärvaren ändrad"
+  }
+}

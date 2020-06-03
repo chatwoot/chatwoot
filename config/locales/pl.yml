@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+pl:
+  hello: "Witaj świat"
+  messages:
+    reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
+    reset_password_failure: Uh ho! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
+  errors:
+    signup:
+      disposable_email: Nie zezwalamy na jednorazowe wiadomości e-mail
+      invalid_email: Wprowadzono nieprawidłowy adres e-mail
+      email_already_exists: "Już zarejestrowałeś konto w %{email}"
+      failed: Rejestracja nie powiodła się
+  conversations:
+    activity:
+      status:
+        resolved: "Rozmowa została oznaczona przez %{user_name}"
+        open: "Rozmowa została ponownie otwarta przez %{user_name}"
+      assignee:
+        assigned: "Przypisane do %{assignee_name} przez %{user_name}"
+        removed: "Rozmowa nieprzypisana przez %{user_name}"
+    templates:
+      typical_reply_message_body: "%{account_name} zazwyczaj odpowiada w kilka godzin."
+      ways_to_reach_you_message_body: "Daj drużynie możliwość dotarcia do Ciebie."
+      email_input_box_message_body: "Otrzymuj powiadomienia przez e-mail"

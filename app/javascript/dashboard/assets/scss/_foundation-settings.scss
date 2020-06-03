@@ -49,10 +49,10 @@ $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
-  secondary: #777,
-  success: #13ce66,
-  warning: #ffc82c,
-  alert: #ff4949);
+  secondary: #35c5ff,
+  success: #44ce4b,
+  warning: #ffc532,
+  alert: #ff382d);
 $light-gray: #c0ccda;
 $medium-gray: #8492a6;
 $dark-gray: $color-gray;
@@ -127,7 +127,7 @@ $header-styles: (small: ("h1": ("font-size": 24),
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
-$paragraph-lineheight: 1.6;
+$paragraph-lineheight: 1.45;
 $paragraph-margin-bottom: 1rem;
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
@@ -377,8 +377,8 @@ $form-button-radius: $global-radius;
 // 20. Label
 // ---------
 
-$label-background: $primary-color;
-$label-color: $white;
+$label-background: lighten($primary-color, 40%);
+$label-color: $primary-color;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
 $label-font-size: $font-size-micro;

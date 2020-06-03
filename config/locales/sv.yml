@@ -1,0 +1,41 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+sv:
+  hello: "Hej världen"
+  messages:
+    reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
+    reset_password_failure: Uh ho! Vi kunde inte hitta någon användare med den angivna e-postadressen.
+  errors:
+    signup:
+      disposable_email: Vi tillåter inte engångs e-post
+      invalid_email: Du har angett en ogiltig e-postadress
+      email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
+      failed: Registrering misslyckades
+  conversations:
+    activity:
+      status:
+        resolved: "Konversationen har markerats som löst av %{user_name}"
+        open: "Konversationen öppnades igen av %{user_name}"
+      assignee:
+        assigned: "Tilldelad till %{assignee_name} av %{user_name}"
+        removed: "Konversation otilldelad av %{user_name}"
+    templates:
+      typical_reply_message_body: "%{account_name} svarar vanligtvis om några timmar."
+      ways_to_reach_you_message_body: "Ge laget ett sätt att nå dig."
+      email_input_box_message_body: "Få meddelande via e-post"

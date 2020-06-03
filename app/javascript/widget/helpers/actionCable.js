@@ -6,8 +6,16 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
+      'conversation.typing_on': this.onTypingOn,
+      'conversation.typing_off': this.onTypingOff,
+      'conversation.resolved': this.onStatusChange,
+      'conversation.opened': this.onStatusChange,
     };
   }
+
+  onStatusChange = data => {
+    this.app.$store.dispatch('conversationAttributes/update', data);
+  };
 
   onMessageCreated = data => {
     this.app.$store.dispatch('conversation/addMessage', data);
@@ -15,6 +23,35 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('conversation/updateMessage', data);
+  };
+
+  onTypingOn = () => {
+    this.clearTimer();
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+      status: 'on',
+    });
+    this.initTimer();
+  };
+
+  onTypingOff = () => {
+    this.clearTimer();
+    this.app.$store.dispatch('conversation/toggleAgentTyping', {
+      status: 'off',
+    });
+  };
+
+  clearTimer = () => {
+    if (this.CancelTyping) {
+      clearTimeout(this.CancelTyping);
+      this.CancelTyping = null;
+    }
+  };
+
+  initTimer = () => {
+    // Turn off typing automatically after 30 seconds
+    this.CancelTyping = setTimeout(() => {
+      this.onTypingOff();
+    }, 30000);
   };
 }
 

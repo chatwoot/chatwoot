@@ -8,6 +8,7 @@
 import { mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper } from 'widget/helpers/utils';
+import Vue from 'vue';
 
 export default {
   name: 'App',
@@ -17,7 +18,9 @@ export default {
     };
   },
   mounted() {
-    const { websiteToken } = window.chatwootWebChannel;
+    const { websiteToken, locale } = window.chatwootWebChannel;
+    this.setLocale(locale);
+
     if (IFrameHelper.isIFrame()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
@@ -41,6 +44,7 @@ export default {
       if (message.event === 'config-set') {
         this.fetchOldConversations();
         this.fetchAvailableAgents(websiteToken);
+        this.setLocale(message.locale);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
@@ -55,8 +59,12 @@ export default {
         this.$store.dispatch('conversationLabels/destroy', message.label);
       } else if (message.event === 'set-user') {
         this.$store.dispatch('contacts/update', message);
+      } else if (message.event === 'set-locale') {
+        this.setLocale(message.locale);
       }
     });
+
+    this.$store.dispatch('conversationAttributes/get');
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
@@ -65,6 +73,12 @@ export default {
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
+    },
+    setLocale(locale) {
+      const { enabledLanguages } = window.chatwootWebChannel;
+      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
+        Vue.config.lang = locale;
+      }
     },
   },
 };

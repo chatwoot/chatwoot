@@ -19,16 +19,16 @@ With a second step that we have done, we are now introducing the capability of c
 There are a couple of email infrastructure service providers to handle the incoming emails that we support at the moment. They are 
 Sendgrid, Mandrill, Mailgun, Exim, Postfix, Qmail and Postmark.
 
-Step 1 : We have to set the ingress option in `config/environments/production.rb`. 
+Step 1 : We have to set the inbound email service used as an environment variable. 
 
 ```bash
 # Set this to appropriate ingress service for which the options are :
-  # :relay for Exim, Postfix, Qmail
-  # :mailgun for Mailgun
-  # :mandrill for Mandrill
-  # :postmark for Postmark
-  # :sendgrid for Sendgrid
-  config.action_mailbox.ingress = :sendgrid
+# "relay" for Exim, Postfix, Qmail
+# "mailgun" for Mailgun
+# "mandrill" for Mandrill
+# "postmark" for Postmark
+# "sendgrid" for Sendgrid
+RAILS_INBOUND_EMAIL_SERVICE=relay
 ```
 
 This configures the ingress service for the app. Now we have to set the password for the ingress service that we use.

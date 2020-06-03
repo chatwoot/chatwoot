@@ -26,9 +26,19 @@
         "TITLE": "Notifications par courriel",
         "NOTE": "Mettez à jour vos préférences de notification par courriel ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
-        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
-        "UPDATE_SUCCESS": "Vos préférences de notifications par courriel ont été mises à jour avec succès",
+        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
         "UPDATE_ERROR": "Une erreur est survenue lors de la mise à jour des préférences, veuillez réessayer"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifications push",
+        "NOTE": "Mettez à jour vos préférences de notification push ici",
+        "CONVERSATION_ASSIGNMENT": "Envoyer des notifications push lorsqu'une conversation m'est assignée",
+        "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
+        "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
+        "REQUEST_PUSH": "Activer les notifications push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Image de profil"
@@ -56,7 +66,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Changer de compte",
+    "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
     "LOGOUT": "Se déconnecter"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "jours d'essai restants.",
+    "TRAIL_BUTTON": "Acheter Maintenant"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copier",
+      "COPY_SUCCESSFUL": "Code copié dans le presse-papier avec succès"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Télécharger",
+      "UPLOADING": "Téléversement..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envoyer"
+    }
+  },
+  "CONFIRM_EMAIL": "Vérification...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Ajouter une boîte de réception"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Rapports",
+    "SETTINGS": "Paramètres",
+    "HOME": "Accueil",
+    "AGENTS": "Agents",
+    "INBOXES": "Boîtes de réception",
+    "CANNED_RESPONSES": "Réponses standardisées",
+    "BILLING": "Facturation",
+    "INTEGRATIONS": "Intégrations",
+    "ACCOUNT_SETTINGS": "Paramètres du compte"
   }
 }

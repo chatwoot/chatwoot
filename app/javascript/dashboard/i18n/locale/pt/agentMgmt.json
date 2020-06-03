@@ -3,86 +3,86 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "SIDEBAR_TXT": "<p> Um <b> Agente </b> é um membro da equipe de Suporte ao Cliente. </p> <p> Os agentes poderão visualizar e responder às mensagens dos seus usuários. A lista mostra todos os agentes de sua conta. </p> <p> Clique em <b> Adicionar agente </b> para adicionar um novo agente. O agente que você adicionar receberá um e-mail com um link de confirmação ativar a conta, e após clicar no link de ativação o Agente poderá acessar o Chatwoot. </p> <p> O acesso aos recursos do Chatwoot é baseado nos seguintes perfis: </p> <p> <b> Agente </b> - função que pode acessar apenas caixas de entrada, relatórios e conversas. Eles podem atribuir conversas a outros agentes ou a eles próprios e resolver conversas. </p> <p> <b> Administrador </b> - essa função terá acesso a todos os recursos do Chatwoot ativados para sua conta, incluindo configurações e cobrança, além de todos os dos privilégios de um agente normal. <p>",
+    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é membro de sua equipe de Suporte ao Cliente. </p><p> Os agentes serão capazes de ver e responder as mensagens dos seus usuários. A lista mostra todos os agentes atualmente em sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. Agente que você adicionar receberá um e-mail com um link de confirmação para ativar sua conta, após o que eles podem acessar o Chatwoot e responder às mensagens. </p><p> Acesso aos recursos do Chatwoot são baseados nas seguintes funções. </p><p> <b>Agentes</b> - Agentes com essa função só podem acessar caixas de entrada, relatórios e conversas. Eles podem atribuir conversas a outros agentes ou a eles próprios e resolver conversas.</p><p> <b>Administrador</b> - Administrador terá acesso a todos os recursos do Chatwoot ativados para sua conta, incluindo configurações e faturamento, juntamente com todos os privilégios normais dos agentes.</p>",
     "AGENT_TYPES": [
       {
-        "name": "administrador",
+        "name": "administrator",
         "label": "Administrador"
       },
       {
-        "name": "agente",
-        "label": "Agente"
+        "name": "agent",
+        "label": "Representante"
       }
     ],
     "LIST": {
-      "404": "Não existem agentes associados a esta conta",
-      "TITLE": "Gerenciar agentes da sua equipe",
-      "DESC": "Você pode adicionar e/ou remover agentes de um time.",
-      "NAME": "Nome",
-      "EMAIL": "E-mail",
+      "404": "Não há agentes associados a esta conta",
+      "TITLE": "Gerenciar agentes na sua equipe",
+      "DESC": "Você pode adicionar/remover agentes para/da sua equipe.",
+      "NAME": "Nome:",
+      "EMAIL": "E-mail:",
       "STATUS": "SItuação",
-      "ACTIONS": "Ações",
-      "VERIFIED": "Verificado",
-      "VERIFICATION_PENDING": "Verificação Pendente"
+      "ACTIONS": "Ações.",
+      "VERIFIED": "Verificada",
+      "VERIFICATION_PENDING": "Verificação pendente"
     },
     "ADD": {
-      "TITLE": "Adicionar agente ao seu time",
-      "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
+      "TITLE": "Adicionar agente à sua equipe",
+      "DESC": "Você pode adicionar pessoas que serão capazes de lidar com o suporte de suas caixas de entrada.",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome do Agente",
-          "PLACEHOLDER": "Por favor, insira o nome do agente"
+          "LABEL": "Nome do Representante",
+          "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Tipo de agente",
+          "PLACEHOLDER": "Por favor, selecione um tipo",
+          "ERROR": "O tipo de agente é obrigatório"
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
-          "PLACEHOLDER": "Por favor, insira um endereço de e-mail do agente"
+          "PLACEHOLDER": "Por favor insira um endereço de e-mail do agente"
         },
-        "SUBMIT": "Adicionar agente"
+        "SUBMIT": "Adicionar Agente"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agente adicionado com sucesso",
-        "EXIST_MESSAGE": "O E-mail do informado já está uso, por favor tente outro endereço de e-mail",
+        "EXIST_MESSAGE": "E-mail do representante já está em uso, por favor tente outro endereço de e-mail",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Excluir",
+      "BUTTON_TEXT": "excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       },
       "CONFIRM": {
-        "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Você tem certeza que deseja excluir ",
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, mantenha "
+        "NO": "Não, mantenha isso "
       }
     },
     "EDIT": {
-      "TITLE": "Editar Agente",
+      "TITLE": "Editar Representante",
       "FORM": {
         "NAME": {
-          "LABEL": "Nome do Agente",
-          "PLACEHOLDER": "Por favor, insira um nome do agente"
+          "LABEL": "Nome do Representante",
+          "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de Agente",
-          "PLACEHOLDER": "Selecione um tipo",
-          "ERROR": "É necessário o tipo de agente"
+          "LABEL": "Tipo de agente",
+          "PLACEHOLDER": "Por favor, selecione um tipo",
+          "ERROR": "O tipo de agente é obrigatório"
         },
         "EMAIL": {
-          "LABEL": "Endereço de email",
-          "PLACEHOLDER": "Por favor, insira um endereço de e-mail do agente"
+          "LABEL": "Endereço de e-mail",
+          "PLACEHOLDER": "Por favor insira um endereço de e-mail do agente"
         },
-        "SUBMIT": "Editar agente"
+        "SUBMIT": "Editar Agente"
       },
       "BUTTON_TEXT": "Alterar",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CANCEL_BUTTON_TEXT": "cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Agente atualizado com sucesso",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"

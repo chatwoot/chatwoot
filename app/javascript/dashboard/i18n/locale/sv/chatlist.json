@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Hämtar konversationer",
+    "LOAD_MORE_CONVERSATIONS": "Ladda fler konversationer",
+    "EOF": "Alla konversationer laddade 🎉",
+    "LIST": {
+      "404": "Det finns inga aktiva samtal i denna grupp."
+    },
+    "TAB_HEADING": "Konversationer",
+    "SEARCH": {
+      "INPUT": "Sök efter människor, chattar, sparade svar .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Öppna",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Löst",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Gruva",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Otilldelad",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Alla",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Öppna",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Löst",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Meddelande om bild"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Ljud meddelande"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Videomeddelande"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Bifogad fil"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Plats"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "har delat en webbadress"
+      }
+    }
+  }
+}

@@ -2,9 +2,7 @@
   <header class="header-collapsed">
     <div class="header-branding">
       <img v-if="avatarUrl" :src="avatarUrl" alt="avatar" />
-      <h2 class="title">
-        {{ title }}
-      </h2>
+      <h2 class="title" v-html="title"></h2>
     </div>
     <span class="close-button" @click="closeWindow"></span>
   </header>
@@ -58,6 +56,10 @@ export default {
   .header-branding {
     display: flex;
     align-items: center;
+
+    img {
+      border-radius: 50%;
+    }
   }
 
   .title {

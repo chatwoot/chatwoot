@@ -2,7 +2,8 @@ class Api::V1::NotificationSubscriptionsController < Api::BaseController
   before_action :set_user
 
   def create
-    notification_subscription = @user.notification_subscriptions.create(notification_subscription_params)
+    notification_subscription = NotificationSubscriptionBuilder.new(user: @user, params: notification_subscription_params).perform
+
     render json: notification_subscription
   end
 
