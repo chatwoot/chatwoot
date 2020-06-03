@@ -20,12 +20,13 @@
         class="input"
         type="text"
         :placeholder="$t(messagePlaceHolder())"
-        @click="onClick()"
-        @blur="onBlur()"
+        @focus="onFocus"
+        @blur="onBlur"
       />
       <file-upload
         v-if="showFileUpload"
         :size="4096 * 4096"
+        accept="jpg,jpeg,png,mp3,ogg,amr,pdf,mp4"
         @input-file="onFileUpload"
       >
         <i
@@ -142,7 +143,10 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return this.channelType === 'Channel::WebWidget';
+      return (
+        this.channelType === 'Channel::WebWidget' ||
+        this.channelType === 'Channel::TwilioSms'
+      );
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -204,7 +208,9 @@ export default {
     async sendMessage() {
       const isMessageEmpty = !this.message.replace(/\n/g, '').length;
       if (isMessageEmpty) return;
-
+      if (this.message.length > this.maxLength) {
+        return;
+      }
       if (!this.showCannedResponsesList) {
         try {
           await this.$store.dispatch('sendMessage', {
@@ -256,25 +262,16 @@ export default {
     onBlur() {
       this.toggleTyping('off');
     },
-    onClick() {
-      this.markSeen();
+    onFocus() {
       this.toggleTyping('on');
-    },
-    markSeen() {
-      if (this.channelType === 'Channel::FacebookPage') {
-        this.$store.dispatch('markSeen', {
-          inboxId: this.currentChat.inbox_id,
-          contactId: this.currentChat.meta.sender.id,
-        });
-      }
     },
 
     toggleTyping(status) {
-      if (this.channelType === 'Channel::FacebookPage') {
+      if (this.channelType === 'Channel::WebWidget' && !this.isPrivate) {
+        const conversationId = this.currentChat.id;
         this.$store.dispatch('toggleTyping', {
           status,
-          inboxId: this.currentChat.inbox_id,
-          contactId: this.currentChat.meta.sender.id,
+          conversationId,
         });
       }
     },
@@ -295,6 +292,9 @@ export default {
     },
 
     onFileUpload(file) {
+      if (!file) {
+        return;
+      }
       this.isUploading.image = true;
       this.$store
         .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])

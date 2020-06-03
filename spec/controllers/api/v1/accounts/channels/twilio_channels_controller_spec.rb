@@ -21,7 +21,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
           account_sid: 'sid',
           auth_token: 'token',
           phone_number: '+1234567890',
-          name: 'SMS Channel'
+          name: 'SMS Channel',
+          medium: 'sms'
         }
       }
     end

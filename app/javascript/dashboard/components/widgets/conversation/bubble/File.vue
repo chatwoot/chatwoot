@@ -44,12 +44,12 @@ export default {
 .file {
   display: flex;
   flex-direction: row;
-  padding: $space-normal;
+  padding: $space-smaller 0;
   cursor: pointer;
 
   .icon-wrap {
     font-size: $font-size-giga;
-    color: $color-woot;
+    color: $color-white;
     line-height: 1;
     margin-left: $space-smaller;
     margin-right: $space-slab;
@@ -57,15 +57,22 @@ export default {
 
   .text-block-title {
     margin: 0;
+    color: $color-white;
+    font-weight: $font-weight-bold;
   }
 
   .button {
     padding: 0;
     margin: 0;
+    color: $color-primary-light;
   }
 
   .meta {
     padding-right: $space-two;
+  }
+
+  .time {
+    min-width: $space-larger;
   }
 }
 </style>

@@ -1,18 +1,17 @@
 .error {
   #{$all-text-inputs},
+  select,
   .multiselect > .multiselect__tags {
-    @include thin-border( darken(get-color(alert), 25%));
+    @include thin-border(darken(get-color(alert), 25%));
   }
-}
 
-.error {
   .message {
-    display: block;
-    width: 100%;
-    margin-top: -$space-normal;
-    margin-bottom: $space-one;
     color: darken(get-color(alert), 25%);
+    display: block;
     font-weight: $font-weight-normal;
+    margin-bottom: $space-one;
+    margin-top: -$space-normal;
+    width: 100%;
   }
 }
 
@@ -25,7 +24,7 @@ input {
 }
 
 .input-wrap {
-  font-size: $font-size-small;
   color: $color-heading;
+  font-size: $font-size-small;
   font-weight: $font-weight-medium;
 }

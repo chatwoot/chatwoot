@@ -17,20 +17,3 @@ export const IFrameHelper = {
     );
   },
 };
-
-export const getAvailableAgentsText = (agents = []) => {
-  const count = agents.length;
-  if (count === 1) {
-    const [agent] = agents;
-    return `${agent.name} is available`;
-  }
-
-  if (count === 2) {
-    const [first, second] = agents;
-    return `${first.name} and ${second.name} are available`;
-  }
-
-  const [agent] = agents;
-  const rest = agents.length - 1;
-  return `${agent.name} and ${rest} others are available`;
-};

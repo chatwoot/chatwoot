@@ -1,0 +1,63 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+cs:
+  devise:
+    confirmations:
+      confirmed: "Vaše e-mailová adresa byla úspěšně potvrzena."
+      send_instructions: "Za několik minut obdržíte e-mail s pokyny, jak potvrdit vaši e-mailovou adresu."
+      send_paranoid_instructions: "Pokud vaše e-mailová adresa existuje v naší databázi, za několik minut obdržíte e-mail s pokyny, jak potvrdit vaši e-mailovou adresu."
+    failure:
+      already_authenticated: "Již jste přihlášeni."
+      inactive: "Váš účet ještě není aktivován."
+      invalid: "Neplatný %{authentication_keys}/password nebo účet ještě nebyl ověřen."
+      locked: "Váš účet je uzamčen."
+      last_attempt: "Máte ještě jeden pokus než bude váš účet uzamčen."
+      not_found_in_database: "Neplatné %{authentication_keys} nebo heslo."
+      timeout: "Vaše relace vypršela. Chcete-li pokračovat, přihlaste se znovu."
+      unauthenticated: "Před pokračováním se musíte přihlásit nebo se zaregistrovat."
+      unconfirmed: "Než budete pokračovat, musíte potvrdit svou e-mailovou adresu."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrukce pro potvrzení"
+      reset_password_instructions:
+        subject: "Pokyny pro obnovení hesla"
+      unlock_instructions:
+        subject: "Pokyny pro odemknutí"
+      password_change:
+        subject: "Heslo změněno"
+    omniauth_callbacks:
+      failure: "Nelze se přihlásit z %{kind} , protože \"%{reason}\"."
+      success: "Úspěšně ověřeno z účtu %{kind}."
+    passwords:
+      no_token: "Na tuto stránku nemáte přístup bez e-mailu pro obnovení hesla. Pokud pocházíte z e-mailu pro obnovení hesla, ujistěte se, že jste použili celou URL adresu."
+      send_instructions: "Za několik minut obdržíte e-mail s pokyny, jak obnovit heslo."
+      send_paranoid_instructions: "Pokud vaše e-mailová adresa existuje v naší databázi, za několik minut obdržíte na vaši e-mailovou adresu odkaz pro obnovení hesla."
+      updated: "Vaše heslo bylo úspěšně změněno. Nyní jste přihlášeni."
+      updated_not_active: "Vaše heslo bylo úspěšně změněno."
+    registrations:
+      destroyed: "O! Váš účet byl úspěšně zrušen. Doufáme, že vás brzy znovu uvidíme."
+      signed_up: "Vítejte! Úspěšně jste se zaregistrovali."
+      signed_up_but_inactive: "Úspěšně jste se zaregistrovali. Nicméně, nemohli jsme se přihlásit, protože Váš účet ještě není aktivován."
+      signed_up_but_locked: "Úspěšně jste se zaregistrovali. Nicméně, nemohli jsme se přihlásit, protože Váš účet je uzamčen."
+      signed_up_but_unconfirmed: "Zpráva s potvrzovacím odkazem byla odeslána na vaši e-mailovou adresu. Pro aktivaci účtu prosím postupujte podle odkazu."
+      update_needs_confirmation: "Váš účet byl úspěšně aktualizován, ale musíme ověřit Vaši novou e-mailovou adresu. Prosím zkontrolujte svůj e-mail a klikněte na odkaz pro potvrzení Vaší nové e-mailové adresy."
+      updated: "Váš účet byl úspěšně aktualizován."
+    sessions:
+      signed_in: "Úspěšně přihlášeno."
+      signed_out: "Úspěšně odhlášeno."
+      already_signed_out: "Úspěšně odhlášeno."
+    unlocks:
+      send_instructions: "Za několik minut obdržíte e-mail s pokyny, jak odemknout váš účet."
+      send_paranoid_instructions: "Pokud váš účet existuje, obdržíte během několika minut e-mail s pokyny, jak jej odemknout."
+      unlocked: "Váš účet byl úspěšně odemčen. Pro pokračování se přihlaste."
+  errors:
+    messages:
+      already_confirmed: "byl již potvrzen, zkuste se prosím přihlásit"
+      confirmation_period_expired: "musí být potvrzeno do %{period}, prosím požádejte o nový"
+      expired: "vypršela platnost. Požádejte prosím o nový"
+      not_found: "nenalezeno"
+      not_locked: "nebylo uzamčeno"
+      not_saved:
+        one: "1 chyba zabránila uložení tohoto %{resource}:"
+        few: "%{count} chyb znemožnilo uložení %{resource}:"
+        many: "%{count} chyb znemožnilo uložení %{resource}:"
+        other: "%{count} chyb znemožnilo uložení %{resource}:"

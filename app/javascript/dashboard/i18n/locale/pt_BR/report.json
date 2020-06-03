@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Relatórios",
+    "LOADING_CHART": "Carregando dados do gráfico...",
+    "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
+    "METRICS": [
+      {
+        "NAME": "Conversas",
+        "KEY": "conversations_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Mensagens Recebidas",
+        "KEY": "incoming_messages_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Mensagens enviadas",
+        "KEY": "outgoing_messages_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Primeira resposta",
+        "KEY": "avg_first_response_time",
+        "DESC": "(Média)"
+      },
+      {
+        "NAME": "Tempo de resolução",
+        "KEY": "avg_resolution_time",
+        "DESC": "(Média)"
+      },
+      {
+        "NAME": "Qtde de resolução",
+        "KEY": "resolutions_count",
+        "DESC": "( Total )"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Últimos 7 dias"
+      },
+      {
+        "id": 1,
+        "name": "Últimos 30 dias"
+      }
+    ]
+  }
+}

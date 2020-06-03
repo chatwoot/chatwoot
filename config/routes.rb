@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update], module: :accounts do
+        member do
+          post :update_active_at
+        end
         namespace :actions do
           resource :contact_merge, only: [:create]
         end
@@ -41,13 +44,16 @@ Rails.application.routes.draw do
           resource :twilio_channel, only: [:create]
         end
         resources :conversations, only: [:index, :create, :show] do
+          get 'meta', on: :collection
           scope module: :conversations do
             resources :messages, only: [:index, :create]
             resources :assignments, only: [:create]
             resources :labels, only: [:create, :index]
           end
           member do
+            post :mute
             post :toggle_status
+            post :toggle_typing_status
             post :update_last_seen
           end
         end
@@ -76,18 +82,8 @@ Rails.application.routes.draw do
           end
         end
 
+        resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
-
-        resources :reports, only: [] do
-          collection do
-            get :account
-            get :agent
-          end
-          member do
-            get :account_summary
-            get :agent_summary
-          end
-        end
 
         # this block is only required if subscription via chargebee is enabled
         resources :subscriptions, only: [:index] do
@@ -103,12 +99,18 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       resource :profile, only: [:show, :update]
+      resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]
 
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
+        resources :conversations do
+          collection do
+            post :toggle_typing
+          end
+        end
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
@@ -163,23 +165,32 @@ Rails.application.routes.draw do
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
   # ----------------------------------------------------------------------
+  # Routes for external service verifications
+  get 'apple-app-site-association' => 'apple_app#site_association'
+
+  # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
 
-  scope :monitoring do
-    # Sidekiq should use basic auth in production environment
-    if Rails.env.production?
-      Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-        ENV['SIDEKIQ_AUTH_USERNAME'] &&
-          ENV['SIDEKIQ_AUTH_PASSWORD'] &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_USERNAME'])) &&
-          ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password),
-                                                      ::Digest::SHA256.hexdigest(ENV['SIDEKIQ_AUTH_PASSWORD']))
-      end
-    end
+  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_scope :super_admin do
+    get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
+    namespace :super_admin do
+      root to: 'dashboard#index'
 
-    mount Sidekiq::Web, at: '/sidekiq'
+      # order of resources affect the order of sidebar navigation in super admin
+      resources :accounts
+      resources :users, only: [:index, :new, :create, :show, :edit, :update]
+      resources :super_admins
+      resources :access_tokens, only: [:index, :show]
+
+      # resources that doesn't appear in primary navigation in super admin
+      resources :account_users, only: [:new, :create, :destroy]
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+    end
+    authenticated :super_admin do
+      mount Sidekiq::Web => '/monitoring/sidekiq'
+    end
   end
 
   # ---------------------------------------------------------------------

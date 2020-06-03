@@ -1,23 +1,53 @@
 .conversation {
   @include flex;
   @include flex-shrink;
-  @include padding($space-normal $zero $zero $space-normal);
+  @include padding(0 0 0 $space-normal);
+  align-items: center;
+  border-bottom: 1px solid transparent;
+  border-left: $space-micro solid transparent;
+  border-top: 1px solid transparent;
   cursor: pointer;
   position: relative;
 
   &.active {
     background: $color-background;
+    border-bottom-color: $color-border-light;
+    border-left-color: $color-woot;
+    border-top-color: $color-border-light;
+
+    .conversation--details {
+      border-top-color: transparent;
+    }
+
+    +.conversation .conversation--details {
+      border-top-color: transparent;
+    }
   }
 
+  &:first-child {
+    .conversation--details {
+      border-top-color: transparent;
+    }
+  }
+
+  &:nth-last-child(2) {
+    .conversation--details {
+      border-bottom-color: $color-border-light;
+    }
+  }
+
+
   .conversation--details {
-    @include margin($zero $zero $zero $space-one);
+    @include margin(0 0 0 $space-one);
     @include border-light-bottom;
-    @include padding($zero $zero $space-slab $zero);
+    @include border-light-top;
+    @include padding($space-slab 0);
+    border-bottom-color: transparent;
   }
 
   .conversation--user {
     font-size: $font-size-small;
-    margin-bottom: $zero;
+    margin-bottom: 0;
     text-transform: capitalize;
 
     .label {
@@ -37,7 +67,7 @@
     font-weight: $font-weight-normal;
     height: $space-medium;
     line-height: $space-medium;
-    margin: $zero;
+    margin: 0;
     max-width: 96%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -52,20 +82,20 @@
 
   .conversation--meta {
     @include flex;
-    display: block;
     flex-direction: column;
     position: absolute;
     right: $space-normal;
     top: $space-normal;
 
     .unread {
-      $unread-size: $space-two - $space-micro;
+      $unread-size: $space-normal;
       @include round-corner;
+      @include light-shadow;
       background: darken($success-color, 3%);
       color: $color-white;
       display: none;
-      font-size: $font-size-mini;
-      font-weight: $font-weight-medium;
+      font-size: $font-size-micro;
+      font-weight: $font-weight-black;
       height: $unread-size;
       line-height: $unread-size;
       margin-left: auto;

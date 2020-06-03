@@ -1,6 +1,8 @@
+import { escapeHtml } from './HTMLSanitizer';
+
 class MessageFormatter {
   constructor(message) {
-    this.message = message || '';
+    this.message = escapeHtml(message) || '';
   }
 
   formatMessage() {
@@ -16,7 +18,7 @@ class MessageFormatter {
     return this.message.replace(
       urlRegex,
       url =>
-        `<a rel="noreferrer noopener nofollow" href="${url}" target="_blank">${url}</a>`
+        `<a rel="noreferrer noopener nofollow" href="${url}" class="link" target="_blank">${url}</a>`
     );
   }
 

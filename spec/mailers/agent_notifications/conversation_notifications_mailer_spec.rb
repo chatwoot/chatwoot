@@ -12,8 +12,8 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
   end
 
-  describe 'conversation_created' do
-    let(:mail) { described_class.conversation_created(conversation, agent).deliver_now }
+  describe 'conversation_creation' do
+    let(:mail) { described_class.conversation_creation(conversation, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.name}, A new conversation [ID - #{conversation
@@ -25,8 +25,8 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
   end
 
-  describe 'conversation_assigned' do
-    let(:mail) { described_class.conversation_assigned(conversation, agent).deliver_now }
+  describe 'conversation_assignment' do
+    let(:mail) { described_class.conversation_assignment(conversation, agent).deliver_now }
 
     it 'renders the subject' do
       expect(mail.subject).to eq("#{agent.name}, A new conversation [ID - #{conversation.display_id}] has been assigned to you.")

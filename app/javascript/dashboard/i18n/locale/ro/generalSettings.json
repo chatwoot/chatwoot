@@ -21,6 +21,25 @@
         "LABEL": "Limba site-ului (Beta)",
         "PLACEHOLDER": "Numele contului tău",
         "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domeniu",
+        "PLACEHOLDER": "Domeniul website-ului tău",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail de suport",
+        "PLACEHOLDER": "E-mailul de asistență al companiei dumneavoastră",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Activare e-mail domeniu",
+        "PLACEHOLDER": "Activați domeniul personalizat de e-mail",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Activat",
+          "DISABLED": "Dezactivat"
+        }
       }
     }
   }

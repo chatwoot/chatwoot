@@ -57,7 +57,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $font-size-large;
+    font-size: $font-size-big;
     font-weight: $font-weight-medium;
   }
 }

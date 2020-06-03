@@ -16,4 +16,5 @@ This guide will help you get started with Chatwoot!
 
 * [Quick Setup](/docs/quick-setup)
 * [Environment Variables](/docs/environment-variables)
+* [Conversation Continuity with Email](/docs/conversation-continuity)
 * [Common Errors](/docs/common-errors)

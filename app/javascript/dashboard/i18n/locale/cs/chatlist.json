@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Načítání konverzací",
+    "LOAD_MORE_CONVERSATIONS": "Načíst více konverzací",
+    "EOF": "Všechny konverzace načteny 🎉",
+    "LIST": {
+      "404": "V této skupině nejsou žádné aktivní konverzace."
+    },
+    "TAB_HEADING": "Konverzace",
+    "SEARCH": {
+      "INPUT": "Hledat lidi, chaty, Uložené odpovědi .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Otevřít",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Vyřešeno",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Důl",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Nepřiřazeno",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Vše",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Otevřít",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Vyřešeno",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Zpráva obrázku"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Zvuková zpráva"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Video zpráva"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Přílohu souboru"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Poloha"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "sdílel URL"
+      }
+    }
+  }
+}

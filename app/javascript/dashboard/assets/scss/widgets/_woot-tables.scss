@@ -1,6 +1,6 @@
 table {
-  font-size: $font-size-small;
   border-spacing: 0;
+  font-size: $font-size-small;
 
   thead {
     th {
@@ -10,9 +10,12 @@ table {
   }
 
   tbody {
+    tr {
+      border-bottom: 1px solid $color-border-light;
+    }
+
     td {
       @include padding($space-one $space-small);
-      border-bottom: 1px solid $color-border-light;
     }
   }
 }
@@ -32,22 +35,22 @@ table {
   }
 
   .agent-name {
-    font-weight: $font-weight-medium;
     display: block;
+    font-weight: $font-weight-medium;
     text-transform: capitalize;
   }
 
   .woot-thumbnail {
     border-radius: 50%;
-    width: 5rem;
     height: 5rem;
+    width: 5rem;
   }
 
   .button-wrapper {
-    min-width: 20rem;
-    @include flex;
     @include flex-align(left, null);
+    @include flex;
     flex-direction: row;
+    min-width: 20rem;
   }
 
   .button {

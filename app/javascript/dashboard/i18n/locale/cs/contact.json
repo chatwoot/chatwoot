@@ -1,0 +1,20 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "Podrobnosti konverzace",
+    "BROWSER": "Prohlížeč",
+    "OS": "Operační systém",
+    "INITIATED_FROM": "Zahájeno od",
+    "INITIATED_AT": "Zahájeno v",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "K tomuto kontaktu nejsou přiřazeny žádné předchozí konverzace.",
+      "TITLE": "Předchozí konverzace"
+    },
+    "LABELS": {
+      "TITLE": "Štítky konverzace",
+      "UPDATE_BUTTON": "Aktualizovat štítky",
+      "UPDATE_ERROR": "Nelze aktualizovat štítky, zkuste to znovu.",
+      "TAG_PLACEHOLDER": "Přidat nový štítek",
+      "PLACEHOLDER": "Vyhledat nebo přidat štítek"
+    }
+  }
+}

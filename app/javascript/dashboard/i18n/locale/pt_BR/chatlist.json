@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Buscando conversas",
+    "LOAD_MORE_CONVERSATIONS": "Carregar mais conversas",
+    "EOF": "Todas as conversas carregadas 🎉",
+    "LIST": {
+      "404": "Não há conversas ativas neste grupo."
+    },
+    "TAB_HEADING": "Conversas",
+    "SEARCH": {
+      "INPUT": "Pesquisar pessoas, conversas, respostas salvas .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Abertas",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Resolvida",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Minha",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Não atribuída",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Todos",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Abertas",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Resolvidas",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Mensagem de imagem"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Mensagem de áudio"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Mensagem de vídeo"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Arquivo anexo"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Localização"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "compartilhou uma URL"
+      }
+    }
+  }
+}

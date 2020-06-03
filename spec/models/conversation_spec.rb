@@ -14,6 +14,36 @@ RSpec.describe Conversation, type: :model do
     it 'runs before_create callbacks' do
       expect(conversation.display_id).to eq(1)
     end
+
+    it 'creates a UUID for every conversation automatically' do
+      uuid_pattern = /[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}$/i
+      expect(conversation.uuid).to match(uuid_pattern)
+    end
+  end
+
+  describe '.after_create' do
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) do
+      create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        assignee: nil
+      )
+    end
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'runs after_create callbacks' do
+      # send_events
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+    end
   end
 
   describe '.after_update' do
@@ -34,8 +64,6 @@ RSpec.describe Conversation, type: :model do
       new_assignee
 
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
-      allow(assignment_mailer).to receive(:deliver_later)
       Current.user = old_assignee
 
       conversation.update(
@@ -56,11 +84,6 @@ RSpec.describe Conversation, type: :model do
         .with(described_class::CONVERSATION_LOCK_TOGGLE, kind_of(Time), conversation: conversation)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
-
-      # send_email_notification_to_assignee
-      expect(AgentNotifications::ConversationNotificationsMailer).to have_received(:conversation_assigned).with(conversation, new_assignee)
-
-      expect(assignment_mailer).to have_received(:deliver_later) if ENV.fetch('SMTP_ADDRESS', nil).present?
     end
 
     it 'creates conversation activities' do
@@ -70,7 +93,7 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-  describe '.after_create' do
+  describe '#round robin' do
     let(:account) { create(:account) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:inbox) { create(:inbox, account: account) }
@@ -85,15 +108,10 @@ RSpec.describe Conversation, type: :model do
     end
 
     before do
-      allow(Rails.configuration.dispatcher).to receive(:dispatch)
       allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
     end
 
-    it 'runs after_create callbacks' do
-      # send_events
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
-
+    it 'runs round robin on after_save callbacks' do
       # run_round_robin
       expect(conversation.reload.assignee).to eq(agent)
     end
@@ -101,12 +119,35 @@ RSpec.describe Conversation, type: :model do
     it 'will not auto assign agent if enable_auto_assignment is false' do
       inbox.update(enable_auto_assignment: false)
 
-      # send_events
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+      # run_round_robin
+      expect(conversation.reload.assignee).to eq(nil)
+    end
+
+    it 'will not auto assign agent if its a bot conversation' do
+      conversation = create(
+        :conversation,
+        account: account,
+        contact: create(:contact, account: account),
+        inbox: inbox,
+        status: 'bot',
+        assignee: nil
+      )
 
       # run_round_robin
       expect(conversation.reload.assignee).to eq(nil)
+    end
+
+    it 'gets triggered on update only when status changes to open' do
+      conversation.status = 'resolved'
+      conversation.save!
+      expect(conversation.reload.assignee).to eq(agent)
+
+      # round robin changes assignee in this case since agent doesn't have access to inbox
+      agent2 = create(:user, email: 'agent2@example.com', account: account)
+      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent2.id)
+      conversation.status = 'open'
+      conversation.save!
+      expect(conversation.reload.assignee).to eq(agent2)
     end
   end
 
@@ -124,15 +165,19 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
-    it 'does not send assignment mailer if notification setting is turned off' do
-      allow(AgentNotifications::ConversationNotificationsMailer).to receive(:conversation_assigned).and_return(assignment_mailer)
+    it 'creates a new notification for the agent' do
+      expect(update_assignee).to eq(true)
+      expect(agent.notifications.count).to eq(1)
+    end
 
+    it 'does not create assignment notification if notification setting is turned off' do
       notification_setting = agent.notification_settings.first
       notification_setting.unselect_all_email_flags
+      notification_setting.unselect_all_push_flags
       notification_setting.save!
 
       expect(update_assignee).to eq(true)
-      expect(AgentNotifications::ConversationNotificationsMailer).not_to have_received(:conversation_assigned).with(conversation, agent)
+      expect(agent.notifications.count).to eq(0)
     end
   end
 
@@ -166,6 +211,37 @@ RSpec.describe Conversation, type: :model do
     it 'unlocks the conversation' do
       expect(unlock!).to eq(true)
       expect(conversation.reload.locked).to eq(false)
+    end
+  end
+
+  describe '#mute!' do
+    subject(:mute!) { conversation.mute! }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'marks conversation as resolved' do
+      mute!
+      expect(conversation.reload.resolved?).to eq(true)
+    end
+
+    it 'marks conversation as muted in redis' do
+      mute!
+      expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
+    end
+  end
+
+  describe '#muted?' do
+    subject(:muted?) { conversation.muted? }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'return true if conversation is muted' do
+      conversation.mute!
+      expect(muted?).to eq(true)
+    end
+
+    it 'returns false if conversation is not muted' do
+      expect(muted?).to eq(false)
     end
   end
 

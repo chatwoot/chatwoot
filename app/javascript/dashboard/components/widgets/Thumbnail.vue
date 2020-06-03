@@ -33,6 +33,14 @@
       :style="badgeStyle"
       src="~dashboard/assets/images/twitter-badge.png"
     />
+
+    <img
+      v-if="badge === 'Channel::TwilioSms'"
+      id="badge"
+      class="source-badge"
+      :style="badgeStyle"
+      src="~dashboard/assets/images/channels/whatsapp.png"
+    />
   </div>
 </template>
 <script>
@@ -95,6 +103,15 @@ export default {
     thumbnailClass() {
       const classname = this.hasBorder ? 'border' : '';
       return `user-thumbnail ${classname}`;
+    },
+  },
+  watch: {
+    src: {
+      handler(value, oldValue) {
+        if (value !== oldValue && this.imgError) {
+          this.imgError = false;
+        }
+      },
     },
   },
   methods: {

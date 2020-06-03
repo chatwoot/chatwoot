@@ -10,7 +10,9 @@ describe Twilio::OutgoingMessageService do
   let!(:account) { create(:account) }
   let!(:widget_inbox) { create(:inbox, account: account) }
   let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
+  let!(:twilio_whatsapp) { create(:channel_twilio_sms, medium: :whatsapp, account: account) }
   let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
+  let!(:twilio_whatsapp_inbox) { create(:inbox, channel: twilio_whatsapp, account: account) }
   let!(:contact) { create(:contact, account: account) }
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: twilio_inbox) }
   let(:conversation) { create(:conversation, contact: contact, inbox: twilio_inbox, contact_inbox: contact_inbox) }
@@ -54,6 +56,19 @@ describe Twilio::OutgoingMessageService do
 
         expect(outgoing_message.reload.source_id).to eq('1234')
       end
+    end
+
+    it 'if outgoing message has attachment and is for whatsapp' do
+      # check for message attachment url
+      allow(messages_double).to receive(:create).with(hash_including(media_url: [anything])).and_return(message_record_double)
+      allow(message_record_double).to receive(:sid).and_return('1234')
+
+      message = build(
+        :message, message_type: 'outgoing', inbox: twilio_whatsapp_inbox, account: account, conversation: conversation
+      )
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+      attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
+      message.save!
     end
   end
 end

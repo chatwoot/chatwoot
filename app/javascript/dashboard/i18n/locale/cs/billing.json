@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Fakturace",
+    "LOADING": "Načítání předplatného",
+    "ACCOUNT_STATE": "Stav účtu",
+    "AGENT_COUNT": "Počet agentů",
+    "PER_AGENT_COST": "Náklady na jednoho agenta",
+    "TOTAL_COST": "Celkové náklady",
+    "BUTTON": {
+      "ADD": "Přidat způsob platby",
+      "EDIT": "Metoda platby EDIT"
+    },
+    "TRIAL": {
+      "TITLE": "Vaše zkušební období skončilo",
+      "MESSAGE": "Přidejte platební metodu a pokračujte v používání Chatwoot."
+    },
+    "ACCOUNT_LOCKED": "Váš účet není momentálně k dispozici. <br>Obraťte se na správce pro opětovné aktivaci."
+  }
+}

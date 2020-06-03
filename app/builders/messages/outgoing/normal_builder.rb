@@ -15,7 +15,6 @@ class Messages::Outgoing::NormalBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
-    @message.save
     if @attachments.present?
       @attachments.each do |uploaded_attachment|
         attachment = @message.attachments.new(
@@ -24,8 +23,8 @@ class Messages::Outgoing::NormalBuilder
         )
         attachment.file.attach(uploaded_attachment)
       end
-      @message.save
     end
+    @message.save
     @message
   end
 

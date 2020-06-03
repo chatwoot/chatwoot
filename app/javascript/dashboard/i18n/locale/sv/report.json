@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Rapporter",
+    "LOADING_CHART": "Laddar sjökortsdata...",
+    "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera rapport, försök igen senare.",
+    "METRICS": [
+      {
+        "NAME": "Konversationer",
+        "KEY": "conversations_count",
+        "DESC": "( Totalt )"
+      },
+      {
+        "NAME": "Inkommande meddelanden",
+        "KEY": "incoming_messages_count",
+        "DESC": "( Totalt )"
+      },
+      {
+        "NAME": "Utgående meddelanden",
+        "KEY": "outgoing_messages_count",
+        "DESC": "( Totalt )"
+      },
+      {
+        "NAME": "Första svarstiden",
+        "KEY": "avg_first_response_time",
+        "DESC": "( Genomsnitt)"
+      },
+      {
+        "NAME": "Lösning Tid",
+        "KEY": "avg_resolution_time",
+        "DESC": "( Genomsnitt)"
+      },
+      {
+        "NAME": "Antal upplösningar",
+        "KEY": "resolutions_count",
+        "DESC": "( Totalt )"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Senaste 7 dagarna"
+      },
+      {
+        "id": 1,
+        "name": "Senaste 30 dagarna"
+      }
+    ]
+  }
+}

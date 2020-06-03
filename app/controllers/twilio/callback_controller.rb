@@ -23,7 +23,9 @@ class Twilio::CallbackController < ApplicationController
       :FromZip,
       :Body,
       :ToCountry,
-      :FromState
+      :FromState,
+      :MediaUrl0,
+      :MediaContentType0
     )
   end
 end

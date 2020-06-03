@@ -13,7 +13,12 @@
                   {{ $t('INTEGRATION_SETTINGS.WEBHOOK.TITLE') }}
                 </h3>
                 <p class="integration--description">
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.INTEGRATION_TXT') }}
+                  {{
+                    useInstallationName(
+                      $t('INTEGRATION_SETTINGS.WEBHOOK.INTEGRATION_TXT'),
+                      globalConfig.installationName
+                    )
+                  }}
                 </p>
               </div>
               <div class="small-2 column button-wrap">
@@ -33,24 +38,22 @@
           </div>
         </div>
       </div>
-      <!-- <div class="small-4 columns help-wrap">
-        <span v-html="$t('INTEGRATION_SETTINGS.SIDEBAR_TXT')"></span>
-      </div> -->
     </div>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
+  mixins: [globalConfigMixin],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
+      globalConfig: 'globalConfig/get',
+      accountId: 'getCurrentAccountId',
     }),
-    accountId() {
-      return this.currentUser.account_id;
-    },
   },
   methods: {
     frontendURL,

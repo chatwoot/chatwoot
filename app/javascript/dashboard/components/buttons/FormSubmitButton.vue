@@ -1,6 +1,6 @@
 <template>
   <button
-    type="submit"
+    :type="type"
     :disabled="disabled"
     :class="computedClass"
     @click="onClick"
@@ -38,6 +38,10 @@ export default {
     iconClass: {
       type: String,
       default: '',
+    },
+    type: {
+      type: String,
+      default: 'submit',
     },
   },
   computed: {

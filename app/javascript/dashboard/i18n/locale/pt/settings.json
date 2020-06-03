@@ -58,5 +58,17 @@
   "SIDEBAR_ITEMS": {
     "PROFILE_SETTINGS": "Configurações do perfil",
     "LOGOUT": "Desconectar"
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversas",
+    "REPORTS": "Relatórios",
+    "SETTINGS": "Definições",
+    "HOME": "Casa",
+    "AGENTS": "Agentes",
+    "INBOXES": "Caixas de entrada",
+    "CANNED_RESPONSES": "Respostas Enlatadas",
+    "BILLING": "Faturamento",
+    "INTEGRATIONS": "Integrações",
+    "ACCOUNT_SETTINGS": "Configurações da conta"
   }
 }

@@ -1,3 +1,6 @@
+@import '../variables';
+@import '../mixins';
+
 .emoji-dialog {
   @include elegant-card;
   background: $color-white;
@@ -15,15 +18,15 @@
   }
 
   .emojione {
-    @include margin($zero);
-    font-size: $font-size-medium;
+    font-size: $font-size-default;
+    margin: $zero;
   }
 
   .emoji-row {
-    @include padding($space-small);
     box-sizing: border-box;
     height: 180px;
     overflow-y: auto;
+    padding: $space-small;
 
     .emoji {
       border-radius: 4px;
@@ -52,27 +55,33 @@
 }
 
 .emoji-dialog-header {
-  @include padding($zero $space-smaller);
-  background-color: $light-gray;
+  background-color: $color-body;
   border-top-left-radius: $space-small;
   border-top-right-radius: $space-small;
+  padding: $zero $space-smaller;
 
   ul {
+    display: flex;
     list-style: none;
     margin: 0;
     padding: $space-smaller 0 0;
 
-    > li {
-      @include padding($space-smaller $space-small);
-      box-sizing: border-box;
+    >li {
+      align-items: center;
       cursor: pointer;
-      display: inline-block;
-      height: 3.4rem;
-      text-align: center;
+      display: flex;
+      height: $space-medium;
+      justify-content: center;
+      padding: $space-smaller $space-small;
     }
 
-    > .active {
-      background: $white;
+    .emojione {
+      height: $space-two;
+      width: $space-normal;
+    }
+
+    >.active {
+      background: $color-white;
       border-top-left-radius: $space-small;
       border-top-right-radius: $space-small;
     }
@@ -84,13 +93,14 @@
   }
 
   .active {
+
     img,
     svg {
       filter: grayscale(0);
     }
   }
 
-  > * {
+  >* {
     display: table-cell;
     vertical-align: middle;
   }

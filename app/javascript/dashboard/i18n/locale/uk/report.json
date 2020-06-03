@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "HEADER": "Звіти",
+    "LOADING_CHART": "Завантаження даних діаграми...",
+    "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
+    "METRICS": [
+      {
+        "NAME": "Бесіди",
+        "KEY": "conversations_count",
+        "DESC": "(Загалом)"
+      },
+      {
+        "NAME": "Вхідні повідомлення",
+        "KEY": "incoming_messages_count",
+        "DESC": "(Загалом)"
+      },
+      {
+        "NAME": "Вихідні повідомлення",
+        "KEY": "outgoing_messages_count",
+        "DESC": "(Загалом)"
+      },
+      {
+        "NAME": "Час першої відповіді",
+        "KEY": "avg_first_response_time",
+        "DESC": "( Середнє )"
+      },
+      {
+        "NAME": "Час до вирішення",
+        "KEY": "avg_resolution_time",
+        "DESC": "( Середнє )"
+      },
+      {
+        "NAME": "Кількість вирішень",
+        "KEY": "resolutions_count",
+        "DESC": "(Загалом)"
+      }
+    ],
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Останні 7 днів"
+      },
+      {
+        "id": 1,
+        "name": "Останні 30 днів"
+      }
+    ]
+  }
+}

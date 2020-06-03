@@ -18,6 +18,7 @@ class Api::V1::Widget::BaseController < ApplicationController
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
     @account = @web_widget.account
+    switch_locale @account
   end
 
   def set_contact

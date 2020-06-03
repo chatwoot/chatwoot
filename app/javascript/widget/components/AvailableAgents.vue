@@ -13,11 +13,12 @@
 
 <script>
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
-import { getAvailableAgentsText } from 'widget/helpers/utils';
+import agentMixin from '../mixins/agentMixin';
 
 export default {
   name: 'AvailableAgents',
   components: { GroupedAvatars },
+  mixins: [agentMixin],
   props: {
     agents: {
       type: Array,
@@ -37,7 +38,7 @@ export default {
       }));
     },
     title() {
-      return getAvailableAgentsText(this.agents);
+      return this.getAvailableAgentsText(this.agents);
     },
   },
 };
@@ -64,7 +65,7 @@ export default {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
     color: $color-white;
-    padding: $space-one $space-normal $space-one $space-small;
+    padding: $space-small $space-normal $space-small $space-small;
     line-height: 1.4;
     display: inline-block;
     vertical-align: middle;

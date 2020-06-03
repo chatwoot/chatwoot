@@ -1,0 +1,19 @@
+{
+  "BILLING": {
+    "HEADER": "Fakturering",
+    "LOADING": "Hämtar prenumerationer",
+    "ACCOUNT_STATE": "Kontots status",
+    "AGENT_COUNT": "Agentkommando Antal",
+    "PER_AGENT_COST": "Per agent: kostnad",
+    "TOTAL_COST": "Total kostnad",
+    "BUTTON": {
+      "ADD": "Lägg till betalningsmetod",
+      "EDIT": "EDIT betalningsmetod"
+    },
+    "TRIAL": {
+      "TITLE": "Din provperiod är över",
+      "MESSAGE": "Lägg till en betalningsmetod för att fortsätta använda Chatwoot."
+    },
+    "ACCOUNT_LOCKED": "Ditt konto är inte tillgängligt just nu. <br>Kontakta administratören för återaktivering."
+  }
+}

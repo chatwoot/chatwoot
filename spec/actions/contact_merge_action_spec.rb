@@ -46,7 +46,7 @@ describe ::ContactMergeAction do
         expect do
           described_class.new(account: new_account, base_contact: base_contact,
                               mergee_contact: mergee_contact).perform
-        end .to raise_error('contact does not belong to the account')
+        end.to raise_error('contact does not belong to the account')
       end
     end
   end
