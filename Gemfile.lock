@@ -189,6 +189,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (1.0.0)
       faraday (~> 1.0)
+    fcm (1.0.1)
+      faraday (~> 1.0.0)
     ffi (1.12.2)
     flag_shih_tzu (0.3.23)
     foreman (0.87.1)
@@ -547,6 +549,7 @@ DEPENDENCIES
   facebook-messenger
   factory_bot_rails
   faker
+  fcm
   flag_shih_tzu
   foreman
   google-cloud-storage
