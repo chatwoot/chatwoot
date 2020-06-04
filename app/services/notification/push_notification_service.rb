@@ -74,7 +74,7 @@ class Notification::PushNotificationService
     subscription.destroy!
   end
 
-  def fcm_push(subscription)
+  def send_fcm_push(subscription)
     return unless subscription.fcm?
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
