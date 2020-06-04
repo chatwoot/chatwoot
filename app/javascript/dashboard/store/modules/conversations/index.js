@@ -10,6 +10,7 @@ const initialSelectedChat = {
   id: null,
   meta: {},
   status: null,
+  muted: false,
   seen: false,
   agentTyping: 'off',
   dataFetched: false,
@@ -116,6 +117,12 @@ const mutations = {
     _state.selectedChat.status = status;
   },
 
+  [types.default.MUTE_CONVERSATION](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    chat.muted = true;
+    _state.selectedChat.muted = true;
+  },
+
   [types.default.SEND_MESSAGE](_state, currentMessage) {
     const [chat] = getSelectedChatConversation(_state);
     const allMessagesExceptCurrent = (chat.messages || []).filter(
@@ -194,6 +201,16 @@ const mutations = {
   [types.default.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
     chat.meta.assignee = payload.assignee;
+  },
+
+  [types.default.UPDATE_CONVERSATION_CONTACT](
+    _state,
+    { conversationId, ...payload }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat.meta, 'sender', payload);
+    }
   },
 
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {

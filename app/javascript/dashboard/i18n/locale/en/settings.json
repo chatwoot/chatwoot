@@ -66,6 +66,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile Settings",
     "LOGOUT": "Logout"
   },

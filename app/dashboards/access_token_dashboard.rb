@@ -55,7 +55,11 @@ class AccessTokenDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    user: ->(resources) { resources.where(owner_type: 'User') },
+    super_admin: ->(resources) { resources.where(owner_type: 'SuperAdmin') },
+    agent_bot: ->(resources) { resources.where(owner_type: 'AgentBot') }
+  }.freeze
 
   # Overwrite this method to customize how access tokens are displayed
   # across all pages of the admin dashboard.

@@ -18,6 +18,7 @@
     "ADD": {
       "TITLE": "Añadir respuesta predefinida",
       "DESC": "Las respuestas predefinidas son plantillas de respuesta guardadas que se pueden utilizar para enviar rápidamente la respuesta a la conversación .",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código corto",
@@ -38,6 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Editar respuesta predefinida",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código corto",

@@ -15,7 +15,7 @@ RSpec.describe 'Super Admin', type: :request do
         sign_in super_admin
         get '/super_admin'
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('New user')
+        expect(response.body).to include('Dashboard')
 
         sign_out super_admin
         get '/super_admin'

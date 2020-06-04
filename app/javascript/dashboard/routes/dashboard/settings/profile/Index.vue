@@ -9,17 +9,11 @@
           <p>{{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.NOTE') }}</p>
         </div>
         <div class="columns small-9 medium-5">
-          <label>
-            {{ $t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL') }}
-            <thumbnail size="80px" :src="avatarUrl"></thumbnail>
-            <input
-              id="file"
-              ref="file"
-              type="file"
-              accept="image/*"
-              @change="handleImageUpload"
-            />
-          </label>
+          <woot-avatar-uploader
+            :label="$t('PROFILE_SETTINGS.FORM.PROFILE_IMAGE.LABEL')"
+            :src="avatarUrl"
+            @change="handleImageUpload"
+          />
           <label :class="{ error: $v.name.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.NAME.LABEL') }}
             <input
@@ -106,8 +100,6 @@
 
 <script>
 /* global bus */
-
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
@@ -116,7 +108,6 @@ import NotificationSettings from './NotificationSettings';
 export default {
   components: {
     NotificationSettings,
-    Thumbnail,
   },
   data() {
     return {
@@ -202,10 +193,9 @@ export default {
         this.isUpdating = false;
       }
     },
-    handleImageUpload(event) {
-      const [file] = event.target.files;
+    handleImageUpload({ file, url }) {
       this.avatarFile = file;
-      this.avatarUrl = URL.createObjectURL(file);
+      this.avatarUrl = url;
     },
   },
 };

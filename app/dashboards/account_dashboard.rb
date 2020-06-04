@@ -12,7 +12,10 @@ class AccountDashboard < Administrate::BaseDashboard
     name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    locale: Field::String.with_options(searchable: false)
+    users: CountField,
+    conversations: CountField,
+    locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
+    account_users: Field::HasMany
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -21,8 +24,11 @@ class AccountDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
+    id
     name
     locale
+    users
+    conversations
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,6 +39,8 @@ class AccountDashboard < Administrate::BaseDashboard
     created_at
     updated_at
     locale
+    conversations
+    account_users
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -58,7 +66,7 @@ class AccountDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how accounts are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(account)
-  #   "Account ##{account.id}"
-  # end
+  def display_resource(account)
+    "##{account.id} #{account.name}"
+  end
 end

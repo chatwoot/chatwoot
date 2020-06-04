@@ -14,3 +14,5 @@
   value: 'https://www.chatwoot.com/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
+- name: FALLBACK_DOMAIN
+  value: chatwoot.com

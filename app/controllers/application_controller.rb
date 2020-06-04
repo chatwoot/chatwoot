@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
   private
 
   def current_account
-    @_ ||= find_current_account
+    @current_account ||= find_current_account
+    Current.account = @current_account
   end
 
   def find_current_account
@@ -37,7 +38,9 @@ class ApplicationController < ActionController::Base
   end
 
   def account_accessible_for_user?(account)
-    render_unauthorized('You are not authorized to access this account') unless account.account_users.find_by(user_id: current_user.id)
+    @current_account_user = account.account_users.find_by(user_id: current_user.id)
+    Current.account_user = @current_account_user
+    render_unauthorized('You are not authorized to access this account') unless @current_account_user
   end
 
   def account_accessible_for_bot?(account)
@@ -101,5 +104,13 @@ class ApplicationController < ActionController::Base
     elsif current_subscription.cancelled?
       render json: { error: 'Account Suspended' }, status: :account_suspended
     end
+  end
+
+  def pundit_user
+    {
+      user: Current.user,
+      account: Current.account,
+      account_user: Current.account_user
+    }
   end
 end

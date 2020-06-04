@@ -23,6 +23,9 @@ Rails.application.routes.draw do
       # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update], module: :accounts do
+        member do
+          post :update_active_at
+        end
         namespace :actions do
           resource :contact_merge, only: [:create]
         end
@@ -48,6 +51,7 @@ Rails.application.routes.draw do
             resources :labels, only: [:create, :index]
           end
           member do
+            post :mute
             post :toggle_status
             post :toggle_typing_status
             post :update_last_seen
@@ -172,13 +176,17 @@ Rails.application.routes.draw do
   devise_scope :super_admin do
     get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
     namespace :super_admin do
-      resources :users
-      resources :accounts
-      resources :account_users
-      resources :super_admins
-      resources :access_tokens
+      root to: 'dashboard#index'
 
-      root to: 'users#index'
+      # order of resources affect the order of sidebar navigation in super admin
+      resources :accounts
+      resources :users, only: [:index, :new, :create, :show, :edit, :update]
+      resources :super_admins
+      resources :access_tokens, only: [:index, :show]
+
+      # resources that doesn't appear in primary navigation in super admin
+      resources :account_users, only: [:new, :create, :destroy]
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

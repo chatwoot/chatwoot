@@ -1,14 +1,14 @@
 class ContactPolicy < ApplicationPolicy
   def index?
-    @user.administrator?
+    true
   end
 
   def update?
-    @user.administrator?
+    true
   end
 
   def show?
-    @user.administrator?
+    true
   end
 
   def create?
