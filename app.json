@@ -12,9 +12,6 @@
     "vue"
   ],
   "success_url": "/app/login",
-  "scripts": {
-    "postdeploy": "bundle exec rake db:schema:load && bundle exec rake db:seed"
-  },
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
