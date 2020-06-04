@@ -76,9 +76,10 @@ class Notification::PushNotificationService
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
     options = { "notification": {
       "title": notification.notification_type.titleize,
-      "body": push_message_title
+      "body": push_message_title,
+      "notification": notification.to_json
     } }
-    response = fcm.send(registration_ids, options)
-    subscription.destroy! if response.status_code == 'DEVICE_UNREGISTERED'
+    response = fcm.send([subscription.subscription_attributes['push_token']], options)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 end
