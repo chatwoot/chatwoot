@@ -46,35 +46,21 @@
             )
           "
         />
+
         <woot-input
-          v-if="isAWidgetInbox"
-          v-model.trim="channelWelcomeTagline"
+          v-if="greetingEnabled"
+          v-model.trim="greetingMessage"
           class="medium-12 columns"
           :label="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           "
           :placeholder="
             $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
             )
           "
         />
 
-        <woot-input
-          v-if="isAWidgetInbox"
-          v-model.trim="channelAgentAwayMessage"
-          class="medium-12 columns"
-          :label="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
-            )
-          "
-          :placeholder="
-            $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
-            )
-          "
-        />
         <label v-if="isAWidgetInbox" class="medium-12 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="inbox.widget_color" />
@@ -183,13 +169,14 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       selectedAgents: [],
+      greetingEnabled: true,
+      greetingMessage: '',
       autoAssignment: false,
       isAgentListUpdating: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
-      channelAgentAwayMessage: '',
       autoAssignmentOptions: [
         {
           value: true,
@@ -247,11 +234,12 @@ export default {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
+        this.greetingEnabled = this.inbox.greeting_enabled;
+        this.greetingMessage = this.inbox.greeting_message;
         this.autoAssignment = this.inbox.enable_auto_assignment;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
-        this.channelAgentAwayMessage = this.inbox.agent_away_message;
       });
     },
     async fetchAttachedAgents() {
@@ -294,12 +282,13 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
+          greeting_enabled: this.greetingEnabled,
+          greeting_message: this.greetingMessage,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
-            agent_away_message: this.channelAgentAwayMessage,
           },
         };
         if (this.avatarFile) {

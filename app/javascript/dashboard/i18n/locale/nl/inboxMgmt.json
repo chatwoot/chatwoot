@@ -54,7 +54,7 @@
           "LABEL": "Welkom Tagline",
           "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Agents Afwezig Bericht",
           "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
         },
