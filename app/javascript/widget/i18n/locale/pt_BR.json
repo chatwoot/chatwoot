@@ -8,6 +8,12 @@
       "SUBMIT": "Enviar"
     }
   },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "está disponível",
+    "ARE_AVAILABLE": "estão disponíveis",
+    "OTHERS_ARE_AVAILABLE": "outros estão disponíveis",
+    "AND": "e"
+  },
   "POWERED_BY": "Desenvolvido por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
   "CHAT_PLACEHOLDER": "Digite sua mensagem"

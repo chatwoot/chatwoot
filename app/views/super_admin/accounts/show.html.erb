@@ -72,7 +72,6 @@ as well as a link to its edit page.
   <% account_user_page.attributes.each do |attribute| -%>
     <% if attribute.name == "account" %>
       <%= f.hidden_field('account_id', value: page.resource.id) %>
-      <%= f.hidden_field('redirect_to', value: 'user') %>
     <% else %>
     <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
       <%= render_field attribute, f: f %>

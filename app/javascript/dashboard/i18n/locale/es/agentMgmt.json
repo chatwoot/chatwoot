@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Añadir agente a tu equipo",
       "DESC": "Puedes añadir personas que podrán manejar el soporte para tus bandejas de entrada.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nombre del agente",

@@ -18,6 +18,7 @@
     "ADD": {
       "TITLE": "Adauga Răspunsuri predefinite",
       "DESC": "Răspunsurile definite sunt șabloane de răspuns salvate care pot fi folosite pentru a trimite rapid un răspuns la conversație .",
+      "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Cod scurt",
@@ -38,6 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Adauga Răspunsuri predefinite",
+      "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Cod scurt",

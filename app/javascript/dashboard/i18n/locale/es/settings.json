@@ -26,9 +26,19 @@
         "TITLE": "Notificaciones por email",
         "NOTE": "Actualiza tus preferencias de notificación por correo electrónico aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
-        "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
-        "UPDATE_SUCCESS": "Tus preferencias de notificación por correo electrónico se han actualizado correctamente",
+        "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Sus preferencias de notificación se actualizaron correctamente",
         "UPDATE_ERROR": "Se ha producido un error al actualizar las preferencias, inténtelo de nuevo"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificaciones push",
+        "NOTE": "Actualiza tus preferencias de notificaciones push aquí",
+        "CONVERSATION_ASSIGNMENT": "Enviar notificaciones push cuando se me ha asignado una conversación",
+        "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
+        "HAS_ENABLED_PUSH": "Has habilitado notificaciones push para este navegador.",
+        "REQUEST_PUSH": "Habilitar notificaciones push"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagen de perfil"
@@ -56,7 +66,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Cambiar de cuenta",
+    "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "LOGOUT": "Cerrar sesión"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "días de prueba restantes.",
+    "TRAIL_BUTTON": "Comprar ahora"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copiar",
+      "COPY_SUCCESSFUL": "Código copiado al portapapeles con éxito"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descargar",
+      "UPLOADING": "Subiendo..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Enviar"
+    }
+  },
+  "CONFIRM_EMAIL": "Verificando...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Añadir bandeja de entrada"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversaciones",
+    "REPORTS": "Informes",
+    "SETTINGS": "Ajustes",
+    "HOME": "Inicio",
+    "AGENTS": "Agentes",
+    "INBOXES": "Entradas",
+    "CANNED_RESPONSES": "Respuestas predefinidas",
+    "BILLING": "Facturación",
+    "INTEGRATIONS": "Integraciones",
+    "ACCOUNT_SETTINGS": "Configuración de la cuenta"
   }
 }
