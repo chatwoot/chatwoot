@@ -1,4 +1,4 @@
-class Api::V1::Accounts::InboxMembersController < Api::BaseController
+class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox, only: [:create, :show]
   before_action :current_agents_ids, only: [:create]
 
@@ -12,7 +12,7 @@ class Api::V1::Accounts::InboxMembersController < Api::BaseController
   end
 
   def show
-    @agents = current_account.users.where(id: @inbox.members.pluck(:user_id))
+    @agents = Current.account.users.where(id: @inbox.members.pluck(:user_id))
   end
 
   private
@@ -40,6 +40,6 @@ class Api::V1::Accounts::InboxMembersController < Api::BaseController
   end
 
   def fetch_inbox
-    @inbox = current_account.inboxes.find(params[:inbox_id])
+    @inbox = Current.account.inboxes.find(params[:inbox_id])
   end
 end

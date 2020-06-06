@@ -1,7 +1,5 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :set_web_widget
-  before_action :set_contact
 
   def index
     @conversation = conversation
