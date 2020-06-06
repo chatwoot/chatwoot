@@ -7,7 +7,8 @@ class Notification::PushNotificationService
     return unless user_subscribed_to_notification?
 
     notification_subscriptions.each do |subscription|
-      send_browser_push(subscription) if subscription.browser_push?
+      send_browser_push(subscription)
+      send_fcm_push(subscription)
     end
   end
 
@@ -53,6 +54,8 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push(subscription)
+    return unless subscription.browser_push?
+
     Webpush.payload_send(
       message: JSON.generate(push_message),
       endpoint: subscription.subscription_attributes['endpoint'],
@@ -69,5 +72,18 @@ class Notification::PushNotificationService
     )
   rescue Webpush::ExpiredSubscription
     subscription.destroy!
+  end
+
+  def send_fcm_push(subscription)
+    return unless subscription.fcm?
+
+    fcm = FCM.new(ENV['FCM_SERVER_KEY'])
+    options = { "notification": {
+      "title": notification.notification_type.titleize,
+      "body": push_message_title,
+      "notification": notification.to_json
+    } }
+    response = fcm.send([subscription.subscription_attributes['push_token']], options)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 end

@@ -84,6 +84,7 @@ gem 'sidekiq'
 gem 'flag_shih_tzu'
 
 ##-- Push notification service --##
+gem 'fcm'
 gem 'webpush'
 
 group :development do

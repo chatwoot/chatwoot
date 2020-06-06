@@ -65,7 +65,7 @@ class ConfigLoader
     if config
       return false if config.value.to_s == account_features.to_s
 
-      compare_and_save(config)
+      compare_and_save_feature(config)
     else
       save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: account_features })
     end
