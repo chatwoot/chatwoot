@@ -1,10 +1,10 @@
-class Api::V1::Accounts::NotificationsController < Api::BaseController
+class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseController
   protect_from_forgery with: :null_session
 
   before_action :fetch_notification, only: [:update]
 
   def index
-    @notifications = current_user.notifications.where(account_id: current_account.id)
+    @notifications = current_user.notifications.where(account_id: Current.account.id)
     render json: @notifications
   end
 

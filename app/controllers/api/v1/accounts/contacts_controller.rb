@@ -1,17 +1,17 @@
-class Api::V1::Accounts::ContactsController < Api::BaseController
+class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   protect_from_forgery with: :null_session
 
   before_action :check_authorization
   before_action :fetch_contact, only: [:show, :update]
 
   def index
-    @contacts = current_account.contacts
+    @contacts = Current.account.contacts
   end
 
   def show; end
 
   def create
-    @contact = Contact.new(contact_create_params)
+    @contact = Current.account.contacts.new(contact_create_params)
     @contact.save!
     render json: @contact
   end
@@ -31,10 +31,10 @@ class Api::V1::Accounts::ContactsController < Api::BaseController
   end
 
   def fetch_contact
-    @contact = current_account.contacts.find(params[:id])
+    @contact = Current.account.contacts.find(params[:id])
   end
 
   def contact_create_params
-    params.require(:contact).permit(:account_id, :inbox_id).merge!(name: SecureRandom.hex)
+    params.require(:contact).permit(:name, :email, :phone_number)
   end
 end
