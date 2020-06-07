@@ -29,21 +29,9 @@ class Notification::PushNotificationService
     @conversation ||= notification.primary_actor
   end
 
-  def push_message_title
-    if notification.notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{conversation.display_id}] has been created in #{conversation.inbox.name}"
-    end
-
-    if notification.notification_type == 'conversation_assignment'
-      return "A new conversation [ID -#{conversation.display_id}] has been assigned to you."
-    end
-
-    ''
-  end
-
   def push_message
     {
-      title: push_message_title,
+      title: notification.push_message_title,
       tag: "#{notification.notification_type}_#{conversation.display_id}",
       url: push_url
     }
@@ -81,7 +69,7 @@ class Notification::PushNotificationService
     options = {
       "notification": {
         "title": notification.notification_type.titleize,
-        "body": push_message_title
+        "body": notification.push_message_title
       },
       "data": { notification: notification.push_event_data.to_json }
     }

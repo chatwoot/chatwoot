@@ -50,6 +50,17 @@ class Notification < ApplicationRecord
     }
   end
 
+  # TODO: move to a data presenter
+  def push_message_title
+    if notification_type == 'conversation_creation'
+      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{conversation.inbox.name}"
+    end
+
+    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
+
+    ''
+  end
+
   private
 
   def process_notification_delivery
