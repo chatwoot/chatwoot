@@ -59,6 +59,14 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  setContacts({ commit }, data) {
+    commit(types.default.SET_CONTACTS, data);
+  },
+
+  setContact({ commit }, data) {
+    commit(types.default.SET_CONTACT_ITEM, data);
+  },
 };
 
 export const mutations = {

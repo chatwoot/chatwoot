@@ -1,7 +1,8 @@
 <template>
   <div :class="conversationClass">
     <messages-view
-      v-if="currentChat.id"
+      v-if="currentConverstionId"
+      :conversation-id="currentConverstionId"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       @contactPanelToggle="onToggleContactPanel"
@@ -33,7 +34,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      currentChat: 'getSelectedChat',
+      currentConverstionId: 'conversationFilter/getCurrentConversationId',
     }),
     conversationClass() {
       return `medium-${

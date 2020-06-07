@@ -8,8 +8,8 @@ import cannedResponse from './modules/cannedResponse';
 import Channel from './modules/channels';
 import contactConversations from './modules/contactConversations';
 import contacts from './modules/contacts';
+import conversationFilter from './modules/conversationFilter';
 import conversationLabels from './modules/conversationLabels';
-import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
 import conversations from './modules/conversations';
 import conversationStats from './modules/conversationStats';
@@ -32,8 +32,8 @@ export default new Vuex.Store({
     Channel,
     contactConversations,
     contacts,
+    conversationFilter,
     conversationLabels,
-    conversationMetadata,
     conversationPage,
     conversations,
     conversationStats,

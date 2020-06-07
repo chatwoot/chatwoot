@@ -22,7 +22,7 @@
         </span>
       </div>
       <!-- No conversations available -->
-      <div v-else-if="!allConversations.length">
+      <div v-else-if="!conversations.length">
         <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
         <span>
           {{ $t('CONVERSATION.NO_MESSAGE_1') }}
@@ -30,7 +30,7 @@
         </span>
       </div>
       <!-- No conversation selected -->
-      <div v-else-if="allConversations.length && currentChat.id === null">
+      <div v-else-if="conversations.length && !currentConversationId">
         <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
         <span>{{ $t('CONVERSATION.404') }}</span>
       </div>
@@ -47,11 +47,11 @@ export default {
 
   computed: {
     ...mapGetters({
-      currentChat: 'getSelectedChat',
-      allConversations: 'getAllConversations',
+      currentConversationId: 'conversationFilter/getCurrentConversationId',
+      conversations: 'getCurrentAssigneeConversations',
       inboxesList: 'inboxes/getInboxes',
       uiFlags: 'inboxes/getUIFlags',
-      loadingChatList: 'getChatListLoadingStatus',
+      loadingChatList: 'isConversationListLoading',
     }),
     loadingIndicatorMessage() {
       if (this.uiFlags.isFetching) {

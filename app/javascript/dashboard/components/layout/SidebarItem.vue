@@ -89,7 +89,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      activeInbox: 'getSelectedInbox',
+      activeInbox: 'conversationFilter/getCurrentInboxId',
     }),
     getMenuItemClass() {
       return this.menuItem.cssClass

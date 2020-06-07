@@ -37,7 +37,10 @@
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
-      <ResolveButton />
+      <ResolveButton
+        :conversation-id="currentChat.id"
+        :status="currentChat.status"
+      />
     </div>
   </div>
 </template>
@@ -68,21 +71,19 @@ export default {
     },
   },
 
-  data() {
-    return {
-      currentChatAssignee: null,
-    };
-  },
-
   computed: {
     ...mapGetters({
       agents: 'agents/getVerifiedAgents',
-      currentChat: 'getSelectedChat',
+      currentConversationId: 'conversationFilter/getCurrentConversationId',
     }),
+
+    currentChat() {
+      return this.$store.getters.getConversation(this.currentConversationId);
+    },
 
     currentContact() {
       return this.$store.getters['contacts/getContact'](
-        this.chat.meta.sender.id
+        this.currentChat?.meta.sender.id
       );
     },
 

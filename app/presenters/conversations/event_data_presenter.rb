@@ -5,9 +5,10 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   def push_data
     {
-      id: display_id,
       additional_attributes: additional_attributes,
+      id: display_id,
       inbox_id: inbox_id,
+      labels: label_list,
       messages: push_messages,
       meta: push_meta,
       status: status,

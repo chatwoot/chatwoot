@@ -25,7 +25,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageUpdated = data => {
-    this.app.$store.dispatch('updateMessage', data);
+    this.app.$store.dispatch('message/addMessage', data);
   };
 
   onConversationContactChange = payload => {
@@ -39,14 +39,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
   };
 
-  onAssigneeChanged = payload => {
-    const { meta = {}, id } = payload;
-    const { assignee } = meta || {};
-    if (id) {
-      this.app.$store.dispatch('updateAssignee', { id, assignee });
-    }
-  };
-
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
   };
@@ -54,13 +46,17 @@ class ActionCableConnector extends BaseActionCableConnector {
   onLogout = () => AuthAPI.logout();
 
   onMessageCreated = data => {
-    this.app.$store.dispatch('addMessage', data);
+    this.app.$store.dispatch('message/addMessage', data);
   };
 
   onReload = () => window.location.reload();
 
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
+  };
+
+  onAssigneeChanged = payload => {
+    this.app.$store.dispatch('updateConversation', payload);
   };
 
   onTypingOn = ({ conversation, user }) => {

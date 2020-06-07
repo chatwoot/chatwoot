@@ -85,8 +85,6 @@
 
 <script>
 /* eslint no-console: 0 */
-
-import { mapGetters } from 'vuex';
 import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
 import FileUpload from 'vue-upload-component';
@@ -101,6 +99,12 @@ export default {
     FileUpload,
   },
   mixins: [clickaway],
+  props: {
+    currentConversation: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       message: '',
@@ -115,19 +119,18 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
     channelType() {
       const {
         meta: {
           sender: { channel },
         },
-      } = this.currentChat;
+      } = this.currentConversation;
       return channel;
     },
     conversationType() {
-      const { additional_attributes: additionalAttributes } = this.currentChat;
+      const {
+        additional_attributes: additionalAttributes,
+      } = this.currentConversation;
       const type = additionalAttributes ? additionalAttributes.type : '';
       return type || '';
     },
@@ -214,7 +217,7 @@ export default {
       if (!this.showCannedResponsesList) {
         try {
           await this.$store.dispatch('sendMessage', {
-            conversationId: this.currentChat.id,
+            conversationId: this.currentConversation.id,
             message: this.message,
             private: this.isPrivate,
           });
@@ -268,7 +271,7 @@ export default {
 
     toggleTyping(status) {
       if (this.channelType === 'Channel::WebWidget' && !this.isPrivate) {
-        const conversationId = this.currentChat.id;
+        const conversationId = this.currentConversation.id;
         this.$store.dispatch('conversationTypingStatus/toggleTyping', {
           status,
           conversationId,
@@ -297,7 +300,10 @@ export default {
       }
       this.isUploading.image = true;
       this.$store
-        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
+        .dispatch('sendAttachment', [
+          this.currentConversation.id,
+          { file: file.file },
+        ])
         .then(() => {
           this.isUploading.image = false;
           this.$emit('scrollToMessage');

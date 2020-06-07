@@ -1,7 +1,8 @@
 <template>
   <div class="view-box columns">
     <conversation-header
-      :chat="currentChat"
+      v-if="currentConversation.id"
+      :chat="currentConversation"
       :is-contact-panel-open="isContactPanelOpen"
       @contactPanelToggle="onToggleContactPanel"
     />
@@ -39,7 +40,8 @@
         </div>
       </div>
       <ReplyBox
-        :conversation-id="currentChat.id"
+        v-if="currentConversation.id"
+        :current-conversation="currentConversation"
         @scrollToMessage="focusLastMessage"
       />
     </div>
@@ -74,6 +76,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    conversationId: {
+      type: Number,
+      default: 0,
+    },
   },
 
   data() {
@@ -86,18 +92,19 @@ export default {
 
   computed: {
     ...mapGetters({
-      currentChat: 'getSelectedChat',
-      allConversations: 'getAllConversations',
       inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
       getUnreadCount: 'getUnreadCount',
-      loadingChatList: 'getChatListLoadingStatus',
     }),
+
+    currentConversation() {
+      return this.$store.getters.getConversation(this.conversationId);
+    },
 
     typingUsersList() {
       const userList = this.$store.getters[
         'conversationTypingStatus/getUserList'
-      ](this.currentChat.id);
+      ](this.conversationId);
       return userList;
     },
     isAnyoneTyping() {
@@ -115,24 +122,26 @@ export default {
       return '';
     },
 
-    getMessages() {
-      const [chat] = this.allConversations.filter(
-        c => c.id === this.currentChat.id
-      );
-      return chat;
+    messages() {
+      return this.$store.getters['messages/getMessages'](this.conversationId);
     },
     getReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.readMessages(chat);
+      return this.readMessages({
+        messages: this.messages,
+        lastSeen: this.currentConversation.agent_last_seen_at,
+      });
     },
     getUnReadMessages() {
-      const chat = this.getMessages;
-      return chat === undefined ? null : this.unReadMessages(chat);
+      return this.unreadMessages({
+        messages: this.messages,
+        lastSeen: this.currentConversation.agent_last_seen_at,
+      });
     },
     shouldShowSpinner() {
       return (
-        this.getMessages.dataFetched === undefined ||
-        (!this.listLoadingStatus && this.isLoadingPrevious)
+        false &&
+        (this.getMessages.dataFetched === undefined ||
+          (!this.listLoadingStatus && this.isLoadingPrevious))
       );
     },
 
@@ -181,8 +190,8 @@ export default {
       ) {
         this.isLoadingPrevious = true;
         this.$store
-          .dispatch('fetchPreviousMessages', {
-            conversationId: this.currentChat.id,
+          .dispatch('messages/fetchPreviousMessages', {
+            conversationId: this.conversationId,
             before: this.getMessages.messages[0].id,
           })
           .then(() => {
@@ -202,7 +211,7 @@ export default {
     makeMessagesRead() {
       if (this.getUnreadCount !== 0 && this.getMessages !== undefined) {
         this.$store.dispatch('markMessagesRead', {
-          id: this.currentChat.id,
+          id: this.conversationId,
           lastSeen: this.getMessages.messages.last().created_at,
         });
       }

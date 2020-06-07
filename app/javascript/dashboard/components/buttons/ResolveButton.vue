@@ -12,40 +12,44 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
-/* global bus */
-import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import wootConstants from '../../constants';
-
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
   components: {
     Spinner,
   },
-  props: ['conversationId'],
+  mixins: [alertMixin],
+  props: {
+    conversationId: {
+      type: [String, Number],
+      default: '',
+    },
+    status: {
+      type: [String],
+      default: '',
+    },
+  },
   data() {
     return {
       isLoading: false,
     };
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
     currentStatus() {
       const ButtonName =
-        this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
+        this.status === wootConstants.STATUS_TYPE.OPEN
           ? this.$t('CONVERSATION.HEADER.RESOLVE_ACTION')
           : this.$t('CONVERSATION.HEADER.REOPEN_ACTION');
       return ButtonName;
     },
     buttonClass() {
-      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
+      return this.status === wootConstants.STATUS_TYPE.OPEN
         ? 'success'
         : 'warning';
     },
     buttonIconClass() {
-      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
+      return this.status === wootConstants.STATUS_TYPE.OPEN
         ? 'ion-checkmark'
         : 'ion-refresh';
     },
@@ -53,8 +57,8 @@ export default {
   methods: {
     toggleStatus() {
       this.isLoading = true;
-      this.$store.dispatch('toggleStatus', this.currentChat.id).then(() => {
-        bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_STATUS'));
+      this.$store.dispatch('toggleStatus', this.conversationId).then(() => {
+        this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
         this.isLoading = false;
       });
     },

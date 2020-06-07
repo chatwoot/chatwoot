@@ -1,5 +1,5 @@
 <template>
-  <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
+  <select :value="activeStatus" class="status--filter" @change="onTabChange">
     <option
       v-for="item in $t('CHAT_LIST.CHAT_STATUS_ITEMS')"
       :key="item['VALUE']"
@@ -11,16 +11,16 @@
 </template>
 
 <script>
-import wootConstants from '../../../constants';
-
 export default {
-  data: () => ({
-    activeStatus: wootConstants.STATUS_TYPE.OPEN,
-  }),
+  props: {
+    activeStatus: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
-    onTabChange() {
-      this.$store.dispatch('setChatFilter', this.activeStatus);
-      this.$emit('statusFilterChange', this.activeStatus);
+    onTabChange(e) {
+      this.$emit('statusFilterChange', e.target.value);
     },
   },
 };

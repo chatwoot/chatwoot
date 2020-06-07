@@ -1,69 +1,63 @@
-import authAPI from '../../../api/auth';
+import {
+  isAssignedToMe,
+  hasAssignee,
+  canBeCountedForUnread,
+} from '../../utils/conversation';
 
-export const getSelectedChatConversation = ({
-  allConversations,
-  selectedChat,
-}) =>
-  allConversations.filter(conversation => conversation.id === selectedChat.id);
-
-// getters
 const getters = {
-  getAllConversations: ({ allConversations }) =>
-    allConversations.sort(
-      (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
-    ),
-  getSelectedChat: ({ selectedChat }) => selectedChat,
-  getMineChats(_state) {
-    const currentUserID = authAPI.getCurrentUser().id;
-    return _state.allConversations.filter(chat =>
-      chat.meta.assignee === null
-        ? false
-        : chat.status === _state.chatStatusFilter &&
-          chat.meta.assignee.id === currentUserID
+  getConversation: $state => id => $state.records[Number(id)] || {},
+  getConversations: ({ records }) => {
+    const conversations = Object.values(records);
+    return conversations.sort((m1, m2) => m2.timestamp - m1.timestamp);
+  },
+  getCurrentStatusConversations(_, appGetters) {
+    const currentStatus =
+      appGetters['conversationFilter/getCurrentConversationStatus'];
+    return appGetters.getConversations.filter(
+      chat => chat.status === currentStatus
     );
   },
-  getUnAssignedChats(_state) {
-    return _state.allConversations.filter(
-      chat =>
-        chat.meta.assignee === null && chat.status === _state.chatStatusFilter
+  getMineChats(_, appGetters) {
+    const currentUserID = appGetters.getCurrentUserID;
+    const conversations = appGetters.getCurrentStatusConversations;
+    return conversations.filter(conversation =>
+      isAssignedToMe(conversation, currentUserID)
     );
   },
-  getAllStatusChats(_state) {
-    return _state.allConversations.filter(
-      chat => chat.status === _state.chatStatusFilter
-    );
+  getUnAssignedChats(_, appGetters) {
+    const conversations = appGetters.getCurrentStatusConversations;
+    return conversations.filter(conversation => !hasAssignee(conversation));
   },
-  getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
-  getAllMessagesLoaded(_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    return !chat || chat.allMessagesLoaded === undefined
-      ? false
-      : chat.allMessagesLoaded;
+  getAllStatusChats(_, appGetters) {
+    const conversations = appGetters.getCurrentStatusConversations;
+    return conversations;
   },
-  getUnreadCount(_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    if (!chat) return [];
-    return chat.messages.filter(
-      chatMessage =>
-        chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
-        chatMessage.message_type === 0 &&
-        chatMessage.private !== true
+  getCurrentAssigneeConversations(_, appGetters) {
+    const currentAssigneeType =
+      appGetters['conversationFilter/getCurrentAssigneeType'];
+    if (currentAssigneeType === 'me') {
+      return appGetters.getMineChats;
+    }
+    if (currentAssigneeType === 'unassigned') {
+      return appGetters.getUnAssignedChats;
+    }
+    return appGetters.getAllStatusChats;
+  },
+  getUnreadCount(_, appGetters) {
+    const conversationId =
+      appGetters['conversationFilter/getCurrentConversationId'];
+    const conversation = appGetters.getConversation(conversationId);
+
+    if (!conversation.id) {
+      return 0;
+    }
+
+    const messages = appGetters['messages/getMessages'](conversationId);
+    return messages.filter(message =>
+      canBeCountedForUnread(message, conversation)
     ).length;
   },
-  getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
-  getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getNextChatConversation: _state => {
-    const { selectedChat } = _state;
-    const conversations = getters.getAllStatusChats(_state);
-    if (conversations.length <= 1) {
-      return null;
-    }
-    const currentIndex = conversations.findIndex(
-      conversation => conversation.id === selectedChat.id
-    );
-    const nextIndex = (currentIndex + 1) % conversations.length;
-    return conversations[nextIndex];
-  },
+  isConversationListLoading: ({ uiFlags: { isFetching } }) => isFetching,
 };
 
 export default getters;

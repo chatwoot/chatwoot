@@ -1,12 +1,18 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversation-inbox="inboxId"></chat-list>
+    <chat-list
+      :conversations="conversations"
+      :conversation-inbox="inboxId"
+      :current-conversation-id="conversationId"
+      :current-assignee-type="currentAssigneeType"
+      :current-status="currentStatus"
+      @fetch="fetchConversations"
+    />
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
       @contactPanelToggle="onToggleContactPanel"
-    >
-    </conversation-box>
+    />
     <contact-panel
       v-if="isContactPanelOpen"
       :conversation-id="conversationId"
@@ -17,7 +23,6 @@
 
 <script>
 /* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import ChatList from '../../../components/ChatList';
@@ -30,7 +35,16 @@ export default {
     ContactPanel,
     ConversationBox,
   },
-
+  props: {
+    inboxId: {
+      type: [String, Number],
+      default: '',
+    },
+    conversationId: {
+      type: [String, Number],
+      default: '',
+    },
+  },
   data() {
     return {
       panelToggleState: false,
@@ -38,8 +52,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      chatList: 'getAllConversations',
+      conversations: 'getCurrentAssigneeConversations',
+      currentAssigneeType: 'conversationFilter/getCurrentAssigneeType',
+      currentStatus: 'conversationFilter/getCurrentConversationStatus',
     }),
+    currentConversation() {
+      return this.$store.getters.getConversation(this.conversationId);
+    },
     isContactPanelOpen: {
       get() {
         if (this.conversationId) {
@@ -51,63 +70,72 @@ export default {
         this.panelToggleState = val;
       },
     },
+
+    currentPage() {
+      return this.$store.getters['conversationPage/getCurrentPage'](
+        this.currentAssigneeType
+      );
+    },
   },
-  props: ['inboxId', 'conversationId'],
+  watch: {
+    inboxId() {
+      this.resetAndFetchData();
+    },
+    currentStatus() {
+      this.resetAndFetchData();
+    },
+    currentAssigneeType() {
+      this.fetchConversations();
+    },
+  },
 
   mounted() {
-    this.initialize();
-    this.$watch('$store.state.route', () => this.initialize());
-    this.$watch('chatList.length', () => {
+    this.$store.dispatch('agents/get');
+    this.reInitialize();
+    this.resetAndFetchData();
+    this.fetchConversation();
+    this.$watch('$store.state.route', () => this.reInitialize());
+    this.$watch('conversations.length', () => {
       this.fetchConversation();
       this.setActiveChat();
     });
   },
 
   methods: {
-    initialize() {
-      switch (this.$store.state.route.name) {
-        case 'inbox_conversation':
-          this.setActiveChat();
-          break;
-        case 'inbox_dashboard':
-          if (this.inboxId) {
-            this.$store.dispatch('setActiveInbox', this.inboxId);
-          }
-          break;
-        case 'conversation_through_inbox':
-          if (this.inboxId) {
-            this.$store.dispatch('setActiveInbox', this.inboxId);
-          }
-          this.setActiveChat();
-          break;
-        default:
-          this.$store.dispatch('setActiveInbox', null);
-          this.$store.dispatch('clearSelectedState');
-          break;
-      }
+    reInitialize() {
+      this.setActiveChat();
+      this.setActiveInbox();
     },
-
+    setActiveInbox() {
+      this.$store.dispatch('conversationFilter/setActiveInbox', this.inboxId);
+    },
+    resetAndFetchData() {
+      this.$store.dispatch('conversationPage/reset');
+      this.$store.dispatch('messages/resetMessages');
+      this.$store.dispatch('resetConversations');
+      this.fetchConversations();
+    },
     fetchConversation() {
       if (!this.conversationId) {
         return;
       }
-      const chat = this.findConversation();
-      if (!chat) {
-        this.$store.dispatch('getConversation', this.conversationId);
+      if (!this.currentConversation.id) {
+        this.$store.dispatch('fetchConversation', this.conversationId);
       }
     },
-    findConversation() {
-      const conversationId = parseInt(this.conversationId, 10);
-      const [chat] = this.chatList.filter(c => c.id === conversationId);
-      return chat;
-    },
-
-    setActiveChat() {
-      const chat = this.findConversation();
-      if (!chat) return;
-      this.$store.dispatch('setActiveChat', chat).then(() => {
-        bus.$emit('scrollToMessage');
+    fetchConversations() {
+      this.$store.dispatch('fetchAllConversations', {
+        inboxId: this.inboxId ? this.inboxId : undefined,
+        assigneeType: this.currentAssigneeType,
+        status: this.currentStatus,
+        page: this.currentPage + 1,
       });
+    },
+    setActiveChat() {
+      this.$store.dispatch(
+        'conversationFilter/setActiveConversation',
+        this.conversationId
+      );
     },
     onToggleContactPanel() {
       this.isContactPanelOpen = !this.isContactPanelOpen;

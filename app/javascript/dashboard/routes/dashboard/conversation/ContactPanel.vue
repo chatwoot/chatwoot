@@ -103,7 +103,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
@@ -127,16 +126,11 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-    }),
-    currentConversationMetaData() {
-      return this.$store.getters[
-        'conversationMetadata/getConversationMetadata'
-      ](this.conversationId);
+    currentChat() {
+      return this.$store.getters.getConversation(this.conversationId);
     },
     additionalAttributes() {
-      return this.currentConversationMetaData.additional_attributes || {};
+      return this.currentChat.additional_attributes || {};
     },
     browser() {
       return this.additionalAttributes.browser || {};
