@@ -22,73 +22,76 @@ Rails.application.routes.draw do
     namespace :v1 do
       # ----------------------------------
       # start of account scoped api routes
-      resources :accounts, only: [:create, :show, :update], module: :accounts do
+      resources :accounts, only: [:create, :show, :update] do
         member do
           post :update_active_at
         end
-        namespace :actions do
-          resource :contact_merge, only: [:create]
-        end
 
-        resources :agents, except: [:show, :edit, :new]
-        resources :callbacks, only: [] do
-          collection do
-            post :register_facebook_page
-            get :register_facebook_page
-            post :facebook_pages
-            post :reauthorize_page
+        scope module: :accounts do
+          namespace :actions do
+            resource :contact_merge, only: [:create]
           end
-        end
-        resources :canned_responses, except: [:show, :edit, :new]
-        namespace :channels do
-          resource :twilio_channel, only: [:create]
-        end
-        resources :conversations, only: [:index, :create, :show] do
-          get 'meta', on: :collection
-          scope module: :conversations do
-            resources :messages, only: [:index, :create]
-            resources :assignments, only: [:create]
-            resources :labels, only: [:create, :index]
+
+          resources :agents, except: [:show, :edit, :new]
+          resources :callbacks, only: [] do
+            collection do
+              post :register_facebook_page
+              get :register_facebook_page
+              post :facebook_pages
+              post :reauthorize_page
+            end
           end
-          member do
-            post :mute
-            post :toggle_status
-            post :toggle_typing_status
-            post :update_last_seen
+          resources :canned_responses, except: [:show, :edit, :new]
+          namespace :channels do
+            resource :twilio_channel, only: [:create]
           end
-        end
-
-        resources :contacts, only: [:index, :show, :update, :create] do
-          scope module: :contacts do
-            resources :conversations, only: [:index]
+          resources :conversations, only: [:index, :create, :show] do
+            get 'meta', on: :collection
+            scope module: :conversations do
+              resources :messages, only: [:index, :create]
+              resources :assignments, only: [:create]
+              resources :labels, only: [:create, :index]
+            end
+            member do
+              post :mute
+              post :toggle_status
+              post :toggle_typing_status
+              post :update_last_seen
+            end
           end
-        end
 
-        resources :facebook_indicators, only: [] do
-          collection do
-            post :mark_seen
-            post :typing_on
-            post :typing_off
+          resources :contacts, only: [:index, :show, :update, :create] do
+            scope module: :contacts do
+              resources :conversations, only: [:index]
+            end
           end
-        end
 
-        resources :inboxes, only: [:index, :create, :update, :destroy] do
-          post :set_agent_bot, on: :member
-        end
-        resources :inbox_members, only: [:create, :show], param: :inbox_id
-
-        resources :labels, only: [:index, :show, :create, :update, :destroy]
-        resources :notifications, only: [:index, :update]
-        resource :notification_settings, only: [:show, :update]
-
-        # this block is only required if subscription via chargebee is enabled
-        resources :subscriptions, only: [:index] do
-          collection do
-            get :summary
+          resources :facebook_indicators, only: [] do
+            collection do
+              post :mark_seen
+              post :typing_on
+              post :typing_off
+            end
           end
-        end
 
-        resources :webhooks, except: [:show]
+          resources :inboxes, only: [:index, :create, :update, :destroy] do
+            post :set_agent_bot, on: :member
+          end
+          resources :inbox_members, only: [:create, :show], param: :inbox_id
+          resources :labels, only: [:index, :show, :create, :update, :destroy]
+
+          resources :notifications, only: [:index, :update]
+          resource :notification_settings, only: [:show, :update]
+
+          # this block is only required if subscription via chargebee is enabled
+          resources :subscriptions, only: [:index] do
+            collection do
+              get :summary
+            end
+          end
+
+          resources :webhooks, except: [:show]
+        end
       end
 
       # end of account scoped api routes
