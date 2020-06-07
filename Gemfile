@@ -56,9 +56,6 @@ gem 'administrate'
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
-##--- gems for billing ---##
-gem 'chargebee'
-
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'telegram-bot-ruby'

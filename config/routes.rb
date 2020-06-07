@@ -83,13 +83,6 @@ Rails.application.routes.draw do
           resources :notifications, only: [:index, :update]
           resource :notification_settings, only: [:show, :update]
 
-          # this block is only required if subscription via chargebee is enabled
-          resources :subscriptions, only: [:index] do
-            collection do
-              get :summary
-            end
-          end
-
           resources :webhooks, except: [:show]
         end
       end
@@ -113,12 +106,6 @@ Rails.application.routes.draw do
         resource :contact, only: [:update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
-      end
-
-      resources :webhooks, only: [] do
-        collection do
-          post :chargebee
-        end
       end
     end
 

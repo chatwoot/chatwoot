@@ -8,7 +8,6 @@ export const getSidebarItems = accountId => ({
       'inbox_conversation',
       'conversation_through_inbox',
       'settings_account_reports',
-      'billing_deactivated',
       'profile_settings',
       'profile_settings_index',
     ],
@@ -51,7 +50,6 @@ export const getSidebarItems = accountId => ({
       'settings_inboxes_page_channel',
       'settings_inboxes_add_agents',
       'settings_inbox_finish',
-      'billing',
       'settings_integrations',
       'settings_integrations_webhook',
       'general_settings',
@@ -87,13 +85,6 @@ export const getSidebarItems = accountId => ({
           `accounts/${accountId}/settings/canned-response/list`
         ),
         toStateName: 'canned_list',
-      },
-      billing: {
-        icon: 'ion-card',
-        label: 'BILLING',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/settings/billing`),
-        toStateName: 'billing',
       },
       settings_integrations: {
         icon: 'ion-flash',
