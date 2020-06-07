@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_115645) do
+ActiveRecord::Schema.define(version: 2020_06_06_132552) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -254,6 +254,17 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "color"
+    t.boolean "show_on_sidebar"
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_labels_on_account_id"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|

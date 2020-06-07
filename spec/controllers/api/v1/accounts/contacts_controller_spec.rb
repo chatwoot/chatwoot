@@ -53,7 +53,7 @@ RSpec.describe 'Contacts API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
-    let(:valid_params) { { contact: { account_id: account.id } } }
+    let(:valid_params) { { contact: { name: 'test' } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

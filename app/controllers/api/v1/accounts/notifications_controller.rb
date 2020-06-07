@@ -1,4 +1,4 @@
-class Api::V1::Accounts::NotificationsController < Api::BaseController
+class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseController
   protect_from_forgery with: :null_session
 
   before_action :fetch_notification, only: [:update]
