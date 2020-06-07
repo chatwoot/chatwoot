@@ -76,12 +76,8 @@ Rails.application.routes.draw do
           post :set_agent_bot, on: :member
         end
         resources :inbox_members, only: [:create, :show], param: :inbox_id
-        resources :labels, only: [:index] do
-          collection do
-            get :most_used
-          end
-        end
 
+        resources :labels, only: [:index, :show, :create, :update, :destroy]
         resources :notifications, only: [:index, :update]
         resource :notification_settings, only: [:show, :update]
 
