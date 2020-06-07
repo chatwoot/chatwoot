@@ -82,7 +82,11 @@ Rails.application.routes.draw do
           end
         end
 
-        resources :notifications, only: [:index, :update]
+        resources :notifications, only: [:index, :update] do
+          collection do
+            post :read_all
+          end
+        end
         resource :notification_settings, only: [:show, :update]
 
         # this block is only required if subscription via chargebee is enabled
