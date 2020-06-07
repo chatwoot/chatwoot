@@ -4,6 +4,9 @@ import MessageApi from '../../api/inbox/message';
 
 const state = {
   records: {},
+  uiFlags: {
+    dataFetchComplete: {},
+  },
 };
 
 export const getters = {
@@ -27,6 +30,24 @@ export const actions = {
   },
   resetMessages({ commit }) {
     commit(types.RESET_MESSAGES);
+  },
+
+  sendAttachment: async ({ commit }, data) => {
+    try {
+      const response = await MessageApi.sendAttachment(data);
+      commit(types.default.ADD_MESSAGE, response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  sendMessage: async ({ commit }, data) => {
+    try {
+      const response = await MessageApi.create(data);
+      commit(types.default.ADD_MESSAGE, response.data);
+    } catch (error) {
+      // Handle error
+    }
   },
   fetchPreviousMessages: async (
     { commit, dispatch },

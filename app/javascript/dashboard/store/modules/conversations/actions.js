@@ -26,7 +26,6 @@ const actions = {
         },
       } = await ConversationApi.get(params);
       dispatch('conversationStats/set', metadata);
-      dispatch('messages/setBulkMessages', conversations);
       dispatch('conversationPage/setCurrentPage', {
         filter: params.assigneeType,
         page: params.page,
@@ -35,7 +34,7 @@ const actions = {
         'contacts/setContacts',
         conversations.map(chat => chat.meta.sender)
       );
-      commit(types.SET_ALL_CONVERSATION, conversations);
+      dispatch('setConversations', conversations);
       if (!conversations.length) {
         dispatch('conversationPage/setEndReached', {
           filter: params.assigneeType,
@@ -45,11 +44,52 @@ const actions = {
       commit(types.SET_CONVERSATION_UI_FLAG, { isFetching: false });
     }
   },
-  updateConversation({ commit }, conversation) {
+  updateConversation({ commit, getters }, conversation) {
+    const currentInboxId = getters['conversationFilter/getCurrentInboxId'];
+    if (currentInboxId && currentInboxId !== conversation.inbox_id) {
+      return;
+    }
     commit(types.UPDATE_CONVERSATION, conversation);
   },
   resetConversations({ commit }) {
     commit(types.RESET_CONVERSATION);
+  },
+  setConversations({ commit, dispatch }, conversations) {
+    dispatch('messages/setBulkMessages', conversations);
+    commit(types.SET_ALL_CONVERSATION, conversations);
+  },
+  toggleStatus: async ({ commit }, data) => {
+    try {
+      const {
+        data: {
+          payload: { current_status: status, conversation_id: conversationId },
+        },
+      } = await ConversationApi.toggleStatus(data);
+      commit(types.RESOLVE_CONVERSATION, { conversationId, status });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  assignAgent: async ({ commit }, { conversationId, agentId }) => {
+    try {
+      const response = await ConversationApi.assignAgent({
+        conversationId,
+        agentId,
+      });
+      commit(types.ASSIGN_AGENT, { conversationId, assignee: response.data });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  muteConversation: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.mute(conversationId);
+      commit(types.default.MUTE_CONVERSATION);
+    } catch (error) {
+      //
+    }
   },
 };
 

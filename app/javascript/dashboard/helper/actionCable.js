@@ -25,18 +25,14 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onMessageUpdated = data => {
-    this.app.$store.dispatch('message/addMessage', data);
+    this.app.$store.dispatch('messages/addMessage', data);
   };
 
   onConversationContactChange = payload => {
-    const { meta = {}, id: conversationId } = payload;
+    this.app.$store.dispatch('updateConversation', payload);
+    const { meta = {} } = payload;
     const { sender } = meta || {};
-    if (conversationId) {
-      this.app.$store.dispatch('updateConversationContact', {
-        conversationId,
-        ...sender,
-      });
-    }
+    this.app.$store.dispatch('setContact', sender);
   };
 
   onConversationCreated = data => {
@@ -46,7 +42,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onLogout = () => AuthAPI.logout();
 
   onMessageCreated = data => {
-    this.app.$store.dispatch('message/addMessage', data);
+    this.app.$store.dispatch('messages/addMessage', data);
   };
 
   onReload = () => window.location.reload();

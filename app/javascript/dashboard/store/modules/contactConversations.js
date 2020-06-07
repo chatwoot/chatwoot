@@ -19,23 +19,22 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }, contactId) => {
+  get: async ({ commit, dispatch }, contactId) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,
     });
     try {
-      const response = await ContactAPI.getConversations(contactId);
+      const {
+        data: { payload: conversations },
+      } = await ContactAPI.getConversations(contactId);
       commit(types.default.SET_CONTACT_CONVERSATIONS, {
         id: contactId,
-        data: response.data.payload,
+        data: conversations,
       });
-      commit(types.default.SET_ALL_CONVERSATION, response.data.payload, {
-        root: true,
-      });
-      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
-        isFetching: false,
-      });
+      dispatch('setConversations', conversations, { root: true });
     } catch (error) {
+      // Ignore error
+    } finally {
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isFetching: false,
       });

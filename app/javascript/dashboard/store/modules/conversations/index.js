@@ -29,6 +29,16 @@ const mutations = {
   [types.RESET_CONVERSATION]($state) {
     $state.records = {};
   },
+  [types.RESOLVE_CONVERSATION]($state, { conversationId, status }) {
+    if ($state.records[conversationId]) {
+      $state.records[conversationId].status = status;
+    }
+  },
+  [types.UPDATE_ASSIGNEE]($state, { conversationId, assignee }) {
+    if ($state.records[conversationId]) {
+      $state.records[conversationId].meta.assignee = assignee;
+    }
+  },
 };
 
 export default {
