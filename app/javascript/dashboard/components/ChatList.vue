@@ -1,5 +1,5 @@
 <template>
-  <div class="conversations-sidebar  medium-4 columns">
+  <div class="conversations-sidebar medium-4 columns">
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
@@ -87,13 +87,13 @@ export default {
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
-      convStats: 'getConvTabStats',
+      conversationStats: 'conversationStats/getStats',
     }),
     assigneeTabItems() {
       return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
         key: item.KEY,
         name: item.NAME,
-        count: this.convStats[item.COUNT_KEY] || 0,
+        count: this.conversationStats[item.COUNT_KEY] || 0,
       }));
     },
     inbox() {

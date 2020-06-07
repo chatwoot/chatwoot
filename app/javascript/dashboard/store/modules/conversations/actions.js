@@ -2,7 +2,6 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import FBChannel from '../../../api/channel/fbChannel';
 
 // actions
 const actions = {
@@ -24,9 +23,9 @@ const actions = {
     try {
       const response = await ConversationApi.get(params);
       const { data } = response.data;
-      const { payload: chatList, meta: metaData } = data;
+      const { payload: chatList, meta: metadata } = data;
       commit(types.default.SET_ALL_CONVERSATION, chatList);
-      commit(types.default.SET_CONV_TAB_META, metaData);
+      dispatch('conversationStats/set', metadata);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
       commit(
         `contacts/${types.default.SET_CONTACTS}`,
@@ -84,9 +83,7 @@ const actions = {
     }
   },
 
-  setActiveChat(store, data) {
-    const { commit } = store;
-    const localDispatch = store.dispatch;
+  setActiveChat({ commit, dispatch }, data) {
     let donePromise = null;
 
     commit(types.default.CURRENT_CHAT_WINDOW, data);
@@ -94,7 +91,7 @@ const actions = {
 
     if (data.dataFetched === undefined) {
       donePromise = new Promise(resolve => {
-        localDispatch('fetchPreviousMessages', {
+        dispatch('fetchPreviousMessages', {
           conversationId: data.id,
           before: data.messages[0].id,
         })
@@ -171,24 +168,6 @@ const actions = {
     commit(types.default.UPDATE_CONVERSATION, conversation);
   },
 
-  toggleTyping: async ({ commit }, { status, conversationId }) => {
-    try {
-      commit(types.default.SET_AGENT_TYPING, { status });
-      await ConversationApi.toggleTyping({ status, conversationId });
-    } catch (error) {
-      // Handle error
-    }
-  },
-
-  markSeen: async ({ commit }, data) => {
-    try {
-      await FBChannel.markSeen(data);
-      commit(types.default.MARK_SEEN);
-    } catch (error) {
-      // Handle error
-    }
-  },
-
   markMessagesRead: async ({ commit }, data) => {
     setTimeout(() => {
       commit(types.default.MARK_MESSAGE_READ, data);
@@ -213,10 +192,6 @@ const actions = {
       commit(`contacts/${types.default.SET_CONTACT_ITEM}`, data);
     }
     commit(types.default.UPDATE_CONVERSATION_CONTACT, data);
-  },
-
-  setActiveInbox({ commit }, inboxId) {
-    commit(types.default.SET_ACTIVE_INBOX, inboxId);
   },
 
   sendAttachment: async ({ commit }, data) => {

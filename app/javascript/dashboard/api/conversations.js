@@ -13,6 +13,10 @@ class ConversationApi extends ApiClient {
   updateLabels(conversationID, labels) {
     return axios.post(`${this.url}/${conversationID}/labels`, { labels });
   }
+
+  getMetadata() {
+    return axios.get(`${this.url}/meta`);
+  }
 }
 
 export default new ConversationApi();
