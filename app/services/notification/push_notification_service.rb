@@ -83,7 +83,7 @@ class Notification::PushNotificationService
         "title": notification.notification_type.titleize,
         "body": push_message_title
       },
-      "data": notification.push_event_data.to_json
+      "data": { notification: notification.push_event_data.to_json }
     }
 
     response = fcm.send([subscription.subscription_attributes['push_token']], options)

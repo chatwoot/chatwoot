@@ -4,8 +4,7 @@ class Api::V1::Accounts::NotificationsController < Api::BaseController
   before_action :fetch_notification, only: [:update]
 
   def index
-    @notifications = current_user.notifications.where(account_id: current_account.id)
-    render json: @notifications
+    @notifications = current_user.notifications.where(account_id: current_account.id).page params[:page]
   end
 
   def update
