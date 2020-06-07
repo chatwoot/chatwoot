@@ -38,6 +38,18 @@ class Notification < ApplicationRecord
 
   after_create_commit :process_notification_delivery
 
+  def push_event_data
+    {
+      id: id,
+      notification_type: notification_type,
+      primary_actor: primary_actor&.push_event_data,
+      read_at: read_at,
+      secondary_actor: secondary_actor&.push_event_data,
+      user: user&.push_event_data,
+      created_at: created_at
+    }
+  end
+
   private
 
   def process_notification_delivery
