@@ -78,11 +78,14 @@ class Notification::PushNotificationService
     return unless subscription.fcm?
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-    options = { "notification": {
-      "title": notification.notification_type.titleize,
-      "body": push_message_title,
-      "notification": notification.to_json
-    } }
+    options = {
+      "notification": {
+        "title": notification.notification_type.titleize,
+        "body": push_message_title
+      },
+      "data": notification.push_event_data.to_json
+    }
+
     response = fcm.send([subscription.subscription_attributes['push_token']], options)
     subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
