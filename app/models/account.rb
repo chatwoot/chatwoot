@@ -45,6 +45,7 @@ class Account < ApplicationRecord
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
+  has_many :labels, dependent: :destroy
   has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
