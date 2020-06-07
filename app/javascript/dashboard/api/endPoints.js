@@ -33,14 +33,6 @@ const endPoints = {
     },
     params: { omniauth_token: '' },
   },
-
-  subscriptions: {
-    get() {
-      return {
-        url: '/api/v1/subscriptions',
-      };
-    },
-  },
 };
 
 export default page => {

@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
-  before_action :check_subscription, unless: :devise_controller?
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized
@@ -66,18 +65,6 @@ class ApplicationController < ActionController::Base
     # if local is not set in param, lets try account
     locale ||= (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil)
     I18n.locale = locale || I18n.default_locale
-  end
-
-  def check_subscription
-    # This block is left over from the initial version of chatwoot
-    # We might reuse this later in the hosted version of chatwoot.
-    return if !ENV['BILLING_ENABLED'] || !current_user
-
-    if current_subscription.trial? && current_subscription.expiry < Date.current
-      render json: { error: 'Trial Expired' }, status: :trial_expired
-    elsif current_subscription.cancelled?
-      render json: { error: 'Account Suspended' }, status: :account_suspended
-    end
   end
 
   def pundit_user
