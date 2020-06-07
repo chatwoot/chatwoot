@@ -46,13 +46,11 @@ class Account < ApplicationRecord
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_many :labels, dependent: :destroy
-  has_one :subscription, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
-  after_create :create_subscription
   after_create :notify_creation
   after_destroy :notify_deletion
 
@@ -74,22 +72,6 @@ class Account < ApplicationRecord
                              .map { |_| _.tag.name }
   end
 
-  def subscription_data
-    agents_count = users.count
-    per_agent_price = Plan.paid_plan.price
-    {
-      state: subscription.state,
-      expiry: subscription.expiry.to_i,
-      agents_count: agents_count,
-      per_agent_cost: per_agent_price,
-      total_cost: (per_agent_price * agents_count),
-      iframe_url: Subscription::ChargebeeService.hosted_page_url(self),
-      trial_expired: subscription.trial_expired?,
-      account_suspended: subscription.suspended?,
-      payment_source_added: subscription.payment_source_added
-    }
-  end
-
   def webhook_data
     {
       id: id,
@@ -98,11 +80,6 @@ class Account < ApplicationRecord
   end
 
   private
-
-  def create_subscription
-    subscription = build_subscription
-    subscription.save
-  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
