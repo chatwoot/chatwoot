@@ -1,4 +1,4 @@
-class Api::V1::Accounts::AccountsController < Api::BaseController
+class Api::V1::AccountsController < Api::BaseController
   include AuthHelper
 
   skip_before_action :verify_authenticity_token, only: [:create]
