@@ -11,6 +11,13 @@ export const SDK_CSS = ` .woot-widget-holder {
   transition-duration: 0.5s, 0.5s;
 }
 
+.woot-widget-holder.has-unread-view {
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+}
+
 .woot-widget-holder iframe {
   width: 100% !important;
   height: 100% !important;

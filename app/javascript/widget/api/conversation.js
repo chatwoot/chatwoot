@@ -30,10 +30,18 @@ const toggleTyping = async ({ typingStatus }) => {
   );
 };
 
+const setUserLastSeenAt = async ({ typingStatus }) => {
+  return API.post(
+    `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
+    { typing_status: typingStatus }
+  );
+};
+
 export {
   sendMessageAPI,
   getConversationAPI,
   getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
+  setUserLastSeenAt,
 };

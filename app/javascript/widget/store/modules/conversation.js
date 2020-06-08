@@ -59,10 +59,23 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
     message => message.content === content && message.status === 'in_progress'
   );
 
+export const onNewMessageCreated = data => {
+  const { message_type: messageType } = data;
+  const isIncomingMessage = messageType === MESSAGE_TYPE.OUTGOING;
+
+  if (isIncomingMessage) {
+    playNotificationAudio();
+    window.bus.$emit('on-agent-message-recieved');
+  }
+};
+
 export const DEFAULT_CONVERSATION = 'default';
 
 const state = {
   conversations: {},
+  meta: {
+    userLastSeenAt: undefined,
+  },
   uiFlags: {
     allMessagesLoaded: false,
     isFetchingList: false,
@@ -93,6 +106,26 @@ export const getters = {
     }));
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
+  getUnreadMessageCount: _state => {
+    const { userLastSeenAt } = _state.meta;
+    const count = Object.values(_state.conversations).filter(
+      chat =>
+        chat.created_at * 1000 > userLastSeenAt * 1000 &&
+        chat.message_type === 1
+    ).length;
+    return count;
+  },
+  getUnreadTextMessages: _state => {
+    const unreadCount = getters.getUnreadMessageCount(_state);
+    const allUnreadMessages = [...Object.values(_state.conversations)].splice(
+      -unreadCount
+    );
+    const unreadAgentMessages = allUnreadMessages.filter(message => {
+      const { message_type: messageType } = message;
+      return messageType === MESSAGE_TYPE.OUTGOING;
+    });
+    return unreadAgentMessages;
+  },
 };
 
 export const actions = {
@@ -112,7 +145,9 @@ export const actions = {
       file_type: fileType,
       status: 'in_progress',
     };
-    const tempMessage = createTemporaryMessage({ attachments: [attachment] });
+    const tempMessage = createTemporaryMessage({
+      attachments: [attachment],
+    });
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
@@ -137,11 +172,8 @@ export const actions = {
   },
 
   addMessage({ commit }, data) {
-    if (data.message_type === MESSAGE_TYPE.OUTGOING) {
-      playNotificationAudio();
-    }
-
     commit('pushMessageToConversation', data);
+    onNewMessageCreated(data);
   },
 
   updateMessage({ commit }, data) {
@@ -153,6 +185,14 @@ export const actions = {
   },
 
   toggleUserTyping: async (_, data) => {
+    try {
+      await toggleTyping(data);
+    } catch (error) {
+      // console error
+    }
+  },
+
+  setUserLastSeen: async (_, data) => {
     try {
       await toggleTyping(data);
     } catch (error) {

@@ -1,21 +1,48 @@
 <template>
-  <div id="app" class="woot-widget-wrap" :class="{ 'is-mobile': isMobile }">
-    <router-view />
-  </div>
+  <router
+    :show-unread-view="showUnreadView"
+    :is-mobile="isMobile"
+    :grouped-messages="groupedMessages"
+    :unread-messages="unreadMessages"
+    :conversation-size="conversationSize"
+    :available-agents="availableAgents"
+    :has-fetched="hasFetched"
+    :conversation-attributes="conversationAttributes"
+    :unread-message-count="unreadMessageCount"
+  />
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+/* global bus */
+
+import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper } from 'widget/helpers/utils';
-import Vue from 'vue';
+
+import Router from './views/Router';
 
 export default {
   name: 'App',
+  components: {
+    Router,
+  },
   data() {
     return {
+      showUnreadView: false,
       isMobile: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      groupedMessages: 'conversation/getGroupedConversation',
+      unreadMessages: 'conversation/getUnreadTextMessages',
+      conversationSize: 'conversation/getConversationSize',
+      availableAgents: 'agent/availableAgents',
+      hasFetched: 'agent/uiFlags/hasFetched',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
+      unreadMessageCount: 'conversation/getUnreadMessageCount',
+    }),
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
@@ -61,10 +88,15 @@ export default {
         this.$store.dispatch('contacts/update', message);
       } else if (message.event === 'set-locale') {
         this.setLocale(message.locale);
+      } else if (message.event === 'set-unread-view') {
+        this.showUnreadView = true;
+      } else if (message.event === 'unset-unread-view') {
+        this.showUnreadView = false;
       }
     });
 
     this.$store.dispatch('conversationAttributes/get');
+    this.registerUnreadEvents();
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
@@ -78,6 +110,29 @@ export default {
       const { enabledLanguages } = window.chatwootWebChannel;
       if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
         Vue.config.lang = locale;
+      }
+    },
+    registerUnreadEvents() {
+      bus.$on('on-agent-message-recieved', () => {
+        this.setUnreadView();
+      });
+      bus.$on('on-unread-view-clicked', () => {
+        this.unsetUnreadView();
+      });
+    },
+    setUnreadView() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'setUnreadMode',
+          unreadCount: 2,
+        });
+      }
+    },
+    unsetUnreadView() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'resetUnreadMode',
+        });
       }
     },
   },

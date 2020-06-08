@@ -3,7 +3,6 @@ import Vuelidate from 'vuelidate';
 import VueI18n from 'vue-i18n';
 import store from '../widget/store';
 import App from '../widget/App.vue';
-import router from '../widget/router';
 import ActionCableConnector from '../widget/helpers/actionCable';
 import i18n from '../widget/i18n';
 
@@ -15,10 +14,13 @@ Object.keys(i18n).forEach(lang => {
   Vue.locale(lang, i18n[lang]);
 });
 
+// Event Bus
+window.bus = new Vue();
+
 Vue.config.productionTip = false;
+
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
-    router,
     store,
     render: h => h(App),
   }).$mount('#app');
