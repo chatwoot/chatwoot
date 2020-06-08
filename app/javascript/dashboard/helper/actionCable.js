@@ -46,12 +46,12 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (id) {
       this.app.$store.dispatch('updateAssignee', { id, assignee });
     }
-    this.fetchMetadata();
+    this.fetchConversationStats();
   };
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
-    this.fetchMetadata();
+    this.fetchConversationStats();
   };
 
   onLogout = () => AuthAPI.logout();
@@ -64,7 +64,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
-    this.fetchMetadata();
+    this.fetchConversationStats();
   };
 
   onTypingOn = ({ conversation, user }) => {
@@ -105,7 +105,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     }, 30000);
   };
 
-  fetchMetadata = () => {
+  fetchConversationStats = () => {
     bus.$emit('fetch_conversation_stats');
   };
 }
