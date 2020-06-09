@@ -55,6 +55,7 @@
 <script>
 /* eslint-env browser */
 /* eslint no-console: 0 */
+/* global bus */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
@@ -109,6 +110,14 @@ export default {
         this.activeAssigneeTab
       );
     },
+    conversationFilters() {
+      return {
+        inboxId: this.conversationInbox ? this.conversationInbox : undefined,
+        assigneeType: this.activeAssigneeTab,
+        status: this.activeStatus,
+        page: this.currentPage + 1,
+      };
+    },
   },
   watch: {
     conversationInbox() {
@@ -119,6 +128,10 @@ export default {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
     this.$store.dispatch('agents/get');
+
+    bus.$on('fetch_conversation_stats', () => {
+      this.$store.dispatch('getConversationStats', this.conversationFilters);
+    });
   },
   methods: {
     resetAndFetchData() {
@@ -127,12 +140,7 @@ export default {
       this.fetchConversations();
     },
     fetchConversations() {
-      this.$store.dispatch('fetchAllConversations', {
-        inboxId: this.conversationInbox ? this.conversationInbox : undefined,
-        assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus,
-        page: this.currentPage + 1,
-      });
+      this.$store.dispatch('fetchAllConversations', this.conversationFilters);
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
