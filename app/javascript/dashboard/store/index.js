@@ -4,7 +4,6 @@ import Vuex from 'vuex';
 import accounts from './modules/accounts';
 import agents from './modules/agents';
 import auth from './modules/auth';
-import billing from './modules/billing';
 import cannedResponse from './modules/cannedResponse';
 import Channel from './modules/channels';
 import contactConversations from './modules/contactConversations';
@@ -27,7 +26,6 @@ export default new Vuex.Store({
     accounts,
     agents,
     auth,
-    billing,
     cannedResponse,
     Channel,
     contactConversations,

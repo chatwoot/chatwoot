@@ -66,6 +66,8 @@
 }
 
 .button.resolve--button {
+  @include flex-align($x: center, $y: middle);
+
   width: 13.2rem;
 
   >.icon {
