@@ -47,6 +47,20 @@
           "
         />
 
+        <woot-input
+          v-if="isAWidgetInbox"
+          v-model.trim="channelWelcomeTagline"
+          class="medium-9 columns"
+          :label="
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
+          "
+          :placeholder="
+            $t(
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
+            )
+          "
+        />
+
         <label v-if="isAWidgetInbox" class="medium-9 columns">
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="inbox.widget_color" />
