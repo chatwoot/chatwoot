@@ -10,12 +10,4 @@ class Api::BaseController < ApplicationController
   def authenticate_by_access_token?
     request.headers[:api_access_token].present? || request.headers[:HTTP_API_ACCESS_TOKEN].present?
   end
-
-  def set_conversation
-    @conversation ||= current_account.conversations.find_by(display_id: params[:conversation_id])
-  end
-
-  def check_billing_enabled
-    raise ActionController::RoutingError, 'Not Found' unless ENV['BILLING_ENABLED']
-  end
 end

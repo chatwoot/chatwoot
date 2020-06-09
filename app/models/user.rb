@@ -118,7 +118,6 @@ class User < ApplicationRecord
 
   def serializable_hash(options = nil)
     serialized_user = super(options).merge(confirmed: confirmed?)
-    serialized_user.merge(subscription: account.try(:subscription).try(:summary)) if ENV['BILLING_ENABLED']
     serialized_user
   end
 
