@@ -7,7 +7,7 @@
 #  id                     :integer          not null, primary key
 #  channel_type           :string
 #  enable_auto_assignment :boolean          default(TRUE)
-#  greeting_enabled       :boolean          default(TRUE)
+#  greeting_enabled       :boolean          default(FALSE)
 #  greeting_message       :string
 #  name                   :string           not null
 #  created_at             :datetime         not null
