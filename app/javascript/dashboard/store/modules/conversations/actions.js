@@ -236,6 +236,15 @@ const actions = {
       //
     }
   },
+
+  getConversationStats: async ({ commit }, params) => {
+    try {
+      const response = await ConversationApi.meta(params);
+      commit(types.default.SET_CONV_TAB_META, response.data.meta);
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 export default actions;
