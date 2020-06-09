@@ -244,7 +244,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.datetime "updated_at", null: false
     t.string "channel_type"
     t.boolean "enable_auto_assignment", default: true
-    t.boolean "greeting_enabled", default: true
+    t.boolean "greeting_enabled", default: false
     t.string "greeting_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
