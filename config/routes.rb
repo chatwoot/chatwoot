@@ -80,7 +80,11 @@ Rails.application.routes.draw do
           resources :inbox_members, only: [:create, :show], param: :inbox_id
           resources :labels, only: [:index, :show, :create, :update, :destroy]
 
-          resources :notifications, only: [:index, :update]
+          resources :notifications, only: [:index, :update] do
+            collection do
+              post :read_all
+            end
+          end
           resource :notification_settings, only: [:show, :update]
 
           resources :webhooks, except: [:show]

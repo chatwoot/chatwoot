@@ -38,6 +38,29 @@ class Notification < ApplicationRecord
 
   after_create_commit :process_notification_delivery
 
+  def push_event_data
+    {
+      id: id,
+      notification_type: notification_type,
+      primary_actor: primary_actor&.push_event_data,
+      read_at: read_at,
+      secondary_actor: secondary_actor&.push_event_data,
+      user: user&.push_event_data,
+      created_at: created_at
+    }
+  end
+
+  # TODO: move to a data presenter
+  def push_message_title
+    if notification_type == 'conversation_creation'
+      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{primary_actor.inbox.name}"
+    end
+
+    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
+
+    ''
+  end
+
   private
 
   def process_notification_delivery
