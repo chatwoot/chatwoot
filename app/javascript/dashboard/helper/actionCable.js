@@ -1,5 +1,6 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+/* global bus */
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -45,10 +46,12 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (id) {
       this.app.$store.dispatch('updateAssignee', { id, assignee });
     }
+    this.fetchConversationStats();
   };
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
+    this.fetchConversationStats();
   };
 
   onLogout = () => AuthAPI.logout();
@@ -61,6 +64,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
+    this.fetchConversationStats();
   };
 
   onTypingOn = ({ conversation, user }) => {
@@ -99,6 +103,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.CancelTyping[conversationId] = setTimeout(() => {
       this.onTypingOff({ conversation, user });
     }, 30000);
+  };
+
+  fetchConversationStats = () => {
+    bus.$emit('fetch_conversation_stats');
   };
 }
 
