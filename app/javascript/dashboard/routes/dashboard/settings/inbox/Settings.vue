@@ -18,7 +18,7 @@
         <woot-input
           v-if="isAWidgetInbox"
           v-model.trim="selectedInboxName"
-          class="medium-12 columns"
+          class="medium-9 columns"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL')"
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
@@ -27,7 +27,7 @@
         <woot-input
           v-if="isAWidgetInbox"
           v-model.trim="channelWebsiteUrl"
-          class="medium-12 columns"
+          class="medium-9 columns"
           :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
           :placeholder="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.PLACEHOLDER')
@@ -36,7 +36,7 @@
         <woot-input
           v-if="isAWidgetInbox"
           v-model.trim="channelWelcomeTitle"
-          class="medium-12 columns"
+          class="medium-9 columns"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL')
           "
@@ -47,10 +47,44 @@
           "
         />
 
+        <label v-if="isAWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+          <woot-color-picker v-model="inbox.widget_color" />
+        </label>
+
+        <label class="medium-9 columns">
+          {{
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
+          }}
+          <select v-model="greetingEnabled">
+            <option :value="true">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                )
+              }}
+            </option>
+            <option :value="false">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                )
+              }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
+              )
+            }}
+          </p>
+        </label>
+
         <woot-input
           v-if="greetingEnabled"
           v-model.trim="greetingMessage"
-          class="medium-12 columns"
+          class="medium-9 columns"
           :label="
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
           "
@@ -60,18 +94,13 @@
             )
           "
         />
-
-        <label v-if="isAWidgetInbox" class="medium-12 columns">
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-          <woot-color-picker v-model="inbox.widget_color" />
-        </label>
-        <label class="medium-12 columns">
+        <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           <select v-model="autoAssignment">
-            <option value="true">
+            <option :value="true">
               {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.ENABLED') }}
             </option>
-            <option value="false">
+            <option :value="false">
               {{ $t('INBOX_MGMT.EDIT.AUTO_ASSIGNMENT.DISABLED') }}
             </option>
           </select>

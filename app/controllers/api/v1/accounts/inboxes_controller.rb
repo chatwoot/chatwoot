@@ -10,7 +10,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       channel = web_widgets.create!(permitted_params[:channel].except(:type)) if permitted_params[:channel][:type] == 'web_widget'
-      @inbox = Current.account.inboxes.build(name: permitted_params[:name], channel: channel)
+      @inbox = Current.account.inboxes.build(
+        name: permitted_params[:name],
+        greeting_message: permitted_params[:greeting_message],
+        greeting_enabled: permitted_params[:greeting_enabled],
+        channel: channel
+      )
       @inbox.avatar.attach(permitted_params[:avatar])
       @inbox.save!
     end
