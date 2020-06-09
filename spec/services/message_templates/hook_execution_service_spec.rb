@@ -6,6 +6,9 @@ describe ::MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
 
+      # ensure greeting hook is enabled
+      conversation.inbox.update(greeting_enabled: true)
+
       email_collect_service = double
       greeting_service = double
       allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
