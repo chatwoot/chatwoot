@@ -54,7 +54,7 @@
           "LABEL": "Bem-vindo Slogan",
           "PLACEHOLDER": "Nós simplificamos nos conectar com a gente. Pergunte a nós qualquer coisa ou compartilhe seus comentários."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Mensagem Ausente dos Agentes",
           "PLACEHOLDER": "Acme Inc normalmente responde em algumas horas."
         },

@@ -161,7 +161,6 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.string "agent_away_message"
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -245,6 +244,8 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.datetime "updated_at", null: false
     t.string "channel_type"
     t.boolean "enable_auto_assignment", default: true
+    t.boolean "greeting_enabled", default: false
+    t.string "greeting_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
