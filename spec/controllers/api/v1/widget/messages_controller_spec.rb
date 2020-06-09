@@ -24,8 +24,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        # 2 messages created + 3 messages by the template hook
-        expect(json_response.length).to eq(5)
+        # 2 messages created + 2 messages by the email hook
+        expect(json_response.length).to eq(4)
       end
     end
   end

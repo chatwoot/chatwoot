@@ -10,7 +10,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       channel = web_widgets.create!(permitted_params[:channel].except(:type)) if permitted_params[:channel][:type] == 'web_widget'
-      @inbox = Current.account.inboxes.build(name: permitted_params[:name], channel: channel)
+      @inbox = Current.account.inboxes.build(
+        name: permitted_params[:name],
+        greeting_message: permitted_params[:greeting_message],
+        greeting_enabled: permitted_params[:greeting_enabled],
+        channel: channel
+      )
       @inbox.avatar.attach(permitted_params[:avatar])
       @inbox.save!
     end
@@ -56,11 +61,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :avatar, :name, channel: [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :agent_away_message])
+    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline])
   end
 
   def inbox_update_params
-    params.permit(:enable_auto_assignment, :name, :avatar, channel: [:website_url, :widget_color, :welcome_title,
-                                                                     :welcome_tagline, :agent_away_message])
+    params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
+                  channel: [:website_url, :widget_color, :welcome_title, :welcome_tagline])
   end
 end

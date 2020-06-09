@@ -56,7 +56,7 @@ class Twitter::SendReplyService
   end
 
   def outgoing_message_from_chatwoot?
-    message.outgoing?
+    (message.outgoing? || message.template?)
   end
 
   delegate :additional_attributes, to: :contact
