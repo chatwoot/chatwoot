@@ -63,9 +63,15 @@
           "LABEL": "Welcome Tagline",
           "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
-          "LABEL": "Agents Away Message",
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
           "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Color",

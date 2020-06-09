@@ -63,7 +63,7 @@
           "LABEL": "Bienvenido Tagline",
           "PLACEHOLDER": "Facilitamos la conexión con nosotros. Pídanos cualquier cosa o comparte tus comentarios."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Mensaje de Agentes Ausentes",
           "PLACEHOLDER": "Acme Inc normalmente responde en unas pocas horas."
         },

@@ -6,9 +6,8 @@
     />
     <woot-loading-state
       v-if="uiFlags.isCreating"
-      :message="$('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
-    >
-    </woot-loading-state>
+      :message="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
+    />
     <form
       v-if="!uiFlags.isCreating"
       class="row"
@@ -76,19 +75,43 @@
           />
         </label>
       </div>
-      <div class="medium-12 columns">
-        <label>
+      <label class="medium-12 columns">
+        {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL') }}
+        <select v-model="greetingEnabled">
+          <option :value="true">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+              )
+            }}
+          </option>
+          <option :value="false">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+              )
+            }}
+          </option>
+        </select>
+        <p class="help-text">
           {{
             $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
             )
           }}
+        </p>
+      </label>
+      <div v-if="greetingEnabled" class="medium-12 columns">
+        <label>
+          {{
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+          }}
           <input
-            v-model.trim="channelAgentAwayMessage"
+            v-model.trim="greetingMessage"
             type="text"
             :placeholder="
               $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
               )
             "
           />
@@ -124,7 +147,8 @@ export default {
       channelWidgetColor: '#009CE0',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
-      channelAgentAwayMessage: '',
+      greetingEnabled: false,
+      greetingMessage: '',
     };
   },
   computed: {
@@ -138,13 +162,14 @@ export default {
         'inboxes/createWebsiteChannel',
         {
           name: this.inboxName,
+          greeting_enabled: this.greetingEnabled,
+          greeting_message: this.greetingMessage,
           channel: {
             type: 'web_widget',
             website_url: this.channelWebsiteUrl,
             widget_color: this.channelWidgetColor,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
-            agent_away_message: this.channelAgentAwayMessage,
           },
         }
       );

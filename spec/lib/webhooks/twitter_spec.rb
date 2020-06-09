@@ -7,7 +7,7 @@ describe Webhooks::Twitter do
   let!(:account) { create(:account) }
   # FIX ME: recipient id is set to 1 inside event factories
   let!(:twitter_channel) { create(:channel_twitter_profile, account: account, profile_id: '1') }
-  let!(:twitter_inbox) { create(:inbox, channel: twitter_channel, account: account) }
+  let!(:twitter_inbox) { create(:inbox, channel: twitter_channel, account: account, greeting_enabled: false) }
   let!(:dm_params) { build(:twitter_message_create_event).with_indifferent_access }
   let!(:tweet_params) { build(:tweet_create_event).with_indifferent_access }
 

@@ -54,7 +54,7 @@
           "LABEL": "Tagline de Bun Venit",
           "PLACEHOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Mesaj Agent Indisponibil",
           "PLACEHOLDER": "De obicei, Acme Inc răspunde în câteva ore."
         },
