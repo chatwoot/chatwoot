@@ -312,12 +312,12 @@ export default {
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
           greeting_enabled: this.greetingEnabled,
-          greeting_message: this.greetingMessage,
+          greeting_message: this.greetingMessage || '',
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
-            welcome_title: this.channelWelcomeTitle,
-            welcome_tagline: this.channelWelcomeTagline,
+            welcome_title: this.channelWelcomeTitle || '',
+            welcome_tagline: this.channelWelcomeTagline || '',
           },
         };
         if (this.avatarFile) {
