@@ -1,6 +1,4 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
-  before_action :set_web_widget
-  before_action :set_contact
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 

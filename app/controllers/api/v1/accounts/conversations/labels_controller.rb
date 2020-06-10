@@ -1,6 +1,4 @@
-class Api::V1::Accounts::Conversations::LabelsController < Api::BaseController
-  before_action :set_conversation, only: [:create, :index]
-
+class Api::V1::Accounts::Conversations::LabelsController < Api::V1::Accounts::Conversations::BaseController
   def create
     @conversation.update_labels(params[:labels])
     @labels = @conversation.label_list

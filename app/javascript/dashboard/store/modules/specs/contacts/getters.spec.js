@@ -4,14 +4,14 @@ import contactList from './fixtures';
 describe('#getters', () => {
   it('getContacts', () => {
     const state = {
-      records: contactList,
+      records: { 1: contactList[0] },
     };
-    expect(getters.getContacts(state)).toEqual(contactList);
+    expect(getters.getContacts(state)).toEqual([contactList[0]]);
   });
 
   it('getContact', () => {
     const state = {
-      records: contactList,
+      records: { 2: contactList[1] },
     };
     expect(getters.getContact(state)(2)).toEqual(contactList[1]);
   });

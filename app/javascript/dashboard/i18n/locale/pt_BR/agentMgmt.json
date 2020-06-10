@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Adicionar agente ao seu time",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nome do Agente",
@@ -60,7 +61,7 @@
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, mantenha "
+        "NO": "Não, Mantenha "
       }
     },
     "EDIT": {

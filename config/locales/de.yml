@@ -51,6 +51,6 @@ de:
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
         removed: "Gespräch nicht zugewiesen von %{user_name}"
     templates:
-      typical_reply_message_body: "%{account_name} Antworten in der Regel in wenigen Stunden."
+      greeting_message_body: "%{account_name} Antworten in der Regel in wenigen Stunden."
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
       email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"

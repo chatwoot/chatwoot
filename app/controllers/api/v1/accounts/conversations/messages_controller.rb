@@ -1,6 +1,4 @@
-class Api::V1::Accounts::Conversations::MessagesController < Api::BaseController
-  before_action :set_conversation, only: [:index, :create]
-
+class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   def index
     @messages = message_finder.perform
   end

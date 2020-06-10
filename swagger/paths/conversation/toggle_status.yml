@@ -18,7 +18,7 @@ post:
         properties:
           status:
             type: string
-            enum: ["open", "resolved"]
+            enum: ["open", "resolved", "bot"]
             required: true
             description: The status of the conversation
   responses:
