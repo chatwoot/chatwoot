@@ -1,4 +1,4 @@
-class Api::V1::Accounts::AgentsController < Api::BaseController
+class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   before_action :fetch_agent, except: [:create, :index]
   before_action :check_authorization
   before_action :find_user, only: [:create]
@@ -46,7 +46,7 @@ class Api::V1::Accounts::AgentsController < Api::BaseController
 
   def save_account_user
     AccountUser.create!(
-      account_id: current_account.id,
+      account_id: Current.account.id,
       user_id: @user.id,
       role: new_agent_params[:role],
       inviter_id: current_user.id
@@ -64,6 +64,6 @@ class Api::V1::Accounts::AgentsController < Api::BaseController
   end
 
   def agents
-    @agents ||= current_account.users
+    @agents ||= Current.account.users
   end
 end

@@ -1,4 +1,4 @@
-class Api::V1::Accounts::CannedResponsesController < Api::BaseController
+class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseController
   before_action :fetch_canned_response, only: [:update, :destroy]
 
   def index
@@ -6,7 +6,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::BaseController
   end
 
   def create
-    @canned_response = current_account.canned_responses.new(canned_response_params)
+    @canned_response = Current.account.canned_responses.new(canned_response_params)
     @canned_response.save!
     render json: @canned_response
   end
@@ -24,7 +24,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::BaseController
   private
 
   def fetch_canned_response
-    @canned_response = current_account.canned_responses.find(params[:id])
+    @canned_response = Current.account.canned_responses.find(params[:id])
   end
 
   def canned_response_params
@@ -33,9 +33,9 @@ class Api::V1::Accounts::CannedResponsesController < Api::BaseController
 
   def canned_responses
     if params[:search]
-      current_account.canned_responses.where('short_code ILIKE ?', "#{params[:search]}%")
+      Current.account.canned_responses.where('short_code ILIKE ?', "#{params[:search]}%")
     else
-      current_account.canned_responses
+      Current.account.canned_responses
     end
   end
 end

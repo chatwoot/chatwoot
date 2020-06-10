@@ -15,6 +15,7 @@
       "UPDATE_ERROR": "No se pudo actualizar las etiquetas, inténtelo de nuevo.",
       "TAG_PLACEHOLDER": "Añadir nueva etiqueta",
       "PLACEHOLDER": "Buscar o añadir una etiqueta"
-    }
+    },
+    "MUTE_CONTACT": "Silenciar contacto"
   }
 }

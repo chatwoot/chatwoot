@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_22_115645) do
+ActiveRecord::Schema.define(version: 2020_06_07_140737) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -161,7 +160,6 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.string "agent_away_message"
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -230,6 +228,17 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.index ["user_id"], name: "index_events_on_user_id"
   end
 
+  create_table "hooks_inbox_apps", force: :cascade do |t|
+    t.integer "inbox_id"
+    t.integer "agent_id"
+    t.integer "account_id"
+    t.string "app_slug"
+    t.string "status"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "inbox_members", id: :serial, force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "inbox_id", null: false
@@ -246,7 +255,17 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.datetime "updated_at", null: false
     t.string "channel_type"
     t.boolean "enable_auto_assignment", default: true
+    t.boolean "greeting_enabled", default: false
+    t.string "greeting_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
+  end
+
+  create_table "installation_configs", force: :cascade do |t|
+    t.string "name", null: false
+    t.jsonb "serialized_value", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
   end
 
   create_table "integrations_hooks", force: :cascade do |t|
@@ -262,12 +281,15 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "installation_configs", force: :cascade do |t|
-    t.string "name", null: false
-    t.jsonb "serialized_value", default: "{}", null: false
+  create_table "labels", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "color"
+    t.boolean "show_on_sidebar"
+    t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+    t.index ["account_id"], name: "index_labels_on_account_id"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -331,18 +353,6 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
-  create_table "subscriptions", id: :serial, force: :cascade do |t|
-    t.string "pricing_version"
-    t.integer "account_id"
-    t.datetime "expiry"
-    t.string "billing_plan", default: "trial"
-    t.string "stripe_customer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "state", default: 0
-    t.boolean "payment_source_added", default: false
-  end
-
   create_table "super_admins", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -371,9 +381,11 @@ ActiveRecord::Schema.define(version: 2020_05_22_115645) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

@@ -1,17 +1,21 @@
-class Api::V1::Accounts::InboxesController < Api::BaseController
-  before_action :current_account
+class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :check_authorization
 
   def index
-    @inboxes = policy_scope(current_account.inboxes)
+    @inboxes = policy_scope(Current.account.inboxes)
   end
 
   def create
     ActiveRecord::Base.transaction do
       channel = web_widgets.create!(permitted_params[:channel].except(:type)) if permitted_params[:channel][:type] == 'web_widget'
-      @inbox = current_account.inboxes.build(name: permitted_params[:name], channel: channel)
+      @inbox = Current.account.inboxes.build(
+        name: permitted_params[:name],
+        greeting_message: permitted_params[:greeting_message],
+        greeting_enabled: permitted_params[:greeting_enabled],
+        channel: channel
+      )
       @inbox.avatar.attach(permitted_params[:avatar])
       @inbox.save!
     end
@@ -41,7 +45,7 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
   private
 
   def fetch_inbox
-    @inbox = current_account.inboxes.find(params[:id])
+    @inbox = Current.account.inboxes.find(params[:id])
   end
 
   def fetch_agent_bot
@@ -49,7 +53,7 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
   end
 
   def web_widgets
-    current_account.web_widgets
+    Current.account.web_widgets
   end
 
   def check_authorization
@@ -57,11 +61,12 @@ class Api::V1::Accounts::InboxesController < Api::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :avatar, :name, channel: [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :agent_away_message])
+    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline])
   end
 
   def inbox_update_params
-    params.permit(:enable_auto_assignment, :name, :avatar, channel: [:website_url, :widget_color, :welcome_title,
-                                                                     :welcome_tagline, :agent_away_message])
+    params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
+                  channel: [:website_url, :widget_color, :welcome_title, :welcome_tagline])
   end
 end

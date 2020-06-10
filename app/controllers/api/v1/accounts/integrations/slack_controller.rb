@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Integrations::SlackController < Api::BaseController
+class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::BaseController
   before_action :fetch_hook, only: [:update, :destroy]
 
   def create

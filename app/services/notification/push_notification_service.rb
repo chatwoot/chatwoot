@@ -7,7 +7,8 @@ class Notification::PushNotificationService
     return unless user_subscribed_to_notification?
 
     notification_subscriptions.each do |subscription|
-      send_browser_push(subscription) if subscription.browser_push?
+      send_browser_push(subscription)
+      send_fcm_push(subscription)
     end
   end
 
@@ -28,21 +29,9 @@ class Notification::PushNotificationService
     @conversation ||= notification.primary_actor
   end
 
-  def push_message_title
-    if notification.notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{conversation.display_id}] has been created in #{conversation.inbox.name}"
-    end
-
-    if notification.notification_type == 'conversation_assignment'
-      return "A new conversation [ID -#{conversation.display_id}] has been assigned to you."
-    end
-
-    ''
-  end
-
   def push_message
     {
-      title: push_message_title,
+      title: notification.push_message_title,
       tag: "#{notification.notification_type}_#{conversation.display_id}",
       url: push_url
     }
@@ -53,6 +42,8 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push(subscription)
+    return unless subscription.browser_push?
+
     Webpush.payload_send(
       message: JSON.generate(push_message),
       endpoint: subscription.subscription_attributes['endpoint'],
@@ -69,5 +60,21 @@ class Notification::PushNotificationService
     )
   rescue Webpush::ExpiredSubscription
     subscription.destroy!
+  end
+
+  def send_fcm_push(subscription)
+    return unless subscription.fcm?
+
+    fcm = FCM.new(ENV['FCM_SERVER_KEY'])
+    options = {
+      "notification": {
+        "title": notification.notification_type.titleize,
+        "body": notification.push_message_title
+      },
+      "data": { notification: notification.push_event_data.to_json }
+    }
+
+    response = fcm.send([subscription.subscription_attributes['push_token']], options)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 end

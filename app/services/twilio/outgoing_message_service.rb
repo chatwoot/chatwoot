@@ -5,7 +5,7 @@ class Twilio::OutgoingMessageService
     return if message.private
     return if message.source_id
     return if inbox.channel.class.to_s != 'Channel::TwilioSms'
-    return unless message.outgoing?
+    return unless outgoing_message?
 
     twilio_message = client.messages.create(message_params)
     message.update!(source_id: twilio_message.sid)
@@ -37,6 +37,10 @@ class Twilio::OutgoingMessageService
 
   def channel
     @channel ||= inbox.channel
+  end
+
+  def outgoing_message?
+    message.outgoing? || message.template?
   end
 
   def client

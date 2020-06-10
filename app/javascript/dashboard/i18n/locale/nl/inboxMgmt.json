@@ -54,9 +54,15 @@
           "LABEL": "Welkom Tagline",
           "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
-          "LABEL": "Agents Afwezig Bericht",
-          "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Kanaalbegroeting",
+          "PLACEHOLDER": "Acme Inc antwoordt meestal binnen een paar uur."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Kanaalbegroeting inschakelen",
+          "HELP_TEXT": "Stuur een begroetingsbericht naar de gebruiker wanneer hij het gesprek start.",
+          "ENABLED": "Ingeschakeld",
+          "DISABLED": "Gehandicapt"
         },
         "WIDGET_COLOR": {
           "LABEL": "Kleur van widget",

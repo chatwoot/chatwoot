@@ -54,7 +54,7 @@
           "LABEL": "Bem-vindo, saudação",
           "PLACEHOLDER": "Nós tornamos simples a conexão conosco. Pergunte qualquer assunto ou compartilhe seus comentários."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Mensagem de agente ausente",
           "PLACEHOLDER": "Acme Inc tipicamente retorna em algumas horas."
         },

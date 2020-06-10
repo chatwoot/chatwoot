@@ -6,18 +6,8 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
     resource = resource_class.new(resource_params)
     authorize_resource(resource)
 
-    redirect_resource = params[:redirect_to] == 'user' ? resource.user : resource.account
-    if resource.save
-      redirect_to(
-        [namespace, redirect_resource],
-        notice: translate_with_resource('create.success')
-      )
-    else
-      redirect_to(
-        [namespace, redirect_resource],
-        notice: resource.errors.full_messages.first
-      )
-    end
+    notice =  resource.save ? translate_with_resource('create.success') : resource.errors.full_messages.first
+    redirect_back(fallback_location: [namespace, resource.account], notice: notice)
   end
 
   def destroy
@@ -26,7 +16,7 @@ class SuperAdmin::AccountUsersController < SuperAdmin::ApplicationController
     else
       flash[:error] = requested_resource.errors.full_messages.join('<br/>')
     end
-    redirect_to([namespace, requested_resource.account])
+    redirect_back(fallback_location: [namespace, requested_resource.account])
   end
 
   # Override this method to specify custom lookup behavior.

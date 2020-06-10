@@ -15,6 +15,7 @@ describe ::MessageFinder do
     create(:message, account: account, inbox: inbox, conversation: conversation)
     create(:message, message_type: 'activity', account: account, inbox: inbox, conversation: conversation)
     create(:message, message_type: 'activity', account: account, inbox: inbox, conversation: conversation)
+    # this outgoing message creates 2 additional messages because of the email hook execution service
     create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation)
   end
 
@@ -24,7 +25,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 7
+        expect(result.count).to be 6
       end
     end
 
@@ -33,7 +34,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 5
+        expect(result.count).to be 4
       end
     end
 
@@ -43,7 +44,7 @@ describe ::MessageFinder do
 
       it 'filter conversations by status' do
         result = message_finder.perform
-        expect(result.count).to be 7
+        expect(result.count).to be 6
       end
     end
   end

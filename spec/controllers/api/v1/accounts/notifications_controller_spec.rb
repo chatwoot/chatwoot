@@ -21,8 +21,38 @@ RSpec.describe 'Notifications API', type: :request do
             headers: admin.create_new_auth_token,
             as: :json
 
+        response_json = JSON.parse(response.body)
         expect(response).to have_http_status(:success)
         expect(response.body).to include(notification.notification_type)
+        expect(response_json['data']['meta']['unread_count']).to eq 1
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/notifications/read_all' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let!(:notification1) { create(:notification, account: account, user: admin) }
+    let!(:notification2) { create(:notification, account: account, user: admin) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/notifications/read_all"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'updates all the notifications read at' do
+        post "/api/v1/accounts/#{account.id}/notifications/read_all",
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification1.reload.read_at).not_to eq('')
+        expect(notification2.reload.read_at).not_to eq('')
       end
     end
   end
