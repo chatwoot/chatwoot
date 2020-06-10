@@ -26,14 +26,14 @@ class Integrations::Slack::OutgoingMessageBuilder
       channel: hook.reference_id,
       text: message.content,
       username: contact.try(:name),
-      thread_ts: conversation.reference_id
+      thread_ts: conversation.identifier
     )
   end
 
   def update_reference_id
-    return if conversation.reference_id
+    return if conversation.identifier
 
-    conversation.reference_id = @slack_message['ts']
+    conversation.identifier = @slack_message['ts']
     conversation.save!
   end
 

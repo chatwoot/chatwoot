@@ -5,6 +5,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
@@ -17,7 +18,6 @@
 #  contact_inbox_id      :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
-#  reference_id          :string
 #
 # Indexes
 #

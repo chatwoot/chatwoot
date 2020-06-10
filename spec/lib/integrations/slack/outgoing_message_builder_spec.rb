@@ -20,7 +20,7 @@ describe Integrations::Slack::OutgoingMessageBuilder do
         channel: hook.reference_id,
         text: message.content,
         username: contact.name,
-        thread_ts: conversation.reference_id
+        thread_ts: conversation.identifier
       )
       # rubocop:enable RSpec/AnyInstance
 

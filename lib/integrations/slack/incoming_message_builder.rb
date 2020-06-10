@@ -60,7 +60,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def conversation
-    @conversation ||= Conversation.where(reference_id: params[:event][:thread_ts]).first
+    @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
   end
 
   def create_message
