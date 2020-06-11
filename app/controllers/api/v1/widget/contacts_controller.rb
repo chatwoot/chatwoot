@@ -1,7 +1,4 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
-  before_action :set_web_widget
-  before_action :set_contact
-
   def update
     contact_identify_action = ContactIdentifyAction.new(
       contact: @contact,

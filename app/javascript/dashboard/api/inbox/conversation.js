@@ -43,6 +43,16 @@ class ConversationApi extends ApiClient {
   mute(conversationId) {
     return axios.post(`${this.url}/${conversationId}/mute`);
   }
+
+  meta({ inboxId, status, assigneeType }) {
+    return axios.get(`${this.url}/meta`, {
+      params: {
+        inbox_id: inboxId,
+        status,
+        assignee_type: assigneeType,
+      },
+    });
+  }
 }
 
 export default new ConversationApi();

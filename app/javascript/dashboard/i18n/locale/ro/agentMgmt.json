@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Adaugă un agent echipei tale",
       "DESC": "Puteți adăuga persoane care vor putea să se ocupe de suportul pentru inbox-urile dvs.",
+      "CANCEL_BUTTON_TEXT": "Renunță",
       "FORM": {
         "NAME": {
           "LABEL": "Nume Agent",
