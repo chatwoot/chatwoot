@@ -100,7 +100,7 @@ sudo -i -u chatwoot
 cd chatwoot 
 
 # pull the latest version of master
-git pull master
+git pull
 
 # update dependencies 
 bundle 
