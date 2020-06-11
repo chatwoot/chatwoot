@@ -5,55 +5,52 @@ title: "Caprover Chatwoot Production deployment guide"
 
 ## Caprover Overview
 
-Caprover is an extremly easy to use application server managment tool. Its blazing fast and uses docker under the hood. 
-Chatwoot has been made available as a one click app in chatwoot and hence the deployment process is very easy. 
+Caprover is an extremely easy to use application server management tool. It is blazing fast and uses Docker under the hood. Chatwoot has been made available as a one-click app in Chatwoot and hence the deployment process is very easy. 
 
+## Install Caprover on your VM
 
-## Install caprover on your VM
+Finish your caprover installation by referring to [Getting started guid](https://caprover.com/docs/get-started.html). 
 
-Finish your caprover installation by refering to [Getting started guid](https://caprover.com/docs/get-started.html). 
+## Installing Chatwoot in Caprover
 
-## Installing chatwoot in caprover
-
-Chatwoot is available in the one click apps option in caprover, find chatwoot by searching and clicking on it. 
-Replace the default `version` with the lastest `version` of chatwoot. User appropriate values for the postgres and redis passwords and click install. It should only take  few minutes. 
+Chatwoot is available in the one-click apps option in caprover, find Chatwoot by searching and clicking on it. Replace the default `version` with the latest `version` of chatwoot. User appropriate values for the Postgres and Redis passwords and click install. It should only take a few minutes. 
 
 ## Configure the necessary environment variables 
 
-Caprover will take care of the installation of postgres and redis along with the app and worker servers. We would advice you to replace the database/redis services with managed/standalone onces once you start scaling.  
+Caprover will take care of the installation of Postgres and Redis along with the app and worker servers. We would advise you to replace the database/Redis services with managed/standalone servers once you start scaling.  
 
-Also ensure to set the appropriate environment variables for E-mail, Object Store service etc refereing to our [Environment variables guide](./environment-variables)
+Also, ensure to set the appropriate environment variables for E-mail, Object Store service etc referring to our [Environment variables guide](./environment-variables)
 
+## Upgrading Chatwoot installation
 
-## Upgrading chatwoot installation
-
-To update your chatwoot installation to the latest version in caprover, Run the following command in deployment tab for for web and worker in the method 5 : deploy captain -definition
+To update your chatwoot installation to the latest version in caprover, Run the following command in deployment tab for web and worker in the method 5: deploy captain-definition
 
 ### web 
-```
+
+```json
 {
-     "schemaVersion": 2,
-     "dockerfileLines": [
-                    "FROM chatwoot/chatwoot:latest",
-                    "RUN chmod +x docker/entrypoints/rails.sh",
-                    "ENTRYPOINT [\"docker/entrypoints/rails.sh\"]",
-                     "CMD bundle exec rake db:setup; bundle exec rake db:migrate; bundle exec rails s -b 0.0.0.0 -p 3000" ]
+  "schemaVersion": 2,
+  "dockerfileLines": [
+    "FROM chatwoot/chatwoot:latest",
+    "RUN chmod +x docker/entrypoints/rails.sh",
+    "ENTRYPOINT [\"docker/entrypoints/rails.sh\"]",
+    "CMD bundle exec rake db:setup; bundle exec rake db:migrate; bundle exec rails s -b 0.0.0.0 -p 3000"
+  ]
 }
 ```
 
 ### worker
-```
+```json
 {
-     "schemaVersion": 2,
-     "dockerfileLines": [
-                    "FROM chatwoot/chatwoot:latest",
-                    "RUN chmod +x docker/entrypoints/rails.sh",
-                    "ENTRYPOINT [\"docker/entrypoints/rails.sh\"]",
-                     "CMD bundle exec sidekiq -C config/sidekiq.yml" ]
+  "schemaVersion": 2,
+  "dockerfileLines": [
+    "FROM chatwoot/chatwoot:latest",
+    "RUN chmod +x docker/entrypoints/rails.sh",
+    "ENTRYPOINT [\"docker/entrypoints/rails.sh\"]",
+    "CMD bundle exec sidekiq -C config/sidekiq.yml"
+  ]
 }
 ```
-
-
 
 ## Further references
 
