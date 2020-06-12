@@ -1,16 +1,9 @@
 import { API } from 'widget/helpers/axios';
-import Vue from 'vue';
+import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 
 export default {
   create(name) {
-    const locale = Vue.config.lang;
-    let search = window.location.search;
-    if (search) {
-      search = `${search}&locale=${locale}`;
-    } else {
-      search = `?locale=${locale}`;
-    }
-
+    const search = buildSearchParamsWithLocale(window.location.search);
     return API.post(`/api/v1/widget/events${search}`, { name });
   },
 };
