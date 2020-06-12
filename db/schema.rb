@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_06_10_143132) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -205,8 +206,8 @@ ActiveRecord::Schema.define(version: 2020_06_10_143132) do
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
-    t.string "identifier"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.string "identifier"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -226,17 +227,6 @@ ActiveRecord::Schema.define(version: 2020_06_10_143132) do
     t.index ["inbox_id"], name: "index_events_on_inbox_id"
     t.index ["name"], name: "index_events_on_name"
     t.index ["user_id"], name: "index_events_on_user_id"
-  end
-
-  create_table "hooks_inbox_apps", force: :cascade do |t|
-    t.integer "inbox_id"
-    t.integer "agent_id"
-    t.integer "account_id"
-    t.string "app_slug"
-    t.string "status"
-    t.text "settings"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -381,11 +371,9 @@ ActiveRecord::Schema.define(version: 2020_06_10_143132) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|

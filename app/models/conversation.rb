@@ -107,10 +107,7 @@ class Conversation < ApplicationRecord
   end
 
   def webhook_data
-    {
-      display_id: display_id,
-      additional_attributes: additional_attributes
-    }
+    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def notifiable_assignee_change?
