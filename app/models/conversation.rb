@@ -5,6 +5,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
