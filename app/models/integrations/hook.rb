@@ -29,4 +29,8 @@ class Integrations::Hook < ApplicationRecord
   def app
     @app ||= Integrations::App.find(id: app_id)
   end
+
+  def slack?
+    app_id == "cw_slack"
+  end
 end
