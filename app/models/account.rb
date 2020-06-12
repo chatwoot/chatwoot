@@ -47,6 +47,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy
   has_many :labels, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h

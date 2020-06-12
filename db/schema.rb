@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_140737) do
+ActiveRecord::Schema.define(version: 2020_06_10_143132) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -206,6 +205,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
+    t.string "identifier"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
@@ -226,6 +226,17 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.index ["inbox_id"], name: "index_events_on_inbox_id"
     t.index ["name"], name: "index_events_on_name"
     t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
+  create_table "hooks_inbox_apps", force: :cascade do |t|
+    t.integer "inbox_id"
+    t.integer "agent_id"
+    t.integer "account_id"
+    t.string "app_slug"
+    t.string "status"
+    t.text "settings"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "inbox_members", id: :serial, force: :cascade do |t|
@@ -255,6 +266,19 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
+  create_table "integrations_hooks", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.integer "inbox_id"
+    t.integer "account_id"
+    t.string "app_id"
+    t.text "settings"
+    t.integer "hook_type", default: 0
+    t.string "reference_id"
+    t.string "access_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "labels", force: :cascade do |t|
@@ -357,9 +381,11 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
