@@ -1,6 +1,10 @@
 class Integrations::Slack::OutgoingMessageBuilder
   attr_reader :hook, :message
 
+  def self.perform(hook, message)
+    new(hook, message).perform
+  end
+
   def initialize(hook, message)
     @hook = hook
     @message = message
