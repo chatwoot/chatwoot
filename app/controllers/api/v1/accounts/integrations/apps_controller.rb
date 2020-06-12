@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Integrations::AppsController < Api::BaseController
+class Api::V1::Accounts::Integrations::AppsController < Api::V1::Accounts::BaseController
   before_action :fetch_apps, only: [:index]
   before_action :fetch_app, only: [:show]
 

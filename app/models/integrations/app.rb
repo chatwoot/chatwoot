@@ -25,6 +25,14 @@ class Integrations::App
     params[:fields]
   end
 
+  def button
+    params[:button]
+  end
+
+  def enabled?(account)
+    account.hooks.where(app_id: id).exists?
+  end
+
   class << self
     def apps
       Hashie::Mash.new(APPS_CONFIG)

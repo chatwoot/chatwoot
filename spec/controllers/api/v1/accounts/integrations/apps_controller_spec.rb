@@ -14,7 +14,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'returns all the labels for the conversation' do
+      it 'returns all the apps' do
         get api_v1_account_integrations_apps_url(account),
             headers: agent.create_new_auth_token,
             as: :json
@@ -38,7 +38,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'returns all the labels for the conversation' do
+      it 'returns details of the app' do
         get api_v1_account_integrations_app_url(account_id: account.id, id: 'cw_slack'),
             headers: agent.create_new_auth_token,
             as: :json
