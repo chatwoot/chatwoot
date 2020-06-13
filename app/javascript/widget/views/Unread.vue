@@ -1,11 +1,23 @@
 <template>
-  <div class="unread-wrap" @click="openFullView">
-    <agent-bubble
-      v-for="message in unreadMessages"
-      :key="message.id"
-      :message-id="message.id"
-      :message="message.content"
-    />
+  <div class="unread-wrap">
+    <div class="unread-messages">
+      <agent-bubble
+        v-for="message in unreadMessages"
+        :key="message.id"
+        :message-id="message.id"
+        :message="message.content"
+      />
+    </div>
+    <div>
+      <button
+        v-if="unreadMessageCount"
+        class="button clear-button"
+        @click="openFullView"
+      >
+        <i class="ion-arrow-right-c" />
+        {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -54,17 +66,45 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '~widget/assets/scss/woot.scss';
+.unread-wrap {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+
+  .clear-button {
+    background: transparent;
+    color: $color-woot;
+    padding: 0;
+    border: 0;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-medium;
+    transition: all 0.3s $ease-in-cubic;
+    margin-left: $space-smaller;
+
+    &:hover {
+      transform: translateX($space-smaller);
+      color: $color-primary-dark;
+    }
+  }
+}
+</style>
 
 <style lang="scss">
 @import '~widget/assets/scss/woot.scss';
 
-.unread-wrap {
+.unread-messages {
   width: 100%;
-  height: 100%;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  background: transparent;
+  overflow-y: auto;
 
   .chat-bubble-wrap {
     margin-bottom: $space-smaller;
