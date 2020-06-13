@@ -46,6 +46,7 @@ class Notification < ApplicationRecord
       id: id,
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
+      primary_actor_id: primary_actor_id,
       primary_actor: primary_actor&.push_event_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
