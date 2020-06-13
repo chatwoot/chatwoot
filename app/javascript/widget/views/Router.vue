@@ -1,5 +1,9 @@
 <template>
-  <div id="app" class="woot-widget-wrap" :class="{ 'is-mobile': isMobile }">
+  <div
+    id="app"
+    class="woot-widget-wrap"
+    :class="{ 'is-mobile': isMobile, 'is-widget-right': !isLeftAligned }"
+  >
     <home
       v-if="!showUnreadView"
       :grouped-messages="groupedMessages"
@@ -54,6 +58,10 @@ export default {
       default: false,
     },
     isMobile: {
+      type: Boolean,
+      default: false,
+    },
+    isLeftAligned: {
       type: Boolean,
       default: false,
     },

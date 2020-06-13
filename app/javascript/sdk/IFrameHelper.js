@@ -93,6 +93,7 @@ export const IFrameHelper = {
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
+        position: window.$chatwoot.position,
       });
       IFrameHelper.onLoad(message.config.channelConfig);
       IFrameHelper.setCurrentUrl();

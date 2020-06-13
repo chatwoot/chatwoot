@@ -10,6 +10,7 @@
     :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
     :on-set-agent-last-seen="handleSetLastSeen"
+    :is-left-aligned="isLeftAligned"
   />
 </template>
 
@@ -32,6 +33,7 @@ export default {
     return {
       showUnreadView: false,
       isMobile: false,
+      widgetPosition: 'right',
     };
   },
   computed: {
@@ -44,6 +46,10 @@ export default {
       conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
+    isLeftAligned() {
+      const isLeft = this.widgetPosition === 'left';
+      return isLeft;
+    },
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
@@ -75,6 +81,7 @@ export default {
         });
         this.fetchAvailableAgents(websiteToken);
         this.setLocale(message.locale);
+        this.setPosition(message.position);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
@@ -114,6 +121,10 @@ export default {
       if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
         Vue.config.lang = locale;
       }
+    },
+    setPosition(position) {
+      const widgetPosition = position || 'right';
+      this.widgetPosition = widgetPosition;
     },
     registerUnreadEvents() {
       bus.$on('on-agent-message-recieved', () => {

@@ -76,6 +76,7 @@ export default {
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-end;
+  overflow: hidden;
 
   .clear-button {
     background: transparent;
@@ -125,5 +126,10 @@ export default {
       border-bottom-left-radius: $space-two;
     }
   }
+}
+
+.is-widget-right .unread-wrap {
+  text-align: right;
+  overflow: hidden;
 }
 </style>
