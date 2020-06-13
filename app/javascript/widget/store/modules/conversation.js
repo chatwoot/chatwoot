@@ -66,7 +66,6 @@ export const onNewMessageCreated = data => {
 
   if (isIncomingMessage) {
     playNotificationAudio();
-    window.bus.$emit('on-agent-message-recieved');
   }
 };
 
