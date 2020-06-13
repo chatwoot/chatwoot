@@ -12,7 +12,6 @@ export const chatBubble = document.createElement('div');
 export const closeBubble = document.createElement('div');
 
 export const notificationBubble = document.createElement('span');
-const bodyOverFlowStyle = document.body.style.overflow;
 
 export const createBubbleIcon = ({ className, src, target }) => {
   target.className = `${className} woot-elements--${window.$chatwoot.position}`;
@@ -44,12 +43,4 @@ export const onBubbleClick = () => {
 
 export const onClickChatBubble = () => {
   wootOn(bubbleHolder, 'click', onBubbleClick);
-};
-
-export const disableScroll = () => {
-  document.body.style.overflow = 'hidden';
-};
-
-export const enableScroll = () => {
-  document.body.style.overflow = bodyOverFlowStyle;
 };
