@@ -76,9 +76,12 @@ export const IFrameHelper = {
       const visibleHeight = widgetHolder.offsetHeight;
       const scrollTop = widgetHolder.scrollTop;
 
-      if (scrollTop === 0 && deltaY < 0) event.preventDefault();
-      else if (visibleHeight + scrollTop === contentHeight && deltaY > 0)
+      if (
+        (scrollTop === 0 && deltaY < 0) ||
+        (visibleHeight + scrollTop === contentHeight && deltaY > 0)
+      ) {
         event.preventDefault();
+      }
     });
   },
   events: {
