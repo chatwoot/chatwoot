@@ -8,6 +8,7 @@
       :has-fetched="hasFetched"
       :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
+      :on-set-agent-last-seen="onSetAgentLastSeen"
     />
     <unread
       v-else
@@ -67,6 +68,10 @@ export default {
     unreadMessageCount: {
       type: Number,
       default: 0,
+    },
+    onSetAgentLastSeen: {
+      type: Function,
+      default: () => {},
     },
   },
 };

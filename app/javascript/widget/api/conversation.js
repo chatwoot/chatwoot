@@ -30,10 +30,10 @@ const toggleTyping = async ({ typingStatus }) => {
   );
 };
 
-const setUserLastSeenAt = async ({ typingStatus }) => {
+const setUserLastSeenAt = async ({ lastSeen }) => {
   return API.post(
-    `/api/v1/widget/conversations/toggle_typing${window.location.search}`,
-    { typing_status: typingStatus }
+    `/api/v1/widget/conversations/update_last_seen${window.location.search}`,
+    { agent_last_seen_at: lastSeen }
   );
 };
 

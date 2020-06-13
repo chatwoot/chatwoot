@@ -9,6 +9,7 @@
     :has-fetched="hasFetched"
     :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
+    :on-set-agent-last-seen="handleSetLastSeen"
   />
 </template>
 
@@ -69,7 +70,9 @@ export default {
 
       const message = JSON.parse(e.data.replace(wootPrefix, ''));
       if (message.event === 'config-set') {
-        this.fetchOldConversations();
+        this.fetchOldConversations().then(() => {
+          this.setUnreadView();
+        });
         this.fetchAvailableAgents(websiteToken);
         this.setLocale(message.locale);
       } else if (message.event === 'widget-visible') {
@@ -100,7 +103,7 @@ export default {
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -121,10 +124,11 @@ export default {
       });
     },
     setUnreadView() {
-      if (IFrameHelper.isIFrame()) {
+      const unreadCount = this.unreadMessageCount;
+      if (IFrameHelper.isIFrame() && unreadCount > 0) {
         IFrameHelper.sendMessage({
           event: 'setUnreadMode',
-          unreadCount: 2,
+          unreadCount,
         });
       }
     },
@@ -134,6 +138,9 @@ export default {
           event: 'resetUnreadMode',
         });
       }
+    },
+    handleSetLastSeen() {
+      this.setUserLastSeen();
     },
   },
 };

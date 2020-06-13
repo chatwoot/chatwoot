@@ -69,6 +69,10 @@ export default {
       type: Number,
       default: 0,
     },
+    onSetAgentLastSeen: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
     isOpen() {
@@ -103,7 +107,9 @@ export default {
     updateUserLastSeen() {
       const { unreadMessageCount = 0 } = this;
       if (unreadMessageCount > 0) {
-        // setUserLastSeen();
+        setTimeout(() => {
+          this.onSetAgentLastSeen();
+        }, 2000);
       }
     },
   },

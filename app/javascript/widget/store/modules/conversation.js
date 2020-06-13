@@ -5,6 +5,7 @@ import {
   getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
+  setUserLastSeenAt,
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
@@ -192,9 +193,14 @@ export const actions = {
     }
   },
 
-  setUserLastSeen: async (_, data) => {
+  setUserLastSeen: async ({ commit }) => {
     try {
-      await toggleTyping(data);
+      const lastSeen = Math.abs(Date.now() / 1000);
+      commit('setMetaUserLastSeenAt', lastSeen);
+
+      await setUserLastSeenAt({
+        lastSeen,
+      });
     } catch (error) {
       // console error
     }
@@ -263,6 +269,10 @@ export const mutations = {
   toggleAgentTypingStatus($state, { status }) {
     const isTyping = status === 'on';
     $state.uiFlags.isAgentTyping = isTyping;
+  },
+
+  setMetaUserLastSeenAt($state, lastSeen) {
+    $state.meta.userLastSeenAt = lastSeen;
   },
 };
 
