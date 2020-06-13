@@ -4,8 +4,6 @@ import {
   body,
   widgetHolder,
   createBubbleHolder,
-  disableScroll,
-  enableScroll,
   createBubbleIcon,
   bubbleImg,
   chatBubble,
@@ -37,6 +35,7 @@ export const IFrameHelper = {
     IFrameHelper.initPostMessageCommunication();
     IFrameHelper.initLocationListener();
     IFrameHelper.initWindowSizeListener();
+    IFrameHelper.preventDefaultScroll();
   },
   getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
   sendMessage: (key, value) => {
@@ -70,6 +69,21 @@ export const IFrameHelper = {
       IFrameHelper.toggleCloseButton();
     });
   },
+  preventDefaultScroll: () => {
+    widgetHolder.addEventListener('wheel', event => {
+      const deltaY = event.deltaY;
+      const contentHeight = widgetHolder.scrollHeight;
+      const visibleHeight = widgetHolder.offsetHeight;
+      const scrollTop = widgetHolder.scrollTop;
+
+      if (
+        (scrollTop === 0 && deltaY < 0) ||
+        (visibleHeight + scrollTop === contentHeight && deltaY > 0)
+      ) {
+        event.preventDefault();
+      }
+    });
+  },
   events: {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
@@ -99,8 +113,6 @@ export const IFrameHelper = {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
-    iframe.onmouseenter = disableScroll;
-    iframe.onmouseleave = enableScroll;
 
     loadCSS();
     createBubbleHolder();
