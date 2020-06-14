@@ -170,15 +170,6 @@ const actions = {
     commit(types.default.UPDATE_CONVERSATION, conversation);
   },
 
-  toggleTyping: async ({ commit }, { status, conversationId }) => {
-    try {
-      commit(types.default.SET_AGENT_TYPING, { status });
-      await ConversationApi.toggleTyping({ status, conversationId });
-    } catch (error) {
-      // Handle error
-    }
-  },
-
   markMessagesRead: async ({ commit }, data) => {
     setTimeout(() => {
       commit(types.default.MARK_MESSAGE_READ, data);
