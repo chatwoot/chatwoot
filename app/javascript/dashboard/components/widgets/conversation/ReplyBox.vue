@@ -269,7 +269,7 @@ export default {
     toggleTyping(status) {
       if (this.channelType === 'Channel::WebWidget' && !this.isPrivate) {
         const conversationId = this.currentChat.id;
-        this.$store.dispatch('toggleTyping', {
+        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
           status,
           conversationId,
         });

@@ -88,14 +88,17 @@ export default {
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
-      convStats: 'getConvTabStats',
+      conversationStats: 'conversationStats/getStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
-        key: item.KEY,
-        name: item.NAME,
-        count: this.convStats[item.COUNT_KEY] || 0,
-      }));
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
+        const count = this.conversationStats[item.COUNT_KEY] || 0;
+        return {
+          key: item.KEY,
+          name: item.NAME,
+          count,
+        };
+      });
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -130,7 +133,7 @@ export default {
     this.$store.dispatch('agents/get');
 
     bus.$on('fetch_conversation_stats', () => {
-      this.$store.dispatch('getConversationStats', this.conversationFilters);
+      this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
   },
   methods: {

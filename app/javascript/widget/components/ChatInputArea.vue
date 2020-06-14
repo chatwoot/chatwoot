@@ -49,6 +49,7 @@ export default {
 .user-message-input {
   border: 0;
   height: $space-large;
+  min-height: $space-large;
   resize: none;
   padding-top: $space-small;
 }

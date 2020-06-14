@@ -42,6 +42,7 @@ class Inbox < ApplicationRecord
   has_one :agent_bot_inbox, dependent: :destroy
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy
+  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
 
   after_destroy :delete_round_robin_agents
 

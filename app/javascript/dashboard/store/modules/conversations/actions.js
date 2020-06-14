@@ -2,7 +2,6 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import FBChannel from '../../../api/channel/fbChannel';
 
 // actions
 const actions = {
@@ -26,7 +25,7 @@ const actions = {
       const { data } = response.data;
       const { payload: chatList, meta: metaData } = data;
       commit(types.default.SET_ALL_CONVERSATION, chatList);
-      commit(types.default.SET_CONV_TAB_META, metaData);
+      dispatch('conversationStats/set', metaData);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
       commit(
         `contacts/${types.default.SET_CONTACTS}`,
@@ -171,24 +170,6 @@ const actions = {
     commit(types.default.UPDATE_CONVERSATION, conversation);
   },
 
-  toggleTyping: async ({ commit }, { status, conversationId }) => {
-    try {
-      commit(types.default.SET_AGENT_TYPING, { status });
-      await ConversationApi.toggleTyping({ status, conversationId });
-    } catch (error) {
-      // Handle error
-    }
-  },
-
-  markSeen: async ({ commit }, data) => {
-    try {
-      await FBChannel.markSeen(data);
-      commit(types.default.MARK_SEEN);
-    } catch (error) {
-      // Handle error
-    }
-  },
-
   markMessagesRead: async ({ commit }, data) => {
     setTimeout(() => {
       commit(types.default.MARK_MESSAGE_READ, data);
@@ -234,15 +215,6 @@ const actions = {
       commit(types.default.MUTE_CONVERSATION);
     } catch (error) {
       //
-    }
-  },
-
-  getConversationStats: async ({ commit }, params) => {
-    try {
-      const response = await ConversationApi.meta(params);
-      commit(types.default.SET_CONV_TAB_META, response.data.meta);
-    } catch (error) {
-      // Ignore error
     }
   },
 };
