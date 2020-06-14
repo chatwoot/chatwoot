@@ -171,7 +171,7 @@ export const actions = {
     }
   },
 
-  addMessage({ commit }, data) {
+  addMessage: async ({ commit }, data) => {
     commit('pushMessageToConversation', data);
     onNewMessageCreated(data);
   },

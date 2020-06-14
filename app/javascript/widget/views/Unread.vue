@@ -87,6 +87,7 @@ export default {
     font-size: $font-size-medium;
     transition: all 0.3s $ease-in-cubic;
     margin-left: $space-smaller;
+    padding-right: $space-one;
 
     &:hover {
       transform: translateX($space-smaller);
@@ -131,5 +132,21 @@ export default {
 .is-widget-right .unread-wrap {
   text-align: right;
   overflow: hidden;
+
+  .chat-bubble-wrap {
+    .chat-bubble {
+      border-radius: $space-two;
+      border-bottom-right-radius: $space-smaller;
+    }
+
+    + .chat-bubble-wrap {
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+    &:last-child .chat-bubble {
+      border-bottom-right-radius: $space-two;
+    }
+  }
 }
 </style>
