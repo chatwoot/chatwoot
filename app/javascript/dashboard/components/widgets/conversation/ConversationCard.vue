@@ -23,15 +23,19 @@
           {{ inboxName(chat.inbox_id) }}
         </span>
       </h4>
-      <p
-        class="conversation--message"
-        v-html="extractMessageText(lastMessageInChat)"
-      />
+      <p v-if="lastMessageInChat" class="conversation--message">
+        <span v-if="lastMessageInChat.content">
+          {{ lastMessageInChat.content }}
+        </span>
+        <span v-else-if="!lastMessageInChat.attachments">{{ ` ` }}</span>
+        <span v-else>
+          <i :class="`small-icon ${this.$t(`${attachmentIconKey}.ICON`)}`"></i>
+          {{ this.$t(`${attachmentIconKey}.CONTENT`) }}
+        </span>
+      </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          {{
-            lastMessageInChat ? dynamicTime(lastMessageInChat.created_at) : ''
-          }}
+          {{ dynamicTime(chat.timestamp) }}
         </span>
         <span class="unread">{{ getUnreadCount }}</span>
       </div>
@@ -39,11 +43,8 @@
   </div>
 </template>
 <script>
-/* eslint no-console: 0 */
-/* eslint no-extra-boolean-cast: 0 */
 import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail';
-import getEmojiSVG from '../emoji/utils';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
@@ -85,6 +86,12 @@ export default {
       );
     },
 
+    attachmentIconKey() {
+      const lastMessage = this.lastMessageInChat;
+      const [{ file_type: fileType } = {}] = lastMessage.attachments;
+      return `CHAT_LIST.ATTACHMENTS.${fileType}`;
+    },
+
     isActiveChat() {
       return this.currentChat.id === this.chat.id;
     },
@@ -112,30 +119,6 @@ export default {
       const path = conversationUrl(this.accountId, activeInbox, chat.id);
       router.push({ path: frontendURL(path) });
     },
-    extractMessageText(chatItem) {
-      if (!chatItem) {
-        return '';
-      }
-
-      const { content, attachments } = chatItem;
-
-      if (content) {
-        return content;
-      }
-      if (!attachments) {
-        return ' ';
-      }
-
-      const [attachment] = attachments;
-      const { file_type: fileType } = attachment;
-      const key = `CHAT_LIST.ATTACHMENTS.${fileType}`;
-      return `
-        <i class="small-icon ${this.$t(`${key}.ICON`)}"></i>
-        ${this.$t(`${key}.CONTENT`)}
-      `;
-    },
-    getEmojiSVG,
-
     inboxName(inboxId) {
       const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
       return stateInbox.name || '';
