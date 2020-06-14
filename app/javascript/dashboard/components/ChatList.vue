@@ -91,11 +91,14 @@ export default {
       conversationStats: 'conversationStats/getStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
-        key: item.KEY,
-        name: item.NAME,
-        count: this.conversationStats[item.COUNT_KEY] || 0,
-      }));
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
+        const count = this.conversationStats[item.COUNT_KEY] || 0;
+        return {
+          key: item.KEY,
+          name: item.NAME,
+          count,
+        };
+      });
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);

@@ -15,9 +15,10 @@ export const getters = {
 export const actions = {
   get: async ({ commit }, params) => {
     try {
+      const response = await ConversationApi.meta(params);
       const {
         data: { meta },
-      } = await ConversationApi.meta(params);
+      } = response;
       commit(types.SET_CONV_TAB_META, meta);
     } catch (error) {
       // Ignore error
