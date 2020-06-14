@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import * as types from '../mutation-types';
-
+import ConversationAPI from '../../api/inbox/conversation';
 const state = {
   records: {},
 };
@@ -12,6 +12,13 @@ export const getters = {
 };
 
 export const actions = {
+  toggleTyping: async (_, { status, conversationId }) => {
+    try {
+      await ConversationAPI.toggleTyping({ status, conversationId });
+    } catch (error) {
+      // Handle error
+    }
+  },
   create: ({ commit }, { conversationId, user }) => {
     commit(types.default.ADD_USER_TYPING_TO_CONVERSATION, {
       conversationId,
