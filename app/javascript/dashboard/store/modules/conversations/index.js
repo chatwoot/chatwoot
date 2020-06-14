@@ -17,11 +17,6 @@ const initialSelectedChat = {
 };
 const state = {
   allConversations: [],
-  convTabStats: {
-    mineCount: 0,
-    unAssignedCount: 0,
-    allCount: 0,
-  },
   selectedChat: { ...initialSelectedChat },
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
@@ -65,19 +60,6 @@ const mutations = {
       const [chat] = _state.allConversations.filter(c => c.id === id);
       chat.messages.unshift(...data);
     }
-  },
-
-  [types.default.SET_CONV_TAB_META](
-    _state,
-    {
-      mine_count: mineCount,
-      unassigned_count: unAssignedCount,
-      all_count: allCount,
-    } = {}
-  ) {
-    Vue.set(_state.convTabStats, 'mineCount', mineCount);
-    Vue.set(_state.convTabStats, 'allCount', allCount);
-    Vue.set(_state.convTabStats, 'unAssignedCount', unAssignedCount);
   },
 
   [types.default.CURRENT_CHAT_WINDOW](_state, activeChat) {

@@ -52,7 +52,6 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getConvTabStats: ({ convTabStats }) => convTabStats,
   getNextChatConversation: _state => {
     const { selectedChat } = _state;
     const conversations = getters.getAllStatusChats(_state);

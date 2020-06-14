@@ -9,7 +9,6 @@ describe('#FBChannel', () => {
     expect(fbChannel).toHaveProperty('create');
     expect(fbChannel).toHaveProperty('update');
     expect(fbChannel).toHaveProperty('delete');
-    expect(fbChannel).toHaveProperty('markSeen');
     expect(fbChannel).toHaveProperty('toggleTyping');
   });
 });
