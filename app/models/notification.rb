@@ -37,11 +37,16 @@ class Notification < ApplicationRecord
   enum notification_type: NOTIFICATION_TYPES
 
   after_create_commit :process_notification_delivery
+  default_scope { order(id: :desc) }
+
+  PRIMARY_ACTORS = ['Conversation'].freeze
 
   def push_event_data
     {
       id: id,
       notification_type: notification_type,
+      primary_actor_type: primary_actor_type,
+      primary_actor_id: primary_actor_id,
       primary_actor: primary_actor&.push_event_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
