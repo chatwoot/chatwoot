@@ -2,7 +2,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   protect_from_forgery with: :null_session
 
   before_action :fetch_notification, only: [:update]
-  before_action :primary_actor, only: [:read_all]
+  before_action :set_primary_actor, only: [:read_all]
 
   def index
     @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
@@ -27,7 +27,7 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   private
 
-  def primary_actor
+  def set_primary_actor
     return unless params[:primary_actor_type]
     return unless Notification::PRIMARY_ACTORS.include?(params[:primary_actor_type])
 
