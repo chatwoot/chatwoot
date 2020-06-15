@@ -14,7 +14,8 @@ RSpec.describe 'Notifications API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:notification) { create(:notification, account: account, user: admin) }
+      let!(:notification1) { create(:notification, account: account, user: admin) }
+      let!(:notification2) { create(:notification, account: account, user: admin) }
 
       it 'returns all notifications' do
         get "/api/v1/accounts/#{account.id}/notifications",
@@ -23,8 +24,10 @@ RSpec.describe 'Notifications API', type: :request do
 
         response_json = JSON.parse(response.body)
         expect(response).to have_http_status(:success)
-        expect(response.body).to include(notification.notification_type)
-        expect(response_json['data']['meta']['unread_count']).to eq 1
+        expect(response.body).to include(notification1.notification_type)
+        expect(response_json['data']['meta']['unread_count']).to eq 2
+        # notification appear in descending order
+        expect(response_json['data']['payload'].first['id']).to eq notification2.id
       end
     end
   end
@@ -53,6 +56,20 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response).to have_http_status(:success)
         expect(notification1.reload.read_at).not_to eq('')
         expect(notification2.reload.read_at).not_to eq('')
+      end
+
+      it 'updates only the notifications read at for primary actor when param is passed' do
+        post "/api/v1/accounts/#{account.id}/notifications/read_all",
+             headers: admin.create_new_auth_token,
+             params: {
+               primary_actor_id: notification1.primary_actor_id,
+               primary_actor_type: notification1.primary_actor_type
+             },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification1.reload.read_at).not_to eq('')
+        expect(notification2.reload.read_at).to eq nil
       end
     end
   end
