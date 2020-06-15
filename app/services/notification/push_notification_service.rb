@@ -42,6 +42,7 @@ class Notification::PushNotificationService
   end
 
   def send_browser_push(subscription)
+    return unless ENV['VAPID_PUBLIC_KEY']
     return unless subscription.browser_push?
 
     Webpush.payload_send(
@@ -63,6 +64,7 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
+    return unless ENV['FCM_SERVER_KEY']
     return unless subscription.fcm?
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
