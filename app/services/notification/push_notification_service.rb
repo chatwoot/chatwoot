@@ -66,15 +66,18 @@ class Notification::PushNotificationService
     return unless subscription.fcm?
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
-    options = {
+    response = fcm.send([subscription.subscription_attributes['push_token']], fcm_options)
+    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
+  end
+
+  def fcm_options
+    {
       "notification": {
         "title": notification.notification_type.titleize,
         "body": notification.push_message_title
       },
-      "data": { notification: notification.push_event_data.to_json }
+      "data": { notification: notification.push_event_data.to_json },
+      "collapse_key": "chatwoot_#{notification.primary_actor_type.downcase}_#{notification.primary_actor_id}"
     }
-
-    response = fcm.send([subscription.subscription_attributes['push_token']], options)
-    subscription.destroy! if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
   end
 end
