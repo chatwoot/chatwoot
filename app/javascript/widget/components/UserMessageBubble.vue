@@ -3,32 +3,28 @@
     class="chat-bubble user"
     :style="{ background: widgetColor }"
     v-html="formatMessage(message)"
-  ></div>
+  />
 </template>
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'UserMessageBubble',
   mixins: [messageFormatterMixin],
   props: {
-    message: String,
+    message: {
+      type: String,
+      default: '',
+    },
     status: {
       type: String,
       default: '',
     },
-    computed: {
-      ...mapGetters({
-        widgetColor: 'appConfig/getWidgetColor',
-      }),
+    widgetColor: {
+      type: String,
+      default: '',
     },
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
   },
 };
 </script>
