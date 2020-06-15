@@ -41,9 +41,12 @@ class Notification::PushNotificationService
     app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id)
   end
 
+  def send_browser_push?(subscription)
+    ENV['VAPID_PUBLIC_KEY'] && subscription.browser_push?
+  end
+
   def send_browser_push(subscription)
-    return unless ENV['VAPID_PUBLIC_KEY']
-    return unless subscription.browser_push?
+    return unless send_browser_push?(subscription)
 
     Webpush.payload_send(
       message: JSON.generate(push_message),
