@@ -28,6 +28,6 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def update_reference_id
-    @hook.reference_id = channel['channel']['id']
+    @hook.update(reference_id: channel['channel']['id'])
   end
 end

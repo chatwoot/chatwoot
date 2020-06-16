@@ -11,6 +11,8 @@ class Integrations::Slack::OutgoingMessageBuilder
   end
 
   def perform
+    return if message.source_id.present?
+
     send_message
     update_reference_id
   end
@@ -25,12 +27,20 @@ class Integrations::Slack::OutgoingMessageBuilder
     @contact ||= conversation.contact
   end
 
+  def agent
+    @agent ||= message.user
+  end
+
   def send_message
+    sender = message.outgoing? ? agent : contact
+    sender_type = sender.class == Contact ? 'Contact' : 'Agent'
+
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message.content,
-      username: contact.try(:name),
-      thread_ts: conversation.identifier
+      username: "#{sender_type}: #{sender.try(:name)}",
+      thread_ts: conversation.identifier,
+      icon_url: "https://api.adorable.io/avatars/285/#{sender.id}.png"
     )
   end
 

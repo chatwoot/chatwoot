@@ -67,10 +67,11 @@ class Integrations::Slack::IncomingMessageBuilder
     return unless conversation
 
     conversation.messages.create(
-      message_type: 0,
+      message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: message[:elements].first[:elements].first[:text]
+      content: message[:elements].first[:elements].first[:text],
+      source_id: "slack_#{params[:event][:ts]}"
     )
 
     { status: 'success' }
