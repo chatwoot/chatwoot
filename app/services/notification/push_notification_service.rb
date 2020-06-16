@@ -41,8 +41,12 @@ class Notification::PushNotificationService
     app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id)
   end
 
+  def send_browser_push?(subscription)
+    ENV['VAPID_PUBLIC_KEY'] && subscription.browser_push?
+  end
+
   def send_browser_push(subscription)
-    return unless subscription.browser_push?
+    return unless send_browser_push?(subscription)
 
     Webpush.payload_send(
       message: JSON.generate(push_message),
@@ -63,6 +67,7 @@ class Notification::PushNotificationService
   end
 
   def send_fcm_push(subscription)
+    return unless ENV['FCM_SERVER_KEY']
     return unless subscription.fcm?
 
     fcm = FCM.new(ENV['FCM_SERVER_KEY'])
