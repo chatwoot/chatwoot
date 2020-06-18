@@ -43,6 +43,7 @@ export default {
   line-height: 1.5;
   padding: $space-slab $space-normal $space-slab $space-normal;
   text-align: left;
+  word-break: break-word;
 
   > a {
     color: $color-primary;

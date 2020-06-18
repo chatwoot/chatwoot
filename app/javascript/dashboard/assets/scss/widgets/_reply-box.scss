@@ -3,7 +3,7 @@
   border-bottom: 0;
   margin: $space-normal;
   margin-top: 0;
-  max-height: $space-jumbo * 2;
+  max-height: $space-mega * 3;
   transition: height 2s $ease-in-out-cubic;
 
   .reply-box__top {
@@ -68,13 +68,14 @@
       padding: 0 $space-small;
     }
 
-    >textarea {
+    > textarea {
       @include ghost-input();
       @include margin(0);
       background: transparent;
       // Override min-height : 50px in foundation
       //
-      min-height: 1rem;
+      max-height: $space-mega * 2.4;
+      min-height: 4rem;
       resize: none;
     }
   }
