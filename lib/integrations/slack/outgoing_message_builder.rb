@@ -39,6 +39,10 @@ class Integrations::Slack::OutgoingMessageBuilder
     end
   end
 
+  def avatar_url
+    message.sender.try(:avatar_url) || "https://api.adorable.io/avatars/285/#{sender.id}.png"
+  end
+
   def send_message
     sender = message.outgoing? ? agent : contact
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
@@ -48,7 +52,7 @@ class Integrations::Slack::OutgoingMessageBuilder
       text: message_content,
       username: "#{sender_type}: #{sender.try(:name)}",
       thread_ts: conversation.identifier,
-      icon_url: "https://api.adorable.io/avatars/285/#{sender.id}.png"
+      icon_url: avatar_url
     )
   end
 
