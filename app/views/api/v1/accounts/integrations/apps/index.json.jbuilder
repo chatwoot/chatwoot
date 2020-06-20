@@ -8,4 +8,3 @@ json.payload do
     json.action app.action
   end
 end
-
