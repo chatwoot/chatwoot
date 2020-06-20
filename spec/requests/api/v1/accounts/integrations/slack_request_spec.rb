@@ -26,14 +26,14 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['app_id']).to eql('cw_slack')
+        expect(json_response['app_id']).to eql('slack')
       end
     end
 
-    describe 'PUT /api/v1/accounts/{account.id}/integrations/slack/{id}' do
+    describe 'PUT /api/v1/accounts/{account.id}/integrations/slack/' do
       context 'when it is an unauthenticated user' do
         it 'returns unauthorized' do
-          put "/api/v1/accounts/#{account.id}/integrations/slack/#{hook.id}", params: {}
+          put "/api/v1/accounts/#{account.id}/integrations/slack/", params: {}
           expect(response).to have_http_status(:unauthorized)
         end
       end
@@ -45,28 +45,28 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
 
           expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
-          put "/api/v1/accounts/#{account.id}/integrations/slack/#{hook.id}",
+          put "/api/v1/accounts/#{account.id}/integrations/slack",
               params: { channel: SecureRandom.hex },
               headers: agent.create_new_auth_token
 
           expect(response).to have_http_status(:success)
           json_response = JSON.parse(response.body)
-          expect(json_response['app_id']).to eql('cw_slack')
+          expect(json_response['app_id']).to eql('slack')
         end
       end
     end
 
-    describe 'DELETE /api/v1/accounts/{account.id}/integrations/slack/{id}' do
+    describe 'DELETE /api/v1/accounts/{account.id}/integrations/slack' do
       context 'when it is an unauthenticated user' do
         it 'returns unauthorized' do
-          delete "/api/v1/accounts/#{account.id}/integrations/slack/#{hook.id}", params: {}
+          delete "/api/v1/accounts/#{account.id}/integrations/slack", params: {}
           expect(response).to have_http_status(:unauthorized)
         end
       end
 
       context 'when it is an authenticated user' do
         it 'deletes hook' do
-          delete "/api/v1/accounts/#{account.id}/integrations/slack/#{hook.id}",
+          delete "/api/v1/accounts/#{account.id}/integrations/slack",
                  headers: agent.create_new_auth_token
           expect(response).to have_http_status(:success)
           expect(Integrations::Hook.find_by(id: hook.id)).to be nil

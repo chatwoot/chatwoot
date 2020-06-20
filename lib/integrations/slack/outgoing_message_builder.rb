@@ -31,13 +31,21 @@ class Integrations::Slack::OutgoingMessageBuilder
     @agent ||= message.user
   end
 
+  def message_content
+    if conversation.identifier.present?
+      message.content
+    else
+      "*Inbox: #{message.inbox.name}* \n\n #{message.content}"
+    end
+  end
+
   def send_message
     sender = message.outgoing? ? agent : contact
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
 
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
-      text: message.content,
+      text: message_content,
       username: "#{sender_type}: #{sender.try(:name)}",
       thread_ts: conversation.identifier,
       icon_url: "https://api.adorable.io/avatars/285/#{sender.id}.png"

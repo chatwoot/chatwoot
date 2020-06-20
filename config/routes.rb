@@ -90,7 +90,7 @@ Rails.application.routes.draw do
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resources :slack, only: [:create, :update, :destroy]
+            resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
         end
       end
