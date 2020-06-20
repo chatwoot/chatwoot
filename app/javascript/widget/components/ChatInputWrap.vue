@@ -1,8 +1,11 @@
 <template>
   <div class="chat-message--input">
-    <chat-input-area
+    <resizable-text-area
       v-model="userInput"
       :placeholder="$t('CHAT_PLACEHOLDER')"
+      class="form-input user-message-input"
+      @focus="onFocus"
+      @blur="onBlur"
     />
     <div v-if="showCopiedMessage" class="share-link">
       <span>
@@ -41,7 +44,7 @@ import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
-import ChatInputArea from 'widget/components/ChatInputArea.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 import EmojiInput from 'dashboard/components/widgets/emoji/EmojiInput';
 import copy from 'copy-text-to-clipboard';
 
@@ -50,8 +53,8 @@ export default {
   components: {
     ChatAttachmentButton,
     ChatSendButton,
-    ChatInputArea,
     EmojiInput,
+    ResizableTextArea,
   },
   mixins: [clickaway],
   props: {
@@ -138,6 +141,16 @@ export default {
         `${this.userInput}${emoji.shortname} `
       );
     },
+
+    onBlur() {
+      this.toggleTyping('off');
+    },
+    onFocus() {
+      this.toggleTyping('on');
+    },
+    toggleTyping(typingStatus) {
+      this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
+    },
   },
 };
 </script>
@@ -173,5 +186,14 @@ export default {
 .share-link {
   min-width: 13rem;
   font-size: $font-size-default;
+}
+
+.user-message-input {
+  border: 0;
+  height: $space-large;
+  min-height: $space-large;
+  max-height: 2.4 * $space-mega;
+  resize: none;
+  padding-top: $space-small;
 }
 </style>

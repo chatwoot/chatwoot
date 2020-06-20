@@ -8,6 +8,8 @@ json.data do
       json.id notification.id
       json.notification_type notification.notification_type
       json.push_message_title notification.push_message_title
+      json.primary_actor_type notification.primary_actor_type
+      json.primary_actor_id notification.primary_actor_id
       json.primary_actor notification.primary_actor&.push_event_data
       json.read_at notification.read_at
       json.secondary_actor notification.secondary_actor&.push_event_data

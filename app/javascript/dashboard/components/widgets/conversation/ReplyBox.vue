@@ -13,13 +13,12 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <textarea
+      <resizable-text-area
         ref="messageInput"
         v-model="message"
-        rows="1"
         class="input"
-        type="text"
         :placeholder="$t(messagePlaceHolder())"
+        :min-height="4"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -93,12 +92,14 @@ import FileUpload from 'vue-upload-component';
 
 import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   components: {
     EmojiInput,
     CannedResponse,
     FileUpload,
+    ResizableTextArea,
   },
   mixins: [clickaway],
   data() {
