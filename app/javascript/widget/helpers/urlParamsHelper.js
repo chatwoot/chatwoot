@@ -1,6 +1,7 @@
-import Vue from 'vue';
+import i18n from '../i18n';
+
 export const buildSearchParamsWithLocale = search => {
-  const locale = Vue.config.lang;
+  const locale = i18n.locale;
   if (search) {
     search = `${search}&locale=${locale}`;
   } else {

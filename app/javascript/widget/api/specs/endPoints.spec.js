@@ -1,6 +1,6 @@
 import endPoints from '../endPoints';
 
-jest.mock('vue', () => ({ config: { lang: 'ar' } }));
+jest.mock('../../i18n', () => ({ locale: 'ar' }));
 
 describe('#sendMessage', () => {
   it('returns correct payload', () => {

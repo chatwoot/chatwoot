@@ -1,9 +1,7 @@
 import { buildSearchParamsWithLocale } from '../urlParamsHelper';
 
-jest.mock('vue', () => ({
-  config: {
-    lang: 'el',
-  },
+jest.mock('../../i18n', () => ({
+  locale: 'el',
 }));
 
 describe('#buildSearchParamsWithLocale', () => {
