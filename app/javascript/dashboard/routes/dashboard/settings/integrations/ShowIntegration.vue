@@ -4,67 +4,33 @@
       <div class="small-8 columns integrations-wrap">
         <div class="row integrations">
           <div v-if="integrationLoaded" class="small-12 columns integration">
-            <div class="row">
-              <div class="integration--image">
-                <img
-                  :src="`/assets/dashboard/integrations/${integration.logo}`"
-                />
-              </div>
-              <div class="column">
-                <h3 class="integration--title">
-                  {{ integration.name }}
-                </h3>
-                <p class="integration--description">
-                  {{ integration.description }}
-                </p>
-              </div>
-              <div class="small-2 column button-wrap">
-                <div v-if="integration.enabled">
-                  <div @click="openDeletePopup()">
-                    <woot-submit-button
-                      :button-text="
-                        $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                      "
-                      icon-class="ion-close-circled"
-                      button-class="nice alert"
-                    />
-                  </div>
-                </div>
-                <div v-if="!integration.enabled">
-                  <a :href="integration.action" class="button success nice">
-                    {{ $t('INTEGRATION_SETTINGS.CONNECT.BUTTON_TEXT') }}
-                  </a>
-                </div>
-              </div>
-            </div>
+            <integration
+              :integration-id="integration.id"
+              :integration-logo="integration.logo"
+              :integration-name="integration.name"
+              :integration-description="integration.description"
+              :integration-enabled="integration.enabled"
+              :integration-action="integrationAction()"
+            />
           </div>
         </div>
       </div>
     </div>
-
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
-    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import { frontendURL } from '../../../../helper/URLHelper';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
+import Integration from './Integration';
 
 export default {
-  mixins: [alertMixin, globalConfigMixin],
+  components: {
+    Integration,
+  },
+  mixins: [globalConfigMixin],
   props: ['integrationId', 'code'],
   data() {
     return {
-      showDeleteConfirmationPopup: false,
       integrationLoaded: false,
     };
   },
@@ -84,32 +50,11 @@ export default {
     this.intializeSlackIntegration();
   },
   methods: {
-    frontendURL,
-    openDeletePopup() {
-      this.showDeleteConfirmationPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.closeDeletePopup();
-      this.deleteIntegration(this.deleteIntegration);
-      this.$router.push({ name: 'settings_integrations' });
-    },
-    async deleteIntegration() {
-      try {
-        await this.$store.dispatch(
-          'integrations/deleteIntegration',
-          this.integrationId
-        );
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
+    integrationAction() {
+      if (this.integration.enabled) {
+        return 'disconnect';
       }
+      return this.integration.action;
     },
     async intializeSlackIntegration() {
       await this.$store.dispatch('integrations/get', this.integrationId);
