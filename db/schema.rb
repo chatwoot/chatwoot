@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_140737) do
+ActiveRecord::Schema.define(version: 2020_06_10_143132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.string "identifier"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -255,6 +256,19 @@ ActiveRecord::Schema.define(version: 2020_06_07_140737) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
+  create_table "integrations_hooks", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.integer "inbox_id"
+    t.integer "account_id"
+    t.string "app_id"
+    t.text "settings"
+    t.integer "hook_type", default: 0
+    t.string "reference_id"
+    t.string "access_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "labels", force: :cascade do |t|

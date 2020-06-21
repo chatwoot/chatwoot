@@ -5,6 +5,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
@@ -106,10 +107,7 @@ class Conversation < ApplicationRecord
   end
 
   def webhook_data
-    {
-      display_id: display_id,
-      additional_attributes: additional_attributes
-    }
+    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def notifiable_assignee_change?

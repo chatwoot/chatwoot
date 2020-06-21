@@ -9,7 +9,7 @@ class AsyncDispatcher < BaseDispatcher
   end
 
   def listeners
-    listeners = [EventListener.instance, WebhookListener.instance]
+    listeners = [EventListener.instance, WebhookListener.instance, HookListener.instance]
     listeners
   end
 end

@@ -38,6 +38,7 @@ class WebhookListener < BaseListener
     inbox = contact_inbox.inbox
 
     payload = contact_inbox.webhook_data.merge(event: __method__.to_s)
+    payload[:event_info] = event.data[:event_info]
     deliver_webhook_payloads(payload, inbox)
   end
 

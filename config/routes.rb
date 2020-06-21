@@ -88,11 +88,18 @@ Rails.application.routes.draw do
           resource :notification_settings, only: [:show, :update]
 
           resources :webhooks, except: [:show]
+          namespace :integrations do
+            resources :apps, only: [:index, :show]
+            resources :slack, only: [:create, :update, :destroy]
+          end
         end
       end
-
       # end of account scoped api routes
       # ----------------------------------
+
+      namespace :integrations do
+        resources :webhooks, only: [:create]
+      end
 
       resource :profile, only: [:show, :update]
       resource :notification_subscriptions, only: [:create]

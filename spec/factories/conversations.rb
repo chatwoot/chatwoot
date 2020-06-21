@@ -7,6 +7,7 @@ FactoryBot.define do
     user_last_seen_at { Time.current }
     agent_last_seen_at { Time.current }
     locked { false }
+    identifier { SecureRandom.hex }
 
     after(:build) do |conversation|
       conversation.account ||= create(:account)
