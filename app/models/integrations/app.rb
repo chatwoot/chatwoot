@@ -48,7 +48,7 @@ class Integrations::App
   end
 
   def self.slack_integration_url
-    ENV['FRONTEND_URL'] + "/app/accounts/#{Current.account.id}/settings/integrations/slack"
+    "#{ENV['FRONTEND_URL']}/app/accounts/#{Current.account.id}/settings/integrations/slack"
   end
 
   class << self
