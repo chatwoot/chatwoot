@@ -2,7 +2,7 @@
   <div class="medium-3 bg-white contact--panel">
     <div class="contact--profile">
       <span class="close-button" @click="onPanelToggle">
-        <i class="ion-close-round"></i>
+        <i class="ion-chevron-right" />
       </span>
       <div class="contact--info">
         <thumbnail
@@ -168,12 +168,15 @@ export default {
   watch: {
     conversationId(newConversationId, prevConversationId) {
       if (newConversationId && newConversationId !== prevConversationId) {
-        this.$store.dispatch('contacts/show', { id: this.contactId });
+        this.getContactDetails();
       }
+    },
+    contactId() {
+      this.getContactDetails();
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/show', { id: this.contactId });
+    this.getContactDetails();
   },
   methods: {
     onPanelToggle() {
@@ -181,6 +184,11 @@ export default {
     },
     mute() {
       this.$store.dispatch('muteConversation', this.conversationId);
+    },
+    getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
     },
   },
 };

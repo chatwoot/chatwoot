@@ -12,7 +12,7 @@
           :title="$t('CONTACT_PANEL.LABELS.TITLE')"
           icon="ion-pricetags"
         />
-        <multiselect
+        <!-- <multiselect
           v-model="selectedLabels"
           :options="savedLabels"
           :tag-placeholder="$t('CONTACT_PANEL.LABELS.TAG_PLACEHOLDER')"
@@ -22,6 +22,14 @@
           hide-selected
           :show-labels="false"
           @tag="addLabel"
+        /> -->
+
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :bg-color="label.color"
         />
       </label>
       <div class="row align-middle align-justify">
@@ -91,7 +99,21 @@ export default {
     ...mapGetters({
       conversationUiFlags: 'contactConversations/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
+      accountLabels: 'labels/getLabels',
     }),
+    activeLabels() {
+      return this.savedLabels
+        .map(label => {
+          const [accountLabel] = this.accountLabels.filter(
+            ({ title }) => title === label
+          );
+          if (accountLabel) {
+            return accountLabel;
+          }
+          return null;
+        })
+        .filter(label => !!label);
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {

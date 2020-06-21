@@ -33,7 +33,7 @@ export default {
 
   data() {
     return {
-      panelToggleState: false,
+      panelToggleState: true,
     };
   },
   computed: {
@@ -53,12 +53,14 @@ export default {
     },
   },
   props: ['inboxId', 'conversationId'],
-
+  created() {
+    this.$store.dispatch('labels/get');
+  },
   mounted() {
     this.initialize();
+    this.fetchConversation();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
-      this.fetchConversation();
       this.setActiveChat();
     });
   },
