@@ -47,7 +47,6 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
     }
   },
 
@@ -62,7 +61,6 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
-      throw new Error(error);
     }
   },
 };

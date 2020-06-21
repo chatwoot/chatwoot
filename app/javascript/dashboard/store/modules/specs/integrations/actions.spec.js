@@ -27,4 +27,46 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#connectSlack:', () => {
+    it('sends correct actions if API is success', async () => {
+      let data = { id: 'slack', enabled: true };
+      axios.post.mockResolvedValue({ data: data });
+      await actions.connectSlack({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: true }],
+        [types.default.ADD_INTEGRATION, data],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.connectSlack({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('#deleteIntegration:', () => {
+    it('sends correct actions if API is success', async () => {
+      let data = { id: 'slack', enabled: false };
+      axios.delete.mockResolvedValue({ data: data });
+      await actions.deleteIntegration({ commit }, data.id);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true }],
+        [types.default.DELETE_INTEGRATION, data],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.deleteIntegration({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true }],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+  });
 });
