@@ -71,11 +71,9 @@ class Message < ApplicationRecord
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
   after_create :reopen_conversation,
-               :execute_message_template_hooks,
                :notify_via_mail
 
-  # we need to wait for the active storage attachments to be available
-  after_create_commit :dispatch_create_events, :send_reply
+  after_create_commit :execute_after_create_commit_callbacks
 
   after_update :dispatch_update_event
 
@@ -116,6 +114,14 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def execute_after_create_commit_callbacks
+    # rails issue with order of active record callbacks being executed
+    # https://github.com/rails/rails/issues/20911
+    dispatch_create_events
+    send_reply
+    execute_message_template_hooks
+  end
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)

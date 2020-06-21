@@ -54,7 +54,7 @@
           "LABEL": "Slogan d'accueil",
           "PLACEHOLDER": "C'est simple de rentrer en contact avec nous. Demandez-nous quoi que ce soit ou partagez vos commentaires."
         },
-        "CHANNEL_AGENT_AWAY_MESSAGE": {
+        "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Message lorsque les agents sont absents",
           "PLACEHOLDER": "Acme Inc répond en général en quelques heures."
         },

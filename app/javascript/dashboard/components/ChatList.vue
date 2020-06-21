@@ -55,6 +55,7 @@
 <script>
 /* eslint-env browser */
 /* eslint no-console: 0 */
+/* global bus */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
@@ -87,14 +88,17 @@ export default {
       chatListLoading: 'getChatListLoadingStatus',
       currentUserID: 'getCurrentUserID',
       activeInbox: 'getSelectedInbox',
-      convStats: 'getConvTabStats',
+      conversationStats: 'conversationStats/getStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
-        key: item.KEY,
-        name: item.NAME,
-        count: this.convStats[item.COUNT_KEY] || 0,
-      }));
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => {
+        const count = this.conversationStats[item.COUNT_KEY] || 0;
+        return {
+          key: item.KEY,
+          name: item.NAME,
+          count,
+        };
+      });
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
@@ -109,6 +113,14 @@ export default {
         this.activeAssigneeTab
       );
     },
+    conversationFilters() {
+      return {
+        inboxId: this.conversationInbox ? this.conversationInbox : undefined,
+        assigneeType: this.activeAssigneeTab,
+        status: this.activeStatus,
+        page: this.currentPage + 1,
+      };
+    },
   },
   watch: {
     conversationInbox() {
@@ -119,6 +131,10 @@ export default {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
     this.$store.dispatch('agents/get');
+
+    bus.$on('fetch_conversation_stats', () => {
+      this.$store.dispatch('conversationStats/get', this.conversationFilters);
+    });
   },
   methods: {
     resetAndFetchData() {
@@ -127,12 +143,7 @@ export default {
       this.fetchConversations();
     },
     fetchConversations() {
-      this.$store.dispatch('fetchAllConversations', {
-        inboxId: this.conversationInbox ? this.conversationInbox : undefined,
-        assigneeType: this.activeAssigneeTab,
-        status: this.activeStatus,
-        page: this.currentPage + 1,
-      });
+      this.$store.dispatch('fetchAllConversations', this.conversationFilters);
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {

@@ -1,15 +1,8 @@
-import { i18n } from '../../packs/widget';
+import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 
 const sendMessage = content => {
-  const locale = i18n.locale;
   const refererURL = window.refererURL || '';
-  let search = window.location.search;
-  if (search) {
-    search = `${search}&locale=${locale}`;
-  } else {
-    search = `?locale=${locale}`;
-  }
-
+  const search = buildSearchParamsWithLocale(window.location.search);
   return {
     url: `/api/v1/widget/messages${search}`,
     params: {

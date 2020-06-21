@@ -54,7 +54,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:data][:meta][:all_count]).to eq(1)
+        expect(JSON.parse(response.body, symbolize_names: true)[:meta][:all_count]).to eq(1)
       end
     end
   end
@@ -118,6 +118,18 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.status).to eq('open')
+      end
+
+      it 'toggles the conversation status to specific status when parameter is passed' do
+        expect(conversation.status).to eq('open')
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
+             headers: agent.create_new_auth_token,
+             params: { status: 'bot' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.status).to eq('bot')
       end
     end
   end

@@ -24,6 +24,7 @@ RSpec.describe 'Profile API', type: :request do
         json_response = JSON.parse(response.body)
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['email']).to eq(agent.email)
+        expect(json_response['access_token']).to eq(agent.access_token.token)
       end
     end
   end

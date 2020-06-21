@@ -91,7 +91,6 @@
 }
 
 .sidebar-labels-wrap {
-
   &.has-edited,
   &:hover {
     .multiselect {
@@ -108,8 +107,6 @@
   }
 
   .multiselect {
-    margin-top: $space-small;
-
     >.multiselect__select {
       visibility: hidden;
     }

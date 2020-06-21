@@ -1,5 +1,4 @@
 import { default as _agentMgmt } from './agentMgmt.json';
-import { default as _billing } from './billing.json';
 import { default as _cannedMgmt } from './cannedMgmt.json';
 import { default as _chatlist } from './chatlist.json';
 import { default as _contact } from './contact.json';
@@ -16,7 +15,6 @@ import { default as _generalSettings } from './generalSettings.json';
 
 export default {
   ..._agentMgmt,
-  ..._billing,
   ..._cannedMgmt,
   ..._chatlist,
   ..._contact,
