@@ -1,6 +1,6 @@
 <template>
   <span class="back-button ion-ios-arrow-left" @click.capture="goBack">
-    Back
+    {{ $t('GENERAL_SETTINGS.BACK') }}
   </span>
 </template>
 <script>
