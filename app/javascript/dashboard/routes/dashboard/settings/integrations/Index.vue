@@ -42,39 +42,6 @@
               </div>
             </div>
           </div>
-          <div class="small-12 columns integration">
-            <div class="row">
-              <div class="integration--image">
-                <img src="/assets/dashboard/integrations/cable.svg" />
-              </div>
-              <div class="column">
-                <h3 class="integration--title">
-                  {{ $t('INTEGRATION_SETTINGS.WEBHOOK.TITLE') }}
-                </h3>
-                <p class="integration--description">
-                  {{
-                    useInstallationName(
-                      $t('INTEGRATION_SETTINGS.WEBHOOK.INTEGRATION_TXT'),
-                      globalConfig.installationName
-                    )
-                  }}
-                </p>
-              </div>
-              <div class="small-2 column button-wrap">
-                <router-link
-                  :to="
-                    frontendURL(
-                      `accounts/${accountId}/settings/integrations/webhook`
-                    )
-                  "
-                >
-                  <button class="button nice">
-                    {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-                  </button>
-                </router-link>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

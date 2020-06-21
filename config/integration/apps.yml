@@ -4,4 +4,10 @@ slack:
   logo: slack.png
   description: "'Be less busy' -  Slack is the chat tool that brings all your communication together in one place. By integrating Slack with Chatwoot, you can get notified of all the new conversations in chatwoot right inside your Slack."
   action: https://slack.com/oauth/v2/authorize?scope=incoming-webhook,commands,chat:write,users:read,users:read.email
-  
+webhooks: 
+  id: webhook
+  name: Webhooks
+  logo: cable.svg
+  description: Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.
+  action: /webhook
+   
