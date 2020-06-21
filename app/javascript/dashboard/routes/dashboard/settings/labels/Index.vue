@@ -42,21 +42,20 @@
                 </div>
               </td>
               <td class="button-wrapper">
-                <div @click="openEditPopup(label)">
-                  <woot-submit-button
-                    :button-text="$t('LABEL_MGMT.FORM.EDIT')"
-                    icon-class="ion-edit"
-                    button-class="link hollow grey-btn"
-                  />
-                </div>
-                <div @click="openDeletePopup(label, index)">
-                  <woot-submit-button
-                    :button-text="$t('LABEL_MGMT.FORM.DELETE')"
-                    :loading="loading[label.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
-                  />
-                </div>
+                <woot-submit-button
+                  :button-text="$t('LABEL_MGMT.FORM.EDIT')"
+                  icon-class="ion-edit"
+                  button-class="link hollow grey-btn"
+                  @click="openEditPopup(label)"
+                />
+
+                <woot-submit-button
+                  :button-text="$t('LABEL_MGMT.FORM.DELETE')"
+                  :loading="loading[label.id]"
+                  icon-class="ion-close-circled"
+                  button-class="link hollow grey-btn"
+                  @click="openDeletePopup(label, index)"
+                />
               </td>
             </tr>
           </tbody>
@@ -68,17 +67,18 @@
       </div>
     </div>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-label :on-close="hideAddPopup" />
-    </woot-modal>
+    <add-label
+      v-if="showAddPopup"
+      :show.sync="showAddPopup"
+      :on-close="hideAddPopup"
+    />
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
-      <edit-label
-        v-if="showEditPopup"
-        :selected-response="selectedResponse"
-        :on-close="hideEditPopup"
-      />
-    </woot-modal>
+    <edit-label
+      v-if="showEditPopup"
+      :show.sync="showEditPopup"
+      :selected-response="selectedResponse"
+      :on-close="hideEditPopup"
+    />
 
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"

@@ -65,6 +65,10 @@ export default {
   },
   mixins: [alertMixin],
   props: {
+    show: {
+      type: Boolean,
+      default: () => {},
+    },
     selectedResponse: {
       type: Object,
       default: () => {},
@@ -80,7 +84,6 @@ export default {
       description: '',
       showOnSidebar: true,
       color: '',
-      show: true,
     };
   },
   validations: {

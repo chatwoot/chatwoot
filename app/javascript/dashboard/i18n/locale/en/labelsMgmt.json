@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Add label",
     "LOADING": "Fetching labels",
     "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",

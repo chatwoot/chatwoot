@@ -11,11 +11,17 @@
     },
     "LABELS": {
       "TITLE": "Conversation Labels",
-      "UPDATE_BUTTON": "Update Labels",
-      "UPDATE_ERROR": "Couldn't update labels, try again.",
-      "TAG_PLACEHOLDER": "Add new label",
-      "PLACEHOLDER": "Search or add a label"
+      "MODAL": {
+        "TITLE": "Labels for",
+        "ACTIVE_LABELS": "Active Labels",
+        "INACTIVE_LABELS": "Inactive Labels",
+        "REMOVE": "Click on X icon to remove the label",
+        "ADD": "Click on + icon to add the label",
+        "UPDATE_BUTTON": "Update labels",
+        "UPDATE_ERROR": "Couldn't update labels, try again."
+      }
     },
-    "MUTE_CONTACT": "Mute Contact"
+    "MUTE_CONTACT": "Mute Contact",
+    "EDIT_LABEL": "Edit"
   }
 }

@@ -107,7 +107,7 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
-import ConversationLabels from './ConversationLabels.vue';
+import ConversationLabels from './labels/LabelBox.vue';
 
 export default {
   components: {

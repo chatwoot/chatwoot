@@ -4,8 +4,9 @@
     :style="{ background: bgColor, color: textColor }"
     :title="description"
   >
-    <span>{{ title }}</span>
-    <i v-if="showClose" class="label--icon" :class="icon" />
+    <span v-if="!href">{{ title }}</span>
+    <a v-else :href="href" :style="{ color: textColor }">{{ title }}</a>
+    <i v-if="showIcon" class="label--icon" :class="icon" @click="onClick" />
   </div>
 </template>
 <script>
@@ -19,6 +20,10 @@ export default {
       type: String,
       default: '',
     },
+    href: {
+      type: String,
+      default: '',
+    },
     bgColor: {
       type: String,
       default: '#1f93ff',
@@ -27,7 +32,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    showClose: {
+    showIcon: {
       type: Boolean,
       default: false,
     },
@@ -50,8 +55,8 @@ export default {
     },
   },
   methods: {
-    onRemove() {
-      this.$emit('remove', this.title);
+    onClick() {
+      this.$emit('click', this.title);
     },
   },
 };
@@ -68,6 +73,12 @@ export default {
 
   &.small {
     font-size: $font-size-mini;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
