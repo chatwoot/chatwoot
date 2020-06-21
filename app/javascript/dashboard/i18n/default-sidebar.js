@@ -10,6 +10,8 @@ export const getSidebarItems = accountId => ({
       'settings_account_reports',
       'profile_settings',
       'profile_settings_index',
+      'label_conversations',
+      'conversations_through_label',
     ],
     menuItems: {
       assignedToMe: {

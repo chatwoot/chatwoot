@@ -190,7 +190,7 @@ const mutations = {
   },
 
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
-    _state.currentInbox = inboxId;
+    _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
 };
 

@@ -6,13 +6,14 @@ class ConversationApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  get({ inboxId, status, assigneeType, page }) {
+  get({ inboxId, status, assigneeType, page, labels }) {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
         status,
         assignee_type: assigneeType,
         page,
+        labels,
       },
     });
   }

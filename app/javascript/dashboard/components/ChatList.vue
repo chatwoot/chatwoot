@@ -3,7 +3,7 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ inbox.name || $t('CHAT_LIST.TAB_HEADING') }}
+        {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
     </div>
@@ -23,6 +23,7 @@
       <conversation-card
         v-for="chat in getChatsForTab()"
         :key="chat.id"
+        :active-label="label"
         :chat="chat"
       />
 
@@ -72,7 +73,16 @@ export default {
     ChatFilter,
   },
   mixins: [timeMixin, conversationMixin],
-  props: ['conversationInbox'],
+  props: {
+    conversationInbox: {
+      type: [String, Number],
+      default: 0,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
@@ -119,18 +129,30 @@ export default {
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
         page: this.currentPage + 1,
+        labels: this.label ? [this.label] : undefined,
       };
+    },
+    pageTitle() {
+      if (this.inbox.name) {
+        return this.inbox.name;
+      }
+      if (this.label) {
+        return `#${this.label}`;
+      }
+      return this.$t('CHAT_LIST.TAB_HEADING');
     },
   },
   watch: {
     conversationInbox() {
       this.resetAndFetchData();
     },
+    label() {
+      this.resetAndFetchData();
+    },
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
-    this.$store.dispatch('agents/get');
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);

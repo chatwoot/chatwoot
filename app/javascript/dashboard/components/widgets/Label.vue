@@ -48,6 +48,7 @@ export default {
 
 .label {
   margin: $space-micro;
+  font-size: $font-size-small;
 
   &.small {
     font-size: $font-size-mini;
