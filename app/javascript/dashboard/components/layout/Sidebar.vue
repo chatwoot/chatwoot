@@ -131,7 +131,7 @@ export default {
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
-      accountLabels: 'labels/getLabels',
+      accountLabels: 'labels/getLabelsOnSidebar',
     }),
     sidemenuItems() {
       return getSidebarItems(this.accountId);
@@ -157,7 +157,6 @@ export default {
       return this.$store.state.route.name;
     },
     shouldShowInboxes() {
-      console.log(this.currentRoute);
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
     inboxSection() {

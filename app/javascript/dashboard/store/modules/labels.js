@@ -19,6 +19,9 @@ const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
+  getLabelsOnSidebar(_state) {
+    return _state.records.filter(record => record.show_on_sidebar);
+  },
 };
 
 const actions = {
