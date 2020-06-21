@@ -40,7 +40,7 @@ class Integrations::Slack::OutgoingMessageBuilder
   end
 
   def avatar_url(sender)
-    message.sender.try(:avatar_url) || "https://api.adorable.io/avatars/285/#{sender.id}.png"
+    sender.try(:avatar_url) || "https://api.adorable.io/avatars/285/#{sender.id}.png"
   end
 
   def send_message
