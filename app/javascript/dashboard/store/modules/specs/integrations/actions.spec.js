@@ -13,17 +13,17 @@ describe('#actions', () => {
       axios.get.mockResolvedValue({ data: integrationsList });
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_AGENT_FETCHING_STATUS, true],
-        [types.default.SET_AGENT_FETCHING_STATUS, false],
-        [types.default.SET_AGENTS, integrationsList],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: true }],
+        [types.default.SET_INTEGRATIONS, integrationsList.payload],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_INTEGRATIONS_FETCHING_STATUS, true],
-        [types.default.SET_INTEGRATIONS_FETCHING_STATUS, false],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: true }],
+        [types.default.SET_INTEGRATIONS_UI_FLAG, { isFetching: false }],
       ]);
     });
   });
