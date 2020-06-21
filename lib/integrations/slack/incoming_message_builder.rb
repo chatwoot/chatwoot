@@ -34,7 +34,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def supported_message?
-    SUPPORTED_MESSAGE_TYPES.include?(message[:type])
+    SUPPORTED_MESSAGE_TYPES.include?(message[:type]) if message.present?
   end
 
   def hook_verification?
