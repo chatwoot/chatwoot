@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:hook) { create(:integrations_hook, account: account) }
+  let!(:hook) { create(:integrations_hook, account: account) }
 
   describe 'POST /api/v1/accounts/{account.id}/integrations/slack' do
     context 'when it is an unauthenticated user' do
@@ -17,8 +17,11 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
       it 'creates hook' do
         hook_builder = Integrations::Slack::HookBuilder.new(account: account, code: SecureRandom.hex)
         hook_builder.stub(:fetch_access_token) { SecureRandom.hex }
-
         expect(Integrations::Slack::HookBuilder).to receive(:new).and_return(hook_builder)
+
+        channel_builder = Integrations::Slack::ChannelBuilder.new(hook: hook, channel: 'channel')
+        expect(channel_builder).to receive(:perform)
+        expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
         post "/api/v1/accounts/#{account.id}/integrations/slack",
              params: { code: SecureRandom.hex },
@@ -26,7 +29,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['app_id']).to eql('slack')
+        expect(json_response['id']).to eql('slack')
       end
     end
 
@@ -41,7 +44,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
       context 'when it is an authenticated user' do
         it 'updates hook' do
           channel_builder = Integrations::Slack::ChannelBuilder.new(hook: hook, channel: 'channel')
-          channel_builder.stub(:perform)
+          expect(channel_builder).to receive(:perform)
 
           expect(Integrations::Slack::ChannelBuilder).to receive(:new).and_return(channel_builder)
 
