@@ -1,11 +1,12 @@
 <template>
-  <span
+  <div
     :class="labelClass"
     :style="{ background: bgColor, color: textColor }"
     :title="description"
   >
-    {{ title }}
-  </span>
+    <span>{{ title }}</span>
+    <i v-if="showClose" class="label--icon" :class="icon" />
+  </div>
 </template>
 <script>
 export default {
@@ -26,6 +27,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    showClose: {
+      type: Boolean,
+      default: false,
+    },
+    icon: {
+      type: String,
+      default: 'ion-close',
+    },
   },
   computed: {
     textColor() {
@@ -40,6 +49,11 @@ export default {
       return `label ${this.small ? 'small' : ''}`;
     },
   },
+  methods: {
+    onRemove() {
+      this.$emit('remove', this.title);
+    },
+  },
 };
 </script>
 
@@ -47,11 +61,19 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label {
-  margin: $space-micro;
+  display: inline-block;
   font-size: $font-size-small;
+  line-height: 1;
+  margin: $space-micro;
 
   &.small {
     font-size: $font-size-mini;
   }
+}
+
+.label--icon {
+  cursor: pointer;
+  font-size: $font-size-micro;
+  margin-left: $space-smaller;
 }
 </style>
