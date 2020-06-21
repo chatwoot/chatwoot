@@ -34,6 +34,15 @@ class Integrations::App
     end
   end
 
+  def active?
+    case params[:id]
+    when 'slack'
+      ENV['SLACK_CLIENT_SECRET'].present?
+    else
+      true
+    end
+  end
+
   def enabled?(account)
     case params[:id]
     when 'slack'

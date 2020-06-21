@@ -21,8 +21,8 @@ RSpec.describe 'Integration Apps API', type: :request do
 
         expect(response).to have_http_status(:success)
         app = JSON.parse(response.body)['payload'].first
-        expect(app['id']).to eql('slack')
-        expect(app['name']).to eql('Slack')
+        expect(app['id']).to eql('webhook')
+        expect(app['name']).to eql('Webhooks')
       end
     end
   end
