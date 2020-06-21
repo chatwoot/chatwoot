@@ -54,13 +54,13 @@
   </div>
 </template>
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [globalConfigMixin],
+  mixins: [alertMixin, globalConfigMixin],
   props: ['integrationId', 'code'],
   data() {
     return {
@@ -85,9 +85,6 @@ export default {
   },
   methods: {
     frontendURL,
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
-    },
     openDeletePopup() {
       this.showDeleteConfirmationPopup = true;
     },

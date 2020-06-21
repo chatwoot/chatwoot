@@ -1,7 +1,7 @@
 import Index from './Index';
 import SettingsContent from '../Wrapper';
 import Webhook from './Webhook';
-import Integration from './Integration';
+import ShowIntegration from './ShowIntegration';
 import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
@@ -38,7 +38,7 @@ export default {
         {
           path: ':integration_id',
           name: 'settings_integrations_integration',
-          component: Integration,
+          component: ShowIntegration,
           roles: ['administrator'],
           props: route => {
             return {
