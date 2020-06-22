@@ -10,7 +10,7 @@ describe Integrations::Slack::HookBuilder do
       hooks_count = account.hooks.count
 
       builder = described_class.new(account: account, code: code)
-      builder.stub(:fetch_access_token) { token }
+      allow(builder).to receive(:fetch_access_token).and_return(token)
 
       builder.perform
       expect(account.hooks.count).to eql(hooks_count + 1)
