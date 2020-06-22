@@ -6,6 +6,7 @@
       :header-title="$t(headerTitle)"
       :button-text="$t(headerButtonText)"
       :show-back-button="showBackButton"
+      :back-url="backUrl"
       :show-new-button="showNewButton"
     />
     <keep-alive>
@@ -33,6 +34,10 @@ export default {
     showBackButton: {
       type: Boolean,
       default: false,
+    },
+    backUrl: {
+      type: [String, Object],
+      default: '',
     },
   },
   data() {

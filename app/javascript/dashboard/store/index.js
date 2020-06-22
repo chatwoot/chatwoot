@@ -17,6 +17,7 @@ import conversationTypingStatus from './modules/conversationTypingStatus';
 import globalConfig from 'shared/store/globalConfig';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
+import integrations from './modules/integrations';
 import reports from './modules/reports';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
@@ -40,6 +41,7 @@ export default new Vuex.Store({
     globalConfig,
     inboxes,
     inboxMembers,
+    integrations,
     reports,
     userNotificationSettings,
     webhooks,

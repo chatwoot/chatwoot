@@ -34,7 +34,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def supported_message?
-    SUPPORTED_MESSAGE_TYPES.include?(message[:type])
+    SUPPORTED_MESSAGE_TYPES.include?(message[:type]) if message.present?
   end
 
   def hook_verification?
@@ -46,7 +46,7 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def message
-    params[:event][:blocks].first
+    params[:event][:blocks]&.first
   end
 
   def verify_hook
@@ -56,23 +56,42 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def integration_hook
-    @integration_hook ||= Integrations::Hook.where(reference_id: params[:event][:channel])
+    @integration_hook ||= Integrations::Hook.find_by(reference_id: params[:event][:channel])
   end
 
   def conversation
     @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
   end
 
+  def sender
+    user_email = slack_client.users_info(user: params[:event][:user])[:user][:profile][:email]
+    conversation.account.users.find_by(email: user_email)
+  end
+
+  def private_note?
+    params[:event][:text].strip.starts_with?('note:', 'private:')
+  end
+
   def create_message
     return unless conversation
 
     conversation.messages.create(
-      message_type: 0,
+      message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: message[:elements].first[:elements].first[:text]
+      content: params[:event][:text],
+      source_id: "slack_#{params[:event][:ts]}",
+      private: private_note?,
+      user: sender
     )
 
     { status: 'success' }
+  end
+
+  def slack_client
+    Slack.configure do |config|
+      config.token = integration_hook.access_token
+    end
+    Slack::Web::Client.new
   end
 end

@@ -11,6 +11,8 @@ class Integrations::Slack::OutgoingMessageBuilder
   end
 
   def perform
+    return if message.source_id.present?
+
     send_message
     update_reference_id
   end
@@ -25,12 +27,32 @@ class Integrations::Slack::OutgoingMessageBuilder
     @contact ||= conversation.contact
   end
 
+  def agent
+    @agent ||= message.user
+  end
+
+  def message_content
+    if conversation.identifier.present?
+      message.content
+    else
+      "*Inbox: #{message.inbox.name}* \n\n #{message.content}"
+    end
+  end
+
+  def avatar_url(sender)
+    sender.try(:avatar_url) || "#{ENV['FRONTEND_URL']}/admin/avatar_square.png"
+  end
+
   def send_message
+    sender = message.outgoing? ? agent : contact
+    sender_type = sender.class == Contact ? 'Contact' : 'Agent'
+
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
-      text: message.content,
-      username: contact.try(:name),
-      thread_ts: conversation.identifier
+      text: message_content,
+      username: "#{sender_type}: #{sender.try(:name)}",
+      thread_ts: conversation.identifier,
+      icon_url: avatar_url(sender)
     )
   end
 
