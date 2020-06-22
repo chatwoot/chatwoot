@@ -7,18 +7,12 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
       code: params[:code],
       inbox_id: params[:inbox_id]
     )
-
     @hook = builder.perform
-
-    render json: @hook
+    create_chatwoot_slack_channel
   end
 
   def update
-    builder = Integrations::Slack::ChannelBuilder.new(
-      hook: @hook, channel: params[:channel]
-    )
-    builder.perform
-
+    create_chatwoot_slack_channel
     render json: @hook
   end
 
@@ -31,6 +25,14 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   private
 
   def fetch_hook
-    @hook = Integrations::Hook.find(params[:id])
+    @hook = Integrations::Hook.find_by(app_id: 'slack')
+  end
+
+  def create_chatwoot_slack_channel
+    channel = params[:channel] || 'customer-conversations'
+    builder = Integrations::Slack::ChannelBuilder.new(
+      hook: @hook, channel: channel
+    )
+    builder.perform
   end
 end
