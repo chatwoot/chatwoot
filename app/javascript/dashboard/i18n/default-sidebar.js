@@ -52,6 +52,7 @@ export const getSidebarItems = accountId => ({
       'settings_inbox_finish',
       'settings_integrations',
       'settings_integrations_webhook',
+      'settings_integrations_integration',
       'general_settings',
       'general_settings_index',
     ],

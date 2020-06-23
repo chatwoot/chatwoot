@@ -3,16 +3,17 @@
     background: $color-white;
     border: 1px solid $color-border;
     border-radius: $space-smaller;
+    margin-bottom: $space-normal;
     padding: $space-normal;
 
     .integration--image {
       display: flex;
       margin-right: $space-normal;
-      width: 8rem;
+      width: 10rem;
 
       img {
-        max-width: 8rem;
-        padding: $space-small;
+        max-width: 100%;
+        padding: $space-medium;
       }
     }
 

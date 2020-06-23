@@ -20,9 +20,9 @@ RSpec.describe 'Integration Apps API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        app = JSON.parse(response.body).first
-        expect(app['id']).to eql('cw_slack')
-        expect(app['name']).to eql('Slack')
+        app = JSON.parse(response.body)['payload'].first
+        expect(app['id']).to eql('webhook')
+        expect(app['name']).to eql('Webhooks')
       end
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe 'Integration Apps API', type: :request do
   describe 'GET /api/v1/integrations/apps/:id' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get api_v1_account_integrations_app_url(account_id: account.id, id: 'cw_slack')
+        get api_v1_account_integrations_app_url(account_id: account.id, id: 'slack')
         expect(response).to have_http_status(:unauthorized)
       end
     end
@@ -39,13 +39,13 @@ RSpec.describe 'Integration Apps API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns details of the app' do
-        get api_v1_account_integrations_app_url(account_id: account.id, id: 'cw_slack'),
+        get api_v1_account_integrations_app_url(account_id: account.id, id: 'slack'),
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         app = JSON.parse(response.body)
-        expect(app['id']).to eql('cw_slack')
+        expect(app['id']).to eql('slack')
         expect(app['name']).to eql('Slack')
       end
     end

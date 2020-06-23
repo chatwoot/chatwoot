@@ -13,7 +13,7 @@ class Integrations::Slack::HookBuilder
       status: 'enabled',
       inbox_id: params[:inbox_id],
       hook_type: hook_type,
-      app_id: 'cw_slack'
+      app_id: 'slack'
     )
 
     hook.save!
@@ -32,11 +32,12 @@ class Integrations::Slack::HookBuilder
 
   def fetch_access_token
     client = Slack::Web::Client.new
-
-    client.oauth_access(
+    slack_access = client.oauth_v2_access(
       client_id: ENV.fetch('SLACK_CLIENT_ID', 'TEST_CLIENT_ID'),
       client_secret: ENV.fetch('SLACK_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
-      code: params[:code]
-    )['bot']['bot_access_token']
+      code: params[:code],
+      redirect_uri: Integrations::App.slack_integration_url
+    )
+    slack_access['access_token']
   end
 end

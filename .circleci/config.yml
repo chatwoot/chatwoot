@@ -16,7 +16,7 @@ defaults: &defaults
     - image: circleci/redis:alpine
   environment:
       - CC_TEST_REPORTER_ID: b1b5c4447bf93f6f0b06a64756e35afd0810ea83649f03971cbf303b4449456f
-
+      - RAILS_LOG_TO_STDOUT: false
 jobs:
   build:
     <<: *defaults
@@ -69,11 +69,11 @@ jobs:
       - run:
           name:  Download cc-test-reporter
           command: |
-            mkdir -p tmp/
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
-            chmod +x ./tmp/cc-test-reporter
+            mkdir -p ~/tmp
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
+            chmod +x ~/tmp/cc-test-reporter
       - persist_to_workspace:
-          root: tmp
+          root: ~/tmp
           paths:
             - cc-test-reporter
 
@@ -99,9 +99,9 @@ jobs:
           name: Run backend tests
           command: |
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/backend/.resultset.json
+            ~/tmp/cc-test-reporter format-coverage -t simplecov -o ~/tmp/codeclimate.backend.json coverage/backend/.resultset.json
       - persist_to_workspace:
-          root: tmp
+          root: ~/tmp
           paths:
             - codeclimate.backend.json
 
@@ -109,21 +109,23 @@ jobs:
           name: Run frontend tests
           command: |
             yarn test:coverage
-            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json buildreports/lcov.info
+            ~/tmp/cc-test-reporter format-coverage -t lcov -o ~/tmp/codeclimate.frontend.json buildreports/lcov.info
       - persist_to_workspace:
-          root: tmp
+          root: ~/tmp
           paths:
             - codeclimate.frontend.json
 
       # collect reports
       - store_test_results:
-          path: /tmp/test-results
+          path: ~/tmp/test-results
       - store_artifacts:
-          path: /tmp/test-results
+          path: ~/tmp/test-results
           destination: test-results
+      - store_artifacts:
+          path: log
 
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
-            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+            ~/tmp/cc-test-reporter sum-coverage ~/tmp/codeclimate.*.json -p 2 -o ~/tmp/codeclimate.total.json
+            ~/tmp/cc-test-reporter upload-coverage -i ~/tmp/codeclimate.total.json

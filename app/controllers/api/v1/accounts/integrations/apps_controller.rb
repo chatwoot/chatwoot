@@ -9,7 +9,7 @@ class Api::V1::Accounts::Integrations::AppsController < Api::V1::Accounts::BaseC
   private
 
   def fetch_apps
-    @apps = Integrations::App.all
+    @apps = Integrations::App.all.select(&:active?)
   end
 
   def fetch_app

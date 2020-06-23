@@ -6,7 +6,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def perform
-    create_channel
+    find_or_create_channel
     update_reference_id
   end
 
@@ -23,11 +23,12 @@ class Integrations::Slack::ChannelBuilder
     Slack::Web::Client.new
   end
 
-  def create_channel
-    @channel = slack_client.conversations_create(name: params[:channel])
+  def find_or_create_channel
+    exisiting_channel = slack_client.conversations_list.channels.find { |channel| channel['name'] == params[:channel] }
+    @channel = exisiting_channel || slack_client.conversations_create(name: params[:channel])['channel']
   end
 
   def update_reference_id
-    @hook.reference_id = channel['channel']['id']
+    @hook.update(reference_id: channel['id'])
   end
 end
