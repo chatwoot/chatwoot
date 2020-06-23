@@ -17,10 +17,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def slack_client
-    Slack.configure do |config|
-      config.token = hook.access_token
-    end
-    Slack::Web::Client.new
+    Slack::Web::Client.new(token: hook.access_token)
   end
 
   def find_or_create_channel
