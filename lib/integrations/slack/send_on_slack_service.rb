@@ -1,30 +1,21 @@
-class Integrations::Slack::OutgoingMessageBuilder
-  attr_reader :hook, :message
-
-  def self.perform(hook, message)
-    new(hook, message).perform
-  end
-
-  def initialize(hook, message)
-    @hook = hook
-    @message = message
-  end
+class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
+  pattr_initialize [:message!, :hook!]
 
   def perform
-    return if message.source_id.present?
+    # overriding the base class logic since the validations are different in this case.
+    # we don't want message loop in slack
+    return if message.source_id.try(:starts_with?, 'slack_')
+    # we don't want to start slack thread from agent conversation as of now
+    return if message.outgoing? && conversation.identifier.blank?
 
-    send_message
-    update_reference_id
+    perform_reply
   end
 
   private
 
-  def conversation
-    @conversation ||= message.conversation
-  end
-
-  def contact
-    @contact ||= conversation.contact
+  def perform_reply
+    send_message
+    update_reference_id
   end
 
   def agent
@@ -32,8 +23,9 @@ class Integrations::Slack::OutgoingMessageBuilder
   end
 
   def message_content
+    private_indicator = message.private? ? 'private: ' : ''
     if conversation.identifier.present?
-      message.content
+      "#{private_indicator}#{message.content}"
     else
       "*Inbox: #{message.inbox.name}* \n\n #{message.content}"
     end
@@ -59,8 +51,7 @@ class Integrations::Slack::OutgoingMessageBuilder
   def update_reference_id
     return if conversation.identifier
 
-    conversation.identifier = @slack_message['ts']
-    conversation.save!
+    conversation.update!(identifier: @slack_message['ts'])
   end
 
   def slack_client

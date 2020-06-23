@@ -138,11 +138,11 @@ class Message < ApplicationRecord
   def send_reply
     channel_name = conversation.inbox.channel.class.to_s
     if channel_name == 'Channel::FacebookPage'
-      ::Facebook::SendReplyService.new(message: self).perform
+      ::Facebook::SendOnFacebookService.new(message: self).perform
     elsif channel_name == 'Channel::TwitterProfile'
-      ::Twitter::SendReplyService.new(message: self).perform
+      ::Twitter::SendOnTwitterService.new(message: self).perform
     elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::OutgoingMessageService.new(message: self).perform
+      ::Twilio::SendOnTwilioService.new(message: self).perform
     end
   end
 
