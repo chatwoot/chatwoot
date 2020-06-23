@@ -26,7 +26,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def update_reference_id
-    slack_client.channels_join(channel: channel['id'])
+    slack_client.conversations_join(channel: channel['id'])
     @hook.update(reference_id: channel['id'])
   end
 end
