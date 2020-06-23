@@ -17,7 +17,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def slack_client
-    Slack::Web::Client.new(token: hook.access_token)
+    @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
   end
 
   def find_or_create_channel
@@ -26,7 +26,7 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def update_reference_id
-    slack_client.conversations_join(channel: channel['id'])
-    @hook.update(reference_id: channel['id'])
+    slack_client.conversations_join(channel: channel[:id])
+    @hook.update(reference_id: channel[:id])
   end
 end
