@@ -126,7 +126,6 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
-      daysLeft: 'getTrialLeft',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',

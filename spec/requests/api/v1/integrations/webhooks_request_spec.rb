@@ -4,7 +4,7 @@ RSpec.describe 'Api::V1::Integrations::Webhooks', type: :request do
   describe 'POST /api/v1/integrations/webhooks' do
     it 'consumes webhook' do
       builder = Integrations::Slack::IncomingMessageBuilder.new({})
-      builder.stub(:perform) { true }
+      expect(builder).to receive(:perform).and_return(true)
 
       expect(Integrations::Slack::IncomingMessageBuilder).to receive(:new).and_return(builder)
 
