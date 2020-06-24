@@ -32,6 +32,7 @@
 </template>
 
 <script>
+/* global bus */
 import { mapGetters } from 'vuex';
 import AddLabelToConversation from './AddLabelToConversation';
 import ContactDetailsItem from '../ContactDetailsItem';
@@ -98,6 +99,7 @@ export default {
       this.isEditing = true;
     },
     closeEditModal() {
+      bus.$emit('fetch_conversation_stats');
       this.isEditing = false;
     },
     async fetchLabels(conversationId) {

@@ -15,13 +15,13 @@
       @chatTabChange="updateAssigneeTab"
     />
 
-    <p v-if="!chatListLoading && !getChatsForTab().length" class="content-box">
+    <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
     <div class="conversations-list">
       <conversation-card
-        v-for="chat in getChatsForTab()"
+        v-for="chat in conversationList"
         :key="chat.id"
         :active-label="label"
         :chat="chat"
@@ -41,7 +41,7 @@
 
       <p
         v-if="
-          getChatsForTab().length &&
+          conversationList.length &&
             hasCurrentPageEndReached &&
             !chatListLoading
         "
@@ -141,6 +141,27 @@ export default {
       }
       return this.$t('CHAT_LIST.TAB_HEADING');
     },
+    conversationList() {
+      let conversationList = [];
+      if (this.activeAssigneeTab === 'me') {
+        conversationList = this.mineChatsList.slice();
+      } else if (this.activeAssigneeTab === 'unassigned') {
+        conversationList = this.unAssignedChatsList.slice();
+      } else {
+        conversationList = this.allChatList.slice();
+      }
+
+      if (!this.label) {
+        return conversationList;
+      }
+
+      return conversationList.filter(conversation => {
+        const labels = this.$store.getters[
+          'conversationLabels/getConversationLabels'
+        ](conversation.id);
+        return labels.includes(this.label);
+      });
+    },
   },
   watch: {
     conversationInbox() {
@@ -180,17 +201,6 @@ export default {
         this.activeStatus = index;
         this.resetAndFetchData();
       }
-    },
-    getChatsForTab() {
-      let copyList = [];
-      if (this.activeAssigneeTab === 'me') {
-        copyList = this.mineChatsList.slice();
-      } else if (this.activeAssigneeTab === 'unassigned') {
-        copyList = this.unAssignedChatsList.slice();
-      } else {
-        copyList = this.allChatList.slice();
-      }
-      return copyList;
     },
   },
 };

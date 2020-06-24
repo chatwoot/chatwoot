@@ -10,9 +10,9 @@
         <div class="label-content--block">
           <div class="label-content--title">
             {{ $t('CONTACT_PANEL.LABELS.MODAL.ACTIVE_LABELS') }}
-          </div>
-          <div class="label-content--subtitle">
-            {{ $t('CONTACT_PANEL.LABELS.MODAL.REMOVE') }}
+            <span v-tooltip.bottom="$t('CONTACT_PANEL.LABELS.MODAL.REMOVE')">
+              <i class="ion-ios-help-outline" />
+            </span>
           </div>
           <div v-if="activeList.length">
             <woot-label
@@ -33,9 +33,9 @@
         <div class="label-content--block">
           <div class="label-content--title">
             {{ $t('CONTACT_PANEL.LABELS.MODAL.INACTIVE_LABELS') }}
-          </div>
-          <div class="label-content--subtitle">
-            ({{ $t('CONTACT_PANEL.LABELS.MODAL.ADD') }})
+            <span v-tooltip.bottom="$t('CONTACT_PANEL.LABELS.MODAL.ADD')">
+              <i class="ion-ios-help-outline" />
+            </span>
           </div>
           <div v-if="inactiveList.length">
             <woot-label
@@ -124,9 +124,6 @@ export default {
 
 .label-content--title {
   font-weight: $font-weight-bold;
-}
-
-.label-content--subtitle {
   margin-bottom: $space-small;
 }
 </style>

@@ -142,7 +142,7 @@ const mutations = {
     if (currentConversationIndex > -1) {
       const currentConversation = {
         ...allConversations[currentConversationIndex],
-        status: conversation.status,
+        ...conversation,
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChat.id === conversation.id) {

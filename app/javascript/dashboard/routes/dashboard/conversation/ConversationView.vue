@@ -53,10 +53,11 @@ export default {
   computed: {
     ...mapGetters({
       chatList: 'getAllConversations',
+      currentChat: 'getSelectedChat',
     }),
     isContactPanelOpen: {
       get() {
-        if (this.conversationId) {
+        if (this.currentChat.id) {
           return this.panelToggleState;
         }
         return false;
