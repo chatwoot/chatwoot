@@ -7,14 +7,19 @@ import {
 describe('#URL Helpers', () => {
   describe('conversationUrl', () => {
     it('should return direct conversation URL if activeInbox is nil', () => {
-      expect(conversationUrl(1, undefined, 1)).toBe(
+      expect(conversationUrl({ accountId: 1, id: 1 })).toBe(
         'accounts/1/conversations/1'
       );
     });
-    it('should return ibox conversation URL if activeInbox is not nil', () => {
-      expect(conversationUrl(1, 2, 1)).toBe(
+    it('should return inbox conversation URL if activeInbox is not nil', () => {
+      expect(conversationUrl({ accountId: 1, id: 1, activeInbox: 2 })).toBe(
         'accounts/1/inbox/2/conversations/1'
       );
+    });
+    it('should return correct conversation URL if label is active', () => {
+      expect(
+        conversationUrl({ accountId: 1, label: 'customer-support', id: 1 })
+      ).toBe('accounts/1/label/customer-support/conversations/1');
     });
   });
 
@@ -26,16 +31,6 @@ describe('#URL Helpers', () => {
       expect(frontendURL('main', { ping: 'pong' })).toBe('/app/main?ping=pong');
     });
   });
-
-  /* 
-  
-  export const accountIdFromPathname = pathname => {
-  const isInsideAccountScopedURLs = pathname.includes('/app/accounts');
-  const accountId = isInsideAccountScopedURLs ? pathname.split('/')[3] : '';
-  return Number(accountId);
-};
-
-  */
 
   describe('accountIdFromPathname', () => {
     it('should return account id if accont scoped url is passed', () => {
