@@ -14,15 +14,16 @@ RSpec.describe 'Integration Apps API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'returns all the apps' do
+      it 'returns all active apps' do
+        first_app = Integrations::App.all.find(&:active?)
         get api_v1_account_integrations_apps_url(account),
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        app = JSON.parse(response.body)['payload'].first
-        expect(app['id']).to eql('webhook')
-        expect(app['name']).to eql('Webhooks')
+        apps = JSON.parse(response.body)['payload'].first
+        expect(apps['id']).to eql(first_app.id)
+        expect(apps['name']).to eql(first_app.name)
       end
     end
   end

@@ -1,16 +1,17 @@
-class Twitter::SendReplyService
+class Twitter::SendOnTwitterService < Base::SendOnChannelService
   pattr_initialize [:message!]
 
-  def perform
-    return if message.private
-    return if message.source_id
-    return if inbox.channel.class.to_s != 'Channel::TwitterProfile'
-    return unless outgoing_message_from_chatwoot?
+  private
 
-    send_reply
+  delegate :additional_attributes, to: :contact
+
+  def channel_class
+    Channel::TwitterProfile
   end
 
-  private
+  def perform_reply
+    conversation_type == 'tweet' ? send_tweet_reply : send_direct_message
+  end
 
   def twitter_client
     Twitty::Facade.new do |config|
@@ -50,19 +51,4 @@ class Twitter::SendReplyService
       Rails.logger.info 'TWITTER_TWEET_REPLY_ERROR' + response.body
     end
   end
-
-  def send_reply
-    conversation_type == 'tweet' ? send_tweet_reply : send_direct_message
-  end
-
-  def outgoing_message_from_chatwoot?
-    (message.outgoing? || message.template?)
-  end
-
-  delegate :additional_attributes, to: :contact
-  delegate :contact, to: :conversation
-  delegate :contact_inbox, to: :conversation
-  delegate :conversation, to: :message
-  delegate :inbox, to: :conversation
-  delegate :channel, to: :inbox
 end

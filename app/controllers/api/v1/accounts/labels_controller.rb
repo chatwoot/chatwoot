@@ -14,7 +14,7 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @label.update(permitted_params)
+    @label.update!(permitted_params)
   end
 
   def destroy

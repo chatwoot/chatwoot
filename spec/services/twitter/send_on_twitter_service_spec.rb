@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Twitter::SendReplyService do
+describe Twitter::SendOnTwitterService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   let(:twitter_client) { instance_double(::Twitty::Facade) }
