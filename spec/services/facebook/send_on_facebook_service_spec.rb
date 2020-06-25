@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Facebook::SendReplyService do
+describe Facebook::SendOnFacebookService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   before do

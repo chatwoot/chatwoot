@@ -15,7 +15,7 @@ describe('#actions', () => {
       await actions.getConversation({ commit }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.default.ADD_CONVERSATION,
+          types.default.UPDATE_CONVERSATION,
           { id: 1, meta: { sender: { id: 1, name: 'Contact 1' } } },
         ],
         ['contacts/SET_CONTACT_ITEM', { id: 1, name: 'Contact 1' }],
