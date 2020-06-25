@@ -3,6 +3,8 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def perform
     # overriding the base class logic since the validations are different in this case.
+    # FIXME: for now we will only send messages from widget to slack
+    return unless channel.is_a?(Channel::WebWidget)
     # we don't want message loop in slack
     return if message.source_id.try(:starts_with?, 'slack_')
     # we don't want to start slack thread from agent conversation as of now
