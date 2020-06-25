@@ -11,14 +11,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def fb_text_message_params
     {
-      recipient: { id: contact.get_source_id(inbox.id) },
+      recipient: { id: sender.get_source_id(inbox.id) },
       message: { text: message.content }
     }
   end
 
   def fb_attachment_message_params
     {
-      recipient: { id: contact.get_source_id(inbox.id) },
+      recipient: { id: sender.get_source_id(inbox.id) },
       message: {
         attachment: {
           type: 'image',
