@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_25_124400) do
+ActiveRecord::Schema.define(version: 2020_06_25_154254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -274,7 +274,7 @@ ActiveRecord::Schema.define(version: 2020_06_25_124400) do
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.string "color"
+    t.string "color", default: "#1f93ff", null: false
     t.boolean "show_on_sidebar"
     t.bigint "account_id"
     t.datetime "created_at", precision: 6, null: false
