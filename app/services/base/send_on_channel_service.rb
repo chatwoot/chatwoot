@@ -21,7 +21,7 @@ class Base::SendOnChannelService
   private
 
   delegate :conversation, to: :message
-  delegate :sender, :contact_inbox, :inbox, to: :conversation
+  delegate :contact, :contact_inbox, :inbox, to: :conversation
   delegate :channel, to: :inbox
 
   def channel_class

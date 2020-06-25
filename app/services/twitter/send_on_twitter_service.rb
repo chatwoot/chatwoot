@@ -3,7 +3,7 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
 
   private
 
-  delegate :additional_attributes, to: :sender
+  delegate :additional_attributes, to: :contact
 
   def channel_class
     Channel::TwitterProfile

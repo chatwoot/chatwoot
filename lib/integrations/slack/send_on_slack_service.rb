@@ -34,6 +34,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def send_message
+    sender = message.sender
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
 
     @slack_message = slack_client.chat_postMessage(
