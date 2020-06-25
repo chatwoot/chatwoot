@@ -1,0 +1,62 @@
+class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
+  pattr_initialize [:message!, :hook!]
+
+  def perform
+    # overriding the base class logic since the validations are different in this case.
+    # FIXME: for now we will only send messages from widget to slack
+    return unless channel.is_a?(Channel::WebWidget)
+    # we don't want message loop in slack
+    return if message.source_id.try(:starts_with?, 'slack_')
+    # we don't want to start slack thread from agent conversation as of now
+    return if message.outgoing? && conversation.identifier.blank?
+
+    perform_reply
+  end
+
+  private
+
+  def perform_reply
+    send_message
+    update_reference_id
+  end
+
+  def agent
+    @agent ||= message.user
+  end
+
+  def message_content
+    private_indicator = message.private? ? 'private: ' : ''
+    if conversation.identifier.present?
+      "#{private_indicator}#{message.content}"
+    else
+      "*Inbox: #{message.inbox.name}* \n\n #{message.content}"
+    end
+  end
+
+  def avatar_url(sender)
+    sender.try(:avatar_url) || "#{ENV['FRONTEND_URL']}/admin/avatar_square.png"
+  end
+
+  def send_message
+    sender = message.outgoing? ? agent : contact
+    sender_type = sender.class == Contact ? 'Contact' : 'Agent'
+
+    @slack_message = slack_client.chat_postMessage(
+      channel: hook.reference_id,
+      text: message_content,
+      username: "#{sender_type}: #{sender.try(:name)}",
+      thread_ts: conversation.identifier,
+      icon_url: avatar_url(sender)
+    )
+  end
+
+  def update_reference_id
+    return if conversation.identifier
+
+    conversation.update!(identifier: @slack_message['ts'])
+  end
+
+  def slack_client
+    @slack_client ||= Slack::Web::Client.new(token: hook.access_token)
+  end
+end

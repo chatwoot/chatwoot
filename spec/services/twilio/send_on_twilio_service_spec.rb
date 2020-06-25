@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Twilio::OutgoingMessageService do
+describe Twilio::SendOnTwilioService do
   subject(:outgoing_message_service) { described_class.new(message: message) }
 
   let(:twilio_client) { instance_double(::Twilio::REST::Client) }

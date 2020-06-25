@@ -45,6 +45,9 @@ post:
   operationId: newConversation
   summary: Create New Conversation
   description: Create conversation
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
   parameters:
     - name: data
       in: body

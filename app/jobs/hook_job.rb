@@ -4,7 +4,7 @@ class HookJob < ApplicationJob
   def perform(hook, message)
     return unless hook.slack?
 
-    Integrations::Slack::OutgoingMessageBuilder.perform(hook, message)
+    Integrations::Slack::SendOnSlackService.new(message: message, hook: hook).perform
   rescue StandardError => e
     Raven.capture_exception(e)
   end

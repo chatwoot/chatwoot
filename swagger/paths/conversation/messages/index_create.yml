@@ -30,6 +30,9 @@ post:
   operationId: conversationNewMessage
   summary: Create New Message
   description: All the agent replies are created as new messages through this endpoint
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
   parameters:
     - name: id
       in: path

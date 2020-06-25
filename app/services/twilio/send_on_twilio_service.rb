@@ -1,21 +1,14 @@
-class Twilio::OutgoingMessageService
-  pattr_initialize [:message!]
+class Twilio::SendOnTwilioService < Base::SendOnChannelService
+  private
 
-  def perform
-    return if message.private
-    return if message.source_id
-    return if inbox.channel.class.to_s != 'Channel::TwilioSms'
-    return unless outgoing_message?
+  def channel_class
+    Channel::TwilioSms
+  end
 
+  def perform_reply
     twilio_message = client.messages.create(message_params)
     message.update!(source_id: twilio_message.sid)
   end
-
-  private
-
-  delegate :conversation, to: :message
-  delegate :contact, to: :conversation
-  delegate :contact_inbox, to: :conversation
 
   def message_params
     params = {

@@ -89,9 +89,6 @@ class Integrations::Slack::IncomingMessageBuilder
   end
 
   def slack_client
-    Slack.configure do |config|
-      config.token = integration_hook.access_token
-    end
-    Slack::Web::Client.new
+    @slack_client ||= Slack::Web::Client.new(token: @integration_hook.access_token)
   end
 end
