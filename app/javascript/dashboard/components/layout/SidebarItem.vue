@@ -36,7 +36,13 @@
               v-if="computedInboxClass(child)"
               class="inbox-icon"
               :class="computedInboxClass(child)"
-            ></i>
+            />
+            <span
+              v-if="child.color"
+              class="label-color--display"
+              :style="{ backgroundColor: child.color }"
+            />
+
             {{ child.label }}
           </div>
         </a>
@@ -126,8 +132,22 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+
 .sub-menu-title {
   display: flex;
   justify-content: space-between;
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+}
+
+.label-color--display {
+  border-radius: $space-smaller;
+  height: $space-normal;
+  margin-right: $space-small;
+  width: $space-normal;
 }
 </style>

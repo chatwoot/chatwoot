@@ -76,7 +76,7 @@ RSpec.describe 'Label API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/labels/:id' do
-    let(:valid_params) { { title: 'Test 2' }  }
+    let(:valid_params) { { title: 'Test_2' }  }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -97,7 +97,7 @@ RSpec.describe 'Label API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(label.reload.title).to eq('Test 2')
+        expect(label.reload.title).to eq('test_2')
       end
     end
   end

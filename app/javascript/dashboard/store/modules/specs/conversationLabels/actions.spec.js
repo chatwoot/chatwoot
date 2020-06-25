@@ -74,4 +74,33 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#setBulkConversationLabels', () => {
+    it('it send correct mutations', () => {
+      actions.setBulkConversationLabels({ commit }, [
+        { id: 1, labels: ['customer-support'] },
+      ]);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_BULK_CONVERSATION_LABELS,
+          [{ id: 1, labels: ['customer-support'] }],
+        ],
+      ]);
+    });
+  });
+
+  describe('#setBulkConversationLabels', () => {
+    it('it send correct mutations', () => {
+      actions.setConversationLabel(
+        { commit },
+        { id: 1, data: ['customer-support'] }
+      );
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CONVERSATION_LABELS,
+          { id: 1, data: ['customer-support'] },
+        ],
+      ]);
+    });
+  });
 });
