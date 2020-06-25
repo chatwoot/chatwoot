@@ -13,8 +13,19 @@
 #
 # Indexes
 #
-#  index_labels_on_account_id  (account_id)
+#  index_labels_on_account_id            (account_id)
+#  index_labels_on_title_and_account_id  (title,account_id) UNIQUE
 #
 class Label < ApplicationRecord
+  include RegexHelper
   belongs_to :account
+
+  validates :title,
+            presence: { message: 'must not be blank' },
+            format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
+            uniqueness: { scope: :account_id }
+
+  before_validation do
+    self.title = title.downcase if attribute_present?('title')
+  end
 end
