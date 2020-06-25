@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Integrations::Slack::OutgoingMessageBuilder do
+describe Integrations::Slack::SendOnSlackService do
   let(:account) { create(:account) }
   let!(:inbox) { create(:inbox, account: account) }
   let!(:contact) { create(:contact) }
@@ -11,7 +11,7 @@ describe Integrations::Slack::OutgoingMessageBuilder do
 
   describe '#perform' do
     it 'sent message to slack' do
-      builder = described_class.new(hook, message)
+      builder = described_class.new(message: message, hook: hook)
       stub_request(:post, 'https://slack.com/api/chat.postMessage')
         .to_return(status: 200, body: '', headers: {})
       slack_client = double
