@@ -126,4 +126,8 @@ export default {
   font-weight: $font-weight-bold;
   margin-bottom: $space-small;
 }
+
+.content {
+  padding-top: $space-normal;
+}
 </style>

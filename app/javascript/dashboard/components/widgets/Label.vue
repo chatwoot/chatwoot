@@ -85,6 +85,7 @@ export default {
 .label--icon {
   cursor: pointer;
   font-size: $font-size-micro;
+  line-height: 1.5;
   margin-left: $space-smaller;
 }
 </style>

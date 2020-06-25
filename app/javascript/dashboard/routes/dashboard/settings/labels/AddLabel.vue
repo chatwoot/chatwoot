@@ -54,12 +54,11 @@
 </template>
 
 <script>
-import { required, minLength } from 'vuelidate/lib/validators';
-
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
+import validations from './validations';
 
 export default {
   components: {
@@ -85,17 +84,7 @@ export default {
       showOnSidebar: true,
     };
   },
-  validations: {
-    title: {
-      required,
-      minLength: minLength(2),
-    },
-    description: {},
-    color: {
-      required,
-    },
-    showOnSidebar: {},
-  },
+  validations,
   computed: {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
