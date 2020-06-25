@@ -71,12 +71,18 @@ export const mutations = {
 
   [types.default.SET_CONTACTS]: ($state, data) => {
     data.forEach(contact => {
-      Vue.set($state.records, contact.id, contact);
+      Vue.set($state.records, contact.id, {
+        ...($state.records[contact.id] || {}),
+        ...contact,
+      });
     });
   },
 
   [types.default.SET_CONTACT_ITEM]: ($state, data) => {
-    Vue.set($state.records, data.id, data);
+    Vue.set($state.records, data.id, {
+      ...($state.records[data.id] || {}),
+      ...data,
+    });
   },
 
   [types.default.EDIT_CONTACT]: ($state, data) => {

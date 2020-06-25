@@ -57,6 +57,10 @@ export default {
 
   mixins: [timeMixin, conversationMixin],
   props: {
+    activeLabel: {
+      type: String,
+      default: '',
+    },
     chat: {
       type: Object,
       default: () => {},
@@ -116,7 +120,12 @@ export default {
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(this.accountId, activeInbox, chat.id);
+      const path = conversationUrl({
+        accountId: this.accountId,
+        activeInbox,
+        id: chat.id,
+        label: this.activeLabel,
+      });
       router.push({ path: frontendURL(path) });
     },
     inboxName(inboxId) {
