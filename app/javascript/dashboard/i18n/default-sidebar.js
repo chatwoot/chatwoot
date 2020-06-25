@@ -10,6 +10,8 @@ export const getSidebarItems = accountId => ({
       'settings_account_reports',
       'profile_settings',
       'profile_settings_index',
+      'label_conversations',
+      'conversations_through_label',
     ],
     menuItems: {
       assignedToMe: {
@@ -40,9 +42,8 @@ export const getSidebarItems = accountId => ({
   settings: {
     routes: [
       'agent_list',
-      'agent_new',
       'canned_list',
-      'canned_new',
+      'labels_list',
       'settings_inbox',
       'settings_inbox_new',
       'settings_inbox_list',
@@ -77,6 +78,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
         toStateName: 'settings_inbox_list',
+      },
+      labels: {
+        icon: 'ion-pricetags',
+        label: 'LABELS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
+        toStateName: 'labels_list',
       },
       cannedResponses: {
         icon: 'ion-chatbox-working',

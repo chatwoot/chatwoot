@@ -3,7 +3,7 @@
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
-        {{ inbox.name || $t('CHAT_LIST.TAB_HEADING') }}
+        {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
     </div>
@@ -15,14 +15,15 @@
       @chatTabChange="updateAssigneeTab"
     />
 
-    <p v-if="!chatListLoading && !getChatsForTab().length" class="content-box">
+    <p v-if="!chatListLoading && !conversationList.length" class="content-box">
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
 
     <div class="conversations-list">
       <conversation-card
-        v-for="chat in getChatsForTab()"
+        v-for="chat in conversationList"
         :key="chat.id"
+        :active-label="label"
         :chat="chat"
       />
 
@@ -40,7 +41,7 @@
 
       <p
         v-if="
-          getChatsForTab().length &&
+          conversationList.length &&
             hasCurrentPageEndReached &&
             !chatListLoading
         "
@@ -72,7 +73,16 @@ export default {
     ChatFilter,
   },
   mixins: [timeMixin, conversationMixin],
-  props: ['conversationInbox'],
+  props: {
+    conversationInbox: {
+      type: [String, Number],
+      default: 0,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       activeAssigneeTab: wootConstants.ASSIGNEE_TYPE.ME,
@@ -119,18 +129,51 @@ export default {
         assigneeType: this.activeAssigneeTab,
         status: this.activeStatus,
         page: this.currentPage + 1,
+        labels: this.label ? [this.label] : undefined,
       };
+    },
+    pageTitle() {
+      if (this.inbox.name) {
+        return this.inbox.name;
+      }
+      if (this.label) {
+        return `#${this.label}`;
+      }
+      return this.$t('CHAT_LIST.TAB_HEADING');
+    },
+    conversationList() {
+      let conversationList = [];
+      if (this.activeAssigneeTab === 'me') {
+        conversationList = this.mineChatsList.slice();
+      } else if (this.activeAssigneeTab === 'unassigned') {
+        conversationList = this.unAssignedChatsList.slice();
+      } else {
+        conversationList = this.allChatList.slice();
+      }
+
+      if (!this.label) {
+        return conversationList;
+      }
+
+      return conversationList.filter(conversation => {
+        const labels = this.$store.getters[
+          'conversationLabels/getConversationLabels'
+        ](conversation.id);
+        return labels.includes(this.label);
+      });
     },
   },
   watch: {
     conversationInbox() {
       this.resetAndFetchData();
     },
+    label() {
+      this.resetAndFetchData();
+    },
   },
   mounted() {
     this.$store.dispatch('setChatFilter', this.activeStatus);
     this.resetAndFetchData();
-    this.$store.dispatch('agents/get');
 
     bus.$on('fetch_conversation_stats', () => {
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
@@ -158,17 +201,6 @@ export default {
         this.activeStatus = index;
         this.resetAndFetchData();
       }
-    },
-    getChatsForTab() {
-      let copyList = [];
-      if (this.activeAssigneeTab === 'me') {
-        copyList = this.mineChatsList.slice();
-      } else if (this.activeAssigneeTab === 'unassigned') {
-        copyList = this.unAssignedChatsList.slice();
-      } else {
-        copyList = this.allChatList.slice();
-      }
-      return copyList;
     },
   },
 };
