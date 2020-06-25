@@ -17,6 +17,9 @@
         :description="label.description"
         :bg-color="label.color"
       />
+      <div v-if="!activeLabels.length">
+        {{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}
+      </div>
       <add-label-to-conversation
         v-if="isEditing"
         :conversation-id="conversationId"

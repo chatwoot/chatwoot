@@ -19,7 +19,9 @@
         "ADD": "Click on + icon to add the label",
         "UPDATE_BUTTON": "Update labels",
         "UPDATE_ERROR": "Couldn't update labels, try again."
-      }
+      },
+      "NO_LABELS_TO_ADD": "There are no more labels to add.",
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
     "MUTE_CONTACT": "Mute Contact",
     "EDIT_LABEL": "Edit"

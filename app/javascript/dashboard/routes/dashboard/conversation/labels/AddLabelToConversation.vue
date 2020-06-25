@@ -26,7 +26,7 @@
             />
           </div>
           <p v-else>
-            There are no labels added to this conversation.
+            {{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}
           </p>
         </div>
 
@@ -50,7 +50,7 @@
             />
           </div>
           <p v-else>
-            There are no more labels to add.
+            {{ $t('CONTACT_PANEL.LABELS.NO_LABELS_TO_ADD') }}
           </p>
         </div>
       </div>

@@ -149,6 +149,8 @@ const mutations = {
         _state.selectedChat.status = conversation.status;
         window.bus.$emit('scrollToMessage');
       }
+    } else {
+      _state.allConversations.push(conversation);
     }
   },
 
