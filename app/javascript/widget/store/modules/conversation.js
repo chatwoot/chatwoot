@@ -117,8 +117,9 @@ export const getters = {
   },
   getUnreadTextMessages: (_state, _getters) => {
     const unreadCount = _getters.getUnreadMessageCount;
+    const maxUnreadCount = Math.min(unreadCount, 3);
     const allMessages = [...Object.values(_state.conversations)];
-    const allUnreadMessages = allMessages.splice(-unreadCount);
+    const allUnreadMessages = allMessages.splice(-maxUnreadCount);
     const unreadAgentMessages = allUnreadMessages.filter(message => {
       const { message_type: messageType } = message;
       return messageType === MESSAGE_TYPE.OUTGOING;
