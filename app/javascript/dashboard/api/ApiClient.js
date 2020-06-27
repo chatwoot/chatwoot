@@ -10,6 +10,10 @@ class ApiClient {
   }
 
   get url() {
+    return `${this.baseUrl()}/${this.resource}`;
+  }
+
+  baseUrl() {
     let url = this.apiVersion;
     if (this.options.accountScoped) {
       const isInsideAccountScopedURLs = window.location.pathname.includes(
@@ -21,7 +25,8 @@ class ApiClient {
         url = `${url}/accounts/${accountId}`;
       }
     }
-    return `${url}/${this.resource}`;
+
+    return url;
   }
 
   get() {

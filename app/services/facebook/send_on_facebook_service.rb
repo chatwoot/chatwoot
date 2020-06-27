@@ -1,36 +1,13 @@
-class Facebook::SendReplyService
-  pattr_initialize [:message!]
-
-  def perform
-    return if message.private
-    return if inbox.channel.class.to_s != 'Channel::FacebookPage'
-    return unless outgoing_message_from_chatwoot?
-
-    FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
-  end
-
+class Facebook::SendOnFacebookService < Base::SendOnChannelService
   private
 
-  delegate :contact, to: :conversation
-
-  def inbox
-    @inbox ||= message.inbox
+  def channel_class
+    Channel::FacebookPage
   end
 
-  def conversation
-    @conversation ||= message.conversation
+  def perform_reply
+    FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
   end
-
-  def outgoing_message_from_chatwoot?
-    # messages sent directly from chatwoot won't have source_id.
-    (message.outgoing? || message.template?) && !message.source_id
-  end
-
-  # def reopen_lock
-  #   if message.incoming? && conversation.locked?
-  #     conversation.unlock!
-  #   end
-  # end
 
   def fb_text_message_params
     {

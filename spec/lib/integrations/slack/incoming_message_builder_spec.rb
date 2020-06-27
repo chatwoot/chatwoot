@@ -5,7 +5,7 @@ describe Integrations::Slack::IncomingMessageBuilder do
   let(:message_params) { slack_message_stub }
   let(:verification_params) { slack_url_verification_stub }
 
-  let(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
+  let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
   let!(:conversation) { create(:conversation, identifier: message_params[:event][:thread_ts]) }
 
   describe '#perform' do
@@ -19,8 +19,10 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
     context 'when message creation' do
       it 'creates message' do
+        expect(hook).not_to eq nil
         messages_count = conversation.messages.count
         builder = described_class.new(message_params)
+        allow(builder).to receive(:sender).and_return(nil)
         builder.perform
         expect(conversation.messages.count).to eql(messages_count + 1)
       end

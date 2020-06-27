@@ -45,5 +45,24 @@ export default {
         };
       },
     },
+    {
+      path: frontendURL('accounts/:accountId/label/:label'),
+      name: 'label_conversations',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({ label: route.params.label }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/label/:label/conversations/:conversation_id'
+      ),
+      name: 'conversations_through_label',
+      roles: ['administrator', 'agent'],
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        label: route.params.label,
+      }),
+    },
   ],
 };

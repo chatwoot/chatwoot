@@ -17,6 +17,24 @@ produces:
 - application/json; charset=utf-8
 consumes:
 - application/json; charset=utf-8
+securityDefinitions:
+  userApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user.
+  agentBotApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis.
+  superAdminApiKey:
+    type: apiKey
+    in: header
+    name: api_access_token
+    description: This token is only for the system admin or obtained via rails console. This token is to be used rarely for cases like creating a pre verified user through api from external system.
+security:
+  - userApiKey: []
 
 paths:
   $ref: ./paths/index.yml
