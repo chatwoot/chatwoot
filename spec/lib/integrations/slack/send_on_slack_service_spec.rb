@@ -20,7 +20,7 @@ describe Integrations::Slack::SendOnSlackService do
       expect(slack_client).to receive(:chat_postMessage).with(
         channel: hook.reference_id,
         text: message.content,
-        username: "Contact: #{contact.name}",
+        username: "Agent: #{message.sender.name}",
         thread_ts: conversation.identifier,
         icon_url: anything
       )

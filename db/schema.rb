@@ -292,18 +292,17 @@ ActiveRecord::Schema.define(version: 2020_06_25_154254) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "private", default: false
-    t.integer "user_id"
     t.integer "status", default: 0
     t.string "source_id"
     t.integer "content_type", default: 0
     t.json "content_attributes", default: {}
-    t.bigint "contact_id"
+    t.string "sender_type"
+    t.bigint "sender_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
-    t.index ["contact_id"], name: "index_messages_on_contact_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
-    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "notification_settings", force: :cascade do |t|
@@ -436,5 +435,4 @@ ActiveRecord::Schema.define(version: 2020_06_25_154254) do
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
-  add_foreign_key "messages", "contacts"
 end
