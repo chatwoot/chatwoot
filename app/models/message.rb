@@ -8,28 +8,23 @@
 #  content_type       :integer          default("text")
 #  message_type       :integer          not null
 #  private            :boolean          default(FALSE)
+#  sender_type        :string
 #  status             :integer          default("sent")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
-#  contact_id         :bigint
 #  conversation_id    :integer          not null
 #  inbox_id           :integer          not null
+#  sender_id          :bigint
 #  source_id          :string
-#  user_id            :integer
 #
 # Indexes
 #
-#  index_messages_on_account_id       (account_id)
-#  index_messages_on_contact_id       (contact_id)
-#  index_messages_on_conversation_id  (conversation_id)
-#  index_messages_on_inbox_id         (inbox_id)
-#  index_messages_on_source_id        (source_id)
-#  index_messages_on_user_id          (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (contact_id => contacts.id)
+#  index_messages_on_account_id                 (account_id)
+#  index_messages_on_conversation_id            (conversation_id)
+#  index_messages_on_inbox_id                   (inbox_id)
+#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
+#  index_messages_on_source_id                  (source_id)
 #
 
 class Message < ApplicationRecord
@@ -65,8 +60,11 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
+
+  # FIXME: phase out user and contact after 1.4 since the info is there in sender
   belongs_to :user, required: false
   belongs_to :contact, required: false
+  belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
@@ -88,7 +86,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
-    data.merge!(sender: user.push_event_data) if user
+    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
+    data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
   end
 
@@ -105,8 +104,7 @@ class Message < ApplicationRecord
       content_type: content_type,
       content_attributes: content_attributes,
       source_id: source_id,
-      sender: user.try(:webhook_data),
-      contact: contact.try(:webhook_data),
+      sender: sender.try(:webhook_data),
       inbox: inbox.webhook_data,
       conversation: conversation.webhook_data,
       account: account.webhook_data
