@@ -254,7 +254,7 @@ RSpec.describe Conversation, type: :model do
         conversation: conversation,
         account: conversation.account,
         inbox: conversation.inbox,
-        user: conversation.assignee
+        sender: conversation.assignee
       }
     end
     let!(:message) do
@@ -279,7 +279,7 @@ RSpec.describe Conversation, type: :model do
         conversation: conversation,
         account: conversation.account,
         inbox: conversation.inbox,
-        user: conversation.assignee,
+        sender: conversation.assignee,
         created_at: 1.minute.ago
       }
     end

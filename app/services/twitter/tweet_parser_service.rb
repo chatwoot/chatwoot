@@ -73,7 +73,7 @@ class Twitter::TweetParserService < Twitter::WebhooksBaseService
     set_conversation
     @conversation.messages.create(
       account_id: @inbox.account_id,
-      contact_id: @contact.id,
+      sender: @contact,
       content: tweet_text,
       inbox_id: @inbox.id,
       message_type: message_type,
