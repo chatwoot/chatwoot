@@ -211,18 +211,19 @@ export default {
       if (this.message.length > this.maxLength) {
         return;
       }
+      const newMessage = this.message;
+      this.clearMessage();
       if (!this.showCannedResponsesList) {
         try {
           await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
-            message: this.message,
+            message: newMessage,
             private: this.isPrivate,
           });
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error
         }
-        this.clearMessage();
         this.hideEmojiPicker();
       }
     },
