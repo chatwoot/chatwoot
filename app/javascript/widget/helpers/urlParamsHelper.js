@@ -1,4 +1,4 @@
-import i18n from '../i18n';
+import { i18n } from '../../packs/widget';
 
 export const buildSearchParamsWithLocale = search => {
   const locale = i18n.locale;
