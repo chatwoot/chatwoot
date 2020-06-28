@@ -2,13 +2,17 @@ module AvailabilityStatusable
   extend ActiveSupport::Concern
 
   def online_presence?
-    ::OnlineStatusTracker.update_presence(pubsub_token)
+    ::OnlineStatusTracker.get_presence(pubsub_token)
   end
 
   def availability_status
-    return online_presence? ? 'online' : 'offline' if is_a? Contact
     return 'offline' unless online_presence?
+    return contact_online_status if is_a? Contact
 
     ::OnlineStatusTracker.get_status(pubsub_token)
+  end
+
+  def contact_online_status
+    online_presence? ? 'online' : 'offline'
   end
 end
