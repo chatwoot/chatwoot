@@ -104,5 +104,21 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": ""
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Account Name",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Submit"
+    }
   }
 }

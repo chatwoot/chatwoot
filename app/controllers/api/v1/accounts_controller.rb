@@ -17,7 +17,8 @@ class Api::V1::AccountsController < Api::BaseController
     @user = AccountBuilder.new(
       account_name: account_params[:account_name],
       email: account_params[:email],
-      confirmed: confirmed?
+      confirmed: confirmed?,
+      user: current_user
     ).perform
     if @user
       send_auth_headers(@user)

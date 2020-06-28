@@ -21,6 +21,9 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
+  getLinkedAccountId($state) {
+    return $state.linked_account_id;
+  },
 };
 
 export const actions = {
@@ -48,6 +51,21 @@ export const actions = {
       throw new Error(error);
     }
   },
+  create: async ({ commit }, accountInfo) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: true });
+    try {
+      const response = await AccountAPI.createAccount(accountInfo);
+      commit(
+        types.default.SET_LINKED_ACCOUNT_ID,
+        response.data.data.linked_account_id
+      );
+      console.log(response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
+      throw error;
+    }
+  },
 };
 
 export const mutations = {
@@ -56,6 +74,9 @@ export const mutations = {
       ...$state.uiFlags,
       ...data,
     };
+  },
+  [types.default.SET_LINKED_ACCOUNT_ID]($state, account_id) {
+    $state.linked_account_id = account_id;
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
