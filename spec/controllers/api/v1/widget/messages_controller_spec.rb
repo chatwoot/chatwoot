@@ -24,8 +24,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
 
-        # 2 messages created + 3 messages by the template hook
-        expect(json_response.length).to eq(5)
+        # 2 messages created + 2 messages by the email hook
+        expect(json_response.length).to eq(4)
       end
     end
   end
@@ -58,6 +58,19 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
 
         expect(conversation.messages.last.attachments.first.file.present?).to eq(true)
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
+      end
+
+      it 'does not reopen conversation when conversation is muted' do
+        conversation.mute!
+
+        message_params = { content: 'hello world', timestamp: Time.current }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.resolved?).to eq(true)
       end
     end
   end

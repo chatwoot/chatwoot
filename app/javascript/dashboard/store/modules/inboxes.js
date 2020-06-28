@@ -5,6 +5,18 @@ import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 
+const buildInboxData = inboxParams => {
+  const formData = new FormData();
+  const { channel = {}, ...inboxProperties } = inboxParams;
+  Object.keys(inboxProperties).forEach(key => {
+    formData.append(key, inboxProperties[key]);
+  });
+  Object.keys(channel).forEach(key => {
+    formData.append(`channel[${key}]`, channel[key]);
+  });
+  return formData;
+};
+
 export const state = {
   records: [],
   uiFlags: {
@@ -46,7 +58,7 @@ export const actions = {
   createWebsiteChannel: async ({ commit }, params) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
-      const response = await WebChannel.create(params);
+      const response = await WebChannel.create(buildInboxData(params));
       commit(types.default.ADD_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       return response.data;
@@ -84,7 +96,7 @@ export const actions = {
       isUpdatingAutoAssignment: true,
     });
     try {
-      const response = await InboxesAPI.update(id, inboxParams);
+      const response = await InboxesAPI.update(id, buildInboxData(inboxParams));
       commit(types.default.EDIT_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingAutoAssignment: false,

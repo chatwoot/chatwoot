@@ -32,6 +32,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    widgetColor: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     title() {

@@ -1,8 +1,10 @@
-.modal-mask {
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
 
+.modal-mask {
   @include flex;
   @include flex-align(center, middle);
-  background-color: $color-white;
+  background-color: $masked-bg;
   height: 100%;
   left: 0;
   position: fixed;
@@ -19,8 +21,8 @@
   line-height: $space-normal;
   padding: $space-normal $space-two;
   position: absolute;
-  right: $space-large;
-  top: $space-large;
+  right: $space-micro;
+  top: $space-micro;
 
   &:hover {
     background: $color-background;
@@ -29,7 +31,7 @@
 
 
 .page-top-bar {
-  @include padding($zero $space-two);
+  @include padding($space-large $space-large $zero);
 
   img {
     max-height: 6rem;
@@ -37,8 +39,10 @@
 }
 
 .modal-container {
+  @include normal-shadow;
+
   background-color: $color-white;
-  border-radius: $space-small;
+  border-radius: $space-smaller;
   max-height: 100%;
   overflow: auto;
   position: relative;
@@ -52,21 +56,25 @@
 
 
   h2 {
+    color: $color-heading;
     font-size: $font-size-medium;
-    color: $color-woot;
-    font-weight: $font-weight-normal;
-    @include padding($space-small $zero $zero $zero);
+    font-weight: $font-weight-bold;
   }
 
   p {
-    font-size: $font-size-small;
-    @include padding($zero);
     @include margin($zero);
+    @include padding($zero);
+    font-size: $font-size-small;
+  }
+
+  .content {
+    @include padding($space-large);
   }
 
   form {
+    @include padding($space-large);
     align-self: center;
-    @include padding($space-two);
+
     a {
       @include padding($space-normal);
     }
@@ -74,15 +82,16 @@
 
   .modal-footer {
     @include flex;
-    @include flex-align($x: justify, $y: middle);
-    @include padding($space-small $zero $space-medium $zero);
+    @include flex-align($x: flex-start, $y: middle);
+    @include padding($space-small $zero);
+
     button {
       font-size: $font-size-small;
     }
   }
 
   .delete-item {
-    @include padding($space-normal);
+    @include padding($space-large);
     button {
       @include margin($zero);
     }
@@ -90,12 +99,12 @@
 
 }
 
-.modal-enter, .modal-leave {
-    opacity: 0;
+.modal-enter,
+.modal-leave {
+  opacity: 0;
 }
 
 .modal-enter .modal-container,
 .modal-leave .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
+  transform: scale(1.1);
 }

@@ -1,6 +1,6 @@
-class Api::V2::Accounts::ReportsController < Api::BaseController
+class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def account
-    builder = V2::ReportBuilder.new(current_account, account_report_params)
+    builder = V2::ReportBuilder.new(Current.account, account_report_params)
     data = builder.build
     render json: data
   end
@@ -10,10 +10,6 @@ class Api::V2::Accounts::ReportsController < Api::BaseController
   end
 
   private
-
-  def current_account
-    current_user.account
-  end
 
   def account_summary_params
     {
@@ -33,7 +29,7 @@ class Api::V2::Accounts::ReportsController < Api::BaseController
   end
 
   def account_summary_metrics
-    builder = V2::ReportBuilder.new(current_account, account_summary_params)
+    builder = V2::ReportBuilder.new(Current.account, account_summary_params)
     builder.summary
   end
 end

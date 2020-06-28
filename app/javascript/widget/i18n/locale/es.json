@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Descargar",
+      "UPLOADING": "Subiendo..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Enviar"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "está disponible",
+    "ARE_AVAILABLE": "están disponibles",
+    "OTHERS_ARE_AVAILABLE": "otros están disponibles",
+    "AND": "y"
+  },
+  "POWERED_BY": "Desarrollado por Chatwoot",
+  "EMAIL_PLACEHOLDER": "Por favor ingrese su email",
+  "CHAT_PLACEHOLDER": "Escribe tu mensaje"
+}

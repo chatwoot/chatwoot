@@ -36,7 +36,13 @@
               v-if="computedInboxClass(child)"
               class="inbox-icon"
               :class="computedInboxClass(child)"
-            ></i>
+            />
+            <span
+              v-if="child.color"
+              class="label-color--display"
+              :style="{ backgroundColor: child.color }"
+            />
+
             {{ child.label }}
           </div>
         </a>
@@ -50,7 +56,7 @@
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
-import auth from '../../api/auth';
+import adminMixin from '../../mixins/isAdmin';
 
 const INBOX_TYPES = {
   WEB: 'Channel::WebWidget',
@@ -78,6 +84,7 @@ const getInboxClassByType = type => {
 };
 
 export default {
+  mixins: [adminMixin],
   props: {
     menuItem: {
       type: Object,
@@ -119,14 +126,28 @@ export default {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
     },
     showItem(item) {
-      return auth.isAdmin() && item.newLink !== undefined;
+      return this.isAdmin && item.newLink !== undefined;
     },
   },
 };
 </script>
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+
 .sub-menu-title {
   display: flex;
   justify-content: space-between;
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+}
+
+.label-color--display {
+  border-radius: $space-smaller;
+  height: $space-normal;
+  margin-right: $space-small;
+  width: $space-normal;
 }
 </style>

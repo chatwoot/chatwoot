@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_112339) do
+ActiveRecord::Schema.define(version: 2020_06_25_154254) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -33,6 +34,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.bigint "inviter_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "active_at"
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["user_id"], name: "index_account_users_on_user_id"
@@ -159,7 +161,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.string "agent_away_message"
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -206,6 +207,7 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.string "identifier"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -243,6 +245,8 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.datetime "updated_at", null: false
     t.string "channel_type"
     t.boolean "enable_auto_assignment", default: true
+    t.boolean "greeting_enabled", default: false
+    t.string "greeting_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -252,6 +256,31 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+  end
+
+  create_table "integrations_hooks", force: :cascade do |t|
+    t.integer "status", default: 0
+    t.integer "inbox_id"
+    t.integer "account_id"
+    t.string "app_id"
+    t.text "settings"
+    t.integer "hook_type", default: 0
+    t.string "reference_id"
+    t.string "access_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "labels", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.string "color", default: "#1f93ff", null: false
+    t.boolean "show_on_sidebar"
+    t.bigint "account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_labels_on_account_id"
+    t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -313,18 +342,6 @@ ActiveRecord::Schema.define(version: 2020_05_10_112339) do
     t.index ["primary_actor_type", "primary_actor_id"], name: "uniq_primary_actor_per_account_notifications"
     t.index ["secondary_actor_type", "secondary_actor_id"], name: "uniq_secondary_actor_per_account_notifications"
     t.index ["user_id"], name: "index_notifications_on_user_id"
-  end
-
-  create_table "subscriptions", id: :serial, force: :cascade do |t|
-    t.string "pricing_version"
-    t.integer "account_id"
-    t.datetime "expiry"
-    t.string "billing_plan", default: "trial"
-    t.string "stripe_customer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "state", default: 0
-    t.boolean "payment_source_added", default: false
   end
 
   create_table "super_admins", force: :cascade do |t|

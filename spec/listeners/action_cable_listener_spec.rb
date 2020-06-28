@@ -24,7 +24,9 @@ describe ActionCableListener do
       expect(conversation.inbox.reload.inbox_members.count).to eq(1)
 
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token], 'message.created', message.push_event_data
+        [agent.pubsub_token, admin.pubsub_token, conversation.contact.pubsub_token],
+        'message.created',
+        message.push_event_data.merge(account_id: account.id)
       )
       listener.message_created(event)
     end
@@ -40,7 +42,8 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_on', conversation: conversation.push_event_data,
-                                  user: agent.push_event_data
+                                  user: agent.push_event_data,
+                                  account_id: account.id
       )
       listener.conversation_typing_on(event)
     end
@@ -56,7 +59,8 @@ describe ActionCableListener do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
         [admin.pubsub_token, conversation.contact.pubsub_token],
         'conversation.typing_off', conversation: conversation.push_event_data,
-                                   user: agent.push_event_data
+                                   user: agent.push_event_data,
+                                   account_id: account.id
       )
       listener.conversation_typing_off(event)
     end

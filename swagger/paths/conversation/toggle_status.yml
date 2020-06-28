@@ -4,6 +4,9 @@ post:
   operationId: conversationToggleStatus
   summary: Toggle Status
   description: Toggles the status of the conversation between open and resolved
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
   parameters:
     - name: id
       in: path
@@ -18,7 +21,7 @@ post:
         properties:
           status:
             type: string
-            enum: ["open", "resolved"]
+            enum: ["open", "resolved", "bot"]
             required: true
             description: The status of the conversation
   responses:

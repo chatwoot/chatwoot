@@ -2,12 +2,12 @@
   <div class="medium-3 bg-white contact--panel">
     <div class="contact--profile">
       <span class="close-button" @click="onPanelToggle">
-        <i class="ion-close-round"></i>
+        <i class="ion-chevron-right" />
       </span>
       <div class="contact--info">
         <thumbnail
           :src="contact.thumbnail"
-          size="56px"
+          size="64px"
           :badge="contact.channel"
           :username="contact.name"
           :status="contact.availability_status"
@@ -57,14 +57,17 @@
       >
         {{ contact.additional_attributes.description }}
       </div>
+      <div class="contact--actions">
+        <button
+          v-if="!currentChat.muted"
+          class="button small clear contact--mute small-6"
+          @click="mute"
+        >
+          {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
+        </button>
+      </div>
     </div>
-    <conversation-labels :conversation-id="conversationId" />
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
-    <div v-if="browser" class="conversation--details">
+    <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
@@ -90,14 +93,21 @@
         icon="ion-clock"
       />
     </div>
+    <conversation-labels :conversation-id="conversationId" />
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
-import ConversationLabels from './ConversationLabels.vue';
+import ConversationLabels from './labels/LabelBox.vue';
 
 export default {
   components: {
@@ -117,6 +127,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+    }),
     currentConversationMetaData() {
       return this.$store.getters[
         'conversationMetadata/getConversationMetadata'
@@ -146,25 +159,36 @@ export default {
       return `${platformName || ''} ${platformVersion || ''}`;
     },
     contactId() {
-      return this.currentConversationMetaData.contact?.id;
+      return this.currentChat.meta?.sender?.id;
     },
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
   },
   watch: {
-    contactId(newContactId, prevContactId) {
-      if (newContactId && newContactId !== prevContactId) {
-        this.$store.dispatch('contacts/show', { id: newContactId });
+    conversationId(newConversationId, prevConversationId) {
+      if (newConversationId && newConversationId !== prevConversationId) {
+        this.getContactDetails();
       }
+    },
+    contactId() {
+      this.getContactDetails();
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/show', { id: this.contactId });
+    this.getContactDetails();
   },
   methods: {
     onPanelToggle() {
       this.onToggle();
+    },
+    mute() {
+      this.$store.dispatch('muteConversation', this.conversationId);
+    },
+    getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
     },
   },
 };
@@ -176,11 +200,13 @@ export default {
 
 .contact--panel {
   @include border-normal-left;
+
+  background: white;
   font-size: $font-size-small;
   overflow-y: auto;
-  background: white;
   overflow: auto;
   position: relative;
+  padding: $space-normal;
 }
 
 .close-button {
@@ -190,23 +216,29 @@ export default {
   font-size: $font-size-default;
   color: $color-heading;
 }
+
 .contact--profile {
-  padding: $space-medium $space-normal 0 $space-medium;
   align-items: center;
+  padding: $space-medium 0 $space-one;
+
   .user-thumbnail-box {
     margin-right: $space-normal;
   }
 }
 
 .contact--details {
+  margin-top: $space-small;
+
   p {
     margin-bottom: 0;
   }
 }
 
 .contact--info {
-  display: flex;
   align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .contact--name {
@@ -220,10 +252,13 @@ export default {
 .contact--email {
   @include text-ellipsis;
 
-  color: $color-body;
+  color: $color-gray;
   display: block;
   line-height: $space-medium;
-  text-decoration: underline;
+
+  &:hover {
+    color: $color-woot;
+  }
 }
 
 .contact--bio {
@@ -231,7 +266,8 @@ export default {
 }
 
 .conversation--details {
-  padding: $space-two $space-normal $space-two $space-medium;
+  border-top: 1px solid $color-border-light;
+  padding: $space-large $space-normal;
 }
 
 .conversation--labels {
@@ -247,5 +283,20 @@ export default {
     color: #fff;
     padding: 0.2rem;
   }
+}
+
+.contact-conversation--panel {
+  border-top: 1px solid $color-border-light;
+}
+
+.contact--mute {
+  color: $alert-color;
+  display: block;
+  text-align: center;
+}
+
+.contact--actions {
+  display: flex;
+  justify-content: center;
 }
 </style>

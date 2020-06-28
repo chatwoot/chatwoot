@@ -46,9 +46,18 @@
           "TITLE": "Confirm Deletion",
           "MESSAGE": "Are you sure to delete ",
           "YES": "Yes, Delete ",
-          "NO": "No, Keep it "
+          "NO": "No, Keep it"
         }
       }
-    }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    }  
   }
 }

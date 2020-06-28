@@ -6,13 +6,12 @@
     />
     <woot-loading-state
       v-if="uiFlags.isCreating"
-      :message="$('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
-    >
-    </woot-loading-state>
+      :message="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
+    />
     <form
       v-if="!uiFlags.isCreating"
       class="row"
-      @submit.prevent="createChannel()"
+      @submit.prevent="createChannel"
     >
       <div class="medium-12 columns">
         <label>
@@ -38,6 +37,14 @@
           />
         </label>
       </div>
+
+      <div class="medium-12 columns">
+        <label>
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+          <woot-color-picker v-model="channelWidgetColor" />
+        </label>
+      </div>
+
       <div class="medium-12 columns">
         <label>
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TITLE.LABEL') }}
@@ -68,31 +75,45 @@
           />
         </label>
       </div>
-      <div class="medium-12 columns">
-        <label>
+      <label class="medium-12 columns">
+        {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL') }}
+        <select v-model="greetingEnabled">
+          <option :value="true">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+              )
+            }}
+          </option>
+          <option :value="false">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+              )
+            }}
+          </option>
+        </select>
+        <p class="help-text">
           {{
             $t(
-              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.LABEL'
+              'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.HELP_TEXT'
             )
           }}
+        </p>
+      </label>
+      <div v-if="greetingEnabled" class="medium-12 columns">
+        <label>
+          {{
+            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.LABEL')
+          }}
           <input
-            v-model.trim="channelAgentAwayMessage"
+            v-model.trim="greetingMessage"
             type="text"
             :placeholder="
               $t(
-                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AGENT_AWAY_MESSAGE.PLACEHOLDER'
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_MESSAGE.PLACEHOLDER'
               )
             "
-          />
-        </label>
-      </div>
-
-      <div class="medium-12 columns">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-          <compact
-            v-model="channelWidgetColor"
-            class="widget-color--selector"
           />
         </label>
       </div>
@@ -111,7 +132,6 @@
 </template>
 
 <script>
-import { Compact } from 'vue-color';
 import { mapGetters } from 'vuex';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
@@ -119,16 +139,16 @@ import PageHeader from '../../SettingsSubPageHeader';
 export default {
   components: {
     PageHeader,
-    Compact,
   },
   data() {
     return {
       inboxName: '',
       channelWebsiteUrl: '',
-      channelWidgetColor: { hex: '#009CE0' },
+      channelWidgetColor: '#009CE0',
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
-      channelAgentAwayMessage: '',
+      greetingEnabled: false,
+      greetingMessage: '',
     };
   },
   computed: {
@@ -142,13 +162,14 @@ export default {
         'inboxes/createWebsiteChannel',
         {
           name: this.inboxName,
+          greeting_enabled: this.greetingEnabled,
+          greeting_message: this.greetingMessage,
           channel: {
             type: 'web_widget',
             website_url: this.channelWebsiteUrl,
-            widget_color: this.channelWidgetColor.hex,
+            widget_color: this.channelWidgetColor,
             welcome_title: this.channelWelcomeTitle,
             welcome_tagline: this.channelWelcomeTagline,
-            agent_away_message: this.channelAgentAwayMessage,
           },
         }
       );

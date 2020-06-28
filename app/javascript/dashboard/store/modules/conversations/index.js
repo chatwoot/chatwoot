@@ -10,17 +10,12 @@ const initialSelectedChat = {
   id: null,
   meta: {},
   status: null,
+  muted: false,
   seen: false,
-  agentTyping: 'off',
   dataFetched: false,
 };
 const state = {
   allConversations: [],
-  convTabStats: {
-    mineCount: 0,
-    unAssignedCount: 0,
-    allCount: 0,
-  },
   selectedChat: { ...initialSelectedChat },
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
@@ -56,7 +51,6 @@ const mutations = {
   },
   [types.default.CLEAR_CURRENT_CHAT_WINDOW](_state) {
     _state.selectedChat.id = null;
-    _state.selectedChat.agentTyping = 'off';
   },
 
   [types.default.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
@@ -64,19 +58,6 @@ const mutations = {
       const [chat] = _state.allConversations.filter(c => c.id === id);
       chat.messages.unshift(...data);
     }
-  },
-
-  [types.default.SET_CONV_TAB_META](
-    _state,
-    {
-      mine_count: mineCount,
-      unassigned_count: unAssignedCount,
-      all_count: allCount,
-    } = {}
-  ) {
-    Vue.set(_state.convTabStats, 'mineCount', mineCount);
-    Vue.set(_state.convTabStats, 'allCount', allCount);
-    Vue.set(_state.convTabStats, 'unAssignedCount', unAssignedCount);
   },
 
   [types.default.CURRENT_CHAT_WINDOW](_state, activeChat) {
@@ -114,6 +95,12 @@ const mutations = {
     const [chat] = getSelectedChatConversation(_state);
     chat.status = status;
     _state.selectedChat.status = status;
+  },
+
+  [types.default.MUTE_CONVERSATION](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    chat.muted = true;
+    _state.selectedChat.muted = true;
   },
 
   [types.default.SEND_MESSAGE](_state, currentMessage) {
@@ -155,22 +142,20 @@ const mutations = {
     if (currentConversationIndex > -1) {
       const currentConversation = {
         ...allConversations[currentConversationIndex],
-        status: conversation.status,
+        ...conversation,
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChat.id === conversation.id) {
         _state.selectedChat.status = conversation.status;
         window.bus.$emit('scrollToMessage');
       }
+    } else {
+      _state.allConversations.push(conversation);
     }
   },
 
   [types.default.MARK_SEEN](_state) {
     _state.selectedChat.seen = true;
-  },
-
-  [types.default.SET_AGENT_TYPING](_state, { status }) {
-    _state.selectedChat.agentTyping = status;
   },
 
   [types.default.SET_LIST_LOADING_STATUS](_state) {
@@ -196,8 +181,18 @@ const mutations = {
     chat.meta.assignee = payload.assignee;
   },
 
+  [types.default.UPDATE_CONVERSATION_CONTACT](
+    _state,
+    { conversationId, ...payload }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat.meta, 'sender', payload);
+    }
+  },
+
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
-    _state.currentInbox = inboxId;
+    _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
 };
 

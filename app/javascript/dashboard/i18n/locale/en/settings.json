@@ -66,6 +66,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile Settings",
     "LOGOUT": "Logout"
   },
@@ -100,8 +102,8 @@
     "AGENTS": "Agents",
     "INBOXES": "Inboxes",
     "CANNED_RESPONSES": "Canned Responses",
-    "BILLING": "Billing",
     "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings"
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
   }
 }

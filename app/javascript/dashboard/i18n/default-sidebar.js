@@ -1,10 +1,6 @@
 import { frontendURL } from '../helper/URLHelper';
-import auth from '../api/auth';
 
-const user = auth.getCurrentUser() || {};
-const accountId = user.account_id;
-
-export default {
+export const getSidebarItems = accountId => ({
   common: {
     routes: [
       'home',
@@ -12,9 +8,10 @@ export default {
       'inbox_conversation',
       'conversation_through_inbox',
       'settings_account_reports',
-      'billing_deactivated',
       'profile_settings',
       'profile_settings_index',
+      'label_conversations',
+      'conversations_through_label',
     ],
     menuItems: {
       assignedToMe: {
@@ -45,9 +42,8 @@ export default {
   settings: {
     routes: [
       'agent_list',
-      'agent_new',
       'canned_list',
-      'canned_new',
+      'labels_list',
       'settings_inbox',
       'settings_inbox_new',
       'settings_inbox_list',
@@ -55,9 +51,9 @@ export default {
       'settings_inboxes_page_channel',
       'settings_inboxes_add_agents',
       'settings_inbox_finish',
-      'billing',
       'settings_integrations',
       'settings_integrations_webhook',
+      'settings_integrations_integration',
       'general_settings',
       'general_settings_index',
     ],
@@ -83,6 +79,13 @@ export default {
         toState: frontendURL(`accounts/${accountId}/settings/inboxes/list`),
         toStateName: 'settings_inbox_list',
       },
+      labels: {
+        icon: 'ion-pricetags',
+        label: 'LABELS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
+        toStateName: 'labels_list',
+      },
       cannedResponses: {
         icon: 'ion-chatbox-working',
         label: 'CANNED_RESPONSES',
@@ -92,13 +95,6 @@ export default {
         ),
         toStateName: 'canned_list',
       },
-      billing: {
-        icon: 'ion-card',
-        label: 'BILLING',
-        hasSubMenu: false,
-        toState: frontendURL(`accounts/${accountId}/settings/billing`),
-        toStateName: 'billing',
-      },
       settings_integrations: {
         icon: 'ion-flash',
         label: 'INTEGRATIONS',
@@ -106,13 +102,13 @@ export default {
         toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
       },
-      general_settings: {
+      general_settings_index: {
         icon: 'ion-gear-a',
         label: 'ACCOUNT_SETTINGS',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/general`),
-        toStateName: 'general_settings',
+        toStateName: 'general_settings_index',
       },
     },
   },
-};
+});

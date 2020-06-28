@@ -16,7 +16,6 @@ RSpec.describe 'Super Admin access tokens API', type: :request do
         sign_in super_admin
         get '/super_admin/access_tokens'
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('New access token')
         expect(response.body).to include(super_admin.access_token.token)
       end
     end

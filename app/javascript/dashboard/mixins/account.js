@@ -1,10 +1,10 @@
-import auth from '../api/auth';
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    accountId() {
-      return auth.getCurrentUser().account_id;
-    },
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
   },
   methods: {
     addAccountScoping(url) {

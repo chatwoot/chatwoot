@@ -2,7 +2,7 @@
   <div class="settings-header">
     <h1 class="page-title">
       <woot-sidemenu-icon></woot-sidemenu-icon>
-      <back-button v-if="showBackButton"></back-button>
+      <back-button v-if="showBackButton" :back-url="backUrl"></back-button>
       <i :class="iconClass"></i>
       <span>{{ headerTitle }}</span>
     </h1>
@@ -19,11 +19,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import BackButton from '../../../components/widgets/BackButton';
+import adminMixin from '../../../mixins/isAdmin';
 
 export default {
   components: {
     BackButton,
   },
+  mixins: [adminMixin],
   props: {
     headerTitle: {
       default: '',
@@ -43,6 +45,10 @@ export default {
     },
     showBackButton: { type: Boolean, default: false },
     showNewButton: { type: Boolean, default: false },
+    backUrl: {
+      type: [String, Object],
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
@@ -50,10 +56,6 @@ export default {
     }),
     iconClass() {
       return `icon ${this.icon} header--icon`;
-    },
-    isAdmin() {
-      const { role } = this.currentUser;
-      return role === 'administrator';
     },
   },
 };

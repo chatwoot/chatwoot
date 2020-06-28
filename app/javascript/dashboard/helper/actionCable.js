@@ -1,5 +1,6 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+/* global bus */
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -16,11 +17,27 @@ class ActionCableConnector extends BaseActionCableConnector {
       'assignee.changed': this.onAssigneeChanged,
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
+      'conversation.contact_changed': this.onConversationContactChange,
     };
   }
 
+  isAValidEvent = data => {
+    return this.app.$store.getters.getCurrentAccountId === data.account_id;
+  };
+
   onMessageUpdated = data => {
     this.app.$store.dispatch('updateMessage', data);
+  };
+
+  onConversationContactChange = payload => {
+    const { meta = {}, id: conversationId } = payload;
+    const { sender } = meta || {};
+    if (conversationId) {
+      this.app.$store.dispatch('updateConversationContact', {
+        conversationId,
+        ...sender,
+      });
+    }
   };
 
   onAssigneeChanged = payload => {
@@ -29,10 +46,12 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (id) {
       this.app.$store.dispatch('updateAssignee', { id, assignee });
     }
+    this.fetchConversationStats();
   };
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
+    this.fetchConversationStats();
   };
 
   onLogout = () => AuthAPI.logout();
@@ -45,6 +64,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onStatusChange = data => {
     this.app.$store.dispatch('updateConversation', data);
+    this.fetchConversationStats();
   };
 
   onTypingOn = ({ conversation, user }) => {
@@ -83,6 +103,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.CancelTyping[conversationId] = setTimeout(() => {
       this.onTypingOff({ conversation, user });
     }, 30000);
+  };
+
+  fetchConversationStats = () => {
+    bus.$emit('fetch_conversation_stats');
   };
 }
 

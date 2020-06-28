@@ -13,6 +13,7 @@
 :queues:
   - [low, 1]
   - [webhooks, 1]
+  - [integrations, 2]
   - [bots, 1]
   - [active_storage_analysis, 1]
   - [action_mailbox_incineration, 1]

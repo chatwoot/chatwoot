@@ -5,17 +5,22 @@ describe ::MessageTemplates::HookExecutionService do
     it 'calls ::MessageTemplates::Template::EmailCollect' do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
-      message = create(:message, conversation: conversation)
 
-      # this hook will only get executed for conversations with out any template messages
-      message.conversation.messages.template.destroy_all
+      # ensure greeting hook is enabled
+      conversation.inbox.update(greeting_enabled: true)
 
       email_collect_service = double
+      greeting_service = double
       allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(email_collect_service)
       allow(email_collect_service).to receive(:perform).and_return(true)
+      allow(::MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
 
-      described_class.new(message: message).perform
+      # described class gets called in message after commit
+      message = create(:message, conversation: conversation)
 
+      expect(::MessageTemplates::Template::Greeting).to have_received(:new).with(conversation: message.conversation)
+      expect(greeting_service).to have_received(:perform)
       expect(::MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
       expect(email_collect_service).to have_received(:perform)
     end

@@ -38,8 +38,8 @@ class Contact < ApplicationRecord
   has_many :messages, dependent: :destroy
 
   before_validation :downcase_email
-  after_create :dispatch_create_event
-  after_update :dispatch_update_event
+  after_create_commit :dispatch_create_event
+  after_update_commit :dispatch_update_event
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -47,11 +47,15 @@ class Contact < ApplicationRecord
 
   def push_event_data
     {
+      additional_attributes: additional_attributes,
+      email: email,
       id: id,
+      identifier: identifier,
       name: name,
+      phone_number: phone_number,
+      pubsub_token: pubsub_token,
       thumbnail: avatar_url,
-      type: 'contact',
-      pubsub_token: pubsub_token
+      type: 'contact'
     }
   end
 

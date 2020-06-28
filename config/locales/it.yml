@@ -36,6 +36,6 @@ it:
         assigned: "Assegnato a %{assignee_name} da %{user_name}"
         removed: "Conversazione non assegnata da %{user_name}"
     templates:
-      typical_reply_message_body: "%{account_name} risponde tipicamente tra qualche ora."
+      greeting_message_body: "%{account_name} risponde tipicamente tra qualche ora."
       ways_to_reach_you_message_body: "Offri alla squadra un modo per raggiungerti."
       email_input_box_message_body: "Ricevi una notifica via email"

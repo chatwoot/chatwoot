@@ -1,4 +1,4 @@
-class Api::V1::Accounts::ConversationsController < Api::BaseController
+class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
   before_action :conversation, except: [:index]
   before_action :contact_inbox, only: [:create]
@@ -20,8 +20,18 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
 
   def show; end
 
+  def mute
+    @conversation.mute!
+    head :ok
+  end
+
   def toggle_status
-    @status = @conversation.toggle_status
+    if params[:status]
+      @conversation.status = params[:status]
+      @status = @conversation.save
+    else
+      @status = @conversation.toggle_status
+    end
   end
 
   def toggle_typing_status
@@ -51,7 +61,7 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
   end
 
   def conversation
-    @conversation ||= current_account.conversations.find_by(display_id: params[:id])
+    @conversation ||= Current.account.conversations.find_by(display_id: params[:id])
   end
 
   def contact_inbox
@@ -60,7 +70,7 @@ class Api::V1::Accounts::ConversationsController < Api::BaseController
 
   def conversation_params
     {
-      account_id: current_account.id,
+      account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id

@@ -13,13 +13,12 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <textarea
+      <resizable-text-area
         ref="messageInput"
         v-model="message"
-        rows="1"
         class="input"
-        type="text"
         :placeholder="$t(messagePlaceHolder())"
+        :min-height="4"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -93,12 +92,14 @@ import FileUpload from 'vue-upload-component';
 
 import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   components: {
     EmojiInput,
     CannedResponse,
     FileUpload,
+    ResizableTextArea,
   },
   mixins: [clickaway],
   data() {
@@ -208,7 +209,9 @@ export default {
     async sendMessage() {
       const isMessageEmpty = !this.message.replace(/\n/g, '').length;
       if (isMessageEmpty) return;
-
+      if (this.message.length > this.maxLength) {
+        return;
+      }
       if (!this.showCannedResponsesList) {
         try {
           await this.$store.dispatch('sendMessage', {
@@ -267,7 +270,7 @@ export default {
     toggleTyping(status) {
       if (this.channelType === 'Channel::WebWidget' && !this.isPrivate) {
         const conversationId = this.currentChat.id;
-        this.$store.dispatch('toggleTyping', {
+        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
           status,
           conversationId,
         });

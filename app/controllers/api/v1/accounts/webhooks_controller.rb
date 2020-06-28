@@ -1,13 +1,13 @@
-class Api::V1::Accounts::WebhooksController < Api::BaseController
+class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :fetch_webhook, only: [:update, :destroy]
 
   def index
-    @webhooks = current_account.webhooks
+    @webhooks = Current.account.webhooks
   end
 
   def create
-    @webhook = current_account.webhooks.new(webhook_params)
+    @webhook = Current.account.webhooks.new(webhook_params)
     @webhook.save!
   end
 
@@ -27,7 +27,7 @@ class Api::V1::Accounts::WebhooksController < Api::BaseController
   end
 
   def fetch_webhook
-    @webhook = current_account.webhooks.find(params[:id])
+    @webhook = Current.account.webhooks.find(params[:id])
   end
 
   def check_authorization
