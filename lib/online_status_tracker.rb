@@ -4,7 +4,7 @@ module OnlineStatusTracker
   # presence : set expiring keys on every heartbeat request
 
   def self.update_presence(pubsub_token)
-    ::Redis::Alfred.setex(presence_key(pubsub_token), PRESENCE_EXPIRATION, true)
+    ::Redis::Alfred.setex(presence_key(pubsub_token), true, PRESENCE_EXPIRATION)
   end
 
   def self.remove_presence(pubsub_token)

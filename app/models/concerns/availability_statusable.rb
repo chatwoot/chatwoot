@@ -9,7 +9,7 @@ module AvailabilityStatusable
     return 'offline' unless online_presence?
     return contact_online_status if is_a? Contact
 
-    ::OnlineStatusTracker.get_status(pubsub_token)
+    ::OnlineStatusTracker.get_status(pubsub_token) || 'online'
   end
 
   def contact_online_status

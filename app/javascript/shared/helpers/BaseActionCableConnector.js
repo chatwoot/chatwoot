@@ -1,20 +1,28 @@
 import { createConsumer } from '@rails/actioncable';
 
+const ONE_MINUTE = 60000;
 class BaseActionCableConnector {
   constructor(app, pubsubToken) {
     this.consumer = createConsumer();
-    this.consumer.subscriptions.create(
+    this.subscription = this.consumer.subscriptions.create(
       {
         channel: 'RoomChannel',
         pubsub_token: pubsubToken,
       },
       {
+        updatePresence() {
+          this.perform('update_presence');
+        },
         received: this.onReceived,
       }
     );
     this.app = app;
     this.events = {};
     this.isAValidEvent = () => true;
+
+    setInterval(() => {
+      this.subscription.updatePresence();
+    }, ONE_MINUTE);
   }
 
   disconnect() {
