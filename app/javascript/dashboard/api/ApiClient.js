@@ -41,10 +41,6 @@ class ApiClient {
     return axios.post(this.url, data);
   }
 
-  createAccount(data) {
-    return axios.post(this.apiVersion + '/accounts', data);
-  }
-
   update(id, data) {
     return axios.patch(`${this.url}/${id}`, data);
   }
