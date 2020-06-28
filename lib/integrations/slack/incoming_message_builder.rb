@@ -82,16 +82,13 @@ class Integrations::Slack::IncomingMessageBuilder
       content: params[:event][:text],
       source_id: "slack_#{params[:event][:ts]}",
       private: private_note?,
-      user: sender
+      sender: sender
     )
 
     { status: 'success' }
   end
 
   def slack_client
-    Slack.configure do |config|
-      config.token = integration_hook.access_token
-    end
-    Slack::Web::Client.new
+    @slack_client ||= Slack::Web::Client.new(token: @integration_hook.access_token)
   end
 end

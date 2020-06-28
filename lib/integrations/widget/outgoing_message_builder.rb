@@ -46,7 +46,7 @@ class Integrations::Widget::OutgoingMessageBuilder
       inbox_id: @conversation.inbox_id,
       message_type: 1,
       content: options[:content],
-      user_id: user.id
+      sender: user
     }
   end
 end

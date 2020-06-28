@@ -3,7 +3,7 @@ slack:
   name: Slack
   logo: slack.png
   description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
-  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:manage,channels:join,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize 
+  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history
 webhooks: 
   id: webhook
   name: Webhooks

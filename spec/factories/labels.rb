@@ -3,6 +3,6 @@
 FactoryBot.define do
   factory :label do
     account
-    sequence(:title) { |n| "Label #{n}" }
+    sequence(:title) { |n| "Label_#{n}" }
   end
 end
