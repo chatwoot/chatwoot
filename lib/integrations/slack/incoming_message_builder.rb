@@ -82,7 +82,7 @@ class Integrations::Slack::IncomingMessageBuilder
       content: params[:event][:text],
       source_id: "slack_#{params[:event][:ts]}",
       private: private_note?,
-      user: sender
+      sender: sender
     )
 
     { status: 'success' }

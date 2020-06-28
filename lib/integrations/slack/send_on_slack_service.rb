@@ -20,10 +20,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     update_reference_id
   end
 
-  def agent
-    @agent ||= message.user
-  end
-
   def message_content
     private_indicator = message.private? ? 'private: ' : ''
     if conversation.identifier.present?
@@ -38,7 +34,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def send_message
-    sender = message.outgoing? ? agent : contact
+    sender = message.sender
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
 
     @slack_message = slack_client.chat_postMessage(
