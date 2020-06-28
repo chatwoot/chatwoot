@@ -59,7 +59,6 @@ export const actions = {
         types.default.SET_LINKED_ACCOUNT_ID,
         response.data.data.linked_account_id
       );
-      console.log(response.data);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
