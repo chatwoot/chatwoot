@@ -17,12 +17,13 @@ class AgentBot < ApplicationRecord
 
   has_many :agent_bot_inboxes, dependent: :destroy
   has_many :inboxes, through: :agent_bot_inboxes
+  has_many :messages, as: :sender, dependent: :restrict_with_exception
 
-  def push_event_data
+  def push_event_data(inbox = nil)
     {
       id: id,
       name: name,
-      avatar_url: avatar_url,
+      avatar_url: avatar_url || inbox&.avatar_url,
       type: 'agent_bot'
     }
   end

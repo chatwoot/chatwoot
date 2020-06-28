@@ -103,7 +103,8 @@
     "INBOXES": "Inboxes",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings"
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",
@@ -120,5 +121,6 @@
       },
       "SUBMIT": "Submit"
     }
+
   }
 }

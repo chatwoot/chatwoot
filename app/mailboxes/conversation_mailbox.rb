@@ -20,7 +20,7 @@ class ConversationMailbox < ApplicationMailbox
   def create_message
     @message = @conversation.messages.create(
       account_id: @conversation.account_id,
-      contact_id: @conversation.contact_id,
+      sender: @conversation.contact,
       content: processed_mail.text_content[:reply],
       inbox_id: @conversation.inbox_id,
       message_type: 'incoming',

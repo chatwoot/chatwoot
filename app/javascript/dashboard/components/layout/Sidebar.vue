@@ -18,6 +18,11 @@
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
+        <sidebar-item
+          v-if="shouldShowInboxes"
+          :key="labelSection.toState"
+          :menu-item="labelSection"
+        />
       </transition-group>
     </div>
 
@@ -190,6 +195,7 @@ export default {
       currentRole: 'getCurrentRole',
       uiFlags: 'agents/getUIFlags',
       linkedAccountId: 'accounts/getLinkedAccountId',
+      accountLabels: 'labels/getLabelsOnSidebar',
     }),
     sidemenuItems() {
       return getSidebarItems(this.accountId);
@@ -232,6 +238,25 @@ export default {
           label: inbox.name,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
           type: inbox.channel_type,
+        })),
+      };
+    },
+    labelSection() {
+      return {
+        icon: 'ion-pound',
+        label: 'LABELS',
+        hasSubMenu: true,
+        key: 'label',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toStateName: 'labels_list',
+        children: this.accountLabels.map(label => ({
+          id: label.id,
+          label: label.title,
+          color: label.color,
+          toState: frontendURL(
+            `accounts/${this.accountId}/label/${label.title}`
+          ),
         })),
       };
     },

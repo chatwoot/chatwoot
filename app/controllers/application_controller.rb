@@ -59,11 +59,19 @@ class ApplicationController < ActionController::Base
     render json: exception.to_hash, status: exception.http_status
   end
 
+  def locale_from_params
+    I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil
+  end
+
+  def locale_from_account(account)
+    I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
+  end
+
   def switch_locale(account)
     # priority is for locale set in query string (mostly for widget/from js sdk)
-    locale ||= (I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil)
+    locale ||= locale_from_params
     # if local is not set in param, lets try account
-    locale ||= (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil)
+    locale ||= locale_from_account(account)
     I18n.locale = locale || I18n.default_locale
   end
 
