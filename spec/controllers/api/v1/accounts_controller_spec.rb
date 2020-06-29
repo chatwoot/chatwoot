@@ -15,7 +15,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'calls account builder' do
-        allow(account_builder).to receive(:perform).and_return(user)
+        allow(account_builder).to receive(:perform).and_return([user, account])
 
         params = { account_name: 'test', email: email, user: nil }
 
