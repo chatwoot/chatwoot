@@ -262,4 +262,171 @@ describe('#getters', () => {
       },
     ]);
   });
+
+  describe('getUnreadMessageCount returns', () => {
+    it('0 if there are no messages and last seen is undefined', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: undefined,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+
+    it('0 if there are no messages and last seen is present', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: Date.now(),
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+
+    it('unread count if there are messages and last seen is before messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 1,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1474075964,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(2);
+    });
+
+    it('unread count if there are messages and last seen is after messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 1,
+          },
+          3: {
+            id: 3,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1674075964,
+        },
+      };
+      expect(getters.getUnreadMessageCount(state)).toEqual(0);
+    });
+  });
+
+  describe('getUnreadTextMessages returns', () => {
+    it('no messages if there are no messages and last seen is undefined', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: undefined,
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 0 })
+      ).toEqual([]);
+    });
+
+    it('0 if there are no messages and last seen is present', () => {
+      const state = {
+        conversations: {},
+        meta: {
+          userLastSeenAt: Date.now(),
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 0 })
+      ).toEqual([]);
+    });
+
+    it('only unread text messages from agent if there are messages and last seen is before messages created-at', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 1 })
+      ).toEqual([
+        {
+          id: 1,
+          content: 'Thanks for the help',
+          created_at: 1574075964,
+          message_type: 1,
+        },
+      ]);
+    });
+
+    it('unread messages omitting seen messages ', () => {
+      const state = {
+        conversations: {
+          1: {
+            id: 1,
+            content: 'Thanks for the help',
+            created_at: 1574075964,
+            message_type: 1,
+          },
+          2: {
+            id: 2,
+            content: 'Yes, It makes sense',
+            created_at: 1674075965,
+            message_type: 1,
+          },
+          3: {
+            id: 3,
+            content: 'Yes, It makes sense',
+            created_at: 1574092218,
+            message_type: 0,
+          },
+        },
+        meta: {
+          userLastSeenAt: 1674075964,
+        },
+      };
+      expect(
+        getters.getUnreadTextMessages(state, { getUnreadMessageCount: 1 })
+      ).toEqual([
+        {
+          id: 2,
+          content: 'Yes, It makes sense',
+          created_at: 1674075965,
+          message_type: 1,
+        },
+      ]);
+    });
+  });
 });
