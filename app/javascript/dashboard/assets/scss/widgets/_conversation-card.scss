@@ -62,7 +62,7 @@
   }
 
   .conversation--message {
-    color: $color-gray;
+    color: $color-body; // reverted to source value
     font-size: $font-size-small;
     font-weight: $font-weight-normal;
     height: $space-medium;
@@ -120,11 +120,11 @@
     }
 
     .conversation--message {
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-bold;
     }
 
     .conversation--user {
-      font-weight: $font-weight-medium;
+      font-weight: $font-weight-bold;
     }
   }
 
