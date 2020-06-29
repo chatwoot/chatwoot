@@ -144,7 +144,6 @@
 </template>
 
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 
@@ -155,7 +154,7 @@ import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import { required, minLength } from 'vuelidate/lib/validators';
-
+import alertMixin from 'shared/mixins/alertMixin';
 // import accountMixin from '../../../../../mixins/account';
 
 export default {
@@ -163,7 +162,7 @@ export default {
     SidebarItem,
     Thumbnail,
   },
-  mixins: [clickaway, adminMixin],
+  mixins: [clickaway, adminMixin, alertMixin],
   props: {
     route: {
       type: String,
@@ -194,7 +193,6 @@ export default {
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       uiFlags: 'agents/getUIFlags',
-      linkedAccountId: 'accounts/getLinkedAccountId',
       accountLabels: 'labels/getLabelsOnSidebar',
     }),
     sidemenuItems() {
@@ -298,19 +296,14 @@ export default {
     onCloseCreate() {
       this.showCreateAccountModal = false;
     },
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
-    },
     async addAccount() {
       try {
-        await this.$store.dispatch('accounts/create', {
+        const account_id = await this.$store.dispatch('accounts/create', {
           account_name: this.accountName,
         });
-
         this.onClose();
         this.showAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
-        window.location =
-          '/app/accounts/' + this.linkedAccountId + '/dashboard';
+        window.location = `/app/accounts/${account_id}/dashboard`;
       } catch (error) {
         if (error.response.status === 422) {
           this.showAlert(this.$t('CREATE_ACCOUNT.API.EXIST_MESSAGE'));

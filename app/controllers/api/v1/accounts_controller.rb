@@ -14,7 +14,7 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user = AccountBuilder.new(
+    @user, @account = AccountBuilder.new(
       account_name: account_params[:account_name],
       email: account_params[:email],
       confirmed: confirmed?,
@@ -22,7 +22,7 @@ class Api::V1::AccountsController < Api::BaseController
     ).perform
     if @user
       send_auth_headers(@user)
-      render partial: 'devise/auth.json', locals: { resource: @user }
+      render 'api/v1/accounts/create.json', locals: { resource: @user }
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end

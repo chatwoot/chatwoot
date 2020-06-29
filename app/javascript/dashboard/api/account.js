@@ -7,7 +7,7 @@ class AccountAPI extends ApiClient {
   }
 
   createAccount(data) {
-    return axios.post(this.apiVersion + '/accounts', data);
+    return axios.post(`${this.apiVersion}/accounts`, data);
   }
 }
 

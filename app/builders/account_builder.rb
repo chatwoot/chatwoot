@@ -13,6 +13,7 @@ class AccountBuilder
       @account = create_account
       @user = create_and_link_user
     end
+    [@user, @account]
   rescue StandardError => e
     @account&.destroy
     puts e.inspect
@@ -46,7 +47,6 @@ class AccountBuilder
   def create_and_link_user
     if @user.present? || create_user
       link_user_to_account(@user, @account)
-      @user.linked_account_id = @account.id
       @user
     else
       raise UserErrors.new(errors: @user.errors)

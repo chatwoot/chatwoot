@@ -56,7 +56,6 @@ class User < ApplicationRecord
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
-  attr_accessor :linked_account_id
 
   validates :email, :name, presence: true
 
