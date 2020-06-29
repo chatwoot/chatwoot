@@ -52,8 +52,9 @@ export const actions = {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: true });
     try {
       const response = await AccountAPI.createAccount(accountInfo);
+      const account_id = response.data.data.account_id;
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
-      return response.data.data.account_id;
+      return account_id;
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false });
       throw error;
