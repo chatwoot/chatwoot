@@ -1,4 +1,5 @@
 # loading installation configs
+GlobalConfig.clear_cache
 ConfigLoader.new.process
 
 account = Account.create!(

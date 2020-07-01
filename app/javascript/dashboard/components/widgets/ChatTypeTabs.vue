@@ -22,11 +22,6 @@ export default {
       default: wootConstants.ASSIGNEE_TYPE.ME,
     },
   },
-  data() {
-    return {
-      tabsIndex: wootConstants.ASSIGNEE_TYPE.ME,
-    };
-  },
   computed: {
     activeTabIndex() {
       return this.items.findIndex(item => item.key === this.activeTab);

@@ -31,6 +31,6 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def slack?
-    app_id == 'cw_slack'
+    app_id == 'slack'
   end
 end

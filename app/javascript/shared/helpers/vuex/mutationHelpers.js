@@ -25,6 +25,15 @@ export const update = (state, data) => {
   });
 };
 
+/* when you don't want to overwrite the whole object */
+export const updateAttributes = (state, data) => {
+  state.records.forEach((element, index) => {
+    if (element.id === data.id) {
+      Vue.set(state.records, index, { ...state.records[index], ...data });
+    }
+  });
+};
+
 export const destroy = (state, id) => {
   state.records = state.records.filter(record => record.id !== id);
 };

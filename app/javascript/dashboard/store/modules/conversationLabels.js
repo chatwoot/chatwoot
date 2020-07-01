@@ -64,6 +64,12 @@ export const actions = {
       });
     }
   },
+  setBulkConversationLabels({ commit }, conversations) {
+    commit(types.default.SET_BULK_CONVERSATION_LABELS, conversations);
+  },
+  setConversationLabel({ commit }, { id, data }) {
+    commit(types.default.SET_CONVERSATION_LABELS, { id, data });
+  },
 };
 
 export const mutations = {
@@ -75,6 +81,11 @@ export const mutations = {
   },
   [types.default.SET_CONVERSATION_LABELS]: ($state, { id, data }) => {
     Vue.set($state.records, id, data);
+  },
+  [types.default.SET_BULK_CONVERSATION_LABELS]: ($state, conversations) => {
+    conversations.forEach(conversation => {
+      Vue.set($state.records, conversation.id, conversation.labels);
+    });
   },
 };
 

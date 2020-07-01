@@ -1,6 +1,6 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversation-inbox="inboxId"></chat-list>
+    <chat-list :conversation-inbox="inboxId" :label="label"></chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -30,19 +30,34 @@ export default {
     ContactPanel,
     ConversationBox,
   },
+  props: {
+    inboxId: {
+      type: [String, Number],
+      default: 0,
+    },
+    conversationId: {
+      type: [String, Number],
+      default: 0,
+    },
+    label: {
+      type: String,
+      default: '',
+    },
+  },
 
   data() {
     return {
-      panelToggleState: false,
+      panelToggleState: true,
     };
   },
   computed: {
     ...mapGetters({
       chatList: 'getAllConversations',
+      currentChat: 'getSelectedChat',
     }),
     isContactPanelOpen: {
       get() {
-        if (this.conversationId) {
+        if (this.currentChat.id) {
           return this.panelToggleState;
         }
         return false;
@@ -52,9 +67,11 @@ export default {
       },
     },
   },
-  props: ['inboxId', 'conversationId'],
 
   mounted() {
+    this.$store.dispatch('labels/get');
+    this.$store.dispatch('agents/get');
+
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
@@ -65,26 +82,8 @@ export default {
 
   methods: {
     initialize() {
-      switch (this.$store.state.route.name) {
-        case 'inbox_conversation':
-          this.setActiveChat();
-          break;
-        case 'inbox_dashboard':
-          if (this.inboxId) {
-            this.$store.dispatch('setActiveInbox', this.inboxId);
-          }
-          break;
-        case 'conversation_through_inbox':
-          if (this.inboxId) {
-            this.$store.dispatch('setActiveInbox', this.inboxId);
-          }
-          this.setActiveChat();
-          break;
-        default:
-          this.$store.dispatch('setActiveInbox', null);
-          this.$store.dispatch('clearSelectedState');
-          break;
-      }
+      this.$store.dispatch('setActiveInbox', this.inboxId);
+      this.setActiveChat();
     },
 
     fetchConversation() {
@@ -103,11 +102,17 @@ export default {
     },
 
     setActiveChat() {
-      const chat = this.findConversation();
-      if (!chat) return;
-      this.$store.dispatch('setActiveChat', chat).then(() => {
-        bus.$emit('scrollToMessage');
-      });
+      if (this.conversationId) {
+        const chat = this.findConversation();
+        if (!chat) {
+          return;
+        }
+        this.$store.dispatch('setActiveChat', chat).then(() => {
+          bus.$emit('scrollToMessage');
+        });
+      } else {
+        this.$store.dispatch('clearSelectedState');
+      }
     },
     onToggleContactPanel() {
       this.isContactPanelOpen = !this.isContactPanelOpen;
