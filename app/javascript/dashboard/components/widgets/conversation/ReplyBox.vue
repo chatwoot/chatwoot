@@ -212,8 +212,8 @@ export default {
         return;
       }
       const newMessage = this.message;
-      this.clearMessage();
       if (!this.showCannedResponsesList) {
+        this.clearMessage();
         try {
           await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
