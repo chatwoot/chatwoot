@@ -41,6 +41,17 @@ SMTP_USERNAME=
 SMTP_PASSWORD=
 ```
 
+If you would like to use Sendgrid to send your emails, use the following environment variables:
+```bash
+SMTP_ADDRESS=smtp.sendgrid.net
+SMTP_AUTHENTICATION=plain
+SMTP_DOMAIN=<your verified domain>
+SMTP_ENABLE_STARTTLS_AUTO=true
+SMTP_PASSWORD=<your Sendgrid API key>
+SMTP_PORT=587
+SMTP_USERNAME=apikey
+```
+
 ### Configure frontend URL
 
 Provide the following value as frontend url
