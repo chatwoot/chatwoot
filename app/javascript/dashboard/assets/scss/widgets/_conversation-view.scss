@@ -250,6 +250,7 @@
   &.left {
 
     .bubble {
+      @include border-normal;
       background: $white;
       border-bottom-left-radius: $space-smaller;
       border-top-left-radius: $space-smaller;
