@@ -35,3 +35,4 @@ conversation = Conversation.create!(
   additional_attributes: {}
 )
 Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
