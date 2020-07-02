@@ -1,6 +1,6 @@
 import { createConsumer } from '@rails/actioncable';
 
-const ONE_MINUTE = 60000;
+const PRESENSE_INTERVAL = 60000;
 class BaseActionCableConnector {
   constructor(app, pubsubToken) {
     this.consumer = createConsumer();
@@ -8,6 +8,8 @@ class BaseActionCableConnector {
       {
         channel: 'RoomChannel',
         pubsub_token: pubsubToken,
+        account_id: app.$store.getters.getCurrentAccountId,
+        user_id: app.$store.getters.getCurrentUserID,
       },
       {
         updatePresence() {
@@ -22,7 +24,7 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
-    }, ONE_MINUTE);
+    }, PRESENSE_INTERVAL);
   }
 
   disconnect() {

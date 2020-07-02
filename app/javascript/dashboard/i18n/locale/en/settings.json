@@ -48,6 +48,10 @@
         "ERROR": "Please enter a valid name",
         "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
       },
+      "AVAILABILITY": {
+        "LABEL": "Your Online Availability",
+        "STATUSES_LIST": [{"name": "online", "label": "online"}, {"name": "busy", "label": "busy"}, {"name": "offline", "label": "offline"}]
+      },
       "EMAIL": {
         "LABEL": "Your email address",
         "ERROR": "Please enter a valid email address",

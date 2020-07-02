@@ -118,13 +118,23 @@ export default {
     return axios.post(urlData.url, { email });
   },
 
-  profileUpdate({ name, email, password, password_confirmation, avatar }) {
+  profileUpdate({
+    name,
+    email,
+    availability,
+    password,
+    password_confirmation,
+    avatar,
+  }) {
     const formData = new FormData();
     if (name) {
       formData.append('profile[name]', name);
     }
     if (email) {
       formData.append('profile[email]', email);
+    }
+    if (availability) {
+      formData.append('profile[availability]', availability);
     }
     if (password && password_confirmation) {
       formData.append('profile[password]', password);

@@ -21,11 +21,6 @@
       :style="badgeStyle"
       src="~dashboard/assets/images/fb-badge.png"
     />
-    <div
-      v-else-if="status === 'online'"
-      class="source-badge user--online"
-      :style="statusStyle"
-    ></div>
     <img
       v-if="badge === 'Channel::TwitterProfile'"
       id="badge"
@@ -33,7 +28,6 @@
       :style="badgeStyle"
       src="~dashboard/assets/images/twitter-badge.png"
     />
-
     <img
       v-if="badge === 'Channel::TwilioSms'"
       id="badge"
@@ -41,6 +35,11 @@
       :style="badgeStyle"
       src="~dashboard/assets/images/channels/whatsapp.png"
     />
+    <div
+      v-if="status === 'online' || status === 'busy'"
+      :class="`source-badge user--${status}`"
+      :style="statusStyle"
+    ></div>
   </div>
 </template>
 <script>
@@ -152,6 +151,16 @@ export default {
 
   .user--online {
     background: $success-color;
+    border-radius: 50%;
+    bottom: $space-micro;
+
+    &:after {
+      content: ' ';
+    }
+  }
+
+  .user--busy {
+    background: $warning-color;
     border-radius: 50%;
     bottom: $space-micro;
 

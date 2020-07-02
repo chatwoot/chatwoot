@@ -38,6 +38,16 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <label>
+            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+            <multiselect
+              v-model.trim="availability"
+              :options="availabilityStatusesList"
+              :searchable="false"
+              label="label"
+              @select="setAvailability"
+            />
+          </label>
         </div>
       </div>
       <div class="profile--settings--row row">
@@ -117,7 +127,13 @@ export default {
       email: '',
       password: '',
       passwordConfirmation: '',
+      availability: this.$t(
+        'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
+      )[1],
       isUpdating: false,
+      availabilityStatusesList: this.$t(
+        'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
+      ),
     };
   },
   validations: {
@@ -164,6 +180,13 @@ export default {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
+      this.availability = {
+        name: this.currentUser.availability,
+        label: this.currentUser.availability,
+      };
+    },
+    setAvailability({ name }) {
+      this.availability = name;
     },
     async updateUser() {
       this.$v.$touch();
@@ -179,6 +202,7 @@ export default {
           email: this.email,
           avatar: this.avatarFile,
           password: this.password,
+          availability: this.availability.name.toLowerCase(),
           password_confirmation: this.passwordConfirmation,
         });
         this.isUpdating = false;
