@@ -1,5 +1,15 @@
 <template>
   <div class="unread-wrap">
+    <div class="close-unread-wrap">
+      <button
+        v-if="unreadMessageCount"
+        class="button small close-unread-button"
+        @click="closeFullView"
+      >
+        <i class="ion-close-round" />
+        {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
+      </button>
+    </div>
     <div class="unread-messages">
       <agent-bubble
         v-for="message in unreadMessages"
@@ -24,6 +34,7 @@
 <script>
 /* global bus */
 
+import { IFrameHelper } from 'widget/helpers/utils';
 import AgentBubble from 'widget/components/AgentMessageBubble.vue';
 import configMixin from '../mixins/configMixin';
 
@@ -63,6 +74,13 @@ export default {
     openFullView() {
       bus.$emit('on-unread-view-clicked');
     },
+    closeFullView() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'toggleBubble',
+        });
+      }
+    },
   },
 };
 </script>
@@ -77,6 +95,10 @@ export default {
   flex-wrap: nowrap;
   justify-content: flex-end;
   overflow: hidden;
+
+  .unread-messages {
+    padding-bottom: $space-small;
+  }
 
   .clear-button {
     background: transparent;
@@ -94,6 +116,25 @@ export default {
       color: $color-primary-dark;
     }
   }
+
+  .close-unread-button {
+    background: $color-background;
+    color: $color-gray;
+    border: 0;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-small;
+    transition: all 0.3s $ease-in-cubic;
+    margin-bottom: $space-slab;
+    border-radius: $space-normal;
+
+    &:hover {
+      color: $color-body;
+    }
+  }
+
+  .close-unread-wrap {
+    text-align: left;
+  }
 }
 </style>
 
@@ -103,6 +144,7 @@ export default {
 .unread-messages {
   width: 100%;
   margin-top: auto;
+  padding-bottom: $space-small;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -147,6 +189,10 @@ export default {
     &:last-child .chat-bubble {
       border-bottom-right-radius: $space-two;
     }
+  }
+
+  .close-unread-wrap {
+    text-align: right;
   }
 }
 </style>

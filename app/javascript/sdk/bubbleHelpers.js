@@ -31,7 +31,8 @@ export const createNotificationBubble = () => {
   return notificationBubble;
 };
 
-export const onBubbleClick = ({ toggleValue }) => {
+export const onBubbleClick = (props = {}) => {
+  const { toggleValue } = props;
   const { isOpen } = window.$chatwoot;
   if (isOpen !== toggleValue) {
     const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;

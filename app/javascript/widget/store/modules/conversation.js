@@ -195,11 +195,10 @@ export const actions = {
     }
   },
 
-  setUserLastSeen: async ({ commit }, data) => {
+  setUserLastSeen: async ({ commit }, data = {}) => {
     const now = Math.abs(Date.now() / 1000);
     const { lastSeen = now } = data;
 
-    console.log(lastSeen);
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
 
