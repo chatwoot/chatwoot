@@ -1,6 +1,5 @@
 /* eslint no-param-reassign: 0 */
 import * as types from '../mutation-types';
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import ContactAPI from '../../api/contacts';
 import Vue from 'vue';
 
@@ -61,10 +60,8 @@ export const actions = {
     }
   },
 
-  updatePresence: async ({ commit }, data) => {
-    commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: true });
-    commit(types.default.UPDATE_CONTACTS_PRESENSE, data);
-    commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
+  updatePresence: ({ commit }, data) => {
+    commit(types.default.UPDATE_CONTACTS_PRESENCE, data);
   },
 };
 
@@ -95,13 +92,15 @@ export const mutations = {
   [types.default.EDIT_CONTACT]: ($state, data) => {
     Vue.set($state.records, data.id, data);
   },
-  [types.default.UPDATE_CONTACTS_PRESENSE]: ($state, data) => {
+
+  [types.default.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
     Object.values($state.records).forEach(element => {
-      if (MutationHelpers.getPresenceFromData(data, element.id)) {
+      const availabilityStatus = data[element.id];
+      if (availabilityStatus) {
         Vue.set(
           $state.records[element.id],
           'availability_status',
-          MutationHelpers.getPresenceFromData(data, element.id)
+          availabilityStatus
         );
       } else {
         Vue.delete($state.records[element.id], 'availability_status');

@@ -39,12 +39,12 @@ module OnlineStatusTracker
 
   def self.get_available_contacts(account_id)
     contact_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'Contact'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
-    contact_ids.map { |id| { id: id, availability_status: 'online' } }
+    contact_ids.index_with { |_id| 'online' }
   end
 
   def self.get_available_users(account_id)
     user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
     user_availabilities = ::Redis::Alfred.hmget(status_key(account_id), user_ids)
-    user_ids.each_with_index.map { |id, index| { id: id, availability_status: (user_availabilities[index] || 'online') } }
+    user_ids.map.with_index { |id, index| [id, (user_availabilities[index] || 'online')] }.to_h
   end
 end

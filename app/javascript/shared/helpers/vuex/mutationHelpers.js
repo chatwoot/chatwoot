@@ -34,22 +34,11 @@ export const updateAttributes = (state, data) => {
   });
 };
 
-export const getPresenceFromData = (data, id) => {
-  let record = data.find(obj => obj.id === id.toString());
-  if (record) {
-    return record.availability_status;
-  }
-  return null;
-};
-
 export const updatePresence = (state, data) => {
   state.records.forEach((element, index) => {
-    if (getPresenceFromData(data, element.id)) {
-      Vue.set(
-        state.records[index],
-        'availability_status',
-        getPresenceFromData(data, element.id)
-      );
+    const availabilityStatus = data[element.id];
+    if (availabilityStatus) {
+      Vue.set(state.records[index], 'availability_status', availabilityStatus);
     } else {
       Vue.delete(state.records[index], 'availability_status');
     }
