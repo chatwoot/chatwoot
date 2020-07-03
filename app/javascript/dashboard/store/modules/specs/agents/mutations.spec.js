@@ -69,30 +69,29 @@ describe('#mutations', () => {
             id: 1,
             name: 'Agent1',
             email: 'agent1@chatwoot.com',
-            availibility_status: 'offline',
+            availability_status: 'offline',
           },
           {
-            id: 1,
+            id: 2,
             name: 'Agent1',
             email: 'agent1@chatwoot.com',
-            availibility_status: 'online',
+            availability_status: 'online',
           },
         ],
       };
 
-      mutations[types.default.UPDATE_AGENTS_PRESENCE](state, { 1: 'busy' });
+      mutations[types.default.UPDATE_AGENTS_PRESENCE](state, { '1': 'busy' });
       expect(state.records).toEqual([
         {
           id: 1,
           name: 'Agent1',
           email: 'agent1@chatwoot.com',
-          availibility_status: 'offline',
+          availability_status: 'busy',
         },
         {
-          id: 1,
+          id: 2,
           name: 'Agent1',
           email: 'agent1@chatwoot.com',
-          availibility_status: 'online',
         },
       ]);
     });
