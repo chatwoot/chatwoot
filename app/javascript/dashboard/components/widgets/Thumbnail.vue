@@ -36,10 +36,10 @@
       src="~dashboard/assets/images/channels/whatsapp.png"
     />
     <div
-      v-if="status === 'online' || status === 'busy'"
-      :class="`source-badge user--${status}`"
+      v-if="showStatusIndicator"
+      :class="`source-badge user-online-status user-online-status--${status}`"
       :style="statusStyle"
-    ></div>
+    />
   </div>
 </template>
 <script>
@@ -88,6 +88,9 @@ export default {
     };
   },
   computed: {
+    showStatusIndicator() {
+      return this.status === 'online' || this.status === 'busy';
+    },
     avatarSize() {
       return Number(this.size.replace(/\D+/g, ''));
     },
@@ -149,8 +152,7 @@ export default {
     width: $space-slab;
   }
 
-  .user--online {
-    background: $success-color;
+  .user-online-status {
     border-radius: 50%;
     bottom: $space-micro;
 
@@ -159,14 +161,12 @@ export default {
     }
   }
 
-  .user--busy {
-    background: $warning-color;
-    border-radius: 50%;
-    bottom: $space-micro;
+  .user-online-status--online {
+    background: $success-color;
+  }
 
-    &:after {
-      content: ' ';
-    }
+  .user-online-status--busy {
+    background: $warning-color;
   }
 }
 </style>

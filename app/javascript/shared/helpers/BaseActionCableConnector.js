@@ -1,6 +1,7 @@
 import { createConsumer } from '@rails/actioncable';
 
-const PRESENSE_INTERVAL = 60000;
+const PRESENCE_INTERVAL = 60000;
+
 class BaseActionCableConnector {
   constructor(app, pubsubToken) {
     this.consumer = createConsumer();
@@ -24,7 +25,7 @@ class BaseActionCableConnector {
 
     setInterval(() => {
       this.subscription.updatePresence();
-    }, PRESENSE_INTERVAL);
+    }, PRESENCE_INTERVAL);
   }
 
   disconnect() {

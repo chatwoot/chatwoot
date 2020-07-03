@@ -59,7 +59,7 @@
         <thumbnail
           :src="currentUser.avatar_url"
           :username="currentUser.name"
-          :status="currentUser.availability"
+          :status="currentUser.availability_status"
         />
         <div class="current-user--data">
           <h3 class="current-user--name">

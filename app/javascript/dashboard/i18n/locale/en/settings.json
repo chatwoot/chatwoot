@@ -49,8 +49,21 @@
         "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
-        "LABEL": "Your Online Availability",
-        "STATUSES_LIST": [{"name": "online", "label": "online"}, {"name": "busy", "label": "busy"}, {"name": "offline", "label": "offline"}]
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "Your email address",
