@@ -2,17 +2,19 @@ module AvailabilityStatusable
   extend ActiveSupport::Concern
 
   def online_presence?
-    if is_a? Contact
-      ::OnlineStatusTracker.get_presence(account_id, 'Contact', id)
-    else
-      ::OnlineStatusTracker.get_presence(Current.account.id, 'User', id)
-    end
+    ::OnlineStatusTracker.get_presence(availability_account_id, self.class.name, id)
   end
 
   def availability_status
     return 'offline' unless online_presence?
     return 'online' if is_a? Contact
 
-    ::OnlineStatusTracker.get_status(Current.account.id, id) || 'online'
+    ::OnlineStatusTracker.get_status(availability_account_id, id) || 'online'
+  end
+
+  def availability_account_id
+    return account_id if is_a? Contact
+
+    Current.account.present? ? Current.account.id : accounts.first.id
   end
 end
