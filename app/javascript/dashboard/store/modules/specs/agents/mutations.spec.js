@@ -60,4 +60,41 @@ describe('#mutations', () => {
       expect(state.records).toEqual([]);
     });
   });
+
+  describe('#UPDATE_AGENTS_PRESENCE', () => {
+    it('updates agent presence', () => {
+      const state = {
+        records: [
+          {
+            id: 1,
+            name: 'Agent1',
+            email: 'agent1@chatwoot.com',
+            availibility_status: 'offline',
+          },
+          {
+            id: 1,
+            name: 'Agent1',
+            email: 'agent1@chatwoot.com',
+            availibility_status: 'online',
+          },
+        ],
+      };
+
+      mutations[types.default.UPDATE_AGENTS_PRESENCE](state, { 1: 'busy' });
+      expect(state.records).toEqual([
+        {
+          id: 1,
+          name: 'Agent1',
+          email: 'agent1@chatwoot.com',
+          availibility_status: 'offline',
+        },
+        {
+          id: 1,
+          name: 'Agent1',
+          email: 'agent1@chatwoot.com',
+          availibility_status: 'online',
+        },
+      ]);
+    });
+  });
 });
