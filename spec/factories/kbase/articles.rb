@@ -4,11 +4,11 @@ FactoryBot.define do
     category_id { 1 }
     folder_id { 1 }
     author_id { 1 }
-    title { "MyString" }
-    content { "MyText" }
+    title { 'MyString' }
+    content { 'MyText' }
     status { 1 }
     views { 1 }
-    seo_title { "MyString" }
-    seo { "" }
+    seo_title { 'MyString' }
+    seo { '' }
   end
 end
