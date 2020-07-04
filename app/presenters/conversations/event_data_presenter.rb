@@ -9,7 +9,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
-      channel: conversation.inbox.try(:channel_type),
+      channel: inbox.try(:channel_type),
       meta: push_meta,
       status: status,
       unread_count: unread_incoming_messages.count,
