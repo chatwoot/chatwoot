@@ -12,4 +12,6 @@
 #
 class Kbase::Category < ApplicationRecord
   belongs_to :account
+  has_many :portal_categories
+  has_many :portals,  through: :portal_categories
 end

@@ -31,4 +31,6 @@
 #
 class Kbase::Portal < ApplicationRecord
   belongs_to :account
+  has_many :portal_categories
+  has_many :categories,  through: :portal_categories
 end
