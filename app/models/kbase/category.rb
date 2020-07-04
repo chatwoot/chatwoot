@@ -13,5 +13,10 @@
 class Kbase::Category < ApplicationRecord
   belongs_to :account
   has_many :portal_categories
-  has_many :portals,  through: :portal_categories
+  has_many :portals, through: :portal_categories
+  has_many :folders
+  has_many :articles
+
+  validates :account_id, presence: true
+  validates :name, presence: true
 end

@@ -32,5 +32,11 @@
 class Kbase::Portal < ApplicationRecord
   belongs_to :account
   has_many :portal_categories
-  has_many :categories,  through: :portal_categories
+  has_many :categories, through: :portal_categories
+  has_many :folders,  through: :categories
+  has_many :articles, through: :folders
+
+  validates :account_id, presence: true
+  validates :name, presence: true
+  validates :subdomain, presence: true
 end

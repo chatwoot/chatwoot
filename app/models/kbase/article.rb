@@ -21,4 +21,14 @@ class Kbase::Article < ApplicationRecord
   belongs_to :category
   belongs_to :folder
   belongs_to :author, class_name: 'User'
+
+  validates :account_id, presence: true
+  validates :category_id, presence: true
+  validates :folder_id, presence: true
+  validates :author_id, presence: true
+
+  validates :title, presence: true
+  validates :content, presence: true
+
+  enum status: { unpublished: 0, published: 1 }
 end

@@ -1,5 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe Kbase::Article, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context 'with validations' do
+    it { is_expected.to validate_presence_of(:account_id) }
+    it { is_expected.to validate_presence_of(:category_id) }
+    it { is_expected.to validate_presence_of(:folder_id) }
+    it { is_expected.to validate_presence_of(:author_id) }
+    it { is_expected.to validate_presence_of(:title) }
+    it { is_expected.to validate_presence_of(:content) }
+  end
+
+  describe 'associations' do
+    it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:category) }
+    it { is_expected.to belong_to(:folder) }
+    it { is_expected.to belong_to(:author) }
+  end
 end
