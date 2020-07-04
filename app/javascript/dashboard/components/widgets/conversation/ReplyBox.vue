@@ -120,12 +120,7 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     channelType() {
-      const {
-        meta: {
-          sender: { channel },
-        },
-      } = this.currentChat;
-      return channel;
+      return this.currentChat.meta.channel;
     },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
@@ -144,10 +139,7 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return (
-        this.channelType === 'Channel::WebWidget' ||
-        this.channelType === 'Channel::TwilioSms'
-      );
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
