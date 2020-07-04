@@ -18,6 +18,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
       'conversation.contact_changed': this.onConversationContactChange,
+      'presence.update': this.onPresenceUpdate,
     };
   }
 
@@ -27,6 +28,11 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('updateMessage', data);
+  };
+
+  onPresenceUpdate = data => {
+    this.app.$store.dispatch('contacts/updatePresence', data.contacts);
+    this.app.$store.dispatch('agents/updatePresence', data.users);
   };
 
   onConversationContactChange = payload => {
