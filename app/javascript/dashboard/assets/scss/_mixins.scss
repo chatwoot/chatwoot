@@ -1,6 +1,5 @@
 @import '~widget/assets/scss/mixins';
 
-$elegant-shadow-color: rgba(49, 49, 93, 0.15);
 $spinner-before-border-color: rgba(255, 255, 255, 0.7);
 
 //borders
@@ -141,12 +140,8 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   overflow-y: auto;
 }
 
-@mixin elegent-shadow() {
-  box-shadow: 0 10px 25px 0 $elegant-shadow-color;
-}
-
 @mixin elegant-card() {
-  @include elegent-shadow;
+  @include normal-shadow;
   border-radius: $space-small;
 }
 
@@ -194,28 +189,42 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
     border-right: $size solid transparent;
-  } @else if $direction == 'right' {
+  }
+
+  @else if $direction == 'right' {
     border-bottom: $size solid transparent;
     border-left: $size solid $color;
     border-top: $size solid transparent;
-  } @else if $direction == 'bottom' {
+  }
+
+  @else if $direction == 'bottom' {
     border-left: $size solid transparent;
     border-right: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'left' {
+  }
+
+  @else if $direction == 'left' {
     border-bottom: $size solid transparent;
     border-right: $size solid $color;
     border-top: $size solid transparent;
-  } @else if $direction == 'top-left' {
+  }
+
+  @else if $direction == 'top-left' {
     border-right: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'top-right' {
+  }
+
+  @else if $direction == 'top-right' {
     border-left: $size solid transparent;
     border-top: $size solid $color;
-  } @else if $direction == 'bottom-left' {
+  }
+
+  @else if $direction == 'bottom-left' {
     border-bottom: $size solid $color;
     border-right: $size solid transparent;
-  } @else if $direction == 'bottom-right' {
+  }
+
+  @else if $direction == 'bottom-right' {
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
   }
