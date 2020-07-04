@@ -4,16 +4,21 @@ class RoomChannel < ApplicationCable::Channel
     current_user
     current_account
     update_subscription
+    broadcast_presence
   end
 
   def update_presence
     update_subscription
+    broadcast_presence
+  end
+
+  private
+
+  def broadcast_presence
     data = { account_id: @current_account.id, users: ::OnlineStatusTracker.get_available_users(@current_account.id) }
     data[:contacts] = ::OnlineStatusTracker.get_available_contacts(@current_account.id) if @current_user.is_a? User
     ActionCable.server.broadcast(@pubsub_token, { event: 'presence.update', data: data })
   end
-
-  private
 
   def ensure_stream
     @pubsub_token = params[:pubsub_token]
