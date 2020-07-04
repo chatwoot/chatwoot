@@ -10,6 +10,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.typing_off': this.onTypingOff,
       'conversation.resolved': this.onStatusChange,
       'conversation.opened': this.onStatusChange,
+      'presence.update': this.onPresenceUpdate,
     };
   }
 
@@ -23,6 +24,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.$store.dispatch('conversation/updateMessage', data);
+  };
+
+  onPresenceUpdate = data => {
+    this.app.$store.dispatch('agent/updatePresence', data.users);
   };
 
   onTypingOn = () => {

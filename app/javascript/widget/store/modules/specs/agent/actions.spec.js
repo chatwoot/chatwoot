@@ -25,4 +25,9 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#updatePresence', () => {
+    actions.updatePresence({ commit }, { 1: 'online' });
+    expect(commit.mock.calls).toEqual([['updatePresence', { 1: 'online' }]]);
+  });
 });

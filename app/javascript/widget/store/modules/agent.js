@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { getAvailableAgents } from 'widget/api/agent';
+import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 
 const state = {
   records: [],
@@ -27,12 +28,16 @@ export const actions = {
       commit('setHasFetched', true);
     }
   },
+  updatePresence: async ({ commit }, data) => {
+    commit('updatePresence', data);
+  },
 };
 
 export const mutations = {
   setAgents($state, data) {
     Vue.set($state, 'records', data);
   },
+  updatePresence: MutationHelpers.updatePresence,
   setError($state, value) {
     Vue.set($state.uiFlags, 'isError', value);
   },
