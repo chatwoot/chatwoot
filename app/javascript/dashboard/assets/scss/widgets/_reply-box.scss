@@ -47,7 +47,7 @@
     &.is-private {
       background: lighten($warning-color, 38%);
 
-      >input {
+      > input {
         background: lighten($warning-color, 38%);
       }
     }
@@ -63,7 +63,7 @@
       }
     }
 
-    .file-uploads>label {
+    .file-uploads > label {
       cursor: pointer;
     }
 
@@ -73,7 +73,7 @@
       padding: 0 $space-small;
     }
 
-    >textarea {
+    > textarea {
       @include ghost-input();
       @include margin(0);
       background: transparent;
