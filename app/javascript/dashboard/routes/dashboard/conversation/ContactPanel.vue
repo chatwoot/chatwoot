@@ -8,7 +8,7 @@
         <thumbnail
           :src="contact.thumbnail"
           size="64px"
-          :badge="contact.channel"
+          :badge="channelType"
           :username="contact.name"
           :status="contact.availability_status"
         />
@@ -157,6 +157,9 @@ export default {
         platform_version: platformVersion,
       } = this.browser;
       return `${platformName || ''} ${platformVersion || ''}`;
+    },
+    channelType() {
+      return this.currentChat.meta?.channel;
     },
     contactId() {
       return this.currentChat.meta?.sender?.id;

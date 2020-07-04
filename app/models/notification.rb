@@ -51,7 +51,8 @@ class Notification < ApplicationRecord
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
-      created_at: created_at
+      created_at: created_at,
+      account_id: account_id
     }
   end
 
