@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_04_135408) do
+ActiveRecord::Schema.define(version: 2020_07_04_135810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -266,6 +266,15 @@ ActiveRecord::Schema.define(version: 2020_07_04_135408) do
     t.integer "hook_type", default: 0
     t.string "reference_id"
     t.string "access_token"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "kbase_categories", force: :cascade do |t|
+    t.integer "account_id"
+    t.string "name"
+    t.text "description"
+    t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
