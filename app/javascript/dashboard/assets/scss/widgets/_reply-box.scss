@@ -1,10 +1,15 @@
 .reply-box {
-  @include elegant-card;
+  @include light-shadow;
   border-bottom: 0;
+  border-radius: $space-small;
   margin: $space-normal;
   margin-top: 0;
   max-height: $space-mega * 3;
-  transition: height 2s $ease-in-out-cubic;
+  transition: box-shadow .35s $ease-in-out-cubic, height 2s $ease-in-out-cubic;
+
+  &.is-focused {
+    @include normal-shadow;
+  }
 
   .reply-box__top {
     @include flex;
@@ -42,7 +47,7 @@
     &.is-private {
       background: lighten($warning-color, 38%);
 
-      >input {
+      > input {
         background: lighten($warning-color, 38%);
       }
     }
@@ -58,7 +63,7 @@
       }
     }
 
-    .file-uploads>label {
+    .file-uploads > label {
       cursor: pointer;
     }
 
