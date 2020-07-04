@@ -310,7 +310,7 @@
 
       &.is-private {
         background: lighten($warning-color, 32%);
-        border: 1px solid $warning-color;
+        border: 1px solid lighten($warning-color, 15%);
         color: $color-heading;
         padding-right: $space-large;
         position: relative;
