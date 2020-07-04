@@ -7,7 +7,7 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="currentContact.channel"
+      :badge="chatMetadata.channel"
       class="columns"
       :username="currentContact.name"
       :status="currentContact.availability_status"
@@ -88,9 +88,13 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
+    chatMetadata() {
+      return this.chat.meta;
+    },
+
     currentContact() {
       return this.$store.getters['contacts/getContact'](
-        this.chat.meta.sender.id
+        this.chatMetadata.sender.id
       );
     },
 
