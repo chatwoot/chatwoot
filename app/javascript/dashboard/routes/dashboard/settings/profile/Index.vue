@@ -38,6 +38,19 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <label>
+            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
+            <select v-model="availability">
+              <option
+                v-for="status in availabilityStatuses"
+                :key="status.key"
+                class="text-capitalize"
+                :value="status.value"
+              >
+                {{ status.label }}
+              </option>
+            </select>
+          </label>
         </div>
       </div>
       <div class="profile--settings--row row">
@@ -99,16 +112,17 @@
 </template>
 
 <script>
-/* global bus */
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     NotificationSettings,
   },
+  mixin: [alertMixin],
   data() {
     return {
       avatarFile: '',
@@ -117,7 +131,11 @@ export default {
       email: '',
       password: '',
       passwordConfirmation: '',
+      availability: 'online',
       isUpdating: false,
+      availabilityStatuses: this.$t(
+        'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
+      ),
     };
   },
   validations: {
@@ -164,11 +182,12 @@ export default {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
+      this.availability = this.currentUser.availability_status;
     },
     async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
-        bus.$emit('newToastMessage', this.$t('PROFILE_SETTINGS.FORM.ERROR'));
+        this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
       this.isUpdating = true;
@@ -179,15 +198,13 @@ export default {
           email: this.email,
           avatar: this.avatarFile,
           password: this.password,
+          availability: this.availability,
           password_confirmation: this.passwordConfirmation,
         });
         this.isUpdating = false;
         if (hasEmailChanged) {
           clearCookiesOnLogout();
-          bus.$emit(
-            'newToastMessage',
-            this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
-          );
+          this.showAlert(this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED'));
         }
       } catch (error) {
         this.isUpdating = false;

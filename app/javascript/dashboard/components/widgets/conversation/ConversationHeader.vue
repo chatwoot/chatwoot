@@ -6,6 +6,7 @@
         size="40px"
         :badge="currentContact.channel"
         :username="currentContact.name"
+        :status="currentContact.availability_status"
       />
       <div class="user--profile__meta">
         <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
