@@ -63,6 +63,10 @@ export const actions = {
   updatePresence: ({ commit }, data) => {
     commit(types.default.UPDATE_CONTACTS_PRESENCE, data);
   },
+
+  setContact({ commit }, data) {
+    commit(types.default.SET_CONTACT_ITEM, data);
+  },
 };
 
 export const mutations = {
