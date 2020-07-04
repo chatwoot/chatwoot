@@ -17,7 +17,7 @@ module AvailabilityStatusable
 
   def user_profile_page_context?
     # at the moment profile pages aren't account scoped
-    # hence we will return availability attribute instead of true presense
+    # hence we will return availability attribute instead of true presence
     # we will revisit this later
     is_a?(User) && Current.account.blank?
   end
