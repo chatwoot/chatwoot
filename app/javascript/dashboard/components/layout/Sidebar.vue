@@ -56,7 +56,11 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="currentUser.avatar_url" :username="currentUser.name" />
+        <thumbnail
+          :src="currentUser.avatar_url"
+          :username="currentUser.name"
+          :status="currentUser.availability_status"
+        />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}

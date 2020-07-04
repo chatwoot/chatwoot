@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-box">
+  <div class="reply-box" :class="replyBoxClass">
     <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
       <canned-response
         v-if="showCannedResponsesList"
@@ -106,6 +106,7 @@ export default {
     return {
       message: '',
       isPrivate: false,
+      isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
       isUploading: {
@@ -157,6 +158,11 @@ export default {
         return this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
+    },
+    replyBoxClass() {
+      return {
+        'is-focused': this.isFocused,
+      };
     },
   },
   watch: {
@@ -212,18 +218,19 @@ export default {
       if (this.message.length > this.maxLength) {
         return;
       }
+      const newMessage = this.message;
       if (!this.showCannedResponsesList) {
+        this.clearMessage();
         try {
           await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
-            message: this.message,
+            message: newMessage,
             private: this.isPrivate,
           });
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error
         }
-        this.clearMessage();
         this.hideEmojiPicker();
       }
     },
@@ -261,9 +268,11 @@ export default {
     },
 
     onBlur() {
+      this.isFocused = false;
       this.toggleTyping('off');
     },
     onFocus() {
+      this.isFocused = true;
       this.toggleTyping('on');
     },
 

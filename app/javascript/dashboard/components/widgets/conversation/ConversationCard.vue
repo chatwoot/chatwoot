@@ -10,6 +10,7 @@
       :badge="currentContact.channel"
       class="columns"
       :username="currentContact.name"
+      :status="currentContact.availability_status"
       size="40px"
     />
     <div class="conversation--details columns">
@@ -24,6 +25,7 @@
         </span>
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
+        <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
         <span v-if="lastMessageInChat.content">
           {{ lastMessageInChat.content }}
         </span>
@@ -44,6 +46,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
+
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
@@ -114,6 +118,12 @@ export default {
 
     lastMessageInChat() {
       return this.lastMessage(this.chat);
+    },
+
+    messageByAgent() {
+      const lastMessage = this.lastMessageInChat;
+      const { message_type: messageType } = lastMessage;
+      return messageType === MESSAGE_TYPE.OUTGOING;
     },
   },
 
