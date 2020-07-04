@@ -74,6 +74,7 @@ RSpec/MessageSpies:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
+    - 'db/migrate/20200704135408_create_kbase_portals.rb'
 Rails/CreateTableWithTimestamps:
   Exclude:
     - 'db/migrate/20170207092002_acts_as_taggable_on_migration.acts_as_taggable_on_engine.rb'
