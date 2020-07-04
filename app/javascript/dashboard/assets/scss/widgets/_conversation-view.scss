@@ -120,6 +120,21 @@
     @include scroll-on-hover;
   }
 
+  .conversation-transition-list-move {
+    transition: transform .3s $swift-ease-out-function;
+  }
+
+  .conversation-transition-list-enter-active,
+  .conversation-transition-list-leave-active {
+    transition: all .3s $swift-ease-out-function;
+  }
+
+  .conversation-transition-list-enter,
+  .conversation-transition-list-leave-to {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
   .chat-list__top {
     @include flex;
     @include padding($space-normal $zero $space-small $zero);

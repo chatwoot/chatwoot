@@ -20,12 +20,14 @@
     </p>
 
     <div class="conversations-list">
-      <conversation-card
-        v-for="chat in conversationList"
-        :key="chat.id"
-        :active-label="label"
-        :chat="chat"
-      />
+      <transition-group name="conversation-transition-list" tag="div">
+        <conversation-card
+          v-for="chat in conversationList"
+          :key="chat.id"
+          :active-label="label"
+          :chat="chat"
+        />
+      </transition-group>
 
       <div v-if="chatListLoading" class="text-center">
         <span class="spinner"></span>
