@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "ثبت حساب",
+    "TITLE": "ثبت نام",
+    "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از ما را تایید کرده و می‌پذیرید.",
+    "ACCOUNT_NAME": {
+      "LABEL": "عنوان حساب",
+      "PLACEHOLDER": "شرکت ایران ناسیونال",
+      "ERROR": "عنوان خیلی کوتاه است"
+    },
+    "EMAIL": {
+      "LABEL": "ایمیل",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "ایمیل اشتباه است"
+    },
+    "PASSWORD": {
+      "LABEL": "رمز عبور",
+      "PLACEHOLDER": "رمز عبور",
+      "ERROR": "رمز عبور خیلی کوتاه است"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "تکرار رمز عبور",
+      "PLACEHOLDER": "تکرار رمز عبور",
+      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
+      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
+    },
+    "SUBMIT": "ثبت"
+  }
+}
