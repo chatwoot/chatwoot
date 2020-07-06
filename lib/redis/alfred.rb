@@ -2,35 +2,51 @@ module Redis::Alfred
   include Redis::RedisKeys
 
   class << self
-    def rpoplpush(source, destination)
-      $alfred.rpoplpush(source, destination)
-    end
+    # key operations
 
-    def lpush(key, value)
-      $alfred.lpush(key, value)
-    end
-
-    def delete(key)
-      $alfred.del(key)
-    end
-
-    def lrem(key, value, count = 0)
-      $alfred.lrem(key, count, value)
+    def set(key, value)
+      $alfred.set(key, value)
     end
 
     def setex(key, value, expiry = 1.day)
       $alfred.setex(key, expiry, value)
     end
 
-    def set(key, value)
-      $alfred.set(key, value)
-    end
-
     def get(key)
       $alfred.get(key)
     end
 
-    # hash operation
+    def delete(key)
+      $alfred.del(key)
+    end
+
+    # list operations
+
+    def llen(key)
+      $alfred.llen(key)
+    end
+
+    def lrange(key, start_index = 0, end_index = -1)
+      $alfred.lrange(key, start_index, end_index)
+    end
+
+    def rpop(key)
+      $alfred.rpop(key)
+    end
+
+    def lpush(key, values)
+      $alfred.lpush(key, values)
+    end
+
+    def rpoplpush(source, destination)
+      $alfred.rpoplpush(source, destination)
+    end
+
+    def lrem(key, value, count = 0)
+      $alfred.lrem(key, count, value)
+    end
+
+    # hash operations
 
     # add a key value to redis hash
     def hset(key, field, value)
@@ -47,7 +63,7 @@ module Redis::Alfred
       $alfred.hmget(key, *fields)
     end
 
-    # sorted set functions
+    # sorted set operations
 
     # add score and value for a key
     def zadd(key, score, value)

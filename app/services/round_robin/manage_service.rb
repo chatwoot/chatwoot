@@ -16,12 +16,39 @@ class RoundRobin::ManageService
     ::Redis::Alfred.lrem(round_robin_key, user_id)
   end
 
-  def available_agent
-    user_id = ::Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
-    inbox.account.users.find_by(id: user_id)
+  def available_agent(priority_list: [])
+    reset_queue unless validate_queue?
+    user_id = get_agent_via_priority_list(priority_list)
+    # incase priority list was empty or not matching agent
+    user_id ||= ::Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
+    inbox.inbox_members.find_by(user_id: user_id).user
+  end
+
+  def reset_queue
+    clear_queue
+    ::Redis::Alfred.lpush(round_robin_key, inbox.inbox_members.map(&:user_id))
   end
 
   private
+
+  def get_agent_via_priority_list(priority_list)
+    return if priority_list.blank?
+
+    user_id = queue.intersection(priority_list.map(&:to_s)).pop
+    if user_id.present?
+      remove_agent_from_queue(user_id)
+      add_agent_to_queue(user_id)
+    end
+    user_id
+  end
+
+  def validate_queue?
+    return true if inbox.inbox_members.map(&:user_id).sort == queue.sort.map(&:to_i)
+  end
+
+  def queue
+    ::Redis::Alfred.lrange(round_robin_key)
+  end
 
   def round_robin_key
     format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: inbox.id)
