@@ -2,7 +2,7 @@
   <div class="unread-wrap">
     <div class="close-unread-wrap">
       <button
-        v-if="unreadMessageCount"
+        v-if="showCloseButton"
         class="button small close-unread-button"
         @click="closeFullView"
       >
@@ -68,6 +68,15 @@ export default {
     unreadMessageCount: {
       type: Number,
       default: 0,
+    },
+    hideMessageBubble: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    showCloseButton() {
+      return this.unreadMessageCount && this.hideMessageBubble;
     },
   },
   methods: {

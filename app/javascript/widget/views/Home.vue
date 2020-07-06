@@ -107,9 +107,7 @@ export default {
     updateUserLastSeen() {
       const { unreadMessageCount = 0 } = this;
       if (unreadMessageCount > 0) {
-        setTimeout(() => {
-          this.onSetAgentLastSeen();
-        }, 2000);
+        this.onSetAgentLastSeen();
       }
     },
   },

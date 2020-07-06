@@ -94,6 +94,7 @@ export const IFrameHelper = {
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
+        hideMessageBubble: window.$chatwoot.hideMessageBubble,
       });
       IFrameHelper.onLoad(message.config.channelConfig);
       IFrameHelper.setCurrentUrl();
@@ -109,10 +110,10 @@ export const IFrameHelper = {
     },
 
     onBubbleToggle: isOpen => {
-      IFrameHelper.pushEvent('webwidget.triggered');
-
       if (!isOpen) {
         IFrameHelper.events.resetUnreadMode();
+      } else {
+        IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
 

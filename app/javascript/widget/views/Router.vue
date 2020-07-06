@@ -22,6 +22,7 @@
       :has-fetched="hasFetched"
       :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
+      :hide-message-bubble="hideMessageBubble"
     />
   </div>
 </template>
@@ -66,6 +67,10 @@ export default {
       default: false,
     },
     showUnreadView: {
+      type: Boolean,
+      default: false,
+    },
+    hideMessageBubble: {
       type: Boolean,
       default: false,
     },

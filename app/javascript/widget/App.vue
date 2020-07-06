@@ -11,6 +11,7 @@
     :unread-message-count="unreadMessageCount"
     :on-set-agent-last-seen="handleSetLastSeen"
     :is-left-aligned="isLeftAligned"
+    :hide-message-bubble="hideMessageBubble"
   />
 </template>
 
@@ -33,6 +34,7 @@ export default {
     return {
       showUnreadView: false,
       isMobile: false,
+      hideMessageBubble: false,
       widgetPosition: 'right',
     };
   },
@@ -82,6 +84,7 @@ export default {
         this.fetchAvailableAgents(websiteToken);
         this.setLocale(message.locale);
         this.setPosition(message.position);
+        this.setHideMessageBubble(message.hideMessageBubble);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
       } else if (message.event === 'set-current-url') {
@@ -89,7 +92,7 @@ export default {
       } else if (message.event === 'toggle-close-button') {
         this.isMobile = message.showClose;
       } else if (message.event === 'push-event') {
-        this.$store.dispatch('events/create', { name: message.eventName });
+        this.createWidgetEvents(message);
       } else if (message.event === 'set-label') {
         this.$store.dispatch('conversationLabels/create', message.label);
       } else if (message.event === 'remove-label') {
@@ -126,6 +129,9 @@ export default {
       const widgetPosition = position || 'right';
       this.widgetPosition = widgetPosition;
     },
+    setHideMessageBubble(hideBubble) {
+      this.hideMessageBubble = !!hideBubble;
+    },
     registerUnreadEvents() {
       bus.$on('on-agent-message-recieved', () => {
         this.setUnreadView();
@@ -152,6 +158,14 @@ export default {
     },
     handleSetLastSeen() {
       this.setUserLastSeen();
+    },
+    createWidgetEvents(message) {
+      const { eventName } = message;
+      const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
+      if (isWidgetTriggerEvent && !this.showUnreadView) {
+        return;
+      }
+      this.$store.dispatch('events/create', { name: eventName });
     },
   },
 };
