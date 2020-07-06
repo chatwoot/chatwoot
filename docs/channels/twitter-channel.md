@@ -23,7 +23,7 @@ title: "How to create Twitter channel?"
 
 ![add_agents](./images/add_agents.png)
 
-**Step 6**. Hooray! You have sucessfully created a Twitter inbox.  You will be able to manage Twitter DMs and tweets mentioning you in the Chatwoot Inbox.
+**Step 6**. Hooray! You have successfully created a Twitter inbox.  You will be able to manage Twitter DMs and tweets mentioning you in the Chatwoot Inbox.
 
 ![finish_inbox](./images/twitter/finish_inbox.png)
 
