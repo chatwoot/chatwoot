@@ -1,10 +1,8 @@
 json.meta do
   json.sender do
-    json.id conversation.contact.id
-    json.name conversation.contact.name
-    json.thumbnail conversation.contact.avatar_url
-    json.channel conversation.inbox.try(:channel_type)
+    json.partial! 'api/v1/models/contact.json.jbuilder', resource: conversation.contact
   end
+  json.channel conversation.inbox.try(:channel_type)
   json.assignee conversation.assignee
 end
 

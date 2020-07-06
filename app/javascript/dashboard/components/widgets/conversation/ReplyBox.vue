@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-box">
+  <div class="reply-box" :class="replyBoxClass">
     <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
       <canned-response
         v-if="showCannedResponsesList"
@@ -106,6 +106,7 @@ export default {
     return {
       message: '',
       isPrivate: false,
+      isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
       isUploading: {
@@ -120,12 +121,7 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     channelType() {
-      const {
-        meta: {
-          sender: { channel },
-        },
-      } = this.currentChat;
-      return channel;
+      return this.currentChat.meta.channel;
     },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
@@ -144,10 +140,7 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return (
-        this.channelType === 'Channel::WebWidget' ||
-        this.channelType === 'Channel::TwilioSms'
-      );
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -157,6 +150,11 @@ export default {
         return this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
+    },
+    replyBoxClass() {
+      return {
+        'is-focused': this.isFocused,
+      };
     },
   },
   watch: {
@@ -262,9 +260,11 @@ export default {
     },
 
     onBlur() {
+      this.isFocused = false;
       this.toggleTyping('off');
     },
     onFocus() {
+      this.isFocused = true;
       this.toggleTyping('on');
     },
 

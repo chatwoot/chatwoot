@@ -312,6 +312,7 @@ RSpec.describe Conversation, type: :model do
         inbox_id: conversation.inbox_id,
         status: conversation.status,
         timestamp: conversation.created_at.to_i,
+        channel: 'Channel::WebWidget',
         user_last_seen_at: conversation.user_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0

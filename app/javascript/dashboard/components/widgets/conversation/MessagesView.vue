@@ -121,23 +121,6 @@ export default {
       );
       return chat;
     },
-    // Get current FB Page ID
-    getPageId() {
-      let stateInbox;
-      if (this.inboxId) {
-        const inboxId = Number(this.inboxId);
-        [stateInbox] = this.inboxesList.filter(
-          inbox => inbox.channel_id === inboxId
-        );
-      } else {
-        [stateInbox] = this.inboxesList;
-      }
-      return !stateInbox ? 0 : stateInbox.page_id;
-    },
-    // Get current FB Page ID link
-    linkToMessage() {
-      return `https://m.me/${this.getPageId}`;
-    },
     getReadMessages() {
       const chat = this.getMessages;
       return chat === undefined ? null : this.readMessages(chat);
