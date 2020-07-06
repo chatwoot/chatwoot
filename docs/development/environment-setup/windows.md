@@ -7,7 +7,7 @@ title: 'Windows 10 Installation Guide'
 
 You need to install Linux Subsystem for Windows.
 
-1. The first step is to enable "Developer mode" in Windows. You can do this by opening up Settings and navigating to to Update & Security, then "For Developers". Click the "Developer mode" option to enable it.
+1. The first step is to enable "Developer mode" in Windows. You can do this by opening up Settings and navigating to Update & Security, then "For Developers". Click the "Developer mode" option to enable it.
 
 <img src="./img/developer-mode.jpg" width="500" alt="Enable Developer Mode" style="display: block; margin-left: auto; margin-right: auto;">
 
