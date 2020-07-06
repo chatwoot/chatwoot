@@ -9,6 +9,7 @@
         v-for="channel in channelList"
         :key="channel"
         :channel="channel"
+        :enabled-features="enabledFeatures"
         @channel-item-click="initChannelAuth"
       />
     </div>
@@ -19,6 +20,7 @@
 import ChannelItem from 'dashboard/components/widgets/ChannelItem';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -35,9 +37,25 @@ export default {
         'telegram',
         'line',
       ],
+      enabledFeatures: {},
     };
   },
+  computed: {
+    account() {
+      return this.$store.getters['accounts/getAccount'](this.accountId);
+    },
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
+  },
+  mounted() {
+    this.initializeEnabledFeatures();
+  },
   methods: {
+    async initializeEnabledFeatures() {
+      await this.$store.dispatch('accounts/get', this.accountId);
+      this.enabledFeatures = this.account.features;
+    },
     initChannelAuth(channel) {
       const params = {
         page: 'new',
