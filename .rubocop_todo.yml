@@ -267,24 +267,6 @@ Style/CommentedKeyword:
     - 'app/controllers/api/v1/labels_controller.rb'
 
 # Offense count: 1
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  Exclude:
-    - 'lib/constants/redis_keys.rb'
-
-# Offense count: 4
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
-  Exclude:
-    - 'lib/redis/alfred.rb'
-
-# Offense count: 4
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'app/controllers/api/v1/reports_controller.rb'
-
-# Offense count: 1
 # Configuration parameters: AllowIfModifier.
 Style/IfInsideElse:
   Exclude:

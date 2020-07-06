@@ -1,12 +1,5 @@
 module Redis::Alfred
-  CONVERSATION_MAILER_KEY = 'CONVERSATION::%d'.freeze
-
-  # hash containing user_id key and status as value ONLINE_STATUS::%accountid
-  ONLINE_STATUS = 'ONLINE_STATUS::%s'.freeze
-  # sorted set storing online presense of account contacts : ONLINE_PRESENCE::%accountid::CONTACTS
-  ONLINE_PRESENCE_CONTACTS = 'ONLINE_PRESENCE::%s::CONTACTS'.freeze
-  # sorted set storing online presense of account users : ONLINE_PRESENCE::%accountid::USERS
-  ONLINE_PRESENCE_USERS = 'ONLINE_PRESENCE::%s::USERS'.freeze
+  include Redis::RedisKeys
 
   class << self
     def rpoplpush(source, destination)
