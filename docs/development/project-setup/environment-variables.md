@@ -47,9 +47,34 @@ SMTP_ADDRESS=smtp.sendgrid.net
 SMTP_AUTHENTICATION=plain
 SMTP_DOMAIN=<your verified domain>
 SMTP_ENABLE_STARTTLS_AUTO=true
-SMTP_PASSWORD=<your Sendgrid API key>
 SMTP_PORT=587
 SMTP_USERNAME=apikey
+SMTP_PASSWORD=<your Sendgrid API key>
+```
+
+If you would like to use Mailgun to send your emails, use the following environment variables:
+```bash
+SMTP_ADDRESS=smtp.mailgun.org
+SMTP_AUTHENTICATION=plain
+SMTP_DOMAIN=<Your domain, this has to be verified in Mailgun>
+SMTP_ENABLE_STARTTLS_AUTO=true
+SMTP_PORT=587
+SMTP_USERNAME=<Your SMTP username, view under Domains tab>
+SMTP_PASSWORD=<Your SMTP password, view under Domains tab>
+```
+
+
+If you would like to use Mailchimp to send your emails, use the following environment variables:
+Note: Mandrill is the transactional email service for Mailchimp. You need to enable transactional email and login to mandrillapp.com.
+
+```bash
+SMTP_ADDRESS=smtp.mandrillapp.com
+SMTP_AUTHENTICATION=plain
+SMTP_DOMAIN=<Your verified domain in Mailchimp>
+SMTP_ENABLE_STARTTLS_AUTO=true
+SMTP_PORT=587
+SMTP_USERNAME=<Your SMTP username displayed under Settings -> SMTP & API info>
+SMTP_PASSWORD=<Any valid API key, create an API key under Settings -> SMTP & API Info>
 ```
 
 ### Configure frontend URL
