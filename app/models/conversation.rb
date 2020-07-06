@@ -188,7 +188,7 @@ class Conversation < ApplicationRecord
     return unless conversation_status_changed_to_open?
     return unless should_round_robin?
 
-    ::RoundRobin::AssignmentService.new(self).perform
+    ::RoundRobin::AssignmentService.new(conversation: self).perform
   end
 
   def create_status_change_message(user_name)

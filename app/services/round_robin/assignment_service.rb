@@ -2,14 +2,14 @@ class RoundRobin::AssignmentService
   pattr_initialize [:conversation]
 
   def perform
-    new_assignee = RoundRobin::ManageService.new(conversation.inbox).available_agent
+    new_assignee = round_robin_manage_service.available_agent
     conversation.update(assignee: new_assignee) if new_assignee
   end
 
   private
 
   def round_robin_manage_service
-    @round_robin_manage_service ||= RoundRobin::ManageService.new(conversation.inbox)
+    @round_robin_manage_service ||= RoundRobin::ManageService.new(inbox: conversation.inbox)
   end
 
   def round_robin_key

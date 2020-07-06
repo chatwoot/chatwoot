@@ -24,6 +24,6 @@ class RoundRobin::ManageService
   private
 
   def round_robin_key
-    format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: conversation.inbox_id)
+    format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: inbox.id)
   end
 end

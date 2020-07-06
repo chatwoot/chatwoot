@@ -74,6 +74,6 @@ class Inbox < ApplicationRecord
   private
 
   def delete_round_robin_agents
-    ::RoundRobin::ManageService.new(self).clear_queue
+    ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
 end
