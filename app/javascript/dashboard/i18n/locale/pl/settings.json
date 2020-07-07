@@ -1,0 +1,126 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Ustawienia profilu",
+    "TITLE": "Ustawienia profilu",
+    "BTN_TEXT": "Aktualizuj profil",
+    "AFTER_EMAIL_CHANGED": "Twój profil został pomyślnie zaktualizowany, zaloguj się ponownie po zmianie danych logowania",
+    "FORM": {
+      "AVATAR": "Zdjęcie profilowe",
+      "ERROR": "Proszę naprawić błędy formularza",
+      "REMOVE_IMAGE": "Usuń",
+      "UPLOAD_IMAGE": "Prześlij obraz",
+      "UPDATE_IMAGE": "Aktualizuj obraz",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Twój adres e-mail jest Twoją tożsamością i jest używany do logowania."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Hasło",
+        "NOTE": "Aktualizacja hasła spowoduje zresetowanie logowania na wielu urządzeniach."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token dostępu",
+        "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Powiadomienia e-mail",
+        "NOTE": "Zaktualizuj ustawienia powiadomień e-mail tutaj",
+        "CONVERSATION_ASSIGNMENT": "Wysyłaj powiadomienia e-mail, gdy konwersacja jest przypisana do mnie",
+        "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Zdjęcie profilowe"
+      },
+      "NAME": {
+        "LABEL": "Twoje imię",
+        "ERROR": "Wprowadź prawidłową nazwę",
+        "PLACEHOLDER": "Wprowadź swoje imię i nazwisko, które będzie wyświetlane w rozmowach"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Twój adres e-mail",
+        "ERROR": "Wprowadź poprawny adres e-mail",
+        "PLACEHOLDER": "Wprowadź swój adres e-mail, który będzie wyświetlany w rozmowach"
+      },
+      "PASSWORD": {
+        "LABEL": "Hasło",
+        "ERROR": "Wprowadź hasło o długości 6 lub więcej",
+        "PLACEHOLDER": "Wprowadź nowe hasło"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Potwierdź nowe hasło",
+        "ERROR": "Potwierdź hasło powinno być zgodne z hasłem",
+        "PLACEHOLDER": "Wprowadź ponownie hasło"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Ustawienia profilu",
+    "LOGOUT": "Wyloguj się"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Pobierz",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Prześlij"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Rozmowy",
+    "REPORTS": "Raporty",
+    "SETTINGS": "Ustawienia",
+    "HOME": "Home",
+    "AGENTS": "Agenci",
+    "INBOXES": "Skrzynki",
+    "CANNED_RESPONSES": "Gotowe odpowiedzi",
+    "INTEGRATIONS": "Integracje",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
+  }
+}
