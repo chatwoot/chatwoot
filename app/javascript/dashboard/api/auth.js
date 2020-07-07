@@ -118,20 +118,17 @@ export default {
     return axios.post(urlData.url, { email });
   },
 
-  profileUpdate({ name, email, password, password_confirmation, avatar }) {
+  profileUpdate({ password, password_confirmation, ...profileAttributes }) {
     const formData = new FormData();
-    if (name) {
-      formData.append('profile[name]', name);
-    }
-    if (email) {
-      formData.append('profile[email]', email);
-    }
+    Object.keys(profileAttributes).forEach(key => {
+      const value = profileAttributes[key];
+      if (value) {
+        formData.append(`profile[${key}]`, value);
+      }
+    });
     if (password && password_confirmation) {
       formData.append('profile[password]', password);
       formData.append('profile[password_confirmation]', password_confirmation);
-    }
-    if (avatar) {
-      formData.append('profile[avatar]', avatar);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
   },

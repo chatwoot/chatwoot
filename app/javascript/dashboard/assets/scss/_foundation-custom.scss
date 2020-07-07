@@ -1,6 +1,6 @@
 .button {
-  font-weight: $font-weight-medium;
   font-family: $body-font-family;
+  font-weight: $font-weight-medium;
 
   &.round {
     border-radius: 1000px;
@@ -20,10 +20,11 @@
 }
 
 .tooltip {
-  max-width: 15rem;
-  padding: $space-smaller $space-small;
   border-radius: $space-smaller;
   font-size: $font-size-mini;
+  max-width: 15rem;
+  padding: $space-smaller $space-small;
+  z-index: 9999;
 }
 
 code {

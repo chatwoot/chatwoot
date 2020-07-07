@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import Branding from 'widget/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
@@ -46,14 +44,33 @@ export default {
     AvailableAgents,
   },
   mixins: [configMixin],
+  props: {
+    groupedMessages: {
+      type: Array,
+      default: () => [],
+    },
+    conversationSize: {
+      type: Number,
+      default: 0,
+    },
+    availableAgents: {
+      type: Array,
+      default: () => [],
+    },
+    hasFetched: {
+      type: Boolean,
+      default: false,
+    },
+    conversationAttributes: {
+      type: Object,
+      default: () => {},
+    },
+    unreadMessageCount: {
+      type: Number,
+      default: 0,
+    },
+  },
   computed: {
-    ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
-      conversationSize: 'conversation/getConversationSize',
-      availableAgents: 'agent/availableAgents',
-      hasFetched: 'agent/uiFlags/hasFetched',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
-    }),
     isOpen() {
       return this.conversationAttributes.status === 'open';
     },

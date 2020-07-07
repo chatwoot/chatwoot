@@ -1,4 +1,4 @@
-class Api::V1::Accounts::FacebookIndicatorsController < Api::BaseController
+class Api::V1::Accounts::FacebookIndicatorsController < Api::V1::Accounts::BaseController
   before_action :set_access_token
   around_action :handle_with_exception
 
@@ -38,7 +38,7 @@ class Api::V1::Accounts::FacebookIndicatorsController < Api::BaseController
   end
 
   def inbox
-    @inbox ||= current_account.inboxes.find(permitted_params[:inbox_id])
+    @inbox ||= Current.account.inboxes.find(permitted_params[:inbox_id])
   end
 
   def set_access_token

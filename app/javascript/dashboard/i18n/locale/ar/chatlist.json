@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "جاري جلب المحادثات",
+    "LOAD_MORE_CONVERSATIONS": "تحميل المزيد من المحادثات",
+    "EOF": "تم تحميل كافة المحادثات 🎉",
+    "LIST": {
+      "404": "لا توجد محادثات نشطة في هذه المجموعة."
+    },
+    "TAB_HEADING": "المحادثات",
+    "SEARCH": {
+      "INPUT": "البحث عن جهات الاتصال، المحادثات، قوالب الردود الجاهزة .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "فتح",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "مغلقة",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "محادثاتي",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "غير مسند",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "الكل",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "فتح",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "مغلقة",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "رسالة صورة"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "رسالة صوتية"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "رسالة فيديو"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "مرفقات"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "الموقع الجغرافي"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "قام بمشاركة رابط"
+      }
+    }
+  }
+}

@@ -19,7 +19,7 @@ title: "How to create website channel?"
 
 ![add_agents](./images/add_agents.png)
 
-**Step 5**. Hooray! You have sucessfully created a website inbox. Copy and paste the code shown in the page to your website and start supporting your customers.
+**Step 5**. Hooray! You have successfully created a website inbox. Copy and paste the code shown in the page to your website and start supporting your customers.
 
 ![finish_inbox](./images/finish_inbox.png)
 

@@ -1,0 +1,191 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Вхідні",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "В цього облікового запису немає скриньк."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Оберіть канал",
+        "route": "settings_inbox_new",
+        "body": "Choose the provider you want to integrate with Chatwoot."
+      },
+      {
+        "title": "Створити вхідну скриньку",
+        "route": "settings_inboxes_page_channel",
+        "body": "Authenticate your account and create an inbox."
+      },
+      {
+        "title": "Додати агентів",
+        "route": "settings_inboxes_add_agents",
+        "body": "Add agents to the created inbox."
+      },
+      {
+        "title": "Вуаля!",
+        "route": "settings_inbox_finish",
+        "body": "Все готово!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
+      "TWITTER": {
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Канал Веб-сайт",
+        "DESC": "Створіть канал для свого сайту та почніть підтримувати своїх клієнтів за допомогою нашого віджету.",
+        "LOADING_MESSAGE": "Створення каналу підтримки веб-сайту",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Назва сайту",
+          "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Домен сайту",
+          "PLACEHOLDER": "Введіть домен вашого сайту (наприклад: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Увімкнено",
+          "DISABLED": "Вимкнено"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Колір віджета",
+          "PLACEHOLDER": "Оновити колір віджета"
+        },
+        "SUBMIT_BUTTON": "Створити скриньку \"Вхідні\""
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID облікового запису",
+          "PLACEHOLDER": "Будь ласка, введіть SID облікового запису Twilio",
+          "ERROR": "Це поле є обов'язковим"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Токен автентифікації",
+          "PLACEHOLDER": "Введіть ваш Twilio Auth токен",
+          "ERROR": "Це поле є обов'язковим"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Назва каналу",
+          "PLACEHOLDER": "Будь ласка, введіть назву каналу",
+          "ERROR": "Це поле є обов'язковим"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Номер телефону",
+          "PLACEHOLDER": "Будь ласка, введіть номер телефону, з якого будуть надсилатися повідомлення.",
+          "ERROR": "Номер телефону повинен починатися з символу `+'."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
+        "SUBMIT_BUTTON": "Створити Twilio канал",
+        "API": {
+          "ERROR_MESSAGE": "Автентифікація у Twilio не вдалася, будь ласка, спробуйте знову"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Канали",
+        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+      },
+      "AGENTS": {
+        "TITLE": "Агенти",
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+      },
+      "DETAILS": {
+        "TITLE": "Деталі скриньки Вхідні",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+      },
+      "FINISH": {
+        "TITLE": "Успіх!",
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Автентифікація через Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Створення скриньки Вхідні...",
+      "TITLE": "Configure Inbox Details",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Додати агентів",
+      "ADD_AGENTS": "Додавання агентів до таки Вхідні..."
+    },
+    "FINISH": {
+      "TITLE": "Ваша поштова скринька готова!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Давай туди",
+      "WEBSITE_SUCCESS": "Ви успішно завершили створення каналу Веб-сайт. Скопіюйте наведений нижче код і вставте його на ваш сайт. Наступного разу коли клієнт скористається онлайн чатом, розмова автоматично з'явиться в вашій скриньці Вхідні."
+    },
+    "REAUTH": "Повторна авторизація",
+    "VIEW": "Вигляд",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Автопризначення успішно оновлено",
+        "ERROR_MESSAGE": "Не вдалося оновити колір віджету. Будь ласка, спробуйте ще раз."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Увімкнено",
+        "DISABLED": "Вимкнено"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Видалити",
+      "CONFIRM": {
+        "TITLE": "Підтвердження видалення",
+        "MESSAGE": "Справді бажаєте видалити ",
+        "YES": "Так, видалити ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Скриньку успішно видалено",
+        "ERROR_MESSAGE": "Не вдалося видалити скриньку \"Вхідні\". Будь ласка, спробуйте ще раз."
+      }
+    },
+    "SETTINGS": "Налаштування",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Добавте кнопку на сторінки вашого сайту",
+      "INBOX_AGENTS": "Агенти",
+      "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
+      "UPDATE": "Оновити",
+      "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+    }
+  }
+}

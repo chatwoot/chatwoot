@@ -1,10 +1,15 @@
 .reply-box {
-  @include elegant-card;
+  @include light-shadow;
   border-bottom: 0;
+  border-radius: $space-small;
   margin: $space-normal;
   margin-top: 0;
-  max-height: $space-jumbo * 2;
-  transition: height 2s $ease-in-out-cubic;
+  max-height: $space-mega * 3;
+  transition: box-shadow .35s $ease-in-out-cubic, height 2s $ease-in-out-cubic;
+
+  &.is-focused {
+    @include normal-shadow;
+  }
 
   .reply-box__top {
     @include flex;
@@ -42,7 +47,7 @@
     &.is-private {
       background: lighten($warning-color, 38%);
 
-      >input {
+      > input {
         background: lighten($warning-color, 38%);
       }
     }
@@ -58,7 +63,7 @@
       }
     }
 
-    .file-uploads>label {
+    .file-uploads > label {
       cursor: pointer;
     }
 
@@ -68,13 +73,14 @@
       padding: 0 $space-small;
     }
 
-    >textarea {
+    > textarea {
       @include ghost-input();
       @include margin(0);
       background: transparent;
       // Override min-height : 50px in foundation
       //
-      min-height: 1rem;
+      max-height: $space-mega * 2.4;
+      min-height: 4rem;
       resize: none;
     }
   }

@@ -1,11 +1,13 @@
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
 import { actions } from '../../conversation';
 import getUuid from '../../../../helpers/uuid';
+import { API } from 'widget/helpers/axios';
 
 jest.mock('../../../../helpers/uuid');
 jest.mock('shared/helpers/AudioNotificationHelper', () => ({
   playNotificationAudio: jest.fn(),
 }));
+jest.mock('widget/helpers/axios');
 
 const commit = jest.fn();
 
@@ -84,6 +86,25 @@ describe('#actions', () => {
           },
         ],
       });
+    });
+  });
+
+  describe('#setUserLastSeen', () => {
+    it('sends correct mutations', async () => {
+      API.post.mockResolvedValue({ data: { success: true } });
+      await actions.setUserLastSeen({
+        commit,
+        getters: { getConversationSize: 2 },
+      });
+      expect(commit.mock.calls[0][0]).toEqual('setMetaUserLastSeenAt');
+    });
+    it('sends correct mutations', async () => {
+      API.post.mockResolvedValue({ data: { success: true } });
+      await actions.setUserLastSeen({
+        commit,
+        getters: { getConversationSize: 0 },
+      });
+      expect(commit.mock.calls).toEqual([]);
     });
   });
 });

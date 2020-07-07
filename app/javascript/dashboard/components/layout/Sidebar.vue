@@ -18,20 +18,13 @@
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
+        <sidebar-item
+          v-if="shouldShowInboxes"
+          :key="labelSection.toState"
+          :menu-item="labelSection"
+        />
       </transition-group>
     </div>
-
-    <!-- this block is only required in the hosted version with billing enabled -->
-    <transition name="fade" mode="out-in">
-      <woot-status-bar
-        v-if="shouldShowStatusBox"
-        :message="trialMessage"
-        :button-text="$t('APP_GLOBAL.TRAIL_BUTTON')"
-        :button-route="{ name: 'billing' }"
-        :type="statusBarClass"
-        :show-button="isAdmin"
-      />
-    </transition>
 
     <div class="bottom-nav">
       <transition name="menu-slide">
@@ -63,7 +56,11 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="currentUser.avatar_url" :username="currentUser.name" />
+        <thumbnail
+          :src="currentUser.avatar_url"
+          :username="currentUser.name"
+          :status="currentUser.availability_status"
+        />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -108,7 +105,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from '../../mixins/isAdmin';
 import Auth from '../../api/auth';
 import SidebarItem from './SidebarItem';
-import WootStatusBar from '../widgets/StatusBar';
 import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
 import { getSidebarItems } from '../../i18n/default-sidebar';
@@ -116,7 +112,6 @@ import { getSidebarItems } from '../../i18n/default-sidebar';
 export default {
   components: {
     SidebarItem,
-    WootStatusBar,
     Thumbnail,
   },
   mixins: [clickaway, adminMixin],
@@ -135,12 +130,11 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
-      daysLeft: 'getTrialLeft',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
-      subscriptionData: 'getSubscription',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      accountLabels: 'labels/getLabelsOnSidebar',
     }),
     sidemenuItems() {
       return getSidebarItems(this.accountId);
@@ -158,10 +152,6 @@ export default {
         if (isRouteIncluded) {
           menuItems = Object.values(groupItem.menuItems);
         }
-      }
-
-      if (!window.chatwootConfig.billingEnabled) {
-        menuItems = this.filterBillingRoutes(menuItems);
       }
 
       return this.filterMenuItemsByRole(menuItems);
@@ -190,38 +180,33 @@ export default {
         })),
       };
     },
+    labelSection() {
+      return {
+        icon: 'ion-pound',
+        label: 'LABELS',
+        hasSubMenu: true,
+        key: 'label',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toStateName: 'labels_list',
+        children: this.accountLabels.map(label => ({
+          id: label.id,
+          label: label.title,
+          color: label.color,
+          toState: frontendURL(
+            `accounts/${this.accountId}/label/${label.title}`
+          ),
+        })),
+      };
+    },
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
-    },
-    shouldShowStatusBox() {
-      return (
-        window.chatwootConfig.billingEnabled &&
-        (this.subscriptionData.state === 'trial' ||
-          this.subscriptionData.state === 'cancelled')
-      );
-    },
-    statusBarClass() {
-      if (this.subscriptionData.state === 'trial') {
-        return 'warning';
-      }
-      if (this.subscriptionData.state === 'cancelled') {
-        return 'danger';
-      }
-      return '';
-    },
-    trialMessage() {
-      return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
     },
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
   },
   methods: {
-    filterBillingRoutes(menuItems) {
-      return menuItems.filter(
-        menuItem => !menuItem.toState.includes('billing')
-      );
-    },
     filterMenuItemsByRole(menuItems) {
       if (!this.currentRole) {
         return [];

@@ -2,6 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Setări cont",
     "SUBMIT": "Actualizați setările",
+    "BACK": "Back",
     "UPDATE": {
       "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
       "SUCCESS": "Setările contului actualizate cu succes"
