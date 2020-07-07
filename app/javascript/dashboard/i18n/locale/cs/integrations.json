@@ -46,9 +46,18 @@
           "TITLE": "Potvrdit odstranění",
           "MESSAGE": "Opravdu chcete odstranit ",
           "YES": "Ano, odstranit ",
-          "NO": "Ne, ponechat "
+          "NO": "No, Keep it"
         }
       }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazat",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
     }
   }
 }
