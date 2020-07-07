@@ -3,7 +3,7 @@
     "HEADER": "Agenti",
     "HEADER_BTN_TXT": "Přidat agenta",
     "LOADING": "Načítání seznamu agentů",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> <b>Agent</b> je členem vašeho týmu zákaznické podpory. </p><p> Agenti budou moci prohlížet a odpovídat na zprávy od uživatelů. Seznam zobrazuje všechny agenty aktuálně na vašem účtu. </p><p> Pro přidání nového agenta klikněte na <b>Přidat agenta</b> . Přidaný agent obdrží e-mail s potvrzovacím odkazem pro aktivaci jejich účtu, poté bude mít přístup k Chatwoot a bude reagovat na zprávy. </p><p> Přístup k funkcím Chatwootu je založen na následujících rolích. </p><p> <b>Agent</b> - Agent s touto rolí může přistupovat pouze k doručeným zprávám, zprávám a konverzacím. Mohou přiřadit konverzace jiným agentům nebo sobě a řešit konverzace.</p><p> <b>Administrátor</b> - Správce bude mít přístup ke všem funkcím Chatwoot povoleným pro váš účet, včetně nastavení a fakturace, spolu se všemi právy normálních agentů.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Přidat agenta do vašeho týmu",
       "DESC": "Můžete přidat lidi, kteří budou schopni zvládnout podporu pro vaše schránky.",
+      "CANCEL_BUTTON_TEXT": "Zrušit",
       "FORM": {
         "NAME": {
           "LABEL": "Název agenta",
@@ -60,7 +61,7 @@
         "TITLE": "Potvrdit odstranění",
         "MESSAGE": "Opravdu chcete odstranit ",
         "YES": "Ano, odstranit ",
-        "NO": "Ne, ponechat "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {
