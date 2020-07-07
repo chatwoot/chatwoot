@@ -3,12 +3,13 @@
     "HEADER": "Agenten",
     "HEADER_BTN_TXT": "Agent hinzufügen",
     "LOADING": "Agentenliste abrufen",
-    "SIDEBAR_TXT": "<p> <b> Agenten </b> </p> <p> Ein <b> Agent </b> ist Mitglied Ihres Kundensupportteams. </p> <p> Agenten können Nachrichten Ihrer Benutzer anzeigen und beantworten. In der Liste werden alle Agenten angezeigt, die sich derzeit in Ihrem Konto befinden. </p> <p> Klicken Sie auf <b> Agent hinzufügen </b>, um einen neuen Agenten hinzuzufügen. Der von Ihnen hinzugefügte Agent erhält eine E-Mail mit einem Bestätigungslink zur Aktivierung seines Kontos. Anschließend kann er auf Chatwoot zugreifen und auf Nachrichten antworten. </p> <p> Der Zugriff auf die Funktionen von Chatwoot basiert auf den folgenden Rollen. </p> <p> <b> Agent </b> - Agenten mit dieser Rolle können nur auf Posteingänge, Berichte und Konversationen zugreifen. Sie können Konversationen anderen Agenten oder sich selbst zuweisen und Konversationen auflösen. </p> <p> <b> Administrator </b> - Der Administrator hat Zugriff auf alle für Ihr Konto aktivierten Chatwoot-Funktionen, einschließlich Einstellungen und Abrechnung, sowie auf alle der Berechtigungen eines normalen Agenten. </p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
         "label": "Administrator"
-      }, {
+      },
+      {
         "name": "agent",
         "label": "Agent"
       }
@@ -27,17 +28,18 @@
     "ADD": {
       "TITLE": "Fügen Sie Ihrem Team einen Agenten hinzu",
       "DESC": "Sie können Personen hinzufügen, die die Unterstützung für Ihre Posteingänge übernehmen können.",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agentenname",
           "PLACEHOLDER": "Bitte geben Sie einen Namen des Agenten ein"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agententyp",
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Agententyp ist erforderlich"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },
@@ -59,22 +61,22 @@
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
         "YES": "Ja, löschen ",
-        "NO": "Nein, behalte es "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {
       "TITLE": "Agent bearbeiten",
       "FORM": {
-        "NAME" : {
+        "NAME": {
           "LABEL": "Agentenname",
           "PLACEHOLDER": "Bitte geben Sie einen Namen des Agenten ein"
         },
-        "AGENT_TYPE" : {
+        "AGENT_TYPE": {
           "LABEL": "Agententyp",
           "PLACEHOLDER": "Bitte wählen Sie einen Typ",
           "ERROR": "Agententyp ist erforderlich"
         },
-        "EMAIL" : {
+        "EMAIL": {
           "LABEL": "E-Mail-Addresse",
           "PLACEHOLDER": "Bitte geben Sie eine E-Mail-Adresse des Agenten ein"
         },

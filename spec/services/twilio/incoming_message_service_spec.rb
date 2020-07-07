@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Twilio::IncomingMessageService do
   let!(:account) { create(:account) }
   let!(:twilio_sms) do
-    create(:channel_twilio_sms, account: account, phone_number: '+1234567890', account_sid: 'ACxxx')
+    create(:channel_twilio_sms, account: account, phone_number: '+1234567890', account_sid: 'ACxxx',
+                                inbox: create(:inbox, account: account, greeting_enabled: false))
   end
   let!(:contact) { create(:contact, account: account, phone_number: '+12345') }
   let(:contact_inbox) { create(:contact_inbox, source_id: '+12345', contact: contact, inbox: twilio_sms.inbox) }

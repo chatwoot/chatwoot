@@ -80,7 +80,7 @@ class MailPresenter < SimpleDelegator
 
     {
       reply: content[0..(index - 1)].strip,
-      quoted_text: content[index..-1].strip
+      quoted_text: content[index..].strip
     }
   end
 

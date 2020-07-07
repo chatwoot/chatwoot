@@ -4,6 +4,11 @@ app_redis_config = {
 }
 redis = Rails.env.test? ? MockRedis.new : Redis.new(app_redis_config)
 
-# Alfred - Used currently for round robin and conversation emails.
+# Alfred
 # Add here as you use it for more features
+# Used for Round Robin, Conversation Emails & Online Presence
 $alfred = Redis::Namespace.new('alfred', redis: redis, warning: true)
+
+# https://github.com/mperham/sidekiq/issues/4591
+# TODO once sidekiq remove we can remove this
+Redis.exists_returns_integer = false

@@ -16,6 +16,6 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def profile_params
-    params.require(:profile).permit(:email, :name, :password, :password_confirmation, :avatar)
+    params.require(:profile).permit(:email, :name, :password, :password_confirmation, :avatar, :availability)
   end
 end

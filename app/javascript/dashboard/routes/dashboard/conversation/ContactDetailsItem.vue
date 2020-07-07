@@ -1,8 +1,13 @@
 <template>
   <div class="conv-details--item">
     <h4 class="conv-details--item__label">
-      <i v-if="icon" :class="icon" class="conv-details--item__icon"></i>
-      {{ title }}
+      <div>
+        <i v-if="icon" :class="icon" class="conv-details--item__icon"></i>
+        {{ title }}
+      </div>
+      <button v-if="showEdit" @click="onEdit">
+        {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
+      </button>
     </h4>
     <div v-if="value" class="conv-details--item__value">
       {{ value }}
@@ -16,6 +21,12 @@ export default {
     title: { type: String, required: true },
     icon: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
+    showEdit: { type: Boolean, default: false },
+  },
+  methods: {
+    onEdit() {
+      this.$emit('edit');
+    },
   },
 };
 </script>
@@ -31,14 +42,18 @@ export default {
     padding-bottom: 0;
   }
 
-  .conv-details--item__icon {
-    padding-right: $space-smaller;
-  }
-
   .conv-details--item__label {
-    font-weight: $font-weight-medium;
-    margin-bottom: $space-micro;
+    align-items: center;
+    display: flex;
     font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    justify-content: space-between;
+    margin-bottom: $space-micro;
+
+    button {
+      cursor: pointer;
+      color: $color-body;
+    }
   }
 
   .conv-details--item__value {

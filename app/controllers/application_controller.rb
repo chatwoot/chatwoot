@@ -5,47 +5,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
-  before_action :check_subscription, unless: :devise_controller?
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized
   rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   private
-
-  def current_account
-    @current_account ||= find_current_account
-    Current.account = @current_account
-  end
-
-  def find_current_account
-    account = Account.find(params[:account_id])
-    if current_user
-      account_accessible_for_user?(account)
-    elsif @resource&.is_a?(AgentBot)
-      account_accessible_for_bot?(account)
-    end
-    switch_locale account
-    account
-  end
-
-  def switch_locale(account)
-    # priority is for locale set in query string (mostly for widget/from js sdk)
-    locale ||= (I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil)
-    # if local is not set in param, lets try account
-    locale ||= (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil)
-    I18n.locale = locale || I18n.default_locale
-  end
-
-  def account_accessible_for_user?(account)
-    @current_account_user = account.account_users.find_by(user_id: current_user.id)
-    Current.account_user = @current_account_user
-    render_unauthorized('You are not authorized to access this account') unless @current_account_user
-  end
-
-  def account_accessible_for_bot?(account)
-    render_unauthorized('You are not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
-  end
 
   def handle_with_exception
     yield
@@ -65,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_subscription
-    @subscription ||= current_account.subscription
+    @subscription ||= Current.account.subscription
   end
 
   def render_unauthorized(message)
@@ -94,16 +59,20 @@ class ApplicationController < ActionController::Base
     render json: exception.to_hash, status: exception.http_status
   end
 
-  def check_subscription
-    # This block is left over from the initial version of chatwoot
-    # We might reuse this later in the hosted version of chatwoot.
-    return if !ENV['BILLING_ENABLED'] || !current_user
+  def locale_from_params
+    I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil
+  end
 
-    if current_subscription.trial? && current_subscription.expiry < Date.current
-      render json: { error: 'Trial Expired' }, status: :trial_expired
-    elsif current_subscription.cancelled?
-      render json: { error: 'Account Suspended' }, status: :account_suspended
-    end
+  def locale_from_account(account)
+    I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
+  end
+
+  def switch_locale(account)
+    # priority is for locale set in query string (mostly for widget/from js sdk)
+    locale ||= locale_from_params
+    # if local is not set in param, lets try account
+    locale ||= locale_from_account(account)
+    I18n.locale = locale || I18n.default_locale
   end
 
   def pundit_user

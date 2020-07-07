@@ -1,6 +1,4 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
-  before_action :set_web_widget
-  before_action :set_contact
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
 
@@ -47,7 +45,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def message_params
     {
       account_id: conversation.account_id,
-      contact_id: @contact.id,
+      sender: @contact,
       content: permitted_params[:message][:content],
       inbox_id: conversation.inbox_id,
       message_type: :incoming

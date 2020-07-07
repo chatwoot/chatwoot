@@ -1,10 +1,5 @@
 json.payload do
   json.array! @contacts do |contact|
-    json.id contact.id
-    json.name contact.name
-    json.email contact.email
-    json.phone_number contact.phone_number
-    json.thumbnail contact.avatar_url
-    json.additional_attributes contact.additional_attributes
+    json.partial! 'api/v1/models/contact.json.jbuilder', resource: contact
   end
 end

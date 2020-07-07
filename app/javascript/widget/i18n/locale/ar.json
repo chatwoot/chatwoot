@@ -9,10 +9,10 @@
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
+    "IS_AVAILABLE": "متاح",
+    "ARE_AVAILABLE": "متاح",
     "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+    "AND": "و"
   },
   "POWERED_BY": "مدعوم بواسطة Chatwoot",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",

@@ -31,7 +31,7 @@ If you are using self-hosted Chatwoot installation, please configure the Faceboo
 
 ![add_agents](./images/add_agents.png)
 
-**Step 6**. Hooray! You have sucessfully created a Facebook inbox. Whenever a customer sends a message to your Facebook page, you will be able to see it here and manage it.
+**Step 6**. Hooray! You have successfully created a Facebook inbox. Whenever a customer sends a message to your Facebook page, you will be able to see it here and manage it.
 
 ![finish_inbox](./images/facebook/finish_inbox.png)
 

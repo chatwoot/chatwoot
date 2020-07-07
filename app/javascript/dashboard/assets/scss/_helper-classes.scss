@@ -25,7 +25,7 @@
   width: $space-medium;
 
   &.message {
-    @include elegent-shadow;
+    @include normal-shadow;
     background: $color-white;
     border-radius: $space-large;
     left: 0;

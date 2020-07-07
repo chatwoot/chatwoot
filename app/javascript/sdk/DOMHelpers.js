@@ -61,3 +61,7 @@ export const addClass = (elm, classes) => {
 export const toggleClass = (elm, classes) => {
   classHelper(classes, 'toggle', elm);
 };
+
+export const removeClass = (elm, classes) => {
+  classHelper(classes, 'remove', elm);
+};
