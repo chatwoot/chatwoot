@@ -3,7 +3,7 @@
     "HEADER": "Agenter",
     "HEADER_BTN_TXT": "Lägg till agentur",
     "LOADING": "Hämtar agentlista",
-    "SIDEBAR_TXT": "<p><b>Agenter</b></p> <p> En <b>Agent</b> är medlem i ditt kundsupportteam. </p><p> Agenter kommer att kunna se och svara på meddelanden från dina användare. Listan visar alla agenter som finns på ditt konto. </p><p> Klicka på <b>Add Agent</b> för att lägga till en ny agent. Agent du lägger till kommer att få ett e-postmeddelande med en bekräftelselänk för att aktivera sitt konto, varefter de kan komma åt Chatwoot och svara på meddelanden. </p><p> Åtkomst till Chatwoots funktioner baseras på följande roller. </p><p> <b>Agent</b> - Agenter med denna roll kan endast komma åt inkorgar, rapporter och konversationer. De kan tilldela samtal till andra agenter eller sig själva och lösa konversationer.</p><p> <b>Administratör</b> - Administratör kommer att ha tillgång till alla Chatwoot-funktioner som är aktiverade för ditt konto, inklusive inställningar och fakturering, tillsammans med alla normala agenters privilegier.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Lägg till agent till ditt team",
       "DESC": "Du kan lägga till personer som kommer att kunna hantera stöd för dina inkorgar.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "NAME": {
           "LABEL": "Agentens namn",
@@ -60,7 +61,7 @@
         "TITLE": "Bekräfta borttagning",
         "MESSAGE": "Är du säker på att ta bort ",
         "YES": "Ja, ta bort ",
-        "NO": "Nej, behåll den "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {

@@ -8,28 +8,23 @@
 #  content_type       :integer          default("text")
 #  message_type       :integer          not null
 #  private            :boolean          default(FALSE)
+#  sender_type        :string
 #  status             :integer          default("sent")
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :integer          not null
-#  contact_id         :bigint
 #  conversation_id    :integer          not null
 #  inbox_id           :integer          not null
+#  sender_id          :bigint
 #  source_id          :string
-#  user_id            :integer
 #
 # Indexes
 #
-#  index_messages_on_account_id       (account_id)
-#  index_messages_on_contact_id       (contact_id)
-#  index_messages_on_conversation_id  (conversation_id)
-#  index_messages_on_inbox_id         (inbox_id)
-#  index_messages_on_source_id        (source_id)
-#  index_messages_on_user_id          (user_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (contact_id => contacts.id)
+#  index_messages_on_account_id                 (account_id)
+#  index_messages_on_conversation_id            (conversation_id)
+#  index_messages_on_inbox_id                   (inbox_id)
+#  index_messages_on_sender_type_and_sender_id  (sender_type,sender_id)
+#  index_messages_on_source_id                  (source_id)
 #
 
 class Message < ApplicationRecord
@@ -65,17 +60,18 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
+
+  # FIXME: phase out user and contact after 1.4 since the info is there in sender
   belongs_to :user, required: false
   belongs_to :contact, required: false
+  belongs_to :sender, polymorphic: true, required: false
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
   after_create :reopen_conversation,
-               :execute_message_template_hooks,
                :notify_via_mail
 
-  # we need to wait for the active storage attachments to be available
-  after_create_commit :dispatch_create_events, :send_reply
+  after_create_commit :execute_after_create_commit_callbacks
 
   after_update :dispatch_update_event
 
@@ -90,7 +86,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
-    data.merge!(sender: user.push_event_data) if user
+    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
+    data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
   end
 
@@ -107,8 +104,7 @@ class Message < ApplicationRecord
       content_type: content_type,
       content_attributes: content_attributes,
       source_id: source_id,
-      sender: user.try(:webhook_data),
-      contact: contact.try(:webhook_data),
+      sender: sender.try(:webhook_data),
       inbox: inbox.webhook_data,
       conversation: conversation.webhook_data,
       account: account.webhook_data
@@ -116,6 +112,14 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def execute_after_create_commit_callbacks
+    # rails issue with order of active record callbacks being executed
+    # https://github.com/rails/rails/issues/20911
+    dispatch_create_events
+    send_reply
+    execute_message_template_hooks
+  end
 
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self)
@@ -132,11 +136,11 @@ class Message < ApplicationRecord
   def send_reply
     channel_name = conversation.inbox.channel.class.to_s
     if channel_name == 'Channel::FacebookPage'
-      ::Facebook::SendReplyService.new(message: self).perform
+      ::Facebook::SendOnFacebookService.new(message: self).perform
     elsif channel_name == 'Channel::TwitterProfile'
-      ::Twitter::SendReplyService.new(message: self).perform
+      ::Twitter::SendOnTwitterService.new(message: self).perform
     elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::OutgoingMessageService.new(message: self).perform
+      ::Twilio::SendOnTwilioService.new(message: self).perform
     end
   end
 
@@ -149,7 +153,6 @@ class Message < ApplicationRecord
   end
 
   def notify_via_mail
-    conversation_mail_key = Redis::Alfred::CONVERSATION_MAILER_KEY % conversation.id
     if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing?
       # set a redis key for the conversation so that we don't need to send email for every
       # new message that comes in and we dont enque the delayed sidekiq job for every message
@@ -159,6 +162,10 @@ class Message < ApplicationRecord
       # last few messages coupled together is sent rather than email for each message
       ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
+  end
+
+  def conversation_mail_key
+    format(::Redis::Alfred::CONVERSATION_MAILER_KEY, conversation_id: conversation.id)
   end
 
   def validate_attachments_limit(_attachment)

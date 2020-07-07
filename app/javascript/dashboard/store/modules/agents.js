@@ -57,6 +57,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  updatePresence: async ({ commit }, data) => {
+    commit(types.default.SET_AGENT_UPDATING_STATUS, true);
+    commit(types.default.UPDATE_AGENTS_PRESENCE, data);
+    commit(types.default.SET_AGENT_UPDATING_STATUS, false);
+  },
+
   delete: async ({ commit }, agentId) => {
     commit(types.default.SET_AGENT_DELETING_STATUS, true);
     try {
@@ -88,6 +95,7 @@ export const mutations = {
   [types.default.ADD_AGENT]: MutationHelpers.create,
   [types.default.EDIT_AGENT]: MutationHelpers.update,
   [types.default.DELETE_AGENT]: MutationHelpers.destroy,
+  [types.default.UPDATE_AGENTS_PRESENCE]: MutationHelpers.updatePresence,
 };
 
 export default {

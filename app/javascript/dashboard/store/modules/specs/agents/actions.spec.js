@@ -93,4 +93,16 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#updatePresence', () => {
+    it('sends correct actions if API is success', async () => {
+      const data = { users: { 1: 'online' }, contacts: { 2: 'online' } };
+      actions.updatePresence({ commit }, data);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_AGENT_UPDATING_STATUS, true],
+        [types.default.UPDATE_AGENTS_PRESENCE, data],
+        [types.default.SET_AGENT_UPDATING_STATUS, false],
+      ]);
+    });
+  });
 });

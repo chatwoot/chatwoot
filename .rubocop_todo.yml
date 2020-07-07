@@ -88,7 +88,6 @@ Naming/MemoizedInstanceVariableName:
     - 'app/controllers/application_controller.rb'
     - 'app/models/message.rb'
     - 'lib/integrations/widget/outgoing_message_builder.rb'
-    - 'lib/webhooks/chargebee.rb'
 
 # Offense count: 4
 # Cop supports --auto-correct.
@@ -187,7 +186,6 @@ Rails/EnumHash:
     - 'app/models/attachment.rb'
     - 'app/models/conversation.rb'
     - 'app/models/message.rb'
-    - 'app/models/subscription.rb'
     - 'app/models/user.rb'
 
 # Offense count: 1
@@ -226,7 +224,6 @@ Rails/Output:
 Rails/TimeZone:
   Exclude:
     - 'app/builders/report_builder.rb'
-    - 'app/models/subscription.rb'
     - 'lib/reports/update_account_identity.rb'
     - 'lib/reports/update_agent_identity.rb'
     - 'lib/reports/update_identity.rb'
@@ -268,24 +265,6 @@ Style/CommentedKeyword:
     - 'app/controllers/api/v1/conversations/assignments_controller.rb'
     - 'app/controllers/api/v1/conversations/labels_controller.rb'
     - 'app/controllers/api/v1/labels_controller.rb'
-
-# Offense count: 1
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  Exclude:
-    - 'lib/constants/redis_keys.rb'
-
-# Offense count: 4
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
-  Exclude:
-    - 'lib/redis/alfred.rb'
-
-# Offense count: 4
-Style/IdenticalConditionalBranches:
-  Exclude:
-    - 'app/controllers/api/v1/reports_controller.rb'
 
 # Offense count: 1
 # Configuration parameters: AllowIfModifier.

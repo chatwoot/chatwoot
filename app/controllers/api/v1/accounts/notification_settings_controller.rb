@@ -1,4 +1,4 @@
-class Api::V1::Accounts::NotificationSettingsController < Api::BaseController
+class Api::V1::Accounts::NotificationSettingsController < Api::V1::Accounts::BaseController
   before_action :set_user, :load_notification_setting
 
   def show; end
@@ -16,7 +16,7 @@ class Api::V1::Accounts::NotificationSettingsController < Api::BaseController
   end
 
   def load_notification_setting
-    @notification_setting = @user.notification_settings.find_by(account_id: current_account.id)
+    @notification_setting = @user.notification_settings.find_by(account_id: Current.account.id)
   end
 
   def notification_setting_params

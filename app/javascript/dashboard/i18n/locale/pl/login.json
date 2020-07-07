@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Zaloguj się do Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-mail",
+      "PLACEHOLDER": "E-mail np. someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "Hasło",
+      "PLACEHOLDER": "Hasło"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Logowanie powiodło się",
+      "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później",
+      "UNAUTH": "Nieprawidłowa nazwa użytkownika / hasło. Spróbuj ponownie"
+    },
+    "FORGOT_PASSWORD": "Zapomniałeś hasła?",
+    "CREATE_NEW_ACCOUNT": "Utwórz nowe konto",
+    "SUBMIT": "Login"
+  }
+}

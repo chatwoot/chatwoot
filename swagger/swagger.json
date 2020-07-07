@@ -24,6 +24,33 @@
   "consumes": [
     "application/json; charset=utf-8"
   ],
+  "securityDefinitions": {
+    "userApiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_access_token",
+      "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+    },
+    "agentBotApiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_access_token",
+      "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+    },
+    "superAdminApiKey": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "api_access_token",
+      "description": "This token is only for the system admin or obtained via rails console. This token is to be used rarely for cases like creating a pre verified user through api from external system."
+    }
+  },
+  "security": [
+    {
+      "userApiKey": [
+
+      ]
+    }
+  ],
   "paths": {
     "/accounts/{account_id}/inboxes": {
       "post": {
@@ -325,6 +352,18 @@
         "operationId": "newConversation",
         "summary": "Create New Conversation",
         "description": "Create conversation",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "data",
@@ -409,6 +448,18 @@
         "operationId": "conversationToggleStatus",
         "summary": "Toggle Status",
         "description": "Toggles the status of the conversation between open and resolved",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -428,7 +479,8 @@
                   "type": "string",
                   "enum": [
                     "open",
-                    "resolved"
+                    "resolved",
+                    "bot"
                   ],
                   "required": true,
                   "description": "The status of the conversation"
@@ -500,6 +552,18 @@
         "operationId": "conversationNewMessage",
         "summary": "Create New Message",
         "description": "All the agent replies are created as new messages through this endpoint",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1034,6 +1098,14 @@
         "id": {
           "type": "number",
           "description": "ID of the inbox"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the inbox"
+        },
+        "website_url": {
+          "type": "string",
+          "description": "Website URL"
         },
         "channel_type": {
           "type": "string",

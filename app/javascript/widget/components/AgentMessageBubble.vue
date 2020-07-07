@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat-bubble-wrap">
     <div
       v-if="!isCards && !isOptions && !isForm && !isArticle"
       class="chat-bubble agent"

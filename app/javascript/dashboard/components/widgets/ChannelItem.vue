@@ -40,10 +40,23 @@ export default {
       type: String,
       required: true,
     },
+    enabledFeatures: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     isActive(channel) {
-      return ['facebook', 'website', 'twitter', 'twilio'].includes(channel);
+      if (Object.keys(this.enabledFeatures) === 0) {
+        return false;
+      }
+      if (channel === 'facebook') {
+        return this.enabledFeatures.channel_facebook;
+      }
+      if (channel === 'twitter') {
+        return this.enabledFeatures.channel_facebook;
+      }
+      return ['website', 'twilio'].includes(channel);
     },
     onItemClick() {
       if (this.isActive(this.channel)) {

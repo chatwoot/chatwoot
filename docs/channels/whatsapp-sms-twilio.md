@@ -15,6 +15,8 @@ title: "How to create a Whatsapp/SMS channel with Twilio?"
 
 These are input required to create this channel
 
+<div class="table table-striped">
+
 | Input | Description | Where can I find it |
 | -- | -- | -- |
 | Channel Name | This is the name inbox, this will used across the application | N/A |
@@ -23,13 +25,15 @@ These are input required to create this channel
 | Account SID | Account SID in Twilio Console | Login to Twilio Console, you would be able to see Account SID and Auth Token |
 | Auth Token | Auth token for the account | Login to Twilio Console, you would be able to see Account SID and Auth Token |
 
+</div>
+
 ![create_twilio](./images/twilio/create_twilio_inbox.png)
 
 **Step 4**. "Add agents" to your inbox.
 
 ![add_agents](./images/add_agents.png)
 
-**Step 6**. Hooray! You have sucessfully created a whatsapp/sms inbox.
+**Step 6**. Hooray! You have successfully created a whatsapp/sms inbox.
 
 ![finish_inbox](./images/twilio/finish_inbox.png)
 

@@ -6,7 +6,7 @@ describe ::MessageTemplates::Template::EmailCollect do
 
     it 'creates the email collect messages' do
       described_class.new(conversation: conversation).perform
-      expect(conversation.messages.count).to eq(3)
+      expect(conversation.messages.count).to eq(2)
     end
   end
 end

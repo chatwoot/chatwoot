@@ -1,7 +1,4 @@
 class Api::V1::Widget::LabelsController < Api::V1::Widget::BaseController
-  before_action :set_web_widget
-  before_action :set_contact
-
   def create
     conversation.label_list.add(permitted_params[:label])
     conversation.save!

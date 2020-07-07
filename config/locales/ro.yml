@@ -36,7 +36,7 @@ ro:
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
         removed: "Conversație neasociată de %{user_name}"
     templates:
-      typical_reply_message_body: "%{account_name} răspunde de obicei în câteva ore."
+      greeting_message_body: "%{account_name} răspunde de obicei în câteva ore."
       ways_to_reach_you_message_body: "Dă-i echipei o modalitate de a te contacta."
       email_input_box_message_body: "Primește notificări prin e-mail"
     reply:

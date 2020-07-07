@@ -82,16 +82,16 @@
   </div>
 </template>
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 import NewWebhook from './New';
+import alertMixin from 'shared/mixins/alertMixin';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
   components: {
     NewWebhook,
   },
-  mixins: [globalConfigMixin],
+  mixins: [alertMixin, globalConfigMixin],
   data() {
     return {
       loading: {},
@@ -111,9 +111,6 @@ export default {
     this.$store.dispatch('webhooks/get');
   },
   methods: {
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
-    },
     openAddPopup() {
       this.showAddPopup = true;
     },

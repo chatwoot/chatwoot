@@ -56,9 +56,6 @@ gem 'administrate'
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
 
-##--- gems for billing ---##
-gem 'chargebee'
-
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
@@ -68,6 +65,8 @@ gem 'twilio-ruby', '~> 5.32.0'
 gem 'twitty'
 # facebook client
 gem 'koala'
+# slack client
+gem 'slack-ruby-client'
 # Random name generator
 gem 'haikunator'
 
@@ -84,6 +83,7 @@ gem 'sidekiq'
 gem 'flag_shih_tzu'
 
 ##-- Push notification service --##
+gem 'fcm'
 gem 'webpush'
 
 group :development do
@@ -117,4 +117,5 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'webmock'
 end

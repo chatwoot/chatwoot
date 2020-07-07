@@ -138,7 +138,7 @@ export default {
               medium: this.medium,
               account_sid: this.accountSID,
               auth_token: this.authToken,
-              phone_number: this.phoneNumber,
+              phone_number: `+${this.phoneNumber.replace(/\D/g, '')}`,
             },
           }
         );

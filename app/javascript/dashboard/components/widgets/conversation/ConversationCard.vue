@@ -7,9 +7,10 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="currentContact.channel"
+      :badge="chatMetadata.channel"
       class="columns"
       :username="currentContact.name"
+      :status="currentContact.availability_status"
       size="40px"
     />
     <div class="conversation--details columns">
@@ -23,15 +24,20 @@
           {{ inboxName(chat.inbox_id) }}
         </span>
       </h4>
-      <p
-        class="conversation--message"
-        v-html="extractMessageText(lastMessageInChat)"
-      />
+      <p v-if="lastMessageInChat" class="conversation--message">
+        <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
+        <span v-if="lastMessageInChat.content">
+          {{ lastMessageInChat.content }}
+        </span>
+        <span v-else-if="!lastMessageInChat.attachments">{{ ` ` }}</span>
+        <span v-else>
+          <i :class="`small-icon ${this.$t(`${attachmentIconKey}.ICON`)}`"></i>
+          {{ this.$t(`${attachmentIconKey}.CONTENT`) }}
+        </span>
+      </p>
       <div class="conversation--meta">
         <span class="timestamp">
-          {{
-            lastMessageInChat ? dynamicTime(lastMessageInChat.created_at) : ''
-          }}
+          {{ dynamicTime(chat.timestamp) }}
         </span>
         <span class="unread">{{ getUnreadCount }}</span>
       </div>
@@ -39,11 +45,10 @@
   </div>
 </template>
 <script>
-/* eslint no-console: 0 */
-/* eslint no-extra-boolean-cast: 0 */
 import { mapGetters } from 'vuex';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
+
 import Thumbnail from '../Thumbnail';
-import getEmojiSVG from '../emoji/utils';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
 import router from '../../../routes';
@@ -56,6 +61,10 @@ export default {
 
   mixins: [timeMixin, conversationMixin],
   props: {
+    activeLabel: {
+      type: String,
+      default: '',
+    },
     chat: {
       type: Object,
       default: () => {},
@@ -79,10 +88,20 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
+    chatMetadata() {
+      return this.chat.meta;
+    },
+
     currentContact() {
       return this.$store.getters['contacts/getContact'](
-        this.chat.meta.sender.id
+        this.chatMetadata.sender.id
       );
+    },
+
+    attachmentIconKey() {
+      const lastMessage = this.lastMessageInChat;
+      const [{ file_type: fileType } = {}] = lastMessage.attachments;
+      return `CHAT_LIST.ATTACHMENTS.${fileType}`;
     },
 
     isActiveChat() {
@@ -104,38 +123,25 @@ export default {
     lastMessageInChat() {
       return this.lastMessage(this.chat);
     },
+
+    messageByAgent() {
+      const lastMessage = this.lastMessageInChat;
+      const { message_type: messageType } = lastMessage;
+      return messageType === MESSAGE_TYPE.OUTGOING;
+    },
   },
 
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(this.accountId, activeInbox, chat.id);
+      const path = conversationUrl({
+        accountId: this.accountId,
+        activeInbox,
+        id: chat.id,
+        label: this.activeLabel,
+      });
       router.push({ path: frontendURL(path) });
     },
-    extractMessageText(chatItem) {
-      if (!chatItem) {
-        return '';
-      }
-
-      const { content, attachments } = chatItem;
-
-      if (content) {
-        return content;
-      }
-      if (!attachments) {
-        return ' ';
-      }
-
-      const [attachment] = attachments;
-      const { file_type: fileType } = attachment;
-      const key = `CHAT_LIST.ATTACHMENTS.${fileType}`;
-      return `
-        <i class="small-icon ${this.$t(`${key}.ICON`)}"></i>
-        ${this.$t(`${key}.CONTENT`)}
-      `;
-    },
-    getEmojiSVG,
-
     inboxName(inboxId) {
       const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
       return stateInbox.name || '';

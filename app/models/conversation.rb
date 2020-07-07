@@ -5,6 +5,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
@@ -106,10 +107,7 @@ class Conversation < ApplicationRecord
   end
 
   def webhook_data
-    {
-      display_id: display_id,
-      additional_attributes: additional_attributes
-    }
+    Conversations::EventDataPresenter.new(self).push_data
   end
 
   def notifiable_assignee_change?
@@ -190,7 +188,7 @@ class Conversation < ApplicationRecord
     return unless conversation_status_changed_to_open?
     return unless should_round_robin?
 
-    inbox.next_available_agent.then { |new_assignee| update_assignee(new_assignee) }
+    ::RoundRobin::AssignmentService.new(conversation: self).perform
   end
 
   def create_status_change_message(user_name)
