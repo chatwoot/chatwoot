@@ -1,0 +1,43 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+ta:
+  hello: "உலக மக்களுக்கு வணக்கம்"
+  messages:
+    reset_password_success: வூட்! பாஸ்வேர்டை மீட்டமைப்பிற்கான கோரிக்கை வெற்றிகரமாக அனுப்பப்பட்டுள்ளது. வழிமுறைகளுக்கு உங்கள் ஈ-மெயிலைப் பார்க்கவும்.
+    reset_password_failure: மன்னிக்கவும்! குறிப்பிட்ட ஈ-மெயிலுடன் எந்த பயனரையும் எங்களால் கண்டுபிடிக்க முடியவில்லை.
+  errors:
+    signup:
+      disposable_email: களைந்துவிடும் இமெயில்களை நாங்கள் அனுமதிக்க மாட்டோம்
+      invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
+      email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
+      failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+  conversations:
+    activity:
+      status:
+        resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"
+        open: "உரையாடலை %{user_name} மீண்டும் திறந்துள்ளார்"
+      assignee:
+        assigned: "%{user_name} இதை %{assignee_name}க்கு ஒதுக்கியுள்ளார்"
+        removed: "%{user_name} இதை ஒதுக்க படாத உரையாடளாக்கியுள்ளார்"
+    templates:
+      greeting_message_body: "%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்."
+      ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."
+      email_input_box_message_body: "இமெயில் மூலம் அறிய"
+    reply:
+      email_subject: "இந்த உரையாடலில் புதிய செய்திகள்"
