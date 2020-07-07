@@ -16,9 +16,9 @@ module OnlineStatusTracker
   def self.presence_key(account_id, type)
     case type
     when 'Contact'
-      Redis::Alfred::ONLINE_PRESENCE_CONTACTS % account_id
+      format(::Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account_id)
     else
-      Redis::Alfred::ONLINE_PRESENCE_USERS % account_id
+      format(::Redis::Alfred::ONLINE_PRESENCE_USERS, account_id: account_id)
     end
   end
 
@@ -34,7 +34,7 @@ module OnlineStatusTracker
   end
 
   def self.status_key(account_id)
-    Redis::Alfred::ONLINE_STATUS % account_id
+    format(::Redis::Alfred::ONLINE_STATUS, account_id: account_id)
   end
 
   def self.get_available_contacts(account_id)
