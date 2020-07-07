@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Hämta",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Skicka"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Ange din e-postadress",
+  "CHAT_PLACEHOLDER": "Type your message"
+}
