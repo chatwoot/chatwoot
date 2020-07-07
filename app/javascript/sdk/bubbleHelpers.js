@@ -31,13 +31,17 @@ export const createNotificationBubble = () => {
   return notificationBubble;
 };
 
-export const onBubbleClick = () => {
-  window.$chatwoot.isOpen = !window.$chatwoot.isOpen;
-  toggleClass(chatBubble, 'woot--hide');
-  toggleClass(closeBubble, 'woot--hide');
-  toggleClass(widgetHolder, 'woot--hide');
-  if (window.$chatwoot.isOpen) {
-    IFrameHelper.pushEvent('webwidget.triggered');
+export const onBubbleClick = (props = {}) => {
+  const { toggleValue } = props;
+  const { isOpen } = window.$chatwoot;
+  if (isOpen !== toggleValue) {
+    const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
+    window.$chatwoot.isOpen = newIsOpen;
+
+    toggleClass(chatBubble, 'woot--hide');
+    toggleClass(closeBubble, 'woot--hide');
+    toggleClass(widgetHolder, 'woot--hide');
+    IFrameHelper.events.onBubbleToggle(newIsOpen);
   }
 };
 
