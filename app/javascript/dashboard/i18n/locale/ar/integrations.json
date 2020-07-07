@@ -1,0 +1,63 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "خيارات الربط",
+    "WEBHOOK": {
+      "TITLE": "Webhook",
+      "CONFIGURE": "تهيئة",
+      "HEADER": "إعدادات الـ Webhook",
+      "HEADER_BTN_TXT": "إضافة webhook جديد",
+      "INTEGRATION_TXT": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك.",
+      "LOADING": "جار جلب الـ Webhooks",
+      "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "LIST": {
+        "404": "There are no webhooks configured for this account.",
+        "TITLE": "إدارة الـ webhooks",
+        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "TABLE_HEADER": [
+          "Webhook endpoint",
+          "الإجراءات"
+        ]
+      },
+      "ADD": {
+        "CANCEL": "إلغاء",
+        "TITLE": "إضافة webhook جديد",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "رابط Webhook",
+            "PLACEHOLDER": "مثال: https://example/api/webhook",
+            "ERROR": "الرجاء إدخال عنوان URL صالح"
+          },
+          "SUBMIT": "إنشاء webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "تم إضافة Webhook بنجاح",
+          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "حذف",
+        "API": {
+          "SUCCESS_MESSAGE": "تم حذف Webhook بنجاح",
+          "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+        },
+        "CONFIRM": {
+          "TITLE": "تأكيد الحذف",
+          "MESSAGE": "هل أنت متأكد من الحذف ",
+          "YES": "نعم، احذف ",
+          "NO": "لا، احتفظ به"
+        }
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "حذف",
+      "API": {
+        "SUCCESS_MESSAGE": "تم حذف التكامل بنجاح"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "ربط الاتصال"
+    }
+  }
+}

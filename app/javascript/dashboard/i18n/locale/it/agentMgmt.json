@@ -3,7 +3,7 @@
     "HEADER": "Agenti",
     "HEADER_BTN_TXT": "Aggiungi Agente",
     "LOADING": "Recupero elenco Operatori",
-    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>Agente</b> è membro del tuo team di Assistenza. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi Agente</b> per aggiungere un nuovo agente. L'operatore che aggiungi riceverà un'email con un link di conferma per attivare il proprio account, dopo di che potranno accedere a Chatwoot e rispondere ai messaggi. </p><p> Accesso alle funzionalità di Chatwoot, sono basate sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a caselle, segnalazioni e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Chatwoot abilitate per il tuo account, incluse impostazioni e fatturazione, insieme a tutti i privilegi dei normali agenti.</p>",
+    "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>agente</b> è membro del tuo team di assistenza clienti. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi agente</b> per aggiungere un nuovo agente. Ogni agente che aggiungi riceverà un'email con un link di conferma per attivare il loro account, dopo di che possono accedere a Chatwoot e rispondere ai messaggi. </p><p> L'accesso alle funzionalità di Chatwoot si basa sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a messaggi, report e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Chatwoot abilitate per il tuo account, comprese le impostazioni, insieme a tutti i privilegi di un agente normale.</p>",
     "AGENT_TYPES": [
       {
         "name": "amministratore",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Aggiungi agente al tuo team",
       "DESC": "Puoi aggiungere persone che saranno in grado di gestire il supporto per le tue caselle.",
+      "CANCEL_BUTTON_TEXT": "annulla",
       "FORM": {
         "NAME": {
           "LABEL": "Nome dell'Agente",
@@ -60,7 +61,7 @@
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
         "YES": "Sì, elimina ",
-        "NO": "No, mantienilo "
+        "NO": "No, Conserva "
       }
     },
     "EDIT": {

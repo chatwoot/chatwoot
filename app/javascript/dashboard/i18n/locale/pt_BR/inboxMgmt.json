@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
-    "SIDEBAR_TXT": "<p><b> Caixa de entrada </b> </p> <p> Quando você conecta um site ou uma página do Facebook ao Chatwoot, isso é denominado como <b> Caixa de entrada </b>. Você pode ter caixas de entrada ilimitadas na sua conta do Chatwoot. </p> <p> Clique em <b> Adicionar caixa de entrada </b> para conectar um site ou uma página do Facebook. </p> <p> No <a href=\\\"/app/dashboard\\\"> Painel </a>, você pode ver todas as conversas de todas as suas caixas de entrada em um único local e responder a elas na guia Conversas. </p> <p> Você também pode ver conversas específicas para uma caixa de entrada clicando no nome da caixa de entrada no painel esquerdo do painel. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "Obs: ao fazer login, apenas temos acesso às mensagens da sua página. Suas mensagens privadas nunca podem ser acessadas pelo Chatwoot."
+        "HELP": "Obs: ao fazer login, apenas temos acesso às mensagens da sua página. Suas mensagens privadas nunca podem ser acessadas pelo Chatwoot.",
+        "CHOOSE_PAGE": "Escolher Página",
+        "CHOOSE_PLACEHOLDER": "Selecione uma página da lista",
+        "INBOX_NAME": "Nome da Caixa de Entrada",
+        "ADD_NAME": "Adicione um nome para sua caixa de entrada",
+        "PICK_NAME": "Escolha Um Nome Para Sua Caixa de Entrada",
+        "PICK_A_VALUE": "Escolha um valor"
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' "
@@ -38,6 +44,9 @@
         "TITLE": "Canal do website",
         "DESC": "Crie um canal para seu site e comece a oferecer suporte a seus clientes através do nosso widget do site.",
         "LOADING_MESSAGE": "Criando canal de suporte ao site",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Imagem do Canal"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Nome do website",
           "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
@@ -55,8 +64,14 @@
           "PLACEHOLDER": "Nós tornamos simples a conexão conosco. Pergunte qualquer assunto ou compartilhe seus comentários."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Mensagem de agente ausente",
+          "LABEL": "Channel greeting message",
           "PLACEHOLDER": "Acme Inc tipicamente retorna em algumas horas."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Ativado",
+          "DISABLED": "Desativado"
         },
         "WIDGET_COLOR": {
           "LABEL": "Cor do Widget",
@@ -153,7 +168,7 @@
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, mantenha "
+        "NO": "Não, Mantenha "
       },
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso",

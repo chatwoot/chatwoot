@@ -1,0 +1,63 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+uk:
+  devise:
+    confirmations:
+      confirmed: "Вашу адресу електронної пошти було успішно підтверджено."
+      send_instructions: "Ви отримаєте листа з вказівками щодо підтвердження вашого облікового запису протягом декількох хвилин."
+      send_paranoid_instructions: "Якщо ваша адреса електронної пошти існує в нашій базі даних, протягом декількох хвилин ви отримаєте лист з вказівками щодо підтвердження вашої електронної пошти."
+    failure:
+      already_authenticated: "Ви вже увійшли."
+      inactive: "Ваш обліковий запис ще не активовано."
+      invalid: "Неправильний %{authentication_keys}/пароль або обліковий запис ще не підтверджено."
+      locked: "Ваш обліковий запис заблоковано."
+      last_attempt: "У вас залишилась ще одна спроба, після якої ваш обліковий запис буде заблоковано."
+      not_found_in_database: "Недійсний %{authentication_keys} або пароль."
+      timeout: "Термін дійсності вашого сеансу завершився. Будь ласка, увійдіть знову для продовження."
+      unauthenticated: "Ви повинні увійти або зареєструватися, перш ніж продовжити."
+      unconfirmed: "Вам потрібно підтвердити вашу електронну пошту, перш ніж продовжити."
+    mailer:
+      confirmation_instructions:
+        subject: "Інструкції з підтвердження"
+      reset_password_instructions:
+        subject: "Інструкції по скиданню пароля"
+      unlock_instructions:
+        subject: "Інструкції щодо розблокування"
+      password_change:
+        subject: "Пароль змінено"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
+    registrations:
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Ласкаво просимо! Ви успішно зареєструвалися."
+      signed_up_but_inactive: "Ви успішно зареєструвалися, але не можете увійти в систему, тому що ваш обліковий запис ще не активовано."
+      signed_up_but_locked: "Ви успішно зареєструвались. Але ми не можемо надати вам доступ до системи через те, що ваш обліковий запис заблоковано."
+      signed_up_but_unconfirmed: "Повідомлення з посиланням для підтвердження було надіслано на вашу електронну адресу. Будь ласка, перейдіть за посиланням для активації вашого облікового запису."
+      update_needs_confirmation: "Ви успішно оновили обліковий запис, але нам потрібно перевірити вашу нову адресу електронної пошти. Будь ласка, перевірте свою електронну пошту і перейдіть за посиланням для підтвердження нової адреси."
+      updated: "Ваш обліковий запис було успішно оновлено."
+    sessions:
+      signed_in: "Ви успішно увійшли в систему."
+      signed_out: "Ви успішно вийшли з системи."
+      already_signed_out: "Ви успішно вийшли з системи."
+    unlocks:
+      send_instructions: "За декілька хвилин ви отримаєте лист із вказівками щодо розблокування облікового запису."
+      send_paranoid_instructions: "Якщо ваш обліковий запис існує, за декілька хвилин ви отримаєте лист з вказівками щодо його розблокування."
+      unlocked: "Ваш обліковий запис було успішно розблоковано. Будь ласка, увійдіть в систему для продовження."
+  errors:
+    messages:
+      already_confirmed: "вже було підтверджено, будь ласка спробуйте увійти в систему"
+      confirmation_period_expired: "потребує підтвердження протягом %{period}, будь ласка, подайте новий запит"
+      expired: "has expired, please request a new one"
+      not_found: "не знайдено"
+      not_locked: "не було заблоковано"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        few: "%{count} errors prohibited this %{resource} from being saved:"
+        many: "%{count} errors prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
