@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Căsuțe",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la Chatwoot, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din Chatwoot. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În Panoul de control, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> Când conectezi un site web sau o pagină de Facebook la Chatwoot, se numește <b>Inbox</b>. Poți avea inbox-uri nelimitate în contul tău din Chatwoot. </p><p> Faceţi clic pe <b>Adăugaţi Inbox</b> pentru a conecta un website sau o pagină Facebook. </p><p> În tabloul de bord, poți vedea toate conversațiile din toate cutiile tale într-un singur loc și să le răspunzi sub fila `Conversations`. </p><p> De asemenea, poți vedea conversații specifice unei căsuțe poștale făcând clic pe numele inbox-ului din panoul stâng al tabloului de bord. </p>",
     "LIST": {
       "404": "Nu există căsuțe poștale atașate acestui cont."
     },
@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot."
+        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot.",
+        "CHOOSE_PAGE": "Alege pagina",
+        "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
+        "INBOX_NAME": "Nume Inbox",
+        "ADD_NAME": "Adaugă un nume pentru inbox-ul tău",
+        "PICK_NAME": "Alege un nume pentru Inbox-ul tău",
+        "PICK_A_VALUE": "Alege o valoare"
       },
       "TWITTER": {
         "HELP": "Pentru a vă adăuga profilul de Twitter ca si canal, trebuie să vă autentificați profilul de Twitter făcând clic pe \"Conectați-vă cu Twitter\" "
@@ -38,6 +44,9 @@
         "TITLE": "Canal web",
         "DESC": "Creați un canal pentru site-ul dvs. și începeți să asigurati suportul clienților prin intermediul widget-ului nostru web.",
         "LOADING_MESSAGE": "Crearea canalului de suport pe site",
+        "CHANNEL_AVATAR": {
+          "LABEL": "avatar pentru canal"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Nume website",
           "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
@@ -55,8 +64,14 @@
           "PLACEHOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Mesaj Agent Indisponibil",
+          "LABEL": "Mesaj de întâmpinare canal",
           "PLACEHOLDER": "De obicei, Acme Inc răspunde în câteva ore."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Activare salut canal",
+          "HELP_TEXT": "Trimite un mesaj de salut utilizatorului atunci când începe conversația.",
+          "ENABLED": "Activat",
+          "DISABLED": "Dezactivat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Culoare widget",

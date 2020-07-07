@@ -11,10 +11,19 @@
     },
     "LABELS": {
       "TITLE": "സംഭാഷണ ലേബലുകൾ",
-      "UPDATE_BUTTON": "ലേബലുകൾ അപ്‌ഡേറ്റുചെയ്യുക",
-      "UPDATE_ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക.",
-      "TAG_PLACEHOLDER": "പുതിയ ലേബൽ ചേർക്കുക",
-      "PLACEHOLDER": "ഒരു ലേബൽ തിരയുക അല്ലെങ്കിൽ ചേർക്കുക"
-    }
+      "MODAL": {
+        "TITLE": "Labels for",
+        "ACTIVE_LABELS": "Labels added to the conversation",
+        "INACTIVE_LABELS": "Labels available in the account",
+        "REMOVE": "Click on X icon to remove the label",
+        "ADD": "Click on + icon to add the label",
+        "UPDATE_BUTTON": "Update labels",
+        "UPDATE_ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക."
+      },
+      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+    },
+    "MUTE_CONTACT": "Mute Contact",
+    "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
   }
 }

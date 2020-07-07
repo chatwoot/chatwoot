@@ -9,6 +9,8 @@ import ml from './locale/ml';
 import pt from './locale/pt';
 import pt_BR from './locale/pt_BR';
 import ro from './locale/ro';
+import ta from './locale/ta';
+import it from './locale/it';
 
 export default {
   ca,
@@ -22,4 +24,6 @@ export default {
   pt_BR,
   pt,
   ro,
+  ta,
+  it,
 };

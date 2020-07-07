@@ -1,0 +1,126 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Nastavení profilu",
+    "TITLE": "Nastavení profilu",
+    "BTN_TEXT": "Aktualizovat profil",
+    "AFTER_EMAIL_CHANGED": "Váš profil byl úspěšně aktualizován, přihlaste se prosím znovu, protože se vaše přihlašovací údaje změnily",
+    "FORM": {
+      "AVATAR": "Profil obrázek",
+      "ERROR": "Opravte chyby formuláře",
+      "REMOVE_IMAGE": "Odebrat",
+      "UPLOAD_IMAGE": "Nahrát obrázek",
+      "UPDATE_IMAGE": "Aktualizovat obrázek",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Vaše e-mailová adresa je Vaše identita a používá se k přihlášení."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Heslo",
+        "NOTE": "Aktualizace hesla by obnovila vaše přihlašovací údaje na více zařízeních."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Přístupový token",
+        "NOTE": "Tento token může být použit při vytváření integrace založené na API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-mailová oznámení",
+        "NOTE": "Zde aktualizujte nastavení e-mailových oznámení",
+        "CONVERSATION_ASSIGNMENT": "Odeslat e-mailová oznámení, když je mi přiřazena konverzace",
+        "CONVERSATION_CREATION": "Odeslat oznámení e-mailem při vytváření nové konverzace"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profil obrázek"
+      },
+      "NAME": {
+        "LABEL": "Vaše jméno",
+        "ERROR": "Zadejte prosím platný název",
+        "PLACEHOLDER": "Zadejte prosím Vaše jméno, bude zobrazeno v konverzacích"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Vaše e-mailová adresa",
+        "ERROR": "Zadejte prosím platnou e-mailovou adresu",
+        "PLACEHOLDER": "Prosím, zadejte vaši e-mailovou adresu, bude zobrazena v konverzacích"
+      },
+      "PASSWORD": {
+        "LABEL": "Heslo",
+        "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
+        "PLACEHOLDER": "Zadejte prosím nové heslo"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Potvrdit nové heslo",
+        "ERROR": "Potvrzení hesla by mělo odpovídat heslu",
+        "PLACEHOLDER": "Zadejte prosím znovu své heslo"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Nastavení profilu",
+    "LOGOUT": "Odhlásit se"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Stáhnout",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Odeslat"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Konverzace",
+    "REPORTS": "Zprávy",
+    "SETTINGS": "Nastavení",
+    "HOME": "Home",
+    "AGENTS": "Agenti",
+    "INBOXES": "Krabice",
+    "CANNED_RESPONSES": "Konzervované odpovědi",
+    "INTEGRATIONS": "Integrace",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
+  }
+}

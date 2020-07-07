@@ -64,8 +64,14 @@
           "PLACEHOLDER": "Facilitamos la conexión con nosotros. Pídanos cualquier cosa o comparte tus comentarios."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Mensaje de Agentes Ausentes",
+          "LABEL": "Mensaje de bienvenida del canal",
           "PLACEHOLDER": "Acme Inc normalmente responde en unas pocas horas."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Habilitar bienvenida al canal",
+          "HELP_TEXT": "Enviar un mensaje de bienvenida al usuario cuando inicie la conversación.",
+          "ENABLED": "Activado",
+          "DISABLED": "Deshabilitado"
         },
         "WIDGET_COLOR": {
           "LABEL": "Color del widget",

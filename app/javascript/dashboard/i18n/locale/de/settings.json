@@ -26,9 +26,19 @@
         "TITLE": "E-Mail Benachrichtigungen",
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
-        "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
-        "UPDATE_SUCCESS": "Ihre E-Mail-Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
+        "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
         "UPDATE_ERROR": "Beim Aktualisieren der Einstellungen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -37,6 +47,23 @@
         "LABEL": "Dein Name",
         "ERROR": "Bitte geben Sie einen gültigen Namen ein",
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "Deine Emailadresse",
@@ -56,30 +83,32 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "LOGOUT": "Ausloggen"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "verbleibende Tage Probezeit.",
-    "TRAIL_BUTTON": "Kaufe jetzt"
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Kopieren",
-      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Hochladen..."
+      "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Einreichen"
     }
   },
-  "CONFIRM_EMAIL": "Überprüfen...",
+  "CONFIRM_EMAIL": "Verifying...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Posteingang hinzufügen"
+      "NEW_INBOX": "Add Inbox"
     }
   },
   "SIDEBAR": {
@@ -91,7 +120,7 @@
     "INBOXES": "Posteingänge",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
-    "ACCOUNT_SETTINGS": "Kontoeinstellungen"
+    "ACCOUNT_SETTINGS": "Kontoeinstellungen",
+    "LABELS": "Labels"
   }
-
 }

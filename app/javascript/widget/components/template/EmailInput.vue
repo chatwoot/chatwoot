@@ -94,6 +94,7 @@ export default {
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
     padding: $space-one;
+    width: auto;
 
     &.error {
       border-color: $color-error;

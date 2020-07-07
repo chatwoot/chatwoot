@@ -64,11 +64,6 @@ class Inbox < ApplicationRecord
     channel.class.name.to_s == 'Channel::WebWidget'
   end
 
-  def next_available_agent
-    user_id = Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
-    account.users.find_by(id: user_id)
-  end
-
   def webhook_data
     {
       id: id,
@@ -79,10 +74,6 @@ class Inbox < ApplicationRecord
   private
 
   def delete_round_robin_agents
-    Redis::Alfred.delete(round_robin_key)
-  end
-
-  def round_robin_key
-    format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: id)
+    ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
 end

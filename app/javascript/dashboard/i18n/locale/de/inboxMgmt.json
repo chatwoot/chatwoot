@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posteingänge",
-    "SIDEBAR_TXT": "<p> <b> Posteingang </b> </p> <p> Wenn Sie eine Website oder eine Facebook-Seite mit Chatwoot verbinden, wird dies als <b> Posteingang </b> bezeichnet. Sie können unbegrenzt Posteingänge in Ihrem Chatwoot-Konto haben. </p> <p> Klicken Sie auf <b> Posteingang hinzufügen </b>, um eine Website oder eine Facebook-Seite zu verbinden. </p> <p> Im Dashboard können Sie alle Konversationen aus all Ihren Posteingängen an einem einzigen Ort anzeigen und unter 'Konversationen' darauf antworten `tab. </p> <p> Sie können Konversationen auch für einen Posteingang anzeigen, indem Sie auf den Namen des Posteingangs im linken Bereich des Dashboards klicken. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen."
+        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken."
@@ -37,6 +43,10 @@
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
         "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
+        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Webseiten-Name",
           "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (eg: Acme Inc)"
@@ -44,6 +54,24 @@
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Geben Sie Ihre Website-Domain ein (eg: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Aktiviert",
+          "DISABLED": "Behindert"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
@@ -59,6 +87,10 @@
           "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Account SID ein",
           "ERROR": "Dieses Feld wird benötigt"
         },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
           "PLACEHOLDER": "Bitte geben Sie Ihr Twilio Auth Token ein",
@@ -73,6 +105,10 @@
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
           "ERROR": "Bitte geben sie einen gültigen Wert ein. Die Telefonnummer sollte mit dem Pluszeichen beginnen."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Erstellen Sie Twilio Channel",
         "API": {
@@ -132,7 +168,7 @@
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
         "YES": "Ja, löschen",
-        "NO": "Nein, behalte es "
+        "NO": "No, Keep "
       },
       "API": {
         "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
@@ -147,6 +183,8 @@
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen"
     }
   }
