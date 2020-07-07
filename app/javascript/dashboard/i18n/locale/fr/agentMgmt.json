@@ -3,10 +3,10 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Ajouter un agent",
     "LOADING": "Récupération de la liste des agents",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>agent</b> est un membre de votre équipe d'assistance clientèle. </p><p> Les agents pourront voir et répondre aux messages de vos utilisateurs. La liste montre tous les agents actuellement dans votre compte. </p><p> Cliquez sur <b>Ajouter un agent</b> pour ajouter un nouvel agent. L'agent que vous ajoutez recevra un courriel avec un lien de confirmation pour activer son compte, après quoi il pourra accéder à Chatwoot et répondre aux messages. </p><p> L'accès aux fonctionnalités de Chatwoot est basé sur les rôles suivants. </p><p> <b>Agent</b> - Les agents ayant ce rôle ne peuvent accéder qu'aux boîtes de réception, aux rapports et aux conversations. Ils peuvent assigner des conversations à d'autres agents ou eux-mêmes et résoudre des conversations.</p><p> <b>Administrateur</b> - Administrateur aura accès à toutes les fonctionnalités de Chatwoot activées pour votre compte, y compris les paramètres et la facturation, ainsi que tous les privilèges d'un agent normal.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>agent</b> est un membre de votre équipe d'assistance clientèle. </p><p> Les agents pourront voir et répondre aux messages de vos utilisateurs. La liste montre tous les agents actuellement dans votre compte. </p><p> Cliquez sur <b>Ajouter un agent</b> pour ajouter un nouvel agent. L'agent que vous ajoutez recevra un courriel avec un lien de confirmation pour activer son compte, après quoi il pourra accéder à Chatwoot et répondre aux messages. </p><p> L'accès aux fonctionnalités de Chatwoot est basé sur les rôles suivants. </p><p> <b>Agent</b> - Les agents ayant ce rôle ne peuvent accéder qu'aux boîtes de réception, aux rapports et aux conversations. Ils peuvent assigner des conversations à d'autres agents ou eux-mêmes et résoudre des conversations.</p><p> <b>Administrateur</b> - Administrateur aura accès à toutes les fonctionnalités de Chatwoot activées pour votre compte, y compris les paramètres, ainsi que tous les privilèges d'un agent normal.</p>",
     "AGENT_TYPES": [
       {
-        "name": "administrator",
+        "name": "administrateur",
         "label": "Administrateur"
       },
       {

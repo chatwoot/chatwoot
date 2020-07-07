@@ -39,3 +39,5 @@ ml:
       greeting_message_body: "%{account_name} സാധാരണ കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു."
       ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."
       email_input_box_message_body: "ഇമെയിൽ വഴി അറിയിപ്പ് നേടുക"
+    reply:
+      email_subject: "New messages on this conversation"
