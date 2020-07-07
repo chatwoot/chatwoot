@@ -3,7 +3,7 @@
     "HEADER": "Agentes",
     "HEADER_BTN_TXT": "Adicionar Agente",
     "LOADING": "Buscando lista de agente",
-    "SIDEBAR_TXT": "<p><b>Agentes</b></p> <p> Um <b>Agente</b> é membro de sua equipe de Suporte ao Cliente. </p><p> Os agentes serão capazes de ver e responder as mensagens dos seus usuários. A lista mostra todos os agentes atualmente em sua conta. </p><p> Clique em <b>Adicionar Agente</b> para adicionar um novo agente. Agente que você adicionar receberá um e-mail com um link de confirmação para ativar sua conta, após o que eles podem acessar o Chatwoot e responder às mensagens. </p><p> Acesso aos recursos do Chatwoot são baseados nas seguintes funções. </p><p> <b>Agentes</b> - Agentes com essa função só podem acessar caixas de entrada, relatórios e conversas. Eles podem atribuir conversas a outros agentes ou a eles próprios e resolver conversas.</p><p> <b>Administrador</b> - Administrador terá acesso a todos os recursos do Chatwoot ativados para sua conta, incluindo configurações e faturamento, juntamente com todos os privilégios normais dos agentes.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Adicionar agente à sua equipe",
       "DESC": "Você pode adicionar pessoas que serão capazes de lidar com o suporte de suas caixas de entrada.",
+      "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nome do Representante",
@@ -60,7 +61,7 @@
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, mantenha isso "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {
