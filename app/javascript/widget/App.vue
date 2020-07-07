@@ -162,7 +162,7 @@ export default {
     createWidgetEvents(message) {
       const { eventName } = message;
       const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
-      if (isWidgetTriggerEvent && !this.showUnreadView) {
+      if (isWidgetTriggerEvent && this.showUnreadView) {
         return;
       }
       this.$store.dispatch('events/create', { name: eventName });
