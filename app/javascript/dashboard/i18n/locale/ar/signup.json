@@ -1,0 +1,32 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "تسجيل حساب",
+    "TITLE": "تسجيل",
+    "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "اسم الحساب",
+      "PLACEHOLDER": "مؤسسة Wayne",
+      "ERROR": "اسم الحساب قصير جداً"
+    },
+    "EMAIL": {
+      "LABEL": "البريد الإلكتروني",
+      "PLACEHOLDER": "bruce@wayne.enterprises",
+      "ERROR": "البريد الإلكتروني غير صالح"
+    },
+    "PASSWORD": {
+      "LABEL": "كلمة المرور",
+      "PLACEHOLDER": "كلمة المرور",
+      "ERROR": "كلمة المرور قصيرة جداً"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "تأكيد كلمة المرور",
+      "PLACEHOLDER": "تأكيد كلمة المرور",
+      "ERROR": "كلمة المرور غير متطابقة"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "تم التسجيل بنجاح",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "SUBMIT": "إرسال"
+  }
+}
