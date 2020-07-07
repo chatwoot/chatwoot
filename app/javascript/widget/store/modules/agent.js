@@ -11,6 +11,7 @@ const state = {
 };
 
 export const getters = {
+  getHasFetched: $state => $state.uiFlags.hasFetched,
   availableAgents: $state =>
     $state.records.filter(agent => agent.availability_status === 'online'),
 };

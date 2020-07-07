@@ -86,4 +86,12 @@ describe('#actions', () => {
       });
     });
   });
+
+  describe('#setUserLastSeen', () => {
+    it('sends correct mutations', () => {
+      const lastSeen = Math.abs(Date.now() / 1000);
+      actions.setUserLastSeen({ commit }, { lastSeen });
+      expect(commit).toBeCalledWith('setMetaUserLastSeenAt', lastSeen);
+    });
+  });
 });
