@@ -11,10 +11,19 @@
     },
     "LABELS": {
       "TITLE": "Etichette conversazione",
-      "UPDATE_BUTTON": "Aggiorna etichette",
-      "UPDATE_ERROR": "Impossibile aggiornare le etichette, riprova.",
-      "TAG_PLACEHOLDER": "Aggiungi nuova etichetta",
-      "PLACEHOLDER": "Cerca o aggiungi un'etichetta"
-    }
+      "MODAL": {
+        "TITLE": "Labels for",
+        "ACTIVE_LABELS": "Labels added to the conversation",
+        "INACTIVE_LABELS": "Labels available in the account",
+        "REMOVE": "Click on X icon to remove the label",
+        "ADD": "Click on + icon to add the label",
+        "UPDATE_BUTTON": "Update labels",
+        "UPDATE_ERROR": "Couldn't update labels, try again."
+      },
+      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+    },
+    "MUTE_CONTACT": "Silenzia Contatto",
+    "EDIT_LABEL": "Modifica"
   }
 }
