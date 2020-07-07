@@ -26,9 +26,19 @@
         "TITLE": "Сповіщення електронною поштою",
         "NOTE": "Тут оновлюються налаштування повідомлень електронною поштою",
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
-        "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
-        "UPDATE_SUCCESS": "Налаштування сповіщень успішно оновлені",
+        "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
         "UPDATE_ERROR": "Виникла помилка під час оновлення налаштувань, будь ласка, спробуйте ще раз"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Зображення облікового запису"
@@ -37,6 +47,23 @@
         "LABEL": "Ваше ім'я",
         "ERROR": "Будь ласка, введіть коректне ім'я",
         "PLACEHOLDER": "Будь ласка, введіть ваше ім'я, воно буде відображатися у бесідах"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -56,7 +83,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Налаштування облікового запису",
     "LOGOUT": "Вийти"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Придбати зараз"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Копіювати",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Звантажити",
+      "UPLOADING": "Завантажується..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Додати"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Бесіди",
+    "REPORTS": "Звіти",
+    "SETTINGS": "Налаштування",
+    "HOME": "Головна",
+    "AGENTS": "Агенти",
+    "INBOXES": "Вхідні",
+    "CANNED_RESPONSES": "Швидкі відповіді",
+    "INTEGRATIONS": "Інтеграції",
+    "ACCOUNT_SETTINGS": "Налаштування акаунту",
+    "LABELS": "Labels"
   }
 }
