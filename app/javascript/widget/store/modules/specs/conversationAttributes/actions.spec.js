@@ -11,6 +11,7 @@ describe('#actions', () => {
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
         ['SET_CONVERSATION_ATTRIBUTES', { id: 1, status: 'bot' }],
+        ['conversation/setMetaUserLastSeenAt', undefined, { root: true }],
       ]);
     });
     it('doesnot send mutation if api is error', async () => {
