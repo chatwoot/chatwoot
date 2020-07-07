@@ -118,11 +118,11 @@ export const IFrameHelper = {
     },
 
     setUnreadMode: message => {
-      const { unreadCount } = message;
+      const { unreadMessageCount } = message;
       const { isOpen } = window.$chatwoot;
       const toggleValue = true;
 
-      if (!isOpen && unreadCount > 0) {
+      if (!isOpen && unreadMessageCount > 0) {
         IFrameHelper.sendMessage('set-unread-view');
         onBubbleClick({ toggleValue });
         const holderEl = document.querySelector('.woot-widget-holder');

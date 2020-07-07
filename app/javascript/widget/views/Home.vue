@@ -1,5 +1,5 @@
 <template>
-  <div class="home" @mouseenter="updateUserLastSeen">
+  <div class="home">
     <div class="header-wrap">
       <ChatHeaderExpanded
         v-if="isHeaderExpanded && !hideWelcomeHeader"
@@ -69,10 +69,6 @@ export default {
       type: Number,
       default: 0,
     },
-    onSetAgentLastSeen: {
-      type: Function,
-      default: () => {},
-    },
   },
   computed: {
     isOpen() {
@@ -101,14 +97,6 @@ export default {
     },
     hideWelcomeHeader() {
       return !(this.introHeading || this.introBody);
-    },
-  },
-  methods: {
-    updateUserLastSeen() {
-      const { unreadMessageCount = 0 } = this;
-      if (unreadMessageCount > 0) {
-        this.onSetAgentLastSeen();
-      }
     },
   },
 };

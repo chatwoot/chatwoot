@@ -108,11 +108,13 @@ export const getters = {
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
+    console.log(userLastSeenAt);
     const count = Object.values(_state.conversations).filter(chat => {
       const { created_at: createdAt, message_type: messageType } = chat;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
-      const hasNotSeen = createdAt * 1000 > userLastSeenAt * 1000;
-
+      const hasNotSeen = userLastSeenAt
+        ? createdAt * 1000 > userLastSeenAt * 1000
+        : true;
       return hasNotSeen && isOutGoing;
     }).length;
     return count;
@@ -120,7 +122,7 @@ export const getters = {
   getUnreadTextMessages: (_state, _getters) => {
     const unreadCount = _getters.getUnreadMessageCount;
     const allMessages = [...Object.values(_state.conversations)];
-
+    console.log(unreadCount);
     const unreadAgentMessages = allMessages.filter(message => {
       const { message_type: messageType } = message;
       return messageType === MESSAGE_TYPE.OUTGOING;
@@ -191,22 +193,21 @@ export const actions = {
     try {
       await toggleTyping(data);
     } catch (error) {
-      // console error
+      // IgnoreError
     }
   },
 
-  setUserLastSeen: async ({ commit }, data = {}) => {
-    const now = Math.abs(Date.now() / 1000);
-    const { lastSeen = now } = data;
+  setUserLastSeen: async ({ commit, getters: appGetters }) => {
+    if (!appGetters.getConversationSize) {
+      return;
+    }
 
+    const lastSeen = Date.now() / 1000;
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
-
-      await setUserLastSeenAt({
-        lastSeen,
-      });
+      await setUserLastSeenAt({ lastSeen });
     } catch (error) {
-      // console error
+      // IgnoreError
     }
   },
 };

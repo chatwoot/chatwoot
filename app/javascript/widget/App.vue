@@ -9,7 +9,6 @@
     :has-fetched="hasFetched"
     :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
-    :on-set-agent-last-seen="handleSetLastSeen"
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
   />
@@ -44,7 +43,7 @@ export default {
       unreadMessages: 'conversation/getUnreadTextMessages',
       conversationSize: 'conversation/getConversationSize',
       availableAgents: 'agent/availableAgents',
-      hasFetched: 'agent/uiFlags/hasFetched',
+      hasFetched: 'agent/getHasFetched',
       conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
@@ -133,31 +132,25 @@ export default {
       this.hideMessageBubble = !!hideBubble;
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        this.setUnreadView();
-      });
+      bus.$on('on-agent-message-recieved', () => this.setUnreadView());
       bus.$on('on-unread-view-clicked', () => {
         this.unsetUnreadView();
+        this.setUserLastSeen();
       });
     },
     setUnreadView() {
-      const unreadCount = this.unreadMessageCount;
-      if (IFrameHelper.isIFrame() && unreadCount > 0) {
+      const { unreadMessageCount } = this;
+      if (IFrameHelper.isIFrame() && unreadMessageCount > 0) {
         IFrameHelper.sendMessage({
           event: 'setUnreadMode',
-          unreadCount,
+          unreadMessageCount,
         });
       }
     },
     unsetUnreadView() {
       if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'resetUnreadMode',
-        });
+        IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
       }
-    },
-    handleSetLastSeen() {
-      this.setUserLastSeen();
     },
     createWidgetEvents(message) {
       const { eventName } = message;
@@ -165,6 +158,7 @@ export default {
       if (isWidgetTriggerEvent && this.showUnreadView) {
         return;
       }
+      this.setUserLastSeen();
       this.$store.dispatch('events/create', { name: eventName });
     },
   },
