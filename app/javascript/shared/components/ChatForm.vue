@@ -18,6 +18,18 @@
           :placeholder="item.placeholder"
           :disabled="!!submittedValues.length"
         />
+        <select
+          v-else-if="item.type === 'select'"
+          v-model="formValues[item.name]"
+        >
+          <option
+            v-for="option in item.options"
+            :key="option.key"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
       </div>
       <button
         v-if="!submittedValues.length"
@@ -26,7 +38,7 @@
         :disabled="!isFormValid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        {{ $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
+        {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
       </button>
     </form>
   </div>
@@ -36,6 +48,10 @@
 import { mapGetters } from 'vuex';
 export default {
   props: {
+    buttonLabel: {
+      type: String,
+      default: '',
+    },
     items: {
       type: Array,
       default: () => [],
@@ -116,6 +132,7 @@ export default {
     border-radius: $space-smaller;
     border: 1px solid $color-border;
     display: block;
+    font-family: inherit;
     font-size: $font-size-default;
     line-height: 1.5;
     padding: $space-one;
@@ -124,6 +141,31 @@ export default {
     &:disabled {
       background: $color-background-light;
     }
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  select {
+    width: 110%;
+    padding: $space-smaller;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid $color-border;
+    border-radius: $space-smaller;
+    background-color: $color-white;
+    font-family: inherit;
+    font-size: $space-normal;
+    font-weight: normal;
+    line-height: 1.5;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
+    background-origin: content-box;
+    background-position: right -1.6rem center;
+    background-repeat: no-repeat;
+    background-size: 9px 6px;
+    padding-right: 2.4rem;
   }
 
   .button {
