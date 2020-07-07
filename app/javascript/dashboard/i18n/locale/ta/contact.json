@@ -1,0 +1,29 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "உரையாடல் விவரங்கள்",
+    "BROWSER": "புரவுஸர்",
+    "OS": "ஆப்பரேட்டிங் சிஸ்டம்",
+    "INITIATED_FROM": "இருந்து தொடங்கப்பட்டது",
+    "INITIATED_AT": "இல் தொடங்கப்பட்டது",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "இந்த தொடர்புடன் முந்தைய உரையாடல்கள் எதுவும் இல்லை.",
+      "TITLE": "முந்தைய உரையாடல்கள்"
+    },
+    "LABELS": {
+      "TITLE": "உரையாடல் லேபிள்கள்",
+      "MODAL": {
+        "TITLE": "Labels for",
+        "ACTIVE_LABELS": "Labels added to the conversation",
+        "INACTIVE_LABELS": "Labels available in the account",
+        "REMOVE": "Click on X icon to remove the label",
+        "ADD": "Click on + icon to add the label",
+        "UPDATE_BUTTON": "Update labels",
+        "UPDATE_ERROR": "லேபிள்களைப் புதுப்பிக்க முடியவில்லை, மீண்டும் முயற்சிக்கவும்."
+      },
+      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+    },
+    "MUTE_CONTACT": "தொடர்பின் உரையாடல்களை முடக்கு",
+    "EDIT_LABEL": "திருத்து"
+  }
+}
