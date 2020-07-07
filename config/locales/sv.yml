@@ -36,6 +36,8 @@ sv:
         assigned: "Tilldelad till %{assignee_name} av %{user_name}"
         removed: "Konversation otilldelad av %{user_name}"
     templates:
-      greeting_message_body: "%{account_name} svarar vanligtvis om några timmar."
+      greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Ge laget ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
+    reply:
+      email_subject: "New messages on this conversation"
