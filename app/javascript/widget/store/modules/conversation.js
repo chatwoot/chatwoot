@@ -108,7 +108,6 @@ export const getters = {
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
-    console.log(userLastSeenAt);
     const count = Object.values(_state.conversations).filter(chat => {
       const { created_at: createdAt, message_type: messageType } = chat;
       const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
@@ -122,7 +121,6 @@ export const getters = {
   getUnreadTextMessages: (_state, _getters) => {
     const unreadCount = _getters.getUnreadMessageCount;
     const allMessages = [...Object.values(_state.conversations)];
-    console.log(unreadCount);
     const unreadAgentMessages = allMessages.filter(message => {
       const { message_type: messageType } = message;
       return messageType === MESSAGE_TYPE.OUTGOING;

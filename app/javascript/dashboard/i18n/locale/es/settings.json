@@ -48,6 +48,23 @@
         "ERROR": "Por favor, introduzca un nombre válido",
         "PLACEHOLDER": "Por favor, introduzca su nombre, esto se mostrará en las conversaciones"
       },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida",
@@ -103,6 +120,7 @@
     "INBOXES": "Entradas",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
-    "ACCOUNT_SETTINGS": "Configuración de la cuenta"
+    "ACCOUNT_SETTINGS": "Configuración de la cuenta",
+    "LABELS": "Labels"
   }
 }

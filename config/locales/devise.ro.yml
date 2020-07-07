@@ -1,0 +1,62 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+ro:
+  devise:
+    confirmations:
+      confirmed: "Adresa ta de e-mail a fost confirmată cu succes."
+      send_instructions: "Veţi primi un e-mail cu instrucţiuni despre cum să confirmaţi adresa de e-mail în câteva minute."
+      send_paranoid_instructions: "Dacă adresa ta de e-mail există în baza noastră de date, în câteva minute veți primi un e-mail cu instrucțiuni pentru confirmarea adresei dvs. de e-mail."
+    failure:
+      already_authenticated: "Sunteți deja conectat."
+      inactive: "Contul tău nu este încă activat."
+      invalid: "Invalid %{authentication_keys}/parola sau contul nu este verificat inca."
+      locked: "Contul dvs. este blocat."
+      last_attempt: "Mai ai încă o încercare înainte de a bloca contul."
+      not_found_in_database: "Invalid %{authentication_keys} sau parola."
+      timeout: "Sesiunea ta a expirat. Te rugăm să te autentifici din nou pentru a continua."
+      unauthenticated: "Trebuie să te autentifici sau să te înregistrezi înainte de a continua."
+      unconfirmed: "Trebuie să confirmați adresa dvs. de e-mail înainte de a continua."
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucțiuni pentru confirmare"
+      reset_password_instructions:
+        subject: "Instrucțiuni pentru resetare parolă"
+      unlock_instructions:
+        subject: "Instrucțiuni pentru deblocare"
+      password_change:
+        subject: "Parolă schimbată"
+    omniauth_callbacks:
+      failure: "Nu te-am putut autentifica de la %{kind} deoarece \"%{reason}\"."
+      success: "Autentificat cu succes din contul %{kind}."
+    passwords:
+      no_token: "Nu puteți accesa această pagină fără să o accesati dintr-un e-mail de resetare a parolei. Dacă vii dintr-un e-mail de resetare a parolei, te rugăm să te asiguri că ai folosit URL-ul complet furnizat."
+      send_instructions: "Veţi primi un e-mail cu instrucţiuni despre cum să resetaţi parola în câteva minute."
+      send_paranoid_instructions: "Dacă adresa ta de e-mail există în baza noastră de date, vei primi în câteva minute un link de recuperare a parolei la adresa ta de e-mail."
+      updated: "Parola ta a fost schimbată cu succes. Acum ești conectat."
+      updated_not_active: "Parola ta a fost schimbată cu succes."
+    registrations:
+      destroyed: "La revedere! Contul tău a fost anulat cu succes. Sperăm să te vedem din nou în curând."
+      signed_up: "Bine ați venit! V-ați înregistrat cu succes."
+      signed_up_but_inactive: "V-ați înregistrat cu succes. Cu toate acestea, nu vă putem conecta deoarece contul dvs. nu este încă activat."
+      signed_up_but_locked: "V-ați înregistrat cu succes. Cu toate acestea, nu vă putem conecta deoarece contul dvs. este blocat."
+      signed_up_but_unconfirmed: "Un mesaj cu un link de confirmare a fost trimis la adresa ta de e-mail. Te rugăm să urmezi link-ul pentru a-ți activa contul."
+      update_needs_confirmation: "Ți-ai actualizat contul cu succes, dar trebuie să verificăm noua ta adresă de e-mail. Vă rugăm să verificați adresa de e-mail și să urmați link-ul de confirmare pentru a confirma noua dvs. adresă de e-mail."
+      updated: "Contul dvs. a fost actualizat cu succes."
+    sessions:
+      signed_in: "Conectat cu succes."
+      signed_out: "Deconectat cu succes."
+      already_signed_out: "Deconectat cu succes."
+    unlocks:
+      send_instructions: "Veţi primi un e-mail cu instrucţiuni despre cum să vă deblocaţi contul în câteva minute."
+      send_paranoid_instructions: "Dacă contul tău există, vei primi un e-mail cu instrucțiuni pentru cum să-l deblochezi în câteva minute."
+      unlocked: "Contul tău a fost deblocat cu succes. Te rugăm să te autentifici pentru a continua."
+  errors:
+    messages:
+      already_confirmed: "a fost deja confirmat, încercați să vă conectați"
+      confirmation_period_expired: "trebuie să fie confirmat în %{period}, vă rugăm să solicitați unul nou"
+      expired: "a expirat, vă rugăm să solicitaţi unul nou"
+      not_found: "nu a fost găsit"
+      not_locked: "nu a fost blocat"
+      not_saved:
+        one: "O eroare a împiedicat salvarea acestui %{resource}:"
+        few: "%{count} erori au împiedicat salvarea acestui %{resource}:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"

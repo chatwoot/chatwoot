@@ -1,0 +1,126 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profilens inställningar",
+    "TITLE": "Profilens inställningar",
+    "BTN_TEXT": "Uppdatera profil",
+    "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats framgångsrikt, vänligen logga in igen eftersom dina inloggningsuppgifter har ändrats",
+    "FORM": {
+      "AVATAR": "Profilbild",
+      "ERROR": "Vänligen åtgärda formulärfel",
+      "REMOVE_IMAGE": "Radera",
+      "UPLOAD_IMAGE": "Ladda upp bild",
+      "UPDATE_IMAGE": "Uppdatera bild",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Din e-postadress är din identitet och används för att logga in."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Lösenord",
+        "NOTE": "Uppdatering av ditt lösenord skulle återställa dina inloggningar på flera enheter."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Åtkomsttoken",
+        "NOTE": "Denna token kan användas om du bygger en API-baserad integration"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-post aviseringar",
+        "NOTE": "Uppdatera dina e-postaviseringsinställningar här",
+        "CONVERSATION_ASSIGNMENT": "Skicka e-postmeddelanden när en konversation är tilldelad till mig",
+        "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilbild"
+      },
+      "NAME": {
+        "LABEL": "Ditt namn",
+        "ERROR": "Ange ett giltigt namn",
+        "PLACEHOLDER": "Ange ditt namn, detta skulle visas i konversationer"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Din e-postadress",
+        "ERROR": "Ange en giltig e-postadress",
+        "PLACEHOLDER": "Ange din e-postadress, detta skulle visas i konversationer"
+      },
+      "PASSWORD": {
+        "LABEL": "Lösenord",
+        "ERROR": "Ange ett lösenord av längd 6 eller mer",
+        "PLACEHOLDER": "Ange ett nytt lösenord"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bekräfta nytt lösenord",
+        "ERROR": "Bekräfta att lösenordet måste matcha lösenordet",
+        "PLACEHOLDER": "Ange ditt lösenord igen"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Profilens inställningar",
+    "LOGOUT": "Utloggning"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Hämta",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Skicka"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Konversationer",
+    "REPORTS": "Rapporter",
+    "SETTINGS": "Inställningar",
+    "HOME": "Home",
+    "AGENTS": "Agenter",
+    "INBOXES": "Inkorgar",
+    "CANNED_RESPONSES": "Konserverade svar",
+    "INTEGRATIONS": "Integrationer",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
+  }
+}

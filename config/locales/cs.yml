@@ -36,6 +36,8 @@ cs:
         assigned: "Přiřazeno k %{assignee_name} uživatelem %{user_name}"
         removed: "Konverzace zrušena uživatelem %{user_name}"
     templates:
-      greeting_message_body: "%{account_name} obvykle odpovídá za několik hodin."
+      greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Dejte týmu způsob, jak se k vám dostat."
       email_input_box_message_body: "Dostat upozornění e-mailem"
+    reply:
+      email_subject: "New messages on this conversation"

@@ -46,9 +46,18 @@
           "TITLE": "Bekräfta borttagning",
           "MESSAGE": "Är du säker på att ta bort ",
           "YES": "Ja, ta bort ",
-          "NO": "Nej, behåll den "
+          "NO": "No, Keep it"
         }
       }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
     }
   }
 }
