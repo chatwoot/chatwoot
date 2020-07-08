@@ -23,6 +23,7 @@
     <chat-form
       v-if="isForm && !messageContentAttributes.submitted_values"
       :items="messageContentAttributes.items"
+      :button-label="messageContentAttributes.button_label"
       :submitted-values="messageContentAttributes.submitted_values"
       @submit="onFormSubmit"
     >
