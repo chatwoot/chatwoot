@@ -8,7 +8,7 @@ LANGUAGES_CONFIG = {
   3 => { name: 'French', iso_639_3_code: 'fra', iso_639_1_code: 'fr', enabled: true },
   4 => { name: 'German', iso_639_3_code: 'deu', iso_639_1_code: 'de', enabled: true },
   5 => { name: 'Hindi', iso_639_3_code: 'hin', iso_639_1_code: 'hi', enabled: false },
-  6 => { name: 'Italian', iso_639_3_code: 'ita', iso_639_1_code: 'it', enabled: false },
+  6 => { name: 'Italian', iso_639_3_code: 'ita', iso_639_1_code: 'it', enabled: true },
   7 => { name: 'Japanese', iso_639_3_code: 'jpn', iso_639_1_code: 'ja', enabled: false },
   8 => { name: 'Korean', iso_639_3_code: 'kor', iso_639_1_code: 'ko', enabled: false },
   9 => { name: 'Portuguese', iso_639_3_code: 'por', iso_639_1_code: 'pt', enabled: true },
@@ -19,7 +19,8 @@ LANGUAGES_CONFIG = {
   14 => { name: 'Catalan', iso_639_3_code: 'cat', iso_639_1_code: 'ca', enabled: true },
   15 => { name: 'Greek', iso_639_3_code: 'ell', iso_639_1_code: 'el', enabled: true },
   16 => { name: 'Portuguese, Brazilian', iso_639_3_code: '', iso_639_1_code: 'pt_BR', enabled: true },
-  17 => { name: 'Romanian', iso_639_3_code: 'ron', iso_639_1_code: 'ro', enabled: true }
+  17 => { name: 'Romanian', iso_639_3_code: 'ron', iso_639_1_code: 'ro', enabled: true },
+  18 => { name: 'Tamil', iso_639_3_code: 'tam', iso_639_1_code: 'ta', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }

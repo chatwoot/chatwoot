@@ -1,19 +1,41 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
-    "SIDEBAR_TXT": "<p><b>Safata d'entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de facebook a Chatwoot, es diu <b>Safata d'entrada</b>. Teniu bústies d'entrada il·limitades al vostre compte de Chatwoot. </p><p> Feu click a <b>Afegir safata d'entrada</b> per connectar-vos a un lloc web o a una pàgina de Facebook. </p><p> Al Tauler de control, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-les a la pestanya `Converses`. </p><p> També pots veure converses específiques per a una safata d’entrada si feu clic al nom de la safata d'entrada, al panell esquerre de la taula. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
     "CREATE_FLOW": [
-      { "title": "Triar canal", "route": "settings_inbox_new", "body": "Trieu el proveïdor que vulgueu integrar amb Chatwoot." },
-      { "title": "Crear safata d'entrada", "route": "settings_inboxes_page_channel", "body": "Autentiqueu el vostre compte i creeu una safata d'entrada." },
-      { "title": "Afegir agents", "route": "settings_inboxes_add_agents", "body": "Afegir agents a la safata d'entrada creada." },
-      { "title": "Voila!", "route": "settings_inbox_finish", "body": "Ja estàs preparat!" }
+      {
+        "title": "Triar canal",
+        "route": "settings_inbox_new",
+        "body": "Trieu el proveïdor que vulgueu integrar amb Chatwoot."
+      },
+      {
+        "title": "Crear safata d'entrada",
+        "route": "settings_inboxes_page_channel",
+        "body": "Autentiqueu el vostre compte i creeu una safata d'entrada."
+      },
+      {
+        "title": "Afegir agents",
+        "route": "settings_inboxes_add_agents",
+        "body": "Afegir agents a la safata d'entrada creada."
+      },
+      {
+        "title": "Llest!",
+        "route": "settings_inbox_finish",
+        "body": "Ja estàs preparat!"
+      }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats."
+        "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
         "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' "
@@ -22,6 +44,9 @@
         "TITLE": "Canal Web",
         "DESC": "Crea un canal per al vostre lloc web i comença a donar suport als vostres clients mitjançant el teu widget del lloc web.",
         "LOADING_MESSAGE": "S'està creant el canal de suport web",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Nom del lloc web",
           "PLACEHOLDER": "Introduïu el nom del vostre lloc web (per exemple, Acme Inc)"
@@ -30,11 +55,29 @@
           "LABEL": "Domini del lloc web",
           "PLACEHOLDER": "Introduïu el vostre domini de lloc web (pe: acme.com)"
         },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Habilita",
+          "DISABLED": "Inhabilita"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Color del Widget",
           "PLACEHOLDER": "Actualitza el color del widget"
         },
-        "SUBMIT_BUTTON":"Crea la safata entrada"
+        "SUBMIT_BUTTON": "Crea la safata entrada"
       },
       "TWILIO": {
         "TITLE": "Canal Twilio SMS",
@@ -44,8 +87,12 @@
           "PLACEHOLDER": "Introduïu el vostre compte Twilio SID",
           "ERROR": "Aquest camp és obligatori"
         },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
+          "LABEL": "Token d'autenticació",
           "PLACEHOLDER": "Introduïu el vostre Twilio Auth Token",
           "ERROR": "Aquest camp és obligatori"
         },
@@ -59,6 +106,10 @@
           "PLACEHOLDER": "Introduïu el número de telèfon des del qual serà enviat el missatge.",
           "ERROR": "Introduïu un valor vàlid. El número de telèfon hauria de començar amb el signe `+`."
         },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
         "SUBMIT_BUTTON": "Crear un canal Twilio",
         "API": {
           "ERROR_MESSAGE": "No hem pogut autenticar les credencials de Twilio, prova de nou"
@@ -66,7 +117,7 @@
       },
       "AUTH": {
         "TITLE": "Canals",
-        "DESC": "Actualment estan suportats widgets de xat en directe per a llocs web, pàgines de Facebook i perfils de Twitter. Estem treballant en més plataformes com Whatsapp, correu electrònic, Telegram i Line, que estaran disponibles en breu"
+        "DESC": "Actualment estan suportats widgets de xat en directe per a llocs web, pàgines de Facebook i perfils de Twitter. Estem treballant en més plataformes com Whatsapp, correu electrònic, Telegram i Line, que estaran disponibles en breu."
       },
       "AGENTS": {
         "TITLE": "Agents",
@@ -76,14 +127,14 @@
         "TITLE": "Detalls de la safata d'entrada",
         "DESC": "Des del següent menú desplegable, seleccioneu la pàgina de Facebook que voleu connectar a Chatwoot. També podeu donar un nom personalitzat a la safata d'entrada per a una millor identificació."
       },
-      "FINISH":{
+      "FINISH": {
         "TITLE": "L'has clavat!",
         "DESC": "Heu acabat d'integrar la vostra pàgina de Facebook amb Chatwoot. La propera vegada que un client escrigui un missatge a la vostra pàgina, la conversa apareixerà automàticament a la safata d'entrada. <br>També us proporcionem un script del widget que podeu afegir fàcilment al vostre web. Una vegada que estigui operatiu al vostre web, els clients us podran enviar missatges des del web sense l’ajuda de cap eina externa i la conversa apareixerà aquí mateix, a Chatwoot. <br>Genial, eh? Bé, segur que intentem ser-ho :)"
       }
     },
     "DETAILS": {
       "LOADING_FB": "S'està autenticant amb Facebook...",
-      "ERROR_FB_AUTH": "Alguna cosa ha anat malament, actualitza la pàgina ...",
+      "ERROR_FB_AUTH": "Alguna cosa ha anat malament, actualitza la pàgina...",
       "CREATING_CHANNEL": "S'està creant la safata d'entrada...",
       "TITLE": "Configura els detalls de la safata d'entrada",
       "DESC": ""
@@ -94,7 +145,7 @@
     },
     "FINISH": {
       "TITLE": "La vostra safata d'entrada està a punt!",
-      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport",
+      "MESSAGE": "Ja podeu interactuar amb els vostres clients a través del vostre canal nou. Feliç suport ",
       "BUTTON_TEXT": "Porta'm allà",
       "WEBSITE_SUCCESS": "Heu finalitzat amb èxit la creació d'un canal web. Copieu el codi que es mostra a continuació i enganxeu-lo al lloc web. La propera vegada que un client utilitzi el xat en directe, la conversa apareixerà automàticament a la safata d'entrada."
     },
@@ -117,7 +168,7 @@
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur? ",
         "YES": "Si, esborra ",
-        "NO": "No, manten-la "
+        "NO": "No, Keep "
       },
       "API": {
         "SUCCESS_MESSAGE": "S'ha suprimit la safata d'entrada correctament",
@@ -132,6 +183,8 @@
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
       "UPDATE": "Actualitza",
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses"
     }
   }

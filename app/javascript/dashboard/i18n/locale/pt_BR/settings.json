@@ -48,6 +48,23 @@
         "ERROR": "Por favor, insira um nome válido",
         "PLACEHOLDER": "Por favor, insira seu nome, isto seria exibido em conversas"
       },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
       "EMAIL": {
         "LABEL": "Seu e-mail",
         "ERROR": "Por favor, insira um endereço de e-mail válido",
@@ -66,6 +83,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Trocar Conta",
+    "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "LOGOUT": "Sair"
   },
@@ -101,6 +120,7 @@
     "INBOXES": "Caixas de Entrada",
     "CANNED_RESPONSES": "Atalhos",
     "INTEGRATIONS": "Integrações",
-    "ACCOUNT_SETTINGS": "Configurações da conta"
+    "ACCOUNT_SETTINGS": "Configurações da conta",
+    "LABELS": "Labels"
   }
 }

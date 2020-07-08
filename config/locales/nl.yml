@@ -39,3 +39,5 @@ nl:
       greeting_message_body: "%{account_name} reageert meestal binnen een paar uur."
       ways_to_reach_you_message_body: "Geef het team een manier om je te bereiken."
       email_input_box_message_body: "Ontvang een melding via e-mail"
+    reply:
+      email_subject: "New messages on this conversation"

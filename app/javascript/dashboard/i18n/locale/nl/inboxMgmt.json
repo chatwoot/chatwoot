@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inboxen",
-    "SIDEBAR_TXT": "<p><b>Inboxen</b></p> <p> Wanneer u een website of een Facebook-pagina verbindt met Chatwoot, het heet een <b>inbox</b>. U kunt een oneindig aantal inboxen hebben in uw Chatwoot account. </p><p> Klik op <b>Voeg Postvak in</b> toe om een website of een Facebook-pagina te verbinden. </p><p> in het Dashboard, u kunt alle gesprekken van al uw inboxen op één plek zien en erop reageren onder het `Conversations` tabblad. </p><p> U kunt ook gesprekken zien die specifiek zijn voor een inbox door te klikken op de naam van de inbox op het linkerpaneel van het dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "Er zijn geen inboxen aan dit account gekoppeld."
     },
@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten."
+        "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
         "HELP": "Om uw Twitterprofiel als kanaal toe te voegen moet u uw Twitterprofiel verifiëren door te klikken op 'Meld je aan met Twitter' "
@@ -38,6 +44,9 @@
         "TITLE": "Website kanaal",
         "DESC": "Maak een kanaal voor uw website en begin met het ondersteunen van uw klanten via onze website widget.",
         "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Website naam",
           "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
@@ -55,14 +64,14 @@
           "PLACEHOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Kanaalbegroeting",
-          "PLACEHOLDER": "Acme Inc antwoordt meestal binnen een paar uur."
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc reageert meestal binnen een paar uur."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Kanaalbegroeting inschakelen",
-          "HELP_TEXT": "Stuur een begroetingsbericht naar de gebruiker wanneer hij het gesprek start.",
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
           "ENABLED": "Ingeschakeld",
-          "DISABLED": "Gehandicapt"
+          "DISABLED": "Uitgeschakeld"
         },
         "WIDGET_COLOR": {
           "LABEL": "Kleur van widget",
@@ -159,7 +168,7 @@
         "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "Nee, Bewaar het "
+        "NO": "No, Keep "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox succesvol verwijderd",

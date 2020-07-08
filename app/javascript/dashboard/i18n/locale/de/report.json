@@ -4,16 +4,46 @@
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
     "METRICS": [
-      { "NAME": "Gespräche", "KEY": "conversations_count", "DESC": "( Total )" },
-      { "NAME": "Eingehende Nachrichten", "KEY": "incoming_messages_count", "DESC": "( Total )" },
-      { "NAME": "Ausgehende Nachrichten", "KEY": "outgoing_messages_count", "DESC": "( Total )" },
-      { "NAME": "Erste Antwortzeit", "KEY": "avg_first_response_time", "DESC": "( Avg )" },
-      { "NAME": "Lösungszeit", "KEY": "avg_resolution_time", "DESC": "( Avg )" },
-      { "NAME": "Auflösungsanzahl", "KEY": "resolutions_count", "DESC": "( Total )" }
+      {
+        "NAME": "Gespräche",
+        "KEY": "conversations_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Eingehende Nachrichten",
+        "KEY": "incoming_messages_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Ausgehende Nachrichten",
+        "KEY": "outgoing_messages_count",
+        "DESC": "( Total )"
+      },
+      {
+        "NAME": "Erste Antwortzeit",
+        "KEY": "avg_first_response_time",
+        "DESC": "( Avg )"
+      },
+      {
+        "NAME": "Lösungszeit",
+        "KEY": "avg_resolution_time",
+        "DESC": "( Avg )"
+      },
+      {
+        "NAME": "Auflösungsanzahl",
+        "KEY": "resolutions_count",
+        "DESC": "( Total )"
+      }
     ],
     "DATE_RANGE": [
-      { "id": 0, "name": "Letzten 7 Tage" },
-      { "id": 1, "name": "Letzte 30 Tage" }
+      {
+        "id": 0,
+        "name": "Letzten 7 Tage"
+      },
+      {
+        "id": 1,
+        "name": "Letzte 30 Tage"
+      }
     ]
   }
 }

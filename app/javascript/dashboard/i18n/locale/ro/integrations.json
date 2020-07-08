@@ -49,6 +49,15 @@
           "NO": "Nu, păstreaza"
         }
       }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Integrare ștearsă cu succes"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Conectează-te"
     }
   }
 }

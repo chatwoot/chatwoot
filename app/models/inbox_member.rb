@@ -26,14 +26,10 @@ class InboxMember < ApplicationRecord
   private
 
   def add_agent_to_round_robin
-    Redis::Alfred.lpush(round_robin_key, user_id)
+    ::RoundRobin::ManageService.new(inbox: inbox).add_agent_to_queue(user_id)
   end
 
   def remove_agent_from_round_robin
-    Redis::Alfred.lrem(round_robin_key, user_id)
-  end
-
-  def round_robin_key
-    format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: inbox_id)
+    ::RoundRobin::ManageService.new(inbox: inbox).remove_agent_from_queue(user_id)
   end
 end
