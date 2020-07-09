@@ -1,8 +1,7 @@
 <template>
   <a
     class="branding"
-    :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
-    rel="noreferrer noopener nofollow"
+    :href="https://wevrlabs.net/?utm_source=chat_widget`"
     target="_blank"
   >
     <img
@@ -10,7 +9,7 @@
       :src="globalConfig.logoThumbnail"
     />
     <span>
-      {{ useInstallationName($t('POWERED_BY'), globalConfig.installationName) }}
+      WevrLabs Hosting
     </span>
   </a>
 </template>
