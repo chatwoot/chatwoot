@@ -54,7 +54,7 @@ export default {
         return this.enabledFeatures.channel_facebook;
       }
       if (channel === 'twitter') {
-        return this.enabledFeatures.channel_facebook;
+        return this.enabledFeatures.channel_twitter;
       }
       return ['website', 'twilio'].includes(channel);
     },
