@@ -1,0 +1,46 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "تنظیمات حساب",
+    "SUBMIT": "تغییر تنظیمات",
+    "UPDATE": {
+      "ERROR": "تنظیمات تغییری نکرد، دوباره امتحان کنید!",
+      "SUCCESS": "تنظیمات با موفقیت اعمال شد"
+    },
+    "FORM": {
+      "ERROR": "لطفا ایرادات فرم را برطرف کنید",
+      "GENERAL_SECTION": {
+        "TITLE": "تنظیمات عمومی",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "عنوان حساب",
+        "PLACEHOLDER": "عنوان حساب شما",
+        "ERROR": "لطفا عنوان حساب را به درستی وارد نمایید"
+      },
+      "LANGUAGE": {
+        "LABEL": "زبان سایت (آزمایشی)",
+        "PLACEHOLDER": "زبان نمایش المان‌های متنی سایت",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "دامنه",
+        "PLACEHOLDER": "دامنه سایت شما",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "ایمیل پشتیبانی",
+        "PLACEHOLDER": "ایمیل پشتیبانی شرکت شما",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "فعال کردن ایمیل دامنه",
+        "PLACEHOLDER": "فعال کردن ایمیل دامنه‌های اختصاصی",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "فعال",
+          "DISABLED": "غیرفعال"
+        }
+      }
+    }
+  }
+}
