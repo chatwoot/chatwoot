@@ -1,6 +1,6 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
-en:
+fa:
   devise:
     confirmations:
       confirmed: "ایمیل شما با موفقیت فعال شد."
