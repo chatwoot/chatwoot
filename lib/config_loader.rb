@@ -74,11 +74,11 @@ class ConfigLoader
   def compare_and_save_feature(config)
     features = if @reconcile_only_new
                  # leave the existing feature flag values as it is and add new feature flags with default values
-                 (account_features + config.value).uniq { |h| h['name'] }
+                 (config.value + account_features).uniq { |h| h['name'] }
                else
                  # update the existing feature flag values with default values and add new feature flags with default values
-                 (config.value + account_features).uniq { |h| h['name'] }
+                 (account_features + config.value).uniq { |h| h['name'] }
                end
-    save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features })
+    config.update({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features })
   end
 end
