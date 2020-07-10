@@ -1,0 +1,191 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Posta",
+    "SIDEBAR_TXT": "<p><b>Posta in arrivo</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Posta in arrivo</b>. Puoi avere caselle di posta illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Posta in arrivo</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella di posta in arrivo facendo clic sul nome della casella di posta in arrivo nel riquadro sinistro del cruscotto. </p>",
+    "LIST": {
+      "404": "Non ci sono caselle allegate a questo account."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Scegli il canale",
+        "route": "Nuovo",
+        "body": "Scegli il provider che vuoi integrare con Chatwoot."
+      },
+      {
+        "title": "Crea Inbox",
+        "route": "Canale",
+        "body": "Autenticare il tuo account e creare una casella di posta."
+      },
+      {
+        "title": "Aggiungi Agenti",
+        "route": "Inboxes_add_agenti",
+        "body": "Aggiungi agenti alla casella di posta creata."
+      },
+      {
+        "title": "Voila!",
+        "route": "Finitura",
+        "body": "Sei pronto per iniziare!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
+        "CHOOSE_PAGE": "Scegli una Pagina",
+        "CHOOSE_PLACEHOLDER": "Seleziona una pagina dalla lista",
+        "INBOX_NAME": "Nome Posta In Arrivo",
+        "ADD_NAME": "Aggiungi un nome per la tua casella di posta in arrivo",
+        "PICK_NAME": "Scegli un nome per la tua casella di posta in arrivo",
+        "PICK_A_VALUE": "Scegli un valore"
+      },
+      "TWITTER": {
+        "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Canale sito web",
+        "DESC": "Crea un canale per il tuo sito web ed inizia a sostenere i tuoi clienti tramite il nostro widget per siti web.",
+        "LOADING_MESSAGE": "Creazione del Canale di Supporto Sito Web",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar del canale"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nome Sito Web",
+          "PLACEHOLDER": "Inserisci il nome del tuo sito web (es: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Dominio del Sito",
+          "PLACEHOLDER": "Inserisci il dominio del tuo sito web (es: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Intestazione di benvenuto",
+          "PLACEHOLDER": "Ciao!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Titolo di benvenuto",
+          "PLACEHOLDER": "Rendiamo semplice connetterci con noi. Chiedete qualsiasi cosa o condividete il vostro feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Messaggio di saluto del canale",
+          "PLACEHOLDER": "Acme Inc, in genere, risponde in poche ore."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Abilita messaggio di benvenuto sul canale",
+          "HELP_TEXT": "Invia un messaggio di saluto all'utente quando inizia la conversazione.",
+          "ENABLED": "Abilitato",
+          "DISABLED": "Disabilitato"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Colore del widget",
+          "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
+        },
+        "SUBMIT_BUTTON": "Crea posta in arrivo"
+      },
+      "TWILIO": {
+        "TITLE": "Canale Twilio SMS/Whatsapp",
+        "DESC": "Integra Twilio e inizia a supportare i tuoi clienti tramite SMS o Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID dell'account",
+          "PLACEHOLDER": "Inserisci il tuo SID Account Twilio",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Tipo di canale",
+          "ERROR": "Seleziona il tipo di canale"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token di autenticazione",
+          "PLACEHOLDER": "Inserisci il tuo Token Autenticazione Twilio",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nome canale",
+          "PLACEHOLDER": "Inserisci un nome del canale",
+          "ERROR": "Questo campo è obbligatorio"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numero di telefono",
+          "PLACEHOLDER": "Inserisci il numero di telefono dal quale verrà inviato il messaggio.",
+          "ERROR": "Inserisci un valore valido. Il numero di telefono dovrebbe iniziare con segno `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "È necessario configurare l'URL di callback del messaggio in Twilio con l'URL menzionato qui."
+        },
+        "SUBMIT_BUTTON": "Crea un canale Twilio",
+        "API": {
+          "ERROR_MESSAGE": "Non siamo stati in grado di autenticare le credenziali di Twilio, riprova"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Canali",
+        "DESC": "Attualmente supportiamo come piattaforme i widget della chat dal vivo del sito, le pagine Facebook e Twitter. Abbiamo più piattaforme come Whatsapp, Email, Telegram e Line nei lavori, che saranno disponibili a breve."
+      },
+      "AGENTS": {
+        "TITLE": "Agenti",
+        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei."
+      },
+      "DETAILS": {
+        "TITLE": "Dettagli Inbox",
+        "DESC": "Dal menu a tendina sotto, seleziona la pagina Facebook che vuoi collegare a Chatwoot. Puoi anche assegnare un nome personalizzato alla tua posta in arrivo per una migliore identificazione."
+      },
+      "FINISH": {
+        "TITLE": "Lo Chioda!",
+        "DESC": "Hai completato con successo l'integrazione della tua pagina Facebook con il Chatwoot. La prossima volta che un cliente invia un messaggio alla tua pagina, la conversazione apparirà automaticamente nella tua casella di posta.<br>Ti forniamo anche uno script per widget che puoi facilmente aggiungere al tuo sito web. Una volta dal vivo sul tuo sito web, i clienti possono inviarti messaggi direttamente dal tuo sito web senza l'aiuto di alcuno strumento esterno e la conversazione apparirà proprio qui, su Chatwoot.<br>Bello, eh? Beh, cerchiamo di essere :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autenticazione con Facebook...",
+      "ERROR_FB_AUTH": "Qualcosa è andato storto, per favore aggiorna la pagina...",
+      "CREATING_CHANNEL": "Creazione della posta in arrivo...",
+      "TITLE": "Configura dettagli posta in arrivo",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Aggiungi agenti",
+      "ADD_AGENTS": "Aggiunta di agenti alla tua posta in arrivo..."
+    },
+    "FINISH": {
+      "TITLE": "La posta in arrivo è pronta!",
+      "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
+      "BUTTON_TEXT": "Portami lì",
+      "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella di posta."
+    },
+    "REAUTH": "Riautorizza",
+    "VIEW": "Visualizza",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Impostazioni di Posta in arrivo, aggiornate con successo",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Assegnazione automatica aggiornata correttamente",
+        "ERROR_MESSAGE": "Impossibile aggiornare il colore del widget. Riprova più tardi."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Cancellare",
+      "CONFIRM": {
+        "TITLE": "Conferma eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare ",
+        "YES": "Sì, elimina ",
+        "NO": "No, Conserva "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox eliminato con successo",
+        "ERROR_MESSAGE": "Impossibile eliminare la posta in arrivo. Riprova più tardi."
+      }
+    },
+    "SETTINGS": "Impostazioni",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Script Messenger",
+      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag",
+      "INBOX_AGENTS": "Agenti",
+      "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella di posta",
+      "UPDATE": "Aggiornamento",
+      "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
+      "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
+      "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta."
+    }
+  }
+}

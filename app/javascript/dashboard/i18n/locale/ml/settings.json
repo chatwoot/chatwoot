@@ -26,9 +26,19 @@
         "TITLE": "ഇമെയിൽ അറിയിപ്പുകൾ",
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ അറിയിപ്പ് മുൻ‌ഗണനകൾ ഇവിടെ അപ്‌ഡേറ്റു ചെയ്യുക",
         "CONVERSATION_ASSIGNMENT": "ഒരു സംഭാഷണം എനിക്ക് നിയോഗിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്‌ക്കുക",
-        "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക",
-        "UPDATE_SUCCESS": "നിങ്ങളുടെ ഇമെയിൽ അറിയിപ്പ് മുൻ‌ഗണനകൾ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്‌തു",
+        "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
         "UPDATE_ERROR": "മുൻ‌ഗണനകൾ അപ്‌ഡേറ്റു ചെയ്യുമ്പോൾ ഒരു പിശക് ഉണ്ട്, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
       },
       "PROFILE_IMAGE": {
         "LABEL": "പ്രൊഫൈൽ ചിത്രം"
@@ -37,6 +47,23 @@
         "LABEL": "നിങ്ങളുടെ പേര്",
         "ERROR": "ദയവായി സാധുവായ ഒരു പേര് നൽകുക",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ പേര് നൽകുക, ഇത് സംഭാഷണങ്ങളിൽ ദൃശ്യമാകും"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം",
@@ -56,41 +83,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "LOGOUT": "ലോഗൗട്ട്"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.",
-    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക"
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "പകർത്തുക",
-      "COPY_SUCCESSFUL": "കോഡ് വിജയകരമായി ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി"
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "ഡൗൺലോഡുചെയ്യുക",
-      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
+      "DOWNLOAD": "ഡൗൺലോഡ്",
+      "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "സമർപ്പിക്കുക"
     }
   },
-  "CONFIRM_EMAIL": "പരിശോധിച്ചുറപ്പിക്കുന്നു...",
+  "CONFIRM_EMAIL": "Verifying...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "ഇൻ‌ബോക്സ് ചേർക്കുക"
+      "NEW_INBOX": "Add Inbox"
     }
   },
   "SIDEBAR": {
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
-    "HOME": "ഹോം",
+    "HOME": "Home",
     "AGENTS": "ഏജന്റുമാർ",
-    "INBOXES": "ഇൻബോക്സുകൾ",
+    "INBOXES": "ഇൻ‌ബോക്സുകൾ",
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
     "INTEGRATIONS": "സംയോജനങ്ങൾ",
-    "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ"
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
   }
 }

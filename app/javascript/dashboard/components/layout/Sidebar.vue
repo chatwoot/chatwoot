@@ -18,6 +18,11 @@
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
+        <sidebar-item
+          v-if="shouldShowInboxes"
+          :key="labelSection.toState"
+          :menu-item="labelSection"
+        />
       </transition-group>
     </div>
 
@@ -51,7 +56,11 @@
         </div>
       </transition>
       <div class="current-user" @click.prevent="showOptions()">
-        <thumbnail :src="currentUser.avatar_url" :username="currentUser.name" />
+        <thumbnail
+          :src="currentUser.avatar_url"
+          :username="currentUser.name"
+          :status="currentUser.availability_status"
+        />
         <div class="current-user--data">
           <h3 class="current-user--name">
             {{ currentUser.name }}
@@ -121,11 +130,11 @@ export default {
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
-      daysLeft: 'getTrialLeft',
       globalConfig: 'globalConfig/get',
       inboxes: 'inboxes/getInboxes',
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
+      accountLabels: 'labels/getLabelsOnSidebar',
     }),
     sidemenuItems() {
       return getSidebarItems(this.accountId);
@@ -168,6 +177,25 @@ export default {
           label: inbox.name,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
           type: inbox.channel_type,
+        })),
+      };
+    },
+    labelSection() {
+      return {
+        icon: 'ion-pound',
+        label: 'LABELS',
+        hasSubMenu: true,
+        key: 'label',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toStateName: 'labels_list',
+        children: this.accountLabels.map(label => ({
+          id: label.id,
+          label: label.title,
+          color: label.color,
+          toState: frontendURL(
+            `accounts/${this.accountId}/label/${label.title}`
+          ),
         })),
       };
     },

@@ -7,9 +7,10 @@
     <Thumbnail
       v-if="!hideThumbnail"
       :src="currentContact.thumbnail"
-      :badge="currentContact.channel"
+      :badge="chatMetadata.channel"
       class="columns"
       :username="currentContact.name"
+      :status="currentContact.availability_status"
       size="40px"
     />
     <div class="conversation--details columns">
@@ -24,6 +25,7 @@
         </span>
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
+        <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
         <span v-if="lastMessageInChat.content">
           {{ lastMessageInChat.content }}
         </span>
@@ -44,6 +46,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { MESSAGE_TYPE } from 'widget/helpers/constants';
+
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
@@ -57,6 +61,10 @@ export default {
 
   mixins: [timeMixin, conversationMixin],
   props: {
+    activeLabel: {
+      type: String,
+      default: '',
+    },
     chat: {
       type: Object,
       default: () => {},
@@ -80,9 +88,13 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
 
+    chatMetadata() {
+      return this.chat.meta;
+    },
+
     currentContact() {
       return this.$store.getters['contacts/getContact'](
-        this.chat.meta.sender.id
+        this.chatMetadata.sender.id
       );
     },
 
@@ -111,12 +123,23 @@ export default {
     lastMessageInChat() {
       return this.lastMessage(this.chat);
     },
+
+    messageByAgent() {
+      const lastMessage = this.lastMessageInChat;
+      const { message_type: messageType } = lastMessage;
+      return messageType === MESSAGE_TYPE.OUTGOING;
+    },
   },
 
   methods: {
     cardClick(chat) {
       const { activeInbox } = this;
-      const path = conversationUrl(this.accountId, activeInbox, chat.id);
+      const path = conversationUrl({
+        accountId: this.accountId,
+        activeInbox,
+        id: chat.id,
+        label: this.activeLabel,
+      });
       router.push({ path: frontendURL(path) });
     },
     inboxName(inboxId) {

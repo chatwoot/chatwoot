@@ -29,7 +29,13 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot."
+        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
+        "CHOOSE_PAGE": "Choisir la page",
+        "CHOOSE_PLACEHOLDER": "Sélectionnez une page dans la liste",
+        "INBOX_NAME": "Nom de la boîte de réception",
+        "ADD_NAME": "Ajouter un nom pour votre boîte de réception",
+        "PICK_NAME": "Choisissez un nom pour votre boîte de réception",
+        "PICK_A_VALUE": "Choisir une valeur"
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' "
@@ -38,6 +44,9 @@
         "TITLE": "Canal site Web",
         "DESC": "Créez un canal pour votre site Web et commencez à assister vos clients à l'aide de notre widget de site Web.",
         "LOADING_MESSAGE": "Création du canal de support du site Web",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar du canal"
+        },
         "CHANNEL_NAME": {
           "LABEL": "Nom du site Web",
           "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
@@ -55,8 +64,14 @@
           "PLACEHOLDER": "C'est simple de rentrer en contact avec nous. Demandez-nous quoi que ce soit ou partagez vos commentaires."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Message lorsque les agents sont absents",
+          "LABEL": "Channel greeting message",
           "PLACEHOLDER": "Acme Inc répond en général en quelques heures."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Activé",
+          "DISABLED": "Désactivé"
         },
         "WIDGET_COLOR": {
           "LABEL": "Couleur du Widget",
@@ -153,7 +168,7 @@
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
         "YES": "Oui, supprimer ",
-        "NO": "Non, conservez-le "
+        "NO": "Non, Conserver "
       },
       "API": {
         "SUCCESS_MESSAGE": "Boîte de réception supprimée avec succès",

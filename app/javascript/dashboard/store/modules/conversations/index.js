@@ -140,15 +140,18 @@ const mutations = {
       c => c.id === conversation.id
     );
     if (currentConversationIndex > -1) {
+      const { messages, ...conversationAttributes } = conversation;
       const currentConversation = {
         ...allConversations[currentConversationIndex],
-        status: conversation.status,
+        ...conversationAttributes,
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
       if (_state.selectedChat.id === conversation.id) {
         _state.selectedChat.status = conversation.status;
         window.bus.$emit('scrollToMessage');
       }
+    } else {
+      _state.allConversations.push(conversation);
     }
   },
 
@@ -190,7 +193,7 @@ const mutations = {
   },
 
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
-    _state.currentInbox = inboxId;
+    _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
 };
 

@@ -49,6 +49,15 @@
           "NO": "ഇല്ല, സൂക്ഷിക്കുക"
         }
       }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
     }
   }
 }

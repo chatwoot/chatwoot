@@ -5,6 +5,7 @@ import {
   getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
+  setUserLastSeenAt,
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
@@ -59,10 +60,22 @@ export const findUndeliveredMessage = (messageInbox, { content }) =>
     message => message.content === content && message.status === 'in_progress'
   );
 
+export const onNewMessageCreated = data => {
+  const { message_type: messageType } = data;
+  const isIncomingMessage = messageType === MESSAGE_TYPE.OUTGOING;
+
+  if (isIncomingMessage) {
+    playNotificationAudio();
+  }
+};
+
 export const DEFAULT_CONVERSATION = 'default';
 
 const state = {
   conversations: {},
+  meta: {
+    userLastSeenAt: undefined,
+  },
   uiFlags: {
     allMessagesLoaded: false,
     isFetchingList: false,
@@ -93,6 +106,29 @@ export const getters = {
     }));
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
+  getUnreadMessageCount: _state => {
+    const { userLastSeenAt } = _state.meta;
+    const count = Object.values(_state.conversations).filter(chat => {
+      const { created_at: createdAt, message_type: messageType } = chat;
+      const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
+      const hasNotSeen = userLastSeenAt
+        ? createdAt * 1000 > userLastSeenAt * 1000
+        : true;
+      return hasNotSeen && isOutGoing;
+    }).length;
+    return count;
+  },
+  getUnreadTextMessages: (_state, _getters) => {
+    const unreadCount = _getters.getUnreadMessageCount;
+    const allMessages = [...Object.values(_state.conversations)];
+    const unreadAgentMessages = allMessages.filter(message => {
+      const { message_type: messageType } = message;
+      return messageType === MESSAGE_TYPE.OUTGOING;
+    });
+    const maxUnreadCount = Math.min(unreadCount, 3);
+    const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
+    return allUnreadMessages;
+  },
 };
 
 export const actions = {
@@ -112,7 +148,9 @@ export const actions = {
       file_type: fileType,
       status: 'in_progress',
     };
-    const tempMessage = createTemporaryMessage({ attachments: [attachment] });
+    const tempMessage = createTemporaryMessage({
+      attachments: [attachment],
+    });
     commit('pushMessageToConversation', tempMessage);
     try {
       const { data } = await sendAttachmentAPI(params);
@@ -136,12 +174,9 @@ export const actions = {
     }
   },
 
-  addMessage({ commit }, data) {
-    if (data.message_type === MESSAGE_TYPE.OUTGOING) {
-      playNotificationAudio();
-    }
-
+  addMessage: async ({ commit }, data) => {
     commit('pushMessageToConversation', data);
+    onNewMessageCreated(data);
   },
 
   updateMessage({ commit }, data) {
@@ -156,7 +191,21 @@ export const actions = {
     try {
       await toggleTyping(data);
     } catch (error) {
-      // console error
+      // IgnoreError
+    }
+  },
+
+  setUserLastSeen: async ({ commit, getters: appGetters }) => {
+    if (!appGetters.getConversationSize) {
+      return;
+    }
+
+    const lastSeen = Date.now() / 1000;
+    try {
+      commit('setMetaUserLastSeenAt', lastSeen);
+      await setUserLastSeenAt({ lastSeen });
+    } catch (error) {
+      // IgnoreError
     }
   },
 };
@@ -223,6 +272,10 @@ export const mutations = {
   toggleAgentTypingStatus($state, { status }) {
     const isTyping = status === 'on';
     $state.uiFlags.isAgentTyping = isTyping;
+  },
+
+  setMetaUserLastSeenAt($state, lastSeen) {
+    $state.meta.userLastSeenAt = lastSeen;
   },
 };
 

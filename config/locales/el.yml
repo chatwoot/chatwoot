@@ -36,7 +36,7 @@ el:
         assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
         removed: "Η συνομιλία σημάνθηκε ως μη ανατεθειμένη από τον %{user_name}"
     templates:
-      greeting_message_body: "Ο/Η %{account_name} συνήθως απαντάει σε μερικές ώρες."
+      greeting_message_body: "Στον λογαριασμό %{account_name} τυπικά έχετε απάντηση σε μερικές ώρες."
       ways_to_reach_you_message_body: "Δώστε στην ομάδα ένα τρόπο να φτάσει σε σας."
       email_input_box_message_body: "Ειδοποιηθείτε με email"
     reply:

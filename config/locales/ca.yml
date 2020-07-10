@@ -39,3 +39,5 @@ ca:
       greeting_message_body: "%{account_name} normalment respon a les poques hores."
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
+    reply:
+      email_subject: "New messages on this conversation"

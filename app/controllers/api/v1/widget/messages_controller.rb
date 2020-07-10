@@ -45,7 +45,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   def message_params
     {
       account_id: conversation.account_id,
-      contact_id: @contact.id,
+      sender: @contact,
       content: permitted_params[:message][:content],
       inbox_id: conversation.inbox_id,
       message_type: :incoming

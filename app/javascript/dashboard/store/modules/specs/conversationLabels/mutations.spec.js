@@ -15,7 +15,7 @@ describe('#mutations', () => {
   });
 
   describe('#SET_CONVERSATION_LABELS', () => {
-    it('set contact conversation records', () => {
+    it('set contact labels', () => {
       const state = { records: {} };
       mutations[types.default.SET_CONVERSATION_LABELS](state, {
         id: 1,
@@ -23,6 +23,26 @@ describe('#mutations', () => {
       });
       expect(state.records).toEqual({
         1: ['customer-success', 'on-hold'],
+      });
+    });
+  });
+
+  describe('#SET_BULK_CONVERSATION_LABELS', () => {
+    it('set contact labels in bulk', () => {
+      const state = { records: {} };
+      mutations[types.default.SET_BULK_CONVERSATION_LABELS](state, [
+        {
+          id: 1,
+          labels: ['customer-success', 'on-hold'],
+        },
+        {
+          id: 2,
+          labels: ['customer-success'],
+        },
+      ]);
+      expect(state.records).toEqual({
+        1: ['customer-success', 'on-hold'],
+        2: ['customer-success'],
       });
     });
   });

@@ -25,12 +25,39 @@ class Integrations::App
     params[:fields]
   end
 
-  def button
-    params[:button]
+  def action
+    case params[:id]
+    when 'slack'
+      "#{params[:action]}&client_id=#{ENV['SLACK_CLIENT_ID']}&redirect_uri=#{self.class.slack_integration_url}"
+    else
+      params[:action]
+    end
+  end
+
+  def active?
+    case params[:id]
+    when 'slack'
+      ENV['SLACK_CLIENT_SECRET'].present?
+    else
+      true
+    end
   end
 
   def enabled?(account)
-    account.hooks.where(app_id: id).exists?
+    case params[:id]
+    when 'slack'
+      account.hooks.where(app_id: id).exists?
+    else
+      true
+    end
+  end
+
+  def hooks
+    Current.account.hooks.where(app_id: id)
+  end
+
+  def self.slack_integration_url
+    "#{ENV['FRONTEND_URL']}/app/accounts/#{Current.account.id}/settings/integrations/slack"
   end
 
   class << self

@@ -77,6 +77,16 @@ RSpec.describe 'Profile API', type: :request do
         agent.reload
         expect(agent.avatar.attached?).to eq(true)
       end
+
+      it 'updates the availability status' do
+        put '/api/v1/profile',
+            params: { profile: { availability: 'offline' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('offline')
+      end
     end
   end
 end

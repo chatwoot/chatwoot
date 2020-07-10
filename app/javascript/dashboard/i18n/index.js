@@ -10,6 +10,8 @@ import pt from './locale/pt';
 import pt_BR from './locale/pt_BR';
 import ro from './locale/ro';
 import fa from './locale/fa';
+import ta from './locale/ta';
+import it from './locale/it';
 
 export default {
   ca,
@@ -24,4 +26,6 @@ export default {
   pt,
   ro,
   fa,
+  ta,
+  it,
 };

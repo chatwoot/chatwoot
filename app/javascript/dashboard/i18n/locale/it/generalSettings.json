@@ -1,0 +1,47 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Impostazioni dell'account",
+    "SUBMIT": "Aggiorna impostazioni",
+    "BACK": "Back",
+    "UPDATE": {
+      "ERROR": "Impossibile aggiornare le impostazioni, riprova!",
+      "SUCCESS": "Impostazioni account aggiornate con successo"
+    },
+    "FORM": {
+      "ERROR": "Correggi gli errori del modulo",
+      "GENERAL_SECTION": {
+        "TITLE": "Impostazioni generali",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Nome del conto",
+        "PLACEHOLDER": "Nome del tuo account",
+        "ERROR": "Inserisci un nome di conto valido"
+      },
+      "LANGUAGE": {
+        "LABEL": "Lingua del sito (Beta)",
+        "PLACEHOLDER": "Nome del tuo account",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Dominio",
+        "PLACEHOLDER": "Dominio del tuo sito",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "E-mail di supporto",
+        "PLACEHOLDER": "E-mail di supporto della tua azienda",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Abilita e-mail di dominio",
+        "PLACEHOLDER": "Abilita l'email di dominio personalizzata",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Abilitato",
+          "DISABLED": "Disabilitato"
+        }
+      }
+    }
+  }
+}

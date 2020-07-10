@@ -1,0 +1,68 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Etichete",
+    "HEADER_BTN_TXT": "Adăugare etichetă",
+    "LOADING": "Preluarea etichetelor",
+    "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
+    "SIDEBAR_TXT": "<p><b>Etichete</b> <p>Etichetele vă ajută să clasificați conversațiile și să le prioritizați. Poți atribui eticheta unei conversații din sidepanel. <br /><br />Etichetele sunt legate de cont și pot fi utilizate pentru a crea fluxuri de lucru personalizate în organizația dvs. Puteți atribui o culoare personalizată unei etichete, aceasta facilitează identificarea etichetei. Veți putea afișa eticheta pe bara laterală pentru a filtra ușor conversațiile.</p>",
+    "LIST": {
+      "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
+      "TITLE": "Gestionați etichetele",
+      "DESC": "Etichetele vă permit să grupați conversațiile împreună.",
+      "TABLE_HEADER": [
+        "Nume",
+        "Descriere",
+        "Culoare"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nume etichetă",
+        "PLACEHOLDER": "Nume etichetă",
+        "ERROR": "Numele etichetei este necesar"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descriere",
+        "PLACEHOLDER": "Descriere etichetă"
+      },
+      "COLOR": {
+        "LABEL": "Culoare"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Arată eticheta în bara laterală"
+      },
+      "EDIT": "Editare",
+      "CREATE": "Creeaza",
+      "DELETE": "Şterge",
+      "CANCEL": "Renunță"
+    },
+    "ADD": {
+      "TITLE": "Adăugare etichetă",
+      "DESC": "Etichetele vă permit să grupați conversațiile împreună.",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă adăugată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editează eticheta",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă actualizată cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Şterge",
+      "API": {
+        "SUCCESS_MESSAGE": "Etichetă ștearsă cu succes",
+        "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmă ștergerea",
+        "MESSAGE": "Sigur doriți să ștergeți ",
+        "YES": "Da, șterge ",
+        "NO": "Nu, păstreaza"
+      }
+    }
+  }
+}

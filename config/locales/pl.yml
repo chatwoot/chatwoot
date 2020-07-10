@@ -36,6 +36,8 @@ pl:
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
         removed: "Rozmowa nieprzypisana przez %{user_name}"
     templates:
-      greeting_message_body: "%{account_name} zazwyczaj odpowiada w kilka godzin."
+      greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Daj drużynie możliwość dotarcia do Ciebie."
       email_input_box_message_body: "Otrzymuj powiadomienia przez e-mail"
+    reply:
+      email_subject: "New messages on this conversation"

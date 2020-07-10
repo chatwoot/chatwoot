@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "تسجيل الدخول إلى Chatwoot",
+    "EMAIL": {
+      "LABEL": "البريد الإلكتروني",
+      "PLACEHOLDER": "مثال: someone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "كلمة المرور",
+      "PLACEHOLDER": "كلمة المرور"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "تم تسجيل الدخول بنجاح",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً",
+      "UNAUTH": "اسم المستخدم / كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى"
+    },
+    "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
+    "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",
+    "SUBMIT": "تسجيل الدخول"
+  }
+}

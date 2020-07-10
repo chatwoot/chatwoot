@@ -8,7 +8,7 @@ const actions = {
   getConversation: async ({ commit }, conversationId) => {
     try {
       const response = await ConversationApi.show(conversationId);
-      commit(types.default.ADD_CONVERSATION, response.data);
+      commit(types.default.UPDATE_CONVERSATION, response.data);
       commit(
         `contacts/${types.default.SET_CONTACT_ITEM}`,
         response.data.meta.sender
@@ -26,6 +26,7 @@ const actions = {
       const { payload: chatList, meta: metaData } = data;
       commit(types.default.SET_ALL_CONVERSATION, chatList);
       dispatch('conversationStats/set', metaData);
+      dispatch('conversationLabels/setBulkConversationLabels', chatList);
       commit(types.default.CLEAR_LIST_LOADING_STATUS);
       commit(
         `contacts/${types.default.SET_CONTACTS}`,
@@ -155,19 +156,24 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
-  addConversation({ commit, state }, conversation) {
+  addConversation({ commit, state, dispatch }, conversation) {
     const { currentInbox } = state;
-    if (!currentInbox || Number(currentInbox) === conversation.inbox_id) {
+    const {
+      inbox_id: inboxId,
+      meta: { sender },
+    } = conversation;
+    if (!currentInbox || Number(currentInbox) === inboxId) {
       commit(types.default.ADD_CONVERSATION, conversation);
-      commit(
-        `contacts/${types.default.SET_CONTACT_ITEM}`,
-        conversation.meta.sender
-      );
+      dispatch('contacts/setContact', sender);
     }
   },
 
-  updateConversation({ commit }, conversation) {
+  updateConversation({ commit, dispatch }, conversation) {
+    const {
+      meta: { sender },
+    } = conversation;
     commit(types.default.UPDATE_CONVERSATION, conversation);
+    dispatch('contacts/setContact', sender);
   },
 
   markMessagesRead: async ({ commit }, data) => {

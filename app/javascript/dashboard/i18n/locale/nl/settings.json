@@ -48,6 +48,23 @@
         "ERROR": "Voer een geldige naam in",
         "PLACEHOLDER": "Voer je naam in, dit zou worden weergegeven in gesprekken"
       },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
       "EMAIL": {
         "LABEL": "Uw e-mailadres",
         "ERROR": "Voer een geldig e-mailadres in",
@@ -66,8 +83,8 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_ACCOUNTS": "Verwissel van profiel",
-    "SELECTOR_SUBTITLE": "Selecteer een account in de volgende lijst",
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profiel instellingen",
     "LOGOUT": "Afmelden"
   },
@@ -103,6 +120,7 @@
     "INBOXES": "Inboxen",
     "CANNED_RESPONSES": "Standaard antwoorden",
     "INTEGRATIONS": "Integraties",
-    "ACCOUNT_SETTINGS": "Accountinstellingen"
+    "ACCOUNT_SETTINGS": "Accountinstellingen",
+    "LABELS": "Labelen"
   }
 }
