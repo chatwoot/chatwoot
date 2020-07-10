@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "در حال دریافت گفتگوها",
+    "LOAD_MORE_CONVERSATIONS": "دریافت گفتگوهای بیشتر",
+    "EOF": "همه گفتگوها دریافت شدند 🎉",
+    "LIST": {
+      "404": "هیچ گفتگوی فعالی در این گروه نیست"
+    },
+    "TAB_HEADING": "گفتگوها",
+    "SEARCH": {
+      "INPUT": "پیدا کردن افراد، گفتگوها و پاسخ‌های از پیش نوشته شده..."
+    },
+    "STATUS_TABS": [{
+        "NAME": "باز",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "حل شده",
+        "KEY": "allConvCount"
+      }
+    ],
+
+    "ASSIGNEE_TYPE_TABS": [{
+        "NAME": "من",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "تخصیص داده نشده",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "همه",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+
+    "CHAT_STATUS_ITEMS": [{
+        "TEXT": "باز",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "حل شده",
+        "VALUE": "resolved"
+      }
+    ],
+
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "پیام تصویری"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "پیام صوتی"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "پیام ویدیویی"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "فایل الصاقی"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Location"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+      }
+    }
+  }
+}
