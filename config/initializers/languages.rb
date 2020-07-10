@@ -20,7 +20,7 @@ LANGUAGES_CONFIG = {
   15 => { name: 'Greek', iso_639_3_code: 'ell', iso_639_1_code: 'el', enabled: true },
   16 => { name: 'Portuguese, Brazilian', iso_639_3_code: '', iso_639_1_code: 'pt_BR', enabled: true },
   17 => { name: 'Romanian', iso_639_3_code: 'ron', iso_639_1_code: 'ro', enabled: true },
-  18 => { name: 'Tamil', iso_639_3_code: 'tam', iso_639_1_code: 'ta', enabled: true }
+  18 => { name: 'Tamil', iso_639_3_code: 'tam', iso_639_1_code: 'ta', enabled: true },
   19 => { name: 'Persian', iso_639_3_code: 'fas', iso_639_1_code: 'fa', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
