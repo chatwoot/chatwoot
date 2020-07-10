@@ -10,6 +10,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
+
 export default {
   name: 'ChatHeaderExpanded',
   props: {
@@ -46,15 +47,18 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
+
 .header-expanded {
   padding: $space-large $space-medium $space-large;
   width: 100%;
   box-sizing: border-box;
   position: relative;
+
   .logo {
     width: 56px;
     height: 56px;
   }
+
   .close {
     position: absolute;
     right: $space-medium;
@@ -68,6 +72,7 @@ export default {
     margin-bottom: $space-slab;
     margin-top: $space-medium;
   }
+
   .body {
     color: $color-body;
     font-size: 1.8rem;
