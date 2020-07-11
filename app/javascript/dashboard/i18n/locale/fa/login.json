@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "ورود به چت ووت",
+    "TITLE": "Login to Chatwoot",
     "EMAIL": {
-      "LABEL": "ایمیل",
-      "PLACEHOLDER": "ایمیل به عنوان مثال: someone@example.com"
+      "LABEL": "Email",
+      "PLACEHOLDER": "Email eg: someone@example.com"
     },
     "PASSWORD": {
-      "LABEL": "رمز عبور",
-      "PLACEHOLDER": "رمز عبور"
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password"
     },
     "API": {
-      "SUCCESS_MESSAGE": "ورود موفق",
-      "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید",
-      "UNAUTH": "این نام کاربری و رمز عبور صحیح نیست"
+      "SUCCESS_MESSAGE": "Login Successful",
+      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
+      "UNAUTH": "Username / Password Incorrect. Please try again"
     },
-    "FORGOT_PASSWORD": "رمز عبورتان را فراموش کردید؟",
-    "CREATE_NEW_ACCOUNT": "حساب جدید بسازید",
-    "SUBMIT": "ورود"
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "CREATE_NEW_ACCOUNT": "Create new account",
+    "SUBMIT": "Login"
   }
 }
