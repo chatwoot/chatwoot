@@ -49,19 +49,19 @@
         "PLACEHOLDER": "Por favor, introduzca su nombre, esto se mostrará en las conversaciones"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Disponibilidad",
         "STATUSES_LIST": [
           {
-            "value": "online",
-            "label": "Online"
+            "value": "en línea",
+            "label": "En línea"
           },
           {
-            "value": "busy",
-            "label": "Busy"
+            "value": "ocupado",
+            "label": "Ocupado"
           },
           {
-            "value": "offline",
-            "label": "Offline"
+            "value": "fuera de línea",
+            "label": "Fuera de línea"
           }
         ]
       },
@@ -121,6 +121,6 @@
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
-    "LABELS": "Labels"
+    "LABELS": "Etiquetas"
   }
 }
