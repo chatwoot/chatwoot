@@ -60,6 +60,11 @@ $color-body: #3c4858;
 $color-heading: #1f2d3d;
 $color-error: #ff382d;
 
+// Color-palettes
+
+$color-primary-light: #c7e3ff;
+$color-primary-dark: darken($color-woot, 20%);
+
 
 // Thumbnail
 $thumbnail-radius: 4rem;
@@ -110,3 +115,7 @@ $spinkit-size: 1.6rem !default;
 
 // Break points
 $break-point-medium: 667px;
+
+// Timing functions
+
+$ease-in-cubic: cubic-bezier(.17, .67, .83, .67);

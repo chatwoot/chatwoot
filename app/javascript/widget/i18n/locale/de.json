@@ -2,19 +2,19 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Hochladen..."
+      "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Einreichen"
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "ist verfügbar",
-    "ARE_AVAILABLE": "sind verfügbar",
-    "OTHERS_ARE_AVAILABLE": "andere sind verfügbar",
-    "AND": "und"
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
   },
-  "POWERED_BY": "Unterstützt von Chatwoot",
+  "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
-  "CHAT_PLACEHOLDER": "Geben Sie Ihre Nachricht ein"
+  "CHAT_PLACEHOLDER": "Type your message"
 }

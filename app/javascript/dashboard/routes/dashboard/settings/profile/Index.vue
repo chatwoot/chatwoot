@@ -163,12 +163,18 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
+      currentAvailabilityStatus: 'getCurrentUserAvailabilityStatus',
     }),
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
       if (prevCurrentUserId !== newCurrentUserId) {
         this.initializeUser();
+      }
+    },
+    currentAvailabilityStatus(newStatus, oldStatus) {
+      if (newStatus !== oldStatus) {
+        this.availability = newStatus;
       }
     },
   },

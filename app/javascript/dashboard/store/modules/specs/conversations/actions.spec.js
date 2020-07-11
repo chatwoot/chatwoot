@@ -3,6 +3,7 @@ import actions from '../../conversations/actions';
 import * as types from '../../../mutation-types';
 
 const commit = jest.fn();
+const dispatch = jest.fn();
 global.axios = axios;
 jest.mock('axios');
 
@@ -37,6 +38,93 @@ describe('#actions', () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.getConversation({ commit });
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#updateConversation', () => {
+    it('sends setContact action and update_conversation mutation', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+      };
+      actions.updateConversation({ commit, dispatch }, conversation);
+      expect(commit.mock.calls).toEqual([
+        [types.default.UPDATE_CONVERSATION, conversation],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
+    });
+  });
+
+  describe('#addConversation', () => {
+    it('doesnot send mutation if conversation is from a different inbox', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 2,
+      };
+      actions.addConversation(
+        { commit, dispatch, state: { currentInbox: 1 } },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
+    it('sends correct mutations', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        { commit, dispatch, state: { currentInbox: 1 } },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.ADD_CONVERSATION, conversation],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
+    });
+
+    it('sends correct mutations if inbox filter is not available', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation({ commit, dispatch, state: {} }, conversation);
+      expect(commit.mock.calls).toEqual([
+        [types.default.ADD_CONVERSATION, conversation],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        [
+          'contacts/setContact',
+          {
+            id: 1,
+            name: 'john-doe',
+          },
+        ],
+      ]);
     });
   });
 });

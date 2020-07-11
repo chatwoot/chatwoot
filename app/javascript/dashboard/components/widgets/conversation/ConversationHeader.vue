@@ -4,7 +4,7 @@
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
-        :badge="currentContact.channel"
+        :badge="chatMetadata.channel"
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
@@ -29,7 +29,7 @@
           :allow-empty="true"
           deselect-label="Remove"
           placeholder="Select Agent"
-          selected-label=""
+          selected-label
           select-label="Assign"
           track-by="id"
           @select="assignAgent"
@@ -80,6 +80,10 @@ export default {
       agents: 'agents/getVerifiedAgents',
       currentChat: 'getSelectedChat',
     }),
+
+    chatMetadata() {
+      return this.chat.meta;
+    },
 
     currentContact() {
       return this.$store.getters['contacts/getContact'](

@@ -1,0 +1,126 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Настройки профиля",
+    "TITLE": "Настройки профиля",
+    "BTN_TEXT": "Обновить профиль",
+    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "FORM": {
+      "AVATAR": "Profile Image",
+      "ERROR": "Please fix form errors",
+      "REMOVE_IMAGE": "Удалить",
+      "UPLOAD_IMAGE": "Загрузить изображение",
+      "UPDATE_IMAGE": "Обновить изображение",
+      "PROFILE_SECTION": {
+        "TITLE": "Профиль",
+        "NOTE": "Your email address is your identity and is used to log in."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Пароль",
+        "NOTE": "Updating your password would reset your logins in multiple devices."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Токен доступа",
+        "NOTE": "This token can be used if you are building an API based integration"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Email Notifications",
+        "NOTE": "Update your email notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Изображение профиля"
+      },
+      "NAME": {
+        "LABEL": "Ваше имя",
+        "ERROR": "Please enter a valid name",
+        "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Ваш адрес электронной почты",
+        "ERROR": "Пожалуйста, введите действительный адрес электронной почты",
+        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+      },
+      "PASSWORD": {
+        "LABEL": "Пароль",
+        "ERROR": "Please enter a password of length 6 or more",
+        "PLACEHOLDER": "Пожалуйста, введите новый пароль"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Подтвердите новый пароль",
+        "ERROR": "Подтверждение пароля должно соответствовать паролю",
+        "PLACEHOLDER": "Пожалуйста, введите пароль еще раз"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Настройки профиля",
+    "LOGOUT": "Выйти"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversations",
+    "REPORTS": "Reports",
+    "SETTINGS": "Settings",
+    "HOME": "Home",
+    "AGENTS": "Agents",
+    "INBOXES": "Inboxes",
+    "CANNED_RESPONSES": "Canned Responses",
+    "INTEGRATIONS": "Integrations",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
+  }
+}

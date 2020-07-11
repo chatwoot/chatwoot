@@ -18,6 +18,7 @@
     "ADD": {
       "TITLE": "Lägg till konserverat svar",
       "DESC": "Konserverade svar sparas svarsmallar som kan användas för att snabbt skicka svar till konversation.",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Kort kod",
@@ -38,6 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Redigera konserverat svar",
+      "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Kort kod",
@@ -67,7 +69,7 @@
         "TITLE": "Bekräfta borttagning",
         "MESSAGE": "Är du säker på att ta bort ",
         "YES": "Ja, ta bort ",
-        "NO": "Nej, behåll den "
+        "NO": "No, Keep "
       }
     }
   }

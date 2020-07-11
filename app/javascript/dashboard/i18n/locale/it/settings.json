@@ -1,0 +1,126 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Impostazioni profilo",
+    "TITLE": "Impostazioni profilo",
+    "BTN_TEXT": "Aggiorna Profilo",
+    "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente il login quando le tue credenziali di accesso sono state modificate",
+    "FORM": {
+      "AVATAR": "Immagine del profilo",
+      "ERROR": "Correggi gli errori del modulo",
+      "REMOVE_IMAGE": "Rimuovi",
+      "UPLOAD_IMAGE": "Carica immagine",
+      "UPDATE_IMAGE": "Aggiorna immagine",
+      "PROFILE_SECTION": {
+        "TITLE": "Profilo",
+        "NOTE": "Il tuo indirizzo email è la tua identità e viene utilizzato per l'accesso."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "password",
+        "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Token di accesso",
+        "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifiche email",
+        "NOTE": "Aggiorna qui le tue preferenze di notifica email",
+        "CONVERSATION_ASSIGNMENT": "Invia notifiche via email quando viene assegnata una conversazione a me",
+        "CONVERSATION_CREATION": "Invia notifiche via email quando viene creata una nuova conversazione"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Le preferenze per le notifiche sono state aggiornate con successo",
+        "UPDATE_ERROR": "C'è stato un errore durante l'aggiornamento delle preferenze, si prega di riprovare"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifiche Push",
+        "NOTE": "Aggiorna qui le tue preferenze di notifiche push",
+        "CONVERSATION_ASSIGNMENT": "Invia notifiche push quando una conversazione mi viene assegnata",
+        "CONVERSATION_CREATION": "Invia notifiche push quando una conversazione mi viene assegnata",
+        "HAS_ENABLED_PUSH": "Hai abilitato notifiche push per questo browser.",
+        "REQUEST_PUSH": "Abilita notifiche push"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Immagine del profilo"
+      },
+      "NAME": {
+        "LABEL": "Il tuo nome",
+        "ERROR": "Inserisci un nome valido",
+        "PLACEHOLDER": "Inserisci il tuo nome, questo verrà visualizzato nelle conversazioni"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Il tuo indirizzo email",
+        "ERROR": "Inserisci un indirizzo email valido",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo email, che verrà visualizzato nelle conversazioni"
+      },
+      "PASSWORD": {
+        "LABEL": "password",
+        "ERROR": "Inserisci una password di lunghezza 6 o più",
+        "PLACEHOLDER": "Inserisci una nuova password"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Conferma nuova password",
+        "ERROR": "La password di conferma deve corrispondere alla password",
+        "PLACEHOLDER": "Inserisci nuovamente la tua password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Cambia Profilo/Account",
+    "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
+    "PROFILE_SETTINGS": "Impostazioni profilo",
+    "LOGOUT": "Disconnetti"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "giorni di prova rimanenti.",
+    "TRAIL_BUTTON": "Acquista Ora"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copia",
+      "COPY_SUCCESSFUL": "Codice copiato negli appunti con successo"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Scaricare",
+      "UPLOADING": "Caricamento..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Invia"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifica...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Aggiungi Posta In Arrivo"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Conversazioni",
+    "REPORTS": "Segnalazioni",
+    "SETTINGS": "Impostazioni",
+    "HOME": "Home",
+    "AGENTS": "Agenti",
+    "INBOXES": "Posta",
+    "CANNED_RESPONSES": "Risposte predefinite",
+    "INTEGRATIONS": "Integrazioni",
+    "ACCOUNT_SETTINGS": "Impostazioni Account",
+    "LABELS": "Labels"
+  }
+}

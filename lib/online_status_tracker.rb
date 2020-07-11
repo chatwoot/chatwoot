@@ -16,9 +16,9 @@ module OnlineStatusTracker
   def self.presence_key(account_id, type)
     case type
     when 'Contact'
-      Redis::Alfred::ONLINE_PRESENCE_CONTACTS % account_id
+      format(::Redis::Alfred::ONLINE_PRESENCE_CONTACTS, account_id: account_id)
     else
-      Redis::Alfred::ONLINE_PRESENCE_USERS % account_id
+      format(::Redis::Alfred::ONLINE_PRESENCE_USERS, account_id: account_id)
     end
   end
 
@@ -34,7 +34,7 @@ module OnlineStatusTracker
   end
 
   def self.status_key(account_id)
-    Redis::Alfred::ONLINE_STATUS % account_id
+    format(::Redis::Alfred::ONLINE_STATUS, account_id: account_id)
   end
 
   def self.get_available_contacts(account_id)
@@ -44,6 +44,8 @@ module OnlineStatusTracker
 
   def self.get_available_users(account_id)
     user_ids = ::Redis::Alfred.zrangebyscore(presence_key(account_id, 'User'), (Time.zone.now - PRESENCE_DURATION).to_i, Time.now.to_i)
+    return {} if user_ids.blank?
+
     user_availabilities = ::Redis::Alfred.hmget(status_key(account_id), user_ids)
     user_ids.map.with_index { |id, index| [id, (user_availabilities[index] || 'online')] }.to_h
   end

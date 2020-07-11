@@ -5,6 +5,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     @conversation = conversation
   end
 
+  def update_last_seen
+    head :ok && return if conversation.nil?
+
+    conversation.user_last_seen_at = DateTime.now.utc
+    conversation.save!
+    head :ok
+  end
+
   def toggle_typing
     head :ok && return if conversation.nil?
 

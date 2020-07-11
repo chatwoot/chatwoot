@@ -67,4 +67,30 @@ describe('#actions', () => {
       expect(dispatch).toHaveBeenCalledTimes(0);
     });
   });
+
+  describe('#setCurrentUserAvailabilityStatus', () => {
+    it('sends correct mutations if user id is available', async () => {
+      actions.setCurrentUserAvailabilityStatus(
+        {
+          commit,
+          state: { currentUser: { id: 1 } },
+        },
+        { 1: 'online' }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CURRENT_USER_AVAILABILITY, 'online'],
+      ]);
+    });
+
+    it('does not send correct mutations if user id is not available', async () => {
+      actions.setCurrentUserAvailabilityStatus(
+        {
+          commit,
+          state: { currentUser: { id: 1 } },
+        },
+        {}
+      );
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
 });

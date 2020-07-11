@@ -3,7 +3,7 @@
     "HEADER": "Medewerkers",
     "HEADER_BTN_TXT": "Medewerker toevoegen",
     "LOADING": "Ophalen van medewerkerslijst",
-    "SIDEBAR_TXT": "<p><b>Medewerkers</b></p> <p> Een <b>Medewerker</b> is lid van uw Klantenservice-team. </p><p> Medewerkers kunnen berichten van uw gebruikers bekijken en beantwoorden. De lijst toont alle medewerkers die momenteel in uw account bestaan. </p><p> Klik op <b>Medewerker toevoegen</b> om een nieuwe medewerker toe te voegen. De medewerker die je toevoegt, ontvangt een e-mail met een bevestigingslink om zijn account te activeren, waarna hij Chatwoot kan bezoeken en op berichten kan reageren. </p><p> Toegang tot Chatwoot-functies zijn gebaseerd op de volgende rollen. </p><p> <b>Medewerker</b> - Medewerkers met deze rol kunnen alleen inboxen, rapporten en gesprekken gebruiken. Ze kunnen gesprekken toewijzen aan andere medewerkers of zichzelf en gesprekken oplossen.</p><p> <b>Beheerder</b> - Een beheerder heeft toegang tot alle Chatwoot-functies ingeschakeld voor uw account, inclusief instellingen en facturering, aangevuld met de gebruikelijke rechten van een medewerker.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Voeg medewerker toe aan je team",
       "DESC": "U kunt medewerkers toevoegen die de ondersteuning verzorgen voor berichten in uw inboxen.",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "NAME": {
           "LABEL": "Naam medewerker",
@@ -60,7 +61,7 @@
         "TITLE": "Verwijderen bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "Nee, bewaar het "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {

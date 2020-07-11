@@ -48,6 +48,23 @@
         "ERROR": "Te rugăm să introduci un nume valid",
         "PLACEHOLDER": "Te rugăm să introduci numele tău, care va fi folosit în conversații"
       },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
+      },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
         "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă",
@@ -103,6 +120,7 @@
     "INBOXES": "Căsuțe",
     "CANNED_RESPONSES": "Răspunsuri predefinite",
     "INTEGRATIONS": "Integrări",
-    "ACCOUNT_SETTINGS": "Setările contului"
+    "ACCOUNT_SETTINGS": "Setările contului",
+    "LABELS": "Etichete"
   }
 }
