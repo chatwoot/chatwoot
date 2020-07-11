@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "پاسخ‌های آماده",
-    "HEADER_BTN_TXT": "اضافه کردن پاسخ آماده",
-    "LOADING": "دریافت پاسخ‌های آماده",
-    "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
-    "SIDEBAR_TXT": "<p><b>پاسخ‌های آماده</b> </p><p> پاسخ‌های آماده قالب‌هایی متنی هستند که برای جواب دادن سریع به یک گفتگو به کار می‌آیند. </p><p> برای ساختن یک جواب آماده، روی دکمه <b>اضافه کردن جواب آماده</b> کلیک کنید. همچنین با زدن روی دکمه «تغییر» یا «حذف» می‌توانید یک پاسخ آماده را تغییر داده یا حذف کنید. </p><p> پاسخ‌های آماده با استفاده و با کمک <b>کدهای کوتاه</b> ساخته شده‌اند. اپراتورها با زدن کلید  <b>'/'</b> از صفحه کلید می‌توانند به لیست پاسخ‌های آماده دسترسی پیدا کنند. </p>",
+    "HEADER": "Canned Responses",
+    "HEADER_BTN_TXT": "Add Canned Response",
+    "LOADING": "Fetching Canned Responses",
+    "SEARCH_404": "There are no items matching this query",
+    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
     "LIST": {
-      "404": "هیچ پاسخ آماده‌ای برای این حساب تعریف نشده است",
-      "TITLE": "مدیریت پاسخ‌های آماده",
-      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند",
+      "404": "There are no canned responses available in this account.",
+      "TITLE": "Manage canned responses",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
       "TABLE_HEADER": [
-        "کدهای کوتاه",
-        "محتوا",
-        "عملیات"
+        "Short Code",
+        "Content",
+        "Actions"
       ]
     },
     "ADD": {
-      "TITLE": "اضافه کردن پاسخ آماده",
-      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند",
-      "CANCEL_BUTTON_TEXT": "انصراف",
+      "TITLE": "Add Canned Response",
+      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "کد کوتاه",
-          "PLACEHOLDER": "لطفا یک کد کوتاه وارد کنید",
-          "ERROR": "وجود کد کوتاه ضروری است"
+          "LABEL": "Short Code",
+          "PLACEHOLDER": "Please enter a shortcode",
+          "ERROR": "Short Code is required"
         },
         "CONTENT": {
-          "LABEL": "محتوا",
-          "PLACEHOLDER": "لطفا محتوای این پاسخ را تایپ کنید",
-          "ERROR": "محتوا ضروری است"
+          "LABEL": "Content",
+          "PLACEHOLDER": "Please enter a content",
+          "ERROR": "Content is required"
         },
-        "SUBMIT": "ثبت"
+        "SUBMIT": "Submit"
       },
       "API": {
-        "SUCCESS_MESSAGE": "پاسخ آماده با موفقیت ثبت شد",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Canned Response added successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "EDIT": {
-      "TITLE": "ویرایش پاسخ آماده",
-      "CANCEL_BUTTON_TEXT": "انصراف",
+      "TITLE": "Edit Canned Response",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "کد کوتاه",
-          "PLACEHOLDER": "لطفا یک کد کوتاه وارد کنید",
-          "ERROR": "وجود کد کوتاه ضروری است"
+          "LABEL": "Short Code",
+          "PLACEHOLDER": "Please enter a shortcode",
+          "ERROR": "Short Code is required"
         },
         "CONTENT": {
-          "LABEL": "محتوا",
-          "PLACEHOLDER": "لطفا محتوای این پاسخ را تایپ کنید",
-          "ERROR": "محتوا ضروری است"
+          "LABEL": "Content",
+          "PLACEHOLDER": "Please enter a content",
+          "ERROR": "Content is required"
         },
-        "SUBMIT": "ثبت"
+        "SUBMIT": "Submit"
       },
-      "BUTTON_TEXT": "ویرایش",
+      "BUTTON_TEXT": "Edit",
       "API": {
-        "SUCCESS_MESSAGE": "پاسخ آماده تغییر داده شد",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Canned Response updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف",
+      "BUTTON_TEXT": "Delete",
       "API": {
-        "SUCCESS_MESSAGE": "پاسخ آماده با موفقیت حذف شد",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Canned response deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
-        "TITLE": "تاییدیه حذف",
-        "MESSAGE": "مطمئن هستید حذف شود؟ ",
-        "YES": "بله، حذف شود ",
-        "NO": "نه، بماند "
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       }
     }
   }
