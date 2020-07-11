@@ -1,102 +1,102 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "اپراتورها",
-    "HEADER_BTN_TXT": "اضافه کردن اپراتور",
-    "LOADING": "دریافت لیست اپراتورها",
-    "SIDEBAR_TXT": "<p><b>اپراتورها</b></p> <p> یک <b>اپراتور</b> یکی از اعضای تیم پشتیبانی است. </p><p> اپراتورها می‌توانند پیام‌های کاربران را ببینند و به آن‌ها پاسخ بدهند. این لیست حاوی تمام اپراتورهایی است که در حساب شما تعریف شده اند. </p><p> با زدن روی دکمه <b>اضافه کردن اپراتور</b> می‌توانید یک اپراتور جدید معرفی کنید. به ایمیل اپراتوری که معرفی می‌کنید یک دعوتنامه ارسال می‌شود که بعد از پذیرفتن آن اپراتور می‌تواند به پیام‌های کاربران پاسخ بدهد. </p><p> بسته به سطح دسترسی تعیین شده یک اپراتور می‌تواند به بخش‌های مشخصی از اکانت دسترسی پیدا کند </p><p> <b>اپراتور</b> - اپراتورهایی که این نقش را داشته باشند تنها می‌توانند به صندوق‌های ورودی، گزارشات و گفتگوها دسترسی داشته باشند. آن‌ها می‌توانند یک مکالمه را به اپراتور دیگر یا خودشان تخصیص دهند و یا یک مکالمه را حل شده اعلام کنند.</p><p> <b>مدیر</b> - مدیران می‌توانند علاوه بر تمام بخش‌هایی که یک اپراتور دسترسی دارد، به تمام بخش‌هایی که در حساب کاربری شما وجود دارد دسترسی داشته باشند.</p>",
+    "HEADER": "Agents",
+    "HEADER_BTN_TXT": "Add Agent",
+    "LOADING": "Fetching Agent List",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
-        "label": "مدیر"
+        "label": "Administrator"
       },
       {
         "name": "agent",
-        "label": "اپراتور"
+        "label": "Agent"
       }
     ],
     "LIST": {
-      "404": "در حال حاضر هیچ اپراتوری برای این حساب معرفی نشده است.",
-      "TITLE": "مدیریت اپراتورها",
-      "DESC": "می‌توانید به تیم‌تان اپراتور اضافه کرده یا اپراتورهای فعلی را حذف کنید",
-      "NAME": "نام",
-      "EMAIL": "ایمیل",
-      "STATUS": "وضعیت",
-      "ACTIONS": "عملیات",
-      "VERIFIED": "تایید شده",
-      "VERIFICATION_PENDING": "در انتظار تایید"
+      "404": "There are no agents associated to this account",
+      "TITLE": "Manage agents in your team",
+      "DESC": "You can add/remove agents to/in your team.",
+      "NAME": "Name",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "VERIFIED": "Verified",
+      "VERIFICATION_PENDING": "Verification Pending"
     },
     "ADD": {
-      "TITLE": "اضافه کردن اپراتور به تیم",
-      "DESC": "می‌توانید افرادی را معرفی کنید که مسئول پشتیبانی آنلاین صندوق‌های ورودی باشند",
-      "CANCEL_BUTTON_TEXT": "انصراف",
+      "TITLE": "Add agent to your team",
+      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
-          "LABEL": "اسم اپراتور",
-          "PLACEHOLDER": "لطفا اسم اپراتور را وارد نمایید"
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "نوع اپراتور",
-          "PLACEHOLDER": "لطفا نوع دسترسی اپراتور را مشخص کنید",
-          "ERROR": "تعیین کردن نوع اپراتور الزامی است"
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
         },
         "EMAIL": {
-          "LABEL": "ایمیل",
-          "PLACEHOLDER": "لطفا آدرس ایمیل اپراتور را وارد نمایید"
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
         },
-        "SUBMIT": "اضافه کردن اپراتور"
+        "SUBMIT": "Add Agent"
       },
       "API": {
-        "SUCCESS_MESSAGE": "اپراتور معرفی شد",
-        "EXIST_MESSAGE": "این اپراتور قبلا معرفی شده، لطفا ایمیل دیگری را امتحان کنید",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف",
+      "BUTTON_TEXT": "Delete",
       "API": {
-        "SUCCESS_MESSAGE": "اپراتور حذف شد",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
-        "TITLE": "تاییدیه حذف",
-        "MESSAGE": "مطمئن هستید که حذف شود ",
-        "YES": "بله، حذف شود ",
-        "NO": "نه، بماند "
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       }
     },
     "EDIT": {
-      "TITLE": "تغییر مشخصات اپراتور",
+      "TITLE": "Edit agent",
       "FORM": {
         "NAME": {
-          "LABEL": "اسم اپراتور",
-          "PLACEHOLDER": "لطفا اسم اپراتور را وارد کنید"
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
         },
         "AGENT_TYPE": {
-          "LABEL": "نوع اپراتور",
-          "PLACEHOLDER": "لطفا نوع اپراتور را انتخاب کنید",
-          "ERROR": "تعیین کردن نوع اپراتور الزامی است"
+          "LABEL": "Agent Type",
+          "PLACEHOLDER": "Please select a type",
+          "ERROR": "Agent type is required"
         },
         "EMAIL": {
-          "LABEL": "ایمیل",
-          "PLACEHOLDER": "لطفا ایمیل اپراتور را وارد کنید"
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
         },
-        "SUBMIT": "تغییر اپراتور"
+        "SUBMIT": "Edit Agent"
       },
-      "BUTTON_TEXT": "ویرایش",
-      "CANCEL_BUTTON_TEXT": "انصراف",
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {
-        "SUCCESS_MESSAGE": "اطلاعات اپراتور تغییر یافت",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "تغییر رمز عبور",
-        "ADMIN_SUCCESS_MESSAGE": "یک ایمیل حاوی روش تغییر دادن رمز عبور برای اپراتور ارسال شد",
-        "SUCCESS_MESSAGE": "تغییر رمز عبور اپراتور با موفقیت انجام شد",
-        "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        "ADMIN_RESET_BUTTON": "Reset Password",
+        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
+        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "اپراتوری یافت نشد."
+      "NO_RESULTS": "No agents found."
     }
   }
 }
