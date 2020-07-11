@@ -1,20 +1,24 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "دانلود",
-      "UPLOADING": "در حال آپلود..."
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "ثبت"
+      "SUBMIT": "Submit"
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "آنلاین است",
-    "ARE_AVAILABLE": "آنلاین هستند",
-    "OTHERS_ARE_AVAILABLE": "دیگر آنلاین هستند",
-    "AND": "و"
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
   },
-  "POWERED_BY": "قدرت یافته از چت ووت",
-  "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
-  "CHAT_PLACEHOLDER": "پیام خود را وارد کنید"
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "CLOSE_MESSAGES_BUTTON": "Close"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Please enter your email",
+  "CHAT_PLACEHOLDER": "Type your message"
 }
