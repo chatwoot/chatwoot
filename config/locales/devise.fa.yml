@@ -1,62 +1,61 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 fa:
   devise:
     confirmations:
-      confirmed: "ایمیل شما با موفقیت فعال شد."
-      send_instructions: "ظرف چند دقیقه ایمیلی حاوی روش فعال کردن حساب خود دریافت خواهید کرد."
-      send_paranoid_instructions: "در صورت موجود بودن ایمیل شما در پایگاه داده ما، ظرف چند دقیقه یک ایمیل حاوی روش فعال کردن حساب خود دریافت خواهید کرد."
+      confirmed: "Your email address has been successfully confirmed."
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
     failure:
-      already_authenticated: "شما قبلا از حساب کاربری خود خارج شده‌اید."
-      inactive: "حساب کاربری شما هنوز فعال نشده است."
-      invalid: "شناسه %{authentication_keys} یا رمز عبور اشتباه است یا هنوز فعال نشده است."
-      locked: "حساب کاربری شما مسدود شده است."
-      last_attempt: "یک مرتبه دیگر می‌توانید امتحان کنید و پس از آن حساب کاربری شما مسدود می‌شود."
-      not_found_in_database: "شناسه %{authentication_keys} یا رمز عبور اشتباه است."
-      timeout: "مدت زیادی است که با سایت کار نکرده‌اید، جهت تامین امنیت شما لازم است مجددا به حساب کاربری خود وارد شوید."
-      unauthenticated: "برای استفاده از این بخش لازم است به ثبت نام کرده و به حساب کاربری خود وارد شوید."
-      unconfirmed: "برای استفاده از این بخش لازم است از طریق ایمیل خود، حساب کاربریتان را فعال کنید."
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "You need to sign in or sign up before continuing."
+      unconfirmed: "You have to confirm your email address before continuing."
     mailer:
       confirmation_instructions:
-        subject: "روش فعال‌سازی"
+        subject: "Confirmation Instructions"
       reset_password_instructions:
-        subject: "روش تغییر رمزعبور"
+        subject: "Reset password instructions"
       unlock_instructions:
-        subject: "روش باز کردن حساب مسدود شده"
+        subject: "Unlock instructions"
       password_change:
-        subject: "رمز عبور تغییر کرد"
+        subject: "Password Changed"
     omniauth_callbacks:
-      failure: "متاسفانه به علت \"%{reason}\" امکان ورود از %{kind} وجود ندارد."
-      success: "ورود از حساب %{kind} با موفقیت انجام شد."
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
     passwords:
-      no_token: "این صفحه تنها در صورتی قابل مشاهده است که از طریق ایمیل باز شده باشد. چنانچه از طریق ایمیل وارد این لینک شده‌اید مطمئن شوید لینک را به طور کامل کپی کرده‌اید."
-      send_instructions: "ظرف چند دقیقه ایمیلی حاوی روش تغییر دادن رمز عبور برای شما ارسال می‌شود."
-      send_paranoid_instructions: "در صورتیکه ایمیل شما در پایگاه داده ما موجود باشد، ایمیلی حاوی لینک تغییر رمز عبور دریافت خواهید کرد."
-      updated: "رمز عبور شما عوض شد. حالا به سیستم وارد شدید."
-      updated_not_active: "رمز عبورتان عوض شد."
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
     registrations:
-      destroyed: "بدرود! حساب شما با موفقیت لغو شد. به امید دیدار مجدد شما"
-      signed_up: "خوش آمدید! حساب کاربری با موفقیت ساخته شد."
-      signed_up_but_inactive: "حساب کاربری شما ساخته شد. ولی برای ورود به حساب لازم است آن را فعال کنید."
-      signed_up_but_locked: "حساب شما با موفقیت ساخته شد. ولی در حال حاضر امکان ورود ندارید. حساب شما مسدود شده است."
-      signed_up_but_unconfirmed: "پیامی حاوی لینک فعالسازی حساب به ایمیل شما ارسال شد. لطفا لینک ارسال شده را کلیک کنید تا حساب شما فعال شود."
-      update_needs_confirmation: "تغییرات حساب شما ثبت شد، ولی نیاز است ایمیل جدید خود را تایید کنید. لطفا آن ایمیل را چک کنید و لینک تایید ایمیل ارسال شده به آن را کلیک کنید تا ایمیل جدیدتان تایید شود."
-      updated: "تغییرات پروفایل با موفقیت ثبت شد."
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      updated: "Your account has been updated successfully."
     sessions:
-      signed_in: "با موفقیت وارد شدید."
-      signed_out: "با موفقیت خارج شدید."
-      already_signed_out: "قبلا از حساب خود خارج شده‌اید."
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
     unlocks:
-      send_instructions: "ظرف چند دقیقه ایمیلی حاوی نحوه رفع مسدودیت حساب کاربری خود دریافت خواهید کرد."
-      send_paranoid_instructions: "اگر حساب کاربری شما وجود داشته باشد، ایمیلی حاوی روش رفع مسدودیت آن را دریافت خواهید کرد."
-      unlocked: "مسدودیت حساب شما با موفقیت برطرف شد. لطفا به حساب خود وارد شوید."
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
   errors:
     messages:
-      already_confirmed: "حساب کاربری قبلا فعال شده، به حساب کاربری خود وارد شوید."
-      confirmation_period_expired: "فعالسازی حساب می‌بایست ظرف %{period}، انجام می‌شد. لطفا درخواست دهید تا مجددا ایمیل فعالسازی ارسال شود."
-      expired: "منقضی شده است، لطفا مجددا درخواست بدهید."
-      not_found: "یافت نشد"
-      not_locked: "مسدود نشده است."
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
       not_saved:
-        one: "یک خطا مانع ثبت شدن تغییرات %{resource} شده است.:"
-        other: "%{count} خطا مانع ثبت شدن تغییرات %{resource} شده است:"
+        one: "1 error prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"
