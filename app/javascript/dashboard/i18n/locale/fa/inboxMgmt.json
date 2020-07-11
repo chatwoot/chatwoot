@@ -1,191 +1,191 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "صندوق‌های ورودی",
-    "SIDEBAR_TXT": "<p><b>صندوق ورودی</b></p> <p> وقتی چت ووت به یک وب سایت یا یک صفحه فیس بوک متصل شود به آن <b>صندوق ورودی</b> می‌گوید. شما در حساب  چت ووت خود می‌توانید بی‌نهایت صندوق ورودی داشته باشید. </p><p> روی دکمه <b>اضافه کردن صندوق ورودی</b> کلیک کنید تا به یک وب سایت یا یک صفحه فیس بوک وصل شوید. </p><p> در داشبورد، می‌توانید گفتگوهای همه صندوق‌های ورودی را یکجا ببینید و در تب «گفتگوها» به آن‌ها پاسخ بدهید. </p><p> همچنین می‌توانید با کلیک کردن روی اسم صندوق ورودی از قسمت سمت چپ، فقط گفتگوهای همان صندوق را ببینید. </p>",
+    "HEADER": "Inboxes",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
-      "404": "برای این حساب هیچ صندوق ورودی معرفی نشده است."
+      "404": "There are no inboxes attached to this account."
     },
     "CREATE_FLOW": [
       {
-        "title": "کانال ورودی را انتخاب کنید",
+        "title": "Choose Channel",
         "route": "settings_inbox_new",
-        "body": "جایی که قرار است امکان گفتگوی آنلاین در آنجا فراهم شود را انتخاب کنید"
+        "body": "Choose the provider you want to integrate with Chatwoot."
       },
       {
-        "title": "ساخت صندوق ورودی",
+        "title": "Create Inbox",
         "route": "settings_inboxes_page_channel",
-        "body": "به حساب کاربری وارد شوید و صندوق ورودی بسازید."
+        "body": "Authenticate your account and create an inbox."
       },
       {
-        "title": "معرفی اپراتور",
+        "title": "Add Agents",
         "route": "settings_inboxes_add_agents",
-        "body": "اپراتورها را به صندوق ورودی ساخته شده تخصیص می‌دهد"
+        "body": "Add agents to the created inbox."
       },
       {
-        "title": "ماشالله!",
+        "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "دیگه می‌تونی بترکونی"
+        "body": "You are all set to go!"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "پانویس: با وارد شدن ما فقط به پیام‌های صفحه دسترسی پیدا می‌کنیم. پیام‌های خصوصی شما را هرگز نخواهیم دید",
-        "CHOOSE_PAGE": "انتخاب صفحه",
-        "CHOOSE_PLACEHOLDER": "از لیست صفحه مورد نظر را انتخاب کنید",
-        "INBOX_NAME": "عنوان صندوق ورودی",
-        "ADD_NAME": "یک اسم به صندوق ورودی خود اضافه کنید",
-        "PICK_NAME": "یک اسم برای صندوق ورودی خود انتخاب کنید",
-        "PICK_A_VALUE": "یک مقدار انتخاب کنید"
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
-        "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' "
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "کانال وب سایت",
-        "DESC": "یک کانال به وب سایت خود بسازید تا مشتریان بتوانند از طریق ویجت سایت با شما گفتگو کنند.",
-        "LOADING_MESSAGE": "در حال ساخت کانال پشتیبانی آنلاین سایت",
+        "TITLE": "Website channel",
+        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
+        "LOADING_MESSAGE": "Creating Website Support Channel",
         "CHANNEL_AVATAR": {
-          "LABEL": "آواتار کانال"
+          "LABEL": "Channel Avatar"
         },
         "CHANNEL_NAME": {
-          "LABEL": "عنوان سایت",
-          "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
+          "LABEL": "Website Name",
+          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "دامنه سایت",
-          "PLACEHOLDER": "دامنه سایت خود را وارد کنید (به عنوان مثال: acme.com)"
+          "LABEL": "Website Domain",
+          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "تیتر خوش آمدگویی",
-          "PLACEHOLDER": "سلام!"
+          "LABEL": "Welcome Heading",
+          "PLACEHOLDER": "Hi there !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "زیرتیتر خوش آمدگویی",
-          "PLACEHOLDER": "دسترسی به ما ساده است. هر سوالی پیش آمد همینجا از ما بپرسید."
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "پیام پاسخگویی کانال",
-          "PLACEHOLDER": "شرکت ما در اسرع وقت به پیام‌ها پاسخ می‌دهد"
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "فعال کردن پیام پاسخگویی",
-          "HELP_TEXT": "به محض اینکه کاربر گفتگویی را شروع کرد، پیام مشخصی در جواب او ارسال می‌شود",
-          "ENABLED": "فعال",
-          "DISABLED": "غیرفعال"
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
         },
         "WIDGET_COLOR": {
-          "LABEL": "رنگ ویجت",
-          "PLACEHOLDER": "رنگی که در ویجت استفاده می‌شود را تعیین کنید"
+          "LABEL": "Widget Color",
+          "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON": "ساختن صندوق ورودی"
+        "SUBMIT_BUTTON": "Create inbox"
       },
       "TWILIO": {
-        "TITLE": "کانال اس ام اس تولیو/واتساپ",
-        "DESC": "به Twilio متصل شوید و مشتریان خود را از طریق پیامک یا واتساپ پشتیبانی کنید",
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
         "ACCOUNT_SID": {
-          "LABEL": "شناسه SID",
-          "PLACEHOLDER": "لطفا شناسه SID حساب Twilio خود را وارد کنید",
-          "ERROR": "پر کردن این فیلد ضروری است"
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Please enter your Twilio Account SID",
+          "ERROR": "This field is required"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "نوع کانال",
-          "ERROR": "لطفا نوع کانال را انتخاب کنید"
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth توکن",
-          "PLACEHOLDER": "لطفا توکن Auth حساب Twilio خود را وارد کنید",
-          "ERROR": "پر کردن این فیلد ضروری است"
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Please enter your Twilio Auth Token",
+          "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "عنوان کانال",
-          "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
-          "ERROR": "پر کردن این فیلد ضروری است"
+          "LABEL": "Channel Name",
+          "PLACEHOLDER": "Please enter a channel name",
+          "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
-          "LABEL": "شماره تلفن",
-          "PLACEHOLDER": "لطفا شماره‌ای که پیام‌ می‌بایست به آن ارسال شود را وارد کنید",
-          "ERROR": "لطفا شماره تلفن را به شکل صحیح وارد کنید. شماره می‌بایست با کاراکتر `+` شروع شود"
+          "LABEL": "Phone number",
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
         },
         "API_CALLBACK": {
-          "TITLE": "آدرس URL مربوط به API",
-          "SUBTITLE": "لازم است آدرس Callback URL موجود در Twilio را به آنچه که در اینجا ذکر شده تنظیم کنید"
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
-        "SUBMIT_BUTTON": "ساختن کانال Twilio",
+        "SUBMIT_BUTTON": "Create Twilio Channel",
         "API": {
-          "ERROR_MESSAGE": "متاسفانه Twilio اطلاعات ارائه شده را تایید نمی کند، لطفا اصلاح و مجددا تلاش کنید"
+          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
       "AUTH": {
-        "TITLE": "کانال‌ها",
-        "DESC": "در حال حاضر ما ویجت‌های پشتیبانی آنلاین سایت‌ها، صفحات فیس بوک و پروفایل‌های توییتر را پشتیبانی می‌کنیم. پلتفرم‌های دیگری مثل واتساپ، ایمیل، تلگرام و لاین در برنامه کاری ما قرار دارد و به زودی آماده خواهند شد."
+        "TITLE": "Channels",
+        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
-        "TITLE": "اپراتورها",
-        "DESC": "در اینجا می‌توانید اپراتورها را به صندوق‌ ورودی خود اختصاص دهید. توجه داشته باشید که فقط اپراتورهایی که در اینجا معرفی شده باشند می‌توانند به پیام‌های این صندوق پاسخ بدهند.دیگر اپراتورها نخواهند توانست پیام‌های این صندوق را ببینید یا به آن‌ها پاسخی بدهند. <br> <b>پانویس:</b>به عنوان مدیر اگر می‌خواهید به همه صندوق‌های ورودی دسترسی داشته باشید می‌بایست خود را به عنوان اپراتور به همه صندوق‌ها اضافه کنید."
+        "TITLE": "Agents",
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
       },
       "DETAILS": {
-        "TITLE": "جزئیات صندوق‌ ورودی",
-        "DESC": "از کادر زیر صفحه فیس بوکی که می‌خواهید به چت ووت متصل شود انتخاب کنید. همچنین می‌توانید برای تشخیص بهتر یک اسم مشخص برای این صندوق تعیین کنید."
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
       },
       "FINISH": {
-        "TITLE": "ماشالله!",
-        "DESC": "چت ووت با موفقیت به فیس بوک متصل شد. از به بعد هر مشتری که پیامی در این صفحه بنویسید، آن پیام در صندوق ورودی چت ووت ظاهر می‌شود و گفتگویی ایجاد می‌شود..<br>فراموش نکنید که ما یک ویجت برای سایت‌ها هم داریم که با قرار دادن آن در سایت، مشتری می‌تواند به صورت آنلاین با شما گفتگو کند و پیام‌ها در صندوق ورودی آن ظاهر می‌شود<br>باحال نیست؟ ما همیشه باحالیم! :)"
+        "TITLE": "Nailed It!",
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "در حال احراز هویت با فیس بوک...",
-      "ERROR_FB_AUTH": "اشکالی پیش آمد.. لطفا دوباره سعی کنید...",
-      "CREATING_CHANNEL": "در حال ساخت صندوق ورودی...",
-      "TITLE": "تنظیمات صفحه ورودی",
+      "LOADING_FB": "Authenticating you with Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Creating your Inbox...",
+      "TITLE": "Configure Inbox Details",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "اضافه کردن اپراتور",
-      "ADD_AGENTS": "اضافه کردن اپراتور به صندوق ورودی..."
+      "BUTTON_TEXT": "Add agents",
+      "ADD_AGENTS": "Adding Agents to your Inbox..."
     },
     "FINISH": {
-      "TITLE": "صندوق ورودی حاضره!",
-      "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت ",
-      "BUTTON_TEXT": "نشانم بده",
-      "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود."
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Take me there",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
-    "REAUTH": "احراز هویت مجدد",
-    "VIEW": "نمایش",
+    "REAUTH": "Reauthorize",
+    "VIEW": "View",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "تنظمیات صندوق ورودی اعمال شد",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "وضعیت واگذاری خودکار گفتگو به اپراتورها تنظیم شد",
-        "ERROR_MESSAGE": "در حال حاضر امکان تغییر رنگ ویجت امکان‌پذیر نیست. لطفا بعدا امتحان کنید."
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "فعال",
-        "DISABLED": "غیرفعال"
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "حذف",
+      "BUTTON_TEXT": "Delete",
       "CONFIRM": {
-        "TITLE": "تاییدیه حذف",
-        "MESSAGE": "مطمئن هستید که حذف شود ",
-        "YES": "بله، حذف شود ",
-        "NO": "نه، بماند "
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
       },
       "API": {
-        "SUCCESS_MESSAGE": "صندوق ورودی حذف شد",
-        "ERROR_MESSAGE": "صندوق ورودی حذف نشد، لطفا بعدا امتحان کنید"
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
       }
     },
-    "SETTINGS": "تنظیمات",
+    "SETTINGS": "Settings",
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "اسکریپت ویجت",
-      "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
-      "INBOX_AGENTS": "اپراتورها",
-      "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی اپراتور به صندوق ورودی",
-      "UPDATE": "اعمال شود",
-      "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به اپراتورها",
-      "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
-      "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به اپراتورهای عضو این صندوق ورودی."
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "UPDATE": "Update",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
     }
   }
 }
