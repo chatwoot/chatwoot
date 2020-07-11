@@ -1,32 +1,32 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "ثبت حساب",
-    "TITLE": "ثبت نام",
-    "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از ما را تایید کرده و می‌پذیرید.",
+    "TRY_WOOT": "Register an account",
+    "TITLE": "Register",
+    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "عنوان حساب",
-      "PLACEHOLDER": "شرکت ایران ناسیونال",
-      "ERROR": "عنوان خیلی کوتاه است"
+      "LABEL": "Account Name",
+      "PLACEHOLDER": "Wayne Enterprises",
+      "ERROR": "Account Name is too short"
     },
     "EMAIL": {
-      "LABEL": "ایمیل",
+      "LABEL": "Email",
       "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "ایمیل اشتباه است"
+      "ERROR": "Email is invalid"
     },
     "PASSWORD": {
-      "LABEL": "رمز عبور",
-      "PLACEHOLDER": "رمز عبور",
-      "ERROR": "رمز عبور خیلی کوتاه است"
+      "LABEL": "Password",
+      "PLACEHOLDER": "Password",
+      "ERROR": "Password is too short"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "تکرار رمز عبور",
-      "PLACEHOLDER": "تکرار رمز عبور",
-      "ERROR": "رمز عبور و تکرار رمز عبور یکسان نیستند"
+      "LABEL": "Confirm Password",
+      "PLACEHOLDER": "Confirm Password",
+      "ERROR": "Password doesnot match"
     },
     "API": {
-      "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
-      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
+      "SUCCESS_MESSAGE": "Registration Successfull",
+      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
-    "SUBMIT": "ثبت"
+    "SUBMIT": "Submit"
   }
 }
