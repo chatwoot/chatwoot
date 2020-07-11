@@ -1,44 +1,45 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "تنظیمات حساب",
-    "SUBMIT": "تغییر تنظیمات",
+    "TITLE": "Account settings",
+    "SUBMIT": "Update settings",
+    "BACK": "Back",
     "UPDATE": {
-      "ERROR": "تنظیمات تغییری نکرد، دوباره امتحان کنید!",
-      "SUCCESS": "تنظیمات با موفقیت اعمال شد"
+      "ERROR": "Could not update settings, try again!",
+      "SUCCESS": "Successfully updated account settings"
     },
     "FORM": {
-      "ERROR": "لطفا ایرادات فرم را برطرف کنید",
+      "ERROR": "Please fix form errors",
       "GENERAL_SECTION": {
-        "TITLE": "تنظیمات عمومی",
+        "TITLE": "General settings",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "عنوان حساب",
-        "PLACEHOLDER": "عنوان حساب شما",
-        "ERROR": "لطفا عنوان حساب را به درستی وارد نمایید"
+        "LABEL": "Account name",
+        "PLACEHOLDER": "Your account name",
+        "ERROR": "Please enter a valid account name"
       },
       "LANGUAGE": {
-        "LABEL": "زبان سایت (آزمایشی)",
-        "PLACEHOLDER": "زبان نمایش المان‌های متنی سایت",
+        "LABEL": "Site language (Beta)",
+        "PLACEHOLDER": "Your account name",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "دامنه",
-        "PLACEHOLDER": "دامنه سایت شما",
+        "LABEL": "Domain",
+        "PLACEHOLDER": "Your website domain",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "ایمیل پشتیبانی",
-        "PLACEHOLDER": "ایمیل پشتیبانی شرکت شما",
+        "LABEL": "Support Email",
+        "PLACEHOLDER": "Your company's support email",
         "ERROR": ""
       },
       "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "فعال کردن ایمیل دامنه",
-        "PLACEHOLDER": "فعال کردن ایمیل دامنه‌های اختصاصی",
+        "LABEL": "Enable domain email",
+        "PLACEHOLDER": "Enable the custom domain email",
         "ERROR": "",
         "OPTIONS": {
-          "ENABLED": "فعال",
-          "DISABLED": "غیرفعال"
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
         }
       }
     }
