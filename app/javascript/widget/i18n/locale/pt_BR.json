@@ -14,6 +14,10 @@
     "OTHERS_ARE_AVAILABLE": "outros estão disponíveis",
     "AND": "e"
   },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "CLOSE_MESSAGES_BUTTON": "Fechar"
+  },
   "POWERED_BY": "Desenvolvido por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
   "CHAT_PLACEHOLDER": "Digite sua mensagem"
