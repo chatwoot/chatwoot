@@ -39,7 +39,7 @@ title: "Supported features on channels"
 <div class="table table-striped">
 
 | Channel | Restriction |
-| -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| -- | -- |
 | Website | No restriction |
 | Facebook | Cannot send promotional messages 24 hours after the last incoming message  |
 | Twitter DM | No restriction |
@@ -54,7 +54,7 @@ title: "Supported features on channels"
 <div class="table table-striped">
 
 | Channel | Channel greeting | Attachments | Agent Auto assignment | Slack |
-| -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| -- | -- | -- | -- | -- |
 | Website | Yes | Yes | Yes | Yes |
 | Facebook | Yes | No | Yes | No |
 | Twitter DM | Yes | No | Yes | No |
