@@ -45,7 +45,7 @@ title: "Supported features on channels"
 | Twitter DM | No restriction |
 | Tweets | No restriction |
 | SMS | No restriction |
-| Whatsapp | Cannot send any message other than whatsapp approved template messages 24 hours after the last incoming message |
+| Whatsapp | Cannot send any message other than Whatsapp approved template messages 24 hours after the last incoming message |
 
 </div>
 
@@ -53,13 +53,13 @@ title: "Supported features on channels"
 
 <div class="table table-striped">
 
-| Channel | Channel greeting | Attachments | Agent Auto assigment |
-| -- | -- | -- | -- | -- | -- | -- | -- |
-| Website | Yes | Yes | Yes |
-| Facebook | Yes | No | Yes |
-| Twitter DM | Yes | No | Yes |
-| Tweets | Yes | No | Yes |
-| SMS | Yes | No | Yes
-| Whatsapp | Yes | No | Yes |
+| Channel | Channel greeting | Attachments | Agent Auto assignment | Slack |
+| -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| Website | Yes | Yes | Yes | Yes |
+| Facebook | Yes | No | Yes | No |
+| Twitter DM | Yes | No | Yes | No |
+| Tweets | Yes | No | Yes | No |
+| SMS | Yes | No | Yes | No |
+| Whatsapp | Yes | No | Yes | No |
 
 </div>
