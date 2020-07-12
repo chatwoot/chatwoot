@@ -1,7 +1,7 @@
 import inboxes from '../inboxes';
 import ApiClient from '../ApiClient';
 
-describe('#AgentAPI', () => {
+describe('#InboxesAPI', () => {
   it('creates correct instance', () => {
     expect(inboxes).toBeInstanceOf(ApiClient);
     expect(inboxes).toHaveProperty('get');

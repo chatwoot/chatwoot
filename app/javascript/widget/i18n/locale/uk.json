@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Звантажити",
+      "UPLOADING": "Завантажується..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Додати"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
+  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення"
+}

@@ -27,10 +27,6 @@ module Chatwoot
     config.generators.javascripts = false
     config.generators.stylesheets = false
 
-    config.action_dispatch.default_headers = {
-      'X-Frame-Options' => 'ALLOWALL'
-    }
-
     # Custom chatwoot configurations
     config.x = config_for(:app).with_indifferent_access
   end

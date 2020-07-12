@@ -12,6 +12,8 @@ class NotificationSubscriptionBuilder
 
   def identifier
     @identifier ||= params[:subscription_attributes][:endpoint] if params[:subscription_type] == 'browser_push'
+    @identifier ||= params[:subscription_attributes][:device_id] if params[:subscription_type] == 'fcm'
+    @identifier
   end
 
   def identifier_subscription

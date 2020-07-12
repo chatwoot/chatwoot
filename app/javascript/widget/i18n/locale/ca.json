@@ -2,19 +2,19 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
-      "UPLOADING": "S'està pujant..."
+      "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "sotmetre's"
+      "SUBMIT": "Envia"
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "està disponible",
-    "ARE_AVAILABLE": "estan disponibles",
-    "OTHERS_ARE_AVAILABLE": "altres estan disponibles",
-    "AND": "i"
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
   },
-  "POWERED_BY": "Desenvolupat per Chatwoot",
-  "EMAIL_PLACEHOLDER": "Introduïu el vostre correu electrònic",
-  "CHAT_PLACEHOLDER": "Escriu el teu missatge"
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
+  "CHAT_PLACEHOLDER": "Type your message"
 }

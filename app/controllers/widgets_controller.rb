@@ -4,6 +4,7 @@ class WidgetsController < ActionController::Base
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
+  after_action :allow_iframe_requests
 
   def index; end
 
@@ -49,5 +50,9 @@ class WidgetsController < ActionController::Base
 
   def permitted_params
     params.permit(:website_token, :cw_conversation)
+  end
+
+  def allow_iframe_requests
+    response.headers.delete('X-Frame-Options')
   end
 end

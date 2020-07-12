@@ -2,6 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
     "SUBMIT": "ക്രമീകരണങ്ങൾ അപ്‌ഡേറ്റു ചെയ്യുക",
+    "BACK": "Back",
     "UPDATE": {
       "ERROR": "ക്രമീകരണങ്ങൾ അപ്‌ഡേറ്റു ചെയ്യാനായില്ല, വീണ്ടും ശ്രമിക്കുക!",
       "SUCCESS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്‌തു"
@@ -21,6 +22,25 @@
         "LABEL": "സൈറ്റ് ഭാഷ (ബീറ്റ)",
         "PLACEHOLDER": "നിങ്ങളുടെ അക്കൗണ്ടിന്റെ പേര്",
         "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACEHOLDER": "Your website domain",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Support Email",
+        "PLACEHOLDER": "Your company's support email",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Enable domain email",
+        "PLACEHOLDER": "Enable the custom domain email",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+          "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+        }
       }
     }
   }

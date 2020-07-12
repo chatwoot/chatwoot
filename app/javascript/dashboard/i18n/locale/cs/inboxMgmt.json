@@ -1,0 +1,191 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Krabice",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "K tomuto účtu nejsou připojeny žádné doručené schránky."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Vybrat kanál",
+        "route": "settings_inbox_new",
+        "body": "Vyberte si poskytovatele, který chcete integrovat do Chatwoot."
+      },
+      {
+        "title": "Vytvořit doručenou poštu",
+        "route": "settings_inboxes_page_channel",
+        "body": "Ověřte si svůj účet a vytvořte si doručenou poštu."
+      },
+      {
+        "title": "Přidat agenty",
+        "route": "settings_inboxes_add_agents",
+        "body": "Přidat agenty do vytvořené schránky."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Vše je nastaveno!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
+      "TWITTER": {
+        "HELP": "Chcete-li přidat svůj Twitter profil jako kanál, musíte ověřit svůj Twitter profil kliknutím na tlačítko 'Přihlásit se přes Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Kanál webové stránky",
+        "DESC": "Vytvořte si kanál pro vaše webové stránky a začněte podporovat své zákazníky prostřednictvím našeho widgetu.",
+        "LOADING_MESSAGE": "Vytváření podpůrného kanálu webových stránek",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Název webu",
+          "PLACEHOLDER": "Zadejte název webové stránky (např. Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Doména webových stránek",
+          "PLACEHOLDER": "Zadejte doménu webu (např. acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Úvod uvítání",
+          "PLACEHOLDER": "Ahoj!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Vítejte Tagline",
+          "PLACEHOLDER": "Snadno se s námi spojujeme. Požádejte nás o cokoliv, nebo sdílejte svou zpětnou vazbu."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Povoleno",
+          "DISABLED": "Zakázáno"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Barva widgetu",
+          "PLACEHOLDER": "Aktualizovat barvu widgetu použitou ve widgetu"
+        },
+        "SUBMIT_BUTTON": "Vytvořit doručenou poštu"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "SID účtu",
+          "PLACEHOLDER": "Zadejte SID vašeho Twilio účtu",
+          "ERROR": "Toto pole je povinné"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Zadejte svůj ověřovací Token Twilio",
+          "ERROR": "Toto pole je povinné"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Název kanálu",
+          "PLACEHOLDER": "Zadejte název kanálu",
+          "ERROR": "Toto pole je povinné"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonní číslo",
+          "PLACEHOLDER": "Zadejte prosím telefonní číslo, ze kterého bude zpráva odeslána.",
+          "ERROR": "Zadejte platnou hodnotu. Telefonní číslo by mělo začínat znakem `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
+        "SUBMIT_BUTTON": "Vytvořit Twilio kanál",
+        "API": {
+          "ERROR_MESSAGE": "Nebyli jsme schopni ověřit přihlašovací údaje Twilia, zkuste to prosím znovu"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Kanály",
+        "DESC": "V současné době podporujeme jako platformu widgety živého chatu, Facebook stránky a Twitter profily. Máme více platforem jako Whatsapp, Email, Telegram a Line v dílech, což bude brzy ven."
+      },
+      "AGENTS": {
+        "TITLE": "Agenti",
+        "DESC": "Zde můžete přidat agenty ke správě nově vytvořené schránky. Pouze tito vybraní agenti budou mít přístup do vaší schránky. Agenty, které nejsou součástí této schránky, nebudou moci při přihlášení vidět zprávy v této schránce ani na ně reagovat. <br> <b>PS:</b> Jako správce, pokud potřebujete přístup ke všem schránkám, byste se měli přidat jako agent do všech schránek, které vytváříte."
+      },
+      "DETAILS": {
+        "TITLE": "Doručená pošta detaily",
+        "DESC": "Z rozevíracího seznamu níže vyberte Facebook stránku, kterou chcete připojit k Chatwoot. Můžete také zadat vlastní název doručené poště pro lepší identifikaci."
+      },
+      "FINISH": {
+        "TITLE": "Nalezeno to!",
+        "DESC": "Úspěšně jste dokončili integraci vaší facebookové stránky s Chatwootem. Až příště přijde zákaznická zpráva, konverzace se automaticky objeví ve vaší schránce.<br>Poskytujeme vám také widget skript, který můžete snadno přidat na vaše webové stránky. Jakmile je toto aktivní na vašich webových stránkách, zákazníci vám mohou posílat zprávy přímo z vašich webových stránek bez pomoci externího nástroje a konverzace se objeví přímo zde, na Chatwoot.<br>Skvěle, co? No, určitě se pokusíme být :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Ověřování pomocí Facebooku...",
+      "ERROR_FB_AUTH": "Něco se pokazilo, prosím obnovte stránku...",
+      "CREATING_CHANNEL": "Vytvářím vaši doručenou poštu...",
+      "TITLE": "Konfigurace detailů doručené pošty",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Přidat agenty",
+      "ADD_AGENTS": "Přidávání agentů do vaší schránky..."
+    },
+    "FINISH": {
+      "TITLE": "Vaše doručená pošta je připravena!",
+      "MESSAGE": "Nyní se můžete spojit se svými zákazníky prostřednictvím nového kanálu. Šťastná podpora ",
+      "BUTTON_TEXT": "Vezmi mě tam",
+      "WEBSITE_SUCCESS": "Úspěšně jste dokončili vytvoření webového kanálu. Zkopírujte kód zobrazený níže a vložte jej na vaše webové stránky. Když zákazník příště použije živý chat, konverzace se automaticky objeví ve vaší doručené poště."
+    },
+    "REAUTH": "Znovu autorizovat",
+    "VIEW": "Zobrazit",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Nastavení doručené pošty bylo úspěšně aktualizováno",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatické přiřazení bylo úspěšně aktualizováno",
+        "ERROR_MESSAGE": "Nelze aktualizovat barvu widgetu. Opakujte akci později."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Povoleno",
+        "DISABLED": "Zakázáno"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Vymazat",
+      "CONFIRM": {
+        "TITLE": "Potvrdit odstranění",
+        "MESSAGE": "Opravdu chcete odstranit ",
+        "YES": "Ano, odstranit ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Doručená pošta byla úspěšně smazána",
+        "ERROR_MESSAGE": "Nelze odstranit doručenou poštu. Opakujte akci později."
+      }
+    },
+    "SETTINGS": "Nastavení",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger skript",
+      "MESSENGER_SUB_HEAD": "Umístěte toto tlačítko dovnitř vašeho tělesného štítku",
+      "INBOX_AGENTS": "Agenti",
+      "INBOX_AGENTS_SUB_TEXT": "Přidat nebo odebrat agenty z této složky doručené pošty",
+      "UPDATE": "Aktualizovat",
+      "AUTO_ASSIGNMENT": "Povolit automatické přiřazení",
+      "INBOX_UPDATE_TITLE": "Nastavení doručené pošty",
+      "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastavení doručené pošty",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Povolit nebo zakázat automatické přiřazování nových konverzací agentům přidaným do této schránky."
+    }
+  }
+}

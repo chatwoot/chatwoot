@@ -1,0 +1,77 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "உரையாடல்களைப் பெறுகிறது",
+    "LOAD_MORE_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றவும்",
+    "EOF": "எல்லா உரையாடல்களும் ஏற்றப்பட்டன",
+    "LIST": {
+      "404": "இந்த குழுவில் செயலில் உள்ள உரையாடல்கள் எதுவும் இல்லை."
+    },
+    "TAB_HEADING": "உரையாடல்கள்",
+    "SEARCH": {
+      "INPUT": "நபர்கள், அரட்டைகள், சேமித்த பதில்களை தேட .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "திற",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "தீர்க்கப்பட்டது",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "என்னுடைய",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "ஒதுக்கப்படாதது",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "எல்லாம்",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "திற",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "தீர்க்கப்பட்டது",
+        "VALUE": "resolved"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "பட செய்தி"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "ஆடியோ செய்தி"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "வீடியோ செய்தி"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "பைல் இணைப்புகள்"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "இருப்பிடம்"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "ஒரு URL ஐப் பகிர்ந்துள்ளார்"
+      }
+    }
+  }
+}

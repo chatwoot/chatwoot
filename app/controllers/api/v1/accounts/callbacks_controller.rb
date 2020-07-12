@@ -1,4 +1,4 @@
-class Api::V1::Accounts::CallbacksController < Api::BaseController
+class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   before_action :inbox, only: [:reauthorize_page]
 
   def register_facebook_page
@@ -7,11 +7,11 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
     page_id = params[:page_id]
     inbox_name = params[:inbox_name]
     ActiveRecord::Base.transaction do
-      facebook_channel = current_account.facebook_pages.create!(
+      facebook_channel = Current.account.facebook_pages.create!(
         page_id: page_id, user_access_token: user_access_token,
         page_access_token: page_access_token
       )
-      @facebook_inbox = current_account.inboxes.create!(name: inbox_name, channel: facebook_channel)
+      @facebook_inbox = Current.account.inboxes.create!(name: inbox_name, channel: facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     rescue StandardError => e
       Rails.logger.info e
@@ -22,7 +22,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
     @page_details = mark_already_existing_facebook_pages(fb_object.get_connections('me', 'accounts'))
   end
 
-  # get params[:inbox_id], current_account, params[:omniauth_token]
+  # get params[:inbox_id], current_account. params[:omniauth_token]
   def reauthorize_page
     if @inbox&.facebook?
       fb_page_id = @inbox.channel.page_id
@@ -40,7 +40,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
   private
 
   def inbox
-    @inbox = current_account.inboxes.find_by(id: params[:inbox_id])
+    @inbox = Current.account.inboxes.find_by(id: params[:inbox_id])
   end
 
   def update_fb_page(fb_page_id, access_token)
@@ -50,7 +50,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
   end
 
   def get_fb_page(fb_page_id)
-    current_account.facebook_pages.find_by(page_id: fb_page_id)
+    Current.account.facebook_pages.find_by(page_id: fb_page_id)
   end
 
   def fb_object
@@ -69,7 +69,7 @@ class Api::V1::Accounts::CallbacksController < Api::BaseController
     return [] if data.empty?
 
     data.inject([]) do |result, page_detail|
-      page_detail[:exists] = current_account.facebook_pages.exists?(page_id: page_detail['id']) ? true : false
+      page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id']) ? true : false
       result << page_detail
     end
   end

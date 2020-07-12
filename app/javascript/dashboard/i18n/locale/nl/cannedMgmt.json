@@ -18,6 +18,7 @@
     "ADD": {
       "TITLE": "Standaard antwoord toevoegen",
       "DESC": "Standaard antwoorden zijn opgeslagen antwoordsjablonen die kunnen worden gebruikt om snel te reageren op gesprek.",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Korte code",
@@ -38,6 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Bewerk standaard antwoord",
+      "CANCEL_BUTTON_TEXT": "Annuleren",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Korte code",
@@ -67,7 +69,7 @@
         "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
         "YES": "Ja, verwijderen ",
-        "NO": "Nee, bewaar het "
+        "NO": "No, Keep "
       }
     }
   }

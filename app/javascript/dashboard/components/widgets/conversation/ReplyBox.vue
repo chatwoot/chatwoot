@@ -1,5 +1,5 @@
 <template>
-  <div class="reply-box">
+  <div class="reply-box" :class="replyBoxClass">
     <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
       <canned-response
         v-if="showCannedResponsesList"
@@ -13,13 +13,12 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <textarea
+      <resizable-text-area
         ref="messageInput"
         v-model="message"
-        rows="1"
         class="input"
-        type="text"
         :placeholder="$t(messagePlaceHolder())"
+        :min-height="4"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -93,18 +92,21 @@ import FileUpload from 'vue-upload-component';
 
 import EmojiInput from '../emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
 
 export default {
   components: {
     EmojiInput,
     CannedResponse,
     FileUpload,
+    ResizableTextArea,
   },
   mixins: [clickaway],
   data() {
     return {
       message: '',
       isPrivate: false,
+      isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
       isUploading: {
@@ -119,12 +121,7 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     channelType() {
-      const {
-        meta: {
-          sender: { channel },
-        },
-      } = this.currentChat;
-      return channel;
+      return this.currentChat.meta.channel;
     },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
@@ -143,10 +140,7 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return (
-        this.channelType === 'Channel::WebWidget' ||
-        this.channelType === 'Channel::TwilioSms'
-      );
+      return this.channelType === 'Channel::WebWidget';
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -156,6 +150,11 @@ export default {
         return this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
+    },
+    replyBoxClass() {
+      return {
+        'is-focused': this.isFocused,
+      };
     },
   },
   watch: {
@@ -211,18 +210,19 @@ export default {
       if (this.message.length > this.maxLength) {
         return;
       }
+      const newMessage = this.message;
       if (!this.showCannedResponsesList) {
+        this.clearMessage();
         try {
           await this.$store.dispatch('sendMessage', {
             conversationId: this.currentChat.id,
-            message: this.message,
+            message: newMessage,
             private: this.isPrivate,
           });
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error
         }
-        this.clearMessage();
         this.hideEmojiPicker();
       }
     },
@@ -260,16 +260,18 @@ export default {
     },
 
     onBlur() {
+      this.isFocused = false;
       this.toggleTyping('off');
     },
     onFocus() {
+      this.isFocused = true;
       this.toggleTyping('on');
     },
 
     toggleTyping(status) {
       if (this.channelType === 'Channel::WebWidget' && !this.isPrivate) {
         const conversationId = this.currentChat.id;
-        this.$store.dispatch('toggleTyping', {
+        this.$store.dispatch('conversationTypingStatus/toggleTyping', {
           status,
           conversationId,
         });

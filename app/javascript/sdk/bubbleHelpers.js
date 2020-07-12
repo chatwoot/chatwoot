@@ -12,7 +12,6 @@ export const chatBubble = document.createElement('div');
 export const closeBubble = document.createElement('div');
 
 export const notificationBubble = document.createElement('span');
-const bodyOverFlowStyle = document.body.style.overflow;
 
 export const createBubbleIcon = ({ className, src, target }) => {
   target.className = `${className} woot-elements--${window.$chatwoot.position}`;
@@ -32,24 +31,20 @@ export const createNotificationBubble = () => {
   return notificationBubble;
 };
 
-export const onBubbleClick = () => {
-  window.$chatwoot.isOpen = !window.$chatwoot.isOpen;
-  toggleClass(chatBubble, 'woot--hide');
-  toggleClass(closeBubble, 'woot--hide');
-  toggleClass(widgetHolder, 'woot--hide');
-  if (window.$chatwoot.isOpen) {
-    IFrameHelper.pushEvent('webwidget.triggered');
+export const onBubbleClick = (props = {}) => {
+  const { toggleValue } = props;
+  const { isOpen } = window.$chatwoot;
+  if (isOpen !== toggleValue) {
+    const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
+    window.$chatwoot.isOpen = newIsOpen;
+
+    toggleClass(chatBubble, 'woot--hide');
+    toggleClass(closeBubble, 'woot--hide');
+    toggleClass(widgetHolder, 'woot--hide');
+    IFrameHelper.events.onBubbleToggle(newIsOpen);
   }
 };
 
 export const onClickChatBubble = () => {
   wootOn(bubbleHolder, 'click', onBubbleClick);
-};
-
-export const disableScroll = () => {
-  document.body.style.overflow = 'hidden';
-};
-
-export const enableScroll = () => {
-  document.body.style.overflow = bodyOverFlowStyle;
 };

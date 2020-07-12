@@ -3,7 +3,7 @@
     "HEADER": "Agenci",
     "HEADER_BTN_TXT": "Dodaj agenta",
     "LOADING": "Pobieranie listy agentów",
-    "SIDEBAR_TXT": "<p><b>Agenci</b></p> <p> <b>Agent</b> jest członkiem Twojego zespołu wsparcia klienta. </p><p> Agenci będą mogli przeglądać i odpowiadać na wiadomości od Twoich użytkowników. Lista wyświetla wszystkich agentów aktualnie na Twoim koncie. </p><p> Kliknij <b>Dodaj agenta</b> , aby dodać nowego agenta. Dodany przez Ciebie przedstawiciel otrzyma e-mail z linkiem potwierdzającym, aby aktywować swoje konto, po którym będą mogli uzyskać dostęp do Chatwoot i odpowiadać na wiadomości. </p><p> Dostęp do funkcji Chatwoot opiera się na następujących rolach. </p><p> <b>Agent</b> - Agenci z tą rolą mogą mieć dostęp tylko do skrzynki odbiorczej, raportów i konwersacji. Mogą nadawać rozmowy innym agentom lub sami i rozwiązywać rozmowy.</p><p> <b>Administrator</b> - Administrator będzie miał dostęp do wszystkich funkcji Chatwoot włączonych dla Twojego konta, łącznie z ustawieniami i rozliczeniami, wraz ze wszystkimi uprawnieniami zwykłych agentów.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrator",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Dodaj agenta do swojego zespołu",
       "DESC": "Możesz dodać osoby, które będą w stanie obsłużyć wsparcie dla twoich skrzynek odbiorczych.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "NAME": {
           "LABEL": "Nazwa agenta",
@@ -60,7 +61,7 @@
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń ",
-        "NO": "Nie, Zachowaj "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {

@@ -6,20 +6,6 @@ class FBChannel extends ApiClient {
     super('facebook_indicators', { accountScoped: true });
   }
 
-  markSeen({ inboxId, contactId }) {
-    return axios.post(`${this.url}/mark_seen`, {
-      inbox_id: inboxId,
-      contact_id: contactId,
-    });
-  }
-
-  toggleTyping({ status, inboxId, contactId }) {
-    return axios.post(`${this.url}/typing_${status}`, {
-      inbox_id: inboxId,
-      contact_id: contactId,
-    });
-  }
-
   create(params) {
     return axios.post(
       `${this.url.replace(this.resource, '')}callbacks/register_facebook_page`,

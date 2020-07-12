@@ -51,7 +51,8 @@ class Integrations::Widget::IncomingMessageBuilder
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: 0,
-      content: options[:content]
+      content: options[:content],
+      sender: contact
     }
   end
 end

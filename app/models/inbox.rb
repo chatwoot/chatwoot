@@ -7,6 +7,8 @@
 #  id                     :integer          not null, primary key
 #  channel_type           :string
 #  enable_auto_assignment :boolean          default(TRUE)
+#  greeting_enabled       :boolean          default(FALSE)
+#  greeting_message       :string
 #  name                   :string           not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
@@ -40,6 +42,7 @@ class Inbox < ApplicationRecord
   has_one :agent_bot_inbox, dependent: :destroy
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy
+  has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
 
   after_destroy :delete_round_robin_agents
 
@@ -61,11 +64,6 @@ class Inbox < ApplicationRecord
     channel.class.name.to_s == 'Channel::WebWidget'
   end
 
-  def next_available_agent
-    user_id = Redis::Alfred.rpoplpush(round_robin_key, round_robin_key)
-    account.users.find_by(id: user_id)
-  end
-
   def webhook_data
     {
       id: id,
@@ -76,10 +74,6 @@ class Inbox < ApplicationRecord
   private
 
   def delete_round_robin_agents
-    Redis::Alfred.delete(round_robin_key)
-  end
-
-  def round_robin_key
-    format(Constants::RedisKeys::ROUND_ROBIN_AGENTS, inbox_id: id)
+    ::RoundRobin::ManageService.new(inbox: self).clear_queue
   end
 end

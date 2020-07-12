@@ -18,3 +18,11 @@ This guide will help you get started with Chatwoot!
 * [Environment Variables](/docs/environment-variables)
 * [Conversation Continuity with Email](/docs/conversation-continuity)
 * [Common Errors](/docs/common-errors)
+
+### Deployment
+
+* [Architecture](/docs/deployment/architecture)
+* [Heroku](/docs/deployment/deploy-chatwoot-with-heroku) (recommended)
+* [Caprover](/docs/deployment/deploy-chatwoot-with-caprover) (recommended)
+* [Docker](/docs/deployment/deploy-chatwoot-with-docker)
+* [Linux](/docs/deployment/deploy-chatwoot-in-linux-vm)

@@ -8,8 +8,17 @@ Lint/RaiseException:
   Enabled: true
 Lint/StructNewOverride:
   Enabled: true
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
 Layout/LineLength:
   Max: 150
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
 Metrics/ClassLength:
   Max: 125
   Exclude:
@@ -17,6 +26,8 @@ Metrics/ClassLength:
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
+  Enabled: false
+Style/ExponentialNotation:
   Enabled: false
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -27,6 +38,14 @@ Style/HashEachMethods:
 Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
+  Enabled: true
+Style/RedundantFetchBlock:
+  Enabled: true
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+Style/RedundantRegexpEscape:
+  Enabled: true
+Style/SlicingWithRange:
   Enabled: true
 Style/GlobalVars:
   Exclude:
@@ -65,7 +84,6 @@ Style/GuardClause:
     - 'app/builders/account_builder.rb'
     - 'app/models/attachment.rb'
     - 'app/models/message.rb'
-    - 'lib/webhooks/chargebee.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Metrics/AbcSize:
   Exclude: 
@@ -103,8 +121,8 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
-    - 'config/**/*'
     - 'public/**/*'
+    - 'config/initializers/bot.rb'
     - 'vendor/**/*'
     - 'node_modules/**/*'
     - 'lib/tasks/auto_annotate_models.rake'

@@ -18,6 +18,7 @@
     "ADD": {
       "TITLE": "Afegeix Resposta Predeterminada",
       "DESC": "Les respostes predeterminades són plantilles de resposta que es poden utilitzar per enviar ràpidament les respostes a les converses.",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Codi curt",
@@ -38,6 +39,7 @@
     },
     "EDIT": {
       "TITLE": "Edita la resposta predeterminada",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Codi curt",
@@ -67,7 +69,7 @@
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur ",
         "YES": "Si, esborra ",
-        "NO": "No, mantén-la "
+        "NO": "No, Keep "
       }
     }
   }
