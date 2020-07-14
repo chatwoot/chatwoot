@@ -37,17 +37,7 @@
     }
   },
   "image": "heroku/ruby",
-  "addons": [
-    {
-      "plan": "heroku-redis"
-    },
-    {
-      "plan": "heroku-postgresql",
-      "options": {
-        "version": "9.5"
-      }
-    }
-  ],
+  "addons": [ "heroku-redis", "heroku-postgresql"],
   "buildpacks": [
     {
       "url": "heroku/ruby"
