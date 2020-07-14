@@ -27,9 +27,9 @@ ___
 
 ## Background
 
-Chatwoot is a customer support tool for instant messaging channels which can help businesses to provide exceptional customer support. The development of Chatwoot started in 2016 and it failed to succeed as a business and eventually shut the shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it opensource instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
+Chatwoot is a customer support tool for instant messaging channels which can help businesses provide exceptional customer support. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it opensource, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
 
-Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and we are building it in the open. Thanks to the ideas and contributions from the community.
+Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
 ## Documentation
 
@@ -39,12 +39,12 @@ You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-set
 
 ## Branching model
 
-We use [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
+We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
 If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`. 
 
 ## Heroku one-click deploy
 
-Deploying chatwoot to heroku, it's a breeze. It's as simple as clicking this button.
+Deploying chatwoot to heroku is a breeze. It's as simple as clicking this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
@@ -54,7 +54,7 @@ Follow this [link](https://www.chatwoot.com/docs/environment-variables) to under
 
 Follow our [docker development guide](https://www.chatwoot.com/docs/installation-guide-docker) to develop and debug the application using `docker-compose`.
 
-Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup environment for Docker.
+Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup the environment for Docker.
 
 ## Contributors ✨
 
