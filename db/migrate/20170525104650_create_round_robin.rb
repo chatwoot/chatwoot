@@ -1,4 +1,4 @@
-class RoundRobin < ActiveRecord::Migration[5.0]
+class CreateRoundRobin < ActiveRecord::Migration[5.0]
   def change
     InboxMember.find_each do |im|
       round_robin_key = format(::Redis::Alfred::ROUND_ROBIN_AGENTS, inbox_id: im.inbox_id)
