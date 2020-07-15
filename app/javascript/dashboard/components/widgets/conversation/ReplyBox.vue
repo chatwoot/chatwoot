@@ -142,7 +142,8 @@ export default {
     showFileUpload() {
       return (
         this.channelType === 'Channel::WebWidget' ||
-        this.channelType === 'Channel::FacebookPage'
+        this.channelType === 'Channel::FacebookPage' ||
+        this.channelType === 'Channel::TwilioSms'
       );
     },
     replyButtonLabel() {
