@@ -20,7 +20,27 @@ class ConversationReplyMailer < ApplicationMailer
            to: @contact&.email,
            from: from_email,
            reply_to: reply_email,
-           subject: mail_subject(@messages.last),
+           subject: mail_subject,
+           message_id: custom_message_id,
+           in_reply_to: in_reply_to_email
+         })
+  end
+
+  def reply_without_summary(conversation, message_queued_time)
+    return unless smtp_config_set_or_development?
+
+    @conversation = conversation
+    @account = @conversation.account
+    @contact = @conversation.contact
+    @agent = @conversation.assignee
+
+    @messages = @conversation.messages.outgoing.where('created_at >= ?', message_queued_time)
+
+    mail({
+           to: @contact&.email,
+           from: from_email,
+           reply_to: reply_email,
+           subject: mail_subject,
            message_id: custom_message_id,
            in_reply_to: in_reply_to_email
          })
@@ -28,7 +48,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   private
 
-  def mail_subject(_last_message, _trim_length = 50)
+  def mail_subject
     subject_line = I18n.t('conversations.reply.email_subject')
     "[##{@conversation.display_id}] #{subject_line}"
   end
@@ -50,7 +70,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_message_id
-    "<conversation/#{@conversation.uuid}/messages/#{@messages.last.id}@#{current_domain}>"
+    "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{current_domain}>"
   end
 
   def in_reply_to_email
