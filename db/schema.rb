@@ -122,6 +122,7 @@ ActiveRecord::Schema.define(version: 2020_07_15_124113) do
 
   create_table "channel_api", force: :cascade do |t|
     t.integer "account_id", null: false
+    t.string "webhook_url", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
