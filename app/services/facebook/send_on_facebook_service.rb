@@ -21,7 +21,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
-          type: 'image',
+          type: 'file',
           payload: {
             url: message.attachments.first.file_url
           }

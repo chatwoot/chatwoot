@@ -140,7 +140,10 @@ export default {
       return 10000;
     },
     showFileUpload() {
-      return this.channelType === 'Channel::WebWidget';
+      return (
+        this.channelType === 'Channel::WebWidget' ||
+        this.channelType === 'Channel::FacebookPage'
+      );
     },
     replyButtonLabel() {
       if (this.isPrivate) {
