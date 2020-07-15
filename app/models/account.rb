@@ -43,6 +43,8 @@ class Account < ApplicationRecord
   has_many :twilio_sms, dependent: :destroy, class_name: '::Channel::TwilioSms'
   has_many :twitter_profiles, dependent: :destroy, class_name: '::Channel::TwitterProfile'
   has_many :web_widgets, dependent: :destroy, class_name: '::Channel::WebWidget'
+  has_many :email_channels, dependent: :destroy, class_name: '::Channel::Email'
+  has_many :api_channels, dependent: :destroy, class_name: '::Channel::Api'
   has_many :canned_responses, dependent: :destroy
   has_many :webhooks, dependent: :destroy
   has_many :labels, dependent: :destroy

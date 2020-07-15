@@ -24,4 +24,12 @@ class Channel::Email < ApplicationRecord
   validates :forward_to_address, uniqueness: true
 
   has_one :inbox, as: :channel, dependent: :destroy
+  before_validation :ensure_forward_to_address, on: :create
+
+  private
+
+  def ensure_forward_to_address
+    # TODO : implement better logic here
+    self.forward_to_address ||= "#{SecureRandom.hex}@xyc.com"
+  end
 end

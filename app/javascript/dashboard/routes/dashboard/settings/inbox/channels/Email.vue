@@ -23,13 +23,13 @@
       </div>
 
       <div class="medium-8 columns">
-        <label :class="{ error: $v.channelName.$error }">
+        <label :class="{ error: $v.email.$error }">
           {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.LABEL') }}
           <input
-            v-model.trim="channelName"
+            v-model.trim="email"
             type="text"
             :placeholder="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.EMAIL.PLACEHOLDER')"
-            @blur="$v.channelName.$touch"
+            @blur="$v.email.$touch"
           />
         </label>
         <p class="help-text">
@@ -54,7 +54,7 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+const validEmail = (value = '') => value.includes('@');
 
 export default {
   components: {
@@ -63,11 +63,8 @@ export default {
   mixins: [alertMixin],
   data() {
     return {
-      accountSID: '',
-      authToken: '',
-      medium: '',
       channelName: '',
-      phoneNumber: '',
+      email: '',
     };
   },
   computed: {
@@ -77,10 +74,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
-    authToken: { required },
-    accountSID: { required },
-    medium: { required },
+    email: { required, validEmail },
   },
   methods: {
     async createChannel() {
@@ -90,15 +84,13 @@ export default {
       }
 
       try {
-        const twilioChannel = await this.$store.dispatch(
-          'inboxes/createTwilioChannel',
+        const emailChannel = await this.$store.dispatch(
+          'inboxes/createChannel',
           {
-            twilio_channel: {
-              name: this.channelName,
-              medium: this.medium,
-              account_sid: this.accountSID,
-              auth_token: this.authToken,
-              phone_number: `+${this.phoneNumber.replace(/\D/g, '')}`,
+            name: this.channelName,
+            channel: {
+              type: 'email',
+              email: this.email,
             },
           }
         );
@@ -107,11 +99,13 @@ export default {
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',
-            inbox_id: twilioChannel.id,
+            inbox_id: emailChannel.id,
           },
         });
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.ADD.API.API.ERROR_MESSAGE'));
+        this.showAlert(
+          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
+        );
       }
     },
   },

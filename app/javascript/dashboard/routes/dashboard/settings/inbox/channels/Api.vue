@@ -23,15 +23,15 @@
       </div>
 
       <div class="medium-8 columns">
-        <label :class="{ error: $v.channelName.$error }">
+        <label :class="{ error: $v.webhookUrl.$error }">
           {{ $t('INBOX_MGMT.ADD.API_CHANNEL.WEBHOOK_URL.LABEL') }}
           <input
-            v-model.trim="channelName"
+            v-model.trim="webhookUrl"
             type="text"
             :placeholder="
               $t('INBOX_MGMT.ADD.API_CHANNEL.WEBHOOK_URL.PLACEHOLDER')
             "
-            @blur="$v.channelName.$touch"
+            @blur="$v.webhookUrl.$touch"
           />
         </label>
         <p class="help-text">
@@ -56,7 +56,7 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
-const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+const shouldBeWebhookUrl = (value = '') => value.startsWith('http');
 
 export default {
   components: {
@@ -65,11 +65,8 @@ export default {
   mixins: [alertMixin],
   data() {
     return {
-      accountSID: '',
-      authToken: '',
-      medium: '',
       channelName: '',
-      phoneNumber: '',
+      webhookUrl: '',
     };
   },
   computed: {
@@ -79,10 +76,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    phoneNumber: { required, shouldStartWithPlusSign },
-    authToken: { required },
-    accountSID: { required },
-    medium: { required },
+    webhookUrl: { required, shouldBeWebhookUrl },
   },
   methods: {
     async createChannel() {
@@ -92,24 +86,19 @@ export default {
       }
 
       try {
-        const twilioChannel = await this.$store.dispatch(
-          'inboxes/createTwilioChannel',
-          {
-            twilio_channel: {
-              name: this.channelName,
-              medium: this.medium,
-              account_sid: this.accountSID,
-              auth_token: this.authToken,
-              phone_number: `+${this.phoneNumber.replace(/\D/g, '')}`,
-            },
-          }
-        );
+        const apiChannel = await this.$store.dispatch('inboxes/createChannel', {
+          name: this.channelName,
+          channel: {
+            type: 'api',
+            webhook_url: this.webhookUrl,
+          },
+        });
 
         router.replace({
           name: 'settings_inboxes_add_agents',
           params: {
             page: 'new',
-            inbox_id: twilioChannel.id,
+            inbox_id: apiChannel.id,
           },
         });
       } catch (error) {
