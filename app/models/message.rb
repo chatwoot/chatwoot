@@ -134,14 +134,7 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    channel_name = conversation.inbox.channel.class.to_s
-    if channel_name == 'Channel::FacebookPage'
-      ::Facebook::SendOnFacebookService.new(message: self).perform
-    elsif channel_name == 'Channel::TwitterProfile'
-      ::Twitter::SendOnTwitterService.new(message: self).perform
-    elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::SendOnTwilioService.new(message: self).perform
-    end
+    ::SendReplyJob.perform_later(id)
   end
 
   def reopen_conversation
