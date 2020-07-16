@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :message do
-    content { 'Message' }
+    content { 'Incoming Message' }
     status { 'sent' }
     message_type { 'incoming' }
     content_type { 'text' }

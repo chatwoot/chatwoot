@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe ConversationReplyMailer, type: :mailer do
-  describe 'reply_with_summary' do
+  describe 'reply' do
     let!(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:class_instance) { described_class.new }
@@ -13,7 +13,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
     end
 
-    context 'with all mails' do
+    context 'with summary' do
       let(:conversation) { create(:conversation, assignee: agent) }
       let(:message) { create(:message, conversation: conversation) }
       let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
@@ -30,6 +30,35 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
         expect(mail.body.decoded).not_to include(private_message.content)
         expect(mail.body.decoded).to include(message.content)
+      end
+    end
+
+    context 'without summary' do
+      let(:conversation) { create(:conversation, assignee: agent) }
+      let(:message_1) { create(:message, conversation: conversation) }
+      let(:message_2) { build(:message, conversation: conversation, message_type: 'outgoing', content: 'Outgoing Message') }
+      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
+      let(:mail) { described_class.reply_without_summary(message_1.conversation, Time.zone.now - 1.minute).deliver_now }
+
+      before do
+        message_2.save
+      end
+
+      it 'renders the subject' do
+        expect(mail.subject).to eq("[##{message_2.conversation.display_id}] New messages on this conversation")
+      end
+
+      it 'not have private notes' do
+        # make the message private
+        private_message.private = true
+        private_message.save
+
+        expect(mail.body.decoded).not_to include(private_message.content)
+      end
+
+      it 'onlies have the messages sent by the agent' do
+        expect(mail.body.decoded).not_to include(message_1.content)
+        expect(mail.body.decoded).to include(message_2.content)
       end
     end
 
@@ -57,7 +86,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
-    context 'when the cutsom domain emails are enabled' do
+    context 'when the custom domain emails are enabled' do
       let(:conversation) { create(:conversation, assignee: agent) }
       let(:message) { create(:message, conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
