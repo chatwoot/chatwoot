@@ -10,8 +10,8 @@ FactoryBot.define do
 
     after(:build) do |message|
       message.sender ||= create(:user, account: message.account)
-      message.conversation ||= create(:conversation, account: message.account)
       message.inbox ||= create(:inbox, account: message.account)
+      message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
     end
   end
 end

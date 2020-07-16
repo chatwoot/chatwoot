@@ -25,22 +25,26 @@ describe Twilio::SendOnTwilioService do
   describe '#perform' do
     context 'without reply' do
       it 'if message is private' do
-        create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
+        ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
       end
 
-      it 'if inbox channel is not facebook page' do
-        create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+      it 'if inbox channel is not twilio' do
+        message = create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+        expect { ::Twilio::SendOnTwilioService.new(message: message).perform }.to raise_error 'Invalid channel service was called'
         expect(twilio_client).not_to have_received(:messages)
       end
 
       it 'if message is not outgoing' do
-        create(:message, message_type: 'incoming', inbox: twilio_inbox, account: account)
+        message = create(:message, message_type: 'incoming', inbox: twilio_inbox, account: account)
+        ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
       end
 
       it 'if message has an source id' do
-        create(:message, message_type: 'outgoing', inbox: twilio_inbox, account: account, source_id: SecureRandom.uuid)
+        message = create(:message, message_type: 'outgoing', inbox: twilio_inbox, account: account, source_id: SecureRandom.uuid)
+        ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
       end
     end
@@ -53,6 +57,7 @@ describe Twilio::SendOnTwilioService do
         outgoing_message = create(
           :message, message_type: 'outgoing', inbox: twilio_inbox, account: account, conversation: conversation
         )
+        ::Twilio::SendOnTwilioService.new(message: outgoing_message).perform
 
         expect(outgoing_message.reload.source_id).to eq('1234')
       end
@@ -69,6 +74,8 @@ describe Twilio::SendOnTwilioService do
       attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
       attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
       message.save!
+
+      ::Twilio::SendOnTwilioService.new(message: message).perform
     end
   end
 end
