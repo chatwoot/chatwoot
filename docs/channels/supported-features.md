@@ -56,10 +56,10 @@ title: "Supported features on channels"
 | Channel | Channel greeting | Attachments | Agent Auto assignment | Slack |
 | -- | -- | -- | -- | -- |
 | Website | Yes | Yes | Yes | Yes |
-| Facebook | Yes | No | Yes | No |
+| Facebook | Yes | Yes | Yes | No |
 | Twitter DM | Yes | No | Yes | No |
 | Tweets | Yes | No | Yes | No |
 | SMS | Yes | No | Yes | No |
-| Whatsapp | Yes | No | Yes | No |
+| Whatsapp | Yes | Yes | Yes | No |
 
 </div>

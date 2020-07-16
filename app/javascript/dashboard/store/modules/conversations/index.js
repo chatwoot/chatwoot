@@ -12,6 +12,10 @@ const initialSelectedChat = {
   status: null,
   muted: false,
   seen: false,
+  inbox_id: null,
+  additional_attributes: {
+    type: '',
+  },
   dataFetched: false,
 };
 const state = {
