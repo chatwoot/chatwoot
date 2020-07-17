@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :message do
-    content { 'Message' }
+    content { 'Incoming Message' }
     status { 'sent' }
     message_type { 'incoming' }
     content_type { 'text' }
@@ -10,8 +10,8 @@ FactoryBot.define do
 
     after(:build) do |message|
       message.sender ||= create(:user, account: message.account)
-      message.conversation ||= create(:conversation, account: message.account)
       message.inbox ||= create(:inbox, account: message.account)
+      message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
     end
   end
 end

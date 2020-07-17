@@ -42,7 +42,9 @@
             {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
             <select v-model="availability">
               <option
-                v-for="status in availabilityStatuses"
+                v-for="status in $t(
+                  'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
+                )"
                 :key="status.key"
                 class="text-capitalize"
                 :value="status.value"
@@ -133,9 +135,6 @@ export default {
       passwordConfirmation: '',
       availability: 'online',
       isUpdating: false,
-      availabilityStatuses: this.$t(
-        'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
-      ),
     };
   },
   validations: {
