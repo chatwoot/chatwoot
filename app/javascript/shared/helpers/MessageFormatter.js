@@ -2,7 +2,7 @@ import { escapeHtml } from './HTMLSanitizer';
 
 class MessageFormatter {
   constructor(message) {
-    this.message = escapeHtml(message) || '';
+    this.message = escapeHtml(message || '') || '';
   }
 
   formatMessage() {
