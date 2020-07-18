@@ -5,7 +5,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def create
     user = current_user || @resource
-    mb = Messages::Outgoing::NormalBuilder.new(user, @conversation, params)
+    mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
   end
 
