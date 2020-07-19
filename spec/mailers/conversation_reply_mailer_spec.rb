@@ -97,7 +97,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         account = conversation.account
         account.domain = 'example.com'
         account.support_email = 'support@example.com'
-        account.domain_emails_enabled = true
+        account.enable_features('inbound_emails')
         account.save!
       end
 
