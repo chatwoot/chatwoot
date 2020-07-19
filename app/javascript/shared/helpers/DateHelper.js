@@ -1,13 +1,13 @@
 import moment from 'moment';
 
-class DateHelper {
-  constructor(date) {
-    this.date = moment(date * 1000);
-  }
+const DATE_FORMAT = 'MMM DD, YYYY';
 
-  format(dateFormat = 'MMM DD, YYYY') {
-    return this.date.format(dateFormat);
-  }
-}
+export const formatDate = (dateTimeInSeconds, dateFormat = DATE_FORMAT) => {
+  const date = moment(dateTimeInSeconds * 1000);
+  return date.format(dateFormat);
+};
 
-export default DateHelper;
+export const getTimeInSeconds = () => {
+  const timeInMillis = new Date().getTime();
+  return Math.round(timeInMillis / 1000);
+};

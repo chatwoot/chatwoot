@@ -9,14 +9,14 @@ import {
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import DateHelper from 'shared/helpers/DateHelper';
+import { formatDate, getTimeInSeconds } from 'shared/helpers/DateHelper';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
 import getUuid from '../../helpers/uuid';
 const groupBy = require('lodash.groupby');
 
 export const createTemporaryMessage = ({ attachments, content }) => {
-  const timestamp = new Date().getTime() / 1000;
+  const timestamp = getTimeInSeconds();
   return {
     id: getUuid(),
     content,
@@ -98,7 +98,7 @@ export const getters = {
   getGroupedConversation: _state => {
     const conversationGroupedByDate = groupBy(
       Object.values(_state.conversations),
-      message => new DateHelper(message.created_at).format()
+      message => formatDate(message.created_at)
     );
     return Object.keys(conversationGroupedByDate).map(date => ({
       date,
@@ -200,7 +200,7 @@ export const actions = {
       return;
     }
 
-    const lastSeen = Date.now() / 1000;
+    const lastSeen = getTimeInSeconds();
     try {
       commit('setMetaUserLastSeenAt', lastSeen);
       await setUserLastSeenAt({ lastSeen });
