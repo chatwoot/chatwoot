@@ -97,7 +97,7 @@ class User < ApplicationRecord
   end
 
   def display_name
-    self[:display_name].presence || fullname
+    self[:display_name].presence || name
   end
 
   def account
