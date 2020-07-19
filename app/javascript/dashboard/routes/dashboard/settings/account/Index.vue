@@ -92,7 +92,6 @@ export default {
       name: '',
       locale: 'en',
       domain: '',
-      customEmailDomainEnabled: false,
       supportEmail: '',
       features: {},
     };
@@ -120,9 +119,7 @@ export default {
     },
 
     featureCustomDomainEmailEnabled() {
-      return (
-        this.featureInboundEmailEnabled() && !!this.customEmailDomainEnabled
-      );
+      return this.featureInboundEmailEnabled && !!this.customEmailDomainEnabled;
     },
   },
   mounted() {
@@ -169,7 +166,6 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
-          custom_email_domain_enabled: this.customEmailDomainEnabled,
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
