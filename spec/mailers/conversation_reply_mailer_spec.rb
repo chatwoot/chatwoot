@@ -68,6 +68,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:domain) { account.domain || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) }
 
       it 'renders the receiver email' do
         expect(mail.to).to eq([message&.conversation&.contact&.email])
@@ -78,17 +79,18 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the correct custom message id' do
-        expect(mail.message_id).to eq("<conversation/#{conversation.uuid}/messages/#{message.id}@>")
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
       end
 
       it 'sets the correct in reply to id' do
-        expect(mail.in_reply_to).to eq("<account/#{conversation.account.id}/conversation/#{conversation.uuid}@>")
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
       end
     end
 
     context 'when the custom domain emails are enabled' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message) { create(:message, conversation: conversation) }
+      let(:account) { create(:account) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, inbox: conversation.inbox) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       before do
@@ -96,15 +98,18 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         account.domain = 'example.com'
         account.support_email = 'support@example.com'
         account.domain_emails_enabled = true
-        account.save
+        account.save!
       end
 
       it 'sets reply to email to be based on the domain' do
         reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
+        reply_to = "#{agent.name} <#{reply_to_email}>"
+        expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end
 
       it 'sets the from email to be the support email' do
+        expect(mail['FROM'].value).to eq("#{agent.name} <#{conversation.account.support_email}>")
         expect(mail.from).to eq([conversation.account.support_email])
       end
 
