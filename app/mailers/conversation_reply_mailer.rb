@@ -55,7 +55,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if custom_domain_email_enabled?
-      "reply+to+#{@conversation.uuid}@#{@account.domain}"
+      "reply+#{@conversation.uuid}@#{@account.domain}"
     else
       @agent&.email
     end
