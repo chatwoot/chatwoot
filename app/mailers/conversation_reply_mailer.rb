@@ -78,7 +78,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_domain_email_enabled?
-    @custom_domain_email_enabled ||= @account.domain_emails_enabled? && current_domain.present? && account_support_email.present?
+    @custom_domain_email_enabled ||= @account.feature_enabled?('inbound_emails') && current_domain.present? && account_support_email.present?
   end
 
   def current_domain
