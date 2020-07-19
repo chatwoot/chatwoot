@@ -100,7 +100,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets reply to email to be based on the domain' do
-        reply_to_email = "reply+to+#{message.conversation.uuid}@#{conversation.account.domain}"
+        reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
         expect(mail.reply_to).to eq([reply_to_email])
       end
 
