@@ -55,17 +55,17 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if custom_domain_email_enabled?
-      "reply+#{@conversation.uuid}@#{@account.domain}"
+      "#{@agent.name} <reply+#{@conversation.uuid}@#{@account.domain}>"
     else
       @agent&.email
     end
   end
 
   def from_email
-    if custom_domain_email_enabled? && @account.support_email.present?
-      @account.support_email
+    if custom_domain_email_enabled?
+      "#{@agent.name} <#{@account_support_email}>"
     else
-      ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+      "#{@agent.name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
     end
   end
 
@@ -78,14 +78,22 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_domain_email_enabled?
-    @custom_domain_email_enabled ||= @account.domain_emails_enabled? && @account.domain.present?
+    @custom_domain_email_enabled ||= @account.domain_emails_enabled? && current_domain.present? && account_support_email.present?
   end
 
   def current_domain
-    if custom_domain_email_enabled? && @account.domain
-      @account.domain
-    else
-      GlobalConfig.get('FALLBACK_DOMAIN')['FALLBACK_DOMAIN']
+    @current_domain ||= begin
+      @account.domain ||
+        ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) ||
+        GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN']
+    end
+  end
+
+  def account_support_email
+    @account_support_email ||= begin
+      @account.support_email ||
+        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
+        ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
     end
   end
 end
