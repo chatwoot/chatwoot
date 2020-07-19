@@ -12,5 +12,6 @@ export default {
   STATUS_TYPE: {
     OPEN: 'open',
     RESOLVED: 'resolved',
+    BOT: 'bot',
   },
 };
