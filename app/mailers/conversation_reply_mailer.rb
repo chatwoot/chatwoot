@@ -1,6 +1,6 @@
 class ConversationReplyMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-  layout 'mailer'
+  layout :choose_layout
 
   def reply_with_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
@@ -95,5 +95,11 @@ class ConversationReplyMailer < ApplicationMailer
         GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
         ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
     end
+  end
+
+  def choose_layout
+    return false if action_name == 'reply_without_summary'
+
+    'mailer'
   end
 end
