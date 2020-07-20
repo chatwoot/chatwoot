@@ -9,12 +9,12 @@
 #  confirmed_at           :datetime
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
+#  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  name                   :string           not null
-#  nickname               :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -94,6 +94,10 @@ class User < ApplicationRecord
 
   def current_account_user
     account_users.find_by(account_id: Current.account.id) if Current.account
+  end
+
+  def display_name
+    self[:display_name].presence || name
   end
 
   def account
