@@ -55,6 +55,6 @@ module Featurable
     return true if config.blank?
 
     features_to_enabled = config.value.select { |f| f[:enabled] }.map { |f| f[:name] }
-    enable_features(features_to_enabled)
+    enable_features(*features_to_enabled)
   end
 end
