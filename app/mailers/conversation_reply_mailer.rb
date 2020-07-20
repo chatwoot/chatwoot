@@ -1,6 +1,6 @@
 class ConversationReplyMailer < ApplicationMailer
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-  layout 'mailer'
+  layout :choose_layout
 
   def reply_with_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
@@ -34,7 +34,8 @@ class ConversationReplyMailer < ApplicationMailer
     @contact = @conversation.contact
     @agent = @conversation.assignee
 
-    @messages = @conversation.messages.outgoing.where('created_at >= ?', message_queued_time)
+    @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
+    return false if @messages.count.zero?
 
     mail({
            to: @contact&.email,
@@ -54,18 +55,18 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def reply_email
-    if custom_domain_email_enabled?
-      "reply+to+#{@conversation.uuid}@#{@account.domain}"
+    if inbound_email_enabled?
+      "#{@agent.name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
       @agent&.email
     end
   end
 
   def from_email
-    if custom_domain_email_enabled? && @account.support_email.present?
-      @account.support_email
+    if inbound_email_enabled?
+      "#{@agent.name} <#{account_support_email}>"
     else
-      ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+      "#{@agent.name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
     end
   end
 
@@ -77,15 +78,29 @@ class ConversationReplyMailer < ApplicationMailer
     "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
   end
 
-  def custom_domain_email_enabled?
-    @custom_domain_email_enabled ||= @account.domain_emails_enabled? && @account.domain.present?
+  def inbound_email_enabled?
+    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && current_domain.present? && account_support_email.present?
   end
 
   def current_domain
-    if custom_domain_email_enabled? && @account.domain
-      @account.domain
-    else
-      GlobalConfig.get('FALLBACK_DOMAIN')['FALLBACK_DOMAIN']
+    @current_domain ||= begin
+      @account.domain ||
+        ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) ||
+        GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN']
     end
+  end
+
+  def account_support_email
+    @account_support_email ||= begin
+      @account.support_email ||
+        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
+        ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    end
+  end
+
+  def choose_layout
+    return false if action_name == 'reply_without_summary'
+
+    'mailer'
   end
 end
