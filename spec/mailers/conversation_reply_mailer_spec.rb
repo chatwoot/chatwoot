@@ -34,10 +34,16 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     end
 
     context 'without summary' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message_1) { create(:message, conversation: conversation) }
-      let(:message_2) { build(:message, conversation: conversation, message_type: 'outgoing', content: 'Outgoing Message') }
-      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
+      let(:message_1) { create(:message, conversation: conversation, account: account, content: 'Outgoing Message 1').reload }
+      let(:message_2) { build(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+      let(:private_message) do
+        create(:message,
+               content: 'This is a private message',
+               conversation: conversation,
+               account: account,
+               message_type: 'outgoing').reload
+      end
       let(:mail) { described_class.reply_without_summary(message_1.conversation, Time.zone.now - 1.minute).deliver_now }
 
       before do
@@ -52,7 +58,6 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         # make the message private
         private_message.private = true
         private_message.save
-
         expect(mail.body.decoded).not_to include(private_message.content)
       end
 

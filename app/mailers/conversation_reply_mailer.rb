@@ -34,7 +34,8 @@ class ConversationReplyMailer < ApplicationMailer
     @contact = @conversation.contact
     @agent = @conversation.assignee
 
-    @messages = @conversation.messages.outgoing.where('created_at >= ?', message_queued_time)
+    @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
+    return false if @messages.count.zero?
 
     mail({
            to: @contact&.email,
