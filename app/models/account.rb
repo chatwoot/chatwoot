@@ -26,7 +26,7 @@ class Account < ApplicationRecord
   }.freeze
 
   ACCOUNT_SETTINGS_FLAGS = {
-    1 => :domain_emails_enabled
+    1 => :custom_email_domain_enabled
   }.freeze
 
   validates :name, presence: true

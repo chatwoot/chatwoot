@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_15_124113) do
+ActiveRecord::Schema.define(version: 2020_07_19_171437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -424,7 +424,7 @@ ActiveRecord::Schema.define(version: 2020_07_15_124113) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.string "name", null: false
-    t.string "nickname"
+    t.string "display_name"
     t.string "email"
     t.json "tokens"
     t.datetime "created_at", null: false

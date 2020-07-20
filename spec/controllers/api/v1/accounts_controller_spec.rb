@@ -169,8 +169,7 @@ RSpec.describe 'Accounts API', type: :request do
         name: 'New Name',
         locale: 'en',
         domain: 'example.com',
-        support_email: 'care@example.com',
-        domain_emails_enabled: true
+        support_email: 'care@example.com'
       }
 
       it 'modifies an account' do
@@ -183,7 +182,6 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.name).to eq(params[:name])
         expect(account.reload.locale).to eq(params[:locale])
         expect(account.reload.domain).to eq(params[:domain])
-        expect(account.reload.domain_emails_enabled).to eq(params[:domain_emails_enabled])
         expect(account.reload.support_email).to eq(params[:support_email])
       end
     end
