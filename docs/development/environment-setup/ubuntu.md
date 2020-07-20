@@ -3,7 +3,7 @@ path: "/docs/installation-guide-ubuntu"
 title: "Ubuntu installation guide"
 ---
 
-Open a terminal and run the following commands
+Open a terminal and run the following commands:
 
 ```bash
 sudo apt-get update
@@ -29,17 +29,17 @@ sudo apt-get update
 sudo apt-get install rvm
 ```
 
-Enable `Run command as a login shell` in terminal `Preferences`. Restart your computer
+Enable `Run command as a login shell` in terminal `Preferences`. Restart your computer.
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.7.1
+Chatwoot APIs are built on Ruby on Rails. You need to install ruby 2.7.1:
 
 ```bash
 rvm install ruby-2.7.1
 ```
 
-Use ruby 2.7.1 as default
+Use ruby 2.7.1 as default:
 
 ```bash
 rvm use 2.7.1 --default
@@ -47,7 +47,7 @@ rvm use 2.7.1 --default
 
 ### Install Node.js
 
-Install Node.js from NodeSoure using the following commands
+Install Node.js from NodeSource using the following commands:
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -56,7 +56,7 @@ sudo apt-get install -y nodejs
 
 ### Install yarn
 
-We use `yarn` as package manager
+We use `yarn` as the package manager:
 
 ```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -69,19 +69,19 @@ sudo apt-get update && sudo apt-get install yarn
 
 ### Install postgres
 
-The database used in Chatwoot is PostgreSQL. Use the following commands to install postgres.
+The database used in Chatwoot is PostgreSQL. Use the following commands to install postgres:
 
 ```bash
 sudo apt install postgresql postgresql-contrib
 ```
 
-The installation procedure created a user account called postgres that is associated with the default Postgres role. In order to use Postgres, you can log into that account.
+The installation procedure creates a user account called postgres that is associated with the default Postgres role. In order to use Postgres, you can log into that account:
 
 ```bash
 sudo -u postgres psql
 ```
 
-Install `libpg-dev` dependencies for ubuntu
+Install `libpg-dev` dependencies for ubuntu:
 
 ```bash
 sudo apt-get install libpq-dev
@@ -89,13 +89,13 @@ sudo apt-get install libpq-dev
 
 ### Install redis-server
 
-Chatwoot uses Redis server in agent assignments and reporting. To install `redis-server`
+Chatwoot uses Redis server in agent assignments and reporting. You need to install `redis-server`:
 
 ```bash
 sudo apt-get install redis-server
 ```
 
-Enable Redis to start on system boot.
+Next, enable Redis to start on system boot:
 
 ```bash
 sudo systemctl enable redis-server.service
