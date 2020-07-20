@@ -51,6 +51,6 @@ class WebhookListener < BaseListener
     end
 
     # Deliver for API Inbox
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload) if inbox.channel_type == Channel::Api
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload) if inbox.channel_type == 'Channel::Api'
   end
 end
