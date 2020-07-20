@@ -146,7 +146,7 @@ class Message < ApplicationRecord
   end
 
   def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing?
+    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
       # set a redis key for the conversation so that we don't need to send email for every
       # new message that comes in and we dont enque the delayed sidekiq job for every message
       Redis::Alfred.setex(conversation_mail_key, Time.zone.now)

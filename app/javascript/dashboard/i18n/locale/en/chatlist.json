@@ -44,6 +44,10 @@
       {
         "TEXT": "Resolved",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
       }
     ],
 

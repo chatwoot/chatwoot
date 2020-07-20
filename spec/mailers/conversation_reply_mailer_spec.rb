@@ -34,10 +34,16 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     end
 
     context 'without summary' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message_1) { create(:message, conversation: conversation) }
-      let(:message_2) { build(:message, conversation: conversation, message_type: 'outgoing', content: 'Outgoing Message') }
-      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
+      let(:message_1) { create(:message, conversation: conversation, account: account, content: 'Outgoing Message 1').reload }
+      let(:message_2) { build(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+      let(:private_message) do
+        create(:message,
+               content: 'This is a private message',
+               conversation: conversation,
+               account: account,
+               message_type: 'outgoing').reload
+      end
       let(:mail) { described_class.reply_without_summary(message_1.conversation, Time.zone.now - 1.minute).deliver_now }
 
       before do
@@ -52,7 +58,6 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         # make the message private
         private_message.private = true
         private_message.save
-
         expect(mail.body.decoded).not_to include(private_message.content)
       end
 
@@ -68,6 +73,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: inbox_member.inbox, account: account) }
       let!(:message) { create(:message, conversation: conversation, account: account) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+      let(:domain) { account.domain || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) }
 
       it 'renders the receiver email' do
         expect(mail.to).to eq([message&.conversation&.contact&.email])
@@ -78,33 +84,37 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the correct custom message id' do
-        expect(mail.message_id).to eq("<conversation/#{conversation.uuid}/messages/#{message.id}@>")
+        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
       end
 
       it 'sets the correct in reply to id' do
-        expect(mail.in_reply_to).to eq("<account/#{conversation.account.id}/conversation/#{conversation.uuid}@>")
+        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
       end
     end
 
     context 'when the custom domain emails are enabled' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message) { create(:message, conversation: conversation) }
+      let(:account) { create(:account) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, inbox: conversation.inbox) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       before do
         account = conversation.account
         account.domain = 'example.com'
         account.support_email = 'support@example.com'
-        account.domain_emails_enabled = true
-        account.save
+        account.enable_features('inbound_emails')
+        account.save!
       end
 
       it 'sets reply to email to be based on the domain' do
-        reply_to_email = "reply+to+#{message.conversation.uuid}@#{conversation.account.domain}"
+        reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
+        reply_to = "#{agent.name} <#{reply_to_email}>"
+        expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end
 
       it 'sets the from email to be the support email' do
+        expect(mail['FROM'].value).to eq("#{agent.name} <#{conversation.account.support_email}>")
         expect(mail.from).to eq([conversation.account.support_email])
       end
 

@@ -14,5 +14,7 @@
   value: 'https://www.chatwoot.com/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
-- name: FALLBACK_DOMAIN
-  value: chatwoot.com
+- name: MAILER_INBOUND_EMAIL_DOMAIN
+  value: 
+- name: MAILER_SUPPORT_EMAIL
+  value:

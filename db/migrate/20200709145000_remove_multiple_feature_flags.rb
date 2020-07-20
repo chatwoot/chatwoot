@@ -12,8 +12,8 @@ class RemoveMultipleFeatureFlags < ActiveRecord::Migration[6.0]
     twitter_config = feature_config.value.find { |value| value['name'] == 'channel_twitter' }
     Account.find_in_batches do |account_batch|
       account_batch.each do |account|
-        account.enable_features(['channel_facebook']) if facebook_config['enabled']
-        account.enable_features(['channel_twitter']) if twitter_config['enabled']
+        account.enable_features('channel_facebook') if facebook_config['enabled']
+        account.enable_features('channel_twitter') if twitter_config['enabled']
         account.save!
       end
     end
