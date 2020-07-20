@@ -15,7 +15,7 @@
       />
       <resizable-text-area
         ref="messageInput"
-        v-model.trim="message"
+        v-model="message"
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
@@ -135,7 +135,7 @@ export default {
       return `${this.message.length} / ${this.maxLength}`;
     },
     isReplyButtonDisabled() {
-      const isMessageEmpty = !this.message.replace(/\n/g, '').length;
+      const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
       return (
         isMessageEmpty ||
         this.message.length === 0 ||
