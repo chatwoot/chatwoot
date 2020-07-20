@@ -3,19 +3,17 @@
 - name: LOGO
   value: '/brand-assets/logo.svg'
 - name: INSTALLATION_NAME
-  value: 'WevrLabs Hosting'
+  value: 'Chatwoot'
 - name: BRAND_URL
-  value: 'https://wevrlabs.net'
+  value: 'https://www.chatwoot.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://wevrlabs.net'
+  value: 'https://www.chatwoot.com'
 - name: TERMS_URL
-  value: 'https://wevrlabs.net/tos'
+  value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
-  value: 'https://wevrlabs.net/tos'
+  value: 'https://www.chatwoot.com/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
-- name: FALLBACK_DOMAIN
-  value: wevrlabs.net
 - name: MAILER_INBOUND_EMAIL_DOMAIN
   value: 
 - name: MAILER_SUPPORT_EMAIL
