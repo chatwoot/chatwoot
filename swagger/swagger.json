@@ -1087,7 +1087,7 @@
         "confirmed": {
           "type": "boolean"
         },
-        "nickname": {
+        "display_name": {
           "type": "string"
         }
       }

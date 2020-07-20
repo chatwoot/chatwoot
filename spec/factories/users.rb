@@ -12,8 +12,8 @@ FactoryBot.define do
     provider { 'email' }
     uid { SecureRandom.uuid }
     name { Faker::Name.name }
-    nickname { Faker::Name.first_name }
-    email { nickname + "@#{SecureRandom.uuid}.com" }
+    display_name { Faker::Name.first_name }
+    email { display_name + "@#{SecureRandom.uuid}.com" }
     password { 'password' }
 
     after(:build) do |user, evaluator|

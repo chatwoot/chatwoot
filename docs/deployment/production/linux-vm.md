@@ -32,6 +32,7 @@ server {
   server_name yourdomain.com;
   # where rails app is running
   set $upstream 127.0.0.1:3000;
+  underscores_in_headers on;
 
   # Here we define the web-root for our SSL proof
   location /.well-known {

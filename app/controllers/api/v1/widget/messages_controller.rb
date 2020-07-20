@@ -66,16 +66,6 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     }
   end
 
-  def browser_params
-    {
-      browser_name: browser.name,
-      browser_version: browser.full_version,
-      device_name: browser.device.name,
-      platform_name: browser.platform.name,
-      platform_version: browser.platform.version
-    }
-  end
-
   def timestamp_params
     {
       timestamp: permitted_params[:message][:timestamp]

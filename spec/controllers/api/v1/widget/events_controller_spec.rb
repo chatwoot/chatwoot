@@ -32,7 +32,7 @@ RSpec.describe '/api/v1/widget/events', type: :request do
         expect(response).to have_http_status(:success)
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
           .with(params[:name], anything, contact_inbox: contact_inbox,
-                                         event_info: { browser_language: nil, widget_language: nil })
+                                         event_info: { browser_language: nil, widget_language: nil, browser: anything })
       end
     end
   end
