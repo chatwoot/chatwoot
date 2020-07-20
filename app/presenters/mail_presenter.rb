@@ -90,13 +90,21 @@ class MailPresenter < SimpleDelegator
       Regexp.new("-+original\s+message-+\s*$", Regexp::IGNORECASE),
       Regexp.new("from:\s*$", Regexp::IGNORECASE)
     ]
-    return sender_agnostic_regexes if @account.nil? || @account.support_email.blank?
+    return sender_agnostic_regexes if @account.nil? || account_support_email.blank?
 
     [
-      Regexp.new("From:\s*" + Regexp.escape(@account.support_email), Regexp::IGNORECASE),
-      Regexp.new('<' + Regexp.escape(@account.support_email) + '>', Regexp::IGNORECASE),
-      Regexp.new(Regexp.escape(@account.support_email) + "\s+wrote:", Regexp::IGNORECASE),
-      Regexp.new('On(.*)' + Regexp.escape(@account.support_email) + '(.*)wrote:', Regexp::IGNORECASE)
+      Regexp.new("From:\s*" + Regexp.escape(account_support_email), Regexp::IGNORECASE),
+      Regexp.new('<' + Regexp.escape(account_support_email) + '>', Regexp::IGNORECASE),
+      Regexp.new(Regexp.escape(account_support_email) + "\s+wrote:", Regexp::IGNORECASE),
+      Regexp.new('On(.*)' + Regexp.escape(account_support_email) + '(.*)wrote:', Regexp::IGNORECASE)
     ] + sender_agnostic_regexes
+  end
+
+  def account_support_email
+    @account_support_email ||= begin
+      @account.support_email ||
+        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
+        ENV.fetch('MAILER_SENDER_EMAIL', nil)
+    end
   end
 end
