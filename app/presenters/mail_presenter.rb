@@ -85,11 +85,6 @@ class MailPresenter < SimpleDelegator
   end
 
   def quoted_text_regexes
-    sender_agnostic_regexes = [
-      Regexp.new("^.*On.*(\n)?wrote:$", Regexp::IGNORECASE),
-      Regexp.new("-+original\s+message-+\s*$", Regexp::IGNORECASE),
-      Regexp.new("from:\s*$", Regexp::IGNORECASE)
-    ]
     return sender_agnostic_regexes if @account.nil? || account_support_email.blank?
 
     [
@@ -98,6 +93,15 @@ class MailPresenter < SimpleDelegator
       Regexp.new(Regexp.escape(account_support_email) + "\s+wrote:", Regexp::IGNORECASE),
       Regexp.new('On(.*)' + Regexp.escape(account_support_email) + '(.*)wrote:', Regexp::IGNORECASE)
     ] + sender_agnostic_regexes
+  end
+
+  def sender_agnostic_regexes
+    @sender_agnostic_regexes ||= [
+      Regexp.new("^.*On.*(\n)?wrote:$", Regexp::IGNORECASE),
+      Regexp.new('^.*On(.*)(.*)wrote:$', Regexp::IGNORECASE),
+      Regexp.new("-+original\s+message-+\s*$", Regexp::IGNORECASE),
+      Regexp.new("from:\s*$", Regexp::IGNORECASE)
+    ]
   end
 
   def account_support_email
