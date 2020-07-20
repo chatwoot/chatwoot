@@ -2,7 +2,7 @@ json.id resource.id
 json.provider resource.provider
 json.uid resource.uid
 json.name resource.name
-json.nickname resource.nickname
+json.display_name resource.display_name
 json.email resource.email
 json.account_id resource.active_account_user&.account_id
 json.pubsub_token resource.pubsub_token

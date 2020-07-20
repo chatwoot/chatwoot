@@ -15,5 +15,5 @@ properties:
     enum: ['agent', 'administrator']
   confirmed:
     type: boolean
-  nickname:
+  display_name:
     type: string

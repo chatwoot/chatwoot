@@ -24,7 +24,7 @@ class UserDashboard < Administrate::BaseDashboard
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
     name: Field::String,
-    nickname: Field::String,
+    display_name: Field::String,
     email: Field::String,
     tokens: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
@@ -53,7 +53,7 @@ class UserDashboard < Administrate::BaseDashboard
     avatar_url
     unconfirmed_email
     name
-    nickname
+    display_name
     email
     created_at
     updated_at
@@ -65,7 +65,7 @@ class UserDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
     name
-    nickname
+    display_name
     email
     password
   ].freeze
