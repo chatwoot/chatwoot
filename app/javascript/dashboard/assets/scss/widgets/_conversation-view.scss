@@ -7,7 +7,6 @@
   font-size: $font-size-small;
   font-weight: $font-weight-normal;
   position: relative;
-  box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.07);
 
   .icon {
     bottom: $space-smaller;
@@ -251,7 +250,7 @@
   &.left {
 
     .bubble {
-      // @include border-normal; // Removed for better looks
+      @include border-normal;
       background: $white;
       border-bottom-left-radius: $space-smaller;
       border-top-left-radius: $space-smaller;
