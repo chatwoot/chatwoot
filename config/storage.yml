@@ -13,8 +13,6 @@ amazon:
   secret_access_key: <%= ENV.fetch('AWS_SECRET_ACCESS_KEY', '') %>
   region: <%= ENV.fetch('AWS_REGION', '') %>
   bucket: <%= ENV.fetch('S3_BUCKET_NAME', '') %>
-  endpoint: <%= ENV.fetch('S3_ENDPOINT', '') %>
-  sig_version: <%= ENV.fetch('S3_SIG_VERSION', '') %>
 
 # Remember not to checkin your GCS keyfile to a repository
 google:
