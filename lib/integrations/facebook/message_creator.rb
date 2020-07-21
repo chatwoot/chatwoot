@@ -9,10 +9,10 @@ class Integrations::Facebook::MessageCreator
 
   def perform
     # begin
-    if outgoing_message_via_echo?
-      create_outgoing_message
+    if agent_message_via_echo?
+      create_agent_message
     else
-      create_incoming_message
+      create_contact_message
     end
     # rescue => e
     # Raven.capture_exception(e)
@@ -21,22 +21,22 @@ class Integrations::Facebook::MessageCreator
 
   private
 
-  def outgoing_message_via_echo?
+  def agent_message_via_echo?
     response.echo? && !response.sent_from_chatwoot_app?
-    # this means that it is an outgoing message from page, but not sent from chatwoot.
-    # User can send from fb page directly on mobile messenger, so this case should be handled as outgoing message
+    # this means that it is an agent message from page, but not sent from chatwoot.
+    # User can send from fb page directly on mobile / web messenger, so this case should be handled as agent message
   end
 
-  def create_outgoing_message
+  def create_agent_message
     Channel::FacebookPage.where(page_id: response.sender_id).each do |page|
-      mb = Messages::Outgoing::EchoBuilder.new(response, page.inbox, true)
+      mb = Messages::Facebook::MessageBuilder.new(response, page.inbox, true)
       mb.perform
     end
   end
 
-  def create_incoming_message
+  def create_contact_message
     Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
-      mb = Messages::IncomingMessageBuilder.new(response, page.inbox)
+      mb = Messages::Facebook::MessageBuilder.new(response, page.inbox)
       mb.perform
     end
   end

@@ -63,6 +63,8 @@ const INBOX_TYPES = {
   FB: 'Channel::FacebookPage',
   TWITTER: 'Channel::TwitterProfile',
   TWILIO: 'Channel::TwilioSms',
+  API: 'Channel::Api',
+  EMAIL: 'Channel::Email',
 };
 const getInboxClassByType = type => {
   switch (type) {
@@ -77,6 +79,12 @@ const getInboxClassByType = type => {
 
     case INBOX_TYPES.TWILIO:
       return 'ion-android-textsms';
+
+    case INBOX_TYPES.API:
+      return 'ion-cloud';
+
+    case INBOX_TYPES.EMAIL:
+      return 'ion-email';
 
     default:
       return '';

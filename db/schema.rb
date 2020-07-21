@@ -120,6 +120,23 @@ ActiveRecord::Schema.define(version: 2020_07_19_171437) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "channel_api", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "webhook_url", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "channel_email", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "email", null: false
+    t.string "forward_to_address", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_channel_email_on_email", unique: true
+    t.index ["forward_to_address"], name: "index_channel_email_on_forward_to_address", unique: true
+  end
+
   create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|
     t.string "page_id", null: false
     t.string "user_access_token", null: false

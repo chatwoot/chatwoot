@@ -45,6 +45,12 @@
                 <span v-if="item.channel_type === 'Channel::TwilioSms'">
                   Twilio SMS
                 </span>
+                <span v-if="item.channel_type === 'Channel::Email'">
+                  Email
+                </span>
+                <span v-if="item.channel_type === 'Channel::Api'">
+                  Api
+                </span>
               </td>
 
               <!-- Action Buttons -->
