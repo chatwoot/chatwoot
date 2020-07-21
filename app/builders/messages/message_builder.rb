@@ -1,139 +1,57 @@
-# This class creates both outgoing messages from chatwoot and echo outgoing messages based on the flag `outgoing_echo`
-# Assumptions
-# 1. Incase of an outgoing message which is echo, source_id will NOT be nil,
-#    based on this we are showing "not sent from chatwoot" message in frontend
-#    Hence there is no need to set user_id in message for outgoing echo messages.
-
 class Messages::MessageBuilder
-  attr_reader :response
+  include ::FileTypeHelper
+  attr_reader :message
 
-  def initialize(response, inbox, outgoing_echo = false)
-    @response = response
-    @inbox = inbox
-    @sender_id = (outgoing_echo ? @response.recipient_id : @response.sender_id)
-    @message_type = (outgoing_echo ? :outgoing : :incoming)
+  def initialize(user, conversation, params)
+    @content = params[:content]
+    @private = params[:private] || false
+    @conversation = conversation
+    @user = user
+    @message_type = params[:message_type] || 'outgoing'
+    @content_type = params[:content_type]
+    @items = params.to_unsafe_h&.dig(:content_attributes, :items)
+    @attachments = params[:attachments]
   end
 
   def perform
-    ActiveRecord::Base.transaction do
-      build_contact
-      build_message
+    @message = @conversation.messages.build(message_params)
+    if @attachments.present?
+      @attachments.each do |uploaded_attachment|
+        attachment = @message.attachments.new(
+          account_id: @message.account_id,
+          file_type: file_type(uploaded_attachment&.content_type)
+        )
+        attachment.file.attach(uploaded_attachment)
+      end
     end
-  rescue StandardError => e
-    Raven.capture_exception(e)
-    true
+    @message.save
+    @message
   end
 
   private
 
-  def contact
-    @contact ||= @inbox.contact_inboxes.find_by(source_id: @sender_id)&.contact
-  end
-
-  def build_contact
-    return if contact.present?
-
-    @contact = Contact.create!(contact_params.except(:remote_avatar_url))
-    ContactAvatarJob.perform_later(@contact, contact_params[:remote_avatar_url]) if contact_params[:remote_avatar_url]
-    @contact_inbox = ContactInbox.create(contact: contact, inbox: @inbox, source_id: @sender_id)
-  end
-
-  def build_message
-    @message = conversation.messages.create!(message_params)
-    (response.attachments || []).each do |attachment|
-      attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
-      attachment_obj.save!
-      attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
-    end
-  end
-
-  def attach_file(attachment, file_url)
-    file_resource = LocalResource.new(file_url)
-    attachment.file.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
-  end
-
-  def conversation
-    @conversation ||= Conversation.find_by(conversation_params) || build_conversation
-  end
-
-  def build_conversation
-    @contact_inbox ||= contact.contact_inboxes.find_by!(source_id: @sender_id)
-    Conversation.create!(conversation_params.merge(
-                           contact_inbox_id: @contact_inbox.id
-                         ))
-  end
-
-  def attachment_params(attachment)
-    file_type = attachment['type'].to_sym
-    params = { file_type: file_type, account_id: @message.account_id }
-
-    if [:image, :file, :audio, :video].include? file_type
-      params.merge!(file_type_params(attachment))
-    elsif file_type == :location
-      params.merge!(location_params(attachment))
-    elsif file_type == :fallback
-      params.merge!(fallback_params(attachment))
+  def message_type
+    if @conversation.inbox.channel.class != Channel::Api && @message_type == 'incoming'
+      raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
 
-    params
+    @message_type
   end
 
-  def file_type_params(attachment)
-    {
-      external_url: attachment['payload']['url'],
-      remote_file_url: attachment['payload']['url']
-    }
-  end
-
-  def location_params(attachment)
-    lat = attachment['payload']['coordinates']['lat']
-    long = attachment['payload']['coordinates']['long']
-    {
-      external_url: attachment['url'],
-      coordinates_lat: lat,
-      coordinates_long: long,
-      fallback_title: attachment['title']
-    }
-  end
-
-  def fallback_params(attachment)
-    {
-      fallback_title: attachment['title'],
-      external_url: attachment['url']
-    }
-  end
-
-  def conversation_params
-    {
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      contact_id: contact.id
-    }
+  def sender
+    message_type == 'outgoing' ? @user : @conversation.contact
   end
 
   def message_params
     {
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      message_type: @message_type,
-      content: response.content,
-      source_id: response.identifier,
-      sender: contact
-    }
-  end
-
-  def contact_params
-    begin
-      k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      result = k.get_object(@sender_id) || {}
-    rescue Exception => e
-      result = {}
-      Raven.capture_exception(e)
-    end
-    {
-      name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",
-      account_id: @inbox.account_id,
-      remote_avatar_url: result['profile_pic'] || ''
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      message_type: message_type,
+      content: @content,
+      private: @private,
+      sender: sender,
+      content_type: @content_type,
+      items: @items
     }
   end
 end
