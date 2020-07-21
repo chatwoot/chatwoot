@@ -21,6 +21,7 @@
               <input
                 v-model.trim="credentials.email"
                 type="text"
+                data-testid="email_input"
                 :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
                 @input="$v.credentials.email.$touch"
               />
@@ -30,6 +31,7 @@
               <input
                 v-model.trim="credentials.password"
                 type="password"
+                data-testid="password_input"
                 :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
                 @input="$v.credentials.password.$touch"
               />
