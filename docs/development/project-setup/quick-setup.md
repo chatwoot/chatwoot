@@ -81,7 +81,21 @@ docker-compose run -rm server bundle exec rake db:reset
 
 This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
 
-### Docker for production
+### Running Cypress Tests 
+
+Refer the docs to learn how to write cypress specs
+https://github.com/shakacode/cypress-on-rails
+https://docs.cypress.io/guides/overview/why-cypress.html
+
+```
+# in terminal tab1
+overmind start -f Procfile.test 
+# in terminal tab2
+yarn cypress open --project ./test
+```
+
+
+### Debugging Docker for production
 
 You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
 
