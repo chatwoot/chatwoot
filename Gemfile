@@ -96,6 +96,13 @@ group :development do
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
 end
 
+group :test do
+  # Cypress in rails.
+  gem 'cypress-on-rails', '~> 1.0'
+  # fast cleaning of database
+  gem 'database_cleaner'
+end
+
 group :development, :test do
   # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
   gem 'action-cable-testing'
