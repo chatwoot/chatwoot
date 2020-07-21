@@ -17,9 +17,6 @@
 #
 
 class Channel::FacebookPage < ApplicationRecord
-  # FIXME: this should be removed post 1.4 release. we moved avatars to inbox
-  include Avatarable
-
   self.table_name = 'channel_facebook_pages'
 
   validates :account_id, presence: true
