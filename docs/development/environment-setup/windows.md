@@ -5,17 +5,17 @@ title: 'Windows 10 Installation Guide'
 
 ### Requirements
 
-You need to install Linux Subsystem for Windows.
+You need to install the Linux Subsystem for Windows.
 
-1. The first step is to enable "Developer mode" in Windows. You can do this by opening up Settings and navigating to Update & Security, then "For Developers". Click the "Developer mode" option to enable it.
+1. The first step is to enable "Developer mode" in Windows. You can do this by opening up Settings and navigating to "Update & Security". In there, choose the tab on the left that reads "For Developers". Turn the "Developer mode" toggle on to enable it.
 
 <img src="./img/developer-mode.jpg" width="500" alt="Enable Developer Mode" style="display: block; margin-left: auto; margin-right: auto;">
 
-2. Enable Windows Subsystem for Linux by opening Control Panel, going to Programs, and then clicking "Turn Windows Features On or Off". Looking for the "Windows Subsystem for Linux" option and check the box next to it.
+2. Next you have to enable the Windows Subsystem for Linux. Open the "Control Panel" and go to "Programs and Features". Click on the link on the left "Turn Windows features on or off". Look for the "Windows Subsystem for Linux" option and select the checkbox next to it.
 
 <img src="./img/enable-wsl.jpg" width="500" alt="Enable WSL" style="display: block; margin-left: auto; margin-right: auto;">
 
-3. Once that's complete, you can open up the Start menu again and search for "Bash". This time it will have the Ubuntu logo.
+3. Once that's complete, you can open up the Start Menu again and search for "Bash". This time it will have the Ubuntu logo.
 
 ### Installing RVM & Ruby
 
@@ -40,7 +40,7 @@ ruby -v
 
 ### Install Node.js
 
-Install Node.js from NodeSoure using the following commands
+Install `Node.js` from NodeSource using the following commands
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
@@ -49,7 +49,7 @@ sudo apt-get install -y nodejs
 
 ### Install yarn
 
-We use `yarn` as package manager
+We use `yarn` as the package manager
 
 ```bash
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
@@ -62,7 +62,7 @@ sudo apt-get update && sudo apt-get install yarn
 
 ### Install postgres
 
-The database used in Chatwoot is PostgreSQL. Use the following commands to install postgres.
+The database used in Chatwoot is PostgreSQL. Use the following commands to install postgres:
 
 ```bash
 sudo apt install postgresql postgresql-contrib
@@ -74,7 +74,7 @@ The installation procedure created a user account called postgres that is associ
 sudo -u postgres psql
 ```
 
-Install `libpg-dev` dependencies for ubuntu
+Install `libpg-dev` dependencies for Ubuntu
 
 ```bash
 sudo apt-get install libpq-dev

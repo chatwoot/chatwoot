@@ -134,14 +134,7 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    channel_name = conversation.inbox.channel.class.to_s
-    if channel_name == 'Channel::FacebookPage'
-      ::Facebook::SendOnFacebookService.new(message: self).perform
-    elsif channel_name == 'Channel::TwitterProfile'
-      ::Twitter::SendOnTwitterService.new(message: self).perform
-    elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::SendOnTwilioService.new(message: self).perform
-    end
+    ::SendReplyJob.perform_later(id)
   end
 
   def reopen_conversation
@@ -153,7 +146,7 @@ class Message < ApplicationRecord
   end
 
   def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing?
+    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
       # set a redis key for the conversation so that we don't need to send email for every
       # new message that comes in and we dont enque the delayed sidekiq job for every message
       Redis::Alfred.setex(conversation_mail_key, Time.zone.now)

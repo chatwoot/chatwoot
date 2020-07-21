@@ -18,13 +18,13 @@ module Featurable
     before_create :enable_default_features
   end
 
-  def enable_features(names)
+  def enable_features(*names)
     names.each do |name|
       send("feature_#{name}=", true)
     end
   end
 
-  def disable_features(names)
+  def disable_features(*names)
     names.each do |name|
       send("feature_#{name}=", false)
     end
@@ -55,6 +55,6 @@ module Featurable
     return true if config.blank?
 
     features_to_enabled = config.value.select { |f| f[:enabled] }.map { |f| f[:name] }
-    enable_features(features_to_enabled)
+    enable_features(*features_to_enabled)
   end
 end
