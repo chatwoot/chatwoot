@@ -20,7 +20,7 @@ This guide will help you get started with Chatwoot!
 * [Conversation Continuity with Email](/docs/conversation-continuity)
 * [Common Errors](/docs/common-errors)
 
-### Deploying chatwoot in Production
+### Deploying Chatwoot in Production
 
 * [Architecture](/docs/deployment/architecture)
 * [Heroku](/docs/deployment/deploy-chatwoot-with-heroku) (recommended)
