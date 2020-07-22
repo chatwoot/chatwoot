@@ -28,6 +28,15 @@ microsoft:
   storage_access_key: <%= ENV.fetch('AZURE_STORAGE_ACCESS_KEY', '') %>
   container: <%= ENV.fetch('AZURE_STORAGE_CONTAINER', '') %>
 
+# s3 compatible service such as DigitalOcean Spaces, Minio.
+s3_compatible:
+  service: S3
+  access_key_id: <%= ENV.fetch('STORAGE_ACCESS_KEY_ID', '') %>
+  secret_access_key: <%= ENV.fetch('STORAGE_SECRET_ACCESS_KEY', '') %>
+  region: <%= ENV.fetch('STORAGE_REGION', '') %>
+  bucket: <%= ENV.fetch('STORAGE_BUCKET_NAME', '') %>
+  endpoint: <%= ENV.fetch('STORAGE_ENDPOINT', '') %>
+
 # mirror:
 #   service: Mirror
 #   primary: local
