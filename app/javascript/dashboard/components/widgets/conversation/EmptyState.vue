@@ -30,7 +30,7 @@
         </span>
       </div>
       <!-- No conversation selected -->
-      <div v-else-if="allConversations.length && currentChat.id === null">
+      <div v-else-if="allConversations.length && !currentChat.id">
         <img src="~dashboard/assets/images/chat.svg" alt="No Chat" />
         <span>{{ $t('CONVERSATION.404') }}</span>
       </div>
