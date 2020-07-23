@@ -163,9 +163,11 @@ const actions = {
   },
 
   markMessagesRead: async ({ commit }, data) => {
+    setTimeout(() => {
+      commit(types.default.MARK_MESSAGE_READ, data);
+    }, 4000);
     try {
       await ConversationApi.markMessageRead(data);
-      commit(types.default.MARK_MESSAGE_READ, data);
     } catch (error) {
       // Handle error
     }
