@@ -1,6 +1,6 @@
 ---
-path: "/docs/channels/website"
-title: "How to create website channel?"
+path: '/docs/channels/website'
+title: 'How to create website channel?'
 ---
 
 **Step 1**. Click on "Add Inbox" button from Settings > Inboxes page.
@@ -23,6 +23,6 @@ title: "How to create website channel?"
 
 ![finish_inbox](./images/finish_inbox.png)
 
-**Step 6**. If you want to update the agents who have access to the inbox, you can go to Settings > Inboxes. You will be able to see your website inbox listed there. Click on Settings. You will be able to Code as well the list of agents who have access to the inbox.
+**Step 6**. If you want to update the agents who have access to the inbox, you can go to Settings > Inboxes. You will be able to see your website inbox listed there. Click on Settings. You will be able to see the code as well as the list of agents who have access to the inbox.
 
 ![inbox_settings](./images/inbox_settings.png)
