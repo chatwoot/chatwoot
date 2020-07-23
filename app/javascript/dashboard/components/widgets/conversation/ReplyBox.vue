@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       message: '',
-      isPrivate: false,
+      isPrivateTabActive: false,
       isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
@@ -117,6 +117,12 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
+    isPrivate() {
+      if (this.currentChat.can_reply) {
+        return this.isPrivateTabActive;
+      }
+      return true;
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -214,6 +220,14 @@ export default {
     },
   },
   watch: {
+    currentChat(chat) {
+      console.log(chat);
+      if (chat.can_reply) {
+        this.isPrivateTabActive = false;
+      } else {
+        this.isPrivateTabActive = true;
+      }
+    },
     message(updatedMessage) {
       if (this.isPrivate) {
         return;
@@ -278,11 +292,11 @@ export default {
       }, 100);
     },
     setPrivateReplyMode() {
-      this.isPrivate = true;
+      this.isPrivateTabActive = true;
       this.$refs.messageInput.focus();
     },
     setReplyMode() {
-      this.isPrivate = false;
+      this.isPrivateTabActive = false;
       this.$refs.messageInput.focus();
     },
     emojiOnClick(emoji) {

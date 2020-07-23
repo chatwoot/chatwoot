@@ -5,6 +5,18 @@
       :is-contact-panel-open="isContactPanelOpen"
       @contactPanelToggle="onToggleContactPanel"
     />
+    <div v-if="!currentChat.can_reply" class="messenger-policy--banner">
+      <span>
+        You cannot reply due to
+        <a
+          href="https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          24 hour message window restriction
+        </a>
+      </span>
+    </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
         <li>
@@ -210,3 +222,19 @@ export default {
   },
 };
 </script>
+
+<style scoped lang="scss">
+.messenger-policy--banner {
+  background: var(--r-400);
+  color: var(--white);
+  font-size: var(--font-size-mini);
+  padding: var(--space-slab) var(--space-normal);
+  text-align: center;
+
+  a {
+    text-decoration: underline;
+    color: var(--white);
+    font-size: var(--font-size-mini);
+  }
+}
+</style>
