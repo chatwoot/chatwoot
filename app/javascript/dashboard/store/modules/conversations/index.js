@@ -15,7 +15,7 @@ const state = {
 };
 
 // mutations
-const mutations = {
+export const mutations = {
   [types.default.SET_ALL_CONVERSATION](_state, conversationList) {
     const newAllConversations = [..._state.allConversations];
     conversationList.forEach(conversation => {
@@ -52,7 +52,7 @@ const mutations = {
     }
   },
 
-  [types.default.CURRENT_CHAT_WINDOW](_state, activeChat) {
+  [types.default.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
       _state.selectedChatId = activeChat.id;
     }

@@ -85,7 +85,7 @@ const actions = {
   },
 
   async setActiveChat({ commit, dispatch }, data) {
-    commit(types.default.CURRENT_CHAT_WINDOW, data);
+    commit(types.default.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.default.CLEAR_ALL_MESSAGES_LOADED);
 
     if (data.dataFetched === undefined) {
