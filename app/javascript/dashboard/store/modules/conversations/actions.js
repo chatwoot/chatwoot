@@ -84,35 +84,21 @@ const actions = {
     }
   },
 
-  setActiveChat(store, data) {
-    const { commit } = store;
-    const localDispatch = store.dispatch;
-    let donePromise = null;
-
-    commit(types.default.CURRENT_CHAT_WINDOW, data);
+  async setActiveChat({ commit, dispatch }, data) {
+    commit(types.default.SET_CURRENT_CHAT_WINDOW, data);
     commit(types.default.CLEAR_ALL_MESSAGES_LOADED);
 
     if (data.dataFetched === undefined) {
-      donePromise = new Promise(resolve => {
-        localDispatch('fetchPreviousMessages', {
+      try {
+        await dispatch('fetchPreviousMessages', {
           conversationId: data.id,
           before: data.messages[0].id,
-        })
-          .then(() => {
-            Vue.set(data, 'dataFetched', true);
-            resolve();
-          })
-          .catch(() => {
-            // Handle error
-          });
-      });
-    } else {
-      donePromise = new Promise(resolve => {
-        commit(types.default.SET_CHAT_META, { id: data.id });
-        resolve();
-      });
+        });
+        Vue.set(data, 'dataFetched', true);
+      } catch (error) {
+        // Ignore error
+      }
     }
-    return donePromise;
   },
 
   assignAgent: async ({ commit }, { conversationId, agentId }) => {
