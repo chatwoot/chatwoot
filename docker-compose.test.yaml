@@ -2,11 +2,20 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: 'development:test'
+        EXECJS_RUNTIME: Disabled
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
+    image: chatwoot:latest
     env_file: .env ## Change this file for customized env variables
 
   rails:
     <<: *base
+    image: chatwoot:latest
     depends_on:
       - postgres
       - redis
@@ -20,6 +29,7 @@ services:
 
   sidekiq:
     <<: *base
+    image: chatwoot:latest
     depends_on:
       - postgres
       - redis
@@ -34,17 +44,23 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - /data/postgres:/var/lib/postgresql/data
+      - postgres:/data/postgres
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      # Please provide your own password.
       - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
     restart: always
     volumes:
-      - /data/redis:/data
+      - redis:/data/redis
     ports:
       - '6379:6379'
+
+volumes:
+  postgres:
+  redis:
+  bundle:
+  packs:
+  node_modules_rails:
