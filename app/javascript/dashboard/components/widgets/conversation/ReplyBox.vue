@@ -220,14 +220,8 @@ export default {
     },
   },
   watch: {
-    currentChat(chat, previousChat) {
-      if (
-        chat.id === previousChat.id &&
-        chat.can_reply === previousChat.can_reply
-      ) {
-        return;
-      }
-      if (chat.can_reply) {
+    currentChat(conversation) {
+      if (conversation.can_reply) {
         this.isPrivateTabActive = false;
       } else {
         this.isPrivateTabActive = true;
