@@ -220,8 +220,13 @@ export default {
     },
   },
   watch: {
-    currentChat(chat) {
-      console.log(chat);
+    currentChat(chat, previousChat) {
+      if (
+        chat.id === previousChat.id &&
+        chat.can_reply === previousChat.can_reply
+      ) {
+        return;
+      }
       if (chat.can_reply) {
         this.isPrivateTabActive = false;
       } else {
@@ -341,7 +346,10 @@ export default {
       }
       this.isUploading = true;
       this.$store
-        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
+        .dispatch('sendAttachment', [
+          this.currentChat.id,
+          { file: file.file, isPrivate: this.isPrivate },
+        ])
         .then(() => {
           this.isUploading = false;
           this.$emit('scrollToMessage');
