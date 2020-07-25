@@ -8,6 +8,15 @@ Additional information about a contact is always useful, Chatwoot website SDK en
 
 If you have installed our code on your website, SDK would expose `window.$chatwoot` object.
 
+Inorder to make sure that the SDK has been loaded completely, please make sure that you listen to `chatwoot:ready` event as follows
+
+```js
+window.addEventListener('chatwoot:ready', function() {
+  // Use window.$chatwoot here
+  // ...
+})
+```
+
 To hide the bubble, you can use the following setting. Please not if you use this, then you have to trigger the widget by yourself.
 
 ```js
