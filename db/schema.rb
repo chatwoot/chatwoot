@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_25_171444) do
+ActiveRecord::Schema.define(version: 2020_07_25_171828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -337,6 +337,14 @@ ActiveRecord::Schema.define(version: 2020_07_25_171444) do
     t.string "favicon"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "homepage_link"
+    t.string "page_title"
+    t.text "header_text"
+    t.string "header_image"
+    t.string "social_media_image"
+    t.string "color"
+    t.string "footer_title"
+    t.string "footer_url"
   end
 
   create_table "labels", force: :cascade do |t|

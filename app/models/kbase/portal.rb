@@ -2,15 +2,23 @@
 #
 # Table name: kbase_portals
 #
-#  id            :bigint           not null, primary key
-#  custom_domain :string
-#  favicon       :string
-#  logo          :string
-#  name          :string
-#  subdomain     :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :integer
+#  id                 :bigint           not null, primary key
+#  color              :string
+#  custom_domain      :string
+#  favicon            :string
+#  footer_title       :string
+#  footer_url         :string
+#  header_image       :string
+#  header_text        :text
+#  homepage_link      :string
+#  logo               :string
+#  name               :string
+#  page_title         :string
+#  social_media_image :string
+#  subdomain          :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer
 #
 class Kbase::Portal < ApplicationRecord
   belongs_to :account
