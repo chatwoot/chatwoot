@@ -13,7 +13,7 @@ import {
   onClickChatBubble,
   onBubbleClick,
 } from './bubbleHelpers';
-import { dispatchWindowEvent } from 'shared/helpers/customEventHelper';
+import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
 const EVENT_NAME = 'chatwoot:ready';
 
