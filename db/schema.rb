@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_19_171437) do
+ActiveRecord::Schema.define(version: 2020_07_25_171444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -333,25 +333,8 @@ ActiveRecord::Schema.define(version: 2020_07_19_171437) do
     t.string "name"
     t.string "subdomain"
     t.string "custom_domain"
-    t.boolean "show_author"
     t.string "logo"
     t.string "favicon"
-    t.string "linkback_url"
-    t.string "phone"
-    t.string "bg_body_color"
-    t.string "bg_header_color"
-    t.string "bg_footer_color"
-    t.string "bg_helpcenter_color"
-    t.string "tab_bg_color"
-    t.string "tab_active_color"
-    t.string "portal_base_font"
-    t.string "portal_base_color"
-    t.string "portal_heading_font"
-    t.string "portal_heading_color"
-    t.string "link_text_color"
-    t.string "link_text_hover_color"
-    t.string "form_input_focus_glow_color"
-    t.string "form_primary_btn_color"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
