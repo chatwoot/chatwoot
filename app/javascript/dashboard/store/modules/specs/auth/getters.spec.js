@@ -17,4 +17,12 @@ describe('#getters', () => {
       getters.getCurrentUser({ currentUser: { id: 1, name: 'Pranav' } })
     ).toEqual({ id: 1, name: 'Pranav' });
   });
+
+  it('get', () => {
+    expect(
+      getters.getCurrentUserAvailabilityStatus({
+        currentUser: { id: 1, name: 'Pranav', availability_status: 'busy' },
+      })
+    ).toEqual('busy');
+  });
 });

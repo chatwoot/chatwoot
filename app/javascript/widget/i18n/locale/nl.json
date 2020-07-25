@@ -9,10 +9,10 @@
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is beschikbaar",
-    "ARE_AVAILABLE": "zijn beschikbaar",
-    "OTHERS_ARE_AVAILABLE": "anderen zijn beschikbaar",
-    "AND": "en"
+    "IS_AVAILABLE": "is available",
+    "ARE_AVAILABLE": "are available",
+    "OTHERS_ARE_AVAILABLE": "others are available",
+    "AND": "and"
   },
   "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
   "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",

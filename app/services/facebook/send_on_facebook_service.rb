@@ -17,17 +17,24 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_attachment_message_params
+    attachment = message.attachments.first
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
         attachment: {
-          type: 'image',
+          type: attachment_type(attachment),
           payload: {
-            url: message.attachments.first.file_url
+            url: attachment.file_url
           }
         }
       }
     }
+  end
+
+  def attachment_type(attachment)
+    return attachment.file_type if %w[image audio video file].include? attachment.file_type
+
+    'file'
   end
 
   def fb_message_params

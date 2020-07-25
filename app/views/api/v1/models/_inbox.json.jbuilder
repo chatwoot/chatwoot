@@ -1,0 +1,16 @@
+json.id resource.id
+json.channel_id resource.channel_id
+json.name resource.name
+json.channel_type resource.channel_type
+json.greeting_enabled resource.greeting_enabled
+json.greeting_message resource.greeting_message
+json.avatar_url resource.try(:avatar_url)
+json.page_id resource.channel.try(:page_id)
+json.widget_color resource.channel.try(:widget_color)
+json.website_url resource.channel.try(:website_url)
+json.welcome_title resource.channel.try(:welcome_title)
+json.welcome_tagline resource.channel.try(:welcome_tagline)
+json.enable_auto_assignment resource.enable_auto_assignment
+json.web_widget_script resource.channel.try(:web_widget_script)
+json.forward_to_address resource.channel.try(:forward_to_address)
+json.phone_number resource.channel.try(:phone_number)

@@ -39,6 +39,8 @@ Style/HashTransformKeys:
   Enabled: true
 Style/HashTransformValues:
   Enabled: true
+Style/RedundantFetchBlock:
+  Enabled: true
 Style/RedundantRegexpCharacterClass:
   Enabled: true
 Style/RedundantRegexpEscape:

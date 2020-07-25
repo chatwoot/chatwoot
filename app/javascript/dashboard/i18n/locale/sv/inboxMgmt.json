@@ -1,0 +1,191 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Inkorgar",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "Det finns inga inkorgar kopplade till detta konto."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Välj kanal",
+        "route": "settings_inbox_new",
+        "body": "Välj den leverantör du vill integrera med Chatwoot."
+      },
+      {
+        "title": "Skapa inkorg",
+        "route": "settings_inboxes_page_channel",
+        "body": "Autentisera ditt konto och skapa en inkorg."
+      },
+      {
+        "title": "Lägg till agenter",
+        "route": "settings_inboxes_add_agents",
+        "body": "Lägg till agenter till den skapade inkorgen."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Ni är alla redo att gå!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din Sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
+      "TWITTER": {
+        "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Webbplatsens kanal",
+        "DESC": "Skapa en kanal för din webbplats och börja stödja dina kunder via vår hemsida widget.",
+        "LOADING_MESSAGE": "Skapar supportkanal för webbplats",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Webbplatsens namn",
+          "PLACEHOLDER": "Ange ditt webbplatsnamn (t.ex. Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Webbplatsens domän",
+          "PLACEHOLDER": "Ange din webbplatsdomän (t.ex. acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Välkomstrubrik",
+          "PLACEHOLDER": "Hej där!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Välkommen Tagline",
+          "PLACEHOLDER": "Vi gör det enkelt att få kontakt med oss. Fråga oss något, eller dela din feedback."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Aktiverad",
+          "DISABLED": "Inaktiverad"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widget färg",
+          "PLACEHOLDER": "Uppdatera widgetens färg som används i widget"
+        },
+        "SUBMIT_BUTTON": "Skapa inkorg"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Konto SID",
+          "PLACEHOLDER": "Ange ditt Twilio-konto SID",
+          "ERROR": "Detta fält är tvingande"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth token",
+          "PLACEHOLDER": "Ange din Twilio Auth Token",
+          "ERROR": "Detta fält är tvingande"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnamn",
+          "PLACEHOLDER": "Ange ett kanalnamn",
+          "ERROR": "Detta fält är tvingande"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Ange telefonnummer från vilket meddelande som ska skickas.",
+          "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
+        "SUBMIT_BUTTON": "Skapa Twilio kanal",
+        "API": {
+          "ERROR_MESSAGE": "Vi kunde inte autentisera Twilio autentiseringsuppgifter, försök igen"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Kanaler",
+        "DESC": "För närvarande stöder vi Webbplats live chat widgets, Facebook-sidor och Twitter-profiler som plattformar. Vi har fler plattformar som Whatsapp, e-post, Telegram och Linje i verken, som kommer ut snart."
+      },
+      "AGENTS": {
+        "TITLE": "Agenter",
+        "DESC": "Här kan du lägga till agenter för att hantera din nyskapade inkorg. Endast dessa utvalda agenter har tillgång till din inkorg. Agenter som inte är en del av denna inkorg kommer inte att kunna se eller svara på meddelanden i denna inkorg när de loggar in. <br> <b>PS:</b> Som administratör om du behöver åtkomst till alla inkorgar, du bör lägga till dig själv som agent till alla inkorgar som du skapar."
+      },
+      "DETAILS": {
+        "TITLE": "Inkorg Detaljer",
+        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
+      },
+      "FINISH": {
+        "TITLE": "Spikade det!",
+        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autentiserar dig med Facebook...",
+      "ERROR_FB_AUTH": "Något gick fel, vänligen uppdatera sidan...",
+      "CREATING_CHANNEL": "Skapar din inkorg...",
+      "TITLE": "Konfigurera Inkorg Detaljer",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Lägg till agenter",
+      "ADD_AGENTS": "Lägger till agenter i din inkorg..."
+    },
+    "FINISH": {
+      "TITLE": "Din inkorg är redo!",
+      "MESSAGE": "Du kan nu samarbeta med dina kunder genom din nya kanal. ",
+      "BUTTON_TEXT": "Ta mig dit",
+      "WEBSITE_SUCCESS": "Du har lyckats skapa en webbplats kanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt på din inkorg."
+    },
+    "REAUTH": "Återauktorisera",
+    "VIEW": "Visa",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Inkorgen har uppdaterats",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tilldelning har uppdaterats",
+        "ERROR_MESSAGE": "Kunde inte uppdatera widgetens färg. Försök igen senare."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Aktiverad",
+        "DISABLED": "Inaktiverad"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Radera",
+      "CONFIRM": {
+        "TITLE": "Bekräfta borttagning",
+        "MESSAGE": "Är du säker på att ta bort ",
+        "YES": "Ja, ta bort ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inkorgen har tagits bort",
+        "ERROR_MESSAGE": "Kunde inte ta bort inkorgen. Försök igen senare."
+      }
+    },
+    "SETTINGS": "Inställningar",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Skript för budbärare",
+      "MESSENGER_SUB_HEAD": "Placera denna knapp i din kroppstagg",
+      "INBOX_AGENTS": "Agenter",
+      "INBOX_AGENTS_SUB_TEXT": "Lägg till eller ta bort agenter från denna inkorg",
+      "UPDATE": "Uppdatera",
+      "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
+      "INBOX_UPDATE_TITLE": "Inkorg inställningar",
+      "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen."
+    }
+  }
+}

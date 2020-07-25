@@ -6,6 +6,7 @@ describe Facebook::SendOnFacebookService do
   before do
     allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
     allow(bot).to receive(:deliver)
+    create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
   end
 
   let!(:account) { create(:account) }
@@ -20,39 +21,43 @@ describe Facebook::SendOnFacebookService do
   describe '#perform' do
     context 'without reply' do
       it 'if message is private' do
-        create(:message, message_type: 'outgoing', private: true, inbox: facebook_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', private: true, inbox: facebook_inbox, account: account)
+        ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if inbox channel is not facebook page' do
-        create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+        expect { ::Facebook::SendOnFacebookService.new(message: message).perform }.to raise_error 'Invalid channel service was called'
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if message is not outgoing' do
-        create(:message, message_type: 'incoming', inbox: facebook_inbox, account: account)
+        message = create(:message, message_type: 'incoming', inbox: facebook_inbox, account: account)
+        ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
 
       it 'if message has an FB ID' do
-        create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, source_id: SecureRandom.uuid)
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, source_id: SecureRandom.uuid)
+        ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end
     end
 
     context 'with reply' do
       it 'if message is sent from chatwoot and is outgoing' do
-        create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
-        create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
+        ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).to have_received(:deliver)
       end
 
       it 'if message with attachment is sent from chatwoot and is outgoing' do
-        create(:message, message_type: :incoming, inbox: facebook_inbox, account: account, conversation: conversation)
         message = build(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment.file.attach(io: File.open(Rails.root.join('spec/assets/avatar.png')), filename: 'avatar.png', content_type: 'image/png')
         message.save!
+        ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).to have_received(:deliver)
       end
     end

@@ -15,7 +15,7 @@
     },
     "PASSWORD": {
       "LABEL": "Passwort",
-      "PLACEHOLDER": "Password",
+      "PLACEHOLDER": "Passwort",
       "ERROR": "Das Passwort ist zu kurz"
     },
     "CONFIRM_PASSWORD": {

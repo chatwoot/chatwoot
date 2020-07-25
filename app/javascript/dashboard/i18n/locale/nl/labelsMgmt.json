@@ -1,0 +1,68 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Labelen",
+    "HEADER_BTN_TXT": "Label toevoegen",
+    "LOADING": "Labels ophalen",
+    "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
+    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels helpen u om gesprekken te categoriseren en ze prioriteit te geven. Vanaf het zijpaneel kunt u het label toewijzen aan een gesprek. <br /><br />Labels zijn gekoppeld aan het account en kunnen worden gebruikt om aangepaste workflows in uw organisatie te creëren. U kunt aangepaste kleur aan een label toewijzen, het maakt het gemakkelijker om het label te identificeren. Je kunt het label op de zijbalk weergeven om de gesprekken gemakkelijk te filteren.</p>",
+    "LIST": {
+      "404": "Er zijn geen labels beschikbaar in dit account.",
+      "TITLE": "Beheer labels",
+      "DESC": "Labels laten je gesprekken groeperen.",
+      "TABLE_HEADER": [
+        "Naam",
+        "Beschrijving",
+        "Kleur"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Label naam",
+        "PLACEHOLDER": "Label naam",
+        "ERROR": "Labelnaam is vereist"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Beschrijving",
+        "PLACEHOLDER": "Beschrijving label"
+      },
+      "COLOR": {
+        "LABEL": "Kleur"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Label op zijbalk weergeven"
+      },
+      "EDIT": "Bewerken",
+      "CREATE": "Aanmaken",
+      "DELETE": "Verwijderen",
+      "CANCEL": "Annuleren"
+    },
+    "ADD": {
+      "TITLE": "Label toevoegen",
+      "DESC": "Labels laten je gesprekken groeperen.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol toegevoegd",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Bewerk label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol bijgewerkt",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Label succesvol verwijderd",
+        "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+      },
+      "CONFIRM": {
+        "TITLE": "Verwijdering bevestigen",
+        "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "YES": "Ja, verwijderen ",
+        "NO": "Nee, Behouden "
+      }
+    }
+  }
+}

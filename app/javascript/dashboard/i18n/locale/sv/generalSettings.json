@@ -1,0 +1,47 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Kontoinställningar",
+    "SUBMIT": "Uppdatera inställningar",
+    "BACK": "Back",
+    "UPDATE": {
+      "ERROR": "Kunde inte uppdatera inställningar, försök igen!",
+      "SUCCESS": "Uppdaterade kontoinställningar"
+    },
+    "FORM": {
+      "ERROR": "Vänligen åtgärda formulärfel",
+      "GENERAL_SECTION": {
+        "TITLE": "Allmänna inställningar",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Konto namn",
+        "PLACEHOLDER": "Ditt kontonamn",
+        "ERROR": "Ange ett giltigt kontonamn"
+      },
+      "LANGUAGE": {
+        "LABEL": "Webbplatsens språk (Beta)",
+        "PLACEHOLDER": "Ditt kontonamn",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Domain",
+        "PLACEHOLDER": "Your website domain",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Support Email",
+        "PLACEHOLDER": "Your company's support email",
+        "ERROR": ""
+      },
+      "ENABLE_DOMAIN_EMAIL": {
+        "LABEL": "Enable domain email",
+        "PLACEHOLDER": "Enable the custom domain email",
+        "ERROR": "",
+        "OPTIONS": {
+          "ENABLED": "Aktiverad",
+          "DISABLED": "Inaktiverad"
+        }
+      }
+    }
+  }
+}

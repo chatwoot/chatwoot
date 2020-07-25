@@ -21,6 +21,14 @@
           >
           </woot-code>
         </div>
+        <div class="medium-6 small-offset-3">
+          <woot-code
+            v-if="isAEmailInbox"
+            lang="html"
+            :script="currentInbox.forward_to_address"
+          >
+          </woot-code>
+        </div>
         <router-link
           class="button success nice"
           :to="{
@@ -53,11 +61,18 @@ export default {
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
+    isAEmailInbox() {
+      return this.currentInbox.channel_type === 'Channel::Email';
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'
         )}`;
+      }
+
+      if (this.isAEmailInbox) {
+        return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
       if (!this.currentInbox.website_token) {

@@ -11,10 +11,19 @@
     },
     "LABELS": {
       "TITLE": "Etichete conversație",
-      "UPDATE_BUTTON": "Actualizare etichete",
-      "UPDATE_ERROR": "Nu s-au putut actualiza etichetele, încercați din nou.",
-      "TAG_PLACEHOLDER": "Adaugă o etichetă nouă",
-      "PLACEHOLDER": "Caută sau adaugă o etichetă"
-    }
+      "MODAL": {
+        "TITLE": "Etichete pentru",
+        "ACTIVE_LABELS": "Etichete adăugate la conversație",
+        "INACTIVE_LABELS": "Etichete disponibile în cont",
+        "REMOVE": "Faceți clic pe pictograma X pentru a elimina eticheta",
+        "ADD": "Faceți clic pe + pictogramă pentru a adăuga eticheta",
+        "UPDATE_BUTTON": "Actualizare etichete",
+        "UPDATE_ERROR": "Nu s-au putut actualiza etichetele, încercați din nou."
+      },
+      "NO_LABELS_TO_ADD": "Nu mai sunt etichete definite în cont.",
+      "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație."
+    },
+    "MUTE_CONTACT": "Oprește contactul",
+    "EDIT_LABEL": "Editare"
   }
 }

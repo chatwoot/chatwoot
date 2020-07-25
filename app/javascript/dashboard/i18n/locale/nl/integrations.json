@@ -49,6 +49,15 @@
           "NO": "Nee, Bewaar het"
         }
       }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Verwijderen",
+      "API": {
+        "SUCCESS_MESSAGE": "Integration deleted successfully"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
     }
   }
 }

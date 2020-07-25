@@ -11,9 +11,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def create
-    @contact = Current.account.contacts.new(contact_create_params)
-    @contact.save!
-    render json: @contact
+    ActiveRecord::Base.transaction do
+      @contact = Current.account.contacts.new(contact_create_params)
+      @contact.save!
+      @contact_inbox = build_contact_inbox
+    end
   end
 
   def update
@@ -24,6 +26,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def check_authorization
     authorize(Contact)
+  end
+
+  def build_contact_inbox
+    return if params[:inbox_id].blank?
+
+    inbox = Inbox.find(params[:inbox_id])
+    source_id = params[:source_id] || SecureRandom.uuid
+    ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
   end
 
   def contact_params

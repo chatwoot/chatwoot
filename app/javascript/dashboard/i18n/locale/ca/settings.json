@@ -26,9 +26,19 @@
         "TITLE": "Notificacions per correu electrònic",
         "NOTE": "Actualitza aqui les preferències de les notificacions per correu electrònic",
         "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
-        "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
-        "UPDATE_SUCCESS": "Les preferències de notificació per correu electrònic s’han actualitzat correctament",
-        "UPDATE_ERROR": "S'ha produït un error en actualitzar les preferències. Torneu-ho a provar"
+        "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imatge del Perfil"
@@ -37,6 +47,23 @@
         "LABEL": "El teu nom",
         "ERROR": "Introduïu un nom vàlid",
         "PLACEHOLDER": "Introdueix el teu nom, serà mostrat a les converses"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "La teva adreça de correu electrònic",
@@ -56,38 +83,44 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_ACCOUNTS": "Switch Account",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Configuració del Perfil",
     "LOGOUT": "Sortir"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "dies de prova restants.",
-    "TRAIL_BUTTON": "Comprar ara"
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copiar",
-      "COPY_SUCCESSFUL": "Codi copiat al porta-retalls correctament"
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
-      "UPLOADING": "S'està pujant..."
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Envia"
     }
   },
-  "CONFIRM_EMAIL": "S'està verificant...",
+  "CONFIRM_EMAIL": "Verifying...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Afegeix una safata d'entrada"
+      "NEW_INBOX": "Add Inbox"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversacions",
+    "CONVERSATIONS": "Converses",
     "REPORTS": "Informes",
-    "SETTINGS": "Configuració",
-    "HOME": "Inici",
+    "SETTINGS": "Configuracions",
+    "HOME": "Home",
     "AGENTS": "Agents",
     "INBOXES": "Safates d'entrada",
-    "CANNED_RESPONSES": "Respostes Predeterminades",
+    "CANNED_RESPONSES": "Respostes predeterminades",
     "INTEGRATIONS": "Integracions",
-    "ACCOUNT_SETTINGS": "Configuració del compte"
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "LABELS": "Labels"
   }
 }

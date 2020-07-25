@@ -1,0 +1,191 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Skrzynki",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "Nie ma żadnych skrzynek dołączonych do tego konta."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Wybierz kanał",
+        "route": "settings_inbox_new",
+        "body": "Wybierz dostawcę, który chcesz zintegrować z chatwootem."
+      },
+      {
+        "title": "Utwórz skrzynkę odbiorczą",
+        "route": "settings_inboxes_page_channel",
+        "body": "Uwierzytelnij swoje konto i utwórz skrzynkę odbiorczą."
+      },
+      {
+        "title": "Dodaj agentów",
+        "route": "settings_inboxes_add_agents",
+        "body": "Dodaj agentów do utworzonej skrzynki odbiorczej."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Wszystko jest gotowe!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Logując się, uzyskujemy dostęp tylko do wiadomości Twojej strony. Chatwoot nigdy nie może uzyskać dostępu do prywatnych wiadomości.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
+      },
+      "TWITTER": {
+        "HELP": "Aby dodać swój profil na Twitterze jako kanał, musisz uwierzytelnić swój profil Twitter klikając na 'Zaloguj się przez Twittera' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Kanał strony internetowej",
+        "DESC": "Utwórz kanał dla swojej strony internetowej i zacznij wspierać swoich klientów za pomocą naszego widżetu na stronie.",
+        "LOADING_MESSAGE": "Tworzenie kanału wsparcia strony internetowej",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Channel Avatar"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nazwa witryny",
+          "PLACEHOLDER": "Wprowadź nazwę swojej strony (np. Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Domena strony internetowej",
+          "PLACEHOLDER": "Wprowadź domenę witryny (np. acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Nagłówek powitalny",
+          "PLACEHOLDER": "Cześć!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Tagline powitalny",
+          "PLACEHOLDER": "Łatwo się z nami połączyć. Zapytaj nas o coś lub podziel się swoją opinią."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Channel greeting message",
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Enable channel greeting",
+          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "ENABLED": "Włączone",
+          "DISABLED": "Wyłączone"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Kolor widżetu",
+          "PLACEHOLDER": "Aktualizuj kolor widżetu używany w widżecie"
+        },
+        "SUBMIT_BUTTON": "Utwórz skrzynkę odbiorczą"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Karta SID konta",
+          "PLACEHOLDER": "Wprowadź SID konta Twilio",
+          "ERROR": "To pole jest wymagane"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Channel Type",
+          "ERROR": "Please select your Channel Type"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token uwierzytelniania",
+          "PLACEHOLDER": "Wprowadź swój token uwierzytelniania Twilio",
+          "ERROR": "To pole jest wymagane"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nazwa kanału",
+          "PLACEHOLDER": "Wprowadź nazwę kanału",
+          "ERROR": "To pole jest wymagane"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Numer telefonu",
+          "PLACEHOLDER": "Wprowadź numer telefonu, z którego zostanie wysłana wiadomość.",
+          "ERROR": "Wprowadź prawidłową wartość. Numer telefonu powinien zaczynać się od znaku `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+        },
+        "SUBMIT_BUTTON": "Utwórz kanał Twilio",
+        "API": {
+          "ERROR_MESSAGE": "Nie byliśmy w stanie uwierzytelnić danych logowania Twilio, spróbuj ponownie"
+        }
+      },
+      "AUTH": {
+        "TITLE": "Kanały",
+        "DESC": "Obecnie obsługujemy widżety czatu na żywo, strony na Facebooku i profile Twittera jako platformy. Mamy więcej platform takich jak Whatsapp, E-mail, Telegram i Line w pracach, które wkrótce się zakończą."
+      },
+      "AGENTS": {
+        "TITLE": "Agenci",
+        "DESC": "Tutaj możesz dodać agentów do zarządzania swoją nowo utworzoną skrzynką odbiorczą. Tylko ci wybrani agenci będą mieli dostęp do Twojej skrzynki odbiorczej. Agenci, którzy nie są częścią tej skrzynki odbiorczej nie będą mogli zobaczyć ani odpowiadać na wiadomości w tej skrzynce odbiorczej podczas logowania. <br> <b>PS:</b> Jako administrator, jeśli potrzebujesz dostępu do wszystkich skrzynek odbiorczych, powinieneś dodać siebie jako agenta do wszystkich skrzynek odbiorczych, które tworzysz."
+      },
+      "DETAILS": {
+        "TITLE": "Szczegóły skrzynki odbiorczej",
+        "DESC": "Z listy rozwijanej poniżej wybierz stronę na Facebooku, którą chcesz połączyć z czatwootem. Możesz również podać własną nazwę swojej skrzynki odbiorczej w celu lepszej identyfikacji."
+      },
+      "FINISH": {
+        "TITLE": "Zgadzony!",
+        "DESC": "Pomyślnie zakończyłeś integrację strony na Facebooku z czatwootem. Następnym razem, gdy klient komunikuje Twoją stronę, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej.<br>Dostarczamy również skrypt widżetu, który można łatwo dodać do swojej witryny. Gdy tylko będzie on dostępny na Twojej stronie internetowej, klienci mogą wysyłać Ci wiadomości bezpośrednio z Twojej strony bez pomocy żadnego zewnętrznego narzędzia, a konwersacja pojawi się tutaj w Chatwoot.<br>Coś, co? Cóż, na pewno spróbujemy być :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Uwierzytelnianie za pomocą Facebooka...",
+      "ERROR_FB_AUTH": "Coś poszło nie tak. Proszę odświeżyć stronę...",
+      "CREATING_CHANNEL": "Tworzenie skrzynki odbiorczej...",
+      "TITLE": "Skonfiguruj szczegóły skrzynki odbiorczej",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Dodaj agentów",
+      "ADD_AGENTS": "Dodawanie agentów do skrzynki odbiorczej..."
+    },
+    "FINISH": {
+      "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
+      "MESSAGE": "Teraz możesz współpracować ze swoimi klientami poprzez swój nowy kanał. Szczęśliwego wsparcia ",
+      "BUTTON_TEXT": "Zabierz mnie tam",
+      "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
+    },
+    "REAUTH": "Ponowna autoryzacja",
+    "VIEW": "Widok",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Ustawienia skrzynki odbiorczej zostały zaktualizowane",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatyczne przypisanie zaktualizowane pomyślnie",
+        "ERROR_MESSAGE": "Nie można zaktualizować koloru widżetu. Spróbuj ponownie później."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć ",
+        "YES": "Tak, usuń ",
+        "NO": "No, Keep "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Skrzynka odbiorcza została usunięta",
+        "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później."
+      }
+    },
+    "SETTINGS": "Ustawienia",
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Skrypt Messengera",
+      "MESSENGER_SUB_HEAD": "Umieść ten przycisk wewnątrz znacznika ciała",
+      "INBOX_AGENTS": "Agenci",
+      "INBOX_AGENTS_SUB_TEXT": "Dodaj lub usuń agentów z tej skrzynki odbiorczej",
+      "UPDATE": "Aktualizuj",
+      "AUTO_ASSIGNMENT": "Włącz automatyczne przypisanie",
+      "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
+      "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej."
+    }
+  }
+}

@@ -3,7 +3,7 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>Agent</b> és un membre del teu equip de suport al client. </p><p> Els agents podran veure i respondre als missatges dels vostres usuaris. La llista mostra tots els agents que hi ha actualment al vostre compte. </p><p> Clica en <b>Afegir Agent</b> per afegir un nou agent. L’agent que afegiu rebrà un correu electrònic amb un enllaç de confirmació per activar el seu compte, després del qual podran accedir a Chatwoot i respondre als missatges. </p><p> L’accés a les funcions de Chatwoot es basa en els següents rols. </p><p> <b>Agent</b> - els agents amb aquest rol només poden accedir a bústies de sortida, informes i converses. </p><p> <b>Administrador/a</b> - L’administrador/a tindrà accés a totes les funcions de Chatwoot habilitades per al vostre compte, incloses les configuracions i la facturació, juntament amb tots els privilegis dels agents normals.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
     "AGENT_TYPES": [
       {
         "name": "administrador/a",
@@ -28,6 +28,7 @@
     "ADD": {
       "TITLE": "Afegir agent al teu equip",
       "DESC": "Podeu afegir persones que podran gestionar suport per a les vostres safates d'entrada.",
+      "CANCEL_BUTTON_TEXT": "Cancel·la",
       "FORM": {
         "NAME": {
           "LABEL": "Nom de l'Agent",
@@ -60,7 +61,7 @@
         "TITLE": "Confirma l'esborrat",
         "MESSAGE": "N'estas segur? ",
         "YES": "Si, esborra ",
-        "NO": "No, manten-la "
+        "NO": "No, Keep "
       }
     },
     "EDIT": {

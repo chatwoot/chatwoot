@@ -17,6 +17,14 @@
       src="~dashboard/assets/images/channels/telegram.png"
     />
     <img
+      v-if="channel === 'api'"
+      src="~dashboard/assets/images/channels/api.png"
+    />
+    <img
+      v-if="channel === 'email'"
+      src="~dashboard/assets/images/channels/email.png"
+    />
+    <img
       v-if="channel === 'line'"
       src="~dashboard/assets/images/channels/line.png"
     />
@@ -40,10 +48,26 @@ export default {
       type: String,
       required: true,
     },
+    enabledFeatures: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     isActive(channel) {
-      return ['facebook', 'website', 'twitter', 'twilio'].includes(channel);
+      if (Object.keys(this.enabledFeatures) === 0) {
+        return false;
+      }
+      if (channel === 'facebook') {
+        return this.enabledFeatures.channel_facebook;
+      }
+      if (channel === 'twitter') {
+        return this.enabledFeatures.channel_twitter;
+      }
+      if (channel === 'email') {
+        return this.enabledFeatures.channel_email;
+      }
+      return ['website', 'twilio', 'api'].includes(channel);
     },
     onItemClick() {
       if (this.isActive(this.channel)) {
