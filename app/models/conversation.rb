@@ -62,6 +62,9 @@ class Conversation < ApplicationRecord
     return true unless inbox&.channel&.has_24_hour_messaging_window?
 
     last_incoming_message = messages.incoming.last
+
+    return false if last_incoming_message.nil?
+
     Time.current < last_incoming_message.created_at + 24.hours
   end
 
