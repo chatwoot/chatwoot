@@ -7,13 +7,13 @@
     />
     <div v-if="!currentChat.can_reply" class="messenger-policy--banner">
       <span>
-        You cannot reply due to
+        {{ $t('CONVERSATION.CANNOT_REPLY') }}
         <a
           href="https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/"
           rel="noopener noreferrer nofollow"
           target="_blank"
         >
-          24 hour message window restriction
+          {{ $t('CONVERSATION.24_HOURS_WINDOW') }}
         </a>
       </span>
     </div>
