@@ -28,6 +28,10 @@ class Channel::FacebookPage < ApplicationRecord
   after_create_commit :subscribe
   before_destroy :unsubscribe
 
+  def has_24_hour_messaging_window?
+    true
+  end
+
   def subscribe
     # ref https://developers.facebook.com/docs/messenger-platform/reference/webhook-events
     response = Facebook::Messenger::Subscriptions.subscribe(

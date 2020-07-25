@@ -43,4 +43,15 @@ describe('#mutations', () => {
       expect(state.selectedChatId).toEqual(1);
     });
   });
+
+  describe('#SET_CONVERSATION_CAN_REPLY', () => {
+    it('set canReply flag', () => {
+      const state = { allConversations: [{ id: 1, can_reply: false }] };
+      mutations[types.SET_CONVERSATION_CAN_REPLY](state, {
+        conversationId: 1,
+        canReply: true,
+      });
+      expect(state.allConversations[0].can_reply).toEqual(true);
+    });
+  });
 });
