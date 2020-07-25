@@ -1,9 +1,9 @@
 ---
-path: "/docs/channels/facebook"
-title: "How to create Facebook channel?"
+path: '/docs/channels/facebook'
+title: 'How to create Facebook channel?'
 ---
 
-If you are using self-hosted Chatwoot installation, please configure the Facebook app as described in the [guide to setup Facebook app](/docs/facebook-setup)
+If you are using a self-hosted Chatwoot installation, please configure the Facebook app as described in the [guide to setup Facebook app](/docs/facebook-setup)
 
 **Step 1**. Click on "Add Inbox" button from Settings > Inboxes page.
 
@@ -17,7 +17,7 @@ If you are using self-hosted Chatwoot installation, please configure the Faceboo
 
 ![create_fb](./images/facebook/login_with_facebook.png)
 
-**Step 4**. Authenticate with Facebook and select the page you want connect, enable all permissions shown in the list, otherwise the app might not work.
+**Step 4**. Authenticate with Facebook and select the page you want to connect. Enable all permissions shown in the list, otherwise the app might not work.
 
 ![link_account](./images/facebook/link_account.png)
 
