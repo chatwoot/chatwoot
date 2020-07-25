@@ -27,6 +27,10 @@ class Channel::WebWidget < ApplicationRecord
   has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
 
+  def has_24_hour_messaging_window?
+    false
+  end
+
   def web_widget_script
     "<script>
       (function(d,t) {

@@ -16,6 +16,7 @@ end
 json.inbox_id conversation.inbox_id
 json.status conversation.status
 json.muted conversation.muted?
+json.can_reply conversation.can_reply?
 json.timestamp conversation.messages.last.try(:created_at).try(:to_i)
 json.user_last_seen_at conversation.user_last_seen_at.to_i
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i

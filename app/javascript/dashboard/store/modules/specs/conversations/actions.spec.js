@@ -127,4 +127,30 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#addMessage', () => {
+    it('sends correct mutations if message is incoming', () => {
+      const message = {
+        id: 1,
+        message_type: 0,
+        conversation_id: 1,
+      };
+      actions.addMessage({ commit }, message);
+      expect(commit.mock.calls).toEqual([
+        [types.default.ADD_MESSAGE, message],
+        [
+          types.default.SET_CONVERSATION_CAN_REPLY,
+          { conversationId: 1, canReply: true },
+        ],
+      ]);
+    });
+    it('sends correct mutations if message is not an incoming message', () => {
+      const message = {
+        id: 1,
+        message_type: 1,
+        conversation_id: 1,
+      };
+      actions.addMessage({ commit }, message);
+      expect(commit.mock.calls).toEqual([[types.default.ADD_MESSAGE, message]]);
+    });
+  });
 });

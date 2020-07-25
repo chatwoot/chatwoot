@@ -160,6 +160,16 @@ export const mutations = {
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
     _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
   },
+
+  [types.default.SET_CONVERSATION_CAN_REPLY](
+    _state,
+    { conversationId, canReply }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat, 'can_reply', canReply);
+    }
+  },
 };
 
 export default {
