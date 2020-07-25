@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Not Available",
+    "EMAIL_ADDRESS": "Email Address",
+    "PHONE_NUMBER": "Phone number",
+    "COMPANY": "Company",
+    "LOCATION": "Location",
     "CONVERSATION_TITLE": "Conversation Details",
     "BROWSER": "Browser",
     "OS": "Operating System",
