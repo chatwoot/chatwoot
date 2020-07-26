@@ -64,6 +64,10 @@
           </label>
         </div>
       </div>
+      <div class="current-version">
+        {{ `v${globalConfig.appVersion}` }}
+      </div>
+
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
@@ -106,6 +110,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
@@ -195,5 +200,11 @@ export default {
   .small-9 {
     padding: $space-normal;
   }
+}
+
+.current-version {
+  font-size: var(--font-size-small);
+  text-align: center;
+  padding: var(--space-normal);
 }
 </style>
