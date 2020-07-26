@@ -92,6 +92,10 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
+
+          namespace :kbase do
+            resources :portals
+          end
         end
       end
       # end of account scoped api routes

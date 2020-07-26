@@ -17,4 +17,5 @@ RSpec.describe Account do
   it { is_expected.to have_many(:webhooks).dependent(:destroy) }
   it { is_expected.to have_many(:notification_settings).dependent(:destroy) }
   it { is_expected.to have_many(:events) }
+  it { is_expected.to have_many(:portals).dependent(:destroy) }
 end
