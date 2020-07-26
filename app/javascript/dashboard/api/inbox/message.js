@@ -20,9 +20,10 @@ class MessageApi extends ApiClient {
     });
   }
 
-  sendAttachment([conversationId, { file }]) {
+  sendAttachment([conversationId, { file, isPrivate = false }]) {
     const formData = new FormData();
     formData.append('attachments[]', file, file.name);
+    formData.append('private', isPrivate);
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,

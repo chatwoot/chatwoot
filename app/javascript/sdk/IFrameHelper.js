@@ -13,6 +13,9 @@ import {
   onClickChatBubble,
   onBubbleClick,
 } from './bubbleHelpers';
+import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
+
+const EVENT_NAME = 'chatwoot:ready';
 
 export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
@@ -89,6 +92,7 @@ export const IFrameHelper = {
     loaded: message => {
       Cookies.set('cw_conversation', message.config.authToken, {
         expires: 365,
+        sameSite: 'Lax',
       });
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
@@ -103,6 +107,7 @@ export const IFrameHelper = {
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
+      dispatchWindowEvent(EVENT_NAME);
     },
 
     toggleBubble: () => {

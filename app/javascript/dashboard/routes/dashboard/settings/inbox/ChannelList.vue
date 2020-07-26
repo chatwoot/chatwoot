@@ -34,6 +34,8 @@ export default {
         'facebook',
         'twitter',
         'twilio',
+        'email',
+        'api',
         'telegram',
         'line',
       ],

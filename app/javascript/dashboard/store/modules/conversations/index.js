@@ -6,28 +6,16 @@ import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import wootConstants from '../../../constants';
 
-const initialSelectedChat = {
-  id: null,
-  meta: {},
-  status: null,
-  muted: false,
-  seen: false,
-  inbox_id: null,
-  additional_attributes: {
-    type: '',
-  },
-  dataFetched: false,
-};
 const state = {
   allConversations: [],
-  selectedChat: { ...initialSelectedChat },
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   currentInbox: null,
+  selectedChatId: null,
 };
 
 // mutations
-const mutations = {
+export const mutations = {
   [types.default.SET_ALL_CONVERSATION](_state, conversationList) {
     const newAllConversations = [..._state.allConversations];
     conversationList.forEach(conversation => {
@@ -42,7 +30,7 @@ const mutations = {
   },
   [types.default.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
-    _state.selectedChat = { ...initialSelectedChat };
+    _state.selectedChatId = null;
   },
   [types.default.SET_ALL_MESSAGES_LOADED](_state) {
     const [chat] = getSelectedChatConversation(_state);
@@ -54,7 +42,7 @@ const mutations = {
     Vue.set(chat, 'allMessagesLoaded', false);
   },
   [types.default.CLEAR_CURRENT_CHAT_WINDOW](_state) {
-    _state.selectedChat.id = null;
+    _state.selectedChatId = null;
   },
 
   [types.default.SET_PREVIOUS_CONVERSATIONS](_state, { id, data }) {
@@ -64,47 +52,25 @@ const mutations = {
     }
   },
 
-  [types.default.CURRENT_CHAT_WINDOW](_state, activeChat) {
+  [types.default.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
-      Object.assign(_state.selectedChat, activeChat);
-      Vue.set(_state.selectedChat.meta, 'assignee', activeChat.meta.assignee);
-      Vue.set(_state.selectedChat.meta, 'status', activeChat.meta.status);
-    }
-  },
-
-  [types.default.APPEND_MESSAGES](_state, { id, data }) {
-    if (data.length) {
-      const [chat] = _state.allConversations.filter(c => c.id === id);
-      chat.messages = data;
-      Vue.set(chat, 'dataFetched', true);
-    }
-  },
-
-  [types.default.SET_CHAT_META](_state, { id, data }) {
-    const [chat] = _state.allConversations.filter(c => c.id === id);
-    if (data !== undefined) {
-      Vue.set(chat, 'labels', data.labels);
+      _state.selectedChatId = activeChat.id;
     }
   },
 
   [types.default.ASSIGN_AGENT](_state, assignee) {
     const [chat] = getSelectedChatConversation(_state);
     chat.meta.assignee = assignee;
-    if (assignee === null) {
-      Object.assign(_state.selectedChat.meta.assignee, assignee);
-    }
   },
 
   [types.default.RESOLVE_CONVERSATION](_state, status) {
     const [chat] = getSelectedChatConversation(_state);
     chat.status = status;
-    _state.selectedChat.status = status;
   },
 
   [types.default.MUTE_CONVERSATION](_state) {
     const [chat] = getSelectedChatConversation(_state);
     chat.muted = true;
-    _state.selectedChat.muted = true;
   },
 
   [types.default.SEND_MESSAGE](_state, currentMessage) {
@@ -126,7 +92,7 @@ const mutations = {
     );
     if (previousMessageIndex === -1) {
       chat.messages.push(message);
-      if (_state.selectedChat.id === message.conversation_id) {
+      if (_state.selectedChatId === message.conversation_id) {
         window.bus.$emit('scrollToMessage');
       }
     } else {
@@ -150,17 +116,12 @@ const mutations = {
         ...conversationAttributes,
       };
       Vue.set(allConversations, currentConversationIndex, currentConversation);
-      if (_state.selectedChat.id === conversation.id) {
-        _state.selectedChat.status = conversation.status;
+      if (_state.selectedChatId === conversation.id) {
         window.bus.$emit('scrollToMessage');
       }
     } else {
       _state.allConversations.push(conversation);
     }
-  },
-
-  [types.default.MARK_SEEN](_state) {
-    _state.selectedChat.seen = true;
   },
 
   [types.default.SET_LIST_LOADING_STATUS](_state) {
@@ -198,6 +159,16 @@ const mutations = {
 
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
     _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
+  },
+
+  [types.default.SET_CONVERSATION_CAN_REPLY](
+    _state,
+    { conversationId, canReply }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat, 'can_reply', canReply);
+    }
   },
 };
 

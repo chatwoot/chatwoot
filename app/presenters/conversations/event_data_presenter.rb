@@ -6,10 +6,11 @@ class Conversations::EventDataPresenter < SimpleDelegator
   def push_data
     {
       additional_attributes: additional_attributes,
+      can_reply: can_reply?,
+      channel: inbox.try(:channel_type),
       id: display_id,
       inbox_id: inbox_id,
       messages: push_messages,
-      channel: inbox.try(:channel_type),
       meta: push_meta,
       status: status,
       unread_count: unread_incoming_messages.count,

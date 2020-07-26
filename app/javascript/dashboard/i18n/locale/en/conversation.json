@@ -9,6 +9,8 @@
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
     "DOWNLOAD": "Download",
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",

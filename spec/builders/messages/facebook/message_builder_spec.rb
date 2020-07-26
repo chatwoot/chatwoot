@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ::Messages::IncomingMessageBuilder do
+describe  ::Messages::Facebook::MessageBuilder do
   subject(:message_builder) { described_class.new(incoming_fb_text_message, facebook_channel.inbox).perform }
 
   let!(:facebook_channel) { create(:channel_facebook_page) }
