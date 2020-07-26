@@ -1,5 +1,5 @@
 shared: &shared
-  version: '1.6.1'
+  version: '1.7.0'
 
 development:
   <<: *shared
@@ -7,8 +7,8 @@ development:
 production:
   <<: *shared
 
-staging: 
+staging:
   <<: *shared
 
-test: 
+test:
   <<: *shared
