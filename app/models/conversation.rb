@@ -52,9 +52,9 @@ class Conversation < ApplicationRecord
 
   before_create :set_display_id, unless: :display_id?
   before_create :set_bot_conversation
-  after_create :notify_conversation_creation
+  after_create_commit :notify_conversation_creation
   after_save :run_round_robin
-  after_update :notify_status_change, :create_activity
+  after_update_commit :notify_status_change, :create_activity
 
   acts_as_taggable_on :labels
 
