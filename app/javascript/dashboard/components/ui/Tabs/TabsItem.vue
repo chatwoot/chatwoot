@@ -1,7 +1,19 @@
-/* eslint no-unused-vars: ["error", { "args": "none" }] */
-/* eslint prefer-template: 0 */
-/* eslint no-console: 0 */
-/* eslint func-names: 0 */
+<template>
+  <li
+    :class="{
+      'tabs-title': true,
+      'is-active': active,
+    }"
+  >
+    <a @click="onTabClick">
+      {{ name }}
+      <span v-if="showBadge" class="badge">
+        {{ getItemCount }}
+      </span>
+    </a>
+  </li>
+</template>
+<script>
 import TWEEN from 'tween.js';
 
 export default {
@@ -22,6 +34,10 @@ export default {
     count: {
       type: Number,
       default: 0,
+    },
+    showBadge: {
+      type: Boolean,
+      default: true,
     },
   },
 
@@ -48,12 +64,12 @@ export default {
         TWEEN.update(time);
         animationFrame = window.requestAnimationFrame(animate);
       };
-      const that = this;
-      new TWEEN.Tween({ tweeningNumber: oldValue })
+      const tweeningNumber = { value: oldValue };
+      new TWEEN.Tween(tweeningNumber)
         .easing(TWEEN.Easing.Quadratic.Out)
-        .to({ tweeningNumber: newValue }, 500)
-        .onUpdate(function() {
-          that.animatedNumber = this.tweeningNumber.toFixed(0);
+        .to({ value: newValue }, 500)
+        .onUpdate(() => {
+          this.animatedNumber = tweeningNumber.value.toFixed(0);
         })
         .onComplete(() => {
           window.cancelAnimationFrame(animationFrame);
@@ -62,28 +78,13 @@ export default {
       animationFrame = window.requestAnimationFrame(animate);
     },
   },
-
-  render(h) {
-    return (
-      <li
-        class={{
-          'tabs-title': true,
-          'is-active': this.active,
-          'uk-disabled': this.disabled,
-        }}
-      >
-        <a
-          on-click={event => {
-            event.preventDefault();
-            if (!this.disabled) {
-              this.$parent.$emit('change', this.index);
-            }
-          }}
-        >
-          {`${this.name}`}
-          <span class="badge">{this.getItemCount}</span>
-        </a>
-      </li>
-    );
+  methods: {
+    onTabClick(event) {
+      event.preventDefault();
+      if (!this.disabled) {
+        this.$parent.$emit('change', this.index);
+      }
+    },
   },
 };
+</script>
