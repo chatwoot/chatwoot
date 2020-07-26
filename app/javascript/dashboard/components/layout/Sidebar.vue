@@ -34,7 +34,7 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <li>
+            <li v-if="showChangeAccountOption">
               <button
                 class="button clear change-accounts--button"
                 @click="changeAccount"
@@ -94,7 +94,10 @@
           </label>
         </a>
       </div>
-      <div class="modal-footer delete-item">
+      <div
+        v-if="globalConfig.createNewAccountFromDashboard"
+        class="modal-footer delete-item"
+      >
         <button
           class="button success large expanded nice"
           @click="createAccount"
@@ -199,6 +202,12 @@ export default {
       uiFlags: 'agents/getUIFlags',
       accountLabels: 'labels/getLabelsOnSidebar',
     }),
+    showChangeAccountOption() {
+      if (this.globalConfig.createNewAccountFromDashboard) {
+        return true;
+      }
+      return this.currentUser.accounts.length > 1;
+    },
     sidemenuItems() {
       return getSidebarItems(this.accountId);
     },
