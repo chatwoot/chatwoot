@@ -15,7 +15,7 @@
 - name: DISPLAY_MANIFEST
   value: true
 - name: MAILER_INBOUND_EMAIL_DOMAIN
-  value: 
+  value:
 - name: MAILER_SUPPORT_EMAIL
   value:
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
