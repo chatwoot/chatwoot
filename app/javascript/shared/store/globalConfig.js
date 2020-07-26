@@ -1,4 +1,5 @@
 const {
+  APP_VERSION: appVersion,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
@@ -9,6 +10,7 @@ const {
 } = window.globalConfig;
 
 const state = {
+  appVersion,
   createNewAccountFromDashboard,
   installationName,
   logo,
