@@ -58,12 +58,12 @@
       <div class="current-user" @click.prevent="showOptions()">
         <thumbnail
           :src="currentUser.avatar_url"
-          :username="currentUser.name"
+          :username="currentUserAvailableName"
           :status="currentUser.availability_status"
         />
         <div class="current-user--data">
           <h3 class="current-user--name">
-            {{ currentUser.name }}
+            {{ currentUserAvailableName }}
           </h3>
           <h5 class="current-user--role">
             {{ currentRole }}
@@ -202,6 +202,10 @@ export default {
       uiFlags: 'agents/getUIFlags',
       accountLabels: 'labels/getLabelsOnSidebar',
     }),
+    currentUserAvailableName() {
+      const { available_name: availableName } = this.currentUser;
+      return availableName;
+    },
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
         return true;

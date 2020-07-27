@@ -25,7 +25,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
   end
 
   def push_meta
-    { sender: contact.push_event_data, assignee: assignee }
+    { sender: contact.push_event_data, assignee: assignee&.push_event_data }
   end
 
   def push_timestamps
