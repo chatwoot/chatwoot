@@ -95,6 +95,7 @@ Rails.application.routes.draw do
 
           namespace :kbase do
             resources :portals
+            resources :categories
           end
         end
       end
