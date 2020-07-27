@@ -3,7 +3,11 @@ json.meta do
     json.partial! 'api/v1/models/contact.json.jbuilder', resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  json.assignee conversation.assignee
+  if conversation.assignee
+    json.assignee do
+      json.partial! 'api/v1/models/user.json.jbuilder', resource: conversation.assignee
+    end
+  end
 end
 
 json.id conversation.display_id

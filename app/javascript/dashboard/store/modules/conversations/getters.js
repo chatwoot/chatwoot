@@ -21,7 +21,7 @@ const getters = {
   getMineChats(_state) {
     const currentUserID = authAPI.getCurrentUser().id;
     return _state.allConversations.filter(chat =>
-      chat.meta.assignee === null
+      !chat.meta.assignee
         ? false
         : chat.status === _state.chatStatusFilter &&
           chat.meta.assignee.id === currentUserID
@@ -29,8 +29,7 @@ const getters = {
   },
   getUnAssignedChats(_state) {
     return _state.allConversations.filter(
-      chat =>
-        chat.meta.assignee === null && chat.status === _state.chatStatusFilter
+      chat => !chat.meta.assignee && chat.status === _state.chatStatusFilter
     );
   },
   getAllStatusChats(_state) {
