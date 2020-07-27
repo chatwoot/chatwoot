@@ -88,8 +88,8 @@ RSpec.describe Conversation, type: :model do
 
     it 'creates conversation activities' do
       # create_activity
-      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
-      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.available_name}")
+      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.available_name} by #{old_assignee.available_name}")
     end
   end
 
