@@ -26,7 +26,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
              headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['payload']['portal']['name']).to eql('test_portal')
+        expect(json_response['payload']['name']).to eql('test_portal')
       end
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['payload']['portal']['name']).to eql(portal_params[:portal][:name])
+        expect(json_response['payload']['name']).to eql(portal_params[:portal][:name])
       end
     end
   end
@@ -94,7 +94,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
             headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['payload']['portals'].count).to be 2
+        expect(json_response['payload'].count).to be 2
       end
     end
   end
