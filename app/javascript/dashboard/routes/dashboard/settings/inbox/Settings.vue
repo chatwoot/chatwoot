@@ -291,16 +291,9 @@ export default {
           inboxId: this.currentInboxId,
         });
         const {
-          data: { payload },
+          data: { payload: inboxMembers },
         } = response;
-        payload.forEach(el => {
-          const [item] = this.agentList.filter(
-            agent => agent.id === el.user_id
-          );
-          if (item) {
-            this.selectedAgents.push(item);
-          }
-        });
+        this.selectedAgents = inboxMembers;
       } catch (error) {
         console.log(error);
       }

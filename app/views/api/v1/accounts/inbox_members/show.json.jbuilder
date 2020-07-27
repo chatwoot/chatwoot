@@ -1,6 +1,5 @@
 json.payload do
   json.array! @agents do |agent|
-    json.user_id agent.id
-    json.name agent.name
+    json.partial! 'api/v1/models/user.json.jbuilder', resource: agent
   end
 end

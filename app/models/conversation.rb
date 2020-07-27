@@ -58,6 +58,16 @@ class Conversation < ApplicationRecord
 
   acts_as_taggable_on :labels
 
+  def can_reply?
+    return true unless inbox&.channel&.has_24_hour_messaging_window?
+
+    last_incoming_message = messages.incoming.last
+
+    return false if last_incoming_message.nil?
+
+    Time.current < last_incoming_message.created_at + 24.hours
+  end
+
   def update_assignee(agent = nil)
     update!(assignee: agent)
   end
@@ -142,7 +152,7 @@ class Conversation < ApplicationRecord
   def create_activity
     return unless Current.user
 
-    user_name = Current.user&.name
+    user_name = Current.user&.available_name
 
     create_status_change_message(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?
@@ -198,7 +208,7 @@ class Conversation < ApplicationRecord
   end
 
   def create_assignee_change(user_name)
-    params = { assignee_name: assignee&.name, user_name: user_name }.compact
+    params = { assignee_name: assignee&.available_name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     content = I18n.t("conversations.activity.assignee.#{key}", **params)
 
