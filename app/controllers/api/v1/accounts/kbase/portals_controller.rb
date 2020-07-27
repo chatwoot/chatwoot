@@ -2,11 +2,11 @@ class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::BaseContr
   before_action :fetch_portal, except: [:index, :create]
 
   def index
-    @portals = current_account.portals
+    @portals = current_account.kbase_portals
   end
 
   def create
-    @portal = current_account.portals.create!(portal_params)
+    @portal = current_account.kbase_portals.create!(portal_params)
   end
 
   def update
@@ -21,7 +21,7 @@ class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::BaseContr
   private
 
   def fetch_portal
-    @portal = current_account.portals.find(params[:id])
+    @portal = current_account.kbase_portals.find(params[:id])
   end
 
   def portal_params
