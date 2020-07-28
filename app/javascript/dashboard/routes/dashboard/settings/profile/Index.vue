@@ -26,6 +26,17 @@
               {{ $t('PROFILE_SETTINGS.FORM.NAME.ERROR') }}
             </span>
           </label>
+          <label :class="{ error: $v.displayName.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.LABEL') }}
+            <input
+              v-model="displayName"
+              type="text"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.DISPLAY_NAME.PLACEHOLDER')
+              "
+              @input="$v.displayName.$touch"
+            />
+          </label>
           <label :class="{ error: $v.email.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.EMAIL.LABEL') }}
             <input
@@ -130,6 +141,7 @@ export default {
       avatarFile: '',
       avatarUrl: '',
       name: '',
+      displayName: '',
       email: '',
       password: '',
       passwordConfirmation: '',
@@ -141,6 +153,7 @@ export default {
     name: {
       required,
     },
+    displayName: {},
     email: {
       required,
       email,
@@ -188,6 +201,7 @@ export default {
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
       this.availability = this.currentUser.availability_status;
+      this.displayName = this.currentUser.display_name;
     },
     async updateUser() {
       this.$v.$touch();
@@ -203,6 +217,7 @@ export default {
           email: this.email,
           avatar: this.avatarFile,
           password: this.password,
+          displayName: this.displayName,
           availability: this.availability,
           password_confirmation: this.passwordConfirmation,
         });

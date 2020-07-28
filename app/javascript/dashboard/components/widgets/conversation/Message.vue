@@ -95,10 +95,13 @@ export default {
         : false;
     },
     sentByMessage() {
-      return this.data.message_type === 1 &&
-        !this.isHovered &&
-        this.data.sender !== undefined
-        ? { content: `Sent by: ${this.data.sender.name}`, classes: 'top' }
+      const { sender } = this.data;
+
+      return this.data.message_type === 1 && !this.isHovered && sender
+        ? {
+            content: `Sent by: ${sender.available_name || sender.name}`,
+            classes: 'top',
+          }
         : false;
     },
     wrapClass() {

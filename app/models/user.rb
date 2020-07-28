@@ -97,7 +97,7 @@ class User < ApplicationRecord
     account_users.find_by(account_id: Current.account.id) if Current.account
   end
 
-  def display_name
+  def available_name
     self[:display_name].presence || name
   end
 
@@ -134,6 +134,7 @@ class User < ApplicationRecord
     {
       id: id,
       name: name,
+      available_name: available_name,
       avatar_url: avatar_url,
       type: 'user',
       availability_status: availability_status

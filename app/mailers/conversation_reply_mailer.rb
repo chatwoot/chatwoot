@@ -56,7 +56,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if inbound_email_enabled?
-      "#{@agent.name} <reply+#{@conversation.uuid}@#{current_domain}>"
+      "#{@agent.available_name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
       @agent&.email
     end
@@ -64,9 +64,9 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email
     if inbound_email_enabled?
-      "#{@agent.name} <#{account_support_email}>"
+      "#{@agent.available_name} <#{account_support_email}>"
     else
-      "#{@agent.name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
+      "#{@agent.available_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
     end
   end
 
