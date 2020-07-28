@@ -54,7 +54,9 @@ class Conversation < ApplicationRecord
   before_create :set_bot_conversation
   after_create_commit :notify_conversation_creation
   after_save :run_round_robin
-  after_update_commit :notify_status_change, :create_activity
+  # wanted to change this to after_update commit. But it ended up creating a loop
+  # reinvestigate in future and identity the implications
+  after_update :notify_status_change, :create_activity
 
   acts_as_taggable_on :labels
 

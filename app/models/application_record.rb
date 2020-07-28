@@ -1,6 +1,6 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
-  DROPPABLES = %w[Account User].freeze
+  DROPPABLES = %w[Account Channel Conversation Inbox User].freeze
 
   def to_drop
     return unless DROPPABLES.include?(self.class.name)

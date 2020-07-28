@@ -23,8 +23,7 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     return [] if @db_template.blank?
 
     path = build_path(prefix)
-    handler_type = @db_template.layout? ? '.erb' : 'html'
-    handler = ActionView::Template.registered_template_handler(handler_type)
+    handler = ActionView::Template.registered_template_handler(:liquid)
 
     template_details = {
       format: Mime['html'].to_sym,
@@ -57,10 +56,12 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   end
 
   # returns a path depending if its a partial or template
+  # params path: path/to/file.ext  partial: true/false
+  # the function appends _to make the file nmae _file.ext if partial: true
   def virtual_path(path, partial)
     return path unless partial
 
-    if index == path.rindex('/')
+    if (index = path.rindex('/'))
       path.insert(index + 1, '_')
     else
       "_#{path}"
