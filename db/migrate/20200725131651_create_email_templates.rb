@@ -8,5 +8,6 @@ class CreateEmailTemplates < ActiveRecord::Migration[6.0]
       t.integer :locale, default: 0, null: false
       t.timestamps
     end
+    add_index :email_templates, [:name, :account_id], unique: true
   end
 end

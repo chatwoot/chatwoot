@@ -28,7 +28,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def liquid_droppables
     # Merge additional objects into this in your mailer
-    # liquid parse converts these objects into drops
+    # liquid template handler converts these objects into drop objects
     {
       account: Current.account
     }

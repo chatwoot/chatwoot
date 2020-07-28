@@ -238,6 +238,7 @@ ActiveRecord::Schema.define(version: 2020_07_25_131651) do
     t.integer "locale", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
   create_table "events", force: :cascade do |t|

@@ -63,7 +63,7 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
 
   # returns a path depending if its a partial or template
   # params path: path/to/file.ext  partial: true/false
-  # the function appends _to make the file nmae _file.ext if partial: true
+  # the function appends _to make the file name _file.ext if partial: true
   def virtual_path(path, partial)
     return path unless partial
 
