@@ -2,7 +2,7 @@
 # https://github.com/andreapavoni/panoramic
 # We will try to find layouts and content from database
 # layout will be rendered with erb and other content in html format
-# Further proessing in liquid is implemented in mailers
+# Further processing in liquid is implemented in mailers
 
 # Note: rails caches templates
 # make sure updated_at attribute of template is changed in db
