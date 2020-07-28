@@ -4,6 +4,9 @@
 # layout will be rendered with erb and other content in html format
 # Further proessing in liquid is implemented in mailers
 
+# Note: rails caches templates
+# make sure updated_at attribute of template is changed in db
+
 class ::EmailTemplates::DbResolverService < ActionView::Resolver
   require 'singleton'
   include Singleton
@@ -15,7 +18,10 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     instance
   end
 
-  def find_templates(name, prefix, partial, _details, _locals = [])
+  # the function has to accept(name, prefix, partial, _details, _locals = [])
+  # _details contain local info which we can leverage in future
+  # cause of codeclimate issue with 4 args, relying on (*args)
+  def find_templates(name, prefix, partial, *_args)
     @template_name = name
     @template_type = prefix.include?('layout') ? 'layout' : 'content'
     @db_template = find_db_template
