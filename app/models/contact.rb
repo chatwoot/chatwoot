@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
 #  name                  :string
