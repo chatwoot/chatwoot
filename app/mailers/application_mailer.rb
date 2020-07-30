@@ -43,6 +43,6 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def ensure_current_account(account)
-    Current.account = account
+    Current.account = account if account.present?
   end
 end
