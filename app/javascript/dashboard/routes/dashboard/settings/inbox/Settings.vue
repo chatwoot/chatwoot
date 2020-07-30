@@ -103,32 +103,6 @@
             }}
           </p>
         </label>
-        <label>
-          Features
-          <div>
-            <input
-              v-model="selectedFeatureFlags"
-              type="checkbox"
-              value="attachments"
-              @input="handleFeatureFlag"
-            />
-            <label for="attachments">
-              Display file picker on widget
-            </label>
-          </div>
-
-          <div>
-            <input
-              v-model="selectedFeatureFlags"
-              type="checkbox"
-              value="emoji_picker"
-              @input="handleFeatureFlag"
-            />
-            <label for="emoji_picker">
-              Display emoji picker on widget
-            </label>
-          </div>
-        </label>
         <woot-input
           v-if="greetingEnabled"
           v-model.trim="greetingMessage"
@@ -156,6 +130,33 @@
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
           </p>
         </label>
+
+        <label v-if="isAWebWidgetInbox">
+          {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
+          <div>
+            <input
+              v-model="selectedFeatureFlags"
+              type="checkbox"
+              value="attachments"
+              @input="handleFeatureFlag"
+            />
+            <label for="attachments">
+              {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
+            </label>
+          </div>
+          <div>
+            <input
+              v-model="selectedFeatureFlags"
+              type="checkbox"
+              value="emoji_picker"
+              @input="handleFeatureFlag"
+            />
+            <label for="emoji_picker">
+              {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
+            </label>
+          </div>
+        </label>
+
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
@@ -253,20 +254,6 @@ export default {
         },
       ],
       selectedTabIndex: 0,
-      tabs: [
-        {
-          key: 'inbox_settings',
-          name: 'Settings',
-        },
-        {
-          key: 'collaborators',
-          name: 'Collaborators',
-        },
-        {
-          key: 'configuration',
-          name: 'Configuration',
-        },
-      ],
     };
   },
   computed: {
@@ -275,7 +262,31 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
     selectedTabKey() {
-      return this.tabs[this.selectedTabIndex].key;
+      return this.tabs[this.selectedTabIndex]?.key;
+    },
+    tabs() {
+      const visibleToAllChannelTabs = [
+        {
+          key: 'inbox_settings',
+          name: this.$t('INBOX_MGMT.TABS.SETTINGS'),
+        },
+        {
+          key: 'collaborators',
+          name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
+        },
+      ];
+
+      if (this.isAWebWidgetInbox || this.isATwilioChannel) {
+        return [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      return visibleToAllChannelTabs;
     },
     currentInboxId() {
       return this.$route.params.inboxId;
@@ -323,6 +334,7 @@ export default {
       this.selectedTabIndex = selectedTabIndex;
     },
     fetchInboxSettings() {
+      this.selectedTabIndex = 0;
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
       this.$store.dispatch('inboxes/get').then(() => {

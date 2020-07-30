@@ -18,6 +18,7 @@
         :on-click="emojiOnClick"
       />
       <i
+        v-if="hasEmojiPickerEnabled"
         class="emoji-toggle icon ion-happy-outline"
         :class="{ active: showEmojiPicker }"
         @click="toggleEmojiPicker()"
@@ -39,6 +40,7 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import EmojiInput from 'dashboard/components/widgets/emoji/EmojiInput';
+import configMixin from '../mixins/configMixin';
 
 export default {
   name: 'ChatInputWrap',
@@ -48,7 +50,7 @@ export default {
     EmojiInput,
     ResizableTextArea,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -72,7 +74,7 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
     }),
     showAttachment() {
-      return this.userInput.length === 0;
+      return this.hasAttachmentsEnabled && this.userInput.length === 0;
     },
     showSendButton() {
       return this.userInput.length > 0;

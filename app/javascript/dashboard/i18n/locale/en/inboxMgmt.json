@@ -212,7 +212,17 @@
         "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
       }
     },
+    "TABS": {
+      "SETTINGS": "Settings",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Settings",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",

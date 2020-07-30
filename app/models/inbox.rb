@@ -46,6 +46,8 @@ class Inbox < ApplicationRecord
 
   after_destroy :delete_round_robin_agents
 
+  scope :order_by_id, -> { order(id: :asc) }
+
   def add_member(user_id)
     member = inbox_members.new(user_id: user_id)
     member.save!
