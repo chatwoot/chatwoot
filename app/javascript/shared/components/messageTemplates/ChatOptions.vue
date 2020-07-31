@@ -72,7 +72,6 @@ export default {
 
 .options-message {
   background: white;
-  width: 60%;
   max-width: 17rem;
   padding: $space-small $space-normal;
   border-radius: $space-small;
