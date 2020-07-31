@@ -103,6 +103,8 @@ export default {
 
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/_mixins.scss';
+@import '~widget/assets/scss/_forms.scss';
 
 .email-input-group {
   display: flex;

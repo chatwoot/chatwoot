@@ -36,6 +36,7 @@
             :title="item.title"
             :description="item.description"
             :actions="item.actions"
+            :read-only="true"
           >
           </chat-card>
         </div>

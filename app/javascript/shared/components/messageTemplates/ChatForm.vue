@@ -9,14 +9,14 @@
           :type="item.type"
           :name="item.name"
           :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
+          :disabled="readOnly || !!submittedValues.length"
         />
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
           :name="item.name"
           :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
+          :disabled="readOnly || !!submittedValues.length"
         />
         <select
           v-else-if="item.type === 'select'"
@@ -26,13 +26,14 @@
             v-for="option in item.options"
             :key="option.key"
             :value="option.value"
+            :disabled="readOnly"
           >
             {{ option.label }}
           </option>
         </select>
       </div>
       <button
-        v-if="!submittedValues.length"
+        v-if="!readOnly && !submittedValues.length"
         class="button block"
         type="submit"
         :disabled="!isFormValid"
@@ -59,6 +60,10 @@ export default {
     submittedValues: {
       type: Array,
       default: () => [],
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -110,6 +115,8 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/_mixins.scss';
+@import '~widget/assets/scss/_forms.scss';
 
 .form {
   padding: $space-normal;
