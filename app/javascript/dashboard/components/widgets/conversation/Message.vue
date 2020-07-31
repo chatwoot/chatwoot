@@ -1,5 +1,52 @@
 <template>
-  <li v-if="hasAttachments || data.content" :class="alignBubble">
+  <li v-if="isTemplateMessage" :class="alignBubble">
+    <div :class="wrapClass">
+      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+        <div v-if="isTemplateEmail">
+          <span v-html="formatMessage(data.content)"></span>
+          <email-input
+            :message-id="data.id"
+            :read-only="true"
+            :message-content-attributes="data.content_attributes"
+          />
+        </div>
+        <div v-if="isOptions">
+          <chat-options
+            :title="data.message"
+            :read-only="true"
+            :options="data.content_attributes.items"
+            :hide-fields="false"
+          />
+        </div>
+        <div v-if="isForm">
+          <span v-html="formatMessage(data.content)"></span>
+          <chat-form
+            :items="data.content_attributes.items"
+            :read-only="true"
+            :button-label="data.content_attributes.button_label"
+            :submitted-values="data.content_attributes.submitted_values"
+          />
+        </div>
+        <div v-if="isCards">
+          <span v-html="formatMessage(data.content)"></span>
+          <chat-card
+            v-for="item in data.content_attributes.items"
+            :key="item.title"
+            :media-url="item.media_url"
+            :title="item.title"
+            :description="item.description"
+            :actions="item.actions"
+          >
+          </chat-card>
+        </div>
+        <div v-if="isArticle">
+          <span v-html="formatMessage(data.content)"></span>
+          <chat-article :items="data.content_attributes.items"></chat-article>
+        </div>
+      </div>
+    </div>
+  </li>
+  <li v-else-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
       <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-text
@@ -43,12 +90,22 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import ChatCard from 'shared/components/messageTemplates/ChatCard';
+import ChatForm from 'shared/components/messageTemplates/ChatForm';
+import ChatOptions from 'shared/components/messageTemplates/ChatOptions';
+import ChatArticle from 'shared/components/messageTemplates/Article';
+import EmailInput from 'shared/components/messageTemplates/EmailInput';
 
 export default {
   components: {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    ChatArticle,
+    ChatCard,
+    ChatForm,
+    ChatOptions,
+    EmailInput,
   },
   mixins: [timeMixin, messageFormatterMixin],
   props: {
@@ -67,16 +124,53 @@ export default {
       return this.formatMessage(this.data.content);
     },
     alignBubble() {
-      return !this.data.message_type ? 'left' : 'right';
+      if (this.data.message_type === 0) {
+        return 'left';
+      }
+      return 'right';
     },
     readableTime() {
       return this.messageStamp(this.data.created_at);
     },
     isBubble() {
-      return [0, 1, 3].includes(this.data.message_type);
+      return [0, 1, 2, 3].includes(this.data.message_type);
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
+    },
+    isTemplate() {
+      return this.data.message_type === 3;
+    },
+    isTemplateEmail() {
+      return this.data.content_type === 'input_email';
+    },
+    isCards() {
+      return this.data.content_type === 'cards';
+    },
+    isOptions() {
+      return this.data.content_type === 'input_select';
+    },
+    isForm() {
+      return this.data.content_type === 'form';
+    },
+    isArticle() {
+      return this.data.content_type === 'article';
+    },
+    isTemplateMessage() {
+      return (
+        this.data.content_type === 'input_email' ||
+        this.data.content_type === 'cards' ||
+        this.data.content_type === 'input_select' ||
+        this.data.content_type === 'form' ||
+        this.data.content_type === 'article'
+      );
+    },
+    hasRecordedResponse() {
+      return (
+        this.data.content_attributes.submitted_email ||
+        (this.data.content_attributes.submitted_values &&
+          this.contentType !== 'form')
+      );
     },
     hasImageAttachment() {
       if (this.hasAttachments && this.data.attachments.length > 0) {
@@ -115,6 +209,7 @@ export default {
         bubble: this.isBubble,
         'is-private': this.isPrivate,
         'is-image': this.hasImageAttachment,
+        'is-template': this.isTemplateMessage,
       };
     },
   },
@@ -129,6 +224,13 @@ export default {
   .is-image {
     padding: 0;
     overflow: hidden;
+  }
+
+  .is-template {
+    background-color: $color-white;
+    color: $color-body;
+    margin: 0.5rem 0rem;
+    border: $color-border 1px solid;
   }
 
   .image {

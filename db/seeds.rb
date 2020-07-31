@@ -34,5 +34,19 @@ conversation = Conversation.create!(
   contact_inbox: contact_inbox,
   additional_attributes: {}
 )
+
+# sample email collect
+WootMessageSeeder.create_sample_email_collect_message conversation
+
 Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+
+# sample card
+WootMessageSeeder.create_sample_cards_message conversation
+# input select
+WootMessageSeeder.create_sample_input_select_message conversation
+# form
+WootMessageSeeder.create_sample_form_message conversation
+# articles
+WootMessageSeeder.create_sample_articles_message conversation
+
 CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')

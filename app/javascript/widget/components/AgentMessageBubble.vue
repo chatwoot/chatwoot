@@ -47,11 +47,11 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import ChatCard from 'shared/components/ChatCard';
-import ChatForm from 'shared/components/ChatForm';
-import ChatOptions from 'shared/components/ChatOptions';
-import ChatArticle from './template/Article';
-import EmailInput from './template/EmailInput';
+import ChatCard from 'shared/components/messageTemplates/ChatCard';
+import ChatForm from 'shared/components/messageTemplates/ChatForm';
+import ChatOptions from 'shared/components/messageTemplates/ChatOptions';
+import ChatArticle from 'shared/components/messageTemplates/Article';
+import EmailInput from 'shared/components/messageTemplates/EmailInput';
 
 export default {
   name: 'AgentMessageBubble',

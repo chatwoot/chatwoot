@@ -104,6 +104,7 @@ class Message < ApplicationRecord
       content_type: content_type,
       content_attributes: content_attributes,
       source_id: source_id,
+      private: private?,
       sender: sender.try(:webhook_data),
       inbox: inbox.webhook_data,
       conversation: conversation.webhook_data,

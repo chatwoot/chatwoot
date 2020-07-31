@@ -1,7 +1,7 @@
 <template>
   <div>
     <form
-      v-if="!hasSubmitted"
+      v-if="shouldShow"
       class="email-input-group"
       @submit.prevent="onSubmit()"
     >
@@ -10,15 +10,16 @@
         class="form-input"
         :placeholder="$t('EMAIL_PLACEHOLDER')"
         :class="{ error: $v.email.$error }"
+        :disabled="readOnly"
         @input="$v.email.$touch"
         @keyup.enter="onSubmit"
       />
       <button
         class="button"
-        :disabled="$v.email.$invalid"
+        :disabled="readOnly || $v.email.$invalid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
-        <i v-if="!uiFlags.isUpdating" class="ion-ios-arrow-forward" />
+        <i v-if="!isGettingUpdated" class="ion-ios-arrow-forward" />
         <spinner v-else />
       </button>
     </form>
@@ -43,6 +44,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -60,6 +65,20 @@ export default {
         this.messageContentAttributes.submitted_email
       );
     },
+    shouldShow() {
+      return this.readOnly || !this.hasSubmitted;
+    },
+    isGettingUpdated() {
+      if (!this.uiFlags) {
+        return false;
+      }
+      return this.uiFlags.isUpdating;
+    },
+  },
+  mounted() {
+    if (this.messageContentAttributes.submitted_email) {
+      this.email = this.messageContentAttributes.submitted_email;
+    }
   },
   validations: {
     email: {

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ChatOption from 'shared/components/ChatOption';
+import ChatOption from 'shared/components/messageTemplates/ChatOption';
 
 export default {
   components: {
