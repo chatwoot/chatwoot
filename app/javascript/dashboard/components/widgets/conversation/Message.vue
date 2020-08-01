@@ -30,10 +30,6 @@
         />
       </p>
     </div>
-    <!-- <img
-      src="https://randomuser.me/api/portraits/women/94.jpg"
-      class="sender--thumbnail"
-    /> -->
   </li>
 </template>
 <script>
