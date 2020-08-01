@@ -19,7 +19,7 @@
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li>
+        <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -52,7 +52,7 @@
       </div>
       <ReplyBox
         :conversation-id="currentChat.id"
-        @scrollToMessage="focusLastMessage"
+        @scrollToMessage="scrollToBottom"
       />
     </div>
   </div>
@@ -155,35 +155,44 @@ export default {
 
   created() {
     bus.$on('scrollToMessage', () => {
-      this.focusLastMessage();
+      setTimeout(() => this.scrollToBottom(), 0);
       this.makeMessagesRead();
     });
   },
 
-  methods: {
-    focusLastMessage() {
-      setTimeout(() => {
-        this.attachListner();
-      }, 0);
-    },
+  mounted() {
+    this.addScrollListener();
+  },
 
+  unmounted() {
+    this.removeScrollListener();
+  },
+
+  methods: {
+    addScrollListener() {
+      this.conversationPanel = this.$el.querySelector('.conversation-panel');
+      this.setScrollParams();
+      this.conversationPanel.addEventListener('scroll', this.handleScroll);
+      this.scrollToBottom();
+      this.isLoadingPrevious = false;
+    },
+    removeScrollListener() {
+      this.conversationPanel.removeEventListener('scroll', this.handleScroll);
+    },
+    scrollToBottom() {
+      this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
+    },
     onToggleContactPanel() {
       this.$emit('contactPanelToggle');
     },
-
-    attachListner() {
-      this.conversationPanel = this.$el.querySelector('.conversation-panel');
-      this.heightBeforeLoad =
-        this.getUnreadCount === 0
-          ? this.conversationPanel.scrollHeight
-          : this.$el.querySelector('.conversation-panel .unread--toast')
-              .offsetTop - 56;
-      this.conversationPanel.scrollTop = this.heightBeforeLoad;
-      this.conversationPanel.addEventListener('scroll', this.handleScroll);
-      this.isLoadingPrevious = false;
+    setScrollParams() {
+      this.heightBeforeLoad = this.conversationPanel.scrollHeight;
+      this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
     handleScroll(e) {
+      this.setScrollParams();
+
       const dataFetchCheck =
         this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
       if (
@@ -198,15 +207,12 @@ export default {
             before: this.getMessages.messages[0].id,
           })
           .then(() => {
+            const heightDifference =
+              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
             this.conversationPanel.scrollTop =
-              this.conversationPanel.scrollHeight -
-              (this.heightBeforeLoad - this.conversationPanel.scrollTop);
+              this.scrollTopBeforeLoad + heightDifference;
             this.isLoadingPrevious = false;
-            this.heightBeforeLoad =
-              this.getUnreadCount === 0
-                ? this.conversationPanel.scrollHeight
-                : this.$el.querySelector('.conversation-panel .unread--toast')
-                    .offsetTop - 56;
+            this.setScrollParams();
           });
       }
     },
@@ -236,5 +242,9 @@ export default {
     color: var(--white);
     font-size: var(--font-size-mini);
   }
+}
+
+.spinner--container {
+  min-height: var(--space-jumbo);
 }
 </style>
