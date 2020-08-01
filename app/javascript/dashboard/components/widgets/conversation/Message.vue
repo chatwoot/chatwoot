@@ -5,6 +5,7 @@
         <bubble-text
           v-if="data.content"
           :message="message"
+          :is-email="isEmailContentType"
           :readable-time="readableTime"
         />
         <span v-if="hasAttachments">
@@ -21,12 +22,10 @@
             />
           </span>
         </span>
-        <i
-          v-if="isPrivate"
-          v-tooltip.top-start="toolTipMessage"
-          class="icon ion-android-lock"
-          @mouseenter="isHovered = true"
-          @mouseleave="isHovered = false"
+        <bubble-actions
+          :is-email="isEmailContentType"
+          :readable-time="readableTime"
+          :is-private="data.private"
         />
       </p>
     </div>
@@ -39,14 +38,16 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
-
+import contentTypeMixin from 'shared/mixins/contentTypeMixin';
+import BubbleActions from './bubble/Actions';
 export default {
   components: {
+    BubbleActions,
     BubbleText,
     BubbleImage,
     BubbleFile,
   },
-  mixins: [timeMixin, messageFormatterMixin],
+  mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
@@ -61,6 +62,12 @@ export default {
   computed: {
     message() {
       return this.formatMessage(this.data.content);
+    },
+    contentType() {
+      const {
+        data: { content_type: contentType },
+      } = this;
+      return contentType;
     },
     alignBubble() {
       return !this.data.message_type ? 'left' : 'right';
@@ -82,14 +89,6 @@ export default {
       }
       return false;
     },
-    isPrivate() {
-      return this.data.private;
-    },
-    toolTipMessage() {
-      return this.data.private
-        ? { content: this.$t('CONVERSATION.VISIBLE_TO_AGENTS'), classes: 'top' }
-        : false;
-    },
     sentByMessage() {
       const { sender } = this.data;
 
@@ -109,7 +108,7 @@ export default {
     bubbleClass() {
       return {
         bubble: this.isBubble,
-        'is-private': this.isPrivate,
+        'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
       };
     },
@@ -119,13 +118,10 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables.scss';
-.wrap {
-  .is-image {
-    padding: 0;
-    overflow: hidden;
-  }
+<style lang="scss">
+.wrap > .is-image.bubble {
+  padding: 0;
+  overflow: hidden;
 
   .image {
     max-width: 32rem;
