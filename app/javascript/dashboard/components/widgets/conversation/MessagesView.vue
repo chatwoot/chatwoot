@@ -19,7 +19,7 @@
     </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li style="min-height: 56px;">
+        <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -242,5 +242,9 @@ export default {
     color: var(--white);
     font-size: var(--font-size-mini);
   }
+}
+
+.spinner--container {
+  min-height: var(--space-jumbo);
 }
 </style>
