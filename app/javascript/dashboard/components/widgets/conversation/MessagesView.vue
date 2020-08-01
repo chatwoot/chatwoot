@@ -180,11 +180,6 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      console.log(
-        'SCROLL_TOP',
-        this.conversationPanel.scrollTop,
-        this.conversationPanel.scrollHeight
-      );
       this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
     },
     onToggleContactPanel() {
@@ -193,7 +188,6 @@ export default {
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
-      console.log(this.heightBeforeLoad, this.scrollTopBeforeLoad);
     },
 
     handleScroll(e) {
