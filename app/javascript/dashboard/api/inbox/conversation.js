@@ -29,10 +29,8 @@ class ConversationApi extends ApiClient {
     );
   }
 
-  markMessageRead({ id, lastSeen }) {
-    return axios.post(`${this.url}/${id}/update_last_seen`, {
-      agent_last_seen_at: lastSeen,
-    });
+  markMessageRead({ id }) {
+    return axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
   toggleTyping({ conversationId, status }) {
