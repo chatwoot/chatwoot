@@ -20,6 +20,13 @@ describe('#mutations', () => {
         { id: 1, agent_last_seen_at: lastSeen },
       ]);
     });
+
+    it('doesnot send any mutation if chat doesnot exist', () => {
+      const state = { allConversations: [] };
+      const lastSeen = new Date().getTime() / 1000;
+      mutations[types.MARK_MESSAGE_READ](state, { id: 1, lastSeen });
+      expect(state.allConversations).toEqual([]);
+    });
   });
 
   describe('#CLEAR_CURRENT_CHAT_WINDOW', () => {
