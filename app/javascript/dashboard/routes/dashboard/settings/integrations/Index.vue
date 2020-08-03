@@ -1,7 +1,7 @@
 <template>
   <div class="column content-box">
     <div class="row">
-      <div class="small-8 columns integrations-wrap">
+      <div class="small-12 columns integrations-wrap">
         <div class="row integrations">
           <div
             v-for="item in integrationsList"
