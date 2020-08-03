@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_170002) do
+ActiveRecord::Schema.define(version: 2020_07_19_171437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -178,7 +178,6 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
-    t.integer "feature_flags", default: 3, null: false
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
