@@ -11,7 +11,7 @@ class WidgetsController < ActionController::Base
   private
 
   def set_global_config
-    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'INSTALLATION_NAME', 'WIDGET_BRAND_URL')
+    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL')
   end
 
   def set_web_widget

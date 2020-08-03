@@ -20,3 +20,5 @@
   value:
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
   value: false
+- name: BRAND_NAME
+  value: 'Chatwoot'

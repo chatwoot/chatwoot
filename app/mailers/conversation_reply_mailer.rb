@@ -49,6 +49,10 @@ class ConversationReplyMailer < ApplicationMailer
 
   private
 
+  def assignee_name
+    @assignee_name ||= @agent&.available_name || 'Notifications'
+  end
+
   def mail_subject
     subject_line = I18n.t('conversations.reply.email_subject')
     "[##{@conversation.display_id}] #{subject_line}"
@@ -56,7 +60,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if inbound_email_enabled?
-      "#{@agent.available_name} <reply+#{@conversation.uuid}@#{current_domain}>"
+      "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
       @agent&.email
     end
@@ -64,9 +68,9 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email
     if inbound_email_enabled?
-      "#{@agent.available_name} <#{account_support_email}>"
+      "#{assignee_name} <#{account_support_email}>"
     else
-      "#{@agent.available_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
+      "#{assignee_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
     end
   end
 

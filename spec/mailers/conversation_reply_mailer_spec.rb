@@ -33,6 +33,16 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
+    context 'without assignee' do
+      let(:conversation) { create(:conversation, assignee: nil) }
+      let(:message) { create(:message, conversation: conversation) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+
+      it 'has correct name' do
+        expect(mail[:from].display_names).to eq(['Notifications'])
+      end
+    end
+
     context 'without summary' do
       let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
       let(:message_1) { create(:message, conversation: conversation, account: account, content: 'Outgoing Message 1').reload }

@@ -1,18 +1,17 @@
 <template>
   <a
+    v-if="globalConfig.brandName"
     class="branding"
     :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
     rel="noreferrer noopener nofollow"
     target="_blank"
   >
-    <img
-      :alt="globalConfig.installationName"
-      :src="globalConfig.logoThumbnail"
-    />
+    <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
     <span>
-      {{ useInstallationName($t('POWERED_BY'), globalConfig.installationName) }}
+      {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
     </span>
   </a>
+  <div v-else class="brand--alternative" />
 </template>
 
 <script>
@@ -57,5 +56,8 @@ export default {
     max-width: $space-slab;
     max-height: $space-slab;
   }
+}
+.brand--alternative {
+  padding: $space-slab;
 }
 </style>

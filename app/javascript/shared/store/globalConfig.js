@@ -1,6 +1,7 @@
 const {
   APP_VERSION: appVersion,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
+  BRAND_NAME: brandName,
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
@@ -12,6 +13,7 @@ const {
 const state = {
   appVersion,
   createNewAccountFromDashboard,
+  brandName,
   installationName,
   logo,
   logoThumbnail,
