@@ -134,7 +134,9 @@ export const mutations = {
 
   [types.default.MARK_MESSAGE_READ](_state, { id, lastSeen }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
-    chat.agent_last_seen_at = lastSeen;
+    if (chat) {
+      chat.agent_last_seen_at = lastSeen;
+    }
   },
 
   [types.default.CHANGE_CHAT_STATUS_FILTER](_state, data) {
