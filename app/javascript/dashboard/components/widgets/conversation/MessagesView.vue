@@ -218,12 +218,7 @@ export default {
     },
 
     makeMessagesRead() {
-      if (this.getUnreadCount !== 0 && this.getMessages !== undefined) {
-        this.$store.dispatch('markMessagesRead', {
-          id: this.currentChat.id,
-          lastSeen: this.getMessages.messages.last().created_at,
-        });
-      }
+      this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
   },
 };
