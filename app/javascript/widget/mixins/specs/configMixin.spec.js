@@ -6,6 +6,7 @@ global.chatwootWebChannel = {
   hideInputForBotConversations: true,
   avatarUrl: 'https://test.url',
   hasAConnectedAgentBot: 'AgentBot',
+  enabledFeatures: ['emoji_picker', 'attachments'],
 };
 
 global.chatwootWidgetDefaults = {
@@ -22,6 +23,8 @@ describe('configMixin', () => {
     const Constructor = Vue.extend(Component);
     const vm = new Constructor().$mount();
     const wrapper = createWrapper(vm);
+    expect(wrapper.vm.hasEmojiPickerEnabled).toBe(true);
+    expect(wrapper.vm.hasAttachmentsEnabled).toBe(true);
     expect(wrapper.vm.hideInputForBotConversations).toBe(true);
     expect(wrapper.vm.hasAConnectedAgentBot).toBe(true);
     expect(wrapper.vm.useInboxAvatarForBot).toBe(true);
@@ -30,6 +33,7 @@ describe('configMixin', () => {
       hideInputForBotConversations: true,
       avatarUrl: 'https://test.url',
       hasAConnectedAgentBot: 'AgentBot',
+      enabledFeatures: ['emoji_picker', 'attachments'],
     });
   });
 });
