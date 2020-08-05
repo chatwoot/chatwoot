@@ -150,7 +150,7 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
-        "FINISH_MESSAGE" : "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
         "TITLE": "Channels",
@@ -220,8 +220,8 @@
     "SETTINGS": "Settings",
     "FEATURES": {
       "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on widget"
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",

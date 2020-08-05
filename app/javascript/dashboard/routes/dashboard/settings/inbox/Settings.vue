@@ -133,29 +133,29 @@
 
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
-          <div>
-            <input
-              v-model="selectedFeatureFlags"
-              type="checkbox"
-              value="attachments"
-              @input="handleFeatureFlag"
-            />
-            <label for="attachments">
-              {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
-            </label>
-          </div>
-          <div>
-            <input
-              v-model="selectedFeatureFlags"
-              type="checkbox"
-              value="emoji_picker"
-              @input="handleFeatureFlag"
-            />
-            <label for="emoji_picker">
-              {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
-            </label>
-          </div>
         </label>
+        <div v-if="isAWebWidgetInbox" class="widget--feature-flag">
+          <input
+            v-model="selectedFeatureFlags"
+            type="checkbox"
+            value="attachments"
+            @input="handleFeatureFlag"
+          />
+          <label for="attachments">
+            {{ $t('INBOX_MGMT.FEATURES.DISPLAY_FILE_PICKER') }}
+          </label>
+        </div>
+        <div v-if="isAWebWidgetInbox">
+          <input
+            v-model="selectedFeatureFlags"
+            type="checkbox"
+            value="emoji_picker"
+            @input="handleFeatureFlag"
+          />
+          <label for="emoji_picker">
+            {{ $t('INBOX_MGMT.FEATURES.DISPLAY_EMOJI_PICKER') }}
+          </label>
+        </div>
 
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
@@ -316,12 +316,11 @@ export default {
   },
   methods: {
     handleFeatureFlag(e) {
+      console.log(e.target.value);
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
         e.target.value
       );
-
-      this.updateNotificationSettings();
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
@@ -443,5 +442,9 @@ export default {
       margin-bottom: -1px;
     }
   }
+}
+
+.widget--feature-flag {
+  padding-top: var(--space-small);
 }
 </style>
