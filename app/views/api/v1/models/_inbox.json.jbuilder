@@ -14,3 +14,4 @@ json.enable_auto_assignment resource.enable_auto_assignment
 json.web_widget_script resource.channel.try(:web_widget_script)
 json.forward_to_address resource.channel.try(:forward_to_address)
 json.phone_number resource.channel.try(:phone_number)
+json.selected_feature_flags resource.channel.try(:selected_feature_flags)

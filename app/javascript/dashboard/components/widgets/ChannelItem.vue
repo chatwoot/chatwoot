@@ -1,43 +1,43 @@
 <template>
   <div
     class="small-3 columns channel"
-    :class="{ inactive: !isActive(channel) }"
+    :class="{ inactive: !isActive }"
     @click="onItemClick"
   >
     <img
-      v-if="channel === 'facebook'"
+      v-if="channel.key === 'facebook'"
       src="~dashboard/assets/images/channels/facebook.png"
     />
     <img
-      v-if="channel === 'twitter'"
+      v-if="channel.key === 'twitter'"
       src="~dashboard/assets/images/channels/twitter.png"
     />
     <img
-      v-if="channel === 'telegram'"
+      v-if="channel.key === 'telegram'"
       src="~dashboard/assets/images/channels/telegram.png"
     />
     <img
-      v-if="channel === 'api'"
+      v-if="channel.key === 'api'"
       src="~dashboard/assets/images/channels/api.png"
     />
     <img
-      v-if="channel === 'email'"
+      v-if="channel.key === 'email'"
       src="~dashboard/assets/images/channels/email.png"
     />
     <img
-      v-if="channel === 'line'"
+      v-if="channel.key === 'line'"
       src="~dashboard/assets/images/channels/line.png"
     />
     <img
-      v-if="channel === 'website'"
+      v-if="channel.key === 'website'"
       src="~dashboard/assets/images/channels/website.png"
     />
     <img
-      v-if="channel === 'twilio'"
+      v-if="channel.key === 'twilio'"
       src="~dashboard/assets/images/channels/twilio.png"
     />
     <h3 class="channel__title">
-      {{ channel }}
+      {{ channel.name }}
     </h3>
   </div>
 </template>
@@ -45,7 +45,7 @@
 export default {
   props: {
     channel: {
-      type: String,
+      type: Object,
       required: true,
     },
     enabledFeatures: {
@@ -53,25 +53,28 @@ export default {
       required: true,
     },
   },
-  methods: {
-    isActive(channel) {
+  computed: {
+    isActive() {
+      const { key } = this.channel;
       if (Object.keys(this.enabledFeatures) === 0) {
         return false;
       }
-      if (channel === 'facebook') {
+      if (key === 'facebook') {
         return this.enabledFeatures.channel_facebook;
       }
-      if (channel === 'twitter') {
+      if (key === 'twitter') {
         return this.enabledFeatures.channel_twitter;
       }
-      if (channel === 'email') {
+      if (key === 'email') {
         return this.enabledFeatures.channel_email;
       }
-      return ['website', 'twilio', 'api'].includes(channel);
+      return ['website', 'twilio', 'api'].includes(key);
     },
+  },
+  methods: {
     onItemClick() {
-      if (this.isActive(this.channel)) {
-        this.$emit('channel-item-click', this.channel);
+      if (this.isActive) {
+        this.$emit('channel-item-click', this.channel.key);
       }
     },
   },

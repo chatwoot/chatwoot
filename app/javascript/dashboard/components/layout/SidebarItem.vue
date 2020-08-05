@@ -57,15 +57,8 @@ import { mapGetters } from 'vuex';
 
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 
-const INBOX_TYPES = {
-  WEB: 'Channel::WebWidget',
-  FB: 'Channel::FacebookPage',
-  TWITTER: 'Channel::TwitterProfile',
-  TWILIO: 'Channel::TwilioSms',
-  API: 'Channel::Api',
-  EMAIL: 'Channel::Email',
-};
 const getInboxClassByType = type => {
   switch (type) {
     case INBOX_TYPES.WEB:
