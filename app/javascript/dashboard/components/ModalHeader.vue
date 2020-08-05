@@ -7,15 +7,25 @@
     <p v-if="headerContent" class="small-12 column">
       {{ headerContent }}
     </p>
+    <slot></slot>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    headerTitle: String,
-    headerContent: String,
-    headerImage: String,
+    headerTitle: {
+      type: String,
+      default: '',
+    },
+    headerContent: {
+      type: String,
+      default: '',
+    },
+    headerImage: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>
