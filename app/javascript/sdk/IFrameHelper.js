@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { wootOn, loadCSS, addClass, removeClass } from './DOMHelpers';
+import { wootOn, addClass, removeClass } from './DOMHelpers';
 import {
   body,
   widgetHolder,
@@ -32,8 +32,9 @@ export const IFrameHelper = {
 
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
-    const HolderclassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
-    addClass(widgetHolder, HolderclassName);
+
+    const holderClassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
+    addClass(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -69,9 +70,7 @@ export const IFrameHelper = {
     };
   },
   initWindowSizeListener: () => {
-    wootOn(window, 'resize', () => {
-      IFrameHelper.toggleCloseButton();
-    });
+    wootOn(window, 'resize', () => IFrameHelper.toggleCloseButton());
   },
   preventDefaultScroll: () => {
     widgetHolder.addEventListener('wheel', event => {
@@ -153,7 +152,6 @@ export const IFrameHelper = {
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
 
-    loadCSS();
     createBubbleHolder();
 
     if (!window.$chatwoot.hideMessageBubble) {

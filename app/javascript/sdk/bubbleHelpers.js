@@ -1,5 +1,6 @@
 import { addClass, toggleClass, wootOn } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
+import { BUBBLE_DESIGN } from './constants';
 
 export const bubbleImg =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAUVBMVEUAAAD///////////////////////////////////////////////////////////////////////////////////////////////////////8IN+deAAAAGnRSTlMAAwgJEBk0TVheY2R5eo+ut8jb5OXs8fX2+cjRDTIAAADsSURBVHgBldZbkoMgFIThRgQv8SKKgGf/C51UnJqaRI30/9zfe+NQUQ3TvG7bOk9DVeCmshmj/CuOTYnrdBfkUOg0zlOtl9OWVuEk4+QyZ3DIevmSt/ioTvK1VH/s5bY3YdM9SBZ/mUUyWgx+U06ycgp7D8msxSvtc4HXL9BLdj2elSEfhBJAI0QNgJEBI1BEBsQClVBVGDgwYOLAhJkDM1YOrNg4sLFAsLJgZsHEgoEFFQt0JAFGFjQsKAMJ0LFAexKgZYFyJIDxJIBNJEDNAtSJBLCeBDCOBFAPzwFA94ED+zmhwDO9358r8ANtIsMXi7qVAwAAAABJRU5ErkJggg==';
@@ -13,11 +14,22 @@ export const closeBubble = document.createElement('div');
 
 export const notificationBubble = document.createElement('span');
 
+export const getBubbleView = type =>
+  BUBBLE_DESIGN.includes(type) ? type : BUBBLE_DESIGN[0];
+
 export const createBubbleIcon = ({ className, src, target }) => {
-  target.className = `${className} woot-elements--${window.$chatwoot.position}`;
+  let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
+  if (window.$chatwoot.type === BUBBLE_DESIGN[1]) {
+    bubbleClassName += ' woot-widget--expanded';
+  }
+  target.className = bubbleClassName;
+
   const bubbleIcon = document.createElement('img');
   bubbleIcon.src = src;
   target.appendChild(bubbleIcon);
+  const textNode = document.createElement('div');
+  textNode.innerHTML = 'Talk to us';
+  target.appendChild(textNode);
   return target;
 };
 

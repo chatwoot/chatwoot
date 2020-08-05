@@ -1,11 +1,4 @@
-import { SDK_CSS } from '../widget/assets/scss/sdk';
-
-export const loadCSS = () => {
-  const css = document.createElement('style');
-  css.type = 'text/css';
-  css.innerHTML = `${SDK_CSS}`;
-  document.body.appendChild(css);
-};
+import '../widget/assets/scss/sdk';
 
 export const wootOn = (elm, event, fn) => {
   if (document.addEventListener) {
