@@ -4,8 +4,10 @@
 # layout will be rendered with erb and other content in html format
 # Further processing in liquid is implemented in mailers
 
-# Note: rails caches templates
-# make sure updated_at attribute of template is changed in db
+# Note: rails resolver looks for templates in cache first
+# which we don't want to happen here
+# so we are overriding find_all method in action view resolver
+# If anything breaks - look into rails : actionview/lib/action_view/template/resolver.rb
 
 class ::EmailTemplates::DbResolverService < ActionView::Resolver
   require 'singleton'
@@ -17,6 +19,15 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     class_variable_set(:@@resolver_options, options)
     instance
   end
+
+  # Since rails picks up files from cache. lets override the method
+  # Normalizes the arguments and passes it on to find_templates.
+  # rubocop:disable Metrics/ParameterLists
+  def find_all(name, prefix = nil, partial = false, details = {}, key = nil, locals = [])
+    locals = locals.map(&:to_s).sort!.freeze
+    _find_all(name, prefix, partial, details, key, locals)
+  end
+  # rubocop:enable Metrics/ParameterLists
 
   # the function has to accept(name, prefix, partial, _details, _locals = [])
   # _details contain local info which we can leverage in future
