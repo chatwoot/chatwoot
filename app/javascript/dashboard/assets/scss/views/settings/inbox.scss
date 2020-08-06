@@ -202,7 +202,7 @@
 }
 
 .settings--content {
-  @include margin($space-small $space-larger);
+  @include margin($space-small $space-large);
 
   .title {
     font-weight: $font-weight-medium;

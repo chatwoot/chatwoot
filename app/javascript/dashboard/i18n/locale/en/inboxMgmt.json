@@ -117,16 +117,16 @@
       },
       "API_CHANNEL": {
         "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers via chatwoot.",
+        "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
           "ERROR": "This field is required"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook Url",
-          "SUBTITLE": "Configure the url where you want to recieve callbacks from chatwoot on events.",
-          "PLACEHOLDER": "Webhook Url"
+          "LABEL": "Webhook URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Create API Channel",
         "API": {
@@ -135,7 +135,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox with chatwoot.",
+        "DESC": "Integrate you email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
@@ -150,7 +150,7 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
-        "FINISH_MESSAGE" : "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
         "TITLE": "Channels",
@@ -212,7 +212,17 @@
         "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
       }
     },
+    "TABS": {
+      "SETTINGS": "Settings",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Settings",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
