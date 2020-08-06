@@ -105,6 +105,6 @@ class ConversationReplyMailer < ApplicationMailer
   def choose_layout
     return false if action_name == 'reply_without_summary'
 
-    'mailer'
+    'mailer/base'
   end
 end

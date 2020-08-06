@@ -231,6 +231,17 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
   end
 
+  create_table "email_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body", null: false
+    t.integer "account_id"
+    t.integer "template_type", default: 1
+    t.integer "locale", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
   create_table "events", force: :cascade do |t|
     t.string "name"
     t.float "value"

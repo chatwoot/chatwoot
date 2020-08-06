@@ -1,0 +1,2 @@
+class AccountDrop < BaseDrop
+end
