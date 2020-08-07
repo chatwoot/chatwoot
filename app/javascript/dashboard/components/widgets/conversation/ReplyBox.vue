@@ -96,6 +96,7 @@ import {
   hasPressedShift,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
@@ -104,11 +105,11 @@ export default {
     FileUpload,
     ResizableTextArea,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, inboxMixin],
   data() {
     return {
       message: '',
-      isPrivate: false,
+      isPrivateTabActive: false,
       isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
@@ -117,6 +118,12 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
+    isPrivate() {
+      if (this.currentChat.can_reply) {
+        return this.isPrivateTabActive;
+      }
+      return true;
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -142,9 +149,6 @@ export default {
         this.message.length > this.maxLength
       );
     },
-    channelType() {
-      return this.inbox.channel_type;
-    },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -167,29 +171,6 @@ export default {
         }
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
-    },
-    isATwitterInbox() {
-      return this.channelType === 'Channel::TwitterProfile';
-    },
-    isAFacebookInbox() {
-      return this.channelType === 'Channel::FacebookPage';
-    },
-    isAWebWidgetInbox() {
-      return this.channelType === 'Channel::WebWidget';
-    },
-    isATwilioSMSChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return (
-        this.channelType === 'Channel::TwilioSms' &&
-        !phoneNumber.startsWith('whatsapp')
-      );
-    },
-    isATwilioWhatsappChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return (
-        this.channelType === 'Channel::TwilioSms' &&
-        phoneNumber.startsWith('whatsapp')
-      );
     },
     showFileUpload() {
       return (
@@ -214,6 +195,13 @@ export default {
     },
   },
   watch: {
+    currentChat(conversation) {
+      if (conversation.can_reply) {
+        this.isPrivateTabActive = false;
+      } else {
+        this.isPrivateTabActive = true;
+      }
+    },
     message(updatedMessage) {
       if (this.isPrivate) {
         return;
@@ -278,11 +266,11 @@ export default {
       }, 100);
     },
     setPrivateReplyMode() {
-      this.isPrivate = true;
+      this.isPrivateTabActive = true;
       this.$refs.messageInput.focus();
     },
     setReplyMode() {
-      this.isPrivate = false;
+      this.isPrivateTabActive = false;
       this.$refs.messageInput.focus();
     },
     emojiOnClick(emoji) {
@@ -327,7 +315,10 @@ export default {
       }
       this.isUploading = true;
       this.$store
-        .dispatch('sendAttachment', [this.currentChat.id, { file: file.file }])
+        .dispatch('sendAttachment', [
+          this.currentChat.id,
+          { file: file.file, isPrivate: this.isPrivate },
+        ])
         .then(() => {
           this.isUploading = false;
           this.$emit('scrollToMessage');

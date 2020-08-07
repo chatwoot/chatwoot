@@ -8,7 +8,7 @@ gem 'rails'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-##-- rails helper gems --##
+##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
 gem 'attr_extras'
 gem 'browser'
@@ -23,6 +23,12 @@ gem 'tzinfo-data'
 gem 'valid_email2'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
+##-- used for single column multiple binary flags in notification settings/feature flagging --##
+gem 'flag_shih_tzu'
+# Random name generator for user names
+gem 'haikunator'
+# Template parsing safetly
+gem 'liquid'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -67,8 +73,6 @@ gem 'twitty'
 gem 'koala'
 # slack client
 gem 'slack-ruby-client'
-# Random name generator
-gem 'haikunator'
 
 ##--- gems for debugging and error reporting ---##
 # static analysis
@@ -78,9 +82,6 @@ gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
-
-##-- used for single column multiple binary flags in notification settings/feature flagging --##
-gem 'flag_shih_tzu'
 
 ##-- Push notification service --##
 gem 'fcm'

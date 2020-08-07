@@ -134,7 +134,9 @@ export const mutations = {
 
   [types.default.MARK_MESSAGE_READ](_state, { id, lastSeen }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
-    chat.agent_last_seen_at = lastSeen;
+    if (chat) {
+      chat.agent_last_seen_at = lastSeen;
+    }
   },
 
   [types.default.CHANGE_CHAT_STATUS_FILTER](_state, data) {
@@ -159,6 +161,16 @@ export const mutations = {
 
   [types.default.SET_ACTIVE_INBOX](_state, inboxId) {
     _state.currentInbox = inboxId ? parseInt(inboxId, 10) : null;
+  },
+
+  [types.default.SET_CONVERSATION_CAN_REPLY](
+    _state,
+    { conversationId, canReply }
+  ) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      Vue.set(chat, 'can_reply', canReply);
+    }
   },
 };
 

@@ -26,6 +26,10 @@ class Channel::TwitterProfile < ApplicationRecord
 
   before_destroy :unsubscribe
 
+  def has_24_hour_messaging_window?
+    false
+  end
+
   def create_contact_inbox(profile_id, name, additional_attributes)
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(additional_attributes: additional_attributes, name: name)

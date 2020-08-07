@@ -3,7 +3,11 @@ json.meta do
     json.partial! 'api/v1/models/contact.json.jbuilder', resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  json.assignee conversation.assignee
+  if conversation.assignee
+    json.assignee do
+      json.partial! 'api/v1/models/user.json.jbuilder', resource: conversation.assignee
+    end
+  end
 end
 
 json.id conversation.display_id
@@ -16,6 +20,7 @@ end
 json.inbox_id conversation.inbox_id
 json.status conversation.status
 json.muted conversation.muted?
+json.can_reply conversation.can_reply?
 json.timestamp conversation.messages.last.try(:created_at).try(:to_i)
 json.user_last_seen_at conversation.user_last_seen_at.to_i
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i

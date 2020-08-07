@@ -1,5 +1,3 @@
-/* eslint no-unused-vars: ["error", { "args": "none" }] */
-
 export default {
   name: 'WootTabs',
   props: {
@@ -8,7 +6,7 @@ export default {
       default: 0,
     },
   },
-  render(h) {
+  render() {
     const Tabs = this.$slots.default
       .filter(
         node =>

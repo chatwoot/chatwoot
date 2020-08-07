@@ -33,6 +33,16 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
+    context 'without assignee' do
+      let(:conversation) { create(:conversation, assignee: nil) }
+      let(:message) { create(:message, conversation: conversation) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+
+      it 'has correct name' do
+        expect(mail[:from].display_names).to eq(['Notifications'])
+      end
+    end
+
     context 'without summary' do
       let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
       let(:message_1) { create(:message, conversation: conversation, account: account, content: 'Outgoing Message 1').reload }
@@ -108,13 +118,13 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'sets reply to email to be based on the domain' do
         reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
-        reply_to = "#{agent.name} <#{reply_to_email}>"
+        reply_to = "#{agent.available_name} <#{reply_to_email}>"
         expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end
 
       it 'sets the from email to be the support email' do
-        expect(mail['FROM'].value).to eq("#{agent.name} <#{conversation.account.support_email}>")
+        expect(mail['FROM'].value).to eq("#{agent.available_name} <#{conversation.account.support_email}>")
         expect(mail.from).to eq([conversation.account.support_email])
       end
 

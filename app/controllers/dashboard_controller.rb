@@ -15,7 +15,10 @@ class DashboardController < ActionController::Base
       'WIDGET_BRAND_URL',
       'TERMS_URL',
       'PRIVACY_URL',
-      'DISPLAY_MANIFEST'
+      'DISPLAY_MANIFEST',
+      'CREATE_NEW_ACCOUNT_FROM_DASHBOARD'
+    ).merge(
+      APP_VERSION: Chatwoot.config[:version]
     )
   end
 end

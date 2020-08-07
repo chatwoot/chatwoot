@@ -106,6 +106,9 @@ export default {
       this.isEditing = false;
     },
     async fetchLabels(conversationId) {
+      if (!conversationId) {
+        return;
+      }
       this.$store.dispatch('conversationLabels/get', conversationId);
     },
   },
