@@ -44,6 +44,7 @@ export const SDK_CSS = `.woot-widget-holder {
   color: #fff;
   display: flex;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif;
+  font-size: 16px;
   font-weight: 500;
   justify-content: center;
   padding-right: 20px;
