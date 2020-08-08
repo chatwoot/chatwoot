@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { wootOn, addClass, removeClass } from './DOMHelpers';
+import { wootOn, addClass, loadCSS, removeClass } from './DOMHelpers';
 import {
   body,
   widgetHolder,
@@ -102,7 +102,6 @@ export const IFrameHelper = {
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
-        bubbleLabel: message.config.bubbleLabel,
       });
       IFrameHelper.setCurrentUrl();
       IFrameHelper.toggleCloseButton();
@@ -155,11 +154,12 @@ export const IFrameHelper = {
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
-  onLoad: ({ widgetColor, bubbleLabel }) => {
+  onLoad: ({ widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
 
+    loadCSS();
     createBubbleHolder();
 
     if (!window.$chatwoot.hideMessageBubble) {
@@ -167,7 +167,6 @@ export const IFrameHelper = {
         className: 'woot-widget-bubble',
         src: bubbleImg,
         target: chatBubble,
-        bubbleLabel,
       });
 
       const closeIcon = closeBubble;

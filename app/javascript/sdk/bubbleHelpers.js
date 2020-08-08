@@ -18,8 +18,10 @@ export const getBubbleView = type =>
 export const isExpandedView = type => getBubbleView(type) === BUBBLE_DESIGN[1];
 
 export const setBubbleText = bubbleText => {
-  const textNode = document.getElementById('woot-widget--expanded__text');
-  textNode.innerHTML = bubbleText;
+  if (isExpandedView(window.$chatwoot.type)) {
+    const textNode = document.getElementById('woot-widget--expanded__text');
+    textNode.innerHTML = bubbleText;
+  }
 };
 
 export const createBubbleIcon = ({ className, src, target }) => {

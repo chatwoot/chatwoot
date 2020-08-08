@@ -1,4 +1,11 @@
-import './sdk.scss';
+import { SDK_CSS } from './sdk.js';
+
+export const loadCSS = () => {
+  const css = document.createElement('style');
+  css.type = 'text/css';
+  css.innerHTML = `${SDK_CSS}`;
+  document.body.appendChild(css);
+};
 
 export const wootOn = (elm, event, fn) => {
   if (document.addEventListener) {
