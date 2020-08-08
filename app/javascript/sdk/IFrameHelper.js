@@ -12,6 +12,7 @@ import {
   createNotificationBubble,
   onClickChatBubble,
   onBubbleClick,
+  setBubbleText,
 } from './bubbleHelpers';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
@@ -99,7 +100,10 @@ export const IFrameHelper = {
         position: window.$chatwoot.position,
         hideMessageBubble: window.$chatwoot.hideMessageBubble,
       });
-      IFrameHelper.onLoad(message.config.channelConfig);
+      IFrameHelper.onLoad({
+        widgetColor: message.config.channelConfig.widgetColor,
+        bubbleLabel: message.config.bubbleLabel,
+      });
       IFrameHelper.setCurrentUrl();
       IFrameHelper.toggleCloseButton();
 
@@ -107,6 +111,10 @@ export const IFrameHelper = {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
       }
       dispatchWindowEvent(EVENT_NAME);
+    },
+
+    setBubbleLabel(message) {
+      setBubbleText(message.label);
     },
 
     toggleBubble: () => {
@@ -147,7 +155,7 @@ export const IFrameHelper = {
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
-  onLoad: ({ widgetColor }) => {
+  onLoad: ({ widgetColor, bubbleLabel }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
@@ -159,6 +167,7 @@ export const IFrameHelper = {
         className: 'woot-widget-bubble',
         src: bubbleImg,
         target: chatBubble,
+        bubbleLabel,
       });
 
       const closeIcon = closeBubble;

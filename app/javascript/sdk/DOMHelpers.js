@@ -1,4 +1,4 @@
-import '../widget/assets/scss/sdk';
+import './sdk.scss';
 
 export const wootOn = (elm, event, fn) => {
   if (document.addEventListener) {

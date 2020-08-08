@@ -11,25 +11,32 @@ export const widgetHolder = document.createElement('div');
 export const bubbleHolder = document.createElement('div');
 export const chatBubble = document.createElement('div');
 export const closeBubble = document.createElement('div');
-
 export const notificationBubble = document.createElement('span');
 
 export const getBubbleView = type =>
   BUBBLE_DESIGN.includes(type) ? type : BUBBLE_DESIGN[0];
+export const isExpandedView = type => getBubbleView(type) === BUBBLE_DESIGN[1];
+
+export const setBubbleText = bubbleText => {
+  const textNode = document.getElementById('woot-widget--expanded__text');
+  textNode.innerHTML = bubbleText;
+};
 
 export const createBubbleIcon = ({ className, src, target }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
-  if (window.$chatwoot.type === BUBBLE_DESIGN[1]) {
-    bubbleClassName += ' woot-widget--expanded';
-  }
-  target.className = bubbleClassName;
-
   const bubbleIcon = document.createElement('img');
   bubbleIcon.src = src;
   target.appendChild(bubbleIcon);
-  const textNode = document.createElement('div');
-  textNode.innerHTML = 'Talk to us';
-  target.appendChild(textNode);
+
+  if (isExpandedView(window.$chatwoot.type)) {
+    const textNode = document.createElement('div');
+    textNode.id = 'woot-widget--expanded__text';
+    textNode.innerHTML = '';
+    target.appendChild(textNode);
+    bubbleClassName += ' woot-widget--expanded';
+  }
+
+  target.className = bubbleClassName;
   return target;
 };
 
