@@ -3,6 +3,8 @@ import moment from 'moment';
 import Cookies from 'js-cookie';
 import { frontendURL } from '../../helper/URLHelper';
 
+Cookies.defaults = { sameSite: 'Lax' };
+
 export const getLoadingStatus = state => state.fetchAPIloadingStatus;
 export const setLoadingStatus = (state, status) => {
   state.fetchAPIloadingStatus = status;
