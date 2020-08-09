@@ -15,14 +15,17 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let!(:contact) { create(:contact, account: account) }
+      let!(:contact_inbox) { create(:contact_inbox, contact: contact) }
 
-      it 'returns all contacts' do
+      it 'returns all contacts with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include(contact.email)
+        expect(response.body).to include(contact_inbox.source_id)
+        expect(response.body).to include(contact_inbox.inbox.name)
       end
     end
   end
