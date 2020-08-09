@@ -14,6 +14,9 @@
     "OTHERS_ARE_AVAILABLE": "others are available",
     "AND": "and"
   },
+  "BUBBLE": {
+    "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
+  },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
   "CHAT_PLACEHOLDER": "Type your message"

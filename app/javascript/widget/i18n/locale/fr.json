@@ -14,6 +14,9 @@
     "OTHERS_ARE_AVAILABLE": "d'autres sont disponibles",
     "AND": "et"
   },
+  "BUBBLE": {
+    "LABEL": "Discute avec nous"
+  },
   "POWERED_BY": "Propulsé par Chatwoot",
   "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
   "CHAT_PLACEHOLDER": "Tapez votre message"
