@@ -63,6 +63,7 @@ Rails.application.routes.draw do
           resources :contacts, only: [:index, :show, :update, :create] do
             scope module: :contacts do
               resources :conversations, only: [:index]
+              resources :contact_inboxes, only: [:create]
             end
           end
 

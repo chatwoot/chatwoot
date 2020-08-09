@@ -31,7 +31,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def build_contact_inbox
     return if params[:inbox_id].blank?
 
-    inbox = Inbox.find(params[:inbox_id])
+    inbox = Current.account.find(params[:inbox_id])
     source_id = params[:source_id] || SecureRandom.uuid
     ContactInbox.create(contact: @contact, inbox: inbox, source_id: source_id)
   end
