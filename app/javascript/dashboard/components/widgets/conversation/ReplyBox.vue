@@ -106,6 +106,12 @@ export default {
     ResizableTextArea,
   },
   mixins: [clickaway, inboxMixin],
+  props: {
+    inReplyTo: {
+      type: [String, Number],
+      default: '',
+    },
+  },
   data() {
     return {
       message: '',
@@ -114,7 +120,6 @@ export default {
       showEmojiPicker: false,
       showCannedResponsesList: false,
       isUploading: false,
-      inReplyTo: null,
     };
   },
   computed: {

@@ -17,6 +17,7 @@
       v-if="isATweet && isIncoming"
       v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
       class="icon ion-reply cursor-pointer"
+      @click="onTweetReply"
     />
     <a :href="linkToTweet" target="_blank" rel="noopener noreferrer nofollow">
       <i
@@ -30,6 +31,7 @@
 
 <script>
 import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   props: {
@@ -61,6 +63,10 @@ export default {
       type: String,
       default: '',
     },
+    id: {
+      type: [String, Number],
+      default: '',
+    },
   },
   computed: {
     isIncoming() {
@@ -74,6 +80,11 @@ export default {
     linkToTweet() {
       const { screenName, sourceId } = this;
       return `https://twitter.com/${screenName}/status/${sourceId}`;
+    },
+  },
+  methods: {
+    onTweetReply() {
+      bus.$emit(BUS_EVENTS.SET_TWEET_REPLY, this.id);
     },
   },
 };
@@ -117,10 +128,6 @@ export default {
   a {
     color: var(--s-900);
   }
-}
-
-.cursor-pointer {
-  cursor: pointer;
 }
 
 .activity-wrap {

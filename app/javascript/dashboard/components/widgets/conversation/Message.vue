@@ -23,6 +23,7 @@
           </span>
         </span>
         <bubble-actions
+          :id="data.id"
           :sender="data.sender"
           :is-a-tweet="isATweet"
           :is-email="isEmailContentType"
