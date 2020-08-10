@@ -23,8 +23,19 @@ window.chatwootSettings = {
   hideMessageBubble: false,
   position: 'left', // This can be left or right
   locale: 'en', // Language to be set
+  type: 'standard', // [standard, expanded_bubble]
 };
 ```
+
+Chatwoot support 2 designs for for the widget
+
+1. Standard (default)
+
+![Standard-bubble](./images/sdk/standard-bubble.gif)
+
+2. Expanded bubble
+
+![Expanded-bubble](./images/sdk/expanded-bubble.gif)
 
 ### To trigger widget without displaying bubble
 

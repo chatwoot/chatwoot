@@ -1,0 +1,2 @@
+class UserDrop < BaseDrop
+end

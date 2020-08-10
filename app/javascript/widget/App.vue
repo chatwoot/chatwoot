@@ -77,12 +77,13 @@ export default {
 
       const message = JSON.parse(e.data.replace(wootPrefix, ''));
       if (message.event === 'config-set') {
+        this.setLocale(message.locale);
+        this.setBubbleLabel();
+        this.setPosition(message.position);
         this.fetchOldConversations().then(() => {
           this.setUnreadView();
         });
         this.fetchAvailableAgents(websiteToken);
-        this.setLocale(message.locale);
-        this.setPosition(message.position);
         this.setHideMessageBubble(message.hideMessageBubble);
       } else if (message.event === 'widget-visible') {
         this.scrollConversationToBottom();
@@ -100,6 +101,7 @@ export default {
         this.$store.dispatch('contacts/update', message);
       } else if (message.event === 'set-locale') {
         this.setLocale(message.locale);
+        this.setBubbleLabel();
       } else if (message.event === 'set-unread-view') {
         this.showUnreadView = true;
       } else if (message.event === 'unset-unread-view') {
@@ -117,6 +119,12 @@ export default {
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
+    },
+    setBubbleLabel() {
+      IFrameHelper.sendMessage({
+        event: 'setBubbleLabel',
+        label: this.$t('BUBBLE.LABEL'),
+      });
     },
     setLocale(locale) {
       const { enabledLanguages } = window.chatwootWebChannel;
