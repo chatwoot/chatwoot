@@ -50,7 +50,7 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
   def send_tweet_reply
     response = twitter_client.send_tweet_reply(
       reply_to_tweet_id: reply_to_message.source_id,
-      tweet: screen_name + message.content
+      tweet: "#{screen_name} #{message.content}"
     )
     if response.status == '200'
       tweet_data = response.body
