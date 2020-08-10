@@ -195,6 +195,15 @@ export default {
     },
   },
 
+  watch: {
+    currentChat(newChat, oldChat) {
+      if (newChat.id === oldChat.id) {
+        return;
+      }
+      this.selectedTweetId = null;
+    },
+  },
+
   created() {
     bus.$on('scrollToMessage', () => {
       setTimeout(() => this.scrollToBottom(), 0);
