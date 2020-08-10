@@ -260,7 +260,7 @@ export default {
             private: this.isPrivate,
           };
           if (this.inReplyTo) {
-            messagePayload.contentAttributes = { inReplyTo: this.inReplyTo };
+            messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
           }
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
