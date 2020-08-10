@@ -61,8 +61,12 @@ Rails.application.routes.draw do
           end
 
           resources :contacts, only: [:index, :show, :update, :create] do
+            collection do
+              get :search
+            end
             scope module: :contacts do
               resources :conversations, only: [:index]
+              resources :contact_inboxes, only: [:create]
             end
           end
 
