@@ -13,12 +13,30 @@
       @mouseenter="isHovered = true"
       @mouseleave="isHovered = false"
     />
+    <i
+      v-if="isATweet && isIncoming"
+      v-tooltip.top-start="$t('CHAT_LIST.REPLY_TO_TWEET')"
+      class="icon ion-reply cursor-pointer"
+    />
+    <a :href="linkToTweet" target="_blank" rel="noopener noreferrer nofollow">
+      <i
+        v-if="isATweet && isIncoming"
+        v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
+        class="icon ion-android-open cursor-pointer"
+      />
+    </a>
   </div>
 </template>
 
 <script>
+import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+
 export default {
   props: {
+    sender: {
+      type: Object,
+      default: () => ({}),
+    },
     readableTime: {
       type: String,
       default: '',
@@ -30,6 +48,32 @@ export default {
     isPrivate: {
       type: Boolean,
       default: true,
+    },
+    isATweet: {
+      type: Boolean,
+      default: true,
+    },
+    messageType: {
+      type: Number,
+      default: 1,
+    },
+    sourceId: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    isIncoming() {
+      return MESSAGE_TYPE.INCOMING === this.messageType;
+    },
+    screenName() {
+      const { additional_attributes: additionalAttributes = {} } =
+        this.sender || {};
+      return additionalAttributes?.screen_name || '';
+    },
+    linkToTweet() {
+      const { screenName, sourceId } = this;
+      return `https://twitter.com/${screenName}/status/${sourceId}`;
     },
   },
 };
@@ -65,7 +109,18 @@ export default {
 
   i {
     line-height: 1.4;
+    padding-right: var(--space-small);
+    padding-left: var(--space-small);
+    color: var(--s-900);
   }
+
+  a {
+    color: var(--s-900);
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .activity-wrap {

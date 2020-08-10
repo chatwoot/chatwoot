@@ -23,9 +23,13 @@
           </span>
         </span>
         <bubble-actions
+          :sender="data.sender"
+          :is-a-tweet="isATweet"
           :is-email="isEmailContentType"
-          :readable-time="readableTime"
           :is-private="data.private"
+          :message-type="data.message_type"
+          :readable-time="readableTime"
+          :source-id="data.source_id"
         />
       </p>
     </div>
@@ -53,6 +57,10 @@ export default {
       type: Object,
       required: true,
     },
+    isATweet: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -61,7 +69,7 @@ export default {
   },
   computed: {
     message() {
-      return this.formatMessage(this.data.content);
+      return this.formatMessage(this.data.content, this.isATweet);
     },
     contentType() {
       const {

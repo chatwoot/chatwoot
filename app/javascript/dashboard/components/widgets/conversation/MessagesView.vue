@@ -27,6 +27,7 @@
         v-for="message in getReadMessages"
         :key="message.id"
         :data="message"
+        :is-a-tweet="isATweet"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span>
@@ -37,6 +38,7 @@
         v-for="message in getUnReadMessages"
         :key="message.id"
         :data="message"
+        :is-a-tweet="isATweet"
       />
     </ul>
     <div class="conversation-footer">
@@ -150,6 +152,16 @@ export default {
 
     shouldLoadMoreChats() {
       return !this.listLoadingStatus && !this.isLoadingPrevious;
+    },
+
+    conversationType() {
+      const { additional_attributes: additionalAttributes } = this.currentChat;
+      const type = additionalAttributes ? additionalAttributes.type : '';
+      return type || '';
+    },
+
+    isATweet() {
+      return this.conversationType === 'tweet';
     },
   },
 
