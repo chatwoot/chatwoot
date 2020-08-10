@@ -7,7 +7,6 @@ json.phone_number resource.phone_number
 json.thumbnail resource.avatar_url
 json.contact_inboxes do
   json.array! resource.contact_inboxes do |contact_inbox|
-    json.source_id contact_inbox.source_id
-    json.inbox contact_inbox.inbox
+    json.partial! 'api/v1/models/contact_inbox.json.jbuilder', resource: contact_inbox
   end
 end
