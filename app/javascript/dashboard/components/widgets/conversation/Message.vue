@@ -32,6 +32,17 @@
           :source-id="data.source_id"
         />
       </p>
+
+      <div v-if="isATweet && isIncoming && sender" class="sender--info">
+        <woot-thumbnail
+          :src="sender.thumbnail"
+          :username="sender.name"
+          size="16px"
+        />
+        <div class="sender--available-name">
+          {{ sender.available_name || sender.name }}
+        </div>
+      </div>
     </div>
   </li>
 </template>
@@ -44,6 +55,8 @@ import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
+import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+
 export default {
   components: {
     BubbleActions,
@@ -71,6 +84,9 @@ export default {
     message() {
       return this.formatMessage(this.data.content, this.isATweet);
     },
+    sender() {
+      return this.data.sender || {};
+    },
     contentType() {
       const {
         data: { content_type: contentType },
@@ -86,6 +102,9 @@ export default {
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
     },
+    isIncoming() {
+      return this.data.message_type === MESSAGE_TYPE.INCOMING;
+    },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
     },
@@ -98,7 +117,7 @@ export default {
       return false;
     },
     sentByMessage() {
-      const { sender } = this.data;
+      const { sender } = this;
 
       return this.data.message_type === 1 && !this.isHovered && sender
         ? {
@@ -134,6 +153,17 @@ export default {
   .image {
     max-width: 32rem;
     padding: 0;
+  }
+}
+
+.sender--info {
+  display: flex;
+  align-items: center;
+  padding: var(--space-smaller) 0;
+
+  .sender--available-name {
+    font-size: var(--font-size-mini);
+    margin-left: var(--space-smaller);
   }
 }
 </style>
