@@ -1,6 +1,5 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
-/* global bus */
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
