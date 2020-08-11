@@ -15,7 +15,7 @@
               v-model="selectedAgents"
               :options="agentList"
               track-by="id"
-              label="name"
+              label="available_name"
               :multiple="true"
               :close-on-select="false"
               :clear-on-select="false"

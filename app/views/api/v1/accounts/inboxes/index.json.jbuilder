@@ -1,19 +1,5 @@
 json.payload do
   json.array! @inboxes do |inbox|
-    json.id inbox.id
-    json.channel_id inbox.channel_id
-    json.name inbox.name
-    json.channel_type inbox.channel_type
-    json.greeting_enabled inbox.greeting_enabled
-    json.greeting_message inbox.greeting_message
-    json.avatar_url inbox.try(:avatar_url)
-    json.page_id inbox.channel.try(:page_id)
-    json.widget_color inbox.channel.try(:widget_color)
-    json.website_url inbox.channel.try(:website_url)
-    json.welcome_title inbox.channel.try(:welcome_title)
-    json.welcome_tagline inbox.channel.try(:welcome_tagline)
-    json.enable_auto_assignment inbox.enable_auto_assignment
-    json.web_widget_script inbox.channel.try(:web_widget_script)
-    json.phone_number inbox.channel.try(:phone_number)
+    json.partial! 'api/v1/models/inbox.json.jbuilder', resource: inbox
   end
 end

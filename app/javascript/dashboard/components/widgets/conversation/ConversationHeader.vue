@@ -25,7 +25,7 @@
         <multiselect
           v-model="currentChat.meta.assignee"
           :options="agentList"
-          label="name"
+          label="available_name"
           :allow-empty="true"
           deselect-label="Remove"
           placeholder="Select Agent"
@@ -95,7 +95,7 @@ export default {
       return [
         {
           confirmed: true,
-          name: 'None',
+          available_name: 'None',
           id: 0,
           role: 'agent',
           account_id: 0,

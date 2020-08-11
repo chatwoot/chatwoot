@@ -5,10 +5,10 @@ describe Webhooks::Trigger do
 
   describe '#execute' do
     it 'triggers webhook' do
-      params = { hello: 'hello' }
-      url = 'htpps://test.com'
+      params = { hello: :hello }
+      url = 'https://test.com'
 
-      expect(RestClient).to receive(:post).with(url, params).once
+      expect(RestClient).to receive(:post).with(url, params.to_json, { accept: :json, content_type: :json }).once
       trigger.execute(url, params)
     end
   end

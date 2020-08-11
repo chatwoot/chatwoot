@@ -41,22 +41,26 @@ describe Twitter::SendOnTwitterService do
   describe '#perform' do
     context 'without reply' do
       it 'if inbox channel is not twitter profile' do
-        create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', inbox: widget_inbox, account: account)
+        expect { ::Twitter::SendOnTwitterService.new(message: message).perform }.to raise_error 'Invalid channel service was called'
         expect(twitter_client).not_to have_received(:send_direct_message)
       end
 
       it 'if message is private' do
-        create(:message, message_type: 'outgoing', private: true, inbox: twitter_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', private: true, inbox: twitter_inbox, account: account)
+        ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).not_to have_received(:send_direct_message)
       end
 
       it 'if message has source_id' do
-        create(:message, message_type: 'outgoing', source_id: '123', inbox: widget_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', source_id: '123', inbox: twitter_inbox, account: account)
+        ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).not_to have_received(:send_direct_message)
       end
 
       it 'if message is not outgoing' do
-        create(:message, message_type: 'incoming', inbox: twitter_inbox, account: account)
+        message = create(:message, message_type: 'incoming', inbox: twitter_inbox, account: account)
+        ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).not_to have_received(:send_direct_message)
       end
     end
@@ -64,15 +68,17 @@ describe Twitter::SendOnTwitterService do
     context 'with reply' do
       it 'if conversation is a direct message' do
         create(:message, message_type: :incoming, inbox: twitter_inbox, account: account, conversation: dm_conversation)
-        create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: dm_conversation)
+        message = create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: dm_conversation)
+        ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).to have_received(:send_direct_message)
       end
 
       it 'if conversation is a tweet' do
         create(:message, message_type: :incoming, inbox: twitter_inbox, account: account, conversation: tweet_conversation)
-        tweet = create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: tweet_conversation)
+        message = create(:message, message_type: :outgoing, inbox: twitter_inbox, account: account, conversation: tweet_conversation)
+        ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).to have_received(:send_tweet_reply)
-        expect(tweet.reload.source_id).to eq '12345'
+        expect(message.reload.source_id).to eq '12345'
       end
     end
   end

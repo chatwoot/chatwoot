@@ -2,7 +2,7 @@
   <div
     class="chat-bubble user"
     :style="{ background: widgetColor }"
-    v-html="formatMessage(message)"
+    v-html="formatMessage(message, false)"
   />
 </template>
 

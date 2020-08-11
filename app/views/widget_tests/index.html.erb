@@ -6,6 +6,7 @@ window.chatwootSettings = {
   hideMessageBubble: false,
   position: 'left',
   locale: 'en',
+  type: 'expanded_bubble',
 };
 
 (function(d,t) {
@@ -20,4 +21,8 @@ window.chatwootSettings = {
     })
   }
 })(document,"script");
+
+window.addEventListener('chatwoot:ready', function() {
+  console.log(window.$chatwoot)
+})
 </script>
