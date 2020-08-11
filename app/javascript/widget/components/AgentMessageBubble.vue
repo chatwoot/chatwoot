@@ -4,7 +4,7 @@
       v-if="!isCards && !isOptions && !isForm && !isArticle"
       class="chat-bubble agent"
     >
-      <span v-html="formatMessage(message)"></span>
+      <span v-html="formatMessage(message, false)"></span>
       <email-input
         v-if="isTemplateEmail"
         :message-id="messageId"
