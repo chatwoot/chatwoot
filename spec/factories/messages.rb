@@ -9,7 +9,7 @@ FactoryBot.define do
     account { create(:account) }
 
     after(:build) do |message|
-      message.sender ||= create(:user, account: message.account)
+      message.sender ||= message.outgoing? ? create(:user, account: message.account) : create(:contact, account: message.account)
       message.inbox ||= create(:inbox, account: message.account)
       message.conversation ||= create(:conversation, account: message.account, inbox: message.inbox)
     end

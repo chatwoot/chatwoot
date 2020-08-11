@@ -1,4 +1,3 @@
-/* global bus */
 export default {
   methods: {
     showAlert(message) {

@@ -50,7 +50,10 @@ class Message < ApplicationRecord
     incoming_email: 8
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email], coder: JSON
+  # [:submitted_email, :items, :submitted_values] : Used for bot message types
+  # [:email] : Used by conversation_continuity incoming email messages
+  # [:in_reply_to] : Used to reply to a particular tweet in threads
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
