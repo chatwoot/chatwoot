@@ -127,4 +127,54 @@ describe('#actions', () => {
       ]);
     });
   });
+  describe('#addMessage', () => {
+    it('sends correct mutations if message is incoming', () => {
+      const message = {
+        id: 1,
+        message_type: 0,
+        conversation_id: 1,
+      };
+      actions.addMessage({ commit }, message);
+      expect(commit.mock.calls).toEqual([
+        [types.default.ADD_MESSAGE, message],
+        [
+          types.default.SET_CONVERSATION_CAN_REPLY,
+          { conversationId: 1, canReply: true },
+        ],
+      ]);
+    });
+    it('sends correct mutations if message is not an incoming message', () => {
+      const message = {
+        id: 1,
+        message_type: 1,
+        conversation_id: 1,
+      };
+      actions.addMessage({ commit }, message);
+      expect(commit.mock.calls).toEqual([[types.default.ADD_MESSAGE, message]]);
+    });
+  });
+
+  describe('#markMessagesRead', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    it('sends correct mutations if api is successful', async () => {
+      const lastSeen = new Date().getTime() / 1000;
+      axios.post.mockResolvedValue({
+        data: { id: 1, agent_last_seen_at: lastSeen },
+      });
+      await actions.markMessagesRead({ commit }, { id: 1 });
+      jest.runAllTimers();
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        [types.default.MARK_MESSAGE_READ, { id: 1, lastSeen }],
+      ]);
+    });
+    it('sends correct mutations if api is unsuccessful', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.markMessagesRead({ commit }, { id: 1 });
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
 });

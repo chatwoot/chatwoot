@@ -8,6 +8,10 @@ const accountData = {
   locale: 'en',
 };
 
+const newAccountInfo = {
+  accountName: 'Company two',
+};
+
 const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
@@ -50,6 +54,29 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true }],
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('#create', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: { data: { id: 1, name: 'John' } },
+      });
+      await actions.create({ commit, getters }, newAccountInfo);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_ACCOUNT_UI_FLAG, { isCreating: true }],
+        [types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.create({ commit, getters }, newAccountInfo)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_ACCOUNT_UI_FLAG, { isCreating: true }],
+        [types.default.SET_ACCOUNT_UI_FLAG, { isCreating: false }],
       ]);
     });
   });

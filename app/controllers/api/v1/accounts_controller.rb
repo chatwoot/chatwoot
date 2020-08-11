@@ -14,14 +14,15 @@ class Api::V1::AccountsController < Api::BaseController
               with: :render_error_response
 
   def create
-    @user = AccountBuilder.new(
+    @user, @account = AccountBuilder.new(
       account_name: account_params[:account_name],
       email: account_params[:email],
-      confirmed: confirmed?
+      confirmed: confirmed?,
+      user: current_user
     ).perform
     if @user
       send_auth_headers(@user)
-      render partial: 'devise/auth.json', locals: { resource: @user }
+      render 'api/v1/accounts/create.json', locals: { resource: @user }
     else
       render_error_response(CustomExceptions::Account::SignupFailed.new({}))
     end
@@ -32,7 +33,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :domain_emails_enabled))
+    @account.update!(account_params.slice(:name, :locale, :domain, :support_email))
   end
 
   def update_active_at
@@ -57,7 +58,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :domain_emails_enabled)
+    params.permit(:account_name, :email, :name, :locale, :domain, :support_email)
   end
 
   def check_signup_enabled

@@ -4,12 +4,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @inboxes = policy_scope(Current.account.inboxes)
+    @inboxes = policy_scope(Current.account.inboxes.order_by_id.includes(:channel, :avatar_attachment))
   end
 
   def create
     ActiveRecord::Base.transaction do
-      channel = web_widgets.create!(permitted_params[:channel].except(:type)) if permitted_params[:channel][:type] == 'web_widget'
+      channel = create_channel
       @inbox = Current.account.inboxes.build(
         name: permitted_params[:name],
         greeting_message: permitted_params[:greeting_message],
@@ -23,7 +23,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def update
     @inbox.update(inbox_update_params.except(:channel))
-    @inbox.channel.update!(inbox_update_params[:channel]) if @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
+    return unless @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
+
+    @inbox.channel.update!(inbox_update_params[:channel])
+    update_channel_feature_flags
   end
 
   def set_agent_bot
@@ -52,21 +55,43 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def web_widgets
-    Current.account.web_widgets
-  end
-
   def check_authorization
     authorize(Inbox)
   end
 
+  def create_channel
+    case permitted_params[:channel][:type]
+    when 'web_widget'
+      Current.account.web_widgets.create!(permitted_params[:channel].except(:type))
+    when 'api'
+      Current.account.api_channels.create!(permitted_params[:channel].except(:type))
+    when 'email'
+      Current.account.email_channels.create!(permitted_params[:channel].except(:type))
+    end
+  end
+
+  def update_channel_feature_flags
+    return unless inbox_update_params[:channel].key? :selected_feature_flags
+
+    @inbox.channel.selected_feature_flags = inbox_update_params[:channel][:selected_feature_flags]
+    @inbox.channel.save!
+  end
+
   def permitted_params
     params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline])
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email])
   end
 
   def inbox_update_params
     params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
-                  channel: [:website_url, :widget_color, :welcome_title, :welcome_tagline])
+                  channel: [
+                    :website_url,
+                    :widget_color,
+                    :welcome_title,
+                    :welcome_tagline,
+                    :webhook_url,
+                    :email,
+                    selected_feature_flags: []
+                  ])
   end
 end

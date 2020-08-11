@@ -1,0 +1,20 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "دانلود",
+      "UPLOADING": "در حال آپلود..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "ثبت"
+    }
+  },
+  "AGENT_AVAILABILITY": {
+    "IS_AVAILABLE": "آنلاین است",
+    "ARE_AVAILABLE": "آنلاین هستند",
+    "OTHERS_ARE_AVAILABLE": "دیگر آنلاین هستند",
+    "AND": "و"
+  },
+  "POWERED_BY": "قدرت یافته از چت ووت",
+  "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+  "CHAT_PLACEHOLDER": "پیام خود را وارد کنید"
+}

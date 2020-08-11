@@ -1,17 +1,53 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-  layout 'mailer'
-  append_view_path Rails.root.join('app/views/mailers')
+  include ActionView::Helpers::SanitizeHelper
 
-  # helpers
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  before_action { ensure_current_account(params.try(:[], :account)) }
+  layout 'mailer/base'
+  # Fetch template from Database if available
+  # Order: Account Specific > Installation Specific > Fallback to file
+  prepend_view_path ::EmailTemplate.resolver
+  append_view_path Rails.root.join('app/views/mailers')
   helper :frontend_urls
   helper do
     def global_config
-      @global_config ||= GlobalConfig.get('INSTALLATION_NAME', 'BRAND_URL')
+      @global_config ||= GlobalConfig.get('BRAND_NAME', 'BRAND_URL')
     end
   end
 
   def smtp_config_set_or_development?
     ENV.fetch('SMTP_ADDRESS', nil).present? || Rails.env.development?
+  end
+
+  private
+
+  def send_mail_with_liquid(*args)
+    mail(*args) do |format|
+      # explored sending a multipart email containg both text type and html
+      # parsing the html with nokogiri will remove the links as well
+      # might also remove tags like b,li etc. so lets rethink about this later
+      # format.text { Nokogiri::HTML(render(layout: false)).text }
+      format.html { render }
+    end
+  end
+
+  def liquid_droppables
+    # Merge additional objects into this in your mailer
+    # liquid template handler converts these objects into drop objects
+    {
+      account: Current.account
+    }
+  end
+
+  def liquid_locals
+    # expose variables you want to be exposed in liquid
+    {
+      global_config: GlobalConfig.get('INSTALLATION_NAME', 'BRAND_URL'),
+      action_url: @action_url
+    }
+  end
+
+  def ensure_current_account(account)
+    Current.account = account if account.present?
   end
 end

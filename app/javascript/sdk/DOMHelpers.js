@@ -1,4 +1,4 @@
-import { SDK_CSS } from '../widget/assets/scss/sdk';
+import { SDK_CSS } from './sdk.js';
 
 export const loadCSS = () => {
   const css = document.createElement('style');

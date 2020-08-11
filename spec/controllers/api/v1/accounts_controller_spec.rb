@@ -15,9 +15,9 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'calls account builder' do
-        allow(account_builder).to receive(:perform).and_return(user)
+        allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { account_name: 'test', email: email }
+        params = { account_name: 'test', email: email, user: nil }
 
         post api_v1_accounts_url,
              params: params,
@@ -31,7 +31,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'renders error response on invalid params' do
         allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: nil, email: nil }
+        params = { account_name: nil, email: nil, user: nil }
 
         post api_v1_accounts_url,
              params: params,
@@ -46,7 +46,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'ignores confirmed param when called with out super admin token' do
         allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: 'test', email: email, confirmed: true }
+        params = { account_name: 'test', email: email, confirmed: true, user: nil }
 
         post api_v1_accounts_url,
              params: params,
@@ -169,8 +169,7 @@ RSpec.describe 'Accounts API', type: :request do
         name: 'New Name',
         locale: 'en',
         domain: 'example.com',
-        support_email: 'care@example.com',
-        domain_emails_enabled: true
+        support_email: 'care@example.com'
       }
 
       it 'modifies an account' do
@@ -183,7 +182,6 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.name).to eq(params[:name])
         expect(account.reload.locale).to eq(params[:locale])
         expect(account.reload.domain).to eq(params[:domain])
-        expect(account.reload.domain_emails_enabled).to eq(params[:domain_emails_enabled])
         expect(account.reload.support_email).to eq(params[:support_email])
       end
     end

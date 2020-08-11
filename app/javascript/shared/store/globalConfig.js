@@ -1,19 +1,25 @@
 const {
+  APP_VERSION: appVersion,
+  CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
+  BRAND_NAME: brandName,
+  INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
   LOGO: logo,
-  INSTALLATION_NAME: installationName,
-  WIDGET_BRAND_URL: widgetBrandURL,
-  TERMS_URL: termsURL,
   PRIVACY_URL: privacyURL,
+  TERMS_URL: termsURL,
+  WIDGET_BRAND_URL: widgetBrandURL,
 } = window.globalConfig;
 
 const state = {
-  logoThumbnail,
-  logo,
+  appVersion,
+  createNewAccountFromDashboard,
+  brandName,
   installationName,
-  widgetBrandURL,
-  termsURL,
+  logo,
+  logoThumbnail,
   privacyURL,
+  termsURL,
+  widgetBrandURL,
 };
 
 export const getters = {

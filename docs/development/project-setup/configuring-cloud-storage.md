@@ -56,3 +56,19 @@ AZURE_STORAGE_ACCOUNT_NAME=
 AZURE_STORAGE_ACCESS_KEY=
 AZURE_STORAGE_CONTAINER=
 ```
+
+
+### Using Amazon S3 Compatible Service
+
+Use s3 compatible service such as [DigitalOcean Spaces](https://www.digitalocean.com/docs/spaces/resources/s3-sdk-examples/#configure-a-client), Minio.
+
+Configure the following env variables. 
+
+```bash
+ACTIVE_STORAGE_SERVICE='s3_compatible'
+STORAGE_BUCKET_NAME=
+STORAGE_ACCESS_KEY_ID=
+STORAGE_SECRET_ACCESS_KEY=
+STORAGE_REGION=nyc3
+STORAGE_ENDPOINT=https://nyc3.digitaloceanspaces.com
+```

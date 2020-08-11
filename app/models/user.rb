@@ -9,12 +9,12 @@
 #  confirmed_at           :datetime
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
+#  display_name           :string
 #  email                  :string
 #  encrypted_password     :string           default(""), not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  name                   :string           not null
-#  nickname               :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string
 #  remember_created_at    :datetime
@@ -59,6 +59,7 @@ class User < ApplicationRecord
   # The validation below has been commented out as it does not
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
+
   validates :email, :name, presence: true
 
   has_many :account_users, dependent: :destroy
@@ -96,6 +97,10 @@ class User < ApplicationRecord
     account_users.find_by(account_id: Current.account.id) if Current.account
   end
 
+  def available_name
+    self[:display_name].presence || name
+  end
+
   def account
     current_account_user&.account
   end
@@ -129,6 +134,7 @@ class User < ApplicationRecord
     {
       id: id,
       name: name,
+      available_name: available_name,
       avatar_url: avatar_url,
       type: 'user',
       availability_status: availability_status

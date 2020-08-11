@@ -29,7 +29,7 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
   end
 
   def screen_name
-    "@#{additional_attributes ? additional_attributes['screen_name'] : ''} "
+    "@#{reply_to_message.sender&.additional_attributes.try(:[], 'screen_name') || ''}"
   end
 
   def send_direct_message
@@ -39,10 +39,18 @@ class Twitter::SendOnTwitterService < Base::SendOnChannelService
     )
   end
 
+  def reply_to_message
+    @reply_to_message ||= if message.in_reply_to
+                            conversation.messages.find(message.in_reply_to)
+                          else
+                            conversation.messages.incoming.last
+                          end
+  end
+
   def send_tweet_reply
     response = twitter_client.send_tweet_reply(
-      reply_to_tweet_id: conversation.additional_attributes['tweet_id'],
-      tweet: screen_name + message.content
+      reply_to_tweet_id: reply_to_message.source_id,
+      tweet: "#{screen_name} #{message.content}"
     )
     if response.status == '200'
       tweet_data = response.body
