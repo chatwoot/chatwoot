@@ -36,6 +36,7 @@ s3_compatible:
   region: <%= ENV.fetch('STORAGE_REGION', '') %>
   bucket: <%= ENV.fetch('STORAGE_BUCKET_NAME', '') %>
   endpoint: <%= ENV.fetch('STORAGE_ENDPOINT', '') %>
+  force_path_style: <%= ENV.fetch('STORAGE_FORCE_PATH_STYLE', false) %>
 
 # mirror:
 #   service: Mirror
