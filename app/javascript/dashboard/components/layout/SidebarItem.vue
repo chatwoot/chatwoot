@@ -57,13 +57,8 @@ import { mapGetters } from 'vuex';
 
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 
-const INBOX_TYPES = {
-  WEB: 'Channel::WebWidget',
-  FB: 'Channel::FacebookPage',
-  TWITTER: 'Channel::TwitterProfile',
-  TWILIO: 'Channel::TwilioSms',
-};
 const getInboxClassByType = type => {
   switch (type) {
     case INBOX_TYPES.WEB:
@@ -77,6 +72,12 @@ const getInboxClassByType = type => {
 
     case INBOX_TYPES.TWILIO:
       return 'ion-android-textsms';
+
+    case INBOX_TYPES.API:
+      return 'ion-cloud';
+
+    case INBOX_TYPES.EMAIL:
+      return 'ion-email';
 
     default:
       return '';

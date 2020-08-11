@@ -6,7 +6,11 @@ class ConversationReplyEmailWorker
     @conversation = Conversation.find(conversation_id)
 
     # send the email
-    ConversationReplyMailer.reply_with_summary(@conversation, queued_time).deliver_later
+    if @conversation.messages.incoming&.last&.content_type == 'incoming_email'
+      ConversationReplyMailer.reply_without_summary(@conversation, queued_time).deliver_later
+    else
+      ConversationReplyMailer.reply_with_summary(@conversation, queued_time).deliver_later
+    end
 
     # delete the redis set from the first new message on the conversation
     Redis::Alfred.delete(conversation_mail_key)

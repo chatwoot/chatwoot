@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
+import { getBubbleView } from '../sdk/bubbleHelpers';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};
@@ -11,6 +12,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale: chatwootSettings.locale,
+    type: getBubbleView(chatwootSettings.type),
 
     toggle() {
       IFrameHelper.events.toggleBubble();

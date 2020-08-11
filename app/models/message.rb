@@ -50,7 +50,10 @@ class Message < ApplicationRecord
     incoming_email: 8
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email], coder: JSON
+  # [:submitted_email, :items, :submitted_values] : Used for bot message types
+  # [:email] : Used by conversation_continuity incoming email messages
+  # [:in_reply_to] : Used to reply to a particular tweet in threads
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -134,14 +137,7 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    channel_name = conversation.inbox.channel.class.to_s
-    if channel_name == 'Channel::FacebookPage'
-      ::Facebook::SendOnFacebookService.new(message: self).perform
-    elsif channel_name == 'Channel::TwitterProfile'
-      ::Twitter::SendOnTwitterService.new(message: self).perform
-    elsif channel_name == 'Channel::TwilioSms'
-      ::Twilio::SendOnTwilioService.new(message: self).perform
-    end
+    ::SendReplyJob.perform_later(id)
   end
 
   def reopen_conversation
@@ -153,7 +149,7 @@ class Message < ApplicationRecord
   end
 
   def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing?
+    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
       # set a redis key for the conversation so that we don't need to send email for every
       # new message that comes in and we dont enque the delayed sidekiq job for every message
       Redis::Alfred.setex(conversation_mail_key, Time.zone.now)

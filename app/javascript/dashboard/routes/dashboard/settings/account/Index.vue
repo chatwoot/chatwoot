@@ -36,7 +36,15 @@
               {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR') }}
             </span>
           </label>
-          <label>
+          <label v-if="featureInboundEmailEnabled">
+            {{ $t('GENERAL_SETTINGS.FORM.FEATURES.INBOUND_EMAIL_ENABLED') }}
+          </label>
+          <label v-if="featureCustomDomainEmailEnabled">
+            {{
+              $t('GENERAL_SETTINGS.FORM.FEATURES.CUSTOM_EMAIL_DOMAIN_ENABLED')
+            }}
+          </label>
+          <label v-if="featureCustomDomainEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.DOMAIN.LABEL') }}
             <input
               v-model="domain"
@@ -44,29 +52,7 @@
               :placeholder="$t('GENERAL_SETTINGS.FORM.DOMAIN.PLACEHOLDER')"
             />
           </label>
-          <label v-if="featureInboundEmailEnabled">
-            {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.LABEL') }}
-            <select v-model="domainEmailsEnabled">
-              <option value="true">
-                {{
-                  $t(
-                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.ENABLED'
-                  )
-                }}
-              </option>
-              <option value="false">
-                {{
-                  $t(
-                    'GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.OPTIONS.DISABLED'
-                  )
-                }}
-              </option>
-            </select>
-            <p class="help-text">
-              {{ $t('GENERAL_SETTINGS.FORM.ENABLE_DOMAIN_EMAIL.PLACEHOLDER') }}
-            </p>
-          </label>
-          <label v-if="featureInboundEmailEnabled">
+          <label v-if="featureCustomDomainEmailEnabled">
             {{ $t('GENERAL_SETTINGS.FORM.SUPPORT_EMAIL.LABEL') }}
             <input
               v-model="supportEmail"
@@ -78,6 +64,10 @@
           </label>
         </div>
       </div>
+      <div class="current-version">
+        {{ `v${globalConfig.appVersion}` }}
+      </div>
+
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
@@ -106,7 +96,6 @@ export default {
       name: '',
       locale: 'en',
       domain: '',
-      domainEmailsEnabled: false,
       supportEmail: '',
       features: {},
     };
@@ -121,6 +110,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      globalConfig: 'globalConfig/get',
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
@@ -131,6 +121,10 @@ export default {
 
     featureInboundEmailEnabled() {
       return !!this.features.inbound_emails;
+    },
+
+    featureCustomDomainEmailEnabled() {
+      return this.featureInboundEmailEnabled && !!this.customEmailDomainEnabled;
     },
   },
   mounted() {
@@ -148,7 +142,7 @@ export default {
           id,
           domain,
           support_email,
-          domain_emails_enabled,
+          custom_email_domain_enabled,
           features,
         } = this.getAccount(this.accountId);
 
@@ -158,7 +152,7 @@ export default {
         this.id = id;
         this.domain = domain;
         this.supportEmail = support_email;
-        this.domainEmailsEnabled = domain_emails_enabled;
+        this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
       } catch (error) {
         // Ignore error
@@ -177,7 +171,6 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
-          domain_emails_enabled: this.domainEmailsEnabled,
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
@@ -207,5 +200,11 @@ export default {
   .small-9 {
     padding: $space-normal;
   }
+}
+
+.current-version {
+  font-size: var(--font-size-small);
+  text-align: center;
+  padding: var(--space-normal);
 }
 </style>

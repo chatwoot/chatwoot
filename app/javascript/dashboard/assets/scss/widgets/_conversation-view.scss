@@ -8,21 +8,9 @@
   font-weight: $font-weight-normal;
   position: relative;
 
-  .icon {
-    bottom: $space-smaller;
-    position: absolute;
-    right: $space-small;
-  }
-
   .message-text__wrap {
     position: relative;
 
-    .time {
-      color: $color-primary-light;
-      display: block;
-      font-size: $font-size-micro;
-      line-height: 1.8;
-    }
 
     .link {
       color: $color-white;
@@ -37,23 +25,9 @@
     }
   }
 
-  .audio {
-    .time {
-      margin-top: -$space-two;
-    }
-  }
-
   .image {
     cursor: pointer;
     position: relative;
-
-    .time {
-      bottom: $space-smaller;
-      color: $color-white;
-      position: absolute;
-      right: $space-small;
-      white-space: nowrap;
-    }
 
     .modal-container {
       text-align: center;
@@ -72,30 +46,6 @@
       opacity: .8;
       position: absolute;
       width: 100%;
-    }
-  }
-
-  .map {
-    @include flex;
-    flex-direction: column;
-    text-align: right;
-
-    img {
-      @include padding($space-small);
-      max-height: 30rem;
-      max-width: 20rem;
-    }
-
-    .time {
-      @include padding($space-small);
-      margin-left: -$space-smaller;
-      margin-top: -$space-two;
-      white-space: nowrap;
-    }
-
-    .locname {
-      font-weight: $font-weight-medium;
-      padding: $space-smaller;
     }
   }
 }
@@ -257,14 +207,6 @@
       color: $color-body;
       margin-right: auto;
 
-      .time {
-        color: $color-light-gray;
-      }
-
-      .image .time {
-        color: $color-white;
-      }
-
       .link {
         color: $color-primary-dark;
       }
@@ -320,10 +262,6 @@
           position: absolute;
           right: $space-one;
           top: $space-smaller + $space-micro;
-        }
-
-        .time {
-          color: $color-light-gray;
         }
       }
     }
@@ -389,11 +327,6 @@
       }
     }
 
-    .time {
-      color: $medium-gray;
-      font-size: $font-size-micro;
-      margin-left: $space-slab;
-    }
   }
 }
 

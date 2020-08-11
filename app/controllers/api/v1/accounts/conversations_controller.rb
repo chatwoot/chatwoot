@@ -44,9 +44,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
-    @conversation.agent_last_seen_at = parsed_last_seen_at
+    @conversation.agent_last_seen_at = DateTime.now.utc
     @conversation.save!
-    head :ok
   end
 
   private
@@ -54,10 +53,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def trigger_typing_event(event)
     user = current_user.presence || @resource
     Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user)
-  end
-
-  def parsed_last_seen_at
-    DateTime.strptime(params[:agent_last_seen_at].to_s, '%s')
   end
 
   def conversation

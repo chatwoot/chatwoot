@@ -1,0 +1,21 @@
+{
+  "CONTACT_PANEL": {
+    "CONVERSATION_TITLE": "جزئیات مکالمه",
+    "BROWSER": "مرورگر",
+    "OS": "سیستم عامل",
+    "INITIATED_FROM": "شروع شده از",
+    "INITIATED_AT": "شروع شده در",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است",
+      "TITLE": "گفتگوهای قبلی"
+    },
+    "LABELS": {
+      "TITLE": "برچسب‌های گفتگو",
+      "UPDATE_BUTTON": "تغییر برچسب‌ها",
+      "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید",
+      "TAG_PLACEHOLDER": "برچسب جدید",
+      "PLACEHOLDER": "پیدا کردن یا اضافه کردن برچسب"
+    },
+    "MUTE_CONTACT": "بی‌صدا کردن گفتگو"
+  }
+}

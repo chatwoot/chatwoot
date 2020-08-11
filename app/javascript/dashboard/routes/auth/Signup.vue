@@ -13,7 +13,7 @@
     <div class="row align-center">
       <div class="medium-5 column">
         <ul class="signup--features">
-          <li><i class="ion-beer beer"></i>Unlimited Facebook Pages</li>
+          <li><i class="ion-beer beer"></i>Unlimited inboxes</li>
           <li><i class="ion-stats-bars report"></i>Robust Reporting</li>
           <li><i class="ion-chatbox-working canned"></i>Canned Responses</li>
           <li><i class="ion-loop uptime"></i>Auto Assignment</li>

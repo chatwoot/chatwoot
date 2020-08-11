@@ -2,9 +2,9 @@ import authAPI from '../../../api/auth';
 
 export const getSelectedChatConversation = ({
   allConversations,
-  selectedChat,
+  selectedChatId,
 }) =>
-  allConversations.filter(conversation => conversation.id === selectedChat.id);
+  allConversations.filter(conversation => conversation.id === selectedChatId);
 
 // getters
 const getters = {
@@ -12,11 +12,16 @@ const getters = {
     allConversations.sort(
       (a, b) => b.messages.last()?.created_at - a.messages.last()?.created_at
     ),
-  getSelectedChat: ({ selectedChat }) => selectedChat,
+  getSelectedChat: ({ selectedChatId, allConversations }) => {
+    const selectedChat = allConversations.find(
+      conversation => conversation.id === selectedChatId
+    );
+    return selectedChat || {};
+  },
   getMineChats(_state) {
     const currentUserID = authAPI.getCurrentUser().id;
     return _state.allConversations.filter(chat =>
-      chat.meta.assignee === null
+      !chat.meta.assignee
         ? false
         : chat.status === _state.chatStatusFilter &&
           chat.meta.assignee.id === currentUserID
@@ -24,8 +29,7 @@ const getters = {
   },
   getUnAssignedChats(_state) {
     return _state.allConversations.filter(
-      chat =>
-        chat.meta.assignee === null && chat.status === _state.chatStatusFilter
+      chat => !chat.meta.assignee && chat.status === _state.chatStatusFilter
     );
   },
   getAllStatusChats(_state) {
@@ -53,7 +57,7 @@ const getters = {
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
   getNextChatConversation: _state => {
-    const { selectedChat } = _state;
+    const [selectedChat] = getSelectedChatConversation(_state);
     const conversations = getters.getAllStatusChats(_state);
     if (conversations.length <= 1) {
       return null;

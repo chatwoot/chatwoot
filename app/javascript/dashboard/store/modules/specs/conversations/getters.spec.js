@@ -58,9 +58,7 @@ describe('#getters', () => {
             id: 2,
           },
         ],
-        selectedChat: {
-          id: 1,
-        },
+        selectedChatId: 1,
       };
       expect(getters.getNextChatConversation(state)).toEqual({
         id: 2,
@@ -73,9 +71,7 @@ describe('#getters', () => {
             id: 1,
           },
         ],
-        selectedChat: {
-          id: 1,
-        },
+        selectedChatId: 1,
       };
       expect(getters.getNextChatConversation(state)).toBeNull();
     });
