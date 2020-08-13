@@ -45,8 +45,11 @@ class ApplicationMailer < ActionMailer::Base
   def liquid_locals
     # expose variables you want to be exposed in liquid
     {
-      global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL'),
-      action_url: @action_url
+      global_config: GlobalConfig.get('INSTALLATION_NAME', 'BRAND_URL'),
+      action_url: @action_url,
+      user: @agent,
+      conversation: @conversation,
+      inbox: @conversation&.inbox
     }
   end
 
