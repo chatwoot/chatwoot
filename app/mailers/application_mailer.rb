@@ -35,7 +35,10 @@ class ApplicationMailer < ActionMailer::Base
     # Merge additional objects into this in your mailer
     # liquid template handler converts these objects into drop objects
     {
-      account: Current.account
+      account: Current.account,
+      user: @agent,
+      conversation: @conversation,
+      inbox: @conversation&.inbox
     }
   end
 
