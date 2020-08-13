@@ -5,10 +5,7 @@ class ConversationReplyMailer < ApplicationMailer
   def reply_with_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
 
-    @conversation = conversation
-    @account = @conversation.account
-    @contact = @conversation.contact
-    @agent = @conversation.assignee
+    init_conversation_attributes(conversation)
 
     recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
     new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
@@ -29,10 +26,7 @@ class ConversationReplyMailer < ApplicationMailer
   def reply_without_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
 
-    @conversation = conversation
-    @account = @conversation.account
-    @contact = @conversation.contact
-    @agent = @conversation.assignee
+    init_conversation_attributes(conversation)
 
     @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
     return false if @messages.count.zero?
@@ -48,6 +42,13 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   private
+
+  def init_conversation_attributes(conversation)
+    @conversation = conversation
+    @account = @conversation.account
+    @contact = @conversation.contact
+    @agent = @conversation.assignee
+  end
 
   def assignee_name
     @assignee_name ||= @agent&.available_name || 'Notifications'
