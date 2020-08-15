@@ -28,6 +28,8 @@ ___
 Chatwoot is an open-source omnichannel customer support software. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
 Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
+---
+
 ### Features
 
 Chatwoot gives an integrated view of conversations happening in different communication channels. 
@@ -54,14 +56,20 @@ Other features include:
 - **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
 - **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
 
+---
+
 ### Documentation
 
 Detailed documentation is available at [www.chatwoot.com/help-center](https://www.chatwoot.com/help-center).
+
+---
 
 ### Branching model
 
 We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
 If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`. 
+
+---
 
 ### Deployment
 
@@ -76,6 +84,8 @@ Follow this [link](https://www.chatwoot.com/docs/environment-variables) to under
 #### Other deployment options
 
 Please follow [deployment architecture guide](https://www.chatwoot.com/docs/deployment/architecture) to deploy with Docker or Caprover.
+
+---
 
 ### Contributors ✨
 
