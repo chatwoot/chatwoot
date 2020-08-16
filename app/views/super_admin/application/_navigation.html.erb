@@ -22,6 +22,7 @@ as defined by the routes in the `admin/` namespace
 <div class="navigation" role="navigation">
   <div class="logo-brand">
     <%= link_to image_tag('/brand-assets/logo.svg', alt: 'Chatwoot Admin Dashboard'), super_admin_root_url %>
+    <div class="app-version">v<%= Chatwoot.config[:version] %></div>
   </div>
 
   <ul>
@@ -45,8 +46,10 @@ as defined by the routes in the `admin/` namespace
       <%= link_to "Sidekiq", sidekiq_web_url %>
     </li>
   </ul>
-  <li class="navigation__link logout">
-    <i class="ion ion-log-out"></i>
-    <%= link_to "Logout", super_admin_logout_url %>
-  </li>
+  <ul class="logout">
+    <li class="navigation__link">
+      <i class="ion ion-log-out"></i>
+      <%= link_to "Logout", super_admin_logout_url %>
+    </li>
+  </ul>
 </div>

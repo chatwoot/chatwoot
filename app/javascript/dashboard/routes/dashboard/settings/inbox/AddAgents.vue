@@ -15,7 +15,7 @@
               v-model="selectedAgents"
               :options="agentList"
               track-by="id"
-              label="name"
+              label="available_name"
               :multiple="true"
               :close-on-select="false"
               :clear-on-select="false"
@@ -42,7 +42,6 @@
 
 <script>
 /* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';

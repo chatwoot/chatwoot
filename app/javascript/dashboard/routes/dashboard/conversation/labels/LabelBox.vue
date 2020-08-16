@@ -35,7 +35,6 @@
 </template>
 
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 import AddLabelToConversation from './AddLabelToConversation';
 import ContactDetailsItem from '../ContactDetailsItem';
@@ -106,6 +105,9 @@ export default {
       this.isEditing = false;
     },
     async fetchLabels(conversationId) {
+      if (!conversationId) {
+        return;
+      }
       this.$store.dispatch('conversationLabels/get', conversationId);
     },
   },

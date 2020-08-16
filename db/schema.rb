@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_29_180815) do
+ActiveRecord::Schema.define(version: 2020_08_02_170002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 2020_07_29_180815) do
     t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
+    t.integer "feature_flags", default: 3, null: false
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -229,6 +230,17 @@ ActiveRecord::Schema.define(version: 2020_07_29_180815) do
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
+  end
+
+  create_table "email_templates", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body", null: false
+    t.integer "account_id"
+    t.integer "template_type", default: 1
+    t.integer "locale", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
   end
 
   create_table "events", force: :cascade do |t|

@@ -1,6 +1,6 @@
 .logo-brand {
   margin-bottom: $space-normal;
-  padding: $space-normal $space-smaller;
+  padding: $space-normal $space-smaller $space-small;
   text-align: center;
 }
 
@@ -69,4 +69,10 @@
   bottom: $space-normal;
   left: $space-normal;
   position: fixed;
+}
+
+.app-version {
+  color: $color-gray;
+  font-size: $font-size-small;
+  padding-top: $space-smaller;
 }

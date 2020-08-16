@@ -5,6 +5,7 @@
         <bubble-text
           v-if="data.content"
           :message="message"
+          :is-email="isEmailContentType"
           :readable-time="readableTime"
         />
         <span v-if="hasAttachments">
@@ -21,19 +22,29 @@
             />
           </span>
         </span>
-        <i
-          v-if="isPrivate"
-          v-tooltip.top-start="toolTipMessage"
-          class="icon ion-android-lock"
-          @mouseenter="isHovered = true"
-          @mouseleave="isHovered = false"
+        <bubble-actions
+          :id="data.id"
+          :sender="data.sender"
+          :is-a-tweet="isATweet"
+          :is-email="isEmailContentType"
+          :is-private="data.private"
+          :message-type="data.message_type"
+          :readable-time="readableTime"
+          :source-id="data.source_id"
         />
       </p>
+
+      <div v-if="isATweet && isIncoming && sender" class="sender--info">
+        <woot-thumbnail
+          :src="sender.thumbnail"
+          :username="sender.name"
+          size="16px"
+        />
+        <div class="sender--available-name">
+          {{ sender.available_name || sender.name }}
+        </div>
+      </div>
     </div>
-    <!-- <img
-      src="https://randomuser.me/api/portraits/women/94.jpg"
-      class="sender--thumbnail"
-    /> -->
   </li>
 </template>
 <script>
@@ -43,18 +54,26 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import contentTypeMixin from 'shared/mixins/contentTypeMixin';
+import BubbleActions from './bubble/Actions';
+import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
 
 export default {
   components: {
+    BubbleActions,
     BubbleText,
     BubbleImage,
     BubbleFile,
   },
-  mixins: [timeMixin, messageFormatterMixin],
+  mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
     data: {
       type: Object,
       required: true,
+    },
+    isATweet: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -64,7 +83,16 @@ export default {
   },
   computed: {
     message() {
-      return this.formatMessage(this.data.content);
+      return this.formatMessage(this.data.content, this.isATweet);
+    },
+    sender() {
+      return this.data.sender || {};
+    },
+    contentType() {
+      const {
+        data: { content_type: contentType },
+      } = this;
+      return contentType;
     },
     alignBubble() {
       return !this.data.message_type ? 'left' : 'right';
@@ -74,6 +102,9 @@ export default {
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
+    },
+    isIncoming() {
+      return this.data.message_type === MESSAGE_TYPE.INCOMING;
     },
     hasAttachments() {
       return !!(this.data.attachments && this.data.attachments.length > 0);
@@ -86,19 +117,14 @@ export default {
       }
       return false;
     },
-    isPrivate() {
-      return this.data.private;
-    },
-    toolTipMessage() {
-      return this.data.private
-        ? { content: this.$t('CONVERSATION.VISIBLE_TO_AGENTS'), classes: 'top' }
-        : false;
-    },
     sentByMessage() {
-      return this.data.message_type === 1 &&
-        !this.isHovered &&
-        this.data.sender !== undefined
-        ? { content: `Sent by: ${this.data.sender.name}`, classes: 'top' }
+      const { sender } = this;
+
+      return this.data.message_type === 1 && !this.isHovered && sender
+        ? {
+            content: `Sent by: ${sender.available_name || sender.name}`,
+            classes: 'top',
+          }
         : false;
     },
     wrapClass() {
@@ -110,7 +136,7 @@ export default {
     bubbleClass() {
       return {
         bubble: this.isBubble,
-        'is-private': this.isPrivate,
+        'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
       };
     },
@@ -120,17 +146,25 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables.scss';
-.wrap {
-  .is-image {
-    padding: 0;
-    overflow: hidden;
-  }
+<style lang="scss">
+.wrap > .is-image.bubble {
+  padding: 0;
+  overflow: hidden;
 
   .image {
     max-width: 32rem;
     padding: 0;
+  }
+}
+
+.sender--info {
+  display: flex;
+  align-items: center;
+  padding: var(--space-smaller) 0;
+
+  .sender--available-name {
+    font-size: var(--font-size-mini);
+    margin-left: var(--space-smaller);
   }
 }
 </style>

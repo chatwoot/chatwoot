@@ -1,11 +1,11 @@
 html,
 body {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-    -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 .app-wrapper {
@@ -26,36 +26,40 @@ body {
 
 .view-box {
   @include full-height;
-  height: 100vh;
   @include margin(0);
   @include space-between-column;
+
+  height: 100vh;
 }
 
 .view-panel {
-  flex-direction: column;
   @include margin($zero);
   @include padding($space-normal);
+
+  flex-direction: column;
   overflow-y: auto;
 }
 
 .content-box {
-  overflow: auto;
   @include padding($space-normal);
+
+  overflow: auto;
 }
 
 .back-button {
   @include flex;
+
   align-items: center;
   color: $color-woot;
+  cursor: pointer;
   font-size: $font-size-default;
   font-weight: $font-weight-normal;
   margin-right: $space-normal;
-  cursor: pointer;
 
-  &:before {
-    vertical-align: text-bottom;
-    margin-right: $space-smaller;
+  &::before {
     font-size: $font-size-large;
+    margin-right: $space-small;
+    vertical-align: text-bottom;
   }
 }
 
@@ -66,12 +70,14 @@ body {
 .no-items-error-message {
   @include flex;
   @include full-height;
-  justify-content: center;
+
   align-items: center;
   flex-direction: column;
+  justify-content: center;
 
   img {
-    max-width: $space-mega;
     @include padding($space-one);
+
+    max-width: $space-mega;
   }
 }

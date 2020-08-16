@@ -46,14 +46,14 @@
           }}</a>
         </li>
         <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
-          <a href="#" @click="setPrivateReplyMode">{{
-            $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')
-          }}</a>
+          <a href="#" @click="setPrivateReplyMode">
+            {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+          </a>
         </li>
         <li v-if="message.length" class="tabs-title message-length">
-          <a :class="{ 'message-error': isMessageLengthReachingThreshold }">{{
-            characterCountIndicator
-          }}</a>
+          <a :class="{ 'message-error': isMessageLengthReachingThreshold }">
+            {{ characterCountIndicator }}
+          </a>
         </li>
       </ul>
       <button
@@ -96,6 +96,7 @@ import {
   hasPressedShift,
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
@@ -104,7 +105,13 @@ export default {
     FileUpload,
     ResizableTextArea,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, inboxMixin],
+  props: {
+    inReplyTo: {
+      type: [String, Number],
+      default: '',
+    },
+  },
   data() {
     return {
       message: '',
@@ -148,9 +155,6 @@ export default {
         this.message.length > this.maxLength
       );
     },
-    channelType() {
-      return this.inbox.channel_type;
-    },
     conversationType() {
       const { additional_attributes: additionalAttributes } = this.currentChat;
       const type = additionalAttributes ? additionalAttributes.type : '';
@@ -173,29 +177,6 @@ export default {
         }
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
-    },
-    isATwitterInbox() {
-      return this.channelType === 'Channel::TwitterProfile';
-    },
-    isAFacebookInbox() {
-      return this.channelType === 'Channel::FacebookPage';
-    },
-    isAWebWidgetInbox() {
-      return this.channelType === 'Channel::WebWidget';
-    },
-    isATwilioSMSChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return (
-        this.channelType === 'Channel::TwilioSms' &&
-        !phoneNumber.startsWith('whatsapp')
-      );
-    },
-    isATwilioWhatsappChannel() {
-      const { phone_number: phoneNumber = '' } = this.inbox;
-      return (
-        this.channelType === 'Channel::TwilioSms' &&
-        phoneNumber.startsWith('whatsapp')
-      );
     },
     showFileUpload() {
       return (
@@ -273,11 +254,15 @@ export default {
       if (!this.showCannedResponsesList) {
         this.clearMessage();
         try {
-          await this.$store.dispatch('sendMessage', {
+          const messagePayload = {
             conversationId: this.currentChat.id,
             message: newMessage,
             private: this.isPrivate,
-          });
+          };
+          if (this.inReplyTo) {
+            messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+          }
+          await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error
