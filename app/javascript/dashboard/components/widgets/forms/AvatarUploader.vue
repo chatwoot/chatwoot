@@ -25,6 +25,7 @@ export default {
       default: '',
     },
   },
+  watch: {},
   methods: {
     handleImageUpload(event) {
       const [file] = event.target.files;

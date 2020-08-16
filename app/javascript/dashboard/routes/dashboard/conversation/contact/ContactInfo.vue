@@ -36,12 +36,24 @@
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <contact-info-row
-            :value="additionalAttibutes.company"
+            :value="additionalAttibutes.company_name"
             icon="ion-briefcase"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
         </div>
       </div>
+      <woot-button
+        class="expanded"
+        variant="hollow primary"
+        @click="toggleEditModal"
+      >
+        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+      </woot-button>
+      <edit-contact
+        :show="showEditModal"
+        :contact="contact"
+        @cancel="toggleEditModal"
+      />
     </div>
   </div>
 </template>
@@ -49,10 +61,12 @@
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
+import EditContact from './EditContact';
 
 export default {
   components: {
     ContactInfoRow,
+    EditContact,
     Thumbnail,
     SocialIcons,
   },
@@ -66,6 +80,11 @@ export default {
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      showEditModal: false,
+    };
+  },
   computed: {
     additionalAttibutes() {
       return this.contact.additional_attributes || {};
@@ -77,6 +96,11 @@ export default {
       } = this.additionalAttibutes;
 
       return { ...profiles, twitter: twitterScreenName };
+    },
+  },
+  methods: {
+    toggleEditModal() {
+      this.showEditModal = !this.showEditModal;
     },
   },
 };
@@ -122,7 +146,7 @@ export default {
 }
 
 .contact--metadata {
-  margin-top: $space-small;
+  margin: $space-small 0 $space-normal;
 }
 
 .social--icons {

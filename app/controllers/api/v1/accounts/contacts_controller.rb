@@ -48,7 +48,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :phone_number)
+    params.require(:contact).permit(:name, :email, :phone_number, additional_attributes: {})
   end
 
   def fetch_contact
