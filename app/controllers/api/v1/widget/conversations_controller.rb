@@ -13,6 +13,11 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def transcript
+    ConversationReplyMailer.conversation_transcript(conversation, params['email'])&.deliver_later if params['email'].present? && conversation.present?
+    head :ok
+  end
+
   def toggle_typing
     head :ok && return if conversation.nil?
 

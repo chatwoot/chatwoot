@@ -1,0 +1,19 @@
+<% @messages.each do |message| %>
+  <tr>
+    <td>
+      <b><%= message.incoming? ? 'You' : message.sender&.available_name || message.sender&.name %></b>
+    </td>
+  </tr>
+  <tr>
+    <td style="padding-bottom: 16px;">
+      <% if message.content %>
+        <%= message.content %>
+      <% end %>
+      <% if message.attachments %>
+        <% message.attachments.each do |attachment| %>
+          attachment [<a href="<%= attachment.file_url %>" _target="blank">click here to view</a>]
+        <% end %>
+      <% end %>
+    </td>
+  </tr>
+<% end %>

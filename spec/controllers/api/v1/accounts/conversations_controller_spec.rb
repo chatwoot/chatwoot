@@ -212,4 +212,32 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/transcript' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:params) { { email: 'test@test.com' } }
+
+      it 'mutes conversation' do
+        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
+             headers: agent.create_new_auth_token,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+      end
+    end
+  end
 end
