@@ -14,7 +14,12 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def transcript
-    ConversationReplyMailer.conversation_transcript(conversation, params['email'])&.deliver_later if params['email'].present? && conversation.present?
+    if permitted_params[:email].present? && conversation.present?
+      ConversationReplyMailer.conversation_transcript(
+        conversation,
+        permitted_params[:email]
+      )&.deliver_later
+    end
     head :ok
   end
 
@@ -37,6 +42,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :typing_status, :website_token)
+    params.permit(:id, :typing_status, :website_token, :email)
   end
 end

@@ -23,7 +23,26 @@
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "Mute Contact",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Edit"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "Submit",
+    "CANCEL": "Cancel",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "Please enter a valid email address"
+      }
+    }
   }
 }
