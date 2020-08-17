@@ -31,5 +31,22 @@
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
     "CHANGE_AGENT": "Responsable de la conversation modifié"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Envoyer la transcription de la conversation",
+    "DESC": "Envoyer une copie de la transcription de la conversation à l'adresse e-mail spécifiée",
+    "SUBMIT": "Soumettre",
+    "CANCEL": "Annuler",
+    "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
+    "SEND_EMAIL_ERROR": "Une erreur s'est produite, veuillez réessayer",
+    "FORM": {
+      "SEND_TO_CONTACT": "Envoyez la transcription au client",
+      "SEND_TO_AGENT": "Envoyer la transcription de l'agent désigné",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Envoyez la transcription à une autre adresse e-mail",
+      "EMAIL": {
+        "PLACEHOLDER": "Entrez une adresse email",
+        "ERROR": "S'il vous plaît, mettez une adresse email valide"
+      }
+    }
   }
 }

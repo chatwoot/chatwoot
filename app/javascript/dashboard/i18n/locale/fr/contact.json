@@ -24,6 +24,8 @@
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
     "MUTE_CONTACT": "Mettre en sourdine le contact",
+    "MUTED_SUCCESS": "Cette conversation est coupée pendant 6 heures",
+    "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier"
   }
 }
