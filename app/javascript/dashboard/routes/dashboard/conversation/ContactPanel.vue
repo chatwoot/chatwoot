@@ -57,15 +57,6 @@
       >
         {{ contact.additional_attributes.description }}
       </div>
-      <div class="contact--actions">
-        <button
-          v-if="!currentChat.muted"
-          class="button small clear contact--mute small-6"
-          @click="mute"
-        >
-          {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
-        </button>
-      </div>
     </div>
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
@@ -185,13 +176,13 @@ export default {
     onPanelToggle() {
       this.onToggle();
     },
-    mute() {
-      this.$store.dispatch('muteConversation', this.conversationId);
-    },
     getContactDetails() {
       if (this.contactId) {
         this.$store.dispatch('contacts/show', { id: this.contactId });
       }
+    },
+    openTranscriptModal() {
+      this.showTranscriptModal = true;
     },
   },
 };
@@ -295,11 +286,12 @@ export default {
 .contact--mute {
   color: $alert-color;
   display: block;
-  text-align: center;
+  text-align: left;
 }
 
 .contact--actions {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 </style>

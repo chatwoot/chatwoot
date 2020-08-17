@@ -12,8 +12,6 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import wootConstants from '../../constants';
@@ -22,7 +20,7 @@ export default {
   components: {
     Spinner,
   },
-  props: ['conversationId'],
+  props: { conversationId: { type: [String, Number], required: true } },
   data() {
     return {
       isLoading: false,
@@ -32,22 +30,19 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
     }),
+    isOpen() {
+      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN;
+    },
     currentStatus() {
-      const ButtonName =
-        this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
-          ? this.$t('CONVERSATION.HEADER.RESOLVE_ACTION')
-          : this.$t('CONVERSATION.HEADER.REOPEN_ACTION');
-      return ButtonName;
+      return this.isOpen
+        ? this.$t('CONVERSATION.HEADER.RESOLVE_ACTION')
+        : this.$t('CONVERSATION.HEADER.REOPEN_ACTION');
     },
     buttonClass() {
-      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
-        ? 'success'
-        : 'warning';
+      return this.isOpen ? 'success' : 'warning';
     },
     buttonIconClass() {
-      return this.currentChat.status === wootConstants.STATUS_TYPE.OPEN
-        ? 'ion-checkmark'
-        : 'ion-refresh';
+      return this.isOpen ? 'ion-checkmark' : 'ion-refresh';
     },
   },
   methods: {

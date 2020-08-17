@@ -35,14 +35,17 @@ class ApplicationMailer < ActionMailer::Base
     # Merge additional objects into this in your mailer
     # liquid template handler converts these objects into drop objects
     {
-      account: Current.account
+      account: Current.account,
+      user: @agent,
+      conversation: @conversation,
+      inbox: @conversation&.inbox
     }
   end
 
   def liquid_locals
     # expose variables you want to be exposed in liquid
     {
-      global_config: GlobalConfig.get('INSTALLATION_NAME', 'BRAND_URL'),
+      global_config: GlobalConfig.get('BRAND_NAME', 'BRAND_URL'),
       action_url: @action_url
     }
   end
