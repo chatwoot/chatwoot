@@ -4,7 +4,7 @@
       v-if="currentChat.id"
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <empty-state v-else />
   </div>
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
+      this.$emit('contact-panel-toggle');
     },
   },
 };
