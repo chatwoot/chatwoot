@@ -767,6 +767,7 @@
         ],
         "operationId": "contactCreate",
         "description": "Create New Contact",
+        "summary": "Create Contact",
         "parameters": [
           {
             "name": "data",
@@ -1446,11 +1447,18 @@
     "contact_create": {
       "type": "object",
       "properties": {
-        "account_id": {
-          "type": "number"
-        },
         "inbox_id": {
-          "type": "number"
+          "type": "number",
+          "required": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
         }
       }
     },
@@ -1471,15 +1479,17 @@
     "conversation_message_create": {
       "type": "object",
       "properties": {
-        "conversation_id": {
-          "type": "number",
-          "description": "ID of the conversation",
-          "required": true
-        },
         "content": {
           "type": "string",
           "description": "The content of the message",
           "required": true
+        },
+        "message_type": {
+          "type": "string",
+          "enum": [
+            "outgoing",
+            "incoming"
+          ]
         },
         "private": {
           "type": "boolean",
