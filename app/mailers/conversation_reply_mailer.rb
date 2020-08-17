@@ -9,7 +9,6 @@ class ConversationReplyMailer < ApplicationMailer
 
     recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
     new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
-
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:reportable?)
 
@@ -38,6 +37,20 @@ class ConversationReplyMailer < ApplicationMailer
            subject: mail_subject,
            message_id: custom_message_id,
            in_reply_to: in_reply_to_email
+         })
+  end
+
+  def conversation_transcript(conversation, to_email)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(conversation)
+
+    @messages = @conversation.messages.chat.select(&:reportable?)
+
+    mail({
+           to: to_email,
+           from: from_email,
+           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
          })
   end
 

@@ -31,5 +31,22 @@
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
     "CHANGE_STATUS": "Gespreksstatus veranderd",
     "CHANGE_AGENT": "Toegewezen persoon voor dit gesprek is veranderd"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Stuur conversatie transcriptie",
+    "DESC": "Stuur een kopie van het conversatietranscript naar het opgegeven e-mailadres",
+    "SUBMIT": "Verzenden",
+    "CANCEL": "Annuleer",
+    "SEND_EMAIL_SUCCESS": "Het chattranscript is succesvol verzonden",
+    "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw",
+    "FORM": {
+      "SEND_TO_CONTACT": "Stuur het transcript naar de klant",
+      "SEND_TO_AGENT": "Stuur het transcript van de toegewezen agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Stuur het transcript naar een ander e-mailadres",
+      "EMAIL": {
+        "PLACEHOLDER": "Voer een e-mail adres in",
+        "ERROR": "Vul een geldig e-mailadres in"
+      }
+    }
   }
 }

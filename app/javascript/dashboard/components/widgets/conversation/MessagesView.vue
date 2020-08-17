@@ -3,7 +3,7 @@
     <conversation-header
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
     <div v-if="!currentChat.can_reply" class="banner messenger-policy--banner">
       <span>
@@ -238,7 +238,7 @@ export default {
       this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
     },
     onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
+      this.$emit('contact-panel-toggle');
     },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
