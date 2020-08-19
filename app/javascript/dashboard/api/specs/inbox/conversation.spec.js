@@ -15,5 +15,6 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('toggleTyping');
     expect(conversationAPI).toHaveProperty('mute');
     expect(conversationAPI).toHaveProperty('meta');
+    expect(conversationAPI).toHaveProperty('sendEmailTranscript');
   });
 });

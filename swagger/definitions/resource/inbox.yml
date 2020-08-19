@@ -33,6 +33,9 @@ properties:
   welcome_tagline:
     type: string
     description: Welcome tagline to be displayed on the widget
-  agent_away_message:
+  greeting_enabled:
+    type: boolean
+    description: The flag which shows whether greeting is enabled
+  greeting_message:
     type: string
-    description: A message which will be sent if there is not agent available. This is not available if agentbot is connected
+    description: A greeting message when the user starts the conversation

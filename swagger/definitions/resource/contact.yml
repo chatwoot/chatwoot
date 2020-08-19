@@ -15,3 +15,7 @@ properties:
   additional_attributes:
     type: object
     description: The object containing additional attributes related to the contact
+  contact_inboxes:
+    type: array
+    items:
+      $ref: '#/definitions/contact_inboxes'

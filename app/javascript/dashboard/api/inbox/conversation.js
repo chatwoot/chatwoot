@@ -53,6 +53,10 @@ class ConversationApi extends ApiClient {
       },
     });
   }
+
+  sendEmailTranscript({ conversationId, email }) {
+    return axios.post(`${this.url}/${conversationId}/transcript`, { email });
+  }
 }
 
 export default new ConversationApi();
