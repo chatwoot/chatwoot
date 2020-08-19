@@ -1,0 +1,6 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: bundle install && yarn install --check-files
+    command: rails server
