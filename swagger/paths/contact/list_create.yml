@@ -23,6 +23,7 @@ post:
     - Contact
   operationId: contactCreate
   description: Create New Contact
+  summary: Create Contact
   parameters:
     - name: data
       in: body

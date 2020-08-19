@@ -46,14 +46,14 @@
           }}</a>
         </li>
         <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
-          <a href="#" @click="setPrivateReplyMode">{{
-            $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE')
-          }}</a>
+          <a href="#" @click="setPrivateReplyMode">
+            {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+          </a>
         </li>
         <li v-if="message.length" class="tabs-title message-length">
-          <a :class="{ 'message-error': isMessageLengthReachingThreshold }">{{
-            characterCountIndicator
-          }}</a>
+          <a :class="{ 'message-error': isMessageLengthReachingThreshold }">
+            {{ characterCountIndicator }}
+          </a>
         </li>
       </ul>
       <button
@@ -106,6 +106,12 @@ export default {
     ResizableTextArea,
   },
   mixins: [clickaway, inboxMixin],
+  props: {
+    inReplyTo: {
+      type: [String, Number],
+      default: '',
+    },
+  },
   data() {
     return {
       message: '',
@@ -248,11 +254,15 @@ export default {
       if (!this.showCannedResponsesList) {
         this.clearMessage();
         try {
-          await this.$store.dispatch('sendMessage', {
+          const messagePayload = {
             conversationId: this.currentChat.id,
             message: newMessage,
             private: this.isPrivate,
-          });
+          };
+          if (this.inReplyTo) {
+            messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+          }
+          await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error

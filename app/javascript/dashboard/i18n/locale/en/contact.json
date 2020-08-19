@@ -23,7 +23,9 @@
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "Mute Contact",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Edit"
   }
 }

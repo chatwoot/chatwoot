@@ -1,13 +1,12 @@
 type: object
 properties:
-  conversation_id:
-    type: number
-    description: ID of the conversation
-    required: true
   content:
     type: string
     description: The content of the message
     required: true
+  message_type:
+    type: string
+    enum: ['outgoing', 'incoming']
   private:
     type: boolean
     description: Flag to identify if it is a private note

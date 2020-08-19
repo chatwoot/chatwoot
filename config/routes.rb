@@ -54,6 +54,7 @@ Rails.application.routes.draw do
             end
             member do
               post :mute
+              post :transcript
               post :toggle_status
               post :toggle_typing_status
               post :update_last_seen
@@ -117,6 +118,7 @@ Rails.application.routes.draw do
           collection do
             post :update_last_seen
             post :toggle_typing
+            post :transcript
           end
         end
         resource :contact, only: [:update]

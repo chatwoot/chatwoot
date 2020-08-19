@@ -223,6 +223,14 @@ const actions = {
       //
     }
   },
+
+  sendEmailTranscript: async (_, { conversationId, email }) => {
+    try {
+      await ConversationApi.sendEmailTranscript({ conversationId, email });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
 };
 
 export default actions;
