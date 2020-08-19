@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
+#  custom_attributes     :jsonb
 #  email                 :string
 #  identifier            :string
 #  name                  :string
@@ -68,11 +69,11 @@ class Contact < ApplicationRecord
     }
   end
 
+  private
+
   def downcase_email
     email.downcase! if email.present?
   end
-
-  private
 
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(CONTACT_CREATED, Time.zone.now, contact: self)
