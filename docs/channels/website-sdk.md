@@ -37,6 +37,15 @@ Chatwoot support 2 designs for for the widget
 
 ![Expanded-bubble](./images/sdk/expanded-bubble.gif)
 
+If you are using expanded bubble, you can customize the text used in the bubble by setting `launcherText` parameter on chatwootSettings as described below.
+
+```js
+window.chatwootSettings = {
+  type: 'expanded_bubble',
+  launcherText: 'Chat with us'
+}
+```
+
 ### To trigger widget without displaying bubble
 
 ```js
