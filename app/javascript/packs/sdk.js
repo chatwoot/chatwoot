@@ -32,6 +32,14 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
+    setCustomAttributes(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('set-custom-attributes', { customAttributes });
+      }
+    },
+
     setLabel(label = '') {
       IFrameHelper.sendMessage('set-label', { label });
     },
