@@ -767,6 +767,7 @@
         ],
         "operationId": "contactCreate",
         "description": "Create New Contact",
+        "summary": "Create Contact",
         "parameters": [
           {
             "name": "data",
@@ -894,6 +895,97 @@
           }
         }
       }
+    },
+    "/accounts/{account_id}/contacts/search": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactSearch",
+        "description": "Search the contacts using a search key, currently supports email search",
+        "summary": "Search Contacts",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "payload": {
+                  "$ref": "#/definitions/contact_list"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/contacts/{id}/contact_inboxes": {
+      "post": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactInboxCreation",
+        "description": "Create a contact inbox record for an inbox",
+        "summary": "Create contact inbox",
+        "parameters": [
+          {
+            "name": "inbox_id",
+            "in": "params",
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_inboxes"
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          },
+          "422": {
+            "description": "Incorrect payload"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "operationId": "fetchProfile",
+        "summary": "Fetch user profile",
+        "description": "Get the user profile details",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -956,6 +1048,12 @@
         "additional_attributes": {
           "type": "object",
           "description": "The object containing additional attributes related to the contact"
+        },
+        "contact_inboxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contact_inboxes"
+          }
         }
       }
     },
@@ -1071,6 +1169,12 @@
         "name": {
           "type": "string"
         },
+        "available_name": {
+          "type": "string"
+        },
+        "display_name": {
+          "type": "string"
+        },
         "email": {
           "type": "string"
         },
@@ -1087,8 +1191,11 @@
         "confirmed": {
           "type": "boolean"
         },
-        "display_name": {
-          "type": "string"
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/account"
+          }
         }
       }
     },
@@ -1139,9 +1246,13 @@
           "type": "string",
           "description": "Welcome tagline to be displayed on the widget"
         },
-        "agent_away_message": {
+        "greeting_enabled": {
+          "type": "boolean",
+          "description": "The flag which shows whether greeting is enabled"
+        },
+        "greeting_message": {
           "type": "string",
-          "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
+          "description": "A greeting message when the user starts the conversation"
         }
       }
     },
@@ -1163,6 +1274,39 @@
         "outgoing_url": {
           "type": "string",
           "description": "The webhook URL for the bot"
+        }
+      }
+    },
+    "contact_inboxes": {
+      "type": "object",
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Contact Inbox Source Id"
+        },
+        "inbox": {
+          "$ref": "#/definitions/inbox"
+        }
+      }
+    },
+    "account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "Account ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the account"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "administrator",
+            "agent"
+          ],
+          "description": "The user role in the account"
         }
       }
     },
@@ -1446,11 +1590,18 @@
     "contact_create": {
       "type": "object",
       "properties": {
-        "account_id": {
-          "type": "number"
-        },
         "inbox_id": {
-          "type": "number"
+          "type": "number",
+          "required": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
         }
       }
     },
@@ -1471,15 +1622,17 @@
     "conversation_message_create": {
       "type": "object",
       "properties": {
-        "conversation_id": {
-          "type": "number",
-          "description": "ID of the conversation",
-          "required": true
-        },
         "content": {
           "type": "string",
           "description": "The content of the message",
           "required": true
+        },
+        "message_type": {
+          "type": "string",
+          "enum": [
+            "outgoing",
+            "incoming"
+          ]
         },
         "private": {
           "type": "boolean",

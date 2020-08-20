@@ -177,4 +177,16 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([]);
     });
   });
+
+  describe('#sendEmailTranscript', () => {
+    it('sends correct mutations if api is successful', async () => {
+      axios.post.mockResolvedValue({});
+      await actions.sendEmailTranscript(
+        { commit },
+        { conversationId: 1, email: 'testemail@example.com' }
+      );
+      expect(commit).toHaveBeenCalledTimes(0);
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
 });
