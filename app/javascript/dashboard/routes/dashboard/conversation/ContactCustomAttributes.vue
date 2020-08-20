@@ -34,7 +34,10 @@ export default {
   },
   computed: {
     listOfAttributes() {
-      return Object.keys(this.customAttributes);
+      return Object.keys(this.customAttributes).filter(key => {
+        const value = this.customAttributes[key];
+        return value !== null && value !== undefined && value !== '';
+      });
     },
   },
 };

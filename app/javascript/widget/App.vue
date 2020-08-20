@@ -102,6 +102,10 @@ export default {
           'contacts/setCustomAttributes',
           message.customAttributes
         );
+      } else if (message.event === 'delete-custom-attribute') {
+        this.$store.dispatch('contacts/setCustomAttributes', {
+          [message.customAttribute]: null,
+        });
       } else if (message.event === 'set-locale') {
         this.setLocale(message.locale);
         this.setBubbleLabel();

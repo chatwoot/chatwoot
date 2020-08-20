@@ -40,6 +40,16 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
+    deleteCustomAttribute(customAttribute = '') {
+      if (!customAttribute) {
+        throw new Error('Custom attribute is required');
+      } else {
+        IFrameHelper.sendMessage('delete-custom-attribute', {
+          customAttribute,
+        });
+      }
+    },
+
     setLabel(label = '') {
       IFrameHelper.sendMessage('set-label', { label });
     },
