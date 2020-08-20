@@ -1,4 +1,4 @@
-/* eslint no-param-reassign: 0 */
+import { DuplicateContactException } from 'shared/helpers/CustomErrors';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 import Vue from 'vue';
@@ -56,7 +56,11 @@ export const actions = {
       commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
+      if (error.response?.data?.contact) {
+        throw new DuplicateContactException(error.response.data.contact);
+      } else {
+        throw new Error(error);
+      }
     }
   },
 

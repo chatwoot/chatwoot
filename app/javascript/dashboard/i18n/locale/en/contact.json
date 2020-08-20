@@ -85,6 +85,8 @@
           "LABEL": "Github"
         }
       }
-    }
+    },
+    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   }
 }

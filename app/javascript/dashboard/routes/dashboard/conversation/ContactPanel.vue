@@ -3,7 +3,7 @@
     <span class="close-button" @click="onPanelToggle">
       <i class="ion-chevron-right" />
     </span>
-    <contact-info :contact="contact" :contact-data="contactData" />
+    <contact-info :contact="contact" :channel-type="channelType" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"

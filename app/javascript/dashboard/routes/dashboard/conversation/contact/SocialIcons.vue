@@ -24,9 +24,9 @@ export default {
   data() {
     return {
       socialMediaLinks: [
-        { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
-        { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
         { key: 'facebook', icon: 'facebook', link: 'https://facebook.com/' },
+        { key: 'twitter', icon: 'twitter', link: 'https://twitter.com/' },
+        { key: 'linkedin', icon: 'linkedin', link: 'https://linkedin.com/' },
         { key: 'github', icon: 'github', link: 'https://github.com/' },
       ],
     };

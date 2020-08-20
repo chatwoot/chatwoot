@@ -75,9 +75,9 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    contactData: {
-      type: Object,
-      default: () => ({}),
+    channelType: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -91,11 +91,11 @@ export default {
     },
     socialProfiles() {
       const {
-        profiles = { twitter: '', github: '', linkedin: '', facebook: '' },
+        social_profiles: socialProfiles,
         screen_name: twitterScreenName,
       } = this.additionalAttibutes;
 
-      return { ...profiles, twitter: twitterScreenName };
+      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
   },
   methods: {

@@ -2,17 +2,13 @@
   <woot-modal :show.sync="show" :on-close="onCancel">
     <div class="column content-box">
       <woot-modal-header
-        :header-title="$t('EDIT_CONTACT.TITLE')"
+        :header-title="
+          `${$t('EDIT_CONTACT.TITLE')} - ${contact.name || contact.email}`
+        "
         :header-content="$t('EDIT_CONTACT.DESC')"
       />
-      <form @submit.prevent="onSubmit">
+      <form class="edit-contact--form" @submit.prevent="onSubmit">
         <div class="row">
-          <div class="medium-3">
-            <woot-avatar-uploader
-              :label="$t('EDIT_CONTACT.FORM.AVATAR.LABEL')"
-              @change="handleImageUpload"
-            />
-          </div>
           <div class="medium-9 columns">
             <label :class="{ error: $v.name.$error }">
               {{ $t('EDIT_CONTACT.FORM.NAME.LABEL') }}
@@ -35,7 +31,7 @@
             </label>
           </div>
         </div>
-        <div class="medium-12">
+        <div class="medium-12 columns">
           <label :class="{ error: $v.description.$error }">
             {{ $t('EDIT_CONTACT.FORM.BIO.LABEL') }}
             <textarea
@@ -67,6 +63,23 @@
           :label="$t('EDIT_CONTACT.FORM.COMPANY_NAME.LABEL')"
           :placeholder="$t('EDIT_CONTACT.FORM.COMPANY_NAME.PLACEHOLDER')"
         />
+        <div class="medium-12 columns">
+          <label>
+            Social Profiles
+          </label>
+          <div
+            v-for="socialProfile in socialProfiles"
+            :key="socialProfile.key"
+            class="input-group"
+          >
+            <span class="input-group-label">{{ socialProfile.prefixURL }}</span>
+            <input
+              v-model="socialProfileUserNames[socialProfile.key]"
+              class="input-group-field"
+              type="text"
+            />
+          </div>
+        </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-submit-button :button-text="$t('EDIT_CONTACT.FORM.SUBMIT')" />
@@ -81,7 +94,11 @@
 </template>
 
 <script>
+import alertMixin from 'shared/mixins/alertMixin';
+import { DuplicateContactException } from 'shared/helpers/CustomErrors';
+
 export default {
+  mixins: [alertMixin],
   props: {
     show: {
       type: Boolean,
@@ -94,11 +111,24 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      phoneNumber: '',
-      location: '',
+      hasADuplicateContact: false,
+      duplicateContact: {},
       companyName: '',
+      description: '',
+      email: '',
+      location: '',
+      name: '',
+      phoneNumber: '',
+      socialProfileUserNames: {
+        facebook: '',
+        twitter: '',
+        linkedin: '',
+      },
+      socialProfiles: [
+        { key: 'facebook', prefixURL: 'https://facebook.com/' },
+        { key: 'twitter', prefixURL: 'https://twitter.com/' },
+        { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
+      ],
     };
   },
   validations: {
@@ -120,18 +150,21 @@ export default {
       this.$emit('cancel');
     },
     setContactObject() {
-      const {
-        additional_attributes: additionalAttributes,
-        email: email,
-        phone_number: phoneNumber,
-        name,
-      } = this.contact;
+      const { email: email, phone_number: phoneNumber, name } = this.contact;
+      const additionalAttributes = this.contact.additional_attributes || {};
+
       this.name = name || '';
       this.email = email || '';
       this.phoneNumber = phoneNumber || '';
       this.location = additionalAttributes.location || '';
       this.companyName = additionalAttributes.company_name || '';
       this.description = additionalAttributes.description || '';
+      this.socialProfileUserNames = {
+        twitter: '',
+        facebook: '',
+        linkedin: '',
+        ...(additionalAttributes.social_profiles || {}),
+      };
     },
     getContactObject() {
       return {
@@ -144,13 +177,38 @@ export default {
           description: this.description,
           location: this.location,
           company_name: this.companyName,
-          social_profiles: this.socialProfiles,
+          social_profiles: this.socialProfileUserNames,
         },
       };
     },
-    onSubmit() {
-      this.$store.dispatch('contacts/update', this.getContactObject());
+    resetDuplicate() {
+      this.hasADuplicateContact = false;
+      this.duplicateContact = {};
+    },
+    async onSubmit() {
+      this.resetDuplicate();
+      try {
+        await this.$store.dispatch('contacts/update', this.getContactObject());
+        this.showAlert(this.$t('EDIT_CONTACT.SUCCESS_MESSAGE'));
+      } catch (error) {
+        if (error instanceof DuplicateContactException) {
+          this.hasADuplicateContact = true;
+          this.duplicateContact = error.data;
+        } else {
+          this.showAlert(this.$t('EDIT_CONTACT.ERROR_MESSAGE'));
+        }
+      }
     },
   },
 };
 </script>
+
+<style scoped lang="scss">
+.edit-contact--form {
+  padding: var(--space-normal) var(--space-large) var(--space-large);
+
+  .columns {
+    padding: 0 var(--space-smaller);
+  }
+}
+</style>
