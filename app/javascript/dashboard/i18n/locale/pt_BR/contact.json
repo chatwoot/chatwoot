@@ -15,12 +15,12 @@
     "LABELS": {
       "TITLE": "Marcador da conversa",
       "MODAL": {
-        "TITLE": "Rótulos para",
-        "ACTIVE_LABELS": "Rótulos adicionados à conversa",
-        "INACTIVE_LABELS": "Rótulos disponíveis na conta",
-        "REMOVE": "Clique no ícone + para adicionar o rótulo",
-        "ADD": "Clique no ícone + para adicionar o rótulo",
-        "UPDATE_BUTTON": "Atualizar rótulos",
+        "TITLE": "Marcadores para",
+        "ACTIVE_LABELS": "Marcadores adicionados à conversa",
+        "INACTIVE_LABELS": "Marcadores disponíveis na conta",
+        "REMOVE": "Clique no ícone X para remover o marcador",
+        "ADD": "Clique no ícone + para adicionar o marcador",
+        "UPDATE_BUTTON": "Atualizar marcadores",
         "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
       },
       "NO_LABELS_TO_ADD": "Não há mais rótulos definidos na conta.",
