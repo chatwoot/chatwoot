@@ -83,7 +83,8 @@ RSpec.describe 'Contacts API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
-    let(:valid_params) { { contact: { name: 'test' } } }
+    let(:custom_attributes) { { test: 'test', test1: 'test1' } }
+    let(:valid_params) { { contact: { name: 'test', custom_attributes: custom_attributes } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -104,6 +105,10 @@ RSpec.describe 'Contacts API', type: :request do
         end.to change(Contact, :count).by(1)
 
         expect(response).to have_http_status(:success)
+
+        # custom attributes are updated
+        json_response = JSON.parse(response.body)
+        expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
       end
 
       it 'creates the contact identifier when inbox id is passed' do
@@ -118,8 +123,9 @@ RSpec.describe 'Contacts API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
-    let!(:contact) { create(:contact, account: account) }
-    let(:valid_params) { { contact: { name: 'Test Blub' } } }
+    let(:custom_attributes) { { test: 'test', test1: 'test1' } }
+    let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
+    let(:valid_params) { { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -140,7 +146,9 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expect(Contact.last.name).to eq('Test Blub')
+        expect(contact.reload.name).to eq('Test Blub')
+        # custom attributes are merged properly without overwritting existing ones
+        expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
       end
 
       it 'prevents the update of contact of another account' do
