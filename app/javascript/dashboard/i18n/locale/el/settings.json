@@ -57,15 +57,15 @@
         "LABEL": "Διαθεσιμότητα",
         "STATUSES_LIST": [
           {
-            "value": "στη γραμμή",
+            "value": "online",
             "label": "Στην Γραμμή"
           },
           {
-            "value": "απασχολημένος",
+            "value": "offline",
             "label": "Απασχολημένος"
           },
           {
-            "value": "εκτός",
+            "value": "offline",
             "label": "Εκτός"
           }
         ]
