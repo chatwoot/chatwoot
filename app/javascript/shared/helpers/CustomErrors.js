@@ -1,4 +1,7 @@
-export function DuplicateContactException(data) {
-  this.data = data;
-  this.message = 'DUPLICATE_CONTACT';
+export class DuplicateContactException extends Error {
+  constructor(data) {
+    super('DUPLICATE_CONTACT');
+    this.data = data;
+    this.name = 'DuplicateContactException';
+  }
 }
