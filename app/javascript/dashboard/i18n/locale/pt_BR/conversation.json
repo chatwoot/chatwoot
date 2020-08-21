@@ -9,6 +9,11 @@
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
+    "CANNOT_REPLY": "Você não pode responder porque",
+    "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "LAST_INCOMING_TWEET": "Você está respondendo ao último tweet recebido",
+    "REPLYING_TO": "Você está respondendo a:",
+    "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -31,5 +36,22 @@
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_AGENT": "Responsável da conversa alterado"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Enviar transcrição de conversa",
+    "DESC": "Enviar uma cópia da transcrição da conversa para o endereço de e-mail especificado",
+    "SUBMIT": "Enviar",
+    "CANCEL": "Cancelar",
+    "SEND_EMAIL_SUCCESS": "A transcrição do chat foi enviada com sucesso",
+    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
+    "FORM": {
+      "SEND_TO_CONTACT": "Envie a transcrição para o cliente",
+      "SEND_TO_AGENT": "Enviar a transcrição do agente designado",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar a transcrição para outro endereço de e-mail",
+      "EMAIL": {
+        "PLACEHOLDER": "Digite um endereço de e-mail",
+        "ERROR": "Por favor, insira um endereço de e-mail válido"
+      }
+    }
   }
 }
