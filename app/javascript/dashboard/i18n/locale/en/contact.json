@@ -9,6 +9,9 @@
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
+    },
     "LABELS": {
       "TITLE": "Conversation Labels",
       "MODAL": {
