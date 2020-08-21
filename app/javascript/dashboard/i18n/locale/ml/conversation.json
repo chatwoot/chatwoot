@@ -9,11 +9,11 @@
     "CLICK_HERE": "ഇവിടെ ക്ലിക്കു ചെയ്യുക",
     "LOADING_INBOXES": "ഇൻ‌ബോക്സുകൾ‌ ലോഡു ചെയ്യുന്നു",
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
+    "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "LAST_INCOMING_TWEET": "അവസാന ഇൻ‌കമിംഗ് ട്വീറ്റിന് നിങ്ങൾ മറുപടി നൽകുന്നു",
+    "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
+    "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
     "DOWNLOAD": "ഡൗൺലോഡ്",
     "HEADER": {
       "RESOLVE_ACTION": "പരിഹരിക്കുക",
@@ -38,18 +38,18 @@
     "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+    "DESC": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റിന്റെ ഒരു പകർപ്പ് നിർദ്ദിഷ്ട ഇമെയിൽ വിലാസത്തിലേക്ക് അയയ്ക്കുക",
     "SUBMIT": "സമർപ്പിക്കുക",
     "CANCEL": "റദ്ദാക്കുക",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "ചാറ്റ് ട്രാൻസ്ക്രിപ്റ്റ് വിജയകരമായി അയച്ചു",
+    "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "ഉപഭോക്താവിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "SEND_TO_AGENT": "നിയുക്ത ഏജന്റിന്റെ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "മറ്റൊരു ഇമെയിൽ വിലാസത്തിലേക്ക് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "ഒരു ഇമെയിൽ വിലാസം നൽകുക",
         "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക"
       }
     }
