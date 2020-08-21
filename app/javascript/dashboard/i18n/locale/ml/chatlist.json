@@ -47,7 +47,7 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
+        "TEXT": "ബോട്ട്",
         "VALUE": "bot"
       }
     ],
@@ -77,8 +77,8 @@
         "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
+    "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
+    "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക"
   }
 }
