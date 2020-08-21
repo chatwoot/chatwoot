@@ -68,7 +68,7 @@
             Social Profiles
           </label>
           <div
-            v-for="socialProfile in socialProfiles"
+            v-for="socialProfile in socialProfileKeys"
             :key="socialProfile.key"
             class="input-group"
           >
@@ -124,7 +124,7 @@ export default {
         twitter: '',
         linkedin: '',
       },
-      socialProfiles: [
+      socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
@@ -159,11 +159,14 @@ export default {
       this.location = additionalAttributes.location || '';
       this.companyName = additionalAttributes.company_name || '';
       this.description = additionalAttributes.description || '';
+      const {
+        social_profiles: socialProfiles = {},
+        screen_name: twitterScreenName,
+      } = additionalAttributes;
       this.socialProfileUserNames = {
-        twitter: '',
-        facebook: '',
-        linkedin: '',
-        ...(additionalAttributes.social_profiles || {}),
+        twitter: socialProfiles.twitter || twitterScreenName || '',
+        facebook: socialProfiles.facebook || '',
+        linkedin: socialProfiles.linkedin || '',
       };
     },
     getContactObject() {
@@ -194,6 +197,7 @@ export default {
         if (error instanceof DuplicateContactException) {
           this.hasADuplicateContact = true;
           this.duplicateContact = error.data;
+          this.showAlert(this.$t('EDIT_CONTACT.CONTACT_ALREADY_EXIST'));
         } else {
           this.showAlert(this.$t('EDIT_CONTACT.ERROR_MESSAGE'));
         }

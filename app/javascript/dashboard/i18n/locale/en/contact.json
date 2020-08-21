@@ -87,6 +87,7 @@
       }
     },
     "SUCCESS_MESSAGE": "Updated contact successfully",
+    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   }
 }
