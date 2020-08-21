@@ -9,6 +9,11 @@
     "CLICK_HERE": "இங்கே கிளிக் செய்யவும்",
     "LOADING_INBOXES": "இன்பாக்ஸை ஏற்றுகிறது",
     "LOADING_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றுகிறோம்",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
+    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "REPLYING_TO": "You are replying to:",
+    "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "பதிவிறக்கம்",
     "HEADER": {
       "RESOLVE_ACTION": "தீர்",
@@ -31,5 +36,22 @@
     "VISIBLE_TO_AGENTS": "தனிப்பட்ட குறிப்பு: உங்களுக்கும் உங்கள் குழுவினருக்கும் மட்டுமே தெரியும்",
     "CHANGE_STATUS": "உரையாடலின் நிலை மாற்றப்பட்டது",
     "CHANGE_AGENT": "உரையாடல் ஒதுக்கீட்டாளர் மாற்றப்பட்டார்"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "சமர்பிக்கவும்",
+    "CANCEL": "ரத்துசெய்",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்"
+      }
+    }
   }
 }
