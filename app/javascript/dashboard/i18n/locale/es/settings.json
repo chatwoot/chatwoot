@@ -57,15 +57,15 @@
         "LABEL": "Disponibilidad",
         "STATUSES_LIST": [
           {
-            "value": "en línea",
+            "value": "online",
             "label": "En línea"
           },
           {
-            "value": "ocupado",
+            "value": "busy",
             "label": "Ocupado"
           },
           {
-            "value": "fuera de línea",
+            "value": "offline",
             "label": "Fuera de línea"
           }
         ]
