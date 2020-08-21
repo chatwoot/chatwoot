@@ -23,7 +23,7 @@
       "STATUS": "Статус",
       "ACTIONS": "Действия",
       "VERIFIED": "Подтвержденный",
-      "VERIFICATION_PENDING": "Не подтвердженный"
+      "VERIFICATION_PENDING": "Неподтвержденный"
     },
     "ADD": {
       "TITLE": "Добавить оператора",
