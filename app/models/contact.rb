@@ -75,8 +75,6 @@ class Contact < ApplicationRecord
     email.downcase! if email.present?
   end
 
-  private
-
   def dispatch_create_event
     Rails.configuration.dispatcher.dispatch(CONTACT_CREATED, Time.zone.now, contact: self)
   end

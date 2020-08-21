@@ -30,6 +30,10 @@
         icon="ion-clock"
       />
     </div>
+    <contact-custom-attributes
+      v-if="hasContactAttributes"
+      :custom-attributes="contact.custom_attributes"
+    />
     <conversation-labels :conversation-id="conversationId" />
     <contact-conversations
       v-if="contact.id"
@@ -45,9 +49,11 @@ import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
+import ContactCustomAttributes from './ContactCustomAttributes';
 
 export default {
   components: {
+    ContactCustomAttributes,
     ContactConversations,
     ContactDetailsItem,
     ContactInfo,
@@ -74,6 +80,10 @@ export default {
     },
     additionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};
+    },
+    hasContactAttributes() {
+      const { custom_attributes: customAttributes } = this.contact;
+      return customAttributes && Object.keys(customAttributes).length;
     },
     browser() {
       return this.additionalAttributes.browser || {};

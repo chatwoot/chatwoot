@@ -66,6 +66,31 @@ window.$chatwoot.setUser('identifier_key', {
 
 Make sure that you reset the session when the user logs out of your app.
 
+### Set custom attributes
+
+Inorder to set additional information about the customer you can use customer attributes field.
+
+To set a custom attributes call `setCustomAttributes` as follows
+
+```js
+window.$chatwoot.setCustomAttributes({
+  accountId: 1,
+  pricingPlan: 'paid',
+
+  // You can pass any key value pair here.
+  // Value should either be a string or a number.
+  // You need to flatten nested JSON structure while using this function
+});
+```
+
+You can view these information in the sidepanel of a conversation.
+
+To delete a custom attribute, use `deleteCustomAttribute` as follows
+
+```js
+window.$chatwoot.deleteCustomAttribute('attribute-name');
+```
+
 ### To set language manually
 
 ```js
