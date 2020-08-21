@@ -48,14 +48,14 @@
       "TITLE": "Edit label",
       "API": {
         "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Marcador excluído com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",
