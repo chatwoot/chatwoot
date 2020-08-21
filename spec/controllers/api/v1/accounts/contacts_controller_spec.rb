@@ -125,7 +125,7 @@ RSpec.describe 'Contacts API', type: :request do
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
-    let(:valid_params) { { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } }
+    let(:valid_params) { { contact: { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
