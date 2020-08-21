@@ -1,35 +1,57 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "DOWNLOAD": "Download",
+    "404": "Пожалуйста, выберите диалог из левой панели",
+    "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
+    "NO_MESSAGE_2": " чтобы отправить сообщение на вашу страницу!",
+    "NO_INBOX_1": "Хола! Похоже, вы еще не добавили ни одного источника.",
+    "NO_INBOX_2": " для начала",
+    "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
+    "CLICK_HERE": "Нажмите здесь",
+    "LOADING_INBOXES": "Загружаем источники",
+    "LOADING_CONVERSATIONS": "Загрузка диалогов",
+    "CANNOT_REPLY": "Вы не можете ответить из-за",
+    "24_HOURS_WINDOW": "Ограничение на 24 часа",
+    "LAST_INCOMING_TWEET": "Вы отвечаете на последний входящий твит",
+    "REPLYING_TO": "Вы отвечаете на:",
+    "REMOVE_SELECTION": "Удалить выделенное",
+    "DOWNLOAD": "Скачать",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "Завершить",
+      "REOPEN_ACTION": "Открыть заново",
+      "OPEN": "Подробнее",
+      "CLOSE": "Закрыть",
+      "DETAILS": "подробности"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
+      "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "TWEET": "Tweet"
+      "REPLY": "Ответить",
+      "PRIVATE_NOTE": "Личная заметка",
+      "SEND": "Отправить",
+      "CREATE": "Добавить заметку",
+      "TWEET": "Твит"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
+    "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
-    "CHANGE_AGENT": "Conversation Assignee changed"
+    "CHANGE_AGENT": "Назначенный оператор изменен"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Отправить субтитры разговора",
+    "DESC": "Отправить копию субтитров разговора на указанный адрес электронной почты",
+    "SUBMIT": "Отправить",
+    "CANCEL": "Отменить",
+    "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
+    "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз",
+    "FORM": {
+      "SEND_TO_CONTACT": "Отправить субтитры клиенту",
+      "SEND_TO_AGENT": "Отправить субтитры назначенному агенту",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Отправить субтитры на другой адрес электронной почты",
+      "EMAIL": {
+        "PLACEHOLDER": "Введите адрес электронной почты",
+        "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
+      }
+    }
   }
 }
