@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Paramètres du compte",
     "SUBMIT": "Mettre à jour les paramètres",
-    "BACK": "Back",
+    "BACK": "Précédent",
     "UPDATE": {
       "ERROR": "Impossible de mettre à jour les paramètres, essayez à nouveau !",
       "SUCCESS": "Paramètres du compte mis à jour avec succès"
@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Domaine",
-        "PLACEHOLDER": "Le domaine de votre site web",
+        "LABEL": "Domaine de courriel entrant",
+        "PLACEHOLDER": "Le domaine où vous allez recevoir les courriels",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "L'adresse de courriel de support de votre entreprise",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Activer le domaine de messagerie",
-        "PLACEHOLDER": "Activer le domaine personnalisé de courriel",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Activé",
-          "DISABLED": "Désactivé"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
       }
     }
   }
