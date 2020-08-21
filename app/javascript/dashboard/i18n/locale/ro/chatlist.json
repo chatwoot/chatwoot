@@ -45,6 +45,10 @@
       {
         "TEXT": "Rezolvat",
         "VALUE": "rezolvat"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "icon link",
         "CONTENT": "a partajat un URL"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet"
   }
 }
