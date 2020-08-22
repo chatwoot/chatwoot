@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
-    "@rails/webpacker": "^4.2.2",
+    "@rails/webpacker": "^5.2.0",
     "axios": "^0.19.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
