@@ -9,21 +9,26 @@
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
+    },
     "LABELS": {
       "TITLE": "Etiquetas de conversación",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Etiquetas para",
+        "ACTIVE_LABELS": "Etiquetas añadidas a la conversación",
+        "INACTIVE_LABELS": "Etiquetas disponibles en la cuenta",
+        "REMOVE": "Haga clic en el icono X para quitar la etiqueta",
+        "ADD": "Haga clic en el icono + para añadir la etiqueta",
+        "UPDATE_BUTTON": "Actualizar etiquetas",
+        "UPDATE_ERROR": "No se han podido actualizar las etiquetas, inténtelo de nuevo."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "No hay más etiquetas definidas en la cuenta.",
+      "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
-    "MUTE_CONTACT": "Silenciar contacto",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Editar"
   }
 }

@@ -9,6 +9,9 @@
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
       "TITLE": "Conversații anterioare"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
+    },
     "LABELS": {
       "TITLE": "Etichete conversație",
       "MODAL": {
@@ -23,7 +26,9 @@
       "NO_LABELS_TO_ADD": "Nu mai sunt etichete definite în cont.",
       "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație."
     },
-    "MUTE_CONTACT": "Oprește contactul",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Editare"
   }
 }

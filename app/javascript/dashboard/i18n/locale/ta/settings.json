@@ -44,9 +44,14 @@
         "LABEL": "சுயவிவர படம்"
       },
       "NAME": {
-        "LABEL": "உங்கள் பெயர்",
-        "ERROR": "செல்லுபடியாகும் பெயரை உள்ளிடவும்",
-        "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
@@ -122,5 +127,21 @@
     "INTEGRATIONS": "சேர்ப்புகள்",
     "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",
     "LABELS": "Labels"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "கணக்கின் பெயர்",
+        "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
+      },
+      "SUBMIT": "சமர்பிக்கவும்"
+    }
   }
 }

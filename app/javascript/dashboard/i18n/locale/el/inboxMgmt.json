@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "Κανάλι API",
+        "DESC": "Ενσωματώστε ένα κανάλι APΙ και ξεκινήσετε την υποστήριξη των πελατών σας.",
+        "CHANNEL_NAME": {
+          "LABEL": "Όνομα καναλιού",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Σύνδεσμος Webhook",
+          "SUBTITLE": "Ρυθμίστε το url το οποίο θα λαμβάνει callbacks όταν κάτι συμβαίνει.",
+          "PLACEHOLDER": "Σύνδεσμος Webhook"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία API Καναλιού",
+        "API": {
+          "ERROR_MESSAGE": "Δεν είμαστε σε θέση να αποθηκεύσουμε το API κανάλι"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Κανάλι Email",
+        "DESC": "Συνδέστε ένα κιβώτιο εισερχομένων email.",
+        "CHANNEL_NAME": {
+          "LABEL": "Όνομα καναλιού",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε ένα όνομα καναλιού",
+          "ERROR": "Το πεδίο είναι απαραίτητο"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "Το Email στο οποίο οι πελάτες σας θα στέλνουν αιτήματα υποστήριξης",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Email",
+        "API": {
+          "ERROR_MESSAGE": "Δεν είμαστε σε θέση να αποθηκεύσουμε το Email κανάλι"
+        },
+        "FINISH_MESSAGE": "Προώθηση των email σας στην ακόλουθη διεύθυνση email."
+      },
       "AUTH": {
         "TITLE": "Κανάλια",
         "DESC": "Επι του παρόντος υποστηρίζονται widgets για Ιστοσελίδες,και σελιδες Facebook, Προφίλ Twitter ως πλατφόρμες. Εχουμε ακόμη περισσότερες πλατφόρμες όπως Whatsapp, Email, Telegram and Line υπό ανάπτυξη, οι οποίες θα είναι διαθέσιμες σύντομα."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Αδυναμία διαγραφής του κιβωτίου. Παρακαλώ προσπαθήστε αργότερα."
       }
     },
+    "TABS": {
+      "SETTINGS": "Ρυθμίσεις",
+      "COLLABORATORS": "Συνεργάτες",
+      "CONFIGURATION": "Διαμόρφωση"
+    },
     "SETTINGS": "Ρυθμίσεις",
+    "FEATURES": {
+      "LABEL": "Χαρακτηριστικά",
+      "DISPLAY_FILE_PICKER": "Να εμφανίζεται η επιλογή αρχείου στο widget",
+      "DISPLAY_EMOJI_PICKER": "Να εμφανίζεται ο επιλογές emoji στο widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Κώδικας (Script)",
       "MESSENGER_SUB_HEAD": "Τοποθετήσετε αυτόν τον κώδικα μέσα στο body tag της ιστοσελίδας σας",

@@ -41,3 +41,4 @@ ar:
       email_input_box_message_body: "احصل على الإشعارات في البريد الإلكتروني"
     reply:
       email_subject: "رسائل جديدة في هذه المحادثة"
+      transcript_subject: "Conversation Transcript"

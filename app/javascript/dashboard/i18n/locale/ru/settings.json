@@ -3,76 +3,81 @@
     "LINK": "Настройки профиля",
     "TITLE": "Настройки профиля",
     "BTN_TEXT": "Обновить профиль",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "AFTER_EMAIL_CHANGED": "Ваш профиль был успешно обновлен, пожалуйста, войдите снова, так как ваши учетные данные были изменены",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
+      "AVATAR": "Изображение",
+      "ERROR": "Пожалуйста, исправьте ошибки",
       "REMOVE_IMAGE": "Удалить",
       "UPLOAD_IMAGE": "Загрузить изображение",
       "UPDATE_IMAGE": "Обновить изображение",
       "PROFILE_SECTION": {
         "TITLE": "Профиль",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "NOTE": "Адрес электронной почты используется для входа."
       },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "NOTE": "Обновление пароля сбросит вашу авторизацию на всех устройствах."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Токен доступа",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "NOTE": "Этот токен может быть использован, если вы настраиваете интеграцию на основе API"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+        "TITLE": "Email Уведомления",
+        "NOTE": "Настраивайте email уведомления здесь",
+        "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
+        "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
+        "UPDATE_ERROR": "При сохранении настроек произошла ошибка, пожалуйста, попробуйте еще раз"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push уведомления",
+        "NOTE": "Редактируйте настройки push-уведомлений здесь",
+        "CONVERSATION_ASSIGNMENT": "Отправлять push уведомление при назначении мне диалога",
+        "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
+        "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
+        "REQUEST_PUSH": "Включить push-уведомления"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Изображение профиля"
       },
       "NAME": {
         "LABEL": "Ваше имя",
-        "ERROR": "Please enter a valid name",
-        "PLACEHOLDER": "Please enter your name, this would be displayed in conversations"
+        "ERROR": "Пожалуйста, введите правильное имя",
+        "PLACEHOLDER": "Пожалуйста, введите ваше ФИО"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Имя, которое будет отображаться",
+        "ERROR": "Пожалуйста, введите правильное имя",
+        "PLACEHOLDER": "Пожалуйста, введите имя, которое будет отображаться в диалогах"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Доступность",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "В сети"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "Занят"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "Оффлайн"
           }
         ]
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
         "ERROR": "Пожалуйста, введите действительный адрес электронной почты",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "PLACEHOLDER": "Введите email, который будет отображаться в диалогах"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
-        "ERROR": "Please enter a password of length 6 or more",
+        "ERROR": "Введите пароль из 6 или более символов",
         "PLACEHOLDER": "Пожалуйста, введите новый пароль"
       },
       "PASSWORD_CONFIRMATION": {
@@ -83,44 +88,60 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "Сменить Аккаунт",
+    "SELECTOR_SUBTITLE": "Выберите аккаунт из списка",
     "PROFILE_SETTINGS": "Настройки профиля",
     "LOGOUT": "Выйти"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "дней до окончания бесплатного периода.",
+    "TRAIL_BUTTON": "Купить"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Копировать",
+      "COPY_SUCCESSFUL": "Код скопирован в буфер обмена"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Скачать",
+      "UPLOADING": "Загружаем..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Отправить"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Проверка...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Добавить источник"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "CONVERSATIONS": "Диалоги",
+    "REPORTS": "Отчёты",
+    "SETTINGS": "Настройки",
+    "HOME": "Главная",
+    "AGENTS": "Операторы",
+    "INBOXES": "Источники",
+    "CANNED_RESPONSES": "Шаблонные ответы",
+    "INTEGRATIONS": "Интеграции",
+    "ACCOUNT_SETTINGS": "Настройки аккаунта",
+    "LABELS": "Категории"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "Новый аккаунт",
+    "SELECTOR_SUBTITLE": "Создать новый аккаунт",
+    "API": {
+      "SUCCESS_MESSAGE": "Аккаунт создан",
+      "EXIST_MESSAGE": "Аккаунт уже существует",
+      "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Имя аккаунта",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Отправить"
+    }
   }
 }

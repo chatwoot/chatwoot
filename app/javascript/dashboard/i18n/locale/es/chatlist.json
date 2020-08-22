@@ -45,6 +45,10 @@
       {
         "TEXT": "Resuelto",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "ion-link",
         "CONTENT": "ha compartido una url"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "Recibido por email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet"
   }
 }
