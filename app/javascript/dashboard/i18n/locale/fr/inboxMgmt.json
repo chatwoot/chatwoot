@@ -64,12 +64,12 @@
           "PLACEHOLDER": "C'est simple de rentrer en contact avec nous. Demandez-nous quoi que ce soit ou partagez vos commentaires."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
+          "LABEL": "Message d'accueil du canal",
           "PLACEHOLDER": "Acme Inc répond en général en quelques heures."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Activer l'accueil du canal",
+          "HELP_TEXT": "Envoyer un message de bienvenue à l'utilisateur lorsqu'il démarre la conversation.",
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
@@ -114,6 +114,43 @@
         "API": {
           "ERROR_MESSAGE": "Nous n'avons pas pu authentifier les identifiants Twilio, veuillez réessayer"
         }
+      },
+      "API_CHANNEL": {
+        "TITLE": "Canal API",
+        "DESC": "Intégrez le canal API et commencez à aider vos clients.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nom du canal",
+          "PLACEHOLDER": "Veuillez entrer un nom de canal",
+          "ERROR": "Ce champ est requis"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL du Webhook",
+          "SUBTITLE": "Configurez l'URL où vous souhaitez recevoir des callbacks sur les événements.",
+          "PLACEHOLDER": "URL du Webhook"
+        },
+        "SUBMIT_BUTTON": "Créer un canal API",
+        "API": {
+          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal API"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Canal Courriel",
+        "DESC": "Intégrez votre boîte de réception de courriel.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nom du canal",
+          "PLACEHOLDER": "Veuillez entrer un nom de canal",
+          "ERROR": "Ce champ est requis"
+        },
+        "EMAIL": {
+          "LABEL": "Courriel",
+          "SUBTITLE": "Adresse de courriel où vos clients vous envoient des demandes d'assistance",
+          "PLACEHOLDER": "Courriel"
+        },
+        "SUBMIT_BUTTON": "Créer le canal Courriel",
+        "API": {
+          "ERROR_MESSAGE": "Nous n'avons pas pu enregistrer le canal courriel"
+        },
+        "FINISH_MESSAGE": "Commencez à transférer vos courriels à l'adresse suivante."
       },
       "AUTH": {
         "TITLE": "Canaux",
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Impossible de supprimer la boîte de réception. Veuillez réessayer plus tard."
       }
     },
+    "TABS": {
+      "SETTINGS": "Paramètres",
+      "COLLABORATORS": "Collaborateurs",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Paramètres",
+    "FEATURES": {
+      "LABEL": "Fonctionnalités",
+      "DISPLAY_FILE_PICKER": "Afficher le sélecteur de fichiers sur le widget",
+      "DISPLAY_EMOJI_PICKER": "Afficher le sélecteur d'émoticônes sur le widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script du Widget Web",
       "MESSENGER_SUB_HEAD": "Placez ce code avant la fermeture de votre balise body",

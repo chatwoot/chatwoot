@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "Nu am putut autentifica credentialele Twilio, încercați din nou"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "Canal API",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nume canal",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL Webhook",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "URL Webhook"
+        },
+        "SUBMIT_BUTTON": "Creare canal API",
+        "API": {
+          "ERROR_MESSAGE": "Nu am putut salva canalul API"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Canal de e-mail",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nume canal",
+          "PLACEHOLDER": "Te rugăm să introduci un conținut",
+          "ERROR": "Acest câmp este obligatoriu"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "E-mail unde clienții vă trimit bilete de suport",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "Creare canal Email",
+        "API": {
+          "ERROR_MESSAGE": "Nu am putut salva canalul de email"
+        },
+        "FINISH_MESSAGE": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail."
+      },
       "AUTH": {
         "TITLE": "Canale",
         "DESC": "În prezent suportăm widget-uri live chat pe site, pagini Facebook și profiluri Twitter ca platforme. Avem mai multe platforme precum Whatsapp, Email, Telegram şi Line în lucrări, care vor fi în curând."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Nu s-a putut șterge inbox-ul. Vă rugăm să încercați din nou mai târziu."
       }
     },
+    "TABS": {
+      "SETTINGS": "Setări",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Setări",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
       "MESSENGER_SUB_HEAD": "Plasează acest buton în interiorul interiorul paginii web",

@@ -1,20 +1,27 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "下载",
+      "UPLOADING": "上传中..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "提交"
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+    "IS_AVAILABLE": "可用的",
+    "ARE_AVAILABLE": "可用的",
+    "OTHERS_ARE_AVAILABLE": "其它可用的",
+    "AND": "和"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "查看新消息",
+    "CLOSE_MESSAGES_BUTTON": "关闭"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat with us"
+  },
+  "POWERED_BY": "由 Chatwoot 支持",
+  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
+  "CHAT_PLACEHOLDER": "输入您的消息"
 }
