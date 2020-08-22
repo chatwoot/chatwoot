@@ -57,15 +57,15 @@
         "LABEL": "Доступность",
         "STATUSES_LIST": [
           {
-            "value": "в сети",
+            "value": "online",
             "label": "В сети"
           },
           {
-            "value": "занят",
+            "value": "busy",
             "label": "Занят"
           },
           {
-            "value": "оффлайн",
+            "value": "offline",
             "label": "Оффлайн"
           }
         ]
