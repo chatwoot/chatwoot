@@ -87,11 +87,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.text-truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-</style>

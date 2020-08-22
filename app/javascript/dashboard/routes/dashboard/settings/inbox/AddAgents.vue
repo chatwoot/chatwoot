@@ -42,7 +42,6 @@
 
 <script>
 /* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import InboxMembersAPI from '../../../../api/inboxMembers';

@@ -125,7 +125,7 @@ RSpec.describe 'Contacts API', type: :request do
   describe 'PATCH /api/v1/accounts/{account.id}/contacts/:id' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
-    let(:valid_params) { { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } }
+    let(:valid_params) { { contact: { name: 'Test Blub', custom_attributes: { test: 'new test', test2: 'test2' } } } }
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -161,6 +161,18 @@ RSpec.describe 'Contacts API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:not_found)
+      end
+
+      it 'prevents updating with an existing email' do
+        other_contact = create(:contact, account: account, email: 'test1@example.com')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: valid_params[:contact].merge({ email: other_contact.email }),
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body)['contact']['id']).to eq(other_contact.id)
       end
     end
   end
