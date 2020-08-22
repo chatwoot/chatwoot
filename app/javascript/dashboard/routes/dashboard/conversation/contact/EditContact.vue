@@ -96,6 +96,7 @@
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
 import { DuplicateContactException } from 'shared/helpers/CustomErrors';
+import { required } from 'vuelidate/lib/validators';
 
 export default {
   mixins: [alertMixin],
@@ -132,7 +133,9 @@ export default {
     };
   },
   validations: {
-    name: {},
+    name: {
+      required,
+    },
     description: {},
     email: {},
     companyName: {},
@@ -190,6 +193,10 @@ export default {
     },
     async onSubmit() {
       this.resetDuplicate();
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
       try {
         await this.$store.dispatch('contacts/update', this.getContactObject());
         this.showAlert(this.$t('EDIT_CONTACT.SUCCESS_MESSAGE'));
