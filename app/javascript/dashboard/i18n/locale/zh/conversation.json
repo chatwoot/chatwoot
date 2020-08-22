@@ -1,56 +1,56 @@
 {
   "CONVERSATION": {
-    "404": "请从左侧窗格选择一个对话",
-    "NO_MESSAGE_1": "您的收件箱中似乎没有客户的消息。",
-    "NO_MESSAGE_2": " 向您的页面发送一条消息！",
-    "NO_INBOX_1": "看来你还没有添加任何收件箱。",
-    "NO_INBOX_2": " 开始吧",
-    "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
-    "CLICK_HERE": "点击这里",
-    "LOADING_INBOXES": "正在加载收件箱",
-    "LOADING_CONVERSATIONS": "加载更多对话",
-    "CANNOT_REPLY": "您不能回复，原因是：",
-    "24_HOURS_WINDOW": "24 小时消息窗口限制",
+    "404": "Please select a conversation from left pane",
+    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
+    "NO_MESSAGE_2": " to send a message to your page!",
+    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
+    "NO_INBOX_2": " to get started",
+    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
+    "CLICK_HERE": "Click here",
+    "LOADING_INBOXES": "Loading inboxes",
+    "LOADING_CONVERSATIONS": "Loading Conversations",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "下载",
+    "DOWNLOAD": "Download",
     "HEADER": {
-      "RESOLVE_ACTION": "已解决",
-      "REOPEN_ACTION": "重新打开",
-      "OPEN": "详细信息",
-      "CLOSE": "关闭",
-      "DETAILS": "详情"
+      "RESOLVE_ACTION": "Resolve",
+      "REOPEN_ACTION": "Reopen",
+      "OPEN": "More",
+      "CLOSE": "Close",
+      "DETAILS": "details"
     },
     "FOOTER": {
-      "MSG_INPUT": "输入“/”开始选择快捷回复",
-      "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见"
+      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
+      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
     },
     "REPLYBOX": {
-      "REPLY": "回复",
-      "PRIVATE_NOTE": "私人便笺",
-      "SEND": "发送",
-      "CREATE": "添加便笺",
-      "TWEET": "推特"
+      "REPLY": "Reply",
+      "PRIVATE_NOTE": "Private Note",
+      "SEND": "Send",
+      "CREATE": "Add Note",
+      "TWEET": "Tweet"
     },
-    "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
-    "CHANGE_STATUS": "对话状态已更改",
-    "CHANGE_AGENT": "对话分配人已更改"
+    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
+    "CHANGE_STATUS": "Conversation status changed",
+    "CHANGE_AGENT": "Conversation Assignee changed"
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
     "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "提交",
-    "CANCEL": "取消操作",
+    "SUBMIT": "Submit",
+    "CANCEL": "Cancel",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "出错了，请重试",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript of the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
-        "ERROR": "请输入一个有效的电子邮件"
+        "ERROR": "Please enter a valid email address"
       }
     }
   }
