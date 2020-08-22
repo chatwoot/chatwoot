@@ -47,7 +47,7 @@ gem 'redis-rack-cache'
 gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker'
+gem 'webpacker', '~> 5.x'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
