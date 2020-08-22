@@ -14,8 +14,12 @@
     "OTHERS_ARE_AVAILABLE": "d'autres sont disponibles",
     "AND": "et"
   },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Voir les nouveaux messages",
+    "CLOSE_MESSAGES_BUTTON": "Fermer"
+  },
   "BUBBLE": {
-    "LABEL": "Discute avec nous"
+    "LABEL": "Discutez avec nous"
   },
   "POWERED_BY": "Propulsé par Chatwoot",
   "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",

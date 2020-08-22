@@ -1,61 +1,61 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Marcadores",
+    "HEADER_BTN_TXT": "Adicionar marcador",
+    "LOADING": "Buscando marcadores",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Marcadores</b> <p>Os marcadores o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir o marcador a uma conversa a partir do menu lateral. <br /><br />Os marcadores estão vinculados à conta e podem ser usados para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para um marcador, facilitando a identificação. Você será capaz de exibir o marcador na barra lateral para filtrar as conversas facilmente.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Não há marcadores disponíveis nesta conta.",
+      "TITLE": "Gerenciar marcadores",
+      "DESC": "Marcadores permitem agrupar as conversas.",
       "TABLE_HEADER": [
         "Nome",
-        "Description",
-        "Color"
+        "Descrição",
+        "Cor"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Nome do marcador",
+        "PLACEHOLDER": "Nome do marcador",
+        "ERROR": "Nome do Marcador é obrigatório"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Descrição do marcador"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Cor"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Exibir marcador na barra lateral"
       },
       "EDIT": "Alterar",
-      "CREATE": "Create",
+      "CREATE": "Criar",
       "DELETE": "Excluir",
       "CANCEL": "Cancelar"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Adicionar marcador",
+      "DESC": "Marcadores permitem agrupar as conversas.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Marcador adicionado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Editar marcador",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Marcador atualizado com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Marcador excluído com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",

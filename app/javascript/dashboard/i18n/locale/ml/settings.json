@@ -44,24 +44,29 @@
         "LABEL": "പ്രൊഫൈൽ ചിത്രം"
       },
       "NAME": {
-        "LABEL": "നിങ്ങളുടെ പേര്",
-        "ERROR": "ദയവായി സാധുവായ ഒരു പേര് നൽകുക",
-        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ പേര് നൽകുക, ഇത് സംഭാഷണങ്ങളിൽ ദൃശ്യമാകും"
+        "LABEL": "നിങ്ങളുടെ മുഴുവൻ പേര്",
+        "ERROR": "സാധുവായ ഒരു പൂർണ്ണ നാമം നൽകുക",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "പ്രദർശന നാമം",
+        "ERROR": "സാധുവായ ഒരു പ്രദർശന നാമം നൽകുക",
+        "PLACEHOLDER": "ദയവായി ഒരു പ്രദർശന നാമം നൽകുക, ഇത് സംഭാഷണങ്ങളിൽ ദൃശ്യമാകും"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "ലഭ്യത",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "ഓൺ‌ലൈൻ"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "തിരക്ക്"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "ഓഫ്‌ലൈൻ"
           }
         ]
       },
@@ -83,44 +88,60 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "അക്കൗണ്ട് സ്വിച്ചുചെയ്യുക",
+    "SELECTOR_SUBTITLE": "ഇനിപ്പറയുന്ന ലിസ്റ്റിൽ നിന്ന് ഒരു അക്കൗണ്ട് തിരഞ്ഞെടുക്കുക",
     "PROFILE_SETTINGS": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "LOGOUT": "ലോഗൗട്ട്"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "ദിവസത്തെ ട്രയൽ ശേഷിക്കുന്നു.",
+    "TRAIL_BUTTON": "ഇപ്പോൾ വാങ്ങുക"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "പകർത്തുക",
+      "COPY_SUCCESSFUL": "കോഡ് ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "ഡൗൺലോഡ്",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "സമർപ്പിക്കുക"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "പരിശോധിച്ചുറപ്പിക്കുന്നു...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "ഇൻ‌ബോക്സ് ചേർക്കുക"
     }
   },
   "SIDEBAR": {
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
-    "HOME": "Home",
+    "HOME": "ഹോം",
     "AGENTS": "ഏജന്റുമാർ",
     "INBOXES": "ഇൻ‌ബോക്സുകൾ",
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
     "INTEGRATIONS": "സംയോജനങ്ങൾ",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
+    "LABELS": "ലേബലുകൾ"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",
+    "SELECTOR_SUBTITLE": "അക്കൗണ്ട് ഒരു പുതിയ അക്കൗണ്ട് വിജയകരമായി സൃഷ്ടിക്കുക",
+    "API": {
+      "SUCCESS_MESSAGE": "അക്കൗണ്ട് വിജയകരമായി സൃഷ്ടിച്ചു",
+      "EXIST_MESSAGE": "അക്കൗണ്ട് ഇതിനകം നിലവിലുണ്ട്",
+      "ERROR_MESSAGE": "വൂട്ട് സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "അക്കൗണ്ട് നാമം",
+        "PLACEHOLDER": "പുണ്ണ്യാളൻ അഗർബത്തീസ്"
+      },
+      "SUBMIT": "സമർപ്പിക്കുക"
+    }
   }
 }
