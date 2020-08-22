@@ -45,7 +45,6 @@
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
-
       <more-actions :conversation-id="currentChat.id" />
     </div>
   </div>

@@ -20,6 +20,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.update!(contact_update_params)
+  rescue ActiveRecord::RecordInvalid => e
+    render json: {
+      message: e.record.errors.full_messages.join(', '),
+      contact: Contact.find_by(email: contact_params[:email])
+    }, status: :unprocessable_entity
   end
 
   def search
@@ -43,7 +48,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def contact_params
-    params.require(:contact).permit(:name, :email, :phone_number, custom_attributes: {})
+    params.require(:contact).permit(:name, :email, :phone_number, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
