@@ -9,6 +9,11 @@
     "CLICK_HERE": "Cliquez ici",
     "LOADING_INBOXES": "Chargement des boîtes de réception",
     "LOADING_CONVERSATIONS": "Chargement des conversations",
+    "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
+    "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "LAST_INCOMING_TWEET": "Vous répondez au dernier tweet entrant",
+    "REPLYING_TO": "Vous répondez à :",
+    "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
@@ -34,18 +39,18 @@
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Envoyer la transcription de la conversation",
-    "DESC": "Envoyer une copie de la transcription de la conversation à l'adresse e-mail spécifiée",
-    "SUBMIT": "Soumettre",
+    "DESC": "Envoyer une copie de la transcription de la conversation à l'adresse de courriel spécifiée",
+    "SUBMIT": "Envoyer",
     "CANCEL": "Annuler",
     "SEND_EMAIL_SUCCESS": "La transcription du chat a été envoyée avec succès",
-    "SEND_EMAIL_ERROR": "Une erreur s'est produite, veuillez réessayer",
+    "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
     "FORM": {
-      "SEND_TO_CONTACT": "Envoyez la transcription au client",
-      "SEND_TO_AGENT": "Envoyer la transcription de l'agent désigné",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Envoyez la transcription à une autre adresse e-mail",
+      "SEND_TO_CONTACT": "Envoyer la transcription au client",
+      "SEND_TO_AGENT": "Envoyer la transcription de l'agent affecté",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Envoyer la transcription à une autre adresse de courriel",
       "EMAIL": {
-        "PLACEHOLDER": "Entrez une adresse email",
-        "ERROR": "S'il vous plaît, mettez une adresse email valide"
+        "PLACEHOLDER": "Entrez une adresse de courriel",
+        "ERROR": "Veuillez saisir une adresse de courriel valide"
       }
     }
   }

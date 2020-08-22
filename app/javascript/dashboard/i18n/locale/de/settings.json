@@ -48,6 +48,11 @@
         "ERROR": "Bitte geben Sie einen gültigen Namen ein",
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
       },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
       "AVAILABILITY": {
         "LABEL": "Availability",
         "STATUSES_LIST": [
@@ -122,5 +127,21 @@
     "INTEGRATIONS": "Integrationen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
     "LABELS": "Labels"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Kontobezeichnung",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Einreichen"
+    }
   }
 }

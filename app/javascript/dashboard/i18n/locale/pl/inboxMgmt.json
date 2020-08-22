@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "Nie byliśmy w stanie uwierzytelnić danych logowania Twilio, spróbuj ponownie"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nazwa kanału",
+          "PLACEHOLDER": "Wprowadź nazwę kanału",
+          "ERROR": "To pole jest wymagane"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL webhooka",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "URL webhooka"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nazwa kanału",
+          "PLACEHOLDER": "Wprowadź nazwę kanału",
+          "ERROR": "To pole jest wymagane"
+        },
+        "EMAIL": {
+          "LABEL": "E-mail",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "E-mail"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
       "AUTH": {
         "TITLE": "Kanały",
         "DESC": "Obecnie obsługujemy widżety czatu na żywo, strony na Facebooku i profile Twittera jako platformy. Mamy więcej platform takich jak Whatsapp, E-mail, Telegram i Line w pracach, które wkrótce się zakończą."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Nie można usunąć skrzynki odbiorczej. Spróbuj ponownie później."
       }
     },
+    "TABS": {
+      "SETTINGS": "Ustawienia",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Ustawienia",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skrypt Messengera",
       "MESSENGER_SUB_HEAD": "Umieść ten przycisk wewnątrz znacznika ciała",
