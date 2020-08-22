@@ -57,15 +57,15 @@
         "LABEL": "Disponibilidade",
         "STATUSES_LIST": [
           {
-            "value": "disponível",
+            "value": "online",
             "label": "Disponível"
           },
           {
-            "value": "ocupado",
+            "value": "busy",
             "label": "Ocupado"
           },
           {
-            "value": "desconectado",
+            "value": "offline",
             "label": "Desconectado"
           }
         ]
