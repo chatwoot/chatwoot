@@ -30,6 +30,7 @@
     "lodash.groupby": "^4.6.0",
     "query-string": "5",
     "spinkit": "~1.2.5",
+    "tailwindcss": "^1.7.3",
     "tween.js": "~16.6.0",
     "url-loader": "^2.0.0",
     "v-tooltip": "~2.0.2",
