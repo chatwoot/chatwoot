@@ -347,7 +347,7 @@ $helptext-color: $header-color;
 $helptext-font-size: $font-size-small;
 $helptext-font-style: italic;
 $input-prefix-color: $header-color;
-$input-prefix-background: $light-gray;
+$input-prefix-background: var(--b-100);
 $input-prefix-border: 1px solid $color-border;
 $input-prefix-padding: 1rem;
 $form-label-color: $header-color;

@@ -5,7 +5,7 @@
       :status="currentChat.status"
     />
     <woot-button
-      class="success hollow more--button"
+      class="success more--button"
       icon="ion-more"
       :class="buttonClass"
       @click="toggleConversationActions"
@@ -94,7 +94,7 @@ export default {
 .more--button {
   align-items: center;
   display: flex;
-  margin-left: var(--space-small);
+  margin-left: var(--space-smaller);
   padding: var(--space-small);
 }
 
