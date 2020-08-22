@@ -61,11 +61,11 @@
             "label": "Online"
           },
           {
-            "value": "ocupat",
+            "value": "busy",
             "label": "Ocupat"
           },
           {
-            "value": "deconectat",
+            "value": "offline",
             "label": "Deconectat"
           }
         ]
