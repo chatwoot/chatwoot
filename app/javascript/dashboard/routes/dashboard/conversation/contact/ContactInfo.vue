@@ -3,7 +3,7 @@
     <div class="contact--info">
       <thumbnail
         :src="contact.thumbnail"
-        size="56px"
+        size="48px"
         :badge="channelType"
         :username="contact.name"
         :status="contact.availability_status"
@@ -44,7 +44,7 @@
       </div>
       <woot-button
         class="expanded"
-        variant="hollow primary"
+        variant="hollow primary small"
         @click="toggleEditModal"
       >
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}

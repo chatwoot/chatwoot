@@ -1,15 +1,15 @@
 <template>
   <div class="contact-info--row">
-    <a v-if="href" class="contact-info--details">
+    <a v-if="href" :href="href" class="contact-info--details">
       <i :class="icon" class="contact-info--icon" />
-      <span v-if="value">{{ value }}</span>
+      <span v-if="value" class="text-truncate">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
     </a>
     <div v-else class="contact-info--details">
       <i :class="icon" class="contact-info--icon" />
-      <span v-if="value">{{ value }}</span>
+      <span v-if="value" class="text-truncate">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
