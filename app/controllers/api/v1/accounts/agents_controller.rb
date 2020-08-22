@@ -64,6 +64,6 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def agents
-    @agents ||= Current.account.users
+    @agents ||= Current.account.users.order_by_full_name
   end
 end
