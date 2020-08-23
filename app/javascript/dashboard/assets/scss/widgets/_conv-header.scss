@@ -22,7 +22,7 @@
     &::before {
       color: $medium-gray;
       font-size: $font-size-default;
-      line-height: 3.8rem;
+      line-height: 2.375rem;
       padding-left: $space-slab;
       padding-right: $space-smaller;
     }
@@ -67,7 +67,7 @@
 .button.resolve--button {
   @include flex-align($x: center, $y: middle);
 
-  width: 13.2rem;
+  width: 8.25rem;
 
   >.icon {
     font-size: $font-size-default;

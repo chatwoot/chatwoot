@@ -45,7 +45,7 @@
 // 1. Global
 // ---------
 
-$global-font-size: 10px;
+$global-font-size: 16px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
@@ -418,11 +418,11 @@ $meter-fill-bad: $alert-color;
 // 24. Off-canvas
 // --------------
 
-$offcanvas-sizes: (small: 23rem,
-  medium: 23rem,
+$offcanvas-sizes: (small: 14rem,
+  medium: 14rem,
 );
-$offcanvas-vertical-sizes: (small: 23rem,
-  medium: 23rem,
+$offcanvas-vertical-sizes: (small: 14rem,
+  medium: 14rem,
 );
 $offcanvas-background: $light-gray;
 $offcanvas-shadow: 0 0 10px rgba($black, 0.7);
