@@ -5,8 +5,8 @@
       :status="currentChat.status"
     />
     <woot-button
-      class="success more--button"
-      icon="ion-more"
+      class="clear more--button"
+      icon="ion-android-more-vertical"
       :class="buttonClass"
       @click="toggleConversationActions"
     />
@@ -18,14 +18,14 @@
     >
       <button
         v-if="!currentChat.muted"
-        class="button small clear row nice alert small-6 action--button"
+        class="button small clear row alert small-6 action--button"
         @click="mute"
       >
         <i class="icon ion-volume-mute" />
         <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
       </button>
       <button
-        class="button small clear row nice small-6 action--button"
+        class="button small clear row small-6 action--button"
         @click="toggleEmailActionsModal"
       >
         <i class="icon ion-ios-copy" />
@@ -67,8 +67,8 @@ export default {
 
     buttonClass() {
       return this.currentChat.status !== wootConstants.STATUS_TYPE.OPEN
-        ? 'warning'
-        : 'success';
+        ? 'disabled'
+        : '';
     },
   },
   methods: {
@@ -91,11 +91,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import '~dashboard/assets/scss/mixins';
+
 .more--button {
   align-items: center;
   display: flex;
-  margin-left: var(--space-smaller);
+  margin-left: var(--space-small);
   padding: var(--space-small);
+
+  &.clear.more--button {
+    color: var(--color-body);
+  }
 }
 
 .actions--container {
@@ -103,11 +109,18 @@ export default {
 }
 
 .dropdown-pane {
-  right: 0;
+  @include elegant-card;
+  @include border-light;
+  right: -12px;
   top: 48px;
-  border: 1px solid var(--s-100);
-  border-radius: var(--space-smaller);
   width: auto;
+
+  &::before {
+    @include arrow(top, white, var(--space-slab));
+    top: -12px;
+    position: absolute;
+    right: var(--space-small);
+  }
 }
 
 .dropdown-pane--open {
@@ -120,9 +133,10 @@ export default {
   align-items: center;
   width: 100%;
   padding: var(--space-small) 0;
+  font-size: var(--font-size-small);
 
   .icon {
-    margin-right: var(--space-small);
+    margin-right: var(--space-smaller);
     min-width: var(--space-normal);
   }
 }
