@@ -9,6 +9,11 @@
     "CLICK_HERE": "Click aici",
     "LOADING_INBOXES": "Încărcare mesaje primite",
     "LOADING_CONVERSATIONS": "Încărcare conversații",
+    "CANNOT_REPLY": "Nu poți răspunde din cauza",
+    "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "REPLYING_TO": "You are replying to:",
+    "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Descărcare",
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
@@ -31,5 +36,22 @@
     "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
     "CHANGE_STATUS": "Stare conversație schimbată",
     "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "Trimite",
+    "CANCEL": "Renunță",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "A apărut o eroare, încercați din nou",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
+      }
+    }
   }
 }

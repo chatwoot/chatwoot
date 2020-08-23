@@ -45,6 +45,10 @@
       {
         "TEXT": "Risolti",
         "VALUE": "risolto"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "e-link",
         "CONTENT": "ha condiviso un url"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet"
   }
 }

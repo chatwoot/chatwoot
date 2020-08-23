@@ -1,60 +1,60 @@
 #Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-zh-TW:
+zh-CN:
   devise:
     confirmations:
-      confirmed: "Your email address has been successfully confirmed."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      confirmed: "您的电子邮件地址已成功确认。"
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的电子邮件地址存在于我们的数据库， 您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
-      invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
-      locked: "Your account is locked."
-      last_attempt: "You have one more attempt before your account is locked."
-      not_found_in_database: "Invalid %{authentication_keys} or password."
-      timeout: "Your session expired. Please sign in again to continue."
-      unauthenticated: "You need to sign in or sign up before continuing."
-      unconfirmed: "You have to confirm your email address before continuing."
+      already_authenticated: "您已经登录。"
+      inactive: "您的帐户尚未激活。"
+      invalid: "无效的 %{authentication_keys}/密码或帐户尚未验证。"
+      locked: "您的帐户已被锁定。"
+      last_attempt: "您还有一次尝试在您的帐户被锁定之前。"
+      not_found_in_database: "无效的 %{authentication_keys} 或密码。"
+      timeout: "您的会话已过期。请重新登录以继续。"
+      unauthenticated: "您需要登录或注册才能继续。"
+      unconfirmed: "您必须先确认您的电子邮件地址才能继续。"
     mailer:
       confirmation_instructions:
-        subject: "Confirmation Instructions"
+        subject: "确认说明"
       reset_password_instructions:
-        subject: "Reset password instructions"
+        subject: "重置密码说明"
       unlock_instructions:
-        subject: "Unlock instructions"
+        subject: "解锁说明"
       password_change:
-        subject: "Password Changed"
+        subject: "密码已修改"
     omniauth_callbacks:
-      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
-      success: "Successfully authenticated from %{kind} account."
+      failure: "无法认证您来自 %{kind} 的身份，因为“%{reason}”。"
+      success: "从 %{kind} 帐户成功验证。"
     passwords:
-      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
-      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
-      updated: "Your password has been changed successfully. You are now signed in."
-      updated_not_active: "Your password has been changed successfully."
+      no_token: "没有来自密码重置电子邮件，您不能访问此页面。 如果您确实来自密码重置电子邮件，请确保您使用了提供的完整URL。"
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的电子邮件地址存在于我们的数据库， 您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      updated: "您的密码已成功更改。您现在已登录。"
+      updated_not_active: "您的密码已成功更改。"
     registrations:
-      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
-      signed_up: "Welcome! You have signed up successfully."
-      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
-      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
-      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
-      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
-      updated: "Your account has been updated successfully."
+      destroyed: "再见！您的帐户已被成功取消。我们希望很快再见到您。"
+      signed_up: "欢迎！您已成功注册。"
+      signed_up_but_inactive: "您已成功注册。但我们无法登录，因为您的帐户尚未激活。"
+      signed_up_but_locked: "您已成功注册。但我们无法登录，因为您的帐户尚未激活。"
+      signed_up_but_unconfirmed: "一封带有确认链接的邮件已发送到您的电子邮件地址。请点击链接激活您的帐户。"
+      update_needs_confirmation: "您已成功更新您的帐户，但我们需要验证您的新电子邮件地址。 请检查您的电子邮件并点击确认链接以确认您的新电子邮件地址。"
+      updated: "您的密码已成功更改。"
     sessions:
-      signed_in: "Signed in successfully."
-      signed_out: "Signed out successfully."
-      already_signed_out: "Signed out successfully."
+      signed_in: "登录成功。"
+      signed_out: "登录成功。"
+      already_signed_out: "登录成功。"
     unlocks:
-      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
-      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的帐户存在，您将收到一封电子邮件，说明如何在几分钟内解锁它。"
+      unlocked: "您的帐户已成功解锁。请登录以继续。"
   errors:
     messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
-      not_locked: "was not locked"
+      already_confirmed: "已经确认，请尝试登录"
+      confirmation_period_expired: "需要在 %{period}内确认, 请申请一个新的"
+      expired: "已过期，请申请一个新的"
+      not_found: "找不到"
+      not_locked: "未锁定"
       not_saved:
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+        other: "%{count} 个错误禁止保存 %{resource}："

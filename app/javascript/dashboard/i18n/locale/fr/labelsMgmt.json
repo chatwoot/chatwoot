@@ -1,61 +1,61 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Étiquettes",
+    "HEADER_BTN_TXT": "Ajouter une étiquette",
+    "LOADING": "Récupération des étiquettes",
     "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Étiquettes</b> <p>Les étiquettes vous aident à catégoriser les conversations et à les prioriser. Vous pouvez assigner une étiquette à une conversation depuis le panneau latéral. <br /><br />Les étiquettes sont liées au compte et peuvent être utilisées pour créer des processus personnalisés dans votre entreprise. Vous pouvez assigner une couleur personnalisée à une étiquette, cela rend plus facile l'identification de l'étiquette. Vous serez en mesure d'afficher l'étiquette dans la barre latérale pour filtrer les conversations facilement.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Il n'y a aucune étiquette disponible dans ce compte.",
+      "TITLE": "Gérer les étiquettes",
+      "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
       "TABLE_HEADER": [
         "Nom",
         "Description",
-        "Color"
+        "Couleur"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Nom de l'étiquette",
+        "PLACEHOLDER": "Nom de l'étiquette",
+        "ERROR": "Le nom de l'étiquette est requis"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "PLACEHOLDER": "Description de l'étiquette"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Couleur"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Afficher l'étiquette dans la barre latérale"
       },
       "EDIT": "Modifier",
-      "CREATE": "Create",
+      "CREATE": "Créer",
       "DELETE": "Supprimer",
       "CANCEL": "Annuler"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Ajouter une étiquette",
+      "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Étiquette ajoutée avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Modifier l'étiquette",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Étiquette mise à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Supprimer",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Étiquette supprimée avec succès",
+        "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
       },
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",

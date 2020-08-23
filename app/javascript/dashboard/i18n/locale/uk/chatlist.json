@@ -45,6 +45,10 @@
       {
         "TEXT": "Вирішений",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "ion-link",
         "CONTENT": "поділився посиланням"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet"
   }
 }

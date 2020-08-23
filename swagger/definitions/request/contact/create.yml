@@ -1,6 +1,11 @@
 type: object
 properties:
-  account_id:
-    type: number
   inbox_id:
     type: number
+    required: true
+  name:
+    type: string
+  email:
+    type: string
+  phone_number:
+    type: string

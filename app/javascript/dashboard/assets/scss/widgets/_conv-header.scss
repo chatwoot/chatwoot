@@ -15,10 +15,9 @@
   .multiselect-box {
     @include flex;
     @include flex-align($x: justify, $y: middle);
-    @include margin(0 $space-small);
     @include border-light;
     border-radius: $space-smaller;
-    margin-right: $space-normal;
+    margin-right: var(--space-small);
 
     &::before {
       color: $medium-gray;

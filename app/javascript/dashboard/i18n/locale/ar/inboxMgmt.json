@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "تعذر تكوين المصادقة بواسطة بيانات الاعتماد الخاصة بحسابك على Twilio، يرجى المحاولة مرة أخرى"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "اسم القناة",
+          "PLACEHOLDER": "الرجاء إدخال اسم القناة",
+          "ERROR": "هذا الحقل مطلوب"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "رابط Webhook",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "رابط Webhook"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "اسم القناة",
+          "PLACEHOLDER": "الرجاء إدخال اسم القناة",
+          "ERROR": "هذا الحقل مطلوب"
+        },
+        "EMAIL": {
+          "LABEL": "البريد الإلكتروني",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "البريد الإلكتروني"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
       "AUTH": {
         "TITLE": "القنوات",
         "DESC": "ندعم حالياً تثبيت برنامج الدردشة المباشرة على موقعك وربط صفحات الفيس بوك وحسابات تويتر. جار العمل على دعم المزيد من المنصات الأخرى مثل واتساب، و البريد الإلكتروني، و تلغرام و لاين، والتي ستكون متاحة قريباً."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "تعذر حذف قناة التواصل. الرجاء المحاولة مرة أخرى لاحقاً."
       }
     },
+    "TABS": {
+      "SETTINGS": "الإعدادات",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "الإعدادات",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",

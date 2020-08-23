@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "登录到Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "PLACEHOLDER": "电子邮址 例如：somone@example.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "密码",
+      "PLACEHOLDER": "密码"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "登录成功",
+      "ERROR_MESSAGE": "无法连接服务器，请稍后再试",
+      "UNAUTH": "用户名/密码不正确。请重试"
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "忘记密码了？",
+    "CREATE_NEW_ACCOUNT": "创建新账户",
+    "SUBMIT": "登录"
   }
 }
