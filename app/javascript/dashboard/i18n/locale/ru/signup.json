@@ -1,32 +1,32 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Создать аккаунт",
+    "TITLE": "Регистрация",
+    "TERMS_ACCEPT": "Зарегистрировавшись, вы соглашаетесь с нашими <a href=\"https://www.chatwoot.com/terms\">правилами пользования</a> и <a href=\"https://www.chatwoot.com/privacy-policy\">политикой конфиденциальности</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
+      "LABEL": "Имя аккаунта",
       "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "ERROR": "Имя аккаунта слишком короткое"
     },
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "PLACEHOLDER": "Bruce@wayne.enterprises",
+      "ERROR": "Неверный адрес электронной почты"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "Пароль",
+      "PLACEHOLDER": "Пароль",
+      "ERROR": "Пароль слишком короткий"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Подтвердить пароль",
+      "PLACEHOLDER": "Подтвердить пароль",
+      "ERROR": "Пароли не совпадают"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Успешная регистрация",
+      "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "Отправить"
   }
 }

@@ -9,6 +9,11 @@
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
+    "CANNOT_REPLY": "You cannot reply due to",
+    "24_HOURS_WINDOW": "24 hour message window restriction",
+    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "REPLYING_TO": "You are replying to:",
+    "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Descarrega",
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
@@ -31,5 +36,22 @@
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
     "CHANGE_AGENT": "Assignació de la conversa canviat"
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send conversation transcript",
+    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "SUBMIT": "Envia",
+    "CANCEL": "Cancel·la",
+    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "EMAIL": {
+        "PLACEHOLDER": "Enter an email address",
+        "ERROR": "Introduïu una adreça de correu electrònic vàlida"
+      }
+    }
   }
 }

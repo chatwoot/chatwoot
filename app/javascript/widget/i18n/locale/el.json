@@ -9,10 +9,17 @@
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "είναι διαθέσιμο",
-    "ARE_AVAILABLE": "είναι διαθέσιμα",
-    "OTHERS_ARE_AVAILABLE": "άλλα είναι διαθέσιμα",
+    "IS_AVAILABLE": "είναι διαθέσιμος",
+    "ARE_AVAILABLE": "είναι διαθέσιμοι",
+    "OTHERS_ARE_AVAILABLE": "άλλοι είναι διαθέσιμοι",
     "AND": "και"
+  },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Δείτε τα νέα μηνύματα",
+    "CLOSE_MESSAGES_BUTTON": "Κλείσιμο"
+  },
+  "BUBBLE": {
+    "LABEL": "Συνομιλήστε μαζί μας"
   },
   "POWERED_BY": "με την δύναμη του Chatwoot",
   "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",

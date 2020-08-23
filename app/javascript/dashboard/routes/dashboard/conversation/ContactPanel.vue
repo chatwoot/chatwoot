@@ -1,72 +1,9 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <div class="contact--profile">
-      <span class="close-button" @click="onPanelToggle">
-        <i class="ion-chevron-right" />
-      </span>
-      <div class="contact--info">
-        <thumbnail
-          :src="contact.thumbnail"
-          size="64px"
-          :badge="channelType"
-          :username="contact.name"
-          :status="contact.availability_status"
-        />
-        <div class="contact--details">
-          <div class="contact--name">
-            {{ contact.name }}
-          </div>
-          <a
-            v-if="contact.email"
-            :href="`mailto:${contact.email}`"
-            class="contact--email"
-          >
-            {{ contact.email }}
-          </a>
-          <a
-            v-if="contact.phone_number"
-            :href="`tel:${contact.phone_number}`"
-            class="contact--email"
-          >
-            {{ contact.phone_number }}
-          </a>
-
-          <div
-            v-if="
-              contact.additional_attributes &&
-                contact.additional_attributes.screen_name
-            "
-            class="contact--location"
-          >
-            {{ `@${contact.additional_attributes.screen_name}` }}
-          </div>
-          <div class="contact--location">
-            {{ contact.location }}
-          </div>
-        </div>
-      </div>
-      <div v-if="contact.bio" class="contact--bio">
-        {{ contact.bio }}
-      </div>
-      <div
-        v-if="
-          contact.additional_attributes &&
-            contact.additional_attributes.description
-        "
-        class="contact--bio"
-      >
-        {{ contact.additional_attributes.description }}
-      </div>
-      <div class="contact--actions">
-        <button
-          v-if="!currentChat.muted"
-          class="button small clear contact--mute small-6"
-          @click="mute"
-        >
-          {{ $t('CONTACT_PANEL.MUTE_CONTACT') }}
-        </button>
-      </div>
-    </div>
+    <span class="close-button" @click="onPanelToggle">
+      <i class="ion-chevron-right" />
+    </span>
+    <contact-info :contact="contact" :channel-type="channelType" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="browser.browser_name"
@@ -93,6 +30,10 @@
         icon="ion-clock"
       />
     </div>
+    <contact-custom-attributes
+      v-if="hasContactAttributes"
+      :custom-attributes="contact.custom_attributes"
+    />
     <conversation-labels :conversation-id="conversationId" />
     <contact-conversations
       v-if="contact.id"
@@ -104,17 +45,19 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
+import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
+import ContactCustomAttributes from './ContactCustomAttributes';
 
 export default {
   components: {
+    ContactCustomAttributes,
     ContactConversations,
     ContactDetailsItem,
+    ContactInfo,
     ConversationLabels,
-    Thumbnail,
   },
   props: {
     conversationId: {
@@ -137,6 +80,10 @@ export default {
     },
     additionalAttributes() {
       return this.currentConversationMetaData.additional_attributes || {};
+    },
+    hasContactAttributes() {
+      const { custom_attributes: customAttributes } = this.contact;
+      return customAttributes && Object.keys(customAttributes).length;
     },
     browser() {
       return this.additionalAttributes.browser || {};
@@ -185,13 +132,13 @@ export default {
     onPanelToggle() {
       this.onToggle();
     },
-    mute() {
-      this.$store.dispatch('muteConversation', this.conversationId);
-    },
     getContactDetails() {
       if (this.contactId) {
         this.$store.dispatch('contacts/show', { id: this.contactId });
       }
+    },
+    openTranscriptModal() {
+      this.showTranscriptModal = true;
     },
   },
 };
@@ -209,7 +156,11 @@ export default {
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-normal;
+  padding: $space-one;
+
+  i {
+    margin-right: $space-smaller;
+  }
 }
 
 .close-button {
@@ -220,57 +171,9 @@ export default {
   color: $color-heading;
 }
 
-.contact--profile {
-  align-items: center;
-  padding: $space-medium 0 $space-one;
-
-  .user-thumbnail-box {
-    margin-right: $space-normal;
-  }
-}
-
-.contact--details {
-  margin-top: $space-small;
-
-  p {
-    margin-bottom: 0;
-  }
-}
-
-.contact--info {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.contact--name {
-  @include text-ellipsis;
-  text-transform: capitalize;
-
-  font-weight: $font-weight-bold;
-  font-size: $font-size-default;
-}
-
-.contact--email {
-  @include text-ellipsis;
-
-  color: $color-gray;
-  display: block;
-  line-height: $space-medium;
-
-  &:hover {
-    color: $color-woot;
-  }
-}
-
-.contact--bio {
-  margin-top: $space-normal;
-}
-
 .conversation--details {
   border-top: 1px solid $color-border-light;
-  padding: $space-large $space-normal;
+  padding: $space-normal;
 }
 
 .conversation--labels {
@@ -295,11 +198,12 @@ export default {
 .contact--mute {
   color: $alert-color;
   display: block;
-  text-align: center;
+  text-align: left;
 }
 
 .contact--actions {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 </style>

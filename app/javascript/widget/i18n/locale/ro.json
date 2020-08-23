@@ -14,6 +14,13 @@
     "OTHERS_ARE_AVAILABLE": "altele sunt disponibile",
     "AND": "şi"
   },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Vezi mesajele noi",
+    "CLOSE_MESSAGES_BUTTON": "Închide"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat with us"
+  },
   "POWERED_BY": "Oferit de Chatwoot",
   "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
   "CHAT_PLACEHOLDER": "Scrie mesajul tău"

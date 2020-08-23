@@ -23,40 +23,71 @@ ___
   <a href="https://discord.gg/cJXdrwS"><img src="https://img.shields.io/discord/647412545203994635" alt="Discord"></a>
 </p>
 
-![ChatUI progess](https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/chatwoot-dashboard-assets.png)
+<img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/chatwoot-dashboard-assets.png" width="100%" alt="Chat dashboard"/>
 
-## Background
-
-Chatwoot is a customer support tool for instant messaging channels which can help businesses provide exceptional customer support. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it opensource, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
-
+Chatwoot is an open-source omnichannel customer support software. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
 Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
-## Documentation
+---
 
-Detailed documentation is available at [www.chatwoot.com/docs](https://www.chatwoot.com/docs).
+### Features
 
-You can find the quick setup docs [here](https://www.chatwoot.com/docs/quick-setup).
+Chatwoot gives an integrated view of conversations happening in different communication channels. 
 
-## Branching model
+It supports the following conversation channels:
+
+ - **Website**: Talk to your customers using our live chat widget and make use of our SDK to identify a user and provide contextual support.
+ - **Facebook**: Connect your Facebook pages and start replying to the direct messages to your page.
+ - **Twitter**: Connect your Twitter profiles and reply to direct messages or the tweets where you are mentioned.
+ - **Whatsapp**: Connect your Whatsapp business account and manage the conversation in Chatwoot
+ - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in Chatwoot
+ - **API Channel**: Build custom communication channels using our API channel.
+ - **Email (beta)**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
+
+Other features include: 
+
+- **Multi-brand inboxes**: Manage multiple brands or pages using a single dashboard.
+- **Private notes**: Inter team communication is possible using private notes in a conversation.
+- **Canned responses (Saved replies)**: Improve the response rate by adding saved replies for frequently asked questions.
+- **Conversation Labels**: Use conversation labelling to create custom workflows.
+- **Auto assignment**: Chatwoot intelligently assigns a ticket to the agents who have access to the inbox depending on their availability and load.
+- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot would send an email to the customer under the agent name so that the user can continue the conversation over the email.
+- **Multi-lingual support**: Chatwoot supports 10+ languages.
+- **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
+- **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
+
+---
+
+### Documentation
+
+Detailed documentation is available at [www.chatwoot.com/help-center](https://www.chatwoot.com/help-center).
+
+---
+
+### Branching model
 
 We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
 If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`. 
 
-## Heroku one-click deploy
+---
 
-Deploying chatwoot to heroku is a breeze. It's as simple as clicking this button:
+### Deployment
+
+#### Heroku one-click deploy
+
+Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
-Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables. This applies to deploying the docker image as well.
+Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables.
 
-## Docker
+#### Other deployment options
 
-Follow our [docker development guide](https://www.chatwoot.com/docs/installation-guide-docker) to develop and debug the application using `docker-compose`.
+Please follow [deployment architecture guide](https://www.chatwoot.com/docs/deployment/architecture) to deploy with Docker or Caprover.
 
-Follow our [environment variables](https://www.chatwoot.com/docs/environment-variables/) guide to setup the environment for Docker.
+---
 
-## Contributors ✨
+### Contributors ✨
 
 Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
 

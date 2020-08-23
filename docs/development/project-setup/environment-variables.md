@@ -6,7 +6,15 @@ title: "Environment Variables"
 
 ### Database configuration
 
-Use the following values in database.yml which lives inside `config` directory.
+You can set Postgres connection URI as `DATABASE_URL` in the environment to connect to the database.
+
+The URI is of the format
+
+```bash
+postgresql://[user[:password]@][netloc][:port][,...][/dbname][?param1=value1&...]
+```
+
+Alternatively, use the following values in database.yml which lives inside `config` directory.
 
 ```bash
 development:

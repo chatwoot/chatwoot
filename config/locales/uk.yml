@@ -41,3 +41,4 @@ uk:
       email_input_box_message_body: "Отримувати сповіщення електронною поштою"
     reply:
       email_subject: "New messages on this conversation"
+      transcript_subject: "Conversation Transcript"

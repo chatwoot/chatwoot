@@ -2,6 +2,7 @@
 /* eslint-env browser */
 import AvatarUploader from './widgets/forms/AvatarUploader.vue';
 import Bar from './widgets/chart/BarChart';
+import Button from './widgets/Button';
 import Code from './Code';
 import ColorPicker from './widgets/ColorPicker';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
@@ -21,6 +22,7 @@ import Thumbnail from './widgets/Thumbnail.vue';
 const WootUIKit = {
   AvatarUploader,
   Bar,
+  Button,
   Code,
   ColorPicker,
   DeleteModal,

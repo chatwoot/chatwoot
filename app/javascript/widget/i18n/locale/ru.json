@@ -1,20 +1,27 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Скачать",
+      "UPLOADING": "Загружаем..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Отправить"
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+    "IS_AVAILABLE": "в сети",
+    "ARE_AVAILABLE": "в сети",
+    "OTHERS_ARE_AVAILABLE": "другие операторы в сети",
+    "AND": "и"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
+    "CLOSE_MESSAGES_BUTTON": "Закрыть"
+  },
+  "BUBBLE": {
+    "LABEL": "Пообщайтесь с нами"
+  },
+  "POWERED_BY": "Работает на Chatwoot",
   "EMAIL_PLACEHOLDER": "Пожалуйста, введите ваш email",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Введите сообщение"
 }

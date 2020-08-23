@@ -1,77 +1,84 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Загружаем диалоги",
+    "LOAD_MORE_CONVERSATIONS": "Загрузить больше диалогов",
+    "EOF": "Все диалоги загружены 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "В этой группе нет активных диалогов."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Диалоги",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Искать людей, чаты, сохраненные ответы .."
     },
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "Открыть",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "Закрыт",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mine",
+        "NAME": "Мой",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "Неназначенный",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "Все",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Open",
+        "TEXT": "Открытые",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resolved",
+        "TEXT": "Закрытые",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Бот",
+        "VALUE": "бот"
       }
     ],
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "Picture message"
+        "CONTENT": "Изображение"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Audio message"
+        "CONTENT": "Аудиосообщение"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Video message"
+        "CONTENT": "Видео"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "File Attachment"
+        "CONTENT": "Прикрепленный файл"
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "Местоположение"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "has shared a url"
+        "CONTENT": "поделился ссылкой"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "Получено по электронной почте",
+    "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
+    "REPLY_TO_TWEET": "Ответить на этот твит"
   }
 }

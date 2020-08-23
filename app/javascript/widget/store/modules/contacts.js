@@ -17,6 +17,13 @@ export const actions = {
       // Ingore error
     }
   },
+  setCustomAttributes: async (_, customAttributes = {}) => {
+    try {
+      await ContactsAPI.setCustomAttibutes(customAttributes);
+    } catch (error) {
+      // Ingore error
+    }
+  },
 };
 
 export default {
