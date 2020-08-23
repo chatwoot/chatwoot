@@ -9,10 +9,14 @@
     }
   },
   "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+    "IS_AVAILABLE": "is beschikbaar",
+    "ARE_AVAILABLE": "zijn beschikbaar",
+    "OTHERS_ARE_AVAILABLE": "andere zijn beschikbaar",
+    "AND": "en"
+  },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
+    "CLOSE_MESSAGES_BUTTON": "Sluiten"
   },
   "BUBBLE": {
     "LABEL": "Chat met ons"

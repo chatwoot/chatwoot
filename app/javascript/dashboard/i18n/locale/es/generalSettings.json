@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Configuración de la cuenta",
     "SUBMIT": "Actualizar ajustes",
-    "BACK": "Back",
+    "BACK": "Atrás",
     "UPDATE": {
       "ERROR": "No se pudo actualizar la configuración, ¡inténtalo de nuevo!",
       "SUCCESS": "Configuración de cuenta actualizada correctamente"
@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Dominio",
-        "PLACEHOLDER": "El dominio de tu sitio web",
+        "LABEL": "Dominio de email entrante",
+        "PLACEHOLDER": "El dominio donde recibirás los emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "Email de soporte de tu empresa",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Activar email del dominio",
-        "PLACEHOLDER": "Activar el email del dominio personalizado",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Activado",
-          "DISABLED": "Deshabilitado"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para tu cuenta.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puedes recibir emails en tu dominio personalizado."
       }
     }
   }

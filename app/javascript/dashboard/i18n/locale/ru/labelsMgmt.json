@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Категории",
+    "HEADER_BTN_TXT": "Добавить категорию",
+    "LOADING": "Загрузка категорий",
+    "SEARCH_404": "Нет категорий, соответствующих запросу",
+    "SIDEBAR_TXT": "<p><b>Категории</b> <p>Категории помогают вам классифицировать диалоги и приоритизировать их. Вы можете назначить категорию диалогу из бокового меню. <br /><br />Категории привязаны к учетной записи и могут быть использованы для упрощения рабочих процессов в вашей организации. Вы можете назначить цвет категории. Также вы можете легко отфильтровать диалоги по категориям из боковой панели.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "У вас нет категорий.",
+      "TITLE": "Управлять категориями",
+      "DESC": "Категории позволяют вам группировать диалоги.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "Имя",
+        "Описание",
+        "Цвет"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Название категории",
+        "PLACEHOLDER": "Название категории",
+        "ERROR": "Название категории обязательно"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Описание",
+        "PLACEHOLDER": "Описание категории"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Цвет"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Показывать категорию на боковой панели"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Редактировать",
+      "CREATE": "Создать",
+      "DELETE": "Удалить",
+      "CANCEL": "Отменить"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Добавить категорию",
+      "DESC": "Категории позволяют вам группировать диалоги.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Категория добавлена",
+        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Редактировать категорию",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Категория сохранена",
+        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Удалить",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Категория удалена",
+        "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Вы точно хотите удалить ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
       }
     }
   }

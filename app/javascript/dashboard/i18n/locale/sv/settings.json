@@ -44,9 +44,14 @@
         "LABEL": "Profilbild"
       },
       "NAME": {
-        "LABEL": "Ditt namn",
-        "ERROR": "Ange ett giltigt namn",
-        "PLACEHOLDER": "Ange ditt namn, detta skulle visas i konversationer"
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
@@ -122,5 +127,21 @@
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Account Settings",
     "LABELS": "Labels"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Kontonamn",
+        "PLACEHOLDER": "Wayne Företag"
+      },
+      "SUBMIT": "Skicka"
+    }
   }
 }

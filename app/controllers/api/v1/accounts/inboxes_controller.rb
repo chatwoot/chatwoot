@@ -4,7 +4,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @inboxes = policy_scope(Current.account.inboxes.order_by_id.includes(:channel, :avatar_attachment))
+    @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, :avatar_attachment))
   end
 
   def create

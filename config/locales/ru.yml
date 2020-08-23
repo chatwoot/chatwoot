@@ -17,27 +17,28 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ru:
-  hello: "Hello world"
+  hello: "Привет мир"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
+    reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Мы не разрешаем одноразовые почтовые ящики
+      invalid_email: Вы ввели неверный email
+      email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
+      failed: Ошибка регистрации
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
+        resolved: "%{user_name} завершил диалог"
+        open: "%{user_name} открыл заново диалог"
       assignee:
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        assigned: "%{user_name} назначил %{assignee_name} ответственным"
+        removed: "Ответственный снят %{user_name}"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} как правило отвечает в течении несколько часов."
+      ways_to_reach_you_message_body: "Оставьте ваш email для связи"
+      email_input_box_message_body: "Получать уведомления по email"
     reply:
-      email_subject: "New messages on this conversation"
+      email_subject: "Новые сообщения в этом диалоге"
+      transcript_subject: "Субтитры общения"

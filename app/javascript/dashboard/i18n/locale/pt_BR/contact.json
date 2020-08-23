@@ -9,21 +9,26 @@
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Atributos personalizados"
+    },
     "LABELS": {
       "TITLE": "Marcador da conversa",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Marcadores para",
+        "ACTIVE_LABELS": "Marcadores adicionados à conversa",
+        "INACTIVE_LABELS": "Marcadores disponíveis na conta",
+        "REMOVE": "Clique no ícone X para remover o marcador",
+        "ADD": "Clique no ícone + para adicionar o marcador",
+        "UPDATE_BUTTON": "Atualizar marcadores",
         "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Não há mais rótulos definidos na conta.",
+      "NO_AVAILABLE_LABELS": "Não há rótulos adicionados a esta conversa."
     },
-    "MUTE_CONTACT": "Silenciar Contato",
+    "MUTE_CONTACT": "Silenciar a conversa",
+    "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
+    "SEND_TRANSCRIPT": "Enviar Transcrição",
     "EDIT_LABEL": "Alterar"
   }
 }

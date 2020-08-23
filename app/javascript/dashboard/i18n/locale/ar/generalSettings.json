@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "الدومين",
-        "PLACEHOLDER": "نطاق موقعك الإلكتروني",
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "The domain where you will receive the emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "عنوان البريد الإلكتروني الخاص باستقبال رسائل الدعم الفني",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "تفعيل دومين البريد الإلكتروني",
-        "PLACEHOLDER": "تفعيل خيار تعيين دومين مخصص لعنوان البريد الإلكتروني",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "مفعل",
-          "DISABLED": "معطّل"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     }
   }

@@ -1,0 +1,13 @@
+get:
+  tags:
+    - Profile
+  operationId: fetchProfile
+  summary: Fetch user profile
+  description: Get the user profile details
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/user'
+    401:
+      description: Unauthorized

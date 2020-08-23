@@ -37,6 +37,15 @@ Chatwoot support 2 designs for for the widget
 
 ![Expanded-bubble](./images/sdk/expanded-bubble.gif)
 
+If you are using expanded bubble, you can customize the text used in the bubble by setting `launcherText` parameter on chatwootSettings as described below.
+
+```js
+window.chatwootSettings = {
+  type: 'expanded_bubble',
+  launcherText: 'Chat with us'
+}
+```
+
 ### To trigger widget without displaying bubble
 
 ```js
@@ -56,6 +65,31 @@ window.$chatwoot.setUser('identifier_key', {
 `setUser` accepts an identifier which can be a `user_id` in your database or any unique parameter which represents a user. You can pass email, name, avatar_url as params. Support for additional parameters is in progress.
 
 Make sure that you reset the session when the user logs out of your app.
+
+### Set custom attributes
+
+Inorder to set additional information about the customer you can use customer attributes field.
+
+To set a custom attributes call `setCustomAttributes` as follows
+
+```js
+window.$chatwoot.setCustomAttributes({
+  accountId: 1,
+  pricingPlan: 'paid',
+
+  // You can pass any key value pair here.
+  // Value should either be a string or a number.
+  // You need to flatten nested JSON structure while using this function
+});
+```
+
+You can view these information in the sidepanel of a conversation.
+
+To delete a custom attribute, use `deleteCustomAttribute` as follows
+
+```js
+window.$chatwoot.deleteCustomAttribute('attribute-name');
+```
 
 ### To set language manually
 

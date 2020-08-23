@@ -2,6 +2,7 @@ import axios from 'axios';
 import { actions } from '../../contacts';
 import * as types from '../../../mutation-types';
 import contactList from './fixtures';
+import { DuplicateContactException } from '../../../../../shared/helpers/CustomErrors';
 
 const commit = jest.fn();
 global.axios = axios;
@@ -62,6 +63,24 @@ describe('#actions', () => {
       axios.patch.mockRejectedValue({ message: 'Incorrect header' });
       await expect(actions.update({ commit }, contactList[0])).rejects.toThrow(
         Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+
+    it('sends correct actions if duplicate contact is found', async () => {
+      axios.patch.mockRejectedValue({
+        response: {
+          data: {
+            message: 'Incorrect header',
+            contact: { id: 1, name: 'contact-name' },
+          },
+        },
+      });
+      await expect(actions.update({ commit }, contactList[0])).rejects.toThrow(
+        DuplicateContactException
       );
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONTACT_UI_FLAG, { isUpdating: true }],
