@@ -2,15 +2,16 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'Bug'
 assignees: ''
 
 ---
-
 **Describe the bug**
+
 A clear and concise description of what the bug is.
 
 **To Reproduce**
+
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
@@ -18,10 +19,16 @@ Steps to reproduce the behavior:
 4. See error
 
 **Expected behavior**
+
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
+
 If applicable, add screenshots to help explain your problem.
+
+**Environment**
+
+Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self hosted installation of Chatwoot. If you are using a self hosted installation of Chatwoot describe the type of deployment (Docker/Linux VM installation/Heroku)
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
@@ -35,4 +42,5 @@ If applicable, add screenshots to help explain your problem.
  - Version [e.g. 22]
 
 **Additional context**
+
 Add any other context about the problem here.
