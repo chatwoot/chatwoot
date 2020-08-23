@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "Vi kunde inte autentisera Twilio autentiseringsuppgifter, försök igen"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnamn",
+          "PLACEHOLDER": "Ange ett kanalnamn",
+          "ERROR": "Detta fält är tvingande"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "Webhook URL"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnamn",
+          "PLACEHOLDER": "Ange ett kanalnamn",
+          "ERROR": "Detta fält är tvingande"
+        },
+        "EMAIL": {
+          "LABEL": "E-post",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "E-post"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
       "AUTH": {
         "TITLE": "Kanaler",
         "DESC": "För närvarande stöder vi Webbplats live chat widgets, Facebook-sidor och Twitter-profiler som plattformar. Vi har fler plattformar som Whatsapp, e-post, Telegram och Linje i verken, som kommer ut snart."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Kunde inte ta bort inkorgen. Försök igen senare."
       }
     },
+    "TABS": {
+      "SETTINGS": "Inställningar",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Inställningar",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skript för budbärare",
       "MESSENGER_SUB_HEAD": "Placera denna knapp i din kroppstagg",

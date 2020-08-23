@@ -1,63 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Интеграции",
     "WEBHOOK": {
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "Вебхук",
+      "CONFIGURE": "Настроить",
+      "HEADER": "Настройки вебхуков",
+      "HEADER_BTN_TXT": "Добавить новый вебхук",
+      "INTEGRATION_TXT": "Вебхуки позволяют получить информацию в реальном о том, что происходит в вашем аккаунте Chatwoot. Вы можете использовать вебхуки для общения событий с любимыми приложениями, такими как Slack или Github. Нажмите \"Настройки\", чтобы настроить ваши вебхуки.",
+      "LOADING": "Получение подключенных вебхуков",
+      "SEARCH_404": "Нет вебхуков, соответствующих запросу",
+      "SIDEBAR_TXT": "<p><b>Вебхуки</b> </p> <p>Вебхуки – это HTTP запросы, которые можно установить для любого аккаунта. Они вызываются по событиям: например, при создании новых сообщений в Chatwoot. Вы можете создать сколько угодно вебхуков для этой учетной записи. <br /><br /> Для создания <b>вебхука</b>, нажмите на кнопку <b>Добавить новый вебхук</b>. Вы также можете удалить любой существующий вебхук, нажав на кнопку Удалить.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "У вас нет вебхуков.",
+        "TITLE": "Управление вебхуками",
+        "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Адрес вебхука",
+          "Действия"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Отменить",
+        "TITLE": "Добавить новый вебхук",
+        "DESC": "Вебхуки позволяют получить вам информацию о том, что происходит в вашей учетной записи Chatwoot. Пожалуйста, введите корректный URL.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "LABEL": "URL вебхука",
+            "PLACEHOLDER": "Пример: https://example/api/webhook",
+            "ERROR": "Пожалуйста, введите правильный URL"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Создать вебхук"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Вебхук добавлен",
+          "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Удалить",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Вебхук удален",
+          "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Подтвердите удаление",
+          "MESSAGE": "Вы точно хотите удалить ",
+          "YES": "Да, удалить ",
+          "NO": "Нет, не удалять"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Удалить",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Интеграция удалена"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Подключить"
     }
   }
 }

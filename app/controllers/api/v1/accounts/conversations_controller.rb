@@ -25,6 +25,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def transcript
+    ConversationReplyMailer.conversation_transcript(@conversation, params[:email])&.deliver_later if params[:email].present?
+    head :ok
+  end
+
   def toggle_status
     if params[:status]
       @conversation.status = params[:status]

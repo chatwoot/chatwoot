@@ -4,14 +4,17 @@ describe ::ContactIdentifyAction do
   subject(:contact_identify) { described_class.new(contact: contact, params: params).perform }
 
   let!(:account) { create(:account) }
-  let!(:contact) { create(:contact, account: account) }
-  let(:params) { { name: 'test', identifier: 'test_id' } }
+  let(:custom_attributes) { { test: 'test', test1: 'test1' } }
+  let!(:contact) { create(:contact, account: account, custom_attributes: custom_attributes) }
+  let(:params) { { name: 'test', identifier: 'test_id', custom_attributes: { test: 'new test', test2: 'test2' } } }
 
   describe '#perform' do
     it 'updates the contact' do
       expect(ContactAvatarJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
       contact_identify
       expect(contact.reload.name).to eq 'test'
+      # custom attributes are merged properly without overwritting existing ones
+      expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
       expect(contact.reload.identifier).to eq 'test_id'
     end
 
