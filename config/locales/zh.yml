@@ -16,28 +16,29 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-zh-TW:
-  hello: "Hello world"
+zh-CN:
+  hello: "您好世界"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
+    reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: 我们不允许可用的电子邮件
+      invalid_email: 您输入了一个无效的电子邮件
+      email_already_exists: "您已经注册了 %{email} 的帐户"
+      failed: 注册失败
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
+        resolved: "对话被标记由 %{user_name} 解决"
+        open: "对话被 %{user_name} 重新打开"
       assignee:
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        assigned: "由 %{assignee_name} 分配给 %{user_name}"
+        removed: "对话未被 %{user_name} 分配"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} 通常在几小时内回复。"
+      ways_to_reach_you_message_body: "给团队一个联系您的方法。"
+      email_input_box_message_body: "通过电子邮件得到通知"
     reply:
-      email_subject: "New messages on this conversation"
+      email_subject: "此对话中的新消息"
+      transcript_subject: "Conversation Transcript"

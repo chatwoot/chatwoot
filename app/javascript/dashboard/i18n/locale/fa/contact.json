@@ -6,16 +6,29 @@
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است",
+      "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
       "TITLE": "گفتگوهای قبلی"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
     },
     "LABELS": {
       "TITLE": "برچسب‌های گفتگو",
-      "UPDATE_BUTTON": "تغییر برچسب‌ها",
-      "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید",
-      "TAG_PLACEHOLDER": "برچسب جدید",
-      "PLACEHOLDER": "پیدا کردن یا اضافه کردن برچسب"
+      "MODAL": {
+        "TITLE": "Labels for",
+        "ACTIVE_LABELS": "Labels added to the conversation",
+        "INACTIVE_LABELS": "Labels available in the account",
+        "REMOVE": "Click on X icon to remove the label",
+        "ADD": "Click on + icon to add the label",
+        "UPDATE_BUTTON": "تغییر برچسب‌ها",
+        "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید."
+      },
+      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "بی‌صدا کردن گفتگو"
+    "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
+    "EDIT_LABEL": "ویرایش"
   }
 }

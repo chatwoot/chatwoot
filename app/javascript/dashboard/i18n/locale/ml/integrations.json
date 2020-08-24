@@ -53,11 +53,11 @@
     "DELETE": {
       "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "സംയോജനം വിജയകരമായി ഇല്ലാതാക്കി"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "ബന്ധിപ്പിക്കുക"
     }
   }
 }

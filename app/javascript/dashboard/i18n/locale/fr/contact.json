@@ -9,22 +9,25 @@
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
       "TITLE": "Conversations précédentes"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
+    },
     "LABELS": {
       "TITLE": "Étiquettes de conversation",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Étiquettes pour",
+        "ACTIVE_LABELS": "Étiquettes ajoutées à la conversation",
+        "INACTIVE_LABELS": "Étiquettes disponibles dans le compte",
+        "REMOVE": "Cliquez sur l'icône X pour supprimer l'étiquette",
+        "ADD": "Cliquez sur l'icône + pour ajouter l'étiquette",
+        "UPDATE_BUTTON": "Mettre à jour les étiquettes",
         "UPDATE_ERROR": "Impossible de mettre à jour les étiquettes. Veuillez réessayer."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Il n'y a pas d'autres étiquettes définies dans le compte.",
+      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation."
     },
-    "MUTE_CONTACT": "Mettre en sourdine le contact",
-    "MUTED_SUCCESS": "Cette conversation est coupée pendant 6 heures",
+    "MUTE_CONTACT": "Mettre la conversation en sourdine",
+    "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
     "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier"
   }

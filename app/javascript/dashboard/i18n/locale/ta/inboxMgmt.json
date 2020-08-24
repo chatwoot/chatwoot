@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "ட்விலியோ கிரேடின்டியல்செய் எங்களால் அங்கீகரிக்க முடியவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "சேனலின் பெயர்",
+          "PLACEHOLDER": "சேனலின் பெயரை உள்ளிடவும்",
+          "ERROR": "இந்த புலம் தேவை"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "வெப்ஹூக் URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "வெப்ஹூக் URL"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "சேனலின் பெயர்",
+          "PLACEHOLDER": "சேனலின் பெயரை உள்ளிடவும்",
+          "ERROR": "இந்த புலம் தேவை"
+        },
+        "EMAIL": {
+          "LABEL": "இமெயில்",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "இமெயில்"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
       "AUTH": {
         "TITLE": "சேனல்கள்",
         "DESC": "தற்போது வலைத்தள நேரடி சாட் விட்ஜெட்டுகள், பேஸ்புக் பக்கங்கள் மற்றும் ட்விட்டர் சுயவிவரங்களை தளங்களாக ஆதரிக்கிறோம். விரைவில் வாட்ஸ்அப், ஈ-மெயில், டெலிகிராம் மற்றும் லைன் போன்ற பல தளங்களிலும் வர இருக்கிறது."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "இன்பாக்ஸை நீக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்."
       }
     },
+    "TABS": {
+      "SETTINGS": "அமைப்புகள்",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "அமைப்புகள்",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "மெசஞ்சர் ஸ்கிரிப்ட்",
       "MESSENGER_SUB_HEAD": "இந்த பொத்தானை உங்கள் பாடி டேகுக்குள் வைக்கவும்",

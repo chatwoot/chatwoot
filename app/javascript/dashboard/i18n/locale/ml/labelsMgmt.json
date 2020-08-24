@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "ലേബലുകൾ",
+    "HEADER_BTN_TXT": "ലേബൽ ചേർക്കുക",
+    "LOADING": "ലേബലുകൾ ലഭ്യമാക്കുന്നു",
     "SEARCH_404": "ഈ ചോദ്യവുമായി പൊരുത്തപ്പെടുന്ന ഇനങ്ങളൊന്നുമില്ല",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p> <b> ലേബലുകൾ‌ </b> <p> സംഭാഷണങ്ങൾ‌ തരംതിരിക്കാനും മുൻ‌ഗണന നൽകാനും ലേബലുകൾ‌ നിങ്ങളെ സഹായിക്കുന്നു. സൈഡ്‌പാനലിൽ നിന്നുള്ള സംഭാഷണത്തിലേക്ക് നിങ്ങൾക്ക് ലേബൽ നൽകാം. <br /> <br /> ലേബലുകൾ‌ അക്ക with ണ്ടുമായി ബന്ധിപ്പിച്ചിരിക്കുന്നു കൂടാതെ നിങ്ങളുടെ ഓർ‌ഗനൈസേഷനിൽ‌ ഇച്ഛാനുസൃത വർ‌ക്ക്ഫ്ലോകൾ‌ സൃഷ്‌ടിക്കാനും ഇത് ഉപയോഗിക്കാം. നിങ്ങൾക്ക് ഒരു ലേബലിന് ഇഷ്‌ടാനുസൃത നിറം നൽകാനാകും, ഇത് ലേബൽ തിരിച്ചറിയുന്നത് എളുപ്പമാക്കുന്നു. സംഭാഷണങ്ങൾ‌ എളുപ്പത്തിൽ‌ ഫിൽ‌റ്റർ‌ ചെയ്യുന്നതിന് സൈഡ്‌ബാറിൽ‌ ലേബൽ‌ പ്രദർശിപ്പിക്കാൻ‌ നിങ്ങൾ‌ക്ക് കഴിയും. </p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "ഈ അക്കൗണ്ടിൽ ലേബലുകളൊന്നും ലഭ്യമല്ല.",
+      "TITLE": "ലേബലുകൾ നിയന്ത്രിക്കുക",
+      "DESC": "സംഭാഷണങ്ങൾ ഒരുമിച്ച് ഗ്രൂപ്പുചെയ്യാൻ ലേബലുകൾ നിങ്ങളെ അനുവദിക്കുന്നു.",
       "TABLE_HEADER": [
         "പേര്",
-        "Description",
-        "Color"
+        "വിവരണം",
+        "നിറം"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "ലേബൽ നാമം",
+        "PLACEHOLDER": "ലേബൽ നാമം",
+        "ERROR": "ലേബൽ നാമം ആവശ്യമാണ്"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "വിവരണം",
+        "PLACEHOLDER": "ലേബൽ വിവരണം"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "നിറം"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "സൈഡ്‌ബാറിൽ ലേബൽ കാണിക്കുക"
       },
       "EDIT": "എഡിറ്റുചെയ്യുക",
-      "CREATE": "Create",
+      "CREATE": "സൃഷ്ടിക്കുക",
       "DELETE": "ഇല്ലാതാക്കുക",
       "CANCEL": "റദ്ദാക്കുക"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "ലേബൽ ചേർക്കുക",
+      "DESC": "സംഭാഷണങ്ങൾ ഒരുമിച്ച് ഗ്രൂപ്പുചെയ്യാൻ ലേബലുകൾ നിങ്ങളെ അനുവദിക്കുന്നു.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ലേബൽ വിജയകരമായി ചേർത്തു",
+        "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "ലേബൽ എഡിറ്റുചെയ്യുക",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ലേബൽ വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
+        "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "ഇല്ലാതാക്കുക",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ലേബൽ വിജയകരമായി ഇല്ലാതാക്കി",
+        "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
       },
       "CONFIRM": {
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
         "MESSAGE": "<p><b>ഏജന്റുമാർ</b></p><p> ഒരു <b>ഏജൻറ്</b> നിങ്ങളുടെ ഉപഭോക്തൃ പിന്തുണാ ടീമിലെ ഒരു അംഗമാണ്. </p><p> ഏജന്റുമാർക്ക് നിങ്ങളുടെ ഉപയോക്താക്കളിൽ നിന്നുള്ള സന്ദേശങ്ങൾ കാണാനും മറുപടി നൽകാനും കഴിയും. നിങ്ങളുടെ അക്കൗണ്ടിലുള്ള എല്ലാ ഏജന്റുമാരെയും ഈ പട്ടിക കാണിക്കുന്നു. </ p> <p> ഒരു പുതിയ ഏജന്റിനെ ചേർക്കുന്നതിന് <b> ഏജന്റിനെ ചേർക്കുക </ b> ബട്ടൺ ക്ലിക്കുചെയ്യുക. നിങ്ങൾ ചേർത്ത ഏജന്റിന് അവരുടെ അക്കൗണ്ട് സജീവമാക്കുന്നതിന് ഒരു സ്ഥിരീകരണ ലിങ്കുള്ള ഇമെയിൽ ലഭിക്കും. അതിനുശേഷം അവർക്ക് ചാറ്റ് വൂട്ട് ആക്സസ് ചെയ്യാനും സന്ദേശങ്ങളോട് പ്രതികരിക്കാനും കഴിയും.</p> <p> ചാറ്റ് വൂട്ടിന്റെ സവിശേഷതകളിലേക്കുള്ള ആക്സസ് ഇനിപ്പറയുന്ന റോളുകളെ അടിസ്ഥാനമാക്കിയുള്ളതാണ്. </p><p> <b>ഏജൻറ്</ b> - ഈ റോൾ‌ ഉള്ള ഏജന്റുമാർ‌ക്ക് ഇൻ‌ബോക്‍സുകൾ‌, റിപ്പോർ‌ട്ടുകൾ‌, സംഭാഷണങ്ങൾ‌ എന്നിവ മാത്രമേ ആക്‌സസ് ചെയ്യാൻ‌ കഴിയൂ. അവർക്ക് മറ്റ് ഏജന്റുമാരുടെയോ അല്ലെങ്കിൽ‌ തങ്ങളുടേയോ സംഭാഷണങ്ങൾ‌ നിർ‌ണ്ണയിക്കാനും സംഭാഷണങ്ങൾ‌ പരിഹരിക്കാനും കഴിയും.</p><p> <b>അഡ്മിനിസ്ട്രേറ്റർ</b> - ഒരു സാധാരണ ഏജന്റിന്റെ പ്രത്യേകാവകാശങ്ങളോടൊപ്പം ക്രമീകരണങ്ങളും ബില്ലിംഗും ഉൾപ്പെടെ നിങ്ങളുടെ അക്കൗണ്ടിൽ ലഭ്യമായ എല്ലാ ചാറ്റ് വൂട്ട് സവിശേഷതകളിലേക്കും ആക്‌സസ് ഉണ്ടായിരിക്കുക. </ p> ",
         "YES": "അതെ, ഇല്ലാതാക്കുക ",
-        "NO": "No, Keep "
+        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       }
     }
   }

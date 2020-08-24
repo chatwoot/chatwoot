@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACEHOLDER": "Το domain της ιστοσελίδας σας",
+        "LABEL": "Τομέας (domain) του εισερχόμενου email",
+        "PLACEHOLDER": "Ο τομέας στον οποίο θα λαμβάνετε τα emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "To email υποστήριξης της εταιρίας σας",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Ενεργοποίηση emai του domain",
-        "PLACEHOLDER": "Ενεργοποιήση του custom domain email",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Ενεργό",
-          "DISABLED": "Ανενεργό"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
       }
     }
   }

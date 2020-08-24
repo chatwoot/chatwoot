@@ -9,6 +9,9 @@
       "NO_RECORDS_FOUND": "Non ci sono precedenti conversazioni associate a questo contatto.",
       "TITLE": "Conversazioni precedenti"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
+    },
     "LABELS": {
       "TITLE": "Etichette conversazione",
       "MODAL": {
@@ -23,7 +26,9 @@
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "Silenzia Contatto",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Modifica"
   }
 }

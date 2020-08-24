@@ -2,7 +2,7 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "ഡൗൺലോഡ്",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "അപ്‌ലോഡുചെയ്യുന്നു..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "സമർപ്പിക്കുക"
@@ -14,10 +14,14 @@
     "OTHERS_ARE_AVAILABLE": "others are available",
     "AND": "and"
   },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
+    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക"
+  },
   "BUBBLE": {
     "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക"
 }

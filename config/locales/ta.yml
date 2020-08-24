@@ -41,3 +41,4 @@ ta:
       email_input_box_message_body: "இமெயில் மூலம் அறிய"
     reply:
       email_subject: "இந்த உரையாடலில் புதிய செய்திகள்"
+      transcript_subject: "Conversation Transcript"

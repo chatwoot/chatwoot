@@ -33,7 +33,8 @@ class ContactIdentifyAction
   end
 
   def update_contact
-    @contact.update!(params.slice(:name, :email, :identifier))
+    custom_attributes = params[:custom_attributes] ? @contact.custom_attributes.merge(params[:custom_attributes]) : @contact.custom_attributes
+    @contact.update!(params.slice(:name, :email, :identifier).merge({ custom_attributes: custom_attributes }))
     ContactAvatarJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 

@@ -1,46 +1,41 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "Настройки аккаунта",
+    "SUBMIT": "Изменить настройки",
+    "BACK": "Назад",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "Не удалось обновить настройки, попробуйте снова!",
+      "SUCCESS": "Настройки аккаунта обновлены"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "Пожалуйста исправьте ошибки",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Общие настройки",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "Имя аккаунта",
+        "PLACEHOLDER": "Имя вашего аккаунта",
+        "ERROR": "Пожалуйста, введите корректное имя аккаунта"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "Язык сайта (Beta)",
+        "PLACEHOLDER": "Имя вашего аккаунта",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Domain",
-        "PLACEHOLDER": "Your website domain",
+        "LABEL": "Домен входящей почты",
+        "PLACEHOLDER": "Домен, на который вы принимаете письма",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Email поддержки",
+        "PLACEHOLDER": "Email службы поддержки вашей компании",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Enable domain email",
-        "PLACEHOLDER": "Enable the custom domain email",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
     }
   }
