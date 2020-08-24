@@ -9,6 +9,7 @@
 ######################################
 class Base::SendOnChannelService
   pattr_initialize [:message!]
+  self.abstract_class = true
 
   def perform
     validate_target_channel
