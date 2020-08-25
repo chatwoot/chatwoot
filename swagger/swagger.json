@@ -1641,14 +1641,18 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "input_email",
+            "cards",
             "input_select",
             "form",
-            "cards"
-          ]
+            "article"
+          ],
+          "example": "cards",
+          "description": "if you want to create custom message types"
         },
         "content_attributes": {
           "type": "object",
-          "description": "options/form object"
+          "description": "attributes based on your content type"
         }
       }
     }

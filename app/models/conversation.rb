@@ -31,8 +31,6 @@
 #
 
 class Conversation < ApplicationRecord
-  include Events::Types
-
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 

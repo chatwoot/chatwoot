@@ -24,8 +24,6 @@
 #
 
 class AccountUser < ApplicationRecord
-  include Events::Types
-
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
@@ -33,7 +31,7 @@ class AccountUser < ApplicationRecord
   enum role: { agent: 0, administrator: 1 }
   accepts_nested_attributes_for :account
 
-  after_create :notify_creation, :create_notification_setting
+  after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :destroy_notification_setting
 
   validates :user_id, uniqueness: { scope: :account_id }
