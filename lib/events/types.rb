@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 module Events::Types
+  ### Installation Events ###
   # account events
   ACCOUNT_CREATED = 'account.created'
   ACCOUNT_DESTROYED = 'account.destroyed'
 
+  #### Account Events ###
   # channel events
   WEBWIDGET_TRIGGERED = 'webwidget.triggered'
 
@@ -28,10 +30,7 @@ module Events::Types
   CONTACT_CREATED = 'contact.created'
   CONTACT_UPDATED = 'contact.updated'
 
-  # subscription events
+  # agent events
   AGENT_ADDED = 'agent.added'
   AGENT_REMOVED = 'agent.removed'
-  SUBSCRIPTION_CREATED = 'subscription.created'
-  SUBSCRIPTION_REACTIVATED = 'subscription.reactivated'
-  SUBSCRIPTION_DEACTIVATED = 'subscription.deactivated'
 end
