@@ -28,8 +28,6 @@
 #
 
 class Message < ApplicationRecord
-  include Events::Types
-
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   validates :account_id, presence: true
@@ -105,6 +103,7 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
+      private: private,
       content_attributes: content_attributes,
       source_id: source_id,
       sender: sender.try(:webhook_data),
