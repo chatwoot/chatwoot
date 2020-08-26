@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "غير متاح",
+    "EMAIL_ADDRESS": "عنوان البريد الإلكتروني",
+    "PHONE_NUMBER": "رقم الهاتف",
+    "COMPANY": "الشركة",
+    "LOCATION": "الموقع الجغرافي",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
     "BROWSER": "المتصفح",
     "OS": "نظام التشغيل",
@@ -10,7 +15,7 @@
       "TITLE": "المحادثات السابقة"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "سمات مخصصة"
     },
     "LABELS": {
       "TITLE": "وسوم المحادثة",
@@ -26,9 +31,66 @@
       "NO_LABELS_TO_ADD": "لا يوجد وسوم في الحساب.",
       "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "كتم المحادثة",
+    "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
+    "SEND_TRANSCRIPT": "إرسال النص",
     "EDIT_LABEL": "تعديل"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "تعديل جهة الاتصال",
+    "TITLE": "تعديل جهة الاتصال",
+    "DESC": "تعديل تفاصيل جهة الاتصال",
+    "FORM": {
+      "SUBMIT": "إرسال",
+      "CANCEL": "إلغاء",
+      "AVATAR": {
+        "LABEL": "صورة الرمزية"
+      },
+      "NAME": {
+        "PLACEHOLDER": "أدخل الاسم الكامل لجهة الاتصال",
+        "LABEL": "الاسم الكامل"
+      },
+      "BIO": {
+        "PLACEHOLDER": "أدخل البيانات الشخصية لجهة الاتصال",
+        "LABEL": "البيانات الشخصية"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "أدخل عنوان البريد الإلكتروني الخاص بجهة الاتصال",
+        "LABEL": "عنوان البريد الإلكتروني"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
+        "LABEL": "رقم الهاتف"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "أدخل موقع جهة الاتصال",
+        "LABEL": "الموقع الجغرافي"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "أدخل اسم الشركة",
+        "LABEL": "اسم الشركة"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "أدخل اسم مستخدم فيسبوك",
+          "LABEL": "فيسبوك"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "أدخل اسم مستخدم تويتر",
+          "LABEL": "تويتر"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "أدخل اسم مستخدم Linkedin",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "أدخل اسم المسستخدم في Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "تم تحديث جهة الاتصال بنجاح",
+    "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
+    "ERROR_MESSAGE": "حدث خطأ أثناء تحديث جهة الاتصال، الرجاء المحاولة مرة أخرى"
   }
 }

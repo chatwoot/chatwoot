@@ -47,7 +47,7 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
+        "TEXT": "رد آلي",
         "VALUE": "bot"
       }
     ],
@@ -77,8 +77,8 @@
         "CONTENT": "قام بمشاركة رابط"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
+    "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
+    "REPLY_TO_TWEET": "الرد على هذه التغريدة"
   }
 }
