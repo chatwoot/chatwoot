@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "إضافة وسم جديد",
     "LOADING": "جار جلب الوسوم",
     "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>الوسوم</b> <p>تساعدك الوسو على تصنيف المحادثات وإعطائها الأولوية. يمكنك تعيين وسم إلى محادثة من القائمة الجانبية. <br /><br />الوسوم مرتبطة بالحساب ويمكن استخدامها لإنشاء سير عمل مخصص في مؤسستك. يمكنك تعيين لون مخصص للوسم، مما يسهل التعرف على الوسم. ستتمكن من عرض الوسم على الشريط الجانبي لتصفية المحادثات بسهولة.</p>",
     "LIST": {
       "404": "لا يوجد وسوم متوفرة في هذا الحساب.",
       "TITLE": "إدارة الوسوم",

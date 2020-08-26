@@ -9,11 +9,11 @@
     "CLICK_HERE": "اضغط هنا",
     "LOADING_INBOXES": "جار تحميل صناديق الوارد",
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "لا يمكنك الرد بسبب",
+    "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "LAST_INCOMING_TWEET": "أنت ترد على آخر تغريدة واردة",
+    "REPLYING_TO": "أنت ترد على:",
+    "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
@@ -38,18 +38,18 @@
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "إرسال نص المحادثة",
+    "DESC": "إرسال نسخة من نص المحادثة إلى عنوان البريد الإلكتروني المحدد",
     "SUBMIT": "إرسال",
     "CANCEL": "إلغاء",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "تم إرسال نص المحادثة بنجاح",
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "إرسال نص المحادثة إلى العميل",
+      "SEND_TO_AGENT": "إرسال نص المحادثة إلى ممثل خدمة العملاء المعين",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "إرسال النص إلى عنوان بريد إلكتروني آخر",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "أدخل عنوان بريد إلكتروني",
         "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
       }
     }

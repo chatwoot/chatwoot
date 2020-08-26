@@ -1,0 +1,238 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "กล่องข้อความ",
+    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ Chatwoot จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี Chatwoot ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
+    "LIST": {
+      "404": "ไม่มีกล่องข้อความที่เกี่ยวข้องในบัญชีนี้"
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "เลือกช่อง",
+        "route": "settings_inbox_new",
+        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ Chatwoot"
+      },
+      {
+        "title": "สร้างกล่องข้อความ",
+        "route": "settings_inboxes_page_channel",
+        "body": "ตรวจสอบบัญชีของคุณเเละสร้างกล่องข้อความ"
+      },
+      {
+        "title": "เพิ่มพนักงาน",
+        "route": "settings_inboxes_add_agents",
+        "body": "เพิ่มพนักงานเพื่อสร้างกล่องข้อความ"
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "คุณพร้อมเเล้ว"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น Chatwoot ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
+        "CHOOSE_PAGE": "เลือกหน้า",
+        "CHOOSE_PLACEHOLDER": "เลือกหน้าจากรายชื่อ",
+        "INBOX_NAME": "ชื่อกล่องข้อความ",
+        "ADD_NAME": "เพิ่มชื่อให้กล่องข้อความของคุณ",
+        "PICK_NAME": "เลือกชื่อให้กล่องข้อความของคุณ",
+        "PICK_A_VALUE": "เลือกค่า"
+      },
+      "TWITTER": {
+        "HELP": "ในการเพิ่มโปรไฟล์ Twitter ของคุณเป็นช่องคุณต้องตรวจสอบสิทธิ์โปรไฟล์ Twitter ของคุณโดยคลิกที่ \"ลงชื่อเข้าใช้ด้วย Twitter\" "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "ช่องเว็บไซต์",
+        "DESC": "สร้างช่องสำหรับเว็บของคุณเเละเริ่มที่จะช่วยเหลือลูกค้าของคุณด้วยวิดเจ็ต",
+        "LOADING_MESSAGE": "กำลังสร้างช่องช่วยเหลือสำหรับเว็บไซต์",
+        "CHANNEL_AVATAR": {
+          "LABEL": "รูปของช่อง"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "ชื่อเว็บไซต์",
+          "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "โดเมนเว็บไซต์",
+          "PLACEHOLDER": "กรอกโดเมนเว็บไซต์ของคุณ (เช่น snowboltz.net)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "ข้อความยินดีต้อนรับส่วนหัว",
+          "PLACEHOLDER": "สวัสดี!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "ข้อความยินดีต้อนรับส่วนล่าง",
+          "PLACEHOLDER": "เราทำให้การติดต่อกับเราเป็นเรื่องง่าย ถามเราได้ทุกอย่างหรือแบ่งปันความคิดเห็นของคุณ"
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "ข้อความต้อนรับ",
+          "PLACEHOLDER": "โดยทั่วไป Acme Inc จะตอบกลับภายในไม่กี่ชั่วโมง"
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "เปิดข้อความต้อนรับ",
+          "HELP_TEXT": "ส่งข้อความต้นรับเมื่อการสนทนาเริ่มขึ้น",
+          "ENABLED": "เปิด",
+          "DISABLED": "ปิด"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "สีของวิดเจ็ต",
+          "PLACEHOLDER": "อัพเดทสีที่ใช้ในวิดเจ็ต"
+        },
+        "SUBMIT_BUTTON": "สร้างกล่องข้อความ"
+      },
+      "TWILIO": {
+        "TITLE": "ช่อง Twilio SMS/Whatsapp",
+        "DESC": "เพิ่ม Twilio และเริ่มสนับสนุนลูกค้าของคุณผ่าน SMS หรือ Whatsapp",
+        "ACCOUNT_SID": {
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "กรุณากรอก Twilio Account SID",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "ประเภทช่อง",
+          "ERROR": "กรุณาเลือกประเภทช่อง"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "กรุณาหรอก Twilio Auth Token",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "ชื่อช่อง",
+          "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "หมายเลขโทรศัพท์",
+          "PLACEHOLDER": "กรุณากรอกหมายเลขโทรศัพท์ที่จะส่งข้อความ",
+          "ERROR": "กรุณากรอกหมายเลขโทรศัพท์ให้ถูกต้องต้องเริ่มด้วย \"+\""
+        },
+        "API_CALLBACK": {
+          "TITLE": "ลิ้งเรียกกลับ",
+          "SUBTITLE": "คุณต้องตั้งค่าลิ้งเรียกกลับใน Twilio ด้วยลิ้งที่มาจากที่นี่"
+        },
+        "SUBMIT_BUTTON": "สร้างช่อง Twilio",
+        "API": {
+          "ERROR_MESSAGE": "เราไม่สามารถยืนยันใบรับลองของ Twilio ได้กรุณาลองใหม่อีกครั้ง"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "ช่อง API",
+        "DESC": "สร้างช่องด้วย API เเละเริ่มช่วยเหลือลูกค้าของคุณ",
+        "CHANNEL_NAME": {
+          "LABEL": "ชื่อช่อง",
+          "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "ลิ้ง Webhook",
+          "SUBTITLE": "ตั้งค่าลิ้งที่ต้องการรับอีเวนท์",
+          "PLACEHOLDER": "ลิ้ง Webhook"
+        },
+        "SUBMIT_BUTTON": "สร้างช่อง API",
+        "API": {
+          "ERROR_MESSAGE": "ไม่สามารถบันทึกช่อง API ได้"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "ช่องอีเมล์",
+        "DESC": "ใช้งานกล่องข้อความอีเมล์",
+        "CHANNEL_NAME": {
+          "LABEL": "ชื่อช่อง",
+          "PLACEHOLDER": "กรุณากรอกชื่อช่อง",
+          "ERROR": "ฟิลด์นี้จำเป็นต้องกรอก"
+        },
+        "EMAIL": {
+          "LABEL": "อีเมล์",
+          "SUBTITLE": "อีเมล์ที่ใช้สำหรับลูกค้าที่จะส่งข้อความตั๋วช่วยเหลือ",
+          "PLACEHOLDER": "อีเมล์"
+        },
+        "SUBMIT_BUTTON": "สร้างช่องอีเมล์",
+        "API": {
+          "ERROR_MESSAGE": "เราไม่สามารถบันทึกช่องอีเมล์ได้"
+        },
+        "FINISH_MESSAGE": "เริ่มนำเข้าอีเมล์ของคุณไปที่อยู่อีเมล์"
+      },
+      "AUTH": {
+        "TITLE": "ช่อง",
+        "DESC": "ขณะนี้เราสนับสนุนวิดเจ็ตแชทสดของเว็บไซต์เพจ Facebook และโปรไฟล์ Twitter เป็นแพลตฟอร์ม เรามีแพลตฟอร์มอื่น ๆ เช่น Whatsapp, Email, Telegram และ Line ในผลงานซึ่งจะออกเร็ว ๆ นี้"
+      },
+      "AGENTS": {
+        "TITLE": "พนักงาน",
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+      },
+      "DETAILS": {
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+      },
+      "FINISH": {
+        "TITLE": "Nailed It!",
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Authenticating you with Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Creating your Inbox...",
+      "TITLE": "Configure Inbox Details",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Add agents",
+      "ADD_AGENTS": "Adding Agents to your Inbox..."
+    },
+    "FINISH": {
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Take me there",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+    },
+    "REAUTH": "Reauthorize",
+    "VIEW": "View",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "ลบ",
+      "CONFIRM": {
+        "TITLE": "ยืนยันการลบ",
+        "MESSAGE": "คุณต้องการที่จะลบไหม ",
+        "YES": "เอาเลย ",
+        "NO": "ไม่อะเก็บไว้ "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Settings",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
+    "SETTINGS": "Settings",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "INBOX_AGENTS": "พนักงาน",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "UPDATE": "Update",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+    }
+  }
+}
