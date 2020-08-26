@@ -44,17 +44,17 @@
         "LABEL": "صورة الملف الشخصي"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "اسمك الكامل",
+        "ERROR": "الرجاء إدخال اسم صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "اسم العرض",
+        "ERROR": "الرجاء إدخال اسم عرض صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسم العرض، سيتم عرض هذا في المحادثات"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "التوفر",
         "STATUSES_LIST": [
           {
             "value": "متصل",
@@ -129,11 +129,11 @@
     "LABELS": "الوسوم"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "حساب جديد",
+    "SELECTOR_SUBTITLE": "إنشاء حساب جديد",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "تم إنشاء الحساب بنجاح",
+      "EXIST_MESSAGE": "الحساب موجود بالفعل",
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "FORM": {

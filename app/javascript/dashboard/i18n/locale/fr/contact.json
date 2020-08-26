@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Non disponible",
+    "EMAIL_ADDRESS": "Adresse de courriel",
+    "PHONE_NUMBER": "Numéro de téléphone",
+    "COMPANY": "Société",
+    "LOCATION": "Localisation",
     "CONVERSATION_TITLE": "Détails de la conversation",
     "BROWSER": "Navigateur",
     "OS": "Système d'exploitation",
@@ -10,7 +15,7 @@
       "TITLE": "Conversations précédentes"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Attributs personnalisés"
     },
     "LABELS": {
       "TITLE": "Étiquettes de conversation",
@@ -30,5 +35,62 @@
     "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
     "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Modifier le contact",
+    "TITLE": "Modifier le contact",
+    "DESC": "Modifier les informations de contact",
+    "FORM": {
+      "SUBMIT": "Envoyer",
+      "CANCEL": "Annuler",
+      "AVATAR": {
+        "LABEL": "Avatar du contact"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Entrez le nom complet du contact",
+        "LABEL": "Nom complet"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Entrez la biographie du contact",
+        "LABEL": "Biographie"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Entrez l'adresse de courriel du contact",
+        "LABEL": "Adresse de courriel"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
+        "LABEL": "Numéro de téléphone"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Entrez l'emplacement du contact",
+        "LABEL": "Localisation"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Entrez le nom de la société",
+        "LABEL": "Nom de la société"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Contact mis à jour avec succès",
+    "CONTACT_ALREADY_EXIST": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
+    "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour du contact, veuillez réessayer"
   }
 }
