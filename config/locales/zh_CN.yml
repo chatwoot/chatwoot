@@ -1,0 +1,44 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+zh-CN:
+  hello: "您好世界"
+  messages:
+    reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
+    reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
+  errors:
+    signup:
+      disposable_email: 我们不允许可用的电子邮件
+      invalid_email: 您输入了一个无效的电子邮件
+      email_already_exists: "您已经注册了 %{email} 的帐户"
+      failed: 注册失败
+  conversations:
+    activity:
+      status:
+        resolved: "对话被标记由 %{user_name} 解决"
+        open: "对话被 %{user_name} 重新打开"
+      assignee:
+        assigned: "由 %{assignee_name} 分配给 %{user_name}"
+        removed: "对话未被 %{user_name} 分配"
+    templates:
+      greeting_message_body: "%{account_name} 通常在几小时内回复。"
+      ways_to_reach_you_message_body: "给团队一个联系您的方法。"
+      email_input_box_message_body: "通过电子邮件得到通知"
+    reply:
+      email_subject: "此对话中的新消息"
+      transcript_subject: "Conversation Transcript"
