@@ -52,11 +52,15 @@ export default {
       const isLeft = this.widgetPosition === 'left';
       return isLeft;
     },
+    isIFrame() {
+      return IFrameHelper.isIFrame();
+    },
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
     this.setLocale(locale);
-    if (IFrameHelper.isIFrame()) {
+    this.$store.dispatch('conversationAttributes/get');
+    if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
       setHeader('X-Auth-Token', window.authToken);
@@ -67,7 +71,6 @@ export default {
       this.setLocale(getLocale(window.location.search));
     }
     this.setWidgetColor(window.chatwootWebChannel);
-    this.$store.dispatch('conversationAttributes/get');
     this.registerUnreadEvents();
   },
   methods: {
@@ -98,7 +101,12 @@ export default {
       this.hideMessageBubble = !!hideBubble;
     },
     registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => this.setUnreadView());
+      bus.$on('on-agent-message-recieved', () => {
+        if (!this.isIFrame) {
+          this.setUserLastSeen();
+        }
+        this.setUnreadView();
+      });
       bus.$on('on-unread-view-clicked', () => {
         this.unsetUnreadView();
         this.setUserLastSeen();
@@ -109,7 +117,7 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-      if (IFrameHelper.isIFrame() && unreadMessageCount > 0) {
+      if (this.isIFrame && unreadMessageCount > 0) {
         IFrameHelper.sendMessage({
           event: 'setUnreadMode',
           unreadMessageCount,
@@ -117,7 +125,7 @@ export default {
       }
     },
     unsetUnreadView() {
-      if (IFrameHelper.isIFrame()) {
+      if (this.isIFrame) {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
       }
     },
@@ -145,9 +153,7 @@ export default {
           this.setLocale(message.locale);
           this.setBubbleLabel();
           this.setPosition(message.position);
-          this.fetchOldConversations().then(() => {
-            this.setUnreadView();
-          });
+          this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);

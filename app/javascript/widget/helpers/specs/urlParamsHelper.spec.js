@@ -1,4 +1,8 @@
-import { buildSearchParamsWithLocale, getLocale } from '../urlParamsHelper';
+import {
+  buildSearchParamsWithLocale,
+  getLocale,
+  buildPopoutURL,
+} from '../urlParamsHelper';
 
 jest.mock('vue', () => ({
   config: {
@@ -23,5 +27,20 @@ describe('#getLocale', () => {
       'fr'
     );
     expect(getLocale('')).toEqual(undefined);
+  });
+});
+
+describe('#buildPopoutURL', () => {
+  it('returns popout URL', () => {
+    expect(
+      buildPopoutURL({
+        origin: 'https://chatwoot.com',
+        conversationCookie: 'random-jwt-token',
+        websiteToken: 'random-website-token',
+        locale: 'ar',
+      })
+    ).toEqual(
+      'https://chatwoot.com?cw_conversation=random-jwt-token&website_token=random-website-token&locale=ar'
+    );
   });
 });

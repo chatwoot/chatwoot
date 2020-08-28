@@ -20,3 +20,12 @@ export const getLocale = (search = '') => {
     return acc;
   }, undefined);
 };
+
+export const buildPopoutURL = ({
+  origin,
+  conversationCookie,
+  websiteToken,
+  locale,
+}) => {
+  return `${origin}/widget?cw_conversation=${conversationCookie}&website_token=${websiteToken}&locale=${locale}`;
+};

@@ -14,7 +14,8 @@
 </template>
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
+import { buildPopoutURL } from '../helpers/urlParamsHelper';
+import Vue from 'vue';
 
 export default {
   name: 'HeaderActions',
@@ -32,8 +33,18 @@ export default {
   methods: {
     popoutWindow() {
       this.closeWindow();
+      const {
+        location: { origin },
+        chatwootWebChannel: { websiteToken },
+        authToken,
+      } = window;
 
-      const popoutWindowURL = buildSearchParamsWithLocale(window.location.href);
+      const popoutWindowURL = buildPopoutURL({
+        origin,
+        websiteToken,
+        locale: Vue.config.lang,
+        conversationCookie: authToken,
+      });
       window.open(
         popoutWindowURL,
         'chatwoot-web-widget-session',
