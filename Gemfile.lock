@@ -179,7 +179,7 @@ GEM
     equalizer (0.0.11)
     erubi (1.9.0)
     execjs (2.7.0)
-    facebook-messenger (2.0.1)
+    facebook-messenger (1.5.0)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.4.5)
     factory_bot (6.1.0)
@@ -566,7 +566,7 @@ DEPENDENCIES
   devise
   devise_token_auth
   dotenv-rails
-  facebook-messenger
+  facebook-messenger (= 1.5.0)
   factory_bot_rails
   faker
   fcm
