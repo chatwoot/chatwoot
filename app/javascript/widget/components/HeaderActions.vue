@@ -1,0 +1,77 @@
+<template>
+  <div v-if="isIframe" class="actions">
+    <button
+      v-if="showPopoutButton"
+      class="button transparent compact new-window--button"
+      @click="popoutWindow"
+    >
+      <span class="ion-android-open"></span>
+    </button>
+    <button class="button transparent compact close-button">
+      <span class="ion-android-close" @click="closeWindow"></span>
+    </button>
+  </div>
+</template>
+<script>
+import { IFrameHelper } from 'widget/helpers/utils';
+import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
+
+export default {
+  name: 'HeaderActions',
+  props: {
+    showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    isIframe() {
+      return IFrameHelper.isIFrame();
+    },
+  },
+  methods: {
+    popoutWindow() {
+      this.closeWindow();
+
+      const popoutWindowURL = buildSearchParamsWithLocale(window.location.href);
+      window.open(
+        popoutWindowURL,
+        'chatwoot-web-widget-session',
+        'resizable=off,width=400,height=600'
+      );
+    },
+    closeWindow() {
+      if (IFrameHelper.isIFrame()) {
+        IFrameHelper.sendMessage({
+          event: 'toggleBubble',
+        });
+      }
+    },
+  },
+};
+</script>
+<style scoped lang="scss">
+@import '~widget/assets/scss/variables.scss';
+
+.actions {
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-left: $space-normal;
+  }
+
+  span {
+    color: $color-heading;
+    font-size: $font-size-large;
+
+    &.ion-android-close {
+      font-size: $font-size-big;
+    }
+  }
+
+  .close-button {
+    display: none;
+  }
+}
+</style>
