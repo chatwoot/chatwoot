@@ -33,6 +33,9 @@ Style/GlobalVars:
 Style/ClassVars:
   Exclude:
     - 'app/services/email_templates/db_resolver_service.rb'
+Lint/MissingSuper:
+  Exclude:
+    - 'app/drops/base_drop.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*

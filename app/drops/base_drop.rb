@@ -1,7 +1,6 @@
 class BaseDrop < Liquid::Drop
   def initialize(obj)
     @obj = obj
-    super
   end
 
   def id
