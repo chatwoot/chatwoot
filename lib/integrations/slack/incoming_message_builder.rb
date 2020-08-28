@@ -80,7 +80,7 @@ class Integrations::Slack::IncomingMessageBuilder
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       content: params[:event][:text],
-      source_id: "slack_#{params[:event][:ts]}",
+      external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: sender
     )

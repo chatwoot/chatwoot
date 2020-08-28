@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_190629) do
+ActiveRecord::Schema.define(version: 2020_08_28_175931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -328,6 +328,7 @@ ActiveRecord::Schema.define(version: 2020_08_19_190629) do
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"
+    t.jsonb "external_source_ids", default: {}
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
