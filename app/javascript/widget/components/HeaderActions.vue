@@ -45,11 +45,12 @@ export default {
         locale: Vue.config.lang,
         conversationCookie: authToken,
       });
-      window.open(
+      const popoutWindow = window.open(
         popoutWindowURL,
-        'chatwoot-web-widget-session',
+        `webwidget_session_${websiteToken}`,
         'resizable=off,width=400,height=600'
       );
+      popoutWindow.focus();
     },
     closeWindow() {
       if (IFrameHelper.isIFrame()) {
