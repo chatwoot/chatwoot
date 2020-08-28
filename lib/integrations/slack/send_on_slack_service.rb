@@ -4,9 +4,9 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def perform
     # overriding the base class logic since the validations are different in this case.
     # FIXME: for now we will only send messages from widget to slack
-    return unless channel.is_a?(Channel::WebWidget)
+    return unless valid_channel_for_slack?
     # we don't want message loop in slack
-    return if message.source_id.try(:starts_with?, 'slack_')
+    return if message.external_source_id_slack.present?
     # we don't want to start slack thread from agent conversation as of now
     return if message.outgoing? && conversation.identifier.blank?
 
@@ -14,6 +14,13 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   private
+
+  def valid_channel_for_slack?
+    # slack wouldn't be an idean interface to reply to tweets, hence disabling that case
+    return false if channel.is_a?(Channel::TwitterProfile) && conversation.additional_attributes['type'] == 'tweet'
+
+    true
+  end
 
   def perform_reply
     send_message
