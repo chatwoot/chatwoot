@@ -12,3 +12,5 @@ export const MESSAGE_TYPE = {
   ACTIVITY: 2,
   TEMPLATE: 3,
 };
+
+export const WOOT_PREFIX = 'chatwoot-widget:';
