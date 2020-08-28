@@ -112,7 +112,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [submitted_values: [:name, :title, :value]])
+    params.permit(message: [{ submitted_values: [:name, :title, :value] }])
   end
 
   def permitted_params

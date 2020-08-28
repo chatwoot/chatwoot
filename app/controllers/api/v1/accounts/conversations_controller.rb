@@ -41,9 +41,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_typing_status
-    if params[:typing_status] == 'on'
+    case params[:typing_status]
+    when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
-    elsif params[:typing_status] == 'off'
+    when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF)
     end
     head :ok

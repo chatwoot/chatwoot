@@ -7,7 +7,7 @@
 class Messages::Facebook::MessageBuilder
   attr_reader :response
 
-  def initialize(response, inbox, outgoing_echo = false)
+  def initialize(response, inbox, outgoing_echo: false)
     @response = response
     @inbox = inbox
     @sender_id = (outgoing_echo ? @response.recipient_id : @response.sender_id)
