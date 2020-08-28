@@ -8,7 +8,7 @@ class AddExternalSourceIdsToMessages < ActiveRecord::Migration[6.0]
     Message.where('source_id LIKE ?', 'slack_%').find_in_batches do |message_batch|
       message_batch.each do |message|
         message.external_source_id_slack = message.source_id.split('slack_')[1]
-        message.source_id = nill
+        message.source_id = nil
         message.save!
       end
     end
