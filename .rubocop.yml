@@ -21,6 +21,10 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
+Style/OptionalBooleanParameter:
+  Exclude: 
+    - 'app/services/email_templates/db_resolver_service.rb'
+    - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'

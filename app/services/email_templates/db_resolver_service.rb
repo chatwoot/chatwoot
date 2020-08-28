@@ -23,7 +23,7 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
   # Since rails picks up files from cache. lets override the method
   # Normalizes the arguments and passes it on to find_templates.
   # rubocop:disable Metrics/ParameterLists
-  def find_all(name, prefix: nil, partial: false, details: {}, key: nil, locals: [])
+  def find_all(name, prefix = nil, partial = false, details = {}, key = nil, locals = [])
     locals = locals.map(&:to_s).sort!.freeze
     _find_all(name, prefix, partial, details, key, locals)
   end
