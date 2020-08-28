@@ -40,7 +40,7 @@ describe('#buildPopoutURL', () => {
         locale: 'ar',
       })
     ).toEqual(
-      'https://chatwoot.com?cw_conversation=random-jwt-token&website_token=random-website-token&locale=ar'
+      'https://chatwoot.com/widget?cw_conversation=random-jwt-token&website_token=random-website-token&locale=ar'
     );
   });
 });

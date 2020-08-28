@@ -59,7 +59,6 @@ export default {
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
     this.setLocale(locale);
-    this.$store.dispatch('conversationAttributes/get');
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
@@ -70,6 +69,7 @@ export default {
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
+    this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
   },
@@ -141,14 +141,10 @@ export default {
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
-        const wootPrefix = 'chatwoot-widget:';
-        const isDataNotString = typeof e.data !== 'string';
-        const isNotFromWoot =
-          isDataNotString || e.data.indexOf(wootPrefix) !== 0;
-
-        if (isNotFromWoot) return;
-
-        const message = JSON.parse(e.data.replace(wootPrefix, ''));
+        if (!IFrameHelper.isAValidEvent(e)) {
+          return;
+        }
+        const message = IFrameHelper.getMessage(e);
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

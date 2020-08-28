@@ -46,6 +46,17 @@ window.chatwootSettings = {
 }
 ```
 
+### To enable popout window
+
+Inorder to enable the popout window, add the following configuration to `chatwootSettings`. This option is disabled by default.
+
+```js
+window.chatwootSettings = {
+  // ...Other Config
+  showPopoutButton: true,
+}
+```
+
 ### To trigger widget without displaying bubble
 
 ```js
