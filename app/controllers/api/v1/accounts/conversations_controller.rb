@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
+
   before_action :conversation, except: [:index]
   before_action :contact_inbox, only: [:create]
 

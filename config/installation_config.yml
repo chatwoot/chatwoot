@@ -22,3 +22,5 @@
   value: false
 - name: BRAND_NAME
   value: 'Chatwoot'
+- name: 'INSTALLATION_EVENTS_WEBHOOK_URL'
+  value: 

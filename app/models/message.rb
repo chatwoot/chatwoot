@@ -2,21 +2,22 @@
 #
 # Table name: messages
 #
-#  id                 :integer          not null, primary key
-#  content            :text
-#  content_attributes :json
-#  content_type       :integer          default("text")
-#  message_type       :integer          not null
-#  private            :boolean          default(FALSE)
-#  sender_type        :string
-#  status             :integer          default("sent")
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  account_id         :integer          not null
-#  conversation_id    :integer          not null
-#  inbox_id           :integer          not null
-#  sender_id          :bigint
-#  source_id          :string
+#  id                  :integer          not null, primary key
+#  content             :text
+#  content_attributes  :json
+#  content_type        :integer          default("text")
+#  external_source_ids :jsonb
+#  message_type        :integer          not null
+#  private             :boolean          default(FALSE)
+#  sender_type         :string
+#  status              :integer          default("sent")
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :integer          not null
+#  conversation_id     :integer          not null
+#  inbox_id            :integer          not null
+#  sender_id           :bigint
+#  source_id           :string
 #
 # Indexes
 #
@@ -28,8 +29,6 @@
 #
 
 class Message < ApplicationRecord
-  include Events::Types
-
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   validates :account_id, presence: true
@@ -54,6 +53,8 @@ class Message < ApplicationRecord
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
+
+  store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -105,6 +106,7 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
+      private: private,
       content_attributes: content_attributes,
       source_id: source_id,
       sender: sender.try(:webhook_data),
