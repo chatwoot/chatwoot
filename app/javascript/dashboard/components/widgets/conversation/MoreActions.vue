@@ -21,14 +21,14 @@
         class="button small clear row alert small-6 action--button"
         @click="mute"
       >
-        <i class="icon ion-volume-mute" />
+        <!-- <i class="icon ion-volume-mute" /> -->
         <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
       </button>
       <button
         class="button small clear row small-6 action--button"
         @click="toggleEmailActionsModal"
       >
-        <i class="icon ion-ios-copy" />
+        <!-- <i class="icon ion-ios-copy" /> -->
         {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
       </button>
     </div>
@@ -116,6 +116,13 @@ export default {
   width: auto;
 
   &::before {
+    @include arrow(top, var(--color-border-light), 14px);
+    top: -14px;
+    position: absolute;
+    right: 6px;
+  }
+
+  &::after {
     @include arrow(top, white, var(--space-slab));
     top: -12px;
     position: absolute;
@@ -132,7 +139,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: var(--space-small) 0;
+  padding: var(--space-small) var(--space-smaller);
   font-size: var(--font-size-small);
 
   .icon {
