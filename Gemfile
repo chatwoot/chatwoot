@@ -49,7 +49,7 @@ gem 'foreman'
 gem 'puma'
 gem 'webpacker', '~> 5.x'
 # metrics on heroku
-gem "barnes"
+gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
