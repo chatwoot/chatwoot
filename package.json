@@ -105,7 +105,7 @@
       "git add"
     ],
     "!(*schema).rb": [
-      "rubocop -a",
+      "bundle exec rubocop -a",
       "git add"
     ],
     "*.scss": [

@@ -46,7 +46,7 @@ class Base::SendOnChannelService
   def invalid_message?
     # private notes aren't send to the channels
     # we should also avoid the case of message loops, when outgoing messages are created from channel
-    message.private? || outgoing_message_originated_from_channel?
+    message.is_private_note? || outgoing_message_originated_from_channel?
   end
 
   def validate_target_channel

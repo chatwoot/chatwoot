@@ -25,7 +25,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'not have private notes' do
         # make the message private
-        private_message.private = true
+        private_message.is_private_note = true
         private_message.save
 
         expect(mail.body.decoded).not_to include(private_message.content)
@@ -66,7 +66,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
       it 'not have private notes' do
         # make the message private
-        private_message.private = true
+        private_message.is_private_note = true
         private_message.save
         expect(mail.body.decoded).not_to include(private_message.content)
       end

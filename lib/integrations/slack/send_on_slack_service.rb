@@ -28,7 +28,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def message_content
-    private_indicator = message.private? ? 'private: ' : ''
+    private_indicator = message.is_private_note? ? 'private: ' : ''
     if conversation.identifier.present?
       "#{private_indicator}#{message.content}"
     else

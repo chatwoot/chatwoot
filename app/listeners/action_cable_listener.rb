@@ -125,7 +125,7 @@ class ActionCableListener < BaseListener
   end
 
   def contact_token(contact, message)
-    return [] if message.private?
+    return [] if message.is_private_note?
     return [] if message.activity?
     return [] if contact.nil?
 

@@ -58,7 +58,7 @@ class Message < ApplicationRecord
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
-  scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :chat, -> { where.not(message_type: :activity).where(is_private_note: false) }
   default_scope { order(created_at: :asc) }
 
   belongs_to :account
@@ -106,7 +106,7 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
-      private: private,
+      private: is_private_note,
       content_attributes: content_attributes,
       source_id: source_id,
       sender: sender.try(:webhook_data),
@@ -151,7 +151,7 @@ class Message < ApplicationRecord
   end
 
   def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
+    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !is_private_note?
       # set a redis key for the conversation so that we don't need to send email for every
       # new message that comes in and we dont enque the delayed sidekiq job for every message
       Redis::Alfred.setex(conversation_mail_key, Time.zone.now)

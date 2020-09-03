@@ -4,7 +4,7 @@ class Messages::MessageBuilder
 
   def initialize(user, conversation, params)
     @content = params[:content]
-    @private = params[:private] || false
+    @private = params[:is_private_note] || params[:private] || false
     @conversation = conversation
     @user = user
     @message_type = params[:message_type] || 'outgoing'
@@ -49,7 +49,7 @@ class Messages::MessageBuilder
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
       content: @content,
-      private: @private,
+      is_private_note: @private,
       sender: sender,
       content_type: @content_type,
       items: @items,
