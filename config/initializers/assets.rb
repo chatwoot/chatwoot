@@ -13,3 +13,7 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
 Rails.application.config.assets.precompile += %w[dashboardChart.js]
+
+# to take care of fonts in assets pre-compiling
+# Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
+Rails.application.config.assets.precompile << /\.(?:svg|eot|woff|ttf|woff2)$/
