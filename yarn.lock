@@ -10601,13 +10601,6 @@ vm-browserify@^1.0.1:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-1.1.2.tgz#78641c488b8e6ca91a75f511e7a3b32a86e5dda0"
   integrity sha512-2ham8XPWTONajOR0ohOKOHXkm3+gaBmGut3SRuu75xLd/RRaY6vqgh8NBYYk7+RW3u5AtzPQZG8F10LHkl0lAQ==
 
-vue-audio@~0.0.7:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/vue-audio/-/vue-audio-0.0.12.tgz#0e4d7af19bc2cc8924a90a57e01edd7de0945cc4"
-  integrity sha512-QgTl+UuLSWOhHDv0E7EgXD4JQcrsI6Tsvn3qOTmNvMacWNL/qmQPKbTPQ1EuzHMVX4LeGphZTXPb8myJfwms7Q==
-  dependencies:
-    vue "^2.5.8"
-
 vue-axios@~1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/vue-axios/-/vue-axios-1.2.2.tgz#d18bb48fa7bf469ffa86676960f52a89b7d38a9d"
@@ -10708,11 +10701,6 @@ vue-router@~2.2.0:
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-2.2.1.tgz#b027f9fac2cf13462725e843d6dc631b6aa077f6"
   integrity sha1-sCf5+sLPE0YnJehD1txjG2qgd/Y=
 
-vue-select@~2.0.0:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.0.1.tgz#0a606b4e17627ac805ab009759dffde6e859c9ba"
-  integrity sha1-CmBrThdiesgFqwCXWd/95uhZybo=
-
 vue-style-loader@^4.1.0:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"
@@ -10739,7 +10727,7 @@ vue-upload-component@^2.8.20:
   resolved "https://registry.yarnpkg.com/vue-upload-component/-/vue-upload-component-2.8.20.tgz#60824d3f20f3216dca90d8c86a5c980851b04ea0"
   integrity sha512-zrnJvULu4rnZe36Ib2/AZrI/h/mmNbUJZ+acZD652PyumzbvjCOQeYHe00sGifTdYjzzS66CwhTT+ubZ2D0Aow==
 
-vue@^2.5.8, vue@^2.6.0:
+vue@^2.6.0:
   version "2.6.11"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
   integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
