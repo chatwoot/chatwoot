@@ -48,6 +48,8 @@ gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
 gem 'webpacker', '~> 5.x'
+# metrics on heroku
+gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
