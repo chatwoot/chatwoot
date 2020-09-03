@@ -43,7 +43,7 @@ class RoundRobin::ManageService
   end
 
   def validate_queue?
-    return true if inbox.inbox_members.map(&:user_id).sort == queue.sort.map(&:to_i)
+    return true if inbox.inbox_members.map(&:user_id).sort == queue.map(&:to_i).sort
   end
 
   def queue
