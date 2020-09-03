@@ -12,6 +12,7 @@ class Messages::Facebook::MessageBuilder
     @inbox = inbox
     @sender_id = (outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (outgoing_echo ? :outgoing : :incoming)
+    @outgoing_echo = outgoing_echo
   end
 
   def perform
@@ -120,7 +121,7 @@ class Messages::Facebook::MessageBuilder
       message_type: @message_type,
       content: response.content,
       source_id: response.identifier,
-      sender: contact
+      sender: @outgoing_echo ? nil : contact
     }
   end
 
