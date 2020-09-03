@@ -46,7 +46,7 @@ Your Cloudfront URL will be of the format `<distribution>.cloudfront.net`.
 Set
 
 ```bash
-ASSET_CDN_HOST=<distribution>.cloudfront.net**
+ASSET_CDN_HOST=<distribution>.cloudfront.net
 ```
 
 in the environment variables.
