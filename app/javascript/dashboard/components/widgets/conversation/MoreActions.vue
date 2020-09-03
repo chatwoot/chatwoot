@@ -7,7 +7,6 @@
     <woot-button
       class="clear more--button"
       icon="ion-android-more-vertical"
-      :class="buttonClass"
       @click="toggleConversationActions"
     />
     <div
@@ -21,14 +20,12 @@
         class="button small clear row alert small-6 action--button"
         @click="mute"
       >
-        <!-- <i class="icon ion-volume-mute" /> -->
         <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
       </button>
       <button
         class="button small clear row small-6 action--button"
         @click="toggleEmailActionsModal"
       >
-        <!-- <i class="icon ion-ios-copy" /> -->
         {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
       </button>
     </div>
@@ -46,7 +43,6 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
-import wootConstants from '../../../constants';
 
 export default {
   components: {
@@ -64,12 +60,6 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
     }),
-
-    buttonClass() {
-      return this.currentChat.status !== wootConstants.STATUS_TYPE.OPEN
-        ? 'disabled'
-        : '';
-    },
   },
   methods: {
     mute() {
