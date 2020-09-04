@@ -66,6 +66,10 @@ class Inbox < ApplicationRecord
     channel.class.name.to_s == 'Channel::WebWidget'
   end
 
+  def inbox_type
+    channel.name
+  end
+
   def webhook_data
     {
       id: id,
