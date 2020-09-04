@@ -32,7 +32,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     if conversation.identifier.present?
       "#{private_indicator}#{message.content}"
     else
-      "*Inbox: #{message.inbox.name}* \n\n #{message.content}"
+      "*Inbox: #{message.inbox.name} [#{message.inbox.inbox_type}]* \n\n #{message.content}"
     end
   end
 
@@ -43,11 +43,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def send_message
     sender = message.sender
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
+    sender_name = sender.try(:name) ? "#{sender_type}: #{sender.try(:name)}" : sender_type
 
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message_content,
-      username: "#{sender_type}: #{sender.try(:name)}",
+      username: sender_name,
       thread_ts: conversation.identifier,
       icon_url: avatar_url(sender)
     )
