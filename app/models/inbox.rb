@@ -67,7 +67,7 @@ class Inbox < ApplicationRecord
   end
 
   def inbox_type
-    channel.class.name.to_s.downcase.remove('channel::', 'page', 'profile', 'sms').strip
+    channel.name
   end
 
   def webhook_data

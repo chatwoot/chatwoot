@@ -33,6 +33,10 @@ class Channel::WebWidget < ApplicationRecord
             2 => :emoji_picker,
             :column => 'feature_flags'
 
+  def name
+    'Website'
+  end
+
   def has_24_hour_messaging_window?
     false
   end
