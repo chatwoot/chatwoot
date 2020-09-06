@@ -73,14 +73,14 @@
     "eslint-plugin-vue": "^6.2.2",
     "expect-more-jest": "^2.4.2",
     "husky": ">=1",
-    "jest": "^25.1.0",
+    "jest": "^26.4.2",
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub": "^2.0.0",
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "engines": {
     "node": ">=10.x",
