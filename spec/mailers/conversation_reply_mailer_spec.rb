@@ -14,9 +14,9 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     end
 
     context 'with summary' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message) { create(:message, conversation: conversation) }
-      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
+      let(:conversation) { create(:conversation, account: account, assignee: agent) }
+      let(:message) { create(:message, account: account, conversation: conversation) }
+      let(:private_message) { create(:message, account: account, content: 'This is a private message', conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the subject' do
