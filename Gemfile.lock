@@ -488,6 +488,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    squasher (0.6.2)
     statsd-ruby (1.4.0)
     telegram-bot-ruby (0.12.0)
       faraday
@@ -620,6 +621,7 @@ DEPENDENCIES
   slack-ruby-client
   spring
   spring-watcher-listen
+  squasher
   telegram-bot-ruby
   telephone_number
   time_diff
