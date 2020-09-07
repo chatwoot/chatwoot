@@ -26,4 +26,18 @@ class NotificationListener < BaseListener
       primary_actor: conversation
     ).perform
   end
+
+  def message_created(event)
+    message, account = extract_message_and_account(event)
+    conversation = message.conversation
+
+    return unless conversation.assignee
+
+    NotificationBuilder.new(
+      notification_type: 'assigned_conversation_new_message',
+      user: conversation.assignee,
+      account: account,
+      primary_actor: conversation
+    ).perform
+  end
 end

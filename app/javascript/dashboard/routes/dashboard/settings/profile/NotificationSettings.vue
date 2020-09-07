@@ -43,6 +43,23 @@
             }}
           </label>
         </div>
+
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="email_assigned_conversation_new_message"
+            @input="handleEmailInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.ASSIGNED_CONVERSATION_NEW_MESSAGE'
+              )
+            }}
+          </label>
+        </div>
       </div>
     </div>
     <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
@@ -101,6 +118,23 @@
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_ASSIGNMENT'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_assigned_conversation_new_message"
+            @input="handlePushInput"
+          />
+          <label for="assigned_conversation_new_message">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.ASSIGNED_CONVERSATION_NEW_MESSAGE'
               )
             }}
           </label>

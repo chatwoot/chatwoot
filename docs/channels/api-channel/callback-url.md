@@ -33,7 +33,7 @@ When a new message is created in the API channel, you will get a POST request to
     "inbox_id": 0,
     "status": "open",
     "agent_last_seen_at": 0,
-    "user_last_seen_at": 0,
+    "contact_last_seen_at": 0,
     "timestamp": 0
   },
   "account": {

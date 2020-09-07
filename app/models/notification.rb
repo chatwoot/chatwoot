@@ -31,7 +31,8 @@ class Notification < ApplicationRecord
 
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
-    conversation_assignment: 2
+    conversation_assignment: 2,
+    assigned_conversation_new_message: 3
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -64,6 +65,8 @@ class Notification < ApplicationRecord
 
     return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
 
+    return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
+
     ''
   end
 
@@ -72,7 +75,9 @@ class Notification < ApplicationRecord
   def process_notification_delivery
     Notification::PushNotificationJob.perform_later(self)
 
-    # Queuing after 2 minutes so that we won't send emails for read notifications
-    Notification::EmailNotificationJob.set(wait: 2.minutes).perform_later(self)
+    # Should we do something about the case where user subscribed to both push and email ?
+    # In future, we could probably add condition here to enqueue the job for 30 seconds later
+    # when push enabled and then check in email job whether notification has been read already.
+    Notification::EmailNotificationJob.perform_later(self)
   end
 end
