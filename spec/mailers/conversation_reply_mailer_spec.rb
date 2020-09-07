@@ -31,6 +31,12 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
         expect(mail.body.decoded).not_to include(private_message.content)
         expect(mail.body.decoded).to include(message.content)
       end
+
+      it 'will not send email if conversation is already viewed by contact' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation)
+        conversation.update(contact_last_seen_at: Time.zone.now)
+        expect(mail).to eq nil
+      end
     end
 
     context 'without assignee' do
@@ -74,6 +80,12 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'onlies have the messages sent by the agent' do
         expect(mail.body.decoded).not_to include(message_1.content)
         expect(mail.body.decoded).to include(message_2.content)
+      end
+
+      it 'will not send email if conversation is already viewed by contact' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation)
+        conversation.update(contact_last_seen_at: Time.zone.now)
+        expect(mail).to eq nil
       end
     end
 
