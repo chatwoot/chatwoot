@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Not Available",
+    "EMAIL_ADDRESS": "ஈ-மெயில் முகவரி",
+    "PHONE_NUMBER": "தொலைபேசி எண்",
+    "COMPANY": "Company",
+    "LOCATION": "இருப்பிடம்",
     "CONVERSATION_TITLE": "உரையாடல் விவரங்கள்",
     "BROWSER": "புரவுஸர்",
     "OS": "ஆப்பரேட்டிங் சிஸ்டம்",
@@ -8,6 +13,9 @@
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "இந்த தொடர்புடன் முந்தைய உரையாடல்கள் எதுவும் இல்லை.",
       "TITLE": "முந்தைய உரையாடல்கள்"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Custom Attributes"
     },
     "LABELS": {
       "TITLE": "உரையாடல் லேபிள்கள்",
@@ -23,7 +31,66 @@
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "தொடர்பின் உரையாடல்களை முடக்கு",
+    "MUTE_CONTACT": "Mute Conversation",
+    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "திருத்து"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Contact",
+    "TITLE": "Edit contact",
+    "DESC": "Edit contact details",
+    "FORM": {
+      "SUBMIT": "சமர்பிக்கவும்",
+      "CANCEL": "ரத்துசெய்",
+      "AVATAR": {
+        "LABEL": "Contact Avatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Enter the full name of the contact",
+        "LABEL": "Full Name"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Enter the bio of the contact",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Enter the email address of the contact",
+        "LABEL": "ஈ-மெயில் முகவரி"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Enter the phone number of the contact",
+        "LABEL": "Phone Number"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Enter the location of the contact",
+        "LABEL": "இருப்பிடம்"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Enter the company name",
+        "LABEL": "Company Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Enter the Facebook username",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Enter the Twitter username",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Enter the LinkedIn username",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Enter the Github username",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   }
 }

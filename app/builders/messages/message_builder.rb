@@ -11,6 +11,7 @@ class Messages::MessageBuilder
     @content_type = params[:content_type]
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
     @attachments = params[:attachments]
+    @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
   end
 
   def perform
@@ -31,7 +32,7 @@ class Messages::MessageBuilder
   private
 
   def message_type
-    if @conversation.inbox.channel.class != Channel::Api && @message_type == 'incoming'
+    if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
 
@@ -51,7 +52,8 @@ class Messages::MessageBuilder
       private: @private,
       sender: sender,
       content_type: @content_type,
-      items: @items
+      items: @items,
+      in_reply_to: @in_reply_to
     }
   end
 end

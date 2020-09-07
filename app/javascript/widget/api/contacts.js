@@ -9,4 +9,9 @@ export default {
       ...userObject,
     });
   },
+  setCustomAttibutes(customAttributes = {}) {
+    return API.patch(buildUrl('widget/contact'), {
+      custom_attributes: customAttributes,
+    });
+  },
 };

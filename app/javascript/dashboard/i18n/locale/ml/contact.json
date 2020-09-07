@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Not Available",
+    "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
+    "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+    "COMPANY": "Company",
+    "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
     "BROWSER": "ബ്രൗസർ",
     "OS": "ഓപ്പറേറ്റിംഗ് സിസ്റ്റം",
@@ -9,21 +14,83 @@
       "NO_RECORDS_FOUND": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല.",
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ"
+    },
     "LABELS": {
       "TITLE": "സംഭാഷണ ലേബലുകൾ",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "ലേബലുകൾ",
+        "ACTIVE_LABELS": "സംഭാഷണത്തിലേക്ക് ലേബലുകൾ ചേർത്തു",
+        "INACTIVE_LABELS": "അക്കൗണ്ടിൽ ലേബലുകൾ ലഭ്യമാണ്",
+        "REMOVE": "ലേബൽ നീക്കംചെയ്യുന്നതിന് എക്സ് ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
+        "ADD": "ലേബൽ ചേർക്കാൻ + ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
+        "UPDATE_BUTTON": "ലേബലുകൾ അപ്‌ഡേറ്റുചെയ്യുക",
         "UPDATE_ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "അക്കൗണ്ടിൽ കൂടുതൽ ലേബലുകൾ നിർവചിച്ചിട്ടില്ല.",
+      "NO_AVAILABLE_LABELS": "ഈ സംഭാഷണത്തിലേക്ക് ലേബലുകളൊന്നും ചേർത്തിട്ടില്ല."
     },
-    "MUTE_CONTACT": "Mute Contact",
+    "MUTE_CONTACT": "സംഭാഷണം ഒച്ചയിലാതാക്കുക",
+    "MUTED_SUCCESS": "ഈ സംഭാഷണം 6 മണിക്കൂർ നിശബ്ദമാക്കി",
+    "SEND_TRANSCRIPT": "ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
     "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Contact",
+    "TITLE": "Edit contact",
+    "DESC": "Edit contact details",
+    "FORM": {
+      "SUBMIT": "സമർപ്പിക്കുക",
+      "CANCEL": "റദ്ദാക്കുക",
+      "AVATAR": {
+        "LABEL": "Contact Avatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Enter the full name of the contact",
+        "LABEL": "Full Name"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Enter the bio of the contact",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Enter the email address of the contact",
+        "LABEL": "ഇമെയിൽ വിലാസം"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Enter the phone number of the contact",
+        "LABEL": "Phone Number"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Enter the location of the contact",
+        "LABEL": "സ്ഥാനം"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Enter the company name",
+        "LABEL": "Company Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Enter the Facebook username",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Enter the Twitter username",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Enter the LinkedIn username",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Enter the Github username",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   }
 }

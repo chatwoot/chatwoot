@@ -2,6 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "تنظیمات حساب",
     "SUBMIT": "تغییر تنظیمات",
+    "BACK": "Back",
     "UPDATE": {
       "ERROR": "تنظیمات تغییری نکرد، دوباره امتحان کنید!",
       "SUCCESS": "تنظیمات با موفقیت اعمال شد"
@@ -23,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "دامنه",
-        "PLACEHOLDER": "دامنه سایت شما",
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "The domain where you will receive the emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -32,14 +33,9 @@
         "PLACEHOLDER": "ایمیل پشتیبانی شرکت شما",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "فعال کردن ایمیل دامنه",
-        "PLACEHOLDER": "فعال کردن ایمیل دامنه‌های اختصاصی",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "فعال",
-          "DISABLED": "غیرفعال"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     }
   }

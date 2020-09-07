@@ -107,5 +107,7 @@ class Twilio::IncomingMessageService
     )
 
     @message.save!
+  rescue Errno::ETIMEDOUT, Errno::ECONNREFUSED, SocketError => e
+    Rails.logger.info "invalid url #{file_url} : #{e.message}"
   end
 end

@@ -6,7 +6,15 @@ title: "Environment Variables"
 
 ### Database configuration
 
-Use the following values in database.yml which lives inside `config` directory.
+You can set Postgres connection URI as `DATABASE_URL` in the environment to connect to the database.
+
+The URI is of the format
+
+```bash
+postgresql://[user[:password]@][netloc][:port][,...][/dbname][?param1=value1&...]
+```
+
+Alternatively, use the following values in database.yml which lives inside `config` directory.
 
 ```bash
 development:
@@ -171,3 +179,7 @@ vapid_key.private_key
 ```
 
 Or you can generate a VAPID key from https://d3v.one/vapid-key-generator/
+
+### Using CDN for asset delivery
+
+With the release v1.8.0, we are enabling CDN support for Chatwoot. If you have a high traffic website, we recommend to setup CDN for your asset delivery. Read setting up [CloudFront as your CDN](/docs/deployment/cdn/cloudfront) guide.

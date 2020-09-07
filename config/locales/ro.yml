@@ -41,3 +41,4 @@ ro:
       email_input_box_message_body: "Primește notificări prin e-mail"
     reply:
       email_subject: "Mesaje noi în această conversație"
+      transcript_subject: "Conversation Transcript"

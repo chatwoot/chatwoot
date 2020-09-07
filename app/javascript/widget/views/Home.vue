@@ -6,11 +6,13 @@
         :intro-heading="introHeading"
         :intro-body="introBody"
         :avatar-url="channelConfig.avatarUrl"
+        :show-popout-button="showPopoutButton"
       />
       <ChatHeader
         v-else
         :title="channelConfig.websiteName"
         :avatar-url="channelConfig.avatarUrl"
+        :show-popout-button="showPopoutButton"
       />
     </div>
     <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
@@ -68,6 +70,10 @@ export default {
     unreadMessageCount: {
       type: Number,
       default: 0,
+    },
+    showPopoutButton: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

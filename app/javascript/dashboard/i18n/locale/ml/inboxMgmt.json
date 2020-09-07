@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "ഇൻ‌ബോക്സുകൾ",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p> <b> ഇൻ‌ബോക്സ് </b> </p> <p> നിങ്ങൾ ഒരു വെബ്‌സൈറ്റ് അല്ലെങ്കിൽ ഒരു ഫേസ്ബുക്ക് പേജ് ചാറ്റ്വൂട്ടിലേക്ക് ബന്ധിപ്പിക്കുമ്പോൾ, അതിനെ <b> ഇൻ‌ബോക്സ് </b> എന്ന് വിളിക്കുന്നു. നിങ്ങളുടെ ചാറ്റ്വൂട്ട് അക്ക in ണ്ടിൽ പരിധിയില്ലാത്ത ഇൻ‌ബോക്സുകൾ‌ നേടാൻ‌ കഴിയും. </p> <p> ഒരു വെബ്‌സൈറ്റോ ഫേസ്ബുക്ക് പേജോ ബന്ധിപ്പിക്കുന്നതിന് <b> ഇൻ‌ബോക്സ് ചേർക്കുക </b> ക്ലിക്കുചെയ്യുക. </p> <p> ഡാഷ്‌ബോർഡിൽ, നിങ്ങളുടെ എല്ലാ ഇൻ‌ബോക്‌സുകളിൽ‌ നിന്നുമുള്ള എല്ലാ സംഭാഷണങ്ങളും ഒരൊറ്റ സ്ഥലത്ത് കാണാനും `സംഭാഷണങ്ങൾ‌ 'ടാബിന് കീഴിൽ അവയോട് പ്രതികരിക്കാനും കഴിയും. </p> <p> ഡാഷ്‌ബോർഡിന്റെ ഇടത് പാളിയിലെ ഇൻ‌ബോക്സ് നാമത്തിൽ ക്ലിക്കുചെയ്തുകൊണ്ട് നിങ്ങൾക്ക് ഇൻ‌ബോക്സിന് പ്രത്യേകമായുള്ള സംഭാഷണങ്ങളും കാണാൻ കഴിയും. </p>",
     "LIST": {
       "404": "ഈ അക്കൗണ്ടിലേക്കു ഇൻ‌ബോക്സുകളൊന്നും ബന്ധിപ്പിച്ചിട്ടില്ല."
     },
@@ -30,12 +30,12 @@
     "ADD": {
       "FB": {
         "HELP": "സൈൻ ഇൻ ചെയ്യുന്നതിലൂടെ, നിങ്ങളുടെ പേജിന്റെ സന്ദേശങ്ങളിലേക്ക് മാത്രമേ ഞങ്ങൾക്ക് പ്രവേശനം ലഭിക്കൂ. നിങ്ങളുടെ സ്വകാര്യ സന്ദേശങ്ങൾ ഒരിക്കലും ചാറ്റ് വൂട്ട് ഉപയോഗിച്ച് ആക്സസ് ചെയ്യാൻ കഴിയില്ല.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "പേജ് തിരഞ്ഞെടുക്കുക",
+        "CHOOSE_PLACEHOLDER": "ലിസ്റ്റിൽ നിന്ന് ഒരു പേജ് തിരഞ്ഞെടുക്കുക",
+        "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
+        "ADD_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്‌സിനായി ഒരു പേര് ചേർക്കുക",
+        "PICK_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്സിന്റെ പേര് തിരഞ്ഞെടുക്കുക",
+        "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക"
       },
       "TWITTER": {
         "HELP": "നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ ഒരു ചാനലായി ചേർക്കുന്നതിന്, 'ട്വിറ്ററിനൊപ്പം പ്രവേശിക്കുക' ക്ലിക്കുചെയ്ത് നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ പ്രാമാണീകരിക്കേണ്ടതുണ്ട് "
@@ -45,7 +45,7 @@
         "DESC": "നിങ്ങളുടെ വെബ്‌സൈറ്റിനായി ഒരു ചാനൽ സൃഷ്‌ടിച്ച് ഞങ്ങളുടെ വെബ്‌സൈറ്റ് വിജറ്റ് വഴി ഉപഭോക്താക്കളെ പിന്തുണയ്ക്കാൻ ആരംഭിക്കുക.",
         "LOADING_MESSAGE": "വെബ്‌സൈറ്റ് സപ്പോർട്ട് ചാനൽ സൃഷ്‌ടിക്കുന്നു",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "ചാനൽ അവതാർ"
         },
         "CHANNEL_NAME": {
           "LABEL": "വെബ്‌സൈറ്റിന്റെ പേര്",
@@ -56,20 +56,20 @@
           "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റ് ഡൊമെയ്ൻ നൽകുക (ഉദാ: punnyalan.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "സ്വാഗത തലക്കെട്ട്",
+          "PLACEHOLDER": "ഹേയ്, അവിടെയുണ്ടോ!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "ടാഗ്‌ലൈൻ സ്വാഗതം",
+          "PLACEHOLDER": "ഞങ്ങളുമായി കണക്റ്റുചെയ്യുന്നത് ഞങ്ങൾ ലളിതമാക്കുന്നു. ഞങ്ങളോട് എന്തും ചോദിക്കുക, അല്ലെങ്കിൽ നിങ്ങളുടെ ഫീഡ്‌ബാക്ക് പങ്കിടുക."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "ചാനൽ അഭിവാദ്യ സന്ദേശം",
+          "PLACEHOLDER": "Acme Inc സാധാരണയായി കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "ചാനൽ അഭിവാദ്യം പ്രവർത്തനക്ഷമമാക്കുക",
+          "HELP_TEXT": "സംഭാഷണം ആരംഭിക്കുമ്പോൾ ഉപയോക്താവിന് ഒരു അഭിവാദ്യ സന്ദേശം അയയ്‌ക്കുക.",
           "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
           "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
         },
@@ -88,8 +88,8 @@
           "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "ചാനൽ തരം",
+          "ERROR": "നിങ്ങളുടെ ചാനൽ തരം തിരഞ്ഞെടുക്കുക"
         },
         "AUTH_TOKEN": {
           "LABEL": "ഓത്ത് ടോക്കൺ",
@@ -114,6 +114,43 @@
         "API": {
           "ERROR_MESSAGE": "ഞങ്ങൾക്ക് ട്വിലിയോ ക്രെഡൻഷ്യലുകൾ പ്രാമാണീകരിക്കാൻ കഴിഞ്ഞില്ല, ദയവായി വീണ്ടും ശ്രമിക്കുക"
         }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "ചാനലിന്റെ പേര്",
+          "PLACEHOLDER": "ഈ ചാനലിനു ദയവായി ഒരു പേര് നൽകുക",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "വെബ്‌ഹുക്ക് യുആർഎൽ",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "വെബ്‌ഹുക്ക് യുആർഎൽ"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "ചാനലിന്റെ പേര്",
+          "PLACEHOLDER": "ഈ ചാനലിനു ദയവായി ഒരു പേര് നൽകുക",
+          "ERROR": "ഈ ഫീൽഡ് ആവശ്യമാണ്"
+        },
+        "EMAIL": {
+          "LABEL": "ഇമെയിൽ",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "ഇമെയിൽ"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "AUTH": {
         "TITLE": "ചാനലുകൾ",
@@ -168,14 +205,24 @@
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
         "MESSAGE": "ഇല്ലാതാക്കണമെന്നു ഉറപ്പാണോ ",
         "YES": "അതെ, ഇല്ലാതാക്കുക ",
-        "NO": "No, Keep "
+        "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       },
       "API": {
         "SUCCESS_MESSAGE": "ഇൻ‌ബോക്സ് വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
         "ERROR_MESSAGE": "ഇൻ‌ബോക്സ് ഇല്ലാതാക്കാൻ‌ കഴിഞ്ഞില്ല. ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
       }
     },
+    "TABS": {
+      "SETTINGS": "ക്രമീകരണങ്ങൾ",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "മെസഞ്ചർ സ്ക്രിപ്റ്റ്",
       "MESSENGER_SUB_HEAD": "ഈ ബട്ടൺ നിങ്ങളുടെ ബോഡി ടാഗിനുള്ളിൽ സ്ഥാപിക്കുക",

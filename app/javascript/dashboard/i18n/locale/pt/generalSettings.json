@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Domínio",
-        "PLACEHOLDER": "Domínio do seu site",
+        "LABEL": "Incoming Email Domain",
+        "PLACEHOLDER": "The domain where you will receive the emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "E-mail de suporte da sua empresa",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Habilitar e-mail de domínio",
-        "PLACEHOLDER": "Ativar o e-mail de domínio personalizado",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Ativado",
-          "DISABLED": "Desabilitado"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       }
     }
   }

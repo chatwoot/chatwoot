@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
+
   before_action :conversation, except: [:index]
   before_action :contact_inbox, only: [:create]
 
@@ -22,6 +23,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def mute
     @conversation.mute!
+    head :ok
+  end
+
+  def transcript
+    ConversationReplyMailer.conversation_transcript(@conversation, params[:email])&.deliver_later if params[:email].present?
     head :ok
   end
 

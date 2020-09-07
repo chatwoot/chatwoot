@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Non disponible",
+    "EMAIL_ADDRESS": "Adresse de courriel",
+    "PHONE_NUMBER": "Numéro de téléphone",
+    "COMPANY": "Société",
+    "LOCATION": "Localisation",
     "CONVERSATION_TITLE": "Détails de la conversation",
     "BROWSER": "Navigateur",
     "OS": "Système d'exploitation",
@@ -9,21 +14,83 @@
       "NO_RECORDS_FOUND": "Il n'y a aucune conversation précédente associée à ce contact.",
       "TITLE": "Conversations précédentes"
     },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Attributs personnalisés"
+    },
     "LABELS": {
       "TITLE": "Étiquettes de conversation",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Étiquettes pour",
+        "ACTIVE_LABELS": "Étiquettes ajoutées à la conversation",
+        "INACTIVE_LABELS": "Étiquettes disponibles dans le compte",
+        "REMOVE": "Cliquez sur l'icône X pour supprimer l'étiquette",
+        "ADD": "Cliquez sur l'icône + pour ajouter l'étiquette",
+        "UPDATE_BUTTON": "Mettre à jour les étiquettes",
         "UPDATE_ERROR": "Impossible de mettre à jour les étiquettes. Veuillez réessayer."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Il n'y a pas d'autres étiquettes définies dans le compte.",
+      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation."
     },
-    "MUTE_CONTACT": "Mettre en sourdine le contact",
+    "MUTE_CONTACT": "Mettre la conversation en sourdine",
+    "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
+    "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Modifier le contact",
+    "TITLE": "Modifier le contact",
+    "DESC": "Modifier les informations de contact",
+    "FORM": {
+      "SUBMIT": "Envoyer",
+      "CANCEL": "Annuler",
+      "AVATAR": {
+        "LABEL": "Avatar du contact"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Entrez le nom complet du contact",
+        "LABEL": "Nom complet"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Entrez la biographie du contact",
+        "LABEL": "Biographie"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Entrez l'adresse de courriel du contact",
+        "LABEL": "Adresse de courriel"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Entrez le numéro de téléphone du contact",
+        "LABEL": "Numéro de téléphone"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Entrez l'emplacement du contact",
+        "LABEL": "Localisation"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Entrez le nom de la société",
+        "LABEL": "Nom de la société"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Entrez le nom d'utilisateur Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Contact mis à jour avec succès",
+    "CONTACT_ALREADY_EXIST": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
+    "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour du contact, veuillez réessayer"
   }
 }

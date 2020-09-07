@@ -1,19 +1,21 @@
 type: object
 properties:
-  conversation_id:
-    type: number
-    description: ID of the conversation
-    required: true
   content:
     type: string
     description: The content of the message
     required: true
+  message_type:
+    type: string
+    enum: ['outgoing', 'incoming']
   private:
     type: boolean
     description: Flag to identify if it is a private note
   content_type:
     type: string
-    enum: ['input_select', 'form', 'cards']
+    enum: ['input_email', 'cards', 'input_select', 'form' , 'article']
+    example: 'cards'
+    description: 'if you want to create custom message types'
   content_attributes:
     type: object
-    description: options/form object
+    description: attributes based on your content type
+    
