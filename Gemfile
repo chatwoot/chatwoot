@@ -48,6 +48,8 @@ gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
 gem 'webpacker', '~> 5.x'
+# metrics on heroku
+gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
@@ -96,6 +98,9 @@ group :development do
 
   # used in swagger build
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+
+  # When we want to squash migrations
+  gem 'squasher'
 end
 
 group :test do

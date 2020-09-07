@@ -58,4 +58,14 @@ $button-border-width: 1px;
   &.block {
     width: 100%;
   }
+
+  &.transparent {
+    background: transparent;
+    border: 0;
+    height: auto;
+  }
+
+  &.compact {
+    padding: 0;
+  }
 }

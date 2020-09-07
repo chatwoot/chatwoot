@@ -26,6 +26,10 @@ class Channel::TwitterProfile < ApplicationRecord
 
   before_destroy :unsubscribe
 
+  def name
+    'Twitter'
+  end
+
   def has_24_hour_messaging_window?
     false
   end

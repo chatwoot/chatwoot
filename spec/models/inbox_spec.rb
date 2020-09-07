@@ -69,13 +69,17 @@ RSpec.describe Inbox do
 
       it do
         expect(inbox.facebook?).to eq(true)
+        expect(inbox.inbox_type).to eq('Facebook')
       end
     end
 
     context 'when the channel type is not Channel::FacebookPage' do
       let(:channel_val) { Channel::WebWidget.new }
 
-      it { expect(inbox.facebook?).to eq(false) }
+      it do
+        expect(inbox.facebook?).to eq(false)
+        expect(inbox.inbox_type).to eq('Website')
+      end
     end
   end
 end
