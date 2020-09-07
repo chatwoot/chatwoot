@@ -21,6 +21,8 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
 
   def assigned_conversation_new_message(conversation, agent)
     return unless smtp_config_set_or_development?
+    # Don't spam with email notifications if agent is online
+    return if ::OnlineStatusTracker.get_presence(conversation.account.id, 'User', agent.id)
 
     @agent = agent
     @conversation = conversation
