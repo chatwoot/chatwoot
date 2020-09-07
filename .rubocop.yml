@@ -129,3 +129,4 @@ AllCops:
     - 'config/environments/**/*'
     - 'tmp/**/*'
     - 'storage/**/*'
+    - 'db/migrate/20200225162150_init_schema.rb'

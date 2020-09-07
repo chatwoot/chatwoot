@@ -97,6 +97,9 @@ group :development do
 
   # used in swagger build
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+
+  # When we want to squash migrations
+  gem 'squasher'
 end
 
 group :test do
