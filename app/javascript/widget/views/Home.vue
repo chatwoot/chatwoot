@@ -1,26 +1,32 @@
 <template>
   <div class="home">
     <div class="header-wrap">
-      <ChatHeaderExpanded
+      <chat-header-expanded
         v-if="isHeaderExpanded && !hideWelcomeHeader"
         :intro-heading="introHeading"
         :intro-body="introBody"
         :avatar-url="channelConfig.avatarUrl"
         :show-popout-button="showPopoutButton"
       />
-      <ChatHeader
+      <chat-header
         v-else
         :title="channelConfig.websiteName"
         :avatar-url="channelConfig.avatarUrl"
         :show-popout-button="showPopoutButton"
       />
     </div>
-    <AvailableAgents v-if="showAvailableAgents" :agents="availableAgents" />
-    <ConversationWrap :grouped-messages="groupedMessages" />
+    <conversation-wrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
-      <div v-if="showInputTextArea" class="input-wrap">
-        <ChatFooter />
+      <div
+        v-if="showInputTextArea && !(isHeaderExpanded && !hideWelcomeHeader)"
+        class="input-wrap"
+      >
+        <chat-footer />
       </div>
+      <team-availability
+        v-if="isHeaderExpanded && !hideWelcomeHeader"
+        :available-agents="availableAgents"
+      />
       <branding></branding>
     </div>
   </div>
@@ -32,18 +38,18 @@ import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
 import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from '../mixins/configMixin';
+import TeamAvailability from 'widget/components/TeamAvailability';
 
 export default {
   name: 'Home',
   components: {
+    Branding,
     ChatFooter,
+    ChatHeader,
     ChatHeaderExpanded,
     ConversationWrap,
-    ChatHeader,
-    Branding,
-    AvailableAgents,
+    TeamAvailability,
   },
   mixins: [configMixin],
   props: {
@@ -91,9 +97,6 @@ export default {
     },
     isHeaderExpanded() {
       return this.conversationSize === 0;
-    },
-    showAvailableAgents() {
-      return this.availableAgents.length > 0 && this.conversationSize < 1;
     },
     introHeading() {
       return this.channelConfig.welcomeTitle;

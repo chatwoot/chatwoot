@@ -68,7 +68,7 @@ export default {
 
   .body {
     color: $color-body;
-    font-size: 1.8rem;
+    font-size: 1.125rem;
     line-height: 1.5;
   }
 }
