@@ -12,7 +12,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
   end
 
   def show
-    @agents = Current.account.users.where(id: @inbox.members.pluck(:user_id))
+    @agents = Current.account.users.where(id: @inbox.members.select(:user_id))
   end
 
   private

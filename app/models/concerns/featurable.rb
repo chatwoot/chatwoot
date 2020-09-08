@@ -54,7 +54,7 @@ module Featurable
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
     return true if config.blank?
 
-    features_to_enabled = config.value.select { |f| f[:enabled] }.map { |f| f[:name] }
+    features_to_enabled = config.value.select { |f| f[:enabled] }.pluck(:name)
     enable_features(*features_to_enabled)
   end
 end
