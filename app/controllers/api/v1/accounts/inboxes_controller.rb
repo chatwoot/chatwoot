@@ -91,7 +91,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                     :welcome_tagline,
                     :webhook_url,
                     :email,
-                    selected_feature_flags: []
+                    { selected_feature_flags: [] }
                   ])
   end
 end

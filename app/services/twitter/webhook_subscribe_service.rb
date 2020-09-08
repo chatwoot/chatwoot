@@ -19,7 +19,7 @@ class Twitter::WebhookSubscribeService
   delegate :twitter_client, to: :channel
 
   def inbox
-    Inbox.find_by!(id: inbox_id)
+    Inbox.find(inbox_id)
   end
 
   def twitter_url
@@ -38,12 +38,12 @@ class Twitter::WebhookSubscribeService
 
   def unregister_webhook(webhook)
     unregister_response = twitter_client.unregister_webhook(id: webhook.try(:[], 'id'))
-    Rails.logger.info 'TWITTER_UNREGISTER_WEBHOOK: ' + unregister_response.body.to_s
+    Rails.logger.info "TWITTER_UNREGISTER_WEBHOOK: #{unregister_response.body}"
   end
 
   def register_webhook
     register_response = twitter_client.register_webhook(url: twitter_url)
-    Rails.logger.info 'TWITTER_UNREGISTER_WEBHOOK: ' + register_response.body.to_s
+    Rails.logger.info "TWITTER_UNREGISTER_WEBHOOK: #{register_response.body}"
   end
 
   def subscription?
