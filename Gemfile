@@ -65,7 +65,8 @@ gem 'administrate'
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
-gem 'facebook-messenger'
+# TODO: bump up gem to 2.0
+gem 'facebook-messenger', '1.5.0'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
