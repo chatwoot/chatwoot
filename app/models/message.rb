@@ -150,9 +150,15 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def can_notify_via_mail?
+  def email_notifiable_message?
     return false unless outgoing?
     return false if private?
+
+    true
+  end
+
+  def can_notify_via_mail?
+    return unless email_notifiable_message?
     return false if conversation.contact.email.blank?
     return false unless %w[Website Email].include? inbox.inbox_type
 
