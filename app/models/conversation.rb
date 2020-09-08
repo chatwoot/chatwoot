@@ -48,13 +48,13 @@ class Conversation < ApplicationRecord
 
   has_many :messages, dependent: :destroy, autosave: true
 
-  before_create :set_display_id, unless: :display_id?
   before_create :set_bot_conversation
-  after_create_commit :notify_conversation_creation
-  after_save :run_round_robin
+  before_create :set_display_id, unless: :display_id?
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
+  after_create_commit :notify_conversation_creation
+  after_save :run_round_robin
 
   acts_as_taggable_on :labels
 
