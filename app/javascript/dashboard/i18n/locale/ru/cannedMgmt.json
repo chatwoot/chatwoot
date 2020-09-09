@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "Шаблонные ответы",
+    "HEADER_BTN_TXT": "Добавить шаблонный ответ",
+    "LOADING": "Загружаем шаблонные ответы",
+    "SEARCH_404": "Нет шаблонных ответов, соответствующих запросу",
+    "SIDEBAR_TXT": "<p><b>Шаблонные ответы</b> </p><p> Шаблонные ответы – это сохраненные шаблоны сообщений, которые можно быстро использовать в диалоге. </p><p> Нажмите <b>Добавить шаблонный ответ</b> для добавления шаблонного ответа. Вы также можете редактировать или удалять существующие шаблонные ответы с помощью кнопок Редактировать или Удалить. </p><p> Шаблонные ответы используются с помощью <b>команд</b>. Операторы могут отправить шаблонные ответ по нажатию <b>'/'</b>, после чего требуется ввести команду. </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "У вас нет шаблонных ответов.",
+      "TITLE": "Управление шаблонными ответами",
+      "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "Команда",
+        "Текст",
+        "Действия"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Добавить шаблонный ответ",
+      "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
+      "CANCEL_BUTTON_TEXT": "Отменить",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "Команда",
+          "PLACEHOLDER": "Пожалуйста введите команду",
+          "ERROR": "Команда обязательна"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Текст",
+          "PLACEHOLDER": "Пожалуйста введите текст",
+          "ERROR": "Текст обязателен"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Отправить"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Шаблонный ответ сохранен",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Редактировать шаблонный ответ",
+      "CANCEL_BUTTON_TEXT": "Отменить",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "Команда",
+          "PLACEHOLDER": "Пожалуйста введите команду",
+          "ERROR": "Команда обязательна"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Текст",
+          "PLACEHOLDER": "Пожалуйста введите текст",
+          "ERROR": "Текст обязателен"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Отправить"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "Редактировать",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Шаблонный ответ сохранен",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Удалить",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Шаблонный ответ удален",
+        "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Подтвердите удаление",
+        "MESSAGE": "Вы точно хотите удалить ",
+        "YES": "Да, удалить ",
+        "NO": "Нет, не удалять "
       }
     }
   }

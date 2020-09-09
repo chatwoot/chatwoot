@@ -1,6 +1,6 @@
 <template>
   <div class="conv-header">
-    <div v-if="!isContactPanelOpen" class="user">
+    <div class="user" :class="{ hide: isContactPanelOpen }">
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
@@ -25,8 +25,8 @@
       </div>
     </div>
     <div
-      class="flex-container"
-      :class="{ 'justify-space-between w-100': isContactPanelOpen }"
+      class="header-actions-wrap"
+      :class="{ 'has-open-sidebar': isContactPanelOpen }"
     >
       <div class="multiselect-box ion-headphone">
         <multiselect
@@ -45,7 +45,6 @@
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
-
       <more-actions :conversation-id="currentChat.id" />
     </div>
   </div>

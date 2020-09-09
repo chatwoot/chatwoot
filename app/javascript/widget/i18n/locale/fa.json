@@ -14,6 +14,13 @@
     "OTHERS_ARE_AVAILABLE": "دیگر آنلاین هستند",
     "AND": "و"
   },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "CLOSE_MESSAGES_BUTTON": "Close"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat with us"
+  },
   "POWERED_BY": "قدرت یافته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید"

@@ -35,7 +35,6 @@
 </template>
 
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 import AddLabelToConversation from './AddLabelToConversation';
 import ContactDetailsItem from '../ContactDetailsItem';

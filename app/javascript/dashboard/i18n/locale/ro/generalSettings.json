@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Setări cont",
     "SUBMIT": "Actualizați setările",
-    "BACK": "Back",
+    "BACK": "Înapoi",
     "UPDATE": {
       "ERROR": "Nu s-au putut actualiza setările, încercați din nou!",
       "SUCCESS": "Setările contului actualizate cu succes"
@@ -24,8 +24,8 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Domeniu",
-        "PLACEHOLDER": "Domeniul website-ului tău",
+        "LABEL": "Domeniu e-mail de intrare",
+        "PLACEHOLDER": "Domeniul în care veți primi e-mailurile",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
@@ -33,14 +33,9 @@
         "PLACEHOLDER": "E-mailul de asistență al companiei dumneavoastră",
         "ERROR": ""
       },
-      "ENABLE_DOMAIN_EMAIL": {
-        "LABEL": "Activare e-mail domeniu",
-        "PLACEHOLDER": "Activați domeniul personalizat de e-mail",
-        "ERROR": "",
-        "OPTIONS": {
-          "ENABLED": "Activat",
-          "DISABLED": "Dezactivat"
-        }
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
       }
     }
   }

@@ -46,7 +46,7 @@ class Integrations::App
   def enabled?(account)
     case params[:id]
     when 'slack'
-      account.hooks.where(app_id: id).exists?
+      account.hooks.exists?(app_id: id)
     else
       true
     end

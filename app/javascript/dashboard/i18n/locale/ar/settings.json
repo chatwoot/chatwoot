@@ -44,24 +44,29 @@
         "LABEL": "صورة الملف الشخصي"
       },
       "NAME": {
-        "LABEL": "الاسم الخاص بك",
+        "LABEL": "اسمك الكامل",
         "ERROR": "الرجاء إدخال اسم صالح",
-        "PLACEHOLDER": "الرجاء إدخال اسمك، سيتم عرض هذا في المحادثات"
+        "PLACEHOLDER": "الرجاء إدخال اسمك الكامل"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "اسم العرض",
+        "ERROR": "الرجاء إدخال اسم عرض صالح",
+        "PLACEHOLDER": "الرجاء إدخال اسم العرض، سيتم عرض هذا في المحادثات"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "التوفر",
         "STATUSES_LIST": [
           {
-            "value": "online",
-            "label": "Online"
+            "value": "متصل",
+            "label": "متصل"
           },
           {
-            "value": "busy",
-            "label": "Busy"
+            "value": "مشغول",
+            "label": "مشغول"
           },
           {
-            "value": "offline",
-            "label": "Offline"
+            "value": "غير متصل",
+            "label": "غير متصل"
           }
         ]
       },
@@ -122,5 +127,21 @@
     "INTEGRATIONS": "خيارات الربط",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
     "LABELS": "الوسوم"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "حساب جديد",
+    "SELECTOR_SUBTITLE": "إنشاء حساب جديد",
+    "API": {
+      "SUCCESS_MESSAGE": "تم إنشاء الحساب بنجاح",
+      "EXIST_MESSAGE": "الحساب موجود بالفعل",
+      "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "اسم الحساب",
+        "PLACEHOLDER": "مؤسسة Wayne"
+      },
+      "SUBMIT": "إرسال"
+    }
   }
 }

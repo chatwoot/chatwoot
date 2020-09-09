@@ -29,7 +29,7 @@ class Integrations::Facebook::MessageCreator
 
   def create_agent_message
     Channel::FacebookPage.where(page_id: response.sender_id).each do |page|
-      mb = Messages::Facebook::MessageBuilder.new(response, page.inbox, true)
+      mb = Messages::Facebook::MessageBuilder.new(response, page.inbox, outgoing_echo: true)
       mb.perform
     end
   end

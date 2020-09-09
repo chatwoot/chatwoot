@@ -41,3 +41,4 @@ es:
       email_input_box_message_body: "Recibir notificaciones por correo electrónico"
     reply:
       email_subject: "Nuevos mensajes en esta conversación"
+      transcript_subject: "Conversation Transcript"
