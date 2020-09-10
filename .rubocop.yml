@@ -75,6 +75,7 @@ Metrics/AbcSize:
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
     - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
 Metrics/CyclomaticComplexity:
+  Max: 7
   Exclude:
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Rails/ReversibleMigration:

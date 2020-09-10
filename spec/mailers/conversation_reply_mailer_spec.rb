@@ -14,9 +14,9 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
     end
 
     context 'with summary' do
-      let(:conversation) { create(:conversation, assignee: agent) }
-      let(:message) { create(:message, conversation: conversation) }
-      let(:private_message) { create(:message, content: 'This is a private message', conversation: conversation) }
+      let(:conversation) { create(:conversation, account: account, assignee: agent) }
+      let(:message) { create(:message, account: account, conversation: conversation) }
+      let(:private_message) { create(:message, account: account, content: 'This is a private message', conversation: conversation) }
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'renders the subject' do
@@ -30,6 +30,12 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
 
         expect(mail.body.decoded).not_to include(private_message.content)
         expect(mail.body.decoded).to include(message.content)
+      end
+
+      it 'will not send email if conversation is already viewed by contact' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation)
+        conversation.update(contact_last_seen_at: Time.zone.now)
+        expect(mail).to eq nil
       end
     end
 
@@ -74,6 +80,12 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       it 'onlies have the messages sent by the agent' do
         expect(mail.body.decoded).not_to include(message_1.content)
         expect(mail.body.decoded).to include(message_2.content)
+      end
+
+      it 'will not send email if conversation is already viewed by contact' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation)
+        conversation.update(contact_last_seen_at: Time.zone.now)
+        expect(mail).to eq nil
       end
     end
 

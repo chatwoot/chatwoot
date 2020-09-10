@@ -36,4 +36,21 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
       expect(mail.to).to eq([agent.email])
     end
   end
+
+  describe 'assigned_conversation_new_message' do
+    let(:mail) { described_class.assigned_conversation_new_message(conversation, agent).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, New message in your assigned conversation [ID - #{conversation.display_id}].")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+
+    it 'will not send email if agent is online' do
+      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      expect(mail).to eq nil
+    end
+  end
 end

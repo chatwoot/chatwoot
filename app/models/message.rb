@@ -150,14 +150,28 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
-      # set a redis key for the conversation so that we don't need to send email for every
-      # new message that comes in and we dont enque the delayed sidekiq job for every message
-      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+  def email_notifiable_message?
+    return false unless outgoing?
+    return false if private?
 
-      # Since this is live chat, send the email after few minutes so the only one email with
-      # last few messages coupled together is sent rather than email for each message
+    true
+  end
+
+  def can_notify_via_mail?
+    return unless email_notifiable_message?
+    return false if conversation.contact.email.blank?
+    return false unless %w[Website Email].include? inbox.inbox_type
+
+    true
+  end
+
+  def notify_via_mail
+    return unless can_notify_via_mail?
+
+    # set a redis key for the conversation so that we don't need to send email for every new message
+    # last few messages coupled together is sent every 2 minutes rather than one email for each message
+    if Redis::Alfred.get(conversation_mail_key).nil?
+      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
       ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
   end

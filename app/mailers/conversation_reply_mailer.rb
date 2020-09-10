@@ -6,6 +6,7 @@ class ConversationReplyMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
+    return if conversation_already_viewed?
 
     recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
     new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
@@ -26,6 +27,7 @@ class ConversationReplyMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(conversation)
+    return if conversation_already_viewed?
 
     @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
     return false if @messages.count.zero?
@@ -61,6 +63,18 @@ class ConversationReplyMailer < ApplicationMailer
     @account = @conversation.account
     @contact = @conversation.contact
     @agent = @conversation.assignee
+  end
+
+  def conversation_already_viewed?
+    # whether contact already saw the message on widget
+    return unless @conversation.contact_last_seen_at
+    return unless last_outgoing_message&.created_at
+
+    @conversation.contact_last_seen_at > last_outgoing_message&.created_at
+  end
+
+  def last_outgoing_message
+    @conversation.messages.chat.where.not(message_type: :incoming)&.last
   end
 
   def assignee_name
