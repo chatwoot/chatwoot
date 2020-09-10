@@ -1,5 +1,5 @@
 <template>
-  <button :class="buttonClassName" :style="buttonStyles">
+  <button :class="buttonClassName" :style="buttonStyles" @click="onClick">
     <slot></slot>
   </button>
 </template>
@@ -43,6 +43,11 @@ export default {
         styles.color = this.textColor;
       }
       return styles;
+    },
+  },
+  methods: {
+    onClick(e) {
+      this.$emit('click', e);
     },
   },
 };

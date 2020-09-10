@@ -2,10 +2,6 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
 
   def index
-    @conversations = conversations
-  end
-
-  def show
     @conversation = conversation
   end
 

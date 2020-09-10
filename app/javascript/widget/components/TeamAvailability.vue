@@ -11,7 +11,12 @@
       </div>
       <available-agents :agents="availableAgents" />
     </div>
-    <woot-button block :bg-color="widgetColor" :text-color="textColor">
+    <woot-button
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startConversation"
+    >
       {{ $t('START_CONVERSATION') }}
     </woot-button>
   </div>
@@ -46,6 +51,12 @@ export default {
         return this.$t('TEAM_AVAILABILITY.ONLINE');
       }
       return this.$t('TEAM_AVAILABILITY.OFFLINE');
+    },
+  },
+  methods: {
+    startConversation() {
+      console.log('enter');
+      this.$emit('start-conversation');
     },
   },
 };

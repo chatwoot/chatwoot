@@ -7,6 +7,9 @@ import { getConversationAPI } from '../../api/conversation';
 const state = {
   id: '',
   status: '',
+  uiFlags: {
+    isFetching: false,
+  },
 };
 
 export const getters = {

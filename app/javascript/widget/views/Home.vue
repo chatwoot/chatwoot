@@ -1,32 +1,72 @@
 <template>
-  <div class="home">
+  <div
+    v-if="isFetchingList"
+    class="flex flex-1 items-center h-100 bg-slate-100"
+  >
+    <spinner size=""></spinner>
+  </div>
+  <div v-else class="home">
     <div class="header-wrap">
-      <chat-header-expanded
-        v-if="isHeaderExpanded && !hideWelcomeHeader"
-        :intro-heading="introHeading"
-        :intro-body="introBody"
-        :avatar-url="channelConfig.avatarUrl"
-        :show-popout-button="showPopoutButton"
-      />
-      <chat-header
-        v-else
-        :title="channelConfig.websiteName"
-        :avatar-url="channelConfig.avatarUrl"
-        :show-popout-button="showPopoutButton"
-      />
+      <transition
+        enter-active-class="transition-all delay-200 duration-300 ease-out"
+        leave-active-class="transition-all duration-200 ease-in"
+        enter-class="opacity-0 transform -translate-y-16"
+        enter-to-class="opacity-100 transform translate-y-0"
+        leave-class="opacity-100 transform translate-y-0"
+        leave-to-class="opacity-0 transform -translate-y-16"
+      >
+        <chat-header-expanded
+          v-if="!isOnMessageView"
+          :intro-heading="introHeading"
+          :intro-body="introBody"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="showPopoutButton"
+        />
+      </transition>
+      <transition
+        enter-active-class="transition-all delay-200 duration-300 ease-out"
+        leave-active-class="transition-all duration-200 ease-in"
+        enter-class="opacity-0 transform -translate-y-16"
+        enter-to-class="opacity-100 transform translate-y-0"
+        leave-class="opacity-100 transform translate-y-0"
+        leave-to-class="opacity-0 transform -translate-y-16"
+      >
+        <chat-header
+          v-if="isOnMessageView"
+          :title="channelConfig.websiteName"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="showPopoutButton"
+        />
+      </transition>
     </div>
     <conversation-wrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
-      <div
-        v-if="showInputTextArea && !(isHeaderExpanded && !hideWelcomeHeader)"
-        class="input-wrap"
+      <transition
+        enter-active-class="transition-all delay-300 duration-300 ease-out"
+        leave-active-class="transition-all duration-200 ease-in"
+        enter-class="opacity-0 transform translate-y-16"
+        enter-to-class="opacity-100 transform translate-y-0"
+        leave-class="opacity-100 transform translate-y-0"
+        leave-to-class="opacity-0 transform translate-y-16"
       >
-        <chat-footer />
-      </div>
-      <team-availability
-        v-if="isHeaderExpanded && !hideWelcomeHeader"
-        :available-agents="availableAgents"
-      />
+        <div v-if="showInputTextArea && isOnMessageView" class="input-wrap">
+          <chat-footer />
+        </div>
+      </transition>
+      <transition
+        enter-active-class="transition-all delay-300 duration-300 ease-out"
+        leave-active-class="transition-all duration-200 ease-in"
+        enter-class="opacity-0 transform translate-y-16"
+        enter-to-class="opacity-100 transform translate-y-0"
+        leave-class="opacity-100 transform translate-y-0"
+        leave-to-class="opacity-0 transform translate-y-16"
+      >
+        <team-availability
+          v-if="!isOnMessageView"
+          :available-agents="availableAgents"
+          @start-conversation="startConversation"
+        />
+      </transition>
       <branding></branding>
     </div>
   </div>
@@ -40,6 +80,8 @@ import ChatHeader from 'widget/components/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
+import Spinner from 'shared/components/Spinner.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -49,6 +91,7 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
     ConversationWrap,
+    Spinner,
     TeamAvailability,
   },
   mixins: [configMixin],
@@ -82,7 +125,15 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      showMessageView: false,
+    };
+  },
   computed: {
+    ...mapGetters({
+      isFetchingList: 'conversation/getIsFetchingList',
+    }),
     isOpen() {
       return this.conversationAttributes.status === 'open';
     },
@@ -92,6 +143,15 @@ export default {
           return true;
         }
         return false;
+      }
+      return true;
+    },
+    isOnMessageView() {
+      if (this.hideWelcomeHeader) {
+        return true;
+      }
+      if (this.conversationSize === 0) {
+        return this.showMessageView;
       }
       return true;
     },
@@ -108,6 +168,11 @@ export default {
       return !(this.introHeading || this.introBody);
     },
   },
+  methods: {
+    startConversation() {
+      this.showMessageView = !this.showMessageView;
+    },
+  },
 };
 </script>
 
@@ -120,14 +185,13 @@ export default {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  overflow: hidden;
   background: $color-background;
 
   .header-wrap {
     flex-shrink: 0;
     border-radius: $space-normal $space-normal $space-small $space-small;
-    background: white;
     z-index: 99;
-    @include shadow-large;
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
       border-radius: 0;

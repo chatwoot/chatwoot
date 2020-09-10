@@ -48,7 +48,8 @@ export default {
   padding: $space-two $space-medium;
   width: 100%;
   box-sizing: border-box;
-  color: $color-white;
+  background: white;
+  @include shadow-large;
 
   .header-branding {
     display: flex;

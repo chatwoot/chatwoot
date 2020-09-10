@@ -52,6 +52,8 @@ export default {
   width: 100%;
   box-sizing: border-box;
   position: relative;
+  background: white;
+  @include shadow-large;
 
   .logo {
     width: 56px;
