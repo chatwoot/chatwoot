@@ -31,6 +31,8 @@ class NotificationListener < BaseListener
     message, account = extract_message_and_account(event)
     conversation = message.conversation
 
+    # only want to notify agents about customer messages
+    return unless message.incoming?
     return unless conversation.assignee
 
     NotificationBuilder.new(
