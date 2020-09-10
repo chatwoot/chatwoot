@@ -33,7 +33,7 @@ const toggleTyping = async ({ typingStatus }) => {
 const setUserLastSeenAt = async ({ lastSeen }) => {
   return API.post(
     `/api/v1/widget/conversations/update_last_seen${window.location.search}`,
-    { user_last_seen_at: lastSeen }
+    { contact_last_seen_at: lastSeen }
   );
 };
 

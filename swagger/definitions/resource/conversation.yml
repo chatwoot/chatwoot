@@ -18,7 +18,7 @@ properties:
   timestamp:
     type: string
     description: The time at which conversation was created
-  user_last_seen_at:
+  contact_last_seen_at:
     type: string
   agent_last_seen_at:
     type: agent_last_seen_at

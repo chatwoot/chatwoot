@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_28_175931) do
+ActiveRecord::Schema.define(version: 2020_09_07_094912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 2020_08_28_175931) do
     t.datetime "updated_at", null: false
     t.bigint "contact_id"
     t.integer "display_id", null: false
-    t.datetime "user_last_seen_at"
+    t.datetime "contact_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"

@@ -4,9 +4,10 @@ RSpec.describe ConversationMailbox, type: :mailbox do
   include ActionMailbox::TestHelper
 
   describe 'add mail as reply in a conversation' do
-    let(:agent) { create(:user, email: 'agent1@example.com') }
+    let(:account) { create(:account) }
+    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
     let(:reply_mail) { create_inbound_email_from_fixture('reply.eml') }
-    let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, greeting_enabled: false)) }
+    let(:conversation) { create(:conversation, assignee: agent, inbox: create(:inbox, account: account, greeting_enabled: false), account: account) }
     let(:described_subject) { described_class.receive reply_mail }
     let(:serialized_attributes) { %w[text_content html_content number_of_attachments subject date to from in_reply_to cc bcc message_id] }
 
