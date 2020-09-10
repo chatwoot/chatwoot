@@ -10,7 +10,7 @@ RSpec.describe Message, type: :model do
   end
 
   context 'when message is created' do
-    let(:message) { build(:message) }
+    let(:message) { build(:message, account: create(:account)) }
 
     it 'triggers ::MessageTemplates::HookExecutionService' do
       hook_execution_service = double
@@ -23,10 +23,25 @@ RSpec.describe Message, type: :model do
       expect(hook_execution_service).to have_received(:perform)
     end
 
-    it 'calls notify email method on after save' do
-      allow(message).to receive(:notify_via_mail).and_return(true)
+    it 'calls notify email method on after save for outgoing messages' do
+      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      message.message_type = 'outgoing'
       message.save!
-      expect(message).to have_received(:notify_via_mail)
+      expect(ConversationReplyEmailWorker).to have_received(:perform_in)
+    end
+
+    it 'wont call notify email method for private notes' do
+      message.private = true
+      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      message.save!
+      expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
+    end
+
+    it 'wont call notify email method unless its website or email channel' do
+      message.inbox = create(:inbox, account: message.account, channel: build(:channel_api, account: message.account))
+      allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
+      message.save!
+      expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)
     end
   end
 end

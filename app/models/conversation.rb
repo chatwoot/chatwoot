@@ -5,10 +5,10 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  contact_last_seen_at  :datetime
 #  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
-#  user_last_seen_at     :datetime
 #  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -166,7 +166,7 @@ class Conversation < ApplicationRecord
     {
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
-      CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
+      CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
