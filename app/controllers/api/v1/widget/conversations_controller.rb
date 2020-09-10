@@ -8,7 +8,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   def update_last_seen
     head :ok && return if conversation.nil?
 
-    conversation.user_last_seen_at = DateTime.now.utc
+    conversation.contact_last_seen_at = DateTime.now.utc
     conversation.save!
     head :ok
   end

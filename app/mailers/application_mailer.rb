@@ -50,7 +50,13 @@ class ApplicationMailer < ActionMailer::Base
     }
   end
 
+  def locale_from_account(account)
+    I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
+  end
+
   def ensure_current_account(account)
     Current.account = account if account.present?
+    locale ||= locale_from_account(account) if account.present?
+    I18n.locale = locale || I18n.default_locale
   end
 end
