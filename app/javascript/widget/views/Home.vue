@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="isFetchingList"
-    class="flex flex-1 items-center h-100 bg-slate-100"
+    v-if="!conversationSize && isFetchingList"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
   >
     <spinner size=""></spinner>
   </div>

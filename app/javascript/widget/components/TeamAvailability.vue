@@ -6,7 +6,7 @@
           {{ teamAvailabilityStatus }}
         </div>
         <div class="text-xs leading-4 text-black-700">
-          The team typically replies in a few minutes
+          {{ replyTimeStatus }}
         </div>
       </div>
       <available-agents :agents="availableAgents" />
@@ -27,12 +27,15 @@ import { mapGetters } from 'vuex';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import WootButton from 'shared/components/Button';
+import configMixin from 'widget/mixins/configMixin';
+
 export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
     WootButton,
   },
+  mixins: [configMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -55,7 +58,6 @@ export default {
   },
   methods: {
     startConversation() {
-      console.log('enter');
       this.$emit('start-conversation');
     },
   },
