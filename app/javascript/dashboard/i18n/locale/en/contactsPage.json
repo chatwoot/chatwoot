@@ -1,0 +1,17 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "LIST": {
+      "404": "There are no canned responses available in this account.",
+      "TITLE": "Manage canned responses",
+      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "TABLE_HEADER": [
+        "",
+        "Contact",
+        "Email",
+        "Conversations",
+        "Last Contacted"
+      ]
+    }
+  }
+}
