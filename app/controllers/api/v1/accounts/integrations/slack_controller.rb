@@ -3,7 +3,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
 
   def create
     builder = Integrations::Slack::HookBuilder.new(
-      account: current_account,
+      account: Current.account,
       code: params[:code],
       inbox_id: params[:inbox_id]
     )
@@ -25,7 +25,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   private
 
   def fetch_hook
-    @hook = Integrations::Hook.find_by(app_id: 'slack')
+    @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'slack')
   end
 
   def create_chatwoot_slack_channel

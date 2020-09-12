@@ -16,7 +16,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   private
 
   def valid_channel_for_slack?
-    # slack wouldn't be an idean interface to reply to tweets, hence disabling that case
+    # slack wouldn't be an ideal interface to reply to tweets, hence disabling that case
     return false if channel.is_a?(Channel::TwitterProfile) && conversation.additional_attributes['type'] == 'tweet'
 
     true
