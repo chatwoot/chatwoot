@@ -80,14 +80,11 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
-
 import { mapGetters } from 'vuex';
-import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
 import FileUpload from 'vue-upload-component';
 
-import EmojiInput from '../emoji/EmojiInput';
+import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import {
@@ -284,9 +281,7 @@ export default {
       this.$refs.messageInput.focus();
     },
     emojiOnClick(emoji) {
-      this.message = emojione.shortnameToUnicode(
-        `${this.message}${emoji.shortname} `
-      );
+      this.message = `${this.message}${emoji} `;
     },
     clearMessage() {
       this.message = '';
