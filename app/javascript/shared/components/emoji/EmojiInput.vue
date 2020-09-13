@@ -62,49 +62,60 @@ export default {
 @import '~dashboard/assets/scss/variables';
 @import '~dashboard/assets/scss/mixins';
 
+$space-smaller: 4px;
+$space-small: 8px;
+$space-one: 10px;
+$space-slab: 12px;
+$space-normal: 16px;
+$space-two: 20px;
+$space-medium: 24px;
+
+$font-size-small: 14px;
+$font-size-default: 16px;
+$font-size-medium: 18px;
+
 .emoji-dialog {
   @include elegant-card;
   background: $color-white;
-  border-radius: 8px;
+  border-radius: $space-small;
   box-sizing: content-box;
   position: absolute;
   right: 0;
-  top: -220px;
-  width: 320px;
+  top: -22 * $space-one;
+  width: 32 * $space-one;
 
   &::before {
-    @include arrow(bottom, $color-white, 12px);
-    bottom: -12px;
+    @include arrow(bottom, $color-white, $space-slab);
+    bottom: -$space-slab;
     position: absolute;
-    right: 20px;
+    right: $space-two;
   }
 
   .emoji--item {
     cursor: pointer;
     background: transparent;
     border: 0;
-    font-size: 18px;
-    font-size: 18px;
+    font-size: $font-size-medium;
     margin: 0;
     padding: 0;
   }
 
   .emoji--row {
     box-sizing: border-box;
-    height: 180px;
+    height: $space-one * 18;
     overflow-y: auto;
-    padding: 4px 16px;
+    padding: $space-smaller $space-normal;
 
     .emoji--item {
       float: left;
-      margin: 4px;
+      margin: $space-smaller;
       line-height: 1.5;
     }
   }
 
   .emoji-category--title {
     color: $color-heading;
-    font-size: 14px;
+    font-size: $font-size-small;
     font-weight: 500;
     line-height: 1.5;
     margin: 0;
@@ -114,29 +125,29 @@ export default {
 
 .emoji-dialog--header {
   background-color: $color-body;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  padding: 0 4px;
+  border-top-left-radius: $space-small;
+  border-top-right-radius: $space-small;
+  padding: 0 $space-smaller;
 
   ul {
     display: flex;
     list-style: none;
     margin: 0;
-    padding: 4px 0 0;
+    padding: $space-smaller 0 0;
 
     > li {
       align-items: center;
       cursor: pointer;
       display: flex;
-      height: 24px;
+      height: 2.4 * $space-one;
       justify-content: center;
-      padding: 4px 8px;
+      padding: $space-smaller $space-small;
     }
 
     > .active {
       background: $color-white;
-      border-top-left-radius: 4px;
-      border-top-right-radius: 4px;
+      border-top-left-radius: $space-smaller;
+      border-top-right-radius: $space-smaller;
     }
   }
 }
