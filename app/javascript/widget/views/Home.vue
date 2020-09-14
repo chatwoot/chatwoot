@@ -177,7 +177,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables';
 
 .home {
   width: 100%;
