@@ -1,3 +1,4 @@
+@import '~dashboard/assets/scss/variables';
 @import '~widget/assets/scss/mixins';
 
 $spinner-before-border-color: rgba(255, 255, 255, 0.7);
@@ -234,13 +235,4 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-
-.justify-space-between {
-  justify-content: space-between;
-}
-
-.w-100 {
-  width: 100%;
 }

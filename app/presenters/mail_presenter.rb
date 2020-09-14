@@ -88,10 +88,10 @@ class MailPresenter < SimpleDelegator
     return sender_agnostic_regexes if @account.nil? || account_support_email.blank?
 
     [
-      Regexp.new("From:\s*" + Regexp.escape(account_support_email), Regexp::IGNORECASE),
-      Regexp.new('<' + Regexp.escape(account_support_email) + '>', Regexp::IGNORECASE),
-      Regexp.new(Regexp.escape(account_support_email) + "\s+wrote:", Regexp::IGNORECASE),
-      Regexp.new('On(.*)' + Regexp.escape(account_support_email) + '(.*)wrote:', Regexp::IGNORECASE)
+      Regexp.new("From:\s* #{Regexp.escape(account_support_email)}", Regexp::IGNORECASE),
+      Regexp.new("<#{Regexp.escape(account_support_email)}>", Regexp::IGNORECASE),
+      Regexp.new("#{Regexp.escape(account_support_email)}\s+wrote:", Regexp::IGNORECASE),
+      Regexp.new("On(.*)#{Regexp.escape(account_support_email)}(.*)wrote:", Regexp::IGNORECASE)
     ] + sender_agnostic_regexes
   end
 

@@ -34,12 +34,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import emojione from 'emojione';
 import { mixin as clickaway } from 'vue-clickaway';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
-import EmojiInput from 'dashboard/components/widgets/emoji/EmojiInput';
+import EmojiInput from 'shared/components/emoji/EmojiInput';
 import configMixin from '../mixins/configMixin';
 
 export default {
@@ -110,11 +109,8 @@ export default {
       }
     },
     emojiOnClick(emoji) {
-      this.userInput = emojione.shortnameToUnicode(
-        `${this.userInput}${emoji.shortname} `
-      );
+      this.userInput = `${this.userInput}${emoji} `;
     },
-
     onBlur() {
       this.toggleTyping('off');
     },

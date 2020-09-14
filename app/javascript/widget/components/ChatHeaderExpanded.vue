@@ -1,7 +1,9 @@
 <template>
   <header class="header-expanded">
-    <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
-    <span class="close close-button" @click="closeWindow"></span>
+    <div class="header--row">
+      <img v-if="avatarUrl" class="logo" :src="avatarUrl" />
+      <header-actions :show-popout-button="showPopoutButton" />
+    </div>
     <h2 class="title" v-html="introHeading"></h2>
     <p class="body" v-html="introBody"></p>
   </header>
@@ -9,10 +11,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { IFrameHelper } from 'widget/helpers/utils';
-
+import HeaderActions from './HeaderActions';
 export default {
   name: 'ChatHeaderExpanded',
+  components: {
+    HeaderActions,
+  },
   props: {
     avatarUrl: {
       type: String,
@@ -26,20 +30,15 @@ export default {
       type: String,
       default: '',
     },
+    showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
-  },
-  methods: {
-    closeWindow() {
-      if (IFrameHelper.isIFrame()) {
-        IFrameHelper.sendMessage({
-          event: 'toggleBubble',
-        });
-      }
-    },
   },
 };
 </script>
@@ -59,12 +58,6 @@ export default {
     height: 56px;
   }
 
-  .close {
-    position: absolute;
-    right: $space-medium;
-    top: $space-medium;
-    display: none;
-  }
   .title {
     color: $color-heading;
     font-size: $font-size-mega;
@@ -78,5 +71,11 @@ export default {
     font-size: 1.8rem;
     line-height: 1.5;
   }
+}
+
+.header--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 </style>

@@ -3,7 +3,7 @@
 @import 'buttons';
 @import 'mixins';
 @import 'forms';
-@import 'shared/assets/fonts/inter';
+@import 'shared/assets/fonts/widget_fonts';
 @import '~ionicons/scss/ionicons';
 @import '~spinkit/scss/spinners/7-three-bounce';
 
@@ -11,6 +11,8 @@ html,
 body {
   font-family: $font-family;
   font-size: 10px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
   height: 100%;
 }
 
@@ -18,35 +20,14 @@ body {
   height: 100%;
 }
 
-.close-button {
-  cursor: pointer;
-  position: relative;
-  width: $space-two;
-
-  &::before,
-  &::after {
-    background-color: $color-heading;
-    content: ' ';
-    height: $space-normal;
-    left: $space-small;
-    position: absolute;
-    top: $space-micro;
-    width: 2px;
-  }
-
-  &::before {
-    transform: rotate(45deg);
-  }
-
-  &::after {
-    transform: rotate(-45deg);
-  }
-}
-
 .is-mobile {
-  .header-wrap {
+  .actions {
     .close-button {
       display: block !important;
+    }
+
+    .new-window--button {
+      display: none !important;
     }
   }
 }

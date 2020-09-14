@@ -16,8 +16,6 @@
 class Account < ApplicationRecord
   # used for single column multi flags
   include FlagShihTzu
-
-  include Events::Types
   include Reportable
   include Featurable
 
@@ -54,7 +52,7 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
-  after_create :notify_creation
+  after_create_commit :notify_creation
   after_destroy :notify_deletion
 
   def agents

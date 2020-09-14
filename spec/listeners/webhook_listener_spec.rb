@@ -17,7 +17,7 @@ describe WebhookListener do
 
     context 'when webhook is not configured' do
       it 'does not trigger webhook' do
-        expect(RestClient).to receive(:post).exactly(0).times
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
         listener.message_created(event)
       end
     end

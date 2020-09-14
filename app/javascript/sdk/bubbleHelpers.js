@@ -28,6 +28,7 @@ export const createBubbleIcon = ({ className, src, target }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
   const bubbleIcon = document.createElement('img');
   bubbleIcon.src = src;
+  bubbleIcon.alt = 'bubble-icon';
   target.appendChild(bubbleIcon);
 
   if (isExpandedView(window.$chatwoot.type)) {

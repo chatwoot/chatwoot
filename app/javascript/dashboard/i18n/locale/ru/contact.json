@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Недоступен",
+    "EMAIL_ADDRESS": "Email",
+    "PHONE_NUMBER": "Номер телефона",
+    "COMPANY": "Компания",
+    "LOCATION": "Местоположение",
     "CONVERSATION_TITLE": "Детали диалога",
     "BROWSER": "Браузер",
     "OS": "Операционная система",
@@ -30,5 +35,62 @@
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
     "SEND_TRANSCRIPT": "Отправить субтитры",
     "EDIT_LABEL": "Редактировать"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Изменить контакт",
+    "TITLE": "Изменить контакт",
+    "DESC": "Изменить контактные данные",
+    "FORM": {
+      "SUBMIT": "Отправить",
+      "CANCEL": "Отменить",
+      "AVATAR": {
+        "LABEL": "Аватар контакта"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Введите полное имя контакта",
+        "LABEL": "Полное имя"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Введите описание контакта",
+        "LABEL": "Описание"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Введите email контакта",
+        "LABEL": "Email"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Введите номер телефона контакта",
+        "LABEL": "Номер телефона"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Введите местоположение контакта",
+        "LABEL": "Местоположение"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Введите название компании",
+        "LABEL": "Название компании"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Введите имя пользователя Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Введите имя пользователя Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Введите имя пользователя LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Введите имя пользователя Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Контакт успешно обновлен",
+    "CONTACT_ALREADY_EXIST": "Этот адрес электронной почты используется для другого контакта.",
+    "ERROR_MESSAGE": "При сохранении настроек произошла ошибка, пожалуйста, попробуйте еще раз"
   }
 }

@@ -2,21 +2,22 @@
 #
 # Table name: messages
 #
-#  id                 :integer          not null, primary key
-#  content            :text
-#  content_attributes :json
-#  content_type       :integer          default("text")
-#  message_type       :integer          not null
-#  private            :boolean          default(FALSE)
-#  sender_type        :string
-#  status             :integer          default("sent")
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  account_id         :integer          not null
-#  conversation_id    :integer          not null
-#  inbox_id           :integer          not null
-#  sender_id          :bigint
-#  source_id          :string
+#  id                  :integer          not null, primary key
+#  content             :text
+#  content_attributes  :json
+#  content_type        :integer          default("text")
+#  external_source_ids :jsonb
+#  message_type        :integer          not null
+#  private             :boolean          default(FALSE)
+#  sender_type         :string
+#  status              :integer          default("sent")
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :integer          not null
+#  conversation_id     :integer          not null
+#  inbox_id            :integer          not null
+#  sender_id           :bigint
+#  source_id           :string
 #
 # Indexes
 #
@@ -28,14 +29,15 @@
 #
 
 class Message < ApplicationRecord
-  include Events::Types
-
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
+
+  # when you have a temperory id in your frontend and want it echoed back via action cable
+  attr_accessor :echo_id
 
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: {
@@ -54,6 +56,8 @@ class Message < ApplicationRecord
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
+
+  store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
@@ -88,7 +92,12 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
+    data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    merge_sender_attributes(data)
+  end
+
+  def merge_sender_attributes(data)
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
     data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
@@ -105,6 +114,7 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
+      private: private,
       content_attributes: content_attributes,
       source_id: source_id,
       sender: sender.try(:webhook_data),
@@ -148,14 +158,28 @@ class Message < ApplicationRecord
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
-  def notify_via_mail
-    if Redis::Alfred.get(conversation_mail_key).nil? && conversation.contact.email? && outgoing? && !private
-      # set a redis key for the conversation so that we don't need to send email for every
-      # new message that comes in and we dont enque the delayed sidekiq job for every message
-      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+  def email_notifiable_message?
+    return false unless outgoing?
+    return false if private?
 
-      # Since this is live chat, send the email after few minutes so the only one email with
-      # last few messages coupled together is sent rather than email for each message
+    true
+  end
+
+  def can_notify_via_mail?
+    return unless email_notifiable_message?
+    return false if conversation.contact.email.blank?
+    return false unless %w[Website Email].include? inbox.inbox_type
+
+    true
+  end
+
+  def notify_via_mail
+    return unless can_notify_via_mail?
+
+    # set a redis key for the conversation so that we don't need to send email for every new message
+    # last few messages coupled together is sent every 2 minutes rather than one email for each message
+    if Redis::Alfred.get(conversation_mail_key).nil?
+      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
       ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
   end
