@@ -14,6 +14,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     locale: chatwootSettings.locale,
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
+    showPopoutButton: chatwootSettings.showPopoutButton || false,
 
     toggle() {
       IFrameHelper.events.toggleBubble();

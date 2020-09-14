@@ -26,6 +26,10 @@ class Channel::Email < ApplicationRecord
   has_one :inbox, as: :channel, dependent: :destroy
   before_validation :ensure_forward_to_address, on: :create
 
+  def name
+    'Email'
+  end
+
   def has_24_hour_messaging_window?
     false
   end

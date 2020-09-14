@@ -5,10 +5,10 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  agent_last_seen_at    :datetime
+#  contact_last_seen_at  :datetime
 #  identifier            :string
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
-#  user_last_seen_at     :datetime
 #  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
@@ -31,8 +31,6 @@
 #
 
 class Conversation < ApplicationRecord
-  include Events::Types
-
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 
@@ -50,13 +48,13 @@ class Conversation < ApplicationRecord
 
   has_many :messages, dependent: :destroy, autosave: true
 
-  before_create :set_display_id, unless: :display_id?
   before_create :set_bot_conversation
-  after_create_commit :notify_conversation_creation
-  after_save :run_round_robin
+  before_create :set_display_id, unless: :display_id?
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
+  after_create_commit :notify_conversation_creation
+  after_save :run_round_robin
 
   acts_as_taggable_on :labels
 
@@ -168,7 +166,7 @@ class Conversation < ApplicationRecord
     {
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
-      CONVERSATION_READ => -> { saved_change_to_user_last_seen_at? },
+      CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }

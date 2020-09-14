@@ -67,9 +67,10 @@ class ConversationFinder
   end
 
   def filter_by_assignee_type
-    if @assignee_type == 'me'
+    case @assignee_type
+    when 'me'
       @conversations = @conversations.assigned_to(current_user)
-    elsif @assignee_type == 'unassigned'
+    when 'unassigned'
       @conversations = @conversations.unassigned
     end
     @conversations

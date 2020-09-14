@@ -179,3 +179,7 @@ vapid_key.private_key
 ```
 
 Or you can generate a VAPID key from https://d3v.one/vapid-key-generator/
+
+### Using CDN for asset delivery
+
+With the release v1.8.0, we are enabling CDN support for Chatwoot. If you have a high traffic website, we recommend to setup CDN for your asset delivery. Read setting up [CloudFront as your CDN](/docs/deployment/cdn/cloudfront) guide.

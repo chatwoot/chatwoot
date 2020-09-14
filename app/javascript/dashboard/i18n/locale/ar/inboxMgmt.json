@@ -116,8 +116,8 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "قناة API",
+        "DESC": "اربط مع قناة API وابدأ في دعم عملائك.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
@@ -125,17 +125,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "رابط Webhook",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "تكوين عنوان URL حيث تريد تلقي ردود المكالمات على الأحداث.",
           "PLACEHOLDER": "رابط Webhook"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة الـ api"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "قناة البريد الالكتروني",
+        "DESC": "ربط البريد الإلكتروني الخاص بك.",
         "CHANNEL_NAME": {
           "LABEL": "اسم القناة",
           "PLACEHOLDER": "الرجاء إدخال اسم القناة",
@@ -143,14 +143,14 @@
         },
         "EMAIL": {
           "LABEL": "البريد الإلكتروني",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "البريد الإلكتروني حيث يرسل عملاؤك تذاكر الدعم",
           "PLACEHOLDER": "البريد الإلكتروني"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "إنشاء قناة البريد الإلكتروني",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "لم نتمكن من حفظ قناة البريد الإلكتروني"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "بدء إعادة توجيه رسائل البريد الإلكتروني الخاصة بك إلى عنوان البريد الإلكتروني التالي."
       },
       "AUTH": {
         "TITLE": "القنوات",
@@ -214,14 +214,14 @@
     },
     "TABS": {
       "SETTINGS": "الإعدادات",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "COLLABORATORS": "المتعاونون",
+      "CONFIGURATION": "الإعدادات"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "الخصائص",
+      "DISPLAY_FILE_PICKER": "عرض أداة انتقاء الملفات في الـ widget",
+      "DISPLAY_EMOJI_PICKER": "عرض منتقي الرموز التعبيرية على الـ widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",

@@ -26,7 +26,6 @@ class Contact < ApplicationRecord
   include Pubsubable
   include Avatarable
   include AvailabilityStatusable
-  include Events::Types
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }

@@ -1,0 +1,96 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "ไม่พร้อมใช้งาน",
+    "EMAIL_ADDRESS": "ที่อยู่อีเมล์",
+    "PHONE_NUMBER": "หมายเลขโทรศัพท์",
+    "COMPANY": "บริษัท",
+    "LOCATION": "สถานที่",
+    "CONVERSATION_TITLE": "รายละเอียดการสนทนา",
+    "BROWSER": "บราวเซอร์",
+    "OS": "ระบบปฏิบัติการ",
+    "INITIATED_FROM": "Initiated from",
+    "INITIATED_AT": "Initiated at",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
+      "TITLE": "การสนทนาก่อนหน้า"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "แอตทริบิวต์ที่กำหนดเอง"
+    },
+    "LABELS": {
+      "TITLE": "ป้ายกำกับการสนทนา",
+      "MODAL": {
+        "TITLE": "ป้ายกำกับสำหรับ",
+        "ACTIVE_LABELS": "เพิ่มป้ายกำกับไปสนทนา",
+        "INACTIVE_LABELS": "ป้ายกำกับที่ใช้ได้ในบัญชีนี้",
+        "REMOVE": "คลิกที่ X เพื่อลบป้ายกำกับ",
+        "ADD": "คลิกที่ + เพื่อเพิ่มป้ายกำกับ",
+        "UPDATE_BUTTON": "อัพเดทป้ายกำกับ",
+        "UPDATE_ERROR": "ไม่สามารถอัพเดทป้านกำกับได้กรุณาลองใหม่"
+      },
+      "NO_LABELS_TO_ADD": "ไม่มีป้ายกำกับที่กำหนดให้บัญชีนี้",
+      "NO_AVAILABLE_LABELS": "ไม่มีป้ายกำกับที่เพิ่มให้การสนทนานี้"
+    },
+    "MUTE_CONTACT": "ระงับการสนทนา",
+    "MUTED_SUCCESS": "การสนทนานี้ถูกระงับ 6 ชั่วโมง",
+    "SEND_TRANSCRIPT": "ส่งประวัติเเชท",
+    "EDIT_LABEL": "เเก้ไข"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "เเก้ไขผู้ติดต่อ",
+    "TITLE": "เเก้ไขผู้ติดต่อ",
+    "DESC": "เเห้ไขรายละเอียดผู้ติดต่อ",
+    "FORM": {
+      "SUBMIT": "ส่ง",
+      "CANCEL": "ยกเลิก",
+      "AVATAR": {
+        "LABEL": "อวาตาร์ผู้ติดต่อ"
+      },
+      "NAME": {
+        "PLACEHOLDER": "กรอกขื่อเต็มของผู้ติดต่อ",
+        "LABEL": "ชื่อเต็ม"
+      },
+      "BIO": {
+        "PLACEHOLDER": "กรอกประวัติผู้ติดต่อ",
+        "LABEL": "ประวัติ"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "กรอกที่อยู่อีเมล์ผู้ติดต่อ",
+        "LABEL": "ที่อยู่อีเมล์"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "กรอกหมายเลขโทรศัพท์ผู้ติดต่อ",
+        "LABEL": "หมายเลขโทรศัพท์"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "กรอกที่อยู่ผู้ติดต่อ",
+        "LABEL": "สถานที่"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "กรอกชื่อบริษัท",
+        "LABEL": "ชื่อบริษัท"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "กรอกชื่อเฟสบุ๊ค",
+          "LABEL": "เฟสบุ๊ค"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "กรอกชื่อทวิต",
+          "LABEL": "ทวิตเตอร์"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "กรอกชื่อ LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "กรอกชื่อ Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "อัพเดทเนื้อหาเสร็จสิ้น",
+    "CONTACT_ALREADY_EXIST": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว",
+    "ERROR_MESSAGE": "มีปัญหาในการอัพเดทผู้ติดต่อ กรุณาลองใหม่อีกครั้ง"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "标签",
+    "HEADER_BTN_TXT": "添加标签",
+    "LOADING": "正在获取标签",
+    "SEARCH_404": "没有任何项目符合此查询",
+    "SIDEBAR_TXT": "<p><b>标签</b> <p>可以帮助您对对话进行分类和排序。 您可以从侧面板给对话指定标签。 <br /><br />标签被绑定到帐户，可以用于创建您组织中的自定义工作流。 您可以将自定义颜色分配给标签，使它更容易识别标签。 您将能够在侧边栏上显示标签，方便地过滤对话。</p>",
+    "LIST": {
+      "404": "此帐户中没有可用的标签。",
+      "TITLE": "管理标签",
+      "DESC": "标记可以让您将对话集中起来。",
+      "TABLE_HEADER": [
+        "姓名：",
+        "描述信息",
+        "颜色"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "标签名称",
+        "PLACEHOLDER": "标签名称",
+        "ERROR": "标签名称是必需的"
+      },
+      "DESCRIPTION": {
+        "LABEL": "描述信息",
+        "PLACEHOLDER": "标签描述"
+      },
+      "COLOR": {
+        "LABEL": "颜色"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "在侧边栏显示标签"
+      },
+      "EDIT": "编辑",
+      "CREATE": "创建",
+      "DELETE": "删除",
+      "CANCEL": "取消操作"
+    },
+    "ADD": {
+      "TITLE": "添加标签",
+      "DESC": "标记可以让您将对话集中起来。",
+      "API": {
+        "SUCCESS_MESSAGE": "标签添加成功",
+        "ERROR_MESSAGE": "出现错误，请重试"
+      }
+    },
+    "EDIT": {
+      "TITLE": "编辑标签",
+      "API": {
+        "SUCCESS_MESSAGE": "标签已成功更新",
+        "ERROR_MESSAGE": "出错了，请重试"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "删除",
+      "API": {
+        "SUCCESS_MESSAGE": "标签已成功删除",
+        "ERROR_MESSAGE": "出错了，请重试"
+      },
+      "CONFIRM": {
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是，删除 ",
+        "NO": "不，保留 "
+      }
+    }
+  }
+}

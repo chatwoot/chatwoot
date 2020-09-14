@@ -1088,7 +1088,7 @@
           "type": "string",
           "description": "The time at which conversation was created"
         },
-        "user_last_seen_at": {
+        "contact_last_seen_at": {
           "type": "string"
         },
         "agent_last_seen_at": {
@@ -1641,14 +1641,18 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "input_email",
+            "cards",
             "input_select",
             "form",
-            "cards"
-          ]
+            "article"
+          ],
+          "example": "cards",
+          "description": "if you want to create custom message types"
         },
         "content_attributes": {
           "type": "object",
-          "description": "options/form object"
+          "description": "attributes based on your content type"
         }
       }
     }

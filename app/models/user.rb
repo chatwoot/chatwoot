@@ -41,7 +41,6 @@ class User < ApplicationRecord
   include Avatarable
   # Include default devise modules.
   include DeviseTokenAuth::Concerns::User
-  include Events::Types
   include Pubsubable
   include Rails.application.routes.url_helpers
   include Reportable
@@ -78,7 +77,7 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
 
-  after_create :create_access_token
+  after_create_commit :create_access_token
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
@@ -128,8 +127,7 @@ class User < ApplicationRecord
   end
 
   def serializable_hash(options = nil)
-    serialized_user = super(options).merge(confirmed: confirmed?)
-    serialized_user
+    super(options).merge(confirmed: confirmed?)
   end
 
   def push_event_data

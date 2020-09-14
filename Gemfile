@@ -48,6 +48,8 @@ gem 'dotenv-rails'
 gem 'foreman'
 gem 'puma'
 gem 'webpacker', '~> 5.x'
+# metrics on heroku
+gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
@@ -63,7 +65,8 @@ gem 'administrate'
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
-gem 'facebook-messenger'
+# TODO: bump up gem to 2.0
+gem 'facebook-messenger', '1.5.0'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
@@ -95,6 +98,9 @@ group :development do
 
   # used in swagger build
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+
+  # When we want to squash migrations
+  gem 'squasher'
 end
 
 group :test do

@@ -16,15 +16,17 @@ class Integrations::Facebook::DeliveryStatus
   end
 
   def contact
-    ::ContactInbox.find_by(source_id: sender_id).contact
+    ::ContactInbox.find_by(source_id: sender_id)&.contact
   end
 
   def conversation
-    @conversation ||= ::Conversation.find_by(contact_id: contact.id)
+    @conversation ||= ::Conversation.find_by(contact_id: contact.id) if contact.present?
   end
 
   def update_message_status
-    conversation.user_last_seen_at = @params.at
+    return unless conversation
+
+    conversation.contact_last_seen_at = @params.at
     conversation.save!
   end
 end

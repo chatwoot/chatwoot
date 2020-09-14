@@ -41,7 +41,11 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import moment from 'moment';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
+import getUnixTime from 'date-fns/getUnixTime';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
 
 export default {
   data() {
@@ -57,15 +61,12 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      const m = moment.utc();
-      m.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-      return m.unix();
+      return getUnixTime(startOfDay(new Date()));
     },
     from() {
       const diff = this.currentDateRangeSelection.id ? 29 : 6;
-      const m = moment.utc().subtract(diff, 'days');
-      m.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-      return m.unix();
+      const fromDate = subDays(new Date(), diff);
+      return getUnixTime(startOfDay(fromDate));
     },
     collection() {
       if (this.accountReport.isFetching) {
@@ -73,7 +74,7 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element =>
-        moment.unix(element.timestamp).format('DD/MMM')
+        format(fromUnixTime(element.timestamp), 'dd/MMM')
       );
       const data = this.accountReport.data.map(element => element.value);
       return {
