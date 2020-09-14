@@ -9,6 +9,10 @@ class ContactAPI extends ApiClient {
   getConversations(contactId) {
     return axios.get(`${this.url}/${contactId}/conversations`);
   }
+
+  search(search = '') {
+    return axios.get(`${this.url}/search?q=${search}`);
+  }
 }
 
 export default new ContactAPI();

@@ -1,31 +1,19 @@
 import { DuplicateContactException } from 'shared/helpers/CustomErrors';
-import * as types from '../mutation-types';
-import ContactAPI from '../../api/contacts';
-import Vue from 'vue';
-
-const state = {
-  records: {},
-  uiFlags: {
-    isFetching: false,
-    isFetchingItem: false,
-    isUpdating: false,
-  },
-};
-
-export const getters = {
-  getContacts($state) {
-    return Object.values($state.records);
-  },
-  getUIFlags($state) {
-    return $state.uiFlags;
-  },
-  getContact: $state => id => {
-    const contact = $state.records[id];
-    return contact || {};
-  },
-};
+import * as types from '../../mutation-types';
+import ContactAPI from '../../../api/contacts';
 
 export const actions = {
+  search: async ({ commit }, { search }) => {
+    commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const response = await ContactAPI.search(search);
+      commit(types.default.SET_CONTACTS, response.data.payload);
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
+    }
+  },
+
   get: async ({ commit }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
@@ -71,56 +59,4 @@ export const actions = {
   setContact({ commit }, data) {
     commit(types.default.SET_CONTACT_ITEM, data);
   },
-};
-
-export const mutations = {
-  [types.default.SET_CONTACT_UI_FLAG]($state, data) {
-    $state.uiFlags = {
-      ...$state.uiFlags,
-      ...data,
-    };
-  },
-
-  [types.default.SET_CONTACTS]: ($state, data) => {
-    data.forEach(contact => {
-      Vue.set($state.records, contact.id, {
-        ...($state.records[contact.id] || {}),
-        ...contact,
-      });
-    });
-  },
-
-  [types.default.SET_CONTACT_ITEM]: ($state, data) => {
-    Vue.set($state.records, data.id, {
-      ...($state.records[data.id] || {}),
-      ...data,
-    });
-  },
-
-  [types.default.EDIT_CONTACT]: ($state, data) => {
-    Vue.set($state.records, data.id, data);
-  },
-
-  [types.default.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
-    Object.values($state.records).forEach(element => {
-      const availabilityStatus = data[element.id];
-      if (availabilityStatus) {
-        Vue.set(
-          $state.records[element.id],
-          'availability_status',
-          availabilityStatus
-        );
-      } else {
-        Vue.delete($state.records[element.id], 'availability_status');
-      }
-    });
-  },
-};
-
-export default {
-  namespaced: true,
-  state,
-  getters,
-  actions,
-  mutations,
 };
