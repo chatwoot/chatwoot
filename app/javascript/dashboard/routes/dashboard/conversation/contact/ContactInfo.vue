@@ -3,7 +3,7 @@
     <div class="contact--info">
       <thumbnail
         :src="contact.thumbnail"
-        size="48px"
+        size="64px"
         :badge="channelType"
         :username="contact.name"
         :status="contact.availability_status"

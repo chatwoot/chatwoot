@@ -99,6 +99,7 @@ export const IFrameHelper = {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
         hideMessageBubble: window.$chatwoot.hideMessageBubble,
+        showPopoutButton: window.$chatwoot.showPopoutButton,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,

@@ -3,12 +3,11 @@ class Messages::MessageBuilder
   attr_reader :message
 
   def initialize(user, conversation, params)
-    @content = params[:content]
+    @params = params
     @private = params[:private] || false
     @conversation = conversation
     @user = user
     @message_type = params[:message_type] || 'outgoing'
-    @content_type = params[:content_type]
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
     @attachments = params[:attachments]
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
@@ -48,12 +47,13 @@ class Messages::MessageBuilder
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
-      content: @content,
+      content: @params[:content],
       private: @private,
       sender: sender,
-      content_type: @content_type,
+      content_type: @params[:content_type],
       items: @items,
-      in_reply_to: @in_reply_to
+      in_reply_to: @in_reply_to,
+      echo_id: @params[:echo_id]
     }
   end
 end

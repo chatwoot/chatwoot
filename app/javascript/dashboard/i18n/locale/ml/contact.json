@@ -1,5 +1,10 @@
 {
   "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Not Available",
+    "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
+    "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+    "COMPANY": "Company",
+    "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
     "BROWSER": "ബ്രൗസർ",
     "OS": "ഓപ്പറേറ്റിംഗ് സിസ്റ്റം",
@@ -30,5 +35,62 @@
     "MUTED_SUCCESS": "ഈ സംഭാഷണം 6 മണിക്കൂർ നിശബ്ദമാക്കി",
     "SEND_TRANSCRIPT": "ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
     "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Contact",
+    "TITLE": "Edit contact",
+    "DESC": "Edit contact details",
+    "FORM": {
+      "SUBMIT": "സമർപ്പിക്കുക",
+      "CANCEL": "റദ്ദാക്കുക",
+      "AVATAR": {
+        "LABEL": "Contact Avatar"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Enter the full name of the contact",
+        "LABEL": "Full Name"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Enter the bio of the contact",
+        "LABEL": "Bio"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Enter the email address of the contact",
+        "LABEL": "ഇമെയിൽ വിലാസം"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Enter the phone number of the contact",
+        "LABEL": "Phone Number"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Enter the location of the contact",
+        "LABEL": "സ്ഥാനം"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Enter the company name",
+        "LABEL": "Company Name"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Enter the Facebook username",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Enter the Twitter username",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Enter the LinkedIn username",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Enter the Github username",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
+    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   }
 }

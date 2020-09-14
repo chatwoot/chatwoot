@@ -49,7 +49,6 @@
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import getEmojiSVG from '../emoji/utils';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
@@ -140,9 +139,6 @@ export default {
         'is-image': this.hasImageAttachment,
       };
     },
-  },
-  methods: {
-    getEmojiSVG,
   },
 };
 </script>

@@ -17,6 +17,10 @@ class Channel::Api < ApplicationRecord
 
   has_one :inbox, as: :channel, dependent: :destroy
 
+  def name
+    'API'
+  end
+
   def has_24_hour_messaging_window?
     false
   end

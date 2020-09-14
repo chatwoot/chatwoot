@@ -4,20 +4,8 @@ require:
   - rubocop-rspec
 inherit_from: .rubocop_todo.yml
 
-Lint/RaiseException:
-  Enabled: true
-Lint/StructNewOverride:
-  Enabled: true
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
 Layout/LineLength:
   Max: 150
-Layout/EmptyLinesAroundAttributeAccessor:
-  Enabled: true
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
 
 Metrics/ClassLength:
   Max: 125
@@ -33,25 +21,21 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/SymbolArray:
   Enabled: false
-Style/HashEachMethods:
-  Enabled: true
-Style/HashTransformKeys:
-  Enabled: true
-Style/HashTransformValues:
-  Enabled: true
-Style/RedundantFetchBlock:
-  Enabled: true
-Style/RedundantRegexpCharacterClass:
-  Enabled: true
-Style/RedundantRegexpEscape:
-  Enabled: true
-Style/SlicingWithRange:
-  Enabled: true
+Style/OptionalBooleanParameter:
+  Exclude: 
+    - 'app/services/email_templates/db_resolver_service.rb'
+    - 'app/dispatchers/dispatcher.rb'
 Style/GlobalVars:
   Exclude:
     - 'config/initializers/redis.rb'
     - 'lib/redis/alfred.rb'
     - 'lib/global_config.rb'
+Style/ClassVars:
+  Exclude:
+    - 'app/services/email_templates/db_resolver_service.rb'
+Lint/MissingSuper:
+  Exclude:
+    - 'app/drops/base_drop.rb'
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
@@ -87,8 +71,11 @@ Style/GuardClause:
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Metrics/AbcSize:
   Exclude: 
+    - 'app/controllers/concerns/auth_helper.rb'
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
+    - 'db/migrate/20161123131628_devise_token_auth_create_users.rb'
 Metrics/CyclomaticComplexity:
+  Max: 7
   Exclude:
     - 'db/migrate/20190819005836_add_missing_indexes_on_taggings.acts_as_taggable_on_engine.rb'
 Rails/ReversibleMigration:
@@ -115,9 +102,16 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+Rails/RenderInline:
+  Exclude:
+    - 'app/controllers/swagger_controller.rb'
 RSpec/NamedSubject:
   Enabled: false
+# we should bring this down
+RSpec/MultipleMemoizedHelpers:
+  Max: 12
 AllCops:
+  NewCops: enable
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
@@ -129,3 +123,4 @@ AllCops:
     - 'config/environments/**/*'
     - 'tmp/**/*'
     - 'storage/**/*'
+    - 'db/migrate/20200225162150_init_schema.rb'

@@ -19,4 +19,10 @@ class FacebookBot
     updater.perform
     Rails.logger.info "Human was online at #{delivery.at}"
   end
+
+  Bot.on :message_echo do |message|
+    Rails.logger.info "MESSAGE_ECHO #{message}"
+    response = ::Integrations::Facebook::MessageParser.new(message)
+    ::Integrations::Facebook::MessageCreator.new(response).perform
+  end
 end
