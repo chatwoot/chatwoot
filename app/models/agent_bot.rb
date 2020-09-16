@@ -19,6 +19,10 @@ class AgentBot < ApplicationRecord
   has_many :inboxes, through: :agent_bot_inboxes
   has_many :messages, as: :sender, dependent: :restrict_with_exception
 
+  def available_name
+    name
+  end
+
   def push_event_data(inbox = nil)
     {
       id: id,
