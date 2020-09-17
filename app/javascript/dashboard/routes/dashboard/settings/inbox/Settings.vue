@@ -241,7 +241,6 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import configMixin from 'shared/mixins/configMixin';
@@ -372,7 +371,6 @@ export default {
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
-        console.log(this.inbox);
         this.replyTime = this.inbox.reply_time;
       });
     },
@@ -386,7 +384,7 @@ export default {
         } = response;
         this.selectedAgents = inboxMembers;
       } catch (error) {
-        console.log(error);
+        //  Handle error
       }
     },
     async updateAgents() {
@@ -432,7 +430,6 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
-      console.log(this.avatarUrl);
     },
   },
   validations: {
