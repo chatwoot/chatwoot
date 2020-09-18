@@ -1,6 +1,6 @@
 class Api::V1::Widget::LabelsController < Api::V1::Widget::BaseController
   def create
-    if converation.present?
+    if conversation.present?
       conversation.label_list.add(permitted_params[:label])
       conversation.save!
     end
