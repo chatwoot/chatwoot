@@ -63,6 +63,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.find(params[:id])
+    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
   end
 end
