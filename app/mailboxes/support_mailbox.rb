@@ -1,4 +1,6 @@
 class SupportMailbox < ApplicationMailbox
+  include MailboxHelper
+
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   before_processing :find_channel,
@@ -78,31 +80,5 @@ class SupportMailbox < ApplicationMailbox
 
   def identify_contact_name
     processed_mail.from.first.split('@').first
-  end
-
-  def create_message
-    @message = @conversation.messages.create(
-      account_id: @conversation.account_id,
-      sender: @contact,
-      content: processed_mail.text_content[:reply],
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      content_type: 'incoming_email',
-      source_id: processed_mail.message_id,
-      content_attributes: {
-        email: processed_mail.serialized_data
-      }
-    )
-  end
-
-  def add_attachments_to_message
-    processed_mail.attachments.each do |mail_attachment|
-      attachment = @message.attachments.new(
-        account_id: @conversation.account_id,
-        file_type: 'file'
-      )
-      attachment.file.attach(mail_attachment[:blob])
-    end
-    @message.save!
   end
 end
