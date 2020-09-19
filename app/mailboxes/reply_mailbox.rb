@@ -1,4 +1,4 @@
-class ConversationMailbox < ApplicationMailbox
+class ReplyMailbox < ApplicationMailbox
   attr_accessor :conversation_uuid, :processed_mail
 
   # Last part is the regex for the UUID

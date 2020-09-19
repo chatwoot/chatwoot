@@ -16,7 +16,7 @@ RSpec.describe ApplicationMailbox, type: :mailbox do
 
     it 'routes reply emails to Conversation Mailbox' do
       dbl = double
-      expect(ConversationMailbox).to receive(:new).and_return(dbl)
+      expect(ReplyMailbox).to receive(:new).and_return(dbl)
       expect(dbl).to receive(:perform_processing).and_return(true)
       described_class.route reply_mail
     end
