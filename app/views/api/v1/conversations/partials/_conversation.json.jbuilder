@@ -12,9 +12,9 @@ end
 
 json.id conversation.display_id
 if conversation.unread_incoming_messages.count.zero?
-  json.messages [conversation.messages.last.try(:push_event_data)]
+  json.messages [conversation.messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)]
 else
-  json.messages conversation.unread_messages.includes([:user, :attachments]).map(&:push_event_data)
+  json.messages conversation.unread_messages.includes([:user, { attachments: [{ file_attachment: [:blob] }] }]).map(&:push_event_data)
 end
 
 json.inbox_id conversation.inbox_id
