@@ -65,8 +65,8 @@
           <h3 class="current-user--name">
             {{ currentUserAvailableName }}
           </h3>
-          <h5 class="current-user--role">
-            {{ currentRole }}
+          <h5 v-if="currentRole" class="current-user--role">
+            {{ $t(`AGENT_MGMT.AGENT_TYPES.${currentRole.toUpperCase()}`) }}
           </h5>
         </div>
         <span class="current-user--options icon ion-android-more-vertical" />
@@ -162,7 +162,6 @@ import Thumbnail from '../widgets/Thumbnail';
 import { getSidebarItems } from '../../i18n/default-sidebar';
 import { required, minLength } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
-// import accountMixin from '../../../../../mixins/account';
 
 export default {
   components: {
