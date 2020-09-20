@@ -66,7 +66,7 @@
             {{ currentUserAvailableName }}
           </h3>
           <h5 class="current-user--role">
-            {{ currentRole }}
+            {{ $t(`AGENT_MGMT.AGENT_TYPES.${currentRole.toUpperCase()}`) }}
           </h5>
         </div>
         <span class="current-user--options icon ion-android-more-vertical" />
