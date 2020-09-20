@@ -26,6 +26,14 @@ A clear and concise description of what you expected to happen.
 
 If applicable, add screenshots to help explain your problem.
 
+**Browser logs**
+
+Share the browser logs to debug the issue further
+
+**Server logs**
+
+Share the server logs to debug the issue further
+
 **Environment**
 
 Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self hosted installation of Chatwoot. If you are using a self hosted installation of Chatwoot describe the type of deployment (Docker/Linux VM installation/Heroku)
