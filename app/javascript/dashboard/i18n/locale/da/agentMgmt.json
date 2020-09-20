@@ -30,7 +30,7 @@
         },
         "AGENT_TYPE": {
           "LABEL": "Role",
-          "PLACEHOLDER": "Please select a ro;e",
+          "PLACEHOLDER": "Please select a role",
           "ERROR": "Role is required"
         },
         "EMAIL": {
