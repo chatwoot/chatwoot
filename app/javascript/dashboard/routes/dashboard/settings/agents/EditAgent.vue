@@ -18,14 +18,11 @@
         <div class="medium-12 columns">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.LABEL') }}
-            <multiselect
-              v-model.trim="agentType"
-              :options="agentTypeList"
-              :placeholder="$t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.PLACEHOLDER')"
-              :searchable="false"
-              label="label"
-              @select="setPageName"
-            />
+            <select v-model="agentType">
+              <option v-for="role in roles" :key="role.name" :value="role.name">
+                {{ role.label }}
+              </option>
+            </select>
             <span v-if="$v.agentType.$error" class="message">
               {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_TYPE.ERROR') }}
             </span>
@@ -59,8 +56,6 @@
 </template>
 
 <script>
-/* global bus */
-/* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
@@ -73,20 +68,41 @@ export default {
     Modal,
   },
   props: {
-    id: Number,
-    name: String,
-    email: String,
-    type: String,
-    onClose: Function,
+    id: {
+      type: Number,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      default: '',
+    },
+    type: {
+      type: String,
+      default: '',
+    },
+    onClose: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
-      agentTypeList: this.$t('AGENT_MGMT.AGENT_TYPES'),
+      roles: [
+        {
+          name: 'administrator',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.ADMINISTRATOR'),
+        },
+        {
+          name: 'agent',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.AGENT'),
+        },
+      ],
       agentName: this.name,
-      agentType: {
-        name: this.type,
-        label: this.type,
-      },
+      agentType: this.type,
       agentCredentials: {
         email: this.email,
       },
@@ -111,10 +127,6 @@ export default {
     }),
   },
   methods: {
-    setPageName({ name }) {
-      this.$v.agentType.$touch();
-      this.agentType = name;
-    },
     showAlert(message) {
       bus.$emit('newToastMessage', message);
     },
@@ -123,12 +135,11 @@ export default {
         await this.$store.dispatch('agents/update', {
           id: this.id,
           name: this.agentName,
-          role: this.agentType.name.toLowerCase(),
+          role: this.agentType,
         });
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        console.log(error);
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
