@@ -24,10 +24,20 @@ module Featurable
     end
   end
 
+  def enable_features!(*names)
+    enable_features(*names)
+    save
+  end
+
   def disable_features(*names)
     names.each do |name|
       send("feature_#{name}=", false)
     end
+  end
+
+  def disable_features!(*names)
+    disable_features(*names)
+    save
   end
 
   def feature_enabled?(name)
