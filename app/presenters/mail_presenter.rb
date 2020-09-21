@@ -12,7 +12,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def text_content
-    @decoded_text_content ||= encode_to_unicode(text_part&.body&.decoded || '')
+    @decoded_text_content ||= encode_to_unicode(text_part&.body&.decoded || fallback_content)
     @text_content ||= {
       full: @decoded_text_content,
       reply: extract_reply(@decoded_text_content)[:reply],
@@ -21,12 +21,16 @@ class MailPresenter < SimpleDelegator
   end
 
   def html_content
-    @decoded_html_content ||= encode_to_unicode(html_part&.body&.decoded || '')
+    @decoded_html_content ||= encode_to_unicode(html_part&.body&.decoded || fallback_content)
     @html_content ||= {
       full: @decoded_html_content,
       reply: extract_reply(@decoded_html_content)[:reply],
       quoted: extract_reply(@decoded_html_content)[:quoted_text]
     }
+  end
+
+  def fallback_content
+    body&.decoded || ''
   end
 
   def attachments

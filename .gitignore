@@ -23,7 +23,7 @@
 *.log
 # Ignore application configuration
 node_modules
-
+master.key
 *.rdb
 
 # Ignore env files
