@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConversationMailbox, type: :mailbox do
+RSpec.describe ReplyMailbox, type: :mailbox do
   include ActionMailbox::TestHelper
 
   describe 'add mail as reply in a conversation' do
