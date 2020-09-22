@@ -71,7 +71,7 @@
           "LABEL": "開啟頻道問候功能",
           "HELP_TEXT": "在用户開始對話時發送問候消息。",
           "ENABLED": "已啟用",
-          "DISABLED": "已禁用"
+          "DISABLED": "已停用"
         },
         "WIDGET_COLOR": {
           "LABEL": "視窗小元件顏色",
@@ -196,7 +196,7 @@
       },
       "AUTO_ASSIGNMENT": {
         "ENABLED": "已啟用",
-        "DISABLED": "已禁用"
+        "DISABLED": "已停用"
       }
     },
     "DELETE": {
@@ -232,7 +232,7 @@
       "AUTO_ASSIGNMENT": "啟用自動分配",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或禁用建立到此收件匣的代理人自動分配新的會話。"
+      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。"
     }
   }
 }

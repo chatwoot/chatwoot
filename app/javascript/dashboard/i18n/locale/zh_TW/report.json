@@ -20,7 +20,7 @@
         "DESC": "(總計)"
       },
       {
-        "NAME": "首次回應時間",
+        "NAME": "首次回覆時間",
         "KEY": "avg_first_response_time",
         "DESC": "( 平均)"
       },
