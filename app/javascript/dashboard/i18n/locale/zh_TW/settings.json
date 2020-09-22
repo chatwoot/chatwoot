@@ -1,47 +1,47 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "個人資料設定",
+    "TITLE": "個人資料設定",
+    "BTN_TEXT": "更新個人資料",
+    "AFTER_EMAIL_CHANGED": "您的個人資料已成功更新，請在您的登入憑證更改後重新登入",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "頭像",
+      "ERROR": "請修正表單錯誤",
+      "REMOVE_IMAGE": "刪除",
+      "UPLOAD_IMAGE": "上傳頭像",
+      "UPDATE_IMAGE": "更新頭像",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "個人資訊",
+        "NOTE": "您的電子信箱地址是您的身份並用於登入。"
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "TITLE": "密碼",
+        "NOTE": "更新您的密碼會在多個設備中重置您的登入資訊。"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "訪問 token",
+        "NOTE": "如果要構建基於 API 的整合，則可以使用此 token"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+        "TITLE": "電子信箱通知",
+        "NOTE": "在此更新您的電子信箱通知設定",
+        "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
+        "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "您的通知設定已成功更新",
+        "UPDATE_ERROR": "更新配置時出錯，請再試一次"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "推送通知",
+        "NOTE": "在此更新您的電子信箱通知設定",
+        "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
+        "CONVERSATION_CREATION": "建立新對話時發送推送通知",
+        "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
+        "REQUEST_PUSH": "啟用推送通知"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "頭像"
       },
       "NAME": {
         "LABEL": "Your full name",
@@ -54,94 +54,94 @@
         "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "有效的",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "線上的"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "忙碌中"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "離線的"
           }
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "您的電子信箱地址",
+        "ERROR": "請輸入一個有效的電子信箱",
+        "PLACEHOLDER": "請輸入您的名字，這將會在對話中顯示"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "密碼",
+        "ERROR": "請輸入長度6或更長的密碼",
+        "PLACEHOLDER": "請輸入新密碼"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "重新輸入一次密碼",
+        "ERROR": "兩次密碼不一致",
+        "PLACEHOLDER": "請重新輸入密碼"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "LOGOUT": "Logout"
+    "CHANGE_ACCOUNTS": "切換帳戶",
+    "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
+    "PROFILE_SETTINGS": "個人資料設定",
+    "LOGOUT": "退出登入"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "剩餘試用期天數",
+    "TRAIL_BUTTON": "立即購買"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "複製",
+      "COPY_SUCCESSFUL": "代碼複製到剪貼簿成功"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "下載",
+      "UPLOADING": "上傳中..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "送出"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "正在驗證...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "建立收件匣"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "CONVERSATIONS": "會話",
+    "REPORTS": "報表",
+    "SETTINGS": "設定",
+    "HOME": "首頁",
+    "AGENTS": "客服代理們",
+    "INBOXES": "收件匣",
+    "CANNED_RESPONSES": "預設回覆",
+    "INTEGRATIONS": "整合方式",
+    "ACCOUNT_SETTINGS": "帳戶設定",
+    "LABELS": "標籤"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "新帳戶",
+    "SELECTOR_SUBTITLE": "建立新帳戶",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "成功建立帳戶",
+      "EXIST_MESSAGE": "帳戶已經存在",
+      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "帳戶名稱",
+        "PLACEHOLDER": "Wayne 企業"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "送出"
     }
   }
 }
