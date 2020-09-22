@@ -1,80 +1,80 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "正在獲取對話",
+    "LOAD_MORE_CONVERSATIONS": "加載更多對話",
+    "EOF": "所有對話已加載 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "没有有效的對話在這個群组里面"
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "會話",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "搜索人、聊天室、保存回覆"
     },
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "打開",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "已解決",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mine",
+        "NAME": "我的",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "未分配的",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "所有的",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Open",
+        "TEXT": "正在進行的\n",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resolved",
+        "TEXT": "已解決",
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "机器人",
+        "VALUE": "机器人"
       }
     ],
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "Picture message"
+        "CONTENT": "图片消息"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Audio message"
+        "CONTENT": "音频消息"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Video message"
+        "CONTENT": "视频消息"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "File Attachment"
+        "CONTENT": "附件"
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "位置"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "has shared a url"
+        "CONTENT": "分享了一個網址"
       }
     },
     "RECEIVED_VIA_EMAIL": "Received via email",
