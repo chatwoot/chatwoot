@@ -1,96 +1,96 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
+    "EMAIL_ADDRESS": "電子信箱地址",
+    "PHONE_NUMBER": "電話號碼",
     "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "LOCATION": "位置",
+    "CONVERSATION_TITLE": "對話詳情",
+    "BROWSER": "瀏覽器",
+    "OS": "操作系统",
+    "INITIATED_FROM": "啟動自：",
+    "INITIATED_AT": "發起於",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "此聯繫人没有關聯到以前的會話。",
+      "TITLE": "上一次對話"
     },
     "CUSTOM_ATTRIBUTES": {
       "TITLE": "Custom Attributes"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "對話標記",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "標記為",
+        "ACTIVE_LABELS": "建立到對話的標籤",
+        "INACTIVE_LABELS": "帳戶中可用的標籤",
+        "REMOVE": "點擊 X 圖示刪除標籤",
+        "ADD": "點擊 + 圖示建立標籤",
+        "UPDATE_BUTTON": "更新標籤",
+        "UPDATE_ERROR": "無法更新標籤，請重試。"
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "帳戶中没有更多標籤。",
+      "NO_AVAILABLE_LABELS": "没有標籤建立到此對話。"
     },
     "MUTE_CONTACT": "Mute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "EDIT_LABEL": "編輯"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "編輯聯絡人",
+    "TITLE": "編輯聯絡人",
+    "DESC": "編輯聯絡人資訊",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "送出",
+      "CANCEL": "取消操作",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "連絡人頭像"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "請輸入聯絡人姓名",
+        "LABEL": "聯絡人姓名"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "請輸入聯絡人簡介",
+        "LABEL": "聯絡人簡介"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "請輸入聯絡人電子信箱",
+        "LABEL": "電子信箱地址"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "請輸入聯絡人電話",
+        "LABEL": "聯絡人電話"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "請輸入聯絡人位置",
+        "LABEL": "位置"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "請輸入公司名稱",
+        "LABEL": "公司名稱"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "請輸入 Facebook 使用者名稱",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "請輸入 Twitter 使用者名稱",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "請輸入 LinkedIn 使用者名稱",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "請輸入 Github 使用者名稱",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "成功更新聯絡人資訊",
+    "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
+    "ERROR_MESSAGE": "更新聯絡人資訊發生錯誤，請重試"
   }
 }

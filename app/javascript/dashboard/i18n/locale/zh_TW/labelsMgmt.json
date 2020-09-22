@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "標籤",
+    "HEADER_BTN_TXT": "建立標籤",
+    "LOADING": "正在獲取標籤",
+    "SEARCH_404": "没有任何項目符合此查詢",
+    "SIDEBAR_TXT": "<p><b>標籤</b> <p>可以幫助您對對話進行分類和排序。 您可以從側面板給對話指定標籤。 <br /><br />標籤被綁定到帳戶，可以用於建立您組織中的自定義工作流。 您可以將自定義顏色分配給標籤，使它更容易識別標籤。 您將能夠在側邊欄上顯示標籤，方便地過濾對話。</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "此帳戶中没有可用的標籤。",
+      "TITLE": "管理標籤",
+      "DESC": "標記可以讓您將對話集中起來。",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "姓名：",
+        "描述資訊",
+        "顏色"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "標籤名稱",
+        "PLACEHOLDER": "標籤名稱",
+        "ERROR": "標籤名稱是必填的"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "描述資訊",
+        "PLACEHOLDER": "標籤描述"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "顏色"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "在側邊欄顯示標籤"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "編輯",
+      "CREATE": "建立",
+      "DELETE": "刪除",
+      "CANCEL": "取消操作"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "建立標籤",
+      "DESC": "標記可以讓您將對話集中起來。",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "標籤建立成功",
+        "ERROR_MESSAGE": "出現錯誤，請重試"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "編輯標籤",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "標籤已成功更新",
+        "ERROR_MESSAGE": "出錯了，請重試"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "標籤已成功刪除",
+        "ERROR_MESSAGE": "出錯了，請重試"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除吗？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       }
     }
   }
