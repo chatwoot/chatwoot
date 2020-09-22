@@ -29,28 +29,28 @@
 # To learn more, please read the Rails Internationalization guide
 # available at https://guides.rubyonrails.org/i18n.html.
 
-zh_TW:
-  hello: "你好。"
+zh-TW:
+  hello: "你好。" 
   messages:
-    reset_password_success: "密碼重設成功，請確認您的信箱有收到重設信件。"
-    reset_password_failure: "我們找不到用戶指定的電子郵件。"
+    reset_password_success: "密碼重設成功，請確認您的信箱有收到重設信件。" 
+    reset_password_failure: "我們找不到用戶指定的電子郵件。" 
 
   errors:
     signup:
-      disposable_email: "我們不允許一次性電子郵件。"
-      invalid_email: "您輸入的電子郵件無效。"
-      email_already_exists: "您已經註冊了一個帳號%{email}"
-      failed: "註冊失敗。"
+      disposable_email: "我們不允許一次性電子郵件。" 
+      invalid_email: "您輸入的電子郵件無效。" 
+      email_already_exists: "您已經註冊了一個帳號%{email}" 
+      failed: "註冊失敗。" 
 
   conversations:
     activity:
       status:
-        resolved: "被%{user_name}標記的對話已解決。"
-        open: "被%{user_name}恢復對話。"
+        resolved: "被%{user_name}標記的對話已解決。" 
+        open: "被%{user_name}恢復對話。" 
       assignee:
-        assigned: "被%{user_name}分配給%{assignee_name}。"
-        removed: "對話被%{user_name}設定成未分配。"
+        assigned: "被%{user_name}分配給%{assignee_name}。" 
+        removed: "對話被%{user_name}設定成未分配。" 
     templates:
-      typical_reply_message_body: "%{account_name}通常在幾小時內回覆。"
-      ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
-      email_input_box_message_body: "透過電子郵件得到通知。"
+      typical_reply_message_body: "%{account_name}通常在幾小時內回覆。" 
+      ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。" 
+      email_input_box_message_body: "透過電子郵件得到通知。" 
