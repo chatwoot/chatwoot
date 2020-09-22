@@ -39,6 +39,48 @@ get:
         $ref: '#/definitions/bad_request_error'
     description: Access denied
 
+get:
+  tags:
+    - Conversation
+  operationId: conversationSearch
+  description: Search for conversations containing a messages with the query string
+  summary: Conversations Search
+  parameters:
+    - name: q
+      in: query
+      type: string
+    - name: assignee_type
+      in: query
+      type: string
+      enum: ['me', 'unassigned', 'all']
+    - name: status
+      in: query
+      type: string
+      enum: ['open', 'resolved', 'bot']
+    - name: page
+      in: query
+      type: integer
+    - name: inbox_id
+      in: query
+      type: integer
+    - name: labels
+      in: query
+      type: array
+      items:
+        type: string
+
+  responses:
+    200:
+      description: Success
+      schema:
+        $ref: '#/definitions/conversation_list'
+    400:
+      description: Bad Request Error
+      schema:
+        $ref: '#/definitions/bad_request_error'
+    description: Access denied
+
+
 post:
   tags:
     - Conversation
