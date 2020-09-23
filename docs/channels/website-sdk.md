@@ -115,7 +115,7 @@ To set the language manually, use the `setLocale` function.
 Please note that the labels will be set on a conversation if the user has not started a conversation. In that case, the following items will not have any effect:
 
 ```js
-window.$chatwoot.addLabel('support-ticket');
+window.$chatwoot.setLabel('support-ticket');
 
 window.$chatwoot.removeLabel('support-ticket');
 ```
