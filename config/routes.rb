@@ -47,6 +47,7 @@ Rails.application.routes.draw do
           end
           resources :conversations, only: [:index, :create, :show] do
             get 'meta', on: :collection
+            get 'search', on: :collection
             scope module: :conversations do
               resources :messages, only: [:index, :create]
               resources :assignments, only: [:create]
