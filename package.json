@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "0.1.0",
+  "version": "1.8.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
-    "@rails/webpacker": "^4.2.2",
+    "@rails/webpacker": "^5.2.0",
     "axios": "^0.19.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
@@ -21,22 +21,19 @@
     "chart.js": "~2.5.0",
     "copy-text-to-clipboard": "^2.1.1",
     "core-js": "3",
+    "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
-    "emojione": "~2.2.7",
     "foundation-sites": "~6.5.3",
     "highlight.js": "^9.15.10",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
     "lodash.groupby": "^4.6.0",
-    "moment": "~2.19.3",
     "query-string": "5",
     "spinkit": "~1.2.5",
     "tween.js": "~16.6.0",
     "url-loader": "^2.0.0",
     "v-tooltip": "~2.0.2",
     "vue": "^2.6.0",
-    "vue-aplayer": "~0.1.1",
-    "vue-audio": "~0.0.7",
     "vue-axios": "~1.2.2",
     "vue-chartjs": "^3.4.2",
     "vue-clickaway": "~2.1.0",
@@ -46,7 +43,6 @@
     "vue-loader": "^15.7.0",
     "vue-multiselect": "~2.1.6",
     "vue-router": "~2.2.0",
-    "vue-select": "~2.0.0",
     "vue-template-compiler": "^2.6.10",
     "vue-upload-component": "^2.8.20",
     "vuelidate": "~0.7.5",
@@ -76,14 +72,14 @@
     "eslint-plugin-vue": "^6.2.2",
     "expect-more-jest": "^2.4.2",
     "husky": ">=1",
-    "jest": "^25.1.0",
+    "jest": "^26.4.2",
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub": "^2.0.0",
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "engines": {
     "node": ">=10.x",
@@ -108,7 +104,7 @@
       "git add"
     ],
     "!(*schema).rb": [
-      "rubocop -a",
+      "bundle exec rubocop -a",
       "git add"
     ],
     "*.scss": [

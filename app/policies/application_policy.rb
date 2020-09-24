@@ -2,7 +2,7 @@ class ApplicationPolicy
   attr_reader :user_context, :user, :record, :account, :account_user
 
   def initialize(user_context, record)
-    @user_context = user_context = user_context
+    @user_context = user_context
     @user = user_context[:user]
     @account = user_context[:account]
     @account_user = user_context[:account_user]
@@ -14,7 +14,7 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(id: record.id).exists?
+    scope.exists?(id: record.id)
   end
 
   def create?
@@ -45,7 +45,7 @@ class ApplicationPolicy
     attr_reader :user_context, :user, :scope, :account, :account_user
 
     def initialize(user_context, scope)
-      @user_context = user_context = user_context
+      @user_context = user_context
       @user = user_context[:user]
       @account = user_context[:account]
       @account_user = user_context[:account_user]

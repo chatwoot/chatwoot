@@ -30,14 +30,14 @@ export default {
   data() {
     return {
       channelList: [
-        'website',
-        'facebook',
-        'twitter',
-        'twilio',
-        'email',
-        'api',
-        'telegram',
-        'line',
+        { key: 'website', name: 'Website' },
+        { key: 'facebook', name: 'Facebook' },
+        { key: 'twitter', name: 'Twitter' },
+        { key: 'twilio', name: 'Twilio' },
+        { key: 'email', name: 'Email' },
+        { key: 'api', name: 'API' },
+        { key: 'telegram', name: 'Telegram' },
+        { key: 'line', name: 'Line' },
       ],
       enabledFeatures: {},
     };

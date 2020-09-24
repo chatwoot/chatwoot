@@ -45,6 +45,10 @@
       {
         "TEXT": "مغلقة",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "رد آلي",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "ion-link",
         "CONTENT": "قام بمشاركة رابط"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
+    "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
+    "REPLY_TO_TWEET": "الرد على هذه التغريدة"
   }
 }

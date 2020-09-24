@@ -5,14 +5,11 @@ class ConversationReplyMailer < ApplicationMailer
   def reply_with_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
 
-    @conversation = conversation
-    @account = @conversation.account
-    @contact = @conversation.contact
-    @agent = @conversation.assignee
+    init_conversation_attributes(conversation)
+    return if conversation_already_viewed?
 
     recap_messages = @conversation.messages.chat.where('created_at < ?', message_queued_time).last(10)
     new_messages = @conversation.messages.chat.where('created_at >= ?', message_queued_time)
-
     @messages = recap_messages + new_messages
     @messages = @messages.select(&:reportable?)
 
@@ -29,10 +26,8 @@ class ConversationReplyMailer < ApplicationMailer
   def reply_without_summary(conversation, message_queued_time)
     return unless smtp_config_set_or_development?
 
-    @conversation = conversation
-    @account = @conversation.account
-    @contact = @conversation.contact
-    @agent = @conversation.assignee
+    init_conversation_attributes(conversation)
+    return if conversation_already_viewed?
 
     @messages = @conversation.messages.chat.outgoing.where('created_at >= ?', message_queued_time)
     return false if @messages.count.zero?
@@ -47,7 +42,44 @@ class ConversationReplyMailer < ApplicationMailer
          })
   end
 
+  def conversation_transcript(conversation, to_email)
+    return unless smtp_config_set_or_development?
+
+    init_conversation_attributes(conversation)
+
+    @messages = @conversation.messages.chat.select(&:reportable?)
+
+    mail({
+           to: to_email,
+           from: from_email,
+           subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
+         })
+  end
+
   private
+
+  def init_conversation_attributes(conversation)
+    @conversation = conversation
+    @account = @conversation.account
+    @contact = @conversation.contact
+    @agent = @conversation.assignee
+  end
+
+  def conversation_already_viewed?
+    # whether contact already saw the message on widget
+    return unless @conversation.contact_last_seen_at
+    return unless last_outgoing_message&.created_at
+
+    @conversation.contact_last_seen_at > last_outgoing_message&.created_at
+  end
+
+  def last_outgoing_message
+    @conversation.messages.chat.where.not(message_type: :incoming)&.last
+  end
+
+  def assignee_name
+    @assignee_name ||= @agent&.available_name || 'Notifications'
+  end
 
   def mail_subject
     subject_line = I18n.t('conversations.reply.email_subject')
@@ -56,7 +88,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if inbound_email_enabled?
-      "#{@agent.available_name} <reply+#{@conversation.uuid}@#{current_domain}>"
+      "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
       @agent&.email
     end
@@ -64,9 +96,9 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email
     if inbound_email_enabled?
-      "#{@agent.available_name} <#{account_support_email}>"
+      "#{assignee_name} <#{account_support_email}>"
     else
-      "#{@agent.available_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
+      "#{assignee_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
     end
   end
 
@@ -101,6 +133,6 @@ class ConversationReplyMailer < ApplicationMailer
   def choose_layout
     return false if action_name == 'reply_without_summary'
 
-    'mailer'
+    'mailer/base'
   end
 end

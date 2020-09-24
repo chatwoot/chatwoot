@@ -115,6 +115,43 @@
           "ERROR_MESSAGE": "Het is niet gelukt om Twilio referenties te verifiëren, probeer het opnieuw"
         }
       },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrate with API channel and start supporting your customers.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in",
+          "ERROR": "Dit veld is verplicht"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "PLACEHOLDER": "Webhook URL"
+        },
+        "SUBMIT_BUTTON": "Create API Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the api channel"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Email Channel",
+        "DESC": "Integrate you email inbox.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanaal naam",
+          "PLACEHOLDER": "Voer een kanaal naam in",
+          "ERROR": "Dit veld is verplicht"
+        },
+        "EMAIL": {
+          "LABEL": "E-mailadres",
+          "SUBTITLE": "Email where your customers sends you support tickets",
+          "PLACEHOLDER": "E-mailadres"
+        },
+        "SUBMIT_BUTTON": "Create Email Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the email channel"
+        },
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+      },
       "AUTH": {
         "TITLE": "Kanalen",
         "DESC": "Momenteel ondersteunen we website live chat widgets, Facebook pagina's en Twitter-profielen als platformen. We hebben meer platforms zoals Whatsapp, E-mail, Telegram en Lijn in de werken, die binnenkort zullen verschijnen."
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Postvak verwijderen mislukt. Probeer het later opnieuw."
       }
     },
+    "TABS": {
+      "SETTINGS": "Instellingen",
+      "COLLABORATORS": "Collaborators",
+      "CONFIGURATION": "Configuration"
+    },
     "SETTINGS": "Instellingen",
+    "FEATURES": {
+      "LABEL": "Features",
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Plaats deze knop in je lichaam tag",

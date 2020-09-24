@@ -44,24 +44,29 @@
         "LABEL": "Image de profil"
       },
       "NAME": {
-        "LABEL": "Votre nom",
-        "ERROR": "Veuillez entrer un nom valide",
-        "PLACEHOLDER": "Veuillez entrer votre nom, cela sera affiché dans les conversations"
+        "LABEL": "Votre nom complet",
+        "ERROR": "Veuillez entrer un nom complet valide",
+        "PLACEHOLDER": "Veuillez entrer votre nom complet"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Nom affiché",
+        "ERROR": "Veuillez entrer un nom d’affichage valide",
+        "PLACEHOLDER": "Veuillez entrer un nom d’affichage, il s’affichera dans les conversations"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Disponibilité",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "En ligne"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "Occupé(e)"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "Hors-ligne"
           }
         ]
       },
@@ -121,6 +126,22 @@
     "CANNED_RESPONSES": "Réponses standardisées",
     "INTEGRATIONS": "Intégrations",
     "ACCOUNT_SETTINGS": "Paramètres du compte",
-    "LABELS": "Labels"
+    "LABELS": "Étiquettes"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "Nouveau compte",
+    "SELECTOR_SUBTITLE": "Créer un nouveau compte",
+    "API": {
+      "SUCCESS_MESSAGE": "Compte créé avec succès",
+      "EXIST_MESSAGE": "Ce compte existe déjà",
+      "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nom du compte",
+        "PLACEHOLDER": "Entreprises Wayne"
+      },
+      "SUBMIT": "Envoyer"
+    }
   }
 }

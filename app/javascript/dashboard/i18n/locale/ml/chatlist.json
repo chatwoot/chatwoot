@@ -45,6 +45,10 @@
       {
         "TEXT": "പരിഹരിച്ചത്",
         "VALUE": "resolved"
+      },
+      {
+        "TEXT": "ബോട്ട്",
+        "VALUE": "bot"
       }
     ],
     "ATTACHMENTS": {
@@ -72,6 +76,9 @@
         "ICON": "ion-link",
         "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
       }
-    }
+    },
+    "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
+    "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
+    "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക"
   }
 }

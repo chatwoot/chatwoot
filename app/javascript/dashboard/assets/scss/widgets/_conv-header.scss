@@ -15,10 +15,9 @@
   .multiselect-box {
     @include flex;
     @include flex-align($x: justify, $y: middle);
-    @include margin(0 $space-small);
     @include border-light;
     border-radius: $space-smaller;
-    margin-right: $space-normal;
+    margin-right: var(--space-small);
 
     &::before {
       color: $medium-gray;
@@ -41,6 +40,10 @@
   .user {
     @include flex;
     @include flex-align($x: center, $y: middle);
+
+    &.hide {
+      visibility: hidden;
+    }
 
     .user--name {
       @include margin(0);
@@ -82,5 +85,17 @@
     &::before {
       border-top-color: $color-white;
     }
+  }
+}
+
+
+.header-actions-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: flex-end;
+
+  &.has-open-sidebar {
+    justify-content: flex-end;
   }
 }

@@ -1,29 +1,96 @@
 {
   "CONTACT_PANEL": {
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "NOT_AVAILABLE": "Недоступен",
+    "EMAIL_ADDRESS": "Email",
+    "PHONE_NUMBER": "Номер телефона",
+    "COMPANY": "Компания",
+    "LOCATION": "Местоположение",
+    "CONVERSATION_TITLE": "Детали диалога",
+    "BROWSER": "Браузер",
+    "OS": "Операционная система",
+    "INITIATED_FROM": "Начат из",
+    "INITIATED_AT": "Начат в",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
+      "TITLE": "Предыдущие диалоги"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Пользовательские атрибуты"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "Категории Диалога",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Категории для",
+        "ACTIVE_LABELS": "Категории добавлены к диалогу",
+        "INACTIVE_LABELS": "Все категории",
+        "REMOVE": "Нажмите на иконку X для удаления категории",
+        "ADD": "Нажмите на значок +, чтобы добавить категорию",
+        "UPDATE_BUTTON": "Изменить категории",
+        "UPDATE_ERROR": "Не удалось обновить категории, попробуйте снова."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "У вас больше нет категорий.",
+      "NO_AVAILABLE_LABELS": "У диалога больше нет категорий."
     },
-    "MUTE_CONTACT": "Mute Contact",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "Заглушить диалог",
+    "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
+    "SEND_TRANSCRIPT": "Отправить субтитры",
+    "EDIT_LABEL": "Редактировать"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Изменить контакт",
+    "TITLE": "Изменить контакт",
+    "DESC": "Изменить контактные данные",
+    "FORM": {
+      "SUBMIT": "Отправить",
+      "CANCEL": "Отменить",
+      "AVATAR": {
+        "LABEL": "Аватар контакта"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Введите полное имя контакта",
+        "LABEL": "Полное имя"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Введите описание контакта",
+        "LABEL": "Описание"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Введите email контакта",
+        "LABEL": "Email"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Введите номер телефона контакта",
+        "LABEL": "Номер телефона"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Введите местоположение контакта",
+        "LABEL": "Местоположение"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Введите название компании",
+        "LABEL": "Название компании"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Введите имя пользователя Facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Введите имя пользователя Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Введите имя пользователя LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Введите имя пользователя Github",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Контакт успешно обновлен",
+    "CONTACT_ALREADY_EXIST": "Этот адрес электронной почты используется для другого контакта.",
+    "ERROR_MESSAGE": "При сохранении настроек произошла ошибка, пожалуйста, попробуйте еще раз"
   }
 }

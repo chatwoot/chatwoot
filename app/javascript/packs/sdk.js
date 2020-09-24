@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { IFrameHelper } from '../sdk/IFrameHelper';
+import { getBubbleView } from '../sdk/bubbleHelpers';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};
@@ -11,6 +12,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     position: chatwootSettings.position === 'left' ? 'left' : 'right',
     websiteToken,
     locale: chatwootSettings.locale,
+    type: getBubbleView(chatwootSettings.type),
+    launcherTitle: chatwootSettings.launcherTitle || '',
+    showPopoutButton: chatwootSettings.showPopoutButton || false,
 
     toggle() {
       IFrameHelper.events.toggleBubble();
@@ -26,6 +30,24 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         });
       } else {
         throw new Error('Identifier should be a string or a number');
+      }
+    },
+
+    setCustomAttributes(customAttributes = {}) {
+      if (!customAttributes || !Object.keys(customAttributes).length) {
+        throw new Error('Custom attributes should have atleast one key');
+      } else {
+        IFrameHelper.sendMessage('set-custom-attributes', { customAttributes });
+      }
+    },
+
+    deleteCustomAttribute(customAttribute = '') {
+      if (!customAttribute) {
+        throw new Error('Custom attribute is required');
+      } else {
+        IFrameHelper.sendMessage('delete-custom-attribute', {
+          customAttribute,
+        });
       }
     },
 

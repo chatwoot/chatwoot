@@ -35,8 +35,8 @@ class Base::SendOnChannelService
   def outgoing_message_originated_from_channel?
     # TODO: we need to refactor this logic as more integrations comes by
     # chatwoot messages won't have source id at the moment
-    # outgoing messages may be created in slack which should be send to the channel
-    message.source_id.present? && !message.source_id.starts_with?('slack_')
+    # TODO: migrate source_ids to external_source_ids and check the source id relevant to specific channel
+    message.source_id.present?
   end
 
   def outgoing_message?

@@ -41,3 +41,4 @@ ca:
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
     reply:
       email_subject: "New messages on this conversation"
+      transcript_subject: "Conversation Transcript"

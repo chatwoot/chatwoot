@@ -28,6 +28,10 @@ class Channel::FacebookPage < ApplicationRecord
   after_create_commit :subscribe
   before_destroy :unsubscribe
 
+  def name
+    'Facebook'
+  end
+
   def has_24_hour_messaging_window?
     true
   end

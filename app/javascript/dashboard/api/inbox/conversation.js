@@ -29,10 +29,8 @@ class ConversationApi extends ApiClient {
     );
   }
 
-  markMessageRead({ id, lastSeen }) {
-    return axios.post(`${this.url}/${id}/update_last_seen`, {
-      agent_last_seen_at: lastSeen,
-    });
+  markMessageRead({ id }) {
+    return axios.post(`${this.url}/${id}/update_last_seen`);
   }
 
   toggleTyping({ conversationId, status }) {
@@ -54,6 +52,10 @@ class ConversationApi extends ApiClient {
         labels,
       },
     });
+  }
+
+  sendEmailTranscript({ conversationId, email }) {
+    return axios.post(`${this.url}/${conversationId}/transcript`, { email });
   }
 }
 

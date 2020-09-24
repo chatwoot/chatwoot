@@ -3,9 +3,9 @@
     <conversation-header
       :chat="currentChat"
       :is-contact-panel-open="isContactPanelOpen"
-      @contactPanelToggle="onToggleContactPanel"
+      @contact-panel-toggle="onToggleContactPanel"
     />
-    <div v-if="!currentChat.can_reply" class="messenger-policy--banner">
+    <div v-if="!currentChat.can_reply" class="banner messenger-policy--banner">
       <span>
         {{ $t('CONVERSATION.CANNOT_REPLY') }}
         <a
@@ -17,9 +17,26 @@
         </a>
       </span>
     </div>
+
+    <div v-if="isATweet" class="banner">
+      <span v-if="!selectedTweetId">
+        {{ $t('CONVERSATION.LAST_INCOMING_TWEET') }}
+      </span>
+      <span v-else>
+        {{ $t('CONVERSATION.REPLYING_TO') }}
+        {{ selectedTweet }}
+      </span>
+      <button
+        v-if="selectedTweetId"
+        class="banner-close-button"
+        @click="removeTweetSelection"
+      >
+        <i v-tooltip="$t('CONVERSATION.REMOVE_SELECTION')" class="ion-close" />
+      </button>
+    </div>
     <ul class="conversation-panel">
       <transition name="slide-up">
-        <li>
+        <li class="spinner--container">
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
@@ -27,6 +44,7 @@
         v-for="message in getReadMessages"
         :key="message.id"
         :data="message"
+        :is-a-tweet="isATweet"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span>
@@ -37,6 +55,7 @@
         v-for="message in getUnReadMessages"
         :key="message.id"
         :data="message"
+        :is-a-tweet="isATweet"
       />
     </ul>
     <div class="conversation-footer">
@@ -52,14 +71,14 @@
       </div>
       <ReplyBox
         :conversation-id="currentChat.id"
-        @scrollToMessage="focusLastMessage"
+        :in-reply-to="selectedTweetId"
+        @scrollToMessage="scrollToBottom"
       />
     </div>
   </div>
 </template>
 
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import ConversationHeader from './ConversationHeader';
@@ -67,6 +86,7 @@ import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
 import { getTypingUsersText } from '../../../helper/commons';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -93,6 +113,7 @@ export default {
       isLoadingPrevious: true,
       heightBeforeLoad: null,
       conversationPanel: null,
+      selectedTweetId: null,
     };
   },
 
@@ -151,39 +172,82 @@ export default {
     shouldLoadMoreChats() {
       return !this.listLoadingStatus && !this.isLoadingPrevious;
     },
+
+    conversationType() {
+      const { additional_attributes: additionalAttributes } = this.currentChat;
+      const type = additionalAttributes ? additionalAttributes.type : '';
+      return type || '';
+    },
+
+    isATweet() {
+      return this.conversationType === 'tweet';
+    },
+
+    selectedTweet() {
+      if (this.selectedTweetId) {
+        const { messages = [] } = this.getMessages;
+        const [selectedMessage = {}] = messages.filter(
+          message => message.id === this.selectedTweetId
+        );
+        return selectedMessage.content || '';
+      }
+      return '';
+    },
+  },
+
+  watch: {
+    currentChat(newChat, oldChat) {
+      if (newChat.id === oldChat.id) {
+        return;
+      }
+      this.selectedTweetId = null;
+    },
   },
 
   created() {
     bus.$on('scrollToMessage', () => {
-      this.focusLastMessage();
+      setTimeout(() => this.scrollToBottom(), 0);
       this.makeMessagesRead();
+    });
+
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
+      this.selectedTweetId = selectedTweetId;
     });
   },
 
+  mounted() {
+    this.addScrollListener();
+  },
+
+  unmounted() {
+    this.removeScrollListener();
+  },
+
   methods: {
-    focusLastMessage() {
-      setTimeout(() => {
-        this.attachListner();
-      }, 0);
-    },
-
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
-
-    attachListner() {
+    addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
-      this.heightBeforeLoad =
-        this.getUnreadCount === 0
-          ? this.conversationPanel.scrollHeight
-          : this.$el.querySelector('.conversation-panel .unread--toast')
-              .offsetTop - 56;
-      this.conversationPanel.scrollTop = this.heightBeforeLoad;
+      this.setScrollParams();
       this.conversationPanel.addEventListener('scroll', this.handleScroll);
+      this.scrollToBottom();
       this.isLoadingPrevious = false;
+    },
+    removeScrollListener() {
+      this.conversationPanel.removeEventListener('scroll', this.handleScroll);
+    },
+    scrollToBottom() {
+      this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
+    },
+    onToggleContactPanel() {
+      this.$emit('contact-panel-toggle');
+    },
+    setScrollParams() {
+      this.heightBeforeLoad = this.conversationPanel.scrollHeight;
+      this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
     handleScroll(e) {
+      this.setScrollParams();
+
       const dataFetchCheck =
         this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
       if (
@@ -198,43 +262,53 @@ export default {
             before: this.getMessages.messages[0].id,
           })
           .then(() => {
+            const heightDifference =
+              this.conversationPanel.scrollHeight - this.heightBeforeLoad;
             this.conversationPanel.scrollTop =
-              this.conversationPanel.scrollHeight -
-              (this.heightBeforeLoad - this.conversationPanel.scrollTop);
+              this.scrollTopBeforeLoad + heightDifference;
             this.isLoadingPrevious = false;
-            this.heightBeforeLoad =
-              this.getUnreadCount === 0
-                ? this.conversationPanel.scrollHeight
-                : this.$el.querySelector('.conversation-panel .unread--toast')
-                    .offsetTop - 56;
+            this.setScrollParams();
           });
       }
     },
 
     makeMessagesRead() {
-      if (this.getUnreadCount !== 0 && this.getMessages !== undefined) {
-        this.$store.dispatch('markMessagesRead', {
-          id: this.currentChat.id,
-          lastSeen: this.getMessages.messages.last().created_at,
-        });
-      }
+      this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
+    },
+    removeTweetSelection() {
+      this.selectedTweetId = null;
     },
   },
 };
 </script>
 
 <style scoped lang="scss">
-.messenger-policy--banner {
-  background: var(--r-400);
+.banner {
+  background: var(--b-500);
   color: var(--white);
   font-size: var(--font-size-mini);
   padding: var(--space-slab) var(--space-normal);
   text-align: center;
+  position: relative;
 
   a {
     text-decoration: underline;
     color: var(--white);
     font-size: var(--font-size-mini);
   }
+
+  &.messenger-policy--banner {
+    background: var(--r-400);
+  }
+
+  .banner-close-button {
+    cursor: pointer;
+    margin-left: var(--space--two);
+    color: var(--white);
+  }
+}
+
+.spinner--container {
+  min-height: var(--space-jumbo);
 }
 </style>

@@ -114,8 +114,10 @@ export default {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return 'Bot';
       }
-
-      return this.message.sender ? this.message.sender.name : 'Bot';
+      if (this.message.sender) {
+        return this.message.sender.available_name || this.message.sender.name;
+      }
+      return 'Bot';
     },
     avatarUrl() {
       // eslint-disable-next-line

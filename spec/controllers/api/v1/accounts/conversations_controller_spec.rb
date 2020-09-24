@@ -59,6 +59,39 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/search' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/search", params: { q: 'test' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        conversation = create(:conversation, account: account)
+        create(:message, conversation: conversation, account: account, content: 'test1')
+        create(:message, conversation: conversation, account: account, content: 'test2')
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns all conversations with messages containing the search query' do
+        get "/api/v1/accounts/#{account.id}/conversations/search",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test1' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)[:data]
+        expect(response_data[:meta][:all_count]).to eq(1)
+        expect(response_data[:payload].first[:messages].first[:content]).to eq 'test1'
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id' do
     let(:conversation) { create(:conversation, account: account) }
 
@@ -177,15 +210,12 @@ RSpec.describe 'Conversations API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'updates last seen' do
-        params = { agent_last_seen_at: '-1' }
-
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
-             params: params,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(conversation.reload.agent_last_seen_at).to eq(DateTime.strptime(params[:agent_last_seen_at].to_s, '%s'))
+        expect(conversation.reload.agent_last_seen_at).not_to eq nil
       end
     end
   end
@@ -212,6 +242,34 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to eq(true)
         expect(conversation.reload.muted?).to eq(true)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations/:id/transcript' do
+    let(:conversation) { create(:conversation, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:params) { { email: 'test@test.com' } }
+
+      it 'mutes conversation' do
+        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
+             headers: agent.create_new_auth_token,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
     end
   end

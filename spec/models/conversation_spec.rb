@@ -69,7 +69,7 @@ RSpec.describe Conversation, type: :model do
       conversation.update(
         status: :resolved,
         locked: true,
-        user_last_seen_at: Time.now,
+        contact_last_seen_at: Time.now,
         assignee: new_assignee
       )
     end
@@ -317,7 +317,7 @@ RSpec.describe Conversation, type: :model do
         timestamp: conversation.created_at.to_i,
         can_reply: true,
         channel: 'Channel::WebWidget',
-        user_last_seen_at: conversation.user_last_seen_at.to_i,
+        contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0
       }

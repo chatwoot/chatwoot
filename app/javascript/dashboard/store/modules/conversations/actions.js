@@ -170,11 +170,18 @@ const actions = {
   },
 
   markMessagesRead: async ({ commit }, data) => {
-    setTimeout(() => {
-      commit(types.default.MARK_MESSAGE_READ, data);
-    }, 4000);
     try {
-      await ConversationApi.markMessageRead(data);
+      const {
+        data: { id, agent_last_seen_at: lastSeen },
+      } = await ConversationApi.markMessageRead(data);
+      setTimeout(
+        () =>
+          commit(types.default.MARK_MESSAGE_READ, {
+            id,
+            lastSeen,
+          }),
+        4000
+      );
     } catch (error) {
       // Handle error
     }
@@ -214,6 +221,14 @@ const actions = {
       commit(types.default.MUTE_CONVERSATION);
     } catch (error) {
       //
+    }
+  },
+
+  sendEmailTranscript: async (_, { conversationId, email }) => {
+    try {
+      await ConversationApi.sendEmailTranscript({ conversationId, email });
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };

@@ -47,7 +47,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     context 'with a conversation' do
       it 'returns the correct conversation params' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
-        expect(conversation.user_last_seen_at).to eq(nil)
+        expect(conversation.contact_last_seen_at).to eq(nil)
 
         post '/api/v1/widget/conversations/update_last_seen',
              headers: { 'X-Auth-Token' => token },
@@ -56,7 +56,23 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
 
-        expect(conversation.reload.user_last_seen_at).not_to eq(nil)
+        expect(conversation.reload.contact_last_seen_at).not_to eq(nil)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/widget/conversations/transcript' do
+    context 'with a conversation' do
+      it 'sends transcript email' do
+        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+
+        post '/api/v1/widget/conversations/transcript',
+             headers: { 'X-Auth-Token' => token },
+             params: { website_token: web_widget.website_token, email: 'test@test.com' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
     end
   end

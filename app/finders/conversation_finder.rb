@@ -27,6 +27,7 @@ class ConversationFinder
     find_all_conversations
     filter_by_status
     filter_by_labels if params[:labels]
+    filter_by_query if params[:q]
 
     mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
@@ -62,17 +63,24 @@ class ConversationFinder
 
   def find_all_conversations
     @conversations = current_account.conversations.includes(
-      :assignee, :inbox, contact: [:avatar_attachment]
+      :assignee, :inbox, :taggings, contact: [:avatar_attachment]
     ).where(inbox_id: @inbox_ids)
   end
 
   def filter_by_assignee_type
-    if @assignee_type == 'me'
+    case @assignee_type
+    when 'me'
       @conversations = @conversations.assigned_to(current_user)
-    elsif @assignee_type == 'unassigned'
+    when 'unassigned'
       @conversations = @conversations.unassigned
     end
     @conversations
+  end
+
+  def filter_by_query
+    @conversations = @conversations.joins(:messages).where('messages.content LIKE :search',
+                                                           search: "%#{params[:q]}%").includes(:messages).where('messages.content LIKE :search',
+                                                                                                                search: "%#{params[:q]}%")
   end
 
   def filter_by_status

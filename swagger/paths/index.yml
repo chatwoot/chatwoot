@@ -1,5 +1,6 @@
 
 
+
 # Inboxes
 /accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
@@ -34,7 +35,20 @@
 # Contacts
 /accounts/{account_id}/contacts:
   $ref: ./contact/list_create.yml
+
 /accounts/{account_id}/contacts/{id}:
   $ref: ./contact/crud.yml
+
 /accounts/{account_id}/contacts/{id}/conversations:
   $ref: ./contact/conversations.yml
+
+/accounts/{account_id}/contacts/search:
+  $ref: ./contact/search.yml
+
+/accounts/{account_id}/contacts/{id}/contact_inboxes:
+  $ref: ./contact_inboxes/create.yml
+
+
+# Profile
+/profile:
+  $ref: ./profile/index.yml

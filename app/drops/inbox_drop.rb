@@ -1,0 +1,2 @@
+class InboxDrop < BaseDrop
+end

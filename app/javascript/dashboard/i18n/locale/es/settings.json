@@ -44,24 +44,29 @@
         "LABEL": "Imagen de perfil"
       },
       "NAME": {
-        "LABEL": "Tu nombre",
-        "ERROR": "Por favor, introduzca un nombre válido",
-        "PLACEHOLDER": "Por favor, introduzca su nombre, esto se mostrará en las conversaciones"
+        "LABEL": "Tu nombre completo",
+        "ERROR": "Introduce un nombre válido por favor",
+        "PLACEHOLDER": "Introduce tu nombre completo por favor"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Nombre a mostrar",
+        "ERROR": "Introduce un nombre válido por favor",
+        "PLACEHOLDER": "Introduce un nombre a mostrar por favor, esto se mostrará en las conversaciones"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Disponibilidad",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "En línea"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "Ocupado"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "Fuera de línea"
           }
         ]
       },
@@ -121,6 +126,22 @@
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
-    "LABELS": "Labels"
+    "LABELS": "Etiquetas"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "Nueva cuenta",
+    "SELECTOR_SUBTITLE": "Crear nueva cuenta",
+    "API": {
+      "SUCCESS_MESSAGE": "Cuenta creada con éxito",
+      "EXIST_MESSAGE": "La cuenta ya existe",
+      "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre de cuenta",
+        "PLACEHOLDER": "Empresas de Wayne"
+      },
+      "SUBMIT": "Enviar"
+    }
   }
 }

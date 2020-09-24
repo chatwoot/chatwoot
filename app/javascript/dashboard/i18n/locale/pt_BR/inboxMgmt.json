@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Caixas de Entrada",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Caixa de entrada</b></p> <p> Quando você conectar um site ou uma página de Facebook ao Chatwoot, é chamado de <b>caixa de entrada</b>. Você pode ter caixas de entrada ilimitadas na sua conta de Chatwoot. </p><p> Clique em <b>Adicionar caixa de entrada</b> para conectar um site ou uma página do Facebook. </p><p> No Painel, você pode ver todas as conversas de todas as suas caixas de entrada em um único lugar e responder a elas sob a guia `Conversations`. </p><p> Você também pode ver conversas específicas para uma caixa de entrada clicando no nome da caixa de entrada no painel esquerdo do painel. </p>",
     "LIST": {
       "404": "Não há caixas de entrada anexadas a esta conta."
     },
@@ -64,12 +64,12 @@
           "PLACEHOLDER": "Nós tornamos simples a conexão conosco. Pergunte qualquer assunto ou compartilhe seus comentários."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
+          "LABEL": "Mensagem de saudação do canal",
           "PLACEHOLDER": "Acme Inc tipicamente retorna em algumas horas."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Ativar saudação do canal",
+          "HELP_TEXT": "Enviar uma mensagem de saudação ao usuário quando ele iniciar a conversa.",
           "ENABLED": "Ativado",
           "DISABLED": "Desativado"
         },
@@ -114,6 +114,43 @@
         "API": {
           "ERROR_MESSAGE": "Não fomos capazes de autenticar as credenciais Twilio, por favor, tente novamente"
         }
+      },
+      "API_CHANNEL": {
+        "TITLE": "Canal da API",
+        "DESC": "Integre com canal API e comece a ajudar seus clientes.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor, insira um nome de canal",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL do webhook",
+          "SUBTITLE": "Configure a URL onde deseja receber chamadas em eventos.",
+          "PLACEHOLDER": "URL do webhook"
+        },
+        "SUBMIT_BUTTON": "Criar canal de API",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal de API"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Canal de e-mail",
+        "DESC": "Integre sua caixa de email.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nome do Canal",
+          "PLACEHOLDER": "Por favor, insira um nome de canal",
+          "ERROR": "Este campo é obrigatório"
+        },
+        "EMAIL": {
+          "LABEL": "e-mail",
+          "SUBTITLE": "E-mail para onde os seus clientes lhe enviam tickets de suporte",
+          "PLACEHOLDER": "e-mail"
+        },
+        "SUBMIT_BUTTON": "Criar canal de e-mail",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível salvar o canal de e-mail"
+        },
+        "FINISH_MESSAGE": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail."
       },
       "AUTH": {
         "TITLE": "Canais",
@@ -175,7 +212,17 @@
         "ERROR_MESSAGE": "Não foi possível excluir a caixa de entrada. Tente novamente mais tarde."
       }
     },
+    "TABS": {
+      "SETTINGS": "Confirgurações",
+      "COLLABORATORS": "Colaboradores",
+      "CONFIGURATION": "Configuração"
+    },
     "SETTINGS": "Confirgurações",
+    "FEATURES": {
+      "LABEL": "Funcionalidades",
+      "DISPLAY_FILE_PICKER": "Exibir seletor de arquivos no widget",
+      "DISPLAY_EMOJI_PICKER": "Exibir seletor de emoji no widget"
+    },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Código Menssageiro <scripit>",
       "MESSENGER_SUB_HEAD": "Favor, insira essse código <script> dentro da tag Body de sua página html",

@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="integration--image">
-      <img :src="'/assets/dashboard/integrations/' + integrationLogo" />
+      <img :src="'/dashboard/images/integrations/' + integrationLogo" />
     </div>
     <div class="column">
       <h3 class="integration--title">

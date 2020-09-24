@@ -16,7 +16,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     let(:mail) { described_class.conversation_creation(conversation, agent).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq("#{agent.name}, A new conversation [ID - #{conversation
+      expect(mail.subject).to eq("#{agent.available_name}, A new conversation [ID - #{conversation
         .display_id}] has been created in #{conversation.inbox&.name}.")
     end
 
@@ -29,11 +29,28 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     let(:mail) { described_class.conversation_assignment(conversation, agent).deliver_now }
 
     it 'renders the subject' do
-      expect(mail.subject).to eq("#{agent.name}, A new conversation [ID - #{conversation.display_id}] has been assigned to you.")
+      expect(mail.subject).to eq("#{agent.available_name}, A new conversation [ID - #{conversation.display_id}] has been assigned to you.")
     end
 
     it 'renders the receiver email' do
       expect(mail.to).to eq([agent.email])
+    end
+  end
+
+  describe 'assigned_conversation_new_message' do
+    let(:mail) { described_class.assigned_conversation_new_message(conversation, agent).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, New message in your assigned conversation [ID - #{conversation.display_id}].")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+
+    it 'will not send email if agent is online' do
+      ::OnlineStatusTracker.update_presence(conversation.account.id, 'User', agent.id)
+      expect(mail).to eq nil
     end
   end
 end

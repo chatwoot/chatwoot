@@ -13,5 +13,6 @@ class CustomExceptions::Base < ::StandardError
 
   def initialize(data)
     @data = data
+    super()
   end
 end

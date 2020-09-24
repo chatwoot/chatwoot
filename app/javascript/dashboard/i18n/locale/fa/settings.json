@@ -44,9 +44,31 @@
         "LABEL": "عکس پروفایل"
       },
       "NAME": {
-        "LABEL": "اسم شما",
-        "ERROR": "لطفا اسم خود را به شکل صحیح وارد کنید",
-        "PLACEHOLDER": "لطفا اسم خود را وارد کنید، این اسم در گفتگوها دیده می‌شود"
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Availability",
+        "STATUSES_LIST": [
+          {
+            "value": "online",
+            "label": "Online"
+          },
+          {
+            "value": "busy",
+            "label": "Busy"
+          },
+          {
+            "value": "offline",
+            "label": "Offline"
+          }
+        ]
       },
       "EMAIL": {
         "LABEL": "ایمیل شما",
@@ -103,6 +125,23 @@
     "INBOXES": "صندوق‌های ورودی",
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
-    "ACCOUNT_SETTINGS": "تنظیمات حساب"
+    "ACCOUNT_SETTINGS": "تنظیمات حساب",
+    "LABELS": "Labels"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا مجددا امتحان کنید"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "عنوان حساب",
+        "PLACEHOLDER": "شرکت ایران ناسیونال"
+      },
+      "SUBMIT": "ثبت"
+    }
   }
 }

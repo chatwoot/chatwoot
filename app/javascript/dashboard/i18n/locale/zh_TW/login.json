@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "登入到 Chatwoot",
+    "EMAIL": {
+      "LABEL": "Email",
+      "PLACEHOLDER": "電子信箱 例如：somone@example.com"
+    },
+    "PASSWORD": {
+      "LABEL": "密碼",
+      "PLACEHOLDER": "密碼"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "登入成功",
+      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試",
+      "UNAUTH": "用户名/密碼不正確。請重試"
+    },
+    "FORGOT_PASSWORD": "忘記密碼了？",
+    "CREATE_NEW_ACCOUNT": "建立新帳戶",
+    "SUBMIT": "登入"
+  }
+}

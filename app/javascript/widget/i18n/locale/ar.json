@@ -11,8 +11,15 @@
   "AGENT_AVAILABILITY": {
     "IS_AVAILABLE": "متاح",
     "ARE_AVAILABLE": "متاح",
-    "OTHERS_ARE_AVAILABLE": "others are available",
+    "OTHERS_ARE_AVAILABLE": "وآخرون متاحون",
     "AND": "و"
+  },
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
+    "CLOSE_MESSAGES_BUTTON": "أغلق"
+  },
+  "BUBBLE": {
+    "LABEL": "تحدث معنا"
   },
   "POWERED_BY": "مدعوم بواسطة Chatwoot",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",

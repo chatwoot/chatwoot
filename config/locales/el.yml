@@ -41,3 +41,4 @@ el:
       email_input_box_message_body: "Ειδοποιηθείτε με email"
     reply:
       email_subject: "νέα μηνύματα σε αυτήν την συνομιλία"
+      transcript_subject: "Μεταγραφή Συνομιλίας"
