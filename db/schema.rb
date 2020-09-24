@@ -10,7 +10,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2020_09_07_094912) do
 
   # These are extensions that must be enabled in order to support this database
@@ -225,8 +224,8 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
     t.boolean "locked", default: false
     t.jsonb "additional_attributes"
     t.bigint "contact_inbox_id"
-    t.string "identifier"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.string "identifier"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -307,17 +306,17 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
     t.integer "folder_id"
     t.integer "author_id"
     t.string "title"
+    t.text "description"
     t.text "content"
     t.integer "status"
     t.integer "views"
-    t.string "seo_title"
-    t.string "seo_description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "kbase_categories", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
     t.string "name"
     t.text "description"
     t.integer "position"
@@ -326,39 +325,25 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
   end
 
   create_table "kbase_folders", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
+    t.integer "category_id", null: false
     t.string "name"
-    t.text "description"
-    t.integer "category_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "kbase_portal_categories", force: :cascade do |t|
-    t.integer "account_id"
-    t.integer "portal_id"
-    t.integer "category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "kbase_portals", force: :cascade do |t|
-    t.integer "account_id"
-    t.string "name"
-    t.string "subdomain"
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
     t.string "custom_domain"
-    t.string "logo"
-    t.string "favicon"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.string "color"
     t.string "homepage_link"
     t.string "page_title"
     t.text "header_text"
-    t.string "header_image"
-    t.string "social_media_image"
-    t.string "color"
-    t.string "footer_title"
-    t.string "footer_url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
   end
 
   create_table "labels", force: :cascade do |t|

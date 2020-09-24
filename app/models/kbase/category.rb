@@ -8,12 +8,12 @@
 #  position    :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  account_id  :integer
+#  account_id  :integer          not null
+#  portal_id   :integer          not null
 #
 class Kbase::Category < ApplicationRecord
   belongs_to :account
-  has_many :portal_categories, dependent: :destroy
-  has_many :portals, through: :portal_categories
+  belongs_to :portal
   has_many :folders, dependent: :destroy
   has_many :articles, dependent: :destroy
 

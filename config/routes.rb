@@ -100,8 +100,10 @@ Rails.application.routes.draw do
           end
 
           namespace :kbase do
-            resources :portals
-            resources :categories
+            resources :portals do
+              resources :categories
+              resources :articles
+            end
           end
         end
       end
