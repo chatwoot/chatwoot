@@ -1,4 +1,4 @@
-import { getUserCookieName, getUserString } from '../../packs/sdk';
+import { getUserCookieName, getUserString, hasUserKeys } from '../../packs/sdk';
 
 describe('#getUserCookieName', () => {
   it('returns correct cookie name', () => {
@@ -32,5 +32,13 @@ describe('#getUserString', () => {
     ).toBe(
       'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier'
     );
+  });
+});
+
+describe('#hasUserKeys', () => {
+  it('checks whether the allowed list of keys are present', () => {
+    expect(hasUserKeys({})).toBe(false);
+    expect(hasUserKeys({ randomKey: 'randomValue' })).toBe(false);
+    expect(hasUserKeys({ avatar_url: 'randomValue' })).toBe(true);
   });
 });

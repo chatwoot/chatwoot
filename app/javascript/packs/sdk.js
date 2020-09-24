@@ -21,6 +21,12 @@ export const getUserString = ({ identifier = '', user }) => {
 
 const computeHashForUserData = (...args) => md5(getUserString(...args));
 
+export const hasUserKeys = user =>
+  ALLOWED_LIST_OF_SET_USER_ATTRIBUTES.reduce(
+    (acc, key) => acc || !!user[key],
+    false
+  );
+
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};
   window.$chatwoot = {
@@ -44,11 +50,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         throw new Error('Identifier should be a string or a number');
       }
 
-      const hasUserKeys = ALLOWED_LIST_OF_SET_USER_ATTRIBUTES.reduce(
-        (acc, key) => acc || !!user[key],
-        false
-      );
-      if (!hasUserKeys) {
+      if (!hasUserKeys()) {
         throw new Error(
           'User object should have one of the keys [avatar_url, email, name]'
         );
@@ -63,10 +65,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
 
       window.$chatwoot.identifier = identifier;
       window.$chatwoot.user = user;
-      IFrameHelper.sendMessage('set-user', {
-        identifier,
-        user: window.$chatwoot.user,
-      });
+      IFrameHelper.sendMessage('set-user', { identifier, user });
       Cookies.set(userCookieName, hashToBeStored, {
         expires: 365,
         sameSite: 'Lax',
