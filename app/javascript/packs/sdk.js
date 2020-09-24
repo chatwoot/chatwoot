@@ -49,7 +49,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         false
       );
       if (!hasUserKeys) {
-        throw new Error('User object should not be empty');
+        throw new Error(
+          'User object should have one of the keys [avatar_url, email, name]'
+        );
       }
 
       const userCookieName = getUserCookieName();
