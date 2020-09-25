@@ -1,15 +1,8 @@
 json.id portal.id
 json.color portal.color
 json.custom_domain portal.custom_domain
-json.favicon portal.favicon
-json.footer_title portal.footer_title
-json.footer_url portal.footer_url
-json.header_image portal.header_image
 json.header_text portal.header_text
 json.homepage_link portal.homepage_link
-json.logo portal.logo
 json.name portal.name
 json.page_title portal.page_title
-json.social_media_image portal.social_media_image
-json.subdomain portal.subdomain
-json.account_id portal.account_id
+json.slug portal.slug

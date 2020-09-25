@@ -301,7 +301,8 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
   end
 
   create_table "kbase_articles", force: :cascade do |t|
-    t.integer "account_id"
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
     t.integer "category_id"
     t.integer "folder_id"
     t.integer "author_id"

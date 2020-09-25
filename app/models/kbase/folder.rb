@@ -12,7 +12,7 @@
 class Kbase::Folder < ApplicationRecord
   belongs_to :account
   belongs_to :category
-  has_many :articles, dependent: :destroy
+  has_many :articles, dependent: :nullify
 
   validates :account_id, presence: true
   validates :category_id, presence: true

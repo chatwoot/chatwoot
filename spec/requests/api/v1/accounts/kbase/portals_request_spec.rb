@@ -18,7 +18,7 @@ RSpec.describe 'Api::V1::Accounts::Kbase::Portals', type: :request do
         portal_params = {
           portal: {
             name: 'test_portal',
-            subdomain: 'test_kbase'
+            slug: 'test_kbase'
           }
         }
         post "/api/v1/accounts/#{account.id}/kbase/portals",

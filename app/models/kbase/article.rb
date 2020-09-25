@@ -10,10 +10,11 @@
 #  views       :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  account_id  :integer
+#  account_id  :integer          not null
 #  author_id   :integer
 #  category_id :integer
 #  folder_id   :integer
+#  portal_id   :integer          not null
 #
 class Kbase::Article < ApplicationRecord
   belongs_to :account

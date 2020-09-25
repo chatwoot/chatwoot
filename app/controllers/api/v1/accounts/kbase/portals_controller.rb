@@ -1,12 +1,12 @@
-class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::Kbase::BaseController
   before_action :fetch_portal, except: [:index, :create]
 
   def index
-    @portals = current_account.kbase_portals
+    @portals = Current.account.kbase_portals
   end
 
   def create
-    @portal = current_account.kbase_portals.create!(portal_params)
+    @portal = Current.account.kbase_portals.create!(portal_params)
   end
 
   def update
@@ -26,11 +26,7 @@ class Api::V1::Accounts::Kbase::PortalsController < Api::V1::Accounts::BaseContr
 
   def portal_params
     params.require(:portal).permit(
-      :color, :custom_domain, :favicon,
-      :footer_title, :footer_url, :header_image,
-      :header_text, :homepage_link, :logo,
-      :name, :page_title, :social_media_image,
-      :subdomain
+      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug
     )
   end
 end

@@ -3,6 +3,7 @@
 # Table name: kbase_portals
 #
 #  id            :bigint           not null, primary key
+#  account_id    :integer          not null
 #  color         :string
 #  custom_domain :string
 #  header_text   :text
@@ -12,7 +13,6 @@
 #  slug          :string           not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  account_id    :integer          not null
 #
 # Indexes
 #
@@ -22,7 +22,7 @@ class Kbase::Portal < ApplicationRecord
   belongs_to :account
   has_many :categories, dependent: :destroy
   has_many :folders,  through: :categories
-  has_many :articles, through: :folders
+  has_many :articles, dependent: :destroy
 
   validates :account_id, presence: true
   validates :name, presence: true

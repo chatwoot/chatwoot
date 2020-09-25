@@ -1,4 +1,4 @@
-class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase::BaseController
   before_action :fetch_category, except: [:index, :create]
 
   def index
