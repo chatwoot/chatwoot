@@ -17,6 +17,13 @@ class Kbase::Category < ApplicationRecord
   has_many :folders, dependent: :destroy
   has_many :articles, dependent: :nullify
 
+  before_validation :ensure_account_id
   validates :account_id, presence: true
   validates :name, presence: true
+
+  private
+
+  def ensure_account_id
+    self.account_id = portal&.account_id
+  end
 end

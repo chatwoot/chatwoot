@@ -2,11 +2,11 @@ class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase:
   before_action :fetch_category, except: [:index, :create]
 
   def index
-    @categories = current_account.kbase_categories
+    @categories = @portal.categories
   end
 
   def create
-    @category = current_account.kbase_categories.create!(category_params)
+    @category = @portal.categories.create!(category_params)
   end
 
   def update
@@ -21,7 +21,7 @@ class Api::V1::Accounts::Kbase::CategoriesController < Api::V1::Accounts::Kbase:
   private
 
   def fetch_category
-    @category = current_account.kbase_categories.find(params[:id])
+    @category = @portal.categories.find(params[:id])
   end
 
   def category_params
