@@ -19,6 +19,7 @@
 class Kbase::Article < ApplicationRecord
   belongs_to :account
   belongs_to :category
+  belongs_to :portal
   belongs_to :folder
   belongs_to :author, class_name: 'User'
 
