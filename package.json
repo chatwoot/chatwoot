@@ -28,6 +28,7 @@
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
     "lodash.groupby": "^4.6.0",
+    "md5": "^2.3.0",
     "query-string": "5",
     "spinkit": "~1.2.5",
     "tween.js": "~16.6.0",
