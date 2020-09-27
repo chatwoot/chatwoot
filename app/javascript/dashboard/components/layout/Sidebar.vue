@@ -26,6 +26,49 @@
       </transition-group>
     </div>
 
+    <div class="bottom-nav status-nav">
+      <div class="status-view">
+        <div
+          :class="
+            `status-view--badge status-view--badge__${currentUserAvailabilityStatus}`
+          "
+        />
+
+        <div class="status-view--title">
+          {{ currentUserAvailabilityStatus }}
+        </div>
+      </div>
+
+      <div class="status-change">
+        <transition name="menu-slide">
+          <div
+            v-if="showChangeStatusMenu"
+            v-on-clickaway="showChangeStatusOptions"
+            class="dropdown-pane top"
+          >
+            <ul class="vertical dropdown menu">
+              <li v-for="status in availabilityStatuses" :key="status.value">
+                <button
+                  class="button clear status-change--dropdown-button"
+                  :disabled="status.disabled"
+                  @click="changeAvailabilityStatus(status.value)"
+                >
+                  {{ status.label }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </transition>
+
+        <button
+          class="status-change--change-button"
+          @click="showChangeStatusOptions"
+        >
+          {{ $t('SIDEBAR_ITEMS.CHANGE_AVAILABILITY_STATUS') }}
+        </button>
+      </div>
+    </div>
+
     <div class="bottom-nav">
       <transition name="menu-slide">
         <div
@@ -55,11 +98,12 @@
           </ul>
         </div>
       </transition>
+
       <div class="current-user" @click.prevent="showOptions()">
         <thumbnail
           :src="currentUser.avatar_url"
           :username="currentUserAvailableName"
-          :status="currentUser.availability_status"
+          :status="null"
         />
         <div class="current-user--data">
           <h3 class="current-user--name">
@@ -177,12 +221,14 @@ export default {
   },
   data() {
     return {
+      showChangeStatusMenu: false,
       showOptionsMenu: false,
       showAccountModal: false,
       showCreateAccountModal: false,
       accountName: '',
       vertical: 'bottom',
       horizontal: 'center',
+      isUpdating: false,
     };
   },
   validations: {
@@ -204,6 +250,10 @@ export default {
     currentUserAvailableName() {
       const { available_name: availableName } = this.currentUser;
       return availableName;
+    },
+    currentUserAvailabilityStatus() {
+      const { availability_status: availabilityStatus } = this.currentUser;
+      return availabilityStatus;
     },
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
@@ -230,6 +280,14 @@ export default {
       }
 
       return this.filterMenuItemsByRole(menuItems);
+    },
+    availabilityStatuses() {
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
+        status => ({
+          ...status,
+          disabled: this.currentUserAvailabilityStatus === status.value,
+        })
+      );
     },
     currentRoute() {
       return this.$store.state.route.name;
@@ -296,6 +354,9 @@ export default {
     logout() {
       Auth.logout();
     },
+    showChangeStatusOptions() {
+      this.showChangeStatusMenu = !this.showChangeStatusMenu;
+    },
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
     },
@@ -328,12 +389,89 @@ export default {
         }
       }
     },
+    changeAvailabilityStatus(availability) {
+      if (this.isUpdating) {
+        return;
+      }
+
+      this.isUpdating = true;
+
+      this.$store
+        .dispatch('updateProfile', {
+          availability,
+        })
+        .finally(() => {
+          this.isUpdating = false;
+        });
+    },
   },
 };
 </script>
 
 <style lang="scss">
 @import '~dashboard/assets/scss/variables';
+
+.status-nav {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-one $space-normal;
+}
+
+.status-view {
+  display: flex;
+  align-items: baseline;
+
+  &--badge {
+    width: $space-one;
+    height: $space-one;
+    border-radius: 50%;
+
+    &__online {
+      background: $success-color;
+    }
+
+    &__offline {
+      background: $color-gray;
+    }
+
+    &__busy {
+      background: $warning-color;
+    }
+  }
+
+  &--title {
+    color: $color-gray;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+    margin-left: $space-small;
+
+    &:first-letter {
+      text-transform: capitalize;
+    }
+  }
+}
+
+.status-change {
+  &--change-button {
+    color: $color-gray;
+    font-size: $font-size-small;
+    border-bottom: 1px solid $color-gray;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom: none;
+    }
+  }
+
+  &--dropdown-button {
+    font-weight: $font-weight-normal;
+    font-size: $font-size-small;
+    padding: $space-small $space-one;
+    text-align: left;
+    width: 100%;
+  }
+}
 
 .account-selector--modal {
   .modal-container {
@@ -353,7 +491,8 @@ export default {
 
 .dropdown-pane {
   li {
-    a {
+    a,
+    button {
       padding: $space-small $space-one !important;
     }
   }
