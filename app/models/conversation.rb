@@ -7,6 +7,7 @@
 #  agent_last_seen_at    :datetime
 #  contact_last_seen_at  :datetime
 #  identifier            :string
+#  last_activity_at      :datetime         not null
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
@@ -36,7 +37,7 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, bot: 2 }
 
-  scope :latest, -> { order(updated_at: :desc) }
+  scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 

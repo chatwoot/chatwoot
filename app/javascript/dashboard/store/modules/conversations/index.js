@@ -92,6 +92,7 @@ export const mutations = {
     );
     if (previousMessageIndex === -1) {
       chat.messages.push(message);
+      chat.timestamp = message.created_at;
       if (_state.selectedChatId === message.conversation_id) {
         window.bus.$emit('scrollToMessage');
       }
