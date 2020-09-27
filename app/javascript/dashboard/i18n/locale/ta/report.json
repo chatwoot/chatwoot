@@ -3,38 +3,32 @@
     "HEADER": "அறிக்கைகள்",
     "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
     "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "உரையாடல்கள்",
-        "KEY": "conversations_count",
         "DESC": "( மொத்தம் )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "உள்வரும் செய்திகள்",
-        "KEY": "incoming_messages_count",
         "DESC": "( மொத்தம் )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "வெளிச்செல்லும் செய்திகள்",
-        "KEY": "outgoing_messages_count",
         "DESC": "( மொத்தம் )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "முதல் பதில் வழங்க எடுத்துக்கொண்ட நேரம்",
-        "KEY": "avg_first_response_time",
         "DESC": "(சராசரி)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "தீர்வு வழங்க எடுத்துக்கொண்ட நேரம்",
-        "KEY": "avg_resolution_time",
         "DESC": "(சராசரி)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "தீர்மான எண்ணிக்கை",
-        "KEY": "resolutions_count",
         "DESC": "( மொத்தம் )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
