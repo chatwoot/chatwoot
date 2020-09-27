@@ -3,38 +3,32 @@
     "HEADER": "Rapporten",
     "LOADING_CHART": "Kaartgegevens laden...",
     "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Gesprekken",
-        "KEY": "conversations_count",
         "DESC": "( Totaal )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Inkomende berichten",
-        "KEY": "incoming_messages_count",
         "DESC": "( Totaal )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Uitgaande berichten",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Totaal )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Eerste reactietijd",
-        "KEY": "avg_first_response_time",
         "DESC": "(Gem. )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Resolutie Tijd",
-        "KEY": "avg_resolution_time",
         "DESC": "(Gem. )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Aantal Resoluties",
-        "KEY": "resolutions_count",
         "DESC": "( Totaal )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
