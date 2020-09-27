@@ -300,6 +300,53 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "kbase_articles", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.integer "category_id"
+    t.integer "folder_id"
+    t.integer "author_id"
+    t.string "title"
+    t.text "description"
+    t.text "content"
+    t.integer "status"
+    t.integer "views"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "kbase_categories", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "portal_id", null: false
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "kbase_folders", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.integer "category_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "kbase_portals", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "custom_domain"
+    t.string "color"
+    t.string "homepage_link"
+    t.string "page_title"
+    t.text "header_text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_kbase_portals_on_slug", unique: true
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"

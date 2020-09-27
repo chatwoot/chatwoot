@@ -36,6 +36,9 @@ class Message < ApplicationRecord
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
 
+  # when you have a temperory id in your frontend and want it echoed back via action cable
+  attr_accessor :echo_id
+
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: {
     text: 0,
@@ -89,7 +92,12 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
+    data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    merge_sender_attributes(data)
+  end
+
+  def merge_sender_attributes(data)
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
     data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
