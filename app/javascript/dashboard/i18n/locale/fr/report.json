@@ -3,38 +3,32 @@
     "HEADER": "Rapports",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Conversations",
-        "KEY": "conversations_count",
         "DESC": "(Total)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Messages entrants",
-        "KEY": "incoming_messages_count",
         "DESC": "(Total)"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Messages sortants",
-        "KEY": "outgoing_messages_count",
         "DESC": "(Total)"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Délai de la première réponse",
-        "KEY": "avg_first_response_time",
         "DESC": "(Moy.)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Temps de résolution",
-        "KEY": "avg_resolution_time",
         "DESC": "(Moy.)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Nombre de résolutions",
-        "KEY": "resolutions_count",
         "DESC": "(Total)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

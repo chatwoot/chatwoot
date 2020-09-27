@@ -3,38 +3,32 @@
     "HEADER": "報表",
     "LOADING_CHART": "正在載入图表數據...",
     "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "會話",
-        "KEY": "conversations_count",
         "DESC": "(總計)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "收到的消息",
-        "KEY": "incoming_messages_count",
         "DESC": "(總計)"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "發送的消息",
-        "KEY": "outgoing_messages_count",
         "DESC": "(總計)"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "首次回覆時間",
-        "KEY": "avg_first_response_time",
         "DESC": "( 平均)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "解決時間",
-        "KEY": "avg_resolution_time",
         "DESC": "( 平均)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "已解決的數量",
-        "KEY": "resolutions_count",
         "DESC": "(總計)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

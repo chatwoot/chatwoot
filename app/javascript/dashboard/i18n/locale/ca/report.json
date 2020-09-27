@@ -3,38 +3,32 @@
     "HEADER": "Informes",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Converses",
-        "KEY": "conversations_count",
         "DESC": "( Total )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Missatges d'entrada",
-        "KEY": "incoming_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Missatges de sortida",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Primer temps de resposta",
-        "KEY": "avg_first_response_time",
         "DESC": "( Promig )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Temps de resolució",
-        "KEY": "avg_resolution_time",
         "DESC": "( Promig )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Total de resolucions",
-        "KEY": "resolutions_count",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
