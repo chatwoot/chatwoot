@@ -44,9 +44,9 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   end
 
   def update_fb_page(fb_page_id, access_token)
-    get_fb_page(fb_page_id)&.update!(
-      user_access_token: @user_access_token, page_access_token: access_token
-    )
+    fb_page = get_fb_page(fb_page_id)
+    fb_page&.update!(user_access_token: @user_access_token, page_access_token: access_token)
+    fb_page&.reauthorized!
   end
 
   def get_fb_page(fb_page_id)
