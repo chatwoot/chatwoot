@@ -114,6 +114,7 @@ RSpec.describe 'Callbacks API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response.body).to include(inbox.id.to_s)
       end
 
       it 'returns unprocessable_entity if no page found' do
