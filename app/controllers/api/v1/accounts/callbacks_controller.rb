@@ -30,7 +30,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
       if (page_detail = (page_details || []).detect { |page| fb_page_id == page['id'] })
         update_fb_page(fb_page_id, page_detail['access_token'])
-        return head :ok
+        render and return
       end
     end
 
