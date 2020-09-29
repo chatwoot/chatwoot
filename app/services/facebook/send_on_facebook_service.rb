@@ -8,7 +8,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def perform_reply
     result = FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
     message.update!(source_id: JSON.parse(result)['message_id'])
-  rescue Facebook::Messenger::Bot::AccessTokenError => e
+  rescue Facebook::Messenger::FacebookError => e
     Rails.logger.info e
     channel.authorization_error!
   end
