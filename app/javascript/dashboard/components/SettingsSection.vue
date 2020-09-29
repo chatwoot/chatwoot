@@ -1,6 +1,6 @@
 <template>
   <div class="row settings--section">
-    <div class="medium-4 small-12">
+    <div class="medium-4 small-12 title--section">
       <p class="sub-block-title">
         {{ title }}
       </p>
@@ -35,7 +35,7 @@ export default {
 .settings--section {
   border-bottom: 1px solid $color-border;
   display: flex;
-  padding: $space-normal 0;
+  padding: $space-normal $space-normal $space-normal 0;
 
   .sub-block-title {
     color: $color-woot;

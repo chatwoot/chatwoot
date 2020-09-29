@@ -12,6 +12,13 @@ class FBChannel extends ApiClient {
       params
     );
   }
+
+  reauthorizeFacebookPage({ omniauthToken, inboxId }) {
+    return axios.post(`${this.baseUrl()}/callbacks/reauthorize_page`, {
+      omniauth_token: omniauthToken,
+      inbox_id: inboxId,
+    });
+  }
 }
 
 export default new FBChannel();

@@ -112,8 +112,6 @@
   </div>
 </template>
 <script>
-/* global bus */
-
 import { mapGetters } from 'vuex';
 import Settings from './Settings';
 import adminMixin from '../../../../mixins/isAdmin';
