@@ -29,7 +29,7 @@ module Reauthorizable
   # Implement in your exception handling logic for authorization errors
   def authorization_error!
     ::Redis::Alfred.incr(authorization_error_count_key)
-    prompt_reauthorize if authorization_error_count >= AUTHORIZATION_ERROR_THRESHOLD
+    prompt_reauthorization! if authorization_error_count >= AUTHORIZATION_ERROR_THRESHOLD
   end
 
   # Performed automatically if error threshold is breached
