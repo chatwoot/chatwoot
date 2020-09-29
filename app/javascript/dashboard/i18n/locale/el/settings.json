@@ -88,6 +88,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
     "CHANGE_ACCOUNTS": "Αλλαγή Λογαριασμού",
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
     "PROFILE_SETTINGS": "Ρυθμίσεις Προφίλ",
