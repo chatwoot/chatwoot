@@ -163,7 +163,10 @@
           @click="updateInbox"
         />
       </settings-section>
-      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
+      <facebook-reauthorize
+        v-if="isAFacebookInbox && inbox.reauthorization_required"
+        :inbox-id="inbox.id"
+      />
     </div>
 
     <!-- update agents in inbox -->
@@ -319,7 +322,6 @@ export default {
   },
   methods: {
     handleFeatureFlag(e) {
-      console.log(e.target.value);
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
         e.target.value
@@ -428,10 +430,8 @@ export default {
   background: $color-white;
 
   .settings--content {
-    &:last-child {
-      .settings--section {
-        border-bottom: 0;
-      }
+    div:last-child {
+      border-bottom: 0;
     }
   }
 

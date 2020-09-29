@@ -139,9 +139,10 @@ export const actions = {
       throw new Error(error);
     }
   },
-  reauthorizeFacebookPage: async (_, params) => {
+  reauthorizeFacebookPage: async ({ commit }, params) => {
     try {
-      await FBChannel.reauthorizeFacebookPage(params);
+      const response = await FBChannel.reauthorizeFacebookPage(params);
+      commit(types.default.EDIT_INBOXES, response.data);
     } catch (error) {
       throw new Error(error.message);
     }

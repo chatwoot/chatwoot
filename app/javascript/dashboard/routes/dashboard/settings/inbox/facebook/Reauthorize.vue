@@ -71,15 +71,11 @@ export default {
             this.reauthorizeFBPage(response.authResponse.accessToken);
           } else if (response.status === 'not_authorized') {
             // The person is logged into Facebook, but not your app.
-            this.emptyStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
-            );
+            this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
           } else {
             // The person is not logged into Facebook, so we're not sure if
             // they are logged into this app or not.
-            this.emptyStateMessage = this.$t(
-              'INBOX_MGMT.DETAILS.ERROR_FB_AUTH'
-            );
+            this.showAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
           }
         },
         {
@@ -108,9 +104,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+
 .fb--login {
   img {
-    max-width: 200px;
+    max-width: 240px;
+    padding: $space-normal 0;
   }
 }
 </style>
