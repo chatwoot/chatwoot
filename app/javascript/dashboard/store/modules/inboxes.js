@@ -139,6 +139,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+  reauthorizeFacebookPage: async (_, params) => {
+    try {
+      await FBChannel.reauthorizeFacebookPage(params);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 
 export const mutations = {

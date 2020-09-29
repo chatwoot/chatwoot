@@ -163,6 +163,7 @@
           @click="updateInbox"
         />
       </settings-section>
+      <facebook-reauthorize v-if="isAFacebookInbox" :inbox-id="inbox.id" />
     </div>
 
     <!-- update agents in inbox -->
@@ -223,10 +224,12 @@ import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import FacebookReauthorize from './facebook/Reauthorize';
 
 export default {
   components: {
     SettingsSection,
+    FacebookReauthorize,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
