@@ -184,14 +184,12 @@ export default {
   },
   data() {
     return {
-      showChangeStatusMenu: false,
       showOptionsMenu: false,
       showAccountModal: false,
       showCreateAccountModal: false,
       accountName: '',
       vertical: 'bottom',
       horizontal: 'center',
-      isUpdating: false,
     };
   },
   validations: {
@@ -213,10 +211,6 @@ export default {
     currentUserAvailableName() {
       const { available_name: availableName } = this.currentUser;
       return availableName;
-    },
-    currentUserAvailabilityStatus() {
-      const { availability_status: availabilityStatus } = this.currentUser;
-      return availabilityStatus;
     },
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
