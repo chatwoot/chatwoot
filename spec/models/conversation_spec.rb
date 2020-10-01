@@ -182,6 +182,17 @@ RSpec.describe Conversation, type: :model do
       expect(update_assignee).to eq(true)
       expect(agent.notifications.count).to eq(0)
     end
+
+    context 'when agent is current user' do
+      before do
+        Current.user = agent
+      end
+
+      it 'creates self-assigned message activity' do
+        expect(update_assignee).to eq(true)
+        expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} self-assigned this conversation")
+      end
+    end
   end
 
   describe '#toggle_status' do
