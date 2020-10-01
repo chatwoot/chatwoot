@@ -49,6 +49,7 @@ export const SDK_CSS = `.woot-widget-holder {
   justify-content: center;
   padding-right: 20px;
   width: auto !important;
+  user-select: none;
 }
 
 .woot-widget-bubble.woot-widget--expanded img {
