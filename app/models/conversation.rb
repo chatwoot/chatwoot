@@ -218,7 +218,7 @@ class Conversation < ApplicationRecord
 
   def create_label_change(user_name)
     previous_labels, current_labels = previous_changes[:label_list]
-    return unless (previous_labels.is_a? Array) || (current_labels.is_a? Array)
+    return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
 
     create_label_added(user_name, current_labels - previous_labels)
     create_label_removed(user_name, previous_labels - current_labels)
