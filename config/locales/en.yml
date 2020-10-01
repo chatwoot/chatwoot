@@ -48,6 +48,7 @@ en:
         resolved: "Conversation was marked resolved by %{user_name}"
         open: "Conversation was reopened by %{user_name}"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
         removed: "Conversation unassigned by %{user_name}"
     templates:
