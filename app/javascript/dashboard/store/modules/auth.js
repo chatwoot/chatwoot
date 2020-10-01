@@ -105,6 +105,13 @@ export const actions = {
     }
   },
 
+  updateAvailability: ({ commit }, { availability }) => {
+    authAPI.updateAvailability({ availability }).then(response => {
+      setUser(response.data, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
+    });
+  },
+
   setCurrentAccountId({ commit }, accountId) {
     commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
   },

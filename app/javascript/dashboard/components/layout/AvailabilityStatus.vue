@@ -86,7 +86,7 @@ export default {
       this.isUpdating = true;
 
       this.$store
-        .dispatch('updateProfile', {
+        .dispatch('updateAvailability', {
           availability,
         })
         .finally(() => {
