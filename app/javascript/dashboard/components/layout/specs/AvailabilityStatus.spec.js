@@ -19,7 +19,7 @@ describe('AvailabilityStatus', () => {
 
   beforeEach(() => {
     actions = {
-      updateProfile: jest.fn(() => {
+      updateAvailability: jest.fn(() => {
         return Promise.resolve();
       }),
     };
@@ -68,7 +68,7 @@ describe('AvailabilityStatus', () => {
       .find('.status-change li:last-child button')
       .trigger('click');
 
-    expect(actions.updateProfile).toBeCalledWith(
+    expect(actions.updateAvailability).toBeCalledWith(
       expect.any(Object),
       { availability: 'offline' },
       undefined
