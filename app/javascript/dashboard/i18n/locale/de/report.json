@@ -3,38 +3,32 @@
     "HEADER": "Berichte",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "KEY": "conversations_count",
         "DESC": "( Total )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "KEY": "incoming_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "KEY": "avg_first_response_time",
         "DESC": "( Avg )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "KEY": "avg_resolution_time",
         "DESC": "( Avg )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "KEY": "resolutions_count",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

@@ -3,38 +3,32 @@
     "HEADER": "Αναφορές",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
-        "KEY": "conversations_count",
         "DESC": "(Σύνολο)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Εισερχόμενα Μηνύματα",
-        "KEY": "incoming_messages_count",
         "DESC": "(Σύνολο)"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Εξερχόμενα Μηνύματα",
-        "KEY": "outgoing_messages_count",
         "DESC": "(Σύνολο)"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Χρόνος πρώτης ανταπόκρισης",
-        "KEY": "avg_first_response_time",
         "DESC": "(Μ.Ο.)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Χρόνος ανάλυσης",
-        "KEY": "avg_resolution_time",
         "DESC": "(Μ.Ο.)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Αριθμός Αναλύσεων",
-        "KEY": "resolutions_count",
         "DESC": "(Σύνολο)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

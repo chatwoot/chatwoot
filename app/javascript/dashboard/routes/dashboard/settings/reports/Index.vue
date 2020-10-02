@@ -47,6 +47,15 @@ import getUnixTime from 'date-fns/getUnixTime';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 
+const REPORTS_KEYS = {
+  CONVERSATIONS: 'conversations_count',
+  INCOMING_MESSAGES: 'incoming_messages_count',
+  OUTGOING_MESSAGES: 'outgoing_messages_count',
+  FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  RESOLUTION_TIME: 'avg_resolution_time',
+  RESOLUTION_COUNT: 'resolutions_count',
+};
+
 export default {
   data() {
     return {
@@ -89,7 +98,19 @@ export default {
       };
     },
     metrics() {
-      return this.$t('REPORT.METRICS');
+      const reportKeys = [
+        'CONVERSATIONS',
+        'INCOMING_MESSAGES',
+        'OUTGOING_MESSAGES',
+        'FIRST_RESPONSE_TIME',
+        'RESOLUTION_TIME',
+        'RESOLUTION_COUNT',
+      ];
+      return reportKeys.map(key => ({
+        NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
+        KEY: REPORTS_KEYS[key],
+        DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
+      }));
     },
   },
   mounted() {

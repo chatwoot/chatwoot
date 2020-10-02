@@ -88,6 +88,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "മാറ്റം വരുത്തുക",
     "CHANGE_ACCOUNTS": "അക്കൗണ്ട് സ്വിച്ചുചെയ്യുക",
     "SELECTOR_SUBTITLE": "ഇനിപ്പറയുന്ന ലിസ്റ്റിൽ നിന്ന് ഒരു അക്കൗണ്ട് തിരഞ്ഞെടുക്കുക",
     "PROFILE_SETTINGS": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
