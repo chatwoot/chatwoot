@@ -27,6 +27,10 @@
     </div>
 
     <div class="bottom-nav">
+      <availability-status />
+    </div>
+
+    <div class="bottom-nav">
       <transition name="menu-slide">
         <div
           v-if="showOptionsMenu"
@@ -55,11 +59,11 @@
           </ul>
         </div>
       </transition>
+
       <div class="current-user" @click.prevent="showOptions()">
         <thumbnail
           :src="currentUser.avatar_url"
           :username="currentUserAvailableName"
-          :status="currentUser.availability_status"
         />
         <div class="current-user--data">
           <h3 class="current-user--name">
@@ -157,6 +161,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import adminMixin from '../../mixins/isAdmin';
 import Auth from '../../api/auth';
 import SidebarItem from './SidebarItem';
+import AvailabilityStatus from './AvailabilityStatus';
 import { frontendURL } from '../../helper/URLHelper';
 import Thumbnail from '../widgets/Thumbnail';
 import { getSidebarItems } from '../../i18n/default-sidebar';
@@ -167,6 +172,7 @@ export default {
   components: {
     SidebarItem,
     Thumbnail,
+    AvailabilityStatus,
   },
   mixins: [clickaway, adminMixin, alertMixin],
   props: {
