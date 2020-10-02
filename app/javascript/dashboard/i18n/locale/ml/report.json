@@ -3,38 +3,32 @@
     "HEADER": "റിപ്പോർട്ടുകൾ",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
-        "KEY": "conversations_count",
         "DESC": "(ആകെ)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "ഇൻ‌കമിംഗ് സന്ദേശങ്ങൾ‌",
-        "KEY": "incoming_messages_count",
         "DESC": "( ആകെ )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "ഔട്ട് ഗോയിങ് സന്ദേശങ്ങൾ‌",
-        "KEY": "outgoing_messages_count",
         "DESC": "( ആകെ )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "ആദ്യ പ്രതികരണ സമയം",
-        "KEY": "avg_first_response_time",
         "DESC": "( ശരാശരി )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "മിഴിവ് സമയം",
-        "KEY": "avg_resolution_time",
         "DESC": "( ശരാശരി )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
-        "KEY": "resolutions_count",
         "DESC": "( ആകെ )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

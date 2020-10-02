@@ -3,38 +3,32 @@
     "HEADER": "Segnalazioni",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Conversazioni",
-        "KEY": "Conteggio",
         "DESC": "(Totale )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Messaggi in arrivo",
-        "KEY": "in entrata_conto_messaggi",
         "DESC": "(Totale )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Messaggi in uscita",
-        "KEY": "conto_messaggi",
         "DESC": "(Totale )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Tempo di prima risposta",
-        "KEY": "orario_risposta",
         "DESC": "( Media )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Risoluzione Tempo",
-        "KEY": "tempo_risoluzione",
         "DESC": "( Media )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Conteggio risoluzioni",
-        "KEY": "risoluzioni_conteggio",
         "DESC": "(Totale )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
