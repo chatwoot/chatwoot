@@ -12,6 +12,8 @@
           class="medium-12 columns"
           :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
           :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
+          :errorText="'Only Alphabets, Numbers, Hyphen and Underscore are allowed!'"
+          :showErrorText="!$v.title.validLabelCharacters"
           @input="$v.title.$touch"
         />
 
