@@ -50,7 +50,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         throw new Error('Identifier should be a string or a number');
       }
 
-      if (!hasUserKeys()) {
+      if (!hasUserKeys(user)) {
         throw new Error(
           'User object should have one of the keys [avatar_url, email, name]'
         );

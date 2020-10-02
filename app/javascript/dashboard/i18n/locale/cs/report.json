@@ -3,38 +3,32 @@
     "HEADER": "Zprávy",
     "LOADING_CHART": "Načítání dat mapy...",
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Konverzace",
-        "KEY": "conversations_count",
         "DESC": "( celkem)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Příchozí zprávy",
-        "KEY": "incoming_messages_count",
         "DESC": "( celkem)"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Odchozí zprávy",
-        "KEY": "outgoing_messages_count",
         "DESC": "( celkem)"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Čas první odpovědi",
-        "KEY": "avg_first_response_time",
         "DESC": "(Průměrný)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Čas rozlišení",
-        "KEY": "avg_resolution_time",
         "DESC": "(Průměrný)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Počet rozlišení",
-        "KEY": "resolutions_count",
         "DESC": "( celkem)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

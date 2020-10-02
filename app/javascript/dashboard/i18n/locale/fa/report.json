@@ -3,38 +3,32 @@
     "HEADER": "گزارشات",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "گفتگوها",
-        "KEY": "conversations_count",
         "DESC": "( جمع کل )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "پیام‌های ورودی",
-        "KEY": "incoming_messages_count",
         "DESC": "( جمع کل )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "پیام‌های خروجی",
-        "KEY": "outgoing_messages_count",
         "DESC": "( جمع کل )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "زمان تا اولین پاسخ",
-        "KEY": "avg_first_response_time",
         "DESC": "( میانگین )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
-        "KEY": "avg_resolution_time",
         "DESC": "( میانگین )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
-        "KEY": "resolutions_count",
         "DESC": "( جمع کل )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
