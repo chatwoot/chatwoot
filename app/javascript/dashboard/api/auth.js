@@ -138,4 +138,10 @@ export default {
     }
     return axios.put(endPoints('profileUpdate').url, formData);
   },
+
+  updateAvailability({ availability }) {
+    return axios.put(endPoints('profileUpdate').url, {
+      profile: { availability },
+    });
+  },
 };
