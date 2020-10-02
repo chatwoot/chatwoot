@@ -28,12 +28,12 @@ input {
   font-size: $font-size-small;
   font-weight: $font-weight-medium;
 }
-å
+
 .help-text {
   font-weight: $font-weight-normal;
 }
 
 .error-text {
-  color: #ad0900;
+  color: darken(get-color(alert), 25%);
   margin-bottom: 1.6rem !important;
 }
