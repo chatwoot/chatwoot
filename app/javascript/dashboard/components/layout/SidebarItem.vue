@@ -42,8 +42,11 @@
               class="label-color--display"
               :style="{ backgroundColor: child.color }"
             />
-
+            <div
+              :title="computedChildTitle(child)"
+              :class="computedChildClass(child)">
             {{ child.label }}
+            </div>
           </div>
         </a>
       </router-link>
@@ -115,7 +118,7 @@ export default {
         return 'active';
       }
       return ' ';
-    },
+    }, 
   },
   methods: {
     computedInboxClass(child) {
@@ -123,6 +126,14 @@ export default {
       const classByType = getInboxClassByType(type);
       return classByType;
     },
+    computedChildClass(child) {
+      if (!child.truncateLabel) return '';      
+      return 'text-truncate';
+    },
+    computedChildTitle(child) {
+      if (!child.truncateLabel) return false;
+      return child.label;
+    },  
     newLinkClick() {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
     },
