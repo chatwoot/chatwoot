@@ -110,13 +110,13 @@ class User < ApplicationRecord
     inboxes.where(account_id: Current.account.id)
   end
 
-  alias_method :avatar_img_url, :avatar_url
+  alias avatar_img_url avatar_url
   def avatar_url
     if avatar_img_url == ''
       hash = Digest::MD5.hexdigest(email)
       return "https://www.gravatar.com/avatar/#{hash}"
     end
-      return avatar_img_url
+    avatar_img_url
   end
 
   def administrator?
