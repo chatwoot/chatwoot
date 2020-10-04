@@ -43,6 +43,7 @@ RSpec.describe Conversation, type: :model do
       # send_events
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
+      expect(AutoResolveConversationsJob).to have_been_enqueued.with(conversation.id).at(conversation.created_at + account.auto_resolve_duration.days)
     end
   end
 

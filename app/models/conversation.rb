@@ -142,7 +142,9 @@ class Conversation < ApplicationRecord
   end
 
   def queue_conversation_auto_resolution_job
-    AutoResolveConversationsJob.set(wait_until: auto_resolve_duration.days.from_now).perform_later(id) if auto_resolve_duration
+    return unless auto_resolve_duration
+
+    AutoResolveConversationsJob.set(wait_until: (last_activity_at || created_at) + auto_resolve_duration.days).perform_later(id)
   end
 
   def self_assign?(assignee_id)
@@ -159,7 +161,10 @@ class Conversation < ApplicationRecord
   def create_activity
     user_name = Current.user&.available_name
 
-    create_status_change_message(user_name) if saved_change_to_status?
+    if saved_change_to_status?
+      create_status_change_message(user_name)
+      queue_conversation_auto_resolution_job if open?
+    end
     create_assignee_change(user_name) if saved_change_to_assignee_id?
     create_label_change(user_name) if saved_change_to_label_list?
   end
