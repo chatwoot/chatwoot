@@ -59,7 +59,7 @@ import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 
-const getInboxClassByType = type => {
+const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
     case INBOX_TYPES.WEB:
       return 'ion-earth';
@@ -71,7 +71,9 @@ const getInboxClassByType = type => {
       return 'ion-social-twitter';
 
     case INBOX_TYPES.TWILIO:
-      return 'ion-android-textsms';
+      return phoneNumber.startsWith('whatsapp')
+        ? 'ion-social-whatsapp-outline'
+        : 'ion-android-textsms';
 
     case INBOX_TYPES.API:
       return 'ion-cloud';
@@ -119,8 +121,8 @@ export default {
   },
   methods: {
     computedInboxClass(child) {
-      const { type } = child;
-      const classByType = getInboxClassByType(type);
+      const { type, phoneNumber } = child;
+      const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
     },
     newLinkClick() {
