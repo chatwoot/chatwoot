@@ -34,6 +34,6 @@ input {
 }
 
 .error-text {
-  color: darken(get-color(alert), 25%);
-  margin-bottom: 1.6rem !important;
+  color: $alert-color;
+  margin-bottom: $space-normal !important;
 }
