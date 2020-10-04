@@ -130,6 +130,8 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows an account' do
+        account.update(auto_resolve_duration: 30)
+
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
             as: :json
@@ -171,7 +173,7 @@ RSpec.describe 'Accounts API', type: :request do
         locale: 'en',
         domain: 'example.com',
         support_email: 'care@example.com',
-        auto_resolve_duration: 3
+        auto_resolve_duration: 40
       }
 
       it 'modifies an account' do

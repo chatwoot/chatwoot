@@ -110,6 +110,8 @@ RSpec/NamedSubject:
 # we should bring this down
 RSpec/MultipleMemoizedHelpers:
   Max: 12
+Style/BlockDelimiters:
+  EnforcedStyle: braces_for_chaining
 AllCops:
   NewCops: enable
   Exclude:

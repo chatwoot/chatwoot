@@ -6,6 +6,5 @@ FactoryBot.define do
     custom_email_domain_enabled { false }
     domain { 'test.com' }
     support_email { 'support@test.com' }
-    auto_resolve_duration { 30 }
   end
 end
