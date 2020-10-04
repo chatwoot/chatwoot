@@ -47,7 +47,7 @@ RSpec.describe Conversation, type: :model do
 
     it 'queues AutoResolveConversationsJob post creation if auto resolve duration present' do
       account.update(auto_resolve_duration: 30)
-      expect {
+      expect do
         create(
           :conversation,
           account: account,
@@ -55,7 +55,7 @@ RSpec.describe Conversation, type: :model do
           inbox: inbox,
           assignee: nil
         )
-      }.to have_enqueued_job(AutoResolveConversationsJob)
+      end.to have_enqueued_job(AutoResolveConversationsJob)
     end
   end
 
@@ -118,16 +118,14 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'does not trigger AutoResolutionJob if conversation reopened and account does not have auto resolve duration' do
-      expect {
-        conversation.update(status: :open)
-      }.not_to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
+      expect { conversation.update(status: :open) }
+        .not_to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
 
     it 'does trigger AutoResolutionJob if conversation reopened and account has auto resolve duration' do
       account.update(auto_resolve_duration: 40)
-      expect {
-        conversation.update(status: :open)
-      }.to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
+      expect { conversation.update(status: :open) }
+        .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
   end
 
