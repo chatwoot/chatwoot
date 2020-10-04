@@ -32,6 +32,7 @@ ru:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
         removed: "Ответственный снят %{user_name}"

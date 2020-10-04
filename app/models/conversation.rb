@@ -54,10 +54,12 @@ class Conversation < ApplicationRecord
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
-  after_create_commit :notify_conversation_creation
+  after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
   after_save :run_round_robin
 
   acts_as_taggable_on :labels
+
+  delegate :auto_resolve_duration, to: :account
 
   def can_reply?
     return true unless inbox&.channel&.has_24_hour_messaging_window?
@@ -139,6 +141,10 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def queue_conversation_auto_resolution_job
+    AutoResolveConversationsJob.set(wait_until: auto_resolve_duration.days.from_now).perform_later(id) if auto_resolve_duration
+  end
+
   def self_assign?(assignee_id)
     assignee_id.present? && Current.user&.id == assignee_id
   end
@@ -151,8 +157,6 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
-    return unless Current.user
-
     user_name = Current.user&.available_name
 
     create_status_change_message(user_name) if saved_change_to_status?
@@ -204,12 +208,18 @@ class Conversation < ApplicationRecord
   end
 
   def create_status_change_message(user_name)
-    content = I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+    content = if user_name
+                I18n.t("conversations.activity.status.#{status}", user_name: user_name)
+              elsif resolved?
+                I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+              end
 
-    messages.create(activity_message_params(content))
+    messages.create(activity_message_params(content)) if content
   end
 
   def create_assignee_change(user_name)
+    return unless user_name
+
     params = { assignee_name: assignee&.available_name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id

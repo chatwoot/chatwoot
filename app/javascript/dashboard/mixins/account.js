@@ -8,7 +8,6 @@ export default {
   },
   methods: {
     addAccountScoping(url) {
-      console.log(url);
       return `/app/accounts/${this.accountId}/${url}`;
     },
   },
