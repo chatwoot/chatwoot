@@ -63,6 +63,7 @@ export default {
     margin: 0;
     color: $color-white;
     font-weight: $font-weight-bold;
+    word-break: break-word;
   }
 
   .button {
