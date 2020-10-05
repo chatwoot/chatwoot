@@ -21,16 +21,11 @@
         <div class="medium-12 columns">
           <label :class="{ error: $v.agentType.$error }">
             {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.LABEL') }}
-            <multiselect
-              v-model="agentType"
-              :options="agentTypeList"
-              :searchable="false"
-              label="label"
-              :placeholder="$t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.PLACEHOLDER')"
-              :allow-empty="true"
-              :close-on-select="true"
-              @select="setPageName"
-            />
+            <select v-model="agentType">
+              <option v-for="role in roles" :key="role.name" :value="role.name">
+                {{ role.label }}
+              </option>
+            </select>
             <span v-if="$v.agentType.$error" class="message">
               {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.ERROR') }}
             </span>
@@ -69,8 +64,6 @@
 </template>
 
 <script>
-/* global bus */
-/* eslint no-console: 0 */
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 
@@ -85,10 +78,19 @@ export default {
     return {
       agentName: '',
       agentEmail: '',
-      agentType: this.$t('AGENT_MGMT.AGENT_TYPES')[1],
+      agentType: 'agent',
       vertical: 'bottom',
       horizontal: 'center',
-      agentTypeList: this.$t('AGENT_MGMT.AGENT_TYPES'),
+      roles: [
+        {
+          name: 'administrator',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.ADMINISTRATOR'),
+        },
+        {
+          name: 'agent',
+          label: this.$t('AGENT_MGMT.AGENT_TYPES.AGENT'),
+        },
+      ],
       show: true,
     };
   },
@@ -112,10 +114,6 @@ export default {
   },
 
   methods: {
-    setPageName({ name }) {
-      this.$v.agentType.$touch();
-      this.agentType = name;
-    },
     showAlert(message) {
       bus.$emit('newToastMessage', message);
     },
@@ -124,7 +122,7 @@ export default {
         await this.$store.dispatch('agents/create', {
           name: this.agentName,
           email: this.agentEmail,
-          role: this.agentType.name.toLowerCase(),
+          role: this.agentType,
         });
         this.showAlert(this.$t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();

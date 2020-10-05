@@ -88,6 +88,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Cambia",
     "CHANGE_ACCOUNTS": "Cambia Profilo/Account",
     "SELECTOR_SUBTITLE": "Seleziona un account dal seguente elenco",
     "PROFILE_SETTINGS": "Impostazioni profilo",

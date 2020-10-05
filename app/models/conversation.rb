@@ -156,6 +156,7 @@ class Conversation < ApplicationRecord
 
     create_status_change_message(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?
+    create_label_change(user_name) if saved_change_to_label_list?
   end
 
   def activity_message_params(content)
@@ -210,7 +211,34 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     params = { assignee_name: assignee&.available_name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
+    key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)
+
+    messages.create(activity_message_params(content))
+  end
+
+  def create_label_change(user_name)
+    previous_labels, current_labels = previous_changes[:label_list]
+    return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
+
+    create_label_added(user_name, current_labels - previous_labels)
+    create_label_removed(user_name, previous_labels - current_labels)
+  end
+
+  def create_label_added(user_name, labels = [])
+    return unless labels.size.positive?
+
+    params = { user_name: user_name, labels: labels.join(', ') }
+    content = I18n.t('conversations.activity.labels.added', **params)
+
+    messages.create(activity_message_params(content))
+  end
+
+  def create_label_removed(user_name, labels = [])
+    return unless labels.size.positive?
+
+    params = { user_name: user_name, labels: labels.join(', ') }
+    content = I18n.t('conversations.activity.labels.removed', **params)
 
     messages.create(activity_message_params(content))
   end

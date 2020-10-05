@@ -139,6 +139,14 @@ export const actions = {
       throw new Error(error);
     }
   },
+  reauthorizeFacebookPage: async ({ commit }, params) => {
+    try {
+      const response = await FBChannel.reauthorizeFacebookPage(params);
+      commit(types.default.EDIT_INBOXES, response.data);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
 };
 
 export const mutations = {

@@ -1,40 +1,34 @@
 {
   "REPORT": {
-    "HEADER": "Báo Cáo",
+    "HEADER": "Báo cáo",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Các cuộc trò chuyện",
-        "KEY": "conversations_count",
         "DESC": "( Tổng cộng )"
       },
-      {
-        "NAME": "Tin nhắn đến",
-        "KEY": "incoming_messages_count",
+      "INCOMING_MESSAGES": {
+        "NAME": "Tin nhắn nhận được",
         "DESC": "( Tổng cộng )"
       },
-      {
-        "NAME": "Tin nhắn đi",
-        "KEY": "outgoing_messages_count",
-        "DESC": "( Tổn cộng )"
+      "OUTGOING_MESSAGES": {
+        "NAME": "Tin nhắn gửi đi",
+        "DESC": "( Tổng cộng )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Thời gian phản hồi đầu tiên",
-        "KEY": "avg_first_response_time",
         "DESC": "( Trung bình )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Thời gian giải quyết",
-        "KEY": "avg_resolution_time",
         "DESC": "( Trung bình )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Số lượng giải quyết",
-        "KEY": "resolutions_count",
         "DESC": "( Tổng cộng )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

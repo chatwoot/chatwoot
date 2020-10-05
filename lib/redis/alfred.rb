@@ -1,13 +1,17 @@
+# refer : https://redis.io/commands
+
 module Redis::Alfred
   include Redis::RedisKeys
 
   class << self
     # key operations
 
+    # set a value in redis
     def set(key, value)
       $alfred.set(key, value)
     end
 
+    # set a key with expiry period
     def setex(key, value, expiry = 1.day)
       $alfred.setex(key, expiry, value)
     end
@@ -18,6 +22,12 @@ module Redis::Alfred
 
     def delete(key)
       $alfred.del(key)
+    end
+
+    # increment a key by 1. throws error if key value is incompatible
+    # sets key to 0 before operation if key doesn't exist
+    def incr(key)
+      $alfred.incr(key)
     end
 
     # list operations

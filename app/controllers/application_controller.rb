@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
+  around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized
@@ -64,15 +65,21 @@ class ApplicationController < ActionController::Base
   end
 
   def locale_from_account(account)
+    return unless account
+
     I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
   end
 
-  def switch_locale(account)
+  def switch_locale(&action)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
     # if local is not set in param, lets try account
-    locale ||= locale_from_account(account)
-    I18n.locale = locale || I18n.default_locale
+    locale ||= locale_from_account(@current_account)
+    # if nothing works we rely on default locale
+    locale ||= I18n.default_locale
+    # ensure locale won't bleed into other requests
+    # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
+    I18n.with_locale(locale, &action)
   end
 
   def pundit_user

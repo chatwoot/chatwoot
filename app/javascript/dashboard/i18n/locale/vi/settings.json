@@ -88,10 +88,11 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Đổi",
     "CHANGE_ACCOUNTS": "Chuyển tài khoản",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
     "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
-    "LOGOUT": "Logout"
+    "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",

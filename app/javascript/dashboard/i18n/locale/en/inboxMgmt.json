@@ -233,6 +233,12 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reauthorize",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }
