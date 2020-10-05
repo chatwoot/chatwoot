@@ -89,10 +89,10 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def update_contact(email)
-    contact_with_email = @account.contacts.find_by(email: email)
+    contact_with_email = @current_account.contacts.find_by(email: email)
     if contact_with_email
       @contact = ::ContactMergeAction.new(
-        account: @account,
+        account: @current_account,
         base_contact: contact_with_email,
         mergee_contact: @contact
       ).perform
