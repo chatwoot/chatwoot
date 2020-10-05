@@ -58,6 +58,7 @@ RSpec.describe Conversation, type: :model do
       create(:user, email: 'agent2@example.com', account: account, role: :agent)
     end
     let(:assignment_mailer) { double(deliver: true) }
+    let(:label) { create(:label, account: account) }
 
     before do
       conversation
@@ -70,7 +71,8 @@ RSpec.describe Conversation, type: :model do
         status: :resolved,
         locked: true,
         contact_last_seen_at: Time.now,
-        assignee: new_assignee
+        assignee: new_assignee,
+        label_list: [label.title]
       )
     end
 
@@ -90,6 +92,7 @@ RSpec.describe Conversation, type: :model do
       # create_activity
       expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.available_name}")
       expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.available_name} by #{old_assignee.available_name}")
+      expect(conversation.messages.pluck(:content)).to include("#{old_assignee.available_name} added #{label.title}")
     end
   end
 
@@ -181,6 +184,59 @@ RSpec.describe Conversation, type: :model do
 
       expect(update_assignee).to eq(true)
       expect(agent.notifications.count).to eq(0)
+    end
+
+    context 'when agent is current user' do
+      before do
+        Current.user = agent
+      end
+
+      it 'creates self-assigned message activity' do
+        expect(update_assignee).to eq(true)
+        expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} self-assigned this conversation")
+      end
+    end
+  end
+
+  describe '#update_labels' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) do
+      create(:user, email: 'agent@example.com', account: account, role: :agent)
+    end
+    let(:first_label) { create(:label, account: account) }
+    let(:second_label) { create(:label, account: account) }
+    let(:third_label) { create(:label, account: account) }
+    let(:fourth_label) { create(:label, account: account) }
+
+    before do
+      conversation
+      Current.user = agent
+
+      first_label
+      second_label
+      third_label
+      fourth_label
+    end
+
+    it 'adds one label to conversation' do
+      labels = [first_label].map(&:title)
+      expect(conversation.update_labels(labels)).to eq(true)
+      expect(conversation.label_list).to match_array(labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{labels.join(', ')}")
+    end
+
+    it 'adds and removes previously added labels' do
+      labels = [first_label, fourth_label].map(&:title)
+      expect(conversation.update_labels(labels)).to eq(true)
+      expect(conversation.label_list).to match_array(labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{labels.join(', ')}")
+
+      updated_labels = [second_label, third_label].map(&:title)
+      expect(conversation.update_labels(updated_labels)).to eq(true)
+      expect(conversation.label_list).to match_array(updated_labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{updated_labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} removed #{labels.join(', ')}")
     end
   end
 

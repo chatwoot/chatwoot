@@ -4,21 +4,33 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
 
   def create
     @confirmable = User.find_by(confirmation_token: params[:confirmation_token])
-    if @confirmable
-      if @confirmable.confirm || (@confirmable.confirmed_at && @confirmable.reset_password_token)
-        # confirmed now or already confirmed but quit before setting a password
-        render json: { "message": 'Success', "redirect_url": create_reset_token_link(@confirmable) }, status: :ok
-      elsif @confirmable.confirmed_at
-        render json: { "message": 'Already confirmed', "redirect_url": '/' }, status: 422
-      else
-        render json: { "message": 'Failure', "redirect_url": '/' }, status: 422
-      end
+
+    if confirm
+      render_confirmation_success
     else
-      render json: { "message": 'Invalid token', "redirect_url": '/' }, status: 422
+      render_confirmation_error
     end
   end
 
   protected
+
+  def confirm
+    @confirmable&.confirm || (@confirmable&.confirmed_at && @confirmable&.reset_password_token)
+  end
+
+  def render_confirmation_success
+    render json: { "message": 'Success', "redirect_url": create_reset_token_link(@confirmable) }, status: :ok
+  end
+
+  def render_confirmation_error
+    if @confirmable.blank?
+      render json: { "message": 'Invalid token', "redirect_url": '/' }, status: 422
+    elsif @confirmable.confirmed_at
+      render json: { "message": 'Already confirmed', "redirect_url": '/' }, status: 422
+    else
+      render json: { "message": 'Failure', "redirect_url": '/' }, status: 422
+    end
+  end
 
   def create_reset_token_link(user)
     raw, enc = Devise.token_generator.generate(user.class, :reset_password_token)
