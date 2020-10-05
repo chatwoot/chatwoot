@@ -201,6 +201,7 @@ GEM
     ffi (1.13.1)
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
+    geocoder (1.6.3)
     gli (2.19.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -578,6 +579,7 @@ DEPENDENCIES
   fcm
   flag_shih_tzu
   foreman
+  geocoder
   google-cloud-storage
   groupdate
   haikunator

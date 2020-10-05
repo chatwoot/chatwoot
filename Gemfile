@@ -90,6 +90,10 @@ gem 'sidekiq'
 gem 'fcm'
 gem 'webpush'
 
+##-- geocoding / parse location from ip --##
+# http://www.rubygeocoder.com/
+gem  'geocoder'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
