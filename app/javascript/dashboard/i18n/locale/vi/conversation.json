@@ -1,56 +1,56 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "404": "Vui lòng chọn một cuộc trò chuyện từ ngăn bên trái",
+    "NO_MESSAGE_1": "Uh oh! Có vẻ như không có tin nhắn nào từ khách hàng trong hộp thư đến của bạn.",
+    "NO_MESSAGE_2": " gửi tin nhắn đến trang của bạn!",
+    "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",
+    "NO_INBOX_2": " để bắt đầu",
+    "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
+    "CLICK_HERE": "Click vào đây",
+    "LOADING_INBOXES": "Đang tải hộp thư đến",
+    "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
+    "CANNOT_REPLY": "Bạn không thể trả lời do",
+    "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
+    "LAST_INCOMING_TWEET": "Bạn đang trả lời tweet đến cuối cùng",
+    "REPLYING_TO": "Bạn đang trả lời:",
+    "REMOVE_SELECTION": "Xóa lựa chọn",
+    "DOWNLOAD": "Tải xuống",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "Giải quyết",
+      "REOPEN_ACTION": "Mở lại",
+      "OPEN": "Nhiều",
+      "CLOSE": "Đóng",
+      "DETAILS": "chi tiết"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Shift + enter cho dòng mới. Bắt đầu với '/' để chọn Câu trả lời soạn trước.",
+      "PRIVATE_MSG_INPUT": "Shift + enter cho dòng mới. Điều này sẽ chỉ hiển thị cho Đại lý"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
+      "REPLY": "Trả lời",
+      "PRIVATE_NOTE": "Lưu ý riêng",
+      "SEND": "Gửi",
+      "CREATE": "Thêm ghi chú",
       "TWEET": "Tweet"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_AGENT": "Conversation Assignee changed"
+    "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
+    "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
+    "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "Gửi bản ghi cuộc trò chuyện",
+    "DESC": "Gửi bản sao của bản ghi cuộc trò chuyện đến địa chỉ email được chỉ định",
+    "SUBMIT": "Gửi",
+    "CANCEL": "Huỷ",
+    "SEND_EMAIL_SUCCESS": "Bản ghi cuộc trò chuyện đã được gửi thành công",
+    "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Gửi bảng điểm cho khách hàng",
+      "SEND_TO_AGENT": "Gửi bản ghi của đại lý được chỉ định",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Gửi bản ghi tới một địa chỉ email khác",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "Nhập địa chỉ emai",
+        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ"
       }
     }
   }
