@@ -88,6 +88,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "மாற்ற",
     "CHANGE_ACCOUNTS": "கணக்கை மாற்றவும்",
     "SELECTOR_SUBTITLE": "பின்வரும் பட்டியலிலிருந்து ஒரு கணக்கைத் தேர்ந்தெடுக்கவும்",
     "PROFILE_SETTINGS": "சுயவிவர அமைப்புகள்",

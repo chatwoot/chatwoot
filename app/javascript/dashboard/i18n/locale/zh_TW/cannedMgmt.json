@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "預設回覆",
+    "HEADER_BTN_TXT": "建立預設回覆",
+    "LOADING": "獲取預設回覆",
+    "SEARCH_404": "没有任何項目符合此查詢",
+    "SIDEBAR_TXT": "<p><b>預設回覆</b> </p><p> 預設的回覆已保存的回覆模板，可以用來快速發送回覆到對話。 </p><p> 若要建立預設反應，只需點擊 <b>建立預設回覆</b>。 您也可以通過點擊編輯或刪除按鈕來編輯或刪除現有的預定回覆 </p><p> 在 <b>短代碼</b> 的幫助下使用預定的回覆方式。 代理人在聊天時可以通過輸入 <b>'/'</b> 然後是短代碼訪問預設回覆 </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "此帳戶中没有預設的回覆。",
+      "TITLE": "管理預設回覆",
+      "DESC": "預設的回覆是預定義的回覆模板，可以用來快速發送對工單的答覆。",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "短码",
+        "内容",
+        "操作"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "建立預設回覆",
+      "DESC": "預設的回覆是保存的回覆模板，可以用來快速發送回覆到對話中。",
+      "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "短码",
+          "PLACEHOLDER": "請輸入短码",
+          "ERROR": "必須輸入短代碼"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "内容",
+          "PLACEHOLDER": "請輸入内容。",
+          "ERROR": "内容是必填的"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "送出"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "已成功建立預設回覆",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "編輯預設回覆",
+      "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "短码",
+          "PLACEHOLDER": "請輸入短码",
+          "ERROR": "必須輸入短代碼"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "内容",
+          "PLACEHOLDER": "請輸入内容。",
+          "ERROR": "内容是必填項目"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "送出"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "編輯",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "預設回覆已成功更新",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "預設回覆已成功刪除",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除吗？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       }
     }
   }

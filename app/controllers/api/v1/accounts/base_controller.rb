@@ -15,7 +15,6 @@ class Api::V1::Accounts::BaseController < Api::BaseController
     elsif @resource&.is_a?(AgentBot)
       account_accessible_for_bot?(account)
     end
-    switch_locale account
     account
   end
 

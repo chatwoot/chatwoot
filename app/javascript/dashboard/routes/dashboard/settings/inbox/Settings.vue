@@ -188,6 +188,10 @@
           @click="updateInbox"
         />
       </settings-section>
+      <facebook-reauthorize
+        v-if="isAFacebookInbox && inbox.reauthorization_required"
+        :inbox-id="inbox.id"
+      />
     </div>
 
     <!-- update agents in inbox -->
@@ -247,10 +251,12 @@ import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import FacebookReauthorize from './facebook/Reauthorize';
 
 export default {
   components: {
     SettingsSection,
+    FacebookReauthorize,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -450,10 +456,8 @@ export default {
   background: $color-white;
 
   .settings--content {
-    &:last-child {
-      .settings--section {
-        border-bottom: 0;
-      }
+    div:last-child {
+      border-bottom: 0;
     }
   }
 

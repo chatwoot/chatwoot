@@ -59,6 +59,39 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/search' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/search", params: { q: 'test' }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        conversation = create(:conversation, account: account)
+        create(:message, conversation: conversation, account: account, content: 'test1')
+        create(:message, conversation: conversation, account: account, content: 'test2')
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns all conversations with messages containing the search query' do
+        get "/api/v1/accounts/#{account.id}/conversations/search",
+            headers: agent.create_new_auth_token,
+            params: { q: 'test1' },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)[:data]
+        expect(response_data[:meta][:all_count]).to eq(1)
+        expect(response_data[:payload].first[:messages].first[:content]).to eq 'test1'
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id' do
     let(:conversation) { create(:conversation, account: account) }
 
