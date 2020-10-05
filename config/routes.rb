@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
           resources :contacts, only: [:index, :show, :update, :create] do
             collection do
+              get :active
               get :search
             end
             scope module: :contacts do

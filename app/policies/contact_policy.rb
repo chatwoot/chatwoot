@@ -3,6 +3,10 @@ class ContactPolicy < ApplicationPolicy
     true
   end
 
+  def active?
+    true
+  end
+
   def search?
     true
   end
