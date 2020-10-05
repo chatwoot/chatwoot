@@ -12,6 +12,10 @@ RSpec.describe Message, type: :model do
   context 'when message is created' do
     let(:message) { build(:message, account: create(:account)) }
 
+    it 'updates conversation last_activity_at when created' do
+      expect(message.created_at).to eq message.conversation.last_activity_at
+    end
+
     it 'triggers ::MessageTemplates::HookExecutionService' do
       hook_execution_service = double
       allow(::MessageTemplates::HookExecutionService).to receive(:new).and_return(hook_execution_service)
