@@ -1,96 +1,96 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "NOT_AVAILABLE": "Không có sẵn",
+    "EMAIL_ADDRESS": "Địa chỉ email",
+    "PHONE_NUMBER": "Số điện thoại",
+    "COMPANY": "Công ty",
+    "LOCATION": "Vị trí",
+    "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
+    "BROWSER": "Trình duyệt",
+    "OS": "Hệ điều hành",
+    "INITIATED_FROM": "Bắt đầu từ",
+    "INITIATED_AT": "Bắt đầu lúc",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
+      "TITLE": "Cuộc trò chuyện trước đó"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Thuộc tính tùy chỉnh"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "Nhãn hội thoại",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Nhãn cho",
+        "ACTIVE_LABELS": "Đã thêm nhãn vào cuộc trò chuyện",
+        "INACTIVE_LABELS": "Các nhãn có sẵn trong tài khoản",
+        "REMOVE": "Click vào X icon xóa nhãn",
+        "ADD": "Click vào + icon thêm nhãn",
+        "UPDATE_BUTTON": "Cập nhật nhãn",
+        "UPDATE_ERROR": "Không thể cập nhật nhãn, hãy thử lại."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Không có thêm nhãn nào được xác định trong tài khoản.",
+      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
+    "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
+    "SEND_TRANSCRIPT": "Gửi bản ghi",
+    "EDIT_LABEL": "Chỉnh sửa"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Chỉnh sửa liên hệ",
+    "TITLE": "Chỉnh sửa liên hệ",
+    "DESC": "Chỉnh sửa liên hệ chi tiết",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "Gửi",
+      "CANCEL": "Huỷ",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar của liên hệ"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Nhập tên đầy đủ của liên hệ",
+        "LABEL": "Tên đầy đủ"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Nhập tiểu sử của liên hệ",
+        "LABEL": "Tiểu sử"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "Nhập địa chỉ email của liên hệ",
+        "LABEL": "Email"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
+        "LABEL": "Số điện thoại"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "Nhập vị trí của liên hệ",
+        "LABEL": "Vị trí"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Nhập tên công ty",
+        "LABEL": "Tên công ty"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Nhập tên người dùng Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Nhập tên người dùng Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Nhập tên người dùng LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Nhập tên người dùng Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Đã cập nhật liên hệ thành công",
+    "CONTACT_ALREADY_EXIST": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
+    "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật địa chỉ liên hệ, vui lòng thử lại"
   }
 }
