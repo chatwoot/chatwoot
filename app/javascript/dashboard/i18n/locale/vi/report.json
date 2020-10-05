@@ -1,48 +1,48 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "HEADER": "Báo Cáo",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "METRICS": [
       {
-        "NAME": "Conversations",
+        "NAME": "Các cuộc trò chuyện",
         "KEY": "conversations_count",
-        "DESC": "( Total )"
+        "DESC": "( Tổng cộng )"
       },
       {
-        "NAME": "Incoming Messages",
+        "NAME": "Tin nhắn đến",
         "KEY": "incoming_messages_count",
-        "DESC": "( Total )"
+        "DESC": "( Tổng cộng )"
       },
       {
-        "NAME": "Outgoing Messages",
+        "NAME": "Tin nhắn đi",
         "KEY": "outgoing_messages_count",
-        "DESC": "( Total )"
+        "DESC": "( Tổn cộng )"
       },
       {
-        "NAME": "First response time",
+        "NAME": "Thời gian phản hồi đầu tiên",
         "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+        "DESC": "( Trung bình )"
       },
       {
-        "NAME": "Resolution Time",
+        "NAME": "Thời gian giải quyết",
         "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+        "DESC": "( Trung bình )"
       },
       {
-        "NAME": "Resolution Count",
+        "NAME": "Số lượng giải quyết",
         "KEY": "resolutions_count",
-        "DESC": "( Total )"
+        "DESC": "( Tổng cộng )"
       }
     ],
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 ngày cuối"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 ngày cuối"
       }
     ]
   }
