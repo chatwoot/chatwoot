@@ -224,6 +224,15 @@ const actions = {
     }
   },
 
+  unmuteConversation: async ({ commit }, conversationId) => {
+    try {
+      await ConversationApi.unmute(conversationId);
+      commit(types.default.UNMUTE_CONVERSATION);
+    } catch (error) {
+      //
+    }
+  },
+
   sendEmailTranscript: async (_, { conversationId, email }) => {
     try {
       await ConversationApi.sendEmailTranscript({ conversationId, email });

@@ -32,6 +32,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def unmute
+    @conversation.unmute!
+    head :ok
+  end
+
   def transcript
     ConversationReplyMailer.conversation_transcript(@conversation, params[:email])&.deliver_later if params[:email].present?
     head :ok
