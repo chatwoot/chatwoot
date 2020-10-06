@@ -1,63 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Tích hợp",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
-      "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "CONFIGURE": "Cấu hình",
+      "HEADER": "Cài đặt Webhook",
+      "HEADER_BTN_TXT": "Thêm mới webhook",
+      "INTEGRATION_TXT": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Bạn có thể sử dụng webhook để truyền tải các sự kiện tới các ứng dụng yêu thích của mình như Slack hoặc Github. Nhấp vào Định cấu hình để thiết lập webhook của bạn..",
+      "LOADING": "Đang tải về các webhooks",
+      "SEARCH_404": "Không có kết quả nào được tìm thấy",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook là các lệnh gọi lại HTTP có thể được xác định cho mọi tài khoản. Chúng được kích hoạt bởi các sự kiện như tạo tin nhắn trong Chatwoot. Bạn có thể tạo nhiều webhook cho tài khoản này. <br /><br /> Để tạo một <b>webhook</b>, click vào <b>Tạo mới</b>. Bạn cũng có thể xóa bất kỳ webhook hiện có nào bằng cách nhấp vào nút Xóa.</p>",
+      "LIST": { 
+        "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
+        "TITLE": "Quản lý webhooks",
+        "DESC": "Webhook là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi câu trả lời cho vé",
         "TABLE_HEADER": [
           "Webhook endpoint",
-          "Actions"
+          "Hành động"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Xoá",
+        "TITLE": "Thêm mới webhook",
+        "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
+            "ERROR": "Vui lòng nhập một URL hợp lệ"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Tạo webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook đã được thêm thành công",
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Xoá",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook đã được xoá thành công",
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Xác Nhận Xoá",
+          "MESSAGE": "Bạn có chắc muốn xoá? ",
+          "YES": "Có, Xoá ",
+          "NO": "Không, Giữ"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Tích hợp đã được xóa thành công"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Kết nối"
     }
   }
 }

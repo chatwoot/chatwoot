@@ -258,6 +258,7 @@ export default {
           label: inbox.name,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
           type: inbox.channel_type,
+          phoneNumber: inbox.phone_number,
         })),
       };
     },

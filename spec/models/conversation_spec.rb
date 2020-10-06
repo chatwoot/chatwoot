@@ -370,7 +370,7 @@ RSpec.describe Conversation, type: :model do
         messages: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status,
-        timestamp: conversation.created_at.to_i,
+        timestamp: conversation.last_activity_at.to_i,
         can_reply: true,
         channel: 'Channel::WebWidget',
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,

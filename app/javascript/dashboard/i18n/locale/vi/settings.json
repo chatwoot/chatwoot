@@ -1,148 +1,148 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Cài Đặt Hồ Sơ",
+    "TITLE": "Cài Đặt Hồ Sơ",
+    "BTN_TEXT": "Cập Nhật Hồ Sơ",
+    "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "Hình ảnh hồ sơ cá nhân",
+      "ERROR": "Vui lòng sửa lỗi biểu mẫu",
+      "REMOVE_IMAGE": "Xoá",
+      "UPLOAD_IMAGE": "Tải lên hình ảnh",
+      "UPDATE_IMAGE": "Cập nhật hình ảnh",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Hồ sơ cá nhân",
+        "NOTE": "Địa chỉ email của bạn là danh tính của bạn và được sử dụng để đăng nhập."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "TITLE": "Mật khẩu",
+        "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
+        "TITLE": "Thông Báo Email",
+        "NOTE": "Cập nhật tùy chọn thông báo qua email của bạn tại đây",
+        "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
+        "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Tùy chọn thông báo của bạn đã được cập nhật thành công",
+        "UPDATE_ERROR": "Đã xảy ra lỗi khi cập nhật tùy chọn, vui lòng thử lại"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Thông Báo",
+        "NOTE": "Cập nhật tùy chọn thông báo của bạn tại đây",
+        "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc trò chuyện được chỉ định cho tôi",
+        "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
+        "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
+        "REQUEST_PUSH": "Bật thông báo"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Hình ảnh hồ sơ cá nhân"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Tên đầy đủ của bạn",
+        "ERROR": "Vui lòng nhập tên đầy đủ hợp lệ",
+        "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Tên hiển thị",
+        "ERROR": "Vui lòng nhập tên hiển thị hợp lệ",
+        "PLACEHOLDER": "Vui lòng nhập tên hiển thị, tên này sẽ được hiển thị trong các cuộc trò chuyện"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Khả dụng",
         "STATUSES_LIST": [
           {
             "value": "online",
-            "label": "Online"
+            "label": "Trực Tuyến"
           },
           {
             "value": "busy",
-            "label": "Busy"
+            "label": "Bận"
           },
           {
             "value": "offline",
-            "label": "Offline"
+            "label": "Không Trực Tuyến"
           }
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Địa chỉ email của bạn",
+        "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ",
+        "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc trò chuyện"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Mật khẩu",
+        "ERROR": "Vui lòng nhập mật khẩu có độ dài từ 6 trở lên",
+        "PLACEHOLDER": "Vui lòng nhập mật khẩu mới"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "Xác nhận mật khẩu mới",
+        "ERROR": "Xác nhận mật khẩu phải khớp với mật khẩu",
+        "PLACEHOLDER": "Vui lòng nhập lại mật khẩu của bạn"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "Đổi",
+    "CHANGE_ACCOUNTS": "Chuyển tài khoản",
+    "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
+    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ Cá Nhân",
+    "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
+    "TRAIL_BUTTON": "Mua Ngay"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Sao Chép",
+      "COPY_SUCCESSFUL": "Đã sao chép mã thành công"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Tải xuống",
+      "UPLOADING": "Đang tải lên..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Gửi"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Đang xác thực...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Thêm Hộp thư đến"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
+    "CONVERSATIONS": "Cuộc trò chuyện",
+    "REPORTS": "Báo cáo",
+    "SETTINGS": "Cài Đặt",
+    "HOME": "Trang Chủ",
+    "AGENTS": "Đại lý",
+    "INBOXES": "Hộp thư đến",
     "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "INTEGRATIONS": "Tích hợp",
+    "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
+    "LABELS": "Nhãn"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "Tạo mới tài khoản",
+    "SELECTOR_SUBTITLE": "Tạo mới một tài khoản",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Tài khoản được tạo thành công",
+      "EXIST_MESSAGE": "Tài khoản đã tồn tại",
+      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "Tên tài khoản",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Gửi"
     }
   }
 }

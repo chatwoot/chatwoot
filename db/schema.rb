@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_07_094912) do
+ActiveRecord::Schema.define(version: 2020_09_27_135222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_094912) do
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
+    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"

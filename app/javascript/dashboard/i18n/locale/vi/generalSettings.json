@@ -1,41 +1,41 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "Cài đặt tài khoản",
+    "SUBMIT": "Cập nhật cài đặt",
+    "BACK": "Trờ về",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
+      "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "Vui lòng sửa lỗi biểu mẫu",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "Cài đặt chung",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "Tên tài khoản",
+        "PLACEHOLDER": "Tên tài khoản của bạn",
+        "ERROR": "Vui lòng nhập tên tài khoản hợp lệ"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "Ngôn ngữ trang web (Beta)",
+        "PLACEHOLDER": "Tên tài khoản của bạn",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Tên miền email đến",
+        "PLACEHOLDER": "Miền mà bạn sẽ nhận được email",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Email hỗ trợ",
+        "PLACEHOLDER": "Email hỗ trợ của công ty bạn",
         "ERROR": ""
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."
       }
     }
   }
