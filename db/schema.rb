@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_27_135222) do
+ActiveRecord::Schema.define(version: 2020_10_01_134918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -508,6 +508,24 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "workflow_account_inbox_templates", force: :cascade do |t|
+    t.bigint "workflow_account_template_id", null: false
+    t.bigint "inbox_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["inbox_id"], name: "inbox_with_workflow_account_template_inbox"
+    t.index ["workflow_account_template_id"], name: "account_template_with_workflow_account_template_inbox"
+  end
+
+  create_table "workflow_account_templates", force: :cascade do |t|
+    t.string "template_id", null: false
+    t.bigint "account_id", null: false
+    t.jsonb "config", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_workflow_account_templates_on_account_id"
   end
 
   add_foreign_key "account_users", "accounts"

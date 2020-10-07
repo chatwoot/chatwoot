@@ -1,0 +1,9 @@
+csat_demo:
+  id: csat_demo
+  name: Customer Satisfaction Survey
+  description: "Ask a quick survey of customer satisfaction"
+  config: 
+    - name: message
+      type: string
+    - name: enabled
+      type: boolean
