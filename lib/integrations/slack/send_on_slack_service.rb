@@ -44,14 +44,19 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     sender = message.sender
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
     sender_name = sender.try(:name) ? "#{sender_type}: #{sender.try(:name)}" : sender_type
-
-    @slack_message = slack_client.chat_postMessage(
-      channel: hook.reference_id,
-      text: message_content,
-      username: sender_name,
-      thread_ts: conversation.identifier,
-      icon_url: avatar_url(sender)
-    )
+    begin
+      @slack_message = slack_client.chat_postMessage(
+        channel: hook.reference_id,
+        text: message_content,
+        username: sender_name,
+        thread_ts: conversation.identifier,
+        icon_url: avatar_url(sender)
+      )
+    rescue Slack::Web::Api::Errors::AccountInactive => e
+      Rails.logger.info e
+      hook.disable
+      AdministratorNotifications::ChannelNotificationsMailer.slack_disconnect(message.account)&.deliver_later
+    end
   end
 
   def update_reference_id

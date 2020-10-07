@@ -27,5 +27,24 @@ describe Integrations::Slack::SendOnSlackService do
 
       builder.perform
     end
+
+    it 'disables hook on Slack AccountInactive error' do
+      builder = described_class.new(message: message, hook: hook)
+      slack_client = double
+      expect(builder).to receive(:slack_client).and_return(slack_client)
+      expect(slack_client).to receive(:chat_postMessage).with(
+        channel: hook.reference_id,
+        text: message.content,
+        username: "Contact: #{message.sender.name}",
+        thread_ts: conversation.identifier,
+        icon_url: anything
+      ).and_raise(Slack::Web::Api::Errors::AccountInactive.new('Account disconnected'))
+
+      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:slack_disconnect)
+
+      builder.perform
+      expect(hook).to be_disabled
+      expect(AdministratorNotifications::ChannelNotificationsMailer).to have_received(:slack_disconnect).with(conversation.account)
+    end
   end
 end
