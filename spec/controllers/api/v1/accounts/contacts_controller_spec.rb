@@ -30,6 +30,41 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/active"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let!(:contact) { create(:contact, account: account) }
+
+      it 'returns no contacts if no are online' do
+        get "/api/v1/accounts/#{account.id}/contacts/active",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).not_to include(contact.email)
+      end
+
+      it 'returns all contacts who are online' do
+        allow(::OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
+
+        get "/api/v1/accounts/#{account.id}/contacts/active",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact.email)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/contacts/search' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
