@@ -24,7 +24,7 @@ RSpec.describe Conversations::EventDataPresenter do
         status: conversation.status,
         can_reply: conversation.can_reply?,
         channel: conversation.inbox.channel_type,
-        timestamp: conversation.created_at.to_i,
+        timestamp: conversation.last_activity_at.to_i,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0
