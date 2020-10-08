@@ -101,6 +101,11 @@ Rails.application.routes.draw do
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
 
+          namespace :workflow do
+            resources :templates, only: [:index]
+            resources :account_templates, only: [:index, :show, :create, :update, :destroy]
+          end
+
           namespace :kbase do
             resources :portals do
               resources :categories do

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Integration Apps API', type: :request do
   let(:account) { create(:account) }
 
-  describe 'GET /api/v1/integrations/apps' do
+  describe 'GET /api/v1/accounts/{account_id}/integrations/apps' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get api_v1_account_integrations_apps_url(account)
@@ -28,7 +28,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
   end
 
-  describe 'GET /api/v1/integrations/apps/:id' do
+  describe 'GET /api/v1/accounts/{account_id}/integrations/apps/:id' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get api_v1_account_integrations_app_url(account_id: account.id, id: 'slack')
