@@ -89,6 +89,10 @@ class Conversation < ApplicationRecord
     Redis::Alfred.setex(mute_key, 1, mute_period)
   end
 
+  def unmute!
+    Redis::Alfred.delete(mute_key)
+  end
+
   def muted?
     !Redis::Alfred.get(mute_key).nil?
   end
