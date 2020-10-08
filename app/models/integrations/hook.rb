@@ -15,6 +15,8 @@
 #  reference_id :string
 #
 class Integrations::Hook < ApplicationRecord
+  include Reauthorizable
+
   validates :account_id, presence: true
   validates :app_id, presence: true
 
