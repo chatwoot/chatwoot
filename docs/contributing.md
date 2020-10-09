@@ -25,7 +25,7 @@ Thank you for taking an interest in contributing to Chatwoot. Before submitting 
 - Add a comment on the issue and wait for the issue to be assigned before you start working on it. 
   - This helps to avoid multiple people working on similar issues. 
 - If the solution is complex, propose the solution on the issue and wait for one of the core contributors to approve before going into the implementation. 
-  - This helps is shorter turn around times in merging PRs
+  - This helps in shorter turn around times in merging PRs
 - For new feature requests, Provide a convincing reason to add this feature. Real-life business use-cases will be super helpful. 
 - Feel free to join our [discord community](https://discord.gg/cJXdrwS), if you need further discussions with the core team. 
 
