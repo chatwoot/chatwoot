@@ -73,6 +73,11 @@ export const mutations = {
     chat.muted = true;
   },
 
+  [types.default.UNMUTE_CONVERSATION](_state) {
+    const [chat] = getSelectedChatConversation(_state);
+    chat.muted = false;
+  },
+
   [types.default.SEND_MESSAGE](_state, currentMessage) {
     const [chat] = getSelectedChatConversation(_state);
     const allMessagesExceptCurrent = (chat.messages || []).filter(

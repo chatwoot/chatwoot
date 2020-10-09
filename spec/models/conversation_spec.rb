@@ -289,6 +289,22 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '#unmute!' do
+    subject(:unmute!) { conversation.unmute! }
+
+    let(:conversation) { create(:conversation).tap(&:mute!) }
+
+    it 'does not change conversation status' do
+      expect { unmute! }.not_to(change { conversation.reload.status })
+    end
+
+    it 'marks conversation as muted in redis' do
+      expect { unmute! }
+        .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
+        .to nil
+    end
+  end
+
   describe '#muted?' do
     subject(:muted?) { conversation.muted? }
 
