@@ -6,11 +6,12 @@ describe ::Redis::Config do
     let(:redis_pasword) { 'some-strong-password' }
 
     before do
+      described_class.instance_variable_set(:@config, nil)
       allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
       allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
       allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return('')
       allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return('')
-      described_class.reload_config
+      described_class.config
     end
 
     it 'checks for app redis config' do
@@ -44,11 +45,12 @@ describe ::Redis::Config do
     end
 
     before do
+      described_class.instance_variable_set(:@config, nil)
       allow(ENV).to receive(:fetch).with('REDIS_URL', 'redis://127.0.0.1:6379').and_return(redis_url)
       allow(ENV).to receive(:fetch).with('REDIS_PASSWORD', nil).and_return(redis_pasword)
       allow(ENV).to receive(:fetch).with('REDIS_SENTINELS', nil).and_return(redis_sentinels)
       allow(ENV).to receive(:fetch).with('REDIS_SENTINEL_MASTER_NAME', 'mymaster').and_return(redis_master_name)
-      described_class.reload_config
+      described_class.config
     end
 
     it 'checks for app redis config' do
