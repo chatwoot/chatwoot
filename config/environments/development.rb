@@ -1,4 +1,8 @@
 Rails.application.configure do
+  # CVE fix: https://groups.google.com/g/rubyonrails-security/c/yQzUVfv42jk
+  # TODO: Remove this once we upgrade to Rails 6.0.3.4
+  config.middleware.delete ActionDispatch::ActionableExceptions
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -102,7 +106,7 @@ Rails.application.configure do
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', Rails.env + '.log'), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
