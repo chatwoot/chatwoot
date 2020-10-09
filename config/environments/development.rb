@@ -1,8 +1,4 @@
 Rails.application.configure do
-  # CVE fix: https://groups.google.com/g/rubyonrails-security/c/yQzUVfv42jk
-  # TODO: Remove this once we upgrade to Rails 6.0.3.4
-  config.middleware.delete ActionDispatch::ActionableExceptions
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
