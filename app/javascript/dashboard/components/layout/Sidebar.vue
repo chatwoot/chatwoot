@@ -275,6 +275,7 @@ export default {
           id: label.id,
           label: label.title,
           color: label.color,
+          truncateLabel: true,
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
           ),
