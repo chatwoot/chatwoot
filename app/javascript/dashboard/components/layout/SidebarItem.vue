@@ -30,7 +30,7 @@
         tag="li"
         :to="child.toState"
       >
-        <a href="#">
+        <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
             <i
               v-if="computedInboxClass(child)"
@@ -44,8 +44,9 @@
             />
             <div
               :title="computedChildTitle(child)"
-              :class="computedChildClass(child)">
-            {{ child.label }}
+              :class="computedChildClass(child)"
+            >
+              {{ child.label }}
             </div>
           </div>
         </a>
@@ -55,7 +56,6 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
@@ -120,7 +120,7 @@ export default {
         return 'active';
       }
       return ' ';
-    }, 
+    },
   },
   methods: {
     computedInboxClass(child) {
@@ -129,13 +129,13 @@ export default {
       return classByType;
     },
     computedChildClass(child) {
-      if (!child.truncateLabel) return '';      
+      if (!child.truncateLabel) return '';
       return 'text-truncate';
     },
     computedChildTitle(child) {
       if (!child.truncateLabel) return false;
       return child.label;
-    },  
+    },
     newLinkClick() {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
     },
@@ -162,6 +162,7 @@ export default {
   border-radius: $space-smaller;
   height: $space-normal;
   margin-right: $space-small;
+  min-width: $space-normal;
   width: $space-normal;
 }
 </style>
