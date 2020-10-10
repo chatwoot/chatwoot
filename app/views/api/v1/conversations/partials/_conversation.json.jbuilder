@@ -5,7 +5,7 @@ json.meta do
   json.channel conversation.inbox.try(:channel_type)
   if conversation.assignee
     json.assignee do
-      json.partial! 'api/v1/models/user.json.jbuilder', resource: conversation.assignee
+      json.partial! 'api/v1/models/agent.json.jbuilder', resource: conversation.assignee
     end
   end
 end
