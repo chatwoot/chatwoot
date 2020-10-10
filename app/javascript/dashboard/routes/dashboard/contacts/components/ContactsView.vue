@@ -31,5 +31,6 @@ export default {
 <style lang="scss" scoped>
 .contacts-page {
   padding-top: var(--space-normal);
+  width: 100%;
 }
 </style>
