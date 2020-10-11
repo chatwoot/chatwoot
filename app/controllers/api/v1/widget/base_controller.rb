@@ -8,10 +8,6 @@ class Api::V1::Widget::BaseController < ApplicationController
     @conversations = @contact_inbox.conversations.where(inbox_id: auth_token_params[:inbox_id])
   end
 
-  def conversation
-    @conversation ||= conversations.last
-  end
-
   def auth_token_params
     @auth_token_params ||= ::Widget::TokenService.new(token: request.headers[header_name]).decode_token
   end
@@ -39,6 +35,36 @@ class Api::V1::Widget::BaseController < ApplicationController
       device_name: browser.device.name,
       platform_name: browser.platform.name,
       platform_version: browser.platform.version
+    }
+  end
+
+  def build_message
+    @message = conversation.messages.new(message_params)
+    @message.save
+    build_attachment
+  end
+
+  def build_attachment
+    return if permitted_params[:message][:attachments].blank?
+
+    permitted_params[:message][:attachments].each do |uploaded_attachment|
+      attachment = @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: helpers.file_type(uploaded_attachment&.content_type)
+      )
+      attachment.file.attach(uploaded_attachment)
+    end
+    @message.save!
+  end
+
+  def message_params
+    {
+      account_id: conversation.account_id,
+      sender: @contact,
+      content: permitted_params[:message][:content],
+      inbox_id: conversation.inbox_id,
+      echo_id: permitted_params[:message][:echo_id],
+      message_type: :incoming
     }
   end
 end

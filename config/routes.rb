@@ -125,9 +125,9 @@ Rails.application.routes.draw do
 
       namespace :widget do
         resources :events, only: [:create]
-        resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index] do
-          collection do
+        resources :conversations, only: [:index, :create] do
+          resources :messages, only: [:index, :create, :update]
+          member do
             post :update_last_seen
             post :toggle_typing
             post :transcript

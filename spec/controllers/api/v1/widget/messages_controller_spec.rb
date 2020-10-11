@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/api/v1/widget/messages', type: :request do
+RSpec.describe '/api/v1/widget/conversation/:conversation_id/messages', type: :request do
   let(:account) { create(:account) }
   let(:web_widget) { create(:channel_widget, account: account) }
   let(:contact) { create(:contact, account: account, email: nil) }
@@ -13,10 +13,10 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     2.times.each { create(:message, account: account, inbox: web_widget.inbox, conversation: conversation) }
   end
 
-  describe 'GET /api/v1/widget/messages' do
+  describe 'GET /api/v1/widget/conversations/:conversation_id/messages' do
     context 'when get request is made' do
       it 'returns messages in conversation' do
-        get api_v1_widget_messages_url,
+        get api_v1_widget_conversation_messages_url(conversation_id: conversation.display_id),
             params: { website_token: web_widget.website_token },
             headers: { 'X-Auth-Token' => token },
             as: :json
@@ -30,12 +30,11 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
   end
 
-  describe 'POST /api/v1/widget/messages' do
+  describe 'POST /api/v1/widget/conversations/:conversation_id/messages' do
     context 'when post request is made' do
       it 'creates message in conversation' do
-        conversation.destroy # Test all params
         message_params = { content: 'hello world', timestamp: Time.current }
-        post api_v1_widget_messages_url,
+        post api_v1_widget_conversation_messages_url(conversation_id: conversation.display_id),
              params: { website_token: web_widget.website_token, message: message_params },
              headers: { 'X-Auth-Token' => token },
              as: :json
@@ -43,12 +42,13 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
         expect(json_response['content']).to eq(message_params[:content])
+        expect(json_response['conversation_id']).to eq(conversation.display_id)
       end
 
       it 'creates attachment message in conversation' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         message_params = { content: 'hello world', timestamp: Time.current, attachments: [file] }
-        post api_v1_widget_messages_url,
+        post api_v1_widget_conversation_messages_url(conversation_id: conversation.display_id),
              params: { website_token: web_widget.website_token, message: message_params },
              headers: { 'X-Auth-Token' => token }
 
@@ -64,7 +64,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         conversation.mute!
 
         message_params = { content: 'hello world', timestamp: Time.current }
-        post api_v1_widget_messages_url,
+        post api_v1_widget_conversation_messages_url(conversation_id: conversation.display_id),
              params: { website_token: web_widget.website_token, message: message_params },
              headers: { 'X-Auth-Token' => token },
              as: :json
@@ -75,13 +75,13 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
   end
 
-  describe 'PUT /api/v1/widget/messages' do
+  describe 'PUT /api/v1/widget/conversations/:conversation_id/messages/:id' do
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         email = Faker::Internet.email
         contact_params = { email: email }
-        put api_v1_widget_message_url(message.id),
+        put api_v1_widget_conversation_message_url(conversation_id: conversation.id, id: message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
             headers: { 'X-Auth-Token' => token },
             as: :json
@@ -97,7 +97,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       it 'rescues the error' do
         message = create(:message, account: account, content_type: 'input_email', inbox: web_widget.inbox, conversation: conversation)
         contact_params = { email: nil }
-        put api_v1_widget_message_url(message.id),
+        put api_v1_widget_conversation_message_url(conversation_id: conversation.id, id: message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
             headers: { 'X-Auth-Token' => token },
             as: :json
@@ -112,7 +112,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         email = Faker::Internet.email
         create(:contact, account: account, email: email)
         contact_params = { email: email }
-        put api_v1_widget_message_url(message.id),
+        put api_v1_widget_conversation_message_url(conversation_id: conversation.id, id: message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
             headers: { 'X-Auth-Token' => token },
             as: :json
@@ -127,7 +127,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         email = Faker::Internet.email
         create(:contact, account: account, email: email)
         contact_params = { email: email.upcase }
-        put api_v1_widget_message_url(message.id),
+        put api_v1_widget_conversation_message_url(conversation_id: conversation.id, id: message.id),
             params: { website_token: web_widget.website_token, contact: contact_params },
             headers: { 'X-Auth-Token' => token },
             as: :json

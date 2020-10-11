@@ -41,6 +41,9 @@ en:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+    widget:
+      conversations:
+        invalid_message_params: Cannot create a conversation due to invalid message parameters
 
   conversations:
     activity:
