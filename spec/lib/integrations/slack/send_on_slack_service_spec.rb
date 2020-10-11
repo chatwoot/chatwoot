@@ -40,13 +40,11 @@ describe Integrations::Slack::SendOnSlackService do
         icon_url: anything
       ).and_raise(Slack::Web::Api::Errors::AccountInactive.new('Account disconnected'))
 
-      allow(AdministratorNotifications::ChannelNotificationsMailer).to receive(:slack_disconnect)
       allow(hook).to receive(:authorization_error!)
 
       builder.perform
       expect(hook).to be_disabled
       expect(hook).to have_received(:authorization_error!)
-      expect(AdministratorNotifications::ChannelNotificationsMailer).to have_received(:slack_disconnect).with(conversation.account)
     end
   end
 end

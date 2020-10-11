@@ -40,7 +40,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     sender.try(:avatar_url) || "#{ENV['FRONTEND_URL']}/admin/avatar_square.png"
   end
 
-  def send_message # rubocop:disable Metrics/AbcSize
+  def send_message
     sender = message.sender
     sender_type = sender.class == Contact ? 'Contact' : 'Agent'
     sender_name = sender.try(:name) ? "#{sender_type}: #{sender.try(:name)}" : sender_type
@@ -56,7 +56,6 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
       Rails.logger.info e
       hook.authorization_error!
       hook.disable if hook.enabled?
-      AdministratorNotifications::ChannelNotificationsMailer.slack_disconnect(message.account)&.deliver_later
     end
   end
 
