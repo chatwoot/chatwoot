@@ -5,7 +5,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :fetch_contact, only: [:show, :update]
 
   def index
-    @contacts = Current.account.contacts
+    @contacts = Current.account.contacts.where.not(email: [nil, ''], phone_number: [nil, '']).page(params[:page])
   end
 
   # returns online contacts
