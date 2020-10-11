@@ -7,6 +7,7 @@ export const actions = {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const response = await ContactAPI.search(search);
+      commit(types.default.CLEAR_CONTACTS);
       commit(types.default.SET_CONTACTS, response.data.payload);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {

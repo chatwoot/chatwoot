@@ -9,6 +9,10 @@ export const mutations = {
     };
   },
 
+  [types.default.CLEAR_CONTACTS]: $state => {
+    $state.records = {};
+  },
+
   [types.default.SET_CONTACTS]: ($state, data) => {
     data.forEach(contact => {
       Vue.set($state.records, contact.id, {

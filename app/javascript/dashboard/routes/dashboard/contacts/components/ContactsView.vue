@@ -1,6 +1,10 @@
 <template>
   <div class="contacts-page">
-    <contacts-header />
+    <contacts-header
+      :search-query="searchQuery"
+      :on-search-submit="onSearchSubmit"
+      :on-input-search="onInputSearch"
+    />
     <contacts :contacts="records" />
   </div>
 </template>
@@ -16,6 +20,11 @@ export default {
     ContactsHeader,
     Contacts,
   },
+  data() {
+    return {
+      searchQuery: '',
+    };
+  },
   computed: {
     ...mapGetters({
       records: 'contacts/getContacts',
@@ -23,7 +32,15 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('contacts/search', { search: 'w' });
+    this.$store.dispatch('contacts/get');
+  },
+  methods: {
+    onInputSearch(event) {
+      this.searchQuery = event.target.value;
+    },
+    onSearchSubmit() {
+      this.$store.dispatch('contacts/search', { search: this.searchQuery });
+    },
   },
 };
 </script>
