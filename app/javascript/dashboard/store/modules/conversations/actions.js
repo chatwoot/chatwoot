@@ -129,7 +129,7 @@ const actions = {
   sendMessage: async ({ commit }, data) => {
     try {
       const response = await MessageApi.create(data);
-      commit(types.default.SEND_MESSAGE, response.data);
+      commit(types.default.ADD_MESSAGE, response.data);
     } catch (error) {
       // Handle error
     }
@@ -209,7 +209,7 @@ const actions = {
   sendAttachment: async ({ commit }, data) => {
     try {
       const response = await MessageApi.sendAttachment(data);
-      commit(types.default.SEND_MESSAGE, response.data);
+      commit(types.default.ADD_MESSAGE, response.data);
     } catch (error) {
       // Handle error
     }
