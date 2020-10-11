@@ -110,16 +110,6 @@ window.$chatwoot.setLocale('en');
 
 To set the language manually, use the `setLocale` function.
 
-### To set labels on the conversation
-
-Please note that the labels will be set on a conversation if the user has not started a conversation. In that case, the following items will not have any effect:
-
-```js
-window.$chatwoot.setLabel('support-ticket');
-
-window.$chatwoot.removeLabel('support-ticket');
-```
-
 ### To refresh the session (use this while you logout the user from your app)
 
 ```js

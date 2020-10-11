@@ -90,12 +90,12 @@ const runSDK = ({ baseUrl, websiteToken }) => {
       }
     },
 
-    setLabel(label = '') {
-      IFrameHelper.sendMessage('set-label', { label });
+    setLabel() {
+      throw new Error('This method is deprecated');
     },
 
-    removeLabel(label = '') {
-      IFrameHelper.sendMessage('remove-label', { label });
+    removeLabel() {
+      throw new Error('This method is deprecated');
     },
 
     setLocale(localeToBeUsed = 'en') {
