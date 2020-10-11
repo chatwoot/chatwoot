@@ -66,7 +66,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :conversation_id, :before, :website_token, contact: [:email], message: [:content, :echo_id])
+    params.permit(:id, :conversation_id, :before, :website_token, contact: [:email], message: [:content, :echo_id, { attachments: [] }])
   end
 
   def set_message
