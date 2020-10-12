@@ -511,12 +511,12 @@ ActiveRecord::Schema.define(version: 2020_10_01_134918) do
   end
 
   create_table "workflow_account_inbox_templates", force: :cascade do |t|
-    t.bigint "workflow_account_template_id", null: false
+    t.bigint "account_template_id", null: false
     t.bigint "inbox_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_template_id"], name: "account_template_with_workflow_account_template_inbox"
     t.index ["inbox_id"], name: "inbox_with_workflow_account_template_inbox"
-    t.index ["workflow_account_template_id"], name: "account_template_with_workflow_account_template_inbox"
   end
 
   create_table "workflow_account_templates", force: :cascade do |t|

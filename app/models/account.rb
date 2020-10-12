@@ -30,7 +30,7 @@ class Account < ApplicationRecord
   validates :name, presence: true
 
   has_many :account_users, dependent: :destroy
-  has_many :account_templates, dependent: :destroy, class_name: 'Workflow::AccountTemplate'
+  has_many :workflow_account_templates, dependent: :destroy, class_name: 'Workflow::AccountTemplate'
   has_many :agent_bot_inboxes, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy

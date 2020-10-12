@@ -8,6 +8,6 @@ RSpec.describe Workflow::AccountInboxTemplate, type: :model do
 
   describe 'associations' do
     it { is_expected.to belong_to(:inbox) }
-    it { is_expected.to belong_to(:workflow_account_template) }
+    it { is_expected.to belong_to(:account_template) }
   end
 end

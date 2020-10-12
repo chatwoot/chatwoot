@@ -19,9 +19,20 @@ class Workflow::AccountTemplate < ApplicationRecord
 
   belongs_to :account
 
-  has_many :workflow_account_inbox_templates, dependent: :destroy
+  has_many :account_inbox_templates, dependent: :destroy
+  has_many :inboxes, through: :account_inbox_templates
 
   def template
-    @template ||= Workflows::Template.find(id: template_id)
+    @template ||= Workflow::Template.find(id: template_id)
+  end
+
+  def add_inbox(inbox_id)
+    account_inbox_template = account_inbox_templates.new(inbox_id: inbox_id)
+    account_inbox_template.save!
+  end
+
+  def remove_inbox(inbox_id)
+    account_inbox_template = account_inbox_templates.find_by(inbox_id: inbox_id)
+    account_inbox_template.try(:destroy)
   end
 end
