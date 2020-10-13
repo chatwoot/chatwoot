@@ -1,16 +1,16 @@
 <template>
-  <a
-    v-if="globalConfig.brandName"
-    class="branding"
-    :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
-    rel="noreferrer noopener nofollow"
-    target="_blank"
-  >
-    <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
-    <span>
-      {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
-    </span>
-  </a>
+  <div v-if="globalConfig.brandName" class="branding">
+    <a
+      :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
+      rel="noreferrer noopener nofollow"
+      target="_blank"
+    >
+      <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
+      <span>
+        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+      </span>
+    </a>
+  </div>
   <div v-else class="brand--alternative" />
 </template>
 
@@ -34,21 +34,25 @@ export default {
 
 .branding {
   align-items: center;
-  color: $color-light-gray;
-  opacity: 0.9;
   display: flex;
-  filter: grayscale(1);
-  font-size: $font-size-small;
   justify-content: center;
-  text-align: center;
-  text-decoration: none;
   padding: $space-normal 0 $space-slab;
-  cursor: pointer;
+  text-align: center;
 
-  &:hover {
-    filter: grayscale(0);
-    opacity: 1;
-    color: $color-gray;
+  a {
+    color: $color-light-gray;
+    cursor: pointer;
+    display: flex;
+    filter: grayscale(1);
+    font-size: $font-size-small;
+    opacity: 0.9;
+    text-decoration: none;
+
+    &:hover {
+      filter: grayscale(0);
+      opacity: 1;
+      color: $color-gray;
+    }
   }
 
   img {
