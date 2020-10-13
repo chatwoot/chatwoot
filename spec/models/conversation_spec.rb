@@ -90,9 +90,9 @@ RSpec.describe Conversation, type: :model do
 
     it 'creates conversation activities' do
       # create_activity
-      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.available_name}")
-      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.available_name} by #{old_assignee.available_name}")
-      expect(conversation.messages.pluck(:content)).to include("#{old_assignee.available_name} added #{label.title}")
+      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("#{old_assignee.name} added #{label.title}")
     end
   end
 
@@ -193,7 +193,7 @@ RSpec.describe Conversation, type: :model do
 
       it 'creates self-assigned message activity' do
         expect(update_assignee).to eq(true)
-        expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} self-assigned this conversation")
+        expect(conversation.messages.pluck(:content)).to include("#{agent.name} self-assigned this conversation")
       end
     end
   end
@@ -223,20 +223,20 @@ RSpec.describe Conversation, type: :model do
       labels = [first_label].map(&:title)
       expect(conversation.update_labels(labels)).to eq(true)
       expect(conversation.label_list).to match_array(labels)
-      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{labels.join(', ')}")
     end
 
     it 'adds and removes previously added labels' do
       labels = [first_label, fourth_label].map(&:title)
       expect(conversation.update_labels(labels)).to eq(true)
       expect(conversation.label_list).to match_array(labels)
-      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{labels.join(', ')}")
 
       updated_labels = [second_label, third_label].map(&:title)
       expect(conversation.update_labels(updated_labels)).to eq(true)
       expect(conversation.label_list).to match_array(updated_labels)
-      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} added #{updated_labels.join(', ')}")
-      expect(conversation.messages.pluck(:content)).to include("#{agent.available_name} removed #{labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{updated_labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} removed #{labels.join(', ')}")
     end
   end
 
