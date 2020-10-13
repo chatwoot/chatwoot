@@ -4,6 +4,7 @@
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
+      class="branding--link"
     >
       <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
       <span>
@@ -57,28 +58,29 @@ export default {
   padding: $space-normal 0 $space-slab;
   text-align: center;
 
-  a {
-    color: $color-light-gray;
-    cursor: pointer;
-    display: flex;
-    filter: grayscale(1);
-    font-size: $font-size-small;
-    opacity: 0.9;
-    text-decoration: none;
-
-    &:hover {
-      filter: grayscale(0);
-      opacity: 1;
-      color: $color-gray;
-    }
-  }
-
   img {
     margin-right: $space-smaller;
     max-width: $space-slab;
     max-height: $space-slab;
   }
 }
+
+.branding--link {
+  color: $color-light-gray;
+  cursor: pointer;
+  display: flex;
+  filter: grayscale(1);
+  font-size: $font-size-small;
+  opacity: 0.9;
+  text-decoration: none;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    color: $color-gray;
+  }
+}
+
 .brand--alternative {
   padding: $space-slab;
 }
