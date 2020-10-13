@@ -1,7 +1,7 @@
 <template>
   <div v-if="globalConfig.brandName" class="branding">
     <a
-      :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
+      :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
     >
@@ -17,13 +17,31 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   mixins: [globalConfigMixin],
+  data() {
+    return {
+      referrerHost: '',
+    };
+  },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
     }),
+    brandRedirectURL() {
+      const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
+      if (this.referrerHost) {
+        return `${baseURL}&utm_referrer=${this.referrerHost}`;
+      }
+      return baseURL;
+    },
+  },
+  mounted() {
+    bus.$on(BUS_EVENTS.SET_REFERRER_HOST, referrerHost => {
+      this.referrerHost = referrerHost;
+    });
   },
 };
 </script>
