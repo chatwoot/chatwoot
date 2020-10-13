@@ -208,8 +208,7 @@ export default {
       accountLabels: 'labels/getLabelsOnSidebar',
     }),
     currentUserAvailableName() {
-      const { available_name: availableName } = this.currentUser;
-      return availableName;
+      return this.currentUser.name;
     },
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
