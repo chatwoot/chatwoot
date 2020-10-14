@@ -1,29 +1,48 @@
 <template>
-  <a
-    v-if="globalConfig.brandName"
-    class="branding"
-    :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
-    rel="noreferrer noopener nofollow"
-    target="_blank"
-  >
-    <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
-    <span>
-      {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
-    </span>
-  </a>
+  <div v-if="globalConfig.brandName" class="branding">
+    <a
+      :href="brandRedirectURL"
+      rel="noreferrer noopener nofollow"
+      target="_blank"
+      class="branding--link"
+    >
+      <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
+      <span>
+        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+      </span>
+    </a>
+  </div>
   <div v-else class="brand--alternative" />
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   mixins: [globalConfigMixin],
+  data() {
+    return {
+      referrerHost: '',
+    };
+  },
   computed: {
     ...mapGetters({
       globalConfig: 'globalConfig/get',
     }),
+    brandRedirectURL() {
+      const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
+      if (this.referrerHost) {
+        return `${baseURL}&utm_referrer=${this.referrerHost}`;
+      }
+      return baseURL;
+    },
+  },
+  mounted() {
+    bus.$on(BUS_EVENTS.SET_REFERRER_HOST, referrerHost => {
+      this.referrerHost = referrerHost;
+    });
   },
 };
 </script>
@@ -34,22 +53,10 @@ export default {
 
 .branding {
   align-items: center;
-  color: $color-light-gray;
-  opacity: 0.9;
   display: flex;
-  filter: grayscale(1);
-  font-size: $font-size-small;
   justify-content: center;
-  text-align: center;
-  text-decoration: none;
   padding: $space-normal 0 $space-slab;
-  cursor: pointer;
-
-  &:hover {
-    filter: grayscale(0);
-    opacity: 1;
-    color: $color-gray;
-  }
+  text-align: center;
 
   img {
     margin-right: $space-smaller;
@@ -57,6 +64,23 @@ export default {
     max-height: $space-slab;
   }
 }
+
+.branding--link {
+  color: $color-light-gray;
+  cursor: pointer;
+  display: flex;
+  filter: grayscale(1);
+  font-size: $font-size-small;
+  opacity: 0.9;
+  text-decoration: none;
+
+  &:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    color: $color-gray;
+  }
+}
+
 .brand--alternative {
   padding: $space-slab;
 }
