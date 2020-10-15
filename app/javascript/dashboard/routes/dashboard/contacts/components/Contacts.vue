@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="contacts-table-wrap">
     <table class="woot-table contacts-table">
       <thead>
         <!-- Header -->
@@ -22,7 +22,7 @@
             <div class="row-main-info">
               <thumbnail
                 :src="contactItem.thumbnail"
-                size="40px"
+                size="36px"
                 :username="contactItem.name"
                 :status="contactItem.availability_status"
               />
@@ -88,9 +88,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/mixins';
+
+.contacts-table-wrap {
+  @include scroll-on-hover;
+  flex: 1 1;
+  background: var(--color-background-light);
+}
 .contacts-table {
   > thead {
     border-bottom: 1px solid var(--color-border);
+    background: white;
 
     > th:first-child {
       width: var(--space-large);
@@ -99,7 +107,7 @@ export default {
 
   > tbody {
     > tr > td {
-      padding: var(--space-slab) var(--space-small);
+      padding: var(--space-small) var(--space-small);
       &:first-child .item-selector-wrap {
         width: var(--space-large);
         display: flex;
@@ -114,6 +122,7 @@ export default {
   }
   .row-main-info {
     display: flex;
+    align-items: center;
 
     .user-thumbnail-box {
       margin-right: var(--space-small);
@@ -121,6 +130,7 @@ export default {
 
     .user-name {
       text-transform: capitalize;
+      margin: 0;
     }
 
     .user-about {

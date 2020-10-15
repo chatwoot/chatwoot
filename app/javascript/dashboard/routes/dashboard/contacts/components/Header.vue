@@ -58,23 +58,26 @@ export default {
 .header {
   margin-left: var(--space-normal);
 }
+.page-title {
+  margin: 0;
+}
 .table-actions-wrap {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: var(--space-normal);
+  margin-top: var(--space-slab);
   padding: 0 var(--space-large) var(--space-slab);
 }
 .search-wrap {
   width: 400px;
-  height: 4rem;
+  height: 3.6rem;
   display: flex;
   align-items: center;
   position: relative;
 
   .search-icon {
     position: absolute;
-    top: 3px;
+    top: 1px;
     left: var(--space-one);
     height: 3.6rem;
     line-height: 3.6rem;
@@ -92,7 +95,7 @@ export default {
   .button {
     margin-left: var(--space-small);
     height: 3.2rem;
-    top: var(--space-smaller);
+    top: var(--space-micro);
     right: var(--space-smaller);
     position: absolute;
     padding: 0 var(--space-small);

@@ -6,6 +6,7 @@
       :on-input-search="onInputSearch"
     />
     <contacts :contacts="records" />
+    <contacts-footer />
   </div>
 </template>
 
@@ -14,11 +15,13 @@ import { mapGetters } from 'vuex';
 
 import ContactsHeader from './Header';
 import Contacts from './Contacts';
+import ContactsFooter from './Footer';
 
 export default {
   components: {
     ContactsHeader,
     Contacts,
+    ContactsFooter,
   },
   data() {
     return {
@@ -47,6 +50,8 @@ export default {
 
 <style lang="scss" scoped>
 .contacts-page {
+  display: flex;
+  flex-direction: column;
   padding-top: var(--space-normal);
   width: 100%;
 }
