@@ -1,11 +1,5 @@
 .auth-wrap {
   width: 100%;
-
-  @media screen and (max-width: 667px) {
-    .column {
-      flex: inherit;
-    }
-  }
 }
 
 // Outside login wrapper
