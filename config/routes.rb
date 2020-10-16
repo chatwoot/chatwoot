@@ -55,6 +55,7 @@ Rails.application.routes.draw do
             end
             member do
               post :mute
+              post :unmute
               post :transcript
               post :toggle_status
               post :toggle_typing_status
@@ -64,6 +65,7 @@ Rails.application.routes.draw do
 
           resources :contacts, only: [:index, :show, :update, :create] do
             collection do
+              get :active
               get :search
             end
             scope module: :contacts do

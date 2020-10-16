@@ -114,6 +114,18 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
+    context 'when inbox email address is available' do
+      let(:inbox) { create(:inbox, account: account, email_address: 'noreply@chatwoot.com') }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: inbox, account: account) }
+      let!(:message) { create(:message, conversation: conversation, account: account) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+
+      it 'set reply to email address as inbox email address' do
+        expect(mail.from).to eq([inbox.email_address])
+        expect(mail.reply_to).to eq([inbox.email_address])
+      end
+    end
+
     context 'when the custom domain emails are enabled' do
       let(:account) { create(:account) }
       let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
