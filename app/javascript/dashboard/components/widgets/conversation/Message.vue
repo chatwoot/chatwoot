@@ -41,7 +41,7 @@
           size="16px"
         />
         <div class="sender--available-name">
-          {{ sender.available_name || sender.name }}
+          {{ sender.name }}
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@ export default {
 
       return this.data.message_type === 1 && !this.isHovered && sender
         ? {
-            content: `Sent by: ${sender.available_name || sender.name}`,
+            content: `Sent by: ${sender.name}`,
             classes: 'top',
           }
         : false;
