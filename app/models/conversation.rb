@@ -7,6 +7,7 @@
 #  agent_last_seen_at    :datetime
 #  contact_last_seen_at  :datetime
 #  identifier            :string
+#  last_activity_at      :datetime         not null
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
@@ -36,7 +37,7 @@ class Conversation < ApplicationRecord
 
   enum status: { open: 0, resolved: 1, bot: 2 }
 
-  scope :latest, -> { order(updated_at: :desc) }
+  scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 
@@ -86,6 +87,10 @@ class Conversation < ApplicationRecord
   def mute!
     resolved!
     Redis::Alfred.setex(mute_key, 1, mute_period)
+  end
+
+  def unmute!
+    Redis::Alfred.delete(mute_key)
   end
 
   def muted?
@@ -152,7 +157,7 @@ class Conversation < ApplicationRecord
   def create_activity
     return unless Current.user
 
-    user_name = Current.user&.available_name
+    user_name = Current.user.name
 
     create_status_change_message(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?
@@ -209,7 +214,7 @@ class Conversation < ApplicationRecord
   end
 
   def create_assignee_change(user_name)
-    params = { assignee_name: assignee&.available_name, user_name: user_name }.compact
+    params = { assignee_name: assignee.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)

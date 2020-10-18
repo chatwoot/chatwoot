@@ -1,238 +1,238 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "Hộp thư đến",
+    "SIDEBAR_TXT": "<p><b>Hộp thư đến</b></p> <p> Khi bạn kết nối một trang web hoặc một Trang facebook với Chatwoot, nó được gọi là <b>Hộp thư đến</b>. Bạn có thể có hộp thư đến không giới hạn trong tài khoản Chatwoot của mình. </p><p> Click vào <b>Thêm hộp thư đến</b> để kết nối một trang web hoặc một Trang Facebook. </p><p> Trong Trang tổng quan, bạn có thể xem tất cả các cuộc hội thoại từ tất cả các hộp thư đến của mình ở một nơi duy nhất và trả lời chúng trong tab `Cuộc trò chuyện`. </p><p> Bạn cũng có thể xem các cuộc hội thoại dành riêng cho một hộp thư đến bằng cách nhấp vào tên hộp thư đến trên ngăn bên trái của trang tổng quan. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Không có hộp thư đến nào được đính kèm với tài khoản này."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Chọn kênh",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Chọn nhà cung cấp bạn muốn tích hợp với Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Tạo Hộp thư đến",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Xác thực tài khoản của bạn và tạo hộp thư đến."
       },
       {
-        "title": "Add Agents",
+        "title": "Thêm đại lý",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Thêm đại lý vào hộp thư đến đã tạo."
       },
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Bạn đã sẵn sàng để đi!"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
+        "CHOOSE_PAGE": "Chọn trang",
+        "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
+        "INBOX_NAME": "Tên hộp thư đến",
+        "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
+        "PICK_NAME": "Chọn tên Hộp thư đến của bạn",
+        "PICK_A_VALUE": "Chọn một giá trị"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter"
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Kênh trang web",
+        "DESC": "Tạo kênh cho trang web của bạn và bắt đầu hỗ trợ khách hàng của bạn thông qua widget trang web của chúng tôi.",
+        "LOADING_MESSAGE": "Tạo kênh hỗ trợ trang web",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Hình đại diện kênh"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+          "LABEL": "Tên trang web",
+          "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Domain trang web",
+          "PLACEHOLDER": "Nhập tên miền trang web của bạn (ví dụ: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Tiêu đề chào mừng",
+          "PLACEHOLDER": "Chào bạn !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Dòng giới thiệu chào mừng",
+          "PLACEHOLDER": "Chúng tôi làm cho việc kết nối với chúng tôi trở nên đơn giản. Hỏi chúng tôi bất cứ điều gì hoặc chia sẻ phản hồi của bạn."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Tin nhắn chúc mừng kênh",
+          "PLACEHOLDER": "Acme Inc thường trả lời sau vài giờ."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Bật lời chào kênh",
+          "HELP_TEXT": "Gửi tin nhắn chào mừng đến người dùng khi anh ta bắt đầu cuộc trò chuyện.",
+          "ENABLED": "Bật",
+          "DISABLED": "Không bật"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Màu tiện ích",
+          "PLACEHOLDER": "Cập nhật màu tiện ích con được sử dụng trong tiện ích con"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "Tạo hộp thư đến"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Kênh Twilio SMS/Whatsapp",
+        "DESC": "Tích hợp Twilio và bắt đầu hỗ trợ khách hàng của bạn qua SMS hoặc Whatsapp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "Tài khoản SID",
+          "PLACEHOLDER": "Vui lòng nhập SID tài khoản Twilio của bạn",
+          "ERROR": "Trường này là bắt buộc"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Loại kênh",
+          "ERROR": "Vui lòng chọn loại kênh của bạn"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Vui lòng nhập Twilio Auth Token",
+          "ERROR": "Trường này là bắt buộc"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Tên kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Số Điện Thoại",
+          "PLACEHOLDER": "Vui lòng nhập số điện thoại mà tin nhắn sẽ được gửi.",
+          "ERROR": "Vui lòng nhập một giá trị hợp lệ. Số điện thoại phải bắt đầu bằng `+`."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Bạn phải định cấu hình URL gọi lại tin nhắn trong Twilio với URL được đề cập ở đây."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Tạo kênh Twilio",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Chúng tôi không thể xác thực thông tin đăng nhập Twilio, vui lòng thử lại"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "Kênh API",
+        "DESC": "Tích hợp với kênh API và bắt đầu hỗ trợ khách hàng của bạn.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Tên Kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Định cấu hình URL mà bạn muốn nhận các cuộc gọi lại trên các events.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Tạo kênh API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh api"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Kênh Email",
+        "DESC": "Tích hợp hộp thư đến email của bạn.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Tên kênh",
+          "PLACEHOLDER": "Vui lòng nhập tên kênh",
+          "ERROR": "Trường này là bắt buộc"
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Email nơi khách hàng của bạn gửi cho bạn vé hỗ trợ",
           "PLACEHOLDER": "Email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Tạo kênh Email",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Chúng tôi không thể lưu kênh email"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Bắt đầu chuyển tiếp email của bạn tới địa chỉ email sau."
       },
       "AUTH": {
-        "TITLE": "Channels",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "TITLE": "Kênh",
+        "DESC": "Hiện tại, chúng tôi hỗ trợ các tiện ích trò chuyện trực tiếp trên Trang web, Trang Facebook và hồ sơ Twitter làm nền tảng. Chúng tôi có nhiều nền tảng hơn như Whatsapp, Email, Telegram và Line đang hoạt động, sẽ sớm ra mắt."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+        "TITLE": "Nhà Cung Cấp",
+        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo."
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Chi tiết Hộp thư đến",
+        "DESC": "Từ menu thả xuống bên dưới, chọn Trang Facebook bạn muốn kết nối với Chatwoot. Bạn cũng có thể đặt tên tùy chỉnh cho hộp thư đến của mình để nhận dạng tốt hơn."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Xác thực bạn bằng Facebook...",
+      "ERROR_FB_AUTH": "Đã xảy ra sự cố, Vui lòng làm mới trang...",
+      "CREATING_CHANNEL": "Tạo Hộp thư đến của bạn...",
+      "TITLE": "Cấu hình chi tiết hộp thư đến",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Thêm các nhà cung cấp",
+      "ADD_AGENTS": "Thêm các nhà cung cấp vào hộp thư đến của bạn..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "Hộp thư đến của bạn đã sẵn sàng!",
+      "MESSAGE": "Giờ đây, bạn có thể tương tác với khách hàng thông qua Kênh mới của mình. Chúc vui vẻ ủng hộ ",
+      "BUTTON_TEXT": "Đưa cho tôi",
+      "WEBSITE_SUCCESS": "Bạn đã hoàn thành việc tạo kênh trang web thành công. Sao chép mã được hiển thị bên dưới và dán vào trang web của bạn. Lần tới khi khách hàng sử dụng cuộc trò chuyện trực tiếp, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Ủy quyền lại",
+    "VIEW": "Xem",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "Đã cập nhật cài đặt hộp thư đến thành công",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Đã cập nhật thành công bài tập tự động",
+        "ERROR_MESSAGE": "Không thể cập nhật màu tiện ích. Vui lòng thử lại sau."
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Bật",
+        "DISABLED": "Không bật"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Xoá",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có muốn xoá? ",
+        "YES": "Có, Xoá ",
+        "NO": "Không, Giữ "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "SUCCESS_MESSAGE": "Hộp thư đến đã được xóa thành công",
+        "ERROR_MESSAGE": "Không thể xóa hộp thư đến. Vui lòng thử lại sau."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "SETTINGS": "Cài đặt",
+      "COLLABORATORS": "Cộng tác viên",
+      "CONFIGURATION": "Cấu hình"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Cài đặt",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Các tính năng",
+      "DISPLAY_FILE_PICKER": "Hiển thị bộ chọn tệp trên tiện ích con",
+      "DISPLAY_EMOJI_PICKER": "Hiển thị bộ chọn biểu tượng cảm xúc trên tiện ích con"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "MESSENGER_HEADING": "Tập lệnh Messenger",
+      "MESSENGER_SUB_HEAD": "Đặt nút này bên trong thẻ body của bạn",
+      "INBOX_AGENTS": "Nhà cung cấp",
+      "INBOX_AGENTS_SUB_TEXT": "Thêm hoặc xóa tác nhân khỏi hộp thư đến này",
+      "UPDATE": "Cập nhật",
+      "AUTO_ASSIGNMENT": "Bật tự động chuyển nhượng",
+      "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
+      "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này."
     }
   }
 }

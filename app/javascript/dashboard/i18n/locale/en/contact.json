@@ -32,7 +32,9 @@
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
     "MUTE_CONTACT": "Mute Conversation",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Edit"
   },

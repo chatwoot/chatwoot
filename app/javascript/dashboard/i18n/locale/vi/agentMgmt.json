@@ -1,92 +1,92 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Nhà cung cấp",
+    "HEADER_BTN_TXT": "Thêm nhà cung cấp / đại lý",
+    "LOADING": "Tải danh sách nhà cung cấp",
+    "SIDEBAR_TXT": "<p><b>Nhà cung cấp</b></p> <p> Một <b>nhà cung cấp</b> là thành viên của nhóm Hỗ trợ khách hàng của bạn. </p><p> Nhà cung cấp sẽ có thể xem và trả lời tin nhắn từ người dùng của bạn. Danh sách hiển thị tất cả các đại lý hiện có trong tài khoản của bạn. </p><p> Click vào <b>Thêm nhà cung cấp</b> để thêm mới nhà cung cấp. Nhà cung cấp mà bạn thêm sẽ nhận được email với liên kết xác nhận để kích hoạt tài khoản của họ, sau đó họ có thể truy cập Chatwoot và trả lời tin nhắn. </p><p> Quyền truy cập vào các tính năng của Chatwoot dựa trên các vai trò sau. </p><p> <b>Nhà cung cấp</b> - Nhà cung cấp có vai trò này chỉ có thể truy cập hộp thư đến, báo cáo và cuộc hội thoại. Họ có thể chỉ định các cuộc trò chuyện cho các đại lý khác hoặc chính họ và giải quyết các cuộc trò chuyện.</p><p> <b>Administrator</b> - Quản trị viên sẽ có quyền truy cập vào tất cả các tính năng Chatwoot được kích hoạt cho tài khoản của bạn, bao gồm cài đặt, cùng với tất cả các đặc quyền của một đại lý bình thường.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Quản trị viên",
+      "AGENT": "Nhà cung cấp"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
+      "404": "Không có tác nhân nào được liên kết với tài khoản này",
+      "TITLE": "Quản lý các đại lý trong nhóm của bạn",
+      "DESC": "Bạn có thể thêm / bớt đại lý vào / trong nhóm của mình.",
+      "NAME": "Tên",
       "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "STATUS": "Trạng thái",
+      "ACTIONS": "Hành động",
+      "VERIFIED": "Đã xác minh",
+      "VERIFICATION_PENDING": "Đang chờ xác minh"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Thêm đại lý vào nhóm của bạn",
+      "DESC": "Bạn có thể thêm những người có thể xử lý hỗ trợ cho hộp thư đến của bạn.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Tên nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Loại nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng chọn loại",
+          "ERROR": "Loại nhà cung cấp là bắt buộc"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Email",
+          "PLACEHOLDER": "Vui lòng nhập email"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Thêm nhà cung cấp"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Nhà cung cấp được thêm thành công",
+        "EXIST_MESSAGE": "Email đã được sử dung, vui lòng chọn email khác.",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Nhà cung cấp được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Chỉnh sửa nhà cung cấp",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Tên nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng nhập tên nhà cung cấp"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "Loại nhà cung cấp",
+          "PLACEHOLDER": "Vui lòng chọn loại",
+          "ERROR": "Loại nhà cung cấp là bắt buộc"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "Emails",
+          "PLACEHOLDER": "Vui lòng nhập email"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Chỉnh sửa nhà cung cấp"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Chỉnh sửa",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Nhà cung cấp được cập nhật thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Đặt lại mật khẩu",
+        "ADMIN_SUCCESS_MESSAGE": "Một email với hướng dẫn đặt lại mật khẩu đã được gửi đến đại lý",
+        "SUCCESS_MESSAGE": "Đặt lại mật khẩu đại lý thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
     "SEARCH": {
