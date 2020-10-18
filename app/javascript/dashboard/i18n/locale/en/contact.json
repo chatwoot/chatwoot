@@ -5,6 +5,7 @@
     "PHONE_NUMBER": "Phone number",
     "COMPANY": "Company",
     "LOCATION": "Location",
+    "COPY_BUTTON_TEXT":"Copy",
     "CONVERSATION_TITLE": "Conversation Details",
     "BROWSER": "Browser",
     "OS": "Operating System",
