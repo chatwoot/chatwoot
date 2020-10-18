@@ -52,18 +52,18 @@
 </template>
 
 <script>
-/* global bus */
-/* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
     WootSubmitButton,
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -74,15 +74,13 @@ export default {
     return {
       shortCode: '',
       content: '',
-      agentType: '',
+
       vertical: 'bottom',
       horizontal: 'center',
       addCanned: {
-        showAlert: false,
         showLoading: false,
         message: '',
       },
-      agentTypeList: this.$t('CANNED_MGMT.AGENT_TYPES'),
       show: true,
     };
   },
@@ -94,19 +92,8 @@ export default {
     content: {
       required,
     },
-    agentType: {
-      required,
-    },
   },
-
   methods: {
-    setPageName({ name }) {
-      this.$v.agentType.$touch();
-      this.agentType = name;
-    },
-    showAlert() {
-      bus.$emit('newToastMessage', this.addCanned.message);
-    },
     resetForm() {
       this.shortCode = '';
       this.content = '';
@@ -125,17 +112,13 @@ export default {
         .then(() => {
           // Reset Form, Show success message
           this.addCanned.showLoading = false;
-          this.addCanned.message = this.$t(
-            'CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'
-          );
-          this.showAlert();
+          this.showAlert(this.$t('CANNED_MGMT.ADD.API.SUCCESS_MESSAGE'));
           this.resetForm();
           this.onClose();
         })
         .catch(() => {
           this.addCanned.showLoading = false;
-          this.addCanned.message = this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE');
-          this.showAlert();
+          this.showAlert(this.$t('CANNED_MGMT.ADD.API.ERROR_MESSAGE'));
         });
     },
   },

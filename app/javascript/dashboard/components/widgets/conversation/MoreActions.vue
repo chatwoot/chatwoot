@@ -22,6 +22,15 @@
       >
         <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
       </button>
+
+      <button
+        v-else
+        class="button small clear row alert small-6 action--button"
+        @click="unmute"
+      >
+        <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
+      </button>
+
       <button
         class="button small clear row small-6 action--button"
         @click="toggleEmailActionsModal"
@@ -65,6 +74,11 @@ export default {
     mute() {
       this.$store.dispatch('muteConversation', this.currentChat.id);
       this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
+      this.toggleConversationActions();
+    },
+    unmute() {
+      this.$store.dispatch('unmuteConversation', this.currentChat.id);
+      this.showAlert(this.$t('CONTACT_PANEL.UNMUTED_SUCCESS'));
       this.toggleConversationActions();
     },
     toggleEmailActionsModal() {
@@ -129,6 +143,7 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
+  white-space: nowrap;
   padding: var(--space-small) var(--space-smaller);
   font-size: var(--font-size-small);
 

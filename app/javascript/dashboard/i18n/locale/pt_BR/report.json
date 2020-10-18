@@ -3,38 +3,32 @@
     "HEADER": "Relatórios",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Conversas",
-        "KEY": "conversations_count",
         "DESC": "( Total )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Mensagens Recebidas",
-        "KEY": "incoming_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Mensagens enviadas",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Primeira resposta",
-        "KEY": "avg_first_response_time",
         "DESC": "(Média)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Tempo de resolução",
-        "KEY": "avg_resolution_time",
         "DESC": "(Média)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Qtde de resolução",
-        "KEY": "resolutions_count",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
