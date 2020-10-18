@@ -2,16 +2,21 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   protect_from_forgery with: :null_session
 
   before_action :check_authorization
+  before_action :set_current_page, only: [:index, :active]
   before_action :fetch_contact, only: [:show, :update]
 
   def index
-    @contacts = Current.account.contacts.where.not(email: [nil, ''], phone_number: [nil, '']).page(params[:page])
+    contacts = Current.account.contacts.where.not(email: [nil, ''], phone_number: [nil, ''])
+    @contacts_count = contacts.count
+    @contacts = contacts.page(@current_page)
   end
 
   # returns online contacts
   def active
-    @contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
+    contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
                   .get_available_contact_ids(Current.account.id))
+    @contacts_count = contacts.count
+    @contacts = contacts.page(@current_page)
   end
 
   def show; end
@@ -43,6 +48,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def check_authorization
     authorize(Contact)
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 
   def build_contact_inbox
