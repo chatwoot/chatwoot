@@ -7,8 +7,8 @@
         :src="avatarUrl"
         alt="avatar"
       />
-      <div class="text-black-700">
-        <div class="font-medium text-base flex items-center">
+      <div>
+        <div class="text-black-900 font-medium text-base flex items-center">
           <span class="mr-1" v-html="title" />
           <div
             :class="
@@ -18,7 +18,7 @@
             "
           />
         </div>
-        <div class="text-xs leading-5">
+        <div class="text-xs mt-1 text-black-700">
           {{ replyTimeStatus }}
         </div>
       </div>

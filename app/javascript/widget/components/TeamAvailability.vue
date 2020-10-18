@@ -1,11 +1,11 @@
 <template>
   <div class="px-4">
     <div class="flex items-center justify-between mb-4">
-      <div>
-        <div class="text-base leading-5 text-black-900 font-medium mb-1">
+      <div class="text-black-700">
+        <div class="text-base leading-5 font-medium mb-1">
           {{ teamAvailabilityStatus }}
         </div>
-        <div class="text-xs leading-4 mt-1 text-black-500">
+        <div class="text-xs leading-4 mt-1">
           {{ replyTimeStatus }}
         </div>
       </div>
