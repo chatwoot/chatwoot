@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2020_10_11_152227) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -178,6 +179,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.string "welcome_title"
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 3, null: false
+    t.integer "reply_time", default: 0
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
