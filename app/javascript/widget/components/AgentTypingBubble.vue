@@ -25,8 +25,8 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .typing-bubble {
-  max-width: $space-medium;
-  padding: $space-smaller $space-small;
+  max-width: $space-normal * 2.4;
+  padding: $space-small;
   border-bottom-left-radius: $space-two;
   border-top-left-radius: $space-small;
 
