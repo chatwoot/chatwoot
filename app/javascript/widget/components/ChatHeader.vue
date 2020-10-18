@@ -1,8 +1,18 @@
 <template>
   <header class="header-collapsed">
     <div class="header-branding">
-      <img v-if="avatarUrl" :src="avatarUrl" alt="avatar" />
-      <h2 class="title" v-html="title"></h2>
+      <img
+        v-if="avatarUrl"
+        class="inbox--avatar mr-3"
+        :src="avatarUrl"
+        alt="avatar"
+      />
+      <div class="text-black-700">
+        <div class="font-medium text-base" v-html="title" />
+        <div class="text-xs leading-4 mt-1">
+          {{ `${teamAvailabilityStatus}. ${replyTimeStatus}` }}
+        </div>
+      </div>
     </div>
     <header-actions :show-popout-button="showPopoutButton" />
   </header>
@@ -11,11 +21,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions';
+import configMixin from 'widget/mixins/configMixin';
+import teamAvailabilityMixin from 'widget/mixins/teamAvailabilityMixin';
+
 export default {
   name: 'ChatHeader',
   components: {
     HeaderActions,
   },
+  mixins: [configMixin, teamAvailabilityMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -28,6 +42,10 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+    availableAgents: {
+      type: Array,
+      default: () => {},
     },
   },
   computed: {
@@ -61,15 +79,12 @@ export default {
   }
 
   .title {
-    font-size: $font-size-large;
     font-weight: $font-weight-medium;
-    color: $color-heading;
   }
 
-  img {
-    height: 24px;
-    width: 24px;
-    margin-right: $space-small;
+  .inbox--avatar {
+    height: 32px;
+    width: 32px;
   }
 }
 </style>

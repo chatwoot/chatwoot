@@ -8,12 +8,12 @@
   <div v-else class="home">
     <div class="header-wrap">
       <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-out"
+        enter-active-class="transition-all delay-200 duration-300 ease"
         leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform -translate-y-16"
+        enter-class="opacity-0 transform -translate-y-32"
         enter-to-class="opacity-100 transform translate-y-0"
         leave-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform -translate-y-16"
+        leave-to-class="opacity-0 transform -translate-y-32"
       >
         <chat-header-expanded
           v-if="!isOnMessageView"
@@ -22,45 +22,28 @@
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="showPopoutButton"
         />
-      </transition>
-      <transition
-        enter-active-class="transition-all delay-200 duration-300 ease-out"
-        leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform -translate-y-16"
-        enter-to-class="opacity-100 transform translate-y-0"
-        leave-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform -translate-y-16"
-      >
         <chat-header
           v-if="isOnMessageView"
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="showPopoutButton"
+          :available-agents="availableAgents"
         />
       </transition>
     </div>
     <conversation-wrap :grouped-messages="groupedMessages" />
     <div class="footer-wrap">
       <transition
-        enter-active-class="transition-all delay-300 duration-300 ease-out"
+        enter-active-class="transition-all delay-300 duration-300 ease"
         leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform translate-y-16"
+        enter-class="opacity-0 transform translate-y-32"
         enter-to-class="opacity-100 transform translate-y-0"
         leave-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform translate-y-16"
+        leave-to-class="opacity-0 transform translate-y-32 "
       >
         <div v-if="showInputTextArea && isOnMessageView" class="input-wrap">
           <chat-footer />
         </div>
-      </transition>
-      <transition
-        enter-active-class="transition-all delay-300 duration-300 ease-out"
-        leave-active-class="transition-all duration-200 ease-in"
-        enter-class="opacity-0 transform translate-y-16"
-        enter-to-class="opacity-100 transform translate-y-0"
-        leave-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform translate-y-16"
-      >
         <team-availability
           v-if="!isOnMessageView"
           :available-agents="availableAgents"
@@ -115,10 +98,6 @@ export default {
     conversationAttributes: {
       type: Object,
       default: () => {},
-    },
-    unreadMessageCount: {
-      type: Number,
-      default: 0,
     },
     showPopoutButton: {
       type: Boolean,

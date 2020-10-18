@@ -28,6 +28,7 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import WootButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
+import teamAvailabilityMixin from 'widget/mixins/teamAvailabilityMixin';
 
 export default {
   name: 'TeamAvailability',
@@ -35,7 +36,7 @@ export default {
     AvailableAgents,
     WootButton,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, teamAvailabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -43,17 +44,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
-    },
-    teamAvailabilityStatus() {
-      if (this.availableAgents.length) {
-        return this.$t('TEAM_AVAILABILITY.ONLINE');
-      }
-      return this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
   methods: {
