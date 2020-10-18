@@ -2,16 +2,17 @@
   <div class="px-4">
     <div class="flex items-center justify-between mb-4">
       <div>
-        <div class="text-base leading-5 text-black-700 font-medium mb-1">
+        <div class="text-base leading-5 text-black-900 font-medium mb-1">
           {{ teamAvailabilityStatus }}
         </div>
-        <div class="text-xs leading-4 text-black-700">
+        <div class="text-xs leading-4 mt-1 text-black-500">
           {{ replyTimeStatus }}
         </div>
       </div>
       <available-agents :agents="availableAgents" />
     </div>
     <woot-button
+      class="font-medium"
       block
       :bg-color="widgetColor"
       :text-color="textColor"

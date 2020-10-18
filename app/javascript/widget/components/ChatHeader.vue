@@ -8,9 +8,18 @@
         alt="avatar"
       />
       <div class="text-black-700">
-        <div class="font-medium text-base" v-html="title" />
-        <div class="text-xs leading-4 mt-1">
-          {{ `${teamAvailabilityStatus}. ${replyTimeStatus}` }}
+        <div class="font-medium text-base flex items-center">
+          <span class="mr-1" v-html="title" />
+          <div
+            :class="
+              `status-view--badge rounded-full leading-4 ${
+                availableAgents.length ? 'bg-green-500' : 'hidden'
+              }`
+            "
+          />
+        </div>
+        <div class="text-xs leading-5">
+          {{ replyTimeStatus }}
         </div>
       </div>
     </div>
@@ -86,5 +95,10 @@ export default {
     height: 32px;
     width: 32px;
   }
+}
+
+.status-view--badge {
+  height: $space-small;
+  width: $space-small;
 }
 </style>
