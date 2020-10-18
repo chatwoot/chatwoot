@@ -19,7 +19,7 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_greeting?
-    first_message_from_contact? && conversation.inbox.greeting_enabled?
+    first_message_from_contact? && conversation.inbox.greeting_enabled? && conversation.inbox.greeting_message.present?
   end
 
   def email_collect_was_sent?

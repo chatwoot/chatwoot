@@ -22,7 +22,7 @@ export default {
     },
     minHeight: {
       type: Number,
-      default: 3.2,
+      default: 2,
     },
   },
   watch: {
