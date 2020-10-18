@@ -6,6 +6,7 @@
 #
 #  id                     :integer          not null, primary key
 #  channel_type           :string
+#  email_address          :string
 #  enable_auto_assignment :boolean          default(TRUE)
 #  greeting_enabled       :boolean          default(FALSE)
 #  greeting_message       :string

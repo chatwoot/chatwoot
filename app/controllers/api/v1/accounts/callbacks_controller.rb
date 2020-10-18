@@ -81,7 +81,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
 
     avatar_resource = LocalResource.new(uri)
     facebook_inbox.avatar.attach(io: avatar_resource.file, filename: avatar_resource.tmp_filename, content_type: avatar_resource.encoding)
-  rescue Errno::ETIMEDOUT, Errno::ECONNREFUSED, SocketError => e
+  rescue *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "invalid url #{file_url} : #{e.message}"
   end
 

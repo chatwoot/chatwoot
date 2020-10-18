@@ -4,11 +4,11 @@
     "HEADER_BTN_TXT": "Añadir etiqueta",
     "LOADING": "Obteniendo etiquetas",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>Las etiquetas le ayudan a categorizar las conversaciones y priorizarlas. Puede asignar la etiqueta a una conversación desde el panel latera. <br /><br />Las etiquetas están vinculadas a la cuenta y pueden utilizarse para crear flujos de trabajo personalizados en su organización. Puede asignar un color personalizado a una etiqueta, hace más fácil identificarla. Podrás mostrar la etiqueta en la barra lateral para filtrar las conversaciones fácilmente.</p>",
+    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>Las etiquetas le ayudan a categorizar las conversaciones y priorizarlas. Puede asignar la etiqueta a una conversación desde el panel lateral. <br /><br />Las etiquetas están vinculadas a la cuenta y pueden utilizarse para crear flujos de trabajo personalizados en su organización. Puede asignar un color personalizado a una etiqueta, hace más fácil identificarla. Podrá mostrar la etiqueta en la barra lateral para filtrar las conversaciones fácilmente.</p>",
     "LIST": {
       "404": "No hay etiquetas disponibles en esta cuenta.",
       "TITLE": "Gestionar etiquetas",
-      "DESC": "Las etiquetas le permiten agrupar las conversaciones.",
+      "DESC": "Las etiquetas permiten agrupar las conversaciones.",
       "TABLE_HEADER": [
         "Nombre",
         "Descripción",
@@ -17,8 +17,8 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nombre de etiqueta",
-        "PLACEHOLDER": "Nombre de etiqueta",
+        "LABEL": "Nombre de la etiqueta",
+        "PLACEHOLDER": "Nombre de la etiqueta",
         "ERROR": "Nombre de la etiqueta es obligatorio"
       },
       "DESCRIPTION": {
@@ -38,24 +38,24 @@
     },
     "ADD": {
       "TITLE": "Añadir etiqueta",
-      "DESC": "Las etiquetas le permiten agrupar las conversaciones.",
+      "DESC": "Las etiquetas permiten agrupar las conversaciones.",
       "API": {
         "SUCCESS_MESSAGE": "Etiqueta añadida correctamente",
-        "ERROR_MESSAGE": "Hubo un error, por favor inténtalo de nuevo"
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
       }
     },
     "EDIT": {
       "TITLE": "Editar etiqueta",
       "API": {
         "SUCCESS_MESSAGE": "Etiqueta actualizada correctamente",
-        "ERROR_MESSAGE": "Hubo un error, por favor inténtalo de nuevo"
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Etiqueta actualizada correctamente",
-        "ERROR_MESSAGE": "Hubo un error, por favor inténtalo de nuevo"
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
       },
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
