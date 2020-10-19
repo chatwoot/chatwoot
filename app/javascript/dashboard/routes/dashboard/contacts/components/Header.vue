@@ -1,10 +1,11 @@
 <template>
   <header class="header">
-    <h1 class="page-title">
-      {{ $t('CONTACTS_PAGE.HEADER') }}
-    </h1>
     <div class="table-actions-wrap">
-      <div class="left-aligned-wrap"></div>
+      <div class="left-aligned-wrap">
+        <h1 class="page-title">
+          {{ $t('CONTACTS_PAGE.HEADER') }}
+        </h1>
+      </div>
       <div class="right-aligned-wrap">
         <div class="search-wrap">
           <i class="ion-ios-search-strong search-icon" />
@@ -56,7 +57,7 @@ export default {
 /* TODO-REM; Change variables sizing to rem after html font size change from 1.0 t0 1.6 */
 
 .header {
-  margin-left: var(--space-normal);
+  padding: 0 var(--space-medium);
 }
 .page-title {
   margin: 0;
@@ -65,8 +66,7 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: var(--space-slab);
-  padding: 0 var(--space-large) var(--space-slab);
+  margin-bottom: var(--space-slab);
 }
 .search-wrap {
   width: 400px;
@@ -86,7 +86,7 @@ export default {
   }
   .contact-search {
     margin: 0;
-    height: 4rem;
+    height: 3.6rem;
     width: 100%;
     padding-left: var(--space-large);
     padding-right: 6rem;
@@ -96,7 +96,7 @@ export default {
     margin-left: var(--space-small);
     height: 3.2rem;
     top: var(--space-micro);
-    right: var(--space-smaller);
+    right: var(--space-micro);
     position: absolute;
     padding: 0 var(--space-small);
     transition: transform 100ms linear;

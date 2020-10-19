@@ -9,20 +9,36 @@
     </div>
     <div class="right-aligned-wrap">
       <div class="primary button-group pagination-button-group">
-        <button class="button small goto-first">
+        <button
+          class="button small goto-first"
+          :class="firstPageButtonClass"
+          @click="onFirstPage"
+        >
           <i class="ion-chevron-left" />
           <i class="ion-chevron-left" />
         </button>
-        <button class="button small">
+        <button
+          class="button small"
+          :class="prevPageButtonClass"
+          @click="onPageChange"
+        >
           <i class="ion-chevron-left" />
         </button>
-        <button class="button">
+        <button class="button" @click.prevent>
           {{ currentPage }}
         </button>
-        <button class="button small">
+        <button
+          class="button small"
+          :class="nextPageButtonClass"
+          @click="onNextPage"
+        >
           <i class="ion-chevron-right" />
         </button>
-        <button class="button small goto-last">
+        <button
+          class="button small goto-last"
+          :class="lastPageButtonClass"
+          @click="onLastPage"
+        >
           <i class="ion-chevron-right" />
           <i class="ion-chevron-right" />
         </button>
@@ -35,14 +51,6 @@
 export default {
   components: {},
   props: {
-    firstIndex: {
-      type: Number,
-      default: 1,
-    },
-    lastIndex: {
-      type: Number,
-      default: 20,
-    },
     currentPage: {
       type: Number,
       default: 1,
@@ -55,10 +63,72 @@ export default {
       type: Number,
       default: 0,
     },
+    onPageChange: {
+      type: Function,
+      default: () => {},
+    },
   },
   computed: {
+    firstIndex() {
+      const firstIndex = this.pageSize * (this.currentPage - 1) + 1;
+      return firstIndex;
+    },
+    lastIndex() {
+      const index =
+        (this.totalCount % this.pageSize) +
+        this.pageSize * (this.currentPage - 1);
+      return index;
+    },
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
+    },
+    lastPageButtonClass() {
+      const isDisabled =
+        this.currentPage === Math.ceil(this.totalCount / this.pageSize);
+      const className = isDisabled ? 'disabled' : '';
+      return className;
+    },
+    firstPageButtonClass() {
+      const isDisabled = this.currentPage === 1;
+      const className = isDisabled ? 'disabled' : '';
+      return className;
+    },
+    nextPageButtonClass() {
+      const isDisabled =
+        this.currentPage === Math.ceil(this.totalCount / this.pageSize);
+      const className = isDisabled ? 'disabled' : '';
+      return className;
+    },
+    prevPageButtonClass() {
+      const isDisabled = this.currentPage === 1;
+      const className = isDisabled ? 'disabled' : '';
+      return className;
+    },
+  },
+  methods: {
+    onNextPage() {
+      if (this.nextPageButtonClass.includes('disabled')) return;
+
+      const newPage = this.currentPage + 1;
+      this.onPageChange(newPage);
+    },
+    onPrevPage() {
+      if (this.prevPageButtonClass.includes('disabled')) return;
+
+      const newPage = this.currentPage + 1;
+      this.onPageChange(newPage);
+    },
+    onFirstPage() {
+      if (this.firstPageButtonClass.includes('disabled')) return;
+
+      const newPage = 1;
+      this.onPageChange(newPage);
+    },
+    onLastPage() {
+      if (this.lastPageButtonClass.includes('disabled')) return;
+
+      const newPage = Math.ceil(this.totalCount / this.pageSize);
+      this.onPageChange(newPage);
     },
   },
 };
@@ -88,7 +158,9 @@ export default {
     font-size: var(--font-size-small);
     padding: var(--space-small) var(--space-normal);
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:active {
       background: var(--b-400);
       color: white;
     }
@@ -103,6 +175,10 @@ export default {
     }
     &.small {
       font-size: var(--font-size-micro);
+    }
+    &.disabled {
+      background: var(--b-300);
+      color: var(--b-900);
     }
 
     &.goto-first,

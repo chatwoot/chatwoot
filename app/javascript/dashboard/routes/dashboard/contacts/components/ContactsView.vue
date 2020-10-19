@@ -5,8 +5,15 @@
       :on-search-submit="onSearchSubmit"
       :on-input-search="onInputSearch"
     />
-    <contacts :contacts="records" />
-    <contacts-footer />
+    <contacts
+      :contacts="records"
+      :show-search-empty-state="showEmptySearchResult"
+    />
+    <contacts-footer
+      :on-page-change="onPageChange"
+      :current-page="currentPage"
+      :total-count="records.length"
+    />
   </div>
 </template>
 
@@ -26,6 +33,7 @@ export default {
   data() {
     return {
       searchQuery: '',
+      currentPage: 1,
     };
   },
   computed: {
@@ -33,16 +41,29 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
     }),
+    showEmptySearchResult() {
+      const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
+      return hasEmptyResults;
+    },
   },
   mounted() {
     this.$store.dispatch('contacts/get');
   },
   methods: {
     onInputSearch(event) {
+      const newQuery = event.target.value;
+      const refetchAllContacts = !!this.searchQuery && newQuery === '';
+
+      if (refetchAllContacts) {
+        this.$store.dispatch('contacts/get');
+      }
       this.searchQuery = event.target.value;
     },
     onSearchSubmit() {
       this.$store.dispatch('contacts/search', { search: this.searchQuery });
+    },
+    onPageChange(page) {
+      this.currentPage = page;
     },
   },
 };

@@ -11,13 +11,13 @@
         </th>
         <th><i class="ion-chevron-down" /></th>
       </thead>
-      <tbody>
+      <tbody v-show="!showSearchEmptyState">
         <tr v-for="contactItem in contacts" :key="contactItem.id">
-          <td>
+          <!-- <td>
             <div class="item-selector-wrap">
               <input type="checkbox" />
             </div>
-          </td>
+          </td> -->
           <td>
             <div class="row-main-info">
               <thumbnail
@@ -45,20 +45,30 @@
         </tr>
       </tbody>
     </table>
+    <empty-state
+      v-if="showSearchEmptyState"
+      title="No contacts matches your search 🔍"
+    />
   </section>
 </template>
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 
 export default {
   components: {
     Thumbnail,
+    EmptyState,
   },
   props: {
     contacts: {
       type: Array,
       default: () => [],
+    },
+    showSearchEmptyState: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -101,14 +111,17 @@ export default {
     background: white;
 
     > th:first-child {
-      width: var(--space-large);
+      /* width: var(--space-large); */
+      padding-left: var(--space-medium);
     }
   }
 
   > tbody {
     > tr > td {
-      padding: var(--space-small) var(--space-small);
-      &:first-child .item-selector-wrap {
+      padding: var(--space-small);
+      padding-left: var(--space-medium);
+
+      /* &:first-child .item-selector-wrap {
         width: var(--space-large);
         display: flex;
         justify-content: center;
@@ -117,7 +130,7 @@ export default {
         > input {
           margin: 0;
         }
-      }
+      } */
     }
   }
   .row-main-info {
