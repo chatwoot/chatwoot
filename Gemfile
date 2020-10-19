@@ -92,7 +92,9 @@ gem 'webpush'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
-gem  'geocoder'
+gem 'geocoder'
+# to parse maxmind db
+gem 'maxminddb'
 
 group :development do
   gem 'annotate'

@@ -16,6 +16,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*.mmdb
 
 # Ignore Byebug command history file.
 .byebug_history

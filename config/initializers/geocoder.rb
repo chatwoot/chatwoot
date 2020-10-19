@@ -1,6 +1,3 @@
-# TODO : implement environment variable to change the config
-
-Geocoder.configure
 # Geocoding options
 # timeout: 3,                 # geocoding service timeout (secs)
 # lookup: :nominatim,         # name of geocoding service (symbol)
@@ -21,3 +18,15 @@ Geocoder.configure
 # Calculation options
 # units: :mi,                 # :km for kilometers or :mi for miles
 # distances: :linear          # :spherical or :linear
+
+module GeocoderConfiguration
+  LOOK_UP_DB = Rails.root.join('vendor/db/GeoLiteCity.mmdb')
+end
+
+if ENV['IP_LOOKUP_SERVICE'].present?
+  if ENV['IP_LOOKUP_SERVICE'] == 'geoip2'
+    Geocoder.configure(ip_lookup: :geoip2, geoip2: { file: GeocoderConfiguration::LOOK_UP_DB })
+  else
+    Geocoder.configure(ip_lookup: ENV['IP_LOOKUP_SERVICE'].to_sym, api_key: ENV['IP_LOOKUP_API_KEY'])
+  end
+end
