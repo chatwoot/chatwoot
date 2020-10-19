@@ -7,7 +7,14 @@
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
 
-      <span v-if="showCopy" class="copy-icon ion-clipboard" @click="onCopy" />
+      <button
+        v-if="showCopy"
+        type="submit"
+        class="button nice link hollow grey-btn"
+        @click="onCopy"
+      >
+        <i class="icon copy-icon ion-clipboard"></i>
+      </button>
     </a>
 
     <div v-else class="contact-info--details">
@@ -21,7 +28,9 @@
 </template>
 <script>
 import copy from 'copy-text-to-clipboard';
+import alertMixin from 'shared/mixins/alertMixin';
 export default {
+  mixins: [alertMixin],
   props: {
     href: {
       type: String,
@@ -44,7 +53,7 @@ export default {
     onCopy(e) {
       e.preventDefault();
       copy(this.value);
-      bus.$emit('newToastMessage', this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
   },
 };
@@ -66,7 +75,7 @@ export default {
   color: $color-body;
 
   .copy-icon {
-    margin-left: 1em;
+    margin-left: $space-one;
     &:hover {
       color: $color-woot;
     }
