@@ -511,24 +511,6 @@ ActiveRecord::Schema.define(version: 2020_10_19_173944) do
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
-  create_table "workflow_account_inbox_templates", force: :cascade do |t|
-    t.bigint "account_template_id", null: false
-    t.bigint "inbox_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_template_id"], name: "account_template_with_workflow_account_template_inbox"
-    t.index ["inbox_id"], name: "inbox_with_workflow_account_template_inbox"
-  end
-
-  create_table "workflow_account_templates", force: :cascade do |t|
-    t.string "template_id", null: false
-    t.bigint "account_id", null: false
-    t.jsonb "config", default: "{}", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_workflow_account_templates_on_account_id"
-  end
-
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
