@@ -43,6 +43,8 @@ en:
       failed: Signup failed
 
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"

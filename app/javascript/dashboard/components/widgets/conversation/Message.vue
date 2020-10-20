@@ -28,9 +28,13 @@
           :is-a-tweet="isATweet"
           :is-email="isEmailContentType"
           :is-private="data.private"
+          :is-deleted="
+            data.content_attributes && data.content_attributes.deleted
+          "
           :message-type="data.message_type"
           :readable-time="readableTime"
           :source-id="data.source_id"
+          :conversation-id="data.conversation_id"
         />
       </p>
 

@@ -149,6 +149,15 @@ const actions = {
     commit(types.default.ADD_MESSAGE, message);
   },
 
+  async destroyMessage({ commit }, { conversationId, messageId }) {
+    try {
+      const response = await MessageApi.destroy({ conversationId, messageId });
+      commit(types.default.ADD_MESSAGE, response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   addConversation({ commit, state, dispatch }, conversation) {
     const { currentInbox } = state;
     const {
