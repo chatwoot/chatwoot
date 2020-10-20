@@ -3,38 +3,32 @@
     "HEADER": "Reports",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "การสนทนา",
-        "KEY": "conversations_count",
         "DESC": "( Total )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Total )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "First response time",
-        "KEY": "avg_first_response_time",
         "DESC": "( Avg )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
         "DESC": "( Avg )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

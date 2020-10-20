@@ -3,38 +3,32 @@
     "HEADER": "Rapoarte",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Conversații",
-        "KEY": "numar conversații",
         "DESC": "( Total )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Mesaje primite",
-        "KEY": "numărul_mesajelor_intrate",
         "DESC": "( Total )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Mesaje trimise",
-        "KEY": "numarul_mesajelor_iesite",
         "DESC": "( Total )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Primul răspuns",
-        "KEY": "media_primului_timp_de_raspuns",
         "DESC": "(Medie)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Timp Rezolutie",
-        "KEY": "timpul_mediu_rezolutie",
         "DESC": "(Medie)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Număr de rezoluții",
-        "KEY": "numar_rezolutii",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

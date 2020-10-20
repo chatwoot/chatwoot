@@ -1,48 +1,42 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
-        "NAME": "Conversations",
-        "KEY": "conversations_count",
-        "DESC": "( Total )"
+    "HEADER": "Báo cáo",
+    "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
+    "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Các cuộc trò chuyện",
+        "DESC": "( Tổng cộng )"
       },
-      {
-        "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
-        "DESC": "( Total )"
+      "INCOMING_MESSAGES": {
+        "NAME": "Tin nhắn nhận được",
+        "DESC": "( Tổng cộng )"
       },
-      {
-        "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
-        "DESC": "( Total )"
+      "OUTGOING_MESSAGES": {
+        "NAME": "Tin nhắn gửi đi",
+        "DESC": "( Tổng cộng )"
       },
-      {
-        "NAME": "First response time",
-        "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Thời gian phản hồi đầu tiên",
+        "DESC": "( Trung bình )"
       },
-      {
-        "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+      "RESOLUTION_TIME": {
+        "NAME": "Thời gian giải quyết",
+        "DESC": "( Trung bình )"
       },
-      {
-        "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
-        "DESC": "( Total )"
+      "RESOLUTION_COUNT": {
+        "NAME": "Số lượng giải quyết",
+        "DESC": "( Tổng cộng )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "7 ngày cuối"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "30 ngày cuối"
       }
     ]
   }

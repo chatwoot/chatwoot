@@ -8,7 +8,7 @@
       <div class="medium-12 columns text-center">
         <div class="website--code">
           <woot-code
-            v-if="currentInbox.website_token"
+            v-if="currentInbox.web_widget_script"
             :script="currentInbox.web_widget_script"
           >
           </woot-code>
@@ -75,7 +75,7 @@ export default {
         return this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.FINISH_MESSAGE');
       }
 
-      if (!this.currentInbox.website_token) {
+      if (!this.currentInbox.web_widget_script) {
         return this.$t('INBOX_MGMT.FINISH.MESSAGE');
       }
       return this.$t('INBOX_MGMT.FINISH.WEBSITE_SUCCESS');

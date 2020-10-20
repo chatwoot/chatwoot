@@ -23,6 +23,7 @@ import { IFrameHelper } from 'widget/helpers/utils';
 
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'App',
@@ -156,7 +157,8 @@ export default {
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'set-current-url') {
-          window.refererURL = message.refererURL;
+          window.referrerURL = message.referrerURL;
+          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, message.referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
