@@ -3,38 +3,32 @@
     "HEADER": "Raporty",
     "LOADING_CHART": "Ładowanie danych mapy...",
     "NO_ENOUGH_DATA": "Nie otrzymaliśmy wystarczającej ilości punktów danych, aby wygenerować raport, spróbuj ponownie później.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Rozmowy",
-        "KEY": "conversations_count",
         "DESC": "( łącznie )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Wiadomości przychodzące",
-        "KEY": "incoming_messages_count",
         "DESC": "( łącznie )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Wiadomości wychodzące",
-        "KEY": "outgoing_messages_count",
         "DESC": "( łącznie )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Czas pierwszej odpowiedzi",
-        "KEY": "avg_first_response_time",
         "DESC": "( Średnie )"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Czas rozdzielczości",
-        "KEY": "avg_resolution_time",
         "DESC": "( Średnie )"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Licznik rozdzielczości",
-        "KEY": "resolutions_count",
         "DESC": "( łącznie )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

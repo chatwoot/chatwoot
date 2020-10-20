@@ -32,7 +32,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
       contact_last_seen_at: contact_last_seen_at.to_i,
-      timestamp: created_at.to_i
+      timestamp: last_activity_at.to_i
     }
   end
 end

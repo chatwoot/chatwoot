@@ -11,7 +11,7 @@
       </h2>
     </div>
     <div class="row align-center">
-      <div class="medium-5 column">
+      <div class="medium-5 column small-12">
         <ul class="signup--features">
           <li><i class="ion-beer beer"></i>Unlimited inboxes</li>
           <li><i class="ion-stats-bars report"></i>Robust Reporting</li>
@@ -20,7 +20,7 @@
           <li><i class="ion-locked secure"></i>Enterprise level security</li>
         </ul>
       </div>
-      <div class="medium-5 column">
+      <div class="medium-5 column small-12">
         <form class="signup--box login-box " @submit.prevent="submit()">
           <div class="column log-in-form">
             <label :class="{ error: $v.credentials.name.$error }">
@@ -78,8 +78,6 @@
 </template>
 
 <script>
-/* global bus */
-
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';

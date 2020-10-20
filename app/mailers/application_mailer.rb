@@ -3,6 +3,7 @@ class ApplicationMailer < ActionMailer::Base
 
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   before_action { ensure_current_account(params.try(:[], :account)) }
+  around_action :switch_locale
   layout 'mailer/base'
   # Fetch template from Database if available
   # Order: Account Specific > Installation Specific > Fallback to file
@@ -51,12 +52,20 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def locale_from_account(account)
+    return unless account
+
     I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
   end
 
   def ensure_current_account(account)
     Current.account = account if account.present?
-    locale ||= locale_from_account(account) if account.present?
-    I18n.locale = locale || I18n.default_locale
+  end
+
+  def switch_locale(&action)
+    locale ||= locale_from_account(Current.account)
+    locale ||= I18n.default_locale
+    # ensure locale won't bleed into other requests
+    # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
+    I18n.with_locale(locale, &action)
   end
 end

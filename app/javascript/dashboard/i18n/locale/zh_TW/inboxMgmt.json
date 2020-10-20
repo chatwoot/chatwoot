@@ -1,238 +1,238 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "收件匣",
+    "SIDEBAR_TXT": "<p><b>收件匣</b></p> <p> 當您將網站或 Facebook 頁面連接到 Chatwoot 它被稱為一個 <b>收件匣</b>。 您可以在Chatwoot 帳戶中擁有無限的收件匣。 </p><p> 點擊 <b>建立收件匣</b> 連接網站或 Facebook 頁面。 </p><p> 在儀表板中 您可以在一個地方看到所有收件匣中的所有對話，並在“對話”選項卡下回覆。 </p><p> 您也可以通過點擊儀表板左側面板上的收件匣名稱看到該收件匣的對話。 </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "此帳戶没有收件匣。"
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "選擇頻道",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "選擇你想要與 Chatwoot 整合的提供商。"
       },
       {
-        "title": "Create Inbox",
+        "title": "新增收件匣",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "驗證您的帳戶並建立建立收件匣。"
       },
       {
-        "title": "Add Agents",
+        "title": "建立客服代理",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "將客服增加到建立的收件匣。"
       },
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "您已設定狀態為離開"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "注意: 通過登入，我們只能訪問您的頁面的消息。您的私人消息永遠不能被聊天室訪問。",
+        "CHOOSE_PAGE": "選擇頁面",
+        "CHOOSE_PLACEHOLDER": "從列表中選擇一個頁面",
+        "INBOX_NAME": "收件匣名稱",
+        "ADD_NAME": "為收件匣建立名稱",
+        "PICK_NAME": "選擇收件匣名稱",
+        "PICK_A_VALUE": "選擇一個數值"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "若要將您的 Twitter 個人資料建立為頻道，您需要通過點擊“使用 Twitter 登入”來驗證您的 Twitter 個人資料。 "
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "網站頻道",
+        "DESC": "為您的網站建立一個頻道並通過我們的網站小元件開始支持您的客户。",
+        "LOADING_MESSAGE": "建立網站支持頻道",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "頻道頭像"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+          "LABEL": "網站名稱",
+          "PLACEHOLDER": "輸入您的網站名稱 (e.g: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "網站域名",
+          "PLACEHOLDER": "輸入您的網站域名(e.g: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "歡迎標題：",
+          "PLACEHOLDER": "你好！"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "歡迎標籤行",
+          "PLACEHOLDER": "如有疑問，請聯繫我們"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "頻道問候消息",
+          "PLACEHOLDER": "Acme Inc 通常在幾小時内回覆。"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "開啟頻道問候功能",
+          "HELP_TEXT": "在用户開始對話時發送問候消息。",
+          "ENABLED": "已啟用",
+          "DISABLED": "已停用"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "視窗小元件顏色",
+          "PLACEHOLDER": "更新小元件中使用的元件顏色"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "建立收件匣"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Twilio SMS/Whatsapp 頻道",
+        "DESC": "整合 Twilio 並開始通過短信或Whatsap支持您的客户。",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "帳戶 SID",
+          "PLACEHOLDER": "請輸入您的 Twilio 帳戶 SID",
+          "ERROR": "此欄位是必填項目"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "頻道類型",
+          "ERROR": "請選擇您的頻道類型"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "身份驗證 token",
+          "PLACEHOLDER": "請輸入您的 Twilio 認證 token",
+          "ERROR": "此欄位是必填項目"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "頻道類型",
+          "PLACEHOLDER": "請輸入頻道名稱",
+          "ERROR": "此欄位是必填項目"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "電話號碼",
+          "PLACEHOLDER": "請輸入發送消息的電話號碼。",
+          "ERROR": "請輸入一個有效的值。電話號碼應該以`+`開始。"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "回呼地址",
+          "SUBTITLE": "您必須使用這裡提到的URL來配置 Twilio 中的回呼URL。"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "建立 Twilio 頻道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "我們無法驗證 Twilio 憑證，請重試"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API 頻道",
+        "DESC": "與 API 頻道互動，開始服務客戶。",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "頻道類型",
+          "PLACEHOLDER": "請輸入頻道名稱",
+          "ERROR": "此欄位是必填項目"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "Webhook 網址",
+          "SUBTITLE": "設定接收回呼事件的網址。",
+          "PLACEHOLDER": "Webhook 網址"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "建立 API 頻道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "我們無法保存 API 頻道"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "電子信箱頻道",
+        "DESC": "整合您的電子信箱收件匣",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "頻道類型",
+          "PLACEHOLDER": "請輸入頻道名稱",
+          "ERROR": "此欄位是必填項目"
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "向您的客户發送支援工單的電子信箱",
           "PLACEHOLDER": "Email"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "建立電子信箱頻道",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "我們無法儲存電子信箱頻道"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "開始將您的電子信箱轉發到以下電子信箱地址。"
       },
       "AUTH": {
-        "TITLE": "Channels",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "TITLE": "頻道",
+        "DESC": "目前我們支持網站線上聊天小元件、Facebook 頁面和 Twitter 配置文件作為平台。 我們在工作中擁有更多平台，如 Whatsapp、Email、Telegram 和 Line，這些平台將很快支援。"
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+        "TITLE": "客服代理們",
+        "DESC": "在這裡您可以建立代理來管理您新建立的收件匣。只有這些選定的代理才能訪問您的收件匣。 不屬於此收件匣的代理人在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "收件匣詳細資訊",
+        "DESC": "從下面的下拉菜單中選擇您想要連接到聊天室的 Facebook 頁面。 您也可以給您的收件匣提供一個自定義名稱以便更好地識別身份。"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "做得漂亮！",
+        "DESC": "您已成功地將您的 Facebook 頁面與 Chatwoot 整合。下次客户發送消息到您的頁面時，對話將自動出現在收件匣中。<br>我們還為您提供了一個小元件脚本，您可以輕鬆地建立到您的網站。 在您的網站上登入後， 客户可以在没有任何外部工具幫助的情况下，從您的網站向您發送消息，對話將會在這裡出現在 Chatwoot 上。<br>酷，對吧？好吧，我們很肯定 :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "在 Facebook 上認證你... ..",
+      "ERROR_FB_AUTH": "出錯了，請刷新頁面...",
+      "CREATING_CHANNEL": "建立您的收件匣...",
+      "TITLE": "配置收件匣詳情",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "建立客服代理",
+      "ADD_AGENTS": "正在向收件匣建立代理..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "您的收件匣已準備就緒！",
+      "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧 ",
+      "BUTTON_TEXT": "带我到這裡",
+      "WEBSITE_SUCCESS": "您已成功完成建立網站頻道。複製下面顯示的代碼並將其黏貼在您的網站上。 下次客户使用即時聊天時，對話將自動出現在您的收件匣中。"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "重新授權",
+    "VIEW": "查看",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "已成功更新收件匣設定",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動分配成功更新",
+        "ERROR_MESSAGE": "無法更新元件顏色。請稍後再試。"
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "已啟用",
+        "DISABLED": "已停用"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "刪除",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除吗？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "SUCCESS_MESSAGE": "收件匣刪除成功",
+        "ERROR_MESSAGE": "無法刪除收件匣。請稍後再試。"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "SETTINGS": "設定",
+      "COLLABORATORS": "客服人員",
+      "CONFIGURATION": "組態"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "設定",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "MESSENGER_HEADING": "Messenger 脚本",
+      "MESSENGER_SUB_HEAD": "將此按鈕放置在視窗標籤中",
+      "INBOX_AGENTS": "客服代理們",
+      "INBOX_AGENTS_SUB_TEXT": "建立或刪除此收件匣中的客服",
+      "UPDATE": "更新",
+      "AUTO_ASSIGNMENT": "啟用自動分配",
+      "INBOX_UPDATE_TITLE": "收件匣設定",
+      "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。"
     }
   }
 }

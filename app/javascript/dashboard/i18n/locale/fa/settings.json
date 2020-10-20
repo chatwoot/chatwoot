@@ -88,6 +88,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "عوض شدن",
     "CHANGE_ACCOUNTS": "سوییچ به یک حساب دیگر",
     "SELECTOR_SUBTITLE": "از لیست یکی از حساب‌ها را انتخاب کنید",
     "PROFILE_SETTINGS": "تنظیمات پروفایل",

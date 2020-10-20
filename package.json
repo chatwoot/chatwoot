@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -28,8 +28,10 @@
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
     "lodash.groupby": "^4.6.0",
+    "md5": "^2.3.0",
     "query-string": "5",
     "spinkit": "~1.2.5",
+    "tailwindcss": "^1.8.3",
     "tween.js": "~16.6.0",
     "url-loader": "^2.0.0",
     "v-tooltip": "~2.0.2",
