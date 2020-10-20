@@ -38,6 +38,10 @@
   &.round {
     border-radius: $space-larger;
   }
+
+  &.compact {
+    padding: 0;
+  }
 }
 
 .button--fixed-right-top {
