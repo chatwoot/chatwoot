@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "Thư mẫu phẩn hồi",
+    "HEADER_BTN_TXT": "Thêm thư mẫu phẩn hồi",
+    "LOADING": "Đang tải thư mẫu phẩn hồi",
+    "SEARCH_404": "Không có kết quả nào được tìm thấy",
+    "SIDEBAR_TXT": "<p><b>Thư mẫu phẩn hồi</b> </p><p> Thư mẫu phẩn hồi là các mẫu trả lời đã lưu có thể được sử dụng để nhanh chóng gửi trả lời cho một cuộc trò chuyện . </p><p> Để tạo một Thư mẫu phẩn hồi, chỉ cần click vào <b>Thêm Thư mẫu phẩn hồi</b>. Bạn cũng có thể xoá Thư mẫu phẩn hồi bởi button Xoá </p><p> Thư mẫu phẩn hồi được sử dụng với sự giúp đỡ của <b>Short Codes</b>. Nhân viên có thể truy cập câu trả lời soạn trước khi trò chuyện bằng cách nhập <b>'/'</b>. </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý thư mẫu phẩn hồi",
+      "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi trả lời cho vé.",
       "TABLE_HEADER": [
         "Short Code",
-        "Content",
-        "Actions"
+        "Nội dung",
+        "Hành động"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Thêm thư mẫu phẩn hồi",
+      "DESC": "Thư mẫu phẩn hồi là các mẫu trả lời đã lưu có thể được sử dụng để nhanh chóng gửi trả lời cho cuộc trò chuyện.",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "PLACEHOLDER": "Vui lòng nhập một shortcode",
+          "ERROR": "Short Code là bắt buộc"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Nội dung",
+          "PLACEHOLDER": "Vui lòng nhập nội dung",
+          "ERROR": "Nội dung là bắt buộc"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Gửi"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi được thêm thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Chỉnh sửa Thư mẫu phẩn hồi",
+      "CANCEL_BUTTON_TEXT": "Huỷ",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "PLACEHOLDER": "Vui lòng nhập shortcode",
+          "ERROR": "Short Code là bắt buộc"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "Nội dung",
+          "PLACEHOLDER": "Vui lòng nhập nội dung",
+          "ERROR": "Nội dung là bắt buộc"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "Gửi"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "Chỉnh sửa",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi cập nhật thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Thư mẫu phẩn hồi đã được xoá thành công",
+        "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Xác nhận xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
       }
     }
   }

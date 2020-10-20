@@ -1,102 +1,96 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
-    "AGENT_TYPES": [
-      {
-        "name": "administrator",
-        "label": "Administrator"
-      },
-      {
-        "name": "agent",
-        "label": "Agent"
-      }
-    ],
+    "HEADER": "客服代理們",
+    "HEADER_BTN_TXT": "建立客服代理",
+    "LOADING": "正在獲取客服代理列表",
+    "SIDEBAR_TXT": "<p><b>客服代理</b></p> <p> 客服代理 <b></b> 是您的客户支持團隊成員。 </p><p>客服 代理人將能夠查看和回覆您用户的消息。 列表顯示當前帳戶中的所有客服代理人。 </p><p> 點擊 <b>建立客服代理</b> 建立新客服代理人。 您建立的客服代理將收到一封含有確認連結的電子信箱來啟動他們的帳戶，然後他們可以訪問Chatwoot 並回覆消息。 </p><p> 聊天視窗的功能基于以下角色。 </p><p> <b>Agent</b> - 具有此角色的代理只能訪問收件匣、報表和會話。 他們可以將對話分配給其他客服代理人或自己，並解決會話。</p><p> <b>管理員</b> - 管理員將可以訪問您帳戶中所有已啟用的聊天功能。 包括設定，以及所有正常客服代理的权限。</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "管理員",
+      "AGENT": "客服代理"
+    },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "没有與此帳戶关联的代理",
+      "TITLE": "管理您團隊中的代理",
+      "DESC": "您可以建立/移除代理到您的團隊。",
+      "NAME": "姓名：",
+      "EMAIL": "電子信箱",
+      "STATUS": "狀態",
+      "ACTIONS": "操作",
+      "VERIFIED": "已認證",
+      "VERIFICATION_PENDING": "待驗證"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "建立代理到你的團隊",
+      "DESC": "您可以建立能夠处理支持您的收件匣的人。",
+      "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "代理人姓名",
+          "PLACEHOLDER": "請輸入代理人名稱"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "代理類型",
+          "PLACEHOLDER": "請選擇一個類型",
+          "ERROR": "代理類型必填"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "電子信箱地址",
+          "PLACEHOLDER": "請輸入代理的信箱地址"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "建立客服代理"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "代理建立成功",
+        "EXIST_MESSAGE": "該信箱已被註冊，請重新輸入新的電子信箱",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "代理建立成功",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "確認刪除",
+        "MESSAGE": "您確定要刪除吗？ ",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "編輯代理",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "代理人姓名",
+          "PLACEHOLDER": "請輸入代理人名稱"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "代理類型",
+          "PLACEHOLDER": "請選擇一個類型",
+          "ERROR": "代理類型必填"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "電子信箱地址",
+          "PLACEHOLDER": "請輸入代理的信箱地址"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "編輯代理"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "編輯",
+      "CANCEL_BUTTON_TEXT": "取消操作",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "更新客服資訊成功",
+        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "重置密碼",
+        "ADMIN_SUCCESS_MESSAGE": "一封包含重置密碼說明的電子信箱已發送給代理",
+        "SUCCESS_MESSAGE": "代理的密碼重置成功",
+        "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No agents found."
+      "NO_RESULTS": "没有找到代理人。"
     }
   }
 }

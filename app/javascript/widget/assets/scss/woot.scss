@@ -1,4 +1,7 @@
 @import 'reset';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 @import 'variables';
 @import 'buttons';
 @import 'mixins';
@@ -10,7 +13,6 @@
 html,
 body {
   font-family: $font-family;
-  font-size: 10px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;

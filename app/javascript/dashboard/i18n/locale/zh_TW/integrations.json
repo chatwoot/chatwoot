@@ -1,63 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "整合方式",
     "WEBHOOK": {
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "回呼接口位址",
+      "CONFIGURE": "配置",
+      "HEADER": "Webhook 設定",
+      "HEADER_BTN_TXT": "建立新的 webhook",
+      "INTEGRATION_TXT": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。 您可以使用 webhooks 將事件傳遞給您喜歡的 Slack 或 Github。 點擊配置來設定您的 webhooks。",
+      "LOADING": "正在獲取已建立的 webhooks",
+      "SEARCH_404": "没有任何項目符合此查詢",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回呼，可以為每個帳戶定義的。 他們是由諸如在 Chatwoot 中建立消息等事件所觸發的。您可以為此帳戶建立多個 webhook。 <br /><br /> 建立一個 <b>webhook</b>, 點擊 <b>建立新的 webhook</b> 按鈕。 您也可以通過點擊刪除按鈕刪除任何現有的 webhook。</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "此帳戶没有配置 webhooks。",
+        "TITLE": "管理 webhooks",
+        "DESC": "預設的回覆是預定義的回覆模板，可以用來快速發送對工單的答覆。",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Webhook 端点",
+          "操作"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "取消操作",
+        "TITLE": "建立新的 webhook",
+        "DESC": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。請輸入一個有效的URL來配置回呼。",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "LABEL": "Webhook 網址",
+            "PLACEHOLDER": "例如：https://example/api/webhook",
+            "ERROR": "請輸入一個有效的 URL"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "建立 webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook 建立成功",
+          "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "刪除",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook 刪除成功",
+          "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "確認刪除",
+          "MESSAGE": "您確定要刪除吗？ ",
+          "YES": "是，刪除 ",
+          "NO": "否，保留它"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "已成功刪除"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "連接"
     }
   }
 }

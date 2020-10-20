@@ -3,38 +3,32 @@
     "HEADER": "التقارير",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "المحادثات",
-        "KEY": "conversations_count",
         "DESC": "(الإجمالي)"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "الرسائل الواردة",
-        "KEY": "incoming_messages_count",
         "DESC": "(الإجمالي)"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "الرسائل الصادرة",
-        "KEY": "outgoing_messages_count",
         "DESC": "(الإجمالي)"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "وقت الاستجابة الأولى",
-        "KEY": "avg_first_response_time",
         "DESC": "(متوسط)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
-        "KEY": "avg_resolution_time",
         "DESC": "(متوسط)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
-        "KEY": "resolutions_count",
         "DESC": "(الإجمالي)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,

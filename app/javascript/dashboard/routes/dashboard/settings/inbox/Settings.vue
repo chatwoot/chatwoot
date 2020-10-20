@@ -103,6 +103,7 @@
             }}
           </p>
         </label>
+
         <woot-input
           v-if="greetingEnabled"
           v-model.trim="greetingMessage"
@@ -116,6 +117,30 @@
             )
           "
         />
+
+        <label class="medium-9 columns">
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.TITLE') }}
+          <select v-model="replyTime">
+            <option key="in_a_few_minutes" value="in_a_few_minutes">
+              {{
+                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_MINUTES')
+              }}
+            </option>
+            <option key="in_a_few_hours" value="in_a_few_hours">
+              {{
+                $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_FEW_HOURS')
+              }}
+            </option>
+            <option key="in_a_day" value="in_a_day">
+              {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.IN_A_DAY') }}
+            </option>
+          </select>
+
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.HELP_TEXT') }}
+          </p>
+        </label>
+
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           <select v-model="autoAssignment">
@@ -163,6 +188,10 @@
           @click="updateInbox"
         />
       </settings-section>
+      <facebook-reauthorize
+        v-if="isAFacebookInbox && inbox.reauthorization_required"
+        :inbox-id="inbox.id"
+      />
     </div>
 
     <!-- update agents in inbox -->
@@ -176,7 +205,7 @@
           v-model="selectedAgents"
           :options="agentList"
           track-by="id"
-          label="available_name"
+          label="name"
           :multiple="true"
           :close-on-select="false"
           :clear-on-select="false"
@@ -216,17 +245,18 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import FacebookReauthorize from './facebook/Reauthorize';
 
 export default {
   components: {
     SettingsSection,
+    FacebookReauthorize,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -243,6 +273,7 @@ export default {
       channelWelcomeTitle: '',
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
+      replyTime: '',
       autoAssignmentOptions: [
         {
           value: true,
@@ -316,7 +347,6 @@ export default {
   },
   methods: {
     handleFeatureFlag(e) {
-      console.log(e.target.value);
       this.selectedFeatureFlags = this.toggleInput(
         this.selectedFeatureFlags,
         e.target.value
@@ -347,6 +377,7 @@ export default {
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
+        this.replyTime = this.inbox.reply_time;
       });
     },
     async fetchAttachedAgents() {
@@ -359,7 +390,7 @@ export default {
         } = response;
         this.selectedAgents = inboxMembers;
       } catch (error) {
-        console.log(error);
+        //  Handle error
       }
     },
     async updateAgents() {
@@ -390,6 +421,7 @@ export default {
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
+            reply_time: this.replyTime || 'in_a_few_minutes',
           },
         };
         if (this.avatarFile) {
@@ -404,7 +436,6 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
-      console.log(this.avatarUrl);
     },
   },
   validations: {
@@ -425,10 +456,8 @@ export default {
   background: $color-white;
 
   .settings--content {
-    &:last-child {
-      .settings--section {
-        border-bottom: 0;
-      }
+    div:last-child {
+      border-bottom: 0;
     }
   }
 

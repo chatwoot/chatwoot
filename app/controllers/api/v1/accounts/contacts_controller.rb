@@ -8,6 +8,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = Current.account.contacts
   end
 
+  # returns online contacts
+  def active
+    @contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
+                  .get_available_contact_ids(Current.account.id))
+  end
+
   def show; end
 
   def create
@@ -63,6 +69,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.find(params[:id])
+    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
   end
 end

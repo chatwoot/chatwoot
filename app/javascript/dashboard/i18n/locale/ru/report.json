@@ -3,38 +3,32 @@
     "HEADER": "Отчёты",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
-    "METRICS": [
-      {
+    "METRICS": {
+      "CONVERSATIONS": {
         "NAME": "Диалоги",
-        "KEY": "conversations_count",
         "DESC": "( Всего )"
       },
-      {
+      "INCOMING_MESSAGES": {
         "NAME": "Входящие сообщения",
-        "KEY": "incoming_messages_count",
         "DESC": "( Всего )"
       },
-      {
+      "OUTGOING_MESSAGES": {
         "NAME": "Исходящие сообщения",
-        "KEY": "outgoing_messages_count",
         "DESC": "( Всего )"
       },
-      {
+      "FIRST_RESPONSE_TIME": {
         "NAME": "Время первого ответа",
-        "KEY": "avg_first_response_time",
         "DESC": "(Среднее)"
       },
-      {
+      "RESOLUTION_TIME": {
         "NAME": "Время Завершения",
-        "KEY": "avg_resolution_time",
         "DESC": "(Среднее)"
       },
-      {
+      "RESOLUTION_COUNT": {
         "NAME": "Количество завершенных",
-        "KEY": "resolutions_count",
         "DESC": "( Всего )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
