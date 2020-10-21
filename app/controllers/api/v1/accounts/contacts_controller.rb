@@ -48,10 +48,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
-  def check_authorization
-    authorize(Contact)
-  end
-
   def set_current_page
     @current_page = params[:page] || 1
   end
