@@ -55,10 +55,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def check_authorization
-    authorize(Inbox)
-  end
-
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
