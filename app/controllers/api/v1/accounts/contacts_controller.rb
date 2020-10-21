@@ -2,7 +2,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   protect_from_forgery with: :null_session
 
   before_action :check_authorization
-  before_action :set_current_page, only: [:index, :active]
+  before_action :set_current_page, only: [:index, :active, :search]
   before_action :fetch_contact, only: [:show, :update]
 
   def index
@@ -40,8 +40,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
-
-    @contacts = Current.account.contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
+    
+    contacts = Current.account.contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
+    @contacts_count = contacts.count
+    @contacts = contacts.page(@current_page)
   end
 
   private

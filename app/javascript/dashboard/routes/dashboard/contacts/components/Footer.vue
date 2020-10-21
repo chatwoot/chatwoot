@@ -8,7 +8,10 @@
       </div>
     </div>
     <div class="right-aligned-wrap">
-      <div class="primary button-group pagination-button-group">
+      <div
+        v-if="totalCount"
+        class="primary button-group pagination-button-group"
+      >
         <button
           class="button small goto-first"
           :class="firstPageButtonClass"

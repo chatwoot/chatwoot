@@ -11,8 +11,8 @@
     />
     <contacts-footer
       :on-page-change="onPageChange"
-      :current-page="currentPage"
-      :total-count="records.length"
+      :current-page="Number(meta.currentPage)"
+      :total-count="meta.count"
     />
   </div>
 </template>
@@ -33,13 +33,13 @@ export default {
   data() {
     return {
       searchQuery: '',
-      currentPage: 1,
     };
   },
   computed: {
     ...mapGetters({
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
+      meta: 'contacts/getMeta',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
@@ -47,7 +47,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/get');
+    this.$store.dispatch('contacts/get', { page: 1 });
   },
   methods: {
     onInputSearch(event) {
@@ -55,15 +55,25 @@ export default {
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
 
       if (refetchAllContacts) {
-        this.$store.dispatch('contacts/get');
+        this.$store.dispatch('contacts/get', { page: 1 });
       }
       this.searchQuery = event.target.value;
     },
     onSearchSubmit() {
-      this.$store.dispatch('contacts/search', { search: this.searchQuery });
+      this.$store.dispatch('contacts/search', {
+        search: this.searchQuery,
+        page: 1,
+      });
     },
     onPageChange(page) {
-      this.currentPage = page;
+      if (this.searchQuery) {
+        this.$store.dispatch('contacts/search', {
+          search: this.searchQuery,
+          page,
+        });
+      } else {
+        this.$store.dispatch('contacts/get', { page });
+      }
     },
   },
 };

@@ -3,23 +3,25 @@ import * as types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 
 export const actions = {
-  search: async ({ commit }, { search }) => {
+  search: async ({ commit }, { search, page }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
-      const response = await ContactAPI.search(search);
+      const response = await ContactAPI.search(search, page);
       commit(types.default.CLEAR_CONTACTS);
       commit(types.default.SET_CONTACTS, response.data.payload);
+      commit(types.default.SET_CONTACT_META, response.data.meta);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     }
   },
 
-  get: async ({ commit }) => {
+  get: async ({ commit }, { page }) => {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
-      const response = await ContactAPI.get();
+      const response = await ContactAPI.get(page);
       commit(types.default.SET_CONTACTS, response.data.payload);
+      commit(types.default.SET_CONTACT_META, response.data.meta);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
@@ -31,9 +33,13 @@ export const actions = {
     try {
       const response = await ContactAPI.show(id);
       commit(types.default.SET_CONTACT_ITEM, response.data.payload);
-      commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, {
+        isFetchingItem: false,
+      });
     } catch (error) {
-      commit(types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false });
+      commit(types.default.SET_CONTACT_UI_FLAG, {
+        isFetchingItem: false,
+      });
     }
   },
 

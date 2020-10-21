@@ -9,4 +9,7 @@ export const getters = {
     const contact = $state.records[id];
     return contact || {};
   },
+  getMeta: $state => {
+    return $state.meta;
+  },
 };

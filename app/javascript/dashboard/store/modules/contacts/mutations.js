@@ -13,6 +13,12 @@ export const mutations = {
     $state.records = {};
   },
 
+  [types.default.SET_CONTACT_META]: ($state, data) => {
+    const { count, current_page: currentPage } = data;
+    Vue.set($state.meta, 'count', count);
+    Vue.set($state.meta, 'currentPage', currentPage);
+  },
+
   [types.default.SET_CONTACTS]: ($state, data) => {
     data.forEach(contact => {
       Vue.set($state.records, contact.id, {
