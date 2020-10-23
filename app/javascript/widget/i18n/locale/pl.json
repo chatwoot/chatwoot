@@ -2,26 +2,30 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Pobierz",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Przesyłanie..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Prześlij"
+      "SUBMIT": "Wyślij"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Jesteśmy dostępni",
+    "OFFLINE": "Jesteśmy offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Zwykle odpowiadamy w ciągu paru minut",
+    "IN_A_FEW_HOURS": "Zwykle odpowiadamy w ciągu paru godzin",
+    "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia"
+  },
+  "START_CONVERSATION": "Rozpocznij rozmowę",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
     "CLOSE_MESSAGES_BUTTON": "Zamknij"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Porozmawiaj z nami"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Napędzany przez Chatwoot",
   "EMAIL_PLACEHOLDER": "Wprowadź swój adres e-mail",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Wpisz treść wiadomości"
 }
