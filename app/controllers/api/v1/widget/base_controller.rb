@@ -4,10 +4,12 @@ class Api::V1::Widget::BaseController < ApplicationController
 
   private
 
+  def conversations
+    @conversations = @contact_inbox.conversations.where(inbox_id: auth_token_params[:inbox_id])
+  end
+
   def conversation
-    @conversation ||= @contact_inbox.conversations.where(
-      inbox_id: auth_token_params[:inbox_id]
-    ).last
+    @conversation ||= conversations.last
   end
 
   def auth_token_params

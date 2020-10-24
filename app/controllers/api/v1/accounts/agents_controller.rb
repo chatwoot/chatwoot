@@ -27,7 +27,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   private
 
   def check_authorization
-    authorize(User)
+    super(User)
   end
 
   def fetch_agent
