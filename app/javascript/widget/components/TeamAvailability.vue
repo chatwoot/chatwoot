@@ -1,17 +1,18 @@
 <template>
   <div class="px-4">
     <div class="flex items-center justify-between mb-4">
-      <div>
-        <div class="text-base leading-5 text-black-700 font-medium mb-1">
+      <div class="text-black-700">
+        <div class="text-base leading-5 font-medium mb-1">
           {{ teamAvailabilityStatus }}
         </div>
-        <div class="text-xs leading-4 text-black-700">
+        <div class="text-xs leading-4 mt-1">
           {{ replyTimeStatus }}
         </div>
       </div>
       <available-agents :agents="availableAgents" />
     </div>
     <woot-button
+      class="font-medium"
       block
       :bg-color="widgetColor"
       :text-color="textColor"
@@ -28,6 +29,7 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import WootButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
+import teamAvailabilityMixin from 'widget/mixins/teamAvailabilityMixin';
 
 export default {
   name: 'TeamAvailability',
@@ -35,7 +37,7 @@ export default {
     AvailableAgents,
     WootButton,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, teamAvailabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -43,17 +45,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
+    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
-    },
-    teamAvailabilityStatus() {
-      if (this.availableAgents.length) {
-        return this.$t('TEAM_AVAILABILITY.ONLINE');
-      }
-      return this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
   methods: {
