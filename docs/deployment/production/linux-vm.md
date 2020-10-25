@@ -51,7 +51,7 @@ server {
   # Point upstream to Chatwoot App Server
   set $upstream 127.0.0.1:3000;
 
-	# Nginx strips out underscore in headers by default
+  # Nginx strips out underscore in headers by default
   # Chatwoot relies on underscore in headers for API
   # Make sure that the config is turned on.
   underscores_in_headers on;
@@ -107,6 +107,7 @@ For your Chatwoot installation to properly function you would need to configure 
 
 ```bash
 # Login as chatwoot user
+
 sudo -i -u chatwoot
 cd chatwoot
 nano .env
