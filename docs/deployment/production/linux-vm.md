@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/setup_20.
 1. Create a **setup.sh** file and copy the content from the above link or use the following commands.
 
 ```bash
-wget <link-to-script> -o setup.sh
+wget <link-to-script> -O setup.sh
 chmod 755 setup.sh
 ./setup.sh
 ```
