@@ -1,11 +1,12 @@
 # TODO: Remove this once the changes comes into rails version
-# https://github.com/Azure/azure-storage-ruby/issues/166#issuecomment-637696565 
+# https://github.com/Azure/azure-storage-ruby/issues/166#issuecomment-637696565
 # Remove this once the changes comes into rails version
 
 # code from current master : https://github.com/rails/rails/blob/8520cc77133d9ff642e2c393b4ee5eae2a2a28b6/activestorage/lib/active_storage/service/azure_storage_service.rb
+require "active_support/core_ext/numeric/bytes"
+require "azure/storage/blob"
+require "azure/storage/common/core/auth/shared_access_signature"
 
-require 'azure/storage/blob'
-require 'active_storage/service/azure_storage_service'
 module ActiveStorage
   # Wraps the Microsoft Azure Storage Blob Service as an Active Storage service.
   # See ActiveStorage::Service for the generic API documentation that applies to all services.
