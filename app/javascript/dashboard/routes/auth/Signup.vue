@@ -78,8 +78,6 @@
 </template>
 
 <script>
-/* global bus */
-
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';
