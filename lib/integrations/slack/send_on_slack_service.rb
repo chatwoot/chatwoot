@@ -41,17 +41,25 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def send_message
-    sender = message.sender
-    sender_type = sender.class == Contact ? 'Contact' : 'Agent'
-    sender_name = sender.try(:name) ? "#{sender_type}: #{sender.try(:name)}" : sender_type
-
     @slack_message = slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: message_content,
-      username: sender_name,
+      username: sender_name(message.sender),
       thread_ts: conversation.identifier,
-      icon_url: avatar_url(sender)
+      icon_url: avatar_url(message.sender)
     )
+  rescue Slack::Web::Api::Errors::AccountInactive => e
+    Rails.logger.info e
+    hook.authorization_error!
+    hook.disable if hook.enabled?
+  end
+
+  def sender_name(sender)
+    sender.try(:name) ? "#{sender_type(sender)}: #{sender.try(:name)}" : sender_type(sender)
+  end
+
+  def sender_type(sender)
+    sender.class == Contact ? 'Contact' : 'Agent'
   end
 
   def update_reference_id

@@ -15,6 +15,8 @@
 #  reference_id :string
 #
 class Integrations::Hook < ApplicationRecord
+  include Reauthorizable
+
   validates :account_id, presence: true
   validates :app_id, presence: true
 
@@ -32,5 +34,9 @@ class Integrations::Hook < ApplicationRecord
 
   def slack?
     app_id == 'slack'
+  end
+
+  def disable
+    update(status: 'disabled')
   end
 end
