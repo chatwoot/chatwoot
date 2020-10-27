@@ -55,10 +55,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def check_authorization
-    authorize(Inbox)
-  end
-
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
@@ -79,7 +75,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email])
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
   end
 
   def inbox_update_params
@@ -91,6 +87,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                     :welcome_tagline,
                     :webhook_url,
                     :email,
+                    :reply_time,
                     { selected_feature_flags: [] }
                   ])
   end
