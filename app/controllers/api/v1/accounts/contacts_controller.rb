@@ -18,14 +18,17 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(include_ip(contact_params))
+      @contact = Current.account.contacts.new(contact_params)
+      set_ip
       @contact.save!
       @contact_inbox = build_contact_inbox
     end
   end
 
   def update
-    @contact.update!(include_ip(contact_update_params))
+    @contact.assign_attributes(contact_update_params)
+    set_ip
+    @contact.save!
   rescue ActiveRecord::RecordInvalid => e
     render json: {
       message: e.record.errors.full_messages.join(', '),
@@ -68,11 +71,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
   end
 
-  def include_ip(contact_params)
-    return contact_params if @contact.account.feature_enabled?('ip_lookup')
+  def set_ip
+    return if @contact.account.feature_enabled?('ip_lookup')
 
-    contact_params[:contact][:additional_attributes][:created_at_ip] ||= request.remote_ip
-    contact_params[:contact][:additional_attributes][:updated_at_ip] = request.remote_ip
-    contact_params
+    @contact[:additional_attributes][:created_at_ip] ||= request.remote_ip
+    @contact[:additional_attributes][:updated_at_ip] = request.remote_ip
   end
 end
