@@ -6,12 +6,7 @@ class ContactIpLookupJob < ApplicationJob
   def perform(contact)
     return unless ensure_look_up_service
 
-    ip = get_contact_ip(contact)
-    return if ip.blank?
-
-    contact.additional_attributes['city'] = Geocoder.search(ip).first.city
-    contact.additional_attributes['country'] = Geocoder.search(ip).first.country
-    contact.save!
+    update_contact_location_from_ip(contact)
   rescue Errno::ETIMEDOUT => e
     Rails.logger.info "Exception: ip resolution failed : #{e.message}"
   end
@@ -23,6 +18,15 @@ class ContactIpLookupJob < ApplicationJob
     return true if ENV['IP_LOOKUP_SERVICE'].to_sym != :geoip2
 
     ensure_look_up_db
+  end
+
+  def update_contact_location_from_ip(contact)
+    ip = get_contact_ip(contact)
+    return if ip.blank?
+
+    contact.additional_attributes['city'] = Geocoder.search(ip).first.city
+    contact.additional_attributes['country'] = Geocoder.search(ip).first.country
+    contact.save!
   end
 
   def get_contact_ip(contact)
