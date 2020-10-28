@@ -11,14 +11,18 @@
 #  open_minutes   :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  account_id     :bigint
 #  inbox_id       :bigint
 #
 # Indexes
 #
-#  index_working_hours_on_inbox_id  (inbox_id)
+#  index_working_hours_on_account_id  (account_id)
+#  index_working_hours_on_inbox_id    (inbox_id)
 #
 class WorkingHour < ApplicationRecord
   belongs_to :inbox
+
+  before_save :assign_account
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
   validates :open_minutes,  presence: true, unless: :closed_all_day?
@@ -54,6 +58,10 @@ class WorkingHour < ApplicationRecord
   end
 
   private
+
+  def assign_account
+    self.account_id = inbox.account_id
+  end
 
   def close_after_open
     return unless open_hour.hours + open_minutes.minutes >= close_hour.hours + close_minutes.minutes

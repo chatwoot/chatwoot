@@ -2,6 +2,7 @@ class CreateWorkingHours < ActiveRecord::Migration[6.0]
   def change
     create_table :working_hours do |t|
       t.belongs_to :inbox
+      t.belongs_to :account
 
       t.integer :day_of_week, null: false
       t.boolean :closed_all_day, default: false

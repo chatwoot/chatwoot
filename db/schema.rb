@@ -516,6 +516,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
 
   create_table "working_hours", force: :cascade do |t|
     t.bigint "inbox_id"
+    t.bigint "account_id"
     t.integer "day_of_week", null: false
     t.boolean "closed_all_day", default: false
     t.integer "open_hour"
@@ -524,6 +525,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.integer "close_minutes"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_working_hours_on_account_id"
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
