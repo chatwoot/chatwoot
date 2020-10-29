@@ -295,6 +295,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'creates mute message' do
+      mute!
       expect(conversation.messages.pluck(:content)).to include("#{user.name} has muted the conversation")
     end
   end
@@ -321,6 +322,7 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'creates unmute message' do
+      unmute!
       expect(conversation.messages.pluck(:content)).to include("#{user.name} has unmuted the conversation")
     end
   end
