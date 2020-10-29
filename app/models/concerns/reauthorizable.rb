@@ -36,7 +36,7 @@ module Reauthorizable
   # could used to manually prompt reauthorization if auth scope changes
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
-    # TODO: send_reauthorize_prompt_email
+    AdministratorNotifications::ChannelNotificationsMailer.slack_disconnect(account)&.deliver_later if (is_a? Integrations::Hook) && slack?
   end
 
   # call this after you successfully Reauthorized the object in UI

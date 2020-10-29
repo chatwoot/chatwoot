@@ -11,7 +11,6 @@ This guide will help you get started with Chatwoot!
 * [Ubuntu](/docs/installation-guide-ubuntu)
 * [Windows](/docs/installation-guide-windows)
 * [Docker](/docs/installation-guide-docker)
-* 
 
 ### Project Setup
 

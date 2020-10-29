@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-#description: chatwoot installation script
-#OS: Ubuntu 18.04 LTS
-#script_version: 0.1
-
+# Description: Chatwoot installation script
+# OS: Ubuntu 20.04 LTS / Ubuntu 20.10
+# Script Version: 0.2
 
 apt update && apt upgrade -y
 apt install -y curl
@@ -13,13 +12,12 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 apt update
 
 apt install -y \
-	git-core software-properties-common imagemagick libpq-dev \
+	git software-properties-common imagemagick libpq-dev \
     libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
-    libssl-dev libyaml-dev libreadline6-dev gnupg2 nginx redis-server \
+    libssl-dev libyaml-dev libreadline-dev gnupg2 nginx redis-server \
     redis-tools postgresql postgresql-contrib certbot \
-    python-certbot-nginx yarn patch ruby-dev zlib1g-dev liblzma-dev \
-    libgmp-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev
-
+    python3-certbot-nginx nodejs yarn patch ruby-dev zlib1g-dev liblzma-dev \
+    libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev
 
 adduser --disabled-login --gecos "" chatwoot
 
@@ -67,7 +65,6 @@ RAILS_ENV=production bundle exec rake db:reset
 rake assets:precompile RAILS_ENV=production
 EOF
 
-
 cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
 cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
 cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
@@ -75,7 +72,8 @@ cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwo
 systemctl enable chatwoot.target
 systemctl start chatwoot.target
 
-echo "Woot! Woot!! Chatwoot installation is complete."
-echo "Goto http://<server-ip>:3000"
+echo "Woot! Woot!! Chatwoot server installation is complete"
+echo "The server will be accessible at http://<server-ip>:3000"
+echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
 
-#TODO: nginx
+# TODO: Auto-configure Nginx with SSL certificate

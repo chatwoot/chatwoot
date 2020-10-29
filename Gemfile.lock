@@ -201,6 +201,7 @@ GEM
     ffi (1.13.1)
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
+    geocoder (1.6.3)
     gli (2.19.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -290,6 +291,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
+    maxminddb (0.1.22)
     memoist (0.16.2)
     method_source (1.0.0)
     mime-types (3.3.1)
@@ -578,6 +580,7 @@ DEPENDENCIES
   fcm
   flag_shih_tzu
   foreman
+  geocoder
   google-cloud-storage
   groupdate
   haikunator
@@ -590,6 +593,7 @@ DEPENDENCIES
   letter_opener
   liquid
   listen
+  maxminddb
   mini_magick
   mock_redis!
   pg

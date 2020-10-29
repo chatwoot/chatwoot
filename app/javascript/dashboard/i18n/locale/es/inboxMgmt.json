@@ -73,6 +73,13 @@
           "ENABLED": "Activado",
           "DISABLED": "Deshabilitado"
         },
+        "REPLY_TIME": {
+          "TITLE": "Establecer tiempo de respuesta",
+          "IN_A_FEW_MINUTES": "En algunos minutos",
+          "IN_A_FEW_HOURS": "En unas horas",
+          "IN_A_DAY": "En un día",
+          "HELP_TEXT": "Éste tiempo se mostrará en el widget del chat"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Color del widget",
           "PLACEHOLDER": "Actualizar el color del widget usado en el widget"
@@ -170,8 +177,8 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Autenticándote con Facebook...",
-      "ERROR_FB_AUTH": "Algo salió mal, Por favor actualize la página...",
+      "LOADING_FB": "Autenticándolo con Facebook...",
+      "ERROR_FB_AUTH": "Algo salió mal, por favor actualize la página...",
       "CREATING_CHANNEL": "Creando su bandeja de entrada...",
       "TITLE": "Configurar detalles de la Bandeja de Entrada",
       "DESC": ""
@@ -183,7 +190,7 @@
     "FINISH": {
       "TITLE": "¡Su bandeja de entrada está lista!",
       "MESSAGE": "Ahora puede colaborar con sus clientes a través de su nuevo canal. Feliz soporte ",
-      "BUTTON_TEXT": "Llévame allí",
+      "BUTTON_TEXT": "Lléveme allí",
       "WEBSITE_SUCCESS": "Ha terminado de crear un canal del sitio web. Copie el código que se muestra a continuación y pégelo en su sitio web. La próxima vez que un cliente use el chat en vivo, la conversación aparecerá automáticamente en su bandeja de entrada."
     },
     "REAUTH": "Reautorizar",
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de su bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reautorizar",
+      "SUBTITLE": "Su conexión de Facebook expiró, por favor reconecte si página de Facebook para continuar con el servicio",
+      "MESSAGE_SUCCESS": "Reconección satisfactoria",
+      "MESSAGE_ERROR": "Se presento un error, por favor inténtelo de nuevo"
     }
   }
 }
