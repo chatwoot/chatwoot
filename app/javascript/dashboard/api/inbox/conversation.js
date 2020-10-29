@@ -43,6 +43,10 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/mute`);
   }
 
+  unmute(conversationId) {
+    return axios.post(`${this.url}/${conversationId}/unmute`);
+  }
+
   meta({ inboxId, status, assigneeType, labels }) {
     return axios.get(`${this.url}/meta`, {
       params: {

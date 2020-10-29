@@ -114,7 +114,7 @@ class User < ApplicationRecord
   def avatar_url
     if avatar_img_url == ''
       hash = Digest::MD5.hexdigest(email)
-      return "https://www.gravatar.com/avatar/#{hash}"
+      return "https://www.gravatar.com/avatar/#{hash}?d=404"
     end
     avatar_img_url
   end

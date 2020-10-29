@@ -208,8 +208,7 @@ export default {
       accountLabels: 'labels/getLabelsOnSidebar',
     }),
     currentUserAvailableName() {
-      const { available_name: availableName } = this.currentUser;
-      return availableName;
+      return this.currentUser.name;
     },
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
@@ -275,6 +274,7 @@ export default {
           id: label.id,
           label: label.title,
           color: label.color,
+          truncateLabel: true,
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
           ),

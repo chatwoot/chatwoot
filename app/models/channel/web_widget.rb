@@ -4,6 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  feature_flags   :integer          default(3), not null
+#  reply_time      :integer          default(0)
 #  website_token   :string
 #  website_url     :string
 #  welcome_tagline :string
@@ -32,6 +33,7 @@ class Channel::WebWidget < ApplicationRecord
   has_flags 1 => :attachments,
             2 => :emoji_picker,
             :column => 'feature_flags'
+  enum reply_time: { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
 
   def name
     'Website'

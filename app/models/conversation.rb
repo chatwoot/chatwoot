@@ -91,6 +91,10 @@ class Conversation < ApplicationRecord
     Redis::Alfred.setex(mute_key, 1, mute_period)
   end
 
+  def unmute!
+    Redis::Alfred.delete(mute_key)
+  end
+
   def muted?
     !Redis::Alfred.get(mute_key).nil?
   end
@@ -159,7 +163,9 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
-    user_name = Current.user&.available_name
+    return unless Current.user
+
+    user_name = Current.user.name
 
     if saved_change_to_status?
       create_status_change_message(user_name)
@@ -223,9 +229,7 @@ class Conversation < ApplicationRecord
   end
 
   def create_assignee_change(user_name)
-    return unless user_name
-
-    params = { assignee_name: assignee&.available_name, user_name: user_name }.compact
+    params = { assignee_name: assignee.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)

@@ -51,7 +51,7 @@ class Messages::Facebook::MessageBuilder
   def attach_file(attachment, file_url)
     file_resource = LocalResource.new(file_url)
     attachment.file.attach(io: file_resource.file, filename: file_resource.filename, content_type: file_resource.encoding)
-  rescue Errno::ETIMEDOUT, Errno::ECONNREFUSED, SocketError => e
+  rescue *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "invalid url #{file_url} : #{e.message}"
   end
 

@@ -44,10 +44,6 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
-  def check_authorization
-    authorize(Account)
-  end
-
   def confirmed?
     super_admin? && params[:confirmed]
   end
