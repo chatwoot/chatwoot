@@ -30,6 +30,7 @@ export const SDK_CSS = `.woot-widget-holder {
   position: fixed;
   width: 64px !important;
   z-index: 2147483000 !important;
+  user-select: none;
 }
 
 .woot-widget-bubble.woot-widget--expanded {
@@ -49,14 +50,12 @@ export const SDK_CSS = `.woot-widget-holder {
   justify-content: center;
   padding-right: 20px;
   width: auto !important;
-  user-select: none;
 }
 
 .woot-widget-bubble.woot-widget--expanded img {
   height: 20px;
   margin: 14px 8px 14px 16px;
   width: 20px;
-  user-select: none;
 }
 
 .woot-widget-bubble.woot-elements--left {
@@ -76,7 +75,6 @@ export const SDK_CSS = `.woot-widget-holder {
   height: 24px;
   margin: 20px;
   width: 24px;
-  user-select: none;
 }
 
 @media only screen and (min-width: 667px) {
