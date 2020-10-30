@@ -7,3 +7,5 @@
   enabled: true
 - name: channel_twitter
   enabled: true
+- name: ip_lookup
+  enabled: false
