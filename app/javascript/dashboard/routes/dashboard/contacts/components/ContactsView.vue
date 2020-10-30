@@ -8,17 +8,25 @@
     <contacts
       :contacts="records"
       :show-search-empty-state="showEmptySearchResult"
+      :open-edit-modal="openEditModal"
     />
     <contacts-footer
       :on-page-change="onPageChange"
       :current-page="Number(meta.currentPage)"
       :total-count="meta.count"
     />
+    <edit-contact
+      :show="showEditModal"
+      :contact="selectedContact"
+      @cancel="closeEditModal"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+
+import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact.vue';
 
 import ContactsHeader from './Header';
 import Contacts from './Contacts';
@@ -29,10 +37,13 @@ export default {
     ContactsHeader,
     Contacts,
     ContactsFooter,
+    EditContact,
   },
   data() {
     return {
       searchQuery: '',
+      showEditModal: false,
+      selectedContactId: '',
     };
   },
   computed: {
@@ -44,6 +55,15 @@ export default {
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
+    },
+    selectedContact() {
+      if (this.selectedContactId) {
+        const contact = this.records.find(
+          item => this.selectedContactId === item.id
+        );
+        return contact;
+      }
+      return undefined;
     },
   },
   mounted() {
@@ -74,6 +94,14 @@ export default {
       } else {
         this.$store.dispatch('contacts/get', { page });
       }
+    },
+    openEditModal(contactId) {
+      this.selectedContactId = contactId;
+      this.showEditModal = true;
+    },
+    closeEditModal() {
+      this.selectedContactId = '';
+      this.showEditModal = false;
     },
   },
 };

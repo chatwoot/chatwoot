@@ -10,7 +10,7 @@ export const mutations = {
   },
 
   [types.default.CLEAR_CONTACTS]: $state => {
-    $state.records = {};
+    Vue.set($state, 'records', {});
   },
 
   [types.default.SET_CONTACT_META]: ($state, data) => {

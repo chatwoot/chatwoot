@@ -41,6 +41,15 @@
           <td></td>
           <td>
             <i class="ion-more" />
+            <div>
+              <woot-button
+                class="expanded"
+                variant="hollow primary small"
+                @click="() => openEditModal(contactItem.id)"
+              >
+                {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+              </woot-button>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -69,6 +78,10 @@ export default {
     showSearchEmptyState: {
       type: Boolean,
       default: false,
+    },
+    openEditModal: {
+      type: Function,
+      default: () => {},
     },
   },
   computed: {

@@ -23,7 +23,7 @@
         <button
           class="button small"
           :class="prevPageButtonClass"
-          @click="onPageChange"
+          @click="onPrevPage"
         >
           <i class="ion-chevron-left" />
         </button>
@@ -60,7 +60,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 20,
+      default: 25,
     },
     totalCount: {
       type: Number,
@@ -77,9 +77,7 @@ export default {
       return firstIndex;
     },
     lastIndex() {
-      const index =
-        (this.totalCount % this.pageSize) +
-        this.pageSize * (this.currentPage - 1);
+      const index = Math.min(this.totalCount, this.pageSize * this.currentPage);
       return index;
     },
     searchButtonClass() {
@@ -111,14 +109,13 @@ export default {
   methods: {
     onNextPage() {
       if (this.nextPageButtonClass.includes('disabled')) return;
-
       const newPage = this.currentPage + 1;
       this.onPageChange(newPage);
     },
     onPrevPage() {
       if (this.prevPageButtonClass.includes('disabled')) return;
 
-      const newPage = this.currentPage + 1;
+      const newPage = this.currentPage - 1;
       this.onPageChange(newPage);
     },
     onFirstPage() {

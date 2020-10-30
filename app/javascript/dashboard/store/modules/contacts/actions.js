@@ -20,6 +20,7 @@ export const actions = {
     commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const response = await ContactAPI.get(page);
+      commit(types.default.CLEAR_CONTACTS);
       commit(types.default.SET_CONTACTS, response.data.payload);
       commit(types.default.SET_CONTACT_META, response.data.meta);
       commit(types.default.SET_CONTACT_UI_FLAG, { isFetching: false });
