@@ -54,6 +54,8 @@ en:
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Give the team a way to reach you."

@@ -87,10 +87,12 @@ class Conversation < ApplicationRecord
   def mute!
     resolved!
     Redis::Alfred.setex(mute_key, 1, mute_period)
+    create_muted_message
   end
 
   def unmute!
     Redis::Alfred.delete(mute_key)
+    create_unmuted_message
   end
 
   def muted?
@@ -244,6 +246,24 @@ class Conversation < ApplicationRecord
 
     params = { user_name: user_name, labels: labels.join(', ') }
     content = I18n.t('conversations.activity.labels.removed', **params)
+
+    messages.create(activity_message_params(content))
+  end
+
+  def create_muted_message
+    return unless Current.user
+
+    params = { user_name: Current.user.name }
+    content = I18n.t('conversations.activity.muted', **params)
+
+    messages.create(activity_message_params(content))
+  end
+
+  def create_unmuted_message
+    return unless Current.user
+
+    params = { user_name: Current.user.name }
+    content = I18n.t('conversations.activity.unmuted', **params)
 
     messages.create(activity_message_params(content))
   end
