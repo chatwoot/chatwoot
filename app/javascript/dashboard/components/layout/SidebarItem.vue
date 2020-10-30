@@ -30,7 +30,7 @@
         tag="li"
         :to="child.toState"
       >
-        <a href="#">
+        <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
             <i
               v-if="computedInboxClass(child)"
@@ -42,8 +42,12 @@
               class="label-color--display"
               :style="{ backgroundColor: child.color }"
             />
-
-            {{ child.label }}
+            <div
+              :title="computedChildTitle(child)"
+              :class="computedChildClass(child)"
+            >
+              {{ child.label }}
+            </div>
           </div>
         </a>
       </router-link>
@@ -52,7 +56,6 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
 import router from '../../routes';
@@ -125,6 +128,14 @@ export default {
       const classByType = getInboxClassByType(type, phoneNumber);
       return classByType;
     },
+    computedChildClass(child) {
+      if (!child.truncateLabel) return '';
+      return 'text-truncate';
+    },
+    computedChildTitle(child) {
+      if (!child.truncateLabel) return false;
+      return child.label;
+    },
     newLinkClick() {
       router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
     },
@@ -151,6 +162,7 @@ export default {
   border-radius: $space-smaller;
   height: $space-normal;
   margin-right: $space-small;
+  min-width: $space-normal;
   width: $space-normal;
 }
 </style>

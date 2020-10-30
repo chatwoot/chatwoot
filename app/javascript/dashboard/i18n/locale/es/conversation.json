@@ -1,19 +1,19 @@
 {
   "CONVERSATION": {
-    "404": "Por favor, selecciona una conversación del panel izquierdo",
-    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
-    "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
-    "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
+    "404": "Por favor, seleccione una conversación del panel izquierdo",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en su bandeja de entrada.",
+    "NO_MESSAGE_2": " para enviar un mensaje a su página!",
+    "NO_INBOX_1": "¡Hola! Parece que aún no ha añadido ninguna bandeja de entrada.",
     "NO_INBOX_2": " para empezar",
-    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
-    "CLICK_HERE": "Haz clic aquí",
+    "NO_INBOX_AGENT": "¡Oh Oh! Parece que no es parte de ninguna bandeja de entrada. Por favor, contacte con su administrador",
+    "CLICK_HERE": "Haga clic aquí",
     "LOADING_INBOXES": "Cargando bandeja de entrada",
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
-    "CANNOT_REPLY": "No puedes responder debido a",
+    "CANNOT_REPLY": "No puede responder debido a",
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "LAST_INCOMING_TWEET": "Esta respondiendo al último trino",
+    "REPLYING_TO": "Esta respondiendo a:",
+    "REMOVE_SELECTION": "Quitar Selección",
     "DOWNLOAD": "Descargar",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -23,7 +23,7 @@
       "DETAILS": "detalles"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
+      "MSG_INPUT": "Shift + enter para una nueva línea. Comience con '/' para seleccionar una respuesta predefinida.",
       "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
     },
     "REPLYBOX": {
@@ -31,25 +31,25 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Enviar",
       "CREATE": "Añadir nota",
-      "TWEET": "Tweet"
+      "TWEET": "Trino"
     },
-    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
+    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para usted y su equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Enviar transcripción de la conversación",
+    "DESC": "Enviar un copia de la transcripción a un dirección de correo especificada",
     "SUBMIT": "Enviar",
     "CANCEL": "Cancelar",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtalo de nuevo",
+    "SEND_EMAIL_SUCCESS": "La transcripción ha sido enviada",
+    "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Enviar la transcripción al cliente",
+      "SEND_TO_AGENT": "Enviar la transcripción al agente asignado",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar la transcripción a otra dirección de correo",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Escriba la dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida"
       }
     }

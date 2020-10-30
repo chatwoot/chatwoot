@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isIframe" class="actions">
+  <div v-if="isIframe" class="actions flex items-center">
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button"
@@ -66,9 +66,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .actions {
-  display: flex;
-  align-items: center;
-
   button {
     margin-left: $space-normal;
   }

@@ -185,7 +185,8 @@ export const IFrameHelper = {
   },
   setCurrentUrl: () => {
     IFrameHelper.sendMessage('set-current-url', {
-      refererURL: window.location.href,
+      referrerURL: window.location.href,
+      referrerHost: window.location.host,
     });
   },
   toggleCloseButton: () => {

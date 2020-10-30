@@ -124,3 +124,4 @@ AllCops:
     - 'tmp/**/*'
     - 'storage/**/*'
     - 'db/migrate/20200225162150_init_schema.rb'
+    - 'config/initializers/azure_storage_service_patch.rb'

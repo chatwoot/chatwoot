@@ -73,6 +73,13 @@
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"

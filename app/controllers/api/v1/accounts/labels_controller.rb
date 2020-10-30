@@ -28,10 +28,6 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
     @label = Current.account.labels.find(params[:id])
   end
 
-  def check_authorization
-    authorize(Label)
-  end
-
   def permitted_params
     params.require(:label).permit(:title, :description, :color, :show_on_sidebar)
   end

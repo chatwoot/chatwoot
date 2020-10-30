@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_27_135222) do
+ActiveRecord::Schema.define(version: 2020_10_19_173944) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -178,6 +179,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
     t.string "welcome_title"
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 3, null: false
+    t.integer "reply_time", default: 0
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -201,7 +203,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -222,7 +224,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
     t.datetime "contact_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
@@ -277,12 +279,13 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
     t.boolean "enable_auto_assignment", default: true
     t.boolean "greeting_enabled", default: false
     t.string "greeting_message"
+    t.string "email_address"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
     t.string "name", null: false
-    t.jsonb "serialized_value", default: "{}", null: false
+    t.jsonb "serialized_value", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
@@ -396,7 +399,7 @@ ActiveRecord::Schema.define(version: 2020_09_27_135222) do
   create_table "notification_subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "subscription_type", null: false
-    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.jsonb "subscription_attributes", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "identifier"
