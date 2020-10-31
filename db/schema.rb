@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_173944) do
+ActiveRecord::Schema.define(version: 2020_10_27_135006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_10_19_173944) do
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
+    t.string "timezone", default: "UTC"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -280,6 +281,8 @@ ActiveRecord::Schema.define(version: 2020_10_19_173944) do
     t.boolean "greeting_enabled", default: false
     t.string "greeting_message"
     t.string "email_address"
+    t.boolean "working_hours_enabled", default: false
+    t.string "out_of_office_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -511,6 +514,21 @@ ActiveRecord::Schema.define(version: 2020_10_19_173944) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "working_hours", force: :cascade do |t|
+    t.bigint "inbox_id"
+    t.bigint "account_id"
+    t.integer "day_of_week", null: false
+    t.boolean "closed_all_day", default: false
+    t.integer "open_hour"
+    t.integer "open_minutes"
+    t.integer "close_hour"
+    t.integer "close_minutes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_working_hours_on_account_id"
+    t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
   add_foreign_key "account_users", "accounts"

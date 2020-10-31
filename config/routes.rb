@@ -100,6 +100,7 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
+          resources :working_hours, only: [:update]
 
           namespace :kbase do
             resources :portals do
