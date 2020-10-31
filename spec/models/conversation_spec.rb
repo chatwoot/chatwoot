@@ -276,7 +276,13 @@ RSpec.describe Conversation, type: :model do
   describe '#mute!' do
     subject(:mute!) { conversation.mute! }
 
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
     let(:conversation) { create(:conversation) }
+
+    before { Current.user = user }
 
     it 'marks conversation as resolved' do
       mute!
@@ -287,12 +293,23 @@ RSpec.describe Conversation, type: :model do
       mute!
       expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
     end
+
+    it 'creates mute message' do
+      mute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has muted the conversation")
+    end
   end
 
   describe '#unmute!' do
     subject(:unmute!) { conversation.unmute! }
 
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
     let(:conversation) { create(:conversation).tap(&:mute!) }
+
+    before { Current.user = user }
 
     it 'does not change conversation status' do
       expect { unmute! }.not_to(change { conversation.reload.status })
@@ -302,6 +319,11 @@ RSpec.describe Conversation, type: :model do
       expect { unmute! }
         .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
         .to nil
+    end
+
+    it 'creates unmute message' do
+      unmute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has unmuted the conversation")
     end
   end
 
