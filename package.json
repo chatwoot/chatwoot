@@ -90,7 +90,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "sh bin/validate_push"
     }
   },
   "jest": {
