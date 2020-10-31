@@ -165,16 +165,15 @@ class Conversation < ApplicationRecord
   end
 
   def create_activity
-    return unless Current.user
-
-    user_name = Current.user.name
-
-    if saved_change_to_status?
-      create_status_change_message(user_name)
-      queue_conversation_auto_resolution_job if open?
-    end
+    user_name = Current.user.name if Current.user.present?
+    status_change_activity(user_name) if saved_change_to_status?
     create_assignee_change(user_name) if saved_change_to_assignee_id?
     create_label_change(user_name) if saved_change_to_label_list?
+  end
+
+  def status_change_activity(user_name)
+    create_status_change_message(user_name)
+    queue_conversation_auto_resolution_job if open?
   end
 
   def activity_message_params(content)
