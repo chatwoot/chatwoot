@@ -14,7 +14,7 @@ namespace :swagger do
         logging: true
       )
       File.write('swagger.json', JSON.pretty_generate(final_build))
-      puts 'Swagger build was succesful.'
+      puts 'Swagger build was successful.'
       puts "Generated #{base_path}/swagger.json"
       puts 'Go to http://localhost:3000/swagger see the changes.'
     end

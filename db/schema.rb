@@ -204,7 +204,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.datetime "contact_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
 
   create_table "installation_configs", force: :cascade do |t|
     t.string "name", null: false
-    t.jsonb "serialized_value", default: "{}", null: false
+    t.jsonb "serialized_value", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
@@ -402,7 +402,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
   create_table "notification_subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "subscription_type", null: false
-    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.jsonb "subscription_attributes", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "identifier"
@@ -455,9 +455,11 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
