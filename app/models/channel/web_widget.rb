@@ -4,7 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  feature_flags   :integer          default(3), not null
-#  reply_time      :integer          default(0)
+#  reply_time      :integer          default("in_a_few_minutes")
 #  website_token   :string
 #  website_url     :string
 #  welcome_tagline :string
