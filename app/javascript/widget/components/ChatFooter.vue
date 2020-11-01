@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <ChatInputWrap
+    <chat-input-wrap
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />

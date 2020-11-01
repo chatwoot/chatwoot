@@ -49,7 +49,7 @@
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import timeMixin from '../../../mixins/time';
+import timeMixin from 'shared/mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';

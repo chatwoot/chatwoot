@@ -15,30 +15,27 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderActions from '../HeaderActions';
+import configMixin from 'widget/mixins/configMixin';
+
 export default {
   name: 'ChatHeaderExpanded',
   components: {
     HeaderActions,
   },
+  mixins: [configMixin],
   props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    introHeading: {
-      type: String,
-      default: '',
-    },
-    introBody: {
-      type: String,
-      default: '',
-    },
     showPopoutButton: {
       type: Boolean,
       default: false,
     },
   },
   computed: {
+    introHeading() {
+      return this.channelConfig.welcomeTitle;
+    },
+    introBody() {
+      return this.channelConfig.welcomeTagline;
+    },
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),

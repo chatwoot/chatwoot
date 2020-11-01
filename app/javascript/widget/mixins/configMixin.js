@@ -12,6 +12,9 @@ export default {
     inboxAvatarUrl() {
       return window.chatwootWebChannel.avatarUrl;
     },
+    avatarUrl() {
+      return this.channelConfig.avatarUrl;
+    },
     channelConfig() {
       return window.chatwootWebChannel;
     },

@@ -4,26 +4,8 @@
     class="woot-widget-wrap"
     :class="{ 'is-mobile': isMobile, 'is-widget-right': !isLeftAligned }"
   >
-    <home
-      v-if="!showUnreadView"
-      :grouped-messages="groupedMessages"
-      :conversation-size="conversationSize"
-      :available-agents="availableAgents"
-      :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
-      :unread-message-count="unreadMessageCount"
-      :show-popout-button="showPopoutButton"
-    />
-    <unread
-      v-else
-      :unread-messages="unreadMessages"
-      :conversation-size="conversationSize"
-      :available-agents="availableAgents"
-      :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
-      :unread-message-count="unreadMessageCount"
-      :hide-message-bubble="hideMessageBubble"
-    />
+    <home v-if="!showUnreadView" />
+    <unread v-else />
   </div>
 </template>
 
@@ -38,26 +20,6 @@ export default {
     Unread,
   },
   props: {
-    groupedMessages: {
-      type: Array,
-      default: () => [],
-    },
-    unreadMessages: {
-      type: Array,
-      default: () => [],
-    },
-    conversationSize: {
-      type: Number,
-      default: 0,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
     isMobile: {
       type: Boolean,
       default: false,
@@ -67,22 +29,6 @@ export default {
       default: false,
     },
     showUnreadView: {
-      type: Boolean,
-      default: false,
-    },
-    hideMessageBubble: {
-      type: Boolean,
-      default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
-    },
-    unreadMessageCount: {
-      type: Number,
-      default: 0,
-    },
-    showPopoutButton: {
       type: Boolean,
       default: false,
     },

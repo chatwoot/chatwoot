@@ -1,6 +1,9 @@
 <template>
   <header class="header-collapsed">
     <div class="header-branding">
+      <button @click="onBackButtonClick">
+        <span class="ion-chevron-left mr-3 text-lg text-slate-900"></span>
+      </button>
       <img
         v-if="avatarUrl"
         class="inbox--avatar mr-3"
@@ -9,7 +12,7 @@
       />
       <div>
         <div class="text-black-900 font-medium text-base flex items-center">
-          <span class="mr-1" v-html="title" />
+          <span class="mr-1" v-html="channelConfig.websiteName" />
           <div
             :class="
               `status-view--badge rounded-full leading-4 ${
@@ -40,14 +43,6 @@ export default {
   },
   mixins: [configMixin, teamAvailabilityMixin],
   props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
     showPopoutButton: {
       type: Boolean,
       default: false,
@@ -61,6 +56,11 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+  },
+  methods: {
+    onBackButtonClick() {
+      this.$emit('back-button-click');
+    },
   },
 };
 </script>

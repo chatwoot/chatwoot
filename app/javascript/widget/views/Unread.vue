@@ -47,22 +47,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    conversationSize: {
-      type: Number,
-      default: 0,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
-    hasFetched: {
-      type: Boolean,
-      default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
-    },
     unreadMessageCount: {
       type: Number,
       default: 0,

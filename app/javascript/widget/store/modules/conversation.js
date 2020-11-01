@@ -87,17 +87,18 @@ export const getters = {
   getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
   getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
-  getConversationSize: _state => Object.keys(_state.conversations).length,
-  getEarliestMessage: _state => {
-    const conversation = Object.values(_state.conversations);
+  getConversationSize: _state => id =>
+    Object.keys(_state.conversations[id] || {}).length,
+  getEarliestMessage: _state => id => {
+    const conversation = Object.values(_state.conversations[id]);
     if (conversation.length) {
       return conversation[0];
     }
     return {};
   },
-  getGroupedConversation: _state => {
+  getGroupedConversation: _state => id => {
     const conversationGroupedByDate = groupBy(
-      Object.values(_state.conversations),
+      Object.values(_state.conversations[id]),
       message => formatUnixDate(message.created_at)
     );
     return Object.keys(conversationGroupedByDate).map(date => ({

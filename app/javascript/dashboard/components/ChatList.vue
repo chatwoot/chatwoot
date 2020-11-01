@@ -56,13 +56,11 @@
 <script>
 /* eslint-env browser */
 /* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
 import ChatTypeTabs from './widgets/ChatTypeTabs';
 import ConversationCard from './widgets/conversation/ConversationCard';
-import timeMixin from '../mixins/time';
 import conversationMixin from '../mixins/conversations';
 import wootConstants from '../constants';
 
@@ -72,7 +70,7 @@ export default {
     ConversationCard,
     ChatFilter,
   },
-  mixins: [timeMixin, conversationMixin],
+  mixins: [conversationMixin],
   props: {
     conversationInbox: {
       type: [String, Number],

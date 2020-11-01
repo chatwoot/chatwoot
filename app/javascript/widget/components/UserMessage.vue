@@ -36,7 +36,7 @@
 import UserMessageBubble from 'widget/components/UserMessageBubble';
 import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
-import timeMixin from 'dashboard/mixins/time';
+import timeMixin from 'shared/mixins/time';
 import { mapGetters } from 'vuex';
 
 export default {

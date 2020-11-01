@@ -50,7 +50,7 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
-import timeMixin from '../../../mixins/time';
+import timeMixin from 'shared/mixins/time';
 import router from '../../../routes';
 import { frontendURL, conversationUrl } from '../../../helper/URLHelper';
 

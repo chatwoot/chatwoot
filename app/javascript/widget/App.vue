@@ -2,16 +2,7 @@
   <router
     :show-unread-view="showUnreadView"
     :is-mobile="isMobile"
-    :grouped-messages="groupedMessages"
-    :unread-messages="unreadMessages"
-    :conversation-size="conversationSize"
-    :available-agents="availableAgents"
-    :has-fetched="hasFetched"
-    :conversation-attributes="conversationAttributes"
-    :unread-message-count="unreadMessageCount"
     :is-left-aligned="isLeftAligned"
-    :hide-message-bubble="hideMessageBubble"
-    :show-popout-button="showPopoutButton"
   />
 </template>
 
@@ -43,8 +34,6 @@ export default {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
       unreadMessages: 'conversation/getUnreadTextMessages',
-      conversationSize: 'conversation/getConversationSize',
-      availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/getHasFetched',
       conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
@@ -61,7 +50,7 @@ export default {
     const { websiteToken, locale } = window.chatwootWebChannel;
     setHeader('X-Auth-Token', window.authToken);
     this.fetchAvailableAgents(websiteToken);
-    this.fetchOldConversations();
+    this.fetchConversations();
     this.setWidgetColor(window.chatwootWebChannel);
 
     if (this.isIFrame) {
@@ -76,6 +65,8 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+
+    ...mapActions('conversations', { fetchConversations: 'get' }),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -159,10 +150,6 @@ export default {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
           this.createWidgetEvents(message);
-        } else if (message.event === 'set-label') {
-          this.$store.dispatch('conversationLabels/create', message.label);
-        } else if (message.event === 'remove-label') {
-          this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
           this.$store.dispatch('contacts/update', message);
         } else if (message.event === 'set-custom-attributes') {
