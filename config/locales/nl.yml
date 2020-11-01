@@ -32,6 +32,7 @@ nl:
       status:
         resolved: "Gesprek werd gemarkeerd door %{user_name}"
         open: "Gesprek werd heropend door %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Toegewezen aan %{assignee_name} door %{user_name}"
         removed: "Gesprek niet toegewezen door %{user_name}"
