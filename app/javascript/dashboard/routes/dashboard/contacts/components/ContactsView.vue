@@ -9,6 +9,7 @@
       :contacts="records"
       :show-search-empty-state="showEmptySearchResult"
       :open-edit-modal="openEditModal"
+      :is-loading="uiFlags.isFetching"
     />
     <contacts-footer
       :on-page-change="onPageChange"

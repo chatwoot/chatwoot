@@ -12,7 +12,8 @@
         "Email",
         "Conversations",
         "Last Contacted"
-      ]
+      ],
+      "EDIT_BUTTON": "edit"
     }
   }
 }
