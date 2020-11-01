@@ -32,6 +32,7 @@ pl:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
         removed: "Rozmowa nieprzypisana przez %{user_name}"

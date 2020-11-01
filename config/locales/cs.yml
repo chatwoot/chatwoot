@@ -32,6 +32,7 @@ cs:
       status:
         resolved: "Konverzace byla vyřešena uživatelem %{user_name}"
         open: "Konverzace byla znovu otevřena uživatelem %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Přiřazeno k %{assignee_name} uživatelem %{user_name}"
         removed: "Konverzace zrušena uživatelem %{user_name}"

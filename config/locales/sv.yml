@@ -32,6 +32,7 @@ sv:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
         open: "Konversationen öppnades igen av %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Tilldelad till %{assignee_name} av %{user_name}"
         removed: "Konversation otilldelad av %{user_name}"

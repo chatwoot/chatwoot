@@ -32,6 +32,7 @@ ca:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
         open: "La conversa es va reobrir per %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Assignada a %{assignee_name} per %{user_name}"
         removed: "%{user_name} ha tret l'assignació de la conversa"

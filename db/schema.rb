@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
+    t.integer "auto_resolve_duration"
     t.string "timezone", default: "UTC"
   end
 
