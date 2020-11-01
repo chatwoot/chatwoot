@@ -32,7 +32,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
       unreadMessages: 'conversation/getUnreadTextMessages',
       hasFetched: 'agent/getHasFetched',
       conversationAttributes: 'conversationAttributes/getConversationParams',
@@ -64,7 +63,7 @@ export default {
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('conversation', ['setUserLastSeen']),
 
     ...mapActions('conversations', { fetchConversations: 'get' }),
     ...mapActions('agent', ['fetchAvailableAgents']),

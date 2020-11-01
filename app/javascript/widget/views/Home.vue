@@ -9,7 +9,11 @@
     v-else-if="!isOnMessageView"
     @toggle-conversation-view="toggleConversationView"
   />
-  <message-view v-else @toggle-conversation-view="toggleConversationView" />
+  <message-view
+    v-else
+    :conversation-id="conversationId"
+    @toggle-conversation-view="toggleConversationView"
+  />
 </template>
 
 <script>
@@ -29,7 +33,7 @@ export default {
   data() {
     return {
       isOnMessageView: false,
-      conversationId: null,
+      conversationId: -1,
     };
   },
   computed: {
@@ -42,9 +46,9 @@ export default {
       this.isOnMessageView = !this.isOnMessageView;
 
       if (!this.isOnMessageView) {
-        this.conversationId = null;
+        this.conversationId = -1;
       } else {
-        this.conversationId = conversationId;
+        this.conversationId = conversationId || -1;
       }
     },
   },

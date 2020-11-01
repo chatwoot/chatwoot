@@ -13,8 +13,8 @@ const sendAttachmentAPI = async attachment => {
   return result;
 };
 
-const getMessagesAPI = async ({ before }) => {
-  const urlData = endPoints.getConversation({ before });
+const getMessagesAPI = async ({ before, conversationId }) => {
+  const urlData = endPoints.getMessages({ before, conversationId });
   const result = await API.get(urlData.url, { params: urlData.params });
   return result;
 };

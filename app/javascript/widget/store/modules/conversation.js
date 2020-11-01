@@ -40,7 +40,7 @@ const shouldShowAvatar = (message, nextMessage) => {
   );
 };
 
-const groupConversationBySender = conversationsForADate =>
+const groupMessagesBySender = conversationsForADate =>
   conversationsForADate.map((message, index) => {
     let showAvatar = false;
     const isLastMessage = index === conversationsForADate.length - 1;
@@ -77,59 +77,46 @@ const state = {
     userLastSeenAt: undefined,
   },
   uiFlags: {
-    allMessagesLoaded: false,
-    isFetchingList: false,
-    isAgentTyping: false,
+    allMessagesLoaded: {},
+    isFetchingList: {},
+    isAgentTyping: {},
   },
 };
 
 export const getters = {
-  getAllMessagesLoaded: _state => _state.uiFlags.allMessagesLoaded,
-  getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
-  getConversation: _state => _state.conversations,
-  getConversationSize: _state => id =>
-    Object.keys(_state.conversations[id] || {}).length,
-  getEarliestMessage: _state => id => {
-    const conversation = Object.values(_state.conversations[id]);
-    if (conversation.length) {
-      return conversation[0];
+  getAllMessagesLoaded: _state => id => _state.uiFlags.allMessagesLoaded[id],
+  getIsAgentTyping: _state => id => _state.uiFlags.isAgentTyping[id],
+  getConversationSize: (_, messageGetters) => id => {
+    const messages = messageGetters.getMessages(id);
+    return messages.length;
+  },
+
+  getEarliestMessage: (_state, messageGetters) => id => {
+    const messages = messageGetters.getMessages(id);
+    if (messages.length) {
+      return messages[0];
     }
     return {};
   },
-  getGroupedConversation: _state => id => {
-    const conversationGroupedByDate = groupBy(
-      Object.values(_state.conversations[id]),
-      message => formatUnixDate(message.created_at)
+  getMessages: ({ conversations }) => conversationId => {
+    return Object.values(conversations)
+      .filter(
+        conversation =>
+          Number(conversation.conversation_id) === Number(conversationId)
+      )
+      .sort((a, b) => a.id - b.id);
+  },
+  getGroupedConversation: (_state, messageGetters) => id => {
+    const messages = messageGetters.getMessages(id);
+    const messagesGroupedByDate = groupBy(messages, message =>
+      formatUnixDate(message.created_at)
     );
-    return Object.keys(conversationGroupedByDate).map(date => ({
+    return Object.keys(messagesGroupedByDate).map(date => ({
       date,
-      messages: groupConversationBySender(conversationGroupedByDate[date]),
+      messages: groupMessagesBySender(messagesGroupedByDate[date]),
     }));
   },
-  getIsFetchingList: _state => _state.uiFlags.isFetchingList,
-  getUnreadMessageCount: _state => {
-    const { userLastSeenAt } = _state.meta;
-    const count = Object.values(_state.conversations).filter(chat => {
-      const { created_at: createdAt, message_type: messageType } = chat;
-      const isOutGoing = messageType === MESSAGE_TYPE.OUTGOING;
-      const hasNotSeen = userLastSeenAt
-        ? createdAt * 1000 > userLastSeenAt * 1000
-        : true;
-      return hasNotSeen && isOutGoing;
-    }).length;
-    return count;
-  },
-  getUnreadTextMessages: (_state, _getters) => {
-    const unreadCount = _getters.getUnreadMessageCount;
-    const allMessages = [...Object.values(_state.conversations)];
-    const unreadAgentMessages = allMessages.filter(message => {
-      const { message_type: messageType } = message;
-      return messageType === MESSAGE_TYPE.OUTGOING;
-    });
-    const maxUnreadCount = Math.min(unreadCount, 3);
-    const allUnreadMessages = unreadAgentMessages.splice(-maxUnreadCount);
-    return allUnreadMessages;
-  },
+  getIsFetchingList: _state => id => _state.uiFlags.isFetchingList[id],
 };
 
 export const actions = {
@@ -164,10 +151,10 @@ export const actions = {
     }
   },
 
-  fetchOldConversations: async ({ commit }, { before } = {}) => {
+  fetchOldMessages: async ({ commit }, { before, conversationId } = {}) => {
     try {
       commit('setConversationListLoading', true);
-      const { data } = await getMessagesAPI({ before });
+      const { data } = await getMessagesAPI({ before, conversationId });
       commit('setMessagesInConversation', data);
       commit('setConversationListLoading', false);
     } catch (error) {

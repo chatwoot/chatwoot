@@ -16,11 +16,16 @@ export const getters = {
 };
 
 export const actions = {
-  get: async ({ commit }) => {
+  get: async ({ commit, dispatch }) => {
     try {
       commit(SET_CONVERSATIONS_UI_FLAGS, { isFetching: true });
       const { data } = await getConversationAPI();
       commit(SET_CONVERSATIONS, data);
+      data.forEach(conversation => {
+        dispatch('conversation/addMessage', conversation.messages[0], {
+          root: true,
+        });
+      });
     } catch (error) {
       // Ignore error
     } finally {

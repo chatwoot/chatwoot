@@ -37,7 +37,14 @@ export default {
     Spinner,
   },
   props: {
-    groupedMessages: Array,
+    groupedMessages: {
+      type: Array,
+      default: () => [],
+    },
+    converstionId: {
+      type: [Number],
+      default: -1,
+    },
   },
   data() {
     return {
@@ -48,11 +55,24 @@ export default {
   computed: {
     ...mapGetters({
       earliestMessage: 'conversation/getEarliestMessage',
-      allMessagesLoaded: 'conversation/getAllMessagesLoaded',
-      isFetchingList: 'conversation/getIsFetchingList',
-      conversationSize: 'conversation/getConversationSize',
+      allMessagesLoaded: '',
       isAgentTyping: 'conversation/getIsAgentTyping',
     }),
+    allMessagesLoaded() {
+      return this.$store.getters['conversation/getAllMessagesLoaded'](
+        this.converstionId
+      );
+    },
+    isFetchingList() {
+      return this.$store.getters['conversation/getIsFetchingList'](
+        this.converstionId
+      );
+    },
+    converstionSize() {
+      return this.$store.getters['conversation/getConversationSize'](
+        this.converstionId
+      );
+    },
   },
   watch: {
     allMessagesLoaded() {
@@ -73,7 +93,7 @@ export default {
     this.$el.removeEventListener('scroll', this.handleScroll);
   },
   methods: {
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversation', ['fetchOldMessages']),
     scrollToBottom() {
       const container = this.$el;
       container.scrollTop = container.scrollHeight - this.previousScrollHeight;
@@ -89,7 +109,11 @@ export default {
       }
 
       if (this.$el.scrollTop < 100) {
-        this.fetchOldConversations({ before: this.earliestMessage.id });
+        console.log(this.earliestMessage);
+        this.fetchOldMessages({
+          before: this.earliestMessage.id,
+          conversationId: this.earliestMessage.conversation_id,
+        });
         this.previousScrollHeight = this.$el.scrollHeight;
       }
     },

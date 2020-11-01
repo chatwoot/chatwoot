@@ -25,7 +25,6 @@ export default {
       this.setLocale(message.locale);
       this.setBubbleLabel();
       this.setPosition(message.position);
-      this.fetchOldConversations().then(() => this.setUnreadView());
       this.setPopoutDisplay(message.showPopoutButton);
       this.setHideMessageBubble(message.hideMessageBubble);
     },

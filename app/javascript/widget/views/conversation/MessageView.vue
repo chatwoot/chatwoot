@@ -22,7 +22,7 @@
 import ChatFooter from 'widget/components/ChatFooter.vue';
 import ChatHeader from 'widget/components/header/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import configMixin from 'widget/mixins/configMixin';
 import Branding from 'widget/components/Branding.vue';
 
@@ -34,11 +34,35 @@ export default {
     ConversationWrap,
   },
   mixins: [configMixin],
+  props: {
+    conversationId: {
+      type: Number,
+      default: -1,
+    },
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
       sortedConversations: 'conversations/sortedConversations',
+      earliestMessage: 'conversation/getEarliestMessage',
     }),
+    ...mapActions('conversation', ['fetchOldMessages']),
+    groupedMessages() {
+      if (this.conversationId > 0) {
+        return this.$store.getters['conversation/getGroupedConversation'](
+          this.conversationId
+        );
+      }
+      return [];
+    },
+    unGroupedMessages() {
+      if (this.conversationId > 0) {
+        return this.$store.getters['conversation/getMessages'](
+          this.conversationId
+        );
+      }
+      return [];
+    },
     showInputTextArea() {
       if (this.hideInputForBotConversations) {
         if (this.sortedConversations.open) {
@@ -48,6 +72,17 @@ export default {
       }
       return true;
     },
+  },
+  mounted() {
+    if (this.unGroupedMessages.length === 1) {
+      this.fetchOldMessages({
+        before: this.earliestMessage.id,
+        conversationId: this.conversationId,
+      });
+    }
+  },
+  beforeDestroy() {
+    console.log('destroyed');
   },
   methods: {
     toggleConversationView(conversationId) {

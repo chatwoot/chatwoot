@@ -30,8 +30,8 @@ const sendAttachment = ({ attachment }) => {
   };
 };
 
-const getConversation = ({ before }) => ({
-  url: `/api/v1/widget/messages${window.location.search}`,
+const getMessages = ({ before, conversationId }) => ({
+  url: `/api/v1/widget/conversations/${conversationId}/messages${window.location.search}`,
   params: { before },
 });
 
@@ -49,7 +49,7 @@ const getAvailableAgents = token => ({
 export default {
   sendMessage,
   sendAttachment,
-  getConversation,
+  getMessages,
   updateMessage,
   getAvailableAgents,
 };
