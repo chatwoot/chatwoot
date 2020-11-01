@@ -230,6 +230,8 @@ class Conversation < ApplicationRecord
   end
 
   def create_assignee_change(user_name)
+    return unless user_name
+
     params = { assignee_name: assignee.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
@@ -239,6 +241,8 @@ class Conversation < ApplicationRecord
   end
 
   def create_label_change(user_name)
+    return unless user_name
+
     previous_labels, current_labels = previous_changes[:label_list]
     return unless (previous_labels.is_a? Array) && (current_labels.is_a? Array)
 
