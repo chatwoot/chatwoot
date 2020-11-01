@@ -5,16 +5,16 @@
       <header-actions :show-popout-button="showPopoutButton" />
     </div>
     <h2
-      class="text-slate-900 mt-6 text-4xl mb-3 font-normal"
+      class="text-slate-900 mt-5 text-4xl mb-3 font-normal"
       v-html="introHeading"
     />
-    <p class="text-lg text-black-700 leading-normal" v-html="introBody" />
+    <p class="text-base text-black-700 leading-normal" v-html="introBody" />
   </header>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import HeaderActions from './HeaderActions';
+import HeaderActions from '../HeaderActions';
 export default {
   name: 'ChatHeaderExpanded',
   components: {

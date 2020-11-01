@@ -2,6 +2,7 @@ import { SET_WIDGET_COLOR } from '../types';
 
 const state = {
   widgetColor: '',
+  websiteToken: '',
 };
 
 const getters = {

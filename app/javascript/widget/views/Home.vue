@@ -58,8 +58,8 @@
 <script>
 import Branding from 'widget/components/Branding.vue';
 import ChatFooter from 'widget/components/ChatFooter.vue';
-import ChatHeaderExpanded from 'widget/components/ChatHeaderExpanded.vue';
-import ChatHeader from 'widget/components/ChatHeader.vue';
+import ChatHeaderExpanded from 'widget/components/header/ChatHeaderExpanded.vue';
+import ChatHeader from 'widget/components/header/ChatHeader.vue';
 import ConversationWrap from 'widget/components/ConversationWrap.vue';
 import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';

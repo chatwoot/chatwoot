@@ -59,20 +59,19 @@ export default {
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
-    this.setLocale(locale);
+    setHeader('X-Auth-Token', window.authToken);
+    this.fetchAvailableAgents(websiteToken);
+    this.fetchOldConversations();
+    this.setWidgetColor(window.chatwootWebChannel);
+
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
-      setHeader('X-Auth-Token', window.authToken);
+      this.setLocale(locale);
     } else {
-      setHeader('X-Auth-Token', window.authToken);
-      this.fetchOldConversations();
-      this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
-    this.$store.dispatch('conversationAttributes/get');
-    this.setWidgetColor(window.chatwootWebChannel);
-    this.registerUnreadEvents();
+    // this.registerUnreadEvents();
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
@@ -101,18 +100,18 @@ export default {
     setHideMessageBubble(hideBubble) {
       this.hideMessageBubble = !!hideBubble;
     },
-    registerUnreadEvents() {
-      bus.$on('on-agent-message-recieved', () => {
-        if (!this.isIFrame) {
-          this.setUserLastSeen();
-        }
-        this.setUnreadView();
-      });
-      bus.$on('on-unread-view-clicked', () => {
-        this.unsetUnreadView();
-        this.setUserLastSeen();
-      });
-    },
+    // registerUnreadEvents() {
+    //   bus.$on('on-agent-message-recieved', () => {
+    //     if (!this.isIFrame) {
+    //       this.setUserLastSeen();
+    //     }
+    //     this.setUnreadView();
+    //   });
+    //   bus.$on('on-unread-view-clicked', () => {
+    //     this.unsetUnreadView();
+    //     this.setUserLastSeen();
+    //   });
+    // },
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },
@@ -140,7 +139,6 @@ export default {
       this.$store.dispatch('events/create', { name: eventName });
     },
     registerListeners() {
-      const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
@@ -148,12 +146,10 @@ export default {
         const message = IFrameHelper.getMessage(e);
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
-          this.setBubbleLabel();
           this.setPosition(message.position);
-          this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
-          this.fetchAvailableAgents(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);
+          this.setBubbleLabel();
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'set-current-url') {
