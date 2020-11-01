@@ -32,6 +32,7 @@ fa:
       status:
         resolved: "مکالمه توسط اپراتور %{user_name} حل شده، اعلام شده بود"
         open: "گفتگو توسط اپراتور %{user_name} مجددا باز شده بود"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
         removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
