@@ -32,18 +32,20 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('agent/updatePresence', data.users);
   };
 
-  onTypingOn = () => {
+  onTypingOn = ({ conversation = {} }) => {
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'on',
+      conversationId: conversation.id,
     });
-    this.initTimer();
+    this.initTimer({ conversation });
   };
 
-  onTypingOff = () => {
+  onTypingOff = ({ conversation = {} }) => {
     this.clearTimer();
     this.app.$store.dispatch('conversation/toggleAgentTyping', {
       status: 'off',
+      conversationId: conversation.id,
     });
   };
 
@@ -54,10 +56,10 @@ class ActionCableConnector extends BaseActionCableConnector {
     }
   };
 
-  initTimer = () => {
+  initTimer = ({ conversation }) => {
     // Turn off typing automatically after 30 seconds
     this.CancelTyping = setTimeout(() => {
-      this.onTypingOff();
+      this.onTypingOff({ conversation });
     }, 30000);
   };
 }

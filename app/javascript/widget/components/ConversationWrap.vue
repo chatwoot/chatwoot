@@ -41,7 +41,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    converstionId: {
+    conversationId: {
       type: [Number],
       default: -1,
     },
@@ -56,21 +56,25 @@ export default {
     ...mapGetters({
       earliestMessage: 'conversation/getEarliestMessage',
       allMessagesLoaded: '',
-      isAgentTyping: 'conversation/getIsAgentTyping',
     }),
+    isAgentTyping() {
+      return this.$store.getters['conversation/getIsAgentTyping'](
+        this.conversationId
+      );
+    },
     allMessagesLoaded() {
       return this.$store.getters['conversation/getAllMessagesLoaded'](
-        this.converstionId
+        this.conversationId
       );
     },
     isFetchingList() {
       return this.$store.getters['conversation/getIsFetchingList'](
-        this.converstionId
+        this.conversationId
       );
     },
     converstionSize() {
       return this.$store.getters['conversation/getConversationSize'](
-        this.converstionId
+        this.conversationId
       );
     },
   },

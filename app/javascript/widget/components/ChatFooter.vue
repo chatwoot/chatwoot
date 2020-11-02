@@ -3,6 +3,7 @@
     <chat-input-wrap
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
+      :conversation-id="conversationId"
     />
   </footer>
 </template>
@@ -20,16 +21,21 @@ export default {
       type: String,
       default: '',
     },
+    conversationId: {
+      type: Number,
+      default: 0,
+    },
   },
   methods: {
     ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
     handleSendMessage(content) {
       this.sendMessage({
         content,
+        conversationId: this.conversationId,
       });
     },
     handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+      this.sendAttachment({ attachment, conversationId: this.conversationId });
     },
   },
 };

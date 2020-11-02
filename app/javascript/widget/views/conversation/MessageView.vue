@@ -12,7 +12,7 @@
     />
     <div class="footer-wrap">
       <div v-if="showInputTextArea" class="px-4">
-        <chat-footer />
+        <chat-footer :conversation-id="conversationId" />
       </div>
       <branding></branding>
     </div>

@@ -15,7 +15,11 @@ import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import getUuid from '../../helpers/uuid';
 const groupBy = require('lodash.groupby');
 
-export const createTemporaryMessage = ({ attachments, content }) => {
+export const createTemporaryMessage = ({
+  attachments,
+  content,
+  conversationId,
+}) => {
   const timestamp = new Date().getTime() / 1000;
   return {
     id: getUuid(),
@@ -24,6 +28,7 @@ export const createTemporaryMessage = ({ attachments, content }) => {
     status: 'in_progress',
     created_at: timestamp,
     message_type: MESSAGE_TYPE.INCOMING,
+    conversation_id: conversationId,
   };
 };
 
@@ -85,7 +90,10 @@ const state = {
 
 export const getters = {
   getAllMessagesLoaded: _state => id => _state.uiFlags.allMessagesLoaded[id],
-  getIsAgentTyping: _state => id => _state.uiFlags.isAgentTyping[id],
+  getIsAgentTyping: _state => id => {
+    console.log(id);
+    return _state.uiFlags.isAgentTyping[id];
+  },
   getConversationSize: (_, messageGetters) => id => {
     const messages = messageGetters.getMessages(id);
     return messages.length;
@@ -121,14 +129,18 @@ export const getters = {
 
 export const actions = {
   sendMessage: async ({ commit }, params) => {
-    const { content } = params;
-    commit('pushMessageToConversation', createTemporaryMessage({ content }));
-    await sendMessageAPI(content);
+    const { content, conversationId } = params;
+    commit(
+      'pushMessageToConversation',
+      createTemporaryMessage({ content, conversationId })
+    );
+    await sendMessageAPI({ content, conversationId });
   },
 
   sendAttachment: async ({ commit }, params) => {
     const {
       attachment: { thumbUrl, fileType },
+      conversationId,
     } = params;
     const attachment = {
       thumb_url: thumbUrl,
@@ -138,6 +150,7 @@ export const actions = {
     };
     const tempMessage = createTemporaryMessage({
       attachments: [attachment],
+      conversationId,
     });
     commit('pushMessageToConversation', tempMessage);
     try {
@@ -153,12 +166,21 @@ export const actions = {
 
   fetchOldMessages: async ({ commit }, { before, conversationId } = {}) => {
     try {
-      commit('setConversationListLoading', true);
+      commit('setConversationListLoading', {
+        id: conversationId,
+        isFetching: true,
+      });
       const { data } = await getMessagesAPI({ before, conversationId });
       commit('setMessagesInConversation', data);
-      commit('setConversationListLoading', false);
+      commit('setConversationListLoading', {
+        id: conversationId,
+        isFetching: false,
+      });
     } catch (error) {
-      commit('setConversationListLoading', false);
+      commit('setConversationListLoading', {
+        id: conversationId,
+        isFetching: false,
+      });
     }
   },
 
@@ -234,8 +256,8 @@ export const mutations = {
     }
   },
 
-  setConversationListLoading($state, status) {
-    $state.uiFlags.isFetchingList = status;
+  setConversationListLoading($state, { id, isFetching }) {
+    Vue.set($state.uiFlags.isFetchingList, id, isFetching);
   },
 
   setMessagesInConversation($state, payload) {
@@ -257,9 +279,11 @@ export const mutations = {
     };
   },
 
-  toggleAgentTypingStatus($state, { status }) {
+  toggleAgentTypingStatus($state, { conversationId, status }) {
+    console.log({ conversationId, status });
     const isTyping = status === 'on';
-    $state.uiFlags.isAgentTyping = isTyping;
+    Vue.set($state.uiFlags.isAgentTyping, conversationId, isTyping);
+    console.log($state.uiFlags.isAgentTyping);
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {

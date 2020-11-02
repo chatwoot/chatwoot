@@ -59,6 +59,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    conversationId: {
+      type: Number,
+      default: 0,
+    },
   },
 
   data() {
@@ -118,7 +122,10 @@ export default {
       this.toggleTyping('on');
     },
     toggleTyping(typingStatus) {
-      this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
+      this.$store.dispatch('conversation/toggleUserTyping', {
+        typingStatus,
+        conversationId: this.conversationId,
+      });
     },
   },
 };
