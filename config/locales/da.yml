@@ -32,6 +32,7 @@ da:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
         open: "Conversation was reopened by %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Assigned to %{assignee_name} by %{user_name}"
         removed: "Conversation unassigned by %{user_name}"

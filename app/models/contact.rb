@@ -40,6 +40,7 @@ class Contact < ApplicationRecord
   before_validation :prepare_email_attribute
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
+  after_commit :ip_lookup
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
@@ -66,6 +67,12 @@ class Contact < ApplicationRecord
       avatar: avatar_url,
       type: 'contact'
     }
+  end
+
+  def ip_lookup
+    return unless account.feature_enabled?('ip_lookup')
+
+    ContactIpLookupJob.perform_later(self)
   end
 
   def prepare_email_attribute

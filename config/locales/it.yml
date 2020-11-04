@@ -32,6 +32,7 @@ it:
       status:
         resolved: "Conversazione segnata da %{user_name}"
         open: "La conversazione è stata riaperta da %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Assegnato a %{assignee_name} da %{user_name}"
         removed: "Conversazione non assegnata da %{user_name}"
