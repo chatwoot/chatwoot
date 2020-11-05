@@ -18,6 +18,14 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  search({ q }) {
+    return axios.get(`${this.url}/search`, {
+      params: {
+        q,
+      },
+    });
+  }
+
   toggleStatus(conversationId) {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {});
   }

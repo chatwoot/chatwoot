@@ -6,6 +6,7 @@
         {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
+      <slot></slot>
     </div>
 
     <chat-type-tabs
@@ -56,7 +57,6 @@
 <script>
 /* eslint-env browser */
 /* eslint no-console: 0 */
-/* global bus */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';

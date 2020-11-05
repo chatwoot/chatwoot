@@ -1,6 +1,15 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversation-inbox="inboxId" :label="label"></chat-list>
+    <chat-list :conversation-inbox="inboxId" :label="label">
+      <button class="button nice icon success" @click="onSearch">
+        <i class="ion-search" />
+      </button>
+      <search
+        v-if="showSearchModal"
+        :show="showSearchModal"
+        :on-close="closeSearch"
+      />
+    </chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -22,12 +31,14 @@ import { mapGetters } from 'vuex';
 import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
+import Search from './search/Search.vue';
 
 export default {
   components: {
     ChatList,
     ContactPanel,
     ConversationBox,
+    Search,
   },
   props: {
     inboxId: {
@@ -47,6 +58,7 @@ export default {
   data() {
     return {
       panelToggleState: true,
+      showSearchModal: false,
     };
   },
   computed: {
@@ -115,6 +127,12 @@ export default {
     },
     onToggleContactPanel() {
       this.isContactPanelOpen = !this.isContactPanelOpen;
+    },
+    onSearch() {
+      this.showSearchModal = true;
+    },
+    closeSearch() {
+      this.showSearchModal = false;
     },
   },
 };

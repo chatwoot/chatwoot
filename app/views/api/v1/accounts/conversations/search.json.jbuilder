@@ -9,14 +9,7 @@ json.data do
       json.inbox_id conversation.inbox_id
       json.messages conversation.messages
       json.status conversation.status
-      json.muted conversation.muted?
-      json.can_reply conversation.can_reply?
-      json.timestamp conversation.last_activity_at.to_i
-      json.contact_last_seen_at conversation.contact_last_seen_at.to_i
-      json.agent_last_seen_at conversation.agent_last_seen_at.to_i
-      json.additional_attributes conversation.additional_attributes
       json.account_id conversation.account_id
-      json.labels conversation.label_list
     end
   end
 end
