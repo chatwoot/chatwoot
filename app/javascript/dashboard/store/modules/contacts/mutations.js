@@ -1,25 +1,25 @@
 import Vue from 'vue';
-import * as types from '../../mutation-types';
+import types from '../../mutation-types';
 
 export const mutations = {
-  [types.default.SET_CONTACT_UI_FLAG]($state, data) {
+  [types.SET_CONTACT_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,
       ...data,
     };
   },
 
-  [types.default.CLEAR_CONTACTS]: $state => {
+  [types.CLEAR_CONTACTS]: $state => {
     Vue.set($state, 'records', {});
   },
 
-  [types.default.SET_CONTACT_META]: ($state, data) => {
+  [types.SET_CONTACT_META]: ($state, data) => {
     const { count, current_page: currentPage } = data;
     Vue.set($state.meta, 'count', count);
     Vue.set($state.meta, 'currentPage', currentPage);
   },
 
-  [types.default.SET_CONTACTS]: ($state, data) => {
+  [types.SET_CONTACTS]: ($state, data) => {
     data.forEach(contact => {
       Vue.set($state.records, contact.id, {
         ...($state.records[contact.id] || {}),
@@ -28,18 +28,18 @@ export const mutations = {
     });
   },
 
-  [types.default.SET_CONTACT_ITEM]: ($state, data) => {
+  [types.SET_CONTACT_ITEM]: ($state, data) => {
     Vue.set($state.records, data.id, {
       ...($state.records[data.id] || {}),
       ...data,
     });
   },
 
-  [types.default.EDIT_CONTACT]: ($state, data) => {
+  [types.EDIT_CONTACT]: ($state, data) => {
     Vue.set($state.records, data.id, data);
   },
 
-  [types.default.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
+  [types.UPDATE_CONTACTS_PRESENCE]: ($state, data) => {
     Object.values($state.records).forEach(element => {
       const availabilityStatus = data[element.id];
       if (availabilityStatus) {
