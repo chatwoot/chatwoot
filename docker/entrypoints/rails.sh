@@ -10,7 +10,6 @@ echo "Waiting for postgres to become ready...."
 
 # Let DATABASE_URL env take presedence over individual connection params.
 if [ -z "$DATABASE_URL" ]; then
-  PGPASSWORD=$POSTGRES_PASSWORD
   PSQL="pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USERNAME"
 else
   PSQL="pg_isready -d $DATABASE_URL"
