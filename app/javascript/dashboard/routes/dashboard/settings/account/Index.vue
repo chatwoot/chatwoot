@@ -198,7 +198,7 @@ export default {
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
         });
-        Vue.config.lang = this.locale;
+        this.$root.$i18n.locale = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));
