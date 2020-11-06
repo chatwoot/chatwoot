@@ -14,7 +14,7 @@
       />
 
       <div v-if="uiFlags.isFetching" class="search--activity-message">
-        <woot-spinner />
+        <woot-spinner size="" />
         {{ $t('CONVERSATION.SEARCH.LOADING_MESSAGE') }}
       </div>
 
@@ -99,11 +99,14 @@ export default {
       }, 1000);
     },
   },
+  mounted() {
+    this.$store.dispatch('conversationSearch/get', { q: '' });
+  },
   methods: {
     prepareContent(content = '') {
       return content
         .split(this.q)
-        .join(`<span class="search--highlight">${this.q}</span>`);
+        .join(`<span class="searchkey--highlight">${this.q}</span>`);
     },
     onClick(conversation) {
       const path = conversationUrl({
@@ -127,7 +130,7 @@ export default {
   overflow: scroll;
 }
 
-.search--highlight {
+.searchkey--highlight {
   background: var(--w-500);
   color: var(--white);
 }

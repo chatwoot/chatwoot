@@ -1,11 +1,12 @@
 import ConversationAPI from '../../api/inbox/conversation';
-
+import types from '../mutation-types';
 export const initialState = {
   records: [],
   uiFlags: {
     isFetching: false,
   },
 };
+
 export const getters = {
   getConversations(state) {
     return state.records;
@@ -14,33 +15,33 @@ export const getters = {
     return state.uiFlags;
   },
 };
-export const mutations = {
-  setConversation(state, records) {
-    state.records = records;
-  },
-  setUIFlags(state, uiFlags) {
-    state.uiFlags = { ...state.uiFlags, ...uiFlags };
-  },
-};
+
 export const actions = {
   async get({ commit }, { q }) {
-    commit('setConversation', []);
+    commit(types.SEARCH_CONVERSATIONS_SET, []);
     if (!q) {
       return;
     }
-    commit('setUIFlags', { isFetching: true });
+    commit(types.SEARCH_CONVERSATIONS_SET_UI_FLAG, { isFetching: true });
     try {
       const {
-        data: {
-          data: { payload },
-        },
+        data: { payload },
       } = await ConversationAPI.search({ q });
-      commit('setConversation', payload);
+      commit(types.SEARCH_CONVERSATIONS_SET, payload);
     } catch (error) {
       // Ignore error
     } finally {
-      commit('setUIFlags', { isFetching: false });
+      commit(types.SEARCH_CONVERSATIONS_SET_UI_FLAG, { isFetching: false });
     }
+  },
+};
+
+export const mutations = {
+  [types.SEARCH_CONVERSATIONS_SET](state, records) {
+    state.records = records;
+  },
+  [types.SEARCH_CONVERSATIONS_SET_UI_FLAG](state, uiFlags) {
+    state.uiFlags = { ...state.uiFlags, ...uiFlags };
   },
 };
 
