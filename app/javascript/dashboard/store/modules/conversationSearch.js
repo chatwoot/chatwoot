@@ -24,9 +24,12 @@ export const mutations = {
 };
 export const actions = {
   async get({ commit }, { q }) {
+    commit('setConversation', []);
+    if (!q) {
+      return;
+    }
     commit('setUIFlags', { isFetching: true });
     try {
-      commit('setConversation', []);
       const {
         data: {
           data: { payload },

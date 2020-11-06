@@ -1,12 +1,12 @@
 <template>
   <div class="conversations-sidebar  medium-4 columns">
+    <slot></slot>
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
         {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
-      <slot></slot>
     </div>
 
     <chat-type-tabs
@@ -55,8 +55,6 @@
 </template>
 
 <script>
-/* eslint-env browser */
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';

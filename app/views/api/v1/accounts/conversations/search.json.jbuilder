@@ -6,9 +6,13 @@ json.data do
   end
   json.payload do
     json.array! @conversations do |conversation|
-      json.inbox_id conversation.inbox_id
-      json.messages conversation.messages
-      json.status conversation.status
+      json.id conversation.display_id
+      json.messages do
+        json.array! conversation.messages do |message|
+          json.content message.content
+          json.created_at message.created_at.to_i
+        end
+      end
       json.account_id conversation.account_id
     end
   end

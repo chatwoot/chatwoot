@@ -1,40 +1,50 @@
 <template>
   <woot-modal
+    class="message-search--modal"
     :show.sync="show"
     :on-close="onClose"
-    :close-on-backdrop-click="false"
   >
+    <woot-modal-header :header-title="$t('CONVERSATION.SEARCH.TITLE')" />
     <div class="search--container">
-      <form class="search--form">
-        <label>
-          <input
-            v-model="q"
-            autofocus
-            placeholder="Search for messages"
-            type="text"
-          />
-        </label>
-      </form>
-      <div
-        v-if="q && (conversations.length || uiFlags.isFetching)"
-        class="results--container"
-      >
-        <div v-if="uiFlags.isFetching">
-          Searching for conversations...
-        </div>
+      <input
+        v-model="q"
+        v-focus
+        :placeholder="$t('CONVERSATION.SEARCH.PLACEHOLDER')"
+        type="text"
+      />
 
-        <div v-else>
-          <div v-for="conversation in conversations" :key="conversation.id">
-            <span>{{ conversation.id }}</span>
-            <button
-              v-for="message in conversation.messages"
-              :key="message.id"
-              class="search--messages"
-            >
-              <span v-html="prepareContent(message.content)" />
-            </button>
-          </div>
+      <div v-if="uiFlags.isFetching" class="search--activity-message">
+        <woot-spinner />
+        {{ $t('CONVERSATION.SEARCH.LOADING_MESSAGE') }}
+      </div>
+
+      <div
+        v-if="q && conversations.length && !uiFlags.isFetching"
+        class="search-results--container"
+      >
+        <div v-for="conversation in conversations" :key="conversation.id">
+          <button
+            v-for="message in conversation.messages"
+            :key="message.id"
+            class="search--messages"
+            @click="() => onClick(conversation)"
+          >
+            <div class="search--messages__metadata">
+              <span>#{{ conversation.id }}</span>
+              <span>{{ dynamicTime(message.created_at) }}</span>
+            </div>
+            <div v-html="prepareContent(message.content)" />
+          </button>
         </div>
+      </div>
+
+      <div
+        v-else-if="
+          q && !conversations.length && !uiFlags.isFetching && hasSearched
+        "
+        class="search--activity-message"
+      >
+        {{ $t('CONVERSATION.SEARCH.NO_MATCHING_RESULTS') }}
       </div>
     </div>
   </woot-modal>
@@ -42,7 +52,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
+import timeMixin from '../../../../mixins/time';
+
 export default {
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
+  mixins: [timeMixin],
   props: {
     show: {
       type: Boolean,
@@ -56,12 +77,14 @@ export default {
   data() {
     return {
       q: '',
+      hasSearched: false,
     };
   },
   computed: {
     ...mapGetters({
       conversations: 'conversationSearch/getConversations',
       uiFlags: 'conversationSearch/getUIFlags',
+      accountId: 'getCurrentAccountId',
     }),
   },
   watch: {
@@ -71,6 +94,7 @@ export default {
       }
 
       this.typingTimer = setTimeout(() => {
+        this.hasSearched = true;
         this.$store.dispatch('conversationSearch/get', { q: newValue });
       }, 1000);
     },
@@ -81,18 +105,26 @@ export default {
         .split(this.q)
         .join(`<span class="search--highlight">${this.q}</span>`);
     },
+    onClick(conversation) {
+      const path = conversationUrl({
+        accountId: this.accountId,
+        id: conversation.id,
+      });
+      window.location = frontendURL(path);
+    },
   },
 };
 </script>
 
-<style>
+<style lang="scss">
 .search--container {
   font-size: var(--font-size-default);
-  padding: var(--space-normal) 0 var(--space-large);
+  padding: var(--space-normal) var(--space-large);
 }
 
-.search--form {
-  padding-bottom: 0 !important;
+.search-results--container {
+  max-height: 300px;
+  overflow: scroll;
 }
 
 .search--highlight {
@@ -100,17 +132,34 @@ export default {
   color: var(--white);
 }
 
-.results--container {
-  padding: 0 var(--space-large) var(--space-large);
+.search--activity-message {
+  color: var(--s-800);
+  text-align: center;
 }
 
 .search--messages {
   border-bottom: 1px solid var(--b-100);
-  font-size: var(--font-size-normal);
+  color: var(--color-body);
+  font-size: var(--font-size-small);
   line-height: 1.5;
-  padding-bottom: var(--space-normal);
-  padding-top: var(--space-normal);
+  padding: var(--space-normal);
   text-align: left;
   width: 100%;
+
+  &:hover {
+    background: var(--w-50);
+  }
+}
+
+.message-search--modal .modal-container {
+  width: 80rem;
+  min-height: 460px;
+}
+
+.search--messages__metadata {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-small);
+  color: var(--s-500);
 }
 </style>
