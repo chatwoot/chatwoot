@@ -32,6 +32,7 @@ fr:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
         open: "La conversation a été ré-ouverte par %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Assigné à %{assignee_name} par %{user_name}"
         removed: "Responsable de la conversation supprimé par %{user_name}"

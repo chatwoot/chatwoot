@@ -32,6 +32,7 @@ ar:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
         removed: "المحادثة غير مسندة بواسطة %{user_name}"
