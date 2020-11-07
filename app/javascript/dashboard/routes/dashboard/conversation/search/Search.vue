@@ -104,9 +104,10 @@ export default {
   },
   methods: {
     prepareContent(content = '') {
-      return content
-        .split(this.q)
-        .join(`<span class="searchkey--highlight">${this.q}</span>`);
+      return content.replace(
+        new RegExp(`(${this.q})`, 'ig'),
+        '<span class="searchkey--highlight">$1</span>'
+      );
     },
     onClick(conversation) {
       const path = conversationUrl({
@@ -143,6 +144,7 @@ export default {
 .search--messages {
   border-bottom: 1px solid var(--b-100);
   color: var(--color-body);
+  cursor: pointer;
   font-size: var(--font-size-small);
   line-height: 1.5;
   padding: var(--space-normal);
