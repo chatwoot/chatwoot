@@ -7,7 +7,7 @@
     <woot-modal-header :header-title="$t('CONVERSATION.SEARCH.TITLE')" />
     <div class="search--container">
       <input
-        v-model="q"
+        v-model="searchTerm"
         v-focus
         :placeholder="$t('CONVERSATION.SEARCH.PLACEHOLDER')"
         type="text"
@@ -19,7 +19,7 @@
       </div>
 
       <div
-        v-if="q && conversations.length && !uiFlags.isFetching"
+        v-if="searchTerm && conversations.length && !uiFlags.isFetching"
         class="search-results--container"
       >
         <div v-for="conversation in conversations" :key="conversation.id">
@@ -40,7 +40,10 @@
 
       <div
         v-else-if="
-          q && !conversations.length && !uiFlags.isFetching && hasSearched
+          searchTerm &&
+            !conversations.length &&
+            !uiFlags.isFetching &&
+            hasSearched
         "
         class="search--activity-message"
       >
@@ -76,7 +79,7 @@ export default {
   },
   data() {
     return {
-      q: '',
+      searchTerm: '',
       hasSearched: false,
     };
   },
@@ -88,7 +91,7 @@ export default {
     }),
   },
   watch: {
-    q(newValue) {
+    searchTerm(newValue) {
       if (this.typingTimer) {
         clearTimeout(this.typingTimer);
       }
@@ -105,7 +108,7 @@ export default {
   methods: {
     prepareContent(content = '') {
       return content.replace(
-        new RegExp(`(${this.q})`, 'ig'),
+        new RegExp(`(${this.searchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );
     },
@@ -157,7 +160,7 @@ export default {
 }
 
 .message-search--modal .modal-container {
-  width: 80rem;
+  width: 800px;
   min-height: 460px;
 }
 
