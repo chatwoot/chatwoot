@@ -32,6 +32,7 @@ pt:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
         removed: "Conversa não atribuída por %{user_name}"

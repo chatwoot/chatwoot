@@ -2,16 +2,17 @@
 #
 # Table name: accounts
 #
-#  id             :integer          not null, primary key
-#  domain         :string(100)
-#  feature_flags  :integer          default(0), not null
-#  locale         :integer          default("en")
-#  name           :string           not null
-#  settings_flags :integer          default(0), not null
-#  support_email  :string(100)
+#  id                    :integer          not null, primary key
+#  auto_resolve_duration :integer
+#  domain                :string(100)
+#  feature_flags         :integer          default(0), not null
+#  locale                :integer          default("en")
+#  name                  :string           not null
+#  settings_flags        :integer          default(0), not null
+#  support_email         :string(100)
 #  timezone       :string           default("UTC")
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #
 
 class Account < ApplicationRecord
@@ -29,6 +30,7 @@ class Account < ApplicationRecord
   }.freeze
 
   validates :name, presence: true
+  validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, allow_nil: true }
 
   has_many :account_users, dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy

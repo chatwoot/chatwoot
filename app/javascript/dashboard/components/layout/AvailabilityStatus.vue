@@ -2,9 +2,7 @@
   <div class="status">
     <div class="status-view">
       <div
-        :class="
-          `status-view--badge status-view--badge__${currentUserAvailabilityStatus}`
-        "
+        :class="`status-badge status-badge__${currentUserAvailabilityStatus}`"
       />
 
       <div class="status-view--title">
@@ -20,7 +18,13 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <li v-for="status in availabilityStatuses" :key="status.value">
+            <li
+              v-for="status in availabilityStatuses"
+              :key="status.value"
+              class="status-items"
+            >
+              <div :class="`status-badge status-badge__${status.value}`" />
+
               <button
                 class="button clear status-change--dropdown-button"
                 :disabled="status.disabled"
@@ -112,24 +116,6 @@ export default {
   display: flex;
   align-items: baseline;
 
-  & &--badge {
-    width: $space-one;
-    height: $space-one;
-    border-radius: 50%;
-
-    &__online {
-      background: $success-color;
-    }
-
-    &__offline {
-      background: $color-gray;
-    }
-
-    &__busy {
-      background: $warning-color;
-    }
-  }
-
   & &--title {
     color: $color-gray;
     font-size: $font-size-small;
@@ -145,6 +131,11 @@ export default {
 .status-change {
   .dropdown-pane {
     top: -130px;
+  }
+
+  .status-items {
+    display: flex;
+    align-items: baseline;
   }
 
   & &--change-button {
@@ -164,6 +155,24 @@ export default {
     padding: $space-small $space-one;
     text-align: left;
     width: 100%;
+  }
+}
+
+.status-badge {
+  width: $space-one;
+  height: $space-one;
+  border-radius: 50%;
+
+  &__online {
+    background: $success-color;
+  }
+
+  &__offline {
+    background: $color-gray;
+  }
+
+  &__busy {
+    background: $warning-color;
   }
 }
 </style>

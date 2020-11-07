@@ -33,6 +33,11 @@
         "PLACEHOLDER": "L'adresse de courriel de support de votre entreprise",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+      },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
