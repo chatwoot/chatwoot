@@ -1,4 +1,5 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  RESULTS_PER_PAGE = 15
   protect_from_forgery with: :null_session
 
   before_action :check_authorization
@@ -8,7 +9,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def index
     contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
     @contacts_count = contacts.count
-    @contacts = contacts.page(@current_page)
+    @contacts = contacts.joins(:conversations).select('contacts.*, COUNT(conversations.id) as conversations_count').group('contacts.id')
+                        .page(@current_page).per(RESULTS_PER_PAGE)
+  end
+
+  def search
+    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
+
+    contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
+                      .where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
+    @contacts_count = contacts.count
+    @contacts = contacts.joins(:conversations).select('contacts.*, COUNT(conversations.id) as conversations_count').group('contacts.id')
+                        .page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   # returns online contacts
@@ -39,14 +51,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       message: e.record.errors.full_messages.join(', '),
       contact: Contact.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
-  end
-
-  def search
-    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
-
-    contacts = Current.account.contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
-    @contacts_count = contacts.count
-    @contacts = contacts.page(@current_page)
   end
 
   private
