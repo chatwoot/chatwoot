@@ -9,7 +9,7 @@
         >
           {{ thHeader }}
         </th>
-        <th><i class="ion-chevron-down" /></th>
+        <th></th>
       </thead>
       <tbody v-show="showTableData">
         <tr v-for="contactItem in contacts" :key="contactItem.id">
@@ -18,7 +18,7 @@
               <input type="checkbox" />
             </div>
           </td> -->
-          <td>
+          <td @click="() => onClickContact(contactItem.id)">
             <div class="row-main-info">
               <thumbnail
                 :src="contactItem.thumbnail"
@@ -31,17 +31,15 @@
                   {{ contactItem.name }}
                 </h4>
                 <p class="user-about">
-                  {{
-                    contactItem.additional_attributes
-                      ? contactItem.additional_attributes.description
-                      : ''
-                  }}
+                  {{ contactItem.email }}
                 </p>
               </div>
             </div>
           </td>
-          <td>{{ contactItem.email }}</td>
-          <td></td>
+          <td>{{ contactItem.phone_number }}</td>
+          <td class="conversation-count-item">
+            {{ contactItem.conversations_count }}
+          </td>
           <td></td>
           <td>
             <div
@@ -103,6 +101,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onClickContact: {
+      type: Function,
+      default: () => {},
+    },
     isLoading: {
       type: Boolean,
       default: false,
@@ -155,8 +157,9 @@ export default {
 
 .contacts-table-wrap {
   @include scroll-on-hover;
-  flex: 1 1;
   background: var(--color-background-light);
+  flex: 1 1;
+  height: 100%;
 }
 
 .contacts-table {
@@ -165,35 +168,31 @@ export default {
     background: white;
 
     > th:first-child {
-      /* width: var(--space-large); */
       padding-left: var(--space-medium);
-      width: 40%;
+      width: 30%;
     }
   }
 
   > tbody {
     > tr > td {
-      padding: var(--space-small);
-      padding-left: var(--space-medium);
+      padding: var(--space-slab);
+
+      &:first-child {
+        padding-left: var(--space-medium);
+      }
 
       &:last-child {
         padding-left: var(--space-one);
       }
-      /* &:first-child .item-selector-wrap {
-        width: var(--space-large);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-        > input {
-          margin: 0;
-        }
-      } */
+
+      &.conversation-count-item {
+        padding-left: var(--space-medium);
+      }
     }
   }
   .row-main-info {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
 
     .user-thumbnail-box {
       margin-right: var(--space-small);

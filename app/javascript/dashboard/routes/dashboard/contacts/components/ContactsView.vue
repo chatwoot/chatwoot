@@ -1,44 +1,50 @@
 <template>
-  <div class="contacts-page">
-    <contacts-header
-      :search-query="searchQuery"
-      :on-search-submit="onSearchSubmit"
-      :on-input-search="onInputSearch"
-    />
-    <contacts
-      :contacts="records"
-      :show-search-empty-state="showEmptySearchResult"
-      :open-edit-modal="openEditModal"
-      :is-loading="uiFlags.isFetching"
-    />
-    <contacts-footer
-      :on-page-change="onPageChange"
-      :current-page="Number(meta.currentPage)"
-      :total-count="meta.count"
-    />
-    <edit-contact
-      :show="showEditModal"
-      :contact="selectedContact"
-      @cancel="closeEditModal"
-    />
+  <div class="contacts-page row">
+    <div class="left-wrap" :class="wrapClas">
+      <contacts-header
+        :search-query="searchQuery"
+        :on-search-submit="onSearchSubmit"
+        :on-input-search="onInputSearch"
+      />
+      <contacts-table
+        :contacts="records"
+        :show-search-empty-state="showEmptySearchResult"
+        :open-edit-modal="openEditModal"
+        :is-loading="uiFlags.isFetching"
+        :on-click-contact="openViewContactPane"
+      />
+      <contacts-footer
+        :on-page-change="onPageChange"
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
+      />
+      <edit-contact
+        :show="showEditModal"
+        :contact="selectedContact"
+        @cancel="closeEditModal"
+      />
+    </div>
+    <view-contact v-if="showContactViewPane" :contact="selectedContact" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 
-import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact.vue';
+import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact';
 
 import ContactsHeader from './Header';
-import Contacts from './Contacts';
+import ContactsTable from './ContactsTable';
+import ViewContact from './ViewContact';
 import ContactsFooter from './Footer';
 
 export default {
   components: {
     ContactsHeader,
-    Contacts,
+    ContactsTable,
     ContactsFooter,
     EditContact,
+    ViewContact,
   },
   data() {
     return {
@@ -65,6 +71,12 @@ export default {
         return contact;
       }
       return undefined;
+    },
+    showContactViewPane() {
+      return this.selectedContactId !== '';
+    },
+    wrapClas() {
+      return this.showContactViewPane ? 'medium-9' : 'medium-12';
     },
   },
   mounted() {
@@ -96,6 +108,14 @@ export default {
         this.$store.dispatch('contacts/get', { page });
       }
     },
+    openViewContactPane(contactId) {
+      this.selectedContactId = contactId;
+      this.showViewContactPane = true;
+    },
+    closeViewContactPane() {
+      this.selectedContactId = '';
+      this.showViewContactPane = false;
+    },
     openEditModal(contactId) {
       this.selectedContactId = contactId;
       this.showEditModal = true;
@@ -110,9 +130,11 @@ export default {
 
 <style lang="scss" scoped>
 .contacts-page {
+  width: 100%;
+}
+.left-wrap {
   display: flex;
   flex-direction: column;
   padding-top: var(--space-normal);
-  width: 100%;
 }
 </style>

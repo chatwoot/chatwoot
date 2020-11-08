@@ -83,49 +83,61 @@ export default {
     searchButtonClass() {
       return this.searchQuery !== '' ? 'show' : '';
     },
-    lastPageButtonClass() {
+    hasLastPage() {
       const isDisabled =
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-      const className = isDisabled ? 'disabled' : '';
+      return isDisabled;
+    },
+    lastPageButtonClass() {
+      const className = this.hasLastPage ? 'disabled' : '';
       return className;
+    },
+    hasFirstPage() {
+      const isDisabled = this.currentPage === 1;
+      return isDisabled;
     },
     firstPageButtonClass() {
-      const isDisabled = this.currentPage === 1;
-      const className = isDisabled ? 'disabled' : '';
+      const className = this.hasFirstPage ? 'disabled' : '';
       return className;
     },
-    nextPageButtonClass() {
+    hasNextPage() {
       const isDisabled =
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
-      const className = isDisabled ? 'disabled' : '';
+      return isDisabled;
+    },
+    nextPageButtonClass() {
+      const className = this.hasNextPage ? 'disabled' : '';
       return className;
     },
-    prevPageButtonClass() {
+    hasPrevPage() {
       const isDisabled = this.currentPage === 1;
-      const className = isDisabled ? 'disabled' : '';
+      return isDisabled;
+    },
+    prevPageButtonClass() {
+      const className = this.hasPrevPage ? 'disabled' : '';
       return className;
     },
   },
   methods: {
     onNextPage() {
-      if (this.nextPageButtonClass.includes('disabled')) return;
+      if (this.hasNextPage) return;
       const newPage = this.currentPage + 1;
       this.onPageChange(newPage);
     },
     onPrevPage() {
-      if (this.prevPageButtonClass.includes('disabled')) return;
+      if (this.hasPrevPage) return;
 
       const newPage = this.currentPage - 1;
       this.onPageChange(newPage);
     },
     onFirstPage() {
-      if (this.firstPageButtonClass.includes('disabled')) return;
+      if (this.hasFirstPage) return;
 
       const newPage = 1;
       this.onPageChange(newPage);
     },
     onLastPage() {
-      if (this.lastPageButtonClass.includes('disabled')) return;
+      if (this.hasLastPage) return;
 
       const newPage = Math.ceil(this.totalCount / this.pageSize);
       this.onPageChange(newPage);

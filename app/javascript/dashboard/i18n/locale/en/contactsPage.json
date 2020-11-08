@@ -8,8 +8,8 @@
       "TITLE": "Manage canned responses",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
       "TABLE_HEADER": [
-        "Contact",
-        "Email",
+        "Name",
+        "Phone Number",
         "Conversations",
         "Last Contacted"
       ],
