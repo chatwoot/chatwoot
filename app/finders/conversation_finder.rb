@@ -25,7 +25,7 @@ class ConversationFinder
     set_assignee_type
 
     find_all_conversations
-    filter_by_status
+    filter_by_status unless params[:q]
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
 
@@ -78,9 +78,11 @@ class ConversationFinder
   end
 
   def filter_by_query
-    @conversations = @conversations.joins(:messages).where('messages.content LIKE :search',
-                                                           search: "%#{params[:q]}%").includes(:messages).where('messages.content LIKE :search',
-                                                                                                                search: "%#{params[:q]}%")
+    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
+    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
+                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types })
   end
 
   def filter_by_status
