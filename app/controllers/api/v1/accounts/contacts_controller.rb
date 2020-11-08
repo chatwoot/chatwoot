@@ -9,7 +9,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def index
     contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
     @contacts_count = contacts.count
-    @contacts = contacts.joins(:conversations)
+    @contacts = contacts.left_outer_joins(:conversations)
                         .select('contacts.*, COUNT(conversations.id) as conversations_count, MAX(conversations.contact_last_seen_at) as last_seen_at')
                         .group('contacts.id')
                         .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
@@ -22,7 +22,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
                       .where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
     @contacts_count = contacts.count
-    @contacts = contacts.joins(:conversations)
+    @contacts = contacts.left_outer_joins(:conversations)
                         .select('contacts.*, COUNT(conversations.id) as conversations_count, MAX(conversations.contact_last_seen_at) as last_seen_at')
                         .group('contacts.id')
                         .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
