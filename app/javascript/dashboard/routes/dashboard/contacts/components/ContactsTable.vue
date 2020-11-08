@@ -12,7 +12,11 @@
         <th></th>
       </thead>
       <tbody v-show="showTableData">
-        <tr v-for="contactItem in contacts" :key="contactItem.id">
+        <tr
+          v-for="contactItem in contacts"
+          :key="contactItem.id"
+          :class="{ 'is-active': contactItem.id === activeContactId }"
+        >
           <!-- <td>
             <div class="item-selector-wrap">
               <input type="checkbox" />
@@ -30,7 +34,7 @@
                 <h4 class="sub-block-title user-name">
                   {{ contactItem.name }}
                 </h4>
-                <p class="user-about">
+                <p class="user-email">
                   {{ contactItem.email }}
                 </p>
               </div>
@@ -109,6 +113,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    activeContactId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -174,19 +182,26 @@ export default {
   }
 
   > tbody {
-    > tr > td {
-      padding: var(--space-slab);
-
-      &:first-child {
-        padding-left: var(--space-medium);
+    > tr {
+      &.is-active {
+        background: var(--s-50);
       }
 
-      &:last-child {
-        padding-left: var(--space-one);
-      }
+      > td {
+        padding: var(--space-slab);
 
-      &.conversation-count-item {
-        padding-left: var(--space-medium);
+        &:first-child {
+          padding-left: var(--space-medium);
+          cursor: pointer;
+        }
+
+        &:last-child {
+          padding-left: var(--space-one);
+        }
+
+        &.conversation-count-item {
+          padding-left: var(--space-medium);
+        }
       }
     }
   }
@@ -203,7 +218,7 @@ export default {
       margin: 0;
     }
 
-    .user-about {
+    .user-email {
       margin: 0;
     }
   }

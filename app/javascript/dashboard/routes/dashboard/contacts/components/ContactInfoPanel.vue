@@ -1,7 +1,7 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <span class="close-button" @click="onPanelToggle">
-      <i class="ion-chevron-right" />
+    <span class="close-button" @click="onClose">
+      <i class="ion-android-close close-icon" />
     </span>
     <contact-info :contact="contact" />
     <contact-custom-attributes
@@ -32,7 +32,7 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    onToggle: {
+    onClose: {
       type: Function,
       default: () => {},
     },
@@ -41,11 +41,6 @@ export default {
     hasContactAttributes() {
       const { custom_attributes: customAttributes } = this.contact;
       return customAttributes && Object.keys(customAttributes).length;
-    },
-  },
-  methods: {
-    onPanelToggle() {
-      this.onToggle();
     },
   },
 };
@@ -59,28 +54,28 @@ export default {
   @include border-normal-left;
 
   background: white;
-  font-size: $font-size-small;
+  font-size: var(--font-size-small);
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-one;
-
-  i {
-    margin-right: $space-smaller;
-  }
+  padding: var(--space-one);
 }
 
 .close-button {
   position: absolute;
-  right: $space-normal;
-  top: $space-slab;
-  font-size: $font-size-default;
-  color: $color-heading;
+  right: var(--space-normal);
+  top: var(--space-slab);
+  font-size: var(--font-size-big);
+  color: var(--color-heading);
+
+  .close-icon {
+    margin-right: var(--space-smaller);
+  }
 }
 
 .conversation--details {
   border-top: 1px solid $color-border-light;
-  padding: $space-normal;
+  padding: var(--space-normal);
 }
 
 .contact-conversation--panel {
@@ -88,7 +83,7 @@ export default {
 }
 
 .contact--mute {
-  color: $alert-color;
+  color: var(--r-400);
   display: block;
   text-align: left;
 }

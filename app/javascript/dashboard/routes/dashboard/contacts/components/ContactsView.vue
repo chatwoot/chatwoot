@@ -11,7 +11,8 @@
         :show-search-empty-state="showEmptySearchResult"
         :open-edit-modal="openEditModal"
         :is-loading="uiFlags.isFetching"
-        :on-click-contact="openViewContactPane"
+        :on-click-contact="openContactInfoPanel"
+        :active-contact-id="selectedContactId"
       />
       <contacts-footer
         :on-page-change="onPageChange"
@@ -24,7 +25,11 @@
         @cancel="closeEditModal"
       />
     </div>
-    <view-contact v-if="showContactViewPane" :contact="selectedContact" />
+    <contact-info-panel
+      v-if="showContactViewPane"
+      :contact="selectedContact"
+      :on-close="closeContactInfoPanel"
+    />
   </div>
 </template>
 
@@ -35,7 +40,7 @@ import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditCon
 
 import ContactsHeader from './Header';
 import ContactsTable from './ContactsTable';
-import ViewContact from './ViewContact';
+import ContactInfoPanel from './ContactInfoPanel';
 import ContactsFooter from './Footer';
 
 export default {
@@ -44,7 +49,7 @@ export default {
     ContactsTable,
     ContactsFooter,
     EditContact,
-    ViewContact,
+    ContactInfoPanel,
   },
   data() {
     return {
@@ -108,13 +113,13 @@ export default {
         this.$store.dispatch('contacts/get', { page });
       }
     },
-    openViewContactPane(contactId) {
+    openContactInfoPanel(contactId) {
       this.selectedContactId = contactId;
-      this.showViewContactPane = true;
+      this.showContactInfoPanelPane = true;
     },
-    closeViewContactPane() {
+    closeContactInfoPanel() {
       this.selectedContactId = '';
-      this.showViewContactPane = false;
+      this.showContactInfoPanelPane = false;
     },
     openEditModal(contactId) {
       this.selectedContactId = contactId;
