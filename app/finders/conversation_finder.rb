@@ -63,7 +63,7 @@ class ConversationFinder
 
   def find_all_conversations
     @conversations = current_account.conversations.includes(
-      :assignee, :inbox, :taggings, contact: [:avatar_attachment]
+      :taggings, { assignee: { avatar_attachment: [:blob] } }, { inbox: [:channel] }, { contact: { avatar_attachment: [:blob] } }
     ).where(inbox_id: @inbox_ids)
   end
 
