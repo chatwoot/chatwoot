@@ -2,7 +2,6 @@
   <section class="contacts-table-wrap">
     <table class="woot-table contacts-table">
       <thead>
-        <!-- Header -->
         <th
           v-for="thHeader in $t('CONTACTS_PAGE.LIST.TABLE_HEADER')"
           :key="thHeader"
@@ -17,11 +16,6 @@
           :key="contactItem.id"
           :class="{ 'is-active': contactItem.id === activeContactId }"
         >
-          <!-- <td>
-            <div class="item-selector-wrap">
-              <input type="checkbox" />
-            </div>
-          </td> -->
           <td @click="() => onClickContact(contactItem.id)">
             <div class="row-main-info">
               <thumbnail
@@ -71,10 +65,11 @@
     </table>
     <empty-state
       v-if="showSearchEmptyState"
-      title="No contacts matches your search 🔍"
+      :title="$t('CONTACTS_PAGE.LIST.404')"
     />
     <div v-if="isLoading" class="contacts--loader">
-      <spinner></spinner> Loading...
+      <spinner />
+      <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
     </div>
   </section>
 </template>
