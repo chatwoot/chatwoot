@@ -108,7 +108,7 @@ RSpec.describe 'Reports API', type: :request do
   describe 'GET /api/v2/accounts/:account_id/reports/inboxes' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v2/accounts/#{account.id}/reports/inboxes.csv"
+        get "/api/v2/accounts/#{account.id}/reports/inboxes"
 
         expect(response).to have_http_status(:unauthorized)
       end
