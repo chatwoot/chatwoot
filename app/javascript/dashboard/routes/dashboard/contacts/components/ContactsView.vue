@@ -141,5 +141,6 @@ export default {
   display: flex;
   flex-direction: column;
   padding-top: var(--space-normal);
+  height: 100%;
 }
 </style>

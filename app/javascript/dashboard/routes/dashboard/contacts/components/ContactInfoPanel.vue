@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations.vue';
+import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo';
 import ContactCustomAttributes from 'dashboard/routes/dashboard/conversation/ContactCustomAttributes';
 
@@ -80,6 +80,7 @@ export default {
 
 .contact-conversation--panel {
   border-top: 1px solid $color-border-light;
+  height: 100%;
 }
 
 .contact--mute {

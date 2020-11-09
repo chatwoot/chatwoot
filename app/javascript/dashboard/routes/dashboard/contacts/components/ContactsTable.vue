@@ -8,15 +8,15 @@
         >
           {{ thHeader }}
         </th>
-        <th></th>
       </thead>
       <tbody v-show="showTableData">
         <tr
           v-for="contactItem in contacts"
           :key="contactItem.id"
           :class="{ 'is-active': contactItem.id === activeContactId }"
+          @click="() => onClickContact(contactItem.id)"
         >
-          <td @click="() => onClickContact(contactItem.id)">
+          <td>
             <div class="row-main-info">
               <thumbnail
                 :src="contactItem.thumbnail"
@@ -29,36 +29,17 @@
                   {{ contactItem.name }}
                 </h4>
                 <p class="user-email">
-                  {{ contactItem.email }}
+                  {{ contactItem.email || '--' }}
                 </p>
               </div>
             </div>
           </td>
-          <td>{{ contactItem.phone_number }}</td>
+          <td>{{ contactItem.phone_number || '--' }}</td>
           <td class="conversation-count-item">
             {{ contactItem.conversations_count }}
           </td>
-          <td></td>
           <td>
-            <div
-              class="context-menu-wrap"
-              @click="() => onContextMenuClick(contactItem.id)"
-            >
-              <i class="ion-more context-menu-icon" />
-              <div
-                v-if="activeContextMenuId === contactItem.id"
-                v-on-clickaway="closeStatusMenu"
-                class="dropdown-pane sleek bottom open"
-              >
-                <ul class="vertical dropdown menu">
-                  <li>
-                    <a href="#" @click="() => openEditModal(contactItem.id)">
-                      {{ $t('CONTACTS_PAGE.LIST.EDIT_BUTTON') }}
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            {{ contactItem.last_contacted_at || '--' }}
           </td>
         </tr>
       </tbody>
@@ -113,11 +94,6 @@ export default {
       default: '',
     },
   },
-  data() {
-    return {
-      activeContextMenuId: '',
-    };
-  },
   computed: {
     currentRoute() {
       return ' ';
@@ -142,14 +118,6 @@ export default {
     },
     showTableData() {
       return !this.showSearchEmptyState && !this.isLoading;
-    },
-  },
-  methods: {
-    onContextMenuClick(id) {
-      this.activeContextMenuId = id;
-    },
-    closeStatusMenu() {
-      this.activeContextMenuId = '';
     },
   },
 };
@@ -178,8 +146,14 @@ export default {
 
   > tbody {
     > tr {
+      cursor: pointer;
+
+      &:hover {
+        background: var(--b-50);
+      }
+
       &.is-active {
-        background: var(--s-50);
+        background: var(--b-100);
       }
 
       > td {
@@ -187,11 +161,6 @@ export default {
 
         &:first-child {
           padding-left: var(--space-medium);
-          cursor: pointer;
-        }
-
-        &:last-child {
-          padding-left: var(--space-one);
         }
 
         &.conversation-count-item {
@@ -216,23 +185,6 @@ export default {
     .user-email {
       margin: 0;
     }
-  }
-}
-
-.context-menu-wrap {
-  position: relative;
-  .dropdown-pane.open {
-    width: 120px;
-    display: block;
-    visibility: visible;
-    top: 24px;
-    position: absolute;
-    left: -94px;
-    right: unset;
-  }
-
-  .context-menu-icon {
-    cursor: pointer;
   }
 }
 
