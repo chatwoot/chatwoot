@@ -57,8 +57,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          {
+        "STATUSES_LIST": [{
             "value": "online",
             "label": "Online"
           },
@@ -122,6 +121,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
     "REPORTS": "Reports",
+    "CONTACTS": "Contacts",
     "SETTINGS": "Settings",
     "HOME": "Home",
     "AGENTS": "Agents",
