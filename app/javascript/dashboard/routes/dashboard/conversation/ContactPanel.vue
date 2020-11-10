@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
