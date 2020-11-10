@@ -9,7 +9,6 @@
       <contacts-table
         :contacts="records"
         :show-search-empty-state="showEmptySearchResult"
-        :open-edit-modal="openEditModal"
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
@@ -18,11 +17,6 @@
         :on-page-change="onPageChange"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
-      />
-      <edit-contact
-        :show="showEditModal"
-        :contact="selectedContact"
-        @cancel="closeEditModal"
       />
     </div>
     <contact-info-panel
@@ -36,8 +30,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import EditContact from 'dashboard/routes/dashboard/conversation/contact/EditContact';
-
 import ContactsHeader from './Header';
 import ContactsTable from './ContactsTable';
 import ContactInfoPanel from './ContactInfoPanel';
@@ -48,7 +40,6 @@ export default {
     ContactsHeader,
     ContactsTable,
     ContactsFooter,
-    EditContact,
     ContactInfoPanel,
   },
   data() {
@@ -83,9 +74,15 @@ export default {
     wrapClas() {
       return this.showContactViewPane ? 'medium-9' : 'medium-12';
     },
+    pageParameter() {
+      const selectedPageNumber = Number(this.$route.query?.page);
+      return !Number.isNaN(selectedPageNumber) && selectedPageNumber >= 1
+        ? selectedPageNumber
+        : 1;
+    },
   },
   mounted() {
-    this.$store.dispatch('contacts/get', { page: 1 });
+    this.$store.dispatch('contacts/get', { page: this.pageParameter });
   },
   methods: {
     onInputSearch(event) {
@@ -104,6 +101,8 @@ export default {
       });
     },
     onPageChange(page) {
+      this.selectedContactId = '';
+      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       if (this.searchQuery) {
         this.$store.dispatch('contacts/search', {
           search: this.searchQuery,
@@ -120,14 +119,6 @@ export default {
     closeContactInfoPanel() {
       this.selectedContactId = '';
       this.showContactInfoPanelPane = false;
-    },
-    openEditModal(contactId) {
-      this.selectedContactId = contactId;
-      this.showEditModal = true;
-    },
-    closeEditModal() {
-      this.selectedContactId = '';
-      this.showEditModal = false;
     },
   },
 };
