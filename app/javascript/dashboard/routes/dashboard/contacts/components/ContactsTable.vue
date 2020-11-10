@@ -82,10 +82,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    openEditModal: {
-      type: Function,
-      default: () => {},
-    },
     onClickContact: {
       type: Function,
       default: () => {},
