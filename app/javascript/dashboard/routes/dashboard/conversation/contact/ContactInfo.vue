@@ -52,6 +52,7 @@
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
       </woot-button>
       <edit-contact
+        v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"

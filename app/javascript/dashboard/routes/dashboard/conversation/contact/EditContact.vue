@@ -148,6 +148,9 @@ export default {
       this.setContactObject();
     },
   },
+  mounted() {
+    this.setContactObject();
+  },
   methods: {
     onCancel() {
       this.$emit('cancel');
