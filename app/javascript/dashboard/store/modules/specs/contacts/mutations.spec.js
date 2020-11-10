@@ -1,11 +1,12 @@
-import * as types from '../../../mutation-types';
-import { mutations } from '../../contacts';
+import types from '../../../mutation-types';
+import Contacts from '../../contacts';
+const { mutations } = Contacts;
 
 describe('#mutations', () => {
   describe('#SET_CONTACTS', () => {
     it('set contact records', () => {
       const state = { records: {} };
-      mutations[types.default.SET_CONTACTS](state, [
+      mutations[types.SET_CONTACTS](state, [
         { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
       ]);
       expect(state.records).toEqual({
@@ -25,7 +26,7 @@ describe('#mutations', () => {
           1: { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
         },
       };
-      mutations[types.default.SET_CONTACT_ITEM](state, {
+      mutations[types.SET_CONTACT_ITEM](state, {
         id: 2,
         name: 'contact2',
         email: 'contact2@chatwoot.com',
@@ -44,7 +45,7 @@ describe('#mutations', () => {
           1: { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
         },
       };
-      mutations[types.default.EDIT_CONTACT](state, {
+      mutations[types.EDIT_CONTACT](state, {
         id: 1,
         name: 'contact2',
         email: 'contact2@chatwoot.com',

@@ -1,6 +1,18 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversation-inbox="inboxId" :label="label"></chat-list>
+    <chat-list :conversation-inbox="inboxId" :label="label">
+      <button class="search--button" @click="onSearch">
+        <i class="ion-ios-search-strong search--icon" />
+        <div class="text-truncate">
+          {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
+        </div>
+      </button>
+      <search
+        v-if="showSearchModal"
+        :show="showSearchModal"
+        :on-close="closeSearch"
+      />
+    </chat-list>
     <conversation-box
       :inbox-id="inboxId"
       :is-contact-panel-open="isContactPanelOpen"
@@ -16,18 +28,19 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
 import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
+import Search from './search/Search.vue';
 
 export default {
   components: {
     ChatList,
     ContactPanel,
     ConversationBox,
+    Search,
   },
   props: {
     inboxId: {
@@ -47,6 +60,7 @@ export default {
   data() {
     return {
       panelToggleState: true,
+      showSearchModal: false,
     };
   },
   computed: {
@@ -116,6 +130,32 @@ export default {
     onToggleContactPanel() {
       this.isContactPanelOpen = !this.isContactPanelOpen;
     },
+    onSearch() {
+      this.showSearchModal = true;
+    },
+    closeSearch() {
+      this.showSearchModal = false;
+    },
   },
 };
 </script>
+<style scoped>
+.search--button {
+  align-items: center;
+  border: 0;
+  color: var(--s-400);
+  cursor: pointer;
+  display: flex;
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  padding: var(--space-normal);
+  text-align: left;
+  line-height: var(--font-size-large);
+}
+
+.search--icon {
+  color: var(--s-600);
+  font-size: var(--font-size-large);
+  padding-right: var(--space-small);
+}
+</style>

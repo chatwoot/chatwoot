@@ -1,22 +1,17 @@
-json.data do
-  json.meta do
-    json.mine_count @conversations_count[:mine_count]
-    json.unassigned_count @conversations_count[:unassigned_count]
-    json.all_count @conversations_count[:all_count]
-  end
-  json.payload do
-    json.array! @conversations do |conversation|
-      json.inbox_id conversation.inbox_id
-      json.messages conversation.messages
-      json.status conversation.status
-      json.muted conversation.muted?
-      json.can_reply conversation.can_reply?
-      json.timestamp conversation.last_activity_at.to_i
-      json.contact_last_seen_at conversation.contact_last_seen_at.to_i
-      json.agent_last_seen_at conversation.agent_last_seen_at.to_i
-      json.additional_attributes conversation.additional_attributes
-      json.account_id conversation.account_id
-      json.labels conversation.label_list
+json.meta do
+  json.mine_count @conversations_count[:mine_count]
+  json.unassigned_count @conversations_count[:unassigned_count]
+  json.all_count @conversations_count[:all_count]
+end
+json.payload do
+  json.array! @conversations do |conversation|
+    json.id conversation.display_id
+    json.messages do
+      json.array! conversation.messages do |message|
+        json.content message.content
+        json.created_at message.created_at.to_i
+      end
     end
+    json.account_id conversation.account_id
   end
 end
