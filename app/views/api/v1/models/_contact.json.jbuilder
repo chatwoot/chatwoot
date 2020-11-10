@@ -7,7 +7,7 @@ json.phone_number resource.phone_number
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
 json.conversations_count resource.conversations_count if resource[:conversations_count].present?
-json.last_seen_at resource.last_seen_at if resource[:last_seen_at].present?
+json.last_seen_at resource.last_seen_at.to_i if resource[:last_seen_at].present?
 
 # we only want to output contact inbox when its /contacts endpoints
 if defined?(with_contact_inboxes) && with_contact_inboxes.present?
