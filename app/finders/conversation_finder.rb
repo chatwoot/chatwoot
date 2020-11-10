@@ -62,9 +62,7 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.includes(
-      :assignee, :inbox, :taggings, contact: [:avatar_attachment]
-    ).where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
   end
 
   def filter_by_assignee_type
@@ -106,6 +104,9 @@ class ConversationFinder
   end
 
   def conversations
+    @conversations = @conversations.includes(
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }
+    )
     current_page ? @conversations.latest.page(current_page) : @conversations.latest
   end
 end
