@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Não há respostas prontas disponíveis nesta conta.",
+      "TITLE": "Gerenciar respostas prontas",
+      "DESC": "Respostas prontas são modelos de resposta pré-definidos, que podem ser usadas para enviar respostas rapidamente a tickets.",
+      "TABLE_HEADER": [
+        "Nome:",
+        "Phone Number",
+        "Conversas",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Alterar",
+      "VIEW_BUTTON": "Visualizar"
+    }
+  }
+}
