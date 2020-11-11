@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "இந்த கணக்கில் பதிவு செய்யப்பட்ட பதில்கள் எதுவும் இல்லை.",
+      "TITLE": "பதிவு செய்யப்பட்ட பதில்களை நிர்வகிக்கவும்",
+      "DESC": "பதிவு செய்யப்பட்ட பதில்கள் முன் வரையறுக்கப்பட்ட பதில் மாதிரிகள், அவை டிக்கெட்டுகளுக்கு விரைவாக பதில்களை அனுப்ப பயன்படும்.",
+      "TABLE_HEADER": [
+        "பெயர்",
+        "Phone Number",
+        "உரையாடல்கள்",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "திருத்து",
+      "VIEW_BUTTON": "காண்க"
+    }
+  }
+}
