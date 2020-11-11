@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "У вас нет шаблонных ответов.",
+      "TITLE": "Управление шаблонными ответами",
+      "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
+      "TABLE_HEADER": [
+        "Имя",
+        "Номер телефона",
+        "Диалоги",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Редактировать",
+      "VIEW_BUTTON": "Просмотр"
+    }
+  }
+}
