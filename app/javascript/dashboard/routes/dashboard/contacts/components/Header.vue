@@ -14,6 +14,7 @@
             :placeholder="$t('CONTACTS_PAGE.SEARCH_INPUT_PLACEHOLDER')"
             class="contact-search"
             :value="searchQuery"
+            @keyup.enter="onSearchSubmit"
             @input="onInputSearch"
           />
           <woot-submit-button
