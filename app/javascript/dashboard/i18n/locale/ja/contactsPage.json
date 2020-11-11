@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "このアカウントには、利用可能な定型文の回答はありません",
+      "TITLE": "定型文回答を管理する",
+      "DESC": "定型文回答は、事前に設定した文章をテンプレートとし、チケットに対して迅速に返信するためのものです。",
+      "TABLE_HEADER": [
+        "名前",
+        "電話番号",
+        "会話データ",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "編集",
+      "VIEW_BUTTON": "表示"
+    }
+  }
+}
