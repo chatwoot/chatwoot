@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "No hay respuestas enlatadas disponibles en esta cuenta.",
+      "TITLE": "Administrar respuestas predefinidas",
+      "DESC": "Las respuestas predefinidas son plantillas de respuesta predefinidas que se pueden utilizar para enviar rápidamente respuestas a los Tickets.",
+      "TABLE_HEADER": [
+        "Nombre",
+        "Número de teléfono",
+        "Conversaciones",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Editar",
+      "VIEW_BUTTON": "Ver"
+    }
+  }
+}
