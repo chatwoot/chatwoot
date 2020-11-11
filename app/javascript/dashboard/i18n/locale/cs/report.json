@@ -6,27 +6,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konverzace",
-        "DESC": "( celkem)"
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Příchozí zprávy",
-        "DESC": "( celkem)"
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Odchozí zprávy",
-        "DESC": "( celkem)"
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Čas první odpovědi",
-        "DESC": "(Průměrný)"
+        "NAME": "First response time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Čas rozlišení",
-        "DESC": "(Průměrný)"
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Počet rozlišení",
-        "DESC": "( celkem)"
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
