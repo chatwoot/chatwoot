@@ -13,7 +13,7 @@
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Ausgehende Nachrichten",
+        "NAME": "Outgoing Messages",
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
