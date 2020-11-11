@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "V tomto účtu nejsou k dispozici žádné konzervované odpovědi.",
+      "TITLE": "Spravovat konzervované odpovědi",
+      "DESC": "Konzervované odpovědi jsou předdefinované šablony odpovědí, které lze použít k rychlému zasílání odpovědí na tikety.",
+      "TABLE_HEADER": [
+        "Název",
+        "Phone Number",
+        "Konverzace",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Upravit",
+      "VIEW_BUTTON": "Zobrazit"
+    }
+  }
+}
