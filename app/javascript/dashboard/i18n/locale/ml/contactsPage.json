@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "ഈ അക്കൗണ്ടിൽ ക്യാൻഡ് പ്രതികരണങ്ങളൊന്നും ലഭ്യമല്ല.",
+      "TITLE": "ക്യാൻഡ് പ്രതികരണങ്ങൾ നിയന്ത്രിക്കുക",
+      "DESC": "മുൻ‌നിശ്ചയിച്ച മറുപടി ടെം‌പ്ലേറ്റുകളാണ് ക്യാൻഡ് പ്രതികരണങ്ങൾ‌, അവ ടിക്കറ്റുകൾ‌ക്ക് വേഗത്തിൽ‌ മറുപടികൾ‌ അയയ്‌ക്കാൻ‌ ഉപയോഗിക്കാം.",
+      "TABLE_HEADER": [
+        "പേര്",
+        "Phone Number",
+        "സംഭാഷണങ്ങൾ",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "എഡിറ്റുചെയ്യുക",
+      "VIEW_BUTTON": "കാണുക"
+    }
+  }
+}
