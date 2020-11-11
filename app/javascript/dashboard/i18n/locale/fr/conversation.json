@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Oh ! On dirait que vous n'avez pas encore ajouté de boîte de réception.",
     "NO_INBOX_2": " pour commencer",
     "NO_INBOX_AGENT": "Oh Oh ! Il semble que vous ne faites parti d'aucune boîte de réception. Veuillez contacter votre administrateur",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Cliquez ici",
     "LOADING_INBOXES": "Chargement des boîtes de réception",
     "LOADING_CONVERSATIONS": "Chargement des conversations",
