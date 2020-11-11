@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Non ci sono risposte predefinite disponibili in questo account.",
+      "TITLE": "Gestisci le risposte predefinite",
+      "DESC": "Le risposte predefinite sono modelli di risposta predefiniti che possono essere utilizzati per inviare rapidamente risposte ai ticket.",
+      "TABLE_HEADER": [
+        "nome",
+        "Phone Number",
+        "Conversazioni",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Modifica",
+      "VIEW_BUTTON": "Visualizza"
+    }
+  }
+}
