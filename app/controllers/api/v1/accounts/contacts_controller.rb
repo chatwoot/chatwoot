@@ -7,16 +7,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :fetch_contact, only: [:show, :update]
 
   def index
-    contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
-    @contacts_count = contacts.count
-    @contacts = fetch_contact_last_seen_at(contacts)
+    @contacts_count = resolved_contacts.count
+    @contacts = fetch_contact_last_seen_at(resolved_contacts)
   end
 
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = Current.account.contacts.where.not(email: [nil, '']).or(Current.account.contacts.where.not(phone_number: [nil, '']))
-                      .where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
+    contacts = resolved_contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
     @contacts_count = contacts.count
     @contacts = fetch_contact_last_seen_at(contacts)
   end
@@ -52,6 +50,13 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def resolved_contacts
+    @resolved_contacts ||= Current.account.contacts
+                                  .where.not(email: [nil, ''])
+                                  .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+                                  .order('LOWER(name)')
+  end
 
   def set_current_page
     @current_page = params[:page] || 1
