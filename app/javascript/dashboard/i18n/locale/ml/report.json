@@ -10,11 +10,11 @@
       },
       "INCOMING_MESSAGES": {
         "NAME": "ഇൻ‌കമിംഗ് സന്ദേശങ്ങൾ‌",
-        "DESC": "( ആകെ )"
+        "DESC": "(ആകെ)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "ഔട്ട് ഗോയിങ് സന്ദേശങ്ങൾ‌",
-        "DESC": "( ആകെ )"
+        "DESC": "(ആകെ)"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "ആദ്യ പ്രതികരണ സമയം",
@@ -26,7 +26,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "മിഴിവ് എണ്ണം",
-        "DESC": "( ആകെ )"
+        "DESC": "(ആകെ)"
       }
     },
     "DATE_RANGE": [
