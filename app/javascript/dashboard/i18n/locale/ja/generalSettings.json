@@ -1,36 +1,36 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "Account settings",
-    "SUBMIT": "Update settings",
-    "BACK": "Back",
+    "TITLE": "アカウント設定",
+    "SUBMIT": "設定を更新",
+    "BACK": "戻る",
     "UPDATE": {
-      "ERROR": "Could not update settings, try again!",
-      "SUCCESS": "Successfully updated account settings"
+      "ERROR": "設定を更新できませんでした。もう一度お試しください",
+      "SUCCESS": "正常にアカウント設定を更新しました"
     },
     "FORM": {
-      "ERROR": "Please fix form errors",
+      "ERROR": "正しくフォームに入力してください",
       "GENERAL_SECTION": {
-        "TITLE": "General settings",
+        "TITLE": "全般設定",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "Account name",
-        "PLACEHOLDER": "Your account name",
-        "ERROR": "Please enter a valid account name"
+        "LABEL": "アカウント名",
+        "PLACEHOLDER": "あなたのアカウント名",
+        "ERROR": "正しいアカウント名を入力してください"
       },
       "LANGUAGE": {
-        "LABEL": "Site language (Beta)",
-        "PLACEHOLDER": "Your account name",
+        "LABEL": "サイト言語(ベータ版)",
+        "PLACEHOLDER": "あなたのアカウント名",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "受信メールドメイン",
+        "PLACEHOLDER": "メールを受信するドメイン",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "サポートメール",
+        "PLACEHOLDER": "あなたの会社のサポートメール",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
@@ -39,8 +39,8 @@
         "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "あなたのアカウントでは、メールでの会話が継続できるようになっています。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "カスタムドメインでメールを受信できるようになりました。"
       }
     }
   }
