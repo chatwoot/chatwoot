@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Nu există răspunsuri predefinite disponibile în acest cont.",
+      "TITLE": "Gestionare Răspunsuri predefinite",
+      "DESC": "Răspunsurile predefinite sunt șabloane de răspuns predefinite, care pot fi utilizate pentru a trimite rapid răspunsuri la tichete.",
+      "TABLE_HEADER": [
+        "Nume",
+        "Phone Number",
+        "Conversații",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Editare",
+      "VIEW_BUTTON": "Vizualizare"
+    }
+  }
+}
