@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contactes",
+    "SEARCH_BUTTON": "Cercar",
+    "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
+    "LIST": {
+      "404": "No hi ha respostes predeterminades disponibles en aquest compte.",
+      "TITLE": "Gestiona les respostes predeterminades",
+      "DESC": "Les respostes predeterminades són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a les converses.",
+      "TABLE_HEADER": [
+        "Nom",
+        "Número de telèfon",
+        "Converses",
+        "Darrer contacte"
+      ],
+      "EDIT_BUTTON": "Edita",
+      "VIEW_BUTTON": "Veure"
+    }
+  }
+}
