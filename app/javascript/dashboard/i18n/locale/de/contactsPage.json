@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "In diesem Konto sind keine gespeicherten Antworten verfügbar.",
+      "TITLE": "Verwalten Sie vordefinierte Antworten",
+      "DESC": "Vorgefertigte Antworten sind vordefinierte Antwortvorlagen, mit denen schnell Antworten auf Tickets gesendet werden können.",
+      "TABLE_HEADER": [
+        "Name",
+        "Phone Number",
+        "Gespräche",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Bearbeiten",
+      "VIEW_BUTTON": "Aussicht"
+    }
+  }
+}
