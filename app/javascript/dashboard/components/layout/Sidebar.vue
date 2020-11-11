@@ -286,6 +286,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
   },
   methods: {

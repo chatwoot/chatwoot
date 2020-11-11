@@ -82,10 +82,11 @@ export default {
   },
 
   mounted() {
-    this.$store.dispatch('labels/get');
     this.$store.dispatch('agents/get');
 
     this.initialize();
+    this.fetchConversation();
+
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
       this.fetchConversation();

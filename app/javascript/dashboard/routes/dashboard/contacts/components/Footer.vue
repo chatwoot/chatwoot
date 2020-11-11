@@ -1,5 +1,5 @@
 <template>
-  <footer class="footer">
+  <footer v-if="isFooterVisible" class="footer">
     <div class="left-aligned-wrap">
       <div class="page-meta">
         <strong>{{ firstIndex }}</strong>
@@ -60,7 +60,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 25,
+      default: 15,
     },
     totalCount: {
       type: Number,
@@ -72,6 +72,9 @@ export default {
     },
   },
   computed: {
+    isFooterVisible() {
+      return this.totalCount && !(this.firstIndex > this.totalCount);
+    },
     firstIndex() {
       const firstIndex = this.pageSize * (this.currentPage - 1) + 1;
       return firstIndex;
@@ -163,7 +166,7 @@ export default {
 
   .button {
     background: transparent;
-    border-color: var(--b-400);
+    border-color: var(--color-border);
     color: var(--color-body);
     margin-bottom: 0;
     margin-left: -2px;
@@ -173,23 +176,27 @@ export default {
     &:hover,
     &:focus,
     &:active {
-      background: var(--b-400);
+      background: var(--s-200);
       color: white;
     }
 
     &:first-child {
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
+      border-top-left-radius: var(--space-smaller);
+      border-bottom-left-radius: var(--space-smaller);
     }
+
     &:last-child {
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
+      border-top-right-radius: var(--space-smaller);
+      border-bottom-right-radius: var(--space-smaller);
     }
+
     &.small {
       font-size: var(--font-size-micro);
     }
+
     &.disabled {
-      background: var(--b-300);
+      background: var(--s-200);
+      border-color: var(--s-200);
       color: var(--b-900);
     }
 
