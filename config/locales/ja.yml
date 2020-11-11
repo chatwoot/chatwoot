@@ -17,29 +17,35 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 ja:
-  hello: "Hello world"
+  hello: "こんにちは世界"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: やりましたね! パスワードのリセットリクエストが成功しました。手順についてはメールを確認してください。
+    reset_password_failure: メールアドレスが見つかりませんでした。
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: 使い捨てメールは許可されません
+      invalid_email: 無効なメールアドレスを入力しました。
+      email_already_exists: "あなたは既に %{email} でアカウントにサインアップしています"
+      failed: サインアップに失敗しました
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
+        resolved: "会話は %{user_name} によって解決済みになりました"
+        open: "%{user_name} によって会話が再開されました"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} がこの会話を自身で割り当てました"
+        assigned: "%{assignee_name} によって %{user_name} に割り当てられました"
+        removed: "%{user_name} によって割り当てられていない会話です"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} は通常数時間で返信します。"
+      ways_to_reach_you_message_body: "チームがあなたに連絡する方法を設定してください"
+      email_input_box_message_body: "Eメールで通知を受ける"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "この会話に新着メッセージがあります"
+      transcript_subject: "会話の記録"
