@@ -6,27 +6,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Rozmowy",
-        "DESC": "( łącznie )"
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Wiadomości przychodzące",
-        "DESC": "( łącznie )"
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Wiadomości wychodzące",
-        "DESC": "( łącznie )"
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Czas pierwszej odpowiedzi",
-        "DESC": "( Średnie )"
+        "NAME": "First response time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Czas rozdzielczości",
-        "DESC": "( Średnie )"
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Licznik rozdzielczości",
-        "DESC": "( łącznie )"
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
