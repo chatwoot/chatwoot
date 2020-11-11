@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Não há atalhos disponíveis nesta conta.",
+      "TITLE": "Gerenciar Atalhos",
+      "DESC": "Atalhos são modelos de resposta que podem ser usados ​​para enviar rapidamente respostas à conversa.",
+      "TABLE_HEADER": [
+        "Nome",
+        "Phone Number",
+        "Conversas",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Alterar",
+      "VIEW_BUTTON": "Visualizar"
+    }
+  }
+}
