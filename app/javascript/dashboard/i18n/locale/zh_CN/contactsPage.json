@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "此帐户中没有预设的回复。",
+      "TITLE": "管理预设回复",
+      "DESC": "预设的回复是预定义的回复模板，可以用来快速发送对工单的答复。",
+      "TABLE_HEADER": [
+        "姓名：",
+        "Phone Number",
+        "会话",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "编辑",
+      "VIEW_BUTTON": "查看"
+    }
+  }
+}
