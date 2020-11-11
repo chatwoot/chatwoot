@@ -2,7 +2,7 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Hochladen..."
+      "UPLOADING": "Lade hoch..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Einreichen"
@@ -13,17 +13,17 @@
     "OFFLINE": "Wir sind offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Antworten in der Regel in wenigen Minuten",
-    "IN_A_FEW_HOURS": "Antworten in der Regel in wenigen Stunden",
-    "IN_A_DAY": "Antworten normalerweise innerhalb eines Tages"
+    "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+    "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
-  "START_CONVERSATION": "Konversation starten",
+  "START_CONVERSATION": "Sende uns eine Nachricht",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
+    "VIEW_MESSAGES_BUTTON": "Siehe neue Nachrichten",
     "CLOSE_MESSAGES_BUTTON": "Schließen"
   },
   "BUBBLE": {
-    "LABEL": "Chatten Sie mit uns"
+    "LABEL": "Chatte mit uns"
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
