@@ -9,7 +9,7 @@
         "DESC": "(Загалом)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Вхідні повідомлення",
+        "NAME": "Incoming Messages",
         "DESC": "(Загалом)"
       },
       "OUTGOING_MESSAGES": {
@@ -21,7 +21,7 @@
         "DESC": "( Середнє )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Час до вирішення",
+        "NAME": "Resolution Time",
         "DESC": "( Середнє )"
       },
       "RESOLUTION_COUNT": {
