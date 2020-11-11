@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "لا توجد ردود جاهزة متوفرة في هذا الحساب.",
+      "TITLE": "إدارة الردود الجاهزة",
+      "DESC": "الردود الجاهزة هي قوالب رسائل معدة مسبقاً يمكن استخدامها لتسريع كتابة الردود في المحادثات.",
+      "TABLE_HEADER": [
+        "الاسم",
+        "رقم الهاتف",
+        "المحادثات",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "تعديل",
+      "VIEW_BUTTON": "عرض"
+    }
+  }
+}
