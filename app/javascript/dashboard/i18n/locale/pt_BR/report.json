@@ -9,7 +9,7 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Mensagens Recebidas",
+        "NAME": "Incoming Messages",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
@@ -17,7 +17,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeira resposta",
+        "NAME": "First response time",
         "DESC": "(Média)"
       },
       "RESOLUTION_TIME": {
@@ -25,7 +25,7 @@
         "DESC": "(Média)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Qtde de resolução",
+        "NAME": "Resolution Count",
         "DESC": "( Total )"
       }
     },
