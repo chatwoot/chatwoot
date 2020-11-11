@@ -4,6 +4,7 @@
       <contacts-header
         :search-query="searchQuery"
         :on-search-submit="onSearchSubmit"
+        this-selected-contact-id=""
         :on-input-search="onInputSearch"
       />
       <contacts-table
@@ -95,6 +96,7 @@ export default {
       this.searchQuery = event.target.value;
     },
     onSearchSubmit() {
+      this.selectedContactId = '';
       this.$store.dispatch('contacts/search', {
         search: this.searchQuery,
         page: 1,

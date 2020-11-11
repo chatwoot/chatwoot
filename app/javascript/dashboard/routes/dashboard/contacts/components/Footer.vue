@@ -1,5 +1,5 @@
 <template>
-  <footer v-if="totalCount && !(firstIndex > totalCount)" class="footer">
+  <footer v-if="isFooterVisible" class="footer">
     <div class="left-aligned-wrap">
       <div class="page-meta">
         <strong>{{ firstIndex }}</strong>
@@ -72,6 +72,9 @@ export default {
     },
   },
   computed: {
+    isFooterVisible() {
+      return this.totalCount && !(this.firstIndex > this.totalCount);
+    },
     firstIndex() {
       const firstIndex = this.pageSize * (this.currentPage - 1) + 1;
       return firstIndex;
