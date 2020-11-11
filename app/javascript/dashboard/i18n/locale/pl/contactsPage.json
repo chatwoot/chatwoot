@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Brak gotowych odpowiedzi dostępnych na tym koncie.",
+      "TITLE": "Zarządzaj gotowymi odpowiedziami",
+      "DESC": "Gotowe odpowiedzi to predefiniowane szablony odpowiedzi, które mogą być użyte do szybkiego wysyłania odpowiedzi na zgłoszenia.",
+      "TABLE_HEADER": [
+        "Nazwisko",
+        "Phone Number",
+        "Rozmowy",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Edytuj",
+      "VIEW_BUTTON": "Widok"
+    }
+  }
+}
