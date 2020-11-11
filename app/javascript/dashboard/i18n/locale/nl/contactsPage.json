@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Er zijn geen standaard antwoorden beschikbaar in dit account.",
+      "TITLE": "Beheer standaard antwoorden",
+      "DESC": "Standaard antwoorden zijn vooraf gedefinieerde antwoordsjablonen die kunnen worden gebruikt om snel antwoorden naar tickets te sturen.",
+      "TABLE_HEADER": [
+        "Naam",
+        "Phone Number",
+        "Gesprekken",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Bewerken",
+      "VIEW_BUTTON": "Bekijken"
+    }
+  }
+}
