@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Il n'y a aucune réponse standardisée disponible dans ce compte.",
+      "TITLE": "Gérer les réponses standardisées",
+      "DESC": "Les réponses standardisées sont des modèles de réponse prédéfinis qui peuvent être utilisés pour envoyer rapidement des réponses aux tickets.",
+      "TABLE_HEADER": [
+        "Nom",
+        "Numéro de téléphone",
+        "Conversations",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Modifier",
+      "VIEW_BUTTON": "Voir"
+    }
+  }
+}
