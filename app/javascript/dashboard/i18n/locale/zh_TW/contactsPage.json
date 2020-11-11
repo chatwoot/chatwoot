@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "此帳戶中没有預設的回覆。",
+      "TITLE": "管理預設回覆",
+      "DESC": "預設的回覆是預定義的回覆模板，可以用來快速發送對工單的答覆。",
+      "TABLE_HEADER": [
+        "姓名：",
+        "聯絡人電話",
+        "會話",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "編輯",
+      "VIEW_BUTTON": "查看"
+    }
+  }
+}
