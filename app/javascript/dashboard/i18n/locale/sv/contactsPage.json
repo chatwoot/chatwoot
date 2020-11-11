@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "Det finns inga konserverade svar tillgängliga på detta konto.",
+      "TITLE": "Hantera konserverade svar",
+      "DESC": "Konserverade svar är fördefinierade svarsmallar som kan användas för att snabbt skicka ut svar till ärenden.",
+      "TABLE_HEADER": [
+        "Namn",
+        "Phone Number",
+        "Konversationer",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "Redigera",
+      "VIEW_BUTTON": "Visa"
+    }
+  }
+}
