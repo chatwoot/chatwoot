@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "ไม่มีการตอบสำเร็จรูปในบัญชีนี้",
+      "TITLE": "จัดกาาคำตอบสำเร็จรูป",
+      "DESC": "คำตอบสำเร็จรูปคือเทมเพลตการตอบกลับที่กำหนดไว้ล่วงหน้าซึ่งสามารถใช้เพื่อส่งการตอบกลับไปยังตั๋วได้อย่างรวดเร็ว",
+      "TABLE_HEADER": [
+        "ชื่อ",
+        "หมายเลขโทรศัพท์",
+        "การสนทนา",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "เเก้ไข",
+      "VIEW_BUTTON": "View"
+    }
+  }
+}
