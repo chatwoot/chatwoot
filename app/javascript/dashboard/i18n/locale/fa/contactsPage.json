@@ -1,0 +1,20 @@
+{
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "404": "هیچ پاسخ آماده‌ای برای این حساب تعریف نشده است",
+      "TITLE": "مدیریت پاسخ‌های آماده",
+      "DESC": "پاسخ‌های آماده قالب‌های متنی پیش آماده‌ای هستند که برای پاسخگویی سریع به یک گفتگو می‌توانند مفید واقع شوند",
+      "TABLE_HEADER": [
+        "نام",
+        "شماره تلفن",
+        "گفتگوها",
+        "Last Contacted"
+      ],
+      "EDIT_BUTTON": "ویرایش",
+      "VIEW_BUTTON": "نمایش"
+    }
+  }
+}
