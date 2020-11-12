@@ -73,7 +73,7 @@ module ActiveStorage
             client.delete_blob(container, blob.name)
           end
 
-          break unless marker = results.continuation_token.presence
+          break unless marker == results.continuation_token.presence
         end
       end
     end
@@ -145,7 +145,7 @@ module ActiveStorage
         chunk_size = 5.megabytes
         offset = 0
 
-        raise ActiveStorage::FileNotFoundError unless blob.present?
+        raise ActiveStorage::FileNotFoundError if blob.blank?
 
         while offset < blob.properties[:content_length]
           _, chunk = client.get_blob(container, key, start_range: offset, end_range: offset + chunk_size - 1)

@@ -1,4 +1,4 @@
-class DashboardController < ActionController::Base
+class DashboardController < ApplicationController
   before_action :set_global_config
 
   layout 'vueapp'

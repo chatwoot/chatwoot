@@ -1,0 +1,21 @@
+version = 1
+
+test_patterns = ["spec/**"]
+
+exclude_patterns = [
+    "db/**",
+    "deployment/**",
+    "docs/**",
+    "log/**",
+    "swagger/**",
+    "tmp/**",
+    "vendor/**"
+]
+
+[[analyzers]]
+name = "ruby"
+enabled = true
+
+[[transformers]]
+name = "rubocop"
+enabled = true
