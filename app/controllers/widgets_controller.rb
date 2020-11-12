@@ -1,4 +1,4 @@
-class WidgetsController < ActionController::Base
+class WidgetsController < ApplicationController
   before_action :set_global_config
   before_action :set_web_widget
   before_action :set_token
