@@ -1,4 +1,4 @@
-class WidgetTestsController < ActionController::Base
+class WidgetTestsController < ApplicationController
   before_action :set_web_widget
 
   def index
