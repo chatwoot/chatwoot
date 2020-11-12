@@ -83,7 +83,6 @@ export default {
   .download {
     color: $color-woot;
     font-weight: $font-weight-medium;
-    font-size: $font-size-mini;
     padding: 0;
     margin: 0;
     font-size: $font-size-small;
