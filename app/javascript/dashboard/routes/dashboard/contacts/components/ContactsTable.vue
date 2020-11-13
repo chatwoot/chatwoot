@@ -29,17 +29,21 @@
                   {{ contactItem.name }}
                 </h4>
                 <p class="user-email">
-                  {{ contactItem.email || '--' }}
+                  {{ contactItem.email || '---' }}
                 </p>
               </div>
             </div>
           </td>
-          <td>{{ contactItem.phone_number || '--' }}</td>
+          <td>{{ contactItem.phone_number || '---' }}</td>
           <td class="conversation-count-item">
             {{ contactItem.conversations_count }}
           </td>
           <td>
-            {{ contactItem.last_contacted_at || '--' }}
+            {{
+              contactItem.last_seen_at
+                ? dynamicTime(contactItem.last_seen_at)
+                : '---'
+            }}
           </td>
         </tr>
       </tbody>
@@ -60,6 +64,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
+import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
@@ -67,7 +72,7 @@ export default {
     EmptyState,
     Spinner,
   },
-  mixins: [clickaway],
+  mixins: [clickaway, timeMixin],
   props: {
     contacts: {
       type: Array,
@@ -76,10 +81,6 @@ export default {
     showSearchEmptyState: {
       type: Boolean,
       default: false,
-    },
-    openEditModal: {
-      type: Function,
-      default: () => {},
     },
     onClickContact: {
       type: Function,
@@ -90,7 +91,7 @@ export default {
       default: false,
     },
     activeContactId: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
   },
@@ -134,6 +135,8 @@ export default {
 }
 
 .contacts-table {
+  margin-top: -1px;
+
   > thead {
     border-bottom: 1px solid var(--color-border);
     background: white;
@@ -178,8 +181,9 @@ export default {
     }
 
     .user-name {
-      text-transform: capitalize;
+      font-size: var(--font-size-small);
       margin: 0;
+      text-transform: capitalize;
     }
 
     .user-email {
