@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :tweet_create_event, class: Hash do
     for_user_id { '1' }
+    user_has_blocked { false }
     tweet_create_events do
       [
         {
