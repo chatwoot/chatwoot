@@ -149,7 +149,7 @@ export default {
   display: flex;
   font-size: var(--font-size-small);
   font-weight: 400;
-  padding: var(--space-normal);
+  padding: var(--space-normal) var(--space-normal) var(--space-slab);
   text-align: left;
   line-height: var(--font-size-large);
 }
