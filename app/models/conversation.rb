@@ -50,7 +50,6 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy, autosave: true
 
   before_create :set_bot_conversation
-  before_create :set_display_id, unless: :display_id?
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
@@ -157,12 +156,6 @@ class Conversation < ApplicationRecord
     assignee_id.present? && Current.user&.id == assignee_id
   end
 
-  def set_display_id
-    self.display_id = loop do
-      next_display_id = account.conversations.maximum('display_id').to_i + 1
-      break next_display_id unless account.conversations.exists?(display_id: next_display_id)
-    end
-  end
 
   def create_activity
     user_name = Current.user.name if Current.user.present?
