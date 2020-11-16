@@ -14,7 +14,7 @@ import {
   onBubbleClick,
   setBubbleText,
 } from './bubbleHelpers';
-import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
+import { dispatchWindowEvent } from '../shared/helpers/CustomEventHelper';
 
 const EVENT_NAME = 'chatwoot:ready';
 
