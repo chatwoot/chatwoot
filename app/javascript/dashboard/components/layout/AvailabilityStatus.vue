@@ -6,7 +6,7 @@
       />
 
       <div class="status-view--title">
-        {{ currentUserAvailabilityStatus }}
+        {{ availabilityDisplayLabel }}
       </div>
     </div>
 
@@ -55,6 +55,7 @@ export default {
     return {
       isStatusMenuOpened: false,
       isUpdating: false,
+      statusKeys: ['online', 'busy', 'offline'],
     };
   },
 
@@ -62,16 +63,24 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
     }),
+    availabilityDisplayLabel() {
+      const availabilityIndex = this.statusKeys.findIndex(
+        key => key === this.currentUserAvailabilityStatus
+      );
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
+        availabilityIndex
+      ];
+    },
     currentUserAvailabilityStatus() {
       return this.currentUser.availability_status;
     },
     availabilityStatuses() {
-      const statusKeys = ['online', 'busy', 'offline'];
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
         (statusLabel, index) => ({
           label: statusLabel,
-          value: statusKeys[index],
-          disabled: this.currentUserAvailabilityStatus === statusKeys[index],
+          value: this.statusKeys[index],
+          disabled:
+            this.currentUserAvailabilityStatus === this.statusKeys[index],
         })
       );
     },
