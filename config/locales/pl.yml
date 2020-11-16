@@ -34,8 +34,14 @@ pl:
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
         removed: "Rozmowa nieprzypisana przez %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Daj drużynie możliwość dotarcia do Ciebie."
