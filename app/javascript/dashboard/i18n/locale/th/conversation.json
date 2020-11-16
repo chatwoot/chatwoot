@@ -6,6 +6,13 @@
     "NO_INBOX_1": "โฮล่า! ดูเหมือนว่าคุณยังไม่ได้เพิ่มกล่องจดหมายเลยนะ",
     "NO_INBOX_2": " ที่จะเริ่มต้น",
     "NO_INBOX_AGENT": "เอ่อโอ้! ดูเหมือนว่าคุณไม่ได้เป็นส่วนหนึ่งของกล่องจดหมายใด ๆ โปรดติดต่อผู้ดูแลระบบของคุณ",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "กดที่นี้",
     "LOADING_INBOXES": "กำลังโหลดกล่องข้อความ",
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",

@@ -73,6 +73,13 @@
           "ENABLED": "已启用",
           "DISABLED": "已禁用"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "窗口小部件颜色",
           "PLACEHOLDER": "更新小部件中使用的部件颜色"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
       "AUTO_ASSIGNMENT_SUB_TEXT": "启用或禁用添加到此收件箱的代理人自动分配新的会话。"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "重新授权",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "出现错误，请重试"
     }
   }
 }

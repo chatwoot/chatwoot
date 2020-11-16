@@ -1,42 +1,42 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "HEADER": "レポート",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "会話データ",
+        "DESC": "(合計)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "最初の応答時間",
+        "DESC": "(平均)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "処理時間",
+        "DESC": "(平均)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "処理件数",
+        "DESC": "(合計)"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "過去 7 日間"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "過去 30 日間"
       }
     ]
   }

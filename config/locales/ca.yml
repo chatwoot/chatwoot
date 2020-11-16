@@ -32,14 +32,20 @@ ca:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"
         open: "La conversa es va reobrir per %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "El sistema ha marcat que la conversa s'ha resolt a causa de %{duration} dies d'inactivitat"
       assignee:
+        self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
         assigned: "Assignada a %{assignee_name} per %{user_name}"
         removed: "%{user_name} ha tret l'assignació de la conversa"
+      labels:
+        added: "%{user_name} ha afegit %{labels}"
+        removed: "%{user_name} ha eliminat %{labels}"
+      muted: "%{user_name} ha silenciat la conversa"
+      unmuted: "%{user_name} ha desactivat el silenci de la conversa"
     templates:
       greeting_message_body: "%{account_name} normalment respon a les poques hores."
       ways_to_reach_you_message_body: "Fes saber a l'equip la forma de posar-nos en contacte amb tu."
       email_input_box_message_body: "Rep les notificacions per correu electrònic"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Missatges nous en aquesta conversa"
+      transcript_subject: "Transcripció de conversa"

@@ -73,6 +73,13 @@
           "ENABLED": "Aktiverad",
           "DISABLED": "Inaktiverad"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget färg",
           "PLACEHOLDER": "Uppdatera widgetens färg som används i widget"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Inkorg inställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Återauktorisera",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

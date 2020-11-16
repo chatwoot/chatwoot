@@ -73,6 +73,13 @@
           "ENABLED": "Enabled",
           "DISABLED": "Disabled"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
@@ -157,7 +164,7 @@
         "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Ügynökök",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
       },
       "DETAILS": {
@@ -226,13 +233,19 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reauthorize",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

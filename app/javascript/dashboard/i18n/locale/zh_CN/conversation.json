@@ -6,6 +6,13 @@
     "NO_INBOX_1": "看来你还没有添加任何收件箱。",
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "点击这里",
     "LOADING_INBOXES": "正在加载收件箱",
     "LOADING_CONVERSATIONS": "加载更多对话",

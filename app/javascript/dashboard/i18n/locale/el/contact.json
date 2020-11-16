@@ -1,9 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Μη Διαθέσιμο",
     "EMAIL_ADDRESS": "Διεύθυνση Email",
     "PHONE_NUMBER": "Αριθμός τηλεφώνου",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Αντιγράφτηκε με επιτυχία στο πρόχειρο",
+    "COMPANY": "Εταιρία",
     "LOCATION": "Θέση",
     "CONVERSATION_TITLE": "Λεπτομέρειες συνομιλίας",
     "BROWSER": "Φυλλομετρητής",
@@ -32,65 +33,82 @@
       "NO_AVAILABLE_LABELS": "Δεν υπάρχουν προστεθεί ετικέτες στην συνομιλία."
     },
     "MUTE_CONTACT": "Σίγαση Συνομιλίας",
+    "UNMUTE_CONTACT": "Επαναφορά Συνομιλίας",
     "MUTED_SUCCESS": "Η συνομιλία είναι σε σίγαση (mute) για 6 ώρες",
+    "UNMUTED_SUCCESS": "Έγινε επαναφορά της συνομιλίας",
     "SEND_TRANSCRIPT": "Αποστολή μεταγραφής",
     "EDIT_LABEL": "Επεξεργασία"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Επεξεργασία Επαφής",
+    "TITLE": "Επεξεργασία επαφής",
+    "DESC": "Επεξεργασία λεπτομερειών επαφής",
     "FORM": {
       "SUBMIT": "Καταχώρηση",
       "CANCEL": "Άκυρο",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar Επαφής"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Εισάγετε το πλήρες όνομα της επαφής",
+        "LABEL": "Πλήρες Όνομα"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Βάλτε το βιογραφικό της επαφής",
+        "LABEL": "Βιογραφικό"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Εισάγετε την διεύθυνση email της επαφής",
         "LABEL": "Διεύθυνση Email"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Εισάγετε τον αριθμό τηλεφώνου της επαφής",
+        "LABEL": "Αριθμός Τηλεφώνου"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Εισάγετε την τοποθεσία της επαφής",
         "LABEL": "Θέση"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Εισάγετε το όνομα της εταιρείας",
+        "LABEL": "Όνομα Εταιρείας"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Εισάγετε το όνομα χρήστη στο Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Η επαφή ενημερώθηκε επιτυχώς",
+    "CONTACT_ALREADY_EXIST": "Η διεύθυνση email είναι σε χρήση από άλλη επαφή.",
+    "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της επαφής, παρακαλώ προσπαθήστε ξανά"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Επαφές",
+    "SEARCH_BUTTON": "Αναζήτηση",
+    "SEARCH_INPUT_PLACEHOLDER": "Αναζήτηση Επαφών",
+    "LIST": {
+      "LOADING_MESSAGE": "Φόρτωση επαφών...",
+      "404": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
+      "TABLE_HEADER": [
+        "Όνομα",
+        "Αριθμός Τηλεφώνου",
+        "Συζητήσεις",
+        "Τελευταία επικοινωνία"
+      ]
+    }
   }
 }

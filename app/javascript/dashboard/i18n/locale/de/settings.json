@@ -26,19 +26,21 @@
         "TITLE": "E-Mail Benachrichtigungen",
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
-        "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird"
+        "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
         "UPDATE_ERROR": "Beim Aktualisieren der Einstellungen ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push-Benachrichtigungen",
+        "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
+        "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
+        "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
+        "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
@@ -49,20 +51,20 @@
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Anzeigename",
+        "ERROR": "Bitte geben Sie einen gültigen Anzeigenamen ein",
+        "PLACEHOLDER": "Bitte geben Sie einen Anzeigenamen ein, dieser wird in Unterhaltungen angezeigt"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Verfügbarkeit",
         "STATUSES_LIST": [
           {
             "value": "online",
             "label": "Online"
           },
           {
-            "value": "busy",
-            "label": "Busy"
+            "value": "beschäftigt",
+            "label": "Beschäftigt"
           },
           {
             "value": "offline",
@@ -89,29 +91,29 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Wechseln",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "CHANGE_ACCOUNTS": "Benutzerkonto wechseln",
+    "SELECTOR_SUBTITLE": "Wählen Sie ein Benutzerkonto aus der folgenden Liste",
     "PROFILE_SETTINGS": "Profileinstellungen",
     "LOGOUT": "Ausloggen"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "Tage der Testversion verbleibend.",
+    "TRAIL_BUTTON": "Jetzt kaufen"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Kopieren",
+      "COPY_SUCCESSFUL": "Code erfolgreich in die Zwischenablage kopiert"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Hochladen..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Einreichen"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Überprüft...",
   "SETTINGS": {
     "INBOXES": {
       "NEW_INBOX": "Add Inbox"
@@ -120,6 +122,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gespräche",
     "REPORTS": "Berichte",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Einstellungen",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
@@ -133,8 +136,8 @@
     "NEW_ACCOUNT": "New Account",
     "SELECTOR_SUBTITLE": "Create a new account",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Benutzerkonto erfolgreich erstellt",
+      "EXIST_MESSAGE": "Benutzerkonto existiert bereits",
       "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
     },
     "FORM": {
