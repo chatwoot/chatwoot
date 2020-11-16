@@ -1,12 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>woot-log</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="woot-log" fill-rule="nonzero">
-            <circle id="Oval" fill="#47A7F6" cx="256" cy="256" r="256"></circle>
-            <path d="M362.807947,368.807947 L244.122956,368.807947 C178.699407,368.807947 125.456954,315.561812 125.456954,250.12177 C125.456954,184.703089 178.699407,131.456954 244.124143,131.456954 C309.565494,131.456954 362.807947,184.703089 362.807947,250.12177 L362.807947,368.807947 Z" id="Fill-1" stroke="#FFFFFF" stroke-width="6" fill="#FFFFFF"></path>
-        </g>
-    </g>
-</svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700"><defs><style>.cls-1{fill:#231f20;}.cls-2{fill:#fff;}</style></defs><rect class="cls-1" width="700" height="700" rx="350"/><path class="cls-2" d="M496.77,346.53A108.42,108.42,0,0,1,388.35,455H251.05l12.38-54.21H380.32a54.21,54.21,0,0,0,0-108.42H279.93l16.5-87.54h-69.3a23.89,23.89,0,1,1,0-47.78H357.87l-16.5,81.11h47A108.42,108.42,0,0,1,496.77,346.53Z"/><path class="cls-2" d="M399.19,348.14a24.09,24.09,0,0,1-24.09,24.09H267.55L275.8,324h99.3A24.1,24.1,0,0,1,399.19,348.14Z"/><circle class="cls-2" cx="295.28" cy="515.9" r="27.1"/><circle class="cls-2" cx="411.33" cy="515.9" r="27.1"/></svg>
