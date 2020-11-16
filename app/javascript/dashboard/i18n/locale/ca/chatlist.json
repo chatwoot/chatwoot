@@ -77,8 +77,8 @@
         "CONTENT": "ha compartit una URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
+    "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
+    "REPLY_TO_TWEET": "Respon a aquest tuit"
   }
 }

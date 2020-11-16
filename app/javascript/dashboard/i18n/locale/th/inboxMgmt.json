@@ -73,6 +73,13 @@
           "ENABLED": "เปิด",
           "DISABLED": "ปิด"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "สีของวิดเจ็ต",
           "PLACEHOLDER": "อัพเดทสีที่ใช้ในวิดเจ็ต"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reauthorize",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
     }
   }
 }

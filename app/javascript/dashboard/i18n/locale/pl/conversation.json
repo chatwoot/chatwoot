@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Wygląda na to, że nie dodałeś jeszcze żadnej skrzynki odbiorczej.",
     "NO_INBOX_2": " rozpocząć",
     "NO_INBOX_AGENT": "Uh Oh! Wygląda na to, że nie jesteś częścią żadnej skrzynki odbiorczej. Skontaktuj się z administratorem",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Kliknij tutaj",
     "LOADING_INBOXES": "Ładowanie skrzynek odbiorczych",
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
