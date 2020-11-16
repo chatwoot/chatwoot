@@ -117,5 +117,8 @@
     "*.scss": [
       "scss-lint"
     ]
-  }
+  },
+  "files": [
+    "dist"
+  ]
 }
