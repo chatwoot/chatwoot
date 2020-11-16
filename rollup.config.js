@@ -11,5 +11,9 @@ export default {
       format: 'cjs',
     },
   ],
-  plugins: [commonjs(), nodeResolve(), babel({ babelHelpers: 'bundled' })],
+  plugins: [
+    commonjs(),
+    nodeResolve(),
+    babel({ babelHelpers: 'bundled', exclude: [/\/core-js\//] }),
+  ],
 };
