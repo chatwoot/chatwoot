@@ -1,5 +1,5 @@
 class ConversationTrigger < ActiveRecord::Migration[6.0]
-  def up
+  def up # rubocop:disable Metrics/MethodLength
     connection.execute("
     CREATE OR REPLACE FUNCTION make_account_seq() RETURNS trigger
     LANGUAGE plpgsql
