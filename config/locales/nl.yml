@@ -34,8 +34,14 @@ nl:
         open: "Gesprek werd heropend door %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Toegewezen aan %{assignee_name} door %{user_name}"
         removed: "Gesprek niet toegewezen door %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} reageert meestal binnen een paar uur."
       ways_to_reach_you_message_body: "Geef het team een manier om je te bereiken."
