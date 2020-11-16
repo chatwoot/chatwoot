@@ -29,9 +29,9 @@
           "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, selecione um tipo",
-          "ERROR": "O tipo de agente é obrigatório"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "Por favor, insira um nome para o agente"
         },
         "AGENT_TYPE": {
-          "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, selecione um tipo",
-          "ERROR": "O tipo de agente é obrigatório"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
