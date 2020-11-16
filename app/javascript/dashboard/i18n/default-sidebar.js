@@ -7,6 +7,7 @@ export const getSidebarItems = accountId => ({
       'inbox_dashboard',
       'inbox_conversation',
       'conversation_through_inbox',
+      'contacts_dashboard',
       'settings_account_reports',
       'profile_settings',
       'profile_settings_index',
@@ -22,6 +23,13 @@ export const getSidebarItems = accountId => ({
         toState: frontendURL(`accounts/${accountId}/dashboard`),
         toolTip: 'Conversation from all subscribed inboxes',
         toStateName: 'home',
+      },
+      contacts: {
+        icon: 'ion-person-stalker',
+        label: 'CONTACTS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/contacts`),
+        toStateName: 'contacts_dashboard',
       },
       report: {
         icon: 'ion-arrow-graph-up-right',
