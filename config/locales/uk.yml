@@ -34,8 +34,14 @@ uk:
         open: "Conversation was reopened by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Assigned to %{assignee_name} by %{user_name}"
         removed: "Conversation unassigned by %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} typically replies in a few hours."
       ways_to_reach_you_message_body: "Дайте команді можливість з вами зв'язатися."
