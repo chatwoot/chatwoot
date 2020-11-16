@@ -2,7 +2,9 @@
   "name": "@chatwoot/chatwoot",
   "version": "1.10.0",
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
+    "build": "rollup -c",
     "eslint": "eslint app/javascript --fix",
     "pretest": "rimraf .jest-cache",
     "test": "jest  -w 1 --no-cache",
@@ -55,6 +57,7 @@
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/preset-env": "^7.9.5",
+    "@rollup/plugin-babel": "^5.2.1",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
@@ -80,6 +83,7 @@
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
+    "rollup": "^2.33.2",
     "vue-jest": "^3.0.5",
     "webpack-dev-server": "^3.11.0"
   },
