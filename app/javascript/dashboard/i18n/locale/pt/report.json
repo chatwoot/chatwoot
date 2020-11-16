@@ -9,7 +9,7 @@
         "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Mensagens de entrada",
+        "NAME": "Incoming Messages",
         "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
@@ -17,7 +17,7 @@
         "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Primeiro tempo de resposta",
+        "NAME": "First response time",
         "DESC": "(Méd. )"
       },
       "RESOLUTION_TIME": {
@@ -25,7 +25,7 @@
         "DESC": "(Méd. )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Contagem de resolução",
+        "NAME": "Resolution Count",
         "DESC": "( Total )"
       }
     },
