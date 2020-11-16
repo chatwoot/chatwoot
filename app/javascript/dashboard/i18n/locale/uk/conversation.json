@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Галас! Схоже, ви ще не додали скриньк.",
     "NO_INBOX_2": " для початку",
     "NO_INBOX_AGENT": "Ой! Схоже, ви не маєте доступу до скриньки \"Вхідні\". Будь ласка, зверніться до адміністратора",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Натисніть тут",
     "LOADING_INBOXES": "Завантаження скриньок",
     "LOADING_CONVERSATIONS": "Завантаження бесід",
