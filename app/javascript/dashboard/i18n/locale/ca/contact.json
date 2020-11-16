@@ -1,9 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "No disponible",
     "EMAIL_ADDRESS": "Adreça de correu electrònic",
     "PHONE_NUMBER": "Número de telèfon",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "S'ha copiat al porta-retalls amb èxit",
+    "COMPANY": "Companyia",
     "LOCATION": "Ubicació",
     "CONVERSATION_TITLE": "Detalls de les converses",
     "BROWSER": "Navegador",
@@ -15,82 +16,99 @@
       "TITLE": "Converses prèvies"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Atributs personalitzats"
     },
     "LABELS": {
       "TITLE": "Etiquetes de converses",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Etiquetes per a",
+        "ACTIVE_LABELS": "S'han afegit etiquetes a la conversa",
+        "INACTIVE_LABELS": "Etiquetes disponibles al compte",
+        "REMOVE": "Fes clic a la icona X per eliminar l'etiqueta",
+        "ADD": "Fes clic a la icona + per afegir l'etiqueta",
+        "UPDATE_BUTTON": "Actualitza les etiquetes",
         "UPDATE_ERROR": "No s'han pogut actualitzar les etiquetes, torna-ho a provar."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "No hi ha cap etiqueta definida al compte.",
+      "NO_AVAILABLE_LABELS": "No hi ha etiquetes afegides a aquesta conversa."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "Silencia la conversa",
+    "UNMUTE_CONTACT": "Desactiva el silenci de la conversa",
+    "MUTED_SUCCESS": "Aquesta conversa s'ha silenciat durant 6 hores",
+    "UNMUTED_SUCCESS": "La conversa te desactivat el silenci",
+    "SEND_TRANSCRIPT": "Envia la transcripció",
     "EDIT_LABEL": "Edita"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Edita el contacte",
+    "TITLE": "Edita el contacte",
+    "DESC": "Edita els detalls de contacte",
     "FORM": {
       "SUBMIT": "Envia",
       "CANCEL": "Cancel·la",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar del contacte"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Introdueix el nom complet del contacte",
+        "LABEL": "Nom complet"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Introdueix la biografia del contacte",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Introdueix l'adreça de correu electrònic del contacte",
         "LABEL": "Adreça de correu electrònic"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Introdueix el número de telèfon del contacte",
+        "LABEL": "Número de telèfon"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Introdueix la ubicació del contacte",
         "LABEL": "Ubicació"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Introdueix el nom de la companyia",
+        "LABEL": "Nom de la companyia"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Introduïu el nom d'usuari de Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Introduïu el nom d'usuari de Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Introduïu el nom d'usuari de LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Introdueix el nom d'usuari de Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "S'ha actualitzat correctament el contacte",
+    "CONTACT_ALREADY_EXIST": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
+    "ERROR_MESSAGE": "S'ha produït un error en actualitzar el contacte. Tornau-ho a provar"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contactes",
+    "SEARCH_BUTTON": "Cercar",
+    "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Nom",
+        "Número de telèfon",
+        "Converses",
+        "Darrer contacte"
+      ]
+    }
   }
 }
