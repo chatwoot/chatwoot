@@ -32,10 +32,16 @@ el:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
       assignee:
+        self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
         assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
         removed: "Η συνομιλία σημάνθηκε ως μη ανατεθειμένη από τον %{user_name}"
+      labels:
+        added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
+        removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"
+      muted: "Ο χρήστης %{user_name} σίγασε την συνομιλία"
+      unmuted: "Ο χρήστης %{user_name} επανάφερε από την σίγαση την συνομιλία"
     templates:
       greeting_message_body: "Στον λογαριασμό %{account_name} τυπικά έχετε απάντηση σε μερικές ώρες."
       ways_to_reach_you_message_body: "Δώστε στην ομάδα ένα τρόπο να φτάσει σε σας."
