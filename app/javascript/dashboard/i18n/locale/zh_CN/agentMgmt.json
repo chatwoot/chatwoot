@@ -29,9 +29,9 @@
           "PLACEHOLDER": "请输入代理人名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理类型",
-          "PLACEHOLDER": "请选择一个类型",
-          "ERROR": "代理类型必填"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "电子邮件地址",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "请输入代理人名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理类型",
-          "PLACEHOLDER": "请选择一个类型",
-          "ERROR": "代理类型必填"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "电子邮件地址",
