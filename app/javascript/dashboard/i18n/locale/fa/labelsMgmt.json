@@ -1,61 +1,61 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "برچسب‌ها",
+    "HEADER_BTN_TXT": "افزودن برچسب",
+    "LOADING": "درحال گرفتن برچسب‌ها",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
     "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "هیچ برچسبی در این حساب‌کاربری وجود ندارد.",
+      "TITLE": "مدیریت برچسب‌ها",
+      "DESC": "برچسب‌ها به شما اجازه می‌دهند مکالمات را با هم گروه‌بندی کنید.",
       "TABLE_HEADER": [
         "نام",
-        "Description",
-        "Color"
+        "توضیحات",
+        "رنگ"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "نام برچسب",
+        "PLACEHOLDER": "نام برچسب",
+        "ERROR": "نام برچسب لازم است"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "توضیحات",
+        "PLACEHOLDER": "توضیحات برچسب"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "رنگ"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "نمایش برچسب در سایدبار"
       },
       "EDIT": "ویرایش",
-      "CREATE": "Create",
+      "CREATE": "ايجاد كردن",
       "DELETE": "حذف",
       "CANCEL": "انصراف"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "افزودن برچسب",
+      "DESC": "برچسب‌ها به شما اجازه می‌دهند مکالمات را با هم گروه‌بندی کنید.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "برچسب با موفقیت اضافه شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "ویرایش برچسب",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "برچسب با موفقیت به روز شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "برچسب با موفقیت حذف شد",
+        "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
       },
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
