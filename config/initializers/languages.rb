@@ -3,13 +3,13 @@
 
 LANGUAGES_CONFIG = {
   0 => { name: 'English (en)', iso_639_3_code: 'eng', iso_639_1_code: 'en', enabled: true },
-  1 => { name: 'العربية (ar)', iso_639_3_code: 'ara', iso_639_1_code: 'ar', enabled: false },
+  1 => { name: 'العربية (ar)', iso_639_3_code: 'ara', iso_639_1_code: 'ar', enabled: true },
   2 => { name: 'Nederlands (nl) ', iso_639_3_code: 'nld', iso_639_1_code: 'nl', enabled: true },
   3 => { name: 'Français (fr)', iso_639_3_code: 'fra', iso_639_1_code: 'fr', enabled: true },
   4 => { name: 'Deutsch (de)', iso_639_3_code: 'deu', iso_639_1_code: 'de', enabled: true },
   5 => { name: 'हिन्दी (hi)', iso_639_3_code: 'hin', iso_639_1_code: 'hi', enabled: false },
   6 => { name: 'Italiano (it)', iso_639_3_code: 'ita', iso_639_1_code: 'it', enabled: true },
-  7 => { name: '日本語 (ja)', iso_639_3_code: 'jpn', iso_639_1_code: 'ja', enabled: false },
+  7 => { name: '日本語 (ja)', iso_639_3_code: 'jpn', iso_639_1_code: 'ja', enabled: true },
   8 => { name: '한국어 (ko)', iso_639_3_code: 'kor', iso_639_1_code: 'ko', enabled: false },
   9 => { name: 'Português (pt)', iso_639_3_code: 'por', iso_639_1_code: 'pt', enabled: true },
   10 => { name: 'русский (ru)', iso_639_3_code: 'rus', iso_639_1_code: 'ru', enabled: true },

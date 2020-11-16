@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "ラベル",
+    "HEADER_BTN_TXT": "ラベルを追加",
+    "LOADING": "ラベルを取得中",
+    "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+    "SIDEBAR_TXT": "<p><b>ラベル</b> <p>ラベルは会話のカテゴリー分けや優先順位づけに便利です。サイドパネルから、会話に対してラベルを設定することができます。<br /><br />ラベルはアカウントと関連付けられ、組織内のカスタムワークフローにも利用できます。ラベルには個別の色を設定できるので、認識が容易になります。サイドバーにラベルを表示させることによって、会話を絞り込むことが簡単にできます。</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "このアカウントには利用可能なラベルがありません。",
+      "TITLE": "ラベルの管理",
+      "DESC": "ラベルを使用すると、会話をグループ化できます。",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "名前",
+        "説明",
+        "色"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "ラベル名",
+        "PLACEHOLDER": "ラベル名",
+        "ERROR": "ラベル名は必須です"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "説明",
+        "PLACEHOLDER": "ラベルの説明"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "色"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "サイドバーにラベルを表示"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "編集",
+      "CREATE": "作成",
+      "DELETE": "削除",
+      "CANCEL": "キャンセル"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "ラベルを追加",
+      "DESC": "ラベルを使用すると、会話をグループ化できます。",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ラベルの追加に成功しました",
+        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "ラベルを編集",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ラベルが正常に更新されました",
+        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "ラベルの削除に成功しました",
+        "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "削除の確認",
+        "MESSAGE": "削除してもよろしいですか？ ",
+        "YES": "削除する ",
+        "NO": "いいえ "
       }
     }
   }

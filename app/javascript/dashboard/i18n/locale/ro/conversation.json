@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Se pare că nu ai adăugat încă nici o căsuță poștală.",
     "NO_INBOX_2": " pentru a începe",
     "NO_INBOX_AGENT": "Uh Oh! Se pare că nu faci parte din nici o căsuță de e-mail. Te rugăm să contactezi administratorul",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Click aici",
     "LOADING_INBOXES": "Încărcare mesaje primite",
     "LOADING_CONVERSATIONS": "Încărcare conversații",

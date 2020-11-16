@@ -34,8 +34,14 @@ ml:
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{assignee_name} %{user_name}-നെ നിയുക്തനാക്കി "
         removed: "%{user_name} സംഭാഷണം നിയുക്തമല്ലാതാക്കി"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} സാധാരണ കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു."
       ways_to_reach_you_message_body: "നിങ്ങളിലേക്ക് എത്താൻ ടീമിന് ഒരു വഴി നൽകുക."

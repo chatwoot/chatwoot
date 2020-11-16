@@ -6,6 +6,13 @@
     "NO_INBOX_1": "നിങ്ങൾ ഇത് വരെ ഇൻബോക്സുകൾ ഒന്നും സ്രഷ്ടിച്ചിട്ടില്ലെന്നു തോന്നുന്നു.",
     "NO_INBOX_2": " ആരംഭിക്കുന്നതിന്",
     "NO_INBOX_AGENT": "നിങ്ങൾ ഏതെങ്കിലും ഇൻ‌ബോക്സിന്റെ ഭാഗമല്ലെന്ന് തോന്നുന്നു. നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററുമായി ബന്ധപ്പെടുക",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "ഇവിടെ ക്ലിക്കു ചെയ്യുക",
     "LOADING_INBOXES": "ഇൻ‌ബോക്സുകൾ‌ ലോഡു ചെയ്യുന്നു",
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
