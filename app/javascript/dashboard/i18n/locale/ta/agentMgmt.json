@@ -29,9 +29,9 @@
           "PLACEHOLDER": "ஏஜென்ட்ன் பெயரை உள்ளிடவும்"
         },
         "AGENT_TYPE": {
-          "LABEL": "ஏஜென்ட் வகை",
-          "PLACEHOLDER": "தயவுசெய்து ஒரு வகையைத் தேர்ந்தெடுக்கவும்",
-          "ERROR": "ஏஜென்ட் வகை தேவையானது"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "ஈ-மெயில் முகவரி",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "ஏஜென்ட்ன் பெயரை உள்ளிடவும்"
         },
         "AGENT_TYPE": {
-          "LABEL": "ஏஜென்ட் வகை",
-          "PLACEHOLDER": "தயவுசெய்து ஒரு வகையைத் தேர்ந்தெடுக்கவும்",
-          "ERROR": "ஏஜென்ட் வகை தேவையானது"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "ஈ-மெயில் முகவரி",
