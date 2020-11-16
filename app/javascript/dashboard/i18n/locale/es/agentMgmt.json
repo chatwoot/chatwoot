@@ -30,8 +30,8 @@
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Seleccione un tipo",
-          "ERROR": "El tipo de agente es obligatorio"
+          "PLACEHOLDER": "Por favor, seleccione un rol",
+          "ERROR": "Rol es requerido"
         },
         "EMAIL": {
           "LABEL": "Dirección de correo",
@@ -67,8 +67,8 @@
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, seleccione un tipo",
-          "ERROR": "El tipo de agente es obligatorio"
+          "PLACEHOLDER": "Por favor, seleccione un rol",
+          "ERROR": "Rol es requerido"
         },
         "EMAIL": {
           "LABEL": "Dirección de email",
