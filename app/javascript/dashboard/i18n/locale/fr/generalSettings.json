@@ -34,9 +34,9 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Nombre de jours après qu'un ticket soit automatiquement résolu s'il n'y a pas d'activité",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Veuillez entrer une durée de résolution automatique valide (minimum 1 jour)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
