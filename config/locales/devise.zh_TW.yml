@@ -1,5 +1,5 @@
-# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-zh_TW:
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+zh-TW:
   devise:
     confirmations:
       confirmed: "您的信箱已通過驗證，現在您已成功登入。"
@@ -57,5 +57,4 @@ zh_TW:
       not_found: "找不到。"
       not_locked: "並未被鎖定。"
       not_saved:
-        one: "有一個錯誤導致 %{resource} 不能被儲存："
         other: "有 %{count} 個錯誤導致 %{resource} 不能被儲存："
