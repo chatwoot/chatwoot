@@ -29,9 +29,9 @@
           "PLACEHOLDER": "الرجاء إدخال اسم الموظف"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "رتبة الموظف",
+          "PLACEHOLDER": "الرجاء تحديد نوع",
+          "ERROR": "رتبة الموظف مطلوبة"
         },
         "EMAIL": {
           "LABEL": "عنوان البريد الإلكتروني",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "الرجاء إدخال اسم الموظف"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "رتبة الموظف",
+          "PLACEHOLDER": "الرجاء تحديد نوع",
+          "ERROR": "رتبة الموظف مطلوبة"
         },
         "EMAIL": {
           "LABEL": "عنوان البريد الإلكتروني",
