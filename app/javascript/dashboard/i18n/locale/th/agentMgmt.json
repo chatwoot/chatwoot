@@ -29,9 +29,9 @@
           "PLACEHOLDER": "กรุณาระบุชื่อของพนักงาน"
         },
         "AGENT_TYPE": {
-          "LABEL": "ประเภทของพนักงาน",
-          "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "ต้องระบุประเภทของพนักงาน"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "ที่อยู่อีเมล์",
@@ -66,9 +66,9 @@
           "PLACEHOLDER": "กรุณาระบุชื่อของพนักงาน"
         },
         "AGENT_TYPE": {
-          "LABEL": "ประเภทของพนักงาน",
-          "PLACEHOLDER": "กรุณาเลือกประเภท",
-          "ERROR": "ต้องระบุประเภทของพนักงาน"
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
         },
         "EMAIL": {
           "LABEL": "ที่อยู่อีเมล์",
