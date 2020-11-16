@@ -4,7 +4,7 @@
     "SUBMIT": "Actualizar ajustes",
     "BACK": "Atrás",
     "UPDATE": {
-      "ERROR": "No se pudo actualizar la configuración, ¡inténtalo de nuevo!",
+      "ERROR": "No se pudo actualizar la configuración, ¡inténtelo de nuevo!",
       "SUCCESS": "Configuración de cuenta actualizada correctamente"
     },
     "FORM": {
@@ -15,12 +15,12 @@
       },
       "NAME": {
         "LABEL": "Nombre de cuenta",
-        "PLACEHOLDER": "Tu nombre de cuenta",
+        "PLACEHOLDER": "Su nombre de cuenta",
         "ERROR": "Por favor, introduzca un nombre de cuenta válido"
       },
       "LANGUAGE": {
         "LABEL": "Idioma del sitio (Beta)",
-        "PLACEHOLDER": "Tu nombre de cuenta",
+        "PLACEHOLDER": "Su nombre de cuenta",
         "ERROR": ""
       },
       "DOMAIN": {
@@ -34,9 +34,9 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Número de días después de que un ticket se resuelva automáticamente si no hay actividad",
+        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, introduzca una duración válida de resolución automática (mínimo 1 día)"
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
