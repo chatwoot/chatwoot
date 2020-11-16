@@ -1,49 +1,49 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Đang tải các cuộc trò chuyện",
-    "LOAD_MORE_CONVERSATIONS": "Tải thêm các cuộc trò chuyện",
-    "EOF": "Tất cả các cuộc trò chuyện đã được tải 🎉",
+    "LOADING": "Fetching conversations",
+    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
+    "EOF": "All conversations loaded 🎉",
     "LIST": {
-      "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
+      "404": "There are no active conversations in this group."
     },
-    "TAB_HEADING": "Các cuộc hội thoại",
+    "TAB_HEADING": "Conversations",
     "SEARCH": {
-      "INPUT": "Tìm kiếm cho người, đoạn chat, lưu trữ trả lời .."
+      "INPUT": "Search for People, Chats, Saved Replies .."
     },
     "STATUS_TABS": [
       {
-        "NAME": "Mở",
+        "NAME": "Open",
         "KEY": "openCount"
       },
       {
-        "NAME": "Đã được giải quyết",
+        "NAME": "Resolved",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Của tôi",
+        "NAME": "Mine",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Chưa được phân công",
+        "NAME": "Unassigned",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "Tất cả",
+        "NAME": "All",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Mở",
+        "TEXT": "Open",
         "VALUE": "open"
       },
       {
-        "TEXT": "Đã được giải quyết",
+        "TEXT": "Resolved",
         "VALUE": "resolved"
       },
       {
@@ -54,31 +54,31 @@
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "Tin nhắn hình ảnh"
+        "CONTENT": "Picture message"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Tin nhắn thoại"
+        "CONTENT": "Audio message"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Tin nhắn video"
+        "CONTENT": "Video message"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "Tập tin đính kèm"
+        "CONTENT": "File Attachment"
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Địa điểm"
+        "CONTENT": "Location"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "có một đường dẫn chia sẻ"
+        "CONTENT": "has shared a url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Nhận được từ email",
-    "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
-    "REPLY_TO_TWEET": "Trả lời cho tweet này"
+    "RECEIVED_VIA_EMAIL": "Received via email",
+    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
+    "REPLY_TO_TWEET": "Reply to this tweet"
   }
 }
