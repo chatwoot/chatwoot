@@ -34,9 +34,9 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Αριθμός ημερών μετά τις οποίες η συνομιλία θα επιλύεται αυτόματα, αν δεν υπάρχει δραστηριότητα",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Παρακαλώ σημειώστε την περίοδο αυτόματης επίλυσης (ελάχιστο 1 ημέρα)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό.",
