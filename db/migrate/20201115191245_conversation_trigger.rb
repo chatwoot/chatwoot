@@ -1,7 +1,7 @@
 class ConversationTrigger < ActiveRecord::Migration[6.0]
   def up
-    connection.execute(%q(
-    CREATE FUNCTION make_account_seq() RETURNS trigger
+    connection.execute("
+    CREATE OR REPLACE FUNCTION make_account_seq() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
     begin
@@ -10,9 +10,10 @@ class ConversationTrigger < ActiveRecord::Migration[6.0]
     end
     $$;
 
+    DROP TRIGGER IF EXISTS make_account_seq ON accounts;
     CREATE TRIGGER make_account_seq AFTER INSERT ON accounts FOR EACH ROW EXECUTE PROCEDURE make_account_seq();
 
-    CREATE FUNCTION fill_conv_seq() RETURNS trigger
+    CREATE OR REPLACE FUNCTION fill_conv_seq() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
     begin
@@ -21,15 +22,16 @@ class ConversationTrigger < ActiveRecord::Migration[6.0]
     end
     $$;
 
+    DROP TRIGGER IF EXISTS fill_conv_seq ON conversations;
     CREATE TRIGGER fill_conv_seq BEFORE INSERT ON conversations FOR EACH ROW EXECUTE PROCEDURE fill_conv_seq();
 
-    ))
+    ")
   end
 
   def down
-    connection.execute(%q(
+    connection.execute('
     DROP FUNCTION IF EXISTS fill_conv_seq() cascade;
     DROP FUNCTION IF EXISTS make_account_seq() cascade;
-                       ))
+                       ')
   end
 end

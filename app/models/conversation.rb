@@ -50,11 +50,13 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy, autosave: true
 
   before_create :set_bot_conversation
+
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
   after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
   after_save :run_round_robin
+  after_commit :set_display_id, unless: :display_id?
 
   acts_as_taggable_on :labels
 
@@ -156,6 +158,9 @@ class Conversation < ApplicationRecord
     assignee_id.present? && Current.user&.id == assignee_id
   end
 
+  def set_display_id
+    self.display_id = account.conversations.find(id).display_id
+  end
 
   def create_activity
     user_name = Current.user.name if Current.user.present?
