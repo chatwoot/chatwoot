@@ -6,27 +6,27 @@
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationer",
-        "DESC": "( Totalt )"
+        "DESC": "( Total )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Inkommande meddelanden",
-        "DESC": "( Totalt )"
+        "NAME": "Incoming Messages",
+        "DESC": "( Total )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Utgående meddelanden",
-        "DESC": "( Totalt )"
+        "NAME": "Outgoing Messages",
+        "DESC": "( Total )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt)"
+        "NAME": "First response time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Lösning Tid",
-        "DESC": "( Genomsnitt)"
+        "NAME": "Resolution Time",
+        "DESC": "( Avg )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Antal upplösningar",
-        "DESC": "( Totalt )"
+        "NAME": "Resolution Count",
+        "DESC": "( Total )"
       }
     },
     "DATE_RANGE": [
