@@ -96,6 +96,7 @@ export const IFrameHelper = {
       Cookies.set('cw_conversation', message.config.authToken, {
         expires: 365,
         sameSite: 'Lax',
+        ...window.$chatwoot.cookieOptions,
       });
       window.$chatwoot.hasLoaded = true;
       IFrameHelper.sendMessage('config-set', {
