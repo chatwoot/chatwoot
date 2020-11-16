@@ -79,6 +79,12 @@ Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
+###### Post Deployment
+
+You have to turn on worker process. It is not turned on by default.
+
+![Enable Worker](https://user-images.githubusercontent.com/2246121/98894711-6405e100-24cb-11eb-962a-7ec9b4e9b235.png)
+
 Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables.
 
 #### Other deployment options
