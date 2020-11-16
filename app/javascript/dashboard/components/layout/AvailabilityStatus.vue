@@ -66,10 +66,12 @@ export default {
       return this.currentUser.availability_status;
     },
     availabilityStatuses() {
+      const statusKeys = ['online', 'busy', 'offline'];
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        status => ({
-          ...status,
-          disabled: this.currentUserAvailabilityStatus === status.value,
+        (statusLabel, index) => ({
+          label: statusLabel,
+          value: statusKeys[index],
+          disabled: this.currentUserAvailabilityStatus === statusKeys[index],
         })
       );
     },
