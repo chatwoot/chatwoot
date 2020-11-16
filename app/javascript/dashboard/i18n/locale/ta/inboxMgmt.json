@@ -73,6 +73,13 @@
           "ENABLED": "இயக்கப்பட்டது",
           "DISABLED": "முடக்கப்பட்டது"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "விட்ஜெட் நிறம்",
           "PLACEHOLDER": "விட்ஜெட்டில் பயன்படுத்தப்படும் விட்ஜெட் நிறத்தைப் புதுப்பிக்கவும்"
@@ -154,7 +161,7 @@
       },
       "AUTH": {
         "TITLE": "சேனல்கள்",
-        "DESC": "தற்போது வலைத்தள நேரடி சாட் விட்ஜெட்டுகள், பேஸ்புக் பக்கங்கள் மற்றும் ட்விட்டர் சுயவிவரங்களை தளங்களாக ஆதரிக்கிறோம். விரைவில் வாட்ஸ்அப், ஈ-மெயில், டெலிகிராம் மற்றும் லைன் போன்ற பல தளங்களிலும் வர இருக்கிறது."
+        "DESC": "Currently, we support Website live chat widgets, Facebook Pages, Twitter profiles and Whatsapp as platforms. We have more platforms like Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
         "TITLE": "ஏஜென்ட்கள்",
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
       "AUTO_ASSIGNMENT_SUB_TEXT": "இந்த இன்பாக்ஸில் சேர்க்கப்பட்ட ஏஜென்ட்களுக்கு புதிய உரையாடல்களின் தானியங்கி ஒதுக்கீட்டை இயக்கவும் அல்லது முடக்கவும்."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "மறு அங்கீகாரம்",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }
