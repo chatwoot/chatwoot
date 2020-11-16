@@ -161,7 +161,7 @@
       },
       "AUTH": {
         "TITLE": "Channels",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "DESC": "Currently, we support Website live chat widgets, Facebook Pages, Twitter profiles and Whatsapp as platforms. We have more platforms like Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
         "TITLE": "Agents",
