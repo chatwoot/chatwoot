@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Disponibilitat",
         "STATUSES_LIST": [
-          {
-            "value": "en línia",
-            "label": "En línia"
-          },
-          {
-            "value": "ocupat",
-            "label": "Ocupat"
-          },
-          {
-            "value": "fora de línia",
-            "label": "Fora de línia"
-          }
+          "En línia",
+          "Ocupat",
+          "Fora de línia"
         ]
       },
       "EMAIL": {

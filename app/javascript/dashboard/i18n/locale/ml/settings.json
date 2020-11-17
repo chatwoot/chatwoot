@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "ലഭ്യത",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "ഓൺ‌ലൈൻ"
-          },
-          {
-            "value": "busy",
-            "label": "തിരക്ക്"
-          },
-          {
-            "value": "offline",
-            "label": "ഓഫ്‌ലൈൻ"
-          }
+          "ഓൺ‌ലൈൻ",
+          "തിരക്ക്",
+          "ഓഫ്‌ലൈൻ"
         ]
       },
       "EMAIL": {

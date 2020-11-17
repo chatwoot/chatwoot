@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Доступность",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "В сети"
-          },
-          {
-            "value": "busy",
-            "label": "Занят"
-          },
-          {
-            "value": "offline",
-            "label": "Оффлайн"
-          }
+          "В сети",
+          "Занят",
+          "Оффлайн"
         ]
       },
       "EMAIL": {
