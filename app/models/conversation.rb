@@ -159,7 +159,7 @@ class Conversation < ApplicationRecord
   end
 
   def set_display_id
-    self.display_id = account.conversations.find(id).display_id
+    reload
   end
 
   def create_activity
