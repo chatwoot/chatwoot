@@ -10,7 +10,7 @@
       "LOADING": "Đang tải về các webhooks",
       "SEARCH_404": "Không có kết quả nào được tìm thấy",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook là các lệnh gọi lại HTTP có thể được xác định cho mọi tài khoản. Chúng được kích hoạt bởi các sự kiện như tạo tin nhắn trong Chatwoot. Bạn có thể tạo nhiều webhook cho tài khoản này. <br /><br /> Để tạo một <b>webhook</b>, click vào <b>Tạo mới</b>. Bạn cũng có thể xóa bất kỳ webhook hiện có nào bằng cách nhấp vào nút Xóa.</p>",
-      "LIST": { 
+      "LIST": {
         "404": "Không có webhook nào được định cấu hình cho tài khoản này.",
         "TITLE": "Quản lý webhooks",
         "DESC": "Webhook là các mẫu trả lời được xác định trước có thể được sử dụng để nhanh chóng gửi câu trả lời cho vé",

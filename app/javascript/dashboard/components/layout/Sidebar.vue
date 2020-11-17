@@ -30,7 +30,7 @@
       <availability-status />
     </div>
 
-    <div class="bottom-nav">
+    <div class="bottom-nav app-context-menu">
       <transition name="menu-slide">
         <div
           v-if="showOptionsMenu"
@@ -286,6 +286,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
   },
   methods: {
@@ -404,5 +405,8 @@ export default {
       text-transform: capitalize;
     }
   }
+}
+.app-context-menu {
+  height: 6rem;
 }
 </style>

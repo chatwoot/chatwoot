@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Zdá se, že jste ještě nepřidali žádné schránky.",
     "NO_INBOX_2": " začít",
     "NO_INBOX_AGENT": "Uh Oh! Vypadá to, že nejste součástí žádné schránky. Obraťte se na správce",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Klikněte zde",
     "LOADING_INBOXES": "Načítání krabic",
     "LOADING_CONVERSATIONS": "Načítání konverzací",

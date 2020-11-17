@@ -73,6 +73,13 @@
           "ENABLED": "Ingeschakeld",
           "DISABLED": "Uitgeschakeld"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Kleur van widget",
           "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Autoriseer",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
     }
   }
 }

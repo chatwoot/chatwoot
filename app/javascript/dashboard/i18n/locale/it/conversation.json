@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Sembra che tu non abbia ancora aggiunto nessuna posta in arrivo.",
     "NO_INBOX_2": " per iniziare",
     "NO_INBOX_AGENT": "Uh Oh! Sembra che tu non faccia parte di nessuna casella di posta. Per favore contatta il tuo amministratore",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Clicca qui",
     "LOADING_INBOXES": "Caricamento posta in arrivo",
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",

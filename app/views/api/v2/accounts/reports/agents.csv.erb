@@ -1,0 +1,12 @@
+<% headers = ['Agent name', 'Conversations count', 'Avg first response time (Minutes)', 'Avg resolution time (Minutes)'] %>
+<%= CSV.generate_line headers %>
+<% Current.account.users.each do |agent| %>
+  <% agent_report = V2::ReportBuilder.new(Current.account, {
+        type: :agent,
+        id: agent.id,
+        since: params[:since],
+        until: params[:until]
+      }).summary %>
+  <% row = [ agent.name, agent_report[:conversations_count], (agent_report[:avg_first_response_time]/60).to_i, (agent_report[:avg_resolution_time]/60).to_i ] %>
+<%=   CSV.generate_line row %>
+<% end %>

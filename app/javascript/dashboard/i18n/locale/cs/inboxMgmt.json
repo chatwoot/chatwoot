@@ -73,6 +73,13 @@
           "ENABLED": "Povoleno",
           "DISABLED": "Zakázáno"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Barva widgetu",
           "PLACEHOLDER": "Aktualizovat barvu widgetu použitou ve widgetu"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Nastavení doručené pošty",
       "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastavení doručené pošty",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Povolit nebo zakázat automatické přiřazování nových konverzací agentům přidaným do této schránky."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Znovu autorizovat",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

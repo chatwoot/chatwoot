@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Non disponible",
     "EMAIL_ADDRESS": "Adresse de courriel",
     "PHONE_NUMBER": "Numéro de téléphone",
+    "COPY_SUCCESSFUL": "Copié dans le presse-papiers avec succès",
     "COMPANY": "Société",
     "LOCATION": "Localisation",
     "CONVERSATION_TITLE": "Détails de la conversation",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation."
     },
     "MUTE_CONTACT": "Mettre la conversation en sourdine",
+    "UNMUTE_CONTACT": "Réactiver le son de conversation",
     "MUTED_SUCCESS": "Cette conversation est mise en sourdine pendant 6 heures",
+    "UNMUTED_SUCCESS": "Cette conversation n'est plus muette",
     "SEND_TRANSCRIPT": "Envoyer la transcription",
     "EDIT_LABEL": "Modifier"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Contact mis à jour avec succès",
     "CONTACT_ALREADY_EXIST": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
     "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour du contact, veuillez réessayer"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Rechercher",
+    "SEARCH_INPUT_PLACEHOLDER": "Rechercher des contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Chargement des contacts...",
+      "404": "Aucun contact ne correspond à votre recherche 🔍",
+      "TABLE_HEADER": [
+        "Nom",
+        "Numéro de téléphone",
+        "Conversations",
+        "Dernièrement contacté"
+      ]
+    }
   }
 }

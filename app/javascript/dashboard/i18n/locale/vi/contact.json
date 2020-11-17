@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Không có sẵn",
     "EMAIL_ADDRESS": "Địa chỉ email",
     "PHONE_NUMBER": "Số điện thoại",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Công ty",
     "LOCATION": "Vị trí",
     "CONVERSATION_TITLE": "Chi tiết của cuộc trò chuyện",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này."
     },
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "Cuộc trò chuyện này bị tắt tiếng trong 6 giờ",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Gửi bản ghi",
     "EDIT_LABEL": "Chỉnh sửa"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Đã cập nhật liên hệ thành công",
     "CONTACT_ALREADY_EXIST": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
     "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật địa chỉ liên hệ, vui lòng thử lại"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Tên",
+        "Số điện thoại",
+        "Các cuộc hội thoại",
+        "Last Contacted"
+      ]
+    }
   }
 }

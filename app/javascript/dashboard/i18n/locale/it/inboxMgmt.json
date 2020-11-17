@@ -73,6 +73,13 @@
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Colore del widget",
           "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Riautorizza",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

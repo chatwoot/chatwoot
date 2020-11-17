@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "غير متاح",
     "EMAIL_ADDRESS": "عنوان البريد الإلكتروني",
     "PHONE_NUMBER": "رقم الهاتف",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "الشركة",
     "LOCATION": "الموقع الجغرافي",
     "CONVERSATION_TITLE": "تفاصيل المحادثة",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة."
     },
     "MUTE_CONTACT": "كتم المحادثة",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "تم كتم هذه المحادثة لمدة 6 ساعات",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "إرسال النص",
     "EDIT_LABEL": "تعديل"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "تم تحديث جهة الاتصال بنجاح",
     "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
     "ERROR_MESSAGE": "حدث خطأ أثناء تحديث جهة الاتصال، الرجاء المحاولة مرة أخرى"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "الاسم",
+        "رقم الهاتف",
+        "المحادثات",
+        "Last Contacted"
+      ]
+    }
   }
 }

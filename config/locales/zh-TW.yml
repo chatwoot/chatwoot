@@ -46,7 +46,8 @@ zh-TW:
     activity:
       status:
         resolved: "被%{user_name}標記的對話已解決。" 
-        open: "被%{user_name}恢復對話。" 
+        open: "被%{user_name}恢復對話。"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         assigned: "被%{user_name}分配給%{assignee_name}。" 
         removed: "對話被%{user_name}設定成未分配。" 

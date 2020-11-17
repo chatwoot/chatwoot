@@ -1,5 +1,7 @@
-import { getters } from '../../contacts';
+import Contacts from '../../contacts';
 import contactList from './fixtures';
+
+const { getters } = Contacts;
 
 describe('#getters', () => {
   it('getContacts', () => {
