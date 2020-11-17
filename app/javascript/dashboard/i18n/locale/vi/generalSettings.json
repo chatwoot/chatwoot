@@ -33,6 +33,11 @@
         "PLACEHOLDER": "Email hỗ trợ của công ty bạn",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "PLACEHOLDER": "30",
+        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+      },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Bạn có thể nhận email trong miền tùy chỉnh của mình ngay bây giờ."

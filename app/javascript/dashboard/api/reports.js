@@ -12,8 +12,8 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getAccountSummary(accountId, since, until) {
-    return axios.get(`${this.url}/${accountId}/account_summary`, {
+  getAccountSummary(since, until) {
+    return axios.get(`${this.url}/account_summary`, {
       params: { since, until },
     });
   }

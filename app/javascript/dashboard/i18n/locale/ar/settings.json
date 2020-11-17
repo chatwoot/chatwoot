@@ -26,7 +26,8 @@
         "TITLE": "إشعارات البريد الإلكتروني",
         "NOTE": "قم بتحديث تفضيلات إشعار البريد الإلكتروني الخاص بك من هنا",
         "CONVERSATION_ASSIGNMENT": "إرسال إشعارات البريد الإلكتروني عند إسناد محادثة لي",
-        "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة"
+        "CONVERSATION_CREATION": "إرسال إشعارات للبريد الإلكتروني عند ورود محادثة جديدة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "يتم تحديث إعدادات الإشعارات بنجاح",
@@ -37,6 +38,7 @@
         "NOTE": "قم بتحديث تفضيلات إشعارات المتصفح من هنا",
         "CONVERSATION_ASSIGNMENT": "إرسال إشعارات على المتصفح عند إسناد محادثة لي",
         "CONVERSATION_CREATION": "إرسال إشعارات المتصفح عند ورود محادثة جديدة",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "لقد قمت بتمكين الإشعارات لهذا المتصفح.",
         "REQUEST_PUSH": "تفعيل إشعارات المتصفح"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "التوفر",
         "STATUSES_LIST": [
-          {
-            "value": "متصل",
-            "label": "متصل"
-          },
-          {
-            "value": "مشغول",
-            "label": "مشغول"
-          },
-          {
-            "value": "غير متصل",
-            "label": "غير متصل"
-          }
+          "متصل",
+          "مشغول",
+          "غير متصل"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "المحادثات",
     "REPORTS": "التقارير",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "الإعدادات",
     "HOME": "الرئيسية",
     "AGENTS": "موظف الدعم",

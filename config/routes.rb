@@ -100,6 +100,7 @@ Rails.application.routes.draw do
             resources :apps, only: [:index, :show]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
+          resources :working_hours, only: [:update]
 
           namespace :kbase do
             resources :portals do
@@ -144,9 +145,9 @@ Rails.application.routes.draw do
         resources :reports, only: [] do
           collection do
             get :account
-          end
-          member do
             get :account_summary
+            get :agents
+            get :inboxes
           end
         end
       end

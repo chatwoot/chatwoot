@@ -10,7 +10,7 @@
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
       "TABLE_HEADER": [
-        "Name",
+        "Név",
         "Description",
         "Color"
       ]
@@ -52,16 +52,16 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Törlés",
       "API": {
         "SUCCESS_MESSAGE": "Label deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Törlés Megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
       }
     }
   }

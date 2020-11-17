@@ -2,26 +2,30 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "S'està carregant..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Envia"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Estem en línia",
+    "OFFLINE": "Estem fora de línia"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Normalment responem en pocs minuts",
+    "IN_A_FEW_HOURS": "Normalment responem en poques hores",
+    "IN_A_DAY": "Normalment respon en un dia"
+  },
+  "START_CONVERSATION": "Inicia la conversa",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Veure missatges nous",
     "CLOSE_MESSAGES_BUTTON": "Tanca"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Xateja amb nosaltres"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Desenvolupat per Chatwoot",
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Escriu el missatge"
 }

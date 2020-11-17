@@ -44,6 +44,19 @@ RSpec.describe Conversation, type: :model do
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
     end
+
+    it 'queues AutoResolveConversationsJob post creation if auto resolve duration present' do
+      account.update(auto_resolve_duration: 30)
+      expect do
+        create(
+          :conversation,
+          account: account,
+          contact: create(:contact, account: account),
+          inbox: inbox,
+          assignee: nil
+        )
+      end.to have_enqueued_job(AutoResolveConversationsJob)
+    end
   end
 
   describe '.after_update' do
@@ -93,6 +106,26 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
       expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
       expect(conversation.messages.pluck(:content)).to include("#{old_assignee.name} added #{label.title}")
+    end
+
+    it 'adds a message for system auto resolution if marked resolved by system' do
+      conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
+      account.update(auto_resolve_duration: 40)
+      Current.user = nil
+      conversation2.update(status: :resolved)
+      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      expect(conversation2.messages.pluck(:content)).to include(system_resolved_message)
+    end
+
+    it 'does not trigger AutoResolutionJob if conversation reopened and account does not have auto resolve duration' do
+      expect { conversation.update(status: :open) }
+        .not_to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
+    end
+
+    it 'does trigger AutoResolutionJob if conversation reopened and account has auto resolve duration' do
+      account.update(auto_resolve_duration: 40)
+      expect { conversation.update(status: :open) }
+        .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
   end
 

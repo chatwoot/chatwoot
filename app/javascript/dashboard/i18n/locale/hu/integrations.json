@@ -16,7 +16,7 @@
         "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
         "TABLE_HEADER": [
           "Webhook endpoint",
-          "Actions"
+          "Műveletek"
         ]
       },
       "ADD": {

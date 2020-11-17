@@ -2,13 +2,11 @@
   <div class="status">
     <div class="status-view">
       <div
-        :class="
-          `status-view--badge status-view--badge__${currentUserAvailabilityStatus}`
-        "
+        :class="`status-badge status-badge__${currentUserAvailabilityStatus}`"
       />
 
       <div class="status-view--title">
-        {{ currentUserAvailabilityStatus }}
+        {{ availabilityDisplayLabel }}
       </div>
     </div>
 
@@ -20,7 +18,13 @@
           class="dropdown-pane top"
         >
           <ul class="vertical dropdown menu">
-            <li v-for="status in availabilityStatuses" :key="status.value">
+            <li
+              v-for="status in availabilityStatuses"
+              :key="status.value"
+              class="status-items"
+            >
+              <div :class="`status-badge status-badge__${status.value}`" />
+
               <button
                 class="button clear status-change--dropdown-button"
                 :disabled="status.disabled"
@@ -43,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
   mixins: [clickaway],
@@ -58,14 +63,25 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
     }),
+    availabilityDisplayLabel() {
+      const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
+        key => key === this.currentUserAvailabilityStatus
+      );
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
+        availabilityIndex
+      ];
+    },
     currentUserAvailabilityStatus() {
       return this.currentUser.availability_status;
     },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        status => ({
-          ...status,
-          disabled: this.currentUserAvailabilityStatus === status.value,
+        (statusLabel, index) => ({
+          label: statusLabel,
+          value: AVAILABILITY_STATUS_KEYS[index],
+          disabled:
+            this.currentUserAvailabilityStatus ===
+            AVAILABILITY_STATUS_KEYS[index],
         })
       );
     },
@@ -112,24 +128,6 @@ export default {
   display: flex;
   align-items: baseline;
 
-  & &--badge {
-    width: $space-one;
-    height: $space-one;
-    border-radius: 50%;
-
-    &__online {
-      background: $success-color;
-    }
-
-    &__offline {
-      background: $color-gray;
-    }
-
-    &__busy {
-      background: $warning-color;
-    }
-  }
-
   & &--title {
     color: $color-gray;
     font-size: $font-size-small;
@@ -145,6 +143,11 @@ export default {
 .status-change {
   .dropdown-pane {
     top: -130px;
+  }
+
+  .status-items {
+    display: flex;
+    align-items: baseline;
   }
 
   & &--change-button {
@@ -164,6 +167,24 @@ export default {
     padding: $space-small $space-one;
     text-align: left;
     width: 100%;
+  }
+}
+
+.status-badge {
+  width: $space-one;
+  height: $space-one;
+  border-radius: 50%;
+
+  &__online {
+    background: $success-color;
+  }
+
+  &__offline {
+    background: $color-gray;
+  }
+
+  &__busy {
+    background: $warning-color;
   }
 }
 </style>

@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Ser ut som om du inte har lagt till några inkorgar än.",
     "NO_INBOX_2": " att komma igång",
     "NO_INBOX_AGENT": "Oh Oh! Ser ut som om du inte är en del av någon inkorg. Kontakta administratören",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Klicka här",
     "LOADING_INBOXES": "Laddar inkorgar",
     "LOADING_CONVERSATIONS": "Laddar konversationer",
