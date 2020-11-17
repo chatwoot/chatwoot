@@ -10,7 +10,7 @@
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
 #  support_email         :string(100)
-#  timezone       :string           default("UTC")
+#  timezone              :string           default("UTC")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
@@ -95,5 +95,9 @@ class Account < ApplicationRecord
 
   def notify_deletion
     Rails.configuration.dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
+  end
+
+  trigger.after(:insert).for_each(:row) do
+    "execute format('create sequence account_seq_%s', NEW.id);"
   end
 end

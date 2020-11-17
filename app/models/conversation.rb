@@ -291,4 +291,9 @@ class Conversation < ApplicationRecord
   def mute_period
     6.hours
   end
+
+  # creating db triggers
+  trigger.before(:insert).for_each(:row) do
+    "NEW.display_id := nextval('account_seq_' || NEW.account_id);"
+  end
 end
