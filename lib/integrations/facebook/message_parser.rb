@@ -46,7 +46,7 @@ class Integrations::Facebook::MessageParser
   end
 end
 
-# Sample Reponse
+# Sample Response
 # {
 #   "sender":{
 #     "id":"USER_ID"

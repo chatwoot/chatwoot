@@ -37,7 +37,10 @@ export default {
     Spinner,
   },
   props: {
-    groupedMessages: Array,
+    groupedMessages: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {

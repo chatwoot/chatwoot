@@ -73,6 +73,13 @@
           "ENABLED": "已啟用",
           "DISABLED": "已停用"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "視窗小元件顏色",
           "PLACEHOLDER": "更新小元件中使用的元件顏色"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
       "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "重新授權",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "出現錯誤，請重試"
     }
   }
 }

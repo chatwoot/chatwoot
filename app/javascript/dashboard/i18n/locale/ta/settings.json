@@ -26,7 +26,8 @@
         "TITLE": "ஈமெயில் வழியான அறிவிப்புகள்",
         "NOTE": "உங்கள் ஈமெயில் வழியான அறிவிப்பு தொடர்பான விருப்பங்களை இங்கே புதுப்பிக்கவும்",
         "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்பட்டால் ஈமெயிலில் அறிவிப்புகளை அனுப்பவும்",
-        "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்"
+        "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "உங்களின் அறிவிப்பு விருப்பத்தேர்வுகள் வெற்றிகரமாக புதுப்பிக்கப்பட்டன",
@@ -37,6 +38,7 @@
         "NOTE": "உங்கள் புஷ் அறிவிப்பு விருப்பங்களை இங்கே புதுப்பிக்கவும்",
         "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்படும் போது புஷ் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது புஷ் அறிவிப்புகளை அனுப்பவும்",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "இந்த பிரௌசருக்கான புஷ் அறிவிப்புகளை இயக்கியுள்ளீர்கள்.",
         "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Availability",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Busy"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+          "Online",
+          "Busy",
+          "Offline"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "உரையாடல்கள்",
     "REPORTS": "அறிக்கைகள்",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "அமைப்புகள்",
     "HOME": "முகப்பு",
     "AGENTS": "ஏஜென்ட்கள்",

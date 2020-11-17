@@ -34,7 +34,7 @@
     }
 
     .modal-image {
-      max-width: 80%;
+      max-width: 85%;
     }
 
     &::before {
@@ -72,7 +72,7 @@
 
   .chat-list__top {
     @include flex;
-    @include padding($space-normal $zero $space-small $zero);
+    @include padding($zero $zero $space-small $zero);
 
     align-items: center;
     justify-content: space-between;

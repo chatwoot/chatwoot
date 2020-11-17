@@ -73,6 +73,13 @@
           "ENABLED": "Activat",
           "DISABLED": "Dezactivat"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Culoare widget",
           "PLACEHOLDER": "Actualizează culoarea folosită în widget"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reautorizează",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "A apărut o eroare, încercați din nou"
     }
   }
 }

@@ -41,8 +41,12 @@ class Integrations::Slack::IncomingMessageBuilder
     params[:type] == 'url_verification'
   end
 
+  def thread_timestamp_available?
+    params[:event][:thread_ts].present?
+  end
+
   def create_message?
-    supported_message? && integration_hook
+    thread_timestamp_available? && supported_message? && integration_hook
   end
 
   def message

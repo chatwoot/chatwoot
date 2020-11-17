@@ -1,63 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "連携",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "設定",
+      "HEADER": "Webhookの設定",
+      "HEADER_BTN_TXT": "新しいWebhookを追加",
+      "INTEGRATION_TXT": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。 Webhookを使用して、SlackやGithubなどのお気に入りのアプリにイベントを伝えることができます。 設定をクリックしてWebhookを設定します。",
+      "LOADING": "添付されたWebhookを取得しています",
+      "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks は、すべてのアカウントで定義可能なHTTP コールバックです。これらは、メッセージの作成などChatwoot上でのイベントをきっかけに実行されます。このアカウントでは、1つ以上のwebhookが作成できます。 <br /><br /> <b>webhook</b>を作成するには、<b>webhookを作成</b>ボタンをクリックしてください。また、作成した webhook を削除ボタンを押して削除することもできます。</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "このアカウントに紐付けされたWebフックはありません。",
+        "TITLE": "Webhookの管理",
+        "DESC": "Webhookは、事前に設定した文章をテンプレートとし、チケットに対して迅速に返信するためのものです。",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Webhookエンドポイント",
+          "操作"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "キャンセル",
+        "TITLE": "新しいWebhookを追加",
+        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "PLACEHOLDER": "例: https://example/api/webhook",
+            "ERROR": "有効な URL を入力してください"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Webhookを作成"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhookの追加に成功しました",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "削除",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhookの削除に成功しました",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "削除の確認",
+          "MESSAGE": "削除してもよろしいですか？ ",
+          "YES": "削除する ",
+          "NO": "いいえ、保存しておきます"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "連携が正常に削除されました"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "接続"
     }
   }
 }

@@ -27,7 +27,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   private
 
   def check_authorization
-    authorize(User)
+    super(User)
   end
 
   def fetch_agent
@@ -64,6 +64,6 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def agents
-    @agents ||= Current.account.users.order_by_full_name
+    @agents ||= Current.account.users.order_by_full_name.includes({ avatar_attachment: [:blob] })
   end
 end

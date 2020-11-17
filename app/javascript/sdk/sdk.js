@@ -30,6 +30,7 @@ export const SDK_CSS = `.woot-widget-holder {
   position: fixed;
   width: 64px !important;
   z-index: 2147483000 !important;
+  user-select: none;
 }
 
 .woot-widget-bubble.woot-widget--expanded {
