@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Disponibilidade",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Disponível"
-          },
-          {
-            "value": "busy",
-            "label": "Ocupado"
-          },
-          {
-            "value": "offline",
-            "label": "Desconectado"
-          }
+          "Disponível",
+          "Ocupado",
+          "Desconectado"
         ]
       },
       "EMAIL": {

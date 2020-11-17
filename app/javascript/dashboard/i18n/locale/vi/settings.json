@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Khả dụng",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Trực Tuyến"
-          },
-          {
-            "value": "busy",
-            "label": "Bận"
-          },
-          {
-            "value": "offline",
-            "label": "Không Trực Tuyến"
-          }
+          "Trực Tuyến",
+          "Bận",
+          "Không Trực Tuyến"
         ]
       },
       "EMAIL": {
