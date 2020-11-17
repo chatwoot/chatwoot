@@ -46,7 +46,7 @@ describe('AvailabilityStatus', () => {
   it('shows current user status', () => {
     const statusViewTitle = availabilityStatus.find('.status-view--title');
 
-    expect(statusViewTitle.text()).toBe(currentUser.availability_status);
+    expect(statusViewTitle.text()).toBe('Online');
   });
 
   it('opens the menu when user clicks "change"', async () => {
