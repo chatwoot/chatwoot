@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Недоступен",
     "EMAIL_ADDRESS": "Email",
     "PHONE_NUMBER": "Номер телефона",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Компания",
     "LOCATION": "Местоположение",
     "CONVERSATION_TITLE": "Детали диалога",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "У диалога больше нет категорий."
     },
     "MUTE_CONTACT": "Заглушить диалог",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "Этот диалог заглушен на 6 часов",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Отправить субтитры",
     "EDIT_LABEL": "Редактировать"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Контакт успешно обновлен",
     "CONTACT_ALREADY_EXIST": "Этот адрес электронной почты используется для другого контакта.",
     "ERROR_MESSAGE": "При сохранении настроек произошла ошибка, пожалуйста, попробуйте еще раз"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Имя",
+        "Номер телефона",
+        "Диалоги",
+        "Last Contacted"
+      ]
+    }
   }
 }

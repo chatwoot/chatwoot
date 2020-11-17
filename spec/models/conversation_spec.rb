@@ -44,6 +44,19 @@ RSpec.describe Conversation, type: :model do
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
     end
+
+    it 'queues AutoResolveConversationsJob post creation if auto resolve duration present' do
+      account.update(auto_resolve_duration: 30)
+      expect do
+        create(
+          :conversation,
+          account: account,
+          contact: create(:contact, account: account),
+          inbox: inbox,
+          assignee: nil
+        )
+      end.to have_enqueued_job(AutoResolveConversationsJob)
+    end
   end
 
   describe '.after_update' do
@@ -93,6 +106,26 @@ RSpec.describe Conversation, type: :model do
       expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
       expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
       expect(conversation.messages.pluck(:content)).to include("#{old_assignee.name} added #{label.title}")
+    end
+
+    it 'adds a message for system auto resolution if marked resolved by system' do
+      conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
+      account.update(auto_resolve_duration: 40)
+      Current.user = nil
+      conversation2.update(status: :resolved)
+      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      expect(conversation2.messages.pluck(:content)).to include(system_resolved_message)
+    end
+
+    it 'does not trigger AutoResolutionJob if conversation reopened and account does not have auto resolve duration' do
+      expect { conversation.update(status: :open) }
+        .not_to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
+    end
+
+    it 'does trigger AutoResolutionJob if conversation reopened and account has auto resolve duration' do
+      account.update(auto_resolve_duration: 40)
+      expect { conversation.update(status: :open) }
+        .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
   end
 
@@ -276,7 +309,13 @@ RSpec.describe Conversation, type: :model do
   describe '#mute!' do
     subject(:mute!) { conversation.mute! }
 
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
     let(:conversation) { create(:conversation) }
+
+    before { Current.user = user }
 
     it 'marks conversation as resolved' do
       mute!
@@ -287,12 +326,23 @@ RSpec.describe Conversation, type: :model do
       mute!
       expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
     end
+
+    it 'creates mute message' do
+      mute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has muted the conversation")
+    end
   end
 
   describe '#unmute!' do
     subject(:unmute!) { conversation.unmute! }
 
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
     let(:conversation) { create(:conversation).tap(&:mute!) }
+
+    before { Current.user = user }
 
     it 'does not change conversation status' do
       expect { unmute! }.not_to(change { conversation.reload.status })
@@ -302,6 +352,11 @@ RSpec.describe Conversation, type: :model do
       expect { unmute! }
         .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
         .to nil
+    end
+
+    it 'creates unmute message' do
+      unmute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has unmuted the conversation")
     end
   end
 
@@ -377,7 +432,7 @@ RSpec.describe Conversation, type: :model do
     let(:conversation) { create(:conversation) }
     let(:expected_data) do
       {
-        additional_attributes: nil,
+        additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee

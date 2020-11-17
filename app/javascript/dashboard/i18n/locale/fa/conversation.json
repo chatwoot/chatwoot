@@ -1,55 +1,62 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "404": "لطفا یک گفتگو را از پنجره سمت چپ انتخاب کنید",
+    "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
+    "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
+    "NO_INBOX_1": "سلام! به نظر می‌رسد هنوز صندوق ورودی اضافه نکرده‌اید.",
+    "NO_INBOX_2": " برای شروع",
+    "NO_INBOX_AGENT": "اوه اوه! به نظر می‌رسد شما عضو هیچ صندوق ورودی نیستید. لطفا با مدیر خود تماس بگیرید",
+    "SEARCH_MESSAGES": "پیام‌ها را در گفتگوها جستجو کنید",
+    "SEARCH": {
+      "TITLE": "جستجو پیام‌ها",
+      "LOADING_MESSAGE": "درحال پردازش داده...",
+      "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
+    "CLICK_HERE": "اینجا کلیک کنید",
+    "LOADING_INBOXES": "در حال بارگیری صندوق‌های ورودی",
+    "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
+    "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
+    "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "LAST_INCOMING_TWEET": "شما در حال پاسخ به آخرین توییت ورودی هستید",
+    "REPLYING_TO": "شما در حال پاسخ دادن به:",
+    "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
+    "DOWNLOAD": "دانلود",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "حل شد",
+      "REOPEN_ACTION": "دوباره باز کنید",
+      "OPEN": "بیشتر",
+      "CLOSE": "بستن",
+      "DETAILS": "جزئیات"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "TWEET": "Tweet"
+      "REPLY": "پاسخ",
+      "PRIVATE_NOTE": "یادداشت خصوصی",
+      "SEND": "ارسال",
+      "CREATE": "افزودن یادداشت",
+      "TWEET": "توییت"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
+    "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
+    "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
     "CHANGE_AGENT": "Conversation Assignee changed"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "ارسال متن گفتگو",
+    "DESC": "یک کپی از متن گفتگو را به آدرس ایمیل مشخص شده ارسال کنید",
     "SUBMIT": "ثبت",
     "CANCEL": "انصراف",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "متن گفتگو با موفقیت ارسال شد",
+    "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
+      "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
       "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "متن گفتگو را به آدرس ایمیل دیگری ارسال کنید",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "یک آدرس ایمیل وارد کنید",
         "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید"
       }
     }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_11_152227) do
+ActiveRecord::Schema.define(version: 2020_10_27_135006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
+    t.integer "auto_resolve_duration"
+    t.string "timezone", default: "UTC"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -203,7 +205,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
     t.index ["account_id"], name: "index_contacts_on_account_id"
@@ -224,7 +226,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.datetime "contact_last_seen_at"
     t.datetime "agent_last_seen_at"
     t.boolean "locked", default: false
-    t.jsonb "additional_attributes"
+    t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
@@ -280,12 +282,14 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.boolean "greeting_enabled", default: false
     t.string "greeting_message"
     t.string "email_address"
+    t.boolean "working_hours_enabled", default: false
+    t.string "out_of_office_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
     t.string "name", null: false
-    t.jsonb "serialized_value", default: "{}", null: false
+    t.jsonb "serialized_value", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
@@ -399,7 +403,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
   create_table "notification_subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "subscription_type", null: false
-    t.jsonb "subscription_attributes", default: "{}", null: false
+    t.jsonb "subscription_attributes", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "identifier"
@@ -509,6 +513,21 @@ ActiveRecord::Schema.define(version: 2020_10_11_152227) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "working_hours", force: :cascade do |t|
+    t.bigint "inbox_id"
+    t.bigint "account_id"
+    t.integer "day_of_week", null: false
+    t.boolean "closed_all_day", default: false
+    t.integer "open_hour"
+    t.integer "open_minutes"
+    t.integer "close_hour"
+    t.integer "close_minutes"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_working_hours_on_account_id"
+    t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
   add_foreign_key "account_users", "accounts"

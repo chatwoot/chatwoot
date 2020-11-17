@@ -10,7 +10,7 @@
       <button
         v-if="showCopy"
         type="submit"
-        class="button nice link hollow grey-btn"
+        class="button nice link hollow grey-btn compact"
         @click="onCopy"
       >
         <i class="icon copy-icon ion-clipboard"></i>

@@ -1,238 +1,251 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "受信トレイ",
+    "SIDEBAR_TXT": "<p><b>受信トレイ</b></p> <p>ウェブサイトと接続した場合、またはFacebookページとChatwootを接続した場合、受信トレイが作成されます。1つのChatwootアカウントにつき、受信トレイは無制限で作成することができます。</p><p><b>受信トレイ作成</b>ボタンをクリックすると、ウェブサイトまたはFacebookと接続できるようになります。</p><p> 管理画面では、受信トレイ内にあるすべての会話がひとつの場所で確認でき、会話タブにて返信することができます。</p><p> 管理画面の左パネルから受信トレイの名前をクリックすることでも、特定の会話を見ることができます。</p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "このアカウントに紐付けられている受信トレイはありません。"
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "チャンネルを選択",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Chatwootと統合するプロバイダを選択してください。"
       },
       {
-        "title": "Create Inbox",
+        "title": "受信トレイを作成",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "アカウントを認証し、受信トレイを作成します。"
       },
       {
-        "title": "Add Agents",
+        "title": "担当者を追加",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "作成した受信トレイに担当者を追加します。"
       },
       {
-        "title": "Voila!",
+        "title": "ほら、",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "すべての準備が完了しました！"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: サインインすることで、私たちはあなたのページのメッセージにのみアクセスできます。あなたのプライベートメッセージはChatwootによってアクセスすることはできません。",
+        "CHOOSE_PAGE": "ページを選択",
+        "CHOOSE_PLACEHOLDER": "リストからページを選択",
+        "INBOX_NAME": "受信トレイ名",
+        "ADD_NAME": "受信トレイに名前をつける",
+        "PICK_NAME": "受信トレイの名前を選択",
+        "PICK_A_VALUE": "値を選択"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "Twitterプロフィールをチャンネルとして追加するには、「Twitterでサインイン」をクリックしてTwitterプロフィールを認証する必要があります。 "
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "ウェブサイトのチャンネル",
+        "DESC": "ウェブサイトのためのチャネルを作成し、ウェブサイトウィジェットを介してあなたの顧客をサポートを開始してください。",
+        "LOADING_MESSAGE": "ウェブサイトサポートチャンネルの作成",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "チャネルアバター"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+          "LABEL": "ウェブサイト名",
+          "PLACEHOLDER": "ウェブサイト名を入力してください(例：Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "ウェブサイトのドメイン",
+          "PLACEHOLDER": "ウェブサイトのドメインを入力してください(例：acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "冒頭の見出し",
+          "PLACEHOLDER": "こんにちは！"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "冒頭のタグライン",
+          "PLACEHOLDER": "簡単に連絡が取れる状態です。なんでも聞いてください。フィードバックの共有も歓迎です。"
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "チャンネルグリーティングメッセージ",
+          "PLACEHOLDER": "Acme Incは通常数時間で返信します。"
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "チャンネルグリーティングを有効にする",
+          "HELP_TEXT": "会話を開始したときに、ユーザーに挨拶メッセージを送信します。",
+          "ENABLED": "有効です",
+          "DISABLED": "無効です"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "ウィジェットの色",
+          "PLACEHOLDER": "ウィジェットで使用されている色を更新"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "受信トレイを作成"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Twilio SMS/Whatsapp チャンネル",
+        "DESC": "Twilio を統合し、SMS または Whatsapp を介して顧客のサポートを開始します。",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "アカウント SID",
+          "PLACEHOLDER": "Twilio アカウント SIDを入力してください",
+          "ERROR": "このフィールドは必須項目です"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "チャンネルタイプ",
+          "ERROR": "チャンネルタイプを選択してください"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "認証トークン",
+          "PLACEHOLDER": "Twilio 認証トークンを入力してください",
+          "ERROR": "このフィールドは必須項目です"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "チャンネル名",
+          "PLACEHOLDER": "チャンネル名を入力してください",
+          "ERROR": "このフィールドは必須項目です"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "電話番号",
+          "PLACEHOLDER": "送信先の電話番号を入力してください。",
+          "ERROR": "正しい値を入力してください。電話番号は `+` 記号で始める必要があります。"
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "コールバック URL",
+          "SUBTITLE": "Twilio のメッセージコールバックURLをここで指定する必要があります。"
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Twilio チャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Twilio の認証ができませんでした。もう一度やり直してください。"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "APIチャンネル",
+        "DESC": "APIチャンネルと連携し、顧客のサポートを開始します。",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "チャンネル名",
+          "PLACEHOLDER": "チャンネル名を入力してください",
+          "ERROR": "このフィールドは必須項目です"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "イベントのコールバックを受信するURLを設定してください。",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API チャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "APIチャンネルを保存できませんでした"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Eメールチャンネル",
+        "DESC": "メール受信トレイを連携する",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "チャンネル名",
+          "PLACEHOLDER": "チャンネル名を入力してください",
+          "ERROR": "このフィールドは必須項目です"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "Eメール",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "Eメール"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Eメールチャンネルを作成",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Eメールチャンネルを保存できませんでした"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "以下のメールアドレスにメールを転送します。"
       },
       "AUTH": {
-        "TITLE": "Channels",
+        "TITLE": "チャンネル",
         "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+        "TITLE": "担当者",
+        "DESC": "ここでは、新しく作成した受信トレイを管理するエージェントを追加できます。選択された担当者のみが受信トレイにアクセスできます。 この受信トレイに割り当てられていない担当者は、ログイン時にこの受信トレイ内のメッセージを表示または応答することができません。 <br> <b>PS:</b> 管理者として、すべての受信ボックスにアクセスする必要がある場合、 あなたが作成したすべての受信トレイに担当者として自分自身を追加する必要があります。"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "受信トレイの詳細",
+        "DESC": "下のドロップダウンから、Chatwoot に接続する Facebook ページを選択してください。 わかりやすくするために受信トレイの名前をカスタマイズすることもできます。"
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "ばっちりです！",
+        "DESC": "FacebookページとChatwootとの統合が正常に完了しました。次回から、あなたのページに送信された顧客からのメッセージや会話は、自動的に受信トレイに表示されます。<br>また、ウェブサイトに簡単に追加できるウィジェットスクリプトを提供しています。 一度これをあなたのウェブサイトに設定すれば、 顧客は他のツールの助けを借りずにWebサイトから直接メッセージを送信でき、Chatwoot上に会話が表示されます。 <br><br>素敵でしょ？まあ、私たちはきっとそうしますけどね:)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Facebook を認証中...",
+      "ERROR_FB_AUTH": "問題が発生しました。ページを更新してください...",
+      "CREATING_CHANNEL": "受信トレイを作成しています...",
+      "TITLE": "受信トレイの詳細の設定",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "担当者を追加",
+      "ADD_AGENTS": "受信トレイに担当者を追加しています..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "TITLE": "受信トレイの準備ができました！",
+      "MESSAGE": "新しいチャネルを通じてお客様と交流できるようになりました。 ",
       "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "WEBSITE_SUCCESS": "ウェブサイトチャンネルの作成が正常に完了しました。以下のコードをコピーしてウェブサイトに貼り付けてください。 次回、お客様がライブチャットを使用すると、会話は自動的に受信トレイに表示されます。"
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "再認証",
+    "VIEW": "表示",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "受信トレイの設定が正常に更新されました",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "自動割り当ての更新に成功しました",
+        "ERROR_MESSAGE": "ウィジェットの色を更新できませんでした。後でもう一度お試しください"
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "有効です",
+        "DISABLED": "無効です"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "削除",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "削除の確認",
+        "MESSAGE": "削除してもよろしいですか？ ",
+        "YES": "削除する ",
+        "NO": "いいえ、保存しておきます "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "SUCCESS_MESSAGE": "受信トレイの削除に成功しました",
+        "ERROR_MESSAGE": "受信箱を削除できませんでした。後でもう一度お試しください。"
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "SETTINGS": "設定",
+      "COLLABORATORS": "共同編集者",
+      "CONFIGURATION": "設定"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "設定",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "機能",
+      "DISPLAY_FILE_PICKER": "ウィジェットにファイルピッカーを表示する",
+      "DISPLAY_EMOJI_PICKER": "ウィジェットに絵文字ピッカーを表示する"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "MESSENGER_HEADING": "Messengerスクリプト",
+      "MESSENGER_SUB_HEAD": "このボタンをbodyタグの中に配置してください。",
+      "INBOX_AGENTS": "担当者",
+      "INBOX_AGENTS_SUB_TEXT": "この受信トレイから担当者を追加または削除する",
+      "UPDATE": "更新",
+      "AUTO_ASSIGNMENT": "自動割り当てを有効にする",
+      "INBOX_UPDATE_TITLE": "受信トレイの設定",
+      "INBOX_UPDATE_SUB_TEXT": "受信トレイの設定を更新する",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "この受信トレイに追加された担当者への新しい会話の自動割り当てを有効または無効にします。"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "再認証",
+      "SUBTITLE": "Facebookの接続が期限切れになりました。サービスを継続するには、Facebookページを再接続してください。",
+      "MESSAGE_SUCCESS": "再接続に成功しました",
+      "MESSAGE_ERROR": "エラーが発生しました。もう一度お試しください。"
     }
   }
 }

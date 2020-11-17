@@ -26,7 +26,8 @@
         "TITLE": "E-mail notificaties",
         "NOTE": "Update hier uw e-mailvoorkeuren",
         "CONVERSATION_ASSIGNMENT": "E-mailberichten verzenden wanneer een gesprek aan mij is toegewezen",
-        "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt"
+        "CONVERSATION_CREATION": "E-mailberichten verzenden wanneer een nieuw gesprek is gemaakt",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Uw notificatie-instellingen zijn succesvol bijgewerkt",
@@ -37,6 +38,7 @@
         "NOTE": "Werk je pushberichtvoorkeuren hier bij",
         "CONVERSATION_ASSIGNMENT": "Stuur pushberichten wanneer een gesprek aan mij is toegewezen",
         "CONVERSATION_CREATION": "Stuur pushberichten wanneer een nieuw gesprek is aangemaakt",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "Je hebt pushberichten voor deze browser ingeschakeld.",
         "REQUEST_PUSH": "Pushberichten inschakelen"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Availability",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Busy"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+          "Online",
+          "Druk",
+          "Offline"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gesprekken",
     "REPORTS": "Rapporten",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Instellingen",
     "HOME": "Startpagina",
     "AGENTS": "Medewerkers",

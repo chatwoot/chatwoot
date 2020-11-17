@@ -8,12 +8,16 @@
       "SUBMIT": "Enviar"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "está disponível",
-    "ARE_AVAILABLE": "estão disponíveis",
-    "OTHERS_ARE_AVAILABLE": "outros estão disponíveis",
-    "AND": "e"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We are online",
+    "OFFLINE": "We are offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "Start Conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver novas mensagens",
     "CLOSE_MESSAGES_BUTTON": "Fechar"

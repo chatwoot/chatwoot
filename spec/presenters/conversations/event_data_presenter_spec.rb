@@ -13,7 +13,7 @@ RSpec.describe Conversations::EventDataPresenter do
   describe '#push_data' do
     let(:expected_data) do
       {
-        additional_attributes: nil,
+        additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee

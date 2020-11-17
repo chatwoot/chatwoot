@@ -66,6 +66,8 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :account_users
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
+  alias_attribute :conversations, :assigned_conversations
+
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
@@ -108,15 +110,6 @@ class User < ApplicationRecord
 
   def assigned_inboxes
     inboxes.where(account_id: Current.account.id)
-  end
-
-  alias avatar_img_url avatar_url
-  def avatar_url
-    if avatar_img_url == ''
-      hash = Digest::MD5.hexdigest(email)
-      return "https://www.gravatar.com/avatar/#{hash}?d=404"
-    end
-    avatar_img_url
   end
 
   def administrator?

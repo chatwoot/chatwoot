@@ -73,6 +73,13 @@
           "ENABLED": "فعال",
           "DISABLED": "غیرفعال"
         },
+        "REPLY_TIME": {
+          "TITLE": "تنظیم زمان پاسخ",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "رنگ ویجت",
           "PLACEHOLDER": "رنگی که در ویجت استفاده می‌شود را تعیین کنید"
@@ -116,7 +123,7 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
+        "TITLE": "کانال API",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
@@ -128,14 +135,14 @@
           "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
           "PLACEHOLDER": "آدرس URL وب هوک"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "ایجاد کانال API",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "کانال ایمیل",
+        "DESC": "صندوق ورودی ایمیل خود را ادغام کنید.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
@@ -146,7 +153,7 @@
           "SUBTITLE": "Email where your customers sends you support tickets",
           "PLACEHOLDER": "ایمیل"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "ایجاد کانال ایمیل",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
@@ -214,12 +221,12 @@
     },
     "TABS": {
       "SETTINGS": "تنظیمات",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "COLLABORATORS": "همکاران",
+      "CONFIGURATION": "پیکربندی"
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
-      "LABEL": "Features",
+      "LABEL": "امکانات",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
     },
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به اپراتورهای عضو این صندوق ورودی."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "احراز هویت مجدد",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
     }
   }
 }

@@ -20,7 +20,9 @@ export const getters = {
     return _state.uiFlags;
   },
   getLabelsOnSidebar(_state) {
-    return _state.records.filter(record => record.show_on_sidebar);
+    return _state.records
+      .filter(record => record.show_on_sidebar)
+      .sort((a, b) => a.title.localeCompare(b.title));
   },
 };
 
