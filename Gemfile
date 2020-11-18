@@ -99,7 +99,6 @@ gem 'maxminddb'
 # to create db triggers
 gem 'hairtrigger'
 
-
 group :development do
   gem 'annotate'
   gem 'bullet'
