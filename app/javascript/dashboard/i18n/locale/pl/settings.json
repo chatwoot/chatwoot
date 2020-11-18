@@ -26,7 +26,8 @@
         "TITLE": "Powiadomienia e-mail",
         "NOTE": "Zaktualizuj ustawienia powiadomień e-mail tutaj",
         "CONVERSATION_ASSIGNMENT": "Wysyłaj powiadomienia e-mail, gdy konwersacja jest przypisana do mnie",
-        "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy"
+        "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -37,6 +38,7 @@
         "NOTE": "Update your push notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -105,7 +107,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Pobierz",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Przesyłanie..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Prześlij"
@@ -120,6 +122,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Rozmowy",
     "REPORTS": "Raporty",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Ustawienia",
     "HOME": "Home",
     "AGENTS": "Agenci",

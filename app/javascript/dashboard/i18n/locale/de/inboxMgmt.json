@@ -73,6 +73,13 @@
           "ENABLED": "Aktiviert",
           "DISABLED": "Behindert"
         },
+        "REPLY_TIME": {
+          "TITLE": "Reaktionszeit festlegen",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Widget Farbe",
           "PLACEHOLDER": "Aktualisieren Sie die im Widget verwendete Widget-Farbe"
@@ -205,7 +212,7 @@
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
         "YES": "Ja, löschen",
-        "NO": "No, Keep "
+        "NO": "Nein, behalten "
       },
       "API": {
         "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Neu autorisieren",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

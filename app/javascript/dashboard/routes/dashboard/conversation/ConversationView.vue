@@ -1,6 +1,10 @@
 <template>
   <section class="app-content columns">
-    <chat-list :conversation-inbox="inboxId" :label="label">
+    <chat-list
+      :conversation-inbox="inboxId"
+      :label="label"
+      @conversation-load="onConversationLoad"
+    >
       <button class="search--button" @click="onSearch">
         <i class="ion-ios-search-strong search--icon" />
         <div class="text-truncate">
@@ -83,24 +87,23 @@ export default {
 
   mounted() {
     this.$store.dispatch('agents/get');
-
     this.initialize();
-    this.fetchConversation();
-
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
-      this.fetchConversation();
       this.setActiveChat();
     });
   },
 
   methods: {
+    onConversationLoad() {
+      this.fetchConversationIfUnavailable();
+    },
     initialize() {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
 
-    fetchConversation() {
+    fetchConversationIfUnavailable() {
       if (!this.conversationId) {
         return;
       }

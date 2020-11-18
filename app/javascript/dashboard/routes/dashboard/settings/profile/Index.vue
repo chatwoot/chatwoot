@@ -49,21 +49,6 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
-          <label>
-            {{ $t('PROFILE_SETTINGS.FORM.AVAILABILITY.LABEL') }}
-            <select v-model="availability">
-              <option
-                v-for="status in $t(
-                  'PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST'
-                )"
-                :key="status.key"
-                class="text-capitalize"
-                :value="status.value"
-              >
-                {{ status.label }}
-              </option>
-            </select>
-          </label>
         </div>
       </div>
       <div class="profile--settings--row row">
@@ -145,7 +130,6 @@ export default {
       email: '',
       password: '',
       passwordConfirmation: '',
-      availability: 'online',
       isUpdating: false,
     };
   },
@@ -175,18 +159,12 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
-      currentAvailabilityStatus: 'getCurrentUserAvailabilityStatus',
     }),
   },
   watch: {
     currentUserId(newCurrentUserId, prevCurrentUserId) {
       if (prevCurrentUserId !== newCurrentUserId) {
         this.initializeUser();
-      }
-    },
-    currentAvailabilityStatus(newStatus, oldStatus) {
-      if (newStatus !== oldStatus) {
-        this.availability = newStatus;
       }
     },
   },
@@ -200,7 +178,6 @@ export default {
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
-      this.availability = this.currentUser.availability_status;
       this.displayName = this.currentUser.display_name;
     },
     async updateUser() {
@@ -218,7 +195,6 @@ export default {
           avatar: this.avatarFile,
           password: this.password,
           displayName: this.displayName,
-          availability: this.availability,
           password_confirmation: this.passwordConfirmation,
         });
         this.isUpdating = false;

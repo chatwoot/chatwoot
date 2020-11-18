@@ -8,18 +8,22 @@
       "SUBMIT": "ثبت"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "آنلاین است",
-    "ARE_AVAILABLE": "آنلاین هستند",
-    "OTHERS_ARE_AVAILABLE": "دیگر آنلاین هستند",
-    "AND": "و"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "ما آنلاین هستیم",
+    "OFFLINE": "ما آفلاین هستیم"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "شروع گفتگو",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
+    "CLOSE_MESSAGES_BUTTON": "بستن"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "با ما گفتگو کنید"
   },
   "POWERED_BY": "قدرت یافته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
