@@ -28,18 +28,21 @@ export default {
 
   mounted() {
     this.$store.dispatch('setUser');
+    this.setLocale();
     this.initializeAccount();
   },
 
   methods: {
+    async setLocale() {
+      Vue.config.lang = window.chatwootConfig.selectedLocale;
+    },
+
     async initializeAccount() {
       const { pathname } = window.location;
       const accountId = accountIdFromPathname(pathname);
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
-        const { locale } = this.getAccount(accountId);
-        Vue.config.lang = locale;
       }
     },
   },
