@@ -43,8 +43,8 @@ RAILS_ENV=production
 sudo -i -u chatwoot << EOF
 rvm --version
 rvm autolibs disable
-rvm install "ruby-2.7.1"
-rvm use 2.7.1 --default
+rvm install "ruby-2.7.2"
+rvm use 2.7.2 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
