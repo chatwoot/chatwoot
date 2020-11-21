@@ -52,6 +52,24 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateAvailability', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.put.mockResolvedValue({
+        data: { id: 1, name: 'John', availability_status: 'offline' },
+        headers: { expiry: 581842904 },
+      });
+      await actions.updateAvailability(
+        { commit, dispatch },
+        { availability: 'offline' }
+      );
+      expect(setUser).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([[types.default.SET_CURRENT_USER]]);
+      expect(dispatch.mock.calls).toEqual([
+        ['agents/updatePresence', { 1: 'offline' }],
+      ]);
+    });
+  });
+
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.getJSON.mockImplementation(() => true);
