@@ -79,6 +79,12 @@ export default {
   components: {
     WootSubmitButton,
   },
+  props: {
+    ssoAuthToken: String,
+    redirectUrl: String,
+    config: String,
+    email: String,
+  },
   mixins: [globalConfigMixin],
   data() {
     return {
@@ -111,6 +117,11 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
   },
+  created() {
+    if (this.ssoAuthToken) {
+      this.login();
+    }
+  },
   methods: {
     showAlert(message) {
       // Reset loading, current selected agent
@@ -124,8 +135,9 @@ export default {
     login() {
       this.loginApi.showLoading = true;
       const credentials = {
-        email: this.credentials.email,
+        email: this.email ? this.email : this.credentials.email,
         password: this.credentials.password,
+        sso_auth_token: this.ssoAuthToken,
       };
       this.$store
         .dispatch('login', credentials)

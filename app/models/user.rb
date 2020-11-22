@@ -44,6 +44,7 @@ class User < ApplicationRecord
   include Pubsubable
   include Rails.application.routes.url_helpers
   include Reportable
+  include SsoAuthenticatable
 
   devise :database_authenticatable,
          :registerable,
