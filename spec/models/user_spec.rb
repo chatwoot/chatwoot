@@ -27,8 +27,8 @@ RSpec.describe User do
     it { expect(user.saved_changes.keys).not_to eq('pubsub_token') }
   end
 
-  context 'sso_auth_token' do 
-    it 'can generate multiple sso tokens which can be validated' do 
+  context 'sso_auth_token' do
+    it 'can generate multiple sso tokens which can be validated' do
       sso_auth_token1 = user.generate_sso_auth_token
       sso_auth_token2 = user.generate_sso_auth_token
       expect(sso_auth_token1).present?
@@ -37,11 +37,11 @@ RSpec.describe User do
       expect(user.valid_sso_auth_token?(sso_auth_token2)).to eq true
     end
 
-    it 'wont validate an invalid token' do 
+    it 'wont validate an invalid token' do
       expect(user.valid_sso_auth_token?(SecureRandom.hex(32))).to eq false
     end
 
-    it 'wont validate an invalidated token' do 
+    it 'wont validate an invalidated token' do
       sso_auth_token = user.generate_sso_auth_token
       user.invalidate_sso_auth_token(sso_auth_token)
       expect(user.valid_sso_auth_token?(sso_auth_token)).to eq false
