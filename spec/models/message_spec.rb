@@ -13,6 +13,7 @@ RSpec.describe Message, type: :model do
     let(:message) { build(:message, account: create(:account)) }
 
     it 'updates conversation last_activity_at when created' do
+      message.save!
       expect(message.created_at).to eq message.conversation.last_activity_at
     end
 

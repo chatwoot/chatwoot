@@ -109,8 +109,8 @@ RSpec.describe Conversation, type: :model do
     end
 
     it 'adds a message for system auto resolution if marked resolved by system' do
-      conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       account.update(auto_resolve_duration: 40)
+      conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
       conversation2.update(status: :resolved)
       system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
@@ -124,7 +124,7 @@ RSpec.describe Conversation, type: :model do
 
     it 'does trigger AutoResolutionJob if conversation reopened and account has auto resolve duration' do
       account.update(auto_resolve_duration: 40)
-      expect { conversation.update(status: :open) }
+      expect { conversation.reload.update(status: :open) }
         .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
   end
