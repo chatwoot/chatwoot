@@ -14,7 +14,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = resolved_contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
+    contacts = resolved_contacts.where('name LIKE :search OR email LIKE :search OR phone_number LIKE :search', search: "%#{params[:q]}%")
     @contacts_count = contacts.count
     @contacts = fetch_contact_last_seen_at(contacts)
   end

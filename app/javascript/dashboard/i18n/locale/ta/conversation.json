@@ -6,6 +6,13 @@
     "NO_INBOX_1": "அடடே! நீங்கள் இதுவரை எந்த இன்பாக்ஸையும் சேர்க்கவில்லை.",
     "NO_INBOX_2": " தொடங்குவதற்கு",
     "NO_INBOX_AGENT": "அட டா! நீங்கள் எந்த இன்பாக்ஸின் பகுதியும் இல்லை என்று தெரிகிறது. உங்கள் நிர்வாகியைத் தொடர்பு கொள்ளவும்",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "இங்கே கிளிக் செய்யவும்",
     "LOADING_INBOXES": "இன்பாக்ஸை ஏற்றுகிறது",
     "LOADING_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றுகிறோம்",

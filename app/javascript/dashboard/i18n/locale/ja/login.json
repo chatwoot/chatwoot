@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Chatwootにログイン",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "Eメール",
+      "PLACEHOLDER": "Eメール　例：someone@example.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "パスワード",
+      "PLACEHOLDER": "パスワード"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "ログインしました",
+      "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。",
+      "UNAUTH": "ユーザー名/パスワードが正しくありません。もう一度やり直してください"
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "パスワードをお忘れですか?",
+    "CREATE_NEW_ACCOUNT": "新しいアカウントを作成",
+    "SUBMIT": "ログイン"
   }
 }

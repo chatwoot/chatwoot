@@ -26,7 +26,8 @@
         "TITLE": "電子信箱通知",
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
-        "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知"
+        "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知設定已成功更新",
@@ -37,6 +38,7 @@
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
         "CONVERSATION_CREATION": "建立新對話時發送推送通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
         "REQUEST_PUSH": "啟用推送通知"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "有效的",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "線上的"
-          },
-          {
-            "value": "busy",
-            "label": "忙碌中"
-          },
-          {
-            "value": "offline",
-            "label": "離線的"
-          }
+          "線上的",
+          "忙碌中",
+          "離線的"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "會話",
     "REPORTS": "報表",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "設定",
     "HOME": "首頁",
     "AGENTS": "客服代理們",

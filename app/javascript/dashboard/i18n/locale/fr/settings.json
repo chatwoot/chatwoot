@@ -26,7 +26,8 @@
         "TITLE": "Notifications par courriel",
         "NOTE": "Mettez à jour vos préférences de notification par courriel ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
-        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée"
+        "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -37,6 +38,7 @@
         "NOTE": "Mettez à jour vos préférences de notification push ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications push lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Disponibilité",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "En ligne"
-          },
-          {
-            "value": "busy",
-            "label": "Occupé(e)"
-          },
-          {
-            "value": "offline",
-            "label": "Hors-ligne"
-          }
+          "En ligne",
+          "Occupé(e)",
+          "Hors-ligne"
         ]
       },
       "EMAIL": {
@@ -88,7 +81,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Changer",
+    "CHANGE_AVAILABILITY_STATUS": "Modifier",
     "CHANGE_ACCOUNTS": "Changer de compte",
     "SELECTOR_SUBTITLE": "Sélectionnez un compte dans la liste suivante",
     "PROFILE_SETTINGS": "Paramètres de profil",
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
     "REPORTS": "Rapports",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Paramètres",
     "HOME": "Accueil",
     "AGENTS": "Agents",

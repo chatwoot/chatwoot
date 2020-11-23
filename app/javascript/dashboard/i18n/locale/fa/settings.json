@@ -26,7 +26,8 @@
         "TITLE": "اعلامیه‌ به ایمیل",
         "NOTE": "اینجا می‌توانید تنظیمات اعلامیه‌هایی که به ایمیل ارسال می‌شود تغییر دهید",
         "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد،‌ ایمیل بفرست",
-        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست"
+        "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من ایمیل بفرست",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "تغییرات تنظیمات اعلامیه‌ها با موفقیت ثبت شد",
@@ -37,6 +38,7 @@
         "NOTE": "اینجا می‌توانید تنظیمات پوش نوتیفیکیشن را تغییر دهید",
         "CONVERSATION_ASSIGNMENT": "هر وقت گفتگویی به من اختصاص داده شد، برای من پوش نوتیفیکیشن بفرست",
         "CONVERSATION_CREATION": "هر وقت گفتگوی جدیدی شروع شد برای من پوش نوتیفیکیشن بفرست",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "در این مرورگر پوش نوتیفیکیشن را فعال کرده‌اید",
         "REQUEST_PUSH": "فعال کردن پوش نوتیفیکیشن"
       },
@@ -44,30 +46,21 @@
         "LABEL": "عکس پروفایل"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "نام کامل شما",
+        "ERROR": "لطفا نام کامل معتبر وارد کنید",
+        "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "نام نمایشی",
+        "ERROR": "لطفا یک نام نمایشی معتبر وارد کنید",
+        "PLACEHOLDER": "لطفا یک نام نمایشی وارد کنید، این نام در مکالمات نمایش داده می‌شود"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "در دسترس",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Busy"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+          "آنلاین",
+          "مشغول",
+          "آفلاین"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "گفتگوها",
     "REPORTS": "گزارشات",
+    "CONTACTS": "مخاطبین (آزمایشی)",
     "SETTINGS": "تنظیمات",
     "HOME": "صفحه اصلی",
     "AGENTS": "اپراتورها",
@@ -127,14 +121,14 @@
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "LABELS": "Labels"
+    "LABELS": "برچسب‌ها"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "حساب‌کاربری جدید",
+    "SELECTOR_SUBTITLE": "ایجاد حساب‌کاربری جدید",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "حساب‌کاربری با موفقیت ایجاد شد",
+      "EXIST_MESSAGE": "این حساب‌کاربری از قبل وجود دارد",
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا مجددا امتحان کنید"
     },
     "FORM": {

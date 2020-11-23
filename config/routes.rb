@@ -145,9 +145,9 @@ Rails.application.routes.draw do
         resources :reports, only: [] do
           collection do
             get :account
-          end
-          member do
             get :account_summary
+            get :agents
+            get :inboxes
           end
         end
       end

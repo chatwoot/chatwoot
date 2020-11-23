@@ -34,8 +34,14 @@ ta:
         open: "உரையாடலை %{user_name} மீண்டும் திறந்துள்ளார்"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{user_name} இதை %{assignee_name}க்கு ஒதுக்கியுள்ளார்"
         removed: "%{user_name} இதை ஒதுக்க படாத உரையாடளாக்கியுள்ளார்"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்."
       ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."

@@ -73,6 +73,13 @@
           "ENABLED": "مفعل",
           "DISABLED": "معطّل"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "لون صندوق الدردشة",
           "PLACEHOLDER": "تحديث اللون الرئيسي لصندوق الدردشة"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "إعادة التصريح",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
     }
   }
 }
