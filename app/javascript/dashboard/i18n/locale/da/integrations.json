@@ -1,63 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Integrationer",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Konfigurer",
+      "HEADER": "Webhook indstillinger",
+      "HEADER_BTN_TXT": "Tilføj ny webhook",
+      "INTEGRATION_TXT": "Webhook begivenheder giver dig realtid oplysninger om, hvad der sker på din Chatwoot konto. Du kan gøre brug af webhooks til at kommunikere begivenhederne til dine foretrukne apps som Slack eller Github. Klik på Konfigurer for at opsætte dine webhooks.",
+      "LOADING": "Henter vedhæftede webhooks",
+      "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP tilbagekald som kan defineres for hver konto. De udløses af begivenheder som oprettelse af beskeder i Chatwoot. Du kan oprette mere end én webhook for denne konto. <br /><br /> For at oprette en <b>webhook</b>, klik på <b>Tilføj ny webhook</b> knappen. Du kan også fjerne enhver eksisterende webhook ved at klikke på Slet knappen.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "Der er ingen webhooks konfigureret til denne konto.",
+        "TITLE": "Administrer webhooks",
+        "DESC": "Webhooks er foruddefinerede svar skabeloner, som kan bruges til hurtigt at sende svar på tickets.",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Webhook endepunkt",
+          "Handlinger"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Annuller",
+        "TITLE": "Tilføj ny webhook",
+        "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "PLACEHOLDER": "Eksempel: https://example/api/webhook",
+            "ERROR": "Angiv en gyldig URL"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Opret webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook blev tilføjet",
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Slet",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook blev slettet",
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Bekræft Sletning",
+          "MESSAGE": "Er du sikker på du vil slette ",
+          "YES": "Ja, Slet ",
+          "NO": "Nej, behold det"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Slet",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrationen blev slettet"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Tilslut"
     }
   }
 }
