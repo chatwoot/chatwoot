@@ -48,4 +48,4 @@ fi:
       email_input_box_message_body: "Get notified by email"
     reply:
       email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      transcript_subject: "Keskustelukopio"
