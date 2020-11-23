@@ -12,7 +12,7 @@ user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
 user.skip_confirmation!
 user.save!
 
-SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
+SuperAdmin.create!(email: 'john@acme.inc', password: '123456') unless Rails.env.production?
 
 AccountUser.create!(
   account_id: account.id,
