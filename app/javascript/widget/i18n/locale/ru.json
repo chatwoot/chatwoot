@@ -9,15 +9,15 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Мы онлайн",
+    "OFFLINE": "Мы оффлайн"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+    "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+    "IN_A_DAY": "Обычно отвечаем в течение дня"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Начать диалог",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
     "CLOSE_MESSAGES_BUTTON": "Закрыть"
