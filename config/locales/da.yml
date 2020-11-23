@@ -17,35 +17,35 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 da:
-  hello: "Hello world"
+  hello: "Hej verden"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Woot! Anmodning om nulstilling af adgangskode er vellykket. Tjek din mail for instruktioner.
+    reset_password_failure: Åh nej! Vi kunne ikke finde nogen bruger med den angivne e-mail.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Vi tillader ikke engangs e-mails
+      invalid_email: Du har indtastet en ugyldig e-mail
+      email_already_exists: "Du har allerede tilmeldt dig en konto med %{email}"
+      failed: Tilmelding mislykkedes
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "Samtalen blev markeret som løst af %{user_name}"
+        open: "Samtalen blev genåbnet af %{user_name}"
+        auto_resolved: "Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} selv-tildelte denne samtale"
+        assigned: "Tildelt %{assignee_name} af %{user_name}"
+        removed: "Samtale fjernet tildeling af %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} tilføjede %{labels}"
+        removed: "%{user_name} fjernede %{labels}"
+      muted: "%{user_name} har slukket for samtalen"
+      unmuted: "%{user_name} har genaktiveret samtalen"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} svarer typisk på et par timer."
+      ways_to_reach_you_message_body: "Giv teamet en måde at kontakte dig på."
+      email_input_box_message_body: "Få besked via e-mail"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Nye beskeder i denne samtale"
+      transcript_subject: "Samtaleudskrift"
