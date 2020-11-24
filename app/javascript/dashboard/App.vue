@@ -28,13 +28,13 @@ export default {
 
   mounted() {
     this.$store.dispatch('setUser');
-    this.setLocale();
+    this.setLocale(window.chatwootConfig.selectedLocale);
     this.initializeAccount();
   },
 
   methods: {
-    async setLocale() {
-      Vue.config.lang = window.chatwootConfig.selectedLocale;
+    setLocale(locale) {
+      Vue.config.lang = locale;
     },
 
     async initializeAccount() {
@@ -43,6 +43,8 @@ export default {
 
       if (accountId) {
         await this.$store.dispatch('accounts/get');
+        const { locale } = this.getAccount(accountId);
+        this.setLocale(locale);
       }
     },
   },
