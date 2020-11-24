@@ -40,7 +40,7 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: @account_name)
+    @account = Account.create!(name: @account_name, locale: I18n.locale)
     Current.account = @account
   end
 
