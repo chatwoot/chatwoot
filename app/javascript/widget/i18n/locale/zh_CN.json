@@ -2,20 +2,20 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
-      "UPLOADING": "上传中..."
+      "UPLOADING": "正在上传..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "在线",
-    "OFFLINE": "离线"
+    "ONLINE": "客服在线",
+    "OFFLINE": "客服离线"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
-    "IN_A_FEW_HOURS": "通常在几小时内回复您",
-    "IN_A_DAY": "通常在一天之内回复您"
+    "IN_A_FEW_MINUTES": "一般几分钟内会回复",
+    "IN_A_FEW_HOURS": "一般几小时内会回复",
+    "IN_A_DAY": "一般24小时内会回复"
   },
   "START_CONVERSATION": "开始会话",
   "UNREAD_VIEW": {
@@ -25,7 +25,7 @@
   "BUBBLE": {
     "LABEL": "联系我们"
   },
-  "POWERED_BY": "由 Chatwoot 支持",
-  "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
+  "POWERED_BY": "由 chatwoot 支持",
+  "EMAIL_PLACEHOLDER": "请输入您的手机号码",
   "CHAT_PLACEHOLDER": "输入您的消息"
 }

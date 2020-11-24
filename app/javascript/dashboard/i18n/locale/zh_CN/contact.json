@@ -1,9 +1,9 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COPY_SUCCESSFUL": "复制成功",
     "COMPANY": "Company",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
@@ -16,7 +16,7 @@
       "TITLE": "上一次对话"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "自定义属性"
     },
     "LABELS": {
       "TITLE": "对话标记",
@@ -32,82 +32,82 @@
       "NO_LABELS_TO_ADD": "帐户中没有更多标签。",
       "NO_AVAILABLE_LABELS": "没有标签添加到此对话。"
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "静音会话框",
+    "UNMUTE_CONTACT": "解除静音会话框",
+    "MUTED_SUCCESS": "该会话6小时内将不提示",
+    "UNMUTED_SUCCESS": "该会话解除静音成功",
+    "SEND_TRANSCRIPT": "发送记录",
     "EDIT_LABEL": "编辑"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "编辑联系人",
+    "TITLE": "编辑联系人",
+    "DESC": "编辑联系人信息",
     "FORM": {
       "SUBMIT": "提交",
       "CANCEL": "取消操作",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "联系人头像"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "请输入联系人全称",
+        "LABEL": "全称"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "请输入联系人简介",
+        "LABEL": "简介"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "电子邮件地址"
+        "PLACEHOLDER": "请输入联系人邮箱",
+        "LABEL": "邮箱地址"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "请输入联系人手机号码",
+        "LABEL": "手机号码"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "请输入联系人位置",
         "LABEL": "位置"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
+        "PLACEHOLDER": "请输入公司名称",
         "LABEL": "Company Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "请输入Facebook名称",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "请输入Twitter名称",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "请输入LinkedIn名称",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "请输入Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "更新成功",
+    "CONTACT_ALREADY_EXIST": "该邮箱已被其他联系人使用",
+    "ERROR_MESSAGE": "更新信息时发生错误，请重新更新"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "联系人列表",
+    "SEARCH_BUTTON": "查找",
+    "SEARCH_INPUT_PLACEHOLDER": "请输入联系人进行查找",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "查询中...",
+      "404": "没有匹配到合适的数据 🔍",
       "TABLE_HEADER": [
         "姓名：",
-        "Phone Number",
+        "电话号码",
         "会话",
-        "Last Contacted"
+        "最后一次联系"
       ]
     }
   }

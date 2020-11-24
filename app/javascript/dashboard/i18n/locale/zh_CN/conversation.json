@@ -6,21 +6,21 @@
     "NO_INBOX_1": "看来你还没有添加任何收件箱。",
     "NO_INBOX_2": " 开始吧",
     "NO_INBOX_AGENT": "看起来您还没有分配到收件箱。请联系您的管理员",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "在会话中查询记录",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "查询消息记录",
+      "LOADING_MESSAGE": "查询中...",
+      "PLACEHOLDER": "请输入需要查询的消息",
+      "NO_MATCHING_RESULTS": "没有查询到对应的消息记录"
     },
     "CLICK_HERE": "点击这里",
     "LOADING_INBOXES": "正在加载收件箱",
     "LOADING_CONVERSATIONS": "加载更多对话",
     "CANNOT_REPLY": "您不能回复，原因是：",
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "LAST_INCOMING_TWEET": "您正在回复最新一条tweet消息",
+    "REPLYING_TO": "您正在回复:",
+    "REMOVE_SELECTION": "移除已选择",
     "DOWNLOAD": "下载",
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -45,18 +45,18 @@
     "CHANGE_AGENT": "对话分配人已更改"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "发送会话记录",
+    "DESC": "将会话记录复制并发送至指定的邮箱",
     "SUBMIT": "提交",
     "CANCEL": "取消操作",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
+    "SEND_EMAIL_SUCCESS": "该聊天记录发送成功",
     "SEND_EMAIL_ERROR": "出错了，请重试",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "发送会话记录给客户",
+      "SEND_TO_AGENT": "发送会话记录给指定的客服",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "发送会话记录至另一个邮箱",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "请输入邮箱",
         "ERROR": "请输入一个有效的电子邮件"
       }
     }

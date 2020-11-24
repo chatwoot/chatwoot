@@ -49,11 +49,11 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "网站名称",
-          "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+          "PLACEHOLDER": "输入您的网站名称 (例如: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "网站域名",
-          "PLACEHOLDER": "输入您的网站域名(e.g: acme.com)"
+          "PLACEHOLDER": "输入您的网站域名(例如: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "欢迎标题：",
@@ -65,7 +65,7 @@
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "频道问候消息",
-          "PLACEHOLDER": "Acme Inc通常在几小时内回复。"
+          "PLACEHOLDER": "通常在几小时内回复。"
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "开启频道问候功能",
@@ -74,11 +74,11 @@
           "DISABLED": "已禁用"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "设置回复时间",
+          "IN_A_FEW_MINUTES": "几分钟内",
+          "IN_A_FEW_HOURS": "几小时内",
+          "IN_A_DAY": "24小时内",
+          "HELP_TEXT": "这个回复时间将在前端展示"
         },
         "WIDGET_COLOR": {
           "LABEL": "窗口小部件颜色",
@@ -132,7 +132,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook 网址",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "配置一个URL地址以便接收回调事件",
           "PLACEHOLDER": "Webhook 网址"
         },
         "SUBMIT_BUTTON": "创建 API 频道",
@@ -142,7 +142,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "电子邮件频道",
-        "DESC": "Integrate you email inbox.",
+        "DESC": "集成您的邮件收件箱",
         "CHANNEL_NAME": {
           "LABEL": "频道类型",
           "PLACEHOLDER": "请输入频道名称",
@@ -226,9 +226,9 @@
     },
     "SETTINGS": "设置",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "参数",
+      "DISPLAY_FILE_PICKER": "在前端显示上传文件按钮",
+      "DISPLAY_EMOJI_PICKER": "在前端显示表情按钮"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
@@ -243,8 +243,8 @@
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授权",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "您的Facebook连接已经过期，请重新授权连接",
+      "MESSAGE_SUCCESS": "重新连接成功",
       "MESSAGE_ERROR": "出现错误，请重试"
     }
   }
