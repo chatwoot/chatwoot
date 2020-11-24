@@ -2,30 +2,30 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "下载",
-      "UPLOADING": "上传中..."
+      "UPLOADING": "正在上传..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "提交"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "客服在线",
+    "OFFLINE": "客服离线"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "一般几分钟内会回复",
+    "IN_A_FEW_HOURS": "一般几小时内会回复",
+    "IN_A_DAY": "一般24小时内会回复"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "开始会话",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "联系我们"
   },
-  "POWERED_BY": "由 Chatwoot 支持",
+  "POWERED_BY": "由 科海数码 支持",
   "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
   "CHAT_PLACEHOLDER": "输入您的消息"
 }

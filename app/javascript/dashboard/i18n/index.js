@@ -27,7 +27,7 @@ import ta from './locale/ta';
 import tr from './locale/tr';
 import uk from './locale/uk';
 import vi from './locale/vi';
-import zh from './locale/zh';
+import zh_CN from './locale/zh_CN';
 import zh_TW from './locale/zh_TW';
 
 export default {
@@ -60,6 +60,6 @@ export default {
   tr,
   uk,
   vi,
-  zh,
+  zh_CN,
   zh_TW,
 };

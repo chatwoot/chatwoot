@@ -27,7 +27,7 @@
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "当被分配的会话中有新消息时发送邮件提醒"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知设置已成功更新",
@@ -38,7 +38,7 @@
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
         "CONVERSATION_CREATION": "创建新对话时发送推送通知",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "当被分配的会话中有新消息时发送推送通知",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
         "REQUEST_PUSH": "启用推送通知"
       },
@@ -46,14 +46,14 @@
         "LABEL": "头像"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "全名",
+        "ERROR": "请输入一个有效的名称",
+        "PLACEHOLDER": "请输入一个有效的名称"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "昵称",
+        "ERROR": "请输入一个有效的昵称",
+        "PLACEHOLDER": "请输入一个昵称，该昵称将展示在会话窗内"
       },
       "AVAILABILITY": {
         "LABEL": "有效的",
@@ -124,17 +124,17 @@
     "LABELS": "标签"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "新建账号",
+    "SELECTOR_SUBTITLE": "创建一个新的账号",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "账号创建成功",
+      "EXIST_MESSAGE": "该账号已存在",
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
     },
     "FORM": {
       "NAME": {
         "LABEL": "帐户名称",
-        "PLACEHOLDER": "Wayne企业"
+        "PLACEHOLDER": "请输入帐户名称"
       },
       "SUBMIT": "提交"
     }

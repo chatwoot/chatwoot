@@ -77,8 +77,8 @@
         "CONTENT": "分享了一个网址"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "通过邮件接收",
+    "VIEW_TWEET_IN_TWITTER": "通过tweeter查看",
+    "REPLY_TO_TWEET": "回复这条推特"
   }
 }

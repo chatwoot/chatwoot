@@ -34,9 +34,9 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "如在多少天内未激活，则重新发送验证信息",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "请输入一个有效的时长 (最小值 1 天)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
