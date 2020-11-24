@@ -59,7 +59,7 @@
         "LABEL": "Availability",
         "STATUSES_LIST": [
           "Online",
-          "Druk",
+          "Busy",
           "Offline"
         ]
       },
