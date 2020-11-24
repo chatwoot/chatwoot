@@ -1,251 +1,251 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "Indbakker",
+    "SIDEBAR_TXT": "<p><b>Indbakke</b></p> <p> Når du forbinder en hjemmeside eller en facebook side til Chatwoot, det kaldes en <b>Indbakke</b>. Du kan have ubegrænset indbakker på din Chatwoot-konto. </p><p> Klik på <b>Tilføj indbakke</b> for at forbinde en hjemmeside eller en Facebook-side. </p><p> I betjeningspanelet du kan se alle samtalerne fra alle dine indbakker på et enkelt sted og svare på dem under fanen 'Samtaler'. </p><p> Du kan også se samtaler, der er specifikke for en indbakke, ved at klikke på indbakkens navn i dashboardets venstre rude. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Der er ingen indbakker tilknyttet denne konto."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Vælg Kanal",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Vælg den udbyder, du vil integrere med Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Opret Indbakke",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "Autentificer din konto og opret en indbakke."
       },
       {
-        "title": "Add Agents",
+        "title": "Tilføj Agenter",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "Tilføj agenter til den oprettede indbakke."
       },
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Så er alt klart!"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
+        "CHOOSE_PAGE": "Vælg Side",
+        "CHOOSE_PLACEHOLDER": "Vælg en side fra listen",
+        "INBOX_NAME": "Indbakke Navn",
+        "ADD_NAME": "Tilføj et navn til din indbakke",
+        "PICK_NAME": "Vælg et navn til din indbakke",
+        "PICK_A_VALUE": "Vælg en værdi"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "For at tilføje din Twitter-profil som en kanal, skal du godkende din Twitter-profil ved at klikke på 'Log ind med Twitter' "
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "Hjemmesidekanal",
+        "DESC": "Opret en kanal til din hjemmeside og begynde at supporte dine kunder via vores hjemmeside widget.",
+        "LOADING_MESSAGE": "Opretter Website Support Kanal",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Kanal Avatar"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+          "LABEL": "Websted Navn",
+          "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "Hjemmeside Domæne",
+          "PLACEHOLDER": "Indtast dit website domæne (fx: ditfirma.dk)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Velkomstoverskrift",
+          "PLACEHOLDER": "Hejsa!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Velkomst Tagline",
+          "PLACEHOLDER": "Vi gør det nemt at komme i kontakt med os. Spørg os om noget, eller del din feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Kanal start hilsen besked",
+          "PLACEHOLDER": "Dit firma ApS svarer typisk på et par timer."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "Aktivér kanal start hilsen",
+          "HELP_TEXT": "Send en hilsen til brugeren, når han starter samtalen.",
+          "ENABLED": "Aktiveret",
+          "DISABLED": "Deaktiveret"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Angiv svartid",
+          "IN_A_FEW_MINUTES": "På nogle få minutter",
+          "IN_A_FEW_HOURS": "Om et par timer",
+          "IN_A_DAY": "På en dag",
+          "HELP_TEXT": "Denne svartid vil blive vist på live chat widget"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "Widget Farve",
+          "PLACEHOLDER": "Opdater widget farve der bruges i widget"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "Opret indbakke"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Twilio SMS/Whatsapp Kanal",
+        "DESC": "Integrer Twilio og start med at supportere dine kunder via SMS eller Whatsapp.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "Konto SID",
+          "PLACEHOLDER": "Indtast venligst din Twilio konto SID",
+          "ERROR": "Dette felt er påkrævet"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Kanaltype",
+          "ERROR": "Vælg venligst din kanaltype"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "PLACEHOLDER": "Indtast venligst din Twilio Auth Token",
+          "ERROR": "Dette felt er påkrævet"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn",
+          "ERROR": "Dette felt er påkrævet"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Indtast venligst det telefonnummer, hvorfra beskeden vil blive sendt.",
+          "ERROR": "Angiv en gyldig værdi. Telefonnummer skal starte med `+` tegn."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Du er nødt til at konfigurere besked callback URL i Twilio med den URL, der er nævnt her."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Opret Twilio Kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Vi var ikke i stand til at godkende Twilio legitimationsoplysninger, prøv igen"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API Kanal",
+        "DESC": "Integrer med API-kanal og begynd at supportere dine kunder.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn",
+          "ERROR": "Dette felt er påkrævet"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Indstil URL'en hvor du vil modtage callbacks på begivenheder.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Opret API-kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Vi var ikke i stand til at gemme api kanalen"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "E-mail Kanal",
+        "DESC": "Integrer din e-mail indbakke.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Indtast et kanalnavn",
+          "ERROR": "Dette felt er påkrævet"
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "LABEL": "E-mail",
+          "SUBTITLE": "E-mail hvor dine kunder sender dig support tickets",
+          "PLACEHOLDER": "E-mail"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Opret E-Mail Kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Vi kunne ikke gemme e-mailkanalen"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Begynd at videresende dine e-mails til følgende e-mailadresse."
       },
       "AUTH": {
-        "TITLE": "Channels",
+        "TITLE": "Kanaler",
         "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
+        "TITLE": "Agenter",
+        "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter."
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "Indbakke Detaljer",
+        "DESC": "Vælg den Facebook-side, du vil forbinde til Chatwoot, fra dropdown listen nedenfor. Du kan også give et brugerdefineret navn til din indbakke for bedre identifikation."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "Du klarede det!",
+        "DESC": "Du er færdig med at integrere din Facebook-side med Chatwoot. Næste gang en kunde sender en meddelelse til din side, vil samtalen automatisk dukke op i din indbakke.<br>Vi giver dig også et widget script, som du nemt kan tilføje til din hjemmeside. Når dette er live på din hjemmeside, kan kunder sende dig en besked direkte fra din hjemmeside uden hjælp fra et eksternt værktøj, og samtalen vises lige her, på Chatwoot.<br>Cool, var? Nå ikke, vi forsøge at være :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "Autentificerer dig med Facebook...",
+      "ERROR_FB_AUTH": "Noget gik galt, Opdatér siden...",
+      "CREATING_CHANNEL": "Opretter din indbakke...",
+      "TITLE": "Indstil Indbakkedetaljer",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Tilføj agenter",
+      "ADD_AGENTS": "Tilføjer agenter til din indbakke..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "Din indbakke er klar!",
+      "MESSAGE": "Du kan nu engagere dig med dine kunder gennem din nye kanal. Glædelig supportering ",
+      "BUTTON_TEXT": "Tag mig med dertil",
+      "WEBSITE_SUCCESS": "Du er færdig med at oprette en hjemmeside kanal. Kopier koden vist nedenfor og indsæt den på din hjemmeside. Næste gang en kunde bruger live chat, vil samtalen automatisk vises i din indbakke."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "Genautorisér",
+    "VIEW": "Vis",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "Indbakkeindstillinger opdateret",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatisk tildeling opdateret",
+        "ERROR_MESSAGE": "Kunne ikke opdatere widget farve. Prøv igen senere."
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "Aktiveret",
+        "DISABLED": "Deaktiveret"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Slet",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "SUCCESS_MESSAGE": "Indbakken blev slettet",
+        "ERROR_MESSAGE": "Kunne ikke slette indbakken. Prøv igen senere."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "SETTINGS": "Indstillinger",
+      "COLLABORATORS": "Samarbejdspartnere",
+      "CONFIGURATION": "Konfiguration"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "Indstillinger",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Funktioner",
+      "DISPLAY_FILE_PICKER": "Vis filvælger på widget'en",
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-vælger på widget'en"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "MESSENGER_HEADING": "Messenger- Script",
+      "MESSENGER_SUB_HEAD": "Placer denne knap inde i din body tag",
+      "INBOX_AGENTS": "Agenter",
+      "INBOX_AGENTS_SUB_TEXT": "Tilføj eller fjern agenter fra denne indbakke",
+      "UPDATE": "Opdater",
+      "AUTO_ASSIGNMENT": "Aktiver automatisk tildeling",
+      "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
+      "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke."
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "Genautorisér",
+      "SUBTITLE": "Din Facebook-forbindelse er udløbet, tilslut venligst din Facebook-side igen for at fortsætte tjenesterne",
+      "MESSAGE_SUCCESS": "Genoprettelse lykkedes",
+      "MESSAGE_ERROR": "Der opstod en fejl, prøv igen"
     }
   }
 }

@@ -1,22 +1,22 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Henter samtaler",
+    "LOAD_MORE_CONVERSATIONS": "Indlæs flere samtaler",
+    "EOF": "Alle samtaler indlæst 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Der er ingen aktive samtaler i denne gruppe."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Samtaler",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
     },
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "Åbn",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "Løst",
         "KEY": "allConvCount"
       }
     ],
@@ -27,23 +27,23 @@
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "Ikke Tildelt",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "Alle",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Open",
+        "TEXT": "Åbn",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resolved",
+        "TEXT": "Løst",
         "VALUE": "resolved"
       },
       {
@@ -54,31 +54,31 @@
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "Picture message"
+        "CONTENT": "Billedbesked"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Audio message"
+        "CONTENT": "Lydbesked"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Video message"
+        "CONTENT": "Video besked"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "File Attachment"
+        "CONTENT": "Fil Vedhæftning"
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "Lokation"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "has shared a url"
+        "CONTENT": "har delt en URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "Modtaget via e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Se tweet på Twitter",
+    "REPLY_TO_TWEET": "Svar på dette tweet"
   }
 }

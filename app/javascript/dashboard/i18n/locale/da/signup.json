@@ -1,32 +1,32 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Registrer en konto",
+    "TITLE": "Registrer",
+    "TERMS_ACCEPT": "Ved at tilmelde dig, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
+      "LABEL": "Kontonavn",
       "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "ERROR": "Kontonavn er for kort"
     },
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "E-mail",
       "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "ERROR": "E-mail er ugyldig"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "Adgangskode",
+      "PLACEHOLDER": "Adgangskode",
+      "ERROR": "Adgangskoden er for kort"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Bekræft Adgangskode",
+      "PLACEHOLDER": "Bekræft Adgangskode",
+      "ERROR": "Adgangskode stemmer ikke overens"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Registrering Succesfuld",
+      "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "Send"
   }
 }

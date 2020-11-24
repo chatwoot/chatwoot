@@ -23,7 +23,8 @@ LANGUAGES_CONFIG = {
   18 => { name: 'தமிழ் (ta)', iso_639_3_code: 'tam', iso_639_1_code: 'ta', enabled: true },
   19 => { name: 'فارسی (fa)', iso_639_3_code: 'fas', iso_639_1_code: 'fa', enabled: true },
   20 => { name: '中文 (台湾) (zh-TW)', iso_639_3_code: 'zho', iso_639_1_code: 'zh_TW', enabled: true },
-  21 => { name: 'Tiếng Việt (vi)', iso_639_3_code: 'vie', iso_639_1_code: 'vi', enabled: true }
+  21 => { name: 'Tiếng Việt (vi)', iso_639_3_code: 'vie', iso_639_1_code: 'vi', enabled: true },
+  22 => { name: 'dansk (da)', iso_639_3_code: 'dan', iso_639_1_code: 'da', enabled: true }
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }
