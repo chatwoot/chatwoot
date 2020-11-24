@@ -92,3 +92,5 @@ RUN rm -rf /gems/ruby/2.7.0/cache/*.gem \
 RUN mkdir -p /app/log
 
 WORKDIR /app
+
+RUN chmod +x docker/entrypoints/rails.sh
