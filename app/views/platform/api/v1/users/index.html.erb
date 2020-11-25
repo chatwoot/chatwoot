@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Platform Api V1 Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @platform_api_v1_users.each do |platform_api_v1_user| %>
+      <tr>
+        <td><%= link_to 'Show', platform_api_v1_user %></td>
+        <td><%= link_to 'Edit', edit_platform_api_v1_user_path(platform_api_v1_user) %></td>
+        <td><%= link_to 'Destroy', platform_api_v1_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Platform Api V1 User', new_platform_api_v1_user_path %>

@@ -154,13 +154,17 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :twitter do
-    resource :authorization, only: [:create]
-    resource :callback, only: [:show]
-  end
-
-  namespace :twilio do
-    resources :callback, only: [:create]
+  # ----------------------------------------------------------------------
+  # Routes for platform APIs
+  namespace :platform, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        resources :users, only: [:create, :show, :update, :destory]
+        resources :accounts, only: [:create, :show, :update, :destory] do
+          resources :account_users, only: [:index, :create, :show, :update, :destroy]
+        end
+      end
+    end
   end
 
   # ----------------------------------------------------------------------
@@ -172,14 +176,19 @@ Rails.application.routes.draw do
   end
 
   # ----------------------------------------------------------------------
-  # Routes for social integrations
+  # Routes for channel integrations
   mount Facebook::Messenger::Server, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
-  # ----------------------------------------------------------------------
-  # Routes for testing
-  resources :widget_tests, only: [:index] unless Rails.env.production?
+  namespace :twitter do
+    resource :authorization, only: [:create]
+    resource :callback, only: [:show]
+  end
+
+  namespace :twilio do
+    resources :callback, only: [:create]
+  end
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications
@@ -214,4 +223,8 @@ Rails.application.routes.draw do
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
+
+  # ----------------------------------------------------------------------
+  # Routes for testing
+  resources :widget_tests, only: [:index] unless Rails.env.production?
 end
