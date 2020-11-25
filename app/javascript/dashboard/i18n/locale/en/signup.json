@@ -21,7 +21,7 @@
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm Password",
       "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "ERROR": "Passwords doesn't match"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registration Successfull",
