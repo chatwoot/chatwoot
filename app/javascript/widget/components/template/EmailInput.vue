@@ -29,6 +29,8 @@
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
 import { required, email } from 'vuelidate/lib/validators';
+import { regex } from 'vuelidate/lib/validators/common';
+const phone = regex('phone', /^[1][3,4,5,6,7,8,9][0-9]{9}$/);
 
 export default {
   components: {
@@ -37,7 +39,6 @@ export default {
   props: {
     messageId: {
       type: Number,
-      required: true,
     },
     messageContentAttributes: {
       type: Object,
@@ -64,7 +65,7 @@ export default {
   validations: {
     email: {
       required,
-      email,
+      phone,
     },
   },
   methods: {

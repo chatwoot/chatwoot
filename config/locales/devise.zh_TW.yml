@@ -2,59 +2,85 @@
 zh_TW:
   devise:
     confirmations:
-      confirmed: "您的信箱已通過驗證，現在您已成功登入。"
-      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有驗證帳號的步驟說明。"
-      send_paranoid_instructions: "如果我們有您的信箱，您將會收到一封驗證您的帳號的電子郵件。"
+      confirmed: "您的电子邮件地址已成功确认。"
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的电子邮件地址存在于我们的数据库， 您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
     failure:
-      already_authenticated: "您已經登入。"
-      inactive: "您的帳號尚未被啟用。"
-      invalid: "%{authentication_keys}密碼或帳號尚未審核。"
-      locked: "您的帳號已被鎖定。"
-      last_attempt: "您還有最後一次嘗試機會，再次失敗您的帳號將會被鎖定。"
-      not_found_in_database: "%{authentication_keys}或密碼錯誤。"
-      timeout: "您的登入時效過期，請重新登入。"
-      unauthenticated: "您需要先登入或註冊後才能繼續。"
-      unconfirmed: "您的帳號需要經過驗證後，才能繼續。"
+      already_authenticated: "您已经登录。"
+      inactive: "您的帐户尚未激活。"
+      invalid: "无效的 %{authentication_keys}/密码或帐户尚未验证。"
+      locked: "您的帐户已被锁定。"
+      last_attempt: "您还有一次尝试在您的帐户被锁定之前。"
+      not_found_in_database: "无效的 %{authentication_keys} 或密码。"
+      timeout: "您的会话已过期。请重新登录以继续。"
+      unauthenticated: "您需要登录或注册才能继续。"
+      unconfirmed: "您必须先确认您的电子邮件地址才能继续。"
     mailer:
       confirmation_instructions:
-        subject: "確認指令"
+        subject: "确认说明"
       reset_password_instructions:
-        subject: "重設密碼"
+        subject: "重置密码说明"
       unlock_instructions:
-        subject: "帳號解鎖步驟"
+        subject: "解锁说明"
       password_change:
-        subject: "密碼已更改"
+        subject: "密码已修改"
     omniauth_callbacks:
-      failure: "因為 %{reason}，無法從 %{kind} 驗證。"
-      success: "成功從 %{kind} 驗證。"
+      failure: "无法认证您来自 %{kind} 的身份，因为“%{reason}”。"
+      success: "从 %{kind} 帐户成功验证。"
     passwords:
-      no_token: "這是密碼重設頁面，僅能透過密碼重設信件進入。如果您是透過重設信件進入的，請確認您的網址是完整的。"
-      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有重新設定密碼的步驟說明。"
-      send_paranoid_instructions: "如果我們有您的信箱，您將會收到一封內含可重新設定密碼連結的電子郵件。"
-      updated: "您的密碼已被修改，您現在已經登入。"
-      updated_not_active: "您的密碼已被修改。"
+      no_token: "没有来自密码重置电子邮件，您不能访问此页面。 如果您确实来自密码重置电子邮件，请确保您使用了提供的完整URL。"
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的电子邮件地址存在于我们的数据库， 您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      updated: "您的密码已成功更改。您现在已登录。"
+      updated_not_active: "您的密码已成功更改。"
     registrations:
-      destroyed: "再會！您的帳號已被取消。有緣再會。"
-      signed_up: "註冊成功，歡迎！"
-      signed_up_but_inactive: "您已註冊成功。然而因為您的帳號尚未啓動，暫時無法登入，抱歉！"
-      signed_up_but_locked: "您已註冊成功。 然而因為您的帳號已被鎖定，暫時無法登入，抱歉！"
-      signed_up_but_unconfirmed: "確認信件已送至您的 Email 信箱，請點擊信件內連結以啓動您的帳號。"
-      update_needs_confirmation: "您已經成功的更新帳號資訊，但我們仍需確認您的電子信箱，請至新信箱收信並點擊連結以確認您的新電子郵件帳號。"
-      updated: "您已經成功的更新帳號資訊。"
+      destroyed: "再见！您的帐户已被成功取消。我们希望很快再见到您。"
+      signed_up: "欢迎！您已成功注册。"
+      signed_up_but_inactive: "您已成功注册。但我们无法登录，因为您的帐户尚未激活。"
+      signed_up_but_locked: "您已成功注册。但我们无法登录，因为您的帐户尚未激活。"
+      signed_up_but_unconfirmed: "一封带有确认链接的邮件已发送到您的电子邮件地址。请点击链接激活您的帐户。"
+      update_needs_confirmation: "您已成功更新您的帐户，但我们需要验证您的新电子邮件地址。 请检查您的电子邮件并点击确认链接以确认您的新电子邮件地址。"
+      updated: "您的密码已成功更改。"
     sessions:
-      signed_in: "成功登入。"
-      signed_out: "成功登出。"
-      already_signed_out: "成功登出。"
+      signed_in: "登录成功。"
+      signed_out: "登录成功。"
+      already_signed_out: "登录成功。"
     unlocks:
-      send_instructions: "您將在幾分鐘後收到一封電子郵件，內有將帳號解除鎖定的步驟說明。"
-      send_paranoid_instructions: "如果您的帳號已存在，您的電子信箱將會收到如何解鎖帳號的指示。"
-      unlocked: "您的帳號已被解鎖，現在已經登入。"
+      send_instructions: "您将在几分钟内收到一封电子邮件，说明如何确认您的电子邮件地址。"
+      send_paranoid_instructions: "如果您的帐户存在，您将收到一封电子邮件，说明如何在几分钟内解锁它。"
+      unlocked: "您的帐户已成功解锁。请登录以继续。"
   errors:
+  hello: "Hello world"
+  messages:
+    reset_password_success: 密码重置已成功，请点击链接设置您的新密码。
+    reset_password_failure: 重置密码失败！没有找到该邮箱的账号。
     messages:
-      already_confirmed: "已經驗證，請直接登入。"
-      confirmation_period_expired: "必須在 %{period} 內驗證，請重新申請。"
-      expired: "已經過期，請重新申請。"
-      not_found: "找不到。"
-      not_locked: "並未被鎖定。"
+      already_confirmed: "已经确认，请尝试登录"
+      confirmation_period_expired: "需要在 %{period}内确认, 请申请一个新的"
+      expired: "已过期，请申请一个新的"
+      not_found: "找不到"
+      not_locked: "未锁定"
       not_saved:
-        other: "有 %{count} 個錯誤導致 %{resource} 不能被儲存："
+        other: "%{count} 个错误禁止保存 %{resource}："
+  conversations:
+    activity:
+      status:
+        resolved: "该会话由 %{user_name} 标记为已解决"
+        open: "该会话被 %{user_name} 重新打开"
+        auto_resolved: "该会话由于 %{duration} 天内未激活，因此被系统自动标记为已解决"
+      assignee:
+        self_assigned: "%{user_name} 将该会话分配给了自己"
+        assigned: "该会话由 %{user_name} 分配给了 %{assignee_name}"
+        removed: "该会话已被 %{user_name} 移除"
+      labels:
+        added: "%{user_name} 添加了标签 %{labels}"
+        removed: "%{user_name} 移除了标签 %{labels}"
+      muted: "%{user_name} 静音了该会话"
+      unmuted: "%{user_name} 取消了该会话的静音"
+    templates:
+      greeting_message_body: "%{account_name} 一般在几个小时内会回复您"
+      ways_to_reach_you_message_body: "请留下您的联系方式"
+      email_input_box_message_body: "电话号码"
+    reply:
+      email_subject: "该会话有新信息了"
+      transcript_subject: "会话记录"

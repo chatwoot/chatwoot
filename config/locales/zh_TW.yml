@@ -16,36 +16,36 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-zh-TW:
-  hello: "你好。"
+zh-CN:
+  hello: "您好"
   messages:
-    reset_password_success: 密碼重設成功，請確認您的信箱有收到重設信件。
-    reset_password_failure: 我們找不到用戶指定的電子郵件。
+    reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
+    reset_password_failure: 哎呀！我们找不到指定电子邮件的任何用户。
   errors:
     signup:
-      disposable_email: 我們不允許一次性電子郵件。
-      invalid_email: 您輸入的電子郵件無效。
-      email_already_exists: "您已經註冊了一個帳號%{email}"
-      failed: 註冊失敗。
+      disposable_email: 该邮箱不可用
+      invalid_email: 您输入了一个无效的电子邮件
+      email_already_exists: "您已经注册了 %{email} 的帐户"
+      failed: 注册失败
   conversations:
     activity:
       status:
-        resolved: "被%{user_name}標記的對話已解決。"
-        open: "被%{user_name}恢復對話。"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "该会话由 %{user_name} 标记为已解决"
+        open: "会话被 %{user_name} 重新打开"
+        auto_resolved: "由于该会话在 %{duration} 天内未激活，所以系统自动标记为已解决"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "被%{user_name}分配給%{assignee_name}。"
-        removed: "對話被%{user_name}設定成未分配。"
+        self_assigned: "%{user_name} 将会话分配给了自己"
+        assigned: "该会话由 %{assignee_name} 分配给 %{user_name}"
+        removed: "对话未被 %{user_name} 分配"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} 添加了标签 %{labels}"
+        removed: "%{user_name} 移除了标签 %{labels}"
+      muted: "%{user_name} 将该会话设置为不提醒"
+      unmuted: "%{user_name} 将该会话设置为提醒"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
-      email_input_box_message_body: "透過電子郵件得到通知。"
+      greeting_message_body: "%{account_name} 通常在几小时内回复。"
+      ways_to_reach_you_message_body: "留下您的联系方式。"
+      email_input_box_message_body: "通过电子邮件与我们联系"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "新消息"
+      transcript_subject: "会话记录"

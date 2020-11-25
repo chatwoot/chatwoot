@@ -1,14 +1,14 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "預設回覆",
-    "HEADER_BTN_TXT": "建立預設回覆",
-    "LOADING": "獲取預設回覆",
-    "SEARCH_404": "没有任何項目符合此查詢",
-    "SIDEBAR_TXT": "<p><b>預設回覆</b> </p><p> 預設的回覆已保存的回覆模板，可以用來快速發送回覆到對話。 </p><p> 若要建立預設反應，只需點擊 <b>建立預設回覆</b>。 您也可以通過點擊編輯或刪除按鈕來編輯或刪除現有的預定回覆 </p><p> 在 <b>短代碼</b> 的幫助下使用預定的回覆方式。 代理人在聊天時可以通過輸入 <b>'/'</b> 然後是短代碼訪問預設回覆 </p>",
+    "HEADER": "预设回复",
+    "HEADER_BTN_TXT": "添加预设回复",
+    "LOADING": "获取预设回复",
+    "SEARCH_404": "没有任何项目符合此查询",
+    "SIDEBAR_TXT": "<p><b>预设回复</b> </p><p> 预设的回复已保存的回复模板，可以用来快速发送回复到对话。 </p><p> 若要创建预设反应，只需点击 <b>添加预设回应</b>。 您也可以通过点击编辑或删除按钮来编辑或删除现有的预定响应 </p><p> 在 <b>短代码</b>的帮助下使用预定的响应方式。 代理人在聊天时可以通过输入 <b>'/'</b> 然后是短代码访问预设响应 </p>",
     "LIST": {
-      "404": "此帳戶中没有預設的回覆。",
-      "TITLE": "管理預設回覆",
-      "DESC": "預設的回覆是預定義的回覆模板，可以用來快速發送對工單的答覆。",
+      "404": "此帐户中没有预设的回复。",
+      "TITLE": "管理预设回复",
+      "DESC": "预设的回复是预定义的回复模板，可以用来快速发送对工单的答复。",
       "TABLE_HEADER": [
         "短码",
         "内容",
@@ -16,59 +16,59 @@
       ]
     },
     "ADD": {
-      "TITLE": "建立預設回覆",
-      "DESC": "預設的回覆是保存的回覆模板，可以用來快速發送回覆到對話中。",
+      "TITLE": "添加预设回复",
+      "DESC": "预设的回复是保存的回复模板，可以用来快速发送回复到对话中。",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "短码",
-          "PLACEHOLDER": "請輸入短码",
-          "ERROR": "必須輸入短代碼"
+          "PLACEHOLDER": "请输入短码",
+          "ERROR": "必须输入短代码"
         },
         "CONTENT": {
           "LABEL": "内容",
-          "PLACEHOLDER": "請輸入内容。",
-          "ERROR": "内容是必填的"
+          "PLACEHOLDER": "请输入内容。",
+          "ERROR": "内容是必须的"
         },
-        "SUBMIT": "送出"
+        "SUBMIT": "提交"
       },
       "API": {
-        "SUCCESS_MESSAGE": "已成功建立預設回覆",
-        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+        "SUCCESS_MESSAGE": "已成功添加预设响应",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       }
     },
     "EDIT": {
-      "TITLE": "編輯預設回覆",
+      "TITLE": "编辑预设回复",
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "短码",
-          "PLACEHOLDER": "請輸入短码",
-          "ERROR": "必須輸入短代碼"
+          "PLACEHOLDER": "请输入短码",
+          "ERROR": "必须输入短代码"
         },
         "CONTENT": {
           "LABEL": "内容",
-          "PLACEHOLDER": "請輸入内容。",
-          "ERROR": "内容是必填項目"
+          "PLACEHOLDER": "请输入内容。",
+          "ERROR": "内容是必填项"
         },
-        "SUBMIT": "送出"
+        "SUBMIT": "提交"
       },
-      "BUTTON_TEXT": "編輯",
+      "BUTTON_TEXT": "编辑",
       "API": {
-        "SUCCESS_MESSAGE": "預設回覆已成功更新",
-        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+        "SUCCESS_MESSAGE": "预设响应已成功更新",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "刪除",
+      "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "預設回覆已成功刪除",
-        "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+        "SUCCESS_MESSAGE": "预设响应已成功删除",
+        "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       },
       "CONFIRM": {
-        "TITLE": "確認刪除",
-        "MESSAGE": "您確定要刪除吗？ ",
-        "YES": "是，刪除 ",
+        "TITLE": "确认删除",
+        "MESSAGE": "您确定要删除吗？ ",
+        "YES": "是，删除 ",
         "NO": "不，保留 "
       }
     }

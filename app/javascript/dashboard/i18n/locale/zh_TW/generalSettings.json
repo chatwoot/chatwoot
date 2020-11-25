@@ -1,46 +1,46 @@
 {
   "GENERAL_SETTINGS": {
-    "TITLE": "帳戶設定",
-    "SUBMIT": "更新設定",
-    "BACK": "返回",
+    "TITLE": "帐户设置",
+    "SUBMIT": "更新设置",
+    "BACK": "后退",
     "UPDATE": {
-      "ERROR": "無法更新設定，請重試！",
-      "SUCCESS": "已成功更新帳戶設定"
+      "ERROR": "无法更新设置，请重试！",
+      "SUCCESS": "已成功更新账户设置"
     },
     "FORM": {
-      "ERROR": "請修正表單錯誤",
+      "ERROR": "请修正表单错误",
       "GENERAL_SECTION": {
-        "TITLE": "常規設定",
+        "TITLE": "常规设置",
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "帳戶名稱",
-        "PLACEHOLDER": "您的帳戶名稱",
-        "ERROR": "請輸入有效的帳戶名稱"
+        "LABEL": "帐户名称",
+        "PLACEHOLDER": "您的帐户名称",
+        "ERROR": "请输入有效的帐户名称"
       },
       "LANGUAGE": {
-        "LABEL": "網站語言(Beta)",
-        "PLACEHOLDER": "您的帳戶名稱",
+        "LABEL": "网站语言(Beta)",
+        "PLACEHOLDER": "您的帐户名称",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "接收電子信箱的域名",
-        "PLACEHOLDER": "接收信箱的域名",
+        "LABEL": "接收电子邮件的域名",
+        "PLACEHOLDER": "接收邮件的域名",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "客服信箱",
-        "PLACEHOLDER": "您公司的客服信箱",
+        "LABEL": "支持邮件",
+        "PLACEHOLDER": "您公司的支持邮件",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "如在多少天内未激活，则重新发送验证信息",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "请输入一个有效的时长 (最小值 1 天)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "您的帳戶啟用了電子信箱與對話的持續性功能。",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "您現在可以在您的自定義域名的電子信箱中接收消息。"
+        "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
     }
   }

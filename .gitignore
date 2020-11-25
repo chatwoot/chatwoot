@@ -60,3 +60,4 @@ package-lock.json
 
 # cypress
 test/cypress/videos/*
+/.github
