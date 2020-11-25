@@ -1,8 +1,16 @@
 class Platform::Api::V1::UsersController < PlatformController
   def create
-    @resource = User.new(user_params)
+    @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
+    @resource.confirm
     @resource.save!
+    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
     render json: @resource
+  end
+
+  def login
+    set_resource
+    validate_platform_app_permissible
+    render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{@resource.email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
   def show
@@ -26,6 +34,6 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.permit(:name, :email, :password)
   end
 end

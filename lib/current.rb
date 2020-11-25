@@ -8,7 +8,7 @@ module Current
     Time.zone = account.timezone
   end
 
-  def reset
+  def self.reset
     Current.user = nil
     Current.account = nil
     Current.account_user = nil
