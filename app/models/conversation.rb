@@ -7,12 +7,12 @@
 #  agent_last_seen_at    :datetime
 #  contact_last_seen_at  :datetime
 #  identifier            :string
-#  last_activity_at      :datetime         not null
+#  last_activity_at      :datetime
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
+#  created_at            :datetime
+#  updated_at            :datetime
 #  account_id            :integer          not null
 #  assignee_id           :integer
 #  contact_id            :bigint
@@ -294,6 +294,6 @@ class Conversation < ApplicationRecord
 
   # creating db triggers
   trigger.before(:insert).for_each(:row) do
-    "NEW.display_id := nextval('account_seq_' || NEW.account_id);"
+    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 end

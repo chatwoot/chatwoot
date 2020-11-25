@@ -8,14 +8,14 @@ class CreateTriggersAccountsInsertOrConversationsInsert < ActiveRecord::Migratio
       .on('accounts')
       .after(:insert)
       .for_each(:row) do
-      "execute format('create sequence account_seq_%s', NEW.id);"
+      "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
     end
 
     create_trigger('conversations_before_insert_row_tr', generated: true, compatibility: 1)
       .on('conversations')
       .before(:insert)
       .for_each(:row) do
-      "NEW.display_id := nextval('account_seq_' || NEW.account_id);"
+      "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
     end
   end
 
