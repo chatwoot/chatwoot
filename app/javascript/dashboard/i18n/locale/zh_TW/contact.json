@@ -1,113 +1,113 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "電子信箱地址",
-    "PHONE_NUMBER": "電話號碼",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "NOT_AVAILABLE": "不可用",
+    "EMAIL_ADDRESS": "电子邮件地址",
+    "PHONE_NUMBER": "电话号码",
+    "COPY_SUCCESSFUL": "复制成功",
     "COMPANY": "Company",
     "LOCATION": "位置",
-    "CONVERSATION_TITLE": "對話詳情",
-    "BROWSER": "瀏覽器",
+    "CONVERSATION_TITLE": "对话详情",
+    "BROWSER": "浏览器",
     "OS": "操作系统",
-    "INITIATED_FROM": "啟動自：",
-    "INITIATED_AT": "發起於",
+    "INITIATED_FROM": "启动自：",
+    "INITIATED_AT": "发起于",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "此聯繫人没有關聯到以前的會話。",
-      "TITLE": "上一次對話"
+      "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
+      "TITLE": "上一次对话"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "自定义属性"
     },
     "LABELS": {
-      "TITLE": "對話標記",
+      "TITLE": "对话标记",
       "MODAL": {
-        "TITLE": "標記為",
-        "ACTIVE_LABELS": "建立到對話的標籤",
-        "INACTIVE_LABELS": "帳戶中可用的標籤",
-        "REMOVE": "點擊 X 圖示刪除標籤",
-        "ADD": "點擊 + 圖示建立標籤",
-        "UPDATE_BUTTON": "更新標籤",
-        "UPDATE_ERROR": "無法更新標籤，請重試。"
+        "TITLE": "标记为",
+        "ACTIVE_LABELS": "添加到对话的标签",
+        "INACTIVE_LABELS": "账户中可用的标签",
+        "REMOVE": "点击 X 图标删除标签",
+        "ADD": "点击 + 图标添加标签",
+        "UPDATE_BUTTON": "更新标签",
+        "UPDATE_ERROR": "无法更新标签，请重试。"
       },
-      "NO_LABELS_TO_ADD": "帳戶中没有更多標籤。",
-      "NO_AVAILABLE_LABELS": "没有標籤建立到此對話。"
+      "NO_LABELS_TO_ADD": "帐户中没有更多标签。",
+      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。"
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "編輯"
+    "MUTE_CONTACT": "静音会话框",
+    "UNMUTE_CONTACT": "解除静音会话框",
+    "MUTED_SUCCESS": "该会话6小时内将不提示",
+    "UNMUTED_SUCCESS": "该会话解除静音成功",
+    "SEND_TRANSCRIPT": "发送记录",
+    "EDIT_LABEL": "编辑"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "編輯聯絡人",
-    "TITLE": "編輯聯絡人",
-    "DESC": "編輯聯絡人資訊",
+    "BUTTON_LABEL": "编辑联系人",
+    "TITLE": "编辑联系人",
+    "DESC": "编辑联系人信息",
     "FORM": {
-      "SUBMIT": "送出",
+      "SUBMIT": "提交",
       "CANCEL": "取消操作",
       "AVATAR": {
-        "LABEL": "連絡人頭像"
+        "LABEL": "联系人头像"
       },
       "NAME": {
-        "PLACEHOLDER": "請輸入聯絡人姓名",
-        "LABEL": "聯絡人姓名"
+        "PLACEHOLDER": "请输入联系人全称",
+        "LABEL": "全称"
       },
       "BIO": {
-        "PLACEHOLDER": "請輸入聯絡人簡介",
-        "LABEL": "聯絡人簡介"
+        "PLACEHOLDER": "请输入联系人简介",
+        "LABEL": "简介"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "請輸入聯絡人電子信箱",
-        "LABEL": "電子信箱地址"
+        "PLACEHOLDER": "请输入联系人邮箱",
+        "LABEL": "邮箱地址"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "請輸入聯絡人電話",
-        "LABEL": "聯絡人電話"
+        "PLACEHOLDER": "请输入联系人手机号码",
+        "LABEL": "手机号码"
       },
       "LOCATION": {
-        "PLACEHOLDER": "請輸入聯絡人位置",
+        "PLACEHOLDER": "请输入联系人位置",
         "LABEL": "位置"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "請輸入公司名稱",
-        "LABEL": "公司名稱"
+        "PLACEHOLDER": "请输入公司名称",
+        "LABEL": "Company Name"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "請輸入 Facebook 使用者名稱",
+          "PLACEHOLDER": "请输入Facebook名称",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "請輸入 Twitter 使用者名稱",
+          "PLACEHOLDER": "请输入Twitter名称",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "請輸入 LinkedIn 使用者名稱",
+          "PLACEHOLDER": "请输入LinkedIn名称",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "請輸入 Github 使用者名稱",
+          "PLACEHOLDER": "请输入Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "成功更新聯絡人資訊",
-    "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
-    "ERROR_MESSAGE": "更新聯絡人資訊發生錯誤，請重試"
+    "SUCCESS_MESSAGE": "更新成功",
+    "CONTACT_ALREADY_EXIST": "该邮箱已被其他联系人使用",
+    "ERROR_MESSAGE": "更新信息时发生错误，请重新更新"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "联系人列表",
+    "SEARCH_BUTTON": "查找",
+    "SEARCH_INPUT_PLACEHOLDER": "请输入联系人进行查找",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "查询中...",
+      "404": "没有匹配到合适的数据 🔍",
       "TABLE_HEADER": [
         "姓名：",
-        "聯絡人電話",
-        "會話",
-        "Last Contacted"
+        "电话号码",
+        "会话",
+        "最后一次联系"
       ]
     }
   }
