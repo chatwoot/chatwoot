@@ -67,7 +67,8 @@ class AccountBuilder
   end
 
   def create_user
-    password = Time.now.to_i
+    password = SecureRandom.alphanumeric(12)
+
     @user = User.new(email: @email,
                      password: password,
                      password_confirmation: password,
