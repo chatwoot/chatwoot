@@ -78,7 +78,6 @@
     justify-content: space-between;
 
     .page-title {
-      @include flex;
       margin-bottom: $zero;
       margin-left: $space-normal;
     }
