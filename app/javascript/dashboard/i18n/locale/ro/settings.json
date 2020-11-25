@@ -26,7 +26,8 @@
         "TITLE": "Notificări prin e-mail",
         "NOTE": "Actualizați preferințele de notificare prin e-mail aici",
         "CONVERSATION_ASSIGNMENT": "Trimite notificări prin e-mail atunci când o conversație îmi este atribuită",
-        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată"
+        "CONVERSATION_CREATION": "Trimite notificări prin e-mail atunci când o conversație nouă este creată",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferințele de notificare sunt actualizate cu succes",
@@ -37,6 +38,7 @@
         "NOTE": "Actualizați preferințele de notificare push aici",
         "CONVERSATION_ASSIGNMENT": "Trimite notificări push atunci când o conversație îmi este atribuită",
         "CONVERSATION_CREATION": "Trimite notificări push atunci când o conversație nouă este creată",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "Ați activat apăsarea pentru acest browser.",
         "REQUEST_PUSH": "Activează notificările push"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Disponibilitate",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Ocupat"
-          },
-          {
-            "value": "offline",
-            "label": "Deconectat"
-          }
+          "Online",
+          "Ocupat",
+          "Deconectat"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversații",
     "REPORTS": "Rapoarte",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Setări",
     "HOME": "Acasa",
     "AGENTS": "Agenți",

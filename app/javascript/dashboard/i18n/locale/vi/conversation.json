@@ -6,6 +6,13 @@
     "NO_INBOX_1": "Hola! Có vẻ như bạn chưa thêm bất kỳ hộp thư đến nào.",
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "Click vào đây",
     "LOADING_INBOXES": "Đang tải hộp thư đến",
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",

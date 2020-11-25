@@ -1,27 +1,31 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
+      "DOWNLOAD": "Tải xuống",
       "UPLOADING": "Uploading..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Gửi"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is available",
-    "ARE_AVAILABLE": "are available",
-    "OTHERS_ARE_AVAILABLE": "others are available",
-    "AND": "and"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We are online",
+    "OFFLINE": "We are offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "Start Conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "CLOSE_MESSAGES_BUTTON": "Đóng"
   },
   "BUBBLE": {
     "LABEL": "Chat with us"
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
+  "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
   "CHAT_PLACEHOLDER": "Type your message"
 }

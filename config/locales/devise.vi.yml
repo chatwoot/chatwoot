@@ -7,7 +7,7 @@ vi:
       send_paranoid_instructions: "Nếu địa chỉ email của bạn tồn tại trong cơ sở dữ liệu của chúng tôi, bạn sẽ nhận được một email có hướng dẫn cách xác nhận địa chỉ email của bạn trong vài phút."
     failure:
       already_authenticated: "Bạn đã đăng nhập."
-      inactive: Tài khoản của bạn chưa được kích hoạt.
+      inactive: "Tài khoản của bạn chưa được kích hoạt."
       invalid: "%{authentication_keys}/mật khẩu không hợp lệ hoặc tài khoản chưa được xác thực."
       locked: "Tài khoản của bạn đã bị khoá."
       last_attempt: "Bạn còn một lần thử nữa trước khi tài khoản của bạn bị khóa."

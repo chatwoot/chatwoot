@@ -184,7 +184,9 @@ export default {
       this.fetchConversations();
     },
     fetchConversations() {
-      this.$store.dispatch('fetchAllConversations', this.conversationFilters);
+      this.$store
+        .dispatch('fetchAllConversations', this.conversationFilters)
+        .then(() => this.$emit('conversation-load'));
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {

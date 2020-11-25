@@ -26,7 +26,8 @@
         "TITLE": "Email Уведомления",
         "NOTE": "Настраивайте email уведомления здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
-        "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан"
+        "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Настройки уведомлений сохранены",
@@ -37,6 +38,7 @@
         "NOTE": "Редактируйте настройки push-уведомлений здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять push уведомление при назначении мне диалога",
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Доступность",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "В сети"
-          },
-          {
-            "value": "busy",
-            "label": "Занят"
-          },
-          {
-            "value": "offline",
-            "label": "Оффлайн"
-          }
+          "В сети",
+          "Занят",
+          "Оффлайн"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Диалоги",
     "REPORTS": "Отчёты",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Настройки",
     "HOME": "Главная",
     "AGENTS": "Операторы",
