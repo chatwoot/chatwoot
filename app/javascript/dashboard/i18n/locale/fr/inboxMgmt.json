@@ -73,6 +73,13 @@
           "ENABLED": "Activé",
           "DISABLED": "Désactivé"
         },
+        "REPLY_TIME": {
+          "TITLE": "Définir le temps de réponse",
+          "IN_A_FEW_MINUTES": "En quelques minutes",
+          "IN_A_FEW_HOURS": "En quelques heures",
+          "IN_A_DAY": "En une journée",
+          "HELP_TEXT": "Ce temps de réponse sera affichée sur le widget de chat en direct"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Couleur du Widget",
           "PLACEHOLDER": "Mettre à jour la couleur utilisée dans le widget"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Réautoriser",
+      "SUBTITLE": "Votre connexion Facebook a expiré, veuillez reconnecter votre page Facebook pour continuer les services",
+      "MESSAGE_SUCCESS": "Reconnexion réussie",
+      "MESSAGE_ERROR": "Une erreur est survenue, veuillez réessayer"
     }
   }
 }

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Адреса електронної пошти",
     "PHONE_NUMBER": "Номер телефону",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "Місцезнаходження",
     "CONVERSATION_TITLE": "Деталі бесіди",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
     "MUTE_CONTACT": "Mute Conversation",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "Редагувати"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Updated contact successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Ім'я",
+        "Phone Number",
+        "Бесіди",
+        "Last Contacted"
+      ]
+    }
   }
 }

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
   let(:message_params) { slack_message_stub }
+  let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
 
   let!(:hook) { create(:integrations_hook, account: account, reference_id: message_params[:event][:channel]) }
@@ -18,6 +19,13 @@ describe Integrations::Slack::IncomingMessageBuilder do
     end
 
     context 'when message creation' do
+      it 'doesnot create message if thread info is missing' do
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_without_thread_ts)
+        builder.perform
+        expect(conversation.messages.count).to eql(messages_count)
+      end
+
       it 'creates message' do
         expect(hook).not_to eq nil
         messages_count = conversation.messages.count

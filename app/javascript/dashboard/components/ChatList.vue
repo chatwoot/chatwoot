@@ -1,7 +1,8 @@
 <template>
   <div class="conversations-sidebar  medium-4 columns">
+    <slot></slot>
     <div class="chat-list__top">
-      <h1 class="page-title">
+      <h1 class="page-title text-truncate" :title="pageTitle">
         <woot-sidemenu-icon />
         {{ pageTitle }}
       </h1>
@@ -54,8 +55,6 @@
 </template>
 
 <script>
-/* eslint-env browser */
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
 import ChatFilter from './widgets/conversation/ChatFilter';
@@ -184,7 +183,9 @@ export default {
       this.fetchConversations();
     },
     fetchConversations() {
-      this.$store.dispatch('fetchAllConversations', this.conversationFilters);
+      this.$store
+        .dispatch('fetchAllConversations', this.conversationFilters)
+        .then(() => this.$emit('conversation-load'));
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {

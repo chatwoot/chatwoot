@@ -26,7 +26,8 @@
         "TITLE": "Сповіщення електронною поштою",
         "NOTE": "Тут оновлюються налаштування повідомлень електронною поштою",
         "CONVERSATION_ASSIGNMENT": "Надсилати сповіщення коли бесіду призначають мені",
-        "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди"
+        "CONVERSATION_CREATION": "Надсилати сповіщення при створенні нової бесіди",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Налаштування сповіщень для вашого акаунту оновлено успішно",
@@ -37,6 +38,7 @@
         "NOTE": "Update your push notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Availability",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Busy"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+          "Online",
+          "Busy",
+          "Offline"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Бесіди",
     "REPORTS": "Звіти",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Налаштування",
     "HOME": "Головна",
     "AGENTS": "Агенти",

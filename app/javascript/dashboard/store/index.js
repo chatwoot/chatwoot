@@ -11,6 +11,7 @@ import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
 import conversations from './modules/conversations';
+import conversationSearch from './modules/conversationSearch';
 import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
 import globalConfig from 'shared/store/globalConfig';
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     conversationMetadata,
     conversationPage,
     conversations,
+    conversationSearch,
     conversationStats,
     conversationTypingStatus,
     globalConfig,

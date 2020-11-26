@@ -25,7 +25,7 @@
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
               <option
-                v-for="lang in enabledLanguages"
+                v-for="lang in languagesSortedByCode"
                 :key="lang.iso_639_1_code"
                 :value="lang.iso_639_1_code"
               >
@@ -132,7 +132,12 @@ export default {
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
-
+    languagesSortedByCode() {
+      const enabledLanguages = [...this.enabledLanguages];
+      return enabledLanguages.sort((l1, l2) =>
+        l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
+      );
+    },
     isUpdating() {
       return this.uiFlags.isUpdating;
     },

@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Endereço de e-mail",
     "PHONE_NUMBER": "Número de telefone",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "Localização",
     "CONVERSATION_TITLE": "Detalhes da conversa",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "Não há rótulos adicionados a esta conversa."
     },
     "MUTE_CONTACT": "Silenciar a conversa",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Enviar Transcrição",
     "EDIT_LABEL": "Alterar"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Updated contact successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Nome",
+        "Phone Number",
+        "Conversas",
+        "Last Contacted"
+      ]
+    }
   }
 }

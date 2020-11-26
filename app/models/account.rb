@@ -10,7 +10,7 @@
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
 #  support_email         :string(100)
-#  timezone       :string           default("UTC")
+#  timezone              :string           default("UTC")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #

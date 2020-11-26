@@ -46,10 +46,10 @@ RSpec.describe 'Reports API', type: :request do
     end
   end
 
-  describe 'GET /api/v2/accounts/:account_id/reports/:id/account_summary' do
+  describe 'GET /api/v2/accounts/:account_id/reports/account_summary' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
-        get "/api/v2/accounts/#{account.id}/reports/#{account.id}/account_summary"
+        get "/api/v2/accounts/#{account.id}/reports/account_summary"
 
         expect(response).to have_http_status(:unauthorized)
       end
@@ -65,7 +65,7 @@ RSpec.describe 'Reports API', type: :request do
           until: Time.zone.today.to_time.to_i.to_s
         }
 
-        get "/api/v2/accounts/#{account.id}/reports/#{account.id}/account_summary",
+        get "/api/v2/accounts/#{account.id}/reports/account_summary",
             params: params,
             headers: agent.create_new_auth_token,
             as: :json
@@ -74,6 +74,60 @@ RSpec.describe 'Reports API', type: :request do
         json_response = JSON.parse(response.body)
 
         expect(json_response['conversations_count']).to eq(10)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/agents' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/agents.csv"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      params = {
+        since: 30.days.ago.to_i.to_s,
+        until: Time.zone.today.to_time.to_i.to_s
+      }
+
+      it 'returns summary' do
+        get "/api/v2/accounts/#{account.id}/reports/agents.csv",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/inboxes' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/inboxes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      params = {
+        since: 30.days.ago.to_i.to_s,
+        until: Time.zone.today.to_time.to_i.to_s
+      }
+
+      it 'returns summary' do
+        get "/api/v2/accounts/#{account.id}/reports/inboxes",
+            params: params,
+            headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
       end
     end
   end
