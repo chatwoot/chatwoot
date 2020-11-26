@@ -59,7 +59,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def sender_type(sender)
-    sender.class == Contact ? 'Contact' : 'Agent'
+    sender.instance_of?(Contact) ? 'Contact' : 'Agent'
   end
 
   def update_reference_id

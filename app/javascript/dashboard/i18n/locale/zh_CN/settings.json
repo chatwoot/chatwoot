@@ -26,7 +26,8 @@
         "TITLE": "电子邮件通知",
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
-        "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知"
+        "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知设置已成功更新",
@@ -37,6 +38,7 @@
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
         "CONVERSATION_CREATION": "创建新对话时发送推送通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
         "REQUEST_PUSH": "启用推送通知"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "有效的",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "在线的"
-          },
-          {
-            "value": "busy",
-            "label": "忙碌中"
-          },
-          {
-            "value": "offline",
-            "label": "离线的"
-          }
+          "在线的",
+          "忙碌中",
+          "离线的"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "会话",
     "REPORTS": "报告",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "设置",
     "HOME": "首页",
     "AGENTS": "客服代理们",

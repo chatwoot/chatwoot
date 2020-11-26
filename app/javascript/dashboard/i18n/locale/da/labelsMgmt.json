@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Etiketter",
+    "HEADER_BTN_TXT": "Tilføj etiket",
+    "LOADING": "Henter etiketter",
+    "SEARCH_404": "Der er ingen elementer, der matcher denne forespørgsel",
+    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>Etiketter hjælper dig med at kategorisere samtaler og prioritere dem. Du kan tildele etiket til en samtale fra dit sidepanel. <br /><br />Etiketter er bundet til kontoen og kan bruges til at oprette brugerdefinerede arbejdsgange i din organisation. Du kan tildele brugerdefineret farve til en etiket, det gør det lettere at identificere etiketten. Du vil være i stand til at vise etiketten på sidepanelet for nemt at filtrere samtalerne.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Der er ingen tilgængelige etiketter på denne konto.",
+      "TITLE": "Administrer etiketter",
+      "DESC": "Etiketter lader dig gruppere samtalerne sammen.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "Navn",
+        "Beskrivelse",
+        "Farve"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Etiket Navn",
+        "PLACEHOLDER": "Etiket Navn",
+        "ERROR": "Etiketnavn er påkrævet"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Beskrivelse",
+        "PLACEHOLDER": "Etiket Beskrivelse"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Farve"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Vis etiket på sidepanelet"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Rediger",
+      "CREATE": "Opret",
+      "DELETE": "Slet",
+      "CANCEL": "Annuller"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Tilføj etiket",
+      "DESC": "Etiketter lader dig gruppere samtalerne sammen.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket blev tilføjet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Rediger etiket",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket blev opdateret",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Slet",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket blev slettet",
+        "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Bekræft Sletning",
+        "MESSAGE": "Er du sikker på du vil slette ",
+        "YES": "Ja, Slet ",
+        "NO": "Nej, Behold "
       }
     }
   }

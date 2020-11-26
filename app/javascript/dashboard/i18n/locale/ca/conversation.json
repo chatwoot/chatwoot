@@ -6,14 +6,21 @@
     "NO_INBOX_1": "Hola! Sembla que encara no heu afegit cap safata d'entrada.",
     "NO_INBOX_2": " per començar",
     "NO_INBOX_AGENT": "Uh Oh! Sembla que no ets a cap safata d'entrada. Si us plau, poseu-vos en contacte amb l'administrador",
+    "SEARCH_MESSAGES": "Cerca missatges a les converses",
+    "SEARCH": {
+      "TITLE": "Cerca missatges",
+      "LOADING_MESSAGE": "S'estan restringint les dades...",
+      "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
+      "NO_MATCHING_RESULTS": "No hi ha missatges que coincideixin amb els paràmetres de cerca."
+    },
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "No pots respondre degut a",
+    "24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
+    "LAST_INCOMING_TWEET": "Estas responent a l'últim tuit entrant",
+    "REPLYING_TO": "Estas responent a:",
+    "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
@@ -38,18 +45,18 @@
     "CHANGE_AGENT": "Assignació de la conversa canviat"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Envia la transcripció de la conversa",
+    "DESC": "Envia una còpia de la transcripció de la conversa a l'adreça electrònica especificada",
     "SUBMIT": "Envia",
     "CANCEL": "Cancel·la",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "La transcripció del xat s'ha enviat correctament",
+    "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Envia la transcripció al client",
+      "SEND_TO_AGENT": "Envia la transcripció de l'agent assignat",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Envia la transcripció a una altra adreça electrònica",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Introdueix una adreça de correu electrònic",
         "ERROR": "Introduïu una adreça de correu electrònic vàlida"
       }
     }

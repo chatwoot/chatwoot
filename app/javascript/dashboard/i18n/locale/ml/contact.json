@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
     "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "ഈ സംഭാഷണത്തിലേക്ക് ലേബലുകളൊന്നും ചേർത്തിട്ടില്ല."
     },
     "MUTE_CONTACT": "സംഭാഷണം ഒച്ചയിലാതാക്കുക",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "ഈ സംഭാഷണം 6 മണിക്കൂർ നിശബ്ദമാക്കി",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
     "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Updated contact successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "പേര്",
+        "Phone Number",
+        "സംഭാഷണങ്ങൾ",
+        "Last Contacted"
+      ]
+    }
   }
 }

@@ -3,7 +3,7 @@
     "HEADER": "Agents",
     "HEADER_BTN_TXT": "Afegir Agent",
     "LOADING": "S'està recollint la llista d'agents",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> Un <b>Agent</b> és membre del vostre equip d’atenció al client. </p><p> Els agents podran veure i respondre missatges dels teus usuaris. La llista mostra tots els agents que hi ha actualment al teu compte.</p><p> Fer clic a <b>Afegeix Agent</b> per afegir un agent nou. L’agent que afegeixes rebrà un correu electrònic amb un enllaç de confirmació per activar el seu compte, després del qual podrà accedir a Chatwoot i respondre als missatges. </p><p> L’accés a les funcions de Chatwoot es basa en els següents rols.</p><p> <b>Agent</b> - Els agents amb aquesta funció només poden accedir a les bústies d’entrada, als informes i a les converses. Poden assignar converses a altres agents o a ells mateixos i resoldre converses.</p><p> <b>Administrador</b> - L'administrador tindrà accés a totes les funcions de Chatwoot habilitades per al teu compte, inclosa la configuració, juntament amb tots els privilegis dels agents normals.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador/a",
       "AGENT": "Agent"
@@ -55,7 +55,7 @@
         "TITLE": "Confirma l'esborrat",
         "MESSAGE": "N'estas segur? ",
         "YES": "Si, esborra ",
-        "NO": "No, Keep "
+        "NO": "No, segueix "
       }
     },
     "EDIT": {

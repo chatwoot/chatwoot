@@ -6,6 +6,13 @@
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
+    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH": {
+      "TITLE": "Search messages",
+      "LOADING_MESSAGE": "Crunching data...",
+      "PLACEHOLDER": "Type any text to search messages",
+      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+    },
     "CLICK_HERE": "اضغط هنا",
     "LOADING_INBOXES": "جار تحميل صناديق الوارد",
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",

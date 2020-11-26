@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "没有标签添加到此对话。"
     },
     "MUTE_CONTACT": "Mute Conversation",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "编辑"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Updated contact successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "姓名：",
+        "Phone Number",
+        "会话",
+        "Last Contacted"
+      ]
+    }
   }
 }
