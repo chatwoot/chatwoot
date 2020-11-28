@@ -19,6 +19,8 @@
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
@@ -298,13 +300,17 @@ export default {
     hideCannedResponse() {
       this.showCannedResponsesList = false;
     },
+    onTypingOn() {
+      this.toggleTyping('on');
+    },
+    onTypingOff() {
+      this.toggleTyping('off');
+    },
     onBlur() {
       this.isFocused = false;
-      this.toggleTyping('off');
     },
     onFocus() {
       this.isFocused = true;
-      this.toggleTyping('on');
     },
     toggleTyping(status) {
       if (this.isAWebWidgetInbox && !this.isPrivate) {
