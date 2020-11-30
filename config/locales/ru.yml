@@ -38,8 +38,8 @@ ru:
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
         removed: "Ответственный снят %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: "%{user_name} добавил %{labels}"
+        removed: "%{user_name} удалил %{labels}"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
