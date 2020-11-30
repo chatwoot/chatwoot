@@ -33,7 +33,7 @@
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
     "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Cancelar silienciar Conversación",
+    "UNMUTE_CONTACT": "Dessilenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
@@ -41,7 +41,7 @@
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Editar Contacto",
-    "TITLE": "Editar contacto",
+    "TITLE": "Editar Contacto",
     "DESC": "Editar detalles del contacto",
     "FORM": {
       "SUBMIT": "Enviar",
@@ -51,11 +51,11 @@
       },
       "NAME": {
         "PLACEHOLDER": "Escriba el nombre completo del contacto",
-        "LABEL": "Nombre"
+        "LABEL": "Nombre completo"
       },
       "BIO": {
         "PLACEHOLDER": "Escriba la bio del contacto",
-        "LABEL": "Bio"
+        "LABEL": "Biografía"
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Escriba la dirección email del contacto",
@@ -95,5 +95,20 @@
     "SUCCESS_MESSAGE": "El contacto se actualizó",
     "CONTACT_ALREADY_EXIST": "Ésta dirección de correo está siendo utilizada por otro contacto.",
     "ERROR_MESSAGE": "Se presento un error actualizando el contacto. Por favor inténtelo nuevamente"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Nombre",
+        "Número telefónico",
+        "Conversaciones",
+        "Last Contacted"
+      ]
+    }
   }
 }
