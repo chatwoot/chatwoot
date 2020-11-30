@@ -1,19 +1,26 @@
 {
   "CONVERSATION": {
-    "404": "Por favor, seleccione una conversación del panel izquierdo",
-    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en su bandeja de entrada.",
-    "NO_MESSAGE_2": " para enviar un mensaje a su página!",
-    "NO_INBOX_1": "¡Hola! Parece que aún no ha añadido ninguna bandeja de entrada.",
+    "404": "Por favor, selecciona una conversación del panel izquierdo",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
+    "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
+    "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
     "NO_INBOX_2": " para empezar",
-    "NO_INBOX_AGENT": "¡Oh Oh! Parece que no es parte de ninguna bandeja de entrada. Por favor, contacte con su administrador",
-    "CLICK_HERE": "Haga clic aquí",
+    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
+    "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
+    "SEARCH": {
+      "TITLE": "Buscar mensajes",
+      "LOADING_MESSAGE": "Cruzando datos...",
+      "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
+      "NO_MATCHING_RESULTS": "No hay mensajes que coincidan con los parámetros de búsqueda."
+    },
+    "CLICK_HERE": "Haz clic aquí",
     "LOADING_INBOXES": "Cargando bandeja de entrada",
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
     "24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "LAST_INCOMING_TWEET": "Esta respondiendo al último trino",
+    "LAST_INCOMING_TWEET": "Esta respondiendo al último tweet",
     "REPLYING_TO": "Esta respondiendo a:",
-    "REMOVE_SELECTION": "Quitar Selección",
+    "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -23,7 +30,7 @@
       "DETAILS": "detalles"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter para una nueva línea. Comience con '/' para seleccionar una respuesta predefinida.",
+      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
       "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
     },
     "REPLYBOX": {
@@ -31,9 +38,9 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Enviar",
       "CREATE": "Añadir nota",
-      "TWEET": "Trino"
+      "TWEET": "Tweet"
     },
-    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para usted y su equipo",
+    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario"
   },
