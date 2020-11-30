@@ -12,17 +12,17 @@
     },
     "STATUS_TABS": [
       {
-        "NAME": "Abiertas",
+        "NAME": "Abrir",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resueltas",
+        "NAME": "Resuelto",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mías",
+        "NAME": "Mina",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
@@ -32,18 +32,18 @@
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "Todas",
+        "NAME": "Todos",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Abiertas",
+        "TEXT": "Abrir",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resueltas",
+        "TEXT": "Resuelto",
         "VALUE": "resolved"
       },
       {
@@ -78,7 +78,7 @@
       }
     },
     "RECEIVED_VIA_EMAIL": "Recibido por email",
-    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
-    "REPLY_TO_TWEET": "Responder a éste trino"
+    "VIEW_TWEET_IN_TWITTER": "Ver tweet en Twitter",
+    "REPLY_TO_TWEET": "Responder a este tweet"
   }
 }
