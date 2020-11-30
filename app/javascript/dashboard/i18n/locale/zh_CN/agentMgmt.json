@@ -25,8 +25,8 @@
       "CANCEL_BUTTON_TEXT": "取消操作",
       "FORM": {
         "NAME": {
-          "LABEL": "客服人姓名",
-          "PLACEHOLDER": "请输入客服人名称"
+          "LABEL": "客服姓名",
+          "PLACEHOLDER": "请输入客服名称"
         },
         "AGENT_TYPE": {
           "LABEL": "客服类型",
@@ -90,7 +90,7 @@
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "没有搜索结果"
+      "NO_RESULTS": "没有找到相关结果"
     }
   }
 }
