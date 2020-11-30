@@ -1,21 +1,25 @@
 module SwitchLocale
   extend ActiveSupport::Concern
-  included do
-    around_action :switch_locale
-  end
 
   private
 
   def switch_locale(&action)
     # priority is for locale set in query string (mostly for widget/from js sdk)
     locale ||= locale_from_params
-    # if locale is not set in param, lets try account
-    locale ||= locale_from_account(@current_account)
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= locale_from_env_variable
-    # if nothing works we rely on default locale
+    set_locale(locale, &action)
+  end
+
+  def switch_locale_using_account_locale(&action)
+    locale = locale_from_account(@current_account)
+    set_locale(locale, &action)
+  end
+
+  def set_locale(locale, &action)
+    # if locale is empty, use default_locale
     locale ||= I18n.default_locale
-    # ensure locale won't bleed into other requests
+    # Ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
     I18n.with_locale(locale, &action)
   end
