@@ -1,63 +1,63 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "Lütfen sol bölmeden bir konuşma seçin",
+    "NO_MESSAGE_1": "Görünüşe göre gelen kutunuzda müşterilerden hiç mesaj yok.",
+    "NO_MESSAGE_2": "sayfanıza bir mesaj göndermek için!",
+    "NO_INBOX_1": "Görünüşe göre henüz gelen kutusu eklemediniz.",
+    "NO_INBOX_2": "başlamak",
+    "NO_INBOX_AGENT": "Görünüşe göre herhangi bir gelen kutusunun parçası değilsiniz. Lütfen yöneticinizle iletişime geçin",
+    "SEARCH_MESSAGES": "Sohbetlerde ara",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Mesajları ara",
+      "LOADING_MESSAGE": "Veriler işleniyor ...",
+      "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
+      "NO_MATCHING_RESULTS": "Arama parametreleriyle eşleşen mesaj yok."
     },
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "CLICK_HERE": "Buraya Tıkla",
+    "LOADING_INBOXES": "Gelen kutuları yükleniyor",
+    "LOADING_CONVERSATIONS": "Loading Conversations\n",
+    "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
+    "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "LAST_INCOMING_TWEET": "Son gelen tweet'e cevap veriyorsun",
+    "REPLYING_TO": "Cevap veriyorsun:",
+    "REMOVE_SELECTION": "Seçimi Kaldır",
+    "DOWNLOAD": "İndir",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "Çözüldü",
+      "REOPEN_ACTION": "Yeniden aç",
+      "OPEN": "Devamı",
+      "CLOSE": "Kapat",
+      "DETAILS": "detaylar"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
+      "PRIVATE_MSG_INPUT": "Yeni satır için Shift + enter. Bu yalnızca Temsilciler tarafından görülebilir"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
+      "REPLY": "Cevapla",
+      "PRIVATE_NOTE": "Özel Not",
+      "SEND": "Gönder",
+      "CREATE": "Not ekle",
       "TWEET": "Tweet"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_AGENT": "Conversation Assignee changed"
+    "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
+    "CHANGE_STATUS": "Görüşme durumu değişti",
+    "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "Konuşma metni gönder",
+    "DESC": "Konuşma dökümünün bir kopyasını belirtilen e-posta adresine gönderin",
+    "SUBMIT": "Yolla",
+    "CANCEL": "İptal Et",
+    "SEND_EMAIL_SUCCESS": "Sohbet metni başarıyla gönderildi",
+    "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Transkripti müşteriye gönderin",
+      "SEND_TO_AGENT": "Atanan temsilcinin transkriptini gönderin",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Transkripti başka bir e-posta adresine gönderin",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "Bir e-mail adresi girin",
+        "ERROR": "Lütfen geçerli bir tam e-posta adresi"
       }
     }
   }
