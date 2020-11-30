@@ -32,16 +32,16 @@ pt:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
         assigned: "Atribuído a %{assignee_name} por %{user_name}"
         removed: "Conversa não atribuída por %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} adicionou %{labels}"
+        removed: "%{user_name} removeu %{labels}"
+      muted: "%{user_name} silenciou a conversa"
+      unmuted: "%{user_name} reativou a conversa"
     templates:
       greeting_message_body: "%{account_name} normalmente responde em algumas horas."
       ways_to_reach_you_message_body: "Informe uma forma para entrarmos em contato com você."
@@ -49,3 +49,10 @@ pt:
     reply:
       email_subject: "Novas mensagens nesta conversa"
       transcript_subject: "Transcrição da conversa"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
