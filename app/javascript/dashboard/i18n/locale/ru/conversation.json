@@ -6,12 +6,12 @@
     "NO_INBOX_1": "Хола! Похоже, вы еще не добавили ни одного источника.",
     "NO_INBOX_2": " для начала",
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "SEARCH": {
-      "TITLE": "Search messages",
+      "TITLE": "Поиск сообщений",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "PLACEHOLDER": "Введите любой текст для поиска сообщений",
+      "NO_MATCHING_RESULTS": "Нет сообщений, соответствующих параметрам поиска."
     },
     "CLICK_HERE": "Нажмите здесь",
     "LOADING_INBOXES": "Загружаем источники",
