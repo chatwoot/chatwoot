@@ -40,7 +40,7 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: @account_name)
+    @account = Account.create!(name: @account_name, locale: I18n.locale)
     Current.account = @account
   end
 
@@ -67,7 +67,8 @@ class AccountBuilder
   end
 
   def create_user
-    password = Time.now.to_i
+    password = SecureRandom.alphanumeric(12)
+
     @user = User.new(email: @email,
                      password: password,
                      password_confirmation: password,

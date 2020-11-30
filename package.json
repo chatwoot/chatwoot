@@ -24,7 +24,7 @@
     "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
     "foundation-sites": "~6.5.3",
-    "highlight.js": "^9.15.10",
+    "highlight.js": "~9.18.5",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
     "lodash.groupby": "^4.6.0",

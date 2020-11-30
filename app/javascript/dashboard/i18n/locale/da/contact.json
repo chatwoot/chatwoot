@@ -1,113 +1,113 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
+    "NOT_AVAILABLE": "Ikke Tilgængelig",
+    "EMAIL_ADDRESS": "E-Mail Adresse",
+    "PHONE_NUMBER": "Telefonnummer",
+    "COPY_SUCCESSFUL": "Kopiering til udklipsholder lykkedes",
+    "COMPANY": "Virksomhed",
+    "LOCATION": "Lokation",
+    "CONVERSATION_TITLE": "Samtaledetaljer",
     "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "OS": "Operativsystem",
+    "INITIATED_FROM": "Startet fra",
+    "INITIATED_AT": "Startet fra",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Der er ingen tidligere samtaler tilknyttet denne kontakt.",
+      "TITLE": "Tidligere Samtaler"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Brugerdefinerede Egenskaber"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "Samtale Etiketter",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Etiketter til",
+        "ACTIVE_LABELS": "Etiketter føjet til samtalen",
+        "INACTIVE_LABELS": "Etiketter tilgængelige på kontoen",
+        "REMOVE": "Klik på X-ikonet for at fjerne etiketten",
+        "ADD": "Klik på + ikonet for at tilføje etiketten",
+        "UPDATE_BUTTON": "Opdater etiketter",
+        "UPDATE_ERROR": "Etiketter kunne ikke opdateres. Prøv igen."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Der er ikke defineret flere etiketter på kontoen.",
+      "NO_AVAILABLE_LABELS": "Der er ingen etiketter tilføjet til denne samtale."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "Gør Samtale Lydløs",
+    "UNMUTE_CONTACT": "Fjern Lydløs",
+    "MUTED_SUCCESS": "Denne samtale er gjort tavs i 6 timer",
+    "UNMUTED_SUCCESS": "Denne samtale er genaktiveret",
+    "SEND_TRANSCRIPT": "Send Udskrift",
+    "EDIT_LABEL": "Rediger"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Rediger Kontakt",
+    "TITLE": "Rediger Kontakt",
+    "DESC": "Rediger kontaktoplysninger",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "Send",
+      "CANCEL": "Annuller",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Kontakt Avatar"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Indtast det fulde navn på kontaktpersonen",
+        "LABEL": "Fulde Navn"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Indtast kontaktens bio",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "Indtast e-mailadressen på kontaktpersonen",
+        "LABEL": "E-Mail Adresse"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Indtast telefonnummeret på kontaktpersonen",
+        "LABEL": "Telefonnummer"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "Angiv placeringen af kontaktpersonen",
+        "LABEL": "Lokation"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Indtast virksomhedens navn",
+        "LABEL": "Virksomhedens Navn"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Indtast Facebook brugernavn",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Indtast brugernavn til Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Indtast LinkedIn brugernavn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Indtast Github brugernavn",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Kontakt opdateret",
+    "CONTACT_ALREADY_EXIST": "Denne e-mail adresse er i brug for en anden kontakt.",
+    "ERROR_MESSAGE": "Der opstod en fejl under opdatering af kontakten. Prøv igen"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kontakter",
+    "SEARCH_BUTTON": "Søg",
+    "SEARCH_INPUT_PLACEHOLDER": "Søg efter kontakter",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Indlæser kontakter...",
+      "404": "Ingen kontakter matcher din søgning 🔍",
       "TABLE_HEADER": [
-        "Name",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
+        "Navn",
+        "Telefonnummer",
+        "Samtaler",
+        "Sidst Kontaktet"
       ]
     }
   }

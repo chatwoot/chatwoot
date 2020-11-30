@@ -1,31 +1,31 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Lataa",
+      "UPLOADING": "Lähetetään..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Lähetä"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Olemme online-tilassa",
+    "OFFLINE": "Olemme offline-tilassa"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Tyypillisesti vastaa muutamassa minuutissa",
+    "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
+    "IN_A_DAY": "Tyypillisesti vastaa päivässä"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Aloita Keskustelu",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "VIEW_MESSAGES_BUTTON": "Katso uudet viestit",
+    "CLOSE_MESSAGES_BUTTON": "Sulje"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Keskustele kanssamme"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "POWERED_BY": "Palvelun tarjoaa Chatwoot",
+  "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
+  "CHAT_PLACEHOLDER": "Kirjoita viestisi"
 }

@@ -106,6 +106,10 @@ export default {
   &.clear.more--button {
     color: var(--color-body);
   }
+
+  &:hover {
+    color: var(--w-800);
+  }
 }
 
 .actions--container {
