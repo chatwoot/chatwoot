@@ -19,7 +19,10 @@
         widgetColor: '<%= @web_widget.widget_color %>',
         enabledFeatures: <%= @web_widget.selected_feature_flags.to_json.html_safe %>,
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
-        replyTime: '<%= @web_widget.reply_time %>'
+        replyTime: '<%= @web_widget.reply_time %>',
+        workingHoursEnabled: <%= @web_widget.inbox.working_hours_enabled %>,
+        workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
+        utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.account.timezone].formatted_offset %>'
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,

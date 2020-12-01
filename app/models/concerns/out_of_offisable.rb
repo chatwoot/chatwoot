@@ -19,12 +19,12 @@ module OutOfOffisable
   private
 
   def create_default_working_hours
+    working_hours.create!(day_of_week: 0, closed_all_day: true)
     working_hours.create!(day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
     working_hours.create!(day_of_week: 2, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
     working_hours.create!(day_of_week: 3, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
     working_hours.create!(day_of_week: 4, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
     working_hours.create!(day_of_week: 5, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0)
     working_hours.create!(day_of_week: 6, closed_all_day: true)
-    working_hours.create!(day_of_week: 7, closed_all_day: true)
   end
 end

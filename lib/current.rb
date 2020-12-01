@@ -5,6 +5,5 @@ module Current
 
   def account=(account)
     super
-    Time.zone = account.timezone
   end
 end
