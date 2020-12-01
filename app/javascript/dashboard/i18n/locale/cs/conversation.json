@@ -6,21 +6,21 @@
     "NO_INBOX_1": "Hola! Zdá se, že jste ještě nepřidali žádné schránky.",
     "NO_INBOX_2": " začít",
     "NO_INBOX_AGENT": "Uh Oh! Vypadá to, že nejste součástí žádné schránky. Obraťte se na správce",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Hledat zprávy v konverzacích",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Hledat zprávy",
+      "LOADING_MESSAGE": "Načítám data...",
+      "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
+      "NO_MATCHING_RESULTS": "Vašemu vyhledávání neodpovídají žádné zprávy."
     },
     "CLICK_HERE": "Klikněte zde",
     "LOADING_INBOXES": "Načítání krabic",
     "LOADING_CONVERSATIONS": "Načítání konverzací",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
+    "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "LAST_INCOMING_TWEET": "Odpovídáte na poslední příchozí tweet",
+    "REPLYING_TO": "Odpovídáte uživateli:",
+    "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
@@ -45,18 +45,18 @@
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna"
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Poslat přepis konverzace",
+    "DESC": "Poslat kopii přepisu konverzace na zadanou e-mailovou adresu",
     "SUBMIT": "Odeslat",
     "CANCEL": "Zrušit",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Přepis chatu byl úspěšně odeslán",
+    "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Poslat přepis zákazníkovi",
+      "SEND_TO_AGENT": "Poslat přepis přiřazeného agenta",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Poslat přepis na jinou e-mailovou adresu",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Zadejte e-mailovou adresu",
         "ERROR": "Zadejte prosím platnou e-mailovou adresu"
       }
     }

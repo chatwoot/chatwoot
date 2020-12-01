@@ -75,10 +75,10 @@
         },
         "REPLY_TIME": {
           "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_FEW_MINUTES": "Через несколько минут",
+          "IN_A_FEW_HOURS": "Через несколько часов",
           "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "HELP_TEXT": "Это время ответа будет отображаться в виджете онлайн чата"
         },
         "WIDGET_COLOR": {
           "LABEL": "Цвет виджета",

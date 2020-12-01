@@ -1,10 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Indisponível",
     "EMAIL_ADDRESS": "Endereço de e-mail",
     "PHONE_NUMBER": "Número de telefone",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Copiado para área de transferência com sucesso",
+    "COMPANY": "Empresa",
     "LOCATION": "Localização",
     "CONVERSATION_TITLE": "Detalhes da conversa",
     "BROWSER": "Navegador",
@@ -33,37 +33,37 @@
       "NO_AVAILABLE_LABELS": "Não há rótulos adicionados a esta conversa."
     },
     "MUTE_CONTACT": "Silenciar a conversa",
-    "UNMUTE_CONTACT": "Unmute Conversation",
+    "UNMUTE_CONTACT": "Reativar conversa",
     "MUTED_SUCCESS": "Esta conversa está silenciada por 6 horas",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTED_SUCCESS": "Essa conversa está reativada",
     "SEND_TRANSCRIPT": "Enviar Transcrição",
     "EDIT_LABEL": "Alterar"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Modificar Contato",
+    "TITLE": "Modificar contato",
+    "DESC": "Modificar detalhes do contato",
     "FORM": {
       "SUBMIT": "Enviar",
       "CANCEL": "Cancelar",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar do Contato"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Insira o nome completo do contato",
+        "LABEL": "Nome Completo"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Insira a descrição do contato",
+        "LABEL": "Descrição"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Insira o endereço de e-mail do contato",
         "LABEL": "Endereço de e-mail"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Adicione o número de telefone do contato",
+        "LABEL": "Número de Telefone"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -105,7 +105,7 @@
       "404": "No contacts matches your search 🔍",
       "TABLE_HEADER": [
         "Nome",
-        "Phone Number",
+        "Número de Telefone",
         "Conversas",
         "Last Contacted"
       ]

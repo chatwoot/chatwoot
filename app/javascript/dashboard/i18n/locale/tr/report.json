@@ -1,42 +1,42 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "HEADER": "Raporlar",
+    "LOADING_CHART": "Grafik verileri yükleniyor ...",
+    "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Konuşmalar",
+        "DESC": "( Toplam )\n"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Gelen Mesajlar",
+        "DESC": "( Toplam )\n"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Giden Mesajlar",
+        "DESC": "( Toplam )\n"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "İlk yanıt süresi",
+        "DESC": "(Ort.)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Çözüm Süresi",
+        "DESC": "(Ort.)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Çözünürlük Sayısı",
+        "DESC": "( Toplam )\n"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Son 7 gün"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Son 30 gün"
       }
     ]
   }

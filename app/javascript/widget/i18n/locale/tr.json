@@ -1,31 +1,31 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "İndir",
+      "UPLOADING": "Yükleniyor ..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Yolla"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Çevrimiçi",
+    "OFFLINE": "Çevrimdışı"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
+    "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
+    "IN_A_DAY": "Genellikle bir gün içinde yanıtlar"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Görüşmeyi Başlatın",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
+    "CLOSE_MESSAGES_BUTTON": "Kapat"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Sohbet et"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "POWERED_BY": "Chatwoot tarafından desteklenmektedir",
+  "EMAIL_PLACEHOLDER": "Lütfen E-postanızı Girin",
+  "CHAT_PLACEHOLDER": "Mesajınız"
 }
