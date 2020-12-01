@@ -48,7 +48,7 @@ rvm use 2.7.2 --default
 
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
-if [[ -z $1 ]]; then
+if [[ -z "$1" ]]; then
   git checkout master;
 else
   git checkout $1;
