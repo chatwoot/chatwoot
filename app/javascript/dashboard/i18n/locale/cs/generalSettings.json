@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Nastavení účtu",
     "SUBMIT": "Aktualizovat nastavení",
-    "BACK": "Back",
+    "BACK": "Zpět",
     "UPDATE": {
       "ERROR": "Nelze aktualizovat nastavení, zkuste to znovu!",
       "SUCCESS": "Nastavení účtu bylo úspěšně aktualizováno"
@@ -24,23 +24,23 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Doména příchozích e-mailů",
+        "PLACEHOLDER": "Doména, na které přijímáte e-maily",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "E-mail podpory",
+        "PLACEHOLDER": "E-mail podpory vaší společnosti",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Počet dnů, po kterých by měl být ticket automaticky vyřešen při žádné aktivitě",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Zadejte platnou hodnotu automatického vyřešení (minimálně 1 den)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "E-mailová konverzace je u vašeho účtu povolena.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Nyní můžete přijímat e-maily na vaši vlastní doménu."
       }
     }
   }

@@ -30,12 +30,12 @@
     "ADD": {
       "FB": {
         "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "Vybrat stránku",
+        "CHOOSE_PLACEHOLDER": "Vyberte stránku ze seznamu",
+        "INBOX_NAME": "Název schránky",
+        "ADD_NAME": "Zadejte název schránky",
+        "PICK_NAME": "Vyberte název schránky",
+        "PICK_A_VALUE": "Vyberte hodnotu"
       },
       "TWITTER": {
         "HELP": "Chcete-li přidat svůj Twitter profil jako kanál, musíte ověřit svůj Twitter profil kliknutím na tlačítko 'Přihlásit se přes Twitter' "
@@ -45,7 +45,7 @@
         "DESC": "Vytvořte si kanál pro vaše webové stránky a začněte podporovat své zákazníky prostřednictvím našeho widgetu.",
         "LOADING_MESSAGE": "Vytváření podpůrného kanálu webových stránek",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar kanálu"
         },
         "CHANNEL_NAME": {
           "LABEL": "Název webu",
@@ -64,17 +64,17 @@
           "PLACEHOLDER": "Snadno se s námi spojujeme. Požádejte nás o cokoliv, nebo sdílejte svou zpětnou vazbu."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Pozdrav",
+          "PLACEHOLDER": "Acme Inc obvykle odpovídá do několika hodin."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Povolit uvítání",
+          "HELP_TEXT": "Poslat uvítací zprávu uživateli, když začne konverzaci.",
           "ENABLED": "Povoleno",
           "DISABLED": "Zakázáno"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
+          "TITLE": "Nastavit čas odpovědi",
           "IN_A_FEW_MINUTES": "In a few minutes",
           "IN_A_FEW_HOURS": "In a few hours",
           "IN_A_DAY": "In a day",
@@ -212,7 +212,7 @@
         "TITLE": "Potvrdit odstranění",
         "MESSAGE": "Opravdu chcete odstranit ",
         "YES": "Ano, odstranit ",
-        "NO": "No, Keep "
+        "NO": "Ne, zachovat "
       },
       "API": {
         "SUCCESS_MESSAGE": "Doručená pošta byla úspěšně smazána",
