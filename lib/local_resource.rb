@@ -25,7 +25,7 @@ class LocalResource
   end
 
   def find_file_type
-    @file_type ? @file_type.split('/').last : Pathname.new(uri.path).extname
+    @file_type || Pathname.new(uri.path).extname
   end
 
   def tmp_filename
