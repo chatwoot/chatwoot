@@ -16,7 +16,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
       attachment.file.attach(
         io: file_resource.file,
-        filename: file_resource.tmp_filename,
+        filename: file_resource.filename,
         content_type: file_resource.encoding
       )
       @message.save!
