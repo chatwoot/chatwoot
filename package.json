@@ -1,5 +1,5 @@
 {
-  "name": "@chatwoot/chatwoot",
+  "name": "@sandstreamdev/chatwoot",
   "version": "1.10.0",
   "license": "MIT",
   "main": "dist/index.js",
