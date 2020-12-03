@@ -9,15 +9,15 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "We zijn online",
+    "OFFLINE": "We zijn offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
+    "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+    "IN_A_DAY": "Reageert meestal binnen een dag"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Start Chat",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
     "CLOSE_MESSAGES_BUTTON": "Sluiten"
