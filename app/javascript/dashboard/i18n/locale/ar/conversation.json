@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى",
     "FORM": {
       "SEND_TO_CONTACT": "إرسال نص المحادثة إلى العميل",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "إرسال نص المحادثة إلى ممثل خدمة العملاء المعين",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "إرسال النص إلى عنوان بريد إلكتروني آخر",
       "EMAIL": {
         "PLACEHOLDER": "أدخل عنوان بريد إلكتروني",
