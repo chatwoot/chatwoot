@@ -1,7 +1,7 @@
 <template>
   <file-upload
     :size="4096 * 2048"
-    accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg"
+    accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
     @input-file="onFileUpload"
   >
     <span class="attachment-button ">
