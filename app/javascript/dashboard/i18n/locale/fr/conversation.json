@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
     "FORM": {
       "SEND_TO_CONTACT": "Envoyer la transcription au client",
-      "SEND_TO_AGENT": "Envoyer la transcription de l'agent affecté",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Envoyer la transcription à une autre adresse de courriel",
       "EMAIL": {
         "PLACEHOLDER": "Entrez une adresse de courriel",
