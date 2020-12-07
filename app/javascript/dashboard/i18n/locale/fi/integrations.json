@@ -1,63 +1,61 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Integraatiot",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Määrittele",
+      "HEADER": "Webhook-asetukset",
+      "HEADER_BTN_TXT": "Lisää uusi webhook",
+      "LOADING": "Haetaan liitettyjä webhookeja",
+      "SEARCH_404": "Tätä hakua vastaavia kohteita ei löydy",
+      "SIDEBAR_TXT": "<p><b>Webhookit</b> </p> <p>Webhookit ovat HTTP-kutsuja, jotka voidaan määritellä jokaiselle tilille. Ne laukaisevat tapahtumia, kuten viestin luonti Chatwootissa. Voit luoda useamman kuin yhden webhookin tälle tilille. <br /><br /> Luodaksesi <b>webhookiin</b>, napsauta <b>Lisää uusi Webhook</b> -painiketta. Voit myös poistaa minkä tahansa olemassa olevan Webhookiin klikkaamalla Poista -painiketta.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "Tälle tilille ei ole määritetty webhookeja.",
+        "TITLE": "Hallitse webhookeja",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Webhookin päätepiste",
+          "Toiminnot"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Peruuta",
+        "TITLE": "Lisää uusi webhook",
+        "DESC": "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwot-tililläsi tapahtuu. Syötä kelvollinen URL-osoite, jotta voit määrittää callbackin.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "LABEL": "Webhookin URL",
+            "PLACEHOLDER": "Esimerkki: https://example/api/webhook",
+            "ERROR": "Anna kelvollinen URL-osoite"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Luo webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook lisätty onnistuneesti",
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Poista",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook poistettu onnistuneesti",
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Vahvista poistaminen",
+          "MESSAGE": "Oletko varma että haluat poistaa ",
+          "YES": "Kyllä, poista ",
+          "NO": "Ei, säilytä"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Poista",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrointi poistettu onnistuneesti"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Yhdistä"
     }
   }
 }
