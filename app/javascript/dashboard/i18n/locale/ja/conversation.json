@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。",
     "FORM": {
       "SEND_TO_CONTACT": "顧客に会話の記録を転送する",
-      "SEND_TO_AGENT": "割り当てられた担当者の会話記録を送信する",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "会話の記録を別のEメールアドレスに転送する\n",
       "EMAIL": {
         "PLACEHOLDER": "Eメールアドレスを入力してください",
