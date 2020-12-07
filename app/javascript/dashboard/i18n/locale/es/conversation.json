@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo",
     "FORM": {
       "SEND_TO_CONTACT": "Enviar la transcripción al cliente",
-      "SEND_TO_AGENT": "Enviar la transcripción al agente asignado",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar la transcripción a otra dirección de correo",
       "EMAIL": {
         "PLACEHOLDER": "Escriba la dirección de correo",
