@@ -52,7 +52,7 @@ el:
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Το Slack είναι ένα εργαλείο συνομιλιών (chat) το οποίο ενώνει σε ένα σημείο όλες τις επικοινωνίες. Ενοποιώντας με το Slack, μπορείτε να λαμβάνετε ειδοποιήσεις για όλες τις συνομιλίες στον λογαριασμό σας από το Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας. Μπορείτε να χρησιμοποιήσετε τα webhooks για να μεταφέρετε τα συμβάντα σε άλλες εφαρμογές ή υπηρεσίες όπως το Slack ή Github. Πατήστε στην Διαμόρφωση για να ενημερώστε τα δικά σας webhooks."
