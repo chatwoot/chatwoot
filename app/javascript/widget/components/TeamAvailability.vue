@@ -13,11 +13,7 @@
           }}
         </div>
         <div class="text-xs leading-4 mt-1">
-          {{
-            isInBetweenTheWorkingHours
-              ? replyTimeStatus
-              : 'The team will be back in 5 hours'
-          }}
+          {{ isInBetweenTheWorkingHours ? replyTimeStatus : '' }}
         </div>
       </div>
       <available-agents :agents="availableAgents" />

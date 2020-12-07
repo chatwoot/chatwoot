@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_135006) do
+ActiveRecord::Schema.define(version: 2020_12_07_062430) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
-    t.integer "auto_resolve_duration"
     t.string "timezone", default: "UTC"
+    t.integer "auto_resolve_duration"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
