@@ -6,14 +6,12 @@
       "CONFIGURE": "تهيئة",
       "HEADER": "إعدادات الـ Webhook",
       "HEADER_BTN_TXT": "إضافة webhook جديد",
-      "INTEGRATION_TXT": "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك.",
       "LOADING": "جار جلب الـ Webhooks",
       "SEARCH_404": "لا توجد عناصر مطابقة لهذا الاستعلام",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks هي إعادات HTTP callbacks التي يمكن تعريفها لكل حساب. يتم تشغيلها بأحداث مثل إنشاء الرسائل في Chatwoot. يمكنك إنشاء أكثر من Webhook واحد لهذا الحساب. <br /><br /> لإنشاء <b>webhook</b>، انقر فوق <b>إضافة Webhooks جديد</b>. يمكنك أيضا إزالة أي رابط ويب موجود بالنقر على زر الحذف.</p>",
       "LIST": {
         "404": "لا توجد webhooks مكونة لهذا الحساب.",
         "TITLE": "إدارة الـ webhooks",
-        "DESC": "webhooks هي قوالب رد محددة مسبقاً ويمكن استخدامها لإرسال الردود على التذاكر بسرعة.",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "الإجراءات"

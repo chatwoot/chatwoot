@@ -1,30 +1,30 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
+    "HEADER": "Saapuneet-kansiot",
     "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "Tähän tiliin ei ole liitetty saapuneet-kansiota."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "Valitse kanava",
         "route": "settings_inbox_new",
         "body": "Choose the provider you want to integrate with Chatwoot."
       },
       {
-        "title": "Create Inbox",
+        "title": "Luo saapet-kansio",
         "route": "settings_inboxes_page_channel",
         "body": "Authenticate your account and create an inbox."
       },
       {
-        "title": "Add Agents",
+        "title": "Lisää edustaja",
         "route": "settings_inboxes_add_agents",
         "body": "Add agents to the created inbox."
       },
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "Kaikki valmiina!"
       }
     ],
     "ADD": {
@@ -70,8 +70,8 @@
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Enable channel greeting",
           "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "ENABLED": "Käytössä",
+          "DISABLED": "Pois käytöstä"
         },
         "REPLY_TIME": {
           "TITLE": "Set Reply time",
@@ -131,9 +131,9 @@
           "ERROR": "This field is required"
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
+          "LABEL": "Webhookin URL",
           "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "PLACEHOLDER": "Webhookin URL"
         },
         "SUBMIT_BUTTON": "Create API Channel",
         "API": {
@@ -149,9 +149,9 @@
           "ERROR": "This field is required"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "Sähköposti",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "Sähköposti"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
@@ -164,7 +164,7 @@
         "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
       },
       "AGENTS": {
-        "TITLE": "Agents",
+        "TITLE": "Edustajat",
         "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create."
       },
       "DETAILS": {
@@ -207,12 +207,12 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Poista",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Vahvista poistaminen",
+        "MESSAGE": "Oletko varma että haluat poistaa ",
+        "YES": "Kyllä, poista ",
+        "NO": "Ei, säilytä "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inbox deleted successfully",
@@ -233,7 +233,7 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
+      "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
@@ -245,7 +245,7 @@
       "TITLE": "Reauthorize",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Tapahtui virhe, yritä uudelleen"
     }
   }
 }
