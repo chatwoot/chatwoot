@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά",
     "FORM": {
       "SEND_TO_CONTACT": "Στείλτε το αντίγραφο στον πελάτη",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Στείλε το αντίγραφο στον αντιστοιχισμένο πράκτορα",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Στείλε το αντίγραφο σε άλλη διεύθυνση email",
       "EMAIL": {
         "PLACEHOLDER": "Συμπληρώστε μια διεύθυνση email",
