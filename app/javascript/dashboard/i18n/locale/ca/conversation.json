@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
     "FORM": {
       "SEND_TO_CONTACT": "Envia la transcripció al client",
-      "SEND_TO_AGENT": "Envia la transcripció de l'agent assignat",
+      "SEND_TO_AGENT": "Envia la transcripció a l'agent assignat",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Envia la transcripció a una altra adreça electrònica",
       "EMAIL": {
         "PLACEHOLDER": "Introdueix una adreça de correu electrònic",

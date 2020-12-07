@@ -53,7 +53,7 @@
     "SEND_EMAIL_ERROR": "Došlo k chybě, zkuste to prosím znovu",
     "FORM": {
       "SEND_TO_CONTACT": "Poslat přepis zákazníkovi",
-      "SEND_TO_AGENT": "Poslat přepis přiřazeného agenta",
+      "SEND_TO_AGENT": "Zašlete přepis přidělenému agentovi",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Poslat přepis na jinou e-mailovou adresu",
       "EMAIL": {
         "PLACEHOLDER": "Zadejte e-mailovou adresu",
