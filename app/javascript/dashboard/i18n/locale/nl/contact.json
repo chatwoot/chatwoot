@@ -1,10 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Niet beschikbaar",
     "EMAIL_ADDRESS": "Uw e-mailadres",
     "PHONE_NUMBER": "Telefoon nummer",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Succesvol gekopieerd naar klembord",
+    "COMPANY": "Bedrijfsnaam",
     "LOCATION": "Locatie",
     "CONVERSATION_TITLE": "Gesprekdetails",
     "BROWSER": "Browser",
@@ -21,27 +21,27 @@
     "LABELS": {
       "TITLE": "Labels voor gesprekken",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Labels voor",
+        "ACTIVE_LABELS": "Labels toegevoegd aan het gesprek",
+        "INACTIVE_LABELS": "Labels beschikbaar in het account",
+        "REMOVE": "Klik op het X-pictogram om het label te verwijderen",
+        "ADD": "Klik op + pictogram om het label toe te voegen",
+        "UPDATE_BUTTON": "Labels bijwerken",
         "UPDATE_ERROR": "Kon labels niet updaten, probeer het opnieuw."
       },
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_AVAILABLE_LABELS": "Er zijn geen labels toegevoegd aan dit gesprek."
     },
-    "MUTE_CONTACT": "Mute Conversation",
+    "MUTE_CONTACT": "Gesprek dempen",
     "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "SEND_TRANSCRIPT": "Transcript verzenden",
     "EDIT_LABEL": "Bewerken"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
+    "BUTTON_LABEL": "Contact bewerken",
+    "TITLE": "Contact bewerken",
     "DESC": "Edit contact details",
     "FORM": {
       "SUBMIT": "Bevestigen",
