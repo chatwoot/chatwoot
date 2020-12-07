@@ -27,7 +27,7 @@
       <file-upload
         v-if="showFileUpload"
         :size="4096 * 4096"
-        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg"
+        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
         @input-file="onFileUpload"
       >
         <i v-if="!isUploading" class="icon ion-android-attach attachment" />
