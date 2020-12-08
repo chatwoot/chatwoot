@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
     "CHANGE_STATUS": "Samtalestatus ændret",
-    "CHANGE_AGENT": "Samtaleansvarlig ændret"
+    "CHANGE_AGENT": "Samtaleansvarlig ændret",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Fjern",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send samtaleudskrift",
