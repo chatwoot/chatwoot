@@ -70,20 +70,20 @@
         "LABEL": "Localização"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Digite o nome da empresa",
+        "LABEL": "Nome da empresa"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Digite o nome de usuário do Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Digite o nome de usuário Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Digite o nome de usuário do LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
@@ -97,9 +97,9 @@
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
+    "HEADER": "Contato",
     "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
@@ -107,7 +107,7 @@
         "Nome",
         "Número de Telefone",
         "Conversas",
-        "Last Contacted"
+        "Último contato"
       ]
     }
   }
