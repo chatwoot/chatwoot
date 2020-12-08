@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
-    "CHANGE_AGENT": "Konverzace pověřená osoba změněna"
+    "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Odebrat",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Poslat přepis konverzace",
