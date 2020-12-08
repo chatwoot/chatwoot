@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
-    "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε"
+    "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Διαγραφή",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Στείλτε την μεταγραφή της σινομιλίας",
