@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenti",
-        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei."
+        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Dettagli Inbox",
