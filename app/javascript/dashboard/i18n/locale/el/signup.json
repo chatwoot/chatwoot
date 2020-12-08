@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Επιτυχής καταχώρηση",
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
-    "SUBMIT": "Καταχώρηση"
+    "SUBMIT": "Καταχώρηση",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }
