@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan modtage e-mails på dit brugerdefinerede domæne nu."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Press enter to select",
+      "ENTER_TO_REMOVE": "Press enter to remove",
+      "SELECT_ONE": "Select one"
+    }
   }
 }
