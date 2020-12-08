@@ -13,11 +13,26 @@
     <div class="row align-center">
       <div class="medium-5 column small-12">
         <ul class="signup--features">
-          <li><i class="ion-beer beer"></i>Unlimited inboxes</li>
-          <li><i class="ion-stats-bars report"></i>Robust Reporting</li>
-          <li><i class="ion-chatbox-working canned"></i>Canned Responses</li>
-          <li><i class="ion-loop uptime"></i>Auto Assignment</li>
-          <li><i class="ion-locked secure"></i>Enterprise level security</li>
+          <li>
+            <i class="ion-beer beer"></i>
+            <span>{{ $t('REGISTER.FEATURES.UNLIMITED_INBOXES') }}</span>
+          </li>
+          <li>
+            <i class="ion-stats-bars report"></i>
+            <span>{{ $t('REGISTER.FEATURES.ROBUST_REPORTING') }}</span>
+          </li>
+          <li>
+            <i class="ion-chatbox-working canned"></i>
+            <span>{{ $t('REGISTER.FEATURES.CANNED_RESPONSES') }}</span>
+          </li>
+          <li>
+            <i class="ion-loop uptime"></i>
+            <span>{{ $t('REGISTER.FEATURES.AUTO_ASSIGNMENT') }}</span>
+          </li>
+          <li>
+            <i class="ion-locked secure"></i>
+            <span>{{ $t('REGISTER.FEATURES.SECURITY') }}</span>
+          </li>
         </ul>
       </div>
       <div class="medium-5 column small-12">
