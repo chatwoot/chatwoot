@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Privat Obs: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversation status ändrad",
-    "CHANGE_AGENT": "Konversation förvärvaren ändrad"
+    "CHANGE_AGENT": "Konversation förvärvaren ändrad",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Radera",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
