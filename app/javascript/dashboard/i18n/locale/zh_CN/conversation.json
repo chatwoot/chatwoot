@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
     "CHANGE_STATUS": "对话状态已更改",
-    "CHANGE_AGENT": "对话分配人已更改"
+    "CHANGE_AGENT": "对话分配人已更改",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "删除",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",

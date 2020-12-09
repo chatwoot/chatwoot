@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registrat correctament",
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
-    "SUBMIT": "Envia"
+    "SUBMIT": "Envia",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Respostes predeterminades",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

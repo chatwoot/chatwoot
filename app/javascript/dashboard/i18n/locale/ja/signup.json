@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "登録に成功しました",
       "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
     },
-    "SUBMIT": "送信"
+    "SUBMIT": "送信",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "定型文",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

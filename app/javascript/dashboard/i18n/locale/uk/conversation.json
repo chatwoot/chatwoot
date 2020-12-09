@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
     "CHANGE_STATUS": "Статус бесіди змінено",
-    "CHANGE_AGENT": "Оператора бесіди змінено"
+    "CHANGE_AGENT": "Оператора бесіди змінено",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Видалити",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",

@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenter",
-        "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter."
+        "DESC": "Her kan du tilføje agenter til at håndtere din nyoprettede indbakke. Kun disse valgte agenter vil have adgang til din indbakke. Agenter som ikke er en del af denne indbakke, vil ikke kunne se eller reagere på beskeder i denne indbakke, når de logger ind. <br> <b>PS:</b> Som administrator, hvis du har brug for adgang til alle indbakker, bør du tilføje dig selv som agent til alle indbakker, du opretter.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Indbakke Detaljer",
