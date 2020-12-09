@@ -1,0 +1,43 @@
+{
+  "REPORT": {
+    "HEADER": "Laporan",
+    "LOADING_CHART": "Memuat data grafik...",
+    "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Percakapan",
+        "DESC": "( Total )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Pesan Masuk",
+        "DESC": "( Total )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Pesan Keluar",
+        "DESC": "( Total )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Waktu respons pertama",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Waktu Penyelesaian",
+        "DESC": "( Rata-Rata )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Jumlah Terselesaikan",
+        "DESC": "( Total )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 hari terakhir"
+      },
+      {
+        "id": 1,
+        "name": "30 hari terakhir"
+      }
+    ]
+  }
+}

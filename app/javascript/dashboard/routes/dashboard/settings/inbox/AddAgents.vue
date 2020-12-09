@@ -10,7 +10,7 @@
       <div class="medium-7 columns">
         <div class="medium-12 columns">
           <label :class="{ error: $v.selectedAgents.$error }">
-            Agents
+            {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <multiselect
               v-model="selectedAgents"
               :options="agentList"
@@ -20,12 +20,15 @@
               :close-on-select="false"
               :clear-on-select="false"
               :hide-selected="true"
-              placeholder="Pick some"
+              selected-label
+              :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+              :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+              :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS ')"
               @select="$v.selectedAgents.$touch"
             >
             </multiselect>
             <span v-if="$v.selectedAgents.$error" class="message">
-              Add atleast one agent to your new Inbox
+              {{ $t('INBOX_MGMT.ADD.AGENTS.VALIDATION_ERROR') }}
             </span>
           </label>
         </div>

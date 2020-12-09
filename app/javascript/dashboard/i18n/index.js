@@ -11,6 +11,7 @@ import fi from './locale/fi';
 import fr from './locale/fr';
 import hi from './locale/hi';
 import hu from './locale/hu';
+import id from './locale/id';
 import it from './locale/it';
 import ja from './locale/ja';
 import ko from './locale/ko';
@@ -44,6 +45,7 @@ export default {
   fr,
   hi,
   hu,
+  id,
   it,
   ja,
   ko,

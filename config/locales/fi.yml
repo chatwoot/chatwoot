@@ -17,35 +17,42 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 fi:
-  hello: "Hello world"
+  hello: "Hei maailma"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Woot! Salasanan nollauspyyntö onnistui. Tarkista sähköpostisi saadaksesi ohjeita.
+    reset_password_failure: Hö! Emme löytäneet yhtään käyttäjää määritellyllä sähköpostilla.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Emme salli kertakäyttöisiä sähköposteja
+      invalid_email: Olet syöttänyt virheellisen sähköpostin
+      email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
+      failed: Rekisteröityminen epäonnistui
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
+        open: "%{user_name} uudelleenavasi keskustelun"
+        auto_resolved: "Keskustelu merkittiin ratkaistuksi automaattisesti, sillä on kulunut %{duration} päivää viimeisestä viestistä"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} ilmottautui keskusteluun"
+        assigned: "Delegoitu edustajalle %{assignee_name} edustajan %{user_name} toimesta"
+        removed: "%{user_name} poistui keskustelusta"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} lisäsi tunnisteet %{labels}"
+        removed: "%{user_name} poisti tunnisteet %{labels}"
+      muted: "%{user_name} mykisti keskustelun"
+      unmuted: "%{user_name} poisti keskustelun mykistyksen"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} vastaa tyypillisesti muutamassa tunnissa."
+      ways_to_reach_you_message_body: "Anna tiimillemme tapa tavoittaa sinut."
+      email_input_box_message_body: "Saa ilmoitus sähköpostitse"
     reply:
-      email_subject: "New messages on this conversation"
+      email_subject: "Uusia viestejä"
       transcript_subject: "Keskustelukopio"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack on chat-työkalu, joka tuo kaiken viestintäsi yhteen paikkaan. Integroimalla Slackin voit saada ilmoituksen kaikista uusista keskusteluista Slackin sisällä."
+    webhooks:
+      name: "Webhookit"
+      description: "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwoot-tililläsi tapahtuu. Voit käyttää webhookeja ja välittää tapahtumat suosikkiohjelmillesi, kuten Slackiin tai Githubiiin. Klikkaa \"Määrittele\" määrittääksesi webhookisi."

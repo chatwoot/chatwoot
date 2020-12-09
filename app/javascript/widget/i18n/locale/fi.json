@@ -13,13 +13,13 @@
     "OFFLINE": "Olemme offline-tilassa"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Tyypillisesti vastaa muutamassa minuutissa",
+    "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
     "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
-    "IN_A_DAY": "Tyypillisesti vastaa päivässä"
+    "IN_A_DAY": "Vastaa tyypillisesti päivässä"
   },
-  "START_CONVERSATION": "Aloita Keskustelu",
+  "START_CONVERSATION": "Aloita keskustelu",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "Katso uudet viestit",
+    "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
     "CLOSE_MESSAGES_BUTTON": "Sulje"
   },
   "BUBBLE": {

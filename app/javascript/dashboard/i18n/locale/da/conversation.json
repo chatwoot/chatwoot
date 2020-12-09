@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
     "CHANGE_STATUS": "Samtalestatus ændret",
-    "CHANGE_AGENT": "Samtaleansvarlig ændret"
+    "CHANGE_AGENT": "Samtaleansvarlig ændret",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Fjern",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send samtaleudskrift",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen",
     "FORM": {
       "SEND_TO_CONTACT": "Send udskrift til kunden",
-      "SEND_TO_AGENT": "Send udskrift af den tildelte agent",
+      "SEND_TO_AGENT": "Send udskrift til den tildelte agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send udskriften til en anden e-mailadresse",
       "EMAIL": {
         "PLACEHOLDER": "Indtast en e-mail adresse",
