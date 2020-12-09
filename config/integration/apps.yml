@@ -2,7 +2,7 @@ slack:
   id: slack
   logo: slack.png
   i18n_key: slack
-  action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history
+  action: https://slack.com/oauth/v2/authorize?scope=channels:history,channels:join,channels:manage,channels:read,chat:write,chat:write.customize,commands,groups:history,groups:write,groups:read,im:history,im:write,mpim:history,mpim:write,users:read,users:read.email
 webhooks:
   id: webhook
   logo: cable.svg
