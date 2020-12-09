@@ -87,22 +87,22 @@
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Digite o nome de usuário do Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Contato atualizado com sucesso",
+    "CONTACT_ALREADY_EXIST": "Esse endereço de e-mail já está sendo usado para outro contato.",
+    "ERROR_MESSAGE": "Ocorreu um erro ao atualizar o contato, por favor, tente novamente"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contato",
-    "SEARCH_BUTTON": "Search",
+    "SEARCH_BUTTON": "Pesquisar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar contatos",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Carregando contatos...",
+      "404": "Nenhum contato corresponde à sua pesquisa 🔍",
       "TABLE_HEADER": [
         "Nome",
         "Número de Telefone",
