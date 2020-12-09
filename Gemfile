@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -89,6 +89,12 @@ gem 'sidekiq'
 ##-- Push notification service --##
 gem 'fcm'
 gem 'webpush'
+
+##-- geocoding / parse location from ip --##
+# http://www.rubygeocoder.com/
+gem 'geocoder'
+# to parse maxmind db
+gem 'maxminddb'
 
 group :development do
   gem 'annotate'

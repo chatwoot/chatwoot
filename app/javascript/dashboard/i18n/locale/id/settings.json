@@ -1,0 +1,142 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Pengaturan Profil",
+    "TITLE": "Pengaturan Profil",
+    "BTN_TEXT": "Memperbaharui Profil",
+    "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
+    "FORM": {
+      "AVATAR": "Foto Profil",
+      "ERROR": "Harap perbaiki kesalahan formulir",
+      "REMOVE_IMAGE": "Hapus",
+      "UPLOAD_IMAGE": "Unggah Gambar",
+      "UPDATE_IMAGE": "Perbarui Gambar",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Alamat email Anda adalah identitas Anda dan digunakan untuk masuk."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Kata Sandi",
+        "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Access Token",
+        "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifikasi Email",
+        "NOTE": "Perbarui preferensi pemberitahuan email Anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan email saat percakapan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Kirim pemberitahuan email ketika percakapan baru dibuat",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Preferensi pemberitahuan Anda berhasil diperbarui",
+        "UPDATE_ERROR": "Terjadi kesalahan saat memperbarui preferensi, silahkan coba lagi"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Perbarui preferensi push notification Anda di sini",
+        "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan push ketika percakapan ditugaskan kepada saya",
+        "CONVERSATION_CREATION": "Kirim push notification ketika percakapan baru dibuat",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim push notification ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
+        "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push notification untuk browser ini.",
+        "REQUEST_PUSH": "Aktifkan push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Foto Profil"
+      },
+      "NAME": {
+        "LABEL": "Nama lengkap Anda",
+        "ERROR": "Harap masukkan nama lengkap yang valid",
+        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Nama tampilan",
+        "ERROR": "Harap masukkan nama tampilan yang valid",
+        "PLACEHOLDER": "Harap masukkan nama tampilan, ini akan ditampilkan dalam percakapan"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Ketersediaan",
+        "STATUSES_LIST": [
+          "Online",
+          "Sibuk",
+          "Offline"
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Alamat email Anda",
+        "ERROR": "Harap masukkan alamat email yang valid",
+        "PLACEHOLDER": "Silakan masukkan alamat email Anda, ini akan ditampilkan dalam percakapan"
+      },
+      "PASSWORD": {
+        "LABEL": "Kata Sandi",
+        "ERROR": "Silakan masukkan sandi dengan panjang 6 karakter atau lebih",
+        "PLACEHOLDER": "Silakan masukkan kata sandi baru"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Konfirmasi kata sandi baru",
+        "ERROR": "Konfirmasi kata sandi harus sama dengan kata sandi",
+        "PLACEHOLDER": "Harap masukkan kembali kata sandi anda"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Ubah",
+    "CHANGE_ACCOUNTS": "Ganti Akun",
+    "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
+    "PROFILE_SETTINGS": "Pengaturan Profil",
+    "LOGOUT": "Keluar"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "hari percobaan tersisa.",
+    "TRAIL_BUTTON": "Beli Sekarang"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Salin",
+      "COPY_SUCCESSFUL": "Kode berhasil disalin ke clipboard"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Unduh",
+      "UPLOADING": "Mengunggah..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Kirim"
+    }
+  },
+  "CONFIRM_EMAIL": "Memverifikasi...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Tambah Kotak Masuk"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Percakapan",
+    "REPORTS": "Laporan",
+    "CONTACTS": "Kontak (Beta)",
+    "SETTINGS": "Pengaturan",
+    "HOME": "Home",
+    "AGENTS": "Agen",
+    "INBOXES": "Kotak masuk",
+    "CANNED_RESPONSES": "Canned Responses",
+    "INTEGRATIONS": "Integrasi",
+    "ACCOUNT_SETTINGS": "Pengaturan Akun",
+    "LABELS": "Label"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "Akun Baru",
+    "SELECTOR_SUBTITLE": "Buat sebuah akun baru",
+    "API": {
+      "SUCCESS_MESSAGE": "Akun berhasil dibuat",
+      "EXIST_MESSAGE": "Akun sudah ada",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nama Akun",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "Kirim"
+    }
+  }
+}

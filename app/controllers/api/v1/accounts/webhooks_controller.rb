@@ -29,8 +29,4 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   def fetch_webhook
     @webhook = Current.account.webhooks.find(params[:id])
   end
-
-  def check_authorization
-    authorize(Webhook)
-  end
 end

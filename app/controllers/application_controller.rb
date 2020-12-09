@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include Pundit
+  include SwitchLocale
 
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
+  around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized
@@ -57,22 +59,6 @@ class ApplicationController < ActionController::Base
 
   def render_error_response(exception)
     render json: exception.to_hash, status: exception.http_status
-  end
-
-  def locale_from_params
-    I18n.available_locales.map(&:to_s).include?(params[:locale]) ? params[:locale] : nil
-  end
-
-  def locale_from_account(account)
-    I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil
-  end
-
-  def switch_locale(account)
-    # priority is for locale set in query string (mostly for widget/from js sdk)
-    locale ||= locale_from_params
-    # if local is not set in param, lets try account
-    locale ||= locale_from_account(account)
-    I18n.locale = locale || I18n.default_locale
   end
 
   def pundit_user

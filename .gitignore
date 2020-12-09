@@ -16,6 +16,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+*.mmdb
 
 # Ignore Byebug command history file.
 .byebug_history
@@ -23,7 +24,7 @@
 *.log
 # Ignore application configuration
 node_modules
-
+master.key
 *.rdb
 
 # Ignore env files

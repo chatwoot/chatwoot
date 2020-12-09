@@ -25,18 +25,30 @@
       },
       "DOMAIN": {
         "LABEL": "Dominio de email entrante",
-        "PLACEHOLDER": "El dominio donde recibirás los emails",
+        "PLACEHOLDER": "El dominio donde recibirá los emails",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
         "LABEL": "Email de soporte",
-        "PLACEHOLDER": "Email de soporte de tu empresa",
+        "PLACEHOLDER": "Email de soporte de su empresa",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Número de días después de que un ticket se resuelva automáticamente si no hay actividad",
+        "PLACEHOLDER": "30",
+        "ERROR": "Por favor, introduzca una duración válida de resolución automática (mínimo 1 día)"
+      },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para tu cuenta.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puedes recibir emails en tu dominio personalizado."
+        "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
       }
+    }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Press enter to select",
+      "ENTER_TO_REMOVE": "Press enter to remove",
+      "SELECT_ONE": "Select one"
     }
   }
 }

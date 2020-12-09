@@ -35,4 +35,8 @@ class LocalResource
   def tmp_folder
     Rails.root.join('tmp')
   end
+
+  def filename
+    File.basename(uri.path)
+  end
 end

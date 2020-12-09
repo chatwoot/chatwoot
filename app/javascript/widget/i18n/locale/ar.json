@@ -8,12 +8,16 @@
       "SUBMIT": "إرسال"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "متاح",
-    "ARE_AVAILABLE": "متاح",
-    "OTHERS_ARE_AVAILABLE": "وآخرون متاحون",
-    "AND": "و"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We are online",
+    "OFFLINE": "We are offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "Start Conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق"

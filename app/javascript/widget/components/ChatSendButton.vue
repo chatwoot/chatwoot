@@ -2,7 +2,7 @@
   <button
     type="submit"
     :disabled="disabled"
-    class="send-button"
+    class="send-button ml-1"
     @click="onClick"
   >
     <i

@@ -2,7 +2,11 @@
   <div
     id="app"
     class="woot-widget-wrap"
-    :class="{ 'is-mobile': isMobile, 'is-widget-right': !isLeftAligned }"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': !isLeftAligned,
+      'is-bubble-hidden': hideMessageBubble,
+    }"
   >
     <home
       v-if="!showUnreadView"

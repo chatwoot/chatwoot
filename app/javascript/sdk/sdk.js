@@ -30,6 +30,7 @@ export const SDK_CSS = `.woot-widget-holder {
   position: fixed;
   width: 64px !important;
   z-index: 2147483000 !important;
+  user-select: none;
 }
 
 .woot-widget-bubble.woot-widget--expanded {
@@ -112,6 +113,10 @@ export const SDK_CSS = `.woot-widget-holder {
   opacity: 0;
   visibility: hidden !important;
   z-index: -1 !important;
+}
+
+.woot-widget--without-bubble {
+  bottom: 20px !important;
 }
 
 @media only screen and (max-width: 667px) {

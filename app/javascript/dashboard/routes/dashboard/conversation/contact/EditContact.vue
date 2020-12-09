@@ -82,7 +82,10 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button :button-text="$t('EDIT_CONTACT.FORM.SUBMIT')" />
+            <woot-submit-button
+              :loading="uiFlags.isUpdating"
+              :button-text="$t('EDIT_CONTACT.FORM.SUBMIT')"
+            />
             <button class="button clear" @click.prevent="onCancel">
               {{ $t('EDIT_CONTACT.FORM.CANCEL') }}
             </button>
@@ -97,6 +100,7 @@
 import alertMixin from 'shared/mixins/alertMixin';
 import { DuplicateContactException } from 'shared/helpers/CustomErrors';
 import { required } from 'vuelidate/lib/validators';
+import { mapGetters } from 'vuex';
 
 export default {
   mixins: [alertMixin],
@@ -143,10 +147,18 @@ export default {
     location: {},
     bio: {},
   },
+  computed: {
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+    }),
+  },
   watch: {
     contact() {
       this.setContactObject();
     },
+  },
+  mounted() {
+    this.setContactObject();
   },
   methods: {
     onCancel() {

@@ -9,7 +9,7 @@ import {
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import DateHelper from 'shared/helpers/DateHelper';
+import { formatUnixDate } from 'shared/helpers/DateHelper';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 
 import getUuid from '../../helpers/uuid';
@@ -98,7 +98,7 @@ export const getters = {
   getGroupedConversation: _state => {
     const conversationGroupedByDate = groupBy(
       Object.values(_state.conversations),
-      message => new DateHelper(message.created_at).format()
+      message => formatUnixDate(message.created_at)
     );
     return Object.keys(conversationGroupedByDate).map(date => ({
       date,

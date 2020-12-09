@@ -1,13 +1,7 @@
-import moment from 'moment';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
 
-class DateHelper {
-  constructor(date) {
-    this.date = moment(date * 1000);
-  }
-
-  format(dateFormat = 'MMM DD, YYYY') {
-    return this.date.format(dateFormat);
-  }
-}
-
-export default DateHelper;
+export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy') => {
+  const unixDate = fromUnixTime(date);
+  return format(unixDate, dateFormat);
+};

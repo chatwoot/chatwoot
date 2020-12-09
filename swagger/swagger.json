@@ -283,10 +283,15 @@
         "tags": [
           "Conversation"
         ],
-        "operationId": "conversationList",
-        "description": "List all the conversations with pagination",
-        "summary": "Conversations List",
+        "operationId": "conversationSearch",
+        "description": "Search for conversations containing a messages with the query string",
+        "summary": "Conversations Search",
         "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string"
+          },
           {
             "name": "assignee_type",
             "in": "query",
@@ -295,8 +300,7 @@
               "me",
               "unassigned",
               "all"
-            ],
-            "required": true
+            ]
           },
           {
             "name": "status",
@@ -306,14 +310,12 @@
               "open",
               "resolved",
               "bot"
-            ],
-            "required": true
+            ]
           },
           {
             "name": "page",
             "in": "query",
-            "type": "integer",
-            "required": true
+            "type": "integer"
           },
           {
             "name": "inbox_id",

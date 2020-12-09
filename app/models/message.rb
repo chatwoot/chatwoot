@@ -36,6 +36,9 @@ class Message < ApplicationRecord
   validates :conversation_id, presence: true
   validates_with ContentAttributeValidator
 
+  # when you have a temperory id in your frontend and want it echoed back via action cable
+  attr_accessor :echo_id
+
   enum message_type: { incoming: 0, outgoing: 1, activity: 2, template: 3 }
   enum content_type: {
     text: 0,
@@ -59,6 +62,7 @@ class Message < ApplicationRecord
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   default_scope { order(created_at: :asc) }
 
   belongs_to :account
@@ -89,7 +93,12 @@ class Message < ApplicationRecord
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id
     )
+    data.merge!(echo_id: echo_id) if echo_id.present?
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    merge_sender_attributes(data)
+  end
+
+  def merge_sender_attributes(data)
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
     data.merge!(sender: sender.push_event_data(inbox)) if sender&.is_a?(AgentBot)
     data
@@ -121,6 +130,7 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed
     # https://github.com/rails/rails/issues/20911
+    set_conversation_activity
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -182,5 +192,11 @@ class Message < ApplicationRecord
 
   def validate_attachments_limit(_attachment)
     errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+  end
+
+  def set_conversation_activity
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(last_activity_at: created_at)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

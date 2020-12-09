@@ -1,8 +1,10 @@
 import axios from 'axios';
-import { actions } from '../../contacts';
-import * as types from '../../../mutation-types';
+import Contacts from '../../contacts';
+import types from '../../../mutation-types';
 import contactList from './fixtures';
 import { DuplicateContactException } from '../../../../../shared/helpers/CustomErrors';
+
+const { actions } = Contacts;
 
 const commit = jest.fn();
 global.axios = axios;
@@ -11,20 +13,24 @@ jest.mock('axios');
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct mutations if API is success', async () => {
-      axios.get.mockResolvedValue({ data: { payload: contactList } });
+      axios.get.mockResolvedValue({
+        data: { payload: contactList, meta: { count: 100, current_page: 1 } },
+      });
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isFetching: true }],
-        [types.default.SET_CONTACTS, contactList],
-        [types.default.SET_CONTACT_UI_FLAG, { isFetching: false }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: true }],
+        [types.CLEAR_CONTACTS],
+        [types.SET_CONTACTS, contactList],
+        [types.SET_CONTACT_META, { count: 100, current_page: 1 }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct mutations if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.get({ commit });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isFetching: true }],
-        [types.default.SET_CONTACT_UI_FLAG, { isFetching: false }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: true }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: false }],
       ]);
     });
   });
@@ -34,17 +40,17 @@ describe('#actions', () => {
       axios.get.mockResolvedValue({ data: { payload: contactList[0] } });
       await actions.show({ commit }, { id: contactList[0].id });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: true }],
-        [types.default.SET_CONTACT_ITEM, contactList[0]],
-        [types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingItem: true }],
+        [types.SET_CONTACT_ITEM, contactList[0]],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingItem: false }],
       ]);
     });
     it('sends correct mutations if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
       await actions.show({ commit }, { id: contactList[0].id });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: true }],
-        [types.default.SET_CONTACT_UI_FLAG, { isFetchingItem: false }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingItem: true }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingItem: false }],
       ]);
     });
   });
@@ -54,9 +60,9 @@ describe('#actions', () => {
       axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
       await actions.update({ commit }, contactList[0]);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: true }],
-        [types.default.EDIT_CONTACT, contactList[0]],
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.EDIT_CONTACT, contactList[0]],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -65,8 +71,8 @@ describe('#actions', () => {
         Error
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: true }],
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
 
@@ -83,8 +89,8 @@ describe('#actions', () => {
         DuplicateContactException
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: true }],
-        [types.default.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
   });
@@ -93,9 +99,7 @@ describe('#actions', () => {
     it('returns correct mutations', () => {
       const data = { id: 1, name: 'john doe', availability_status: 'online' };
       actions.setContact({ commit }, data);
-      expect(commit.mock.calls).toEqual([
-        [types.default.SET_CONTACT_ITEM, data],
-      ]);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTACT_ITEM, data]]);
     });
   });
 });

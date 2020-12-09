@@ -9,14 +9,11 @@ rm -rf /app/tmp/cache/*
 echo "Waiting for postgres to become ready...."
 
 # Let DATABASE_URL env take presedence over individual connection params.
-if [ -z "$DATABASE_URL" ]; then
-  PGPASSWORD=$POSTGRES_PASSWORD
-  PSQL="pg_isready -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USERNAME"
-else
-  PSQL="pg_isready -d $DATABASE_URL"
-fi
+# This is done to avoid printing the DATABASE_URL in the logs
+$(docker/entrypoints/helpers/pg_database_url.sh)
+PG_READY="pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USERNAME"
 
-until $PSQL
+until $PG_READY
 do
   sleep 2;
 done

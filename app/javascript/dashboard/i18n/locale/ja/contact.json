@@ -1,96 +1,114 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "NOT_AVAILABLE": "利用不可",
+    "EMAIL_ADDRESS": "Eメールアドレス",
+    "PHONE_NUMBER": "電話番号",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+    "COMPANY": "企業",
+    "LOCATION": "場所",
+    "CONVERSATION_TITLE": "会話の詳細",
+    "BROWSER": "ブラウザ",
+    "OS": "OS",
+    "INITIATED_FROM": "開始元",
+    "INITIATED_AT": "開始場所",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
+      "TITLE": "前の会話"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "カスタム属性"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "会話のラベル",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "ラベル：",
+        "ACTIVE_LABELS": "会話にラベルを追加",
+        "INACTIVE_LABELS": "アカウントで利用可能なラベル名",
+        "REMOVE": "ラベルを削除するには×アイコンをクリックします",
+        "ADD": "+アイコンをクリックしてラベルを追加",
+        "UPDATE_BUTTON": "ラベルの更新",
+        "UPDATE_ERROR": "ラベルを更新できませんでした。再度お試し下さい。"
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "アカウントに定義されているラベルがありません。",
+      "NO_AVAILABLE_LABELS": "この会話に追加されたラベルはありません。"
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "会話をミュート",
+    "UNMUTE_CONTACT": "Unmute Conversation",
+    "MUTED_SUCCESS": "この会話は6時間ミュートされています。",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "SEND_TRANSCRIPT": "会話のログを送信",
+    "EDIT_LABEL": "編集"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "連絡先を編集",
+    "TITLE": "連絡先を編集",
+    "DESC": "連絡先の詳細を編集",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "送信",
+      "CANCEL": "キャンセル",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "連絡先のアバター"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "連絡先のフルネームを入力してください",
+        "LABEL": "フルネーム"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "連絡先のプロフィールを入力してください",
+        "LABEL": "プロフィール"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "連絡先のEメールアドレスを入力してください",
+        "LABEL": "Eメールアドレス"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "連絡先の電話番号を入力してください",
+        "LABEL": "電話番号"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "連絡先の所在地を入力してください",
+        "LABEL": "場所"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "企業名を入力",
+        "LABEL": "企業名"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Facebookのユーザー名を入力してください",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitterのユーザー名を入力してください",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "LinkedIn のユーザー名を入力してください",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "GitHubのユーザー名を入力してください",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "連絡先を正常に更新しました",
+    "CONTACT_ALREADY_EXIST": "このメールアドレスは別の連絡先に使用されています。",
+    "ERROR_MESSAGE": "連絡先の更新中にエラーが発生しました。もう一度やり直してください。"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "名前",
+        "電話番号",
+        "会話データ",
+        "Last Contacted"
+      ]
+    }
   }
 }

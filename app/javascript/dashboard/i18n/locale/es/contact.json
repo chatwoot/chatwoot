@@ -1,9 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "No Disponible",
     "EMAIL_ADDRESS": "Dirección de correo",
     "PHONE_NUMBER": "Número de teléfono",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
+    "COMPANY": "Empresa",
     "LOCATION": "Ubicación",
     "CONVERSATION_TITLE": "Detalles de la conversación",
     "BROWSER": "Navegador",
@@ -15,7 +16,7 @@
       "TITLE": "Conversaciones anteriores"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Atributos personalizados"
     },
     "LABELS": {
       "TITLE": "Etiquetas de conversación",
@@ -31,66 +32,83 @@
       "NO_LABELS_TO_ADD": "No hay más etiquetas definidas en la cuenta.",
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "Silenciar Conversación",
+    "UNMUTE_CONTACT": "Dessilenciar conversación",
+    "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
+    "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
+    "SEND_TRANSCRIPT": "Enviar Transcripción",
     "EDIT_LABEL": "Editar"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Editar Contacto",
+    "TITLE": "Editar Contacto",
+    "DESC": "Editar detalles del contacto",
     "FORM": {
       "SUBMIT": "Enviar",
       "CANCEL": "Cancelar",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Escriba el nombre completo del contacto",
+        "LABEL": "Nombre completo"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Escriba la bio del contacto",
+        "LABEL": "Biografía"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Escriba la dirección email del contacto",
         "LABEL": "Dirección de correo"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Escriba el número de teléfono del contacto",
+        "LABEL": "Número telefónico"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Escriba la ubicación del contacto",
         "LABEL": "Ubicación"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Escriba el nombre de la empresa",
+        "LABEL": "Empresa"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Escriba el usuario de Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Escriba el usuario de Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Escriba el usuario de LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Escriba el usuario de Github",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "El contacto se actualizó",
+    "CONTACT_ALREADY_EXIST": "Ésta dirección de correo está siendo utilizada por otro contacto.",
+    "ERROR_MESSAGE": "Se presento un error actualizando el contacto. Por favor inténtelo nuevamente"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Nombre",
+        "Número telefónico",
+        "Conversaciones",
+        "Last Contacted"
+      ]
+    }
   }
 }

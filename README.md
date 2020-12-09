@@ -32,7 +32,7 @@ Now, a failed project is back on track and the prospects are looking great. The 
 
 ### Features
 
-Chatwoot gives an integrated view of conversations happening in different communication channels. 
+Chatwoot gives an integrated view of conversations happening in different communication channels.
 
 It supports the following conversation channels:
 
@@ -44,7 +44,7 @@ It supports the following conversation channels:
  - **API Channel**: Build custom communication channels using our API channel.
  - **Email (beta)**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
 
-Other features include: 
+Other features include:
 
 - **Multi-brand inboxes**: Manage multiple brands or pages using a single dashboard.
 - **Private notes**: Inter team communication is possible using private notes in a conversation.
@@ -62,12 +62,16 @@ Other features include:
 
 Detailed documentation is available at [www.chatwoot.com/help-center](https://www.chatwoot.com/help-center).
 
+### Translation process
+
+The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
+
 ---
 
 ### Branching model
 
 We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
-If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`. 
+If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`.
 
 ---
 

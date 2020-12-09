@@ -8,18 +8,22 @@
       "SUBMIT": "Enviar"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "está disponible",
-    "ARE_AVAILABLE": "están disponibles",
-    "OTHERS_ARE_AVAILABLE": "otros están disponibles",
-    "AND": "y"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Estamos en línea",
+    "OFFLINE": "Estamos fuera de línea"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Normalmente responde en unos minutos",
+    "IN_A_FEW_HOURS": "Normalmente responde en unas pocas horas",
+    "IN_A_DAY": "Normalmente responde en un día"
+  },
+  "START_CONVERSATION": "Iniciar conversación",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
     "CLOSE_MESSAGES_BUTTON": "Cerrar"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Chatea con nosotros"
   },
   "POWERED_BY": "Desarrollado por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor ingrese su email",
