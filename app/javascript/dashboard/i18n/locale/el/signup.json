@@ -29,11 +29,11 @@
     },
     "SUBMIT": "Καταχώρηση",
     "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
+      "UNLIMITED_INBOXES": "Απεριόριστα κιβώτια",
+      "ROBUST_REPORTING": "Ισχυρές Αναφορές",
       "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
+      "AUTO_ASSIGNMENT": "Αυτόματη Αντιστοίχιση",
+      "SECURITY": "Ασφάλεια επιπέδου Enterprise"
     }
   }
 }
