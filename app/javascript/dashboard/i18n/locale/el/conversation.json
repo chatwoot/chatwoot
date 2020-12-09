@@ -43,11 +43,11 @@
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Αποστολή από:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Επιλογή πράκτορα",
       "REMOVE": "Διαγραφή",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Αντιστοίχιση"
     }
   },
   "EMAIL_TRANSCRIPT": {
