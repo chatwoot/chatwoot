@@ -46,9 +46,9 @@
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
+      "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
+      "SELECT_ONE": "Επιλέξτε ένα"
     }
   }
 }
