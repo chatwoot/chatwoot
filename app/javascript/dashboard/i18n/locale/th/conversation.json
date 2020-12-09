@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
     "CHANGE_STATUS": "สถานะการสนทนามีการเปลี่ยนเเปลง",
-    "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง"
+    "CHANGE_AGENT": "ผู้ได้รับมอบหมายการสนทนานี้มีการเปลี่ยนแปลง",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Remove",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "ส่งบันทึกการสนทนา",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง",
     "FORM": {
       "SEND_TO_CONTACT": "ส่งบันทึกการสนทนาให้ลูกค้า",
-      "SEND_TO_AGENT": "ส่งบันทึกการสนทนาให้พนักงานที่ได้รับมอบหมาย",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "ส่งบันทึกการสนทนาให้ที่อยู่อีเมล์อื่น",
       "EMAIL": {
         "PLACEHOLDER": "กรอกที่อยู่อีเมล์",

@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agentes",
-        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees."
+        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Detalles de la bandeja de entrada",

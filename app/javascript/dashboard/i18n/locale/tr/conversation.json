@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
-    "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi"
+    "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Kaldır",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Konuşma metni gönder",

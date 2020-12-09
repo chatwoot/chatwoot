@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenti",
-        "DESC": "Zde můžete přidat agenty ke správě nově vytvořené schránky. Pouze tito vybraní agenti budou mít přístup do vaší schránky. Agenty, které nejsou součástí této schránky, nebudou moci při přihlášení vidět zprávy v této schránce ani na ně reagovat. <br> <b>PS:</b> Jako správce, pokud potřebujete přístup ke všem schránkám, byste se měli přidat jako agent do všech schránek, které vytváříte."
+        "DESC": "Zde můžete přidat agenty ke správě nově vytvořené schránky. Pouze tito vybraní agenti budou mít přístup do vaší schránky. Agenty, které nejsou součástí této schránky, nebudou moci při přihlášení vidět zprávy v této schránce ani na ně reagovat. <br> <b>PS:</b> Jako správce, pokud potřebujete přístup ke všem schránkám, byste se měli přidat jako agent do všech schránek, které vytváříte.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Doručená pošta detaily",

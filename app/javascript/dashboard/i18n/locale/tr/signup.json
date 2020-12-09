@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Kayıt başarılı",
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
-    "SUBMIT": "Yolla"
+    "SUBMIT": "Yolla",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Hazır Yanıtlar",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

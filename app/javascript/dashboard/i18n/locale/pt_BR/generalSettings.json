@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Você pode receber e-mails em seu domínio personalizado agora."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Digite enter para selecionar",
+      "ENTER_TO_REMOVE": "Digite enter para remover",
+      "SELECT_ONE": "Selecione um"
+    }
   }
 }

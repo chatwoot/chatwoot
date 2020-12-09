@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "രജിസ്ട്രേഷൻ വിജയകരമാണ്",
       "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
     },
-    "SUBMIT": "സമർപ്പിക്കുക"
+    "SUBMIT": "സമർപ്പിക്കുക",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

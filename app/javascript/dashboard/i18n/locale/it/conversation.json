@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
     "CHANGE_STATUS": "Stato conversazione cambiato",
-    "CHANGE_AGENT": "Modifica conversazione assegnatario"
+    "CHANGE_AGENT": "Modifica conversazione assegnatario",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Rimuovi",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",

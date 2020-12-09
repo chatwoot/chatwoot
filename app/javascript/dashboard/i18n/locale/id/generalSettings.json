@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Anda dapat menerima email di domain kustom Anda sekarang."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Tekan enter untuk memilih",
+      "ENTER_TO_REMOVE": "Tekan enter untuk menghapus",
+      "SELECT_ONE": "Pilih satu"
+    }
   }
 }

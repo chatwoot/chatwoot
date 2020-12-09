@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "注册成功",
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
     },
-    "SUBMIT": "提交"
+    "SUBMIT": "提交",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "预设回复",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

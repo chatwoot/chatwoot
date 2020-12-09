@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "സ്വകാര്യ കുറിപ്പ്: നിങ്ങൾക്കും നിങ്ങളുടെ ടീമിനും മാത്രം ദൃശ്യമാണ്",
     "CHANGE_STATUS": "സംഭാഷണ നില മാറ്റി",
-    "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി"
+    "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "നീക്കം ചെയ്യുക",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
