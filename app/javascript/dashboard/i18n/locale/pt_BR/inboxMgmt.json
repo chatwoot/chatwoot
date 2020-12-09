@@ -74,11 +74,11 @@
           "DISABLED": "Desativado"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Definir o Tempo de Resposta",
+          "IN_A_FEW_MINUTES": "Em alguns minutos",
+          "IN_A_FEW_HOURS": "Em algumas horas",
+          "IN_A_DAY": "Em um dia",
+          "HELP_TEXT": "Este tempo de resposta será exibido no widget do chat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Cor do Widget",
@@ -245,8 +245,8 @@
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "Sua conexão com o Facebook expirou, reconecte sua página do Facebook para continuar",
+      "MESSAGE_SUCCESS": "Reconexão bem sucedida",
       "MESSAGE_ERROR": "Ocorreu um erro, por favor tente novamente"
     }
   }
