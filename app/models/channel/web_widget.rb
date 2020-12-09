@@ -4,6 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  feature_flags   :integer          default(3), not null
+#  reply_time      :integer          default("in_a_few_minutes")
 #  website_token   :string
 #  website_url     :string
 #  welcome_tagline :string
@@ -32,6 +33,7 @@ class Channel::WebWidget < ApplicationRecord
   has_flags 1 => :attachments,
             2 => :emoji_picker,
             :column => 'feature_flags'
+  enum reply_time: { in_a_few_minutes: 0, in_a_few_hours: 1, in_a_day: 2 }
 
   def name
     'Website'
@@ -42,11 +44,12 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def web_widget_script
-    "<script>
+    "
+    <script>
       (function(d,t) {
-        var BASE_URL = \"#{ENV.fetch('FRONTEND_URL', '')}\";
+        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src= BASE_URL + \"/packs/js/sdk.js\";
+        g.src=BASE_URL+\"/packs/js/sdk.js\";
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({
@@ -55,7 +58,8 @@ class Channel::WebWidget < ApplicationRecord
           })
         }
       })(document,\"script\");
-    </script>"
+    </script>
+    "
   end
 
   def create_contact_inbox

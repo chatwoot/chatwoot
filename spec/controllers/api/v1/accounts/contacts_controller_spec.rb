@@ -23,9 +23,57 @@ RSpec.describe 'Contacts API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['email']).to eq(contact.email)
+        expect(response_body['payload'].first['contact_inboxes'].first['source_id']).to eq(contact_inbox.source_id)
+        expect(response_body['payload'].first['contact_inboxes'].first['inbox']['name']).to eq(contact_inbox.inbox.name)
+      end
+
+      it 'returns includes conversations count and last seen at' do
+        create(:conversation, contact: contact, account: account, inbox: contact_inbox.inbox, contact_last_seen_at: Time.now.utc)
+        get "/api/v1/accounts/#{account.id}/contacts",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
+        expect(response_body['payload'].first['last_seen_at']).present?
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/active"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let!(:contact) { create(:contact, account: account) }
+
+      it 'returns no contacts if no are online' do
+        get "/api/v1/accounts/#{account.id}/contacts/active",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).not_to include(contact.email)
+      end
+
+      it 'returns all contacts who are online' do
+        allow(::OnlineStatusTracker).to receive(:get_available_contact_ids).and_return([contact.id])
+
+        get "/api/v1/accounts/#{account.id}/contacts/active",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
         expect(response.body).to include(contact.email)
-        expect(response.body).to include(contact_inbox.source_id)
-        expect(response.body).to include(contact_inbox.inbox.name)
       end
     end
   end

@@ -73,6 +73,13 @@
           "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
           "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "വിജറ്റ് നിറം",
           "PLACEHOLDER": "വിജറ്റിൽ ഉപയോഗിച്ച വിജറ്റ് നിറം അപ്‌ഡേറ്റ് ചെയ്യുക"
@@ -233,6 +240,12 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "പുതിയ സംഭാഷണങ്ങളിൽ ലഭ്യമായ ഏജന്റുമാരുടെ ഓട്ടോമാറ്റിക് അസൈൻമെന്റ് പ്രാപ്തമാക്കുകയോ അപ്രാപ്തമാക്കുകയോ ചെയ്യുക"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "വീണ്ടും അംഗീകാരം നൽകുക",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
     }
   }
 }

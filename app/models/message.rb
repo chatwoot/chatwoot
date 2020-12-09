@@ -62,6 +62,7 @@ class Message < ApplicationRecord
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
   scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
+  scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   default_scope { order(created_at: :asc) }
 
   belongs_to :account
@@ -129,6 +130,7 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed
     # https://github.com/rails/rails/issues/20911
+    set_conversation_activity
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -190,5 +192,11 @@ class Message < ApplicationRecord
 
   def validate_attachments_limit(_attachment)
     errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+  end
+
+  def set_conversation_activity
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(last_activity_at: created_at)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end

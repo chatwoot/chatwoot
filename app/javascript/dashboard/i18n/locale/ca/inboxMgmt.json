@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Safates d'entrada",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Safata d’entrada</b></p> <p> Quan connecteu un lloc web o una pàgina de Facebook a Chatwoot, s’anomena<b>Safata d’entrada</b>. Podeu tenir bústies d’entrada il·limitades al vostre compte de Chatwoot. </p><p> Fer clic a <b>Add Safata d’entrada</b> per connectar un lloc web o una pàgina de Facebook.</p><p> Al tauler, pots veure totes les converses de totes les teves safates d'entrada en un sol lloc i respondre-hi a la pestanya `Converses`.</p><p> També pots veure converses específiques d’una safata d’entrada fent clic al nom de la safata d’entrada a l'esquerre del tauler. </p>",
     "LIST": {
       "404": "No hi ha cap safata d'entrada connectat a aquest compte."
     },
@@ -30,12 +30,12 @@
     "ADD": {
       "FB": {
         "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "Trieu la pàgina",
+        "CHOOSE_PLACEHOLDER": "Selecciona una pàgina de la llista",
+        "INBOX_NAME": "Nom de la safata d'entrada",
+        "ADD_NAME": "Afegeix un nom per a la safata d'entrada",
+        "PICK_NAME": "Tria un nom a la safata d'entrada",
+        "PICK_A_VALUE": "Tria un valor"
       },
       "TWITTER": {
         "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' "
@@ -45,7 +45,7 @@
         "DESC": "Crea un canal per al vostre lloc web i comença a donar suport als vostres clients mitjançant el teu widget del lloc web.",
         "LOADING_MESSAGE": "S'està creant el canal de suport web",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Avatar del canal"
         },
         "CHANNEL_NAME": {
           "LABEL": "Nom del lloc web",
@@ -56,22 +56,29 @@
           "PLACEHOLDER": "Introduïu el vostre domini de lloc web (pe: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "Encapçalament de benvinguda",
+          "PLACEHOLDER": "Hola!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "Lema de benvinguda",
+          "PLACEHOLDER": "Facilitem la connexió amb nosaltres. Pregunteu-nos qualsevol cosa o compartiu els vostres comentaris."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Missatge de felicitació del canal",
+          "PLACEHOLDER": "Acme Inc sol respondre en poques hores."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Activa la salutació del canal",
+          "HELP_TEXT": "Envia un missatge de felicitació a l'usuari quan comenci la conversa.",
           "ENABLED": "Habilita",
           "DISABLED": "Inhabilita"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Estableix el temps de resposta",
+          "IN_A_FEW_MINUTES": "En pocs minuts",
+          "IN_A_FEW_HOURS": "En poques hores",
+          "IN_A_DAY": "En un dia",
+          "HELP_TEXT": "Aquest temps de resposta es mostrarà al widget de xat en directe"
         },
         "WIDGET_COLOR": {
           "LABEL": "Color del Widget",
@@ -88,8 +95,8 @@
           "ERROR": "Aquest camp és obligatori"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Tipus de canal",
+          "ERROR": "Seleccioneu el teu tipus de canal"
         },
         "AUTH_TOKEN": {
           "LABEL": "Token d'autenticació",
@@ -108,7 +115,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "SUBTITLE": "Has de configurar l'URL de callback a Twilio amb l'URL que s'esmenta aquí."
         },
         "SUBMIT_BUTTON": "Crear un canal Twilio",
         "API": {
@@ -116,8 +123,8 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "Canal de l'API",
+        "DESC": "Integra’t amb el canal API i comença a donar suport als teus clients.",
         "CHANNEL_NAME": {
           "LABEL": "Nom del canal",
           "PLACEHOLDER": "Introduïu el nom del canal",
@@ -125,17 +132,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "URL del webhook",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Configura l'URL on vulguis rebre callbacks en esdeveniments.",
           "PLACEHOLDER": "URL del webhook"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Crea un canal API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal API"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "Correu electrònic del Canal",
+        "DESC": "Integra la teva safata d’entrada de correu electrònic.",
         "CHANNEL_NAME": {
           "LABEL": "Nom del canal",
           "PLACEHOLDER": "Introduïu el nom del canal",
@@ -143,14 +150,14 @@
         },
         "EMAIL": {
           "LABEL": "Correu electrònic",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Correu electrònic on els vostres clients us envien tickets de support",
           "PLACEHOLDER": "Correu electrònic"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Crea un correu electrònic del Canal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "No hem pogut desar el canal de correu electrònic"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Comença a reenviar els teus correus electrònics a la següent adreça electrònica."
       },
       "AUTH": {
         "TITLE": "Canals",
@@ -205,7 +212,7 @@
         "TITLE": "Confirma esborrat",
         "MESSAGE": "N'estas segur? ",
         "YES": "Si, esborra ",
-        "NO": "No, Keep "
+        "NO": "No, segueix "
       },
       "API": {
         "SUCCESS_MESSAGE": "S'ha suprimit la safata d'entrada correctament",
@@ -214,14 +221,14 @@
     },
     "TABS": {
       "SETTINGS": "Configuracions",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "COLLABORATORS": "Col·laboradors",
+      "CONFIGURATION": "Configuració"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Característiques",
+      "DISPLAY_FILE_PICKER": "Mostra el selector de fitxers al widget",
+      "DISPLAY_EMOJI_PICKER": "Mostra el selector d'emoji al widget"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script del missatger",
@@ -230,9 +237,15 @@
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
       "UPDATE": "Actualitza",
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
+      "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses"
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reautoritza",
+      "SUBTITLE": "La teva connexió a Facebook ha caducat, torna a connectar la vostra pàgina de Facebook per continuar els serveis",
+      "MESSAGE_SUCCESS": "La reconnexió s'ha realitzat correctament",
+      "MESSAGE_ERROR": "S'ha produït un error; tornau-ho a provar"
     }
   }
 }

@@ -56,7 +56,7 @@ export default {
   computed: {
     isActive() {
       const { key } = this.channel;
-      if (Object.keys(this.enabledFeatures) === 0) {
+      if (Object.keys(this.enabledFeatures).length === 0) {
         return false;
       }
       if (key === 'facebook') {

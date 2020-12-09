@@ -15,7 +15,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: @contact&.email,
-           from: from_email,
+           from: from_email_with_name,
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
@@ -34,7 +34,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: @contact&.email,
-           from: from_email,
+           from: from_email_with_name,
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
@@ -51,7 +51,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: to_email,
-           from: from_email,
+           from: from_email_with_name,
            subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
          })
   end
@@ -63,6 +63,7 @@ class ConversationReplyMailer < ApplicationMailer
     @account = @conversation.account
     @contact = @conversation.contact
     @agent = @conversation.assignee
+    @inbox = @conversation.inbox
   end
 
   def conversation_already_viewed?
@@ -90,16 +91,22 @@ class ConversationReplyMailer < ApplicationMailer
     if inbound_email_enabled?
       "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
-      @agent&.email
+      @inbox.email_address || @agent&.email
     end
   end
 
-  def from_email
+  def from_email_with_name
     if inbound_email_enabled?
       "#{assignee_name} <#{account_support_email}>"
     else
-      "#{assignee_name} <#{ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')}>"
+      "#{assignee_name} <#{from_email_address}>"
     end
+  end
+
+  def from_email_address
+    return @inbox.email_address if @inbox.email_address
+
+    ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
   end
 
   def custom_message_id

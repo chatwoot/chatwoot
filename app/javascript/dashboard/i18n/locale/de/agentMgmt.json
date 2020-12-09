@@ -3,7 +3,7 @@
     "HEADER": "Agenten",
     "HEADER_BTN_TXT": "Agent hinzufügen",
     "LOADING": "Agentenliste abrufen",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "SIDEBAR_TXT": "<p><b>Agenten</b></p> <p> Ein <b>Agent</b> ist Mitglied Ihres Kundenservice-Teams. </p><p> Agenten können Nachrichten Ihrer Benutzer ansehen und beantworten. Die Liste zeigt alle Agenten, die derzeit in Ihrem Konto sind. </p><p> Klicken Sie auf <b>Agent hinzufügen</b>, um einen neuen Agent hinzuzufügen. Agent, den du hinzufügst, wird eine E-Mail mit einem Bestätigungslink erhalten, um sein Konto zu aktivieren. Danach kann er auf Chatwoot zugreifen und auf Nachrichten antworten. </p><p> Zugriff auf Chatwoots Funktionen basieren auf folgenden Rollen. </p><p> <b>Agent</b> - Agenten mit dieser Rolle können nur auf Posteingänge, Berichte und Unterhaltungen zugreifen. Sie können Konversationen anderen Akteuren oder sich selbst zuweisen und Gespräche lösen.</p><p> <b>Administrator</b> - Administrator hat Zugriff auf alle für Ihr Konto aktivierten Chatwoot-Funktionen einschließlich der Einstellungen, zusammen mit allen Privilegien eines normalen Agenten.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
@@ -13,7 +13,7 @@
       "TITLE": "Verwalten Sie Agenten in Ihrem Team",
       "DESC": "Sie können Agenten zu / in Ihrem Team hinzufügen / entfernen.",
       "NAME": "Name",
-      "EMAIL": "EMAIL",
+      "EMAIL": "E-Mail",
       "STATUS": "Status",
       "ACTIONS": "Aktionen",
       "VERIFIED": "Verifiziert",
@@ -55,7 +55,7 @@
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest?",
         "YES": "Ja, löschen ",
-        "NO": "No, Keep "
+        "NO": "Nein, behalten "
       }
     },
     "EDIT": {
