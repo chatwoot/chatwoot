@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Edustajat",
         "DESC": "Täällä voit lisätä edustajia hallitsemaan juuri luotua saapuneet-kansiota. Vain näillä valituilla edustajilla on pääsy tähän saapuneet-kansioon. Edustajat, jotka eivät kuulu tähän saapuneet-kansioon, eivät pysty näkemään tai vastaamaan viesteihin tässä saapuneet-kansiossa, kun he kirjautuvat. <br> <b>PS:</b> Jos tarvitset ylläpitäjänä pääsyn kaikkiin saapuneisiin, sinun pitäisi lisätä itsesi edustajaksi kaikkiin laatikoihin, jotka luot.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Lisää vähintään yksi edustaja postilaatikolle",
+        "PICK_AGENTS": "Valitse edustajat postilaatikolle"
       },
       "DETAILS": {
         "TITLE": "Postilaatikon tiedot",
