@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
-    "CHANGE_AGENT": "Назначенный оператор изменен"
+    "CHANGE_AGENT": "Назначенный оператор изменен",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Удалить",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Отправить субтитры разговора",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз",
     "FORM": {
       "SEND_TO_CONTACT": "Отправить субтитры клиенту",
-      "SEND_TO_AGENT": "Отправить субтитры назначенному агенту",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Отправить субтитры на другой адрес электронной почты",
       "EMAIL": {
         "PLACEHOLDER": "Введите адрес электронной почты",

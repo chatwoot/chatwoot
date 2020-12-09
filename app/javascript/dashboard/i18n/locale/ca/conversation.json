@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
-    "CHANGE_AGENT": "Assignació de la conversa canviat"
+    "CHANGE_AGENT": "Assignació de la conversa canviat",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Suprimeix",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Envia la transcripció de la conversa",

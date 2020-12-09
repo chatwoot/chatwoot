@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
     },
-    "SUBMIT": "Kirim"
+    "SUBMIT": "Kirim",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Kotak masuk tak terbatas",
+      "ROBUST_REPORTING": "Laporan terlengkap",
+      "CANNED_RESPONSES": "Canned Responses",
+      "AUTO_ASSIGNMENT": "Penugasan Otomatis",
+      "SECURITY": "Keamanan tingkat perusahaan"
+    }
   }
 }

@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registro realizado com Sucesso",
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
-    "SUBMIT": "Enviar"
+    "SUBMIT": "Enviar",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Caixas de entrada ilimitadas",
+      "ROBUST_REPORTING": "Relatório robusto",
+      "CANNED_RESPONSES": "Atalhos",
+      "AUTO_ASSIGNMENT": "Atribuir automaticamente",
+      "SECURITY": "Segurança de nível empresarial"
+    }
   }
 }

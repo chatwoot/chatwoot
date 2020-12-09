@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registrace byla úspěšná",
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     },
-    "SUBMIT": "Odeslat"
+    "SUBMIT": "Odeslat",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Konzervované odpovědi",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
     "CHANGE_STATUS": "Keskustelun tila muutettu",
-    "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu"
+    "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu",
+    "SENT_BY": "Lähettäjä:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Valitse edustaja",
+      "REMOVE": "Poista",
+      "ASSIGN": "Delegoi"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Lähetä keskustelu",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen",
     "FORM": {
       "SEND_TO_CONTACT": "Lähetä keskustelu asiakkaalle",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Lähetä keskustelu edustajalle",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Lähetä keskustelu muuhun sähköpostiin",
       "EMAIL": {
         "PLACEHOLDER": "Anna sähköpostiosoite",

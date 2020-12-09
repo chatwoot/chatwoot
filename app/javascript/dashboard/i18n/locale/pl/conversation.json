@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
-    "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona"
+    "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Usuń",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Wyślij transkrypt rozmowy",

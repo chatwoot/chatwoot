@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Voit nyt vastaanottaa sähköposteja mukautetulla verkkotunnuksellasi."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Paina enter valitaksesi",
+      "ENTER_TO_REMOVE": "Paina enter poistaaksesi",
+      "SELECT_ONE": "Valitse yksi"
+    }
   }
 }
