@@ -29,11 +29,11 @@
     },
     "SUBMIT": "Lähetä",
     "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
+      "UNLIMITED_INBOXES": "Rajattomat postilaatikot",
+      "ROBUST_REPORTING": "Jykevä raportointi",
       "CANNED_RESPONSES": "Tallennetut vastaukset",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
+      "AUTO_ASSIGNMENT": "Automaattinen delegointi",
+      "SECURITY": "Yritystason suojaus"
     }
   }
 }
