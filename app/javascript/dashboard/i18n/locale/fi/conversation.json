@@ -43,11 +43,11 @@
     "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
     "CHANGE_STATUS": "Keskustelun tila muutettu",
     "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Lähettäjä:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Valitse edustaja",
       "REMOVE": "Poista",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Delegoi"
     }
   },
   "EMAIL_TRANSCRIPT": {
