@@ -9,9 +9,9 @@
     "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
     "SEARCH": {
       "TITLE": "Procurar mensagens",
-      "LOADING_MESSAGE": "Crunching data...",
+      "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "NO_MATCHING_RESULTS": "Não há mensagens que correspondam aos parâmetros de pesquisa."
     },
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
