@@ -39,7 +39,7 @@ describe Integrations::Slack::SendOnSlackService do
       end
     end
 
-    context 'with identifer' do
+    context 'with identifier' do
       before do
         conversation.update!(identifier: 'random_slack_thread_ts')
       end
