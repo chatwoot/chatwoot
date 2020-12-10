@@ -55,7 +55,7 @@ describe Integrations::Slack::SendOnSlackService do
 
         builder.perform
 
-        expect(message.external_source_id_slack).to eq '6789.12345'
+        expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 
       it 'disables hook on Slack AccountInactive error' do
