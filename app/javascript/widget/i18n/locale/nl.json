@@ -8,12 +8,16 @@
       "SUBMIT": "Bevestigen"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "is beschikbaar",
-    "ARE_AVAILABLE": "zijn beschikbaar",
-    "OTHERS_ARE_AVAILABLE": "andere zijn beschikbaar",
-    "AND": "en"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We zijn online",
+    "OFFLINE": "We zijn offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
+    "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+    "IN_A_DAY": "Reageert meestal binnen een dag"
+  },
+  "START_CONVERSATION": "Start Chat",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Bekijk nieuwe berichten",
     "CLOSE_MESSAGES_BUTTON": "Sluiten"

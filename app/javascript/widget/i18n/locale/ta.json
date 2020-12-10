@@ -8,12 +8,16 @@
       "SUBMIT": "சமர்பிக்கவும்"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "இருக்கிறார்",
-    "ARE_AVAILABLE": "இருக்கிறார்கள்",
-    "OTHERS_ARE_AVAILABLE": "மற்றவர்களும் இருக்கிறார்கள்",
-    "AND": "மற்றும்"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We are online",
+    "OFFLINE": "We are offline"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "Start Conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
     "CLOSE_MESSAGES_BUTTON": "மூடு"

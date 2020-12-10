@@ -33,7 +33,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.update!(account_params.slice(:name, :locale, :domain, :support_email))
+    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
   end
 
   def update_active_at
@@ -43,10 +43,6 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   private
-
-  def check_authorization
-    authorize(Account)
-  end
 
   def confirmed?
     super_admin? && params[:confirmed]
@@ -58,7 +54,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale, :domain, :support_email)
+    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :auto_resolve_duration)
   end
 
   def check_signup_enabled

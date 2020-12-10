@@ -73,6 +73,13 @@
           "ENABLED": "Abilitato",
           "DISABLED": "Disabilitato"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Colore del widget",
           "PLACEHOLDER": "Aggiorna il colore del widget utilizzato nel widget"
@@ -158,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenti",
-        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei."
+        "DESC": "Qui puoi aggiungere agenti per gestire la tua posta in arrivo appena creata. Solo questi agenti selezionati avranno accesso alla tua casella di posta. Gli operatori che non fanno parte di questa casella di posta non saranno in grado di vedere o rispondere ai messaggi in questa casella di posta quando effettuano il login. <br> <b>PS:</b> come amministratore, se hai bisogno di accedere a tutte le caselle di posta in arrivo, dovresti aggiungerti come agente a tutte le caselle di entrata che crei.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Dettagli Inbox",
@@ -233,6 +242,12 @@
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Abilita o disabilita l'assegnazione automatica di nuove conversazioni agli agenti aggiunti a questa casella di posta."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Riautorizza",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

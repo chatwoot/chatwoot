@@ -8,12 +8,16 @@
       "SUBMIT": "Отправить"
     }
   },
-  "AGENT_AVAILABILITY": {
-    "IS_AVAILABLE": "в сети",
-    "ARE_AVAILABLE": "в сети",
-    "OTHERS_ARE_AVAILABLE": "другие операторы в сети",
-    "AND": "и"
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Мы онлайн",
+    "OFFLINE": "Мы оффлайн"
   },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
+    "IN_A_FEW_HOURS": "Обычно отвечаем в течение нескольких часов",
+    "IN_A_DAY": "Обычно отвечаем в течение дня"
+  },
+  "START_CONVERSATION": "Начать диалог",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
     "CLOSE_MESSAGES_BUTTON": "Закрыть"

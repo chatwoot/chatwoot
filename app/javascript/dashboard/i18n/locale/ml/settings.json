@@ -26,7 +26,8 @@
         "TITLE": "ഇമെയിൽ അറിയിപ്പുകൾ",
         "NOTE": "നിങ്ങളുടെ ഇമെയിൽ അറിയിപ്പ് മുൻ‌ഗണനകൾ ഇവിടെ അപ്‌ഡേറ്റു ചെയ്യുക",
         "CONVERSATION_ASSIGNMENT": "ഒരു സംഭാഷണം എനിക്ക് നിയോഗിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്‌ക്കുക",
-        "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക"
+        "CONVERSATION_CREATION": "ഒരു പുതിയ സംഭാഷണം സൃഷ്ടിക്കുമ്പോൾ ഇമെയിൽ അറിയിപ്പുകൾ അയയ്ക്കുക",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -37,6 +38,7 @@
         "NOTE": "Update your push notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
       },
@@ -56,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "ലഭ്യത",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "ഓൺ‌ലൈൻ"
-          },
-          {
-            "value": "busy",
-            "label": "തിരക്ക്"
-          },
-          {
-            "value": "offline",
-            "label": "ഓഫ്‌ലൈൻ"
-          }
+          "ഓൺ‌ലൈൻ",
+          "തിരക്ക്",
+          "ഓഫ്‌ലൈൻ"
         ]
       },
       "EMAIL": {
@@ -120,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
     "REPORTS": "റിപ്പോർട്ടുകൾ",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "HOME": "ഹോം",
     "AGENTS": "ഏജന്റുമാർ",

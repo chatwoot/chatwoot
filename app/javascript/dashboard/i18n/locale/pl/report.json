@@ -1,7 +1,7 @@
 {
   "REPORT": {
     "HEADER": "Raporty",
-    "LOADING_CHART": "Ładowanie danych mapy...",
+    "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie otrzymaliśmy wystarczającej ilości punktów danych, aby wygenerować raport, spróbuj ponownie później.",
     "METRICS": {
       "CONVERSATIONS": {
@@ -21,11 +21,11 @@
         "DESC": "( Średnie )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Czas rozdzielczości",
+        "NAME": "Czas rozwiązania",
         "DESC": "( Średnie )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Licznik rozdzielczości",
+        "NAME": "Liczba rozwiązań",
         "DESC": "( łącznie )"
       }
     },

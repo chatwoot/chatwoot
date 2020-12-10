@@ -23,7 +23,9 @@
             :value="contact.email"
             icon="ion-email"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            show-copy
           />
+
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -50,6 +52,7 @@
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
       </woot-button>
       <edit-contact
+        v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
@@ -120,6 +123,7 @@ export default {
 
 .contact--details {
   margin-top: $space-small;
+  width: 100%;
 
   p {
     margin-bottom: 0;
@@ -136,7 +140,7 @@ export default {
 .contact--name {
   @include text-ellipsis;
   text-transform: capitalize;
-
+  white-space: normal;
   font-weight: $font-weight-bold;
   font-size: $font-size-default;
 }

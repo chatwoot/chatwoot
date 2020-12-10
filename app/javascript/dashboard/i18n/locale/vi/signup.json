@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
       "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
     },
-    "SUBMIT": "Gửi"
+    "SUBMIT": "Gửi",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

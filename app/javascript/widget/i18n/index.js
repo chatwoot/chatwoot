@@ -11,6 +11,7 @@ import { default as fi } from './locale/fi.json';
 import { default as fr } from './locale/fr.json';
 import { default as hi } from './locale/hi.json';
 import { default as hu } from './locale/hu.json';
+import { default as id } from './locale/id.json';
 import { default as it } from './locale/it.json';
 import { default as ja } from './locale/ja.json';
 import { default as ko } from './locale/ko.json';
@@ -43,6 +44,7 @@ export default {
   fr,
   hi,
   hu,
+  id,
   it,
   ja,
   ko,

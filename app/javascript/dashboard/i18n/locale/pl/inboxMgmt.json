@@ -73,6 +73,13 @@
           "ENABLED": "Włączone",
           "DISABLED": "Wyłączone"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Kolor widżetu",
           "PLACEHOLDER": "Aktualizuj kolor widżetu używany w widżecie"
@@ -158,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenci",
-        "DESC": "Tutaj możesz dodać agentów do zarządzania swoją nowo utworzoną skrzynką odbiorczą. Tylko ci wybrani agenci będą mieli dostęp do Twojej skrzynki odbiorczej. Agenci, którzy nie są częścią tej skrzynki odbiorczej nie będą mogli zobaczyć ani odpowiadać na wiadomości w tej skrzynce odbiorczej podczas logowania. <br> <b>PS:</b> Jako administrator, jeśli potrzebujesz dostępu do wszystkich skrzynek odbiorczych, powinieneś dodać siebie jako agenta do wszystkich skrzynek odbiorczych, które tworzysz."
+        "DESC": "Tutaj możesz dodać agentów do zarządzania swoją nowo utworzoną skrzynką odbiorczą. Tylko ci wybrani agenci będą mieli dostęp do Twojej skrzynki odbiorczej. Agenci, którzy nie są częścią tej skrzynki odbiorczej nie będą mogli zobaczyć ani odpowiadać na wiadomości w tej skrzynce odbiorczej podczas logowania. <br> <b>PS:</b> Jako administrator, jeśli potrzebujesz dostępu do wszystkich skrzynek odbiorczych, powinieneś dodać siebie jako agenta do wszystkich skrzynek odbiorczych, które tworzysz.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Szczegóły skrzynki odbiorczej",
@@ -233,6 +242,12 @@
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Ponowna autoryzacja",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

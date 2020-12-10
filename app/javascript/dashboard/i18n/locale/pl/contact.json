@@ -3,7 +3,8 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Adres e-mail",
     "PHONE_NUMBER": "Numer telefonu",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Pomyślnie skopiowano do schowka",
+    "COMPANY": "Firma",
     "LOCATION": "Lokalizacja",
     "CONVERSATION_TITLE": "Szczegóły konwersacji",
     "BROWSER": "Przeglądarki",
@@ -15,31 +16,33 @@
       "TITLE": "Poprzednie rozmowy"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Niestandardowe atrybuty"
     },
     "LABELS": {
       "TITLE": "Etykiety konwersacji",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Etykiety dla",
+        "ACTIVE_LABELS": "Etykiety dodane do rozmowy",
+        "INACTIVE_LABELS": "Etykiety dostępne na koncie",
+        "REMOVE": "Kliknij na ikonę X, aby usunąć etykietę",
+        "ADD": "Kliknij na ikonę +, aby dodać etykietę",
+        "UPDATE_BUTTON": "Zaktualizuj etykiety",
+        "UPDATE_ERROR": "Nie udało się zaktualizować etykiet, spróbuj ponownie."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
+      "NO_LABELS_TO_ADD": "Nie ma więcej etykiet zdefiniowanych na koncie.",
       "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "Wycisz rozmowę",
+    "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
+    "MUTED_SUCCESS": "Ta rozmowa jest wyciszona na 6 godzin",
+    "UNMUTED_SUCCESS": "Ta rozmowa nie jest wyciszona",
+    "SEND_TRANSCRIPT": "Wyślij transkrypcję",
     "EDIT_LABEL": "Edytuj"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Edytuj Kontakt",
+    "TITLE": "Edytuj kontakt",
+    "DESC": "Edytuj dane kontaktowe",
     "FORM": {
       "SUBMIT": "Prześlij",
       "CANCEL": "Anuluj",
@@ -80,11 +83,11 @@
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Wprowadź nazwę użytkownika LinkedIn",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Wprowadź nazwę użytkownika Github",
           "LABEL": "Github"
         }
       }
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "Updated contact successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "Nazwisko",
+        "Phone Number",
+        "Rozmowy",
+        "Last Contacted"
+      ]
+    }
   }
 }

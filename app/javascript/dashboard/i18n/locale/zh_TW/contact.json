@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "電子信箱地址",
     "PHONE_NUMBER": "電話號碼",
+    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "對話詳情",
@@ -32,7 +33,9 @@
       "NO_AVAILABLE_LABELS": "没有標籤建立到此對話。"
     },
     "MUTE_CONTACT": "Mute Conversation",
+    "UNMUTE_CONTACT": "Unmute Conversation",
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
+    "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "編輯"
   },
@@ -92,5 +95,20 @@
     "SUCCESS_MESSAGE": "成功更新聯絡人資訊",
     "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
     "ERROR_MESSAGE": "更新聯絡人資訊發生錯誤，請重試"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Contacts",
+    "SEARCH_BUTTON": "Search",
+    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading contacts...",
+      "404": "No contacts matches your search 🔍",
+      "TABLE_HEADER": [
+        "姓名：",
+        "聯絡人電話",
+        "會話",
+        "Last Contacted"
+      ]
+    }
   }
 }

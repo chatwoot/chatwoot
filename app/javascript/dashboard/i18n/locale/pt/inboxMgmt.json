@@ -73,6 +73,13 @@
           "ENABLED": "Ativado",
           "DISABLED": "Desabilitado"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Cor do widget",
           "PLACEHOLDER": "Atualizar a cor do widget usada no widget"
@@ -158,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "agentes",
-        "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar."
+        "DESC": "Aqui você pode adicionar agentes para gerenciar a sua caixa de entrada recém-criada. Apenas esses agentes selecionados terão acesso à sua caixa de entrada. Agentes que não fazem parte desta caixa de entrada não serão capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, você deve se adicionar como agente em todas as caixas de entrada que você criar.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Detalhes da Caixa de Entrada",
@@ -233,6 +242,12 @@
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reautorizar",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     }
   }
 }

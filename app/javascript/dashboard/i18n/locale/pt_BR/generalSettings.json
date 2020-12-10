@@ -33,10 +33,22 @@
         "PLACEHOLDER": "E-mail de suporte da sua empresa",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Depois de quantos dias um ticket deve resolver a si mesmo caso não haja nenhuma atividade",
+        "PLACEHOLDER": "30",
+        "ERROR": "Por favor insira um prazo válido até que seja considerado resolvido (mínimo 1 dia)"
+      },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A continuidade das conversas com e-mails está ativada para sua conta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Você pode receber e-mails em seu domínio personalizado agora."
       }
+    }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Digite enter para selecionar",
+      "ENTER_TO_REMOVE": "Digite enter para remover",
+      "SELECT_ONE": "Selecione um"
     }
   }
 }

@@ -73,6 +73,13 @@
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Màu tiện ích",
           "PLACEHOLDER": "Cập nhật màu tiện ích con được sử dụng trong tiện ích con"
@@ -158,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
-        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo."
+        "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Chi tiết Hộp thư đến",
@@ -233,6 +242,12 @@
       "INBOX_UPDATE_TITLE": "Cài đặt Hộp thư đến",
       "INBOX_UPDATE_SUB_TEXT": "Cập nhật cài đặt hộp thư đến của bạn",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Bật hoặc tắt tính năng tự động gán các cuộc hội thoại mới cho các tác nhân được thêm vào hộp thư đến này."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Ủy quyền lại",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "Đã có lỗi, vui lòng thử lại"
     }
   }
 }

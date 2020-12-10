@@ -21,8 +21,30 @@ module SlackStubs
     }
   end
 
+  def slack_message_stub_without_thread_ts
+    {
+      "token": '[FILTERED]',
+      "team_id": '',
+      "api_app_id": '',
+      "event": {
+        "type": 'message',
+        "client_msg_id": 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
+        "text": 'this is test',
+        "user": 'ULYPAKE5S',
+        "ts": '1588623033.006000',
+        "team": 'TLST3048H'
+      },
+      "type": 'event_callback',
+      "event_id": '',
+      "event_time": 1_588_623_033,
+      "authed_users": '[FILTERED]',
+      "webhook": {}
+    }
+  end
+
   def message_event
-    { "client_msg_id": 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
+    {
+      "client_msg_id": 'ffc6e64e-6f0c-4a3d-b594-faa6b44e48ab',
       "type": 'message',
       "text": 'this is test',
       "user": 'ULYPAKE5S',
@@ -32,7 +54,8 @@ module SlackStubs
       "thread_ts": '1588623023.005900',
       "channel": 'G01354F6A6Q',
       "event_ts": '1588623033.006000',
-      "channel_type": 'group' }
+      "channel_type": 'group'
+    }
   end
 
   def message_blocks

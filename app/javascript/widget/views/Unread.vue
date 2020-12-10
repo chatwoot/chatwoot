@@ -32,8 +32,6 @@
 </template>
 
 <script>
-/* global bus */
-
 import { IFrameHelper } from 'widget/helpers/utils';
 import AgentBubble from 'widget/components/AgentMessageBubble.vue';
 import configMixin from '../mixins/configMixin';
@@ -94,7 +92,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables';
+
 .unread-wrap {
   width: 100%;
   height: 100%;
@@ -148,7 +147,7 @@ export default {
 </style>
 
 <style lang="scss">
-@import '~widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/variables';
 
 .unread-messages {
   width: 100%;

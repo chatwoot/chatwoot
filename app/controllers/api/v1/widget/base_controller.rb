@@ -1,13 +1,18 @@
 class Api::V1::Widget::BaseController < ApplicationController
+  include SwitchLocale
+
   before_action :set_web_widget
   before_action :set_contact
+  around_action :switch_locale_using_account_locale
 
   private
 
+  def conversations
+    @conversations = @contact_inbox.conversations.where(inbox_id: auth_token_params[:inbox_id])
+  end
+
   def conversation
-    @conversation ||= @contact_inbox.conversations.where(
-      inbox_id: auth_token_params[:inbox_id]
-    ).last
+    @conversation ||= conversations.last
   end
 
   def auth_token_params

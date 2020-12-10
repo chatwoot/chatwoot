@@ -1,6 +1,5 @@
 class DashboardController < ActionController::Base
   before_action :set_global_config
-
   layout 'vueapp'
 
   def index; end

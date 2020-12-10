@@ -73,6 +73,13 @@
           "ENABLED": "Ingeschakeld",
           "DISABLED": "Uitgeschakeld"
         },
+        "REPLY_TIME": {
+          "TITLE": "Set Reply time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day",
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+        },
         "WIDGET_COLOR": {
           "LABEL": "Kleur van widget",
           "PLACEHOLDER": "Update de widget kleur gebruikt in widget"
@@ -158,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenten",
-        "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt."
+        "DESC": "Hier kunt u agenten toevoegen om uw nieuw gecreëerde inbox te beheren. Alleen deze agenten hebben toegang tot uw inbox. Agents die geen deel uitmaken van dit postvak in zullen niet in staat zijn om berichten in dit postvak te zien of te reageren wanneer ze inloggen. <br> <b>PS:</b> Als beheerder als u toegang wilt krijgen tot alle inboxen, voeg jezelf toe als agent aan alle inboxen die je maakt.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Details inbox",
@@ -233,6 +242,12 @@
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Autoriseer",
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "Er is een fout opgetreden, probeer het opnieuw"
     }
   }
 }
