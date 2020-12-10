@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Rejestracja powiodła się",
       "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
     },
-    "SUBMIT": "Prześlij"
+    "SUBMIT": "Prześlij",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Gotowe odpowiedzi",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

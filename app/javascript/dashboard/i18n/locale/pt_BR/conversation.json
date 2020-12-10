@@ -6,12 +6,12 @@
     "NO_INBOX_1": "Hola! Parece que você não adicionou nenhuma caixa de entrada ainda.",
     "NO_INBOX_2": " para começar",
     "NO_INBOX_AGENT": "Uh Oh! Parece que você não faz parte de nenhuma caixa de entrada. Por favor, contate seu administrador",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Procurar por mensagens nas conversas",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Procurar mensagens",
+      "LOADING_MESSAGE": "Preparando dados...",
+      "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
+      "NO_MATCHING_RESULTS": "Não há mensagens que correspondam aos parâmetros de pesquisa."
     },
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
-    "CHANGE_AGENT": "Responsável da conversa alterado"
+    "CHANGE_AGENT": "Responsável da conversa alterado",
+    "SENT_BY": "Enviado por:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Selecione Agente",
+      "REMOVE": "Excluir",
+      "ASSIGN": "Atribua"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Enviar transcrição de conversa",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
     "FORM": {
       "SEND_TO_CONTACT": "Envie a transcrição para o cliente",
-      "SEND_TO_AGENT": "Enviar a transcrição do agente designado",
+      "SEND_TO_AGENT": "Envie a transcrição para o agente designado",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar a transcrição para outro endereço de e-mail",
       "EMAIL": {
         "PLACEHOLDER": "Digite um endereço de e-mail",

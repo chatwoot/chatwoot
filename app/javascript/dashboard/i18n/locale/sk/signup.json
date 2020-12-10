@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registration Successfull",
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "Submit",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Canned Responses",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

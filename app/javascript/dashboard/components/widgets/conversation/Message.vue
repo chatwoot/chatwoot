@@ -125,7 +125,7 @@ export default {
 
       return this.data.message_type === 1 && !this.isHovered && sender
         ? {
-            content: `Sent by: ${sender.name}`,
+            content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
           }
         : false;

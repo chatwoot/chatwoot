@@ -1,63 +1,69 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "Ole hyvä ja valitse keskustelu vasemmasta paneelista",
+    "NO_MESSAGE_1": "Voi voi! Näyttää siltä, että postilaatikossasi ei ole viestejä.",
+    "NO_MESSAGE_2": " jotta voit lähettää viestin sivullesi!",
+    "NO_INBOX_1": "Hola! Näyttää siltä, että et ole vielä lisännyt yhtään saapuneet-kansiota.",
+    "NO_INBOX_2": " päästäksesi alkuun",
+    "NO_INBOX_AGENT": "Voi ei! Näyttää siltä, että et kuulu mihinkään saapuneet-kansioon. Ota yhteyttä työnantajaasi",
+    "SEARCH_MESSAGES": "Etsi viestejä keskusteluissa",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Etsi viestejä",
+      "LOADING_MESSAGE": "Rouskutetaan dataa...",
+      "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
+      "NO_MATCHING_RESULTS": "Hakuparametreja vastaavia viestejä ei ole."
     },
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "CLICK_HERE": "Klikkaa tästä",
+    "LOADING_INBOXES": "Ladataan saapuneet-kansioita",
+    "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
+    "CANNOT_REPLY": "Et voi vastata, sillä",
+    "24_HOURS_WINDOW": "24h vastausikkuna",
+    "LAST_INCOMING_TWEET": "Olet vastaamassa viimeisenä tulevaan twiittiin",
+    "REPLYING_TO": "Olet vastaamassa:",
+    "REMOVE_SELECTION": "Poista valinnat",
+    "DOWNLOAD": "Lataa",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "Ratkaise",
+      "REOPEN_ACTION": "Uudelleenavaa",
+      "OPEN": "Lisää",
+      "CLOSE": "Sulje",
+      "DETAILS": "tiedot"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Aloita '/' valitaksesi tallennettu vastaus.",
+      "PRIVATE_MSG_INPUT": "Vaihto + enter siirtyäksesi uudelle riville. Tämä näkyy vain edustajille"
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "TWEET": "Tweet"
+      "REPLY": "Vastaa",
+      "PRIVATE_NOTE": "Sisäinen merkintä",
+      "SEND": "Lähetä",
+      "CREATE": "Lisää muistiinpano",
+      "TWEET": "Twiittaa"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_AGENT": "Conversation Assignee changed"
+    "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
+    "CHANGE_STATUS": "Keskustelun tila muutettu",
+    "CHANGE_AGENT": "Keskustelun vastaanottaja vaihdettu",
+    "SENT_BY": "Lähettäjä:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Valitse edustaja",
+      "REMOVE": "Poista",
+      "ASSIGN": "Delegoi"
+    }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "Lähetä keskustelu",
+    "DESC": "Lähetä kopio keskustelu määritettyyn sähköpostiosoitteeseen",
+    "SUBMIT": "Lähetä",
+    "CANCEL": "Peruuta",
+    "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
+    "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Lähetä keskustelu asiakkaalle",
+      "SEND_TO_AGENT": "Lähetä keskustelu edustajalle",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Lähetä keskustelu muuhun sähköpostiin",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "Anna sähköpostiosoite",
+        "ERROR": "Ole hyvä ja syötä validi sähköposti"
       }
     }
   }

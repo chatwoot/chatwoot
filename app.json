@@ -34,6 +34,10 @@
     "web": {
       "quantity": 1,
       "size": "FREE"
+    },
+    "worker": {
+      "quantity": 1,
+      "size": "FREE"
     }
   },
   "image": "heroku/ruby",

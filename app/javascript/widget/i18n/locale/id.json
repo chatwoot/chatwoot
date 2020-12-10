@@ -1,0 +1,31 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Unduh",
+      "UPLOADING": "Mengunggah..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Kirim"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Kami sedang online",
+    "OFFLINE": "Kami sedang offline"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
+    "IN_A_FEW_HOURS": "Biasanya membalas dalam beberapa jam",
+    "IN_A_DAY": "Biasanya membalas dalam sehari"
+  },
+  "START_CONVERSATION": "Mulai Percakapan",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
+    "CLOSE_MESSAGES_BUTTON": "Tutup"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat dengan kami"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Masukkan email Anda",
+  "CHAT_PLACEHOLDER": "Ketik pesan Anda"
+}

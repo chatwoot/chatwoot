@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "註冊成功",
       "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     },
-    "SUBMIT": "送出"
+    "SUBMIT": "送出",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "預設回覆",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

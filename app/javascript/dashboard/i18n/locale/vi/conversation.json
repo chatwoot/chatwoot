@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
     "CHANGE_STATUS": "Trạng thái cuộc trò chuyện đã thay đổi",
-    "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi"
+    "CHANGE_AGENT": "Người Được Chỉ Định Cuộc Hội Thoại đã thay đổi",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Xoá",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Gửi bản ghi cuộc trò chuyện",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Có lỗi, xin vui lòng thử lại",
     "FORM": {
       "SEND_TO_CONTACT": "Gửi bảng điểm cho khách hàng",
-      "SEND_TO_AGENT": "Gửi bản ghi của đại lý được chỉ định",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Gửi bản ghi tới một địa chỉ email khác",
       "EMAIL": {
         "PLACEHOLDER": "Nhập địa chỉ emai",

@@ -34,7 +34,10 @@ export const IFrameHelper = {
     iframe.id = 'chatwoot_live_chat_widget';
     iframe.style.visibility = 'hidden';
 
-    const holderClassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
+    let holderClassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
+    if (window.$chatwoot.hideMessageBubble) {
+      holderClassName += ` woot-widget--without-bubble`;
+    }
     addClass(widgetHolder, holderClassName);
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
@@ -114,6 +117,9 @@ export const IFrameHelper = {
     },
 
     setBubbleLabel(message) {
+      if (window.$chatwoot.hideMessageBubble) {
+        return;
+      }
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
     },
 

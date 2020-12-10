@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenten",
-        "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen."
+        "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Posteingangsdetails",

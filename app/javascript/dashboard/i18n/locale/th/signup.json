@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registration Successfull",
       "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
     },
-    "SUBMIT": "ส่ง"
+    "SUBMIT": "ส่ง",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

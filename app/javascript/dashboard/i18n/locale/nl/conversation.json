@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
     "CHANGE_STATUS": "Gespreksstatus veranderd",
-    "CHANGE_AGENT": "Toegewezen persoon voor dit gesprek is veranderd"
+    "CHANGE_AGENT": "Toegewezen persoon voor dit gesprek is veranderd",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Verwijderen",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Er is een fout opgetreden, probeer het opnieuw",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",

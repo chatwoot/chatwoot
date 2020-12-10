@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "സ്വകാര്യ കുറിപ്പ്: നിങ്ങൾക്കും നിങ്ങളുടെ ടീമിനും മാത്രം ദൃശ്യമാണ്",
     "CHANGE_STATUS": "സംഭാഷണ നില മാറ്റി",
-    "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി"
+    "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "നീക്കം ചെയ്യുക",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
     "FORM": {
       "SEND_TO_CONTACT": "ഉപഭോക്താവിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
-      "SEND_TO_AGENT": "നിയുക്ത ഏജന്റിന്റെ ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "മറ്റൊരു ഇമെയിൽ വിലാസത്തിലേക്ക് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
       "EMAIL": {
         "PLACEHOLDER": "ഒരു ഇമെയിൽ വിലാസം നൽകുക",
