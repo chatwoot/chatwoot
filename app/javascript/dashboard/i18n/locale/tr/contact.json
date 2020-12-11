@@ -1,113 +1,113 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "NOT_AVAILABLE": "Müsait değil",
+    "EMAIL_ADDRESS": "E-posta adresi",
+    "PHONE_NUMBER": "Telefon numarası",
+    "COPY_SUCCESSFUL": "Panoya başarıyla kopyalandı",
+    "COMPANY": "Şirket",
+    "LOCATION": "Yer",
+    "CONVERSATION_TITLE": "Sohbet Ayrıntıları",
+    "BROWSER": "Tarayıcı",
+    "OS": "İşletim sistemi",
+    "INITIATED_FROM": "Başlatıldı",
+    "INITIATED_AT": "Başlatıldı",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
+      "TITLE": "Önceki Sohbetler"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Özel Nitelikler"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "Konuşma Etiketleri",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "İçin etiketler",
+        "ACTIVE_LABELS": "Sohbete eklenen etiketler",
+        "INACTIVE_LABELS": "Hesapta bulunan etiketler",
+        "REMOVE": "Etiketi kaldırmak için X simgesine tıklayın",
+        "ADD": "Etiketi eklemek için + simgesine tıklayın",
+        "UPDATE_BUTTON": "Etiketleri güncelle",
+        "UPDATE_ERROR": "Etiketler güncellenemedi, tekrar deneyin."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Hesapta tanımlanmış başka etiket yok.",
+      "NO_AVAILABLE_LABELS": "Bu görüşmeye eklenen etiket yok."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "Konuşmayı Sessize Al",
+    "UNMUTE_CONTACT": "Konuşmanın Sesini Aç",
+    "MUTED_SUCCESS": "Bu konuşma 6 saatliğine sessize alınır",
+    "UNMUTED_SUCCESS": "Bu görüşmenin sesi kapatıldı",
+    "SEND_TRANSCRIPT": "Transkript Gönder",
+    "EDIT_LABEL": "Düzenle"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Kişiyi Düzenle",
+    "TITLE": "Kişiyi Düzenle",
+    "DESC": "İletişim bilgilerini düzenleyin",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "Yolla",
+      "CANCEL": "İptal Et",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "İletişim Avatarı"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Kişinin tam adını girin",
+        "LABEL": "Ad Soyad"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Kişinin biyografisini girin",
+        "LABEL": "Biyografi"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "Kişinin e-posta adresini girin",
+        "LABEL": "E-posta adresi"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Kişinin telefon numarasını girin",
+        "LABEL": "Telefon numarası"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "Kişinin konumunu girin",
+        "LABEL": "Yer"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Şirket adını girin",
+        "LABEL": "Şirket Adı"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "Facebook kullanıcı adını girin",
+          "LABEL": "Facebook\n"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitter kullanıcı adını girin",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "LinkedIn kullanıcı adını girin",
+          "LABEL": "LinkedIn\n"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Github kullanıcı adını girin",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Kişi başarıyla güncellendi",
+    "CONTACT_ALREADY_EXIST": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
+    "ERROR_MESSAGE": "Kişi güncellenirken bir hata oluştu, lütfen tekrar deneyin"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kişiler",
+    "SEARCH_BUTTON": "Arama",
+    "SEARCH_INPUT_PLACEHOLDER": "Kişileri arayın",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Kişiler yükleniyor ...",
+      "404": "Aramanızla eşleşen kişi yok 🔍",
       "TABLE_HEADER": [
-        "Name",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
+        "İsim",
+        "Telefon numarası",
+        "Konuşmalar",
+        "Son Görüşülen"
       ]
     }
   }

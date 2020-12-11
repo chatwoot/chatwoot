@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
-    "CHANGE_AGENT": "Assignació de la conversa canviat"
+    "CHANGE_AGENT": "Assignació de la conversa canviat",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Suprimeix",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Envia la transcripció de la conversa",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "S'ha produït un error; tornau-ho a provar",
     "FORM": {
       "SEND_TO_CONTACT": "Envia la transcripció al client",
-      "SEND_TO_AGENT": "Envia la transcripció de l'agent assignat",
+      "SEND_TO_AGENT": "Envia la transcripció a l'agent assignat",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Envia la transcripció a una altra adreça electrònica",
       "EMAIL": {
         "PLACEHOLDER": "Introdueix una adreça de correu electrònic",

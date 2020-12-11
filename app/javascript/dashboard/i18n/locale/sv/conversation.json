@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Privat Obs: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversation status ändrad",
-    "CHANGE_AGENT": "Konversation förvärvaren ändrad"
+    "CHANGE_AGENT": "Konversation förvärvaren ändrad",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Radera",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",

@@ -3,14 +3,11 @@
     <button class="button small button--copy-code" @click="onCopy">
       {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
     </button>
-    <highlight-code :lang="lang">
-      {{ script }}
-    </highlight-code>
+    <highlightjs :language="lang" :code="script" />
   </div>
 </template>
 
 <script>
-/* global bus */
 import 'highlight.js/styles/default.css';
 import copy from 'copy-text-to-clipboard';
 

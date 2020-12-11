@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
-    "CHANGE_AGENT": "Conversation Assignee changed"
+    "CHANGE_AGENT": "Conversation Assignee changed",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "حذف",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "ارسال متن گفتگو",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
     "FORM": {
       "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "متن گفتگو را به آدرس ایمیل دیگری ارسال کنید",
       "EMAIL": {
         "PLACEHOLDER": "یک آدرس ایمیل وارد کنید",

@@ -38,8 +38,8 @@ ru:
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
         removed: "Ответственный снят %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: "%{user_name} добавил %{labels}"
+        removed: "%{user_name} удалил %{labels}"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
@@ -49,3 +49,10 @@ ru:
     reply:
       email_subject: "Новые сообщения в этом диалоге"
       transcript_subject: "Субтитры общения"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "தனிப்பட்ட குறிப்பு: உங்களுக்கும் உங்கள் குழுவினருக்கும் மட்டுமே தெரியும்",
     "CHANGE_STATUS": "உரையாடலின் நிலை மாற்றப்பட்டது",
-    "CHANGE_AGENT": "உரையாடல் ஒதுக்கீட்டாளர் மாற்றப்பட்டார்"
+    "CHANGE_AGENT": "உரையாடல் ஒதுக்கீட்டாளர் மாற்றப்பட்டார்",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "நீக்கு",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",

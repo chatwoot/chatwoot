@@ -19,13 +19,15 @@
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
       />
       <file-upload
         v-if="showFileUpload"
         :size="4096 * 4096"
-        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg"
+        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
         @input-file="onFileUpload"
       >
         <i v-if="!isUploading" class="icon ion-android-attach attachment" />
@@ -298,13 +300,17 @@ export default {
     hideCannedResponse() {
       this.showCannedResponsesList = false;
     },
+    onTypingOn() {
+      this.toggleTyping('on');
+    },
+    onTypingOff() {
+      this.toggleTyping('off');
+    },
     onBlur() {
       this.isFocused = false;
-      this.toggleTyping('off');
     },
     onFocus() {
       this.isFocused = true;
-      this.toggleTyping('on');
     },
     toggleTyping(status) {
       if (this.isAWebWidgetInbox && !this.isPrivate) {

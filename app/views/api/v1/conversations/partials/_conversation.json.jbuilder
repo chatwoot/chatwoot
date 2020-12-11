@@ -3,7 +3,7 @@ json.meta do
     json.partial! 'api/v1/models/contact.json.jbuilder', resource: conversation.contact
   end
   json.channel conversation.inbox.try(:channel_type)
-  if conversation.assignee
+  if conversation.assignee&.account
     json.assignee do
       json.partial! 'api/v1/models/agent.json.jbuilder', resource: conversation.assignee
     end
@@ -14,7 +14,7 @@ json.id conversation.display_id
 if conversation.unread_incoming_messages.count.zero?
   json.messages [conversation.messages.includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)]
 else
-  json.messages conversation.unread_messages.includes([:user, { attachments: [{ file_attachment: [:blob] }] }]).map(&:push_event_data)
+  json.messages conversation.unread_messages.includes([:user, { attachments: [{ file_attachment: [:blob] }] }]).last(10).map(&:push_event_data)
 end
 
 json.inbox_id conversation.inbox_id

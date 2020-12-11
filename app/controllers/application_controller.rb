@@ -1,11 +1,12 @@
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   include Pundit
+  include SwitchLocale
 
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
-  include SwitchLocale
+  around_action :switch_locale
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized

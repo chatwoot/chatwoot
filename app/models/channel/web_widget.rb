@@ -44,11 +44,12 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def web_widget_script
-    "<script>
+    "
+    <script>
       (function(d,t) {
-        var BASE_URL = \"#{ENV.fetch('FRONTEND_URL', '')}\";
+        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src= BASE_URL + \"/packs/js/sdk.js\";
+        g.src=BASE_URL+\"/packs/js/sdk.js\";
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({
@@ -57,7 +58,8 @@ class Channel::WebWidget < ApplicationRecord
           })
         }
       })(document,\"script\");
-    </script>"
+    </script>
+    "
   end
 
   def create_contact_inbox

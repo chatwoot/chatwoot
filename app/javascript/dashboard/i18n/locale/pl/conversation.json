@@ -4,23 +4,23 @@
     "NO_MESSAGE_1": "Ups! Wygląda na to, że nie ma wiadomości od klientów w Twojej skrzynce odbiorczej.",
     "NO_MESSAGE_2": " aby wysłać wiadomość na swoją stronę!",
     "NO_INBOX_1": "Hola! Wygląda na to, że nie dodałeś jeszcze żadnej skrzynki odbiorczej.",
-    "NO_INBOX_2": " rozpocząć",
+    "NO_INBOX_2": " aby rozpocząć",
     "NO_INBOX_AGENT": "Uh Oh! Wygląda na to, że nie jesteś częścią żadnej skrzynki odbiorczej. Skontaktuj się z administratorem",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Szukaj wiadomości w konwersacjach",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Szukaj wiadomości",
+      "LOADING_MESSAGE": "Trwa przetwarzanie danych...",
+      "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
+      "NO_MATCHING_RESULTS": "Brak wiadomości pasujących do parametrów wyszukiwania."
     },
     "CLICK_HERE": "Kliknij tutaj",
     "LOADING_INBOXES": "Ładowanie skrzynek odbiorczych",
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
-    "CANNOT_REPLY": "You cannot reply due to",
+    "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
+    "LAST_INCOMING_TWEET": "Odpowiadasz na ostatniego przychodzącego tweeta",
     "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
     "HEADER": {
       "RESOLVE_ACTION": "Rozwiąż",
@@ -42,21 +42,27 @@
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
-    "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona"
+    "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Usuń",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Wyślij transkrypt rozmowy",
+    "DESC": "Wyślij kopię transkryptu rozmowy na podany adres e-mail",
     "SUBMIT": "Prześlij",
     "CANCEL": "Anuluj",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Transkrypcja czatu została wysłana pomyślnie",
+    "SEND_EMAIL_ERROR": "Wystąpił błąd, spróbuj ponownie",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript of the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Wyślij transkrypt do klienta",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Wyślij transkrypt na inny adres e-mail",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Wprowadź adres e-mail",
         "ERROR": "Wprowadź poprawny adres e-mail"
       }
     }

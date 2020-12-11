@@ -31,13 +31,13 @@
       <div class="multiselect-box ion-headphone">
         <multiselect
           v-model="currentChat.meta.assignee"
-          :options="agentList"
-          label="name"
           :allow-empty="true"
-          deselect-label="Remove"
-          placeholder="Select Agent"
+          :deselect-label="$t('CONVERSATION.ASSIGNMENT.REMOVE')"
+          :options="agentList"
+          :placeholder="$t('CONVERSATION.ASSIGNMENT.SELECT_AGENT')"
+          :select-label="$t('CONVERSATION.ASSIGNMENT.ASSIGN')"
+          label="name"
           selected-label
-          select-label="Assign"
           track-by="id"
           @select="assignAgent"
           @remove="removeAgent"

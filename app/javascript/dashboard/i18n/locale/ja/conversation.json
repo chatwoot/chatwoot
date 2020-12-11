@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "非公開設定の注意：あなたとあなたのチームのみに表示されます",
     "CHANGE_STATUS": "会話の状態が変更されました",
-    "CHANGE_AGENT": "会話の担当者が変更されました"
+    "CHANGE_AGENT": "会話の担当者が変更されました",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "削除",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "会話の記録を送信",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。",
     "FORM": {
       "SEND_TO_CONTACT": "顧客に会話の記録を転送する",
-      "SEND_TO_AGENT": "割り当てられた担当者の会話記録を送信する",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "会話の記録を別のEメールアドレスに転送する\n",
       "EMAIL": {
         "PLACEHOLDER": "Eメールアドレスを入力してください",

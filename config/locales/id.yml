@@ -1,0 +1,58 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+id:
+  hello: "Hello world"
+  messages:
+    reset_password_success: Woot! Permintaan pengaturan ulang kata sandi berhasil. Periksa email Anda untuk mendapatkan petunjuk.
+    reset_password_failure: Aduh! Kami tidak dapat menemukan pengguna dengan email yang dimasukkan.
+  errors:
+    signup:
+      disposable_email: Kami tidak mengizinkan email sekali pakai
+      invalid_email: Anda telah memasukkan email yang tidak valid
+      email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
+      failed: Pendaftaran gagal
+  conversations:
+    activity:
+      status:
+        resolved: "Percakapan ditandai selesai oleh %{user_name}"
+        open: "Percakapan telah dibuka kembali oleh %{user_name}"
+        auto_resolved: "Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari"
+      assignee:
+        self_assigned: "%{user_name} menetapkan sendiri percakapan ini"
+        assigned: "Ditugaskan ke %{assignee_name} oleh %{user_name}"
+        removed: "Percakapan batal ditetapkan oleh %{user_name}"
+      labels:
+        added: "%{user_name} menambahkan %{labels}"
+        removed: "%{user_name} menghapus %{labels}"
+      muted: "%{user_name} me-mute percakapan"
+      unmuted: "%{user_name} telah un-mute percakapan"
+    templates:
+      greeting_message_body: "%{account_name} biasanya membalas dalam beberapa jam."
+      ways_to_reach_you_message_body: "Beri tim cara untuk menghubungi Anda."
+      email_input_box_message_body: "Dapatkan pemberitahuan melalui email"
+    reply:
+      email_subject: "Pesan baru pada percakapan ini"
+      transcript_subject: "Transkrip Percakapan"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack adalah alat obrolan yang menyatukan semua komunikasi Anda di satu tempat. Dengan mengintegrasikan Slack, Anda bisa mendapatkan pemberitahuan tentang semua percakapan baru di akun Anda tepat di dalam Slack Anda."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook event memberi Anda informasi realtime tentang apa yang terjadi di akun Anda. Anda dapat menggunakan webhook untuk mengkomunikasikan acara ke aplikasi favorit Anda seperti Slack atau GitHub. Klik Konfigurasi untuk mengatur webhook Anda."

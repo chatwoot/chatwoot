@@ -1,0 +1,70 @@
+{
+  "CONVERSATION": {
+    "404": "Pilih percakapan dari panel kiri",
+    "NO_MESSAGE_1": "Aduh! Sepertinya tidak ada pesan dari pelanggan di kotak masuk Anda.",
+    "NO_MESSAGE_2": " untuk mengirim pesan ke halaman Anda!",
+    "NO_INBOX_1": "Halo! Sepertinya Anda belum menambahkan kotak masuk apa pun.",
+    "NO_INBOX_2": " untuk memulai",
+    "NO_INBOX_AGENT": "Aduh! Sepertinya Anda bukan bagian dari kotak masuk mana pun. Silakan hubungi administrator Anda",
+    "SEARCH_MESSAGES": "Mencari pesan didalam percakapan",
+    "SEARCH": {
+      "TITLE": "Mencari pesan",
+      "LOADING_MESSAGE": "Mengolah data...",
+      "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
+      "NO_MATCHING_RESULTS": "Tidak ada pesan yang cocok dengan parameter pencarian."
+    },
+    "CLICK_HERE": "Klik disini",
+    "LOADING_INBOXES": "Memuat kotak masuk",
+    "LOADING_CONVERSATIONS": "Memuat Percakapan",
+    "CANNOT_REPLY": "Anda tidak dapat membalas karena",
+    "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "LAST_INCOMING_TWEET": "Anda membalas tweet masuk terakhir",
+    "REPLYING_TO": "Anda membalas:",
+    "REMOVE_SELECTION": "Hapus Pilihan",
+    "DOWNLOAD": "Unduh",
+    "HEADER": {
+      "RESOLVE_ACTION": "Menyelesaikan",
+      "REOPEN_ACTION": "Buka Kembali",
+      "OPEN": "Selebihnya",
+      "CLOSE": "Tutup",
+      "DETAILS": "detail"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
+      "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen"
+    },
+    "REPLYBOX": {
+      "REPLY": "Balas",
+      "PRIVATE_NOTE": "Catatan Pribadi",
+      "SEND": "Kirim",
+      "CREATE": "Tambahkan Catatan",
+      "TWEET": "Tweet"
+    },
+    "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
+    "CHANGE_STATUS": "Status percakapan berubah",
+    "CHANGE_AGENT": "Petugas Percakapan berubah",
+    "SENT_BY": "Dikirim oleh:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Pilih Agen",
+      "REMOVE": "Hapus",
+      "ASSIGN": "Tugaskan"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Kirim transkrip percakapan",
+    "DESC": "Kirim salinan transkrip percakapan ke alamat email yang ditentukan",
+    "SUBMIT": "Kirim",
+    "CANCEL": "Batalkan",
+    "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
+    "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
+    "FORM": {
+      "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
+      "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Kirim transkrip ke alamat email yang lain",
+      "EMAIL": {
+        "PLACEHOLDER": "Masukkan alamat email",
+        "ERROR": "Mohon masukkan alamat email yang valid"
+      }
+    }
+  }
+}
