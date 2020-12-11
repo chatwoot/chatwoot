@@ -90,11 +90,33 @@ RSpec.describe 'Contacts API', type: :request do
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let!(:contact1) { create(:contact, account: account) }
-      let!(:contact2) { create(:contact, account: account, email: 'test@test.com') }
+      let!(:contact2) { create(:contact, name: 'testcontact', account: account, email: 'test@test.com') }
 
       it 'returns all contacts with contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: contact2.email },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+      end
+
+      it 'matches the contact ignoring the case in email' do
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'Test@Test.com' },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(contact2.email)
+        expect(response.body).not_to include(contact1.email)
+      end
+
+      it 'matches the contact ignoring the case in name' do
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: 'TestContact' },
             headers: admin.create_new_auth_token,
             as: :json
 
