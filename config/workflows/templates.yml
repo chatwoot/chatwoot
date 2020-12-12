@@ -1,7 +1,16 @@
 csat_demo:
-  id: csat_demo
+  id: csat
   name: Customer Satisfaction Survey
   description: "Ask a quick survey of customer satisfaction"
+  config: 
+    - name: message
+      type: string
+    - name: enabled
+      type: boolean
+welcome_message:
+  id: welcome_message
+  name: Welcome Message
+  description: "Send a welcome message to new visitors on your website"
   config: 
     - name: message
       type: string

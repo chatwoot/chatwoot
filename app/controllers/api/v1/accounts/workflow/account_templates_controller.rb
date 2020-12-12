@@ -33,8 +33,8 @@ class Api::V1::Accounts::Workflow::AccountTemplatesController < Api::V1::Account
   private
 
   def update_inboxes_list
-    inboxes_to_be_added_ids.each { |user_id| @account_template.add_inbox(user_id) }
-    inboxes_to_be_removed_ids.each { |user_id| @account_template.remove_inbox(user_id) }
+    inboxes_to_be_added_ids.each { |inbox_id| @account_template.add_inbox(inbox_id) }
+    inboxes_to_be_removed_ids.each { |inbox_id| @account_template.remove_inbox(inbox_id) }
   end
 
   def inboxes_to_be_added_ids

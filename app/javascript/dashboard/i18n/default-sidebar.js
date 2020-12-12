@@ -8,6 +8,7 @@ export const getSidebarItems = accountId => ({
       'inbox_conversation',
       'conversation_through_inbox',
       'contacts_dashboard',
+      'workflows_dashboard',
       'settings_account_reports',
       'profile_settings',
       'profile_settings_index',
@@ -30,6 +31,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/contacts`),
         toStateName: 'contacts_dashboard',
+      },
+      workflows: {
+        icon: 'ion-shuffle',
+        label: 'WORKFLOWS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/workflows`),
+        toStateName: 'workflows_dashboard',
       },
       report: {
         icon: 'ion-arrow-graph-up-right',

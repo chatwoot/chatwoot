@@ -7,6 +7,7 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
+    execute_account_workflow_templates
   end
 
   private
@@ -36,5 +37,14 @@ class MessageTemplates::HookExecutionService
 
   def contact_has_email?
     contact.email
+  end
+
+  def execute_account_workflow_templates
+    # TODO: clean up this logic
+    conversation.inbox.workflow_account_inbox_templates.each do |inbox_template|
+      if inbox_template.account_template.template_id == 'csat'
+        ::MessageTemplates::Template::Csat.new(message: message, account_template: inbox_template.account_template).perform
+      end
+    end
   end
 end

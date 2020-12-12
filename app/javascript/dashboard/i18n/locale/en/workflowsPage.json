@@ -1,0 +1,33 @@
+{
+  "WORKFLOWS_PAGE": {
+    "HEADER": "Workflows",
+    "HEADER_BTN_TXT": "Add Workflows",
+    "LOADING": "Fetching Workflows",
+    "SIDEBAR_TXT": "<p><b>Workflows</b> </p> <p>Workflows helps to enhance you chatwoot inbox with additional capabilities.</p><p> Choose from multiple options like auto assigment, auto resolutions Customer CSAT survery etc </p><p></p>",
+    "LIST": {
+      "404": "There are no workflows available in this account."
+    },
+    "EDIT": {
+      "TITLE": "Edit Workflow",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Edit",
+      "API": {
+        "SUCCESS_MESSAGE": "Workflow updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Workflow deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
+    }
+  }
+}

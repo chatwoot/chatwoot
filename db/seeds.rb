@@ -12,8 +12,6 @@ user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
 user.skip_confirmation!
 user.save!
 
-SuperAdmin.create!(email: 'john@acme.inc', password: '123456') unless Rails.env.production?
-
 AccountUser.create!(
   account_id: account.id,
   user_id: user.id,
@@ -38,3 +36,13 @@ conversation = Conversation.create!(
 )
 Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
 CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
+
+## Development Specific Seeds
+unless Rails.env.production?
+  SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
+  welcome_template = account.workflow_account_templates.create!(template_id: 'welcome_message', config: { message: 'Hello world' })
+  welcome_template.add_inbox(inbox.id)
+
+  csat_template = account.workflow_account_templates.create!(template_id: 'csat', config: { message: 'How happy are you with the support recieved ?' })
+  csat_template.add_inbox(inbox.id)
+end

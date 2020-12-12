@@ -112,6 +112,7 @@
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
+    "WORKFLOWS": "Workflows",
     "REPORTS": "Reports",
     "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Settings",
