@@ -10,8 +10,13 @@ import MoreActions from '../MoreActions';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
-localVue.locale('en', i18n.en);
+
 localVue.component('woot-button', Button);
+
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
 
 describe('MoveActions', () => {
   let currentChat = { id: 8, muted: false };
@@ -55,7 +60,7 @@ describe('MoveActions', () => {
       getters,
     });
 
-    moreActions = mount(MoreActions, { store, localVue });
+    moreActions = mount(MoreActions, { store, localVue, i18n: i18nConfig });
   });
 
   it('opens the menu when user clicks "more"', async () => {
