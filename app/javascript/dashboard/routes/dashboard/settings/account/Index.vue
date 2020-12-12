@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
+  <div class="columns profile--settings">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
           </h4>
@@ -95,7 +95,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { required, minValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
@@ -170,7 +169,7 @@ export default {
           auto_resolve_duration,
         } = this.getAccount(this.accountId);
 
-        Vue.config.lang = locale;
+        this.$root.$i18n.locale = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -198,7 +197,7 @@ export default {
           support_email: this.supportEmail,
           auto_resolve_duration: this.autoResolveDuration,
         });
-        Vue.config.lang = this.locale;
+        this.$root.$i18n.locale = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));

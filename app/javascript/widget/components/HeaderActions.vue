@@ -15,7 +15,6 @@
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
-import Vue from 'vue';
 
 export default {
   name: 'HeaderActions',
@@ -42,7 +41,7 @@ export default {
       const popoutWindowURL = buildPopoutURL({
         origin,
         websiteToken,
-        locale: Vue.config.lang,
+        locale: this.$root.$i18n.locale,
         conversationCookie: authToken,
       });
       const popoutWindow = window.open(
