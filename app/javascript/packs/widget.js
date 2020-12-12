@@ -9,9 +9,9 @@ import i18n from '../widget/i18n';
 Vue.use(VueI18n);
 Vue.use(Vuelidate);
 
-Vue.config.lang = 'en';
-Object.keys(i18n).forEach(lang => {
-  Vue.locale(lang, i18n[lang]);
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
 });
 
 // Event Bus
@@ -22,6 +22,7 @@ Vue.config.productionTip = false;
 window.onload = () => {
   window.WOOT_WIDGET = new Vue({
     store,
+    i18n: i18nConfig,
     render: h => h(App),
   }).$mount('#app');
 
