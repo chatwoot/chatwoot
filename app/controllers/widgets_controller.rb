@@ -4,6 +4,7 @@ class WidgetsController < ActionController::Base
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
+  before_action :set_ip
   after_action :allow_iframe_requests
 
   def index; end
@@ -46,6 +47,15 @@ class WidgetsController < ActionController::Base
 
     payload = { source_id: contact_inbox.source_id, inbox_id: @web_widget.inbox.id }
     @token = ::Widget::TokenService.new(payload: payload).generate_token
+  end
+
+  def set_ip
+    return if @contact.account.feature_enabled?('ip_lookup')
+
+    @contact[:additional_attributes][:created_at_ip] ||= request.remote_ip
+    @contact[:additional_attributes][:updated_at_ip] = request.remote_ip
+
+    @@contact.save!
   end
 
   def permitted_params
