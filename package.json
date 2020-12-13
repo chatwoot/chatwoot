@@ -21,6 +21,7 @@
     "chart.js": "~2.5.0",
     "copy-text-to-clipboard": "^2.1.1",
     "core-js": "3",
+    "country-code-emoji": "^1.0.0",
     "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
     "foundation-sites": "~6.5.3",
