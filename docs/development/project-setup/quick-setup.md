@@ -11,6 +11,8 @@ Use the following command to install ruby dependencies.
 bundle
 ```
 
+If you face issue with pg gem, please refer to [Common Errors](/docs/common-errors#pg-gem-installation-error)
+
 ### Install JavaScript dependencies
 
 ```bash
@@ -18,6 +20,12 @@ yarn
 ```
 
 This would install all required dependencies for Chatwoot application.
+
+### Setup environment variables.
+
+```
+cp .env.example .env
+```
 
 Please refer to [environment-variables](./environment-variables) to read on setting environment variables.
 
@@ -81,7 +89,7 @@ docker-compose run -rm server bundle exec rake db:reset
 
 This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
 
-### Running Cypress Tests 
+### Running Cypress Tests
 
 Refer the docs to learn how to write cypress specs
 https://github.com/shakacode/cypress-on-rails
@@ -89,7 +97,7 @@ https://docs.cypress.io/guides/overview/why-cypress.html
 
 ```
 # in terminal tab1
-overmind start -f Procfile.test 
+overmind start -f Procfile.test
 # in terminal tab2
 yarn cypress open --project ./test
 ```
