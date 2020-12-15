@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Aquí podeu afegir agents per gestionar la vostra safata d'entrada de nova creació. Només aquests agents seleccionats tindran accés a la vostra safata d'entrada. Els agents que no formen part d'aquesta safata d'entrada no podran veure ni respondre als missatges d'aquesta safata d'entrada quan s’inicien. <br><b>PD:</b> Com a administrador, si necessiteu accés a totes les bústies d’entrada, heu d’afegir-vos com a agent a totes les bústies de sortida que creeu.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Afageix almenys un agent a la teva safata d'entrada",
+        "PICK_AGENTS": "Tria agents per la safata d'entrada"
       },
       "DETAILS": {
         "TITLE": "Detalls de la safata d'entrada",
