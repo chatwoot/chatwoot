@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
-    "CHANGE_AGENT": "Petugas Percakapan berubah"
+    "CHANGE_AGENT": "Petugas Percakapan berubah",
+    "SENT_BY": "Dikirim oleh:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Pilih Agen",
+      "REMOVE": "Hapus",
+      "ASSIGN": "Tugaskan"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Kirim transkrip percakapan",
@@ -53,7 +59,7 @@
     "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
     "FORM": {
       "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Kirim transkrip ke alamat email yang lain",
       "EMAIL": {
         "PLACEHOLDER": "Masukkan alamat email",

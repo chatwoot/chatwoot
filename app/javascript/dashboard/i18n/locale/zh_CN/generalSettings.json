@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Press enter to select",
+      "ENTER_TO_REMOVE": "Press enter to remove",
+      "SELECT_ONE": "Select one"
+    }
   }
 }

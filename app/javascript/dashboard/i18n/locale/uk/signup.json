@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Реєстрація пройшла успішно",
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
-    "SUBMIT": "Додати"
+    "SUBMIT": "Додати",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Швидкі відповіді",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

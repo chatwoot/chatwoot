@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Успешная регистрация",
       "ERROR_MESSAGE": "Не удается соединиться с сервером Woot, попробуйте позже"
     },
-    "SUBMIT": "Отправить"
+    "SUBMIT": "Отправить",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Шаблонные ответы",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

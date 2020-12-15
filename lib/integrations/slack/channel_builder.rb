@@ -21,8 +21,8 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def find_or_create_channel
-    exisiting_channel = slack_client.conversations_list.channels.find { |channel| channel['name'] == params[:channel] }
-    @channel = exisiting_channel || slack_client.conversations_create(name: params[:channel])['channel']
+    existing_channel = slack_client.conversations_list.channels.find { |channel| channel['name'] == params[:channel] }
+    @channel = existing_channel || slack_client.conversations_create(name: params[:channel])['channel']
   end
 
   def update_reference_id

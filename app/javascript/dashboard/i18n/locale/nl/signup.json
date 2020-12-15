@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registratie geslaagd",
       "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
     },
-    "SUBMIT": "Bevestigen"
+    "SUBMIT": "Bevestigen",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Standaard antwoorden",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
       "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
-    "SUBMIT": "Lähetä"
+    "SUBMIT": "Lähetä",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Rajattomat postilaatikot",
+      "ROBUST_REPORTING": "Jykevä raportointi",
+      "CANNED_RESPONSES": "Tallennetut vastaukset",
+      "AUTO_ASSIGNMENT": "Automaattinen delegointi",
+      "SECURITY": "Yritystason suojaus"
+    }
   }
 }

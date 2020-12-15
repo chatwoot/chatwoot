@@ -42,7 +42,13 @@
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
-    "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه"
+    "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "حذف",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "إرسال نص المحادثة",

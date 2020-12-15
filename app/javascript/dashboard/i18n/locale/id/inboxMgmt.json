@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agen",
-        "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat."
+        "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat.",
+        "VALIDATION_ERROR": "Tambahkan setidaknya satu agen ke Kotak Masuk baru Anda",
+        "PICK_AGENTS": "Pilih agen untuk kotak masuk"
       },
       "DETAILS": {
         "TITLE": "Detail Kotak Masuk",

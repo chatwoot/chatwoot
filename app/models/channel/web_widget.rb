@@ -62,9 +62,12 @@ class Channel::WebWidget < ApplicationRecord
     "
   end
 
-  def create_contact_inbox
+  def create_contact_inbox(additional_attributes = {})
     ActiveRecord::Base.transaction do
-      contact = inbox.account.contacts.create!(name: ::Haikunator.haikunate(1000))
+      contact = inbox.account.contacts.create!(
+        name: ::Haikunator.haikunate(1000),
+        additional_attributes: additional_attributes
+      )
       contact_inbox = ::ContactInbox.create!(
         contact_id: contact.id,
         inbox_id: inbox.id,
