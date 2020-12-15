@@ -27,6 +27,8 @@ es:
       invalid_email: Ha introducido un correo electrónico no válido
       email_already_exists: "Ya te has registrado en una cuenta con %{email}"
       failed: Registro fallido
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
