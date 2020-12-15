@@ -27,6 +27,8 @@ cs:
       invalid_email: Zadali jste neplatný e-mail
       email_already_exists: "Již jste se zaregistrovali k účtu s %{email}"
       failed: Registrace se nezdařila
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

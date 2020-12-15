@@ -27,6 +27,8 @@ ta:
       invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
       email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

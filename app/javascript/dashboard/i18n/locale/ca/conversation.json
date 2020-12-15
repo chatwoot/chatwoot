@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
       "NO_MATCHING_RESULTS": "No hi ha missatges que coincideixin amb els paràmetres de cerca."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
@@ -43,11 +45,11 @@
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
     "CHANGE_AGENT": "Assignació de la conversa canviat",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Enviat per:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Seleccionar Agent",
       "REMOVE": "Suprimeix",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Assignar"
     }
   },
   "EMAIL_TRANSCRIPT": {

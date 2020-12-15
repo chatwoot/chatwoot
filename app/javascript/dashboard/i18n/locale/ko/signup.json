@@ -1,39 +1,39 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "계정 생성",
+    "TITLE": "회원가입",
+    "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 및<a href=\"https://www.chatwoot.com/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
+      "LABEL": "계정 이름",
       "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "ERROR": "계정 이름이 너무 짧음"
     },
     "EMAIL": {
-      "LABEL": "Email",
+      "LABEL": "이메일",
       "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "ERROR": "이메일이 잘못됨"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "비밀번호",
+      "PLACEHOLDER": "비밀번호",
+      "ERROR": "비밀번호가 너무 짧음"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "비밀번호 확인",
+      "PLACEHOLDER": "비밀번호 확인",
+      "ERROR": "비밀번호가 일치하지 않음"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "등록 성공",
+      "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
-    "SUBMIT": "Submit",
+    "SUBMIT": "보내기",
     "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Canned Responses",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
+      "UNLIMITED_INBOXES": "받은 메시지함 무제한",
+      "ROBUST_REPORTING": "강력한 보고",
+      "CANNED_RESPONSES": "미리 준비된 답변",
+      "AUTO_ASSIGNMENT": "자동 할당",
+      "SECURITY": "엔터프라이즈급 보안"
     }
   }
 }

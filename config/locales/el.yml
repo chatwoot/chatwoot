@@ -27,6 +27,8 @@ el:
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

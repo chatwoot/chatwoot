@@ -3,6 +3,7 @@
     "HEADER": "Raporty",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie otrzymaliśmy wystarczającej ilości punktów danych, aby wygenerować raport, spróbuj ponownie później.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Rozmowy",

@@ -1,69 +1,71 @@
 {
   "CONVERSATION": {
-    "404": "Please select a conversation from left pane",
-    "NO_MESSAGE_1": "Uh oh! Looks like there are no messages from customers in your inbox.",
-    "NO_MESSAGE_2": " to send a message to your page!",
-    "NO_INBOX_1": "Hola! Looks like you haven't added any inboxes yet.",
-    "NO_INBOX_2": " to get started",
-    "NO_INBOX_AGENT": "Uh Oh! Looks like you are not part of any inbox. Please contact your administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "404": "왼쪽 창에서 대화를 선택하십시오.",
+    "NO_MESSAGE_1": "어라! 받은 메시지함에 고객의 메시지가 없는 것 같아요.",
+    "NO_MESSAGE_2": " 페이지에 메시지를 보내기 위해서!",
+    "NO_INBOX_1": "안녕! 아직 받은 편지함을 하나도 추가하지 않은 것 같아요.",
+    "NO_INBOX_2": " 시작하려면",
+    "NO_INBOX_AGENT": "오! 어떤 받은 메시지함에도 속하지 않는 것 같습니다. 관리자에게 문의하십시오.",
+    "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "메시지 검색",
+      "LOADING_MESSAGE": "데이터 처리 중...",
+      "PLACEHOLDER": "메시지를 검색할 텍스트 입력",
+      "NO_MATCHING_RESULTS": "검색 매개 변수와 일치하는 메시지가 없음"
     },
-    "CLICK_HERE": "Click here",
-    "LOADING_INBOXES": "Loading inboxes",
-    "LOADING_CONVERSATIONS": "Loading Conversations",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
-    "DOWNLOAD": "Download",
+    "UNREAD_MESSAGES": "안 읽은 메시지",
+    "UNREAD_MESSAGE": "안 읽은 메시지",
+    "CLICK_HERE": "여기를 클릭하세요.",
+    "LOADING_INBOXES": "받은 메시지함 불러오는 중",
+    "LOADING_CONVERSATIONS": "대화 불러오는 중",
+    "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
+    "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "LAST_INCOMING_TWEET": "마지막 수신 트윗에 회신하는 경우",
+    "REPLYING_TO": "회신할 대상:",
+    "REMOVE_SELECTION": "선택 항목 제거",
+    "DOWNLOAD": "다운로드",
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN": "More",
-      "CLOSE": "Close",
-      "DETAILS": "details"
+      "RESOLVE_ACTION": "해결함",
+      "REOPEN_ACTION": "다시 열기",
+      "OPEN": "더보기",
+      "CLOSE": "닫기",
+      "DETAILS": "자세히"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
+      "PRIVATE_MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. 에이전트만 볼 수 있습니다."
     },
     "REPLYBOX": {
-      "REPLY": "Reply",
-      "PRIVATE_NOTE": "Private Note",
-      "SEND": "Send",
-      "CREATE": "Add Note",
-      "TWEET": "Tweet"
+      "REPLY": "답글",
+      "PRIVATE_NOTE": "개인 노트",
+      "SEND": "보내기",
+      "CREATE": "노트 추가",
+      "TWEET": "트윗"
     },
-    "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
-    "CHANGE_STATUS": "Conversation status changed",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "SENT_BY": "Sent by:",
+    "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
+    "CHANGE_STATUS": "대화 상태가 변경됨",
+    "CHANGE_AGENT": "대화 담당자가 변경됨",
+    "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
-      "REMOVE": "Remove",
-      "ASSIGN": "Assign"
+      "SELECT_AGENT": "에이전트 선택",
+      "REMOVE": "제거",
+      "ASSIGN": "할당하다"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
-    "SUBMIT": "Submit",
-    "CANCEL": "Cancel",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "TITLE": "대화 내용 보내기",
+    "DESC": "지정된 이메일 주소로 대화 내용 사본 보내기",
+    "SUBMIT": "보내기",
+    "CANCEL": "취소",
+    "SEND_EMAIL_SUCCESS": "대화 내용이 성공적으로 전송됨",
+    "SEND_EMAIL_ERROR": "오류가 발생했습니다. 다시 시도하십시오.",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "고객에게 대화기록 보내기",
+      "SEND_TO_AGENT": "할당된 에이전트로 스크립트 보내기",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "다른 이메일 주소로 대화기록 보내기",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
-        "ERROR": "Please enter a valid email address"
+        "PLACEHOLDER": "이메일 주소 입력",
+        "ERROR": "올바른 전자 메일 주소를 입력하십시오."
       }
     }
   }
