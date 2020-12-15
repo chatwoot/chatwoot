@@ -12,6 +12,12 @@
         icon="ion-map"
       />
       <contact-details-item
+        v-if="ipAddress"
+        :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+        :value="ipAddress"
+        icon="ion-android-locate"
+      />
+      <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
         :value="browserName"
@@ -105,6 +111,12 @@ export default {
     browserName() {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
+    },
+    ipAddress() {
+      const {
+        additional_attributes: { created_at_ip: createdAtIp },
+      } = this.contact;
+      return createdAtIp;
     },
     location() {
       const {
