@@ -27,6 +27,8 @@ tr:
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

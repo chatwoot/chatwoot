@@ -27,6 +27,8 @@ ro:
       invalid_email: Ați introdus un e-mail invalid
       email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
       failed: Înregistrare eșuată
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

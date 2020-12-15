@@ -13,6 +13,8 @@
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "اینجا کلیک کنید",
     "LOADING_INBOXES": "در حال بارگیری صندوق‌های ورودی",
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",

@@ -29,11 +29,11 @@
     },
     "SUBMIT": "Envia",
     "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
+      "UNLIMITED_INBOXES": "Safates ilimitades",
+      "ROBUST_REPORTING": "Informa robust",
       "CANNED_RESPONSES": "Respostes predeterminades",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
+      "AUTO_ASSIGNMENT": "Tasca Automàtica",
+      "SECURITY": "Seguretat a nivell empreserial"
     }
   }
 }

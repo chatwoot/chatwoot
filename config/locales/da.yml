@@ -27,6 +27,8 @@ da:
       invalid_email: Du har indtastet en ugyldig e-mail
       email_already_exists: "Du har allerede tilmeldt dig en konto med %{email}"
       failed: Tilmelding mislykkedes
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

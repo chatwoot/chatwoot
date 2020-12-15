@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "ここをクリック",
     "LOADING_INBOXES": "受信トレイを読み込み中",
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",

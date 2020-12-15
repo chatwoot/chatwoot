@@ -46,9 +46,9 @@
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
+      "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
+      "SELECT_ONE": "Selecciona un"
     }
   }
 }

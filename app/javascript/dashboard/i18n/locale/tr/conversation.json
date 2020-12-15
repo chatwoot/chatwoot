@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
       "NO_MATCHING_RESULTS": "Arama parametreleriyle eşleşen mesaj yok."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Buraya Tıkla",
     "LOADING_INBOXES": "Gelen kutuları yükleniyor",
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
@@ -43,11 +45,11 @@
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Temsilci Seçin",
       "REMOVE": "Kaldır",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Atama yap"
     }
   },
   "EMAIL_TRANSCRIPT": {

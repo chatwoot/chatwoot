@@ -29,11 +29,11 @@
     },
     "SUBMIT": "Yolla",
     "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
+      "UNLIMITED_INBOXES": "Sınırsız gelen kutusu",
+      "ROBUST_REPORTING": "Sağlam Raporlama",
       "CANNED_RESPONSES": "Hazır Yanıtlar",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
+      "AUTO_ASSIGNMENT": "Otomatik Atama",
+      "SECURITY": "Kurumsal düzeyde güvenlik"
     }
   }
 }
