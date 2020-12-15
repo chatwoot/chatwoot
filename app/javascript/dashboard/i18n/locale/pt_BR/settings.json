@@ -27,7 +27,7 @@
         "NOTE": "Atualize suas preferências de notificação por e-mail aqui",
         "CONVERSATION_ASSIGNMENT": "Enviar notificações por email quando uma conversa for atribuída a mim",
         "CONVERSATION_CREATION": "Enviar notificações por email quando uma nova conversa for criada",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações por e-mail quando uma nova mensagem for criada numa conversa já atribuída"
       },
       "API": {
         "UPDATE_SUCCESS": "Suas preferências de notificação foram atualizadas com sucesso",
@@ -38,7 +38,7 @@
         "NOTE": "Atualize suas preferências de notificação Push aqui",
         "CONVERSATION_ASSIGNMENT": "Enviar notificações push quando uma conversa é atribuída a mim",
         "CONVERSATION_CREATION": "Enviar notificações push quando uma nova conversa é criada",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envie notificações quando uma nova mensagem for criada numa conversa já atribuída",
         "HAS_ENABLED_PUSH": "Você ativou push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificações push"
       },
@@ -113,8 +113,8 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversas",
     "REPORTS": "Relatórios",
-    "CONTACTS": "Contacts (Beta)",
-    "SETTINGS": "Confirgurações",
+    "CONTACTS": "Contatos (Beta)",
+    "SETTINGS": "Configurações",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "INBOXES": "Caixas de Entrada",

@@ -28,28 +28,26 @@ brew install git
 
 ### Install RVM
 
-You need software-properties-common installed in order to add PPA repositories.
-
 ```bash
 curl -L https://get.rvm.io | bash -s stable
-source ~/.rvm/scripts/rvm
 ```
 
 ### Install Ruby
 
-Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.7.1
+Chatwoot APIs are built on Ruby on Rails, you need install ruby 2.7.2
 
 If you are using `rvm` :
 
 ```bash
-rvm install ruby-2.7.1
-rvm use 2.7.1
+rvm install ruby-2.7.2
+rvm use 2.7.2
+source ~/.rvm/scripts/rvm
 ```
 
 If you are using `rbenv` to manage ruby versions do :
 
 ```bash
-rbenv install 2.7.1
+rbenv install 2.7.2
 ```
 
 `rbenv` identifies the ruby version from `.ruby-version` file on the root of the project and loads it automatically.
@@ -72,7 +70,13 @@ brew install yarn
 
 ### Install postgres
 
-The database used in Chatwoot is PostgreSQL. Use the following commands to install postgres.
+The database used in Chatwoot is PostgreSQL.
+
+1) Install PostgresApp (https://postgresapp.com). This is easiest way to get started with PostgreSQL on mac.
+
+or
+
+2) Use the following commands to install postgres.
 
 ```bash
 brew install postgresql
@@ -92,10 +96,10 @@ Chatwoot uses Redis server in agent assignments and reporting. To install `redis
 brew install redis
 ```
 
-Enable Redis to start on system boot.
+Start the redis service.
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+brew services start redis
 ```
 
 ### Install imagemagick

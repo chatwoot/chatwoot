@@ -27,6 +27,8 @@ ca:
       invalid_email: Heu introduït un correu electrònic no vàlid
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       failed: El registre ha fallat
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
@@ -49,3 +51,10 @@ ca:
     reply:
       email_subject: "Missatges nous en aquesta conversa"
       transcript_subject: "Transcripció de conversa"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack és una eina de xat que uneix tota la teva comunicació en un sol lloc. Integrant Slack, podràs rebre notificacions de totes les noves conversacions a la teva compte directament a dins l'Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web."

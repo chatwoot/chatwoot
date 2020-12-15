@@ -2,7 +2,7 @@
   <div class="conversations-sidebar  medium-4 columns">
     <slot></slot>
     <div class="chat-list__top">
-      <h1 class="page-title">
+      <h1 class="page-title text-truncate" :title="pageTitle">
         <woot-sidemenu-icon />
         {{ pageTitle }}
       </h1>

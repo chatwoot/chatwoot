@@ -1,32 +1,32 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "Kullanıcılar",
+    "HEADER_BTN_TXT": "Kullanıcı Ekle",
+    "LOADING": "Kullanıcı Listesi Alınıyor",
+    "SIDEBAR_TXT": "<p><b>Alanlar</b> </p> <p> Bir <b> Temsilci </b>, Müşteri Destek ekibinizin bir üyesidir. </p> <p> Temsilciler, kullanıcılarınızdan gelen mesajları görüntüleyebilecek ve yanıtlayabilecek. Liste, şu anda hesabınızda bulunan tüm aracıları gösterir. </p> <p> Yeni bir temsilci eklemek için <b> Temsilci Ekle </b> 'yi tıklayın. Eklediğiniz temsilci, hesabını etkinleştirmek için bir onay bağlantısı içeren bir e-posta alacak ve ardından Chatwoot'a erişebilecek ve mesajlara yanıt verebilecek. </p> <p> Chatwoot'un özelliklerine erişim aşağıdaki rollere bağlıdır. </p> <p> <b> Temsilci </b> - Bu role sahip temsilciler yalnızca gelen kutularına, raporlara ve konuşmalara erişebilir. Görüşmeleri başka aracılara veya kendilerine atayabilir ve görüşmeleri çözebilirler. </p> <p> <b> Yönetici </b> - Yönetici, ayarlar da dahil olmak üzere hesabınız için etkinleştirilmiş tüm Chatwoot özelliklerine ve tüm normal temsilcilerin ayrıcalıkları. </p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "Yönetici",
+      "AGENT": "Kullanıcı"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "Bu hesapla ilişkilendirilmiş hesap yok",
+      "TITLE": "Bu hesapla ilişkilendirilmiş kullanıcı yok",
+      "DESC": "Ekibinize kullanıcı ekleyebilir veya kaldırabilirsiniz.",
+      "NAME": "İsim",
+      "EMAIL": "E-Posta",
+      "STATUS": "Durum",
+      "ACTIONS": "Hareketler",
+      "VERIFIED": "Doğrulandı",
+      "VERIFICATION_PENDING": "Doğrulama Bekleniyor"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "Ekibinize temsilci ekleyin",
+      "DESC": "Gelen kutularınız için destek sağlayabilecek kişiler ekleyebilirsiniz.",
+      "CANCEL_BUTTON_TEXT": "İptal et",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Kullanıcı Adı",
+          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
         },
         "AGENT_TYPE": {
           "LABEL": "Agent Type",
@@ -34,36 +34,36 @@
           "ERROR": "Agent type is required"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "E-posta adresi",
+          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Kullanıcı Ekle"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla eklendi",
+        "EXIST_MESSAGE": "Temsilci e-postası zaten kullanımda, Lütfen başka bir e-posta adresi deneyin",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla silindi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Temsilciyi düzenle",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Kullanıcı Adı",
+          "PLACEHOLDER": "Lütfen temsilcinin adını girin"
         },
         "AGENT_TYPE": {
           "LABEL": "Agent Type",
@@ -71,26 +71,26 @@
           "ERROR": "Agent type is required"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "E-posta adresi",
+          "PLACEHOLDER": "Lütfen temsilcinin e-posta adresini girin"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Temsilciyi düzenle"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Düzenle",
+      "CANCEL_BUTTON_TEXT": "İptal Et",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Kullanıcı başarıyla güncellendi",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Şifreyi yenile",
+        "ADMIN_SUCCESS_MESSAGE": "Temsilciye şifre sıfırlama talimatlarını içeren bir e-posta gönderildi",
+        "SUCCESS_MESSAGE": "Kullanıcı şifresi başarıyla sıfırlandı",
+        "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No agents found."
+      "NO_RESULTS": "Kullanıcı bulunamadı."
     }
   }
 }

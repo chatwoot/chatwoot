@@ -1,5 +1,9 @@
 <template>
-  <file-upload :size="4096 * 2048" @input-file="onFileUpload">
+  <file-upload
+    :size="4096 * 2048"
+    accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+    @input-file="onFileUpload"
+  >
     <span class="attachment-button ">
       <i v-if="!isUploading.image" class="ion-android-attach" />
       <spinner v-if="isUploading" size="small" />

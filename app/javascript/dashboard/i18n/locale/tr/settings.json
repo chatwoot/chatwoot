@@ -1,142 +1,142 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Profil ayarları",
+    "TITLE": "Profil ayarları",
+    "BTN_TEXT": "Profili Güncelle",
+    "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "Profil Resmi",
+      "ERROR": "Lütfen form hatalarını düzeltin",
+      "REMOVE_IMAGE": "Kaldır",
+      "UPLOAD_IMAGE": "Resim yükleniyor",
+      "UPDATE_IMAGE": "Resmi güncelle",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Profil",
+        "NOTE": "E-posta adresiniz kimliğinizdir ve oturum açmak için kullanılır."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "TITLE": "Parola",
+        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar."
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Erişim Jetonu",
+        "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "E-posta Bildirimleri",
+        "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
+        "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
+        "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Bildirim tercihleriniz başarıyla güncellendi",
+        "UPDATE_ERROR": "Tercihler güncellenirken bir hata oluştu, lütfen tekrar deneyin"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Bildirimler",
+        "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
+        "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
+        "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
+        "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
+        "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profil Resmi"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Tam adınız",
+        "ERROR": "Lütfen geçerli bir tam ad girin",
+        "PLACEHOLDER": "lütfen tam adınızı giriniz"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Ekran adı",
+        "ERROR": "Lütfen geçerli bir tam ad girin",
+        "PLACEHOLDER": "Lütfen bir görünen ad girin, bu görüşmelerde görüntülenecektir"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Uygun",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "Çevirimiçi",
+          "Meşgul",
+          "Çevirimdışı"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Sizin E-posta Adresiniz",
+        "ERROR": "Lütfen geçerli bir tam e-posta adresi",
+        "PLACEHOLDER": "Lütfen e-posta adresinizi girin, bu görüşmelerde görüntülenecektir"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Parola",
+        "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
+        "PLACEHOLDER": "Lütfen yeni bir şifre girin"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "Yeni şifreyi onayla",
+        "ERROR": "Onay parolası, parolayla eşleşmelidir",
+        "PLACEHOLDER": "lütfen şifrenizi tekrar girin"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "Değişiktir",
+    "CHANGE_ACCOUNTS": "Hesap değiştir",
+    "SELECTOR_SUBTITLE": "Aşağıdaki listeden bir hesap seçin",
+    "PROFILE_SETTINGS": "Profil ayarları",
+    "LOGOUT": "Çıkış Yap"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "gün deneme kaldı.",
+    "TRAIL_BUTTON": "Şimdi satın al"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Kopyala",
+      "COPY_SUCCESSFUL": "Kod panoya başarıyla kopyalandı"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "İndir",
+      "UPLOADING": "Yükleniyor ..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Yolla"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Doğrulanıyor...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Gelen Kutusu Ekle"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "CONTACTS": "Contacts (Beta)",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "CONVERSATIONS": "Konuşmalar",
+    "REPORTS": "Raporlar",
+    "CONTACTS": "Kişiler (Beta)",
+    "SETTINGS": "Ayarlar",
+    "HOME": "Anasayfa",
+    "AGENTS": "Kullanıcılar",
+    "INBOXES": "Gelen kutuları",
+    "CANNED_RESPONSES": "Hazır Yanıtlar",
+    "INTEGRATIONS": "Entegrasyonlar",
+    "ACCOUNT_SETTINGS": "Hesap ayarları",
+    "LABELS": "Etiketler"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "Yeni hesap",
+    "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Hesap başarıyla oluşturuldu",
+      "EXIST_MESSAGE": "Bu Hesap Zaten Mevcut",
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Hesap adı",
+        "PLACEHOLDER": "Şirketiniz"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Yolla"
     }
   }
 }

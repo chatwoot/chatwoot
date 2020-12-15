@@ -1,0 +1,114 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Tidak Tersedia",
+    "EMAIL_ADDRESS": "Alamat Email",
+    "PHONE_NUMBER": "Nomor Telpon",
+    "COPY_SUCCESSFUL": "Berhasil disalin ke clipboard",
+    "COMPANY": "Perusahaan",
+    "LOCATION": "Lokasi",
+    "CONVERSATION_TITLE": "Detail Percakapan",
+    "BROWSER": "Browser",
+    "OS": "Sistem Operasi",
+    "INITIATED_FROM": "Dimulai dari",
+    "INITIATED_AT": "Dimulai pada",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
+      "TITLE": "Percakapan Sebelumnya"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Atribut Kustom"
+    },
+    "LABELS": {
+      "TITLE": "Label Percakapan",
+      "MODAL": {
+        "TITLE": "Label untuk",
+        "ACTIVE_LABELS": "Label ditambahkan ke percakapan",
+        "INACTIVE_LABELS": "Label tersedia di akun",
+        "REMOVE": "Klik ikon X untuk menghapus label",
+        "ADD": "Klik ikon + untuk menambah label",
+        "UPDATE_BUTTON": "Memperbaharui label",
+        "UPDATE_ERROR": "Tidak dapat memperbarui label, coba lagi."
+      },
+      "NO_LABELS_TO_ADD": "Tidak ada lagi label yang ditentukan di akun.",
+      "NO_AVAILABLE_LABELS": "Tidak ada label yang ditambahkan ke percakapan ini."
+    },
+    "MUTE_CONTACT": "Mute Percakapan",
+    "UNMUTE_CONTACT": "Unmute Percakapan",
+    "MUTED_SUCCESS": "Percakapan ini di mute selama 6 jam",
+    "UNMUTED_SUCCESS": "Percakapan ini di unmute",
+    "SEND_TRANSCRIPT": "Kirim Transkrip",
+    "EDIT_LABEL": "Edit"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Edit Kontak",
+    "TITLE": "Edit kontak",
+    "DESC": "Edit detail kontak",
+    "FORM": {
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batalkan",
+      "AVATAR": {
+        "LABEL": "Avatar Kontak"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Masukkan nama lengkap kontak",
+        "LABEL": "Nama Lengkap"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Masukkan biografi kontak",
+        "LABEL": "Biografi"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Masukkan alamat email kontak",
+        "LABEL": "Alamat Email"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
+        "LABEL": "Nomor Telpon"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Masukkan lokasi kontak",
+        "LABEL": "Lokasi"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Masukkan nama perusahaan",
+        "LABEL": "Nama Perusahaan"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Masukkan nama pengguna facebook",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Edit nama pengguna Twitter",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Edit nama pengguna LinkedIn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Edit nama pengguna GitHub",
+          "LABEL": "GitHub"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontak berhasil diperbaharui",
+    "CONTACT_ALREADY_EXIST": "Alamat email ini digunakan untuk kontak lain.",
+    "ERROR_MESSAGE": "Terjadi kesalahan saat memperbarui kontak, coba lagi"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Kontak",
+    "SEARCH_BUTTON": "Cari",
+    "SEARCH_INPUT_PLACEHOLDER": "Cari Kontak",
+    "LIST": {
+      "LOADING_MESSAGE": "Memuat kontak...",
+      "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
+      "TABLE_HEADER": [
+        "Nama",
+        "Nomor Telpon",
+        "Percakapan",
+        "Terakhir Dihubungi"
+      ]
+    }
+  }
+}

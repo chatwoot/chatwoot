@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Registreringen lyckades",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
-    "SUBMIT": "Skicka"
+    "SUBMIT": "Skicka",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Konserverade svar",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }
