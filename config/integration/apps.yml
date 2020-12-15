@@ -6,5 +6,5 @@ slack:
 webhooks:
   id: webhook
   logo: cable.svg
-  i18n_key: slack
+  i18n_key: webhooks
   action: /webhook
