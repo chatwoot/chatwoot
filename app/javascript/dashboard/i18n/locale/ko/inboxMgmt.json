@@ -1,253 +1,253 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Inboxes",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "HEADER": "받은 메시지함",
+    "SIDEBAR_TXT": "<p><b>받은 메시지함</b></p> <p> 웹사이트나 페이스북 페이지를 Chatwoot에 연결한 것을 <b>받은 메시지함</b>이라고 합니다. 당신은 당신의 Chatwoot 계정에 무제한의 받은 편지함을 가질 수 있습니다. </p><p> 받은 메시지함 추가를 클릭하여 웹 사이트 또는 Facebook 페이지를 연결하십시오.</p><p> 대시보드에서는 모든 받은 메시지함의 모든 대화를 한 곳에서 볼 수 있으며 대화 탭에서는 이에 응답할 수 있습니다.\n</p><p> 대시보드의 왼쪽 창에서 받은 메시지함 이름을 눌러 관련 대화를 볼 수 있습니다.\n </p>",
     "LIST": {
-      "404": "There are no inboxes attached to this account."
+      "404": "이 계정에는 첨부된 받은 메시지함이 없습니다."
     },
     "CREATE_FLOW": [
       {
-        "title": "Choose Channel",
+        "title": "채널 선택",
         "route": "settings_inbox_new",
-        "body": "Choose the provider you want to integrate with Chatwoot."
+        "body": "Chatwoot와 통합할 공급자를 선택하십시오."
       },
       {
-        "title": "Create Inbox",
+        "title": "받은 메시지함 만들기",
         "route": "settings_inboxes_page_channel",
-        "body": "Authenticate your account and create an inbox."
+        "body": "계정을 인증하고 받은 메시지함을 만드십시오."
       },
       {
-        "title": "Add Agents",
+        "title": "에이전트 추가",
         "route": "settings_inboxes_add_agents",
-        "body": "Add agents to the created inbox."
+        "body": "생성된 받은 메시지함에 에이전트를 추가하십시오."
       },
       {
-        "title": "Voila!",
+        "title": "여기 있습니다.",
         "route": "settings_inbox_finish",
-        "body": "You are all set to go!"
+        "body": "준비가 완료되었습니다."
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
+        "CHOOSE_PAGE": "페이지 선택",
+        "CHOOSE_PLACEHOLDER": "목록에서 페이지 선택",
+        "INBOX_NAME": "받은 메시지함 이름",
+        "ADD_NAME": "받은 메시지함의 이름 추가",
+        "PICK_NAME": "받은 편지함 이름 선택",
+        "PICK_A_VALUE": "값 선택"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. "
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Website channel",
-        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
-        "LOADING_MESSAGE": "Creating Website Support Channel",
+        "TITLE": "웹사이트 채널",
+        "DESC": "웹사이트를 위한 채널을 만들고 웹사이트 위젯을 통해 고객 지원을 시작하십시오.",
+        "LOADING_MESSAGE": "웹사이트 지원 채널 만들기",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "채널 아바타"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+          "LABEL": "웹사이트 이름",
+          "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Website Domain",
-          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
+          "LABEL": "웹사이트 도메인",
+          "PLACEHOLDER": "웹사이트 도메인을 입력하십시오 (예: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Welcome Heading",
-          "PLACEHOLDER": "Hi there !"
+          "LABEL": "헤드라인 입력",
+          "PLACEHOLDER": "안녕하세요!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Welcome Tagline",
-          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
+          "LABEL": "태그라인 입력",
+          "PLACEHOLDER": "우리는 간단하게 우리와 연결되도록 합니다. 우리에게 무엇이든 물어보거나 피드백을 공유하십시오."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "채널 인사말 메시지",
+          "PLACEHOLDER": "Acme Inc. 는 일반적으로 몇 시간 후에 회신합니다."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled"
+          "LABEL": "채널 인사말 사용",
+          "HELP_TEXT": "대화를 시작할 때 사용자에게 인사말을 보내십시오.",
+          "ENABLED": "사용함",
+          "DISABLED": "사용 안 함"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "응답 시간 설정",
+          "IN_A_FEW_MINUTES": "몇 분 후에",
+          "IN_A_FEW_HOURS": "몇 시간 안에",
+          "IN_A_DAY": "며칠 안에",
+          "HELP_TEXT": "이 응답 시간은 라이브 채팅 위젯에 표시됨"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
-          "PLACEHOLDER": "Update the widget color used in widget"
+          "LABEL": "위젯 색깔",
+          "PLACEHOLDER": "위젯에 사용된 위젯 색상 업데이트"
         },
-        "SUBMIT_BUTTON": "Create inbox"
+        "SUBMIT_BUTTON": "받은 메시지함 만들기"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Twilio SMS/Whatsapp 채널",
+        "DESC": "Twilio를 통합하고 SMS 또는 Whatsapp을 통해 고객을 지원하십시오.",
         "ACCOUNT_SID": {
-          "LABEL": "Account SID",
-          "PLACEHOLDER": "Please enter your Twilio Account SID",
-          "ERROR": "This field is required"
+          "LABEL": "계정 SID",
+          "PLACEHOLDER": "Twilio 계정 SID를 입력하십시오.",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "채널 유형",
+          "ERROR": "채널 유형을 선택하십시오."
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth Token",
-          "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "This field is required"
+          "LABEL": "인증 토큰",
+          "PLACEHOLDER": "Twilio Auth 토큰을 입력하십시오.",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "채널 이름",
+          "PLACEHOLDER": "채널 이름을 입력하십시오.",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "PHONE_NUMBER": {
-          "LABEL": "Phone number",
-          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
-          "ERROR": "Please enter a valid value. Phone number should start with `+` sign."
+          "LABEL": "휴대폰 번호",
+          "PLACEHOLDER": "메시지를 보낼 전화 번호를 입력하십시오.",
+          "ERROR": "올바른 값을 입력하십시오. 전화번호는 + 기호로 시작해야 한다."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "콜백 URL",
+          "SUBTITLE": "여기에 설치된 URL로 Twilio에서 메시지 콜백 URL을 구성해야 합니다."
         },
-        "SUBMIT_BUTTON": "Create Twilio Channel",
+        "SUBMIT_BUTTON": "Twilio 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
+          "ERROR_MESSAGE": "Twilio 자격 증명을 인증할 수 없습니다. 다시 시도하십시오."
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API 채널",
+        "DESC": "API 채널과 통합하여 고객 지원을 시작하십시오.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "채널 이름",
+          "PLACEHOLDER": "채널 이름을 입력하십시오.",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "WEBHOOK_URL": {
-          "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
-          "PLACEHOLDER": "Webhook URL"
+          "LABEL": "웹훅 URL",
+          "SUBTITLE": "이벤트에 대한 콜백을 수신할 URL을 구성하십시오.",
+          "PLACEHOLDER": "웹훅 URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "API 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "우리는 API 채널을 저장할 수 없습니다."
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "이메일 채널",
+        "DESC": "이메일 받은 편지함을 통합하십시오.",
         "CHANNEL_NAME": {
-          "LABEL": "Channel Name",
-          "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "This field is required"
+          "LABEL": "채널 이름",
+          "PLACEHOLDER": "채널 이름을 입력하십시오.",
+          "ERROR": "해당 입력란은 필수 입력 사항입니다."
         },
         "EMAIL": {
-          "LABEL": "Email",
-          "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "Email"
+          "LABEL": "이메일",
+          "SUBTITLE": "고객이 지원 티켓을 보내는 이메일",
+          "PLACEHOLDER": "이메일"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "이메일 채널 만들기",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "이메일 채널을 저장할 수 없습니다."
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "당신의 이메일 주소로 이메일 전달을 시작하십시오."
       },
       "AUTH": {
-        "TITLE": "Channels",
-        "DESC": "Currently we support Website live chat widgets, Facebook Pages and Twitter profiles as platforms. We have more platforms like Whatsapp, Email, Telegram and Line in the works, which will be out soon."
+        "TITLE": "채널",
+        "DESC": "현재 우리는 웹사이트 라이브 채팅 위젯, 페이스북 페이지 및 트위터 프로필을 플랫폼으로 지원한다. 우리는 곧 왓츠앱, 이메일, 텔레그램, 라인 같은 플랫폼이 출시될 예정입니다."
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "에이전트",
+        "DESC": "여기서 에이전트를 추가하여 새로 만든 받은 메시지함을 관리할 수 있습니다. 선택된 에이전트만 받은 메시지함에 엑세스할 수 있습니다. 해당 받은 메시지함에 선택되지 않은 에이전트는 메시지를 보거나 응답할 수 없습니다. <br> <b>추신:</b> 관리자로서 모든 받은 문서에 대한 액세스 권한이 필요한 경우, 자신이 만든 모든 받은 문서에 자신을 에이전트로 추가해야 합니다.",
+        "VALIDATION_ERROR": "새 받은 메시지함에 하나 이상의 에이전트 추가",
+        "PICK_AGENTS": "받은 메시지함에 대한 에이전트 선택"
       },
       "DETAILS": {
-        "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "TITLE": "받은 메시지함 자세히",
+        "DESC": "아래 드롭다운에서 Chatwoot에 연결할 Facebook 페이지를 선택하십시오. 더 나은 식별을 위해 받은 메시지함에 사용자 정의 이름을 지정할 수 있습니다."
       },
       "FINISH": {
-        "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "TITLE": "못 박았다!",
+        "DESC": "Facebook 페이지를 Chatwoot와 성공적으로 통합하셨습니다. 다음부터 고객이 페이지에 메시지를 보낼 때, 대화는 받은 메시지함에 자동으로 나타납니다.<br>웹사이트에 쉽게 추가할 수 있는 위젯 스크립트도 제공하고 있습니다. 일단 당신의 웹사이트에 생방송으로 접속하면, 고객들은 어떠한 외부 도구의 도움 없이도 당신의 웹사이트에서 바로 당신에게 메시지를 보낼 수 있고, 대화는 바로 여기 Chatwoot에 나타납니다.<<br> 멋지죠? 음, 우리는 그럴려고 노력합니다 :)"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Authenticating you with Facebook...",
-      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
-      "CREATING_CHANNEL": "Creating your Inbox...",
-      "TITLE": "Configure Inbox Details",
+      "LOADING_FB": "페이스북 인증하는 중...",
+      "ERROR_FB_AUTH": "문제가 발생했습니다 페이지를 새로 고치십시오...",
+      "CREATING_CHANNEL": "받은 메시지함을 만드는 중...",
+      "TITLE": "받은 메시지함 세부 구성",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "에이전트 추가",
+      "ADD_AGENTS": "받은 메시지함에 에이전트를 추가하는 중..."
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
-      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "TITLE": "받은 메시지함이 준비됨!",
+      "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원 ",
+      "BUTTON_TEXT": "나를 그곳으로 데려주세요.",
+      "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 편지함에 자동으로 표시됩니다."
     },
-    "REAUTH": "Reauthorize",
-    "VIEW": "View",
+    "REAUTH": "재승인",
+    "VIEW": "보기",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
-        "ERROR_MESSAGE": "Could not update widget color. Please try again later."
+        "SUCCESS_MESSAGE": "받은 메시지함 설정이 성공적으로 업데이트됨",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "자동 할당 업데이트 완료",
+        "ERROR_MESSAGE": "위젯 색상을 업데이트할 수 없음. 나중에 다시 시도해 주십시오."
       },
       "AUTO_ASSIGNMENT": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "삭제",
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox deleted successfully",
-        "ERROR_MESSAGE": "Could not delete inbox. Please try again later."
+        "SUCCESS_MESSAGE": "받은 메시지함이 성공적으로 삭제됨.",
+        "ERROR_MESSAGE": "받은 편지함을 삭제할 수 없음. 나중에 다시 시도해 주십시오."
       }
     },
     "TABS": {
-      "SETTINGS": "Settings",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "SETTINGS": "설정",
+      "COLLABORATORS": "협력자",
+      "CONFIGURATION": "설치"
     },
-    "SETTINGS": "Settings",
+    "SETTINGS": "설정",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "특징",
+      "DISPLAY_FILE_PICKER": "위젯에 파일 선택기 표시",
+      "DISPLAY_EMOJI_PICKER": "위젯에 이모지 선택기 표시"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "UPDATE": "Update",
-      "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "INBOX_UPDATE_TITLE": "Inbox Settings",
-      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "MESSENGER_HEADING": "메신저 스크립트",
+      "MESSENGER_SUB_HEAD": "이 버튼을 당신의 body 태그 안에 넣으세요.",
+      "INBOX_AGENTS": "에이전트",
+      "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
+      "UPDATE": "업데이트",
+      "AUTO_ASSIGNMENT": "자동 할당 사용",
+      "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
+      "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오."
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reauthorize",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "TITLE": "재승인",
+      "SUBTITLE": "페이스북 연결이 만료되었습니다. 서비스를 계속하려면 페이스북 페이지를 다시 연결하십시오.",
+      "MESSAGE_SUCCESS": "다시 연결 성공",
+      "MESSAGE_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
     }
   }
 }

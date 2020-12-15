@@ -1,113 +1,113 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
-    "LOCATION": "Location",
-    "CONVERSATION_TITLE": "Conversation Details",
-    "BROWSER": "Browser",
-    "OS": "Operating System",
-    "INITIATED_FROM": "Initiated from",
-    "INITIATED_AT": "Initiated at",
+    "NOT_AVAILABLE": "사용할 수 없음",
+    "EMAIL_ADDRESS": "이메일 주소",
+    "PHONE_NUMBER": "휴대폰 번호",
+    "COPY_SUCCESSFUL": "클립보드에 성공적으로 복사됨",
+    "COMPANY": "회사",
+    "LOCATION": "장소",
+    "CONVERSATION_TITLE": "대화 자세히",
+    "BROWSER": "브라우저",
+    "OS": "운영 체제",
+    "INITIATED_FROM": "시작 위치",
+    "INITIATED_AT": "시작 시간",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
-      "TITLE": "Previous Conversations"
+      "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
+      "TITLE": "이전 대화"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "사용자 지정 특성"
     },
     "LABELS": {
-      "TITLE": "Conversation Labels",
+      "TITLE": "대화 라벨",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "라벨",
+        "ACTIVE_LABELS": "대화에 추가된 라벨",
+        "INACTIVE_LABELS": "계정에서 사용할 수 있는 라벨",
+        "REMOVE": "라벨을 제거하려면 X 아이콘을 클릭하십시오.",
+        "ADD": "라벨을 추가하려면 + 아이콘을 클릭하십시오.",
+        "UPDATE_BUTTON": "라벨 업데이트",
+        "UPDATE_ERROR": "라벨을 업데이트할 수 없습니다. 다시 시도하십시오."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "계정에는 더 이상 라벨이 정의되어 있지 않습니다.",
+      "NO_AVAILABLE_LABELS": "이 대화에 추가된 라벨이 없습니다."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "MUTE_CONTACT": "대화 음소거",
+    "UNMUTE_CONTACT": "대화 음소거 해제",
+    "MUTED_SUCCESS": "이 대화는 6시간 동안 중단됩니다.",
+    "UNMUTED_SUCCESS": "이 대화는 음소거 되었습니다.",
+    "SEND_TRANSCRIPT": "대화기록 보내기",
+    "EDIT_LABEL": "수정"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "연락처 수정",
+    "TITLE": "연락처 수정",
+    "DESC": "연락처 수정 자세히",
     "FORM": {
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel",
+      "SUBMIT": "보내기",
+      "CANCEL": "취소",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "연락처 아바타"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "연락처의 전체 이름 입력",
+        "LABEL": "전체 이름"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "연락처의 자기 소개 입력",
+        "LABEL": "자기 소개"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "PLACEHOLDER": "연락처의 이메일 주소 입력",
+        "LABEL": "이메일 주소"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "연락처의 전화 번호 입력",
+        "LABEL": "전화 번호"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
-        "LABEL": "Location"
+        "PLACEHOLDER": "연락처 위치 입력",
+        "LABEL": "장소"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "회사명 입력",
+        "LABEL": "회사명"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
-          "LABEL": "Facebook"
+          "PLACEHOLDER": "페이스북 사용자 이름 입력",
+          "LABEL": "페이스북"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "트위터 사용자 이름 입력",
+          "LABEL": "트위터"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "링크드인 사용자 이름 입력",
+          "LABEL": "링크드인"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
-          "LABEL": "Github"
+          "PLACEHOLDER": "깃허브 사용자 이름 입력",
+          "LABEL": "깃허브"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "연락처 업데이트 완료",
+    "CONTACT_ALREADY_EXIST": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
+    "ERROR_MESSAGE": "연락처를 업데이트하는 동안 오류가 발생했습니다. 다시 시도하십시오."
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "연락처",
+    "SEARCH_BUTTON": "검색",
+    "SEARCH_INPUT_PLACEHOLDER": "연락처 검색",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "연락처를 불러오는 중...",
+      "404": "검색과 일치하는 연락처 없음 🔍",
       "TABLE_HEADER": [
-        "Name",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
+        "이름",
+        "전화 번호",
+        "대화",
+        "마지막으로 연락한 사람"
       ]
     }
   }

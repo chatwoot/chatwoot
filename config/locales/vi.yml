@@ -27,6 +27,8 @@ vi:
       invalid_email: Bạn đã nhập một email không hợp lệ
       email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
       failed: Đăng ký thât bại
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

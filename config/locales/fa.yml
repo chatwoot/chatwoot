@@ -27,6 +27,8 @@ fa:
       invalid_email: ایمیل وارد شده معتبر نیست
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
       failed: ثبت نام ناموفق بود
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

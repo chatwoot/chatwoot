@@ -27,6 +27,8 @@ nl:
       invalid_email: Je hebt een ongeldig e-mailadres ingevoerd
       email_already_exists: "Je hebt je al aangemeld voor een account bij %{email}"
       failed: Aanmelden mislukt
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

@@ -27,6 +27,8 @@ pt:
       invalid_email: Você digitou um email inválido
       email_already_exists: "Você já se inscreveu para uma conta com %{email}"
       failed: Falha na inscrição
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

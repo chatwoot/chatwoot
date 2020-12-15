@@ -27,6 +27,8 @@ fr:
       invalid_email: Vous avez entré un courriel non valide
       email_already_exists: "Vous avez déjà créé un compte avec %{email}"
       failed: L'inscription a échoué
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
