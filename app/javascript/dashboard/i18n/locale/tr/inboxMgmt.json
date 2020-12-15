@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Kullanıcılar",
         "DESC": "Burada yeni oluşturulan gelen kutunuzu yönetmek için aracılar ekleyebilirsiniz. Yalnızca bu seçilen temsilciler gelen kutunuza erişebilir. Bu gelen kutusunun parçası olmayan temsilciler, oturum açtıklarında bu gelen kutusundaki mesajları göremeyecek veya yanıtlayamayacak. <br> <b> Not: </b> Bir yönetici olarak, tüm gelen kutularına erişmeniz gerekiyorsa, kendinizi oluşturduğunuz tüm gelen kutularına aracı olarak eklemelisiniz.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Yeni Gelen Kutunuza en az bir temsilci ekleyin",
+        "PICK_AGENTS": "Gelen kutusu için aracı seçin"
       },
       "DETAILS": {
         "TITLE": "Gelen Kutusu Ayrıntıları",
