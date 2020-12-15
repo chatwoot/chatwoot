@@ -3,6 +3,7 @@
     "HEADER": "റിപ്പോർട്ടുകൾ",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "സംഭാഷണങ്ങൾ",
