@@ -16,7 +16,7 @@ IP_LOOKUP_API_KEY=your-api-key
 
 With this step, Chatwoot would automatically download the [MaxmindDB downloadable databases](https://dev.maxmind.com/geoip/geoip2/downloadable/) and cache it locally.
 
-Step 3: Enable IP Lookup on your account.
+**Step 3:** Enable IP Lookup on your account.
 
 Login to Rails console
 
