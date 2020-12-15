@@ -27,6 +27,8 @@ uk:
       invalid_email: Ви ввели неправильну адресу електронної пошти
       email_already_exists: "Ви вже зареєстровані з адресою %{email}"
       failed: Помилка реєстрації
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
