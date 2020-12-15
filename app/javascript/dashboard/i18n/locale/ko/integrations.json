@@ -1,61 +1,61 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "통합",
     "WEBHOOK": {
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "웹훅",
+      "CONFIGURE": "구성",
+      "HEADER": "웹훅 설정",
+      "HEADER_BTN_TXT": "새 웹훅 추가",
+      "LOADING": "첨부된 웹훅을 가져오는 중",
+      "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
+      "SIDEBAR_TXT": "<p><b>라벨</b></p><p>라벨은 대화를 분류하고 우선순위를 정하는 데 도움이 된다. 사이드패널에서 대화에 라벨을 할당할 수 있다.</p><p>라벨은 계정에 연결되며 조직에서 사용자 정의 워크플로우를 만드는 데 사용할 수 있다. 라벨에 사용자 정의 색상을 지정할 수 있으며, 라벨을 쉽게 식별할 수 있다. 사이드바에 라벨을 표시하여 대화를 쉽게 필터링할 수 있다.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "이 계정에 구성된 웹훅이 없음.",
+        "TITLE": "웹훅 관리",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "웹훅 엔드포인트",
+          "액션"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "취소",
+        "TITLE": "새 웹훅 추가",
+        "DESC": "웹훅 이벤트는 Chatwoot 계정에서 일어나는 일에 대한 실시간 정보를 제공합니다. 콜백을 구성하려면 유효한 URL을 입력하십시오.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "LABEL": "웹훅 URL",
+            "PLACEHOLDER": "예시: https://example/api/webhook",
+            "ERROR": "올바른 URL을 입력하십시오."
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "웹훅 만들기"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "웹훅이 성공적으로 추가됨",
+          "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "삭제",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "웹훅이 성공적으로 삭제됨",
+          "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "삭제 확인",
+          "MESSAGE": "삭제하시겠습니까? ",
+          "YES": "예, 삭제합니다. ",
+          "NO": "아니요, 유지합니다."
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "통합이 성공적으로 삭제됨."
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "연결"
     }
   }
 }
