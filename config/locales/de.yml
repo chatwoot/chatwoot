@@ -27,6 +27,8 @@ de:
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
