@@ -42,6 +42,9 @@ en:
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
 
+  reports:
+    period: Reporting period %{since} to %{until}
+
   conversations:
     activity:
       status:
