@@ -1,10 +1,10 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Nedostupné",
     "EMAIL_ADDRESS": "E-mailová adresa",
     "PHONE_NUMBER": "Telefonní číslo",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Úspěšně zkopírováno do schránky",
+    "COMPANY": "Společnost",
     "LOCATION": "Poloha",
     "CONVERSATION_TITLE": "Podrobnosti konverzace",
     "BROWSER": "Prohlížeč",
@@ -16,98 +16,98 @@
       "TITLE": "Předchozí konverzace"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Vlastní atributy"
     },
     "LABELS": {
       "TITLE": "Štítky konverzace",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
-        "UPDATE_ERROR": "Couldn't update labels, try again."
+        "TITLE": "Štítky pro",
+        "ACTIVE_LABELS": "Štítky přidány do konverzace",
+        "INACTIVE_LABELS": "Štítky dostupné v účtu",
+        "REMOVE": "Kliknutím na ikonu X odstraníte štítek",
+        "ADD": "Kliknutím na ikonu + přidáte štítek",
+        "UPDATE_BUTTON": "Aktualizovat štítky",
+        "UPDATE_ERROR": "Nelze aktualizovat štítky, zkuste to znovu."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "V účtu nejsou definovány žádné další štítky.",
+      "NO_AVAILABLE_LABELS": "Do této konverzace nebyly přidány žádné štítky."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "Ztlumit konverzaci",
+    "UNMUTE_CONTACT": "Zrušit ztlumení konverzace",
+    "MUTED_SUCCESS": "Tato konverzace je ztlumena na 6 hodin",
+    "UNMUTED_SUCCESS": "Tato konverzace je odtlumena",
+    "SEND_TRANSCRIPT": "Poslat přepis",
     "EDIT_LABEL": "Upravit"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Upravit kontakt",
+    "TITLE": "Upravit kontakt",
+    "DESC": "Upravit kontaktní údaje",
     "FORM": {
       "SUBMIT": "Odeslat",
       "CANCEL": "Zrušit",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Avatar kontaktu"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Zadejte celé jméno kontaktu",
+        "LABEL": "Celé jméno"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Zadejte bio kontaktu",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Zadejte e-mailovou adresu kontaktu",
         "LABEL": "E-mailová adresa"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
+        "LABEL": "Telefonní číslo"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Zadejte lokaci kontaktu",
         "LABEL": "Poloha"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Zadejte název společnosti",
+        "LABEL": "Název společnosti"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Zadejte uživatelské jméno na Facebooku",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Zadejte uživatelské jméno na Twitteru",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Zadejte uživatelské jméno na LinkedInu",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
-          "LABEL": "Github"
+          "PLACEHOLDER": "Zadejte uživatelské jméno na GitHubu",
+          "LABEL": "GitHub"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Kontakt byl úspěšně aktualizován",
+    "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
+    "ERROR_MESSAGE": "Při aktualizaci kontaktu se vyskytla chyba, zkuste to prosím znovu"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kontakty",
+    "SEARCH_BUTTON": "Hledat",
+    "SEARCH_INPUT_PLACEHOLDER": "Hledat kontakty",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Načítání kontaktů...",
+      "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
       "TABLE_HEADER": [
         "Název",
-        "Phone Number",
+        "Telefonní číslo",
         "Konverzace",
-        "Last Contacted"
+        "Naposledy kontaktováno"
       ]
     }
   }

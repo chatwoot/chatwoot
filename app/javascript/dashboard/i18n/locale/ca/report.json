@@ -3,6 +3,7 @@
     "HEADER": "Informes",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",

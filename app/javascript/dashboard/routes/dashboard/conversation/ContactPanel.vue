@@ -6,6 +6,18 @@
     <contact-info :contact="contact" :channel-type="channelType" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
+        v-if="location"
+        :title="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
+        :value="location"
+        icon="ion-map"
+      />
+      <contact-details-item
+        v-if="ipAddress"
+        :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+        :value="ipAddress"
+        icon="ion-android-locate"
+      />
+      <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
         :value="browserName"
@@ -51,6 +63,7 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -98,6 +111,28 @@ export default {
     browserName() {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
+    },
+    ipAddress() {
+      const {
+        additional_attributes: { created_at_ip: createdAtIp },
+      } = this.contact;
+      return createdAtIp;
+    },
+    location() {
+      const {
+        additional_attributes: {
+          country = '',
+          city = '',
+          country_code: countryCode,
+        },
+      } = this.contact;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${countryFlag} ${cityAndCountry}`;
     },
     platformName() {
       const {

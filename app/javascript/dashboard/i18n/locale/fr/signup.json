@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "Inscription réussie",
       "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
     },
-    "SUBMIT": "Envoyer"
+    "SUBMIT": "Envoyer",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "Réponses standardisées",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }
