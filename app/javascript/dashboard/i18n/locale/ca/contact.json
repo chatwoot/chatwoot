@@ -101,8 +101,8 @@
     "SEARCH_BUTTON": "Cercar",
     "SEARCH_INPUT_PLACEHOLDER": "Cerca de contactes",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Carregant contactes...",
+      "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
       "TABLE_HEADER": [
         "Nom",
         "Número de telèfon",
