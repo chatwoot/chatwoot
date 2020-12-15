@@ -27,6 +27,8 @@ ru:
       invalid_email: Вы ввели неверный email
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       failed: Ошибка регистрации
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
