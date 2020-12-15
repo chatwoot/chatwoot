@@ -16,15 +16,15 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
-        "NOTE": "Actualizar su contraseña restablecería sus entradas en varios dispositivos."
+        "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
-        "NOTE": "Este token puede ser usado si está construyendo una integración basada en API"
+        "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificaciones por email",
-        "NOTE": "Actualize sus preferencias de notificación por correo electrónico aquí",
+        "NOTE": "Actualiza tus preferencias de notificación por correo electrónico aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada"
@@ -47,7 +47,7 @@
       },
       "NAME": {
         "LABEL": "Su nombre completo",
-        "ERROR": "Introduzca un nombre válido por favor",
+        "ERROR": "Introduce un nombre válido por favor",
         "PLACEHOLDER": "Introduzca su nombre completo por favor"
       },
       "DISPLAY_NAME": {
@@ -64,7 +64,7 @@
         ]
       },
       "EMAIL": {
-        "LABEL": "Su dirección de correo",
+        "LABEL": "Tu dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },
@@ -113,6 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversaciones",
     "REPORTS": "Informes",
+    "CONTACTS": "Contacts (Beta)",
     "SETTINGS": "Ajustes",
     "HOME": "Inicio",
     "AGENTS": "Agentes",

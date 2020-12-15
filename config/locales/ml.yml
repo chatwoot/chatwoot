@@ -27,6 +27,8 @@ ml:
       invalid_email: നിങ്ങൾ ഒരു അസാധുവായ ഇമെയിൽ നൽകി
       email_already_exists: "നിങ്ങൾ ഇതിനകം ഈ %{email} ഉപയോഗിച്ചു ഒരു അക്കൗണ്ടിനായി സൈൻ അപ്പ് ചെയ്തു"
       failed: സൈനപ്പ് പരാജയപ്പെട്ടു
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
@@ -49,3 +51,10 @@ ml:
     reply:
       email_subject: "ഈ സംഭാഷണത്തിലെ പുതിയ സന്ദേശങ്ങൾ"
       transcript_subject: "സംഭാഷണ ട്രാൻസ്ക്രിപ്റ്റ്"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

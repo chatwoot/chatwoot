@@ -1,142 +1,142 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "프로필 설정",
+    "TITLE": "프로필 설정",
+    "BTN_TEXT": "프로필 업데이트",
+    "AFTER_EMAIL_CHANGED": "프로필이 성공적으로 업데이트되었습니다. 로그인 자격 증명이 변경된 경우 다시 로그인하십시오.",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "프로필 이미지",
+      "ERROR": "양식 오류를 수정하십시오",
+      "REMOVE_IMAGE": "제거",
+      "UPLOAD_IMAGE": "이미지 업로드",
+      "UPDATE_IMAGE": "이미지 업데이트",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "프로필",
+        "NOTE": "당신의 이메일 주소는 당신의 신분이고 로그인에 사용됩니다."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "TITLE": "비밀번호",
+        "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다."
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "엑세스 토큰",
+        "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있음"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "이메일 알림",
+        "NOTE": "여기서 이메일 알림 기본 설정 업데이트",
+        "CONVERSATION_ASSIGNMENT": "대화가 할당될 때 이메일 알림 보내기",
+        "CONVERSATION_CREATION": "새 대화가 생성될 때 이메일 알림 보내기",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "알림 기본 설정이 성공적으로 업데이트됨",
+        "UPDATE_ERROR": "기본 설정을 업데이트하는 동안 오류가 발생했습니다. 다시 시도하십시오."
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "푸시 알림",
+        "NOTE": "여기에서 푸시 알림 기본 설정 업데이트",
+        "CONVERSATION_ASSIGNMENT": "대화가 할당되면 푸시 알림 보내기",
+        "CONVERSATION_CREATION": "새 대화가 만들어질 때 푸시 알림 보내기",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
+        "HAS_ENABLED_PUSH": "이 브라우저에 대한 푸시를 사용 가능으로 설정하셨습니다.",
+        "REQUEST_PUSH": "푸시 알림 사용"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "프로필 이미지"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "전체 이름",
+        "ERROR": "올바른 전체 이름을 입력하십시오.",
+        "PLACEHOLDER": "전체 이름을 입력하십시오."
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "표기 이름",
+        "ERROR": "올바른 표시 이름을 입력하십시오.",
+        "PLACEHOLDER": "대화에서 표시되는 표시 이름을 입력하십시오."
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "유용성",
         "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
+          "온라인",
+          "바쁨",
+          "오프라인"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "이메일 주소",
+        "ERROR": "올바른 전자 메일 주소를 입력하십시오.",
+        "PLACEHOLDER": "대화 중에 표시되는 이메일 주소를 입력하십시오."
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "비밀번호",
+        "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
+        "PLACEHOLDER": "새 비밀번호를 입력하십시오."
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "새 비밀번호 확인",
+        "ERROR": "비밀번호가 비밀번호와 일치하는지 확인",
+        "PLACEHOLDER": "비밀번호를 다시 입력하십시오."
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "변경",
+    "CHANGE_ACCOUNTS": "계정 전환",
+    "SELECTOR_SUBTITLE": "다음 목록에서 계정 선택",
+    "PROFILE_SETTINGS": "프로필 설정",
+    "LOGOUT": "로그아웃"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "일 평가판이 남아 있습니다.",
+    "TRAIL_BUTTON": "지금 구입하기"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "복사",
+      "COPY_SUCCESSFUL": "코드가 클립보드에 복사됨"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "다운로드",
+      "UPLOADING": "업로드 중..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "보내기"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "확인 중...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "받은 메시지함 추가"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "CONTACTS": "Contacts (Beta)",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "INBOXES": "Inboxes",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "CONVERSATIONS": "대화",
+    "REPORTS": "보고서",
+    "CONTACTS": "연락처 (베타)",
+    "SETTINGS": "설정",
+    "HOME": "홈",
+    "AGENTS": "에이전트",
+    "INBOXES": "받은 메시지함",
+    "CANNED_RESPONSES": "미리 준비된 답변",
+    "INTEGRATIONS": "통합",
+    "ACCOUNT_SETTINGS": "계정 설정",
+    "LABELS": "라벨"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "새 계정",
+    "SELECTOR_SUBTITLE": "새 계정 만들기",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "계정이 성공적으로 생성됨",
+      "EXIST_MESSAGE": "계정이 이미 있음",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
+        "LABEL": "계정 이름",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "보내기"
     }
   }
 }

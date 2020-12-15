@@ -3,6 +3,7 @@
     "HEADER": "報表",
     "LOADING_CHART": "正在載入图表數據...",
     "NO_ENOUGH_DATA": "我們没有收到足夠的數據來生成報表，請稍後再試。",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "會話",

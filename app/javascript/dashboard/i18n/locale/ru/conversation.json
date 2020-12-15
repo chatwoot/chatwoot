@@ -6,13 +6,15 @@
     "NO_INBOX_1": "Хола! Похоже, вы еще не добавили ни одного источника.",
     "NO_INBOX_2": " для начала",
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
     "SEARCH": {
-      "TITLE": "Search messages",
+      "TITLE": "Поиск сообщений",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "PLACEHOLDER": "Введите любой текст для поиска сообщений",
+      "NO_MATCHING_RESULTS": "Нет сообщений, соответствующих параметрам поиска."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Нажмите здесь",
     "LOADING_INBOXES": "Загружаем источники",
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
@@ -42,7 +44,13 @@
     },
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
-    "CHANGE_AGENT": "Назначенный оператор изменен"
+    "CHANGE_AGENT": "Назначенный оператор изменен",
+    "SENT_BY": "Sent by:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Select Agent",
+      "REMOVE": "Удалить",
+      "ASSIGN": "Assign"
+    }
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Отправить субтитры разговора",
@@ -53,7 +61,7 @@
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз",
     "FORM": {
       "SEND_TO_CONTACT": "Отправить субтитры клиенту",
-      "SEND_TO_AGENT": "Отправить субтитры назначенному агенту",
+      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Отправить субтитры на другой адрес электронной почты",
       "EMAIL": {
         "PLACEHOLDER": "Введите адрес электронной почты",

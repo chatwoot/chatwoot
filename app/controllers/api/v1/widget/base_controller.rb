@@ -1,4 +1,6 @@
 class Api::V1::Widget::BaseController < ApplicationController
+  include SwitchLocale
+
   before_action :set_web_widget
   before_action :set_contact
 
