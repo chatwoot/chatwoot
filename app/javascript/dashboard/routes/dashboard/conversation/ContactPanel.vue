@@ -113,19 +113,17 @@ export default {
         .browser_version || ''}`;
     },
     ipAddress() {
-      const {
-        additional_attributes: { created_at_ip: createdAtIp },
-      } = this.contact;
+      const additionalAttributes = this.contact.additional_attributes || {};
+      const { created_at_ip: createdAtIp } = additionalAttributes;
       return createdAtIp;
     },
     location() {
+      const additionalAttributes = this.contact.additional_attributes || {};
       const {
-        additional_attributes: {
-          country = '',
-          city = '',
-          country_code: countryCode,
-        },
-      } = this.contact;
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = additionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
