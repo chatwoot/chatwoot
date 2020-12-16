@@ -112,20 +112,19 @@ export default {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
     },
+    contactAdditionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
     ipAddress() {
-      const {
-        additional_attributes: { created_at_ip: createdAtIp },
-      } = this.contact;
+      const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
       return createdAtIp;
     },
     location() {
       const {
-        additional_attributes: {
-          country = '',
-          city = '',
-          country_code: countryCode,
-        },
-      } = this.contact;
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.contactAdditionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
