@@ -34,7 +34,11 @@
         :title="$t('CONTACT_PANEL.INITIATED_FROM')"
         :value="referer"
         icon="ion-link"
-      />
+      >
+        <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+          {{ referer }}
+        </a>
+      </contact-details-item>
       <contact-details-item
         v-if="initiatedAt"
         :title="$t('CONTACT_PANEL.INITIATED_AT')"
