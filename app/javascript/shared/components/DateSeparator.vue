@@ -1,6 +1,6 @@
 <template>
   <div class="date--separator">
-    {{ doFormatDate() }}
+    {{ formatedDate() }}
   </div>
 </template>
 
@@ -14,13 +14,12 @@ export default {
     },
   },
   methods: {
-    doFormatDate() {
-      const formattedValue = formatDate({
+    formatedDate() {
+      return formatDate({
         date: this.date,
         todayText: this.$t('TODAY'),
         yesterdayText: this.$t('YESTERDAY'),
       });
-      return formattedValue;
     },
   },
 };
