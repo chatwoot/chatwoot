@@ -1,6 +1,6 @@
 <template>
   <div class="date--separator">
-    {{ formatedDate() }}
+    {{ formatedDate }}
   </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
       required: true,
     },
   },
-  methods: {
+  computed: {
     formatedDate() {
       return formatDate({
         date: this.date,
