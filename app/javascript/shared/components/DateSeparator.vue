@@ -1,6 +1,6 @@
 <template>
   <div class="date--separator">
-    {{ formatedDate }}
+    {{ formatteddate }}
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
     },
   },
   computed: {
-    formatedDate() {
+    formatteddate() {
       return formatDate({
         date: this.date,
         todayText: this.$t('TODAY'),
