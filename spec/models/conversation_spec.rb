@@ -44,6 +44,19 @@ RSpec.describe Conversation, type: :model do
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation)
     end
+
+    it 'queues AutoResolveConversationsJob post creation if auto resolve duration present' do
+      account.update(auto_resolve_duration: 30)
+      expect do
+        create(
+          :conversation,
+          account: account,
+          contact: create(:contact, account: account),
+          inbox: inbox,
+          assignee: nil
+        )
+      end.to have_enqueued_job(AutoResolveConversationsJob)
+    end
   end
 
   describe '.after_update' do
@@ -58,6 +71,7 @@ RSpec.describe Conversation, type: :model do
       create(:user, email: 'agent2@example.com', account: account, role: :agent)
     end
     let(:assignment_mailer) { double(deliver: true) }
+    let(:label) { create(:label, account: account) }
 
     before do
       conversation
@@ -69,8 +83,9 @@ RSpec.describe Conversation, type: :model do
       conversation.update(
         status: :resolved,
         locked: true,
-        user_last_seen_at: Time.now,
-        assignee: new_assignee
+        contact_last_seen_at: Time.now,
+        assignee: new_assignee,
+        label_list: [label.title]
       )
     end
 
@@ -88,8 +103,29 @@ RSpec.describe Conversation, type: :model do
 
     it 'creates conversation activities' do
       # create_activity
-      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.available_name}")
-      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.available_name} by #{old_assignee.available_name}")
+      expect(conversation.messages.pluck(:content)).to include("Conversation was marked resolved by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("Assigned to #{new_assignee.name} by #{old_assignee.name}")
+      expect(conversation.messages.pluck(:content)).to include("#{old_assignee.name} added #{label.title}")
+    end
+
+    it 'adds a message for system auto resolution if marked resolved by system' do
+      conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
+      account.update(auto_resolve_duration: 40)
+      Current.user = nil
+      conversation2.update(status: :resolved)
+      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      expect(conversation2.messages.pluck(:content)).to include(system_resolved_message)
+    end
+
+    it 'does not trigger AutoResolutionJob if conversation reopened and account does not have auto resolve duration' do
+      expect { conversation.update(status: :open) }
+        .not_to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
+    end
+
+    it 'does trigger AutoResolutionJob if conversation reopened and account has auto resolve duration' do
+      account.update(auto_resolve_duration: 40)
+      expect { conversation.update(status: :open) }
+        .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
     end
   end
 
@@ -182,6 +218,59 @@ RSpec.describe Conversation, type: :model do
       expect(update_assignee).to eq(true)
       expect(agent.notifications.count).to eq(0)
     end
+
+    context 'when agent is current user' do
+      before do
+        Current.user = agent
+      end
+
+      it 'creates self-assigned message activity' do
+        expect(update_assignee).to eq(true)
+        expect(conversation.messages.pluck(:content)).to include("#{agent.name} self-assigned this conversation")
+      end
+    end
+  end
+
+  describe '#update_labels' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) do
+      create(:user, email: 'agent@example.com', account: account, role: :agent)
+    end
+    let(:first_label) { create(:label, account: account) }
+    let(:second_label) { create(:label, account: account) }
+    let(:third_label) { create(:label, account: account) }
+    let(:fourth_label) { create(:label, account: account) }
+
+    before do
+      conversation
+      Current.user = agent
+
+      first_label
+      second_label
+      third_label
+      fourth_label
+    end
+
+    it 'adds one label to conversation' do
+      labels = [first_label].map(&:title)
+      expect(conversation.update_labels(labels)).to eq(true)
+      expect(conversation.label_list).to match_array(labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{labels.join(', ')}")
+    end
+
+    it 'adds and removes previously added labels' do
+      labels = [first_label, fourth_label].map(&:title)
+      expect(conversation.update_labels(labels)).to eq(true)
+      expect(conversation.label_list).to match_array(labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{labels.join(', ')}")
+
+      updated_labels = [second_label, third_label].map(&:title)
+      expect(conversation.update_labels(updated_labels)).to eq(true)
+      expect(conversation.label_list).to match_array(updated_labels)
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} added #{updated_labels.join(', ')}")
+      expect(conversation.messages.pluck(:content)).to include("#{agent.name} removed #{labels.join(', ')}")
+    end
   end
 
   describe '#toggle_status' do
@@ -220,7 +309,13 @@ RSpec.describe Conversation, type: :model do
   describe '#mute!' do
     subject(:mute!) { conversation.mute! }
 
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
     let(:conversation) { create(:conversation) }
+
+    before { Current.user = user }
 
     it 'marks conversation as resolved' do
       mute!
@@ -230,6 +325,38 @@ RSpec.describe Conversation, type: :model do
     it 'marks conversation as muted in redis' do
       mute!
       expect(Redis::Alfred.get(conversation.send(:mute_key))).not_to eq(nil)
+    end
+
+    it 'creates mute message' do
+      mute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has muted the conversation")
+    end
+  end
+
+  describe '#unmute!' do
+    subject(:unmute!) { conversation.unmute! }
+
+    let(:user) do
+      create(:user, email: 'agent2@example.com', account: create(:account), role: :agent)
+    end
+
+    let(:conversation) { create(:conversation).tap(&:mute!) }
+
+    before { Current.user = user }
+
+    it 'does not change conversation status' do
+      expect { unmute! }.not_to(change { conversation.reload.status })
+    end
+
+    it 'marks conversation as muted in redis' do
+      expect { unmute! }
+        .to change { Redis::Alfred.get(conversation.send(:mute_key)) }
+        .to nil
+    end
+
+    it 'creates unmute message' do
+      unmute!
+      expect(conversation.messages.pluck(:content)).to include("#{user.name} has unmuted the conversation")
     end
   end
 
@@ -305,7 +432,7 @@ RSpec.describe Conversation, type: :model do
     let(:conversation) { create(:conversation) }
     let(:expected_data) do
       {
-        additional_attributes: nil,
+        additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
           assignee: conversation.assignee
@@ -314,10 +441,10 @@ RSpec.describe Conversation, type: :model do
         messages: [],
         inbox_id: conversation.inbox_id,
         status: conversation.status,
-        timestamp: conversation.created_at.to_i,
+        timestamp: conversation.last_activity_at.to_i,
         can_reply: true,
         channel: 'Channel::WebWidget',
-        user_last_seen_at: conversation.user_last_seen_at.to_i,
+        contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         unread_count: 0
       }

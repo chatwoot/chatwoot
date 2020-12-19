@@ -36,7 +36,7 @@ as defined by the routes in the `admin/` namespace
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
           display_resource_name(resource),
-          [namespace, resource_index_route_key(resource)],
+          resource_index_route(resource)
         ) if valid_action? :index, resource  %>
       </li>
     <% end %>

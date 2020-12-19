@@ -40,7 +40,11 @@
                 </td>
                 <!-- Agent Role + Verification Status -->
                 <td>
-                  <span class="agent-name">{{ agent.role }}</span>
+                  <span class="agent-name">
+                    {{
+                      $t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`)
+                    }}
+                  </span>
                   <span v-if="agent.confirmed">
                     {{ $t('AGENT_MGMT.LIST.VERIFIED') }}
                   </span>
@@ -112,8 +116,6 @@
   </div>
 </template>
 <script>
-/* global bus */
-
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import Thumbnail from '../../../../components/widgets/Thumbnail';

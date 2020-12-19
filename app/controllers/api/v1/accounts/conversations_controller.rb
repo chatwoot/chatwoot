@@ -15,6 +15,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversations_count = result[:count]
   end
 
+  def search
+    result = conversation_finder.perform
+    @conversations = result[:conversations]
+    @conversations_count = result[:count]
+  end
+
   def create
     @conversation = ::Conversation.create!(conversation_params)
   end
@@ -23,6 +29,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def mute
     @conversation.mute!
+    head :ok
+  end
+
+  def unmute
+    @conversation.unmute!
     head :ok
   end
 
@@ -41,9 +52,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_typing_status
-    if params[:typing_status] == 'on'
+    case params[:typing_status]
+    when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON)
-    elsif params[:typing_status] == 'off'
+    when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF)
     end
     head :ok

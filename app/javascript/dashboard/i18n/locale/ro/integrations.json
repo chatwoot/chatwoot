@@ -6,14 +6,12 @@
       "CONFIGURE": "Configurare",
       "HEADER": "Setări Webhook",
       "HEADER_BTN_TXT": "Adaugă un nou webhook",
-      "INTEGRATION_TXT": "Evenimentele Webhook îți oferă informații în timp real despre ce se întâmplă în contul tău Chatwoot. Poți folosi webhook-urile pentru a comunica evenimentele aplicațiilor tale preferate, cum ar fi Slack sau Github, Dă click pe Configurare pentru a-ți configura webhook-urile.",
       "LOADING": "Preluare webhook-uri atașate",
       "SEARCH_404": "Nu există elemente care să corespundă acestei interogări",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks sunt request-uri HTTP care pot fi definite pentru fiecare cont. Acestea sunt declanșate de evenimente precum crearea de mesaje în Chatwoot. Poți crea mai mult de un singur webhook pentru acest cont. <br /><br /> Pentru a crea un webhook <b></b>, apasă pe butonul <b>Adaugă un nou webhook</b>. De asemenea, puteți elimina orice webhook existent făcând clic pe butonul Ștergere.</p>",
       "LIST": {
         "404": "Nu există webhook-uri configurate pentru acest cont.",
         "TITLE": "Gestionează webhook-uri",
-        "DESC": "Webhook-urile sunt șabloane predefinite de răspuns care pot fi utilizate pentru a trimite rapid răspunsuri la tickete.",
         "TABLE_HEADER": [
           "Webhook endpoint",
           "Actiuni"

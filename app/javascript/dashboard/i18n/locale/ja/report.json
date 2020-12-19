@@ -1,48 +1,43 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
-        "NAME": "Conversations",
-        "KEY": "conversations_count",
-        "DESC": "( Total )"
+    "HEADER": "レポート",
+    "LOADING_CHART": "グラフデータを読み込んでいます...",
+    "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "会話データ",
+        "DESC": "(合計)"
       },
-      {
-        "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
-        "DESC": "( Total )"
+      "INCOMING_MESSAGES": {
+        "NAME": "受信メッセージ",
+        "DESC": "(合計)"
       },
-      {
-        "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
-        "DESC": "( Total )"
+      "OUTGOING_MESSAGES": {
+        "NAME": "送信メッセージ",
+        "DESC": "(合計)"
       },
-      {
-        "NAME": "First response time",
-        "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "最初の応答時間",
+        "DESC": "(平均)"
       },
-      {
-        "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+      "RESOLUTION_TIME": {
+        "NAME": "処理時間",
+        "DESC": "(平均)"
       },
-      {
-        "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
-        "DESC": "( Total )"
+      "RESOLUTION_COUNT": {
+        "NAME": "処理件数",
+        "DESC": "(合計)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "過去 7 日間"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "過去 30 日間"
       }
     ]
   }

@@ -1,8 +1,16 @@
 <template>
-  <div class="avatars">
-    <span v-for="user in users" :key="user.id" class="avatar">
-      <Thumbnail
-        size="24px"
+  <div class="flex overflow-hidden">
+    <span
+      v-for="(user, index) in users"
+      :key="user.id"
+      :class="
+        `${
+          index ? '-ml-4' : ''
+        } inline-block rounded-full text-white shadow-solid`
+      "
+    >
+      <thumbnail
+        size="40px"
         :username="user.name"
         :src="user.avatar"
         has-border
@@ -25,22 +33,3 @@ export default {
   },
 };
 </script>
-
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
-@import '~widget/assets/scss/mixins.scss';
-
-.avatars {
-  display: inline-block;
-  padding-left: $space-one;
-
-  .avatar {
-    margin-left: -$space-slab;
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-    width: $space-medium;
-    height: $space-medium;
-  }
-}
-</style>

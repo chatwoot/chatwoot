@@ -1,0 +1,27 @@
+.dropdown-pane.sleek {
+  @include elegant-card;
+  @include border-light;
+  padding-left: 0;
+  padding-right: 0;
+  right: -12px;
+  top: 48px;
+  width: auto;
+
+  &::before {
+    @include arrow(top, var(--color-border-light), 14px);
+    position: absolute;
+    right: 6px;
+    top: -14px;
+  }
+
+  &::after {
+    @include arrow(top, $color-white, var(--space-slab));
+    position: absolute;
+    right: var(--space-small);
+    top: -12px;
+  }
+
+  .dropdown>li>a:hover {
+    background: var(--color-background);
+  }
+}

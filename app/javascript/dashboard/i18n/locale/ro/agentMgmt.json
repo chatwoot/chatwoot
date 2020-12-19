@@ -4,16 +4,10 @@
     "HEADER_BTN_TXT": "Adaugă agent",
     "LOADING": "Se preia lista de agenți",
     "SIDEBAR_TXT": "<p><b>Agenții</b></p> <p> Un agent <b></b> este membru al echipei dumneavoastră de asistență pentru clienți. </p><p> Agenți vor putea vizualiza mesajele utilizatorilor și le vor putea răspunde. Lista afișează toți agenții din contul tău. </p><p> Faceți clic pe <b>Adăugați Agent</b> pentru a adăuga un agent nou. Agentul pe care îl adăugați va primi un e-mail cu un link de confirmare pentru a-și activa contul, după care pot accesa Chatwoot și răspunde la mesaje. </p><p> Accesul la Chatwoot este bazat pe următoarele roluri. </p><p> <b>Agent</b> - Agenții cu acest rol pot accesa doar mesaje, rapoarte și conversații. Ei pot atribui conversații altor agenți sau ei înșiși și pot rezolva conversațiile.</p><p> <b>Administrator</b> - Administratorul va avea acces la toate caracteristicile Chatwoot activate pentru contul dumneavoastră, inclusiv setările şi facturarea, împreună cu toate privilegiile agenţilor obişnuiţi.</p>",
-    "AGENT_TYPES": [
-      {
-        "name": "administrator",
-        "label": "Administrator"
-      },
-      {
-        "name": "agent",
-        "label": "Agent"
-      }
-    ],
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
     "LIST": {
       "404": "Nu există agenți asociați acestui cont",
       "TITLE": "Gestionează agenții din echipa ta",

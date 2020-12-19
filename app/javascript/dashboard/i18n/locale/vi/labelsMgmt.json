@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Nhãn",
+    "HEADER_BTN_TXT": "Thêm nhãn",
+    "LOADING": "Tải về các nhãn",
+    "SEARCH_404": "Không có kết quả nào phù hợp",
+    "SIDEBAR_TXT": "<p><b>Nhãn</b> <p>Nhãn giúp bạn phân loại các cuộc hội thoại và ưu tiên chúng. Bạn có thể gán nhãn cho một cuộc hội thoại từ bảng phụ. <br /><br />Nhãn được liên kết với tài khoản và có thể được sử dụng để tạo quy trình công việc tùy chỉnh trong tổ chức của bạn. Bạn có thể gán màu tùy chỉnh cho nhãn, điều này giúp bạn nhận dạng nhãn dễ dàng hơn. Bạn sẽ có thể hiển thị nhãn trên thanh bên để lọc các cuộc hội thoại một cách dễ dàng.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Không có nhãn nào có sẵn trong tài khoản này.",
+      "TITLE": "Quản lý nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "Tên",
+        "Mô tả",
+        "Màu sắc"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Tên nhãn",
+        "PLACEHOLDER": "Tên nhãn",
+        "ERROR": "Tên nhãn là bắt buộc"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Mô tả",
+        "PLACEHOLDER": "Mô tả cho nhãn"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Màu sắc"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Hiển thị nhãn trên sidebar"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Chỉnh sửa",
+      "CREATE": "Tạo",
+      "DELETE": "Xoá",
+      "CANCEL": "Huỷ"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Thêm nhãn",
+      "DESC": "Nhãn cho phép bạn nhóm các cuộc trò chuyện lại với nhau.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Thêm nhãn thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Chỉnh sửa nhãn",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Nhãn được cập nhật thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Xoá",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Nhãn đã được xoá thành công",
+        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Xác Nhận Xoá",
+        "MESSAGE": "Bạn có chắc muốn xoá? ",
+        "YES": "Có, xoá ",
+        "NO": "Không, giữ "
       }
     }
   }

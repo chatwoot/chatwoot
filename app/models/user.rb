@@ -44,6 +44,7 @@ class User < ApplicationRecord
   include Pubsubable
   include Rails.application.routes.url_helpers
   include Reportable
+  include SsoAuthenticatable
 
   devise :database_authenticatable,
          :registerable,
@@ -66,6 +67,8 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :account_users
 
   has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
+  alias_attribute :conversations, :assigned_conversations
+
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
@@ -127,8 +130,7 @@ class User < ApplicationRecord
   end
 
   def serializable_hash(options = nil)
-    serialized_user = super(options).merge(confirmed: confirmed?)
-    serialized_user
+    super(options).merge(confirmed: confirmed?)
   end
 
   def push_event_data

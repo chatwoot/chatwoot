@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isIframe" class="actions">
+  <div v-if="isIframe" class="actions flex items-center">
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button"
@@ -15,7 +15,6 @@
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
-import Vue from 'vue';
 
 export default {
   name: 'HeaderActions',
@@ -42,7 +41,7 @@ export default {
       const popoutWindowURL = buildPopoutURL({
         origin,
         websiteToken,
-        locale: Vue.config.lang,
+        locale: this.$root.$i18n.locale,
         conversationCookie: authToken,
       });
       const popoutWindow = window.open(
@@ -66,9 +65,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .actions {
-  display: flex;
-  align-items: center;
-
   button {
     margin-left: $space-normal;
   }

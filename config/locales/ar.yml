@@ -27,14 +27,23 @@ ar:
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
         removed: "المحادثة غير مسندة بواسطة %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
       ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
@@ -42,3 +51,10 @@ ar:
     reply:
       email_subject: "رسائل جديدة في هذه المحادثة"
       transcript_subject: "نص المحادثة"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

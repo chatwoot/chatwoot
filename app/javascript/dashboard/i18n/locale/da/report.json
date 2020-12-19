@@ -1,48 +1,43 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
-        "NAME": "Conversations",
-        "KEY": "conversations_count",
+    "HEADER": "Rapporter",
+    "LOADING_CHART": "Indlæser diagramdata...",
+    "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtaler",
         "DESC": "( Total )"
       },
-      {
-        "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
+      "INCOMING_MESSAGES": {
+        "NAME": "Indkommende Beskeder",
         "DESC": "( Total )"
       },
-      {
-        "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
+      "OUTGOING_MESSAGES": {
+        "NAME": "Udgående beskeder",
         "DESC": "( Total )"
       },
-      {
-        "NAME": "First response time",
-        "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Første svartid",
+        "DESC": "( Gns. )"
       },
-      {
-        "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+      "RESOLUTION_TIME": {
+        "NAME": "Løsnings Tid",
+        "DESC": "( Gns. )"
       },
-      {
-        "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
+      "RESOLUTION_COUNT": {
+        "NAME": "Antal Afsluttede",
         "DESC": "( Total )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Seneste 7 dage"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Seneste 30 dage"
       }
     ]
   }

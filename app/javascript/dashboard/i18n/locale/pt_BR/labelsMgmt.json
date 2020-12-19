@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "Adicionar marcador",
     "LOADING": "Buscando marcadores",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Marcadores</b> <p>Os marcadores o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir o marcador a uma conversa a partir do menu lateral. <br /><br />Os marcadores estão vinculados à conta e podem ser usados para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para um marcador, facilitando a identificação. Você será capaz de exibir o marcador na barra lateral para filtrar as conversas facilmente.</p>",
+    "SIDEBAR_TXT": "<p><b>Marcadores</b> <p>Os marcadores o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir o marcador a uma conversa a partir do menu lateral. <br /><br />Os marcadores estão vinculados à conta e podem ser usados para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para um marcador, facilitando a identificação. Você será capaz de exibir o marcador na barra lateral para filtrar as conversas com mais facilidade.</p>",
     "LIST": {
       "404": "Não há marcadores disponíveis nesta conta.",
       "TITLE": "Gerenciar marcadores",

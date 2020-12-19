@@ -24,10 +24,20 @@ module Featurable
     end
   end
 
+  def enable_features!(*names)
+    enable_features(*names)
+    save
+  end
+
   def disable_features(*names)
     names.each do |name|
       send("feature_#{name}=", false)
     end
+  end
+
+  def disable_features!(*names)
+    disable_features(*names)
+    save
   end
 
   def feature_enabled?(name)
@@ -54,7 +64,7 @@ module Featurable
     config = InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')
     return true if config.blank?
 
-    features_to_enabled = config.value.select { |f| f[:enabled] }.map { |f| f[:name] }
+    features_to_enabled = config.value.select { |f| f[:enabled] }.pluck(:name)
     enable_features(*features_to_enabled)
   end
 end

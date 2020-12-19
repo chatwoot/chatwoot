@@ -1,48 +1,43 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
-        "NAME": "Conversations",
-        "KEY": "conversations_count",
-        "DESC": "( Total )"
+    "HEADER": "보고서",
+    "LOADING_CHART": "차트 데이터 불러오는 중...",
+    "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "대화",
+        "DESC": "( 총 )"
       },
-      {
-        "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
-        "DESC": "( Total )"
+      "INCOMING_MESSAGES": {
+        "NAME": "수신 메시지",
+        "DESC": "( 총 )"
       },
-      {
-        "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
-        "DESC": "( Total )"
+      "OUTGOING_MESSAGES": {
+        "NAME": "발신 메시지",
+        "DESC": "( 총 )"
       },
-      {
-        "NAME": "First response time",
-        "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "첫 번째 응답 시간",
+        "DESC": "( 평균 )"
       },
-      {
-        "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+      "RESOLUTION_TIME": {
+        "NAME": "해결 시간",
+        "DESC": "( 평균 )"
       },
-      {
-        "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
-        "DESC": "( Total )"
+      "RESOLUTION_COUNT": {
+        "NAME": "해결 수",
+        "DESC": "( 총 )"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "지난 7일"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "지난 30일"
       }
     ]
   }

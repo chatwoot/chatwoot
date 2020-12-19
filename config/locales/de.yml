@@ -27,14 +27,23 @@ de:
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
         removed: "Gespräch nicht zugewiesen von %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} Antworten in der Regel in wenigen Stunden."
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
@@ -42,3 +51,10 @@ de:
     reply:
       email_subject: "New messages on this conversation"
       transcript_subject: "Conversation Transcript"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

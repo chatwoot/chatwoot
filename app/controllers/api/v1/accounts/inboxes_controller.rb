@@ -4,7 +4,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
   def index
-    @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, :avatar_attachment))
+    @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
   end
 
   def create
@@ -55,10 +55,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
   end
 
-  def check_authorization
-    authorize(Inbox)
-  end
-
   def create_channel
     case permitted_params[:channel][:type]
     when 'web_widget'
@@ -79,11 +75,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def permitted_params
     params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
-      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email])
+      [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
   end
 
   def inbox_update_params
     params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
+                  :working_hours_enabled, :out_of_office_message,
                   channel: [
                     :website_url,
                     :widget_color,
@@ -91,7 +88,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                     :welcome_tagline,
                     :webhook_url,
                     :email,
-                    selected_feature_flags: []
+                    :reply_time,
+                    { selected_feature_flags: [] }
                   ])
   end
 end

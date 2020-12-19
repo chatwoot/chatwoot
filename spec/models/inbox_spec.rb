@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/out_of_offisable_spec.rb'
 
 RSpec.describe Inbox do
   describe 'validations' do
@@ -31,6 +32,10 @@ RSpec.describe Inbox do
     it { is_expected.to have_many(:events) }
 
     it { is_expected.to have_many(:hooks) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'out_of_offisable'
   end
 
   describe '#add_member' do
@@ -69,13 +74,17 @@ RSpec.describe Inbox do
 
       it do
         expect(inbox.facebook?).to eq(true)
+        expect(inbox.inbox_type).to eq('Facebook')
       end
     end
 
     context 'when the channel type is not Channel::FacebookPage' do
       let(:channel_val) { Channel::WebWidget.new }
 
-      it { expect(inbox.facebook?).to eq(false) }
+      it do
+        expect(inbox.facebook?).to eq(false)
+        expect(inbox.inbox_type).to eq('Website')
+      end
     end
   end
 end

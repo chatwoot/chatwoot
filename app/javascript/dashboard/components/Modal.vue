@@ -6,7 +6,7 @@
       transition="modal"
       @click="onBackDropClick"
     >
-      <div class="modal-container" :class="className" @click.stop>
+      <div :class="modalContainerClassName" @click.stop>
         <i class="ion-android-close modal--close" @click="close"></i>
         <slot />
       </div>
@@ -26,9 +26,18 @@ export default {
       type: Function,
       required: true,
     },
-    className: {
-      type: String,
-      default: '',
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    modalContainerClassName() {
+      let className = 'modal-container';
+      if (this.fullWidth) {
+        return `${className} modal-container--full-width`;
+      }
+      return className;
     },
   },
   mounted() {
@@ -50,3 +59,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.modal-container--full-width {
+  align-items: center;
+  border-radius: 0;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+</style>

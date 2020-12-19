@@ -1,7 +1,8 @@
 /* eslint no-console: 0 */
 /* eslint no-param-reassign: 0 */
 /* eslint no-shadow: 0 */
-import moment from 'moment';
+import compareAsc from 'date-fns/compareAsc';
+import fromUnixTime from 'date-fns/fromUnixTime';
 
 import * as types from '../mutation-types';
 import Report from '../../api/reports';
@@ -32,7 +33,7 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
     Report.getAccountReports(
@@ -41,7 +42,9 @@ const actions = {
       reportObj.to
     ).then(accountReport => {
       let { data } = accountReport;
-      data = data.filter(el => moment() > moment.unix(el.timestamp));
+      data = data.filter(
+        el => compareAsc(new Date(), fromUnixTime(el.timestamp)) > -1
+      );
       if (
         reportObj.metric === 'avg_first_response_time' ||
         reportObj.metric === 'avg_resolution_time'
@@ -57,12 +60,23 @@ const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
-    Report.getAccountSummary(1, reportObj.from, reportObj.to)
+    Report.getAccountSummary(reportObj.from, reportObj.to)
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+      });
+  },
+  downloadAgentReports(_, reportObj) {
+    return Report.getAgentReports(reportObj.from, reportObj.to)
+      .then(response => {
+        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+      })
+      .catch(error => {
+        console.error(error);
       });
   },
 };

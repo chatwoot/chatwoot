@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
+  <div class="columns profile--settings">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
           </h4>
@@ -25,7 +25,7 @@
             {{ $t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL') }}
             <select v-model="locale">
               <option
-                v-for="lang in enabledLanguages"
+                v-for="lang in languagesSortedByCode"
                 :key="lang.iso_639_1_code"
                 :value="lang.iso_639_1_code"
               >
@@ -62,6 +62,20 @@
               "
             />
           </label>
+          <label :class="{ error: $v.autoResolveDuration.$error }">
+            {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL') }}
+            <input
+              v-model="autoResolveDuration"
+              type="number"
+              :placeholder="
+                $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.PLACEHOLDER')
+              "
+              @blur="$v.autoResolveDuration.$touch"
+            />
+            <span v-if="$v.autoResolveDuration.$error" class="message">
+              {{ $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR') }}
+            </span>
+          </label>
         </div>
       </div>
       <div class="current-version">
@@ -81,8 +95,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import { required } from 'vuelidate/lib/validators';
+import { required, minValue } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
@@ -98,6 +111,7 @@ export default {
       domain: '',
       supportEmail: '',
       features: {},
+      autoResolveDuration: null,
     };
   },
   validations: {
@@ -107,6 +121,9 @@ export default {
     locale: {
       required,
     },
+    autoResolveDuration: {
+      minValue: minValue(1),
+    },
   },
   computed: {
     ...mapGetters({
@@ -114,7 +131,12 @@ export default {
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
-
+    languagesSortedByCode() {
+      const enabledLanguages = [...this.enabledLanguages];
+      return enabledLanguages.sort((l1, l2) =>
+        l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
+      );
+    },
     isUpdating() {
       return this.uiFlags.isUpdating;
     },
@@ -144,9 +166,10 @@ export default {
           support_email,
           custom_email_domain_enabled,
           features,
+          auto_resolve_duration,
         } = this.getAccount(this.accountId);
 
-        Vue.config.lang = locale;
+        this.$root.$i18n.locale = locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -154,6 +177,7 @@ export default {
         this.supportEmail = support_email;
         this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
+        this.autoResolveDuration = auto_resolve_duration;
       } catch (error) {
         // Ignore error
       }
@@ -171,8 +195,9 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
+          auto_resolve_duration: this.autoResolveDuration,
         });
-        Vue.config.lang = this.locale;
+        this.$root.$i18n.locale = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));

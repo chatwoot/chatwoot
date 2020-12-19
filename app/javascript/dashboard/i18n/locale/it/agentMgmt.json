@@ -4,16 +4,10 @@
     "HEADER_BTN_TXT": "Aggiungi Agente",
     "LOADING": "Recupero elenco Operatori",
     "SIDEBAR_TXT": "<p><b>Agenti</b></p> <p> Un <b>agente</b> è membro del tuo team di assistenza clienti. </p><p> Gli agenti saranno in grado di visualizzare e rispondere ai messaggi dei tuoi utenti. L'elenco mostra tutti gli agenti attualmente presenti nel tuo account. </p><p> Clicca su <b>Aggiungi agente</b> per aggiungere un nuovo agente. Ogni agente che aggiungi riceverà un'email con un link di conferma per attivare il loro account, dopo di che possono accedere a Chatwoot e rispondere ai messaggi. </p><p> L'accesso alle funzionalità di Chatwoot si basa sui seguenti ruoli. </p><p> <b>Agente</b> - Gli agenti con questo ruolo possono accedere solo a messaggi, report e conversazioni. Possono assegnare conversazioni ad altri agenti o a se stessi e risolvere le conversazioni.</p><p> <b>Amministratore</b> - L'amministratore avrà accesso a tutte le funzionalità di Chatwoot abilitate per il tuo account, comprese le impostazioni, insieme a tutti i privilegi di un agente normale.</p>",
-    "AGENT_TYPES": [
-      {
-        "name": "amministratore",
-        "label": "Amministratore"
-      },
-      {
-        "name": "agente",
-        "label": "Agente"
-      }
-    ],
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Amministratore",
+      "AGENT": "Agente"
+    },
     "LIST": {
       "404": "Non ci sono agenti associati a questo account",
       "TITLE": "Gestisci gli agenti nel tuo team",

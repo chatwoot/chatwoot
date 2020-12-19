@@ -11,6 +11,7 @@ import fi from './locale/fi';
 import fr from './locale/fr';
 import hi from './locale/hi';
 import hu from './locale/hu';
+import id from './locale/id';
 import it from './locale/it';
 import ja from './locale/ja';
 import ko from './locale/ko';
@@ -28,6 +29,7 @@ import tr from './locale/tr';
 import uk from './locale/uk';
 import vi from './locale/vi';
 import zh from './locale/zh';
+import zh_TW from './locale/zh_TW';
 
 export default {
   ar,
@@ -43,6 +45,7 @@ export default {
   fr,
   hi,
   hu,
+  id,
   it,
   ja,
   ko,
@@ -60,4 +63,5 @@ export default {
   uk,
   vi,
   zh,
+  zh_TW,
 };

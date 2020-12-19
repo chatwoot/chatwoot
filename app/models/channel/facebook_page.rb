@@ -19,6 +19,8 @@
 class Channel::FacebookPage < ApplicationRecord
   self.table_name = 'channel_facebook_pages'
 
+  include Reauthorizable
+
   validates :account_id, presence: true
   validates :page_id, uniqueness: { scope: :account_id }
   belongs_to :account
@@ -27,6 +29,10 @@ class Channel::FacebookPage < ApplicationRecord
 
   after_create_commit :subscribe
   before_destroy :unsubscribe
+
+  def name
+    'Facebook'
+  end
 
   def has_24_hour_messaging_window?
     true

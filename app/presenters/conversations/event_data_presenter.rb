@@ -31,8 +31,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
   def push_timestamps
     {
       agent_last_seen_at: agent_last_seen_at.to_i,
-      user_last_seen_at: user_last_seen_at.to_i,
-      timestamp: created_at.to_i
+      contact_last_seen_at: contact_last_seen_at.to_i,
+      timestamp: last_activity_at.to_i
     }
   end
 end

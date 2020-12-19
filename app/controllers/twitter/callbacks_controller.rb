@@ -27,7 +27,7 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def account
-    @account ||= Account.find_by!(id: account_id)
+    @account ||= Account.find(account_id)
   end
 
   def twitter_app_redirect_url

@@ -13,8 +13,8 @@
         <div class="contact--name">
           {{ contact.name }}
         </div>
-        <div v-if="additionalAttibutes.description" class="contact--bio">
-          {{ additionalAttibutes.description }}
+        <div v-if="additionalAttributes.description" class="contact--bio">
+          {{ additionalAttributes.description }}
         </div>
         <social-icons :social-profiles="socialProfiles" />
         <div class="contact--metadata">
@@ -23,7 +23,9 @@
             :value="contact.email"
             icon="ion-email"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            show-copy
           />
+
           <contact-info-row
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
@@ -31,12 +33,13 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            :value="additionalAttibutes.location"
+            v-if="additionalAttributes.location"
+            :value="additionalAttributes.location"
             icon="ion-map"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <contact-info-row
-            :value="additionalAttibutes.company_name"
+            :value="additionalAttributes.company_name"
             icon="ion-briefcase"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
@@ -50,6 +53,7 @@
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
       </woot-button>
       <edit-contact
+        v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
@@ -86,14 +90,14 @@ export default {
     };
   },
   computed: {
-    additionalAttibutes() {
+    additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
     socialProfiles() {
       const {
         social_profiles: socialProfiles,
         screen_name: twitterScreenName,
-      } = this.additionalAttibutes;
+      } = this.additionalAttributes;
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
@@ -120,6 +124,7 @@ export default {
 
 .contact--details {
   margin-top: $space-small;
+  width: 100%;
 
   p {
     margin-bottom: 0;
@@ -136,7 +141,7 @@ export default {
 .contact--name {
   @include text-ellipsis;
   text-transform: capitalize;
-
+  white-space: normal;
   font-weight: $font-weight-bold;
   font-size: $font-size-default;
 }

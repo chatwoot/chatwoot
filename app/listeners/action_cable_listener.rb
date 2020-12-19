@@ -120,8 +120,7 @@ class ActionCableListener < BaseListener
   def user_tokens(account, agents)
     agent_tokens = agents.pluck(:pubsub_token)
     admin_tokens = account.administrators.pluck(:pubsub_token)
-    pubsub_tokens = (agent_tokens + admin_tokens).uniq
-    pubsub_tokens
+    (agent_tokens + admin_tokens).uniq
   end
 
   def contact_token(contact, message)

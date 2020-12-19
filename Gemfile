@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '2.7.2'
 
 ##-- base gems for rails --##
 gem 'rack-cors', require: 'rack/cors'
@@ -65,7 +65,8 @@ gem 'administrate'
 gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
-gem 'facebook-messenger'
+# TODO: bump up gem to 2.0
+gem 'facebook-messenger', '1.5.0'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
@@ -89,6 +90,12 @@ gem 'sidekiq'
 gem 'fcm'
 gem 'webpush'
 
+##-- geocoding / parse location from ip --##
+# http://www.rubygeocoder.com/
+gem 'geocoder'
+# to parse maxmind db
+gem 'maxminddb'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -97,6 +104,9 @@ group :development do
 
   # used in swagger build
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+
+  # When we want to squash migrations
+  gem 'squasher'
 end
 
 group :test do

@@ -27,6 +27,13 @@
       "SUCCESS_MESSAGE": "ثبت نام با موفقیت انجام شد",
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
     },
-    "SUBMIT": "ثبت"
+    "SUBMIT": "ثبت",
+    "FEATURES": {
+      "UNLIMITED_INBOXES": "Unlimited inboxes",
+      "ROBUST_REPORTING": "Robust Reporting",
+      "CANNED_RESPONSES": "پاسخ‌های آماده",
+      "AUTO_ASSIGNMENT": "Auto Assignment",
+      "SECURITY": "Enterprise level security"
+    }
   }
 }

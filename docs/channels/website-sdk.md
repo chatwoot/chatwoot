@@ -37,12 +37,12 @@ Chatwoot support 2 designs for for the widget
 
 ![Expanded-bubble](./images/sdk/expanded-bubble.gif)
 
-If you are using expanded bubble, you can customize the text used in the bubble by setting `launcherText` parameter on chatwootSettings as described below.
+If you are using expanded bubble, you can customize the text used in the bubble by setting `launcherTitle` parameter on chatwootSettings as described below.
 
 ```js
 window.chatwootSettings = {
   type: 'expanded_bubble',
-  launcherText: 'Chat with us'
+  launcherTitle: 'Chat with us'
 }
 ```
 
@@ -66,10 +66,10 @@ window.$chatwoot.toggle();
 ### To set the user in the widget
 
 ```js
-window.$chatwoot.setUser('identifier_key', {
-  email: 'email@example.com',
-  name: 'name',
-  avatar_url: '',
+window.$chatwoot.setUser('<unique-identifier-key-of-the-user>', {
+  email: '<email-address-of-the-user@your-domain.com>',
+  name: '<name-of-the-user>',
+  avatar_url: '<avatar-url-of-the-user>',
 });
 ```
 
@@ -115,7 +115,7 @@ To set the language manually, use the `setLocale` function.
 Please note that the labels will be set on a conversation if the user has not started a conversation. In that case, the following items will not have any effect:
 
 ```js
-window.$chatwoot.addLabel('support-ticket');
+window.$chatwoot.setLabel('support-ticket');
 
 window.$chatwoot.removeLabel('support-ticket');
 ```

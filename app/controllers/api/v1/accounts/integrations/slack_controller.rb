@@ -2,13 +2,15 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   before_action :fetch_hook, only: [:update, :destroy]
 
   def create
-    builder = Integrations::Slack::HookBuilder.new(
-      account: current_account,
-      code: params[:code],
-      inbox_id: params[:inbox_id]
-    )
-    @hook = builder.perform
-    create_chatwoot_slack_channel
+    ActiveRecord::Base.transaction do
+      builder = Integrations::Slack::HookBuilder.new(
+        account: Current.account,
+        code: params[:code],
+        inbox_id: params[:inbox_id]
+      )
+      @hook = builder.perform
+      create_chatwoot_slack_channel
+    end
   end
 
   def update
@@ -25,7 +27,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   private
 
   def fetch_hook
-    @hook = Integrations::Hook.find_by(app_id: 'slack')
+    @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'slack')
   end
 
   def create_chatwoot_slack_channel

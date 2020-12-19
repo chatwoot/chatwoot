@@ -4,11 +4,12 @@ class SendReplyJob < ApplicationJob
   def perform(message_id)
     message = Message.find(message_id)
     channel_name = message.conversation.inbox.channel.class.to_s
-    if channel_name == 'Channel::FacebookPage'
+    case channel_name
+    when 'Channel::FacebookPage'
       ::Facebook::SendOnFacebookService.new(message: message).perform
-    elsif channel_name == 'Channel::TwitterProfile'
+    when 'Channel::TwitterProfile'
       ::Twitter::SendOnTwitterService.new(message: message).perform
-    elsif channel_name == 'Channel::TwilioSms'
+    when 'Channel::TwilioSms'
       ::Twilio::SendOnTwilioService.new(message: message).perform
     end
   end

@@ -25,8 +25,9 @@ class ConversationFinder
     set_assignee_type
 
     find_all_conversations
-    filter_by_status
+    filter_by_status unless params[:q]
     filter_by_labels if params[:labels]
+    filter_by_query if params[:q]
 
     mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
@@ -61,18 +62,25 @@ class ConversationFinder
   end
 
   def find_all_conversations
-    @conversations = current_account.conversations.includes(
-      :assignee, :inbox, contact: [:avatar_attachment]
-    ).where(inbox_id: @inbox_ids)
+    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
   end
 
   def filter_by_assignee_type
-    if @assignee_type == 'me'
+    case @assignee_type
+    when 'me'
       @conversations = @conversations.assigned_to(current_user)
-    elsif @assignee_type == 'unassigned'
+    when 'unassigned'
       @conversations = @conversations.unassigned
     end
     @conversations
+  end
+
+  def filter_by_query
+    allowed_message_types = [Message.message_types[:incoming], Message.message_types[:outgoing]]
+    @conversations = conversations.joins(:messages).where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types }).includes(:messages)
+                                  .where('messages.content ILIKE :search', search: "%#{params[:q]}%")
+                                  .where(messages: { message_type: allowed_message_types })
   end
 
   def filter_by_status
@@ -96,6 +104,9 @@ class ConversationFinder
   end
 
   def conversations
+    @conversations = @conversations.includes(
+      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }
+    )
     current_page ? @conversations.latest.page(current_page) : @conversations.latest
   end
 end

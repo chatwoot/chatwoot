@@ -41,7 +41,7 @@
           size="16px"
         />
         <div class="sender--available-name">
-          {{ sender.available_name || sender.name }}
+          {{ sender.name }}
         </div>
       </div>
     </div>
@@ -49,7 +49,6 @@
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import getEmojiSVG from '../emoji/utils';
 import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
@@ -122,7 +121,7 @@ export default {
 
       return this.data.message_type === 1 && !this.isHovered && sender
         ? {
-            content: `Sent by: ${sender.available_name || sender.name}`,
+            content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
           }
         : false;
@@ -140,9 +139,6 @@ export default {
         'is-image': this.hasImageAttachment,
       };
     },
-  },
-  methods: {
-    getEmojiSVG,
   },
 };
 </script>

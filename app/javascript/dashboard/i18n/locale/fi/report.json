@@ -1,48 +1,43 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "METRICS": [
-      {
-        "NAME": "Conversations",
-        "KEY": "conversations_count",
-        "DESC": "( Total )"
+    "HEADER": "Raportit",
+    "LOADING_CHART": "Ladataan kaaviotietoja...",
+    "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Keskustelut",
+        "DESC": "(yhteensä)"
       },
-      {
-        "NAME": "Incoming Messages",
-        "KEY": "incoming_messages_count",
-        "DESC": "( Total )"
+      "INCOMING_MESSAGES": {
+        "NAME": "Saapuvat viestit",
+        "DESC": "(yhteensä)"
       },
-      {
-        "NAME": "Outgoing Messages",
-        "KEY": "outgoing_messages_count",
-        "DESC": "( Total )"
+      "OUTGOING_MESSAGES": {
+        "NAME": "Lähtevät viestit",
+        "DESC": "(yhteensä)"
       },
-      {
-        "NAME": "First response time",
-        "KEY": "avg_first_response_time",
-        "DESC": "( Avg )"
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Ensimmäinen vasteaika",
+        "DESC": "(keskiarvo)"
       },
-      {
-        "NAME": "Resolution Time",
-        "KEY": "avg_resolution_time",
-        "DESC": "( Avg )"
+      "RESOLUTION_TIME": {
+        "NAME": "Selviytymisen kesto",
+        "DESC": "(keskiarvo)"
       },
-      {
-        "NAME": "Resolution Count",
-        "KEY": "resolutions_count",
-        "DESC": "( Total )"
+      "RESOLUTION_COUNT": {
+        "NAME": "Selvitysmäärä",
+        "DESC": "(yhteensä)"
       }
-    ],
+    },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Viimeiset 7 päivää"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Viimeiset 30 päivää"
       }
     ]
   }

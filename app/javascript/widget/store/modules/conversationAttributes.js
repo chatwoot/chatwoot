@@ -17,7 +17,7 @@ export const actions = {
   get: async ({ commit }) => {
     try {
       const { data } = await getConversationAPI();
-      const { user_last_seen_at: lastSeen } = data;
+      const { contact_last_seen_at: lastSeen } = data;
       commit(SET_CONVERSATION_ATTRIBUTES, data);
       commit('conversation/setMetaUserLastSeenAt', lastSeen, { root: true });
     } catch (error) {

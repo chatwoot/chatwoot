@@ -27,14 +27,23 @@ ta:
       invalid_email: நீங்கள் தவறான ஈ-மெயிலை உள்ளிட்டுள்ளீர்கள்
       email_already_exists: "நீங்கள் ஏற்கனவே %{email} கொண்டு கணக்கிற்கு பதிவு செய்துள்ளீர்கள்"
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
         resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"
         open: "உரையாடலை %{user_name} மீண்டும் திறந்துள்ளார்"
+        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{user_name} இதை %{assignee_name}க்கு ஒதுக்கியுள்ளார்"
         removed: "%{user_name} இதை ஒதுக்க படாத உரையாடளாக்கியுள்ளார்"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} பொதுவாக சில மணிநேரங்களில் பதிலளிப்பார்."
       ways_to_reach_you_message_body: "உங்களை அடைய அணிக்கு ஒரு வழியைக் கொடுங்கள்."
@@ -42,3 +51,10 @@ ta:
     reply:
       email_subject: "இந்த உரையாடலில் புதிய செய்திகள்"
       transcript_subject: "Conversation Transcript"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

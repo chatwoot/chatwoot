@@ -105,6 +105,16 @@ export const actions = {
     }
   },
 
+  updateAvailability: ({ commit, dispatch }, { availability }) => {
+    authAPI.updateAvailability({ availability }).then(response => {
+      const userData = response.data;
+      const { id, availability_status: availabilityStatus } = userData;
+      setUser(userData, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
+      dispatch('agents/updatePresence', { [id]: availabilityStatus });
+    });
+  },
+
   setCurrentAccountId({ commit }, accountId) {
     commit(types.default.SET_CURRENT_ACCOUNT_ID, accountId);
   },

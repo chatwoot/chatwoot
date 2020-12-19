@@ -7,11 +7,12 @@
 class Messages::Facebook::MessageBuilder
   attr_reader :response
 
-  def initialize(response, inbox, outgoing_echo = false)
+  def initialize(response, inbox, outgoing_echo: false)
     @response = response
     @inbox = inbox
-    @sender_id = (outgoing_echo ? @response.recipient_id : @response.sender_id)
-    @message_type = (outgoing_echo ? :outgoing : :incoming)
+    @outgoing_echo = outgoing_echo
+    @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
+    @message_type = (@outgoing_echo ? :outgoing : :incoming)
   end
 
   def perform
@@ -49,8 +50,8 @@ class Messages::Facebook::MessageBuilder
 
   def attach_file(attachment, file_url)
     file_resource = LocalResource.new(file_url)
-    attachment.file.attach(io: file_resource.file, filename: file_resource.tmp_filename, content_type: file_resource.encoding)
-  rescue Errno::ETIMEDOUT, Errno::ECONNREFUSED, SocketError => e
+    attachment.file.attach(io: file_resource.file, filename: file_resource.filename, content_type: file_resource.encoding)
+  rescue *ExceptionList::URI_EXCEPTIONS => e
     Rails.logger.info "invalid url #{file_url} : #{e.message}"
   end
 
@@ -120,7 +121,7 @@ class Messages::Facebook::MessageBuilder
       message_type: @message_type,
       content: response.content,
       source_id: response.identifier,
-      sender: contact
+      sender: @outgoing_echo ? nil : contact
     }
   end
 

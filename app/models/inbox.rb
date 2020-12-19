@@ -6,10 +6,13 @@
 #
 #  id                     :integer          not null, primary key
 #  channel_type           :string
+#  email_address          :string
 #  enable_auto_assignment :boolean          default(TRUE)
 #  greeting_enabled       :boolean          default(FALSE)
 #  greeting_message       :string
 #  name                   :string           not null
+#  out_of_office_message  :string
+#  working_hours_enabled  :boolean          default(FALSE)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
@@ -23,6 +26,7 @@
 class Inbox < ApplicationRecord
   include Reportable
   include Avatarable
+  include OutOfOffisable
 
   validates :account_id, presence: true
 
@@ -64,6 +68,10 @@ class Inbox < ApplicationRecord
 
   def web_widget?
     channel.class.name.to_s == 'Channel::WebWidget'
+  end
+
+  def inbox_type
+    channel.name
   end
 
   def webhook_data

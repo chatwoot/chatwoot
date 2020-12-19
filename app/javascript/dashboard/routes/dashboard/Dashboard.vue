@@ -8,7 +8,6 @@
 </template>
 
 <script>
-/* global bus */
 import Sidebar from '../../components/layout/Sidebar';
 
 export default {

@@ -1,21 +1,17 @@
 /* eslint no-console: 0 */
-/* eslint no-undef: "error" */
-/* eslint no-unused-expressions: ["error", { "allowShortCircuit": true }] */
-import moment from 'moment';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 export default {
   methods: {
     messageStamp(time) {
-      const createdAt = time * 1000;
-      return moment(createdAt).format('h:mm A');
-    },
-    wootTime(time) {
-      const createdAt = time * 1000;
-      return moment(createdAt);
+      const unixTime = fromUnixTime(time);
+      return format(unixTime, 'h:mm a');
     },
     dynamicTime(time) {
-      const createdAt = moment(time * 1000);
-      return createdAt.fromNow();
+      const unixTime = fromUnixTime(time);
+      return formatDistanceToNow(unixTime, { addSuffix: true });
     },
   },
 };

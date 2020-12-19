@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.7.2",
+  "version": "1.11.1",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -21,16 +21,18 @@
     "chart.js": "~2.5.0",
     "copy-text-to-clipboard": "^2.1.1",
     "core-js": "3",
+    "country-code-emoji": "^1.0.0",
+    "date-fns": "^2.16.1",
     "dotenv": "^8.0.0",
-    "emojione": "~2.2.7",
     "foundation-sites": "~6.5.3",
-    "highlight.js": "^9.15.10",
+    "highlight.js": "~10.4.1",
     "ionicons": "~2.0.1",
     "js-cookie": "^2.2.1",
     "lodash.groupby": "^4.6.0",
-    "moment": "~2.19.3",
+    "md5": "^2.3.0",
     "query-string": "5",
     "spinkit": "~1.2.5",
+    "tailwindcss": "^1.9.6",
     "tween.js": "~16.6.0",
     "url-loader": "^2.0.0",
     "v-tooltip": "~2.0.2",
@@ -39,8 +41,7 @@
     "vue-chartjs": "^3.4.2",
     "vue-clickaway": "~2.1.0",
     "vue-color": "^2.7.1",
-    "vue-highlight.js": "^3.1.0",
-    "vue-i18n": "~5.0.3",
+    "vue-i18n": "^8.22.1",
     "vue-loader": "^15.7.0",
     "vue-multiselect": "~2.1.6",
     "vue-router": "~2.2.0",
@@ -73,14 +74,14 @@
     "eslint-plugin-vue": "^6.2.2",
     "expect-more-jest": "^2.4.2",
     "husky": ">=1",
-    "jest": "^25.1.0",
+    "jest": "^26.4.2",
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub": "^2.0.0",
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "engines": {
     "node": ">=10.x",
@@ -89,7 +90,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "sh bin/validate_push"
     }
   },
   "jest": {

@@ -4,11 +4,10 @@ class Messages::MessageBuilder
 
   def initialize(user, conversation, params)
     @content = params[:content]
-    @private = params[:is_private_note] || params[:private] || false
+    @is_private_note = params[:is_private_note] || params[:private] || false
     @conversation = conversation
     @user = user
     @message_type = params[:message_type] || 'outgoing'
-    @content_type = params[:content_type]
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
     @attachments = params[:attachments]
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
@@ -49,11 +48,12 @@ class Messages::MessageBuilder
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
       content: @content,
-      is_private_note: @private,
+      is_private_note: @is_private_note,
       sender: sender,
-      content_type: @content_type,
+      content_type: @params[:content_type],
       items: @items,
-      in_reply_to: @in_reply_to
+      in_reply_to: @in_reply_to,
+      echo_id: @params[:echo_id]
     }
   end
 end

@@ -1,11 +1,21 @@
 <template>
   <div class="column content-box">
+    <button
+      class="button nice icon success button--fixed-right-top"
+      @click="downloadAgentReports"
+    >
+      <i class="icon ion-android-download"></i>
+      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+    </button>
     <div class="small-3 pull-right">
       <multiselect
         v-model="currentDateRangeSelection"
         track-by="name"
         label="name"
-        placeholder="Select one"
+        :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
         :options="dateRange"
         :searchable="false"
         :allow-empty="true"
@@ -41,7 +51,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import moment from 'moment';
+import startOfDay from 'date-fns/startOfDay';
+import subDays from 'date-fns/subDays';
+import getUnixTime from 'date-fns/getUnixTime';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
+
+const REPORTS_KEYS = {
+  CONVERSATIONS: 'conversations_count',
+  INCOMING_MESSAGES: 'incoming_messages_count',
+  OUTGOING_MESSAGES: 'outgoing_messages_count',
+  FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  RESOLUTION_TIME: 'avg_resolution_time',
+  RESOLUTION_COUNT: 'resolutions_count',
+};
 
 export default {
   data() {
@@ -57,15 +80,12 @@ export default {
       accountReport: 'getAccountReports',
     }),
     to() {
-      const m = moment.utc();
-      m.set({ hour: 23, minute: 59, second: 59, millisecond: 999 });
-      return m.unix();
+      return getUnixTime(startOfDay(new Date()));
     },
     from() {
       const diff = this.currentDateRangeSelection.id ? 29 : 6;
-      const m = moment.utc().subtract(diff, 'days');
-      m.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-      return m.unix();
+      const fromDate = subDays(new Date(), diff);
+      return getUnixTime(startOfDay(fromDate));
     },
     collection() {
       if (this.accountReport.isFetching) {
@@ -73,7 +93,7 @@ export default {
       }
       if (!this.accountReport.data.length) return {};
       const labels = this.accountReport.data.map(element =>
-        moment.unix(element.timestamp).format('DD/MMM')
+        format(fromUnixTime(element.timestamp), 'dd/MMM')
       );
       const data = this.accountReport.data.map(element => element.value);
       return {
@@ -88,7 +108,19 @@ export default {
       };
     },
     metrics() {
-      return this.$t('REPORT.METRICS');
+      const reportKeys = [
+        'CONVERSATIONS',
+        'INCOMING_MESSAGES',
+        'OUTGOING_MESSAGES',
+        'FIRST_RESPONSE_TIME',
+        'RESOLUTION_TIME',
+        'RESOLUTION_COUNT',
+      ];
+      return reportKeys.map(key => ({
+        NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
+        KEY: REPORTS_KEYS[key],
+        DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
+      }));
     },
   },
   mounted() {
@@ -119,6 +151,13 @@ export default {
       const { from, to } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
+        from,
+        to,
+      });
+    },
+    downloadAgentReports() {
+      const { from, to } = this;
+      this.$store.dispatch('downloadAgentReports', {
         from,
         to,
       });

@@ -26,7 +26,7 @@ class Integrations::Facebook::DeliveryStatus
   def update_message_status
     return unless conversation
 
-    conversation.user_last_seen_at = @params.at
+    conversation.contact_last_seen_at = @params.at
     conversation.save!
   end
 end

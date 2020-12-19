@@ -1,11 +1,33 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  RESULTS_PER_PAGE = 15
   protect_from_forgery with: :null_session
 
   before_action :check_authorization
+  before_action :set_current_page, only: [:index, :active, :search]
   before_action :fetch_contact, only: [:show, :update]
 
   def index
-    @contacts = Current.account.contacts
+    @contacts_count = resolved_contacts.count
+    @contacts = fetch_contact_last_seen_at(resolved_contacts)
+  end
+
+  def search
+    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
+
+    contacts = resolved_contacts.where(
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search',
+      search: "%#{params[:q]}%"
+    )
+    @contacts_count = contacts.count
+    @contacts = fetch_contact_last_seen_at(contacts)
+  end
+
+  # returns online contacts
+  def active
+    contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
+                  .get_available_contact_ids(Current.account.id))
+    @contacts_count = contacts.count
+    @contacts = contacts.page(@current_page)
   end
 
   def show; end
@@ -19,7 +41,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @contact.update!(contact_update_params)
+    @contact.assign_attributes(contact_update_params)
+    @contact.save!
   rescue ActiveRecord::RecordInvalid => e
     render json: {
       message: e.record.errors.full_messages.join(', '),
@@ -27,16 +50,25 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     }, status: :unprocessable_entity
   end
 
-  def search
-    render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
-
-    @contacts = Current.account.contacts.where('name LIKE :search OR email LIKE :search', search: "%#{params[:q]}%")
-  end
-
   private
 
-  def check_authorization
-    authorize(Contact)
+  def resolved_contacts
+    @resolved_contacts ||= Current.account.contacts
+                                  .where.not(email: [nil, ''])
+                                  .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+                                  .order('LOWER(name)')
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
+  end
+
+  def fetch_contact_last_seen_at(contacts)
+    contacts.left_outer_joins(:conversations)
+            .select('contacts.*, COUNT(conversations.id) as conversations_count, MAX(conversations.contact_last_seen_at) as last_seen_at')
+            .group('contacts.id')
+            .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
+            .page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def build_contact_inbox
@@ -63,6 +95,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact
-    @contact = Current.account.contacts.find(params[:id])
+    @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
   end
 end
