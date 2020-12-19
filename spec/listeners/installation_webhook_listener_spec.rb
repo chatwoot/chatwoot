@@ -17,27 +17,8 @@ describe InstallationWebhookListener do
     context 'when installation config is configured' do
       it 'triggers webhook' do
         create(:installation_config, name: 'INSTALLATION_EVENTS_WEBHOOK_URL', value: 'https://test.com')
-        expect(WebhookJob).to receive(:perform_later).with('https://test.com', account.webhook_data.merge(event: 'account_created')).once
+        expect(WebhookJob).to receive(:perform_later).with('https://test.com', account.webhook_data.merge(event: 'account_created', users: [])).once
         listener.account_created(event)
-      end
-    end
-  end
-
-  describe '#account_destroyed' do
-    let(:event_name) { :'account.destroyed' }
-
-    context 'when installation config is not configured' do
-      it 'does not trigger webhook' do
-        expect(WebhookJob).to receive(:perform_later).exactly(0).times
-        listener.account_destroyed(event)
-      end
-    end
-
-    context 'when installation config is configured' do
-      it 'triggers webhook' do
-        create(:installation_config, name: 'INSTALLATION_EVENTS_WEBHOOK_URL', value: 'https://test.com')
-        expect(WebhookJob).to receive(:perform_later).with('https://test.com', account.webhook_data.merge(event: 'account_destroyed')).once
-        listener.account_destroyed(event)
       end
     end
   end

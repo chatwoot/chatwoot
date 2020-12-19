@@ -15,7 +15,6 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    @account&.destroy
     puts e.inspect
     raise e
   end
