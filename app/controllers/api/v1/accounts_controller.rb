@@ -16,6 +16,7 @@ class Api::V1::AccountsController < Api::BaseController
   def create
     @user, @account = AccountBuilder.new(
       account_name: account_params[:account_name],
+      user_full_name: account_params[:user_full_name],
       email: account_params[:email],
       confirmed: confirmed?,
       user: current_user
@@ -54,7 +55,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :auto_resolve_duration)
+    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
   end
 
   def check_signup_enabled
