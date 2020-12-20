@@ -5,17 +5,17 @@
     "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Account name",
-      "PLACEHOLDER": "eg: Wayne Enterprises",
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
       "ERROR": "Account name is too short"
     },
     "FULL_NAME": {
       "LABEL": "Full name",
-      "PLACEHOLDER": "eg: Bruce Wayne",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
       "ERROR": "Full name is too short"
     },
     "EMAIL": {
       "LABEL": "Work email",
-      "PLACEHOLDER": "eg: bruce@wayne.enterprises",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
       "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
