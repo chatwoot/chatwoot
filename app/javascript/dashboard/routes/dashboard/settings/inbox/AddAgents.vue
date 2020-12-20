@@ -23,7 +23,7 @@
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-              :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS ')"
+              :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
               @select="$v.selectedAgents.$touch"
             >
             </multiselect>
