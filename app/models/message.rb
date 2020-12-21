@@ -7,8 +7,8 @@
 #  content_attributes  :json
 #  content_type        :integer          default("text")
 #  external_source_ids :jsonb
+#  is_private_note     :boolean          default(FALSE)
 #  message_type        :integer          not null
-#  private             :boolean          default(FALSE)
 #  sender_type         :string
 #  status              :integer          default("sent")
 #  created_at          :datetime         not null
@@ -115,7 +115,8 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
-      private: is_private_note,
+      private: is_private_note,  # TODO: deprecate in future
+      is_private_note: is_private_note,
       content_attributes: content_attributes,
       source_id: source_id,
       sender: sender.try(:webhook_data),
