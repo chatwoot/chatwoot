@@ -3,11 +3,12 @@ require 'rails_helper'
 RSpec.describe 'Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
     let(:email) { Faker::Internet.email }
+    let(:user_full_name) { Faker::Name.name_with_middle }
 
     context 'when posting to accounts with correct parameters' do
       let(:account_builder) { double }
       let(:account) { create(:account) }
-      let(:user) { create(:user, email: email, account: account) }
+      let(:user) { create(:user, email: email, account: account, name: user_full_name) }
 
       before do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
@@ -17,7 +18,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'calls account builder' do
         allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { account_name: 'test', email: email, user: nil }
+        params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name }
 
         post api_v1_accounts_url,
              params: params,
@@ -31,7 +32,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'renders error response on invalid params' do
         allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: nil, email: nil, user: nil }
+        params = { account_name: nil, email: nil, user: nil, user_full_name: nil }
 
         post api_v1_accounts_url,
              params: params,
@@ -46,7 +47,7 @@ RSpec.describe 'Accounts API', type: :request do
       it 'ignores confirmed param when called with out super admin token' do
         allow(account_builder).to receive(:perform).and_return(nil)
 
-        params = { account_name: 'test', email: email, confirmed: true, user: nil }
+        params = { account_name: 'test', email: email, confirmed: true, user: nil, user_full_name: user_full_name }
 
         post api_v1_accounts_url,
              params: params,
@@ -63,7 +64,7 @@ RSpec.describe 'Accounts API', type: :request do
       let(:super_admin) { create(:super_admin) }
 
       it 'calls account builder with confirmed true when confirmed param is passed' do
-        params = { account_name: 'test', email: email, confirmed: true }
+        params = { account_name: 'test', email: email, confirmed: true, user_full_name: user_full_name }
 
         post api_v1_accounts_url,
              params: params,
@@ -79,7 +80,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to false' do
       it 'responds 404 on requests' do
-        params = { account_name: 'test', email: email }
+        params = { account_name: 'test', email: email, user_full_name: user_full_name }
         ENV['ENABLE_ACCOUNT_SIGNUP'] = 'false'
 
         post api_v1_accounts_url,
@@ -93,7 +94,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when ENABLE_ACCOUNT_SIGNUP env variable is set to api_only' do
       it 'does not respond 404 on requests' do
-        params = { account_name: 'test', email: email }
+        params = { account_name: 'test', email: email, user_full_name: user_full_name }
         ENV['ENABLE_ACCOUNT_SIGNUP'] = 'api_only'
 
         post api_v1_accounts_url,
