@@ -11,73 +11,54 @@
       </h2>
     </div>
     <div class="row align-center">
-      <div class="medium-5 column small-12">
-        <ul class="signup--features">
-          <li>
-            <i class="ion-beer beer"></i>
-            <span>{{ $t('REGISTER.FEATURES.UNLIMITED_INBOXES') }}</span>
-          </li>
-          <li>
-            <i class="ion-stats-bars report"></i>
-            <span>{{ $t('REGISTER.FEATURES.ROBUST_REPORTING') }}</span>
-          </li>
-          <li>
-            <i class="ion-chatbox-working canned"></i>
-            <span>{{ $t('REGISTER.FEATURES.CANNED_RESPONSES') }}</span>
-          </li>
-          <li>
-            <i class="ion-loop uptime"></i>
-            <span>{{ $t('REGISTER.FEATURES.AUTO_ASSIGNMENT') }}</span>
-          </li>
-          <li>
-            <i class="ion-locked secure"></i>
-            <span>{{ $t('REGISTER.FEATURES.SECURITY') }}</span>
-          </li>
-        </ul>
-      </div>
-      <div class="medium-5 column small-12">
-        <form class="signup--box login-box " @submit.prevent="submit()">
-          <div class="column log-in-form">
-            <label :class="{ error: $v.credentials.name.$error }">
-              {{ $t('REGISTER.ACCOUNT_NAME.LABEL') }}
-              <input
-                v-model.trim="credentials.name"
-                type="text"
-                :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
-                @input="$v.credentials.name.$touch"
-              />
-              <span v-if="$v.credentials.name.$error" class="message">
-                {{ $t('REGISTER.ACCOUNT_NAME.ERROR') }}
-              </span>
-            </label>
-            <label :class="{ error: $v.credentials.email.$error }">
-              {{ $t('REGISTER.EMAIL.LABEL') }}
-              <input
-                v-model.trim="credentials.email"
-                type="email"
-                :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
-                @input="$v.credentials.email.$touch"
-              />
-              <span v-if="$v.credentials.email.$error" class="message">
-                {{ $t('REGISTER.EMAIL.ERROR') }}
-              </span>
-            </label>
-            <woot-submit-button
-              :disabled="
-                $v.credentials.name.$invalid ||
-                  $v.credentials.email.$invalid ||
-                  register.showLoading
-              "
-              :button-text="$t('REGISTER.SUBMIT')"
-              :loading="register.showLoading"
-              button-class="large expanded"
-            >
-            </woot-submit-button>
-            <p class="accept--terms" v-html="termsLink"></p>
-          </div>
+      <div class="small-12 medium-6 large-5 column">
+        <form class="signup--box login-box" @submit.prevent="submit">
+          <woot-input
+            v-model="credentials.fullName"
+            :class="{ error: $v.credentials.fullName.$error }"
+            :label="$t('REGISTER.FULL_NAME.LABEL')"
+            :placeholder="$t('REGISTER.FULL_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.fullName.$error
+                ? $t('REGISTER.FULL_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.fullName.$touch"
+          />
+          <woot-input
+            v-model="credentials.accountName"
+            :class="{ error: $v.credentials.accountName.$error }"
+            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
+            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.accountName.$error
+                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.accountName.$touch"
+          />
+          <woot-input
+            v-model.trim="credentials.email"
+            type="email"
+            :class="{ error: $v.credentials.email.$error }"
+            :label="$t('REGISTER.EMAIL.LABEL')"
+            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
+            :error="
+              $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
+            "
+            @blur="$v.credentials.email.$touch"
+          />
+          <woot-submit-button
+            :disabled="isSignupInProgress"
+            :button-text="$t('REGISTER.SUBMIT')"
+            :loading="isSignupInProgress"
+            button-class="large expanded"
+          >
+          </woot-submit-button>
+          <p class="accept--terms" v-html="termsLink"></p>
         </form>
         <div class="column text-center sigin--footer">
-          <span>Already have an account?</span>
+          <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
           <router-link to="/app/login">
             {{
               useInstallationName(
@@ -97,27 +78,30 @@ import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  mixins: [globalConfigMixin],
+  mixins: [globalConfigMixin, alertMixin],
   data() {
     return {
       credentials: {
-        name: '',
+        accountName: '',
+        fullName: '',
         email: '',
       },
-      register: {
-        message: '',
-        showLoading: false,
-      },
+      isSignupInProgress: false,
       error: '',
     };
   },
   validations: {
     credentials: {
-      name: {
+      accountName: {
         required,
-        minLength: minLength(4),
+        minLength: minLength(2),
+      },
+      fullName: {
+        required,
+        minLength: minLength(2),
       },
       email: {
         required,
@@ -139,27 +123,73 @@ export default {
     },
   },
   methods: {
-    showAlert(message) {
-      // Reset loading, current selected agent
-      this.register.showLoading = false;
-      bus.$emit('newToastMessage', message);
-    },
-    submit() {
-      this.register.showLoading = true;
-      Auth.register(this.credentials)
-        .then(res => {
-          if (res.status === 200) {
-            window.location = '/';
-          }
-        })
-        .catch(error => {
-          let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
-          if (error.response && error.response.data.message) {
-            errorMessage = error.response.data.message;
-          }
-          this.showAlert(errorMessage);
-        });
+    async submit() {
+      this.$v.$touch();
+      if (this.$v.$invalid) {
+        return;
+      }
+      this.isSignupInProgress = true;
+      try {
+        const response = await Auth.register(this.credentials);
+        if (response.status === 200) {
+          window.location = '/';
+        }
+      } catch (error) {
+        let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
+        if (error.response && error.response.data.message) {
+          errorMessage = error.response.data.message;
+        }
+        this.showAlert(errorMessage);
+      } finally {
+        this.isSignupInProgress = false;
+      }
     },
   },
 };
 </script>
+<style scoped lang="scss">
+.signup {
+  .signup--hero {
+    margin-bottom: var(--space-larger);
+
+    .hero--logo {
+      width: 180px;
+    }
+
+    .hero--title {
+      margin-top: var(--space-large);
+      font-weight: var(--font-weight-light);
+    }
+  }
+
+  .signup--box {
+    padding: var(--space-large);
+
+    label {
+      font-size: var(--font-size-default);
+      color: var(--b-600);
+
+      input {
+        padding: var(--space-slab);
+        height: var(--space-larger);
+        font-size: var(--font-size-default);
+      }
+    }
+  }
+
+  .sigin--footer {
+    padding: var(--space-medium);
+    font-size: var(--font-size-default);
+
+    > a {
+      font-weight: var(--font-weight-bold);
+    }
+  }
+
+  .accept--terms {
+    font-size: var(--font-size-small);
+    text-align: center;
+    margin: var(--space-normal) 0 0 0;
+  }
+}
+</style>
