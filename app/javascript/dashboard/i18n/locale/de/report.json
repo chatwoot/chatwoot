@@ -3,31 +3,31 @@
     "HEADER": "Berichte",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gespräche",
-        "DESC": "( Total )"
+        "DESC": "(Gesamt)"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Eingehende Nachrichten",
-        "DESC": "( Total )"
+        "DESC": "(Gesamt)"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Ausgehende Nachrichten",
-        "DESC": "( Total )"
+        "DESC": "(Gesamt)"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Erste Antwortzeit",
-        "DESC": "( Avg )"
+        "DESC": "(Durchschnitt)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Lösungszeit",
-        "DESC": "( Avg )"
+        "DESC": "(Durchschnitt)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Auflösungsanzahl",
-        "DESC": "( Total )"
+        "DESC": "(Gesamt)"
       }
     },
     "DATE_RANGE": [
