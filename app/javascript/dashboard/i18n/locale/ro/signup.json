@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Prin înregistrare, ești de acord cu politica noastră de confidențialitate <a href=\"https://www.chatwoot.com/terms\">T & C</a> și <a href=\"https://www.chatwoot.com/privacy-policy\"></a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nume cont",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Nume cont prea scurt"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.business",
-      "ERROR": "Email invalid"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Parola",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Nu s-a putut conecta la Woot Server, încercați din nou mai târziu"
     },
     "SUBMIT": "Trimite",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Răspunsuri predefinite",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }
