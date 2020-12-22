@@ -11,6 +11,7 @@
     "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniciado desde",
     "INITIATED_AT": "Iniciado el",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"

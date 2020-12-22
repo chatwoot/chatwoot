@@ -11,6 +11,7 @@
     "OS": "Sistema operatiu",
     "INITIATED_FROM": "Iniciada des de",
     "INITIATED_AT": "Iniciada a les",
+    "IP_ADDRESS": "Adreça IP",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hi han converses prèvies associades a aquest contacte.",
       "TITLE": "Converses prèvies"

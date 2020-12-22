@@ -3,7 +3,7 @@
     "HEADER": "Αναφορές",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",

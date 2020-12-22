@@ -11,6 +11,7 @@
     "OS": "操作系统",
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"

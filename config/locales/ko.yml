@@ -28,7 +28,7 @@ ko:
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
   reports:
-    period: Reporting period %{since} to %{until}
+    period: 보고 기간 %{since} - %{until}
   conversations:
     activity:
       status:

@@ -4,14 +4,19 @@
     "TITLE": "Registrera",
     "TERMS_ACCEPT": "Genom att registrera dig godkänner du vår <a href=\"https://www.chatwoot.com/terms\">T & C</a> och <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Kontonamn",
-      "PLACEHOLDER": "Wayne Företag",
-      "ERROR": "Kontonamnet är för kort"
+      "LABEL": "Konto namn",
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "E-post",
-      "PLACEHOLDER": "bruce@wayne.företag",
-      "ERROR": "E-postadressen är ogiltig"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Lösenord",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
     "SUBMIT": "Skicka",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Konserverade svar",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

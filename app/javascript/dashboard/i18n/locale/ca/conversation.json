@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
       "NO_MATCHING_RESULTS": "No hi ha missatges que coincideixin amb els paràmetres de cerca."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Missatges no Llegits",
+    "UNREAD_MESSAGE": "Missatge no Llegit",
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
