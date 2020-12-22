@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed!, :user]
+  pattr_initialize [:account_name!, :email!, :confirmed!, :user, :user_full_name]
 
   def perform
     if @user.nil?
@@ -15,7 +15,6 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    @account&.destroy
     puts e.inspect
     raise e
   end
@@ -61,18 +60,13 @@ class AccountBuilder
     )
   end
 
-  def email_to_name(email)
-    name = email[/[^@]+/]
-    name.split('.').map(&:capitalize).join(' ')
-  end
-
   def create_user
     password = SecureRandom.alphanumeric(12)
 
     @user = User.new(email: @email,
                      password: password,
                      password_confirmation: password,
-                     name: email_to_name(@email))
+                     name: @user_full_name)
     @user.confirm if @confirmed
     @user.save!
   end
