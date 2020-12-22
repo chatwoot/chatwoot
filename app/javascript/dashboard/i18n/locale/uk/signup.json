@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Зареєструвавшись, ви погоджуєтеся з нашими <a href=\"https://www.chatwoot.com/terms\">Умовами Користування</a> та <a href=\"https://www.chatwoot.com/privacy-policy\">Політикою конфіденційності</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Назва облікового запису",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Ім'я аккаунту закоротке"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Невірна адреса електронної пошти"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Пароль",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
     },
     "SUBMIT": "Додати",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Швидкі відповіді",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }
