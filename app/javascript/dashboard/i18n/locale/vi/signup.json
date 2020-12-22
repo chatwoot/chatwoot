@@ -4,14 +4,19 @@
     "TITLE": "Đăng kí",
     "TERMS_ACCEPT": "Bằng cách đăng ký, bạn đồng ý với <a href=\"https://www.chatwoot.com/terms\">T & C</a> và <a href=\"https://www.chatwoot.com/privacy-policy\">Chính sách bảo mật</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Tên Tài Khoản",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Tên tài khoản quá ngắn"
+      "LABEL": "Tên tài khoản",
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Địa chỉ email không hợp lệ"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Mật khẩu",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau."
     },
     "SUBMIT": "Gửi",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

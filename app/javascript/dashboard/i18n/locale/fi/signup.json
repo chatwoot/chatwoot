@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Rekisteröitymällä hyväksyt <a href=\"https://www.chatwoot.com/terms\">käyttöehdot & säännöt</a> sekä <a href=\"https://www.chatwoot.com/privacy-policy\">yksityisyydensuojan</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Tilin nimi",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Tilin nimi on liian lyhyt"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Sähköposti",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Sähköposti ei ole kelvollinen"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Salasana",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
     "SUBMIT": "Lähetä",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Rajattomat postilaatikot",
-      "ROBUST_REPORTING": "Jykevä raportointi",
-      "CANNED_RESPONSES": "Tallennetut vastaukset",
-      "AUTO_ASSIGNMENT": "Automaattinen delegointi",
-      "SECURITY": "Yritystason suojaus"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

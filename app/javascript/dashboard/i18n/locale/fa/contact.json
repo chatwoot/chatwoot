@@ -11,6 +11,7 @@
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
       "TITLE": "گفتگوهای قبلی"

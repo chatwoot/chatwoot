@@ -24,7 +24,7 @@
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook-URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "PLACEHOLDER": "Beispiel: https://example/api/webhook",
             "ERROR": "Bitte geben Sie eine gültige URL ein"
           },
           "SUBMIT": "Webhook erstellen"
@@ -51,11 +51,11 @@
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integration erfolgreich gelöscht"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Verbinden"
     }
   }
 }
