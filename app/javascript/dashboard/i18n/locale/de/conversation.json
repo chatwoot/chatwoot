@@ -6,23 +6,23 @@
     "NO_INBOX_1": "Hallo! Sieht so aus, als hätten Sie noch keine Posteingänge hinzugefügt.",
     "NO_INBOX_2": " um loszulegen",
     "NO_INBOX_AGENT": "Oh oh! Sieht so aus, als wären Sie nicht Teil eines Posteingangs. Bitte wenden Sie sich an Ihren Administrator",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Nachrichten durchsuchen",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Nachrichten durchsuchen",
+      "LOADING_MESSAGE": "Daten werden geladen...",
+      "PLACEHOLDER": "Geben Sie einen Text ein, um danach zu suchen",
+      "NO_MATCHING_RESULTS": "Keine passenden Nachrichten gefunden."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Ungelesene Nachrichten",
+    "UNREAD_MESSAGE": "Ungelesene Nachricht",
     "CLICK_HERE": "Hier klicken",
     "LOADING_INBOXES": "Posteingänge laden",
     "LOADING_CONVERSATIONS": "Gespräche laden",
-    "CANNOT_REPLY": "You cannot reply due to",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "CANNOT_REPLY": "Du kannst nicht Antworten aufgrund von",
+    "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
+    "LAST_INCOMING_TWEET": "Du antwortest auf den letzten eingehenden Tweet",
+    "REPLYING_TO": "Du antwortest auf:",
+    "REMOVE_SELECTION": "Auswahl entfernen",
     "DOWNLOAD": "Herunterladen",
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -45,26 +45,26 @@
     "VISIBLE_TO_AGENTS": "Privater Hinweis: Nur für Sie und Ihr Team sichtbar",
     "CHANGE_STATUS": "Gesprächsstatus geändert",
     "CHANGE_AGENT": "Konversationsempfänger geändert",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Gesendet von:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Agent auswählen",
       "REMOVE": "Entfernen",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Zuordnen"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Konversations-Transkript senden",
+    "DESC": "Kopie des Konversationsprotokolls an die angegebene E-Mail-Adresse senden",
     "SUBMIT": "Einreichen",
     "CANCEL": "Stornieren",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
+    "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Das Transkript an den Kunden senden",
+      "SEND_TO_AGENT": "Transkript an den zugewiesenen Agent senden",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Transkript an eine andere E-Mail-Adresse senden",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "E-Mail-Adresse eingeben",
         "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein"
       }
     }

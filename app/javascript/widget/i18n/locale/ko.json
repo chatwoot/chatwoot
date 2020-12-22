@@ -13,9 +13,9 @@
     "OFFLINE": "오프라인"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "일반적으로 몇 분 안에 응답",
-    "IN_A_FEW_HOURS": "일반적으로 몇 시간 내에 응답",
-    "IN_A_DAY": "일반적으로 하루 안에 응답"
+    "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
+    "IN_A_FEW_HOURS": "보통 몇 시간 내에 응답",
+    "IN_A_DAY": "보통 하루 안에 응답"
   },
   "START_CONVERSATION": "대화 시작",
   "UNREAD_VIEW": {
@@ -25,7 +25,7 @@
   "BUBBLE": {
     "LABEL": "채팅하기"
   },
-  "POWERED_BY": "Chatwoot 에서 작동함",
+  "POWERED_BY": "Chatwoot 작동중",
   "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
   "CHAT_PLACEHOLDER": "메시지 입력"
 }

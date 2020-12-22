@@ -28,7 +28,7 @@ id:
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       failed: Pendaftaran gagal
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Periode pelaporan %{since} hingga %{until}
   conversations:
     activity:
       status:

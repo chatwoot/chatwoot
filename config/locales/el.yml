@@ -28,7 +28,7 @@ el:
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Περίοδος αναφοράς %{since} έως %{until}
   conversations:
     activity:
       status:

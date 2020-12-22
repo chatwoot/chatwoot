@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Kaydolarak,  <a href=\"https://www.chatwoot.com/terms\"> T & C </a> ve <a href = \"https://www.chatwoot.com/privacy\"> Gizlilik politikası </a> kabul etmiş olursunuz.",
     "ACCOUNT_NAME": {
       "LABEL": "Hesap adı",
-      "PLACEHOLDER": "Şirketiniz",
-      "ERROR": "Hesap Adı çok kısa"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "E-Posta",
-      "PLACEHOLDER": "adres@site.com",
-      "ERROR": "e-posta geçersiz"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Parola",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "SUBMIT": "Yolla",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Sınırsız gelen kutusu",
-      "ROBUST_REPORTING": "Sağlam Raporlama",
-      "CANNED_RESPONSES": "Hazır Yanıtlar",
-      "AUTO_ASSIGNMENT": "Otomatik Atama",
-      "SECURITY": "Kurumsal düzeyde güvenlik"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }
