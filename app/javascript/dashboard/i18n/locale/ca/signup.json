@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "En registrar-vos, esteu d’acord amb el nostre <a href=\"https://www.chatwoot.com/terms\">T & C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Polítiques de Privadesa</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nom del compte",
-      "PLACEHOLDER": "Wayne Enterprises",
+      "PLACEHOLDER": "Introdueix el nom del compte. ex: Wayne Enterprises",
+      "ERROR": "El nom del compte és massa curt"
+    },
+    "FULL_NAME": {
+      "LABEL": "Nom complet",
+      "PLACEHOLDER": "Introdueix el teu nom complet. ex: Bruce Wayne",
       "ERROR": "El nom del compte és massa curt"
     },
     "EMAIL": {
-      "LABEL": "Correu electrònic",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "El correu electrònic no és correcte"
+      "LABEL": "Email de treball",
+      "PLACEHOLDER": "Introdueix la teva adreça email de treball. ex: bruce@wayne.enterprises",
+      "ERROR": "Adreça email invàlida"
     },
     "PASSWORD": {
       "LABEL": "Contrasenya",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     },
     "SUBMIT": "Envia",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Safates ilimitades",
-      "ROBUST_REPORTING": "Informa robust",
-      "CANNED_RESPONSES": "Respostes predeterminades",
-      "AUTO_ASSIGNMENT": "Tasca Automàtica",
-      "SECURITY": "Seguretat a nivell empreserial"
-    }
+    "HAVE_AN_ACCOUNT": "Ja tens un compte?"
   }
 }
