@@ -41,6 +41,7 @@ const runSDK = ({ baseUrl, cookieOptions = {}, websiteToken }) => {
     type: getBubbleView(chatwootSettings.type),
     launcherTitle: chatwootSettings.launcherTitle || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
+    showOnUnread: chatwootSettings.showOnUnread || false,
 
     toggle() {
       IFrameHelper.events.toggleBubble();

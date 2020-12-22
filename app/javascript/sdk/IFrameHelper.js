@@ -138,15 +138,24 @@ export const IFrameHelper = {
 
     setUnreadMode: message => {
       const { unreadMessageCount } = message;
-      const { isOpen } = window.$chatwoot;
+      const { isOpen, showOnUnread, toggle } = window.$chatwoot;
       const toggleValue = true;
+      const unreadMode = !isOpen && unreadMessageCount > 0;
 
-      if (!isOpen && unreadMessageCount > 0) {
-        IFrameHelper.sendMessage('set-unread-view');
-        onBubbleClick({ toggleValue });
-        const holderEl = document.querySelector('.woot-widget-holder');
-        addClass(holderEl, 'has-unread-view');
+      if (!unreadMode) {
+        return;
       }
+
+      if (showOnUnread) {
+        toggle();
+
+        return;
+      }
+
+      IFrameHelper.sendMessage('set-unread-view');
+      onBubbleClick({ toggleValue });
+      const holderEl = document.querySelector('.woot-widget-holder');
+      addClass(holderEl, 'has-unread-view');
     },
 
     resetUnreadMode: () => {
