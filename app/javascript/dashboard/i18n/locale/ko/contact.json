@@ -11,6 +11,7 @@
     "OS": "운영 체제",
     "INITIATED_FROM": "시작 위치",
     "INITIATED_AT": "시작 시간",
+    "IP_ADDRESS": "IP 주소",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
       "TITLE": "이전 대화"
