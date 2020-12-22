@@ -11,6 +11,7 @@
     "OS": "Käyttöjärjestelmä",
     "INITIATED_FROM": "Aloitettu lähteestä",
     "INITIATED_AT": "Aloitettu lähteestä",
+    "IP_ADDRESS": "IP-osoite",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
       "TITLE": "Edelliset keskustelut"
