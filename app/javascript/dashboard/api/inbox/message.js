@@ -7,10 +7,17 @@ class MessageApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  create({ conversationId, message, private: isPrivate, contentAttributes }) {
+  create({
+    conversationId,
+    message,
+    private: isPrivate,
+    contentAttributes,
+    echo_id: echoId,
+  }) {
     return axios.post(`${this.url}/${conversationId}/messages`, {
       content: message,
       private: isPrivate,
+      echo_id: echoId,
       content_attributes: contentAttributes,
     });
   }

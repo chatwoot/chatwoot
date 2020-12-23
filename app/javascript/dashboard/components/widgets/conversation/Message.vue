@@ -33,6 +33,7 @@
           :source-id="data.source_id"
         />
       </p>
+      <spinner v-if="isPending" size="tiny" />
 
       <div v-if="isATweet && isIncoming && sender" class="sender--info">
         <woot-thumbnail
@@ -53,9 +54,11 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import Spinner from 'shared/components/Spinner';
+
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
-import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 
 export default {
   components: {
@@ -63,6 +66,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    Spinner,
   },
   mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -130,6 +134,7 @@ export default {
       return {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
+        'is-pending': this.isPending,
       };
     },
     bubbleClass() {
@@ -139,17 +144,27 @@ export default {
         'is-image': this.hasImageAttachment,
       };
     },
+    isPending() {
+      const isPending = this.data.status === MESSAGE_STATUS.PROGRESS;
+      return isPending;
+    },
   },
 };
 </script>
 <style lang="scss">
-.wrap > .is-image.bubble {
-  padding: 0;
-  overflow: hidden;
-
-  .image {
-    max-width: 32rem;
+.wrap {
+  > .is-image.bubble {
     padding: 0;
+    overflow: hidden;
+
+    .image {
+      max-width: 32rem;
+      padding: 0;
+    }
+  }
+  &.is-pending {
+    position: relative;
+    opacity: 0.8;
   }
 }
 

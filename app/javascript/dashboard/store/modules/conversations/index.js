@@ -85,17 +85,19 @@ export const mutations = {
       selectedChatId: conversationId,
     });
     if (!chat) return;
-    const previousMessageIndex = chat.messages.findIndex(
-      m => m.id === message.id
+    const { echo_id: tempMessageId } = message;
+    const pendingMessageIndex = chat.messages.findIndex(
+      m => m.id === message.id || m.id === tempMessageId
     );
-    if (previousMessageIndex === -1) {
+
+    if (pendingMessageIndex !== -1) {
+      Vue.set(chat.messages, pendingMessageIndex, message);
+    } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
       if (selectedChatId === conversationId) {
         window.bus.$emit('scrollToMessage');
       }
-    } else {
-      chat.messages[previousMessageIndex] = message;
     }
   },
 
