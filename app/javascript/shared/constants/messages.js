@@ -1,6 +1,6 @@
 export const MESSAGE_STATUS = {
   FAILED: 'failed',
-  SUCCESS: 'sent',
+  SENT: 'sent',
   PROGRESS: 'progress',
 };
 

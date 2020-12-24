@@ -137,7 +137,7 @@ const actions = {
       const response = await MessageApi.create(pendingMessage);
       commit(types.default.ADD_MESSAGE, {
         ...response.data,
-        status: MESSAGE_STATUS.SUCCESS,
+        status: MESSAGE_STATUS.SENT,
       });
     } catch (error) {
       // Handle error

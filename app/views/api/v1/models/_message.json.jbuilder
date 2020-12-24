@@ -1,4 +1,3 @@
-
 json.id message.id
 json.content message.content
 json.inbox_id message.inbox_id
