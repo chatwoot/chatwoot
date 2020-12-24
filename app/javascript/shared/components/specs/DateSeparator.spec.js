@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import DateSeparator from '../DateSeparator';
 
-describe('DateSeprator', () => {
+describe('DateSeparator', () => {
   test('matches snapshot', () => {
     const wrapper = mount(DateSeparator, {
       propsData: {
