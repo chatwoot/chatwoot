@@ -1,15 +1,25 @@
 <template>
   <div class="date--separator">
-    {{ date }}
+    {{ formattedDate }}
   </div>
 </template>
 
 <script>
+import { formatDate } from 'shared/helpers/DateHelper';
 export default {
   props: {
     date: {
       type: String,
       required: true,
+    },
+  },
+  computed: {
+    formattedDate() {
+      return formatDate({
+        date: this.date,
+        todayText: this.$t('TODAY'),
+        yesterdayText: this.$t('YESTERDAY'),
+      });
     },
   },
 };
