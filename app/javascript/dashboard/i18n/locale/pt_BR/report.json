@@ -3,7 +3,7 @@
     "HEADER": "Relatórios",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",

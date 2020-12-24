@@ -11,6 +11,7 @@
     "OS": "نظام التشغيل",
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
       "TITLE": "المحادثات السابقة"

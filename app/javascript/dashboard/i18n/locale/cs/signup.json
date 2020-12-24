@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Registrací souhlasíte s našimi <a href=\"https://www.chatwoot.com/terms\">T & C</a> a <a href=\"https://www.chatwoot.com/privacy-policy\">Zásadami ochrany osobních údajů</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Název účtu",
-      "PLACEHOLDER": "Wayne podniky",
-      "ERROR": "Název účtu je příliš krátký"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "E-mailová adresa",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "E-mail je neplatný"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Heslo",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     },
     "SUBMIT": "Odeslat",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Konzervované odpovědi",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

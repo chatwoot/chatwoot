@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Ονομασία Λογαριασμού",
-      "PLACEHOLDER": "Wayne Α. Ε",
-      "ERROR": "Το όνομα του λογαριασμού είναι πολύ σύντομο"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Το email είναι ακατάλληλο"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Κωδικός",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Καταχώρηση",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Απεριόριστα κιβώτια",
-      "ROBUST_REPORTING": "Ισχυρές Αναφορές",
-      "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
-      "AUTO_ASSIGNMENT": "Αυτόματη Αντιστοίχιση",
-      "SECURITY": "Ασφάλεια επιπέδου Enterprise"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

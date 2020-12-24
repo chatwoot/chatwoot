@@ -48,7 +48,7 @@ de:
     unlocks:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
-      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      unlocked: "Dein Account wurde erfolgreich entsperrt. Bitte melde dich an, um fortzufahren."
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"

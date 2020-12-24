@@ -28,7 +28,7 @@ fi:
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Raportointijakso %{since} – %{until}
   conversations:
     activity:
       status:
