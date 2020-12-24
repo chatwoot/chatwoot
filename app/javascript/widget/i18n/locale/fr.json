@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Propulsé par Chatwoot",
   "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
-  "CHAT_PLACEHOLDER": "Tapez votre message"
+  "CHAT_PLACEHOLDER": "Tapez votre message",
+  "TODAY": "Aujourd'hui",
+  "YESTERDAY": "Hier"
 }
