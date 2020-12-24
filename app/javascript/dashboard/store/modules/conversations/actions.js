@@ -3,7 +3,10 @@ import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
-import { createPendingMessage } from 'dashboard/helper/commons';
+import {
+  createPendingMessage,
+  createPendingAttachment,
+} from 'dashboard/helper/commons';
 
 // actions
 const actions = {
@@ -214,7 +217,12 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
-      const response = await MessageApi.sendAttachment(data);
+      const pendingMessage = createPendingAttachment(data);
+      commit(types.default.ADD_MESSAGE, pendingMessage);
+      const response = await MessageApi.sendAttachment([
+        ...data,
+        pendingMessage.id,
+      ]);
       commit(types.default.ADD_MESSAGE, response.data);
     } catch (error) {
       // Handle error

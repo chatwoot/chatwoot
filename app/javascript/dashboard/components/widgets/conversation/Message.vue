@@ -1,14 +1,20 @@
 <template>
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-text
           v-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :readable-time="readableTime"
         />
-        <span v-if="hasAttachments">
+        <span
+          v-if="isPending && hasAttachments"
+          class="chat-bubble has-attachment agent"
+        >
+          {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
+        </span>
+        <span v-if="!isPending && hasAttachments">
           <span v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
               v-if="attachment.file_type === 'image'"
@@ -22,6 +28,7 @@
             />
           </span>
         </span>
+
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
@@ -32,7 +39,7 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
         />
-      </p>
+      </div>
       <spinner v-if="isPending" size="tiny" />
 
       <div v-if="isATweet && isIncoming && sender" class="sender--info">
