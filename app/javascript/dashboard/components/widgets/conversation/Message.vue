@@ -171,6 +171,12 @@ export default {
   &.is-pending {
     position: relative;
     opacity: 0.8;
+
+    .spinner {
+      position: absolute;
+      bottom: var(--space-smaller);
+      right: var(--space-smaller);
+    }
   }
 }
 
