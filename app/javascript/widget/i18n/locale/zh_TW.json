@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Type your message",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }
