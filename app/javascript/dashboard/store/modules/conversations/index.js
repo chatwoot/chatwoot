@@ -4,6 +4,7 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
+import { findPendingMessageIndex } from './helpers';
 import wootConstants from '../../../constants';
 
 const state = {
@@ -85,11 +86,8 @@ export const mutations = {
       selectedChatId: conversationId,
     });
     if (!chat) return;
-    const { echo_id: tempMessageId } = message;
-    const pendingMessageIndex = chat.messages.findIndex(
-      m => m.id === message.id || m.id === tempMessageId
-    );
 
+    const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
       Vue.set(chat.messages, pendingMessageIndex, message);
     } else {

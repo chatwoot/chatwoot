@@ -152,8 +152,7 @@ export default {
       };
     },
     isPending() {
-      const isPending = this.data.status === MESSAGE_STATUS.PROGRESS;
-      return isPending;
+      return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
   },
 };
