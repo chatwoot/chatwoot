@@ -1,14 +1,20 @@
 <template>
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-text
           v-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :readable-time="readableTime"
         />
-        <span v-if="hasAttachments">
+        <span
+          v-if="isPending && hasAttachments"
+          class="chat-bubble has-attachment agent"
+        >
+          {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
+        </span>
+        <span v-if="!isPending && hasAttachments">
           <span v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
               v-if="attachment.file_type === 'image'"
@@ -22,6 +28,7 @@
             />
           </span>
         </span>
+
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
@@ -32,7 +39,8 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
         />
-      </p>
+      </div>
+      <spinner v-if="isPending" size="tiny" />
 
       <div v-if="isATweet && isIncoming && sender" class="sender--info">
         <woot-thumbnail
@@ -53,9 +61,11 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import Spinner from 'shared/components/Spinner';
+
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
-import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 
 export default {
   components: {
@@ -63,6 +73,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    Spinner,
   },
   mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -130,6 +141,7 @@ export default {
       return {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
+        'is-pending': this.isPending,
       };
     },
     bubbleClass() {
@@ -139,17 +151,32 @@ export default {
         'is-image': this.hasImageAttachment,
       };
     },
+    isPending() {
+      return this.data.status === MESSAGE_STATUS.PROGRESS;
+    },
   },
 };
 </script>
 <style lang="scss">
-.wrap > .is-image.bubble {
-  padding: 0;
-  overflow: hidden;
-
-  .image {
-    max-width: 32rem;
+.wrap {
+  > .is-image.bubble {
     padding: 0;
+    overflow: hidden;
+
+    .image {
+      max-width: 32rem;
+      padding: 0;
+    }
+  }
+  &.is-pending {
+    position: relative;
+    opacity: 0.8;
+
+    .spinner {
+      position: absolute;
+      bottom: var(--space-smaller);
+      right: var(--space-smaller);
+    }
   }
 }
 
