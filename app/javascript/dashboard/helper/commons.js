@@ -31,7 +31,7 @@ export const getTypingUsersText = (users = []) => {
 };
 
 export const createPendingMessage = data => {
-  const timestamp = new Date().getTime() / 1000;
+  const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
   const pendingMessage = {
     ...data,
@@ -48,7 +48,7 @@ export const createPendingMessage = data => {
 
 export const createPendingAttachment = data => {
   const [conversationId, { isPrivate = false }] = data;
-  const timestamp = new Date().getTime() / 1000;
+  const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
   const pendingMessage = {
     id: tempMessageId,
