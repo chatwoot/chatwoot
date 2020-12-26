@@ -129,7 +129,6 @@ export default {
 
 .contacts-table-wrap {
   @include scroll-on-hover;
-  background: var(--color-background-light);
   flex: 1 1;
   height: 100%;
 }
