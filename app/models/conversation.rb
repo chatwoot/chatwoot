@@ -99,7 +99,7 @@ class Conversation < ApplicationRecord
   end
 
   def muted?
-    !Redis::Alfred.get(mute_key).nil?
+    Redis::Alfred.get(mute_key).present?
   end
 
   def lock!
@@ -285,7 +285,7 @@ class Conversation < ApplicationRecord
   end
 
   def mute_key
-    format('CONVERSATION::%<id>d::MUTED', id: id)
+    format(Redis::RedisKeys::CONVERSATION_MUTE_KEY, id: id)
   end
 
   def mute_period

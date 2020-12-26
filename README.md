@@ -64,7 +64,7 @@ Detailed documentation is available at [www.chatwoot.com/help-center](https://ww
 
 ### Translation process
 
-The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
+The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
 
 ---
 

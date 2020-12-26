@@ -3,6 +3,7 @@
     "HEADER": "Rapporten",
     "LOADING_CHART": "Kaartgegevens laden...",
     "NO_ENOUGH_DATA": "We hebben niet genoeg datapunten ontvangen om een rapport te genereren, probeer het later opnieuw.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Gesprekken",

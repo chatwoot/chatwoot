@@ -49,13 +49,6 @@
             :label="$t('EDIT_CONTACT.FORM.PHONE_NUMBER.LABEL')"
             :placeholder="$t('EDIT_CONTACT.FORM.PHONE_NUMBER.PLACEHOLDER')"
           />
-
-          <woot-input
-            v-model.trim="location"
-            class="medium-6 columns"
-            :label="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
-            :placeholder="$t('EDIT_CONTACT.FORM.LOCATION.PLACEHOLDER')"
-          />
         </div>
         <woot-input
           v-model.trim="companyName"
@@ -121,7 +114,6 @@ export default {
       companyName: '',
       description: '',
       email: '',
-      location: '',
       name: '',
       phoneNumber: '',
       socialProfileUserNames: {
@@ -144,7 +136,6 @@ export default {
     email: {},
     companyName: {},
     phoneNumber: {},
-    location: {},
     bio: {},
   },
   computed: {
@@ -171,7 +162,6 @@ export default {
       this.name = name || '';
       this.email = email || '';
       this.phoneNumber = phoneNumber || '';
-      this.location = additionalAttributes.location || '';
       this.companyName = additionalAttributes.company_name || '';
       this.description = additionalAttributes.description || '';
       const {
@@ -193,7 +183,6 @@ export default {
         additional_attributes: {
           ...this.contact.additional_attributes,
           description: this.description,
-          location: this.location,
           company_name: this.companyName,
           social_profiles: this.socialProfileUserNames,
         },

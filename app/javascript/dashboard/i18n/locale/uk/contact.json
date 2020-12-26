@@ -11,6 +11,7 @@
     "OS": "Операційна система",
     "INITIATED_FROM": "Почалося з",
     "INITIATED_AT": "Час початку",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Не було попередніх бесід, пов'язаних з цим контактом.",
       "TITLE": "Попередні бесіди"

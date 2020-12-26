@@ -17,35 +17,44 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 tr:
-  hello: "Hello world"
+  hello: "Merhaba Dünya"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
+    reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
+      invalid_email: Geçersiz bir e-posta girdiniz
+      email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
+      failed: Kayıt başarısız oldu
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
+        open: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"
+        auto_resolved: " %{duration} günlük hareketsizlik nedeniyle görüşme, sistem tarafından çözümlendi olarak işaretlendi"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} bu görüşmeyi kendisi atadı"
+        assigned: "%{user_name} tarafından %{assignee_name} adına atandı"
+        removed: "Görüşmenin ataması %{user_name} tarafından kaldırıldı"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name},%{labels} ekledi"
+        removed: "%{user_name} , %{labels} kaldırdı"
+      muted: "%{user_name}, sohbeti sessize aldı"
+      unmuted: "%{user_name} görüşmenin sesini açtı"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} genellikle birkaç saat içinde yanıt verir."
+      ways_to_reach_you_message_body: "Ekibin size ulaşması için bir bilgi verin."
+      email_input_box_message_body: "E-posta ile haberdar olun"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Bu görüşmedeki yeni mesajlar"
+      transcript_subject: "Konuşma Metni"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack, tüm iletişiminizi tek bir yerde bir araya getiren bir sohbet aracıdır. Slack'i entegre ederek, hesabınızdaki tüm yeni konuşmalardan Slack'inizin içinde bildirim alabilirsiniz."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook olayları size hesabınızda gerçekleşen gerçek zamanlı bilgileri getirmenizi sağlar. Bu webhookları kullanarak olaylar ile favori uygulamalarınızı haberleştirebilirsiniz(ör: Slack , \n Github). Yapılandıra basarak webhooklarınızı ayarlayabilirsiniz."

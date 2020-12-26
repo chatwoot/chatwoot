@@ -59,7 +59,7 @@
         "LABEL": "Availability",
         "STATUSES_LIST": [
           "Online",
-          "Druk",
+          "Busy",
           "Offline"
         ]
       },
@@ -113,7 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gesprekken",
     "REPORTS": "Rapporten",
-    "CONTACTS": "Contacts (Beta)",
+    "CONTACTS": "Contacts",
     "SETTINGS": "Instellingen",
     "HOME": "Startpagina",
     "AGENTS": "Medewerkers",

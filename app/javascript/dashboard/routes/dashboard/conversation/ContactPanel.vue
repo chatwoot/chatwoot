@@ -6,6 +6,18 @@
     <contact-info :contact="contact" :channel-type="channelType" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
+        v-if="location"
+        :title="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
+        :value="location"
+        icon="ion-map"
+      />
+      <contact-details-item
+        v-if="ipAddress"
+        :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+        :value="ipAddress"
+        icon="ion-android-locate"
+      />
+      <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
         :value="browserName"
@@ -22,7 +34,11 @@
         :title="$t('CONTACT_PANEL.INITIATED_FROM')"
         :value="referer"
         icon="ion-link"
-      />
+      >
+        <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+          {{ referer }}
+        </a>
+      </contact-details-item>
       <contact-details-item
         v-if="initiatedAt"
         :title="$t('CONTACT_PANEL.INITIATED_AT')"
@@ -51,6 +67,7 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import flag from 'country-code-emoji';
 
 export default {
   components: {
@@ -98,6 +115,27 @@ export default {
     browserName() {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
+    },
+    contactAdditionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    ipAddress() {
+      const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
+      return createdAtIp;
+    },
+    location() {
+      const {
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.contactAdditionalAttributes;
+      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+      if (!cityAndCountry) {
+        return '';
+      }
+      const countryFlag = countryCode ? flag(countryCode) : '🌎';
+      return `${countryFlag} ${cityAndCountry}`;
     },
     platformName() {
       const {

@@ -58,18 +58,9 @@
       "AVAILABILITY": {
         "LABEL": "Verfügbarkeit",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "beschäftigt",
-            "label": "Beschäftigt"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+          "Online",
+          "Beschäftigt",
+          "Offline"
         ]
       },
       "EMAIL": {
@@ -122,7 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Gespräche",
     "REPORTS": "Berichte",
-    "CONTACTS": "Contacts (Beta)",
+    "CONTACTS": "Contacts",
     "SETTINGS": "Einstellungen",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
