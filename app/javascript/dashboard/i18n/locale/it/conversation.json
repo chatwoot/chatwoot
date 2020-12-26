@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Clicca qui",
     "LOADING_INBOXES": "Caricamento posta in arrivo",
     "LOADING_CONVERSATIONS": "Caricamento conversazioni",

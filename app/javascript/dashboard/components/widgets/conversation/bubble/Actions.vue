@@ -26,16 +26,11 @@
         class="icon ion-android-open cursor-pointer"
       />
     </a>
-    <i
-      v-if="!isDeleted"
-      class="icon ion-ios-trash cursor-pointer"
-      @click="onDelete"
-    />
   </div>
 </template>
 
 <script>
-import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
@@ -72,14 +67,6 @@ export default {
       type: [String, Number],
       default: '',
     },
-    conversationId: {
-      type: [String, Number],
-      default: '',
-    },
-    isDeleted: {
-      type: Boolean,
-      default: false,
-    },
   },
   computed: {
     isIncoming() {
@@ -98,12 +85,6 @@ export default {
   methods: {
     onTweetReply() {
       bus.$emit(BUS_EVENTS.SET_TWEET_REPLY, this.id);
-    },
-    onDelete() {
-      this.$store.dispatch('destroyMessage', {
-        conversationId: this.conversationId,
-        messageId: this.id,
-      });
     },
   },
 };

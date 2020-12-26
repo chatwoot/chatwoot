@@ -4,14 +4,19 @@
     "TITLE": "രജിസ്റ്റർ",
     "TERMS_ACCEPT": "സൈൻ അപ്പ് ചെയ്യുന്നതിലൂടെ, നിങ്ങൾ ഞങ്ങളുടെ <a href=\"https://www.chatwoot.com/terms\">ഉപാധികളും നിബന്ധനകളും</a> <a href=\"https://www.chatwoot.com/privacy-policy\">സ്വകാര്യതാ നയങ്ങളും </a> അംഗീകരിക്കുന്നു",
     "ACCOUNT_NAME": {
-      "LABEL": "അക്കൗണ്ട് നാമം",
-      "PLACEHOLDER": "പുണ്ണ്യാളൻ അഗർബത്തീസ്",
-      "ERROR": "അക്കൗണ്ട് നാമം വളരെ ചെറുതാണ്"
+      "LABEL": "അക്കൗണ്ടിന്റെ പേര്",
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "ഇമെയിൽ",
-      "PLACEHOLDER": "punyalan@agarbathis.in",
-      "ERROR": "ഇമെയിൽ അസാധുവാണ്"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "പാസ്‌വേഡ്",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "സെർവറിലേക്ക് കണക്റ്റുചെയ്യാനായില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക"
     },
     "SUBMIT": "സമർപ്പിക്കുക",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

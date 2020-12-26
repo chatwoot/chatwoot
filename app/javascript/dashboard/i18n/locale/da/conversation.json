@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Skriv tekst for at søge i beskeder",
       "NO_MATCHING_RESULTS": "Der er ingen meddelelser, der matcher søgeparametrene."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Klik her",
     "LOADING_INBOXES": "Indlæser indbakker",
     "LOADING_CONVERSATIONS": "Indlæser Samtaler",

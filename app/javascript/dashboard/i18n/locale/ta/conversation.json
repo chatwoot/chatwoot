@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "இங்கே கிளிக் செய்யவும்",
     "LOADING_INBOXES": "இன்பாக்ஸை ஏற்றுகிறது",
     "LOADING_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றுகிறோம்",

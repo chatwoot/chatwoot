@@ -27,6 +27,8 @@ sv:
       invalid_email: Du har angett en ogiltig e-postadress
       email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
       failed: Registrering misslyckades
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

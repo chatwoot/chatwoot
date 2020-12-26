@@ -27,6 +27,8 @@ pl:
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
       email_already_exists: "Już zarejestrowałeś konto w %{email}"
       failed: Rejestracja nie powiodła się
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

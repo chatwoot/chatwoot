@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
       "NO_MATCHING_RESULTS": "Brak wiadomości pasujących do parametrów wyszukiwania."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Kliknij tutaj",
     "LOADING_INBOXES": "Ładowanie skrzynek odbiorczych",
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",

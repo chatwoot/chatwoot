@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Vašemu vyhledávání neodpovídají žádné zprávy."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Klikněte zde",
     "LOADING_INBOXES": "Načítání krabic",
     "LOADING_CONVERSATIONS": "Načítání konverzací",

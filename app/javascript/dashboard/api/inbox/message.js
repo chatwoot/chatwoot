@@ -7,16 +7,19 @@ class MessageApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  create({ conversationId, message, private: isPrivate, contentAttributes }) {
+  create({
+    conversationId,
+    message,
+    private: isPrivate,
+    contentAttributes,
+    echo_id: echoId,
+  }) {
     return axios.post(`${this.url}/${conversationId}/messages`, {
       content: message,
       private: isPrivate,
+      echo_id: echoId,
       content_attributes: contentAttributes,
     });
-  }
-
-  destroy({ conversationId, messageId }) {
-    return axios.delete(`${this.url}/${conversationId}/messages/${messageId}`);
   }
 
   getPreviousMessages({ conversationId, before }) {
@@ -25,10 +28,11 @@ class MessageApi extends ApiClient {
     });
   }
 
-  sendAttachment([conversationId, { file, isPrivate = false }]) {
+  sendAttachment([conversationId, { file, isPrivate = false }, echoId]) {
     const formData = new FormData();
     formData.append('attachments[]', file, file.name);
     formData.append('private', isPrivate);
+    formData.append('echo_id', echoId);
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,

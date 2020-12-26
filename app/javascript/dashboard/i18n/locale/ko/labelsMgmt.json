@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "라벨",
+    "HEADER_BTN_TXT": "라벨 추가",
+    "LOADING": "라벨을 가져오는 중",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
+    "SIDEBAR_TXT": "<p><b>라벨</b> </p><p>라벨은 대화를 분류하고 우선순위를 정하는 데 도움이 된다. 사이드패널에서 대화에 라벨을 할당할 수 있다.</p><p>라벨은 계정에 연결되며 조직에서 사용자 정의 워크플로우를 만드는 데 사용할 수 있다. 라벨에 사용자 정의 색상을 지정할 수 있으며, 라벨을 쉽게 식별할 수 있다. 사이드바에 라벨을 표시하여 대화를 쉽게 필터링할 수 있다.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "이 계정에는 사용 가능한 라벨이 없다.",
+      "TITLE": "라벨 관리",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "이름",
+        "내용",
+        "색깔"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "라벨 이름",
+        "PLACEHOLDER": "라벨 이름",
+        "ERROR": "라벨 이름이 필요함"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "내용",
+        "PLACEHOLDER": "라벨 내용"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "색깔"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "사이드바에 라벨 표시"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "수정",
+      "CREATE": "만들기",
+      "DELETE": "삭제",
+      "CANCEL": "취소"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "라벨 추가",
+      "DESC": "라벨을 사용하여 대화를 그룹화할 수 있다.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 추가됨",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "라벨 수정",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 업데이트됨",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "라벨이 성공적으로 삭제됨.",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
       }
     }
   }

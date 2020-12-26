@@ -12,6 +12,12 @@
         icon="ion-map"
       />
       <contact-details-item
+        v-if="ipAddress"
+        :title="$t('CONTACT_PANEL.IP_ADDRESS')"
+        :value="ipAddress"
+        icon="ion-android-locate"
+      />
+      <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
         :value="browserName"
@@ -28,7 +34,11 @@
         :title="$t('CONTACT_PANEL.INITIATED_FROM')"
         :value="referer"
         icon="ion-link"
-      />
+      >
+        <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+          {{ referer }}
+        </a>
+      </contact-details-item>
       <contact-details-item
         v-if="initiatedAt"
         :title="$t('CONTACT_PANEL.INITIATED_AT')"
@@ -106,14 +116,19 @@ export default {
       return `${this.browser.browser_name || ''} ${this.browser
         .browser_version || ''}`;
     },
+    contactAdditionalAttributes() {
+      return this.contact.additional_attributes || {};
+    },
+    ipAddress() {
+      const { created_at_ip: createdAtIp } = this.contactAdditionalAttributes;
+      return createdAtIp;
+    },
     location() {
       const {
-        additional_attributes: {
-          country = '',
-          city = '',
-          country_code: countryCode,
-        },
-      } = this.contact;
+        country = '',
+        city = '',
+        country_code: countryCode,
+      } = this.contactAdditionalAttributes;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {

@@ -2,7 +2,11 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
+import {
+  createPendingMessage,
+  createPendingAttachment,
+} from 'dashboard/helper/commons';
 
 // actions
 const actions = {
@@ -128,8 +132,13 @@ const actions = {
 
   sendMessage: async ({ commit }, data) => {
     try {
-      const response = await MessageApi.create(data);
-      commit(types.default.ADD_MESSAGE, response.data);
+      const pendingMessage = createPendingMessage(data);
+      commit(types.default.ADD_MESSAGE, pendingMessage);
+      const response = await MessageApi.create(pendingMessage);
+      commit(types.default.ADD_MESSAGE, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
     } catch (error) {
       // Handle error
     }
@@ -147,15 +156,6 @@ const actions = {
 
   updateMessage({ commit }, message) {
     commit(types.default.ADD_MESSAGE, message);
-  },
-
-  async destroyMessage({ commit }, { conversationId, messageId }) {
-    try {
-      const response = await MessageApi.destroy({ conversationId, messageId });
-      commit(types.default.ADD_MESSAGE, response.data);
-    } catch (error) {
-      // Handle error
-    }
   },
 
   addConversation({ commit, state, dispatch }, conversation) {
@@ -217,7 +217,12 @@ const actions = {
 
   sendAttachment: async ({ commit }, data) => {
     try {
-      const response = await MessageApi.sendAttachment(data);
+      const pendingMessage = createPendingAttachment(data);
+      commit(types.default.ADD_MESSAGE, pendingMessage);
+      const response = await MessageApi.sendAttachment([
+        ...data,
+        pendingMessage.id,
+      ]);
       commit(types.default.ADD_MESSAGE, response.data);
     } catch (error) {
       // Handle error

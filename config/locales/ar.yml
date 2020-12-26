@@ -27,6 +27,8 @@ ar:
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
     activity:
       status:

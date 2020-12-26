@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
       "NO_MATCHING_RESULTS": "Tidak ada pesan yang cocok dengan parameter pencarian."
     },
+    "UNREAD_MESSAGES": "Pesan Belum Terbaca",
+    "UNREAD_MESSAGE": "Pesan Belum Terbaca",
     "CLICK_HERE": "Klik disini",
     "LOADING_INBOXES": "Memuat kotak masuk",
     "LOADING_CONVERSATIONS": "Memuat Percakapan",

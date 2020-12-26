@@ -9,23 +9,23 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "متواجدون لخدمتك",
+    "OFFLINE": "نحن غير متصلين"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
+    "IN_A_FEW_HOURS": "عادة نقوم بالرد خلال بضع ساعات",
+    "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "ابدأ المحادثة",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
     "CLOSE_MESSAGES_BUTTON": "أغلق"
   },
   "BUBBLE": {
-    "LABEL": "تحدث معنا"
+    "LABEL": "تحدث الينا"
   },
-  "POWERED_BY": "مدعوم بواسطة Chatwoot",
+  "POWERED_BY": "مدعوم بواسطة تشات وت",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
   "CHAT_PLACEHOLDER": "أكتب رسالتك"
 }
