@@ -1,5 +1,7 @@
 /* eslint no-param-reassign: 0 */
-
+const groupBy = require('lodash.groupby');
+import { formatUnixDate } from 'shared/helpers/DateHelper';
+import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 import getUuid from 'widget/helpers/uuid';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 
@@ -66,4 +68,43 @@ export const createPendingAttachment = data => {
     content: null,
   };
   return pendingMessage;
+};
+
+const getSenderName = message => (message.sender ? message.sender.name : '');
+
+const shouldShowAvatar = (message, nextMessage) => {
+  const currentSender = getSenderName(message);
+  const nextSender = getSenderName(nextMessage);
+
+  return (
+    currentSender !== nextSender ||
+    message.message_type !== nextMessage.message_type ||
+    isASubmittedFormMessage(nextMessage)
+  );
+};
+
+const groupConversationBySender = conversationsForADate =>
+  conversationsForADate.map((message, index) => {
+    let showAvatar = false;
+    const isLastMessage = index === conversationsForADate.length - 1;
+    if (isASubmittedFormMessage(message)) {
+      showAvatar = false;
+    } else if (isLastMessage) {
+      showAvatar = true;
+    } else {
+      const nextMessage = conversationsForADate[index + 1];
+      showAvatar = shouldShowAvatar(message, nextMessage);
+    }
+    return { showAvatar, ...message };
+  });
+
+export const getGroupedConversation = ({ conversations }) => {
+  const conversationGroupedByDate = groupBy(
+    Object.values(conversations),
+    message => formatUnixDate(message.created_at)
+  );
+  return Object.keys(conversationGroupedByDate).map(date => ({
+    date,
+    messages: groupConversationBySender(conversationGroupedByDate[date]),
+  }));
 };
