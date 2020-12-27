@@ -35,7 +35,6 @@ export default {
   line-height: 50px;
   position: relative;
   text-align: center;
-  width: 100%;
 }
 
 .date--separator::before,

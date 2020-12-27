@@ -40,12 +40,17 @@
           <span v-if="shouldShowSpinner" class="spinner message" />
         </li>
       </transition>
-      <message
-        v-for="message in getReadMessages"
-        :key="message.id"
-        :data="message"
-        :is-a-tweet="isATweet"
-      />
+
+      <template v-for="item in getGroupedMessages">
+        <date-separator :key="item.date" :date="item.date"></date-separator>
+        <message
+          v-for="message in item.messages"
+          :key="message.id"
+          :data="message"
+          :is-a-tweet="isATweet"
+        />
+      </template>
+
       <li v-show="getUnreadCount != 0" class="unread--toast">
         <span class="text-uppercase">
           {{ getUnreadCount }}
@@ -90,7 +95,11 @@ import ConversationHeader from './ConversationHeader';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
-import { getTypingUsersText } from '../../../helper/commons';
+import {
+  getTypingUsersText,
+  getGroupedConversation,
+} from '../../../helper/commons';
+import DateSeparator from 'shared/components/DateSeparator.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
@@ -98,6 +107,7 @@ export default {
     ConversationHeader,
     Message,
     ReplyBox,
+    DateSeparator,
   },
 
   mixins: [conversationMixin],
@@ -159,12 +169,23 @@ export default {
       );
       return chat;
     },
+
+    getGroupedMessages() {
+      const chat = this.getMessages;
+      const conversations = this.readMessages(chat);
+      const groupedConversationList = getGroupedConversation({
+        conversations,
+      });
+      return chat === undefined ? null : groupedConversationList;
+    },
+
     getReadMessages() {
       const chat = this.getMessages;
       return chat === undefined ? null : this.readMessages(chat);
     },
     getUnReadMessages() {
       const chat = this.getMessages;
+
       return chat === undefined ? null : this.unReadMessages(chat);
     },
     shouldShowSpinner() {
@@ -288,6 +309,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .date--separator {
+  margin: 0 1.6rem;
+}
+
 .banner {
   background: var(--b-500);
   color: var(--white);
