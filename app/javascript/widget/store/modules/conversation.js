@@ -9,11 +9,8 @@ import {
 } from 'widget/api/conversation';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import { formatUnixDate } from 'shared/helpers/DateHelper';
-import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-
+import { getGroupedConversation } from '../../../dashboard/helper/commons';
 import getUuid from '../../helpers/uuid';
-const groupBy = require('lodash.groupby');
 
 export const createTemporaryMessage = ({ attachments, content }) => {
   const timestamp = new Date().getTime() / 1000;
@@ -26,34 +23,6 @@ export const createTemporaryMessage = ({ attachments, content }) => {
     message_type: MESSAGE_TYPE.INCOMING,
   };
 };
-
-const getSenderName = message => (message.sender ? message.sender.name : '');
-
-const shouldShowAvatar = (message, nextMessage) => {
-  const currentSender = getSenderName(message);
-  const nextSender = getSenderName(nextMessage);
-
-  return (
-    currentSender !== nextSender ||
-    message.message_type !== nextMessage.message_type ||
-    isASubmittedFormMessage(nextMessage)
-  );
-};
-
-const groupConversationBySender = conversationsForADate =>
-  conversationsForADate.map((message, index) => {
-    let showAvatar = false;
-    const isLastMessage = index === conversationsForADate.length - 1;
-    if (isASubmittedFormMessage(message)) {
-      showAvatar = false;
-    } else if (isLastMessage) {
-      showAvatar = true;
-    } else {
-      const nextMessage = conversationsForADate[index + 1];
-      showAvatar = shouldShowAvatar(message, nextMessage);
-    }
-    return { showAvatar, ...message };
-  });
 
 export const findUndeliveredMessage = (messageInbox, { content }) =>
   Object.values(messageInbox).filter(
@@ -96,14 +65,10 @@ export const getters = {
     return {};
   },
   getGroupedConversation: _state => {
-    const conversationGroupedByDate = groupBy(
-      Object.values(_state.conversations),
-      message => formatUnixDate(message.created_at)
-    );
-    return Object.keys(conversationGroupedByDate).map(date => ({
-      date,
-      messages: groupConversationBySender(conversationGroupedByDate[date]),
-    }));
+    const groupedConversationList = getGroupedConversation({
+      conversations: _state.conversations,
+    });
+    return groupedConversationList;
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
   getUnreadMessageCount: _state => {
