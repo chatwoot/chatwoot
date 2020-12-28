@@ -13,8 +13,8 @@
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
+    "UNREAD_MESSAGE": "پیام خوانده نشده",
     "CLICK_HERE": "اینجا کلیک کنید",
     "LOADING_INBOXES": "در حال بارگیری صندوق‌های ورودی",
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
+    "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
