@@ -2,30 +2,32 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Đang tải lên..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Gửi"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Chúng tôi đang trực tuyến",
+    "OFFLINE": "Chúng tôi đang ngoại tuyến"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
+    "IN_A_FEW_HOURS": "Thường trả lời sau vài giờ",
+    "IN_A_DAY": "Thường trả lời trong một ngày"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Trò chuyện với chúng tôi"
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
+  "TODAY": "Hôm nay",
+  "YESTERDAY": "Hôm qua"
 }
