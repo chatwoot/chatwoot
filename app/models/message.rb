@@ -55,7 +55,7 @@ class Message < ApplicationRecord
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
