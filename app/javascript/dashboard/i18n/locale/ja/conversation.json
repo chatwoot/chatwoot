@@ -24,6 +24,7 @@
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
