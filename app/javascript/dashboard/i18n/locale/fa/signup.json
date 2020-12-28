@@ -5,18 +5,18 @@
     "TERMS_ACCEPT": "با ثبت نام، اعلام می‌دارید که <a href=\"https://www.chatwoot.com/terms\">قوانین</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">شرایط استفاده</a> از ما را تایید کرده و می‌پذیرید.",
     "ACCOUNT_NAME": {
       "LABEL": "عنوان حساب",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "نام حساب‌کاربری را وارد کنید. به عنوان مثال: شرکت وین",
+      "ERROR": "نام حساب‌کاربری خیلی کوتاه است"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "نام کامل",
+      "PLACEHOLDER": "نام کامل خود را وارد کنید به عنوان مثال: گودرز جعفری",
+      "ERROR": "نام کامل خیلی کوتاه است"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "ایمیل کاری",
+      "PLACEHOLDER": "ایمیل کاری خود را وارد کنید به عنوان مثال: jafari@wayne.enterprises",
+      "ERROR": "آدرس ایمیل معتبر نیست"
     },
     "PASSWORD": {
       "LABEL": "رمز عبور",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "ارتباط با سرور برقرار نشد، لطفا بعدا امتحان کنید"
     },
     "SUBMIT": "ثبت",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "از قبل حساب‌کاربری دارید؟"
   }
 }
