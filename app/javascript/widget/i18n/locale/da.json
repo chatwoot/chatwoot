@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Drevet af Chatwoot",
   "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
-  "CHAT_PLACEHOLDER": "Skriv din besked"
+  "CHAT_PLACEHOLDER": "Skriv din besked",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }
