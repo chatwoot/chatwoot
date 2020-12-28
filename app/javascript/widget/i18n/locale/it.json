@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Inserisci la tua email",
-  "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio"
+  "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }
