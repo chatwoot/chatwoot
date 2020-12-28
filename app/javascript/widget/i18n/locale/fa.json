@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "قدرت یافته از چت ووت",
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
-  "CHAT_PLACEHOLDER": "پیام خود را وارد کنید"
+  "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
+  "TODAY": "امروز",
+  "YESTERDAY": "دیروز"
 }
