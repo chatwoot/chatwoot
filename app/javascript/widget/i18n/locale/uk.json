@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Введіть адресу електронної пошти",
-  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення"
+  "CHAT_PLACEHOLDER": "Введіть Ваше повідомлення",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }
