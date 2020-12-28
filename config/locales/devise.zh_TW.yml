@@ -1,5 +1,5 @@
 #Additional translations at https://github.com/plataformatec/devise/wiki/I18n
-zh_TW:
+zh-TW:
   devise:
     confirmations:
       confirmed: "您的信箱已通過驗證，現在您已成功登入。"
