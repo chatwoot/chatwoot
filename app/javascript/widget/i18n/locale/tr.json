@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Chatwoot tarafından desteklenmektedir",
   "EMAIL_PLACEHOLDER": "Lütfen E-postanızı Girin",
-  "CHAT_PLACEHOLDER": "Mesajınız"
+  "CHAT_PLACEHOLDER": "Mesajınız",
+  "TODAY": "Bugün",
+  "YESTERDAY": "Dün"
 }
