@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
-  "CHAT_PLACEHOLDER": "メッセージを入力してください。"
+  "CHAT_PLACEHOLDER": "メッセージを入力してください。",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }
