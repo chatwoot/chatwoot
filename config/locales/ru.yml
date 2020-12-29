@@ -30,6 +30,8 @@ ru:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
