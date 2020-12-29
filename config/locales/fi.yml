@@ -30,6 +30,8 @@ fi:
   reports:
     period: Raportointijakso %{since} – %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"
