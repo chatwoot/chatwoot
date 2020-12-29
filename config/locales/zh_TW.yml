@@ -30,6 +30,8 @@ zh_TW:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "被%{user_name}標記的對話已解決。"

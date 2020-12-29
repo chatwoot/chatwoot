@@ -5,18 +5,18 @@
     "TERMS_ACCEPT": "Με την καταχώρηση, έχετε συμφωνήσει με τους όρους μας <a href=\"https://www.chatwoot.com/terms\">T & C</a> και <a href=\"https://www.chatwoot.com/privacy-policy\">την πολιτική ιδιωτικών δεδομένων</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Ονομασία Λογαριασμού",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Συμπληρώστε όνομα λογαριασμού π. χ. Wayne Α. Ε",
+      "ERROR": "Το όνομα του λογαριασμού είναι πολύ σύντομο"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Πλήρες όνομα",
+      "PLACEHOLDER": "Συμπληρώστε το πλήρες σας όνομα: πχ: Χρήστος Παπαδόπουλος",
+      "ERROR": "Το πλήρες όνομα είναι πολύ σύντομο"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "email εργασίας",
+      "PLACEHOLDER": "συμπληρώστε το email εργασίας πχ: papadopoulos@wyane.com",
+      "ERROR": "Η διεύθυνση email είναι εσφαλμένη"
     },
     "PASSWORD": {
       "LABEL": "Κωδικός",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
     },
     "SUBMIT": "Καταχώρηση",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Έχετε ήδη ένα λογαριασμό?"
   }
 }

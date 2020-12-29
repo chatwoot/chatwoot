@@ -30,6 +30,8 @@ el:
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
   conversations:
+    messages:
+      deleted: Το μήνυμα διαγράφηκε
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"

@@ -30,6 +30,8 @@ ko:
   reports:
     period: 보고 기간 %{since} - %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"

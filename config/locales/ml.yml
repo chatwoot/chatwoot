@@ -30,6 +30,8 @@ ml:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"

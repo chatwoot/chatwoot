@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Chatwoot 작동중",
   "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
-  "CHAT_PLACEHOLDER": "메시지 입력"
+  "CHAT_PLACEHOLDER": "메시지 입력",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }

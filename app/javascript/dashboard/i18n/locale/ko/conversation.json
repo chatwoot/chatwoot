@@ -24,6 +24,7 @@
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
       "REOPEN_ACTION": "다시 열기",

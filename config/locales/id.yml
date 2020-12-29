@@ -30,6 +30,8 @@ id:
   reports:
     period: Periode pelaporan %{since} hingga %{until}
   conversations:
+    messages:
+      deleted: Pesan ini telah terhapus
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"

@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Masukkan email Anda",
-  "CHAT_PLACEHOLDER": "Ketik pesan Anda"
+  "CHAT_PLACEHOLDER": "Ketik pesan Anda",
+  "TODAY": "Hari ini",
+  "YESTERDAY": "Kemarin"
 }

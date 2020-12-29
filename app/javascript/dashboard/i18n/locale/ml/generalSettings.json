@@ -34,7 +34,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "പ്രവർത്തനമൊന്നുമില്ലെങ്കിൽ ടിക്കറ്റിന് ശേഷമുള്ള ദിവസങ്ങളുടെ എണ്ണം യാന്ത്രികമായി പരിഹരിക്കേണ്ടതാണ്",
         "PLACEHOLDER": "30",
         "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
       },
