@@ -6,15 +6,15 @@
     "NO_INBOX_1": "നിങ്ങൾ ഇത് വരെ ഇൻബോക്സുകൾ ഒന്നും സ്രഷ്ടിച്ചിട്ടില്ലെന്നു തോന്നുന്നു.",
     "NO_INBOX_2": " ആരംഭിക്കുന്നതിന്",
     "NO_INBOX_AGENT": "നിങ്ങൾ ഏതെങ്കിലും ഇൻ‌ബോക്സിന്റെ ഭാഗമല്ലെന്ന് തോന്നുന്നു. നിങ്ങളുടെ അഡ്മിനിസ്ട്രേറ്ററുമായി ബന്ധപ്പെടുക",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "സംഭാഷണങ്ങളിൽ സന്ദേശങ്ങൾക്കായി തിരയുക",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "സന്ദേശങ്ങൾ തിരയുക",
+      "LOADING_MESSAGE": "ഡാറ്റ ലോഡുചെയ്യുന്നു...",
+      "PLACEHOLDER": "സന്ദേശങ്ങൾ തിരയാൻ ഏതെങ്കിലും വാചകം ടൈപ്പുചെയ്യുക",
+      "NO_MATCHING_RESULTS": "തിരയൽ പാരാമീറ്ററുകളുമായി പൊരുത്തപ്പെടുന്ന സന്ദേശങ്ങളൊന്നുമില്ല."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "വായിക്കാത്ത സന്ദേശങ്ങൾ",
+    "UNREAD_MESSAGE": "വായിക്കാത്ത സന്ദേശം",
     "CLICK_HERE": "ഇവിടെ ക്ലിക്കു ചെയ്യുക",
     "LOADING_INBOXES": "ഇൻ‌ബോക്സുകൾ‌ ലോഡു ചെയ്യുന്നു",
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
     "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
     "DOWNLOAD": "ഡൗൺലോഡ്",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "പരിഹരിക്കുക",
       "REOPEN_ACTION": "വീണ്ടും തുറക്കുക",
@@ -45,11 +46,11 @@
     "VISIBLE_TO_AGENTS": "സ്വകാര്യ കുറിപ്പ്: നിങ്ങൾക്കും നിങ്ങളുടെ ടീമിനും മാത്രം ദൃശ്യമാണ്",
     "CHANGE_STATUS": "സംഭാഷണ നില മാറ്റി",
     "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "അയച്ചത്:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",
       "REMOVE": "നീക്കം ചെയ്യുക",
-      "ASSIGN": "Assign"
+      "ASSIGN": "നിയോഗിക്കുക"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -61,7 +62,7 @@
     "SEND_EMAIL_ERROR": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക",
     "FORM": {
       "SEND_TO_CONTACT": "ഉപഭോക്താവിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "നിയുക്ത ഏജന്റിന് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "മറ്റൊരു ഇമെയിൽ വിലാസത്തിലേക്ക് ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
       "EMAIL": {
         "PLACEHOLDER": "ഒരു ഇമെയിൽ വിലാസം നൽകുക",

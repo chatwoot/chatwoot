@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Oferit de Chatwoot",
   "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
-  "CHAT_PLACEHOLDER": "Scrie mesajul tău"
+  "CHAT_PLACEHOLDER": "Scrie mesajul tău",
+  "TODAY": "Astăzi",
+  "YESTERDAY": "Ieri"
 }
