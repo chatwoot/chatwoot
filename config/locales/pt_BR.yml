@@ -30,6 +30,8 @@ pt_BR:
   reports:
     period: Reportando o período %{since} a %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"

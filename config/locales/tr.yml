@@ -30,6 +30,8 @@ tr:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"

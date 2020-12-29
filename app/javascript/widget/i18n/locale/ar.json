@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "مدعوم بواسطة تشات وت",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
-  "CHAT_PLACEHOLDER": "أكتب رسالتك"
+  "CHAT_PLACEHOLDER": "أكتب رسالتك",
+  "TODAY": "اليوم",
+  "YESTERDAY": "الأمس"
 }

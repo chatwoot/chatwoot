@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Mogelijk gemaakt door Chatwoot",
   "EMAIL_PLACEHOLDER": "Voer uw e-mailadres in",
-  "CHAT_PLACEHOLDER": "Typ uw bericht"
+  "CHAT_PLACEHOLDER": "Typ uw bericht",
+  "TODAY": "Vandaag",
+  "YESTERDAY": "Gisteren"
 }
