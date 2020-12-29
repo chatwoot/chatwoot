@@ -14,8 +14,8 @@
         >
           {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
         </span>
-        <span v-if="!isPending && hasAttachments">
-          <span v-for="attachment in data.attachments" :key="attachment.id">
+        <div v-if="!isPending && hasAttachments">
+          <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
               v-if="attachment.file_type === 'image'"
               :url="attachment.data_url"
@@ -26,8 +26,8 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
-          </span>
-        </span>
+          </div>
+        </div>
 
         <bubble-actions
           :id="data.id"

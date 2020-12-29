@@ -13,30 +13,26 @@ class MessageApi extends ApiClient {
     private: isPrivate,
     contentAttributes,
     echo_id: echoId,
+    file,
   }) {
-    return axios.post(`${this.url}/${conversationId}/messages`, {
-      content: message,
-      private: isPrivate,
-      echo_id: echoId,
-      content_attributes: contentAttributes,
-    });
-  }
-
-  getPreviousMessages({ conversationId, before }) {
-    return axios.get(`${this.url}/${conversationId}/messages`, {
-      params: { before },
-    });
-  }
-
-  sendAttachment([conversationId, { file, isPrivate = false }, echoId]) {
     const formData = new FormData();
-    formData.append('attachments[]', file, file.name);
+    if (file) formData.append('attachments[]', file, file.name);
+    if (message) formData.append('content', message);
+    if (contentAttributes)
+      formData.append('content_attributes', JSON.stringify(contentAttributes));
+
     formData.append('private', isPrivate);
     formData.append('echo_id', echoId);
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
       data: formData,
+    });
+  }
+
+  getPreviousMessages({ conversationId, before }) {
+    return axios.get(`${this.url}/${conversationId}/messages`, {
+      params: { before },
     });
   }
 }
