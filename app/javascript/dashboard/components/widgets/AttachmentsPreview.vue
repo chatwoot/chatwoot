@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <div class="preview-header">
-      <h6 class="text-block-title">Attached files</h6>
-    </div> -->
     <div
       v-for="(attachment, index) in attachments"
       :key="attachment.id"
