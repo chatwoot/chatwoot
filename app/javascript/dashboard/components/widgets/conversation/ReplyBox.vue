@@ -203,9 +203,6 @@ export default {
       if (this.conversationType === 'tweet') {
         return this.$t('CONVERSATION.REPLYBOX.TWEET');
       }
-      if (this.hasAttachments) {
-        return this.$t('CONVERSATION.REPLYBOX.UPLOAD_AND_SEND');
-      }
       return this.$t('CONVERSATION.REPLYBOX.SEND');
     },
     replyBoxClass() {
