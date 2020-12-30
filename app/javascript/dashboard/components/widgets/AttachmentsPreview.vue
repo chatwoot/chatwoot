@@ -9,7 +9,14 @@
       class="preview-item"
     >
       <div class="thumb-wrap">
-        <img class="image-thumb" :src="attachment.thumb" />
+        <img
+          v-if="isTypeImage(attachment.resource.type)"
+          class="image-thumb"
+          :src="attachment.thumb"
+        />
+        <span v-else class="attachment-thumb">
+          📄
+        </span>
       </div>
       <div class="file-name-wrap">
         <span class="item">
@@ -53,6 +60,9 @@ export default {
     formatFileSize(size) {
       return formatBytes(size, 0);
     },
+    isTypeImage(type) {
+      return type.includes('image');
+    },
   },
 };
 </script>
@@ -75,6 +85,13 @@ export default {
   height: var(--space-medium);
   object-fit: cover;
   border-radius: var(--border-radius-small);
+}
+
+.attachment-thumb {
+  width: var(--space-medium);
+  height: var(--space-medium);
+  font-size: var(--font-size-medium);
+  text-align: center;
 }
 
 .file-name-wrap,

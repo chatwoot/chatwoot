@@ -201,6 +201,10 @@
       color: $color-body;
       margin-right: auto;
 
+      &.is-image {
+        border-radius: var(--border-radius-large);
+      }
+
       .link {
         color: $color-primary-dark;
       }
@@ -257,6 +261,10 @@
           right: $space-one;
           top: $space-smaller + $space-micro;
         }
+      }
+
+      &.is-image {
+        border-radius: var(--border-radius-large);
       }
     }
 

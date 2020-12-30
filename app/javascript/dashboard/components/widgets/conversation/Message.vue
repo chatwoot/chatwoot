@@ -127,6 +127,9 @@ export default {
       }
       return false;
     },
+    hasText() {
+      return !!this.data.content;
+    },
     sentByMessage() {
       const { sender } = this;
 
@@ -149,6 +152,7 @@ export default {
         bubble: this.isBubble,
         'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
+        'is-text': this.hasText,
       };
     },
     isPending() {
@@ -159,15 +163,27 @@ export default {
 </script>
 <style lang="scss">
 .wrap {
-  > .is-image.bubble {
-    padding: 0;
-    overflow: hidden;
-
-    .image {
-      max-width: 32rem;
+  > .bubble {
+    &.is-image {
       padding: 0;
+      overflow: hidden;
+
+      .image {
+        max-width: 32rem;
+        padding: var(--space-micro);
+
+        > img {
+          border-radius: var(--border-radius-medium);
+        }
+      }
+    }
+
+    &.is-image.is-text > .message-text__wrap {
+      max-width: 32rem;
+      padding: var(--space-small) var(--space-normal);
     }
   }
+
   &.is-pending {
     position: relative;
     opacity: 0.8;
@@ -176,6 +192,10 @@ export default {
       position: absolute;
       bottom: var(--space-smaller);
       right: var(--space-smaller);
+    }
+
+    > .is-image.is-text.bubble > .message-text__wrap {
+      padding: 0;
     }
   }
 }
