@@ -19,9 +19,13 @@
       class="icon ion-reply cursor-pointer"
       @click="onTweetReply"
     />
-    <a :href="linkToTweet" target="_blank" rel="noopener noreferrer nofollow">
+    <a
+      v-if="isATweet && isIncoming"
+      :href="linkToTweet"
+      target="_blank"
+      rel="noopener noreferrer nofollow"
+    >
       <i
-        v-if="isATweet && isIncoming"
         v-tooltip.top-start="$t('CHAT_LIST.VIEW_TWEET_IN_TWITTER')"
         class="icon ion-android-open cursor-pointer"
       />
