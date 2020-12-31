@@ -84,14 +84,14 @@ export default {
   },
   computed: {
     shouldDisplayAgentMessage() {
-      if (!this.message.content) return false;
-
       if (
         this.contentType === 'input_select' &&
-        this.messageContentAttributes.submitted_values
+        this.messageContentAttributes.submitted_values &&
+        !this.message.content
       ) {
         return false;
       }
+      if (!this.message.content) return false;
       return true;
     },
     hasAttachments() {
