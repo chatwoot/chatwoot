@@ -27,7 +27,11 @@ fi:
       invalid_email: Olet syöttänyt virheellisen sähköpostin
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
+  reports:
+    period: Raportointijakso %{since} – %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"

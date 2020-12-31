@@ -33,7 +33,7 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   fetchAccountReport({ commit }, reportObj) {
     commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, true);
     Report.getAccountReports(
@@ -66,6 +66,17 @@ const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+      });
+  },
+  downloadAgentReports(_, reportObj) {
+    return Report.getAgentReports(reportObj.from, reportObj.to)
+      .then(response => {
+        let csvContent = 'data:text/csv;charset=utf-8,' + response.data;
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+      })
+      .catch(error => {
+        console.error(error);
       });
   },
 };

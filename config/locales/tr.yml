@@ -27,7 +27,11 @@ tr:
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"

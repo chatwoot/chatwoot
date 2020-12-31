@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
       "NO_MATCHING_RESULTS": "Hakuparametreja vastaavia viestejä ei ole."
     },
+    "UNREAD_MESSAGES": "Lukemattomat viestit",
+    "UNREAD_MESSAGE": "Lukematon viesti",
     "CLICK_HERE": "Klikkaa tästä",
     "LOADING_INBOXES": "Ladataan saapuneet-kansioita",
     "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
@@ -22,6 +24,7 @@
     "REPLYING_TO": "Olet vastaamassa:",
     "REMOVE_SELECTION": "Poista valinnat",
     "DOWNLOAD": "Lataa",
+    "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
     "HEADER": {
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",

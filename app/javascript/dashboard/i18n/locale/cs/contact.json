@@ -11,6 +11,7 @@
     "OS": "Operační systém",
     "INITIATED_FROM": "Zahájeno od",
     "INITIATED_AT": "Zahájeno v",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nejsou přiřazeny žádné předchozí konverzace.",
       "TITLE": "Předchozí konverzace"

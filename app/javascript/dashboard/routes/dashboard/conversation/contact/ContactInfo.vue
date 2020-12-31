@@ -13,8 +13,8 @@
         <div class="contact--name">
           {{ contact.name }}
         </div>
-        <div v-if="additionalAttibutes.description" class="contact--bio">
-          {{ additionalAttibutes.description }}
+        <div v-if="additionalAttributes.description" class="contact--bio">
+          {{ additionalAttributes.description }}
         </div>
         <social-icons :social-profiles="socialProfiles" />
         <div class="contact--metadata">
@@ -33,12 +33,13 @@
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
-            :value="additionalAttibutes.location"
+            v-if="additionalAttributes.location"
+            :value="additionalAttributes.location"
             icon="ion-map"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <contact-info-row
-            :value="additionalAttibutes.company_name"
+            :value="additionalAttributes.company_name"
             icon="ion-briefcase"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
@@ -89,14 +90,14 @@ export default {
     };
   },
   computed: {
-    additionalAttibutes() {
+    additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
     socialProfiles() {
       const {
         social_profiles: socialProfiles,
         screen_name: twitterScreenName,
-      } = this.additionalAttibutes;
+      } = this.additionalAttributes;
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },

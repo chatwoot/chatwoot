@@ -27,7 +27,11 @@ ar:
       invalid_email: لقد قمت بإدخال عنوان بريد إلكتروني غير صالح
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"

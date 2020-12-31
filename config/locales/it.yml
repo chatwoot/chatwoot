@@ -27,7 +27,11 @@ it:
       invalid_email: Hai inserito un'email non valida
       email_already_exists: "Ti sei già registrato per un account con %{email}"
       failed: Iscrizione fallita
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversazione segnata da %{user_name}"

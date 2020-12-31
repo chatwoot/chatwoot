@@ -46,9 +46,9 @@
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
+      "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "SELECT_ONE": "Birini seç"
     }
   }
 }

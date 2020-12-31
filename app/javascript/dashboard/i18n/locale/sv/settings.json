@@ -98,7 +98,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Hämta",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Uppladdar..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Skicka"
@@ -113,7 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Konversationer",
     "REPORTS": "Rapporter",
-    "CONTACTS": "Contacts (Beta)",
+    "CONTACTS": "Contacts",
     "SETTINGS": "Inställningar",
     "HOME": "Home",
     "AGENTS": "Agenter",

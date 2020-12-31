@@ -10,7 +10,9 @@
       </button>
     </h4>
     <div v-if="value" class="conv-details--item__value">
-      {{ value }}
+      <slot>
+        {{ value }}
+      </slot>
     </div>
   </div>
 </template>

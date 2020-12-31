@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {

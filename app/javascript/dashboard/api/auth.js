@@ -26,7 +26,8 @@ export default {
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .post(urlData.url, {
-          account_name: creds.name,
+          account_name: creds.accountName.trim(),
+          user_full_name: creds.fullName.trim(),
           email: creds.email,
         })
         .then(response => {

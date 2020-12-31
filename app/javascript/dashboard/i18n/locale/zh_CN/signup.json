@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "通过注册，您同意我们的 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 和 <a href=\"https://www.chatwoot.com/privacy-policy\">隐私政策</a>",
     "ACCOUNT_NAME": {
       "LABEL": "帐户名称",
-      "PLACEHOLDER": "Wayne企业",
-      "ERROR": "帐号名称太短了"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "电子邮件无效"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "密码",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
     },
     "SUBMIT": "提交",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "预设回复",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

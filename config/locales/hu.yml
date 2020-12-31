@@ -27,7 +27,11 @@ hu:
       invalid_email: You have entered an invalid email
       email_already_exists: "You have already signed up for an account with %{email}"
       failed: Signup failed
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"

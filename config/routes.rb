@@ -49,7 +49,7 @@ Rails.application.routes.draw do
             get 'meta', on: :collection
             get 'search', on: :collection
             scope module: :conversations do
-              resources :messages, only: [:index, :create]
+              resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
             end

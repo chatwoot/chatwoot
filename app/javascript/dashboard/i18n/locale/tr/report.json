@@ -3,6 +3,7 @@
     "HEADER": "Raporlar",
     "LOADING_CHART": "Grafik verileri yükleniyor ...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konuşmalar",

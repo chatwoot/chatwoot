@@ -11,6 +11,7 @@
     "OS": "Sistem de operare",
     "INITIATED_FROM": "Inițiat de la",
     "INITIATED_AT": "Iniţiat la",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
       "TITLE": "Conversații anterioare"

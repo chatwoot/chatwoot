@@ -39,7 +39,7 @@
         <span class="timestamp">
           {{ dynamicTime(chat.timestamp) }}
         </span>
-        <span class="unread">{{ getUnreadCount }}</span>
+        <span class="unread">{{ unreadCount > 9 ? '9+' : unreadCount }}</span>
       </div>
     </div>
   </div>
@@ -108,12 +108,12 @@ export default {
       return this.currentChat.id === this.chat.id;
     },
 
-    getUnreadCount() {
+    unreadCount() {
       return this.unreadMessagesCount(this.chat);
     },
 
     hasUnread() {
-      return this.getUnreadCount > 0;
+      return this.unreadCount > 0;
     },
 
     isInboxNameVisible() {

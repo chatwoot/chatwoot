@@ -60,7 +60,6 @@ class Account < ApplicationRecord
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
   after_create_commit :notify_creation
-  after_destroy :notify_deletion
 
   def agents
     users.where(account_users: { role: :agent })
@@ -91,9 +90,5 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
-  end
-
-  def notify_deletion
-    Rails.configuration.dispatcher.dispatch(ACCOUNT_DESTROYED, Time.zone.now, account: self)
   end
 end

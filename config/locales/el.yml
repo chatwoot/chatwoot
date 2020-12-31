@@ -27,7 +27,11 @@ el:
       invalid_email: Έχετε καταχωρήσει ακατάλληλο email
       email_already_exists: "Έχει ήδη καταχωρηθεί λογαριασμός στο %{email}"
       failed: Η εγγραφή απέτυχε
+  reports:
+    period: Περίοδος αναφοράς %{since} έως %{until}
   conversations:
+    messages:
+      deleted: Το μήνυμα διαγράφηκε
     activity:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"

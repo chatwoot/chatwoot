@@ -2,30 +2,32 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Hämta",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Uppladdar..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Skicka"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Vi är online",
+    "OFFLINE": "Vi är offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Svarar vanligtvis på några minuter",
+    "IN_A_FEW_HOURS": "Svarar vanligtvis på några timmar",
+    "IN_A_DAY": "Svar vanligtvis på en dag"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Starta konversation",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
     "CLOSE_MESSAGES_BUTTON": "Stäng"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Chatta med oss"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Drivs av Chatwoot",
   "EMAIL_PLACEHOLDER": "Ange din e-postadress",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Skriv ditt meddelande",
+  "TODAY": "Idag",
+  "YESTERDAY": "Igår"
 }

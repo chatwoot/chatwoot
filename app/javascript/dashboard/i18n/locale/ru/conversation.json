@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Введите любой текст для поиска сообщений",
       "NO_MATCHING_RESULTS": "Нет сообщений, соответствующих параметрам поиска."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Нажмите здесь",
     "LOADING_INBOXES": "Загружаем источники",
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
@@ -22,6 +24,7 @@
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",

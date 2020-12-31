@@ -27,7 +27,11 @@ ro:
       invalid_email: Ați introdus un e-mail invalid
       email_already_exists: "V-ați înregistrat deja cu un cont cu %{email}"
       failed: Înregistrare eșuată
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Conversația a fost marcată de %{user_name}"

@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Натисніть тут",
     "LOADING_INBOXES": "Завантаження скриньок",
     "LOADING_CONVERSATIONS": "Завантаження бесід",
@@ -22,6 +24,7 @@
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Звантажити",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",

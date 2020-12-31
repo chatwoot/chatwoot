@@ -53,5 +53,7 @@
       "ICON": "ion-link",
       "CONTENT": "has shared a url"
     }
-  }
+  },
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }

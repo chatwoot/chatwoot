@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "กดที่นี้",
     "LOADING_INBOXES": "กำลังโหลดกล่องข้อความ",
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
@@ -22,6 +24,7 @@
     "REPLYING_TO": "คุณกำลังตอบกลับ:",
     "REMOVE_SELECTION": "ลบตัวเลือก",
     "DOWNLOAD": "ดาวโหลด",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "เสร็จสิ้น",
       "REOPEN_ACTION": "เปิดใหม่อีกครั้ง",

@@ -4,18 +4,23 @@ import {
   buildPopoutURL,
 } from '../urlParamsHelper';
 
-jest.mock('vue', () => ({
-  config: {
-    lang: 'el',
-  },
-}));
-
 describe('#buildSearchParamsWithLocale', () => {
   it('returns correct search params', () => {
+    let windowSpy = jest.spyOn(window, 'window', 'get');
+    windowSpy.mockImplementation(() => ({
+      WOOT_WIDGET: {
+        $root: {
+          $i18n: {
+            locale: 'el',
+          },
+        },
+      },
+    }));
     expect(buildSearchParamsWithLocale('?test=1234')).toEqual(
       '?test=1234&locale=el'
     );
     expect(buildSearchParamsWithLocale('')).toEqual('?locale=el');
+    windowSpy.mockRestore();
   });
 });
 

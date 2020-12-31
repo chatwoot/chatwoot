@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "اضغط هنا",
     "LOADING_INBOXES": "جار تحميل صناديق الوارد",
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
@@ -22,6 +24,7 @@
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",

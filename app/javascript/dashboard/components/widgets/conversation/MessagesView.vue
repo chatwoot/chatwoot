@@ -47,8 +47,13 @@
         :is-a-tweet="isATweet"
       />
       <li v-show="getUnreadCount != 0" class="unread--toast">
-        <span>
-          {{ getUnreadCount }} UNREAD MESSAGE{{ getUnreadCount > 1 ? 'S' : '' }}
+        <span class="text-uppercase">
+          {{ getUnreadCount }}
+          {{
+            getUnreadCount > 1
+              ? $t('CONVERSATION.UNREAD_MESSAGES')
+              : $t('CONVERSATION.UNREAD_MESSAGE')
+          }}
         </span>
       </li>
       <message

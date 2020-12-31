@@ -1,5 +1,12 @@
 <template>
   <div class="column content-box">
+    <button
+      class="button nice icon success button--fixed-right-top"
+      @click="downloadAgentReports"
+    >
+      <i class="icon ion-android-download"></i>
+      {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
+    </button>
     <div class="small-3 pull-right">
       <multiselect
         v-model="currentDateRangeSelection"
@@ -144,6 +151,13 @@ export default {
       const { from, to } = this;
       this.$store.dispatch('fetchAccountReport', {
         metric: this.metrics[this.currentSelection].KEY,
+        from,
+        to,
+      });
+    },
+    downloadAgentReports() {
+      const { from, to } = this;
+      this.$store.dispatch('downloadAgentReports', {
         from,
         to,
       });

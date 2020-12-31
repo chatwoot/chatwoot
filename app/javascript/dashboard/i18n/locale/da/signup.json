@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "Ved at tilmelde dig, accepterer du vores <a href=\"https://www.chatwoot.com/terms\">T & C</a> og <a href=\"https://www.chatwoot.com/privacy-policy\">Privatlivspolitik</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Kontonavn",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Kontonavn er for kort"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "E-mail",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "E-mail er ugyldig"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "Adgangskode",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
     "SUBMIT": "Send",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Standardsvar Svar",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }
