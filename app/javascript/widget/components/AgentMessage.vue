@@ -14,14 +14,18 @@
       </div>
       <div class="message-wrap">
         <AgentMessageBubble
-          v-if="!hasAttachments && shouldDisplayAgentMessage"
+          v-if="shouldDisplayAgentMessage"
           :content-type="contentType"
           :message-content-attributes="messageContentAttributes"
           :message-id="message.id"
           :message-type="messageType"
           :message="message.content"
         />
-        <div v-if="hasAttachments" class="chat-bubble has-attachment agent">
+        <div
+          v-if="hasAttachments"
+          class="chat-bubble has-attachment agent"
+          :class="wrapClass"
+        >
           <div v-for="attachment in message.attachments" :key="attachment.id">
             <file-bubble
               v-if="attachment.file_type !== 'image'"
@@ -80,10 +84,11 @@ export default {
   },
   computed: {
     shouldDisplayAgentMessage() {
+      if (!this.message.content) return false;
+
       if (
         this.contentType === 'input_select' &&
-        this.messageContentAttributes.submitted_values &&
-        !this.message.content
+        this.messageContentAttributes.submitted_values
       ) {
         return false;
       }
@@ -167,6 +172,11 @@ export default {
         })
       );
     },
+    wrapClass() {
+      return {
+        'has-text': this.shouldDisplayAgentMessage,
+      };
+    },
   },
 };
 </script>
@@ -213,6 +223,10 @@ export default {
   .has-attachment {
     padding: 0;
     overflow: hidden;
+
+    &.has-text {
+      margin-top: $space-smaller;
+    }
   }
 
   .agent-message-wrap {
