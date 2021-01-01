@@ -25,7 +25,6 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
-        text: message.content || '',
         attachment: {
           type: attachment_type(attachment),
           payload: {
