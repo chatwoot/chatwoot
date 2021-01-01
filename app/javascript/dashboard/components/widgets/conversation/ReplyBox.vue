@@ -267,11 +267,9 @@ export default {
       if (!this.showCannedResponsesList) {
         const newMessage = this.message;
         const messagePayload = this.getMessagePayload(newMessage);
-
         this.clearMessage();
         try {
           await this.$store.dispatch('sendMessage', messagePayload);
-          this.attachedFiles = [];
           this.$emit('scrollToMessage');
         } catch (error) {
           // Error
@@ -297,6 +295,7 @@ export default {
     },
     clearMessage() {
       this.message = '';
+      this.attachedFiles = [];
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
