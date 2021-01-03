@@ -30,6 +30,8 @@ sv:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"

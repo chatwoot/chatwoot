@@ -11,7 +11,7 @@
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "آدرس آی‌پی",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
       "TITLE": "گفتگوهای قبلی"
@@ -98,12 +98,12 @@
     "ERROR_MESSAGE": "خطایی در به‌روزرسانی مخاطب رخ داده، لطفا دوباره امتحان کنید"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "مخاطبین",
+    "SEARCH_BUTTON": "جستجو",
+    "SEARCH_INPUT_PLACEHOLDER": "جستجوی مخاطبین",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
+      "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
       "TABLE_HEADER": [
         "نام",
         "شماره تلفن",
