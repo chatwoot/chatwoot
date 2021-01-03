@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Conversations::LabelsController < Api::V1::Accounts::Conversations::BaseController
-  include LabelHelper
+  include LabelConcern
 
   private
 
