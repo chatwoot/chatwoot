@@ -32,6 +32,8 @@
 #
 
 class Conversation < ApplicationRecord
+  include Labelable
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
 
@@ -57,8 +59,6 @@ class Conversation < ApplicationRecord
   after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
   after_save :run_round_robin
 
-  acts_as_taggable_on :labels
-
   delegate :auto_resolve_duration, to: :account
 
   def can_reply?
@@ -73,10 +73,6 @@ class Conversation < ApplicationRecord
 
   def update_assignee(agent = nil)
     update!(assignee: agent)
-  end
-
-  def update_labels(labels = nil)
-    update!(label_list: labels)
   end
 
   def toggle_status

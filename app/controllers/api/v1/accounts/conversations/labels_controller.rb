@@ -1,11 +1,13 @@
 class Api::V1::Accounts::Conversations::LabelsController < Api::V1::Accounts::Conversations::BaseController
-  def create
-    @conversation.update_labels(params[:labels])
-    @labels = @conversation.label_list
+  include LabelConcern
+
+  private
+
+  def model
+    @model ||= @conversation
   end
 
-  # all labels of the current conversation
-  def index
-    @labels = @conversation.label_list
+  def permitted_params
+    params.permit(:conversation_id, :labels)
   end
 end
