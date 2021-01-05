@@ -76,6 +76,30 @@
         </label>
 
         <label class="medium-9 columns">
+          {{ $t('INBOX_MGMT.WORK_HOURS.LABEL') }}
+          <select v-model="working_hours_enabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.WORK_HOURS.TOGGLE.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.WORK_HOURS.TOGGLE.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{ $t('INBOX_MGMT.WORK_HOURS.TOGGLE.HELP_TEXT') }}
+          </p>
+        </label>
+
+        <woot-input
+          v-if="working_hours_enabled"
+          v-model.trim="out_of_office_message"
+          class="medium-9 columns"
+          :label="$t('INBOX_MGMT.WORK_HOURS.MESSAGE.LABEL')"
+          :placeholder="$t('INBOX_MGMT.WORK_HOURS.MESSAGE.PLACEHOLDER')"
+        />
+        <br /><br />
+
+        <label class="medium-9 columns">
           {{
             $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL')
           }}
@@ -277,6 +301,8 @@ export default {
       channelWelcomeTagline: '',
       selectedFeatureFlags: [],
       replyTime: '',
+      working_hours_enabled: false,
+      out_of_office_message: '',
       autoAssignmentOptions: [
         {
           value: true,
@@ -381,6 +407,8 @@ export default {
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
+        this.working_hours_enabled = this.inbox.working_hours_enabled;
+        this.out_of_office_message = this.inbox.out_of_office_message;
       });
     },
     async fetchAttachedAgents() {
@@ -418,6 +446,8 @@ export default {
           enable_auto_assignment: this.autoAssignment,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          working_hours_enabled: this.working_hours_enabled,
+          out_of_office_message: this.out_of_office_message,
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,

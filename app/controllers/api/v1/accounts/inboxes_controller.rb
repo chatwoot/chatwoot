@@ -74,7 +74,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
+    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, :working_hours_enabled, :out_of_office_message, :working_hours, channel:
       [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
   end
 

@@ -248,6 +248,19 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "WORK_HOURS": {
+      "LABEL": "Enable Working Hours",
+      "TOGGLE": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled",
+        "HELP_TEXT": "Working Hours Will help you set the work timings for the channel"
+      },
+      "MESSAGE": {
+        "LABEL": "Out Of Office Message",
+        "PLACEHOLDER": "Message to send while off hours"
+      }
+
     }
   }
 }

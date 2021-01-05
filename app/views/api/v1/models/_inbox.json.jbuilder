@@ -4,6 +4,9 @@ json.name resource.name
 json.channel_type resource.channel_type
 json.greeting_enabled resource.greeting_enabled
 json.greeting_message resource.greeting_message
+json.working_hours_enabled resource.working_hours_enabled
+json.out_of_office_message resource.out_of_office_message
+json.working_hours resource.working_hours
 json.avatar_url resource.try(:avatar_url)
 json.page_id resource.channel.try(:page_id)
 json.widget_color resource.channel.try(:widget_color)
