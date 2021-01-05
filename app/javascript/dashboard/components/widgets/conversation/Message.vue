@@ -42,7 +42,13 @@
       </div>
       <spinner v-if="isPending" size="tiny" />
 
-      <div v-if="isATweet && isIncoming && sender" class="sender--info">
+      <a
+        v-if="isATweet && isIncoming && sender"
+        class="sender--info"
+        :href="twitterProfileLink"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
         <woot-thumbnail
           :src="sender.thumbnail"
           :username="sender.name"
@@ -51,7 +57,7 @@
         <div class="sender--available-name">
           {{ sender.name }}
         </div>
-      </div>
+      </a>
     </div>
   </li>
 </template>
@@ -103,6 +109,11 @@ export default {
         data: { content_type: contentType },
       } = this;
       return contentType;
+    },
+    twitterProfileLink() {
+      const additionalAttributes = this.sender.additional_attributes || {};
+      const { screen_name: screenName } = additionalAttributes;
+      return `https://twitter.com/${screenName}`;
     },
     alignBubble() {
       return !this.data.message_type ? 'left' : 'right';
@@ -181,8 +192,9 @@ export default {
 }
 
 .sender--info {
-  display: flex;
   align-items: center;
+  color: var(--b-700);
+  display: inline-flex;
   padding: var(--space-smaller) 0;
 
   .sender--available-name {
