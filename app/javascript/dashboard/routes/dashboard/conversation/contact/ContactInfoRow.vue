@@ -1,7 +1,11 @@
 <template>
   <div class="contact-info--row">
     <a v-if="href" :href="href" class="contact-info--details">
-      <i :class="icon" class="contact-info--icon" />
+      <span v-if="showEmoji" class="conv-details--item__emoji">{{
+        emoji
+      }}</span>
+      <i v-if="showIcon" :class="icon" class="contact-info--icon" />
+
       <span v-if="value" class="text-truncate" :title="value">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -18,7 +22,11 @@
     </a>
 
     <div v-else class="contact-info--details">
-      <i :class="icon" class="contact-info--icon" />
+      <span v-if="showEmoji" class="conv-details--item__emoji">{{
+        emoji
+      }}</span>
+      <i v-if="showIcon" :class="icon" class="contact-info--icon" />
+
       <span v-if="value" class="text-truncate">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -29,6 +37,8 @@
 <script>
 import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
+import { hasEmojiSupport } from 'shared/helpers/emoji';
+
 export default {
   mixins: [alertMixin],
   props: {
@@ -40,6 +50,10 @@ export default {
       type: String,
       required: true,
     },
+    emoji: {
+      type: String,
+      required: true,
+    },
     value: {
       type: String,
       default: '',
@@ -47,6 +61,14 @@ export default {
     showCopy: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    showEmoji() {
+      return this.emoji && hasEmojiSupport(this.emoji);
+    },
+    showIcon() {
+      return !this.showEmoji && this.icon;
     },
   },
   methods: {
@@ -71,7 +93,7 @@ export default {
 .contact-info--details {
   display: flex;
   align-items: center;
-  margin-bottom: $space-smaller;
+  margin-bottom: var(--space-one);
   color: $color-body;
 
   .copy-icon {
@@ -86,5 +108,10 @@ export default {
       text-decoration: underline;
     }
   }
+}
+
+.conv-details--item__emoji {
+  font-size: var(--font-size-small);
+  margin-right: var(--space-small);
 }
 </style>
