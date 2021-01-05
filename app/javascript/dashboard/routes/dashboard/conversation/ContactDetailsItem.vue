@@ -8,7 +8,11 @@
         <i v-if="showIcon" :class="icon" class="conv-details--item__icon"></i>
         {{ title }}
       </div>
-      <button v-if="showEdit" @click="onEdit">
+      <button
+        v-if="showEdit"
+        class="button clear small edit-button"
+        @click="onEdit"
+      >
         {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
       </button>
     </h4>
@@ -60,9 +64,8 @@ export default {
     justify-content: space-between;
     margin-bottom: var(--space-smaller);
 
-    button {
-      cursor: pointer;
-      color: $color-body;
+    .edit-button {
+      padding: 0;
     }
   }
 
