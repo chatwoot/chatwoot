@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_135006) do
+ActiveRecord::Schema.define(version: 2020_11_25_123131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -219,8 +219,8 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.integer "inbox_id", null: false
     t.integer "status", default: 0, null: false
     t.integer "assignee_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.bigint "contact_id"
     t.integer "display_id", null: false
     t.datetime "contact_last_seen_at"
@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
-    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -536,4 +536,18 @@ ActiveRecord::Schema.define(version: 2020_10_27_135006) do
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
+  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("accounts").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("conversations").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
+  end
+
 end
