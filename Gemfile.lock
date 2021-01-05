@@ -237,6 +237,10 @@ GEM
     groupdate (5.1.0)
       activesupport (>= 5)
     haikunator (1.1.0)
+    hairtrigger (0.2.23)
+      activerecord (>= 5.0, < 7)
+      ruby2ruby (~> 2.4)
+      ruby_parser (~> 3.10)
     hana (1.3.6)
     hashdiff (1.0.1)
     hashie (4.1.0)
@@ -427,13 +431,19 @@ GEM
       parser (>= 2.7.1.4)
     rubocop-performance (1.7.1)
       rubocop (>= 0.82.0)
-    rubocop-rails (2.7.1)
+    rubocop-rails (2.8.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 0.87.0)
     rubocop-rspec (1.43.2)
       rubocop (~> 0.87)
     ruby-progressbar (1.10.1)
+    ruby2ruby (2.4.4)
+      ruby_parser (~> 3.1)
+      sexp_processor (~> 4.6)
+    ruby_parser (3.15.0)
+      rubocop (>= 0.87.0)
+      sexp_processor (~> 4.9)
     safe_yaml (1.0.5)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
@@ -459,6 +469,7 @@ GEM
     semantic_range (2.3.0)
     sentry-raven (3.0.3)
       faraday (>= 1.0)
+    sexp_processor (4.15.1)
     shoulda-matchers (4.4.1)
       activesupport (>= 4.2.0)
     sidekiq (6.1.1)
@@ -511,7 +522,7 @@ GEM
       nokogiri (>= 1.6, < 2.0)
     twitty (0.1.1)
       oauth
-    tzinfo (1.2.7)
+    tzinfo (1.2.8)
       thread_safe (~> 0.1)
     tzinfo-data (1.2020.1)
       tzinfo (>= 1.0.0)
@@ -554,7 +565,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     wisper (2.0.0)
-    zeitwerk (2.4.0)
+    zeitwerk (2.4.1)
 
 PLATFORMS
   ruby
@@ -589,6 +600,7 @@ DEPENDENCIES
   google-cloud-storage
   groupdate
   haikunator
+  hairtrigger
   hashie
   jbuilder
   json_refs!
