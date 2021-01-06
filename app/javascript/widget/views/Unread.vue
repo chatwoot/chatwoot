@@ -15,7 +15,7 @@
         v-for="message in unreadMessages"
         :key="message.id"
         :message-id="message.id"
-        :message="message.content"
+        :message="getMessageContent(message)"
       />
     </div>
     <div>
@@ -87,6 +87,16 @@ export default {
           event: 'toggleBubble',
         });
       }
+    },
+    getMessageContent(message) {
+      const { attachments, content } = message;
+      const hasAttachments = attachments && attachments.length;
+
+      if (content) return content;
+
+      if (hasAttachments) return `📑`;
+
+      return '';
     },
   },
 };
