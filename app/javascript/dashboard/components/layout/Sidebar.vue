@@ -73,6 +73,11 @@
             {{ $t(`AGENT_MGMT.AGENT_TYPES.${currentRole.toUpperCase()}`) }}
           </h5>
         </div>
+        <span
+          class="notifications icon ion-ios-bell"
+          @click.stop="showNotoficaitions()"
+        />
+
         <span class="current-user--options icon ion-android-more-vertical" />
       </div>
     </div>
@@ -134,7 +139,7 @@
               />
             </label>
           </div>
-          <div class="modal-footer  medium-12 columns">
+          <div class="modal-footer medium-12 columns">
             <div class="medium-12 columns">
               <woot-submit-button
                 :disabled="
@@ -306,6 +311,9 @@ export default {
     },
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
+    },
+    showNotoficaitions() {
+      this.$router.push(`/app/accounts/${this.accountId}/notifications`);
     },
     changeAccount() {
       this.showAccountModal = true;

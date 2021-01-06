@@ -106,13 +106,13 @@
     font-size: $font-size-medium;
     margin-top: $space-medium;
 
-    >span {
+    > span {
       margin-left: $space-one;
     }
   }
 }
 
-.menu-title+ul>li>a {
+.menu-title + ul > li > a {
   @include padding($space-micro null);
   color: $medium-gray;
   line-height: $global-lineheight;
@@ -147,6 +147,13 @@
   }
 
   .current-user--options {
+    font-size: $font-size-big;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
+  }
+
+  .notifications {
     font-size: $font-size-big;
     margin-bottom: auto;
     margin-left: auto;
