@@ -96,6 +96,9 @@ gem 'geocoder'
 # to parse maxmind db
 gem 'maxminddb'
 
+# to create db triggers
+gem 'hairtrigger'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
