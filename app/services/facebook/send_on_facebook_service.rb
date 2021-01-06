@@ -6,11 +6,16 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
-    result = FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
-    message.update!(source_id: JSON.parse(result)['message_id'])
+    send_message_to_facebook fb_text_message_params if message.content.present?
+    send_message_to_facebook fb_attachment_message_params if message.attachments.present?
   rescue Facebook::Messenger::FacebookError => e
     Rails.logger.info e
     channel.authorization_error!
+  end
+
+  def send_message_to_facebook(delivery_params)
+    result = FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
+    message.update!(source_id: JSON.parse(result)['message_id'])
   end
 
   def fb_text_message_params
@@ -47,29 +52,6 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     else
       fb_attachment_message_params
     end
-  end
-
-  def delivery_params
-    if twenty_four_hour_window_over?
-      fb_message_params.merge(tag: 'ISSUE_RESOLUTION')
-    else
-      fb_message_params
-    end
-  end
-
-  def twenty_four_hour_window_over?
-    return false unless after_24_hours?
-    return false if last_incoming_and_outgoing_message_after_one_day?
-
-    true
-  end
-
-  def last_incoming_and_outgoing_message_after_one_day?
-    last_incoming_message && sent_first_outgoing_message_after_24_hours?
-  end
-
-  def after_24_hours?
-    (Time.current - last_incoming_message.created_at) / 3600 >= 24
   end
 
   def sent_first_outgoing_message_after_24_hours?
