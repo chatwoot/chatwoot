@@ -36,6 +36,7 @@ class Conversation < ApplicationRecord
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  before_validation :validate_additional_attributes
 
   enum status: { open: 0, resolved: 1, bot: 2 }
 
@@ -135,6 +136,10 @@ class Conversation < ApplicationRecord
   end
 
   private
+
+  def validate_additional_attributes
+    self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
+  end
 
   def set_bot_conversation
     self.status = :bot if inbox.agent_bot_inbox&.active?
