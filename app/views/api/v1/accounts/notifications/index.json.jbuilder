@@ -1,6 +1,8 @@
 json.data do
   json.meta do
     json.unread_count @unread_count
+    json.count @count
+    json.current_page @current_page
   end
 
   json.payload do
