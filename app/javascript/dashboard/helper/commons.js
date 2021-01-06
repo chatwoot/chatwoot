@@ -33,37 +33,19 @@ export const getTypingUsersText = (users = []) => {
 export const createPendingMessage = data => {
   const timestamp = Math.floor(new Date().getTime() / 1000);
   const tempMessageId = getUuid();
+  const { message, file } = data;
+  const tempAttachments = [{ id: tempMessageId }];
   const pendingMessage = {
     ...data,
-    content: data.message,
+    content: message || null,
     id: tempMessageId,
     echo_id: tempMessageId,
     status: MESSAGE_STATUS.PROGRESS,
     created_at: timestamp,
     message_type: MESSAGE_TYPE.OUTGOING,
     conversation_id: data.conversationId,
+    attachments: file ? tempAttachments : null,
   };
-  return pendingMessage;
-};
 
-export const createPendingAttachment = data => {
-  const [conversationId, { isPrivate = false }] = data;
-  const timestamp = Math.floor(new Date().getTime() / 1000);
-  const tempMessageId = getUuid();
-  const pendingMessage = {
-    id: tempMessageId,
-    echo_id: tempMessageId,
-    status: MESSAGE_STATUS.PROGRESS,
-    created_at: timestamp,
-    message_type: MESSAGE_TYPE.OUTGOING,
-    conversation_id: conversationId,
-    attachments: [
-      {
-        id: tempMessageId,
-      },
-    ],
-    private: isPrivate,
-    content: null,
-  };
   return pendingMessage;
 };

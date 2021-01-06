@@ -1,8 +1,4 @@
-import {
-  getTypingUsersText,
-  createPendingMessage,
-  createPendingAttachment,
-} from '../commons';
+import { getTypingUsersText, createPendingMessage } from '../commons';
 
 describe('#getTypingUsersText', () => {
   it('returns the correct text is there is only one typing user', () => {
@@ -58,12 +54,13 @@ describe('#createPendingMessage', () => {
       echo_id: pending.id,
     });
   });
-});
 
-describe('#createPendingAttachment', () => {
-  const message = [1, { isPrivate: false }];
-  it('returns the pending message with expected new keys', () => {
-    expect(createPendingAttachment(message)).toHaveProperty(
+  it('returns the pending message with attachmnet key if file is passed', () => {
+    const messageWithFile = {
+      message: 'hi',
+      file: {},
+    };
+    expect(createPendingMessage(messageWithFile)).toHaveProperty(
       'content',
       'id',
       'status',
@@ -77,21 +74,12 @@ describe('#createPendingAttachment', () => {
     );
   });
 
-  it('returns the pending message with status progress', () => {
-    expect(createPendingAttachment(message)).toMatchObject({
-      status: 'progress',
-    });
-  });
-
-  it('returns the pending message with same id and echo_id', () => {
-    const pending = createPendingAttachment(message);
-    expect(pending).toMatchObject({
-      echo_id: pending.id,
-    });
-  });
-
   it('returns the pending message to have one attachment', () => {
-    const pending = createPendingAttachment(message);
+    const messageWithFile = {
+      message: 'hi',
+      file: {},
+    };
+    const pending = createPendingMessage(messageWithFile);
     expect(pending.attachments.length).toBe(1);
   });
 });

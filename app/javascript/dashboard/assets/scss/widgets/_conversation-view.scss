@@ -18,13 +18,6 @@
     }
   }
 
-  .message-text {
-    &::after {
-      content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
-      display: inline;
-    }
-  }
-
   .image {
     cursor: pointer;
     position: relative;
@@ -201,6 +194,10 @@
       color: $color-body;
       margin-right: auto;
 
+      &.is-image {
+        border-radius: var(--border-radius-large);
+      }
+
       .link {
         color: $color-primary-dark;
       }
@@ -257,6 +254,10 @@
           top: $space-smaller + $space-micro;
         }
       }
+
+      &.is-image {
+        border-radius: var(--border-radius-large);
+      }
     }
 
     +.left {
@@ -296,30 +297,9 @@
     border-radius: $space-smaller;
     font-size: $font-size-small;
 
-    p {
-      color: $color-heading;
-      margin-bottom: $zero;
-
-      .ion-person {
-        color: $color-body;
-        font-size: $font-size-default;
-        margin-right: $space-small;
-        position: relative;
-        top: $space-micro;
-      }
-
-      .message-text__wrap {
-        position: relative;
-      }
-
-      .message-text {
-        &::after {
-          content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
-          display: inline;
-        }
-      }
+    .message-text__wrap {
+      display: inline-block;
     }
-
   }
 }
 
