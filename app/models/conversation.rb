@@ -7,12 +7,12 @@
 #  agent_last_seen_at    :datetime
 #  contact_last_seen_at  :datetime
 #  identifier            :string
-#  last_activity_at      :datetime
+#  last_activity_at      :datetime         not null
 #  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
-#  created_at            :datetime
-#  updated_at            :datetime
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
 #  account_id            :integer          not null
 #  assignee_id           :integer
 #  contact_id            :bigint
