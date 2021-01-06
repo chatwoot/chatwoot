@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <h1 class="page-title">
-      Notifications
+      {{ $t('NOTIFICATIONS_PAGE.HEADER') }}
     </h1>
   </header>
 </template>
