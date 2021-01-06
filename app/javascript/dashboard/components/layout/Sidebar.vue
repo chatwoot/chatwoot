@@ -76,7 +76,9 @@
         <span
           class="notifications icon ion-ios-bell"
           @click.stop="showNotoficaitions()"
-        />
+        >
+          <span class="badge">{{ unReadCount }}</span>
+        </span>
 
         <span class="current-user--options icon ion-android-more-vertical" />
       </div>
@@ -211,6 +213,7 @@ export default {
       currentRole: 'getCurrentRole',
       uiFlags: 'agents/getUIFlags',
       accountLabels: 'labels/getLabelsOnSidebar',
+      meta: 'notifications/getMeta',
     }),
     currentUserAvailableName() {
       return this.currentUser.name;
@@ -289,10 +292,14 @@ export default {
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
+    unReadCount() {
+      return this.meta.unReadCount;
+    },
   },
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('notifications/get', { page: 1 });
   },
   methods: {
     filterMenuItemsByRole(menuItems) {
@@ -416,5 +423,10 @@ export default {
 }
 .app-context-menu {
   height: 6rem;
+}
+
+.badge {
+  color: #fff;
+  background: red;
 }
 </style>
