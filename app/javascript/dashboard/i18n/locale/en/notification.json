@@ -1,0 +1,15 @@
+{
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifications",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
+      "TABLE_HEADER": [
+        "Name",
+        "Phone Number",
+        "Conversations",
+        "Last Contacted"
+      ]
+    }
+  }
+}

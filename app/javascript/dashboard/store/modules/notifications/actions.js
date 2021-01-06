@@ -10,10 +10,22 @@ export const actions = {
       commit(types.CLEAR_NOTIFICATIONS);
 
       commit(types.SET_NOTIFICATIONS, payload);
-      commit(types.SET_SET_NOTIFICATIONS_META, meta);
+      commit(types.SET_NOTIFICATIONS_META, meta);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
+    }
+  },
+  read: async (
+    { commit },
+    { primaryActorType, primaryActorId, unReadCount }
+  ) => {
+    try {
+      await NotificationsAPI.read(primaryActorType, primaryActorId);
+      commit(types.SET_UNREAD_COUNT, { unReadCount: unReadCount - 1 });
+      commit(types.UPDATE_NOTIFICATION, primaryActorId);
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };

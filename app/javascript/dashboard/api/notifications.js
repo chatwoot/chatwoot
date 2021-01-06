@@ -13,6 +13,13 @@ class NotificationsAPI extends ApiClient {
   getNotifications(contactId) {
     return axios.get(`${this.url}/${contactId}/notifications`);
   }
+
+  read(primaryActorType, primaryActorId) {
+    return axios.post(`${this.url}/read_all`, {
+      primary_actor_type: primaryActorType,
+      primary_actor_id: primaryActorId,
+    });
+  }
 }
 
 export default new NotificationsAPI();
