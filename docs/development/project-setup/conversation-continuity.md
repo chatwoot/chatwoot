@@ -57,6 +57,26 @@ https://actionmailbox:PASSWORD@example.com/rails/action_mailbox/sendgrid/inbound
 
 If you are configuring Mandrill as your email service, configure Mandrill to route your inbound emails to `https://example.com/rails/action_mailbox/mandrill/inbound_emails` if `example.com` is where you have hosted the application.
 
-
 If you want to know more about configuring other services visit [Action Mailbox Basics](https://edgeguides.rubyonrails.org/action_mailbox_basics.html#configuration)
 
+
+### Enable continuity in the account.
+
+1. Enable `inbound_emails` (Login to rails console and execute the following)
+
+```
+account = Account.find(1)
+account.enabled_features // This would list enabled features.
+account.enable_features('inbound_emails')
+account.save!
+```
+
+2. Set an inbound domain. This is the domain with which you have set up above.
+
+```
+account = Account.find(1)
+account.domain='domain.com'
+account.save!
+```
+
+After executing these steps, the mail sent from Chatwoot will have a `replyto:` in the following format `reply+<random-hex>@<your-domain.com>` and reply to those would get appended to your conversation.
