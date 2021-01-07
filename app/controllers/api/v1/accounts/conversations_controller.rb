@@ -86,7 +86,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
-      contact_inbox_id: @contact_inbox.id
+      contact_inbox_id: @contact_inbox.id,
+      additional_attributes: params[:additional_attributes]
     }
   end
 

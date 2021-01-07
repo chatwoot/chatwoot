@@ -377,6 +377,10 @@
                 "source_id": {
                   "type": "string",
                   "description": "Contact Source Id"
+                },
+                "additional_attributes": {
+                  "type": "object",
+                  "description": "Lets you specify attributes like browser information"
                 }
               }
             }
