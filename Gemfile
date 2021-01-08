@@ -85,6 +85,8 @@ gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
+# We want cron jobs
+gem 'sidekiq-cron'
 
 ##-- Push notification service --##
 gem 'fcm'
