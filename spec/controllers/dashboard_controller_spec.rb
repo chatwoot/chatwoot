@@ -14,6 +14,7 @@ describe '/app/login', type: :request do
       get '/app/login'
       expect(response).to have_http_status(:success)
       expect(response.body).to include "selectedLocale: 'pt_BR'"
+      ENV['DEFAULT_LOCALE'] = 'en'
     end
   end
 end
