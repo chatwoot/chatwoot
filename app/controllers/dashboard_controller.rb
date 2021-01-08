@@ -1,5 +1,9 @@
 class DashboardController < ActionController::Base
+  include SwitchLocale
+
   before_action :set_global_config
+  around_action :switch_locale
+
   layout 'vueapp'
 
   def index; end
