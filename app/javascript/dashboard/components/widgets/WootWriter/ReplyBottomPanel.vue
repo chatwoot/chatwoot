@@ -16,6 +16,9 @@
           <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
       </button>
+      <button class="button clear button--emoji" @click="toggleFormatMode">
+        🖊️
+      </button>
     </div>
     <div class="right-wrap">
       <button
@@ -70,6 +73,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    setFormatMode: {
+      type: Function,
+      default: () => {},
+    },
+    isFormatMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -88,6 +99,11 @@ export default {
     },
     showAttachButton() {
       return this.showFileUpload || this.isNote;
+    },
+  },
+  methods: {
+    toggleFormatMode() {
+      this.setFormatMode(!this.isFormatMode);
     },
   },
 };
