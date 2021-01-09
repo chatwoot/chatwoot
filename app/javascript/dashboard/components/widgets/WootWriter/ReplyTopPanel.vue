@@ -17,7 +17,11 @@
         📝 {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
       </button>
     </div>
-    <div class="action-wrap"></div>
+    <div class="action-wrap">
+      <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
+        <a>{{ charactersRemaining }} characters remaining</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -33,6 +37,14 @@ export default {
     setReplyMode: {
       type: Function,
       default: () => {},
+    },
+    isMessageLengthReachingThreshold: {
+      type: Boolean,
+      default: () => false,
+    },
+    charactersRemaining: {
+      type: Number,
+      default: () => 0,
     },
   },
   computed: {
@@ -107,5 +119,6 @@ export default {
 .action-wrap {
   display: flex;
   align-items: center;
+  margin: 0 var(--space-normal);
 }
 </style>
