@@ -4,27 +4,27 @@
     "NO_MESSAGE_1": "Oj då! Det ser ut som att det inte finns några meddelanden från kunder i din inkorg.",
     "NO_MESSAGE_2": " för att skicka ett meddelande till din sida!",
     "NO_INBOX_1": "Hola! Ser ut som om du inte har lagt till några inkorgar än.",
-    "NO_INBOX_2": " att komma igång",
+    "NO_INBOX_2": " för att komma igång",
     "NO_INBOX_AGENT": "Oh Oh! Ser ut som om du inte är en del av någon inkorg. Kontakta administratören",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "Sök meddelanden i konversationer",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "TITLE": "Sök meddelanden",
+      "LOADING_MESSAGE": "Tuggar data...",
+      "PLACEHOLDER": "Skriv valfri text för att söka efter meddelanden",
+      "NO_MATCHING_RESULTS": "Det finns inga meddelanden som motsvarar sökparametrarna."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Olästa meddelanden",
+    "UNREAD_MESSAGE": "Oläst meddelande",
     "CLICK_HERE": "Klicka här",
     "LOADING_INBOXES": "Laddar inkorgar",
     "LOADING_CONVERSATIONS": "Laddar konversationer",
-    "CANNOT_REPLY": "You cannot reply due to",
+    "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 hour message window restriction",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",
@@ -43,29 +43,29 @@
       "CREATE": "Lägg till anteckning",
       "TWEET": "Twittra"
     },
-    "VISIBLE_TO_AGENTS": "Privat Obs: Endast synlig för dig och ditt team",
-    "CHANGE_STATUS": "Konversation status ändrad",
-    "CHANGE_AGENT": "Konversation förvärvaren ändrad",
-    "SENT_BY": "Sent by:",
+    "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
+    "CHANGE_STATUS": "Konversationsstatus ändrad",
+    "CHANGE_AGENT": "Konversationstilldelning ändrad",
+    "SENT_BY": "Skickat av:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Välj agent",
       "REMOVE": "Radera",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Tilldela"
     }
   },
   "EMAIL_TRANSCRIPT": {
-    "TITLE": "Send conversation transcript",
-    "DESC": "Send a copy of the conversation transcript to the specified email address",
+    "TITLE": "Skicka konversationstranskribering",
+    "DESC": "Skicka en kopia av konversationstranskriberingen till den angivna e-postadressen",
     "SUBMIT": "Skicka",
     "CANCEL": "Avbryt",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
+    "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen",
     "FORM": {
-      "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
-      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
+      "SEND_TO_CONTACT": "Skicka transkriberingen till kunden",
+      "SEND_TO_AGENT": "Skicka transkriberingen till den tilldelade agenten",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Skicka transkriberingen till annan epost-adress",
       "EMAIL": {
-        "PLACEHOLDER": "Enter an email address",
+        "PLACEHOLDER": "Ange en e-postadress",
         "ERROR": "Ange en giltig e-postadress"
       }
     }

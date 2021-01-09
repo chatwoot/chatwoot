@@ -28,7 +28,9 @@ LANGUAGES_CONFIG = {
   23 => { name: 'Türkçe (tr)', iso_639_3_code: 'tur', iso_639_1_code: 'tr', enabled: true },
   24 => { name: 'čeština (cs)', iso_639_3_code: 'ces', iso_639_1_code: 'cs', enabled: true },
   25 => { name: 'suomi, suomen kieli (fi)', iso_639_3_code: 'fin', iso_639_1_code: 'fi', enabled: true },
-  26 => { name: 'Bahasa Indonesia (id)', iso_639_3_code: 'ind', iso_639_1_code: 'id', enabled: true }
+  26 => { name: 'Bahasa Indonesia (id)', iso_639_3_code: 'ind', iso_639_1_code: 'id', enabled: true },
+  27 => { name: 'Svenska (sv)', iso_639_3_code: 'swe', iso_639_1_code: 'sv', enabled: true }
+
 }.filter { |_key, val| val[:enabled] }.freeze
 
 Rails.configuration.i18n.available_locales = LANGUAGES_CONFIG.map { |_index, lang| lang[:iso_639_1_code].to_sym }
