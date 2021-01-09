@@ -1,82 +1,89 @@
 <template>
-  <div class="reply-box" :class="replyBoxClass">
-    <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
-      <canned-response
-        v-if="showCannedResponsesList"
-        v-on-clickaway="hideCannedResponse"
-        data-dropdown-menu
-        :on-keyenter="replaceText"
-        :on-click="replaceText"
-      />
-      <emoji-input
-        v-if="showEmojiPicker"
-        v-on-clickaway="hideEmojiPicker"
-        :on-click="emojiOnClick"
-      />
-      <resizable-text-area
-        ref="messageInput"
-        v-model="message"
-        class="input"
-        :placeholder="messagePlaceHolder"
-        :min-height="4"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
-      <file-upload
-        v-if="showFileUpload"
-        :size="4096 * 4096"
-        accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
-        @input-file="onFileUpload"
-      >
-        <i v-if="!isUploading" class="icon ion-android-attach attachment" />
-        <woot-spinner v-if="isUploading" />
-      </file-upload>
-      <i
-        class="icon ion-happy-outline"
-        :class="{ active: showEmojiPicker }"
-        @click="toggleEmojiPicker"
+  <div>
+    <div v-if="hasAttachments" class="attachment-preview-box">
+      <attachment-preview
+        :attachments="attachedFiles"
+        :remove-attachment="removeAttachment"
       />
     </div>
-
-    <div class="reply-box__bottom">
-      <ul class="tabs">
-        <li class="tabs-title" :class="{ 'is-active': !isPrivate }">
-          <a href="#" @click="setReplyMode">{{
-            $t('CONVERSATION.REPLYBOX.REPLY')
-          }}</a>
-        </li>
-        <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
-          <a href="#" @click="setPrivateReplyMode">
-            {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-          </a>
-        </li>
-        <li v-if="message.length" class="tabs-title message-length">
-          <a :class="{ 'message-error': isMessageLengthReachingThreshold }">
-            {{ characterCountIndicator }}
-          </a>
-        </li>
-      </ul>
-      <button
-        type="button"
-        class="button send-button"
-        :disabled="isReplyButtonDisabled"
-        :class="{
-          disabled: isReplyButtonDisabled,
-          warning: isPrivate,
-        }"
-        @click="sendMessage"
-      >
-        {{ replyButtonLabel }}
-        <i
-          class="icon"
-          :class="{
-            'ion-android-send': !isPrivate,
-            'ion-android-lock': isPrivate,
-          }"
+    <div class="reply-box" :class="replyBoxClass">
+      <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
+        <canned-response
+          v-if="showCannedResponsesList"
+          v-on-clickaway="hideCannedResponse"
+          data-dropdown-menu
+          :on-keyenter="replaceText"
+          :on-click="replaceText"
         />
-      </button>
+        <emoji-input
+          v-if="showEmojiPicker"
+          v-on-clickaway="hideEmojiPicker"
+          :on-click="emojiOnClick"
+        />
+        <resizable-text-area
+          ref="messageInput"
+          v-model="message"
+          class="input"
+          :placeholder="messagePlaceHolder"
+          :min-height="4"
+          @typing-off="onTypingOff"
+          @typing-on="onTypingOn"
+          @focus="onFocus"
+          @blur="onBlur"
+        />
+        <file-upload
+          v-if="showFileUpload"
+          :size="4096 * 4096"
+          accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
+          @input-file="onFileUpload"
+        >
+          <i class="icon ion-android-attach attachment" />
+        </file-upload>
+        <i
+          class="icon ion-happy-outline"
+          :class="{ active: showEmojiPicker }"
+          @click="toggleEmojiPicker"
+        />
+      </div>
+
+      <div class="reply-box__bottom">
+        <ul class="tabs">
+          <li class="tabs-title" :class="{ 'is-active': !isPrivate }">
+            <a href="#" @click="setReplyMode">{{
+              $t('CONVERSATION.REPLYBOX.REPLY')
+            }}</a>
+          </li>
+          <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
+            <a href="#" @click="setPrivateReplyMode">
+              {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+            </a>
+          </li>
+          <li v-if="message.length" class="tabs-title message-length">
+            <a :class="{ 'message-error': isMessageLengthReachingThreshold }">
+              {{ characterCountIndicator }}
+            </a>
+          </li>
+        </ul>
+        <button
+          type="button"
+          class="button send-button"
+          :disabled="isReplyButtonDisabled"
+          :class="{
+            disabled: isReplyButtonDisabled,
+            warning: isPrivate,
+          }"
+          @click="sendMessage"
+        >
+          {{ replyButtonLabel }}
+          <i
+            class="icon"
+            :class="{
+              'ion-android-send': !isPrivate,
+              'ion-android-lock': isPrivate,
+            }"
+          />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -89,6 +96,7 @@ import FileUpload from 'vue-upload-component';
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
+import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import {
   isEscape,
   isEnter,
@@ -103,6 +111,7 @@ export default {
     CannedResponse,
     FileUpload,
     ResizableTextArea,
+    AttachmentPreview,
   },
   mixins: [clickaway, inboxMixin],
   props: {
@@ -118,7 +127,7 @@ export default {
       isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
-      isUploading: false,
+      attachedFiles: [],
     };
   },
   computed: {
@@ -148,6 +157,8 @@ export default {
     },
     isReplyButtonDisabled() {
       const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
+
+      if (this.hasAttachments) return false;
       return (
         isMessageEmpty ||
         this.message.length === 0 ||
@@ -196,8 +207,11 @@ export default {
     },
     replyBoxClass() {
       return {
-        'is-focused': this.isFocused,
+        'is-focused': this.isFocused || this.hasAttachments,
       };
+    },
+    hasAttachments() {
+      return this.attachedFiles.length;
     },
   },
   watch: {
@@ -250,18 +264,11 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
-      const newMessage = this.message;
       if (!this.showCannedResponsesList) {
+        const newMessage = this.message;
+        const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
         try {
-          const messagePayload = {
-            conversationId: this.currentChat.id,
-            message: newMessage,
-            private: this.isPrivate,
-          };
-          if (this.inReplyTo) {
-            messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
-          }
           await this.$store.dispatch('sendMessage', messagePayload);
           this.$emit('scrollToMessage');
         } catch (error) {
@@ -288,6 +295,7 @@ export default {
     },
     clearMessage() {
       this.message = '';
+      this.attachedFiles = [];
     },
     toggleEmojiPicker() {
       this.showEmojiPicker = !this.showEmojiPicker;
@@ -322,30 +330,63 @@ export default {
       }
     },
     onFileUpload(file) {
+      this.attachedFiles = [];
       if (!file) {
         return;
       }
-      this.isUploading = true;
-      this.$store
-        .dispatch('sendAttachment', [
-          this.currentChat.id,
-          { file: file.file, isPrivate: this.isPrivate },
-        ])
-        .then(() => {
-          this.isUploading = false;
-          this.$emit('scrollToMessage');
-        })
-        .catch(() => {
-          this.isUploading = false;
-          this.$emit('scrollToMessage');
+      const reader = new FileReader();
+      reader.readAsDataURL(file.file);
+
+      reader.onloadend = () => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: file,
+          isPrivate: this.isPrivate,
+          thumb: reader.result,
         });
+      };
+    },
+    removeAttachment(itemIndex) {
+      this.attachedFiles = this.attachedFiles.filter(
+        (item, index) => itemIndex !== index
+      );
+    },
+    getMessagePayload(message) {
+      const [attachment] = this.attachedFiles;
+      const messagePayload = {
+        conversationId: this.currentChat.id,
+        message,
+        private: this.isPrivate,
+      };
+
+      if (this.inReplyTo) {
+        messagePayload.contentAttributes = { in_reply_to: this.inReplyTo };
+      }
+
+      if (attachment) {
+        messagePayload.file = attachment.resource.file;
+      }
+
+      return messagePayload;
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import '~widget/assets/scss/mixins';
+
 .send-button {
   margin-bottom: 0;
+}
+.attachment-preview-box {
+  margin: 0 var(--space-normal);
+  background: var(--white);
+  margin-bottom: var(--space-minus-slab);
+  padding-top: var(--space-small);
+  padding-bottom: var(--space-normal);
+  border-top-left-radius: var(--border-radius-medium);
+  border-top-right-radius: var(--border-radius-medium);
+  @include shadow;
 }
 </style>

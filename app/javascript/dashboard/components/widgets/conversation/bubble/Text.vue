@@ -1,7 +1,7 @@
 <template>
-  <span class="message-text__wrap">
+  <div class="message-text__wrap">
     <span v-html="message"></span>
-  </span>
+  </div>
 </template>
 
 <script>
