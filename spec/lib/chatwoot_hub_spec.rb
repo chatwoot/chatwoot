@@ -5,7 +5,7 @@ describe ChatwootHub do
     version = '1.1.1'
     allow(RestClient).to receive(:get).and_return({ 'version': version }.to_json)
     expect(described_class.latest_version).to eq version
-    expect(RestClient).to have_received(:get).with(described_class::BASE_URL, described_class.instance_config)
+    expect(RestClient).to have_received(:get).with(described_class::BASE_URL, { params: described_class.instance_config })
   end
 
   it 'returns nil when chatwoot hub is down' do

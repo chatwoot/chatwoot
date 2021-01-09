@@ -2,6 +2,8 @@ class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
+    return unless Rails.env.production?
+
     latest_version = ChatwootHub.latest_version
     return unless latest_version
 

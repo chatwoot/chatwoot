@@ -10,7 +10,7 @@ class ChatwootHub
 
   def self.latest_version
     begin
-      response = RestClient.get(BASE_URL, instance_config)
+      response = RestClient.get(BASE_URL, { params: instance_config })
       version = JSON.parse(response)['version']
     rescue *ExceptionList::REST_CLIENT_EXCEPTIONS, *ExceptionList::URI_EXCEPTIONS => e
       Rails.logger.info "Exception: #{e.message}"
