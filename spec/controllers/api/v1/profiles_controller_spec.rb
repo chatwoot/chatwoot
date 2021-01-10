@@ -87,6 +87,17 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         expect(::OnlineStatusTracker.get_status(account.id, agent.id)).to eq('offline')
       end
+
+      it 'updates the ui settings' do
+        put '/api/v1/profile',
+            params: { profile: { ui_settings: { is_contact_sidebar_open: false } } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response['ui_settings']['is_contact_sidebar_open']).to eq(false)
+      end
     end
   end
 end
