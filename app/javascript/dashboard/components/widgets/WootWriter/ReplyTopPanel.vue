@@ -19,14 +19,16 @@
     </div>
     <div class="action-wrap">
       <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
-        <a>{{ charactersRemaining }} characters remaining</a>
+        <span :class="charLengthClass">
+          {{ characterLengthWarning }}
+        </span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { REPLY_EDITOR_MODES } from './constants';
+import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 export default {
   name: 'ReplyTopPanel',
   props: {
@@ -57,6 +59,14 @@ export default {
       return {
         'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
       };
+    },
+    charLengthClass() {
+      return this.charactersRemaining < 0 ? 'message-error' : 'message-length';
+    },
+    characterLengthWarning() {
+      return this.charactersRemaining < 0
+        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
+        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
   },
   methods: {
@@ -120,5 +130,13 @@ export default {
   display: flex;
   align-items: center;
   margin: 0 var(--space-normal);
+
+  .message-error {
+    color: var(--r-600);
+  }
+
+  .message-length {
+    color: var(--s-600);
+  }
 }
 </style>
