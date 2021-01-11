@@ -182,6 +182,8 @@ GEM
       railties (>= 3.2)
     equalizer (0.0.11)
     erubi (1.9.0)
+    et-orbi (1.2.4)
+      tzinfo
     execjs (2.7.0)
     facebook-messenger (1.5.0)
       httparty (~> 0.13, >= 0.13.7)
@@ -202,6 +204,9 @@ GEM
     ffi (1.14.2)
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
+    fugit (1.4.1)
+      et-orbi (~> 1.1, >= 1.1.8)
+      raabro (~> 1.4)
     geocoder (1.6.3)
     gli (2.19.2)
     globalid (0.4.2)
@@ -337,6 +342,7 @@ GEM
       nio4r (~> 2.0)
     pundit (2.1.0)
       activesupport (>= 3.0.0)
+    raabro (1.4.0)
     racc (1.5.2)
     rack (2.2.3)
     rack-cache (1.12.0)
@@ -476,6 +482,9 @@ GEM
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
       redis (>= 4.2.0)
+    sidekiq-cron (1.2.0)
+      fugit (~> 1.1)
+      sidekiq (>= 4.2.1)
     signet (0.14.0)
       addressable (~> 2.3)
       faraday (>= 0.17.3, < 2.0)
@@ -635,6 +644,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
+  sidekiq-cron
   simplecov (= 0.17.1)
   slack-ruby-client
   spring

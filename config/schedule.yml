@@ -1,0 +1,8 @@
+# https://github.com/ondrejbartas/sidekiq-cron
+# use https://crontab.guru/ to validate
+
+# executed At 12:00 on every day-of-month.
+internal_check_new_versions_job:
+  cron: "0 12 */1 * *"
+  class: "Internal::CheckNewVersionsJob"
+  queue: scheduled_jobs
