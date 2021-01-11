@@ -244,10 +244,10 @@ $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
 $button-radius: var(--border-radius-normal);
-$button-sizes: (tiny: $font-size-nano,
-  small: $font-size-mini,
-  default: $font-size-small,
-  large: $font-size-medium);
+$button-sizes: (tiny: var(--font-size-nano),
+  small: var(--font-size-mini),
+  default: var(--font-size-small),
+  large: var(--font-size-medium));
 $button-palette: $foundation-palette;
 $button-opacity-disabled: 0.25;
 $button-background-hover-lightness: -20%;
