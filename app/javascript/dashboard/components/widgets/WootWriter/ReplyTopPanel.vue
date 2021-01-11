@@ -130,6 +130,7 @@ export default {
   display: flex;
   align-items: center;
   margin: 0 var(--space-normal);
+  font-size: var(--font-size-mini);
 
   .message-error {
     color: var(--r-600);
