@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
+#  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
