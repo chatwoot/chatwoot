@@ -3,7 +3,7 @@
   @include margin($zero);
   background: $color-woot;
   border-radius: $space-one;
-  color: $color-white;
+  color: var(--white);
   font-size: $font-size-small;
   font-weight: $font-weight-normal;
   position: relative;
@@ -11,9 +11,41 @@
   .message-text__wrap {
     position: relative;
 
+    >.text-content {
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        color: var(--white);
+      }
+
+      a {
+        color: var(--white);
+        text-decoration: underline;
+      }
+
+      blockquote {
+        border-left-color: var(--w-100);
+
+        p {
+          color: var(--w-100);
+        }
+      }
+
+      pre code {
+        background: var(--color-background);
+      }
+
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
 
     .link {
-      color: $color-white;
+      color: var(--white);
       text-decoration: underline;
     }
   }
@@ -164,7 +196,7 @@
       @include elegant-card;
       @include round-corner;
       background: $color-woot;
-      color: $color-white;
+      color: var(--white);
       font-size: $font-size-mini;
       font-weight: $font-weight-medium;
       margin: $space-one auto;
@@ -213,6 +245,28 @@
 
         .download {
           color: $color-primary-dark;
+        }
+      }
+
+      .text-content {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: var(--color-body);
+        }
+
+        a {
+          color: var(--color-woot);
+          text-decoration: underline;
+        }
+
+        blockquote {
+          border-left-color: var(--s-300);
+          color: var(--s-300);
         }
       }
     }
@@ -320,7 +374,7 @@
   .typing-indicator {
     @include elegant-card;
     @include round-corner;
-    background: $color-white;
+    background: var(--white);
     color: $color-light-gray;
     font-size: $font-size-mini;
     font-weight: $font-weight-bold;
