@@ -4,9 +4,11 @@
       <button class="button clear button--emoji" @click="toggleEmojiPicker">
         😊
       </button>
-      <button class="button clear button--emoji button--upload">
+      <button
+        v-if="showAttachButton"
+        class="button clear button--emoji button--upload"
+      >
         <file-upload
-          v-if="showFileUpload"
           :size="4096 * 4096"
           accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
           @input-file="onFileUpload"
@@ -69,16 +71,22 @@ export default {
     },
   },
   computed: {
+    isNote() {
+      return this.mode === REPLY_EDITOR_MODES.NOTE;
+    },
     wrapClass() {
       return {
-        'is-note-mode': this.mode === REPLY_EDITOR_MODES.NOTE,
+        'is-note-mode': this.isNote,
       };
     },
     buttonClass() {
       return {
-        'button--note': this.mode === REPLY_EDITOR_MODES.NOTE,
+        'button--note': this.isNote,
         'button--disabled': this.isSendDisabled,
       };
+    },
+    showAttachButton() {
+      return this.showFileUpload || this.isNote;
     },
   },
 };
