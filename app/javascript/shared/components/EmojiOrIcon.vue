@@ -4,19 +4,26 @@
 
 <script>
 import { hasEmojiSupport } from 'shared/helpers/emoji';
+import { mapGetters } from 'vuex';
 
 export default {
   props: {
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
-    showOnlyIcon: { type: Boolean, default: true },
   },
   computed: {
+    ...mapGetters({ uiSettings: 'getUISettings' }),
+    isIconTypeEmojiType() {
+      const { icon_type: iconType } = this.uiSettings;
+      return iconType === 'emoji';
+    },
     showEmoji() {
-      return this.emoji && hasEmojiSupport(this.emoji) && !this.showOnlyIcon;
+      return (
+        this.isIconTypeEmojiType && this.emoji && hasEmojiSupport(this.emoji)
+      );
     },
     showIcon() {
-      return !this.showEmoji && this.icon && this.showOnlyIcon;
+      return !this.showEmoji && this.icon;
     },
     showWrap() {
       return this.showEmoji || this.showIcon;
