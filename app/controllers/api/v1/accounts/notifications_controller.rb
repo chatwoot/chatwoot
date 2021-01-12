@@ -4,11 +4,12 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   before_action :fetch_notification, only: [:update]
   before_action :set_primary_actor, only: [:read_all]
   before_action :set_current_page, only: [:index]
+  before_action :notifications, only: [:index]
 
   def index
     @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
-    @count = current_user.notifications.where(account_id: current_account.id).count
-    @notifications = current_user.notifications.where(account_id: current_account.id).page params[:page]
+    @count = @notifications.count
+    @notifications = @notifications.page @current_page
   end
 
   def read_all
@@ -42,5 +43,9 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
 
   def set_current_page
     @current_page = params[:page] || 1
+  end
+
+  def notifications
+    @notifications ||= current_user.notifications.where(account_id: current_account.id)
   end
 end
