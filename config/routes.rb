@@ -189,6 +189,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
+  require 'sidekiq/cron/web'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
   devise_scope :super_admin do

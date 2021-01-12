@@ -1,29 +1,29 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Konserverade svar",
-    "HEADER_BTN_TXT": "Lägg till konserverat svar",
-    "LOADING": "Hämtar konserverade svar",
+    "HEADER": "Svarsmallar",
+    "HEADER_BTN_TXT": "Lägg till svarsmall",
+    "LOADING": "Hämtar svarsmallar",
     "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
-    "SIDEBAR_TXT": "<p><b>Konserverade svar</b> </p><p> Konserverade svar sparas svarsmallar som kan användas för att snabbt skicka ett svar till en konversation. </p><p> För att skapa ett konserverat svar, klicka bara på <b>Add Canned Response</b>. Du kan också redigera eller ta bort ett befintligt konserverat svar genom att klicka på knappen Redigera eller Ta bort </p><p> Konserverade svar används med hjälp av <b>Korta koder</b>. Agenter kan komma åt konserverade svar medan de är på en chatt genom att skriva <b>'/'</b> följt av kortkoden. </p>",
+    "SIDEBAR_TXT": "<p><b>Svarsmallar</b> </p><p> Svarsmallar är sparade mallar som kan användas för att snabbt skicka ett svar till en konversation. </p><p> För att skapa en svarsmall, klicka bara på <b>Lägg till svarsmall</b>. Du kan också redigera eller ta bort en befintlig svarsmall genom att klicka på knapparna Redigera eller Ta bort </p><p> Svarsmallar används med hjälp av <b>korta koder</b>. Agenter kan komma åt svarsmallar medan de är på en chatt genom att skriva <b>'/'</b> följt av kortkoden. </p>",
     "LIST": {
-      "404": "Det finns inga konserverade svar tillgängliga på detta konto.",
-      "TITLE": "Hantera konserverade svar",
-      "DESC": "Konserverade svar är fördefinierade svarsmallar som kan användas för att snabbt skicka ut svar till ärenden.",
+      "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
+      "TITLE": "Hantera svarsmallar",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar till ärenden.",
       "TABLE_HEADER": [
-        "Kort kod",
+        "Kortkod",
         "Innehåll",
         "Åtgärder"
       ]
     },
     "ADD": {
-      "TITLE": "Lägg till konserverat svar",
-      "DESC": "Konserverade svar sparas svarsmallar som kan användas för att snabbt skicka svar till konversation.",
+      "TITLE": "Lägg till svarsmall",
+      "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar till konversationer.",
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kort kod",
+          "LABEL": "Kortkod",
           "PLACEHOLDER": "Ange en kortkod",
-          "ERROR": "Kort kod krävs"
+          "ERROR": "Kortkod krävs"
         },
         "CONTENT": {
           "LABEL": "Innehåll",
@@ -33,18 +33,18 @@
         "SUBMIT": "Skicka"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Konserverat svar har lagts till",
+        "SUCCESS_MESSAGE": "Svarsmall har lagts till",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },
     "EDIT": {
-      "TITLE": "Redigera konserverat svar",
+      "TITLE": "Redigera svarsmall",
       "CANCEL_BUTTON_TEXT": "Avbryt",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Kort kod",
+          "LABEL": "Kortkod",
           "PLACEHOLDER": "Ange en kortkod",
-          "ERROR": "Kort kod krävs"
+          "ERROR": "Kortkod krävs"
         },
         "CONTENT": {
           "LABEL": "Innehåll",
@@ -55,21 +55,21 @@
       },
       "BUTTON_TEXT": "Redigera",
       "API": {
-        "SUCCESS_MESSAGE": "Konserverat svar har uppdaterats",
+        "SUCCESS_MESSAGE": "Svarsmall har uppdaterats",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
-        "SUCCESS_MESSAGE": "Konserverat svar har tagits bort",
+        "SUCCESS_MESSAGE": "Svarsmall har tagits bort",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       },
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",
         "MESSAGE": "Är du säker på att ta bort ",
         "YES": "Ja, ta bort ",
-        "NO": "No, Keep "
+        "NO": "Nej, behåll "
       }
     }
   }

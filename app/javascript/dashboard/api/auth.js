@@ -140,6 +140,12 @@ export default {
     return axios.put(endPoints('profileUpdate').url, formData);
   },
 
+  updateUISettings({ uiSettings }) {
+    return axios.put(endPoints('profileUpdate').url, {
+      profile: { ui_settings: uiSettings },
+    });
+  },
+
   updateAvailability({ availability }) {
     return axios.put(endPoints('profileUpdate').url, {
       profile: { availability },
