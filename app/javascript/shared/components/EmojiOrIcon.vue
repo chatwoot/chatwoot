@@ -13,14 +13,12 @@ export default {
   },
   computed: {
     ...mapGetters({ uiSettings: 'getUISettings' }),
-    isIconTypeEmojiType() {
+    isIconTypeEmoji() {
       const { icon_type: iconType } = this.uiSettings;
       return iconType === 'emoji';
     },
     showEmoji() {
-      return (
-        this.isIconTypeEmojiType && this.emoji && hasEmojiSupport(this.emoji)
-      );
+      return this.isIconTypeEmoji && this.emoji && hasEmojiSupport(this.emoji);
     },
     showIcon() {
       return !this.showEmoji && this.icon;
