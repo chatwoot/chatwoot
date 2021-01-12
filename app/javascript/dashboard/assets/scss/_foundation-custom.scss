@@ -1,4 +1,3 @@
-
 .button {
   font-family: $body-font-family;
   font-weight: $font-weight-medium;
@@ -35,6 +34,7 @@ code {
 
   &.hljs {
     background: $color-background;
+    border-radius: var(--border-radius-large);
     padding: $space-two;
   }
 }
