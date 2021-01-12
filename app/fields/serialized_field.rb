@@ -2,7 +2,7 @@ require 'administrate/field/base'
 
 class SerializedField < Administrate::Field::Base
   def to_s
-    is_hash? ? data.as_json : data.to_s
+    hash? ? data.as_json : data.to_s
   end
 
   def hash?
