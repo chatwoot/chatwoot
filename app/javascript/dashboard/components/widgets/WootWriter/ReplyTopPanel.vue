@@ -6,7 +6,8 @@
         :class="replyButtonClass"
         @click="handleReplyClick"
       >
-        💬 {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
+        <emoji-or-icon icon="" emoji="💬" />
+        {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
       </button>
 
       <button
@@ -14,7 +15,8 @@
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
-        📝 {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
+        <emoji-or-icon icon="" emoji="📝" />
+        {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
       </button>
     </div>
     <div class="action-wrap"></div>
@@ -23,8 +25,12 @@
 
 <script>
 import { REPLY_EDITOR_MODES } from './constants';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 export default {
   name: 'ReplyTopPanel',
+  components: {
+    EmojiOrIcon,
+  },
   props: {
     mode: {
       type: String,

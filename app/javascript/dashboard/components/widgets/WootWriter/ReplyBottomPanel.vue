@@ -2,7 +2,7 @@
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
       <button class="button clear button--emoji" @click="toggleEmojiPicker">
-        😊
+        <emoji-or-icon icon="ion-happy-outline" emoji="😊" />
       </button>
       <button
         v-if="showAttachButton"
@@ -13,7 +13,7 @@
           accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
           @input-file="onFileUpload"
         >
-          📎
+          <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
       </button>
     </div>
@@ -31,11 +31,12 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
-  components: { FileUpload },
+  components: { EmojiOrIcon, FileUpload },
   props: {
     mode: {
       type: String,
@@ -168,5 +169,10 @@ export default {
 
 .button--reply {
   border-right: 1px solid var(--color-border-light);
+}
+
+.icon--font {
+  color: var(--s-600);
+  font-size: var(--font-size-default);
 }
 </style>
