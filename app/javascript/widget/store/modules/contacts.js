@@ -8,6 +8,7 @@ export const actions = {
         email: userObject.email,
         name: userObject.name,
         avatar_url: userObject.avatar_url,
+        identifier_hash: userObject.identifier_hash,
       };
       const {
         data: { pubsub_token: pubsubToken },

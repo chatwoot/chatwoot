@@ -3,7 +3,12 @@ import { IFrameHelper } from '../sdk/IFrameHelper';
 import { getBubbleView } from '../sdk/bubbleHelpers';
 import md5 from 'md5';
 
-const ALLOWED_LIST_OF_SET_USER_ATTRIBUTES = ['avatar_url', 'email', 'name'];
+const ALLOWED_LIST_OF_SET_USER_ATTRIBUTES = [
+  'avatar_url',
+  'email',
+  'name',
+  'identifier_hash',
+];
 
 export const getUserCookieName = () => {
   const SET_USER_COOKIE_PREFIX = 'cw_user_';
