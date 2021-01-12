@@ -7,18 +7,21 @@
       <contact-details-item
         :title="$t('CONTACT_PANEL.LABELS.TITLE')"
         icon="ion-pricetags"
+        emoji="🏷️"
         :show-edit="true"
         @edit="onEdit"
       />
-      <woot-label
-        v-for="label in activeLabels"
-        :key="label.id"
-        :title="label.title"
-        :description="label.description"
-        :bg-color="label.color"
-      />
-      <div v-if="!activeLabels.length">
-        {{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}
+      <div class="label-wrap">
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :bg-color="label.color"
+        />
+        <div v-if="!activeLabels.length" class="no-label-message">
+          <span>{{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}</span>
+        </div>
       </div>
       <add-label-to-conversation
         v-if="isEditing"
@@ -119,14 +122,23 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: $space-normal;
+  padding: var(--space-medium) var(--space-slab) var(--space-two);
 }
 
+.contact-conversation--list .conv-details--item {
+  padding-bottom: 0;
+}
 .conversation--label {
   color: $color-white;
   margin-right: $space-small;
   font-size: $font-size-small;
   padding: $space-smaller;
+}
+.label-wrap {
+  margin-left: var(--space-medium);
+}
+.no-label-message {
+  color: var(--b-500);
 }
 
 .select-tags {
