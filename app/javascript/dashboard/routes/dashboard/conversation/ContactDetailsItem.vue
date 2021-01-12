@@ -2,10 +2,7 @@
   <div class="conv-details--item">
     <h4 class="conv-details--item__label text-block-title">
       <div class="title--icon">
-        <span v-if="showEmoji" class="conv-details--item__emoji">{{
-          emoji
-        }}</span>
-        <i v-if="showIcon" :class="icon" class="conv-details--item__icon"></i>
+        <emoji-or-icon :icon="icon" :emoji="emoji" />
         {{ title }}
       </div>
       <button
@@ -25,23 +22,18 @@
 </template>
 
 <script>
-import { hasEmojiSupport } from 'shared/helpers/emoji';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
 export default {
+  components: {
+    EmojiOrIcon,
+  },
   props: {
     title: { type: String, required: true },
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
-  },
-  computed: {
-    showEmoji() {
-      return this.emoji && hasEmojiSupport(this.emoji);
-    },
-    showIcon() {
-      return !this.showEmoji && this.icon;
-    },
   },
   methods: {
     onEdit() {
@@ -74,8 +66,8 @@ export default {
     margin-left: var(--space-medium);
   }
 
-  .conv-details--item__emoji {
-    font-size: var(--font-size-default);
+  .title--icon .icon--emoji,
+  .title--icon .icon--font {
     margin-right: var(--space-small);
   }
 

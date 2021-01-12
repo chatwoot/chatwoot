@@ -1,11 +1,7 @@
 <template>
   <div class="contact-info--row">
     <a v-if="href" :href="href" class="contact-info--details">
-      <span v-if="showEmoji" class="conv-details--item__emoji">{{
-        emoji
-      }}</span>
-      <i v-if="showIcon" :class="icon" class="contact-info--icon" />
-
+      <emoji-or-icon :icon="icon" :emoji="emoji" />
       <span v-if="value" class="text-truncate" :title="value">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -22,11 +18,7 @@
     </a>
 
     <div v-else class="contact-info--details">
-      <span v-if="showEmoji" class="conv-details--item__emoji">{{
-        emoji
-      }}</span>
-      <i v-if="showIcon" :class="icon" class="contact-info--icon" />
-
+      <emoji-or-icon :icon="icon" :emoji="emoji" />
       <span v-if="value" class="text-truncate">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -37,9 +29,12 @@
 <script>
 import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
-import { hasEmojiSupport } from 'shared/helpers/emoji';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
 export default {
+  components: {
+    EmojiOrIcon,
+  },
   mixins: [alertMixin],
   props: {
     href: {
@@ -61,14 +56,6 @@ export default {
     showCopy: {
       type: Boolean,
       default: false,
-    },
-  },
-  computed: {
-    showEmoji() {
-      return this.emoji && hasEmojiSupport(this.emoji);
-    },
-    showIcon() {
-      return !this.showEmoji && this.icon;
     },
   },
   methods: {
@@ -110,8 +97,8 @@ export default {
   }
 }
 
-.conv-details--item__emoji {
-  font-size: var(--font-size-small);
+.contact-info--details .icon--emoji,
+.contact-info--details .icon--font {
   margin-right: var(--space-small);
 }
 </style>
