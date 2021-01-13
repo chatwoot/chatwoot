@@ -11,7 +11,7 @@ const TWITTER_HASH_REPLACEMENT =
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
-    this.message = DOMPurify.sanitize(message);
+    this.message = DOMPurify.sanitize(message || '');
     this.isATweet = isATweet;
     this.marked = marked;
 
