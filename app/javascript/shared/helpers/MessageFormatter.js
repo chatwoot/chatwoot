@@ -28,19 +28,19 @@ class MessageFormatter {
   }
 
   formatMessage() {
-    const markedDownOutput = marked(this.message);
     if (this.isATweet) {
-      const withParsedUserName = markedDownOutput.replace(
+      const withUserName = this.message.replace(
         TWITTER_USERNAME_REGEX,
         TWITTER_USERNAME_REPLACEMENT
       );
-      const withParsedHash = withParsedUserName.replace(
+      const withHash = withUserName.replace(
         TWITTER_HASH_REGEX,
         TWITTER_HASH_REPLACEMENT
       );
-      return withParsedHash;
+      const markedDownOutput = marked(withHash);
+      return markedDownOutput;
     }
-    return markedDownOutput;
+    return marked(this.message);
   }
 
   get formattedMessage() {
