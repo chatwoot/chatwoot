@@ -11,7 +11,7 @@ const TWITTER_HASH_REPLACEMENT =
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
-    this.message = message;
+    this.message = DOMPurify.sanitize(message);
     this.isATweet = isATweet;
     this.marked = marked;
 
@@ -28,7 +28,6 @@ class MessageFormatter {
 
   formatMessage() {
     const markedDownOutput = marked(this.message);
-
     if (this.isATweet) {
       const withParsedUserName = markedDownOutput.replace(
         TWITTER_USERNAME_REGEX,
@@ -40,8 +39,7 @@ class MessageFormatter {
       );
       return withParsedHash;
     }
-    const cleanedOutput = DOMPurify.sanitize(markedDownOutput);
-    return cleanedOutput;
+    return markedDownOutput;
   }
 
   get formattedMessage() {
