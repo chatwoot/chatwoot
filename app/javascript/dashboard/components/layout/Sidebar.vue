@@ -77,7 +77,7 @@
           class="notifications icon ion-ios-bell"
           @click.stop="showNotoficaitions()"
         >
-          <span class="badge">{{ unReadCount }}</span>
+          <span class="unread-badge">{{ unReadCount }}</span>
         </span>
 
         <span class="current-user--options icon ion-android-more-vertical" />
@@ -293,7 +293,7 @@ export default {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
     unReadCount() {
-      return this.meta.unReadCount;
+      return this.meta.unReadCount < 100 ? this.meta.unReadCount : '99+';
     },
   },
   mounted() {
@@ -423,10 +423,5 @@ export default {
 }
 .app-context-menu {
   height: 6rem;
-}
-
-.badge {
-  color: #fff;
-  background: red;
 }
 </style>

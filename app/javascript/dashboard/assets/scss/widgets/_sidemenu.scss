@@ -158,6 +158,19 @@
     margin-bottom: auto;
     margin-left: auto;
     margin-top: auto;
+    position: relative;
+
+    .unread-badge {
+      background: $badge-color;
+      border-radius: $space-small;
+      color: $color-white;
+      font-size: $font-size-micro;
+      font-weight: $font-weight-black;
+      left: $space-slab;
+      padding: 0 $space-smaller;
+      position: absolute;
+      top: $space-smaller;
+    }
   }
 }
 
