@@ -4,10 +4,10 @@ class Api::V1::Accounts::Contacts::LabelsController < Api::V1::Accounts::BaseCon
   private
 
   def model
-    @model ||= Current.account.contacts.find(params[:contact_id])
+    @model ||= Current.account.contacts.find(permitted_params[:contact_id])
   end
 
   def permitted_params
-    params.permit(:contact_id, :labels)
+    params.permit(:contact_id, labels: [])
   end
 end
