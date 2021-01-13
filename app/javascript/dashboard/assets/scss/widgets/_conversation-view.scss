@@ -305,6 +305,12 @@
   }
 }
 
+.activity-wrap .message-text__wrap {
+  .text-content p {
+    margin-bottom: 0;
+  }
+}
+
 .conversation-footer {
   display: flex;
   flex-direction: column;

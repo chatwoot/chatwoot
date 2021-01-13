@@ -20,7 +20,8 @@ class MessageFormatter {
         return `<strong>${text}</strong>`;
       },
       link(url, title, text) {
-        return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title}" target="_blank">${text}</a>`;
+        return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title ||
+          ''}" target="_blank">${text}</a>`;
       },
     };
     this.marked.use({ renderer });

@@ -60,3 +60,13 @@ export default {
   }
 }
 </style>
+<style lang="scss" scoped>
+@import '~widget/assets/scss/variables.scss';
+
+.chat-bubble.user::v-deep pre {
+  background: $color-primary-light;
+  color: $color-body;
+  overflow: scroll;
+  padding: $space-smaller;
+}
+</style>
