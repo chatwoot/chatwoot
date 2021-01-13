@@ -19,12 +19,18 @@
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
       </button>
     </div>
-    <div class="action-wrap"></div>
+    <div class="action-wrap">
+      <div v-if="isMessageLengthReachingThreshold" class="tabs-title">
+        <span :class="charLengthClass">
+          {{ characterLengthWarning }}
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { REPLY_EDITOR_MODES } from './constants';
+import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 export default {
   name: 'ReplyTopPanel',
@@ -40,6 +46,14 @@ export default {
       type: Function,
       default: () => {},
     },
+    isMessageLengthReachingThreshold: {
+      type: Boolean,
+      default: () => false,
+    },
+    charactersRemaining: {
+      type: Number,
+      default: () => 0,
+    },
   },
   computed: {
     replyButtonClass() {
@@ -51,6 +65,14 @@ export default {
       return {
         'is-active': this.mode === REPLY_EDITOR_MODES.NOTE,
       };
+    },
+    charLengthClass() {
+      return this.charactersRemaining < 0 ? 'message-error' : 'message-length';
+    },
+    characterLengthWarning() {
+      return this.charactersRemaining < 0
+        ? `${-this.charactersRemaining} ${CHAR_LENGTH_WARNING.NEGATIVE}`
+        : `${this.charactersRemaining} ${CHAR_LENGTH_WARNING.UNDER_50}`;
     },
   },
   methods: {
@@ -113,5 +135,14 @@ export default {
 .action-wrap {
   display: flex;
   align-items: center;
+  margin: 0 var(--space-normal);
+  font-size: var(--font-size-mini);
+
+  .message-error {
+    color: var(--r-600);
+  }
+  .message-length {
+    color: var(--s-600);
+  }
 }
 </style>

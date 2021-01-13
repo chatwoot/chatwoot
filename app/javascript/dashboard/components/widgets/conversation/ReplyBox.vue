@@ -1,6 +1,11 @@
 <template>
   <div class="reply-box" :class="replyBoxClass">
-    <reply-top-panel :mode="replyType" :set-reply-mode="setReplyMode" />
+    <reply-top-panel
+      :mode="replyType"
+      :set-reply-mode="setReplyMode"
+      :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
+      :characters-remaining="charactersRemaining"
+    />
     <div class="reply-box__top">
       <canned-response
         v-if="showCannedResponsesList"
@@ -111,10 +116,10 @@ export default {
         : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
     isMessageLengthReachingThreshold() {
-      return this.message.length > this.maxLength - 40;
+      return this.message.length > this.maxLength - 50;
     },
-    characterCountIndicator() {
-      return `${this.message.length} / ${this.maxLength}`;
+    charactersRemaining() {
+      return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
       const isMessageEmpty = !this.message.trim().replace(/\n/g, '').length;
