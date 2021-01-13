@@ -8,6 +8,6 @@ class Api::V1::Accounts::Conversations::LabelsController < Api::V1::Accounts::Co
   end
 
   def permitted_params
-    params.permit(:conversation_id, :labels)
+    params.permit(:conversation_id, labels: [])
   end
 end

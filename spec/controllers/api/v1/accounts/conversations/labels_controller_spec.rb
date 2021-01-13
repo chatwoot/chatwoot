@@ -42,7 +42,7 @@ RSpec.describe 'Conversation Label API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: { labels: 'label3,label4' },
+             params: { labels: %w[label3 label4] },
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -54,7 +54,7 @@ RSpec.describe 'Conversation Label API', type: :request do
 
       it 'creates labels for the conversation' do
         post api_v1_account_conversation_labels_url(account_id: account.id, conversation_id: conversation.display_id),
-             params: { labels: 'label3,label4' },
+             params: { labels: %w[label3 label4] },
              headers: agent.create_new_auth_token,
              as: :json
 
