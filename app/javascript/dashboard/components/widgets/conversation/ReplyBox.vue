@@ -1,102 +1,61 @@
 <template>
-  <div>
+  <div class="reply-box" :class="replyBoxClass">
+    <reply-top-panel :mode="replyType" :set-reply-mode="setReplyMode" />
+    <div class="reply-box__top">
+      <canned-response
+        v-if="showCannedResponsesList"
+        v-on-clickaway="hideCannedResponse"
+        data-dropdown-menu
+        :on-keyenter="replaceText"
+        :on-click="replaceText"
+      />
+      <emoji-input
+        v-if="showEmojiPicker"
+        v-on-clickaway="hideEmojiPicker"
+        :on-click="emojiOnClick"
+      />
+      <resizable-text-area
+        ref="messageInput"
+        v-model="message"
+        class="input"
+        :placeholder="messagePlaceHolder"
+        :min-height="4"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+    </div>
     <div v-if="hasAttachments" class="attachment-preview-box">
       <attachment-preview
         :attachments="attachedFiles"
         :remove-attachment="removeAttachment"
       />
     </div>
-    <div class="reply-box" :class="replyBoxClass">
-      <div class="reply-box__top" :class="{ 'is-private': isPrivate }">
-        <canned-response
-          v-if="showCannedResponsesList"
-          v-on-clickaway="hideCannedResponse"
-          data-dropdown-menu
-          :on-keyenter="replaceText"
-          :on-click="replaceText"
-        />
-        <emoji-input
-          v-if="showEmojiPicker"
-          v-on-clickaway="hideEmojiPicker"
-          :on-click="emojiOnClick"
-        />
-        <resizable-text-area
-          ref="messageInput"
-          v-model="message"
-          class="input"
-          :placeholder="messagePlaceHolder"
-          :min-height="4"
-          @typing-off="onTypingOff"
-          @typing-on="onTypingOn"
-          @focus="onFocus"
-          @blur="onBlur"
-        />
-        <file-upload
-          v-if="showFileUpload"
-          :size="4096 * 4096"
-          accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
-          @input-file="onFileUpload"
-        >
-          <i class="icon ion-android-attach attachment" />
-        </file-upload>
-        <i
-          class="icon ion-happy-outline"
-          :class="{ active: showEmojiPicker }"
-          @click="toggleEmojiPicker"
-        />
-      </div>
-
-      <div class="reply-box__bottom">
-        <ul class="tabs">
-          <li class="tabs-title" :class="{ 'is-active': !isPrivate }">
-            <a href="#" @click="setReplyMode">{{
-              $t('CONVERSATION.REPLYBOX.REPLY')
-            }}</a>
-          </li>
-          <li class="tabs-title is-private" :class="{ 'is-active': isPrivate }">
-            <a href="#" @click="setPrivateReplyMode">
-              {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-            </a>
-          </li>
-          <li v-if="message.length" class="tabs-title message-length">
-            <a :class="{ 'message-error': isMessageLengthReachingThreshold }">
-              {{ characterCountIndicator }}
-            </a>
-          </li>
-        </ul>
-        <button
-          type="button"
-          class="button send-button"
-          :disabled="isReplyButtonDisabled"
-          :class="{
-            disabled: isReplyButtonDisabled,
-            warning: isPrivate,
-          }"
-          @click="sendMessage"
-        >
-          {{ replyButtonLabel }}
-          <i
-            class="icon"
-            :class="{
-              'ion-android-send': !isPrivate,
-              'ion-android-lock': isPrivate,
-            }"
-          />
-        </button>
-      </div>
-    </div>
+    <reply-bottom-panel
+      :mode="replyType"
+      :send-button-text="replyButtonLabel"
+      :on-file-upload="onFileUpload"
+      :show-file-upload="showFileUpload"
+      :toggle-emoji-picker="toggleEmojiPicker"
+      :show-emoji-picker="showEmojiPicker"
+      :on-send="sendMessage"
+      :is-send-disabled="isReplyButtonDisabled"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import FileUpload from 'vue-upload-component';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
 import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
+import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
+import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
+import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import {
   isEscape,
   isEnter,
@@ -109,9 +68,10 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
-    FileUpload,
     ResizableTextArea,
     AttachmentPreview,
+    ReplyTopPanel,
+    ReplyBottomPanel,
   },
   mixins: [clickaway, inboxMixin],
   props: {
@@ -123,18 +83,19 @@ export default {
   data() {
     return {
       message: '',
-      isPrivateTabActive: false,
       isFocused: false,
       showEmojiPicker: false,
       showCannedResponsesList: false,
       attachedFiles: [],
+      isUploading: false,
+      replyType: REPLY_EDITOR_MODES.REPLY,
     };
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
     isPrivate() {
       if (this.currentChat.can_reply) {
-        return this.isPrivateTabActive;
+        return this.replyType === REPLY_EDITOR_MODES.NOTE;
       }
       return true;
     },
@@ -207,6 +168,7 @@ export default {
     },
     replyBoxClass() {
       return {
+        'is-private': this.isPrivate,
         'is-focused': this.isFocused || this.hasAttachments,
       };
     },
@@ -216,10 +178,11 @@ export default {
   },
   watch: {
     currentChat(conversation) {
-      if (conversation.can_reply) {
-        this.isPrivateTabActive = false;
+      const { can_reply: canReply } = conversation;
+      if (canReply) {
+        this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
-        this.isPrivateTabActive = true;
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
     },
     message(updatedMessage) {
@@ -282,12 +245,10 @@ export default {
         this.message = message;
       }, 100);
     },
-    setPrivateReplyMode() {
-      this.isPrivateTabActive = true;
-      this.$refs.messageInput.focus();
-    },
-    setReplyMode() {
-      this.isPrivateTabActive = false;
+    setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
+      const { can_reply: canReply } = this.currentChat;
+
+      if (canReply) this.replyType = mode;
       this.$refs.messageInput.focus();
     },
     emojiOnClick(emoji) {
@@ -373,20 +334,45 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import '~widget/assets/scss/mixins';
-
+<style lang="scss" scoped>
 .send-button {
   margin-bottom: 0;
 }
+
 .attachment-preview-box {
-  margin: 0 var(--space-normal);
-  background: var(--white);
-  margin-bottom: var(--space-minus-slab);
-  padding-top: var(--space-small);
-  padding-bottom: var(--space-normal);
-  border-top-left-radius: var(--border-radius-medium);
-  border-top-right-radius: var(--border-radius-medium);
-  @include shadow;
+  padding: 0 var(--space-normal);
+  background: transparent;
+}
+
+.reply-box {
+  border-top: 1px solid var(--color-border);
+  background: white;
+
+  &.is-private {
+    background: var(--y-50);
+  }
+}
+.send-button {
+  margin-bottom: 0;
+}
+
+.reply-box__top {
+  padding: 0 var(--space-normal);
+  border-top: 1px solid var(--color-border);
+  margin-top: -1px;
+}
+
+.emoji-dialog {
+  top: unset;
+  bottom: 12px;
+  left: -320px;
+  right: unset;
+
+  &::before {
+    right: -16px;
+    bottom: 10px;
+    transform: rotate(270deg);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.08));
+  }
 }
 </style>
