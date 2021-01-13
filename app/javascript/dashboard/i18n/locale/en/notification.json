@@ -1,6 +1,7 @@
 {
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notifications",
+    "MARK_ALL_DONE": "Mark All Done",
     "LIST": {
       "LOADING_MESSAGE": "Loading notifications...",
       "404": "No Notifications",

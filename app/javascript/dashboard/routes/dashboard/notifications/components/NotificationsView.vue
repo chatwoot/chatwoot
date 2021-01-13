@@ -5,7 +5,9 @@
       <notification-table
         :notifications="records"
         :is-loading="uiFlags.isFetching"
+        :is-updating="uiFlags.isUpdating"
         :on-click-notification="openConversation"
+        :on-mark-all-done-click="onMarkAllDoneClick"
       />
       <notification-footer
         :on-page-change="onPageChange"
@@ -60,6 +62,9 @@ export default {
       // this.$router.push(
       //   `/app/accounts/${this.accountId}/conversations/${conversationId}`
       // );
+    },
+    onMarkAllDoneClick() {
+      this.$store.dispatch('notifications/readAll');
     },
   },
 };

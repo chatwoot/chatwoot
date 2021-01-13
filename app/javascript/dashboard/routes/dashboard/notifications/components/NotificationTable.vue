@@ -1,10 +1,13 @@
 <template>
   <section class="notifications-table-wrap">
     <table class="woot-table notifications-table">
-      <button class="button nice icon success button--fixed-right-top">
-        <i class="icon ion-android-download"></i>
-        Mark All Done
-      </button>
+      <woot-submit-button
+        class="button nice success button--fixed-right-top"
+        :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
+        :loading="isUpdating"
+        @click="onMarkAllDoneClick"
+      >
+      </woot-submit-button>
       <tbody v-show="showTableData">
         <tr
           v-for="notificationItem in notifications"
@@ -74,7 +77,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    isUpdating: {
+      type: Boolean,
+      default: false,
+    },
     onClickNotification: {
+      type: Function,
+      default: () => {},
+    },
+    onMarkAllDoneClick: {
       type: Function,
       default: () => {},
     },

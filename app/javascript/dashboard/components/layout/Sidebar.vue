@@ -77,7 +77,7 @@
           class="notifications icon ion-ios-bell"
           @click.stop="showNotoficaitions()"
         >
-          <span class="unread-badge">{{ unReadCount }}</span>
+          <span v-if="unReadCount" class="unread-badge">{{ unReadCount }}</span>
         </span>
 
         <span class="current-user--options icon ion-android-more-vertical" />
@@ -146,8 +146,8 @@
               <woot-submit-button
                 :disabled="
                   $v.accountName.$invalid ||
-                    $v.accountName.$invalid ||
-                    uiFlags.isCreating
+                  $v.accountName.$invalid ||
+                  uiFlags.isCreating
                 "
                 :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
                 :loading="uiFlags.isCreating"
@@ -260,7 +260,7 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
         toStateName: 'settings_inbox_list',
-        children: this.inboxes.map(inbox => ({
+        children: this.inboxes.map((inbox) => ({
           id: inbox.id,
           label: inbox.name,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
@@ -278,7 +278,7 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
-        children: this.accountLabels.map(label => ({
+        children: this.accountLabels.map((label) => ({
           id: label.id,
           label: label.title,
           color: label.color,
@@ -307,7 +307,7 @@ export default {
         return [];
       }
       return menuItems.filter(
-        menuItem =>
+        (menuItem) =>
           window.roleWiseRoutes[this.currentRole].indexOf(
             menuItem.toStateName
           ) > -1

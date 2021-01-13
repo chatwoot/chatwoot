@@ -45,4 +45,9 @@ export const mutations = {
       }
     });
   },
+  [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
+    Object.values($state.records).map(item => {
+      Vue.set($state.records[item.id], 'read_at', 'read_at');
+    });
+  },
 };

@@ -20,6 +20,10 @@ class NotificationsAPI extends ApiClient {
       primary_actor_id: primaryActorId,
     });
   }
+
+  readAll() {
+    return axios.post(`${this.url}/read_all`);
+  }
 }
 
 export default new NotificationsAPI();

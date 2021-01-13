@@ -28,4 +28,16 @@ export const actions = {
       throw new Error(error);
     }
   },
+  readAll: async ({ commit }) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
+    try {
+      await NotificationsAPI.readAll();
+      commit(types.SET_UNREAD_COUNT, { unReadCount: 0 });
+      commit(types.UPDATE_ALL_NOTIFICATIONS);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
 };
