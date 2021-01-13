@@ -1,3 +1,4 @@
+# TODO: lets move this to active job, since thats what we use over all
 class ConversationReplyEmailWorker
   include Sidekiq::Worker
   sidekiq_options queue: :mailers

@@ -1,11 +1,15 @@
 <template>
   <div class="conv-details--item">
-    <h4 class="conv-details--item__label">
-      <div>
-        <i v-if="icon" :class="icon" class="conv-details--item__icon"></i>
+    <h4 class="conv-details--item__label text-block-title">
+      <div class="title--icon">
+        <emoji-or-icon :icon="icon" :emoji="emoji" />
         {{ title }}
       </div>
-      <button v-if="showEdit" @click="onEdit">
+      <button
+        v-if="showEdit"
+        class="button clear small edit-button"
+        @click="onEdit"
+      >
         {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
       </button>
     </h4>
@@ -18,10 +22,16 @@
 </template>
 
 <script>
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+
 export default {
+  components: {
+    EmojiOrIcon,
+  },
   props: {
     title: { type: String, required: true },
     icon: { type: String, default: '' },
+    emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
   },
@@ -38,29 +48,32 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: var(--space-slab);
-
-  &:last-child {
-    padding-bottom: 0;
-  }
+  padding-bottom: var(--space-normal);
 
   .conv-details--item__label {
     align-items: center;
     display: flex;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
     justify-content: space-between;
-    margin-bottom: $space-micro;
+    margin-bottom: var(--space-smaller);
 
-    button {
-      cursor: pointer;
-      color: $color-body;
+    .edit-button {
+      padding: 0;
     }
   }
 
   .conv-details--item__value {
     word-break: break-all;
-    margin-top: $space-small;
+    margin-left: var(--space-medium);
+  }
+
+  .title--icon .icon--emoji,
+  .title--icon .icon--font {
+    margin-right: var(--space-small);
+  }
+
+  .title--icon {
+    display: flex;
+    align-items: center;
   }
 }
 </style>

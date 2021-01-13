@@ -2,7 +2,7 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Hämta",
-      "UPLOADING": "Uppladdar..."
+      "UPLOADING": "Laddar upp..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Skicka"
@@ -13,9 +13,9 @@
     "OFFLINE": "Vi är offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Svarar vanligtvis på några minuter",
-    "IN_A_FEW_HOURS": "Svarar vanligtvis på några timmar",
-    "IN_A_DAY": "Svar vanligtvis på en dag"
+    "IN_A_FEW_MINUTES": "Svarar vanligtvis inom några minuter",
+    "IN_A_FEW_HOURS": "Svarar vanligtvis inom några timmar",
+    "IN_A_DAY": "Svar vanligtvis inom en dag"
   },
   "START_CONVERSATION": "Starta konversation",
   "UNREAD_VIEW": {

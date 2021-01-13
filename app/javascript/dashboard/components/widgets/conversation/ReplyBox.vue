@@ -251,7 +251,9 @@ export default {
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
-      this.replyType = mode;
+      const { can_reply: canReply } = this.currentChat;
+
+      if (canReply) this.replyType = mode;
       this.$refs.messageInput.focus();
     },
     emojiOnClick(emoji) {

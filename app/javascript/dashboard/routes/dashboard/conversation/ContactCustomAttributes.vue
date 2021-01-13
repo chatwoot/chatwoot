@@ -3,6 +3,7 @@
     <contact-details-item
       :title="$t('CONTACT_PANEL.CUSTOM_ATTRIBUTES.TITLE')"
       icon="ion-code"
+      emoji="📕"
     />
     <div
       v-for="attribute in listOfAttributes"
@@ -45,12 +46,15 @@ export default {
 
 <style scoped>
 .custom-attributes--panel {
-  border-top: 1px solid var(--b-100);
-  padding: var(--space-normal);
+  padding: 0 var(--space-slab) var(--space-slab);
 }
 
+.conv-details--item {
+  padding-bottom: 0;
+}
 .custom-attribute--row {
   margin-bottom: var(--space-small);
+  margin-left: var(--space-medium);
 }
 
 .custom-attribute--row__attribute {

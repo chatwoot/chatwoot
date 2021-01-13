@@ -22,6 +22,7 @@
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
             icon="ion-email"
+            emoji="✉️"
             :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
           />
@@ -30,24 +31,27 @@
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
             icon="ion-ios-telephone"
+            emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
           />
           <contact-info-row
             v-if="additionalAttributes.location"
             :value="additionalAttributes.location"
             icon="ion-map"
+            emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <contact-info-row
             :value="additionalAttributes.company_name"
             icon="ion-briefcase"
+            emoji="🏢"
             :title="$t('CONTACT_PANEL.COMPANY')"
           />
         </div>
       </div>
       <woot-button
-        class="expanded"
-        variant="hollow primary small"
+        class="clear edit-contact"
+        variant="primary small"
         @click="toggleEditModal"
       >
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
@@ -115,7 +119,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 .contact--profile {
   align-items: flex-start;
-  padding: $space-normal;
+  padding: var(--space-normal) var(--space-normal) var(--space-large);
 
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -151,12 +155,18 @@ export default {
 }
 
 .contact--metadata {
-  margin: $space-small 0 $space-normal;
+  margin: var(--space-normal) 0 0;
 }
 
 .social--icons {
   i {
     font-size: $font-weight-normal;
   }
+}
+
+.edit-contact {
+  padding: 0 var(--space-slab);
+  margin-left: var(--space-slab);
+  margin-top: var(--space-smaller);
 }
 </style>

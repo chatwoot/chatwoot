@@ -2,16 +2,18 @@
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
       <button class="button clear button--emoji" @click="toggleEmojiPicker">
-        😊
+        <emoji-or-icon icon="ion-happy-outline" emoji="😊" />
       </button>
-      <button class="button clear button--emoji button--upload">
+      <button
+        v-if="showAttachButton"
+        class="button clear button--emoji button--upload"
+      >
         <file-upload
-          v-if="showFileUpload"
           :size="4096 * 4096"
           accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
           @input-file="onFileUpload"
         >
-          📎
+          <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
       </button>
     </div>
@@ -29,11 +31,12 @@
 
 <script>
 import FileUpload from 'vue-upload-component';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
 import { REPLY_EDITOR_MODES } from './constants';
 export default {
   name: 'ReplyTopPanel',
-  components: { FileUpload },
+  components: { EmojiOrIcon, FileUpload },
   props: {
     mode: {
       type: String,
@@ -69,16 +72,22 @@ export default {
     },
   },
   computed: {
+    isNote() {
+      return this.mode === REPLY_EDITOR_MODES.NOTE;
+    },
     wrapClass() {
       return {
-        'is-note-mode': this.mode === REPLY_EDITOR_MODES.NOTE,
+        'is-note-mode': this.isNote,
       };
     },
     buttonClass() {
       return {
-        'button--note': this.mode === REPLY_EDITOR_MODES.NOTE,
+        'button--note': this.isNote,
         'button--disabled': this.isSendDisabled,
       };
+    },
+    showAttachButton() {
+      return this.showFileUpload || this.isNote;
     },
   },
 };
@@ -160,5 +169,10 @@ export default {
 
 .button--reply {
   border-right: 1px solid var(--color-border-light);
+}
+
+.icon--font {
+  color: var(--s-600);
+  font-size: var(--font-size-default);
 }
 </style>
