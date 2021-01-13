@@ -1,0 +1,68 @@
+{
+  "LABEL_MGMT": {
+    "HEADER": "Label",
+    "HEADER_BTN_TXT": "Tambah label",
+    "LOADING": "Mengambil label",
+    "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
+    "SIDEBAR_TXT": "<p><b>Label</b> <p>Label membantu Anda mengkategorikan percakapan dan memprioritaskannya. Anda dapat menetapkan label ke percakapan dari panel samping. <br /><br />Label terikat ke akun dan bisa digunakan untuk membuat alur kerja kustom di organisasi Anda. Anda dapat menetapkan warna khusus ke label, ini membuatnya lebih mudah untuk mengidentifikasi label. Anda akan dapat menampilkan label di sidebar untuk memfilter percakapan dengan mudah.</p>",
+    "LIST": {
+      "404": "Tidak ada label yang tersedia di akun ini.",
+      "TITLE": "Kelola label",
+      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "TABLE_HEADER": [
+        "Nama",
+        "Deskripsi",
+        "Warna"
+      ]
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nama Label",
+        "PLACEHOLDER": "Nama label",
+        "ERROR": "Nama Label dibutuhkan"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Deskripsi",
+        "PLACEHOLDER": "Deskripsi Label"
+      },
+      "COLOR": {
+        "LABEL": "Warna"
+      },
+      "SHOW_ON_SIDEBAR": {
+        "LABEL": "Tampilkan label di sidebar"
+      },
+      "EDIT": "Edit",
+      "CREATE": "Buat",
+      "DELETE": "Hapus",
+      "CANCEL": "Batalkan"
+    },
+    "ADD": {
+      "TITLE": "Tambah label",
+      "DESC": "Label memungkinkan Anda mengelompokkan percakapan menjadi satu.",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil ditambahkan",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit label",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil diperbarui",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Label berhasil dihapus",
+        "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      }
+    }
+  }
+}

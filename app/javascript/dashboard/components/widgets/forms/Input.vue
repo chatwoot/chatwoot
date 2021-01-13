@@ -6,8 +6,12 @@
       :type="type"
       :placeholder="placeholder"
       @input="onChange"
+      @blur="onBlur"
     />
     <p v-if="helpText" class="help-text"></p>
+    <span v-if="error" class="message">
+      {{ error }}
+    </span>
   </label>
 </template>
 
@@ -34,10 +38,17 @@ export default {
       type: String,
       default: '',
     },
+    error: {
+      type: String,
+      default: '',
+    },
   },
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);
+    },
+    onBlur(e) {
+      this.$emit('blur', e.target.value);
     },
   },
 };

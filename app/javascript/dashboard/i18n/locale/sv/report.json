@@ -3,6 +3,7 @@
     "HEADER": "Rapporter",
     "LOADING_CHART": "Laddar sjökortsdata...",
     "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera rapport, försök igen senare.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationer",

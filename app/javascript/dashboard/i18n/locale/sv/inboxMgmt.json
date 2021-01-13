@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenter",
-        "DESC": "Här kan du lägga till agenter för att hantera din nyskapade inkorg. Endast dessa utvalda agenter har tillgång till din inkorg. Agenter som inte är en del av denna inkorg kommer inte att kunna se eller svara på meddelanden i denna inkorg när de loggar in. <br> <b>PS:</b> Som administratör om du behöver åtkomst till alla inkorgar, du bör lägga till dig själv som agent till alla inkorgar som du skapar."
+        "DESC": "Här kan du lägga till agenter för att hantera din nyskapade inkorg. Endast dessa utvalda agenter har tillgång till din inkorg. Agenter som inte är en del av denna inkorg kommer inte att kunna se eller svara på meddelanden i denna inkorg när de loggar in. <br> <b>PS:</b> Som administratör om du behöver åtkomst till alla inkorgar, du bör lägga till dig själv som agent till alla inkorgar som du skapar.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Inkorg Detaljer",
@@ -212,7 +214,7 @@
         "TITLE": "Bekräfta borttagning",
         "MESSAGE": "Är du säker på att ta bort ",
         "YES": "Ja, ta bort ",
-        "NO": "No, Keep "
+        "NO": "Nej, behåll "
       },
       "API": {
         "SUCCESS_MESSAGE": "Inkorgen har tagits bort",

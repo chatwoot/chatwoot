@@ -85,6 +85,8 @@ gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
+# We want cron jobs
+gem 'sidekiq-cron'
 
 ##-- Push notification service --##
 gem 'fcm'
@@ -95,6 +97,9 @@ gem 'webpush'
 gem 'geocoder'
 # to parse maxmind db
 gem 'maxminddb'
+
+# to create db triggers
+gem 'hairtrigger'
 
 group :development do
   gem 'annotate'

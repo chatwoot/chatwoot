@@ -1,0 +1,253 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Kotak masuk",
+    "SIDEBAR_TXT": "<p><b>Kotak Masuk</b></p> <p> Saat Anda menghubungkan website atau Halaman Facebook ke Chatwoot, itu disebut <b>Kotak Masuk</b>. Anda dapat memiliki kotak masuk tak terbatas di akun Chatwoot Anda. </p><p> Klik pada <b>Tambah Kotak masuk</b> untuk menghubungkan situs web atau Halaman Facebook. </p><p> Di Dasbor, Anda dapat melihat semua percakapan dari semua kotak masuk Anda di satu tempat dan menanggapinya di bawah tab `Percakapan`. </p><p> Anda juga dapat melihat percakapan khusus untuk kotak masuk dengan mengklik nama kotak masuk di panel kiri dasbor. </p>",
+    "LIST": {
+      "404": "Tidak ada kotak masuk yang dilampirkan ke akun ini."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Pilih Channel",
+        "route": "settings_inbox_new",
+        "body": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+      },
+      {
+        "title": "Buat Kotak Masuk",
+        "route": "settings_inboxes_page_channel",
+        "body": "Otentikasi akun Anda dan buat kotak masuk."
+      },
+      {
+        "title": "Tambahkan Agen",
+        "route": "settings_inboxes_add_agents",
+        "body": "Tambahkan agen ke kotak masuk yang dibuat."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Kotak masuk Anda sudah siap!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
+        "CHOOSE_PAGE": "Pilih Halaman",
+        "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
+        "INBOX_NAME": "Nama Kotak Masuk",
+        "ADD_NAME": "Tambahkan nama untuk kotak masuk Anda",
+        "PICK_NAME": "Pilih Nama Kotak Masuk Anda",
+        "PICK_A_VALUE": "Pilih"
+      },
+      "TWITTER": {
+        "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Channel Website",
+        "DESC": "Buat saluran untuk situs web Anda dan mulai dukung pelanggan Anda melalui widget di website.",
+        "LOADING_MESSAGE": "Membuat Saluran Dukungan Website",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Avatar Channel"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nama Website",
+          "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Domain Website",
+          "PLACEHOLDER": "Masukkan domain situs web Anda (misalnya: acme.com)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Judul Selamat Datang",
+          "PLACEHOLDER": "Halo!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Tagline Selamat Datang",
+          "PLACEHOLDER": "Kami membuatnya mudah untuk terhubung dengan kami. Tanyakan apa saja kepada kami, atau bagikan tanggapan Anda."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Pesan sambutan channel",
+          "PLACEHOLDER": "Acme Inc biasanya membalas dalam beberapa jam."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Aktifkan sambutan channel",
+          "HELP_TEXT": "Kirim pesan salam kepada pengguna saat dia memulai percakapan.",
+          "ENABLED": "Diaktifkan",
+          "DISABLED": "Nonaktif"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Atur waktu Balasan",
+          "IN_A_FEW_MINUTES": "Dalam beberapa menit",
+          "IN_A_FEW_HOURS": "Dalam beberapa jam",
+          "IN_A_DAY": "Dalam sehari",
+          "HELP_TEXT": "Waktu balasan ini akan ditampilkan di widget live chat"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Warna Widget",
+          "PLACEHOLDER": "Perbarui warna yang digunakan di widget"
+        },
+        "SUBMIT_BUTTON": "Buat Kotak Masuk"
+      },
+      "TWILIO": {
+        "TITLE": "Channel Twilio SMS / Whatsapp",
+        "DESC": "Integrasikan Twilio dan mulai dukung pelanggan Anda melalui SMS atau Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Silakan masukkan SID Akun Twilio Anda",
+          "ERROR": "Bagian ini diperlukan"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Tipe Channel",
+          "ERROR": "Harap pilih Tipe Channel Anda"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Token Auth",
+          "PLACEHOLDER": "Harap masukkan Token Twilio Auth Anda",
+          "ERROR": "Bagian ini diperlukan"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nama Channel",
+          "PLACEHOLDER": "Harap masukkan nama channel",
+          "ERROR": "Bagian ini diperlukan"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Nomor Telpon",
+          "PLACEHOLDER": "Silakan masukkan nomor telepon dari mana pesan akan dikirim.",
+          "ERROR": "Harap masukkan nomor yang valid. Nomor telepon harus dimulai dengan tanda `+`."
+        },
+        "API_CALLBACK": {
+          "TITLE": "URL Callback",
+          "SUBTITLE": "Anda harus mengkonfigurasi pesan URL callback di Twilio dengan URL yang disebutkan di sini."
+        },
+        "SUBMIT_BUTTON": "Buat Channel Twillio",
+        "API": {
+          "ERROR_MESSAGE": "Kami tidak dapat mengautentikasi kredensial Twilio, harap coba lagi"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API Channel",
+        "DESC": "Integrasikan dengan saluran API dan mulai dukung pelanggan Anda.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nama Channel",
+          "PLACEHOLDER": "Harap masukkan nama channel",
+          "ERROR": "Bagian ini diperlukan"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "URL Webhook",
+          "SUBTITLE": "Konfigurasikan URL tempat Anda ingin menerima Callback.",
+          "PLACEHOLDER": "URL Webhook"
+        },
+        "SUBMIT_BUTTON": "Buat Channel API",
+        "API": {
+          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel api"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "Channel Email",
+        "DESC": "Integrasikan kotak masuk email Anda.",
+        "CHANNEL_NAME": {
+          "LABEL": "Nama Channel",
+          "PLACEHOLDER": "Harap masukkan nama channel",
+          "ERROR": "Bagian ini diperlukan"
+        },
+        "EMAIL": {
+          "LABEL": "Email",
+          "SUBTITLE": "Kirim email ke tempat pelanggan Anda mengirimkan tiket dukungan",
+          "PLACEHOLDER": "Email"
+        },
+        "SUBMIT_BUTTON": "Buat Channel Email",
+        "API": {
+          "ERROR_MESSAGE": "Kami tidak dapat menyimpan channel email"
+        },
+        "FINISH_MESSAGE": "Mulailah meneruskan email Anda ke alamat email berikut."
+      },
+      "AUTH": {
+        "TITLE": "Channel",
+        "DESC": "Saat ini, kami mendukung widget obrolan langsung Website, Halaman Facebook, Profil Twitter, dan Whatsapp sebagai platform. Kami memiliki lebih banyak platform seperti Email, Telegram dan Line dalam pengembangan, yang akan segera tersedia."
+      },
+      "AGENTS": {
+        "TITLE": "Agen",
+        "DESC": "Di sini Anda dapat menambahkan agen untuk mengelola kotak masuk yang baru Anda buat. Hanya agen terpilih ini yang akan memiliki akses ke kotak masuk Anda. Agen yang bukan bagian dari kotak masuk ini tidak akan dapat melihat atau menanggapi pesan di kotak masuk ini saat mereka masuk. <br> <b> Keterangan: </b> Sebagai administrator, jika Anda memerlukan akses ke semua kotak masuk, Anda harus menambahkan diri Anda sebagai agen ke semua kotak masuk yang Anda buat.",
+        "VALIDATION_ERROR": "Tambahkan setidaknya satu agen ke Kotak Masuk baru Anda",
+        "PICK_AGENTS": "Pilih agen untuk kotak masuk"
+      },
+      "DETAILS": {
+        "TITLE": "Detail Kotak Masuk",
+        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Chatwoot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
+      },
+      "FINISH": {
+        "TITLE": "Berhasil!",
+        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Chatwoot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Chatwoot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Mengautentikasi Anda dengan Facebook...",
+      "ERROR_FB_AUTH": "Ada yang tidak beres, Harap refresh halaman...",
+      "CREATING_CHANNEL": "Membuat kotak masuk Anda...",
+      "TITLE": "Konfigurasi Detail Kotak Masuk",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Tambahkan Agen",
+      "ADD_AGENTS": "Menambahkan Agen ke Kotak Masuk Anda..."
+    },
+    "FINISH": {
+      "TITLE": "Kotak Masuk anda sudah siap!",
+      "MESSAGE": "Anda sekarang dapat menangani pelanggan Anda melalui Channel baru Anda. Selamat mendukung ",
+      "BUTTON_TEXT": "Pergi ke Kotak Masuk",
+      "WEBSITE_SUCCESS": "Anda telah berhasil menyelesaikan pembuatan channel website. Salin kode yang ditunjukkan di bawah ini dan tempelkan di website Anda. Saat pelanggan menggunakan live chat, percakapan tersebut secara otomatis akan muncul di kotak masuk Anda."
+    },
+    "REAUTH": "Otorisasi ulang",
+    "VIEW": "Lihat",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Pengaturan kotak masuk berhasil diperbarui",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Penugasan otomatis berhasil diperbarui",
+        "ERROR_MESSAGE": "Tidak dapat memperbarui warna widget. Silakan coba lagi nanti."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Diaktifkan",
+        "DISABLED": "Nonaktif"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kotak Masuk berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat menghapus kotak masuk. Silakan coba lagi nanti."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Pengaturan",
+      "COLLABORATORS": "Kolaborator",
+      "CONFIGURATION": "Konfigurasi"
+    },
+    "SETTINGS": "Pengaturan",
+    "FEATURES": {
+      "LABEL": "Fitur",
+      "DISPLAY_FILE_PICKER": "Tampilkan file picker di widget",
+      "DISPLAY_EMOJI_PICKER": "Tampilkan pilihan emoji di widget"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
+      "INBOX_AGENTS": "Agen",
+      "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
+      "UPDATE": "Perbarui",
+      "AUTO_ASSIGNMENT": "Aktifkan penugasan otomatis",
+      "INBOX_UPDATE_TITLE": "Pengaturan Kotak Masuk",
+      "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Otorisasi ulang",
+      "SUBTITLE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
+      "MESSAGE_SUCCESS": "Berhasil menghubungkan kembali",
+      "MESSAGE_ERROR": "Terjadi kesalahan, harap coba lagi"
+    }
+  }
+}

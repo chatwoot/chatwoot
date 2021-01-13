@@ -1,63 +1,61 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Entegrasyonlar",
     "WEBHOOK": {
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "INTEGRATION_TXT": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks.",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "Web kancası",
+      "CONFIGURE": "Yapılandır",
+      "HEADER": "Web kancası ayarları",
+      "HEADER_BTN_TXT": "Yeni web kancası ekle",
+      "LOADING": "Ekli web kancaları getiriliyor",
+      "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+      "SIDEBAR_TXT": "<p> <b> Web kancaları </b> </p> <p> Web kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla webhook oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni web kancası ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
-        "DESC": "Webhooks are predefined reply templates which can be used to quickly send out replies to tickets.",
+        "404": "Bu hesap için yapılandırılmış web kancası yok.",
+        "TITLE": "Web kancalarını yönet",
         "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
+          "Web kancası uç noktası",
+          "Hareketler"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "İptal Et",
+        "TITLE": "Yeni web kancası ekle",
+        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
         "FORM": {
           "END_POINT": {
-            "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "LABEL": "Web kancası URL'si",
+            "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
+            "ERROR": "Lütfen geçerli bir adres girin"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Web kancası oluştur"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Web kancası başarıyla eklendi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Sil",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Web kancası başarıyla silindi",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Silmeyi onayla",
+          "MESSAGE": "Silmek istediğinize emin misiniz ?",
+          "YES": "Evet, Sil ",
+          "NO": "Hayır, kalsın"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Entegrasyon başarıyla silindi"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Bağlan"
     }
   }
 }

@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "미리 준비된 답변",
+    "HEADER_BTN_TXT": "미리 준비된 답변 추가",
+    "LOADING": "미리 준비된 답변 가져오기",
+    "SEARCH_404": "이 쿼리와 일치하는 항목이 없음",
+    "SIDEBAR_TXT": "<p><b>미리 준비된 답변</b></p><p>미리 준비된 답변은 신속하게 답변할 수 있는 저장된 답변 템플릿입니다.</p>\n<p>미리 준비된 답변을 만들기 위해 <b>[미리 준비된 답변 추가]</b>를 클릭하면 됩니다. 편집 또는 삭제 버튼을 클릭하여 미리 준비된 답변을 편집하거나 삭제할 수 있습니다.</p><p>미리 준비된 답변은 <b>단축 코드</b>의 도움으로 사용됩니다. 에이전트는 '/'를 입력 한 다음 짧은 코드를 입력하여 채팅에서 미리 준비된 답변에 액세스 할 수 있습니다.</p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "이 계정에는 미리 준비된 답변이 없습니다.",
+      "TITLE": "미리 준비된 답변 관리",
+      "DESC": "미리 준비된 답변은 티켓에 대한 답변을 빠르게 보내는 데 사용할 수있는 미리 정의된 답변 템플릿입니다.",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "단축 코드",
+        "콘텐츠",
+        "액션"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "미리 준비된 답변 추가",
+      "DESC": "미리 준비된 답변은 티켓에 대한 답변을 빠르게 보내는 데 사용할 수있는 미리 정의된 답변 템플릿입니다 .",
+      "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "단축 코드",
+          "PLACEHOLDER": "단축 코드를 입력하십시오.",
+          "ERROR": "단축 코드가 필요함"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "내용",
+          "PLACEHOLDER": "내용을 입력하십시오.",
+          "ERROR": "내용이 필요함"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "보내기"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "미리 준비된 답변 수정",
+      "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "단축 코드",
+          "PLACEHOLDER": "단축 코드를 입력하십시오.",
+          "ERROR": "단축 코드가 필요함"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "내용",
+          "PLACEHOLDER": "내용을 입력하십시오.",
+          "ERROR": "내용이 필요함"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "보내기"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "수정",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 추가됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "미리 준비된 답변이 성공적으로 삭제됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
       }
     }
   }

@@ -49,7 +49,7 @@ Rails.application.routes.draw do
             get 'meta', on: :collection
             get 'search', on: :collection
             scope module: :conversations do
-              resources :messages, only: [:index, :create]
+              resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
             end
@@ -71,6 +71,7 @@ Rails.application.routes.draw do
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
+              resources :labels, only: [:create, :index]
             end
           end
 
@@ -205,6 +206,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
+  require 'sidekiq/cron/web'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
   devise_scope :super_admin do

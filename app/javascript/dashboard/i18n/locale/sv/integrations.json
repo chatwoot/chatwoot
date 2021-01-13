@@ -6,14 +6,12 @@
       "CONFIGURE": "Konfigurera",
       "HEADER": "Webhook inställningar",
       "HEADER_BTN_TXT": "Lägg till ny webhook",
-      "INTEGRATION_TXT": "Webbkrokshändelser ger dig realtidsinformation om vad som händer i ditt Chatwoot-konto. Du kan använda webhooks för att kommunicera händelser till dina favoritappar som Slack eller Github. Klicka på Konfigurera för att konfigurera dina webhooks.",
       "LOADING": "Hämtar bifogade webhooks",
       "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks är HTTP-callbacks som kan definieras för varje konto. De utlöses av händelser som att skapa meddelanden i Chatwoot. Du kan skapa mer än en webhook för detta konto. <br /><br /> För att skapa en <b>webhook</b>, klicka på <b>Lägg till ny webhook</b> knappen. Du kan också ta bort alla befintliga webhook genom att klicka på knappen Radera.</p>",
       "LIST": {
         "404": "Det finns inga webhooks konfigurerade för det här kontot.",
         "TITLE": "Hantera webhooks",
-        "DESC": "Webhooks är fördefinierade svarsmallar som kan användas för att snabbt skicka ut svar till ärenden.",
         "TABLE_HEADER": [
           "Webhook slutpunkt",
           "Åtgärder"

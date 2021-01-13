@@ -6,14 +6,12 @@
       "CONFIGURE": "Configura",
       "HEADER": "Configuració Webhook",
       "HEADER_BTN_TXT": "Afegeix un nou webhook",
-      "INTEGRATION_TXT": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Podeu utilitzar els webhooks per comunicar els esdeveniments a les vostres aplicacions preferides com Slack o Github. Feu clic a Configura per configurar els enllaços web.",
       "LOADING": "S'estan recollint els webhooks adjunts",
       "SEARCH_404": "No hi ha articles que coincideixin amb aquesta consulta",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Els webhooks són callbacks HTTP que es poden definir per a cada compte. Es produeixen per esdeveniments com la creació de missatges a Chatwoot. Podeu crear més d'un webhook per a aquest compte. <br /><br /> Per crear un <b>webhook</b>, feu clic al botó <b> Afegir nou webhook </b>. També podeu eliminar qualsevol webhook existent fent clic al botó Elimina.</p>",
       "LIST": {
         "404": "No hi ha cap webhooks configurat per a aquest compte.",
         "TITLE": "Gestiona els webhooks",
-        "DESC": "Els webhooks són plantilles de resposta predefinides que es poden utilitzar per enviar ràpidament respostes a una conversa.",
         "TABLE_HEADER": [
           "Punt final del webhook",
           "Accions"

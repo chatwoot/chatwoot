@@ -165,7 +165,9 @@
       },
       "AGENTS": {
         "TITLE": "Agenți",
-        "DESC": "Aici puteți adăuga agenți care să gestioneze inboxul nou creat. Numai acești agenți selectați vor avea acces la căsuța poștală. Agenții care nu fac parte din această căsuță poștală nu vor putea vedea sau răspunde la mesajele din această căsuță atunci când se autentifică. <br> <b>PS:</b> În calitate de administrator, dacă aveţi nevoie de acces la toate mesajele, ar trebui să vă adăugați ca agent la toate cutiile de mesaje pe care le creați."
+        "DESC": "Aici puteți adăuga agenți care să gestioneze inboxul nou creat. Numai acești agenți selectați vor avea acces la căsuța poștală. Agenții care nu fac parte din această căsuță poștală nu vor putea vedea sau răspunde la mesajele din această căsuță atunci când se autentifică. <br> <b>PS:</b> În calitate de administrator, dacă aveţi nevoie de acces la toate mesajele, ar trebui să vă adăugați ca agent la toate cutiile de mesaje pe care le creați.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
         "TITLE": "Detalii inbox",

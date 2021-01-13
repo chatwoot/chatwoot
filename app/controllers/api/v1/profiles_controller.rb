@@ -23,7 +23,8 @@ class Api::V1::ProfilesController < Api::BaseController
       :password,
       :password_confirmation,
       :avatar,
-      :availability
+      :availability,
+      ui_settings: {}
     )
   end
 end

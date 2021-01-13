@@ -1,32 +1,38 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Luo tili",
+    "TITLE": "Rekisteröidy",
+    "TERMS_ACCEPT": "Rekisteröitymällä hyväksyt <a href=\"https://www.chatwoot.com/terms\">käyttöehdot & säännöt</a> sekä <a href=\"https://www.chatwoot.com/privacy-policy\">yksityisyydensuojan</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "LABEL": "Tilin nimi",
+      "PLACEHOLDER": "Anna käyttäjän nimi, esim: Wayne Enterprises",
+      "ERROR": "Tilin nimi on liian lyhyt"
+    },
+    "FULL_NAME": {
+      "LABEL": "Koko nimi",
+      "PLACEHOLDER": "Anna koko nimesi, esim: Bruce Wayne",
+      "ERROR": "Koko nimi on liian lyhyt"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "LABEL": "Työsähköposti",
+      "PLACEHOLDER": "Anna työsi sähköpostiosoite, esim: bruce@wayne.enterprises",
+      "ERROR": "Sähköpostiosoite ei ole kelvollinen"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "Salasana",
+      "PLACEHOLDER": "Salasana",
+      "ERROR": "Salasana on liian lyhyt"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Vahvista salasana",
+      "PLACEHOLDER": "Vahvista salasana",
+      "ERROR": "Salasanat eivät täsmää"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Rekisteröinti onnistui",
+      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "Lähetä",
+    "HAVE_AN_ACCOUNT": "Onko sinulla jo tili?"
   }
 }

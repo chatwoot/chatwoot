@@ -1,96 +1,96 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "HEADER": "에이전트",
+    "HEADER_BTN_TXT": "에이전트 추가",
+    "LOADING": "에이전트 목록을 가져오는 중",
+    "SIDEBAR_TXT": "<p><b></b>에이전트<p><b><p><b>에이전트</b>는 고객 지원 팀의 구성원입니다.</p><p>에이전트는 사용자의 메시지를 보고 답장할 수 있습니다. 목록에 현재 계정에 있는 모든 에이전트가 표시됩니다.</p><p>새 에이전트를 추가하려면 <b>[에이전트 추가]</b>를 클릭하십시오. 사용자가 추가한 에이전트는 계정을 활성화하기 위한 확인 링크가 포함된 이메일을 받게 되며, 이후 챗부팅에 액세스하여 메시지에 응답할 수 있습니다.</p><p>Chatwoot의 기능에 대한 액세스는 다음 역할을 기반으로 한다.</p><p></b>에이전트</b> - 이 역할을 가진 에이전트는 받은 편지함, 보고서 및 대화에만 액세스할 수 있다. 그들은 다른 요원이나 자신들에게 대화를 할당하고 대화를 해결할 수 있습니다.</p><p><b>관리자</b> - 관리자는 일반 에이전트의 모든 권한과 함께 설정을 포함하여 계정에 대해 활성화된 모든 챗부팅 기능에 액세스할 수 있습니다.</p>",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "관리자",
+      "AGENT": "에이전트"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      "404": "이 계정에 연결된 에이전트가 없음",
+      "TITLE": "팀 내 에이전트 관리",
+      "DESC": "팀에 에이전트를 추가/제거할 수 있습니다.",
+      "NAME": "이름",
+      "EMAIL": "이메일",
+      "STATUS": "상태",
+      "ACTIONS": "액션",
+      "VERIFIED": "인증됨",
+      "VERIFICATION_PENDING": "인증 보류"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "팀에 에이전트 추가",
+      "DESC": "받은 메시지함에 대한 지원을 처리할 수 있는 사용자를 추가할 수 있습니다.",
+      "CANCEL_BUTTON_TEXT": "취소",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "에이전트 이름",
+          "PLACEHOLDER": "에이전트 이름을 입력하십시오."
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "역할",
+          "PLACEHOLDER": "역할을 선택하십시오.",
+          "ERROR": "역할이 필요함"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "이메일 주소",
+          "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "에이전트 추가"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 추가됨",
+        "EXIST_MESSAGE": "에이전트 이메일이 이미 사용 중입니다. 다른 이메일 주소를 시도하십시오.",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 삭제됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "삭제 확인",
+        "MESSAGE": "삭제하시겠습니까? ",
+        "YES": "예, 삭제합니다. ",
+        "NO": "아니요, 유지해주세요. "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "에이전트 수정",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "에이전트 이름",
+          "PLACEHOLDER": "에이전트 이름을 입력하십시오."
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "역할",
+          "PLACEHOLDER": "역할을 선택하십시오.",
+          "ERROR": "역할이 필요함"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "이메일 주소",
+          "PLACEHOLDER": "에이전트의 이메일 주소를 입력하십시오."
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "에이전트 수정"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "수정",
+      "CANCEL_BUTTON_TEXT": "취소",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "에이전트가 성공적으로 업데이트됨",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "비밀번호 재설정",
+        "ADMIN_SUCCESS_MESSAGE": "비밀번호 재설정 지침이 포함된 이메일이 에이전트로 전송됨",
+        "SUCCESS_MESSAGE": "에이전트 비밀번호 재설정 성공",
+        "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오."
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No agents found."
+      "NO_RESULTS": "에이전트를 찾을 수 없음."
     }
   }
 }

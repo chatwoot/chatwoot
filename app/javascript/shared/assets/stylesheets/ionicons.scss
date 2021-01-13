@@ -1,0 +1,23 @@
+@import "~ionicons/scss/ionicons-variables";
+
+@font-face {
+  font-family: $ionicons-font-family;
+  src: url("#{$ionicons-font-path}/ionicons.woff?v=#{$ionicons-version}") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ion {
+  display: inline-block;
+  font-family: $ionicons-font-family;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import "~ionicons/scss/ionicons-icons";

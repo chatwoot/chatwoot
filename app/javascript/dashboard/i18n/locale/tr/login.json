@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Chatwoot'ta oturum açın",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "E-Posta",
+      "PLACEHOLDER": "E-posta, örneğin: birisi@örnek.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "Giriş başarılı",
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin",
+      "UNAUTH": "Kullanıcı Adı / Parola Yanlış. Lütfen tekrar deneyin"
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
+    "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",
+    "SUBMIT": "Oturum aç"
   }
 }

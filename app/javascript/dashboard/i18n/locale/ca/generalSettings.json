@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Presiona retorn (tecla enter) per seleccionar",
+      "ENTER_TO_REMOVE": "Presiona retorn (tecla enter) per eliminar",
+      "SELECT_ONE": "Selecciona un"
+    }
   }
 }

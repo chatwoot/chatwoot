@@ -43,5 +43,12 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
       }
     }
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
+      "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
+      "SELECT_ONE": "Επιλέξτε ένα"
+    }
   }
 }

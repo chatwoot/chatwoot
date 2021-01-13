@@ -1,0 +1,96 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agen",
+    "HEADER_BTN_TXT": "Tambahkan Agen",
+    "LOADING": "Mendapatkan Daftar Agen",
+    "SIDEBAR_TXT": "<p><b>Agen</b></p> <p> Seorang <b>Agen</b> adalah anggota tim Dukungan Pelanggan Anda. </p><p> Agen akan dapat melihat dan membalas pesan dari pengguna Anda. Daftar ini menunjukkan semua agen yang saat ini ada di akun Anda. </p><p> Klik Pada <b>Tambah Agent</b> untuk menambahkan agen baru. Agen yang Anda tambahkan akan menerima email dengan tautan konfirmasi untuk mengaktifkan akun mereka, setelah itu mereka dapat mengakses Chatwoot dan menanggapi pesan. </p><p> Akses ke fitur Chatwoot didasarkan pada wewenang berikut. </p><p> <b>Agen</b> - Agen dengan wewenang ini hanya dapat mengakses kotak masuk, laporan, dan percakapan. Mereka dapat menetapkan percakapan ke agen lain atau diri mereka sendiri dan menyelesaikan percakapan.</p><p> <b>Administrator</b> - Administrator akan memiliki akses ke semua fitur Chatwoot yang diaktifkan untuk akun Anda, termasuk pengaturan, bersama dengan semua hak istimewa agen normal.</p>",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agen"
+    },
+    "LIST": {
+      "404": "Tidak ada agen yang terkait dengan akun ini",
+      "TITLE": "Kelola agen di tim Anda",
+      "DESC": "Anda dapat menambahkan/menghapus agen ke/di tim Anda.",
+      "NAME": "Nama",
+      "EMAIL": "Email",
+      "STATUS": "Status",
+      "ACTIONS": "Aksi",
+      "VERIFIED": "Diverifikasi",
+      "VERIFICATION_PENDING": "Verifikasi Pending"
+    },
+    "ADD": {
+      "TITLE": "Tambahkan agen ke tim Anda",
+      "DESC": "Anda dapat menambahkan orang yang dapat menangani kotak masuk Anda.",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama Agen",
+          "PLACEHOLDER": "Harap masukkan nama agen"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Wewenang",
+          "PLACEHOLDER": "Harap pilih wewenang",
+          "ERROR": "Wewenang dibutuhkan"
+        },
+        "EMAIL": {
+          "LABEL": "Alamat email",
+          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+        },
+        "SUBMIT": "Tambahkan Agen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil ditambahkan",
+        "EXIST_MESSAGE": "Email agen sudah digunakan, Silakan coba alamat email lain",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil dihapus",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+      },
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Agen",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Nama Agen",
+          "PLACEHOLDER": "Harap masukkan nama agen"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Wewenang",
+          "PLACEHOLDER": "Harap pilih wewenang",
+          "ERROR": "Wewenang dibutuhkan"
+        },
+        "EMAIL": {
+          "LABEL": "Alamat email",
+          "PLACEHOLDER": "Silakan masukkan alamat email agen"
+        },
+        "SUBMIT": "Edit Agen"
+      },
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Batalkan",
+      "API": {
+        "SUCCESS_MESSAGE": "Agen berhasil diubah",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Atur Ulang Kata Sandi",
+        "ADMIN_SUCCESS_MESSAGE": "Sebuah email dengan instruksi pengaturan ulang kata sandi telah dikirim ke agen",
+        "SUCCESS_MESSAGE": "Pengaturan ulang kata sandi agen berhasil",
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "Tidak ada agen."
+    }
+  }
+}

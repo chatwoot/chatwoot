@@ -6,14 +6,12 @@
       "CONFIGURE": "設定",
       "HEADER": "Webhookの設定",
       "HEADER_BTN_TXT": "新しいWebhookを追加",
-      "INTEGRATION_TXT": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。 Webhookを使用して、SlackやGithubなどのお気に入りのアプリにイベントを伝えることができます。 設定をクリックしてWebhookを設定します。",
       "LOADING": "添付されたWebhookを取得しています",
       "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks は、すべてのアカウントで定義可能なHTTP コールバックです。これらは、メッセージの作成などChatwoot上でのイベントをきっかけに実行されます。このアカウントでは、1つ以上のwebhookが作成できます。 <br /><br /> <b>webhook</b>を作成するには、<b>webhookを作成</b>ボタンをクリックしてください。また、作成した webhook を削除ボタンを押して削除することもできます。</p>",
       "LIST": {
         "404": "このアカウントに紐付けされたWebフックはありません。",
         "TITLE": "Webhookの管理",
-        "DESC": "Webhookは、事前に設定した文章をテンプレートとし、チケットに対して迅速に返信するためのものです。",
         "TABLE_HEADER": [
           "Webhookエンドポイント",
           "操作"

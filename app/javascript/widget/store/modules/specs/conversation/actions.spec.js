@@ -49,8 +49,22 @@ describe('#actions', () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const windowSpy = jest.spyOn(window, 'window', 'get');
+      windowSpy.mockImplementation(() => ({
+        WOOT_WIDGET: {
+          $root: {
+            $i18n: {
+              locale: 'ar',
+            },
+          },
+        },
+        location: {
+          search: '?param=1',
+        },
+      }));
       actions.sendMessage({ commit }, { content: 'hello' });
       spy.mockRestore();
+      windowSpy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
         content: 'hello',

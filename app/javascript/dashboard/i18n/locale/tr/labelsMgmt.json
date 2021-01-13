@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Etiketler",
+    "HEADER_BTN_TXT": "Etiket ekleyin",
+    "LOADING": "Etiketler getiriliyor",
+    "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
+    "SIDEBAR_TXT": "<p> <b> Etiketler </b> <p> Etiketler, sohbetleri kategorize etmenize ve önceliklerini belirlemenize yardımcı olur. Yan panelden bir görüşmeye etiket atayabilirsiniz. <br /> <br /> Etiketler hesaba bağlıdır ve kuruluşunuzda özel iş akışları oluşturmak için kullanılabilir. Bir etikete özel renk atayabilirsiniz, etiketin tanımlanmasını kolaylaştırır. Sohbetleri kolayca filtrelemek için kenar çubuğunda etiketi görüntüleyebileceksiniz. </p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Bu hesapta mevcut etiket yok.",
+      "TITLE": "Etiketleri yönet",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
       "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
+        "İsim",
+        "Açıklama",
+        "Renk"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Etiket adı",
+        "PLACEHOLDER": "Etiket adı",
+        "ERROR": "Etiket Adı gerekli"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Açıklama",
+        "PLACEHOLDER": "Etiket Açıklama"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Renk"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Kenar çubuğunda etiketi göster"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Düzenle",
+      "CREATE": "Yarat",
+      "DELETE": "Sil",
+      "CANCEL": "İptal Et"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Etiket ekleyin",
+      "DESC": "Etiketler, konuşmaları birlikte gruplamanıza olanak tanır.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket başarıyla eklendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Etiketi düzenleyin",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket başarıyla güncellendi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Sil",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiket başarıyla silindi",
+        "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Silmeyi onayla",
+        "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "YES": "Evet, Sil ",
+        "NO": "Hayır, Tut"
       }
     }
   }

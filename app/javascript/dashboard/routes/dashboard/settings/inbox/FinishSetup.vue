@@ -88,6 +88,6 @@ export default {
 
 .website--code {
   margin: $space-normal auto;
-  max-width: 60%;
+  max-width: 70%;
 }
 </style>

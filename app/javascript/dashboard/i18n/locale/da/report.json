@@ -3,6 +3,7 @@
     "HEADER": "Rapporter",
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",

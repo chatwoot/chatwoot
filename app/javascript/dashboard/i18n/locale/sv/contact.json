@@ -11,6 +11,7 @@
     "OS": "Operativsystem",
     "INITIATED_FROM": "Initierad från",
     "INITIATED_AT": "Initierad den",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Det finns inga tidigare konversationer kopplade till denna kontakt.",
       "TITLE": "Tidigare konversationer"

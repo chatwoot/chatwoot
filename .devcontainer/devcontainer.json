@@ -1,0 +1,33 @@
+{
+  "name": "Chatwoot Development Codespace",
+  "service": "app",
+  "dockerComposeFile": "docker-compose.yml",
+
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/zsh"
+  },
+
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
+    "rebornix.Ruby",
+    "misogi.ruby-rubocop",
+    "wingrunr21.vscode-ruby"
+  ],
+
+
+  // TODO: figure whether we can get all this ports work properly
+
+  // 3000 rails
+  // 3035 webpacker
+  // 5432 postgres
+  // 6379 redis
+  // 1025,8025 mailhog
+  "forwardPorts": [5432, 6379, 1025, 8025],
+  //your application may need to listen on all interfaces (0.0.0.0) not just localhost for it to be available externally. Defaults to []
+  "appPort": [3000, 3035],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // #TODO: can we move logic of copy env file into dockerfile ?
+  "postCreateCommand": "cp .env.example .env",
+}
