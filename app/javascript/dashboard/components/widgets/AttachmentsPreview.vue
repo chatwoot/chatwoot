@@ -66,7 +66,9 @@ export default {
 <style lang="scss" scoped>
 .preview-item {
   display: flex;
-  padding: 0 var(--space-small) var(--space-smaller);
+  padding: var(--space-slab) 0 0;
+  background: var(--color-background-light);
+  background: transparent;
 }
 
 .thumb-wrap {
@@ -89,13 +91,16 @@ export default {
   height: var(--space-medium);
   font-size: var(--font-size-medium);
   text-align: center;
+  position: relative;
+  top: -1px;
+  text-align: left;
 }
 
 .file-name-wrap,
 .file-size-wrap {
   display: flex;
   align-items: center;
-  padding: 0 var(--space-one);
+  padding: 0 var(--space-smaller);
 
   > .item {
     margin: 0;
@@ -109,12 +114,20 @@ export default {
 }
 
 .file-name-wrap {
-  width: 100%;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .item {
+    height: var(--space-normal);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .file-size-wrap {
   width: 20%;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .remove-file-wrap {

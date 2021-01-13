@@ -96,9 +96,9 @@
 }
 
 .conversation-wrap {
-  @include background-gray;
   @include margin(0);
   @include border-normal-left;
+  background: var(--color-background-light);
 
   .current-chat {
     @include flex;
@@ -140,8 +140,8 @@
   flex-direction: column;
   // Firefox flexbox fix
   height: 100%;
-  margin-bottom: $space-small;
   overflow-y: auto;
+  padding-bottom: var(--space-normal);
   position: relative;
 }
 
