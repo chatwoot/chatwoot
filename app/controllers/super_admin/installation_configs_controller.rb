@@ -35,6 +35,12 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
   #     transform_values { |value| value == "" ? nil : value }
   # end
 
+  def resource_params
+    params.require(:installation_config)
+          .permit(:name, :value)
+          .transform_values { |value| value == '' ? nil : value }.merge(locked: false)
+  end
+
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
 end
