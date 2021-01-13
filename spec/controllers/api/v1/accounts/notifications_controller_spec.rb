@@ -26,6 +26,7 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(notification1.notification_type)
         expect(response_json['data']['meta']['unread_count']).to eq 2
+        expect(response_json['data']['meta']['count']).to eq 2
         # notification appear in descending order
         expect(response_json['data']['payload'].first['id']).to eq notification2.id
       end
