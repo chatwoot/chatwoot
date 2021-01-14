@@ -948,9 +948,19 @@
         "summary": "Create contact inbox",
         "parameters": [
           {
-            "name": "inbox_id",
-            "in": "params",
-            "type": "number"
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "inbox_id": {
+                  "type": "number",
+                  "description": "The id of the inbox",
+                  "required": true
+                }
+              }
+            }
           }
         ],
         "responses": {
