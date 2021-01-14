@@ -231,7 +231,7 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     return unless user_name
 
-    params = { assignee_name: assignee.name, user_name: user_name }.compact
+    params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)
