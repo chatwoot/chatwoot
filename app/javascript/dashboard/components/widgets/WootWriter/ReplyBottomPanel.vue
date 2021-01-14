@@ -124,32 +124,12 @@ export default {
 }
 
 .button {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  padding: var(--space-one) var(--space-slab);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  &:hover {
-    background: var(--w-300);
-  }
-
   &.is-active {
     background: white;
-  }
-
-  &.button--emoji {
-    font-size: var(--font-size-small);
-    padding: var(--space-small);
-    border-radius: 9px;
-    background: var(--b-50);
-    border: 1px solid var(--color-border-light);
-    margin-right: var(--space-small);
-
-    &:hover {
-      background: var(--b-200);
-    }
   }
 
   &.button--note {

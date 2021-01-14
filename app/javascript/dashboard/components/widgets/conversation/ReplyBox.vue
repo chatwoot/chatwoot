@@ -239,7 +239,8 @@ export default {
         this.hideEmojiPicker();
         this.hideCannedResponse();
       } else if (isEnter(e)) {
-        if (!hasPressedShift(e)) {
+        const shouldSendMessage = !hasPressedShift(e) && this.isFocused;
+        if (shouldSendMessage) {
           e.preventDefault();
           this.sendMessage();
         }
