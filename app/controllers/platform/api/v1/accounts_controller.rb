@@ -16,7 +16,7 @@ class Platform::Api::V1::AccountsController < PlatformController
   end
 
   def destroy
-    # obfusicate account
+    # TODO: obfusicate account
     head :ok
   end
 
