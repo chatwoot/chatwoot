@@ -3,9 +3,9 @@
 # Table name: teams
 #
 #  id                :bigint           not null, primary key
-#  allow_auto_assign :boolean
+#  allow_auto_assign :boolean          default(TRUE)
 #  description       :text
-#  name              :string
+#  name              :string           not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
@@ -20,4 +20,6 @@
 #
 class Team < ApplicationRecord
   belongs_to :account
+  has_many :team_members, dependent: :destroy
+  has_many :conversations, dependent: :nullify
 end

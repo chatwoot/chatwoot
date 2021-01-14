@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe Conversation, type: :model do
+  describe 'associations' do
+    it { is_expected.to belong_to(:account) }
+  end
+
   describe '.before_create' do
     let(:conversation) { build(:conversation, display_id: nil) }
 
