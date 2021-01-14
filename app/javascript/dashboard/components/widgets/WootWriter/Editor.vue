@@ -10,7 +10,7 @@ import {
   defaultMarkdownParser,
   defaultMarkdownSerializer,
 } from 'prosemirror-markdown';
-import { wootWriterSetup } from './schema/index';
+import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
 const createState = (content, placeholder) =>
   EditorState.create({
