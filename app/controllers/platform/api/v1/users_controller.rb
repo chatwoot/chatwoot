@@ -1,4 +1,10 @@
 class Platform::Api::V1::UsersController < PlatformController
+  # ref: https://stackoverflow.com/a/45190318/939299
+  # set resource is called for other actions already in platform controller
+  # we want to add login to that chain as well
+  before_action(only: [:login]) { set_resource }
+  before_action(only: [:login]) { validate_platform_app_permissible }
+
   def create
     @resource = (User.find_by(email: user_params[:email]) || User.new(user_params))
     @resource.confirm
@@ -8,8 +14,6 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def login
-    set_resource
-    validate_platform_app_permissible
     render json: { url: "#{ENV['FRONTEND_URL']}/app/login?email=#{@resource.email}&sso_auth_token=#{@resource.generate_sso_auth_token}" }
   end
 
@@ -23,7 +27,7 @@ class Platform::Api::V1::UsersController < PlatformController
   end
 
   def destroy
-    # obfusicate user
+    # TODO: obfusicate user
     head :ok
   end
 
