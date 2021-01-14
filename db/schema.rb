@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2021_01_09_211805) do
+ActiveRecord::Schema.define(version: 2021_01_14_202310) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -487,6 +486,16 @@ ActiveRecord::Schema.define(version: 2021_01_09_211805) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.boolean "allow_auto_assign"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_teams_on_account_id"
+  end
+
   create_table "telegram_bots", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "auth_key"
@@ -557,6 +566,7 @@ ActiveRecord::Schema.define(version: 2021_01_09_211805) do
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
+  add_foreign_key "teams", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

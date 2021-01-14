@@ -96,6 +96,8 @@ Rails.application.routes.draw do
           end
           resource :notification_settings, only: [:show, :update]
 
+          resources :teams
+
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
