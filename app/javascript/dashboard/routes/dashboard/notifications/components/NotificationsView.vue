@@ -11,8 +11,8 @@
       />
       <notification-footer
         :on-page-change="onPageChange"
-        :current-page="1"
-        :total-count="100"
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
       />
     </div>
   </div>
@@ -41,6 +41,13 @@ export default {
   },
   methods: {
     onPageChange(page) {
+      console.log(
+        '%c Muhzi',
+        'color:red;font-weight:bold;font-size:12px',
+        'page',
+        page
+      );
+
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       this.$store.dispatch('notifications/get', { page });
     },
