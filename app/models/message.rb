@@ -128,8 +128,7 @@ class Message < ApplicationRecord
   private
 
   def execute_after_create_commit_callbacks
-    # rails issue with order of active record callbacks being executed
-    # https://github.com/rails/rails/issues/20911
+    # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     set_conversation_activity
     dispatch_create_events
     send_reply
@@ -169,8 +168,7 @@ class Message < ApplicationRecord
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank?
-    return false unless %w[Website Email].include? inbox.inbox_type
+    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
 
     true
   end
@@ -182,7 +180,8 @@ class Message < ApplicationRecord
     # last few messages coupled together is sent every 2 minutes rather than one email for each message
     if Redis::Alfred.get(conversation_mail_key).nil?
       Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
-      ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
+      mail_delay = inbox.inbox_type == 'Email' ? 2.seconds : 2.minutes
+      ConversationReplyEmailWorker.perform_in(mail_delay, conversation.id, Time.zone.now)
     end
   end
 
