@@ -212,7 +212,7 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :super_admin do
+  namespace :installation do
     get 'onboarding', to: 'onboarding#index'
     post 'onboarding', to: 'onboarding#create'
   end

@@ -1,4 +1,4 @@
-class SuperAdmin::OnboardingController < ApplicationController
+class Installation::OnboardingController < ApplicationController
   before_action :ensure_installation_onboarding
 
   def index; end
@@ -22,12 +22,12 @@ class SuperAdmin::OnboardingController < ApplicationController
   private
 
   def onboarding_params
-    params.permit(:allow_contact, :subscribe_newsletter, user: [:name, :company, :email])
+    params.permit(:subscribe_to_updates, user: [:name, :company, :email])
   end
 
   def finish_onboarding
     ::Redis::Alfred.delete(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING)
-    ChatwootHub.register_instance(onboarding_params) if onboarding_params[:allow_contact] || onboarding_params[:subscribe_newsletter]
+    ChatwootHub.register_instance(onboarding_params) if onboarding_params[:subscribe_to_updates]
   end
 
   def ensure_installation_onboarding
