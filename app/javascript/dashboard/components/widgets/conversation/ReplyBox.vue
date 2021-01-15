@@ -68,7 +68,6 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import { escapeHtml } from 'shared/helpers/HTMLSanitizer';
 
 export default {
   components: {
@@ -322,7 +321,7 @@ export default {
       const [attachment] = this.attachedFiles;
       const messagePayload = {
         conversationId: this.currentChat.id,
-        message: escapeHtml(message),
+        message,
         private: this.isPrivate,
       };
 

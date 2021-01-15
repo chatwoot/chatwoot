@@ -10,7 +10,6 @@
 <script>
 import { mapActions } from 'vuex';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
-import { escapeHtml } from 'shared/helpers/HTMLSanitizer';
 
 export default {
   components: {
@@ -25,7 +24,9 @@ export default {
   methods: {
     ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
     handleSendMessage(content) {
-      this.sendMessage({ content: escapeHtml(content) });
+      this.sendMessage({
+        content,
+      });
     },
     handleSendAttachment(attachment) {
       this.sendAttachment({ attachment });
