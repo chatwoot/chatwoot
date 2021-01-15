@@ -11,8 +11,6 @@
   .message-text__wrap {
     position: relative;
 
-
-
     .link {
       color: var(--white);
       text-decoration: underline;
@@ -89,8 +87,6 @@
     }
   }
 
-
-
   .content-box {
     text-align: center;
   }
@@ -139,7 +135,6 @@
   @include flex-weight(1);
   @include margin($zero);
   flex-direction: column;
-  // Firefox flexbox fix
   height: 100%;
   overflow-y: auto;
   padding-bottom: var(--space-normal);
@@ -341,9 +336,6 @@
     }
   }
 }
-
-
-
 
 .left .bubble .text-content {
 
