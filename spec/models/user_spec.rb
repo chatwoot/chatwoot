@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/access_tokenable_spec.rb'
 
 RSpec.describe User do
   let!(:user) { create(:user) }
@@ -18,6 +19,10 @@ RSpec.describe User do
     it { is_expected.to have_many(:notification_settings).dependent(:destroy) }
     it { is_expected.to have_many(:messages) }
     it { is_expected.to have_many(:events) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'access_tokenable'
   end
 
   describe 'pubsub_token' do
