@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Super Admin super admins API', type: :request do
+RSpec.describe 'Installation::Onboarding API', type: :request do
   let(:super_admin) { create(:super_admin) }
 
   describe 'GET /installation/onboarding' do
