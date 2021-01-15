@@ -1,12 +1,17 @@
 <template>
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
-      <button class="button clear button--emoji" @click="toggleEmojiPicker">
+      <button
+        class="button clear button--emoji"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        @click="toggleEmojiPicker"
+      >
         <emoji-or-icon icon="ion-happy-outline" emoji="😊" />
       </button>
       <button
         v-if="showAttachButton"
         class="button clear button--emoji button--upload"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
       >
         <file-upload
           :size="4096 * 4096"
@@ -19,9 +24,10 @@
       <button
         v-if="enableRichEditor"
         class="button clear button--emoji"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       >
-        🖊️
+        <emoji-or-icon icon="ion-quote" emoji="🖊️" />
       </button>
     </div>
     <div class="right-wrap">
