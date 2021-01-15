@@ -46,6 +46,14 @@ class MessageFormatter {
   get formattedMessage() {
     return this.formatMessage();
   }
+
+  get plainText() {
+    const strippedOutHtml = new DOMParser().parseFromString(
+      this.formattedMessage,
+      'text/html'
+    );
+    return strippedOutHtml.body.textContent || '';
+  }
 }
 
 export default MessageFormatter;

@@ -132,12 +132,7 @@ export default {
     },
 
     parsedLastMessage() {
-      const parsedHtml = this.formatMessage(this.lastMessageInChat.content);
-      const strippedOutHtml = new DOMParser().parseFromString(
-        parsedHtml,
-        'text/html'
-      );
-      return strippedOutHtml.body.textContent || '';
+      return this.getPlainText(this.lastMessageInChat.content);
     },
   },
 

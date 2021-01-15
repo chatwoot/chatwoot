@@ -48,4 +48,14 @@ describe('#MessageFormatter', () => {
       );
     });
   });
+
+  describe('plain text content', () => {
+    it('returns the plain text without HTML', () => {
+      const message =
+        '<b>Chatwoot is an opensource tool. https://www.chatwoot.com</b>';
+      expect(new MessageFormatter(message).plainText).toMatch(
+        'Chatwoot is an opensource tool. https://www.chatwoot.com'
+      );
+    });
+  });
 });

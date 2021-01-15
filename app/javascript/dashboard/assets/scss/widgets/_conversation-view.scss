@@ -368,6 +368,10 @@
       color: var(--s-300);
     }
   }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .right .bubble .text-content {
