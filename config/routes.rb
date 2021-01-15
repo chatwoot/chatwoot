@@ -219,6 +219,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :super_admins
       resources :access_tokens, only: [:index, :show]
+      resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
