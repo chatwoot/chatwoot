@@ -51,6 +51,10 @@ export default {
     word-break: break-all;
   }
 
+  .link {
+    text-decoration: underline;
+  }
+
   &.user {
     border-bottom-right-radius: $space-smaller;
 
