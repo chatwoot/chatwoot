@@ -16,7 +16,11 @@
           <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
       </button>
-      <button class="button clear button--emoji" @click="toggleFormatMode">
+      <button
+        v-if="enableRichEditor"
+        class="button clear button--emoji"
+        @click="toggleFormatMode"
+      >
         🖊️
       </button>
     </div>
@@ -78,6 +82,10 @@ export default {
       default: () => {},
     },
     isFormatMode: {
+      type: Boolean,
+      default: false,
+    },
+    enableRichEditor: {
       type: Boolean,
       default: false,
     },

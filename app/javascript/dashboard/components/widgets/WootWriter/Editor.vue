@@ -12,6 +12,8 @@ import {
 } from 'prosemirror-markdown';
 import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
 
+const TYPING_INDICATOR_IDLE_TIME = 4000;
+
 const createState = (content, placeholder) =>
   EditorState.create({
     doc: defaultMarkdownParser.parse(content),
@@ -49,7 +51,47 @@ export default {
         this.lastValue = defaultMarkdownSerializer.serialize(this.state.doc);
         this.$emit('input', this.lastValue);
       },
+      handleDOMEvents: {
+        keyup: () => {
+          this.onKeyup();
+        },
+        focus: () => {
+          this.onFocus();
+        },
+        blur: () => {
+          this.onBlur();
+        },
+      },
     });
+  },
+  methods: {
+    resetTyping() {
+      this.$emit('typing-off');
+      this.idleTimer = null;
+    },
+    turnOffIdleTimer() {
+      if (this.idleTimer) {
+        clearTimeout(this.idleTimer);
+      }
+    },
+    onKeyup() {
+      if (!this.idleTimer) {
+        this.$emit('typing-on');
+      }
+      this.turnOffIdleTimer();
+      this.idleTimer = setTimeout(
+        () => this.resetTyping(),
+        TYPING_INDICATOR_IDLE_TIME
+      );
+    },
+    onBlur() {
+      this.turnOffIdleTimer();
+      this.resetTyping();
+      this.$emit('blur');
+    },
+    onFocus() {
+      this.$emit('focus');
+    },
   },
 };
 </script>

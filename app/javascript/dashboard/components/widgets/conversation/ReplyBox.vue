@@ -60,6 +60,7 @@
       :is-send-disabled="isReplyButtonDisabled"
       :set-format-mode="setFormatMode"
       :is-format-mode="isFormatMode"
+      :enable-rich-editor="isRichEditorEnabled"
     />
   </div>
 </template>
@@ -196,6 +197,13 @@ export default {
     },
     hasAttachments() {
       return this.attachedFiles.length;
+    },
+    isRichEditorEnabled() {
+      return (
+        this.isAWebWidgetInbox ||
+        this.isAnEmailChannel ||
+        this.replyType === REPLY_EDITOR_MODES.NOTE
+      );
     },
   },
   watch: {
