@@ -2,10 +2,8 @@
 # which means the particular config will be locked
 - name: INSTALLATION_NAME
   value: 'Chatwoot'
-  locked: false
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
-  locked: true
 - name: LOGO
   value: '/brand-assets/logo.svg'
 - name: BRAND_URL
@@ -16,13 +14,10 @@
   value: 'Chatwoot'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
-  locked: false
 - name: PRIVACY_URL
   value: 'https://www.chatwoot.com/privacy-policy'
-  locked: false
 - name: DISPLAY_MANIFEST
   value: true
-  locked: false
 - name: MAILER_INBOUND_EMAIL_DOMAIN
   value:
   locked: false
@@ -32,6 +27,6 @@
 - name: CREATE_NEW_ACCOUNT_FROM_DASHBOARD
   value: false
   locked: false
-- name: 'INSTALLATION_EVENTS_WEBHOOK_URL'
+- name: INSTALLATION_EVENTS_WEBHOOK_URL
   value: 
   locked: false
