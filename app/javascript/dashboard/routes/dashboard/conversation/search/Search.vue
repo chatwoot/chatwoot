@@ -57,6 +57,7 @@
 import { mapGetters } from 'vuex';
 import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
 import timeMixin from '../../../../mixins/time';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   directives: {
@@ -66,7 +67,7 @@ export default {
       },
     },
   },
-  mixins: [timeMixin],
+  mixins: [timeMixin, messageFormatterMixin],
   props: {
     show: {
       type: Boolean,
@@ -107,7 +108,8 @@ export default {
   },
   methods: {
     prepareContent(content = '') {
-      return content.replace(
+      const plainTextContent = this.getPlainText(content);
+      return plainTextContent.replace(
         new RegExp(`(${this.searchTerm})`, 'ig'),
         '<span class="searchkey--highlight">$1</span>'
       );

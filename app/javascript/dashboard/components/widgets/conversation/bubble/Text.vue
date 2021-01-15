@@ -1,6 +1,6 @@
 <template>
   <div class="message-text__wrap">
-    <span v-html="message"></span>
+    <div class="text-content" v-html="message"></div>
   </div>
 </template>
 
