@@ -1,4 +1,7 @@
+import marked from 'marked';
+import DOMPurify from 'dompurify';
 import { escapeHtml } from './HTMLSanitizer';
+
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT =
   '$1<a href="http://twitter.com/$2" target="_blank" rel="noreferrer nofollow noopener">@$2</a>';
@@ -9,40 +12,48 @@ const TWITTER_HASH_REPLACEMENT =
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
-    this.message = escapeHtml(message || '') || '';
+    this.message = DOMPurify.sanitize(escapeHtml(message) || '');
     this.isATweet = isATweet;
+    this.marked = marked;
+
+    const renderer = {
+      heading(text) {
+        return `<strong>${text}</strong>`;
+      },
+      link(url, title, text) {
+        return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title ||
+          ''}" target="_blank">${text}</a>`;
+      },
+    };
+    this.marked.use({ renderer });
   }
 
   formatMessage() {
-    const linkifiedMessage = this.linkify();
-    const messageWithNextLines = linkifiedMessage.replace(/\n/g, '<br>');
     if (this.isATweet) {
-      const messageWithUserName = messageWithNextLines.replace(
+      const withUserName = this.message.replace(
         TWITTER_USERNAME_REGEX,
         TWITTER_USERNAME_REPLACEMENT
       );
-      return messageWithUserName.replace(
+      const withHash = withUserName.replace(
         TWITTER_HASH_REGEX,
         TWITTER_HASH_REPLACEMENT
       );
+      const markedDownOutput = marked(withHash);
+      return markedDownOutput;
     }
-    return messageWithNextLines;
-  }
-
-  linkify() {
-    if (!this.message) {
-      return '';
-    }
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return this.message.replace(
-      urlRegex,
-      url =>
-        `<a rel="noreferrer noopener nofollow" href="${url}" class="link" target="_blank">${url}</a>`
-    );
+    return marked(this.message);
   }
 
   get formattedMessage() {
     return this.formatMessage();
+  }
+
+  get plainText() {
+    const strippedOutHtml = new DOMParser().parseFromString(
+      this.formattedMessage,
+      'text/html'
+    );
+    return strippedOutHtml.body.textContent || '';
   }
 }
 
