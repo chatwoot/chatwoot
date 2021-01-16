@@ -132,7 +132,13 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def conversation_reply_email_id
-    "<#{@conversation.messages.incoming.last.content_attributes['email']['message_id']}>"
+    content_attributes = @conversation.messages.incoming.last&.content_attributes
+
+    if content_attributes && content_attributes['email'] && content_attributes['message_id']
+      "<#{@conversation.messages.incoming.last.content_attributes['email']['message_id']}>"
+    end
+
+    nil
   end
 
   def inbound_email_enabled?
