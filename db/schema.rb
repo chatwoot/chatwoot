@@ -182,6 +182,8 @@ ActiveRecord::Schema.define(version: 2021_01_13_045116) do
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 3, null: false
     t.integer "reply_time", default: 0
+    t.string "hmac_token"
+    t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
@@ -191,6 +193,7 @@ ActiveRecord::Schema.define(version: 2021_01_13_045116) do
     t.string "source_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "hmac_verified", default: false
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"

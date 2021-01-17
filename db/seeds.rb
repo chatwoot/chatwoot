@@ -2,39 +2,48 @@
 GlobalConfig.clear_cache
 ConfigLoader.new.process
 
-account = Account.create!(
-  name: 'Acme Inc',
-  domain: 'support.chatwoot.com',
-  support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-)
+## Seeds productions
+if Rails.env.production?
+  # Setup Onboarding flow
+  ::Redis::Alfred.set(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
+end
 
-user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
-user.skip_confirmation!
-user.save!
+## Seeds for Local Development
+unless Rails.env.production?
+  SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
 
-SuperAdmin.create!(email: 'john@acme.inc', password: '123456') unless Rails.env.production?
+  account = Account.create!(
+    name: 'Acme Inc',
+    domain: 'support.chatwoot.com',
+    support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  )
 
-AccountUser.create!(
-  account_id: account.id,
-  user_id: user.id,
-  role: :administrator
-)
+  user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
+  user.skip_confirmation!
+  user.save!
 
-web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
+  AccountUser.create!(
+    account_id: account.id,
+    user_id: user.id,
+    role: :administrator
+  )
 
-inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
-InboxMember.create!(user: user, inbox: inbox)
+  web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
 
-contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)
-contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id)
-conversation = Conversation.create!(
-  account: account,
-  inbox: inbox,
-  status: :open,
-  assignee: user,
-  contact: contact,
-  contact_inbox: contact_inbox,
-  additional_attributes: {}
-)
-Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
-CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
+  inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
+  InboxMember.create!(user: user, inbox: inbox)
+
+  contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)
+  contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id)
+  conversation = Conversation.create!(
+    account: account,
+    inbox: inbox,
+    status: :open,
+    assignee: user,
+    contact: contact,
+    contact_inbox: contact_inbox,
+    additional_attributes: {}
+  )
+  Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+  CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
+end
