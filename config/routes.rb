@@ -92,6 +92,7 @@ Rails.application.routes.draw do
           resources :notifications, only: [:index, :update] do
             collection do
               post :read_all
+              get :unread_count
             end
           end
           resource :notification_settings, only: [:show, :update]

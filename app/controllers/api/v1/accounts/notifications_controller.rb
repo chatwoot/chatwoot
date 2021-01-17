@@ -27,6 +27,11 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
     render json: @notification
   end
 
+  def unread_count
+    @unread_count = current_user.notifications.where(account_id: current_account.id, read_at: nil).count
+    render json: @unread_count
+  end
+
   private
 
   def set_primary_actor
