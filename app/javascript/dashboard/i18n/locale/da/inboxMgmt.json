@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Aktiver automatisk tildeling",
       "INBOX_UPDATE_TITLE": "Indbakke Indstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Opdater dine indbakkeindstillinger",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling af nye samtaler til agenter tilføjet til denne indbakke.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Genautorisér",
