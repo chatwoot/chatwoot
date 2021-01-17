@@ -114,10 +114,9 @@ RSpec.describe 'Notifications API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let!(:notification1) { create(:notification, account: account, user: admin) }
-      let!(:notification2) { create(:notification, account: account, user: admin) }
 
       it 'returns notifications unread count' do
+        2.times.each { create(:notification, account: account, user: admin) }
         get "/api/v1/accounts/#{account.id}/notifications/unread_count",
             headers: admin.create_new_auth_token,
             as: :json
