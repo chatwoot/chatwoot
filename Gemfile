@@ -32,7 +32,6 @@ gem 'liquid'
 # Parse Markdown to HTML
 gem 'redcarpet'
 
-
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
