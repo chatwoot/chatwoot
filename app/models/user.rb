@@ -78,6 +78,8 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :notification_subscriptions, dependent: :destroy
+  has_many :team_members, dependent: :destroy
+  has_many :teams, through: :team_members
 
   before_validation :set_password_and_uid, on: :create
 
