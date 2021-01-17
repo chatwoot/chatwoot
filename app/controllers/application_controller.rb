@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     render_unauthorized('You are not authorized to do this action')
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
-    Current.user = nil
+    Current.reset
   end
 
   def set_current_user

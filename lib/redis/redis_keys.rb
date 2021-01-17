@@ -27,5 +27,6 @@ module Redis::RedisKeys
   REAUTHORIZATION_REQUIRED =  'REAUTHORIZATION_REQUIRED:%<obj_type>s:%<obj_id>d'.freeze
 
   ## Internal Installation related keys
+  CHATWOOT_INSTALLATION_ONBOARDING = 'CHATWOOT_INSTALLATION_ONBOARDING'.freeze
   LATEST_CHATWOOT_VERSION = 'LATEST_CHATWOOT_VERSION'.freeze
 end
