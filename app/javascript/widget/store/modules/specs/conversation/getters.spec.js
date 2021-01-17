@@ -1,4 +1,4 @@
-import { getters } from '../../conversation';
+import { getters } from '../../conversation/getters';
 
 describe('#getters', () => {
   it('getConversation', () => {

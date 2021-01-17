@@ -15,11 +15,12 @@ describe('#getUserString', () => {
           name: 'Pranav',
           email: 'pranav@example.com',
           avatar_url: 'https://images.chatwoot.com/placeholder',
+          identifier_hash: '12345',
         },
         identifier: '12345',
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnamePranavidentifier12345'
+      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnamePranavidentifier_hash12345identifier12345'
     );
 
     expect(
@@ -30,7 +31,7 @@ describe('#getUserString', () => {
         },
       })
     ).toBe(
-      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier'
+      'avatar_urlhttps://images.chatwoot.com/placeholderemailpranav@example.comnameidentifier_hashidentifier'
     );
   });
 });
