@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses"
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautoritza",
