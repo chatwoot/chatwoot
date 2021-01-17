@@ -16,7 +16,7 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-pt_BR:
+pt:
   hello: "Olá, mundo"
   messages:
     reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
@@ -31,7 +31,7 @@ pt_BR:
     period: Reportando o período %{since} a %{until}
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Esta mensagem foi apagada
     activity:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
