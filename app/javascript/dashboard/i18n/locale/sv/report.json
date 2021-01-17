@@ -1,9 +1,9 @@
 {
   "REPORT": {
     "HEADER": "Rapporter",
-    "LOADING_CHART": "Laddar sjökortsdata...",
-    "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera rapport, försök igen senare.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "LOADING_CHART": "Laddar diagramdata...",
+    "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera en rapport, försök igen senare.",
+    "DOWNLOAD_AGENT_REPORTS": "Ladda ner agentrapporter",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationer",
@@ -19,14 +19,14 @@
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "Första svarstiden",
-        "DESC": "( Genomsnitt)"
+        "DESC": "( Genomsnitt )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Lösning Tid",
-        "DESC": "( Genomsnitt)"
+        "NAME": "Lösningstid",
+        "DESC": "( Genomsnitt )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Antal upplösningar",
+        "NAME": "Antal lösta",
         "DESC": "( Totalt )"
       }
     },
