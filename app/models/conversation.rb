@@ -19,16 +19,19 @@
 #  contact_inbox_id      :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
+#  team_id               :bigint
 #
 # Indexes
 #
 #  index_conversations_on_account_id                 (account_id)
 #  index_conversations_on_account_id_and_display_id  (account_id,display_id) UNIQUE
 #  index_conversations_on_contact_inbox_id           (contact_inbox_id)
+#  index_conversations_on_team_id                    (team_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (contact_inbox_id => contact_inboxes.id)
+#  fk_rails_...  (team_id => teams.id)
 #
 
 class Conversation < ApplicationRecord
@@ -49,6 +52,7 @@ class Conversation < ApplicationRecord
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :contact
   belongs_to :contact_inbox
+  belongs_to :team, optional: true
 
   has_many :messages, dependent: :destroy, autosave: true
 
@@ -231,7 +235,7 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     return unless user_name
 
-    params = { assignee_name: assignee.name, user_name: user_name }.compact
+    params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)

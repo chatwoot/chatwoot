@@ -7,13 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: native, lf, crlf
-Layout/EndOfLine:
-  Exclude:
-    - 'deploy/after_restart.rb'
-
-# Offense count: 1
 Lint/DuplicateMethods:
   Exclude:
     - 'app/controllers/api/v1/reports_controller.rb'

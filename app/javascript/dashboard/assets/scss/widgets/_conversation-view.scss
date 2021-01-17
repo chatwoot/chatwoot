@@ -3,7 +3,7 @@
   @include margin($zero);
   background: $color-woot;
   border-radius: $space-one;
-  color: $color-white;
+  color: var(--white);
   font-size: $font-size-small;
   font-weight: $font-weight-normal;
   position: relative;
@@ -11,9 +11,8 @@
   .message-text__wrap {
     position: relative;
 
-
     .link {
-      color: $color-white;
+      color: var(--white);
       text-decoration: underline;
     }
   }
@@ -88,17 +87,15 @@
     }
   }
 
-
-
   .content-box {
     text-align: center;
   }
 }
 
 .conversation-wrap {
-  @include background-gray;
   @include margin(0);
   @include border-normal-left;
+  background: var(--color-background-light);
 
   .current-chat {
     @include flex;
@@ -138,10 +135,9 @@
   @include flex-weight(1);
   @include margin($zero);
   flex-direction: column;
-  // Firefox flexbox fix
   height: 100%;
-  margin-bottom: $space-small;
   overflow-y: auto;
+  padding-bottom: var(--space-normal);
   position: relative;
 }
 
@@ -164,7 +160,7 @@
       @include elegant-card;
       @include round-corner;
       background: $color-woot;
-      color: $color-white;
+      color: var(--white);
       font-size: $font-size-mini;
       font-weight: $font-weight-medium;
       margin: $space-one auto;
@@ -215,6 +211,7 @@
           color: $color-primary-dark;
         }
       }
+
     }
 
     +.right {
@@ -303,6 +300,12 @@
   }
 }
 
+.activity-wrap .message-text__wrap {
+  .text-content p {
+    margin-bottom: 0;
+  }
+}
+
 .conversation-footer {
   display: flex;
   flex-direction: column;
@@ -320,7 +323,7 @@
   .typing-indicator {
     @include elegant-card;
     @include round-corner;
-    background: $color-white;
+    background: var(--white);
     color: $color-light-gray;
     font-size: $font-size-mini;
     font-weight: $font-weight-bold;
@@ -331,5 +334,67 @@
       margin-left: $space-small;
       width: $space-medium;
     }
+  }
+}
+
+.left .bubble .text-content {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-body);
+  }
+
+  a {
+    color: var(--color-woot);
+    text-decoration: underline;
+  }
+
+  blockquote {
+    border-left-color: var(--s-300);
+
+    p {
+      color: var(--s-300);
+    }
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.right .bubble .text-content {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--white);
+  }
+
+  a {
+    color: var(--white);
+    text-decoration: underline;
+  }
+
+  blockquote {
+    border-left-color: var(--w-100);
+
+    p {
+      color: var(--w-100);
+    }
+  }
+
+  pre code {
+    background: var(--color-background);
+  }
+
+  p:last-child {
+    margin-bottom: 0;
   }
 }
