@@ -66,12 +66,8 @@ class ConversationReplyMailer < ApplicationMailer
     @inbox = @conversation.inbox
   end
 
-  def email_inbox?
-    @inbox.inbox_type == 'Email'
-  end
-
   def should_use_conversation_email_address?
-    email_inbox? || inbound_email_enabled?
+    @inbox.inbox_type == 'Email' || inbound_email_enabled?
   end
 
   def conversation_already_viewed?

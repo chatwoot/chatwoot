@@ -176,12 +176,20 @@ class Message < ApplicationRecord
   def notify_via_mail
     return unless can_notify_via_mail?
 
-    # set a redis key for the conversation so that we don't need to send email for every new message
+    trigger_notify_via_mail
+  end
+
+  def trigger_notify_via_mail
+    # will set a redis key for the conversation so that we don't need to send email for every new message
     # last few messages coupled together is sent every 2 minutes rather than one email for each message
-    if Redis::Alfred.get(conversation_mail_key).nil?
-      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
-      mail_delay = inbox.inbox_type == 'Email' ? 2.seconds : 2.minutes
-      ConversationReplyEmailWorker.perform_in(mail_delay, conversation.id, Time.zone.now)
+    # if redis key exists there is an unprocessed job that will take care of delivering the email
+    return if Redis::Alfred.get(conversation_mail_key).present?
+
+    Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+    if inbox.inbox_type == 'Email'
+      ConversationReplyEmailWorker.perform_in(2.seconds, conversation.id, Time.zone.now)
+    else
+      ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
   end
 
