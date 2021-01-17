@@ -2,12 +2,13 @@
 #
 # Table name: contact_inboxes
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  contact_id :bigint
-#  inbox_id   :bigint
-#  source_id  :string           not null
+#  id            :bigint           not null, primary key
+#  hmac_verified :boolean          default(FALSE)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  contact_id    :bigint
+#  inbox_id      :bigint
+#  source_id     :string           not null
 #
 # Indexes
 #
