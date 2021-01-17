@@ -46,9 +46,9 @@
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Stiskněte Enter pro vybrání",
+      "ENTER_TO_REMOVE": "Stiskněte Enter pro odebrání",
+      "SELECT_ONE": "Vyberte jeden"
     }
   }
 }
