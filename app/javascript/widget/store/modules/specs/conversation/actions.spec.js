@@ -1,5 +1,5 @@
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import { actions } from '../../conversation';
+import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
@@ -119,6 +119,13 @@ describe('#actions', () => {
         getters: { getConversationSize: 0 },
       });
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#clearConversations', () => {
+    it('sends correct mutations', () => {
+      actions.clearConversations({ commit });
+      expect(commit).toBeCalledWith('clearConversations');
     });
   });
 });
