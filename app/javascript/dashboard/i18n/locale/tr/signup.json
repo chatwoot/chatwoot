@@ -2,21 +2,21 @@
   "REGISTER": {
     "TRY_WOOT": "Bir hesap oluştur",
     "TITLE": "Kayıt ol",
-    "TERMS_ACCEPT": "Kaydolarak,  <a href=\"https://www.chatwoot.com/terms\"> T & C </a> ve <a href = \"https://www.chatwoot.com/privacy\"> Gizlilik politikası </a> kabul etmiş olursunuz.",
+    "TERMS_ACCEPT": "Kaydolarak, <a href=\"https://www.chatwoot.com/terms\">Şartlar & Koşullar</a>'ımızı ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik politikamız</a>ı kabul etmiş olursunuz",
     "ACCOUNT_NAME": {
       "LABEL": "Hesap adı",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "Hesap adınızı giriniz. örn: Wayne Enterprises",
+      "ERROR": "Hesap adı çok kısa"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Ad Soyad",
+      "PLACEHOLDER": "Ad Soyadınızı giriniz. örn: Bruce Wayne",
+      "ERROR": "Ad Soyad çok kısa"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "İş emaili",
+      "PLACEHOLDER": "İş email adresinizi giriniz. örn: bruce@wayne.enterprises",
+      "ERROR": "Email adresi geçersiz"
     },
     "PASSWORD": {
       "LABEL": "Parola",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "SUBMIT": "Yolla",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
   }
 }
