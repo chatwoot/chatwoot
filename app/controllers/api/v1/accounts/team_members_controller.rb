@@ -3,12 +3,12 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
   before_action :check_authorization
 
   def index
-    render json: @team.team_members.map(&:user)
+    @team_members = @team.team_members.map(&:user)
   end
 
   def create
-    @team.team_members.find_or_create_by(user_id: params[:user_id])
-    head :ok
+    record = @team.team_members.find_or_create_by(user_id: params[:user_id])
+    @team_member = record.user
   end
 
   def destroy

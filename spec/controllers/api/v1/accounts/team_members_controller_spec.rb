@@ -61,7 +61,8 @@ RSpec.describe 'Team Members API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(team.team_members.first.user_id).to eq(agent.id)
+        json_response = JSON.parse(response.body)
+        expect(json_response['id']).to eq(agent.id)
       end
     end
   end
