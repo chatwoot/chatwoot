@@ -230,6 +230,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :installation do
+    get 'onboarding', to: 'onboarding#index'
+    post 'onboarding', to: 'onboarding#create'
+  end
+
   # ---------------------------------------------------------------------
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
