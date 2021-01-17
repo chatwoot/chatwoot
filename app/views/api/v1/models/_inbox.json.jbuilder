@@ -17,3 +17,4 @@ json.phone_number resource.channel.try(:phone_number)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.facebook?
+json.hmac_token resource.channel.try(:hmac_token) if resource.web_widget?
