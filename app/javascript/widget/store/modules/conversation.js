@@ -174,6 +174,10 @@ export const actions = {
     }
   },
 
+  clearConversations: ({ commit }) => {
+    commit('clearConversations');
+  },
+
   addMessage: async ({ commit }, data) => {
     commit('pushMessageToConversation', data);
     onNewMessageCreated(data);
@@ -211,6 +215,9 @@ export const actions = {
 };
 
 export const mutations = {
+  clearConversations($state) {
+    Vue.set($state, 'conversations', {});
+  },
   pushMessageToConversation($state, message) {
     const { id, status, message_type: type } = message;
     const messagesInbox = $state.conversations;

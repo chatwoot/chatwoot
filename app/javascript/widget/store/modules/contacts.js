@@ -2,7 +2,7 @@ import ContactsAPI from '../../api/contacts';
 import { refreshActionCableConnector } from '../../helpers/actionCable';
 
 export const actions = {
-  update: async (_, { identifier, user: userObject }) => {
+  update: async ({ dispatch }, { identifier, user: userObject }) => {
     try {
       const user = {
         email: userObject.email,
@@ -13,6 +13,12 @@ export const actions = {
       const {
         data: { pubsub_token: pubsubToken },
       } = await ContactsAPI.update(identifier, user);
+
+      if (userObject.identifier_hash) {
+        dispatch('conversation/clearConversations', {}, { root: true });
+        dispatch('conversation/fetchOldConversations', {}, { root: true });
+      }
+
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       // Ingore error
