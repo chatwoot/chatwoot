@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Vašemu vyhledávání neodpovídají žádné zprávy."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Nepřečtené zprávy",
+    "UNREAD_MESSAGE": "Nepřečtená zpráva",
     "CLICK_HERE": "Klikněte zde",
     "LOADING_INBOXES": "Načítání krabic",
     "LOADING_CONVERSATIONS": "Načítání konverzací",
@@ -24,7 +24,7 @@
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -46,11 +46,11 @@
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Vybrat agenta",
       "REMOVE": "Odebrat",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Přiřadit"
     }
   },
   "EMAIL_TRANSCRIPT": {
