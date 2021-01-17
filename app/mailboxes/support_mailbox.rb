@@ -47,6 +47,7 @@ class SupportMailbox < ApplicationMailbox
                                              contact_inbox_id: @contact_inbox.id,
                                              additional_attributes: {
                                                source: 'email',
+                                               mail_subject: @processed_mail.subject,
                                                initiated_at: {
                                                  timestamp: Time.now.utc
                                                }

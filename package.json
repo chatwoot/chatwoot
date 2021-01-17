@@ -37,6 +37,7 @@
     "prosemirror-state": "^1.3.3",
     "prosemirror-view": "^1.16.5",
     "query-string": "5",
+    "semver": "^7.3.4",
     "spinkit": "~1.2.5",
     "tailwindcss": "^1.9.6",
     "tween.js": "~16.6.0",

@@ -92,9 +92,18 @@ Rails.application.routes.draw do
           resources :notifications, only: [:index, :update] do
             collection do
               post :read_all
+              get :unread_count
             end
           end
           resource :notification_settings, only: [:show, :update]
+
+          resources :teams do
+            resources :team_members, only: [:index, :create] do
+              collection do
+                delete :destroy
+              end
+            end
+          end
 
           resources :webhooks, except: [:show]
           namespace :integrations do
@@ -228,6 +237,11 @@ Rails.application.routes.draw do
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
     end
+  end
+
+  namespace :installation do
+    get 'onboarding', to: 'onboarding#index'
+    post 'onboarding', to: 'onboarding#create'
   end
 
   # ---------------------------------------------------------------------

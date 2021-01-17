@@ -79,7 +79,14 @@
         </div>
       </div>
       <div class="current-version">
-        {{ `v${globalConfig.appVersion}` }}
+        <div>{{ `v${globalConfig.appVersion}` }}</div>
+        <div v-if="hasAnUpdateAvailable && globalConfig.displayManifest">
+          {{
+            $t('GENERAL_SETTINGS.UPDATE_CHATWOOT', {
+              latestChatwootVersion: latestChatwootVersion,
+            })
+          }}
+        </div>
       </div>
 
       <woot-submit-button
@@ -100,6 +107,7 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import accountMixin from '../../../../mixins/account';
+const semver = require('semver');
 
 export default {
   mixins: [accountMixin, alertMixin, configMixin],
@@ -112,6 +120,7 @@ export default {
       supportEmail: '',
       features: {},
       autoResolveDuration: null,
+      latestChatwootVersion: null,
     };
   },
   validations: {
@@ -131,6 +140,16 @@ export default {
       getAccount: 'accounts/getAccount',
       uiFlags: 'accounts/getUIFlags',
     }),
+    hasAnUpdateAvailable() {
+      if (!semver.valid(this.latestChatwootVersion)) {
+        return false;
+      }
+
+      return semver.lt(
+        this.globalConfig.appVersion,
+        this.latestChatwootVersion
+      );
+    },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
       return enabledLanguages.sort((l1, l2) =>
@@ -167,6 +186,7 @@ export default {
           custom_email_domain_enabled,
           features,
           auto_resolve_duration,
+          latest_chatwoot_version: latestChatwootVersion,
         } = this.getAccount(this.accountId);
 
         this.$root.$i18n.locale = locale;
@@ -178,6 +198,7 @@ export default {
         this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
         this.autoResolveDuration = auto_resolve_duration;
+        this.latestChatwootVersion = latestChatwootVersion;
       } catch (error) {
         // Ignore error
       }

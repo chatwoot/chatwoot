@@ -102,4 +102,29 @@ RSpec.describe 'Notifications API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/notifications/unread_count' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/notifications/unread_count"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns notifications unread count' do
+        2.times.each { create(:notification, account: account, user: admin) }
+        get "/api/v1/accounts/#{account.id}/notifications/unread_count",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_json = JSON.parse(response.body)
+        expect(response).to have_http_status(:success)
+        expect(response_json).to eq 2
+      end
+    end
+  end
 end

@@ -42,5 +42,9 @@ export default {
     font-weight: $font-weight-medium;
     margin-bottom: 0;
   }
+
+  .title--section {
+    padding-right: var(--space-large);
+  }
 }
 </style>
