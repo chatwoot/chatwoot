@@ -94,6 +94,7 @@ export default {
 
     .message-wrap {
       margin-right: $space-small;
+      max-width: 100%;
     }
 
     .in-progress {

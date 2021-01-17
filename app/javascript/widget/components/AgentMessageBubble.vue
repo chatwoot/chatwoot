@@ -4,7 +4,7 @@
       v-if="!isCards && !isOptions && !isForm && !isArticle"
       class="chat-bubble agent"
     >
-      <span v-html="formatMessage(message, false)"></span>
+      <div class="message-content" v-html="formatMessage(message, false)"></div>
       <email-input
         v-if="isTemplateEmail"
         :message-id="messageId"
@@ -131,5 +131,15 @@ export default {
       color: $color-woot;
     }
   }
+}
+</style>
+<style lang="scss" scoped>
+@import '~widget/assets/scss/variables.scss';
+
+.chat-bubble .message-content::v-deep pre {
+  background: $color-primary-light;
+  color: $color-body;
+  overflow: scroll;
+  padding: $space-smaller;
 }
 </style>

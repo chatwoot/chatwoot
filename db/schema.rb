@@ -294,7 +294,9 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.jsonb "serialized_value", default: {}, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "locked", default: true, null: false
     t.index ["name", "created_at"], name: "index_installation_configs_on_name_and_created_at", unique: true
+    t.index ["name"], name: "index_installation_configs_on_name", unique: true
   end
 
   create_table "integrations_hooks", force: :cascade do |t|
