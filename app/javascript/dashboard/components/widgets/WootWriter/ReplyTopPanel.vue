@@ -113,6 +113,7 @@ export default {
   }
 
   .button--reply {
+    border-radius: 0;
     border-right: 1px solid var(--color-border);
 
     &:hover {
@@ -121,9 +122,16 @@ export default {
   }
 
   .button--note {
+    border-radius: 0;
+
     &.is-active {
       border-right: 1px solid var(--color-border);
       background: var(--y-50);
+    }
+
+    &:hover,
+    &:active {
+      color: var(--y-800);
     }
   }
 }
