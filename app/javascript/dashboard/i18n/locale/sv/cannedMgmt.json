@@ -33,7 +33,7 @@
         "SUBMIT": "Skicka"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmall har lagts till",
+        "SUCCESS_MESSAGE": "Svarsmallen har lagts till",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },
@@ -55,14 +55,14 @@
       },
       "BUTTON_TEXT": "Redigera",
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmall har uppdaterats",
+        "SUCCESS_MESSAGE": "Svarsmallen har uppdaterats",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
-        "SUCCESS_MESSAGE": "Svarsmall har tagits bort",
+        "SUCCESS_MESSAGE": "Svarsmallen har tagits bort",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       },
       "CONFIRM": {
