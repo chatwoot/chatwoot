@@ -97,6 +97,14 @@ Rails.application.routes.draw do
           end
           resource :notification_settings, only: [:show, :update]
 
+          resources :teams do
+            resources :team_members, only: [:index, :create] do
+              collection do
+                delete :destroy
+              end
+            end
+          end
+
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
