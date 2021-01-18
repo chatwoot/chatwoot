@@ -28,10 +28,10 @@ tr:
       email_already_exists: "%{email} ile zaten bir hesaba kaydoldunuz"
       failed: Kayıt başarısız oldu
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Raporlama aralığı %{since}'dan %{until}'a
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Bu mesaj silinmiş
     activity:
       status:
         resolved: "Görüşme %{user_name} tarafından çözüldü olarak işaretlendi"

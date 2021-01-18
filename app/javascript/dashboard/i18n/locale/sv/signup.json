@@ -2,21 +2,21 @@
   "REGISTER": {
     "TRY_WOOT": "Registrera ett konto",
     "TITLE": "Registrera",
-    "TERMS_ACCEPT": "Genom att registrera dig godkänner du vår <a href=\"https://www.chatwoot.com/terms\">T & C</a> och <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
+    "TERMS_ACCEPT": "Genom att registrera dig godkänner du våra <a href=\"https://www.chatwoot.com/terms\">användarvillkor</a> och vår <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Konto namn",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "Kontonamn",
+      "PLACEHOLDER": "Ange ett kontonamn. t.ex.: Wayne Enterprises",
+      "ERROR": "Kontonamnet är för kort"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Fullständigt namn",
+      "PLACEHOLDER": "Ange ditt fullständiga namn. t.ex.: Bruce Wayne",
+      "ERROR": "Fullständigt namn är för kort"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "E-postadress, arbete",
+      "PLACEHOLDER": "Fyll i din e-postadress för arbete. t.ex.: bruce@wayne.enterprises",
+      "ERROR": "E-postadressen är ogiltig"
     },
     "PASSWORD": {
       "LABEL": "Lösenord",
@@ -26,13 +26,13 @@
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekräfta lösenord",
       "PLACEHOLDER": "Bekräfta lösenord",
-      "ERROR": "Lösenordet matchar inte"
+      "ERROR": "Lösenorden matchar inte"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registreringen lyckades",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
     "SUBMIT": "Skicka",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Har du redan ett konto?"
   }
 }

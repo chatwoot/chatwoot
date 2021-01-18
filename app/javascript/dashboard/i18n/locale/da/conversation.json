@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Privat Note",
       "SEND": "Send",
       "CREATE": "Tilføj Note",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
     "CHANGE_STATUS": "Samtalestatus ændret",

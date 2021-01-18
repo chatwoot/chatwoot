@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Notă privată",
       "SEND": "Trimite",
       "CREATE": "Adaugă Notă",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Notă privată: vizibilă doar pentru tine și echipa ta",
     "CHANGE_STATUS": "Stare conversație schimbată",

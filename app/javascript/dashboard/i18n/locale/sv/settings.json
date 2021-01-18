@@ -23,78 +23,78 @@
         "NOTE": "Denna token kan användas om du bygger en API-baserad integration"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "E-post aviseringar",
+        "TITLE": "E-postaviseringar",
         "NOTE": "Uppdatera dina e-postaviseringsinställningar här",
         "CONVERSATION_ASSIGNMENT": "Skicka e-postmeddelanden när en konversation är tilldelad till mig",
         "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Dina aviseringsinställningar har uppdaterats",
+        "UPDATE_ERROR": "Ett fel uppstod vid uppdateringen av inställningarna, vänligen försök igen"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push-notiser",
+        "NOTE": "Uppdatera dina inställningar för push-notiser här",
+        "CONVERSATION_ASSIGNMENT": "Skicka push-notiser när en konversation tilldelas till mig",
+        "CONVERSATION_CREATION": "Skicka push-notiser när en ny konversation skapas",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka push-meddelanden när ett nytt meddelande skapas i en tilldelad konversation",
+        "HAS_ENABLED_PUSH": "Du har aktiverat push-funktionen för denna webbläsare.",
+        "REQUEST_PUSH": "Aktivera push-meddelanden"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilbild"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "Ditt fullständiga namn",
+        "ERROR": "Vänligen ange ett giltigt fullständigt namn",
+        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Visningsnamn",
+        "ERROR": "Vänligen ange ett giltigt visningsnamn",
+        "PLACEHOLDER": "Ange ett visningsnamn, detta visas i konversationer"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Tillgänglighet",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Upptagen",
           "Offline"
         ]
       },
       "EMAIL": {
         "LABEL": "Din e-postadress",
         "ERROR": "Ange en giltig e-postadress",
-        "PLACEHOLDER": "Ange din e-postadress, detta skulle visas i konversationer"
+        "PLACEHOLDER": "Ange din e-postadress, detta visas i konversationer"
       },
       "PASSWORD": {
         "LABEL": "Lösenord",
-        "ERROR": "Ange ett lösenord av längd 6 eller mer",
+        "ERROR": "Ange ett lösenord med minst 6 tecken",
         "PLACEHOLDER": "Ange ett nytt lösenord"
       },
       "PASSWORD_CONFIRMATION": {
         "LABEL": "Bekräfta nytt lösenord",
-        "ERROR": "Bekräfta att lösenordet måste matcha lösenordet",
+        "ERROR": "Bekräfta lösenord måste matcha lösenordet",
         "PLACEHOLDER": "Ange ditt lösenord igen"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Att förändra",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profilens inställningar",
-    "LOGOUT": "Utloggning"
+    "CHANGE_AVAILABILITY_STATUS": "Ändra",
+    "CHANGE_ACCOUNTS": "Byt konto",
+    "SELECTOR_SUBTITLE": "Välj ett konto från följande lista",
+    "PROFILE_SETTINGS": "Profilinställningar",
+    "LOGOUT": "Logga ut"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "dagars provperiod återstår.",
+    "TRAIL_BUTTON": "Köp nu"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Kopiera",
+      "COPY_SUCCESSFUL": "Koden har kopierats till urklipp"
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Hämta",
@@ -104,37 +104,37 @@
       "SUBMIT": "Skicka"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Bekräftar...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Lägg till inkorg"
     }
   },
   "SIDEBAR": {
     "CONVERSATIONS": "Konversationer",
     "REPORTS": "Rapporter",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Kontakter",
     "SETTINGS": "Inställningar",
-    "HOME": "Home",
+    "HOME": "Hem",
     "AGENTS": "Agenter",
     "INBOXES": "Inkorgar",
-    "CANNED_RESPONSES": "Konserverade svar",
+    "CANNED_RESPONSES": "Svarsmallar",
     "INTEGRATIONS": "Integrationer",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels"
+    "ACCOUNT_SETTINGS": "Kontoinställningar",
+    "LABELS": "Etiketter"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "Nytt konto",
+    "SELECTOR_SUBTITLE": "Skapa ett nytt konto",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
+      "SUCCESS_MESSAGE": "Kontot har skapats",
+      "EXIST_MESSAGE": "Konto finns redan",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Kontonamn",
-        "PLACEHOLDER": "Wayne Företag"
+        "PLACEHOLDER": "Wayne Enterprises"
       },
       "SUBMIT": "Skicka"
     }

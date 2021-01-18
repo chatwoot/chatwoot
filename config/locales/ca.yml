@@ -31,7 +31,7 @@ ca:
     period: Període d'informes %{since} a %{until}
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Aquest missatge a sigut eliminat
     activity:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"

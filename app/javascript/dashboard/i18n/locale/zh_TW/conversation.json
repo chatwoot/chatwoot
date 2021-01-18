@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "私人筆記",
       "SEND": "發送",
       "CREATE": "建立筆記",
-      "TWEET": "推特"
+      "TWEET": "推特",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
