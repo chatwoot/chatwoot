@@ -77,8 +77,8 @@
         "CONTENT": "hat eine URL geteilt"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "Per E-Mail empfangen",
+    "VIEW_TWEET_IN_TWITTER": "Tweet auf Twitter anzeigen",
+    "REPLY_TO_TWEET": "Auf diesen Tweet antworten"
   }
 }

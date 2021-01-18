@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="button nice resolve--button"
+    class="button resolve--button"
     :class="buttonClass"
     @click="toggleStatus"
   >

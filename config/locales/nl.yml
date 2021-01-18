@@ -30,6 +30,8 @@ nl:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Gesprek werd gemarkeerd door %{user_name}"

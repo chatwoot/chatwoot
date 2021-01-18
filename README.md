@@ -64,7 +64,7 @@ Detailed documentation is available at [www.chatwoot.com/help-center](https://ww
 
 ### Translation process
 
-The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
+The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
 
 ---
 
@@ -98,4 +98,4 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 <a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
 
 
-*Chatwoot* &copy; 2017-2020, ThoughtWoot Inc - Released under the MIT License.
+*Chatwoot* &copy; 2017-2021, Chatwoot Inc - Released under the MIT License.

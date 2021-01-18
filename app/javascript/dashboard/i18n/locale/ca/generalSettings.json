@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "La continuïtat de converses amb correus electrònics està habilitada per al vostre compte.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

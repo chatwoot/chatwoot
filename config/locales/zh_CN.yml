@@ -30,6 +30,8 @@ zh_CN:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "对话被标记由 %{user_name} 解决"

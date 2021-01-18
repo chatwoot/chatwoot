@@ -2,7 +2,8 @@ import Vue from 'vue';
 import * as types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
+import { createPendingMessage } from 'dashboard/helper/commons';
 
 // actions
 const actions = {
@@ -128,8 +129,13 @@ const actions = {
 
   sendMessage: async ({ commit }, data) => {
     try {
-      const response = await MessageApi.create(data);
-      commit(types.default.ADD_MESSAGE, response.data);
+      const pendingMessage = createPendingMessage(data);
+      commit(types.default.ADD_MESSAGE, pendingMessage);
+      const response = await MessageApi.create(pendingMessage);
+      commit(types.default.ADD_MESSAGE, {
+        ...response.data,
+        status: MESSAGE_STATUS.SENT,
+      });
     } catch (error) {
       // Handle error
     }
@@ -204,15 +210,6 @@ const actions = {
 
   setActiveInbox({ commit }, inboxId) {
     commit(types.default.SET_ACTIVE_INBOX, inboxId);
-  },
-
-  sendAttachment: async ({ commit }, data) => {
-    try {
-      const response = await MessageApi.sendAttachment(data);
-      commit(types.default.ADD_MESSAGE, response.data);
-    } catch (error) {
-      // Handle error
-    }
   },
 
   muteConversation: async ({ commit }, conversationId) => {

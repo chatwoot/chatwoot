@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "பதிவுபெறுவதன் மூலம், எங்கள் <a href=\"https://www.chatwoot.com/terms\"> விதிமுறைகள் மற்றும் நிபந்தனைகள், மற்றும் <a href=\"https://www.chatwoot.com/privacy-policy\"> தனியுரிமைக் கொள்கையை ஒப்புக்கொள்கிறீர்கள்",
     "ACCOUNT_NAME": {
       "LABEL": "கணக்கின் பெயர்",
-      "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்",
-      "ERROR": "கணக்கின் பெயர் சிறியதாக உள்ளது"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "இமெயில்",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "இமெயில் முகவரி தவறானது"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "பாஸ்வேர்ட்",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
     },
     "SUBMIT": "சமர்பிக்கவும்",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "பதிவு செய்யப்பட்ட பதில்கள்",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

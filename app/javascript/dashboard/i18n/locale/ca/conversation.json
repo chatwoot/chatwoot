@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Escriu qualsevol text per cercar missatges",
       "NO_MATCHING_RESULTS": "No hi ha missatges que coincideixin amb els paràmetres de cerca."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Missatges no Llegits",
+    "UNREAD_MESSAGE": "Missatge no Llegit",
     "CLICK_HERE": "Clica aquí",
     "LOADING_INBOXES": "S'estan carregant les safates d'entrada",
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
+    "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",
@@ -40,7 +41,10 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Envia",
       "CREATE": "Afegeix una nota",
-      "TWEET": "Tuit"
+      "TWEET": "Tuit",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",

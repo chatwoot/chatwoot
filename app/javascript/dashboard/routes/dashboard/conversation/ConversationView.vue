@@ -63,25 +63,23 @@ export default {
 
   data() {
     return {
-      panelToggleState: true,
       showSearchModal: false,
     };
   },
   computed: {
     ...mapGetters({
+      uiSettings: 'getUISettings',
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
-    isContactPanelOpen: {
-      get() {
-        if (this.currentChat.id) {
-          return this.panelToggleState;
-        }
-        return false;
-      },
-      set(val) {
-        this.panelToggleState = val;
-      },
+    isContactPanelOpen() {
+      if (this.currentChat.id) {
+        const {
+          is_contact_sidebar_open: isContactSidebarOpen,
+        } = this.uiSettings;
+        return isContactSidebarOpen;
+      }
+      return false;
     },
   },
 
@@ -132,7 +130,12 @@ export default {
       }
     },
     onToggleContactPanel() {
-      this.isContactPanelOpen = !this.isContactPanelOpen;
+      this.$store.dispatch('updateUISettings', {
+        uiSettings: {
+          ...this.uiSettings,
+          is_contact_sidebar_open: !this.isContactPanelOpen,
+        },
+      });
     },
     onSearch() {
       this.showSearchModal = true;

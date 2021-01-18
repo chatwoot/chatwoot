@@ -55,7 +55,7 @@ class Message < ApplicationRecord
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -128,8 +128,7 @@ class Message < ApplicationRecord
   private
 
   def execute_after_create_commit_callbacks
-    # rails issue with order of active record callbacks being executed
-    # https://github.com/rails/rails/issues/20911
+    # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     set_conversation_activity
     dispatch_create_events
     send_reply
@@ -169,8 +168,7 @@ class Message < ApplicationRecord
 
   def can_notify_via_mail?
     return unless email_notifiable_message?
-    return false if conversation.contact.email.blank?
-    return false unless %w[Website Email].include? inbox.inbox_type
+    return false if conversation.contact.email.blank? || !(%w[Website Email].include? inbox.inbox_type)
 
     true
   end
@@ -178,10 +176,19 @@ class Message < ApplicationRecord
   def notify_via_mail
     return unless can_notify_via_mail?
 
-    # set a redis key for the conversation so that we don't need to send email for every new message
+    trigger_notify_via_mail
+  end
+
+  def trigger_notify_via_mail
+    # will set a redis key for the conversation so that we don't need to send email for every new message
     # last few messages coupled together is sent every 2 minutes rather than one email for each message
-    if Redis::Alfred.get(conversation_mail_key).nil?
-      Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+    # if redis key exists there is an unprocessed job that will take care of delivering the email
+    return if Redis::Alfred.get(conversation_mail_key).present?
+
+    Redis::Alfred.setex(conversation_mail_key, Time.zone.now)
+    if inbox.inbox_type == 'Email'
+      ConversationReplyEmailWorker.perform_in(2.seconds, conversation.id, Time.zone.now)
+    else
       ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, Time.zone.now)
     end
   end

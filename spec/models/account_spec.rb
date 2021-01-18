@@ -20,4 +20,5 @@ RSpec.describe Account do
   it { is_expected.to have_many(:events) }
   it { is_expected.to have_many(:kbase_portals).dependent(:destroy) }
   it { is_expected.to have_many(:kbase_categories).dependent(:destroy) }
+  it { is_expected.to have_many(:teams).dependent(:destroy) }
 end

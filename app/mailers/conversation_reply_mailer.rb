@@ -66,6 +66,10 @@ class ConversationReplyMailer < ApplicationMailer
     @inbox = @conversation.inbox
   end
 
+  def should_use_conversation_email_address?
+    @inbox.inbox_type == 'Email' || inbound_email_enabled?
+  end
+
   def conversation_already_viewed?
     # whether contact already saw the message on widget
     return unless @conversation.contact_last_seen_at
@@ -83,12 +87,18 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def mail_subject
+    return "Re: #{incoming_mail_subject}" if incoming_mail_subject
+
     subject_line = I18n.t('conversations.reply.email_subject')
     "[##{@conversation.display_id}] #{subject_line}"
   end
 
+  def incoming_mail_subject
+    @incoming_mail_subject ||= @conversation.additional_attributes['mail_subject']
+  end
+
   def reply_email
-    if inbound_email_enabled?
+    if should_use_conversation_email_address?
       "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
     else
       @inbox.email_address || @agent&.email
@@ -96,7 +106,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def from_email_with_name
-    if inbound_email_enabled?
+    if should_use_conversation_email_address?
       "#{assignee_name} <#{account_support_email}>"
     else
       "#{assignee_name} <#{from_email_address}>"
@@ -114,7 +124,17 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def in_reply_to_email
-    "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+  end
+
+  def conversation_reply_email_id
+    content_attributes = @conversation.messages.incoming.last&.content_attributes
+
+    if content_attributes && content_attributes['email'] && content_attributes['email']['message_id']
+      return "<#{content_attributes['email']['message_id']}>"
+    end
+
+    nil
   end
 
   def inbound_email_enabled?

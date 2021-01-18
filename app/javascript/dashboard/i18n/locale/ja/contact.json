@@ -11,6 +11,7 @@
     "OS": "OS",
     "INITIATED_FROM": "開始元",
     "INITIATED_AT": "開始場所",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
       "TITLE": "前の会話"

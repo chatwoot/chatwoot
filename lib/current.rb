@@ -7,4 +7,10 @@ module Current
     super
     Time.zone = account.timezone
   end
+
+  def self.reset
+    Current.user = nil
+    Current.account = nil
+    Current.account_user = nil
+  end
 end

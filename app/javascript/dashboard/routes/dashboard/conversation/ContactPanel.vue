@@ -10,36 +10,46 @@
         :title="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
         :value="location"
         icon="ion-map"
+        emoji="📍"
       />
       <contact-details-item
         v-if="ipAddress"
         :title="$t('CONTACT_PANEL.IP_ADDRESS')"
         :value="ipAddress"
         icon="ion-android-locate"
+        emoji="🧭"
       />
       <contact-details-item
         v-if="browser.browser_name"
         :title="$t('CONTACT_PANEL.BROWSER')"
         :value="browserName"
         icon="ion-ios-world-outline"
+        emoji="🌐"
       />
       <contact-details-item
         v-if="browser.platform_name"
         :title="$t('CONTACT_PANEL.OS')"
         :value="platformName"
         icon="ion-laptop"
+        emoji="💻"
       />
       <contact-details-item
         v-if="referer"
         :title="$t('CONTACT_PANEL.INITIATED_FROM')"
         :value="referer"
         icon="ion-link"
-      />
+        emoji="🔗"
+      >
+        <a :href="referer" rel="noopener noreferrer nofollow" target="_blank">
+          {{ referer }}
+        </a>
+      </contact-details-item>
       <contact-details-item
         v-if="initiatedAt"
         :title="$t('CONTACT_PANEL.INITIATED_AT')"
         :value="initiatedAt.timestamp"
         icon="ion-clock"
+        emoji="🕰"
       />
     </div>
     <contact-custom-attributes
@@ -207,8 +217,7 @@ export default {
 }
 
 .conversation--details {
-  border-top: 1px solid $color-border-light;
-  padding: $space-normal;
+  padding: 0 var(--space-slab);
 }
 
 .conversation--labels {
@@ -224,10 +233,6 @@ export default {
     color: #fff;
     padding: 0.2rem;
   }
-}
-
-.contact-conversation--panel {
-  border-top: 1px solid $color-border-light;
 }
 
 .contact--mute {

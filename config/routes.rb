@@ -49,7 +49,7 @@ Rails.application.routes.draw do
             get 'meta', on: :collection
             get 'search', on: :collection
             scope module: :conversations do
-              resources :messages, only: [:index, :create]
+              resources :messages, only: [:index, :create, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
             end
@@ -71,6 +71,7 @@ Rails.application.routes.draw do
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
+              resources :labels, only: [:create, :index]
             end
           end
 
@@ -91,9 +92,18 @@ Rails.application.routes.draw do
           resources :notifications, only: [:index, :update] do
             collection do
               post :read_all
+              get :unread_count
             end
           end
           resource :notification_settings, only: [:show, :update]
+
+          resources :teams do
+            resources :team_members, only: [:index, :create] do
+              collection do
+                delete :destroy
+              end
+            end
+          end
 
           resources :webhooks, except: [:show]
           namespace :integrations do
@@ -154,13 +164,25 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :twitter do
-    resource :authorization, only: [:create]
-    resource :callback, only: [:show]
-  end
-
-  namespace :twilio do
-    resources :callback, only: [:create]
+  # ----------------------------------------------------------------------
+  # Routes for platform APIs
+  namespace :platform, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        resources :users, only: [:create, :show, :update, :destroy] do
+          member do
+            get :login
+          end
+        end
+        resources :accounts, only: [:create, :show, :update, :destroy] do
+          resources :account_users, only: [:index, :create] do
+            collection do
+              delete :destroy
+            end
+          end
+        end
+      end
+    end
   end
 
   # ----------------------------------------------------------------------
@@ -172,14 +194,19 @@ Rails.application.routes.draw do
   end
 
   # ----------------------------------------------------------------------
-  # Routes for social integrations
+  # Routes for channel integrations
   mount Facebook::Messenger::Server, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
-  # ----------------------------------------------------------------------
-  # Routes for testing
-  resources :widget_tests, only: [:index] unless Rails.env.production?
+  namespace :twitter do
+    resource :authorization, only: [:create]
+    resource :callback, only: [:show]
+  end
+
+  namespace :twilio do
+    resources :callback, only: [:create]
+  end
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications
@@ -188,6 +215,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
   require 'sidekiq/web'
+  require 'sidekiq/cron/web'
 
   devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
   devise_scope :super_admin do
@@ -200,6 +228,7 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :new, :create, :show, :edit, :update]
       resources :super_admins
       resources :access_tokens, only: [:index, :show]
+      resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
 
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
@@ -210,8 +239,17 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :installation do
+    get 'onboarding', to: 'onboarding#index'
+    post 'onboarding', to: 'onboarding#create'
+  end
+
   # ---------------------------------------------------------------------
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
+
+  # ----------------------------------------------------------------------
+  # Routes for testing
+  resources :widget_tests, only: [:index] unless Rails.env.production?
 end
