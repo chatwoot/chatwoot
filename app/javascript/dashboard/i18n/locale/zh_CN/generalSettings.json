@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {
