@@ -4,6 +4,7 @@
 #
 #  id              :integer          not null, primary key
 #  feature_flags   :integer          default(3), not null
+#  hmac_token      :string
 #  reply_time      :integer          default("in_a_few_minutes")
 #  website_token   :string
 #  website_url     :string
@@ -16,6 +17,7 @@
 #
 # Indexes
 #
+#  index_channel_web_widgets_on_hmac_token     (hmac_token) UNIQUE
 #  index_channel_web_widgets_on_website_token  (website_token) UNIQUE
 #
 
@@ -30,6 +32,8 @@ class Channel::WebWidget < ApplicationRecord
   belongs_to :account
   has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
+  has_secure_token :hmac_token
+
   has_flags 1 => :attachments,
             2 => :emoji_picker,
             :column => 'feature_flags'

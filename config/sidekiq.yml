@@ -12,11 +12,12 @@
 # http://www.mikeperham.com/2013/11/13/advanced-sidekiq-host-specific-queues/
 :queues:
   - [low, 1]
+  - [scheduled_jobs, 1]
   - [webhooks, 1]
-  - [integrations, 2]
   - [bots, 1]
   - [active_storage_analysis, 1]
   - [action_mailbox_incineration, 1]
+  - [integrations, 2]
   - [default, 2]
   - [mailers, 2]
   - [medium, 3]

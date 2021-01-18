@@ -30,6 +30,8 @@ es:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "La conversación fue marcada por %{user_name}"

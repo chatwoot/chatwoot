@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SuperAdmin | Chatwoot</title>
+    <%= javascript_pack_tag 'superadmin' %>
+    <%= stylesheet_pack_tag 'superadmin' %>
+  </head>
+  <body data-gr-c-s-loaded="true">
+    <div id="app" class="superadmin-body app-wrapper app-root">
+      <div class="medium column login">
+        <div class="text-center medium-12 login__hero align-self-top">
+          <img
+            src="/brand-assets/logo.svg"
+            alt="Chatwoot logo"
+            class="hero__logo"
+          />
+          <h2 class="hero--title">
+            Howdy, Welcome to Chatwoot 👋
+          </h2>
+        </div>
+        <div class="row align-center">
+          <div class="small-12 medium-4 column">
+            <%= form_tag('/installation/onboarding', class: 'login-box column align-self-top') do %>
+              <div class="column log-in-form">
+                <% if flash[:error].present? %>
+                <div data-alert class="alert-box warning"><%= flash[:error] %></div>
+                <% end %>
+                <label>
+                  <span>Name</span>
+                  <%= text_field :user, :name, placeholder: "Enter your full name. eg: Bruce Wayne", required: true %>
+                </label>
+                <label>
+                  <span>Company Name</span>
+                  <%= text_field :user, :company, placeholder: "Enter an account name. eg: Wayne Enterprises", required: true %>
+                </label>
+                <label>
+                  <span>Work Email</span>
+                  <%= email_field :user, :email, placeholder: "Enter your work email address. eg: bruce@wayne.enterprises", required: true %>
+                </label>
+                <label>
+                  <span>Password</span>
+                  <%= password_field :user, :password, placeholder: "Enter a password with 6 characters or more.", required: true %>
+                </label>
+                <div class="update-subscription--checkbox">
+                  <%= check_box_tag "subscribe_to_updates", 'true', true %>
+                  <div for="subscribe_to_updates">
+                  Subscribe to release notes, newsletters & product feedback surveys.
+                  </div>
+                </div>
+                <button type="submit" class="button nice large expanded">
+                  Finish Setup
+                </button>
+              </div>
+            <% end %>
+          </div>
+        </div>
+    </div>
+  </body>
+</html>

@@ -2,15 +2,20 @@
   "REGISTER": {
     "TRY_WOOT": "Registrera ett konto",
     "TITLE": "Registrera",
-    "TERMS_ACCEPT": "Genom att registrera dig godkänner du vår <a href=\"https://www.chatwoot.com/terms\">T & C</a> och <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
+    "TERMS_ACCEPT": "Genom att registrera dig godkänner du våra <a href=\"https://www.chatwoot.com/terms\">användarvillkor</a> och vår <a href=\"https://www.chatwoot.com/privacy-policy\">sekretesspolicy</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Kontonamn",
-      "PLACEHOLDER": "Wayne Företag",
+      "PLACEHOLDER": "Ange ett kontonamn. t.ex.: Wayne Enterprises",
       "ERROR": "Kontonamnet är för kort"
     },
+    "FULL_NAME": {
+      "LABEL": "Fullständigt namn",
+      "PLACEHOLDER": "Ange ditt fullständiga namn. t.ex.: Bruce Wayne",
+      "ERROR": "Fullständigt namn är för kort"
+    },
     "EMAIL": {
-      "LABEL": "E-post",
-      "PLACEHOLDER": "bruce@wayne.företag",
+      "LABEL": "E-postadress, arbete",
+      "PLACEHOLDER": "Fyll i din e-postadress för arbete. t.ex.: bruce@wayne.enterprises",
       "ERROR": "E-postadressen är ogiltig"
     },
     "PASSWORD": {
@@ -21,19 +26,13 @@
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekräfta lösenord",
       "PLACEHOLDER": "Bekräfta lösenord",
-      "ERROR": "Lösenordet matchar inte"
+      "ERROR": "Lösenorden matchar inte"
     },
     "API": {
       "SUCCESS_MESSAGE": "Registreringen lyckades",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     },
     "SUBMIT": "Skicka",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "Konserverade svar",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Har du redan ett konto?"
   }
 }

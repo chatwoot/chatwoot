@@ -11,6 +11,8 @@ Metrics/ClassLength:
   Max: 125
   Exclude:
     - 'app/models/conversation.rb'
+    - 'app/mailers/conversation_reply_mailer.rb'
+    - 'app/models/message.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:
@@ -48,6 +50,7 @@ Rails/ApplicationController:
     - 'app/controllers/dashboard_controller.rb'
     - 'app/controllers/widget_tests_controller.rb'
     - 'app/controllers/widgets_controller.rb'
+    - 'app/controllers/platform_controller.rb'
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   Exclude:

@@ -2,16 +2,21 @@
   "REGISTER": {
     "TRY_WOOT": "Bir hesap oluştur",
     "TITLE": "Kayıt ol",
-    "TERMS_ACCEPT": "Kaydolarak,  <a href=\"https://www.chatwoot.com/terms\"> T & C </a> ve <a href = \"https://www.chatwoot.com/privacy\"> Gizlilik politikası </a> kabul etmiş olursunuz.",
+    "TERMS_ACCEPT": "Kaydolarak, <a href=\"https://www.chatwoot.com/terms\">Şartlar & Koşullar</a>'ımızı ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik politikamız</a>ı kabul etmiş olursunuz",
     "ACCOUNT_NAME": {
       "LABEL": "Hesap adı",
-      "PLACEHOLDER": "Şirketiniz",
-      "ERROR": "Hesap Adı çok kısa"
+      "PLACEHOLDER": "Hesap adınızı giriniz. örn: Wayne Enterprises",
+      "ERROR": "Hesap adı çok kısa"
+    },
+    "FULL_NAME": {
+      "LABEL": "Ad Soyad",
+      "PLACEHOLDER": "Ad Soyadınızı giriniz. örn: Bruce Wayne",
+      "ERROR": "Ad Soyad çok kısa"
     },
     "EMAIL": {
-      "LABEL": "E-Posta",
-      "PLACEHOLDER": "adres@site.com",
-      "ERROR": "e-posta geçersiz"
+      "LABEL": "İş emaili",
+      "PLACEHOLDER": "İş email adresinizi giriniz. örn: bruce@wayne.enterprises",
+      "ERROR": "Email adresi geçersiz"
     },
     "PASSWORD": {
       "LABEL": "Parola",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
     "SUBMIT": "Yolla",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Sınırsız gelen kutusu",
-      "ROBUST_REPORTING": "Sağlam Raporlama",
-      "CANNED_RESPONSES": "Hazır Yanıtlar",
-      "AUTO_ASSIGNMENT": "Otomatik Atama",
-      "SECURITY": "Kurumsal düzeyde güvenlik"
-    }
+    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
   }
 }

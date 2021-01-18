@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-postalarla görüşme sürekliliği etkinleştirildi.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

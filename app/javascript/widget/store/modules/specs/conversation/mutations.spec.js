@@ -1,4 +1,4 @@
-import { mutations } from '../../conversation';
+import { mutations } from '../../conversation/mutations';
 
 const temporaryMessagePayload = {
   content: 'hello',
@@ -154,6 +154,14 @@ describe('#mutations', () => {
           ],
         },
       });
+    });
+  });
+
+  describe('#clearConversations', () => {
+    it('clears the state', () => {
+      const state = { conversations: { 1: { id: 1 } } };
+      mutations.clearConversations(state);
+      expect(state.conversations).toEqual({});
     });
   });
 });

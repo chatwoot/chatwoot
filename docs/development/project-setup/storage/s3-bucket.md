@@ -1,6 +1,6 @@
 ---
 path: "/docs/configuring-s3-bucket-as-cloud-storage"
-title: "Configuring Cloud Storage"
+title: "Configuring S3 Bucket as storage in Chatwoot"
 ---
 
 ### Using Amazon S3

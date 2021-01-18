@@ -26,7 +26,8 @@ export default {
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .post(urlData.url, {
-          account_name: creds.name,
+          account_name: creds.accountName.trim(),
+          user_full_name: creds.fullName.trim(),
           email: creds.email,
         })
         .then(response => {
@@ -137,6 +138,12 @@ export default {
       formData.append('profile[password_confirmation]', password_confirmation);
     }
     return axios.put(endPoints('profileUpdate').url, formData);
+  },
+
+  updateUISettings({ uiSettings }) {
+    return axios.put(endPoints('profileUpdate').url, {
+      profile: { ui_settings: uiSettings },
+    });
   },
 
   updateAvailability({ availability }) {

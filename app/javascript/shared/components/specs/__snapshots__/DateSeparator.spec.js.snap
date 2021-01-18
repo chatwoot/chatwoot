@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spinner matches snapshot 1`] = `
+exports[`DateSeparator matches snapshot 1`] = `
 <div
   class="date--separator"
 >

@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Desenvolvido por Chatwoot",
   "EMAIL_PLACEHOLDER": "Por favor, insira seu e-mail",
-  "CHAT_PLACEHOLDER": "Digite sua mensagem"
+  "CHAT_PLACEHOLDER": "Digite sua mensagem",
+  "TODAY": "Hoje",
+  "YESTERDAY": "Ontem"
 }

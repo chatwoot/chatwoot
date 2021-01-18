@@ -34,7 +34,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "പ്രവർത്തനമൊന്നുമില്ലെങ്കിൽ ടിക്കറ്റിന് ശേഷമുള്ള ദിവസങ്ങളുടെ എണ്ണം യാന്ത്രികമായി പരിഹരിക്കേണ്ടതാണ്",
         "PLACEHOLDER": "30",
         "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
       },
@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "നിങ്ങളുടെ അക്കൗണ്ടിനായി ഇമെയിലുകളുമായുള്ള സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കി.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "നിങ്ങളുടെ ഇഷ്‌ടാനുസൃത ഡൊമെയ്‌നിൽ നിങ്ങൾക്ക് ഇപ്പോൾ ഇമെയിലുകൾ സ്വീകരിക്കാൻ കഴിയും."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

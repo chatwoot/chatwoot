@@ -120,4 +120,42 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id' do
+    let(:message) { create(:message, account: account) }
+    let(:conversation) { message.conversation }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'deletes the message' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(message.reload.content).to eq 'This message was deleted'
+        expect(message.reload.deleted).to eq true
+      end
+    end
+
+    context 'when the message id is invalid' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns not found error' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/99999",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
 end

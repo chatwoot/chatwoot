@@ -25,4 +25,12 @@ describe('#getters', () => {
       })
     ).toEqual('busy');
   });
+
+  it('getUISettings', () => {
+    expect(
+      getters.getUISettings({
+        currentUser: { ui_settings: { is_contact_sidebar_open: true } },
+      })
+    ).toEqual({ is_contact_sidebar_open: true });
+  });
 });
