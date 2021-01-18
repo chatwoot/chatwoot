@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "개인 노트",
       "SEND": "보내기",
       "CREATE": "노트 추가",
-      "TWEET": "트윗"
+      "TWEET": "트윗",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
     "CHANGE_STATUS": "대화 상태가 변경됨",
