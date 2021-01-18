@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Konversationskontinuitet med e-post är aktiverat för ditt konto.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan nu ta emot e-postmeddelanden i din egna domän."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för Chatwoot är tillgänglig. Vänligen uppdatera din instans."
   },
   "FORMS": {
     "MULTISELECT": {
