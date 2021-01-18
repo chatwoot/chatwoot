@@ -1,7 +1,9 @@
+<% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true) %>
+
 <% @messages.each do |message| %>
   <p style="font-family: Roboto,"Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
     <% if message.content %>
-      <%= message.content.gsub("\n", "<br/>").html_safe %>
+      <%= markdown.render(message.content).html_safe %>
     <% end %>
     <% if message.attachments %>
       <% message.attachments.each do |attachment| %>
