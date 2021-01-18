@@ -45,3 +45,16 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+
+.message-content {
+  ul {
+    list-style: disc;
+    padding-left: $space-slab;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: $space-normal;
+  }
+}
