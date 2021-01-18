@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Nota Privata",
       "SEND": "Inviare",
       "CREATE": "Aggiungi nota",
-      "TWEET": "Twitta"
+      "TWEET": "Twitta",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Nota privata: visibile solo a te e al tuo team",
     "CHANGE_STATUS": "Stato conversazione cambiato",
