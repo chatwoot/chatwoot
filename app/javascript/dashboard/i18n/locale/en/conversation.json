@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Private Note",
       "SEND": "Send",
       "CREATE": "Add Note",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
     "CHANGE_STATUS": "Conversation status changed",
