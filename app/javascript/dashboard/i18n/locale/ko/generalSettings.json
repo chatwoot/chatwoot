@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "계정에 대해 이메일을 통한 대화 연속성이 활성화되었습니다.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "지금 사용자 지정 도메인에서 이메일을 받을 수 있다."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {
