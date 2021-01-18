@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
+#  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
@@ -77,6 +78,8 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :notification_subscriptions, dependent: :destroy
+  has_many :team_members, dependent: :destroy
+  has_many :teams, through: :team_members
 
   before_validation :set_password_and_uid, on: :create
 

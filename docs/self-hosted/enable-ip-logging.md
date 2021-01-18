@@ -1,6 +1,6 @@
 ---
 path: "/docs/self-hosted/enable-ip-logging"
-title: "Chatwoot Production deployment guide"
+title: "Enable IP Logging"
 ---
 
 Chatwoot allows you to identify the location of the user by geocoding the IP address. For IP Address geocoding, we support MaxmindDB services. This lookup provides methods for geocoding IP addresses without making a call to a remote API everytime. To setup your self-hosted instance with the geocoding, follow the steps below.

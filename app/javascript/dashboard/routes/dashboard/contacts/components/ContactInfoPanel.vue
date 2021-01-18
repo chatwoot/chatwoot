@@ -74,12 +74,10 @@ export default {
 }
 
 .conversation--details {
-  border-top: 1px solid $color-border-light;
-  padding: var(--space-normal);
+  padding: 0 var(--space-normal);
 }
 
 .contact-conversation--panel {
-  border-top: 1px solid $color-border-light;
   height: 100%;
 }
 

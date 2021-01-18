@@ -28,8 +28,10 @@ id:
       email_already_exists: "Anda telah mendaftar untuk sebuah akun dengan %{email}"
       failed: Pendaftaran gagal
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Periode pelaporan %{since} hingga %{until}
   conversations:
+    messages:
+      deleted: Pesan ini telah terhapus
     activity:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"

@@ -1,3 +1,4 @@
+<% markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true) %>
 <% @messages.each do |message| %>
   <tr>
     <td>
@@ -7,7 +8,7 @@
   <tr>
     <td style="padding-bottom: 16px;">
       <% if message.content %>
-        <%= message.content %>
+        <%= markdown.render(message.content).html_safe %>
       <% end %>
       <% if message.attachments %>
         <% message.attachments.each do |attachment| %>

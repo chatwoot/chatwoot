@@ -13,8 +13,8 @@
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
+    "UNREAD_MESSAGE": "پیام خوانده نشده",
     "CLICK_HERE": "اینجا کلیک کنید",
     "LOADING_INBOXES": "در حال بارگیری صندوق‌های ورودی",
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
     "DOWNLOAD": "دانلود",
+    "UPLOADING_ATTACHMENTS": "در حال بارگذاری پیوست‌ها...",
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
@@ -40,7 +41,10 @@
       "PRIVATE_NOTE": "یادداشت خصوصی",
       "SEND": "ارسال",
       "CREATE": "افزودن یادداشت",
-      "TWEET": "توییت"
+      "TWEET": "توییت",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",

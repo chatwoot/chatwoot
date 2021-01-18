@@ -83,6 +83,7 @@ $font-size-medium: 18px;
   right: 0;
   top: -22 * $space-one;
   width: 32 * $space-one;
+  z-index: 1;
 
   &::before {
     @include arrow(bottom, $color-white, $space-slab);

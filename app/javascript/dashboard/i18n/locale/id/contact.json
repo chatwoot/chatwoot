@@ -11,6 +11,7 @@
     "OS": "Sistem Operasi",
     "INITIATED_FROM": "Dimulai dari",
     "INITIATED_AT": "Dimulai pada",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini.",
       "TITLE": "Percakapan Sebelumnya"

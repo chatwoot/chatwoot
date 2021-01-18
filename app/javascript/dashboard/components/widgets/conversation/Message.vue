@@ -1,15 +1,21 @@
 <template>
   <li v-if="hasAttachments || data.content" :class="alignBubble">
     <div :class="wrapClass">
-      <p v-tooltip.top-start="sentByMessage" :class="bubbleClass">
+      <div v-tooltip.top-start="sentByMessage" :class="bubbleClass">
         <bubble-text
           v-if="data.content"
           :message="message"
           :is-email="isEmailContentType"
           :readable-time="readableTime"
         />
-        <span v-if="hasAttachments">
-          <span v-for="attachment in data.attachments" :key="attachment.id">
+        <span
+          v-if="isPending && hasAttachments"
+          class="chat-bubble has-attachment agent"
+        >
+          {{ $t('CONVERSATION.UPLOADING_ATTACHMENTS') }}
+        </span>
+        <div v-if="!isPending && hasAttachments">
+          <div v-for="attachment in data.attachments" :key="attachment.id">
             <bubble-image
               v-if="attachment.file_type === 'image'"
               :url="attachment.data_url"
@@ -20,8 +26,9 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
-          </span>
-        </span>
+          </div>
+        </div>
+
         <bubble-actions
           :id="data.id"
           :sender="data.sender"
@@ -32,9 +39,16 @@
           :readable-time="readableTime"
           :source-id="data.source_id"
         />
-      </p>
+      </div>
+      <spinner v-if="isPending" size="tiny" />
 
-      <div v-if="isATweet && isIncoming && sender" class="sender--info">
+      <a
+        v-if="isATweet && isIncoming && sender"
+        class="sender--info"
+        :href="twitterProfileLink"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
         <woot-thumbnail
           :src="sender.thumbnail"
           :username="sender.name"
@@ -43,7 +57,7 @@
         <div class="sender--available-name">
           {{ sender.name }}
         </div>
-      </div>
+      </a>
     </div>
   </li>
 </template>
@@ -53,9 +67,11 @@ import timeMixin from '../../../mixins/time';
 import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
+import Spinner from 'shared/components/Spinner';
+
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
-import { MESSAGE_TYPE } from 'shared/constants/messageTypes';
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 
 export default {
   components: {
@@ -63,6 +79,7 @@ export default {
     BubbleText,
     BubbleImage,
     BubbleFile,
+    Spinner,
   },
   mixins: [timeMixin, messageFormatterMixin, contentTypeMixin],
   props: {
@@ -93,6 +110,11 @@ export default {
       } = this;
       return contentType;
     },
+    twitterProfileLink() {
+      const additionalAttributes = this.sender.additional_attributes || {};
+      const { screen_name: screenName } = additionalAttributes;
+      return `https://twitter.com/${screenName}`;
+    },
     alignBubble() {
       return !this.data.message_type ? 'left' : 'right';
     },
@@ -116,6 +138,9 @@ export default {
       }
       return false;
     },
+    hasText() {
+      return !!this.data.content;
+    },
     sentByMessage() {
       const { sender } = this;
 
@@ -130,6 +155,7 @@ export default {
       return {
         wrap: this.isBubble,
         'activity-wrap': !this.isBubble,
+        'is-pending': this.isPending,
       };
     },
     bubbleClass() {
@@ -137,25 +163,58 @@ export default {
         bubble: this.isBubble,
         'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
+        'is-text': this.hasText,
       };
+    },
+    isPending() {
+      return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
   },
 };
 </script>
 <style lang="scss">
-.wrap > .is-image.bubble {
-  padding: 0;
-  overflow: hidden;
+.wrap {
+  > .bubble {
+    &.is-image {
+      padding: 0;
+      overflow: hidden;
 
-  .image {
-    max-width: 32rem;
-    padding: 0;
+      .image {
+        max-width: 32rem;
+        padding: var(--space-micro);
+
+        > img {
+          border-radius: var(--border-radius-medium);
+        }
+      }
+    }
+
+    &.is-image.is-text > .message-text__wrap {
+      max-width: 32rem;
+      padding: var(--space-small) var(--space-normal);
+    }
+  }
+
+  &.is-pending {
+    position: relative;
+    opacity: 0.8;
+
+    .spinner {
+      position: absolute;
+      bottom: var(--space-smaller);
+      right: var(--space-smaller);
+    }
+
+    > .is-image.is-text.bubble > .message-text__wrap {
+      padding: 0;
+    }
   }
 }
 
 .sender--info {
-  display: flex;
   align-items: center;
+  color: var(--b-700);
+  display: inline-flex;
   padding: var(--space-smaller) 0;
 
   .sender--available-name {

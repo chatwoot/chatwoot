@@ -2,9 +2,9 @@
   "INTEGRATION_SETTINGS": {
     "HEADER": "Integrationer",
     "WEBHOOK": {
-      "TITLE": "Webbkrok",
+      "TITLE": "Webhook",
       "CONFIGURE": "Konfigurera",
-      "HEADER": "Webhook inställningar",
+      "HEADER": "Webhook-inställningar",
       "HEADER_BTN_TXT": "Lägg till ny webhook",
       "LOADING": "Hämtar bifogade webhooks",
       "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
@@ -30,32 +30,32 @@
           "SUBMIT": "Skapa webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webbkrok har lagts till",
+          "SUCCESS_MESSAGE": "Webhook har lagts till",
           "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Radera",
         "API": {
-          "SUCCESS_MESSAGE": "Webbhook har tagits bort",
+          "SUCCESS_MESSAGE": "Webhook har tagits bort",
           "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
         },
         "CONFIRM": {
           "TITLE": "Bekräfta borttagning",
           "MESSAGE": "Är du säker på att ta bort ",
           "YES": "Ja, ta bort ",
-          "NO": "No, Keep it"
+          "NO": "Nej, behåll"
         }
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integrationen har tagits bort"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Anslut"
     }
   }
 }

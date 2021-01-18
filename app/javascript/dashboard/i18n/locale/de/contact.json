@@ -1,113 +1,114 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Nicht verfügbar",
     "EMAIL_ADDRESS": "E-Mail-Addresse",
     "PHONE_NUMBER": "Telefonnummer",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
+    "COMPANY": "Firma",
     "LOCATION": "Ort",
     "CONVERSATION_TITLE": "Unterhaltungsdetails",
     "BROWSER": "Browser",
     "OS": "Betriebssystem",
     "INITIATED_FROM": "Initiiert von",
     "INITIATED_AT": "Initiiert bei",
+    "IP_ADDRESS": "IP-Adresse",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
       "TITLE": "Vorherige Gespräche"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "Benutzerdefinierte Attribute"
     },
     "LABELS": {
       "TITLE": "Konversationsetiketten",
       "MODAL": {
-        "TITLE": "Labels for",
-        "ACTIVE_LABELS": "Labels added to the conversation",
-        "INACTIVE_LABELS": "Labels available in the account",
-        "REMOVE": "Click on X icon to remove the label",
-        "ADD": "Click on + icon to add the label",
-        "UPDATE_BUTTON": "Update labels",
+        "TITLE": "Labels für",
+        "ACTIVE_LABELS": "Labels zur Unterhaltung hinzugefügt",
+        "INACTIVE_LABELS": "Verfügbare Labels im Konto",
+        "REMOVE": "Klicken Sie auf das X-Symbol, um das Label zu entfernen",
+        "ADD": "Klicken Sie auf das + Symbol, um ein Label hinzuzufügen",
+        "UPDATE_BUTTON": "Labels aktualisieren",
         "UPDATE_ERROR": "Etiketten konnten nicht aktualisiert werden. Versuchen Sie es erneut."
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_LABELS_TO_ADD": "Es sind keine weiteren Labels im Konto definiert.",
+      "NO_AVAILABLE_LABELS": "Zu dieser Unterhaltung wurden noch keine Labels hinzugefügt."
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
-    "SEND_TRANSCRIPT": "Send Transcript",
+    "MUTE_CONTACT": "Unterhaltung stummschalten",
+    "UNMUTE_CONTACT": "Unterhaltung entmuten",
+    "MUTED_SUCCESS": "Diese Unterhaltung ist für 6 Stunden auf stumm schalten",
+    "UNMUTED_SUCCESS": "Diese Unterhaltung ist nicht mehr stumm geschaltet",
+    "SEND_TRANSCRIPT": "Transkript senden",
     "EDIT_LABEL": "Bearbeiten"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "Kontakt bearbeiten",
+    "TITLE": "Kontakt bearbeiten",
+    "DESC": "Kontaktdetails bearbeiten",
     "FORM": {
       "SUBMIT": "Einreichen",
       "CANCEL": "Stornieren",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Kontaktbild"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Vollständigen Namen des Kontakts eingeben",
+        "LABEL": "Vollständiger Name"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "Beschreibung dieses Kontakts",
+        "LABEL": "Beschreibung"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Geben Sie die E-Mail-Adresse des Kontakts ein",
         "LABEL": "E-Mail-Addresse"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
+        "LABEL": "Telefonnummer"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
         "LABEL": "Ort"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Firmenname eingeben",
+        "LABEL": "Firmenname"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Facebook-Benutzername eingeben",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitter-Benutzername eingeben",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
+          "PLACEHOLDER": "Geben Sie den LinkedIn-Benutzernamen ein",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Gitub-Benutzernamen eingeben",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Kontakt erfolgreich aktualisiert",
+    "CONTACT_ALREADY_EXIST": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
+    "ERROR_MESSAGE": "Beim Aktualisieren des Kontakts ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kontakte",
+    "SEARCH_BUTTON": "Suchen",
+    "SEARCH_INPUT_PLACEHOLDER": "Suche nach Kontakten",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Kontakte werden geladen...",
+      "404": "Keine Kontakte entsprechend Deiner Suche gefunden 🔍",
       "TABLE_HEADER": [
         "Name",
-        "Phone Number",
+        "Telefonnummer",
         "Gespräche",
-        "Last Contacted"
+        "Letzter Kontakt"
       ]
     }
   }

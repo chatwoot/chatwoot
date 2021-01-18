@@ -28,8 +28,10 @@ fi:
       email_already_exists: "Olet jo rekisteröitynyt tiliin sähköpostin %{email} kanssa"
       failed: Rekisteröityminen epäonnistui
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Raportointijakso %{since} – %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "%{user_name} merkitsi keskustelun ratkaistuksi"

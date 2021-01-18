@@ -37,7 +37,7 @@ class Channel::Email < ApplicationRecord
   private
 
   def ensure_forward_to_address
-    # TODO : implement better logic here
-    self.forward_to_address ||= "#{SecureRandom.hex}@xyc.com"
+    email_domain = InstallationConfig.find_by(name: 'MAILER_INBOUND_EMAIL_DOMAIN')&.value
+    self.forward_to_address ||= "#{SecureRandom.hex}@#{email_domain}"
   end
 end

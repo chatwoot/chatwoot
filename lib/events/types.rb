@@ -4,7 +4,6 @@ module Events::Types
   ### Installation Events ###
   # account events
   ACCOUNT_CREATED = 'account.created'
-  ACCOUNT_DESTROYED = 'account.destroyed'
 
   #### Account Events ###
   # channel events

@@ -72,7 +72,7 @@ $resolve-button-width: 13.2rem;
 
 .button.resolve--button {
   @include flex-align($x: center, $y: middle);
-
+  font-size: var(--font-size-default);
   width: $resolve-button-width;
 
   >.icon {

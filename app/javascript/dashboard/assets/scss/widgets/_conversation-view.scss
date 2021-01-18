@@ -3,7 +3,7 @@
   @include margin($zero);
   background: $color-woot;
   border-radius: $space-one;
-  color: $color-white;
+  color: var(--white);
   font-size: $font-size-small;
   font-weight: $font-weight-normal;
   position: relative;
@@ -11,17 +11,9 @@
   .message-text__wrap {
     position: relative;
 
-
     .link {
-      color: $color-white;
+      color: var(--white);
       text-decoration: underline;
-    }
-  }
-
-  .message-text {
-    &::after {
-      content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
-      display: inline;
     }
   }
 
@@ -95,17 +87,15 @@
     }
   }
 
-
-
   .content-box {
     text-align: center;
   }
 }
 
 .conversation-wrap {
-  @include background-gray;
   @include margin(0);
   @include border-normal-left;
+  background: var(--color-background-light);
 
   .current-chat {
     @include flex;
@@ -145,10 +135,9 @@
   @include flex-weight(1);
   @include margin($zero);
   flex-direction: column;
-  // Firefox flexbox fix
   height: 100%;
-  margin-bottom: $space-small;
   overflow-y: auto;
+  padding-bottom: var(--space-normal);
   position: relative;
 }
 
@@ -171,7 +160,7 @@
       @include elegant-card;
       @include round-corner;
       background: $color-woot;
-      color: $color-white;
+      color: var(--white);
       font-size: $font-size-mini;
       font-weight: $font-weight-medium;
       margin: $space-one auto;
@@ -201,6 +190,10 @@
       color: $color-body;
       margin-right: auto;
 
+      &.is-image {
+        border-radius: var(--border-radius-large);
+      }
+
       .link {
         color: $color-primary-dark;
       }
@@ -218,6 +211,7 @@
           color: $color-primary-dark;
         }
       }
+
     }
 
     +.right {
@@ -247,7 +241,6 @@
         background: lighten($warning-color, 32%);
         border: 1px solid lighten($warning-color, 15%);
         color: $color-heading;
-        padding-right: $space-large;
         position: relative;
 
         &::before {
@@ -257,6 +250,10 @@
           right: $space-one;
           top: $space-smaller + $space-micro;
         }
+      }
+
+      &.is-image {
+        border-radius: var(--border-radius-large);
       }
     }
 
@@ -297,30 +294,15 @@
     border-radius: $space-smaller;
     font-size: $font-size-small;
 
-    p {
-      color: $color-heading;
-      margin-bottom: $zero;
-
-      .ion-person {
-        color: $color-body;
-        font-size: $font-size-default;
-        margin-right: $space-small;
-        position: relative;
-        top: $space-micro;
-      }
-
-      .message-text__wrap {
-        position: relative;
-      }
-
-      .message-text {
-        &::after {
-          content: ' \00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0\00a0';
-          display: inline;
-        }
-      }
+    .message-text__wrap {
+      display: inline-block;
     }
+  }
+}
 
+.activity-wrap .message-text__wrap {
+  .text-content p {
+    margin-bottom: 0;
   }
 }
 
@@ -341,7 +323,7 @@
   .typing-indicator {
     @include elegant-card;
     @include round-corner;
-    background: $color-white;
+    background: var(--white);
     color: $color-light-gray;
     font-size: $font-size-mini;
     font-weight: $font-weight-bold;
@@ -352,5 +334,67 @@
       margin-left: $space-small;
       width: $space-medium;
     }
+  }
+}
+
+.left .bubble .text-content {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-body);
+  }
+
+  a {
+    color: var(--color-woot);
+    text-decoration: underline;
+  }
+
+  blockquote {
+    border-left-color: var(--s-300);
+
+    p {
+      color: var(--s-300);
+    }
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.right .bubble .text-content {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--white);
+  }
+
+  a {
+    color: var(--white);
+    text-decoration: underline;
+  }
+
+  blockquote {
+    border-left-color: var(--w-100);
+
+    p {
+      color: var(--w-100);
+    }
+  }
+
+  pre code {
+    background: var(--color-background);
+  }
+
+  p:last-child {
+    margin-bottom: 0;
   }
 }

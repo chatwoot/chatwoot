@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Kirjoita mikä tahansa teksti etsiäksesi viestejä",
       "NO_MATCHING_RESULTS": "Hakuparametreja vastaavia viestejä ei ole."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Lukemattomat viestit",
+    "UNREAD_MESSAGE": "Lukematon viesti",
     "CLICK_HERE": "Klikkaa tästä",
     "LOADING_INBOXES": "Ladataan saapuneet-kansioita",
     "LOADING_CONVERSATIONS": "Ladataan keskusteluita",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "Olet vastaamassa:",
     "REMOVE_SELECTION": "Poista valinnat",
     "DOWNLOAD": "Lataa",
+    "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
     "HEADER": {
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",
@@ -40,7 +41,10 @@
       "PRIVATE_NOTE": "Sisäinen merkintä",
       "SEND": "Lähetä",
       "CREATE": "Lisää muistiinpano",
-      "TWEET": "Twiittaa"
+      "TWEET": "Twiittaa",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
     "CHANGE_STATUS": "Keskustelun tila muutettu",
