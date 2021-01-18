@@ -20,7 +20,19 @@
         :on-click="emojiOnClick"
       />
       <resizable-text-area
+        v-if="!isFormatMode"
         ref="messageInput"
+        v-model="message"
+        class="input"
+        :placeholder="messagePlaceHolder"
+        :min-height="4"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+      <woot-message-editor
+        v-else
         v-model="message"
         class="input"
         :placeholder="messagePlaceHolder"
@@ -46,6 +58,9 @@
       :show-emoji-picker="showEmojiPicker"
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
+      :set-format-mode="setFormatMode"
+      :is-format-mode="isFormatMode"
+      :enable-rich-editor="isRichEditorEnabled"
     />
   </div>
 </template>
@@ -61,6 +76,7 @@ import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
 import {
   isEscape,
   isEnter,
@@ -77,6 +93,7 @@ export default {
     AttachmentPreview,
     ReplyTopPanel,
     ReplyBottomPanel,
+    WootMessageEditor,
   },
   mixins: [clickaway, inboxMixin],
   props: {
@@ -94,6 +111,7 @@ export default {
       attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
+      isFormatMode: false,
     };
   },
   computed: {
@@ -180,6 +198,13 @@ export default {
     hasAttachments() {
       return this.attachedFiles.length;
     },
+    isRichEditorEnabled() {
+      return (
+        this.isAWebWidgetInbox ||
+        this.isAnEmailChannel ||
+        this.replyType === REPLY_EDITOR_MODES.NOTE
+      );
+    },
   },
   watch: {
     currentChat(conversation) {
@@ -222,7 +247,9 @@ export default {
         this.hideEmojiPicker();
         this.hideCannedResponse();
       } else if (isEnter(e)) {
-        if (!hasPressedShift(e)) {
+        const shouldSendMessage =
+          !this.isFormatMode && !hasPressedShift(e) && this.isFocused;
+        if (shouldSendMessage) {
           e.preventDefault();
           this.sendMessage();
         }
@@ -334,6 +361,9 @@ export default {
       }
 
       return messagePayload;
+    },
+    setFormatMode(value) {
+      this.isFormatMode = value;
     },
   },
 };

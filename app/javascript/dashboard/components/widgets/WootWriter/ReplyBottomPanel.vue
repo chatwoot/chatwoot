@@ -1,12 +1,17 @@
 <template>
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
-      <button class="button clear button--emoji" @click="toggleEmojiPicker">
+      <button
+        class="button clear button--emoji"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        @click="toggleEmojiPicker"
+      >
         <emoji-or-icon icon="ion-happy-outline" emoji="😊" />
       </button>
       <button
         v-if="showAttachButton"
         class="button clear button--emoji button--upload"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
       >
         <file-upload
           :size="4096 * 4096"
@@ -15,6 +20,14 @@
         >
           <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
+      </button>
+      <button
+        v-if="enableRichEditor"
+        class="button clear button--emoji"
+        :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
+        @click="toggleFormatMode"
+      >
+        <emoji-or-icon icon="ion-quote" emoji="🖊️" />
       </button>
     </div>
     <div class="right-wrap">
@@ -70,6 +83,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    setFormatMode: {
+      type: Function,
+      default: () => {},
+    },
+    isFormatMode: {
+      type: Boolean,
+      default: false,
+    },
+    enableRichEditor: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isNote() {
@@ -90,6 +115,11 @@ export default {
       return this.showFileUpload || this.isNote;
     },
   },
+  methods: {
+    toggleFormatMode() {
+      this.setFormatMode(!this.isFormatMode);
+    },
+  },
 };
 </script>
 
@@ -108,32 +138,12 @@ export default {
 }
 
 .button {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-medium);
-  padding: var(--space-one) var(--space-slab);
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  &:hover {
-    background: var(--w-300);
-  }
-
   &.is-active {
     background: white;
-  }
-
-  &.button--emoji {
-    font-size: var(--font-size-small);
-    padding: var(--space-small);
-    border-radius: 9px;
-    background: var(--b-50);
-    border: 1px solid var(--color-border-light);
-    margin-right: var(--space-small);
-
-    &:hover {
-      background: var(--b-200);
-    }
   }
 
   &.button--note {
