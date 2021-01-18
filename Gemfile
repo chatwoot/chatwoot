@@ -29,6 +29,8 @@ gem 'flag_shih_tzu'
 gem 'haikunator'
 # Template parsing safetly
 gem 'liquid'
+# Parse Markdown to HTML
+gem 'redcarpet'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
