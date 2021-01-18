@@ -24,7 +24,7 @@
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Mensagem Privada",
       "SEND": "Enviar",
       "CREATE": "Enviar",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",

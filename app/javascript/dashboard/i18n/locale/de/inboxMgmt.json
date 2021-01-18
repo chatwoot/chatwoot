@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "INBOX_UPDATE_TITLE": "Posteingang Einstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingang Einstellungen aktualisieren",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen"
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",

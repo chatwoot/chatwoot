@@ -1,21 +1,21 @@
 {
   "REPORT": {
     "HEADER": "Raporlar",
-    "LOADING_CHART": "Grafik verileri yükleniyor ...",
+    "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konuşmalar",
-        "DESC": "( Toplam )\n"
+        "DESC": "( Toplam )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Gelen Mesajlar",
-        "DESC": "( Toplam )\n"
+        "DESC": "( Toplam )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Giden Mesajlar",
-        "DESC": "( Toplam )\n"
+        "DESC": "( Toplam )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "İlk yanıt süresi",
@@ -27,7 +27,7 @@
       },
       "RESOLUTION_COUNT": {
         "NAME": "Çözünürlük Sayısı",
-        "DESC": "( Toplam )\n"
+        "DESC": "( Toplam )"
       }
     },
     "DATE_RANGE": [

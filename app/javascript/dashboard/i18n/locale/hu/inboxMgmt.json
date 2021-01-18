@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",

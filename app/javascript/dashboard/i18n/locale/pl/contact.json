@@ -1,6 +1,6 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "Niedostępne",
     "EMAIL_ADDRESS": "Adres e-mail",
     "PHONE_NUMBER": "Numer telefonu",
     "COPY_SUCCESSFUL": "Pomyślnie skopiowano do schowka",
@@ -11,7 +11,7 @@
     "OS": "System operacyjny",
     "INITIATED_FROM": "Zainicjowano z",
     "INITIATED_AT": "Zainicjowano w",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "Adres IP",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
       "TITLE": "Poprzednie rozmowy"
@@ -31,7 +31,7 @@
         "UPDATE_ERROR": "Nie udało się zaktualizować etykiet, spróbuj ponownie."
       },
       "NO_LABELS_TO_ADD": "Nie ma więcej etykiet zdefiniowanych na koncie.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_AVAILABLE_LABELS": "Do tej rozmowy nie dodano żadnych etykiet."
     },
     "MUTE_CONTACT": "Wycisz rozmowę",
     "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
@@ -48,39 +48,39 @@
       "SUBMIT": "Prześlij",
       "CANCEL": "Anuluj",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "Awatar kontaktu"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "Wprowadź pełną nazwę kontaktu",
+        "LABEL": "Pełna nazwa (imię i nazwisko)"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
+        "PLACEHOLDER": "Wprowadź bio kontaktu",
         "LABEL": "Bio"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "Podaj adres e-mail kontaktu",
         "LABEL": "Adres e-mail"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
+        "LABEL": "Numer telefonu"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "Wprowadź lokalizację kontaktu",
         "LABEL": "Lokalizacja"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "Wpisz nazwę firmy",
+        "LABEL": "Nazwa firmy"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Wprowadź nazwę użytkownika Facebook",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Wprowadź nazwę użytkownika Twitter",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
@@ -93,22 +93,22 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "Pomyślnie zaktualizowano kontakt",
+    "CONTACT_ALREADY_EXIST": "Ten adres e-mail jest już zajęty przez inny kontakt.",
+    "ERROR_MESSAGE": "Podczas aktualizowania kontaktu wystąpił błąd. Spróbuj ponownie"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Kontakty",
+    "SEARCH_BUTTON": "Szukaj",
+    "SEARCH_INPUT_PLACEHOLDER": "Szukaj kontaktów",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Ładowanie kontaktów...",
+      "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
       "TABLE_HEADER": [
         "Nazwisko",
-        "Phone Number",
+        "Numer telefonu",
         "Rozmowy",
-        "Last Contacted"
+        "Ostatnio nawiązano kontakt"
       ]
     }
   }

@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Для вашего аккаунта включено продолжение диалогов по электронной почте.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

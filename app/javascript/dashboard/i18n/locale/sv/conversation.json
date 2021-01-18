@@ -19,9 +19,9 @@
     "LOADING_INBOXES": "Laddar inkorgar",
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
-    "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
+    "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
+    "LAST_INCOMING_TWEET": "Du svarar på den senast inkomna tweeten",
+    "REPLYING_TO": "Du svarar:",
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
@@ -33,15 +33,18 @@
       "DETAILS": "detaljer"
     },
     "FOOTER": {
-      "MSG_INPUT": "Skift + ange för ny rad. Börja med '/' för att välja ett konserverat svar.",
-      "PRIVATE_MSG_INPUT": "Skift + ange för ny rad. Detta kommer endast att vara synligt för agenter"
+      "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
+      "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter"
     },
     "REPLYBOX": {
       "REPLY": "Svara",
       "PRIVATE_NOTE": "Privat anteckning",
       "SEND": "Skicka",
       "CREATE": "Lägg till anteckning",
-      "TWEET": "Twittra"
+      "TWEET": "Twittra",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",

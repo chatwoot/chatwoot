@@ -1,61 +1,61 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Etiketter",
+    "HEADER_BTN_TXT": "Lägg till etikett",
+    "LOADING": "Hämtar etiketter",
     "SEARCH_404": "Det finns inga objekt som matchar denna fråga",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Etiketter</b> <p>Etiketter hjälper dig att kategorisera konversationer och prioritera dem. Du kan tilldela etiketter till en konversation från sidopanelen. <br /><br />Etiketter är knutna till kontot och kan användas för att skapa anpassade arbetsflöden i din organisation. Du kan tilldela en färg till en etikett, det gör det lättare att identifiera etiketten. Du kommer att kunna visa etiketten på sidofältet för att enkelt filtrera konversationerna.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Det finns inga etiketter tillgängliga på detta konto.",
+      "TITLE": "Hantera etiketter",
+      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
       "TABLE_HEADER": [
         "Namn",
-        "Description",
-        "Color"
+        "Beskrivning",
+        "Färg"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Etikettnamn",
+        "PLACEHOLDER": "Etikettnamn",
+        "ERROR": "Etikettnamn krävs"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Beskrivning",
+        "PLACEHOLDER": "Etikettbeskrivning"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Färg"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Visa etikett i sidofältet"
       },
       "EDIT": "Redigera",
-      "CREATE": "Create",
+      "CREATE": "Skapa",
       "DELETE": "Radera",
       "CANCEL": "Avbryt"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Lägg till etikett",
+      "DESC": "Etiketter låter dig gruppera ihop konversationer.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiketten har lagts till",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Redigera etikett",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiketten har uppdaterats",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Radera",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiketten har tagits bort",
+        "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
       },
       "CONFIRM": {
         "TITLE": "Bekräfta borttagning",

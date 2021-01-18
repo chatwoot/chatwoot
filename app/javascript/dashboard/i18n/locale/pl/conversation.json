@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Notatka prywatna",
       "SEND": "Wyślij",
       "CREATE": "Dodaj notatkę",
-      "TWEET": "Tweetuj"
+      "TWEET": "Tweetuj",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",

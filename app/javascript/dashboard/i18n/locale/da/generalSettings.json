@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Samtale kontinuitet med e-mails er aktiveret for din konto.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan modtage e-mails på dit brugerdefinerede domæne nu."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

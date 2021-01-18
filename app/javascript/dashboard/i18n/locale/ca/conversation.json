@@ -24,7 +24,7 @@
     "REPLYING_TO": "Estas responent a:",
     "REMOVE_SELECTION": "Elimina la selecció",
     "DOWNLOAD": "Descarrega",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Pujant fitxers adjunts...",
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",
@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Nota privada",
       "SEND": "Envia",
       "CREATE": "Afegeix una nota",
-      "TWEET": "Tuit"
+      "TWEET": "Tuit",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Nota privada: Només és visible per tu i el vostre equip",
     "CHANGE_STATUS": "Estat de la conversa canviat",
