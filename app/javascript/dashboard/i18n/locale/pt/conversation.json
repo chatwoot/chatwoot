@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "Nota Privada",
       "SEND": "Mandar",
       "CREATE": "Adicionar Nota",
-      "TWEET": "Tuitar"
+      "TWEET": "Tuitar",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",

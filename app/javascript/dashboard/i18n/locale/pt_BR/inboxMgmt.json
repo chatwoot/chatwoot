@@ -87,8 +87,8 @@
         "SUBMIT_BUTTON": "Criar caixa de entrada"
       },
       "TWILIO": {
-        "TITLE": "Canal SMS/Whatsapp do Twilio",
-        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS e Whatsapp.",
+        "TITLE": "Canal SMS/WhatsApp do Twilio",
+        "DESC": "Integre o Twilio e comece a oferecer suporte a seus clientes por SMS e WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID da Conta",
           "PLACEHOLDER": "Por favor, insira o SID sua conta no Twilio",
@@ -131,9 +131,9 @@
           "ERROR": "Este campo é obrigatório"
         },
         "WEBHOOK_URL": {
-          "LABEL": "URL do webhook",
+          "LABEL": "URL do Webhook",
           "SUBTITLE": "Configure a URL onde deseja receber chamadas em eventos.",
-          "PLACEHOLDER": "URL do webhook"
+          "PLACEHOLDER": "URL do Webhook"
         },
         "SUBMIT_BUTTON": "Criar canal de API",
         "API": {
@@ -222,7 +222,7 @@
       }
     },
     "TABS": {
-      "SETTINGS": "Confirgurações",
+      "SETTINGS": "Configurações",
       "COLLABORATORS": "Colaboradores",
       "CONFIGURATION": "Configuração"
     },
@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações de caixa de entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",

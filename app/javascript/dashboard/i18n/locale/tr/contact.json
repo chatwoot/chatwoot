@@ -11,7 +11,7 @@
     "OS": "İşletim sistemi",
     "INITIATED_FROM": "Başlatıldı",
     "INITIATED_AT": "Başlatıldı",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "IP Adresi",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Bu kişiyle ilişkilendirilmiş önceki görüşme yok.",
       "TITLE": "Önceki Sohbetler"

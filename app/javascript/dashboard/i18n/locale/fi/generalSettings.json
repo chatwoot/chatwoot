@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Keskustelun jatkuvuus sähköpostin kautta on käytössä tililläsi.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Voit nyt vastaanottaa sähköposteja mukautetulla verkkotunnuksellasi."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

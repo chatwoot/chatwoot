@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puteți primi e-mailuri în domeniul dvs. personalizat acum."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {

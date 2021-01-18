@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Kontoinställningar",
     "SUBMIT": "Uppdatera inställningar",
-    "BACK": "Back",
+    "BACK": "Tillbaka",
     "UPDATE": {
       "ERROR": "Kunde inte uppdatera inställningar, försök igen!",
       "SUCCESS": "Uppdaterade kontoinställningar"
@@ -14,7 +14,7 @@
         "NOTE": ""
       },
       "NAME": {
-        "LABEL": "Konto namn",
+        "LABEL": "Kontonamn",
         "PLACEHOLDER": "Ditt kontonamn",
         "ERROR": "Ange ett giltigt kontonamn"
       },
@@ -24,31 +24,32 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Inkommande e-postdomän",
+        "PLACEHOLDER": "Domänen du tar emot e-post på",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "Supportmejl",
+        "PLACEHOLDER": "Ditt företags supportmejl",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Antal dagar till ett ärende ska automatlösas på grund av inaktivitet",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Ange en giltig tid för automatlösning (minst 1 dag)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Konversationskontinuitet med e-post är aktiverat för ditt konto.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan nu ta emot e-postmeddelanden i din egna domän."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "En uppdatering %{latestChatwootVersion} för Chatwoot är tillgänglig. Vänligen uppdatera din instans."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Tryck Enter för att välja",
+      "ENTER_TO_REMOVE": "Tryck Enter för att ta bort",
+      "SELECT_ONE": "Markera en/ett"
     }
   }
 }

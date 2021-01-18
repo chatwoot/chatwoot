@@ -41,7 +41,10 @@
       "PRIVATE_NOTE": "إضافة ملاحظة خاصة",
       "SEND": "إرسال",
       "CREATE": "إضافة ملاحظة",
-      "TWEET": "تغريد"
+      "TWEET": "تغريد",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",

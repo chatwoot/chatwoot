@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Inkorgar",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Inkorg</b></p> <p> När du ansluter en webbplats eller en Facebook-sida till Chatwoot, så kallas det för en <b>Inkorg</b>. Du kan ha obegränsad mängd inkorgar i ditt Chatwoot-konto. </p><p> Klicka på <b>Lägg till inkorg</b> för att ansluta en webbplats eller en Facebook-sida. </p><p> I instrumentpanelen kan du se alla konversationer från alla dina inkorgar på en enda plats och svara på dem under fliken \"Konversationer\". </p><p> Du kan också se konversationer specifika för en inkorg genom att klicka på inkorgnamnet i den vänstra rutan på instrumentbrädan. </p>",
     "LIST": {
       "404": "Det finns inga inkorgar kopplade till detta konto."
     },
@@ -24,18 +24,18 @@
       {
         "title": "Voila!",
         "route": "settings_inbox_finish",
-        "body": "Ni är alla redo att gå!"
+        "body": "Ni är redo att köra!"
       }
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: Genom att logga in får vi bara tillgång till din Sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "CHOOSE_PAGE": "Välj sida",
+        "CHOOSE_PLACEHOLDER": "Välj en sida från listan",
+        "INBOX_NAME": "Inkorgsnamn",
+        "ADD_NAME": "Lägg till ett namn för din inkorg",
+        "PICK_NAME": "Välj ett namn på din inkorg",
+        "PICK_A_VALUE": "Välj ett värde"
       },
       "TWITTER": {
         "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" "
@@ -45,7 +45,7 @@
         "DESC": "Skapa en kanal för din webbplats och börja stödja dina kunder via vår hemsida widget.",
         "LOADING_MESSAGE": "Skapar supportkanal för webbplats",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Kanalavatar"
         },
         "CHANNEL_NAME": {
           "LABEL": "Webbplatsens namn",
@@ -60,25 +60,25 @@
           "PLACEHOLDER": "Hej där!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Välkommen Tagline",
+          "LABEL": "Välkomsttagline",
           "PLACEHOLDER": "Vi gör det enkelt att få kontakt med oss. Fråga oss något, eller dela din feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Kanalhälsningsmeddelande",
+          "PLACEHOLDER": "Acme Inc svarar vanligtvis inom några timmar."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Aktivera kanalhälsning",
+          "HELP_TEXT": "Skicka ett hälsningsmeddelande till användaren när hen startar konversationen.",
           "ENABLED": "Aktiverad",
           "DISABLED": "Inaktiverad"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "Ställ in svarstid",
+          "IN_A_FEW_MINUTES": "Inom några minuter",
+          "IN_A_FEW_HOURS": "Inom några timmar",
+          "IN_A_DAY": "Inom en dag",
+          "HELP_TEXT": "Den här svarstiden kommer att visas på livechattswidgeten"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget färg",
@@ -87,16 +87,16 @@
         "SUBMIT_BUTTON": "Skapa inkorg"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Twilio SMS/Whatsapp-kanal",
+        "DESC": "Integrera Twilio och börja supporta dina kunder via SMS eller Whatsapp.",
         "ACCOUNT_SID": {
           "LABEL": "Konto SID",
           "PLACEHOLDER": "Ange ditt Twilio-konto SID",
           "ERROR": "Detta fält är tvingande"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Kanaltyp",
+          "ERROR": "Var god välj din kanaltyp"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth token",
@@ -114,8 +114,8 @@
           "ERROR": "Ange ett giltigt värde. Telefonnummer bör börja med `+`-tecken."
         },
         "API_CALLBACK": {
-          "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
+          "TITLE": "Callback-URL",
+          "SUBTITLE": "Du måste konfigurera meddelande-callback-URL i Twilio med den URL som nämns här."
         },
         "SUBMIT_BUTTON": "Skapa Twilio kanal",
         "API": {
@@ -123,8 +123,8 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "TITLE": "API-kanal",
+        "DESC": "Integrera med API-kanalen och börja supporta dina kunder.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
@@ -132,17 +132,17 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "Konfigurera URL:en där du vill få callbacks på händelser.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Skapa API-kanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "Vi kunde inte spara API-kanalen"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
-        "DESC": "Integrate you email inbox.",
+        "TITLE": "E-postkanal",
+        "DESC": "Integrera din e-postinkorg.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
@@ -150,24 +150,24 @@
         },
         "EMAIL": {
           "LABEL": "E-post",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "E-post dit dina kunder skickar supportärenden",
           "PLACEHOLDER": "E-post"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Skapa e-postkanal",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Vi kunde inte spara e-postkanalen"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Börja vidarebefordra dina e-postmeddelanden till följande e-postadress."
       },
       "AUTH": {
         "TITLE": "Kanaler",
-        "DESC": "För närvarande stöder vi Webbplats live chat widgets, Facebook-sidor och Twitter-profiler som plattformar. Vi har fler plattformar som Whatsapp, e-post, Telegram och Linje i verken, som kommer ut snart."
+        "DESC": "För närvarande stöder vi live chat widgets på en webbplats, Facebook-sidor, Twitter-profiler och Whatsapp som plattformar. Vi har fler plattformar som e-post, Telegram och Line på gång som kommer ut snart."
       },
       "AGENTS": {
         "TITLE": "Agenter",
         "DESC": "Här kan du lägga till agenter för att hantera din nyskapade inkorg. Endast dessa utvalda agenter har tillgång till din inkorg. Agenter som inte är en del av denna inkorg kommer inte att kunna se eller svara på meddelanden i denna inkorg när de loggar in. <br> <b>PS:</b> Som administratör om du behöver åtkomst till alla inkorgar, du bör lägga till dig själv som agent till alla inkorgar som du skapar.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Lägg till minst en agent till din nya inkorg",
+        "PICK_AGENTS": "Välj agenter för inkorgen"
       },
       "DETAILS": {
         "TITLE": "Inkorg Detaljer",
@@ -223,14 +223,14 @@
     },
     "TABS": {
       "SETTINGS": "Inställningar",
-      "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "COLLABORATORS": "Medarbetare",
+      "CONFIGURATION": "Konfiguration"
     },
     "SETTINGS": "Inställningar",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Funktioner",
+      "DISPLAY_FILE_PICKER": "Visa filväljare på widgeten",
+      "DISPLAY_EMOJI_PICKER": "Visa emoji-väljare på widgeten"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skript för budbärare",
@@ -241,13 +241,15 @@
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
       "INBOX_UPDATE_TITLE": "Inkorg inställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Återauktorisera",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "SUBTITLE": "Din Facebook-anslutning har löpt ut, vänligen återanslut din Facebook-sida för att fortsätta med tjänsterna",
+      "MESSAGE_SUCCESS": "Återanslutning lyckades",
+      "MESSAGE_ERROR": "Ett fel uppstod, vänligen försök igen"
     }
   }
 }
