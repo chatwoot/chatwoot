@@ -9,16 +9,15 @@
 
   .reply-box__top {
     .canned {
-      @include elegant-card;
-      background: $color-white;
-      border-bottom: $space-small solid $color-white;
-      border-top: $space-small solid $color-white;
+      background: var(--white);
+      border-bottom: var(--space-small) solid var(--white);
+      border-top: 1px solid var(--color-border);
       left: 0;
-
       max-height: 14rem;
       overflow: auto;
+      padding-top: var(--space-small);
       position: absolute;
-      width: 24rem;
+      width: 100%;
       z-index: 100;
 
       .active a {
