@@ -61,6 +61,8 @@
       :set-format-mode="setFormatMode"
       :is-format-mode="isFormatMode"
       :enable-rich-editor="isRichEditorEnabled"
+      :enter-to-send-enabled="enterToSendEnabled"
+      @toggleEnterToSend="toggleEnterToSend"
     />
   </div>
 </template>
@@ -115,7 +117,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
+    ...mapGetters({
+      currentChat: 'getSelectedChat',
+      uiSettings: 'getUISettings',
+    }),
+    enterToSendEnabled() {
+      return !!this.uiSettings.enter_to_send_enabled;
+    },
     isPrivate() {
       if (this.currentChat.can_reply) {
         return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -209,6 +217,12 @@ export default {
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
+      const isUserReplyingOnPrivate =
+        this.replyType === REPLY_EDITOR_MODES.NOTE;
+      if (isUserReplyingOnPrivate) {
+        return;
+      }
+
       if (canReply) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
@@ -216,9 +230,6 @@ export default {
       }
     },
     message(updatedMessage) {
-      if (this.isPrivate) {
-        return;
-      }
       const isSlashCommand = updatedMessage[0] === '/';
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = isSlashCommand && !hasNextWord;
@@ -247,13 +258,23 @@ export default {
         this.hideEmojiPicker();
         this.hideCannedResponse();
       } else if (isEnter(e)) {
+        const hasSendOnEnterEnabled =
+          (this.isFormatMode && this.enterToSendEnabled) || !this.isFormatMode;
         const shouldSendMessage =
-          !this.isFormatMode && !hasPressedShift(e) && this.isFocused;
+          hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
           e.preventDefault();
           this.sendMessage();
         }
       }
+    },
+    toggleEnterToSend(enterToSendEnabled) {
+      this.$store.dispatch('updateUISettings', {
+        uiSettings: {
+          ...this.uiSettings,
+          enter_to_send_enabled: enterToSendEnabled,
+        },
+      });
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
