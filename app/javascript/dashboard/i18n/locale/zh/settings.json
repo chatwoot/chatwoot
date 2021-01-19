@@ -56,18 +56,9 @@
       "AVAILABILITY": {
         "LABEL": "有效的",
         "STATUSES_LIST": [
-          {
-            "value": "online",
-            "label": "在线的"
-          },
-          {
-            "value": "busy",
-            "label": "忙碌中"
-          },
-          {
-            "value": "offline",
-            "label": "离线的"
-          }
+          "在线的",
+          "忙碌中",
+          "离线的"
         ]
       },
       "EMAIL": {

@@ -6,7 +6,7 @@
       />
 
       <div class="status-view--title">
-        {{ currentUserAvailabilityStatus }}
+        {{ availabilityDisplayLabel }}
       </div>
     </div>
 
@@ -47,6 +47,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
   mixins: [clickaway],
@@ -62,14 +63,25 @@ export default {
     ...mapGetters({
       currentUser: 'getCurrentUser',
     }),
+    availabilityDisplayLabel() {
+      const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
+        key => key === this.currentUserAvailabilityStatus
+      );
+      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
+        availabilityIndex
+      ];
+    },
     currentUserAvailabilityStatus() {
       return this.currentUser.availability_status;
     },
     availabilityStatuses() {
       return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        status => ({
-          ...status,
-          disabled: this.currentUserAvailabilityStatus === status.value,
+        (statusLabel, index) => ({
+          label: statusLabel,
+          value: AVAILABILITY_STATUS_KEYS[index],
+          disabled:
+            this.currentUserAvailabilityStatus ===
+            AVAILABILITY_STATUS_KEYS[index],
         })
       );
     },

@@ -10,11 +10,11 @@ class Integrations::App
   end
 
   def name
-    params[:name]
+    I18n.t("integration_apps.#{params[:i18n_key]}.name")
   end
 
   def description
-    params[:description]
+    I18n.t("integration_apps.#{params[:i18n_key]}.description")
   end
 
   def logo

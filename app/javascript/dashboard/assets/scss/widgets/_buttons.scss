@@ -1,6 +1,21 @@
 .button {
   margin-bottom: 0;
 
+  &.button--emoji {
+    background: var(--b-50);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--border-radius-large);
+    font-size: var(--font-size-small);
+    margin-right: var(--space-small);
+    padding: var(--space-small);
+
+    &:hover {
+      background: var(--b-200);
+    }
+  }
+
+
+
   &.icon {
     padding-left: $space-normal;
     padding-right: $space-normal;

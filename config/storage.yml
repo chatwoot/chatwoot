@@ -18,7 +18,7 @@ amazon:
 google:
   service: GCS
   project: <%= ENV.fetch('GCS_PROJECT', '') %>
-  credentials: <%= ENV.fetch('GCS_CREDENTIALS', '').to_json %>
+  credentials: <%= ENV.fetch('GCS_CREDENTIALS', '') %>
   bucket: <%= ENV.fetch('GCS_BUCKET', '') %>
 
 # Use rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)

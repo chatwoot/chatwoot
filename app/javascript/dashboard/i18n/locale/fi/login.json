@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "Kirjaudu sisään Chatwootiin",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "Sähköposti",
+      "PLACEHOLDER": "Sähköposti, esim: someone@example.fi"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Salasana",
+      "PLACEHOLDER": "Salasana"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "Kirjautuminen Onnistui",
+      "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen",
+      "UNAUTH": "Käyttäjätunnus / salasana virheellinen. Yritä uudelleen"
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "Salasana unohtunut?",
+    "CREATE_NEW_ACCOUNT": "Luo uusi tili",
+    "SUBMIT": "Kirjaudu"
   }
 }

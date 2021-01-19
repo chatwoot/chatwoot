@@ -27,15 +27,25 @@ vi:
       invalid_email: Bạn đã nhập một email không hợp lệ
       email_already_exists: "Bạn đã đăng ký một tài khoản với %{email}"
       failed: Đăng ký thât bại
+  reports:
+    period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}"
         open: "Cuộc trò chuyện đã được mở lại bởi %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
+        self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Chỉ định %{assignee_name} bởi %{user_name}"
         removed: "Cuộc hội thoại chưa được chỉ định bởi %{user_name}"
+      labels:
+        added: "%{user_name} added %{labels}"
+        removed: "%{user_name} removed %{labels}"
+      muted: "%{user_name} has muted the conversation"
+      unmuted: "%{user_name} has unmuted the conversation"
     templates:
       greeting_message_body: "%{account_name} thường trả lời trong vài giờ."
       ways_to_reach_you_message_body: "Cung cấp cho nhóm một cách để tiếp cận bạn."
@@ -43,3 +53,10 @@ vi:
     reply:
       email_subject: "Tin nhắn mới về cuộc trò chuyện này"
       transcript_subject: "Bản ghi cuộc hội thoại"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."

@@ -24,7 +24,7 @@ table {
   tr {
     .show-if-hover {
       opacity: 0;
-      transition: all 0.2s $ease-in-out-cubic;
+      transition: opacity 0.2s $swift-ease-out-function;
     }
 
     &:hover {

@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed!, :user]
+  pattr_initialize [:account_name!, :email!, :confirmed!, :user, :user_full_name, :user_password]
 
   def perform
     if @user.nil?
@@ -15,7 +15,6 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    @account&.destroy
     puts e.inspect
     raise e
   end
@@ -27,7 +26,7 @@ class AccountBuilder
     if address.valid? # && !address.disposable?
       true
     else
-      raise InvalidEmail.new(valid: address.valid?) # , disposable: address.disposable?})
+      raise InvalidEmail.new(valid: address.valid?)
     end
   end
 
@@ -40,7 +39,7 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: @account_name)
+    @account = Account.create!(name: @account_name, locale: I18n.locale)
     Current.account = @account
   end
 
@@ -61,17 +60,13 @@ class AccountBuilder
     )
   end
 
-  def email_to_name(email)
-    name = email[/[^@]+/]
-    name.split('.').map(&:capitalize).join(' ')
-  end
-
   def create_user
-    password = Time.now.to_i
+    password = user_password || SecureRandom.alphanumeric(12)
+
     @user = User.new(email: @email,
                      password: password,
                      password_confirmation: password,
-                     name: email_to_name(@email))
+                     name: @user_full_name)
     @user.confirm if @confirmed
     @user.save!
   end

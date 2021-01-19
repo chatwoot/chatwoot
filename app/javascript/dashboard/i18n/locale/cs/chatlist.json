@@ -77,8 +77,8 @@
         "CONTENT": "sdílel URL"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "Obdrženo e-mailem",
+    "VIEW_TWEET_IN_TWITTER": "Zobrazit tweet na Twitteru",
+    "REPLY_TO_TWEET": "Odpovědět na tento tweet"
   }
 }

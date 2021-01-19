@@ -1,5 +1,5 @@
 import { playNotificationAudio } from 'shared/helpers/AudioNotificationHelper';
-import { actions } from '../../conversation';
+import { actions } from '../../conversation/actions';
 import getUuid from '../../../../helpers/uuid';
 import { API } from 'widget/helpers/axios';
 
@@ -49,8 +49,22 @@ describe('#actions', () => {
       const mockDate = new Date(1466424490000);
       getUuid.mockImplementationOnce(() => '1111');
       const spy = jest.spyOn(global, 'Date').mockImplementation(() => mockDate);
+      const windowSpy = jest.spyOn(window, 'window', 'get');
+      windowSpy.mockImplementation(() => ({
+        WOOT_WIDGET: {
+          $root: {
+            $i18n: {
+              locale: 'ar',
+            },
+          },
+        },
+        location: {
+          search: '?param=1',
+        },
+      }));
       actions.sendMessage({ commit }, { content: 'hello' });
       spy.mockRestore();
+      windowSpy.mockRestore();
       expect(commit).toBeCalledWith('pushMessageToConversation', {
         id: '1111',
         content: 'hello',
@@ -105,6 +119,13 @@ describe('#actions', () => {
         getters: { getConversationSize: 0 },
       });
       expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#clearConversations', () => {
+    it('sends correct mutations', () => {
+      actions.clearConversations({ commit });
+      expect(commit).toBeCalledWith('clearConversations');
     });
   });
 });

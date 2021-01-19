@@ -93,6 +93,12 @@ Provide the following value as frontend url
 FRONTEND_URL='http://localhost:3000'
 ```
 
+### Configure default language
+
+```bash
+DEFAULT_LOCALE='en'
+```
+
 ### Configure storage
 
 Chatwoot uses [active storage](https://edgeguides.rubyonrails.org/active_storage_overview.html) for storing attachments. The default storage option is the local storage on your server.

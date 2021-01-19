@@ -1,75 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Canned Responses",
-    "HEADER_BTN_TXT": "Add Canned Response",
-    "LOADING": "Fetching Canned Responses",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Canned Responses</b> </p><p> Canned Responses are saved reply templates which can be used to quickly send out a reply to a conversation . </p><p> For creating a Canned Response, just click on the <b>Add Canned Response</b>. You can also edit or delete an existing Canned Response by clicking on the Edit or Delete button </p><p> Canned responses are used with the help of <b>Short Codes</b>. Agents can access canned responses while on a chat by typing <b>'/'</b> followed by the short code. </p>",
+    "HEADER": "定型文",
+    "HEADER_BTN_TXT": "定型文を追加",
+    "LOADING": "定型文を読み込んでいます",
+    "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
+    "SIDEBAR_TXT": "<p><b>定型返信文</b> </p><p> 定型返信文は、あらかじめ保存されたテンプレートを利用することで、会話に対して迅速に回答するための機能です。 </p><p> 定型文を作成するには <b>定型返信文を追加</b>をクリックしてください。また、編集や削除ボタンを押すことで、定型返信文を編集したり削除したりすることもできます。 </p><p> 定型返信文は、 <b>ショートコード</b>を利用しています。担当者は、チャットのタイピング中に、半角の <b>'/'</b> を押すことで定型返信文をショートコードといっしょに利用できます。 </p>",
     "LIST": {
-      "404": "There are no canned responses available in this account.",
-      "TITLE": "Manage canned responses",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to tickets.",
+      "404": "このアカウントには、利用可能な定型文の回答はありません",
+      "TITLE": "定型文回答を管理する",
+      "DESC": "定型文回答は、事前に設定した文章をテンプレートとし、チケットに対して迅速に返信するためのものです。",
       "TABLE_HEADER": [
-        "Short Code",
-        "Content",
-        "Actions"
+        "ショートコード",
+        "内容",
+        "操作"
       ]
     },
     "ADD": {
-      "TITLE": "Add Canned Response",
-      "DESC": "Canned Responses are saved reply templates which can be used to quickly send out reply to conversation .",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "定型文を追加",
+      "DESC": "定型文回答は、事前に設定した文章をテンプレートとし、会話に対して迅速に返信するためのものです。",
+      "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "ショートコード",
+          "PLACEHOLDER": "ショートコードを入力してください。",
+          "ERROR": "ショートコードは必須です"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "内容",
+          "PLACEHOLDER": "内容を入力してください",
+          "ERROR": "内容は必須です"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "送信"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response added successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "定型文回答が正常に追加されました",
+        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Canned Response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "定型文を編集",
+      "CANCEL_BUTTON_TEXT": "キャンセル",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short Code",
-          "PLACEHOLDER": "Please enter a shortcode",
-          "ERROR": "Short Code is required"
+          "LABEL": "ショートコード",
+          "PLACEHOLDER": "ショートコードを入力してください。",
+          "ERROR": "ショートコードは必須です"
         },
         "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter a content",
-          "ERROR": "Content is required"
+          "LABEL": "内容",
+          "PLACEHOLDER": "内容を入力してください",
+          "ERROR": "内容は必須です"
         },
-        "SUBMIT": "Submit"
+        "SUBMIT": "送信"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "編集",
       "API": {
-        "SUCCESS_MESSAGE": "Canned Response updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "定型文回答が正常に追加されました",
+        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "削除",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "定型文回答が正常に削除されました",
+        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "削除の確認",
+        "MESSAGE": "削除してもよろしいですか？ ",
+        "YES": "削除する ",
+        "NO": "いいえ "
       }
     }
   }

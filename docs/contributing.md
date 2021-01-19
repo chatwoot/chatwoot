@@ -19,15 +19,15 @@ Thank you for taking an interest in contributing to Chatwoot. Before submitting 
 
 - It's okay and encouraged to have multiple small commits as you work on the PR - we will squash the commits before merging.
 
-### Getting Started 
+### Getting Started
 
 - Before starting your work, ensure an [issue](https://github.com/chatwoot/chatwoot/issues) exist for it. If not feel free to create one.
-- Add a comment on the issue and wait for the issue to be assigned before you start working on it. 
-  - This helps to avoid multiple people working on similar issues. 
-- If the solution is complex, propose the solution on the issue and wait for one of the core contributors to approve before going into the implementation. 
+- Add a comment on the issue and wait for the issue to be assigned before you start working on it.
+  - This helps to avoid multiple people working on similar issues.
+- If the solution is complex, propose the solution on the issue and wait for one of the core contributors to approve before going into the implementation.
   - This helps in shorter turn around times in merging PRs
-- For new feature requests, Provide a convincing reason to add this feature. Real-life business use-cases will be super helpful. 
-- Feel free to join our [discord community](https://discord.gg/cJXdrwS), if you need further discussions with the core team. 
+- For new feature requests, Provide a convincing reason to add this feature. Real-life business use-cases will be super helpful.
+- Feel free to join our [discord community](https://discord.gg/cJXdrwS), if you need further discussions with the core team.
 
 ### Developing a new feature:
 
@@ -38,9 +38,7 @@ Thank you for taking an interest in contributing to Chatwoot. Before submitting 
 - If you are resolving a particular issue, add `Bug: Fix xxxx` (#xxxx is the issue) in your PR title.
 - Provide a detailed description of the bug in the PR.
 - Add appropriate test coverage if applicable.
-  
-### Translations: 
-- When you are introducing new text copies, you only need to worry about making changes to english language files. 
-- We accept language translations / updates for existing translations through [crowdin](https://translate.chatwoot.com/)
-  - If a language doesn't exist in our crowdin, please feel free to create an [issue](https://github.com/chatwoot/chatwoot/issues) to get it enabled. 
-  
+
+### Translations
+
+For language translations, please read the guide [translating Chatwoot to your language](/docs/contributing/translating-chatwoot-to-your-language)

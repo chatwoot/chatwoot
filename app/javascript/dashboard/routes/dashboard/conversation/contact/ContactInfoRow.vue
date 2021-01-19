@@ -1,7 +1,7 @@
 <template>
   <div class="contact-info--row">
     <a v-if="href" :href="href" class="contact-info--details">
-      <i :class="icon" class="contact-info--icon" />
+      <emoji-or-icon :icon="icon" :emoji="emoji" />
       <span v-if="value" class="text-truncate" :title="value">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -18,7 +18,7 @@
     </a>
 
     <div v-else class="contact-info--details">
-      <i :class="icon" class="contact-info--icon" />
+      <emoji-or-icon :icon="icon" :emoji="emoji" />
       <span v-if="value" class="text-truncate">{{ value }}</span>
       <span v-else class="text-muted">{{
         $t('CONTACT_PANEL.NOT_AVAILABLE')
@@ -29,7 +29,12 @@
 <script>
 import copy from 'copy-text-to-clipboard';
 import alertMixin from 'shared/mixins/alertMixin';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+
 export default {
+  components: {
+    EmojiOrIcon,
+  },
   mixins: [alertMixin],
   props: {
     href: {
@@ -37,6 +42,10 @@ export default {
       default: '',
     },
     icon: {
+      type: String,
+      required: true,
+    },
+    emoji: {
       type: String,
       required: true,
     },
@@ -71,7 +80,7 @@ export default {
 .contact-info--details {
   display: flex;
   align-items: center;
-  margin-bottom: $space-smaller;
+  margin-bottom: var(--space-one);
   color: $color-body;
 
   .copy-icon {
@@ -86,5 +95,10 @@ export default {
       text-decoration: underline;
     }
   }
+}
+
+.contact-info--details .icon--emoji,
+.contact-info--details .icon--font {
+  margin-right: var(--space-small);
 }
 </style>

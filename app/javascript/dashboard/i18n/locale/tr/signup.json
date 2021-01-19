@@ -1,32 +1,38 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Bir hesap oluştur",
+    "TITLE": "Kayıt ol",
+    "TERMS_ACCEPT": "Kaydolarak, <a href=\"https://www.chatwoot.com/terms\">Şartlar & Koşullar</a>'ımızı ve <a href=\"https://www.chatwoot.com/privacy-policy\">Gizlilik politikamız</a>ı kabul etmiş olursunuz",
     "ACCOUNT_NAME": {
-      "LABEL": "Account Name",
-      "PLACEHOLDER": "Wayne Enterprises",
-      "ERROR": "Account Name is too short"
+      "LABEL": "Hesap adı",
+      "PLACEHOLDER": "Hesap adınızı giriniz. örn: Wayne Enterprises",
+      "ERROR": "Hesap adı çok kısa"
+    },
+    "FULL_NAME": {
+      "LABEL": "Ad Soyad",
+      "PLACEHOLDER": "Ad Soyadınızı giriniz. örn: Bruce Wayne",
+      "ERROR": "Ad Soyad çok kısa"
     },
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "bruce@wayne.enterprises",
-      "ERROR": "Email is invalid"
+      "LABEL": "İş emaili",
+      "PLACEHOLDER": "İş email adresinizi giriniz. örn: bruce@wayne.enterprises",
+      "ERROR": "Email adresi geçersiz"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "Parola",
+      "PLACEHOLDER": "Parola",
+      "ERROR": "Parola çok kısa"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Parolayı Onayla",
+      "PLACEHOLDER": "Parolayı Onayla",
+      "ERROR": "Parola eşleşmiyor"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Kayıt başarılı",
+      "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
     },
-    "SUBMIT": "Submit"
+    "SUBMIT": "Yolla",
+    "HAVE_AN_ACCOUNT": "Hesabın var mı?"
   }
 }

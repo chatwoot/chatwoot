@@ -26,7 +26,7 @@ https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/setup_20.
 ```bash
 wget <link-to-script> -O setup.sh
 chmod 755 setup.sh
-./setup.sh
+./setup.sh master
 ```
 
 2. Execute the script and it will take care of the initial **Chatwoot** setup.
@@ -147,7 +147,21 @@ rake assets:precompile RAILS_ENV=production
 # Migrate the database schema
 RAILS_ENV=production bundle exec rake db:migrate
 
+# Copy the updated targets
+cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/chatwoot-web.1.service
+cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/chatwoot-worker.1.service
+cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwoot.target
+
 # Restart the chatwoot server
 systemctl restart chatwoot.target
+```
+
+#### If precompile fails
+
+If the asset precompilation step fails with `ActionView::Template::Error (Webpacker can't find application.css in /home/chatwoot/chatwoot/public/packs/manifest.json)` or if you face issues while restarting the server, try the following command and restart the server.
 
 ```
+RAILS_ENV=production rake assets:clean assets:clobber assets:precompile
+```
+
+This command would clear the existing compiled assets and would recompile all the assets. Read more about it [here](https://edgeguides.rubyonrails.org/command_line.html#bin-rails-assets)

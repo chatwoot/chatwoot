@@ -115,6 +115,10 @@ export const SDK_CSS = `.woot-widget-holder {
   z-index: -1 !important;
 }
 
+.woot-widget--without-bubble {
+  bottom: 20px !important;
+}
+
 @media only screen and (max-width: 667px) {
   .woot-widget-holder {
     height: 100%;

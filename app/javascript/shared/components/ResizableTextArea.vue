@@ -5,11 +5,14 @@
     :value="value"
     @input="onInput"
     @focus="onFocus"
+    @keyup="onKeyup"
     @blur="onBlur"
   />
 </template>
 
 <script>
+const TYPING_INDICATOR_IDLE_TIME = 4000;
+
 export default {
   props: {
     placeholder: {
@@ -24,6 +27,11 @@ export default {
       type: Number,
       default: 2,
     },
+  },
+  data() {
+    return {
+      idleTimer: null,
+    };
   },
   watch: {
     value() {
@@ -42,7 +50,28 @@ export default {
       this.$emit('input', event.target.value);
       this.resizeTextarea();
     },
+    resetTyping() {
+      this.$emit('typing-off');
+      this.idleTimer = null;
+    },
+    turnOffIdleTimer() {
+      if (this.idleTimer) {
+        clearTimeout(this.idleTimer);
+      }
+    },
+    onKeyup() {
+      if (!this.idleTimer) {
+        this.$emit('typing-on');
+      }
+      this.turnOffIdleTimer();
+      this.idleTimer = setTimeout(
+        () => this.resetTyping(),
+        TYPING_INDICATOR_IDLE_TIME
+      );
+    },
     onBlur() {
+      this.turnOffIdleTimer();
+      this.resetTyping();
       this.$emit('blur');
     },
     onFocus() {

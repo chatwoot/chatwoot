@@ -41,6 +41,8 @@
                 :options="getSelectablePages"
                 track-by="id"
                 label="name"
+                :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+                :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
                 selected-label
                 @select="setPageName"

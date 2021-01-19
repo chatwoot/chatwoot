@@ -1,84 +1,84 @@
 {
   "CHAT_LIST": {
-    "LOADING": "Fetching conversations",
-    "LOAD_MORE_CONVERSATIONS": "Load more conversations",
-    "EOF": "All conversations loaded 🎉",
+    "LOADING": "Haetaan keskusteluita",
+    "LOAD_MORE_CONVERSATIONS": "Lataa lisää keskusteluita",
+    "EOF": "Kaikki keskustelut ladattu 🎉",
     "LIST": {
-      "404": "There are no active conversations in this group."
+      "404": "Tässä ryhmässä ei ole aktiivisia keskusteluja."
     },
-    "TAB_HEADING": "Conversations",
+    "TAB_HEADING": "Keskustelut",
     "SEARCH": {
-      "INPUT": "Search for People, Chats, Saved Replies .."
+      "INPUT": "Etsi ihmisiä, keskusteluita, tallennettuja vastauksia..."
     },
     "STATUS_TABS": [
       {
-        "NAME": "Open",
+        "NAME": "Avaa",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resolved",
+        "NAME": "Ratkaistu",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mine",
+        "NAME": "Minun",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Unassigned",
+        "NAME": "Osoittamaton",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
       {
-        "NAME": "All",
+        "NAME": "Kaikki",
         "KEY": "all",
         "COUNT_KEY": "allCount"
       }
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Open",
+        "TEXT": "Avoin",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resolved",
+        "TEXT": "Ratkaistu",
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "Botti",
+        "VALUE": "botti"
       }
     ],
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "Picture message"
+        "CONTENT": "Kuvaviesti"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "Audio message"
+        "CONTENT": "Ääniviesti"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "Video message"
+        "CONTENT": "Videoviesti"
       },
       "file": {
         "ICON": "ion-document",
-        "CONTENT": "File Attachment"
+        "CONTENT": "Liite"
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "Sijainti"
       },
       "fallback": {
         "ICON": "ion-link",
-        "CONTENT": "has shared a url"
+        "CONTENT": "on jakanut URL-osoitteen"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
+    "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
+    "REPLY_TO_TWEET": "Vastaa tähän twiittiin"
   }
 }

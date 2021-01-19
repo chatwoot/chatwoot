@@ -1,0 +1,38 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Daftar akun",
+    "TITLE": "Daftar",
+    "TERMS_ACCEPT": "Dengan mendaftar, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">S&K</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Nama Akun",
+      "PLACEHOLDER": "Masukkan nama akun. cth: Wayne Enterprises",
+      "ERROR": "Nama Akun terlalu pendek"
+    },
+    "FULL_NAME": {
+      "LABEL": "Nama Lengkap",
+      "PLACEHOLDER": "Masukkan nama lengkap Anda. cth: Bruce Wayne",
+      "ERROR": "Nama lengkap terlalu pendek"
+    },
+    "EMAIL": {
+      "LABEL": "Email kantor",
+      "PLACEHOLDER": "Masukkan alamat email kantor Anda. cth: bruce@wayne.enterprises",
+      "ERROR": "Alamat email salah"
+    },
+    "PASSWORD": {
+      "LABEL": "Kata Sandi",
+      "PLACEHOLDER": "Kata Sandi",
+      "ERROR": "Kata sandi terlalu pendek"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Konfirmasi Kata Sandi",
+      "PLACEHOLDER": "Konfirmasi Kata Sandi",
+      "ERROR": "Kata Sandi tidak cocok"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+    },
+    "SUBMIT": "Kirim",
+    "HAVE_AN_ACCOUNT": "Sudah punya akun?"
+  }
+}

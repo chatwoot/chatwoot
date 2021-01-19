@@ -1,0 +1,12 @@
+<% headers = ['Inbox name', 'Conversations count', 'Avg first response time (Minutes)', 'Avg resolution time (Minutes)'] %>
+<%= CSV.generate_line headers %>
+<% Current.account.inboxes.each do |inbox| %>
+  <% inbox_report = V2::ReportBuilder.new(Current.account, {
+        type: :inbox,
+        id: inbox.id,
+        since: params[:since],
+        until: params[:until]
+      }).summary %>
+  <% row = [ inbox.name, inbox_report[:conversations_count], (inbox_report[:avg_first_response_time]/60).to_i, (inbox_report[:avg_resolution_time]/60).to_i ] %>
+<%=   CSV.generate_line row %>
+<% end %>

@@ -6,14 +6,12 @@
       "CONFIGURE": "Configureren",
       "HEADER": "Webhook instellingen",
       "HEADER_BTN_TXT": "Nieuwe webhook toevoegen",
-      "INTEGRATION_TXT": "Webhook events bieden je de realtime informatie over wat er gebeurt in je Chatwoot account. Je kunt gebruik maken van de webhooks om de evenementen te communiceren met je favoriete apps zoals Slack of Github. Klik op Configureren om uw webhooks in te stellen.",
       "LOADING": "Bijgevoegde webhooks ophalen",
       "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks zijn HTTP callbacks die voor elk account kunnen worden gedefinieerd. Ze worden geactiveerd door gebeurtenissen zoals het aanmaken van berichten in Chatwoot. Je kunt meer dan één webhook aanmaken voor dit account. <br /><br /> Voor het maken van een <b>webhook</b>, klik op de <b>Voeg nieuwe webhook</b> knop toe. U kunt ook alle bestaande webhook verwijderen door te klikken op de verwijderknop.</p>",
       "LIST": {
         "404": "Er zijn geen webhooks geconfigureerd voor dit account.",
         "TITLE": "Webhooks beheren",
-        "DESC": "Webhooks zijn vooraf gedefinieerde antwoordsjablonen die kunnen worden gebruikt om snel antwoorden op tickets te verzenden.",
         "TABLE_HEADER": [
           "Webhook eindpunt",
           "acties"

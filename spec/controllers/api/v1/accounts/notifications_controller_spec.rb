@@ -26,6 +26,7 @@ RSpec.describe 'Notifications API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(notification1.notification_type)
         expect(response_json['data']['meta']['unread_count']).to eq 2
+        expect(response_json['data']['meta']['count']).to eq 2
         # notification appear in descending order
         expect(response_json['data']['payload'].first['id']).to eq notification2.id
       end
@@ -98,6 +99,31 @@ RSpec.describe 'Notifications API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(notification.reload.read_at).not_to eq('')
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/notifications/unread_count' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/notifications/unread_count"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'returns notifications unread count' do
+        2.times.each { create(:notification, account: account, user: admin) }
+        get "/api/v1/accounts/#{account.id}/notifications/unread_count",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_json = JSON.parse(response.body)
+        expect(response).to have_http_status(:success)
+        expect(response_json).to eq 2
       end
     end
   end

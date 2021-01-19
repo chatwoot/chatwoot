@@ -1,17 +1,17 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "客服代理们",
-    "HEADER_BTN_TXT": "添加客服代理",
-    "LOADING": "正在获取客服代理列表",
-    "SIDEBAR_TXT": "<p><b>客服代理</b></p> <p> 客服代理 <b></b> 是您的客户支持团队成员。 </p><p>客服 代理人将能够查看和回复您用户的消息。 列表显示当前帐户中的所有客服代理人。 </p><p> 点击 <b>添加客服代理</b> 添加新客服代理人。 您添加的客服代理将收到一封含有确认链接的电子邮件来激活他们的帐户，然后他们可以访问Chatwoot 并回复消息。 </p><p> 聊天窗口的功能基于以下角色。 </p><p> <b>Agent</b> - 具有此角色的代理只能访问收件箱、报告和会话。 他们可以将对话分配给其他客服代理人或自己，并解决会话。</p><p> <b>管理员</b> - 管理员将可以访问您账户中所有已启用的聊天功能。 包括设置，以及所有正常客服代理的权限。</p>",
+    "HEADER": "客服",
+    "HEADER_BTN_TXT": "添加客服",
+    "LOADING": "正在获取客服列表",
+    "SIDEBAR_TXT": "<p><b>客服</b></p> <p> 客服 <b></b> 是您的客户支持团队成员。 </p><p>客服将能够查看和回复您用户的消息。 列表显示当前帐户中的所有客服代理人。 </p><p> 点击 <b>添加客服</b> 添加新客服。 您添加的客服将收到一封含有确认链接的电子邮件来激活他们的帐户，然后他们可以访问并回复消息。 </p><p> 聊天窗口的功能基于以下角色。 </p><p> <b>客服</b> - 此角色的代理只能访问收件箱、报告和会话。 他们可以将对话分配给其他客服或自己，并解决会话。</p><p> <b>管理员</b> - 管理员将可以访问您账户中所有已启用的聊天功能。 包括设置，以及所有客服的权限。</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理员",
-      "AGENT": "客服代理"
+      "AGENT": "客服"
     },
     "LIST": {
-      "404": "没有与此账户关联的代理",
-      "TITLE": "管理您团队中的代理",
-      "DESC": "您可以添加/移除代理到您的团队。",
+      "404": "此账号没有关联客服",
+      "TITLE": "管理您团队中的客服",
+      "DESC": "您可以添加/移除您团队中的客服。",
       "NAME": "姓名：",
       "EMAIL": "电子邮件",
       "STATUS": "状态",
@@ -20,64 +20,64 @@
       "VERIFICATION_PENDING": "待验证"
     },
     "ADD": {
-      "TITLE": "添加代理到你的团队",
+      "TITLE": "添加客服至您的团队",
       "DESC": "您可以添加能够处理支持您的收件箱的人。",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "代理人姓名",
-          "PLACEHOLDER": "请输入代理人名称"
+          "LABEL": "客服名称",
+          "PLACEHOLDER": "请输入客服名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理类型",
-          "PLACEHOLDER": "请选择一个类型",
-          "ERROR": "代理类型必填"
+          "LABEL": "角色",
+          "PLACEHOLDER": "请选择一个角色",
+          "ERROR": "角色类型必填"
         },
         "EMAIL": {
           "LABEL": "电子邮件地址",
-          "PLACEHOLDER": "请输入代理的邮箱地址"
+          "PLACEHOLDER": "请输入客服的邮箱地址"
         },
-        "SUBMIT": "添加客服代理"
+        "SUBMIT": "添加客服"
       },
       "API": {
-        "SUCCESS_MESSAGE": "代理添加成功",
-        "EXIST_MESSAGE": "该邮箱已被注册，请重新输入新的电子邮箱",
+        "SUCCESS_MESSAGE": "添加客服成功",
+        "EXIST_MESSAGE": "该邮箱已被注册，请输入新的电子邮箱",
         "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "代理添加成功",
+        "SUCCESS_MESSAGE": "删除客服成功",
         "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
       },
       "CONFIRM": {
         "TITLE": "确认删除",
         "MESSAGE": "您确定要删除吗？ ",
-        "YES": "是，删除 ",
+        "YES": "是的，删除 ",
         "NO": "不，保留 "
       }
     },
     "EDIT": {
-      "TITLE": "编辑代理",
+      "TITLE": "编辑客服信息",
       "FORM": {
         "NAME": {
-          "LABEL": "代理人姓名",
-          "PLACEHOLDER": "请输入代理人名称"
+          "LABEL": "客服名称",
+          "PLACEHOLDER": "请输入客服名称"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理类型",
-          "PLACEHOLDER": "请选择一个类型",
-          "ERROR": "代理类型必填"
+          "LABEL": "角色",
+          "PLACEHOLDER": "请选择一个角色",
+          "ERROR": "角色必填"
         },
         "EMAIL": {
           "LABEL": "电子邮件地址",
-          "PLACEHOLDER": "请输入代理的邮箱地址"
+          "PLACEHOLDER": "请输入客服的邮箱地址"
         },
-        "SUBMIT": "编辑代理"
+        "SUBMIT": "编辑客服"
       },
       "BUTTON_TEXT": "编辑",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "更新客服信息成功",
         "ERROR_MESSAGE": "无法连接服务器，请稍后再试"

@@ -4,8 +4,8 @@
       v-model="userInput"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input"
-      @focus="onFocus"
-      @blur="onBlur"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
     />
     <div class="button-wrap">
       <chat-attachment-button
@@ -111,10 +111,10 @@ export default {
     emojiOnClick(emoji) {
       this.userInput = `${this.userInput}${emoji} `;
     },
-    onBlur() {
+    onTypingOff() {
       this.toggleTyping('off');
     },
-    onFocus() {
+    onTypingOn() {
       this.toggleTyping('on');
     },
     toggleTyping(typingStatus) {

@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import WootSnackbarBox from './components/SnackbarContainer';
 import { accountIdFromPathname } from './helper/URLHelper';
@@ -28,10 +27,15 @@ export default {
 
   mounted() {
     this.$store.dispatch('setUser');
+    this.setLocale(window.chatwootConfig.selectedLocale);
     this.initializeAccount();
   },
 
   methods: {
+    setLocale(locale) {
+      this.$root.$i18n.locale = locale;
+    },
+
     async initializeAccount() {
       const { pathname } = window.location;
       const accountId = accountIdFromPathname(pathname);
@@ -39,7 +43,7 @@ export default {
       if (accountId) {
         await this.$store.dispatch('accounts/get');
         const { locale } = this.getAccount(accountId);
-        Vue.config.lang = locale;
+        this.setLocale(locale);
       }
     },
   },

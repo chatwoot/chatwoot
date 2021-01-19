@@ -211,6 +211,9 @@
           :clear-on-select="false"
           :hide-selected="true"
           placeholder="Pick some"
+          selected-label
+          :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+          :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
           @select="$v.selectedAgents.$touch"
         />
 
@@ -237,6 +240,13 @@
             :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
           >
             <woot-code :script="inbox.web_widget_script"></woot-code>
+          </settings-section>
+
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
+            :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION')"
+          >
+            <woot-code :script="inbox.hmac_token"></woot-code>
           </settings-section>
         </div>
       </div>

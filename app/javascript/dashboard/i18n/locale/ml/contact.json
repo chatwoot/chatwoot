@@ -1,15 +1,17 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "ലഭ്യമല്ല",
     "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം",
     "PHONE_NUMBER": "ഫോൺ നമ്പർ",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "ക്ലിപ്പ്ബോർഡിലേക്ക് വിജയകരമായി പകർത്തി",
+    "COMPANY": "കമ്പനി",
     "LOCATION": "സ്ഥാനം",
     "CONVERSATION_TITLE": "സംഭാഷണ വിശദാംശങ്ങൾ",
     "BROWSER": "ബ്രൗസർ",
     "OS": "ഓപ്പറേറ്റിംഗ് സിസ്റ്റം",
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
     "INITIATED_AT": "ആരംഭിച്ച സമയം ",
+    "IP_ADDRESS": "IP വിലാസം",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല.",
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
@@ -32,65 +34,82 @@
       "NO_AVAILABLE_LABELS": "ഈ സംഭാഷണത്തിലേക്ക് ലേബലുകളൊന്നും ചേർത്തിട്ടില്ല."
     },
     "MUTE_CONTACT": "സംഭാഷണം ഒച്ചയിലാതാക്കുക",
+    "UNMUTE_CONTACT": "സംഭാഷണം നിശബ്ദമാക്കുക",
     "MUTED_SUCCESS": "ഈ സംഭാഷണം 6 മണിക്കൂർ നിശബ്ദമാക്കി",
+    "UNMUTED_SUCCESS": "ഈ സംഭാഷണം നിശബ്ദമാക്കി",
     "SEND_TRANSCRIPT": "ട്രാൻസ്ക്രിപ്റ്റ് അയയ്ക്കുക",
     "EDIT_LABEL": "എഡിറ്റുചെയ്യുക"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
-    "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "BUTTON_LABEL": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
+    "TITLE": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
+    "DESC": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക",
     "FORM": {
       "SUBMIT": "സമർപ്പിക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
       "AVATAR": {
-        "LABEL": "Contact Avatar"
+        "LABEL": "കോൺ‌ടാക്റ്റ് ലഘുചിത്രം"
       },
       "NAME": {
-        "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ മുഴുവൻ പേര് നൽകുക",
+        "LABEL": "പൂർണ്ണമായ പേര്"
       },
       "BIO": {
-        "PLACEHOLDER": "Enter the bio of the contact",
-        "LABEL": "Bio"
+        "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ബയോ നൽകുക",
+        "LABEL": "വിവരണം"
       },
       "EMAIL_ADDRESS": {
-        "PLACEHOLDER": "Enter the email address of the contact",
+        "PLACEHOLDER": "കോൺ‌ടാക്റ്റിന്റെ ഇമെയിൽ വിലാസം നൽകുക",
         "LABEL": "ഇമെയിൽ വിലാസം"
       },
       "PHONE_NUMBER": {
-        "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ഫോൺ നമ്പർ നൽകുക",
+        "LABEL": "ഫോൺ നമ്പർ"
       },
       "LOCATION": {
-        "PLACEHOLDER": "Enter the location of the contact",
+        "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ സ്ഥാനം നൽകുക",
         "LABEL": "സ്ഥാനം"
       },
       "COMPANY_NAME": {
-        "PLACEHOLDER": "Enter the company name",
-        "LABEL": "Company Name"
+        "PLACEHOLDER": "കമ്പനിയുടെ പേര് നൽകുക",
+        "LABEL": "കമ്പനിയുടെ പേര്"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
-          "PLACEHOLDER": "Enter the Facebook username",
+          "PLACEHOLDER": "Facebook ഉപയോക്തൃനാമം നൽകുക",
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
+          "PLACEHOLDER": "Twitter ഉപയോക്തൃനാമം നൽകുക",
           "LABEL": "Twitter"
         },
         "LINKEDIN": {
-          "PLACEHOLDER": "Enter the LinkedIn username",
-          "LABEL": "LinkedIn"
+          "PLACEHOLDER": "Linkedin ഉപയോക്തൃനാമം നൽകുക",
+          "LABEL": "Linkedin"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "Github ഉപയോക്തൃനാമം നൽകുക",
           "LABEL": "Github"
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
-    "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "SUCCESS_MESSAGE": "കോൺ‌ടാക്റ്റ് വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
+    "CONTACT_ALREADY_EXIST": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
+    "ERROR_MESSAGE": "കോൺ‌ടാക്റ്റ് അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "കോൺ‌ടാക്റ്റുകൾ",
+    "SEARCH_BUTTON": "തിരയുക",
+    "SEARCH_INPUT_PLACEHOLDER": "കോൺ‌ടാക്റ്റുകൾക്കായി തിരയുക",
+    "LIST": {
+      "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
+      "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
+      "TABLE_HEADER": [
+        "പേര്",
+        "ഫോൺ നമ്പർ",
+        "സംഭാഷണങ്ങൾ",
+        "അവസാനം കോൺടാക്റ്റുചെയ്തത്"
+      ]
+    }
   }
 }

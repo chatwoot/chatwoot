@@ -1,3 +1,5 @@
+$resolve-button-width: 13.2rem;
+
 // Conversation header - Light BG
 .conv-header {
   @include padding($space-small $space-normal);
@@ -70,8 +72,8 @@
 
 .button.resolve--button {
   @include flex-align($x: center, $y: middle);
-
-  width: 13.2rem;
+  font-size: var(--font-size-default);
+  width: $resolve-button-width;
 
   >.icon {
     font-size: $font-size-default;

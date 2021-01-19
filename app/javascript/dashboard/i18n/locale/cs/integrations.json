@@ -6,14 +6,12 @@
       "CONFIGURE": "Konfigurace",
       "HEADER": "Nastavení webhooku",
       "HEADER_BTN_TXT": "Přidat nový webový háček",
-      "INTEGRATION_TXT": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Můžete využít webové háčky k komunikaci s vašimi oblíbenými aplikacemi, jako je Slack nebo Github. Klepnutím na tlačítko Konfigurace nastavíte své webové háčky.",
       "LOADING": "Načítání připojených webhooků",
       "SEARCH_404": "Neexistují žádné položky odpovídající tomuto dotazu",
       "SIDEBAR_TXT": "<p><b>Webové háčky</b> </p> <p>jsou HTTP zpětné volání, které lze definovat pro každý účet. Jsou spouštěny událostmi, jako je vytváření zpráv v Chatwoot. Můžete vytvořit více než jeden webový háček pro tento účet. <br /><br /> Pro vytvoření webového háčku <b></b>klikněte na tlačítko <b>Přidat nový webhook</b> . Kliknutím na tlačítko Odstranit můžete také odstranit jakýkoli existující webový háček.</p>",
       "LIST": {
         "404": "Pro tento účet nejsou nakonfigurovány žádné webové háčky.",
         "TITLE": "Spravovat webové háčky",
-        "DESC": "Webové háčky jsou předdefinované šablony odpovědí, které mohou být použity k rychlému zasílání odpovědí na tikety.",
         "TABLE_HEADER": [
           "Koncový bod webhooku",
           "Akce"

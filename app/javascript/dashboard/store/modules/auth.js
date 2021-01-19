@@ -34,6 +34,10 @@ export const getters = {
     return _state.currentUser.id;
   },
 
+  getUISettings(_state) {
+    return _state.currentUser.ui_settings || {};
+  },
+
   getCurrentUserAvailabilityStatus(_state) {
     return _state.currentUser.availability_status;
   },
@@ -95,6 +99,7 @@ export const actions = {
   logout({ commit }) {
     commit(types.default.CLEAR_USER);
   },
+
   updateProfile: async ({ commit }, params) => {
     try {
       const response = await authAPI.profileUpdate(params);
@@ -105,10 +110,24 @@ export const actions = {
     }
   },
 
-  updateAvailability: ({ commit }, { availability }) => {
-    authAPI.updateAvailability({ availability }).then(response => {
+  updateUISettings: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_CURRENT_USER_UI_SETTINGS, params);
+      const response = await authAPI.updateUISettings(params);
       setUser(response.data, getHeaderExpiry(response));
       commit(types.default.SET_CURRENT_USER);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+
+  updateAvailability: ({ commit, dispatch }, { availability }) => {
+    authAPI.updateAvailability({ availability }).then(response => {
+      const userData = response.data;
+      const { id, availability_status: availabilityStatus } = userData;
+      setUser(userData, getHeaderExpiry(response));
+      commit(types.default.SET_CURRENT_USER);
+      dispatch('agents/updatePresence', { [id]: availabilityStatus });
     });
   },
 
@@ -127,7 +146,7 @@ export const actions = {
 };
 
 // mutations
-const mutations = {
+export const mutations = {
   [types.default.SET_CURRENT_USER_AVAILABILITY](_state, status) {
     Vue.set(_state.currentUser, 'availability_status', status);
   },
@@ -141,6 +160,15 @@ const mutations = {
     };
 
     Vue.set(_state, 'currentUser', currentUser);
+  },
+  [types.default.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
+    Vue.set(_state, 'currentUser', {
+      ..._state.currentUser,
+      ui_settings: {
+        ..._state.currentUser.ui_settings,
+        ...uiSettings,
+      },
+    });
   },
   [types.default.SET_CURRENT_ACCOUNT_ID](_state, accountId) {
     Vue.set(_state, 'currentAccountId', Number(accountId));

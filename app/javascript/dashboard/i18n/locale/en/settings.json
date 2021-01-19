@@ -57,18 +57,10 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [{
-            "value": "online",
-            "label": "Online"
-          },
-          {
-            "value": "busy",
-            "label": "Busy"
-          },
-          {
-            "value": "offline",
-            "label": "Offline"
-          }
+        "STATUSES_LIST": [
+          "Online",
+          "Busy",
+          "Offline"
         ]
       },
       "EMAIL": {
@@ -121,7 +113,7 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversations",
     "REPORTS": "Reports",
-    "CONTACTS": "Contacts (Beta)",
+    "CONTACTS": "Contacts",
     "SETTINGS": "Settings",
     "HOME": "Home",
     "AGENTS": "Agents",

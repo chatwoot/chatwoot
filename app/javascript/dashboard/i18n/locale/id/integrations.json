@@ -1,0 +1,61 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrasi",
+    "WEBHOOK": {
+      "TITLE": "Webhook",
+      "CONFIGURE": "Konfigurasi",
+      "HEADER": "Pengaturan Webhook",
+      "HEADER_BTN_TXT": "Tambah webhook baru",
+      "LOADING": "Mengambil webhook terlampir",
+      "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
+      "LIST": {
+        "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
+        "TITLE": "Kelola webhook",
+        "TABLE_HEADER": [
+          "Endpoint webhook",
+          "Aksi"
+        ]
+      },
+      "ADD": {
+        "CANCEL": "Batalkan",
+        "TITLE": "Tambah webhook baru",
+        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL Webhook",
+            "PLACEHOLDER": "Contoh: https://example/api/webhook",
+            "ERROR": "Harap masukkan URL yang valid"
+          },
+          "SUBMIT": "Tambah Webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook berhasil ditambahkan",
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Hapus",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook berhasil dihapus",
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        },
+        "CONFIRM": {
+          "TITLE": "Konfirmasi Penghapusan",
+          "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+          "YES": "Ya, Hapus ",
+          "NO": "Tidak, Simpan"
+        }
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "API": {
+        "SUCCESS_MESSAGE": "Integrasi berhasil dihapus"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Connect"
+    }
+  }
+}

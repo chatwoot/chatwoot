@@ -10,8 +10,8 @@
     },
     "LIST": {
       "404": "No hay agentes asociados a esta cuenta",
-      "TITLE": "Administrar agentes en su equipo",
-      "DESC": "Puede añadir/eliminar agentes a/de su equipo.",
+      "TITLE": "Administrar agentes en tu equipo",
+      "DESC": "Puedes añadir/eliminar agentes a/en tu equipo.",
       "NAME": "Nombre",
       "EMAIL": "Correo electrónico",
       "STATUS": "Estado",
@@ -20,36 +20,36 @@
       "VERIFICATION_PENDING": "Verificación pendiente"
     },
     "ADD": {
-      "TITLE": "Añadir agente a su equipo",
-      "DESC": "Puede añadir personas que podrán manejar el soporte para sus bandejas de entrada.",
+      "TITLE": "Añadir agente a tu equipo",
+      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus bandejas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Introduzca el nombre del agente"
+          "PLACEHOLDER": "Introduce el nombre del agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Seleccione un tipo",
-          "ERROR": "El tipo de agente es obligatorio"
+          "PLACEHOLDER": "Por favor, seleccione un rol",
+          "ERROR": "Rol es requerido"
         },
         "EMAIL": {
           "LABEL": "Dirección de correo",
-          "PLACEHOLDER": "Por favor, introduzca la dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
         },
         "SUBMIT": "Añadir agente"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agente añadido correctamente",
         "EXIST_MESSAGE": "El correo electrónico del agente ya está en uso, por favor intente otra dirección de correo electrónico",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Agente eliminado correctamente",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       },
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
@@ -63,16 +63,16 @@
       "FORM": {
         "NAME": {
           "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Por favor, introduzca el nombre del agente"
+          "PLACEHOLDER": "Por favor, introduzca un nombre del agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
-          "PLACEHOLDER": "Por favor, seleccione un tipo",
-          "ERROR": "El tipo de agente es obligatorio"
+          "PLACEHOLDER": "Por favor, seleccione un rol",
+          "ERROR": "Rol es requerido"
         },
         "EMAIL": {
           "LABEL": "Dirección de email",
-          "PLACEHOLDER": "Por favor, introduzca la dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
         },
         "SUBMIT": "Editar agente"
       },
@@ -80,13 +80,13 @@
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Agente actualizado correctamente",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Restablecer contraseña",
-        "ADMIN_SUCCESS_MESSAGE": "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña del agente",
+        "ADMIN_SUCCESS_MESSAGE": "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña al agente",
         "SUCCESS_MESSAGE": "Contraseña del agente restablecida con éxito",
-        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtelo de nuevo más tarde"
+        "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
       }
     },
     "SEARCH": {

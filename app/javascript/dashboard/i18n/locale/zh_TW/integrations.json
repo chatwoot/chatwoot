@@ -6,14 +6,12 @@
       "CONFIGURE": "配置",
       "HEADER": "Webhook 設定",
       "HEADER_BTN_TXT": "建立新的 webhook",
-      "INTEGRATION_TXT": "Webhook 事件為您提供了有關 Chatwoot 帳戶中發生的事情的即時資訊。 您可以使用 webhooks 將事件傳遞給您喜歡的 Slack 或 Github。 點擊配置來設定您的 webhooks。",
       "LOADING": "正在獲取已建立的 webhooks",
       "SEARCH_404": "没有任何項目符合此查詢",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回呼，可以為每個帳戶定義的。 他們是由諸如在 Chatwoot 中建立消息等事件所觸發的。您可以為此帳戶建立多個 webhook。 <br /><br /> 建立一個 <b>webhook</b>, 點擊 <b>建立新的 webhook</b> 按鈕。 您也可以通過點擊刪除按鈕刪除任何現有的 webhook。</p>",
       "LIST": {
         "404": "此帳戶没有配置 webhooks。",
         "TITLE": "管理 webhooks",
-        "DESC": "預設的回覆是預定義的回覆模板，可以用來快速發送對工單的答覆。",
         "TABLE_HEADER": [
           "Webhook 端点",
           "操作"

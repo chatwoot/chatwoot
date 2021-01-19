@@ -47,8 +47,8 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "Bot",
-        "VALUE": "bot"
+        "TEXT": "ربات",
+        "VALUE": "ربات"
       }
     ],
     "ATTACHMENTS": {
@@ -70,15 +70,15 @@
       },
       "location": {
         "ICON": "ion-ios-location",
-        "CONTENT": "Location"
+        "CONTENT": "مکان"
       },
       "fallback": {
         "ICON": "ion-link",
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet"
+    "RECEIVED_VIA_EMAIL": "از طریق ایمیل دریافت شد",
+    "VIEW_TWEET_IN_TWITTER": "مشاهده توییت در توییتر",
+    "REPLY_TO_TWEET": "پاسخ به این توییت"
   }
 }

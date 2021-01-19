@@ -34,14 +34,22 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Αριθμός ημερών μετά τις οποίες η συνομιλία θα επιλύεται αυτόματα, αν δεν υπάρχει δραστηριότητα",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Παρακαλώ σημειώστε την περίοδο αυτόματης επίλυσης (ελάχιστο 1 ημέρα)"
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
       }
+    },
+    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
+      "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
+      "SELECT_ONE": "Επιλέξτε ένα"
     }
   }
 }

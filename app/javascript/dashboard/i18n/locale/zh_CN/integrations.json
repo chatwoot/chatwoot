@@ -6,14 +6,12 @@
       "CONFIGURE": "配置",
       "HEADER": "Webhook设置",
       "HEADER_BTN_TXT": "添加新的 webhook",
-      "INTEGRATION_TXT": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。 您可以使用 webhooks 将事件传递给您喜欢的 Slack 或 Github。 单击配置来设置您的网络钩子。",
       "LOADING": "正在获取已添加的 webhooks",
       "SEARCH_404": "没有任何项目符合此查询",
       "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义的。 他们是由诸如在Chatwoot 中创建消息等事件所触发的。您可以为此帐户创建多个web钩子。 <br /><br /> 创建一个 <b>webhook</b>, 点击 <b>添加新的 webhook</b> 按钮。 您也可以通过点击删除按钮删除任何现有的网络钩子。</p>",
       "LIST": {
         "404": "此帐户没有配置Webhooks。",
         "TITLE": "管理 webhooks",
-        "DESC": "预设的回复是预定义的回复模板，可以用来快速发送对工单的答复。",
         "TABLE_HEADER": [
           "Webhook 端点",
           "操作"

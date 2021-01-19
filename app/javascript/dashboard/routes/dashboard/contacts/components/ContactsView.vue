@@ -89,18 +89,19 @@ export default {
     onInputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
-
       if (refetchAllContacts) {
         this.$store.dispatch('contacts/get', { page: 1 });
       }
-      this.searchQuery = event.target.value;
+      this.searchQuery = newQuery;
     },
     onSearchSubmit() {
       this.selectedContactId = '';
-      this.$store.dispatch('contacts/search', {
-        search: this.searchQuery,
-        page: 1,
-      });
+      if (this.searchQuery) {
+        this.$store.dispatch('contacts/search', {
+          search: this.searchQuery,
+          page: 1,
+        });
+      }
     },
     onPageChange(page) {
       this.selectedContactId = '';

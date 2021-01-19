@@ -11,7 +11,7 @@
     "rails",
     "vue"
   ],
-  "success_url": "/app/login",
+  "success_url": "/",
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
@@ -32,6 +32,10 @@
   },
   "formation": {
     "web": {
+      "quantity": 1,
+      "size": "FREE"
+    },
+    "worker": {
       "quantity": 1,
       "size": "FREE"
     }

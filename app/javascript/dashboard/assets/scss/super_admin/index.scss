@@ -1,15 +1,36 @@
 @import '../variables';
 
 .superadmin-body {
-  background: $color-background;
+  background: var(--color-background);
+
+  .hero--title {
+    font-size: var(--font-size-mega);
+    font-weight: var(--font-weight-light);
+    margin-top: var(--space-large);
+  }
 }
 
 .alert-box {
-  background-color: $alert-color;
+  background-color: var(--r-500);
   border-radius: 5px;
-  color: $color-white;
+  color: var(--color-white);
   font-size: 14px;
   margin-bottom: 14px;
   padding: 10px;
   text-align: center;
+}
+
+.update-subscription--checkbox {
+  display: flex;
+
+  input {
+    line-height: 1.5;
+    margin-right: var(--space-one);
+  }
+
+  div {
+    font-size: var(--font-size-small);
+    line-height: 1.5;
+    margin-bottom: var(--space-normal);
+  }
 }

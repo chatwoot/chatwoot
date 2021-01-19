@@ -1,0 +1,84 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Mengambil percakapan",
+    "LOAD_MORE_CONVERSATIONS": "Muat lebih banyak percakapan",
+    "EOF": "Semua percakapan dimuat 🎉",
+    "LIST": {
+      "404": "Tidak ada percakapan aktif di grup ini."
+    },
+    "TAB_HEADING": "Percakapan",
+    "SEARCH": {
+      "INPUT": "Telusuri Orang, Obrolan, Balasan Tersimpan.."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Terbuka",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Terselesaikan",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Milikku",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Belum ditugaskan",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Semua",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Terbuka",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Terselesaikan",
+        "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Pesan gambar"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Pesan audio"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Pesan video"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Lampiran File"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Lokasi"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "telah membagikan url"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Diterima melalui email",
+    "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
+    "REPLY_TO_TWEET": "Balas tweet ini"
+  }
+}

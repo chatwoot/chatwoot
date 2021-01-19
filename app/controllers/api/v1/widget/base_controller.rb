@@ -1,11 +1,18 @@
 class Api::V1::Widget::BaseController < ApplicationController
+  include SwitchLocale
+
   before_action :set_web_widget
   before_action :set_contact
 
   private
 
   def conversations
-    @conversations = @contact_inbox.conversations.where(inbox_id: auth_token_params[:inbox_id])
+    if @contact_inbox.hmac_verified?
+      verified_contact_inbox_ids = @contact.contact_inboxes.where(inbox_id: auth_token_params[:inbox_id], hmac_verified: true).map(&:id)
+      @conversations = @contact.conversations.where(contact_inbox_id: verified_contact_inbox_ids)
+    else
+      @conversations = @contact_inbox.conversations.where(inbox_id: auth_token_params[:inbox_id])
+    end
   end
 
   def conversation
