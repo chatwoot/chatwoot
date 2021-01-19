@@ -8,7 +8,7 @@ end
 
 # we are creating a custom database prepare task
 # the default rake db:prepare task isn't ideal for environments like heroku
-# In heroku the database is already created before the first run of db:prepare 
+# In heroku the database is already created before the first run of db:prepare
 # In this case rake db:prepare tries to run db:migrate from all the way back from the beginning
 # Since the assumption is migrations are only run after schema load from a point x, this could lead to things breaking.
 # ref: https://github.com/rails/rails/blob/main/activerecord/lib/active_record/railties/databases.rake#L356
