@@ -51,7 +51,7 @@ export default {
   methods: {
     getTopPadding() {
       if (this.cannedMessages.length <= 4) {
-        return -this.cannedMessages.length * 3.5;
+        return -(this.cannedMessages.length * 2.8 + 1.7);
       }
       return -14;
     },
