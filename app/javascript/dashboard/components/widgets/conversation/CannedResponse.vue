@@ -35,6 +35,13 @@ export default {
       cannedMessages: 'getCannedResponses',
     }),
   },
+  watch: {
+    cannedMessages(newCannedMessages) {
+      if (newCannedMessages.length < this.selectedIndex + 1) {
+        this.selectedIndex = 0;
+      }
+    },
+  },
   mounted() {
     document.addEventListener('keydown', this.keyListener);
   },
@@ -44,7 +51,7 @@ export default {
   methods: {
     getTopPadding() {
       if (this.cannedMessages.length <= 4) {
-        return -this.cannedMessages.length * 3.5;
+        return -(this.cannedMessages.length * 2.8 + 1.7);
       }
       return -14;
     },
@@ -75,7 +82,7 @@ export default {
       if (this.isEnter(e)) {
         this.onKeyenter(this.cannedMessages[this.selectedIndex].content);
       }
-      this.$el.scrollTop = 34 * this.selectedIndex;
+      this.$el.scrollTop = 28 * this.selectedIndex;
     },
     onHover(index) {
       this.selectedIndex = index;
