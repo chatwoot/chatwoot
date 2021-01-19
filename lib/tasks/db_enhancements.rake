@@ -6,7 +6,7 @@ Rake::Task['db:migrate'].enhance do
   end
 end
 
-# we are creating a custom database prepare task 
+# we are creating a custom database prepare task
 # the default rake db:prepare task isn't ideal for environments like heroku
 # In heroku the database is already created before the first run of db:prepare 
 # In this case rake db:prepare tries to run db:migrate from all the way back from the beginning
@@ -21,12 +21,12 @@ db_namespace = namespace :db do
       if ActiveRecord::Base.connection.tables.count.zero?
         db_namespace['load_config'].invoke if ActiveRecord::Base.schema_format == :ruby
         ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV['SCHEMA'])
-        db_namespace["seed"].invoke
+        db_namespace['seed'].invoke
       end
 
       db_namespace['migrate'].invoke
     rescue ActiveRecord::NoDatabaseError
       db_namespace['setup'].invoke
     end
-  end 
+  end
 end
