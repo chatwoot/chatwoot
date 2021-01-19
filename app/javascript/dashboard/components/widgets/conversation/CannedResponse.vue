@@ -35,6 +35,13 @@ export default {
       cannedMessages: 'getCannedResponses',
     }),
   },
+  watch: {
+    cannedMessages(newCannedMessages) {
+      if (newCannedMessages.length < this.selectedIndex + 1) {
+        this.selectedIndex = 0;
+      }
+    },
+  },
   mounted() {
     document.addEventListener('keydown', this.keyListener);
   },
