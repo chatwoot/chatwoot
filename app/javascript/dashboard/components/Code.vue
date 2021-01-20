@@ -3,7 +3,7 @@
     <button class="button small button--copy-code" @click="onCopy">
       {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
     </button>
-    <highlightjs :language="lang" :code="script" />
+    <highlightjs v-if="script" :language="lang" :code="script" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   props: {
     script: {
       type: String,
-      required: true,
+      default: '',
     },
     lang: {
       type: String,

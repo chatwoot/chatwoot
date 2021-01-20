@@ -168,6 +168,12 @@ export default {
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
     }),
+    isBrowserSafari() {
+      if (window.browserConfig) {
+        return window.browserConfig.is_safari === 'true';
+      }
+      return false;
+    },
   },
   watch: {
     emailFlags(value) {
@@ -250,10 +256,5 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
-}
-
-// Hide on Safari
-.push-row:not(:root:root) {
-  display: none;
 }
 </style>
