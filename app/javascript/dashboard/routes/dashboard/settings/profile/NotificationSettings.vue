@@ -62,7 +62,10 @@
         </div>
       </div>
     </div>
-    <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
+    <div
+      v-if="vapidPublicKey && !isBrowserSafari"
+      class="profile--settings--row row push-row"
+    >
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
