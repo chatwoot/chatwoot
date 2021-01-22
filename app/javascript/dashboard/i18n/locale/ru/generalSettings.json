@@ -43,13 +43,13 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Доступно обновление %{latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Нажмите Enter для выбора",
+      "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
+      "SELECT_ONE": "Выберите один"
     }
   }
 }
