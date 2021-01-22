@@ -4,7 +4,7 @@
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
     "BROWSER": "浏览器",
@@ -52,7 +52,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "名字"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -99,7 +99,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
+    "SEARCH_BUTTON": "搜索",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
