@@ -1,0 +1,33 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Download",
+      "UPLOADING": "Uploading..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Submit"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "We are online",
+    "OFFLINE": "We are offline"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+    "IN_A_FEW_HOURS": "Typically replies in a few hours",
+    "IN_A_DAY": "Typically replies in a day"
+  },
+  "START_CONVERSATION": "Start Conversation",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "CLOSE_MESSAGES_BUTTON": "Close"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat with us"
+  },
+  "POWERED_BY": "Powered by Chatwoot",
+  "EMAIL_PLACEHOLDER": "Please enter your email",
+  "CHAT_PLACEHOLDER": "Type your message",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
+}
