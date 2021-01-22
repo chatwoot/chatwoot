@@ -30,6 +30,8 @@ de:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"

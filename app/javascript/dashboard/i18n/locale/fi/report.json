@@ -3,7 +3,7 @@
     "HEADER": "Raportit",
     "LOADING_CHART": "Ladataan kaaviotietoja...",
     "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Lataa edustajaraportit",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Keskustelut",

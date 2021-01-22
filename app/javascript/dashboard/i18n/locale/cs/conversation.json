@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
       "NO_MATCHING_RESULTS": "Vašemu vyhledávání neodpovídají žádné zprávy."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Nepřečtené zprávy",
+    "UNREAD_MESSAGE": "Nepřečtená zpráva",
     "CLICK_HERE": "Klikněte zde",
     "LOADING_INBOXES": "Načítání krabic",
     "LOADING_CONVERSATIONS": "Načítání konverzací",
@@ -24,6 +24,7 @@
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
+    "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -40,16 +41,19 @@
       "PRIVATE_NOTE": "Soukromá poznámka",
       "SEND": "Poslat",
       "CREATE": "Přidat poznámku",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Vybrat agenta",
       "REMOVE": "Odebrat",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Přiřadit"
     }
   },
   "EMAIL_TRANSCRIPT": {

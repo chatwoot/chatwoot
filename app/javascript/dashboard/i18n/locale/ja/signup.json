@@ -5,13 +5,18 @@
     "TERMS_ACCEPT": "サインアップすることで、 <a href=\"https://www.chatwoot.com/terms\">T & C</a> および <a href=\"https://www.chatwoot.com/privacy-policy\">プライバシー ポリシー</a> に同意したことになります。",
     "ACCOUNT_NAME": {
       "LABEL": "アカウント名",
-      "PLACEHOLDER": "Wayne Enterprise",
-      "ERROR": "アカウント名が短すぎます"
+      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
+      "ERROR": "Account name is too short"
+    },
+    "FULL_NAME": {
+      "LABEL": "Full name",
+      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
+      "ERROR": "Full name is too short"
     },
     "EMAIL": {
-      "LABEL": "Eメール",
-      "PLACEHOLDER": "bruce@wayne.companies",
-      "ERROR": "Eメールアドレスが無効です"
+      "LABEL": "Work email",
+      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
+      "ERROR": "Email address is invalid"
     },
     "PASSWORD": {
       "LABEL": "パスワード",
@@ -28,12 +33,6 @@
       "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
     },
     "SUBMIT": "送信",
-    "FEATURES": {
-      "UNLIMITED_INBOXES": "Unlimited inboxes",
-      "ROBUST_REPORTING": "Robust Reporting",
-      "CANNED_RESPONSES": "定型文",
-      "AUTO_ASSIGNMENT": "Auto Assignment",
-      "SECURITY": "Enterprise level security"
-    }
+    "HAVE_AN_ACCOUNT": "Already have an account?"
   }
 }

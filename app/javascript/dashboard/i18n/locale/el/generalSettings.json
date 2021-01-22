@@ -42,7 +42,8 @@
         "INBOUND_EMAIL_ENABLED": "Η συνέχεια της συνομιλίας με emails έχει ενεργοποιηθεί για τον λογαριασμό.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Τώρα μπορείτε να λαμβάνετε emails στον τομέα (domain) σας."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "Μια ενημέρωση %{latestChatwootVersion} για το Chatwoot είναι διαθέσιμη. Ενημερώστε την εφαρμογή σας."
   },
   "FORMS": {
     "MULTISELECT": {

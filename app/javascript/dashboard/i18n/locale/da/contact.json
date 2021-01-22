@@ -11,6 +11,7 @@
     "OS": "Operativsystem",
     "INITIATED_FROM": "Startet fra",
     "INITIATED_AT": "Startet fra",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Der er ingen tidligere samtaler tilknyttet denne kontakt.",
       "TITLE": "Tidligere Samtaler"

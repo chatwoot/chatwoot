@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
-  "CHAT_PLACEHOLDER": "Type your message"
+  "CHAT_PLACEHOLDER": "Type your message",
+  "TODAY": "Today",
+  "YESTERDAY": "Yesterday"
 }

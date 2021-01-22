@@ -15,7 +15,8 @@ as defined by the routes in the `admin/` namespace
     accounts: 'ion ion-briefcase',
     users: 'ion ion-person-stalker',
     super_admins: 'ion ion-unlocked',
-    access_tokens: 'ion-key'
+    access_tokens: 'ion-key',
+    installation_configs: 'ion ion-settings'
   }
 %>
 
@@ -43,7 +44,7 @@ as defined by the routes in the `admin/` namespace
 
     <li class="navigation__link">
       <i class="ion ion ion-network"></i>
-      <%= link_to "Sidekiq", sidekiq_web_url %>
+      <%= link_to "Sidekiq", sidekiq_web_url, { target: "_blank" } %>
     </li>
   </ul>
   <ul class="logout">

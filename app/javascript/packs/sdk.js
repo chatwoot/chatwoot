@@ -3,7 +3,9 @@ import { IFrameHelper } from '../sdk/IFrameHelper';
 import { getBubbleView } from '../sdk/bubbleHelpers';
 import md5 from 'md5';
 
-const ALLOWED_LIST_OF_SET_USER_ATTRIBUTES = ['avatar_url', 'email', 'name'];
+const REQUIRED_USER_KEYS = ['avatar_url', 'email', 'name'];
+
+const ALLOWED_USER_ATTRIBUTES = [...REQUIRED_USER_KEYS, 'identifier_hash'];
 
 export const getUserCookieName = () => {
   const SET_USER_COOKIE_PREFIX = 'cw_user_';
@@ -12,7 +14,7 @@ export const getUserCookieName = () => {
 };
 
 export const getUserString = ({ identifier = '', user }) => {
-  const userStringWithSortedKeys = ALLOWED_LIST_OF_SET_USER_ATTRIBUTES.reduce(
+  const userStringWithSortedKeys = ALLOWED_USER_ATTRIBUTES.reduce(
     (acc, key) => `${acc}${key}${user[key] || ''}`,
     ''
   );
@@ -22,10 +24,7 @@ export const getUserString = ({ identifier = '', user }) => {
 const computeHashForUserData = (...args) => md5(getUserString(...args));
 
 export const hasUserKeys = user =>
-  ALLOWED_LIST_OF_SET_USER_ATTRIBUTES.reduce(
-    (acc, key) => acc || !!user[key],
-    false
-  );
+  REQUIRED_USER_KEYS.reduce((acc, key) => acc || !!user[key], false);
 
 const runSDK = ({ baseUrl, websiteToken }) => {
   const chatwootSettings = window.chatwootSettings || {};

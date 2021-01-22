@@ -30,6 +30,8 @@ ta:
   reports:
     period: Reporting period %{since} to %{until}
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"

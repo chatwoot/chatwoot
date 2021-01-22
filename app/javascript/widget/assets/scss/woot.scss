@@ -7,7 +7,7 @@
 @import 'mixins';
 @import 'forms';
 @import 'shared/assets/fonts/widget_fonts';
-@import '~ionicons/scss/ionicons';
+@import '~shared/assets/stylesheets/ionicons';
 @import '~spinkit/scss/spinners/7-three-bounce';
 
 html,
@@ -44,4 +44,17 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+
+.message-content {
+  ul {
+    list-style: disc;
+    padding-left: $space-slab;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: $space-normal;
+  }
 }

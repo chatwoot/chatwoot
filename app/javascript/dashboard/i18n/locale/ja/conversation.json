@@ -24,6 +24,7 @@
     "REPLYING_TO": "以下に返信：",
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
@@ -40,7 +41,10 @@
       "PRIVATE_NOTE": "非公開メモ",
       "SEND": "送信",
       "CREATE": "メモを追加",
-      "TWEET": "ツイート"
+      "TWEET": "ツイート",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files"
     },
     "VISIBLE_TO_AGENTS": "非公開設定の注意：あなたとあなたのチームのみに表示されます",
     "CHANGE_STATUS": "会話の状態が変更されました",

@@ -3,7 +3,7 @@
     "HEADER": "Laporan",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",

@@ -28,8 +28,10 @@ ca:
       email_already_exists: "Ja us heu registrat amb el compte %{email}"
       failed: El registre ha fallat
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Període d'informes %{since} a %{until}
   conversations:
+    messages:
+      deleted: Aquest missatge a sigut eliminat
     activity:
       status:
         resolved: "La conversa va ser marcada com resolta per %{user_name}"

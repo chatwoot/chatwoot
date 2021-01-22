@@ -55,6 +55,7 @@ class Account < ApplicationRecord
   has_many :kbase_portals, dependent: :destroy, class_name: '::Kbase::Portal'
   has_many :kbase_categories, dependent: :destroy, class_name: '::Kbase::Category'
   has_many :kbase_articles, dependent: :destroy, class_name: '::Kbase::Article'
+  has_many :teams, dependent: :destroy
   has_flags ACCOUNT_SETTINGS_FLAGS.merge(column: 'settings_flags').merge(DEFAULT_QUERY_SETTING)
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
@@ -90,5 +91,9 @@ class Account < ApplicationRecord
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  trigger.after(:insert).for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
   end
 end

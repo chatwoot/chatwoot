@@ -25,7 +25,7 @@ export const getSidebarItems = accountId => ({
         toStateName: 'home',
       },
       contacts: {
-        icon: 'ion-person-stalker',
+        icon: 'ion-person',
         label: 'CONTACTS',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/contacts`),

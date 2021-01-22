@@ -11,6 +11,7 @@
     "OS": "Операционная система",
     "INITIATED_FROM": "Начат из",
     "INITIATED_AT": "Начат в",
+    "IP_ADDRESS": "IP Address",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"

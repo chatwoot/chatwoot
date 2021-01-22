@@ -19,21 +19,27 @@
 #  contact_inbox_id      :bigint
 #  display_id            :integer          not null
 #  inbox_id              :integer          not null
+#  team_id               :bigint
 #
 # Indexes
 #
 #  index_conversations_on_account_id                 (account_id)
 #  index_conversations_on_account_id_and_display_id  (account_id,display_id) UNIQUE
 #  index_conversations_on_contact_inbox_id           (contact_inbox_id)
+#  index_conversations_on_team_id                    (team_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (contact_inbox_id => contact_inboxes.id)
+#  fk_rails_...  (team_id => teams.id)
 #
 
 class Conversation < ApplicationRecord
+  include Labelable
+
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  before_validation :validate_additional_attributes
 
   enum status: { open: 0, resolved: 1, bot: 2 }
 
@@ -46,18 +52,18 @@ class Conversation < ApplicationRecord
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :contact
   belongs_to :contact_inbox
+  belongs_to :team, optional: true
 
   has_many :messages, dependent: :destroy, autosave: true
 
   before_create :set_bot_conversation
-  before_create :set_display_id, unless: :display_id?
+
   # wanted to change this to after_update commit. But it ended up creating a loop
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
   after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
   after_save :run_round_robin
-
-  acts_as_taggable_on :labels
+  after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
 
@@ -73,10 +79,6 @@ class Conversation < ApplicationRecord
 
   def update_assignee(agent = nil)
     update!(assignee: agent)
-  end
-
-  def update_labels(labels = nil)
-    update!(label_list: labels)
   end
 
   def toggle_status
@@ -139,6 +141,10 @@ class Conversation < ApplicationRecord
 
   private
 
+  def validate_additional_attributes
+    self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
+  end
+
   def set_bot_conversation
     self.status = :bot if inbox.agent_bot_inbox&.active?
   end
@@ -158,10 +164,7 @@ class Conversation < ApplicationRecord
   end
 
   def set_display_id
-    self.display_id = loop do
-      next_display_id = account.conversations.maximum('display_id').to_i + 1
-      break next_display_id unless account.conversations.exists?(display_id: next_display_id)
-    end
+    reload
   end
 
   def create_activity
@@ -232,7 +235,7 @@ class Conversation < ApplicationRecord
   def create_assignee_change(user_name)
     return unless user_name
 
-    params = { assignee_name: assignee.name, user_name: user_name }.compact
+    params = { assignee_name: assignee&.name, user_name: user_name }.compact
     key = assignee_id ? 'assigned' : 'removed'
     key = 'self_assigned' if self_assign? assignee_id
     content = I18n.t("conversations.activity.assignee.#{key}", **params)
@@ -292,5 +295,10 @@ class Conversation < ApplicationRecord
 
   def mute_period
     6.hours
+  end
+
+  # creating db triggers
+  trigger.before(:insert).for_each(:row) do
+    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
   end
 end
