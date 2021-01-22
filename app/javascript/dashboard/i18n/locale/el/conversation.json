@@ -42,9 +42,10 @@
       "SEND": "Αποστολή",
       "CREATE": "Σημείωση (Add Note)",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_FORMAT_ICON": "Προβολή επεξεργαστή εμπλουτισμένου κειμένου",
+      "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
+      "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
+      "ENTER_TO_SEND": "Εισαγωγή για αποστολή"
     },
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
