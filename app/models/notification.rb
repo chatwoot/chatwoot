@@ -58,17 +58,20 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
+  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
-    if notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{primary_actor.inbox.name}"
+    case notification_type
+    when 'conversation_creation'
+      "[New conversation] - ##{primary_actor.display_id} has been created in #{primary_actor.inbox.name}"
+    when 'conversation_assignment'
+      "[Assigned to you] - ##{primary_actor.display_id} has been assigned to you"
+    when 'assigned_conversation_new_message'
+      "[New message] -##{primary_actor.display_id} #{primary_actor&.messages&.incoming&.last&.content}"
+    else
+      ''
     end
-
-    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
-
-    return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
-
-    ''
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   private
 
