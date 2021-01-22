@@ -7,7 +7,9 @@ json.message_type message.message_type_before_type_cast
 json.content_type message.content_type
 json.content_attributes message.content_attributes
 json.created_at message.created_at.to_i
-json.private message.private
+# to be deprecated
+json.private message.is_private_note
+json.is_private_note message.is_private_note
 json.source_id message.source_id
 json.sender message.sender.push_event_data if message.sender
 json.attachments message.attachments.map(&:push_event_data) if message.attachments.present?
