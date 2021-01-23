@@ -1,95 +1,45 @@
 <template>
-  <ul
-    v-if="cannedMessages.length"
-    id="canned-list"
-    class="vertical dropdown menu canned"
-    :style="{ top: getTopPadding() + 'rem' }"
-  >
-    <li
-      v-for="(item, index) in cannedMessages"
-      :id="`canned-${index}`"
-      :key="item.short_code"
-      :class="{ active: index === selectedIndex }"
-      @click="onListItemSelection(index)"
-      @mouseover="onHover(index)"
-    >
-      <a class="text-truncate">
-        <strong>{{ item.short_code }}</strong> - {{ item.content }}
-      </a>
-    </li>
-  </ul>
+  <mention-box :items="items" @mention-select="handleMentionClick" />
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import MentionBox from '../mentions/MentionBox.vue';
 
 export default {
-  props: ['onKeyenter', 'onClick'],
-  data() {
-    return {
-      selectedIndex: 0,
-    };
+  components: { MentionBox },
+  props: {
+    searchKey: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
       cannedMessages: 'getCannedResponses',
     }),
+    items() {
+      return this.cannedMessages.map(cannedMessage => ({
+        label: cannedMessage.short_code,
+        key: cannedMessage.short_code,
+        description: cannedMessage.content,
+      }));
+    },
   },
   watch: {
-    cannedMessages(newCannedMessages) {
-      if (newCannedMessages.length < this.selectedIndex + 1) {
-        this.selectedIndex = 0;
-      }
+    searchKey() {
+      this.fetchCannedResponses();
     },
   },
   mounted() {
-    document.addEventListener('keydown', this.keyListener);
-  },
-  beforeDestroy() {
-    document.removeEventListener('keydown', this.keyListener);
+    this.fetchCannedResponses();
   },
   methods: {
-    getTopPadding() {
-      if (this.cannedMessages.length <= 4) {
-        return -(this.cannedMessages.length * 2.8 + 1.7);
-      }
-      return -14;
+    fetchCannedResponses() {
+      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
     },
-    isUp(e) {
-      return e.keyCode === 38 || (e.ctrlKey && e.keyCode === 80); // UP, Ctrl-P
-    },
-    isDown(e) {
-      return e.keyCode === 40 || (e.ctrlKey && e.keyCode === 78); // DOWN, Ctrl-N
-    },
-    isEnter(e) {
-      return e.keyCode === 13;
-    },
-    keyListener(e) {
-      if (this.isUp(e)) {
-        if (!this.selectedIndex) {
-          this.selectedIndex = this.cannedMessages.length - 1;
-        } else {
-          this.selectedIndex -= 1;
-        }
-      }
-      if (this.isDown(e)) {
-        if (this.selectedIndex === this.cannedMessages.length - 1) {
-          this.selectedIndex = 0;
-        } else {
-          this.selectedIndex += 1;
-        }
-      }
-      if (this.isEnter(e)) {
-        this.onKeyenter(this.cannedMessages[this.selectedIndex].content);
-      }
-      this.$el.scrollTop = 28 * this.selectedIndex;
-    },
-    onHover(index) {
-      this.selectedIndex = index;
-    },
-    onListItemSelection(index) {
-      this.selectedIndex = index;
-      this.onClick(this.cannedMessages[this.selectedIndex].content);
+    handleMentionClick(item = {}) {
+      this.$emit('click', item.description);
     },
   },
 };
