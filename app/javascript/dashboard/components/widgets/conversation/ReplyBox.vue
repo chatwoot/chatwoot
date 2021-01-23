@@ -8,10 +8,16 @@
     />
     <div class="reply-box__top">
       <canned-response
-        v-if="showCannedResponsesList"
-        v-on-clickaway="hideCannedResponse"
-        :search-key="cannedResponseSearchKey"
+        v-if="showMentions && hasSlashCommand"
+        v-on-clickaway="hideMentions"
+        :search-key="mentionSearchKey"
         @click="replaceText"
+      />
+      <tag-agents
+        v-if="showMentions && hasUserMentions"
+        v-on-clickaway="hideMentions"
+        :search-key="mentionSearchKey"
+        @click="replaceUserName"
       />
       <emoji-input
         v-if="showEmojiPicker"
@@ -19,7 +25,7 @@
         :on-click="emojiOnClick"
       />
       <resizable-text-area
-        v-if="!isFormatMode"
+        v-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
         class="input"
@@ -58,7 +64,8 @@
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
       :set-format-mode="setFormatMode"
-      :is-format-mode="isFormatMode"
+      :is-on-private-note="isOnPrivateNote"
+      :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       @toggleEnterToSend="toggleEnterToSend"
@@ -85,6 +92,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import TagAgents from './TagAgents.vue';
 
 export default {
   components: {
@@ -95,6 +103,7 @@ export default {
     ReplyTopPanel,
     ReplyBottomPanel,
     WootMessageEditor,
+    TagAgents,
   },
   mixins: [clickaway, inboxMixin],
   props: {
@@ -105,18 +114,26 @@ export default {
   },
   data() {
     return {
-      message: '',
+      message: '  ',
       isFocused: false,
       showEmojiPicker: false,
-      showCannedResponsesList: false,
+      showMentions: false,
       attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       isFormatMode: false,
-      cannedResponseSearchKey: '',
+      mentionSearchKey: '',
+      hasSlashCommand: false,
+      hasUserMentions: false,
     };
   },
   computed: {
+    showRichContentEditor() {
+      if (this.isOnPrivateNote) {
+        return true;
+      }
+      return false;
+    },
     ...mapGetters({
       currentChat: 'getSelectedChat',
       uiSettings: 'getUISettings',
@@ -126,7 +143,7 @@ export default {
     },
     isPrivate() {
       if (this.currentChat.can_reply) {
-        return this.replyType === REPLY_EDITOR_MODES.NOTE;
+        return this.isOnPrivateNote;
       }
       return true;
     },
@@ -208,18 +225,17 @@ export default {
     },
     isRichEditorEnabled() {
       return (
-        this.isAWebWidgetInbox ||
-        this.isAnEmailChannel ||
-        this.replyType === REPLY_EDITOR_MODES.NOTE
+        this.isAWebWidgetInbox || this.isAnEmailChannel || this.isOnPrivateNote
       );
+    },
+    isOnPrivateNote() {
+      return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
-      const isUserReplyingOnPrivate =
-        this.replyType === REPLY_EDITOR_MODES.NOTE;
-      if (isUserReplyingOnPrivate) {
+      if (this.isOnPrivateNote) {
         return;
       }
 
@@ -230,18 +246,17 @@ export default {
       }
     },
     message(updatedMessage) {
-      const isSlashCommand = updatedMessage[0] === '/';
+      this.hasSlashCommand = updatedMessage[0] === '/';
+      this.hasUserMentions = this.isOnPrivateNote && updatedMessage[0] === '@';
       const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = isSlashCommand && !hasNextWord;
+      const isShortCodeActive =
+        (this.hasSlashCommand || this.hasUserMentions) && !hasNextWord;
       if (isShortCodeActive) {
-        this.cannedResponseSearchKey = updatedMessage.substr(
-          1,
-          updatedMessage.length
-        );
-        this.showCannedResponsesList = true;
+        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.showMentions = true;
       } else {
-        this.cannedResponseSearchKey = '';
-        this.showCannedResponsesList = false;
+        this.mentionSearchKey = '';
+        this.showMentions = false;
       }
     },
   },
@@ -255,7 +270,7 @@ export default {
     handleKeyEvents(e) {
       if (isEscape(e)) {
         this.hideEmojiPicker();
-        this.hideCannedResponse();
+        this.hideMentions();
       } else if (isEnter(e)) {
         const hasSendOnEnterEnabled =
           (this.isFormatMode && this.enterToSendEnabled) || !this.isFormatMode;
@@ -279,7 +294,7 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
-      if (!this.showCannedResponsesList) {
+      if (!this.showMentions) {
         const newMessage = this.message;
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
@@ -295,6 +310,11 @@ export default {
     replaceText(message) {
       setTimeout(() => {
         this.message = message;
+      }, 100);
+    },
+    replaceUserName({ label }) {
+      setTimeout(() => {
+        this.message = `<strong>${label}</strong>`;
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
@@ -318,8 +338,8 @@ export default {
         this.toggleEmojiPicker();
       }
     },
-    hideCannedResponse() {
-      this.showCannedResponsesList = false;
+    hideMentions() {
+      this.showMentions = false;
     },
     onTypingOn() {
       this.toggleTyping('on');
