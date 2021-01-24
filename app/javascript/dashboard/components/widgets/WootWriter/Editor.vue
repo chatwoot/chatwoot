@@ -15,9 +15,30 @@ import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 
-import { addMentionsToMarkdownSerializer, createState } from './schema';
-import { suggestionsPlugin, triggerCharacters } from './mentionPlugin';
+import {
+  addMentionsToMarkdownSerializer,
+  addMentionsToMarkdownParser,
+  schemaWithMentions,
+} from '@chatwoot/prosemirror-schema/src/mentions/schema';
+import {
+  suggestionsPlugin,
+  triggerCharacters,
+} from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import TagAgents from '../conversation/TagAgents.vue';
+import { EditorState } from 'prosemirror-state';
+import { defaultMarkdownParser } from 'prosemirror-markdown';
+import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
+
+const createState = (content, placeholder, plugins = []) => {
+  return EditorState.create({
+    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
+    plugins: wootWriterSetup({
+      schema: schemaWithMentions,
+      placeholder,
+      plugins,
+    }),
+  });
+};
 
 export default {
   name: 'WootMessageEditor',
@@ -121,7 +142,6 @@ export default {
     },
     emitOnChange() {
       this.view.updateState(this.state);
-      console.log(this.state);
       this.lastValue = addMentionsToMarkdownSerializer(
         defaultMarkdownSerializer
       ).serialize(this.state.doc);
