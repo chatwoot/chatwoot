@@ -73,6 +73,13 @@
             {{ $t(`AGENT_MGMT.AGENT_TYPES.${currentRole.toUpperCase()}`) }}
           </h5>
         </div>
+        <span
+          class="notifications icon ion-ios-bell"
+          @click.stop="showNotification"
+        >
+          <span v-if="unreadCount" class="unread-badge">{{ unreadCount }}</span>
+        </span>
+
         <span class="current-user--options icon ion-android-more-vertical" />
       </div>
     </div>
@@ -134,7 +141,7 @@
               />
             </label>
           </div>
-          <div class="modal-footer  medium-12 columns">
+          <div class="modal-footer medium-12 columns">
             <div class="medium-12 columns">
               <woot-submit-button
                 :disabled="
@@ -206,6 +213,7 @@ export default {
       currentRole: 'getCurrentRole',
       uiFlags: 'agents/getUIFlags',
       accountLabels: 'labels/getLabelsOnSidebar',
+      notificationMetadata: 'notifications/getMeta',
     }),
     currentUserAvailableName() {
       return this.currentUser.name;
@@ -284,10 +292,20 @@ export default {
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
+    unreadCount() {
+      if (!this.notificationMetadata.unreadCount) {
+        return 0;
+      }
+
+      return this.notificationMetadata.unreadCount < 100
+        ? this.notificationMetadata.unreadCount
+        : '99+';
+    },
   },
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
+    this.$store.dispatch('notifications/unReadCount');
   },
   methods: {
     filterMenuItemsByRole(menuItems) {
@@ -306,6 +324,9 @@ export default {
     },
     showOptions() {
       this.showOptionsMenu = !this.showOptionsMenu;
+    },
+    showNotification() {
+      this.$router.push(`/app/accounts/${this.accountId}/notifications`);
     },
     changeAccount() {
       this.showAccountModal = true;
