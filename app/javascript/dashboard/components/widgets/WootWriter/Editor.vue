@@ -1,7 +1,7 @@
 <template>
   <div class="editor-root">
     <tag-agents
-      v-if="showUserMentions"
+      v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
       @click="insertMentionNode"
     />
@@ -25,6 +25,7 @@ export default {
   props: {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
+    isPrivate: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -39,7 +40,7 @@ export default {
     plugins() {
       return [
         suggestionsPlugin({
-          matcher: triggerCharacters('@', { allowSpaces: false }),
+          matcher: triggerCharacters('@'),
           onEnter: args => {
             this.showUserMentions = true;
             this.range = args.range;
@@ -68,7 +69,7 @@ export default {
   },
   watch: {
     showUserMentions(updatedValue) {
-      this.$emit('toggle-user-mention', updatedValue);
+      this.$emit('toggle-user-mention', this.isPrivate && updatedValue);
     },
     value(newValue) {
       if (newValue !== this.lastValue) {
@@ -180,11 +181,13 @@ export default {
   overflow: auto;
 }
 
-.prosemirror-mention-node {
-  font-weight: var(--font-weight-medium);
-  background: var(--s-300);
-  border-radius: var(--border-radius-small);
-  padding: 1px 4px;
-  color: var(--white);
+.is-private {
+  .prosemirror-mention-node {
+    font-weight: var(--font-weight-medium);
+    background: var(--s-300);
+    border-radius: var(--border-radius-small);
+    padding: 1px 4px;
+    color: var(--white);
+  }
 }
 </style>

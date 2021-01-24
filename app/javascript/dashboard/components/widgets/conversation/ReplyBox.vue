@@ -34,6 +34,7 @@
         v-else
         v-model="message"
         class="input"
+        :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         @typing-off="onTypingOff"
