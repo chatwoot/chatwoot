@@ -1,5 +1,6 @@
 import marked from 'marked';
 import DOMPurify from 'dompurify';
+import { escapeHtml } from './HTMLSanitizer';
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT =
@@ -13,7 +14,7 @@ const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/([\w\s]+)/gm;
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
-    this.message = DOMPurify.sanitize(message || '');
+    this.message = DOMPurify.sanitize(escapeHtml(message || ''));
     this.isATweet = isATweet;
     this.marked = marked;
 
