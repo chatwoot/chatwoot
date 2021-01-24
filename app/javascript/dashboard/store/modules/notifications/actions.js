@@ -8,7 +8,6 @@ export const actions = {
       const data = await NotificationsAPI.get(page);
       const { payload, meta } = data.data.data;
       commit(types.CLEAR_NOTIFICATIONS);
-
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });

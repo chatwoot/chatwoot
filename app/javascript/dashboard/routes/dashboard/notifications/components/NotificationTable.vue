@@ -1,21 +1,22 @@
 <template>
-  <section class="notifications-table-wrap">
+  <section class="notification--table-wrap">
+    <woot-submit-button
+      class="button nice success button--fixed-right-top"
+      :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
+      :loading="isUpdating"
+      @click="onMarkAllDoneClick"
+    >
+    </woot-submit-button>
+
     <table class="woot-table notifications-table">
-      <woot-submit-button
-        class="button nice success button--fixed-right-top"
-        :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
-        :loading="isUpdating"
-        @click="onMarkAllDoneClick"
-      >
-      </woot-submit-button>
-      <tbody v-show="showTableData">
+      <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="row-main-info">
+            <div class="notification--thumbnail">
               <thumbnail
                 :src="notificationItem.primary_actor.meta.sender.thumbnail"
                 size="36px"
@@ -25,21 +26,32 @@
                 "
               />
               <div>
-                <h4 class="sub-block-title notification-name">
+                <h4 class="notification--name">
                   {{ `#${notificationItem.id}` }}
                 </h4>
-                <p class="notification-title">
+                <p class="notification--title">
                   {{ notificationItem.push_message_title }}
                 </p>
               </div>
             </div>
           </td>
-          <td>{{ notificationItem.notification_type }}</td>
+          <td>
+            <span class="label">
+              {{
+                $t(
+                  `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
+                )
+              }}
+            </span>
+          </td>
           <td>
             {{ dynamicTime(notificationItem.created_at) }}
           </td>
           <td>
-            <div v-if="!notificationItem.read_at" class="read--view--bubble" />
+            <div
+              v-if="!notificationItem.read_at"
+              class="notification--unread-indicator"
+            />
           </td>
         </tr>
       </tbody>
@@ -90,32 +102,7 @@ export default {
       default: () => {},
     },
   },
-
   computed: {
-    currentRoute() {
-      return ' ';
-    },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open ';
-      }
-      return 'off-canvas position-left is-transition-push is-closed';
-    },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push has-position-left';
-      }
-      return 'off-canvas-content';
-    },
-    showTableData() {
-      return !this.isLoading;
-    },
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
     },
@@ -126,25 +113,23 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/mixins';
 
-.notifications-table-wrap {
+.notification--name {
+  font-size: var(--font-size-small);
+  margin-bottom: 0;
+}
+
+.notification--title {
+  font-size: var(--font-size-mini);
+  margin: 0;
+}
+
+.notification--table-wrap {
   @include scroll-on-hover;
   flex: 1 1;
   height: 100%;
 }
 
 .notifications-table {
-  margin-top: -1px;
-
-  > thead {
-    border-bottom: 1px solid var(--color-border);
-    background: white;
-
-    > th:first-child {
-      padding-left: var(--space-medium);
-      width: 30%;
-    }
-  }
-
   > tbody {
     > tr {
       cursor: pointer;
@@ -158,8 +143,6 @@ export default {
       }
 
       > td {
-        padding: var(--space-slab);
-
         &:first-child {
           padding-left: var(--space-medium);
         }
@@ -170,22 +153,12 @@ export default {
       }
     }
   }
-  .row-main-info {
+  .notification--thumbnail {
     display: flex;
     align-items: center;
 
     .user-thumbnail-box {
       margin-right: var(--space-small);
-    }
-
-    .notification-id {
-      font-size: var(--font-size-small);
-      margin: 0;
-      text-transform: capitalize;
-    }
-
-    .notification-title {
-      margin: 0;
     }
   }
 }
@@ -198,7 +171,7 @@ export default {
   padding: var(--space-big);
 }
 
-.read--view--bubble {
+.notification--unread-indicator {
   width: var(--space-one);
   height: var(--space-one);
   border-radius: 50%;

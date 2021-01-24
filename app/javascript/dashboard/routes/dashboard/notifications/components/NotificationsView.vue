@@ -1,7 +1,6 @@
 <template>
-  <div class="notifications-page row">
-    <div class="left-wrap medium-12">
-      <notification-header />
+  <div class="columns notification--page">
+    <div class="notification--content medium-12">
       <notification-table
         :notifications="records"
         :is-loading="uiFlags.isFetching"
@@ -9,7 +8,7 @@
         :on-click-notification="openConversation"
         :on-mark-all-done-click="onMarkAllDoneClick"
       />
-      <notification-footer
+      <table-footer
         :on-page-change="onPageChange"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
@@ -20,20 +19,20 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import NotificationHeader from './Header';
-import NotificationFooter from './Footer';
+import TableFooter from 'dashboard/components/widgets/TableFooter';
+
 import NotificationTable from './NotificationTable';
 export default {
   components: {
-    NotificationHeader,
     NotificationTable,
-    NotificationFooter,
+    TableFooter,
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      meta: 'notifications/getMeta',
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
-      meta: 'notifications/getMeta',
     }),
   },
   mounted() {
@@ -41,13 +40,6 @@ export default {
   },
   methods: {
     onPageChange(page) {
-      console.log(
-        '%c Muhzi',
-        'color:red;font-weight:bold;font-size:12px',
-        'page',
-        page
-      );
-
       window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
       this.$store.dispatch('notifications/get', { page });
     },
@@ -55,6 +47,7 @@ export default {
       const {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
+        primary_actor: { id: conversationId },
       } = notification;
 
       this.$store.dispatch('notifications/read', {
@@ -63,12 +56,9 @@ export default {
         unReadCount: this.meta.unReadCount,
       });
 
-      // const {
-      //   primary_actor: { id: conversationId },
-      // } = notification;
-      // this.$router.push(
-      //   `/app/accounts/${this.accountId}/conversations/${conversationId}`
-      // );
+      this.$router.push(
+        `/app/accounts/${this.accountId}/conversations/${conversationId}`
+      );
     },
     onMarkAllDoneClick() {
       this.$store.dispatch('notifications/readAll');
@@ -78,13 +68,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.notifications-page {
+.notification--page {
+  background: var(--white);
+  overflow-y: auto;
   width: 100%;
 }
-.left-wrap {
+
+.notification--content {
   display: flex;
   flex-direction: column;
-  padding-top: var(--space-normal);
+  padding-top: var(--space-small);
   height: 100%;
 }
 </style>

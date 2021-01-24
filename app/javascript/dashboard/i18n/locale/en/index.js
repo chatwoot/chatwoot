@@ -13,7 +13,6 @@ import { default as _settings } from './settings.json';
 import { default as _signup } from './signup.json';
 import { default as _integrations } from './integrations.json';
 import { default as _generalSettings } from './generalSettings.json';
-import { default as _notification } from './notification.json';
 
 export default {
   ..._agentMgmt,
@@ -31,5 +30,4 @@ export default {
   ..._signup,
   ..._integrations,
   ..._generalSettings,
-  ..._notification,
 };
