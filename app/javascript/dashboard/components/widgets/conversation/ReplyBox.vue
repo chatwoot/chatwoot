@@ -13,12 +13,6 @@
         :search-key="mentionSearchKey"
         @click="replaceText"
       />
-      <tag-agents
-        v-if="showMentions && hasUserMentions"
-        v-on-clickaway="hideMentions"
-        :search-key="mentionSearchKey"
-        @click="replaceUserName"
-      />
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
@@ -46,6 +40,7 @@
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
+        @toggle-user-mention="toggleUserMention"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box">
@@ -92,7 +87,6 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import TagAgents from './TagAgents.vue';
 
 export default {
   components: {
@@ -103,7 +97,6 @@ export default {
     ReplyTopPanel,
     ReplyBottomPanel,
     WootMessageEditor,
-    TagAgents,
   },
   mixins: [clickaway, inboxMixin],
   props: {
@@ -114,7 +107,7 @@ export default {
   },
   data() {
     return {
-      message: '  ',
+      message: '',
       isFocused: false,
       showEmojiPicker: false,
       showMentions: false,
@@ -123,8 +116,8 @@ export default {
       replyType: REPLY_EDITOR_MODES.REPLY,
       isFormatMode: false,
       mentionSearchKey: '',
+      hasUserMention: false,
       hasSlashCommand: false,
-      hasUserMentions: false,
     };
   },
   computed: {
@@ -132,7 +125,7 @@ export default {
       if (this.isOnPrivateNote) {
         return true;
       }
-      return false;
+      return this.isFormatMode;
     },
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -247,10 +240,8 @@ export default {
     },
     message(updatedMessage) {
       this.hasSlashCommand = updatedMessage[0] === '/';
-      this.hasUserMentions = this.isOnPrivateNote && updatedMessage[0] === '@';
       const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive =
-        (this.hasSlashCommand || this.hasUserMentions) && !hasNextWord;
+      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
         this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
         this.showMentions = true;
@@ -267,13 +258,19 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleUserMention(currentMentionState) {
+      this.hasUserMention = currentMentionState;
+    },
     handleKeyEvents(e) {
       if (isEscape(e)) {
         this.hideEmojiPicker();
         this.hideMentions();
       } else if (isEnter(e)) {
         const hasSendOnEnterEnabled =
-          (this.isFormatMode && this.enterToSendEnabled) || !this.isFormatMode;
+          (this.showRichContentEditor &&
+            this.enterToSendEnabled &&
+            !this.hasUserMention) ||
+          !this.showRichContentEditor;
         const shouldSendMessage =
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
@@ -310,11 +307,6 @@ export default {
     replaceText(message) {
       setTimeout(() => {
         this.message = message;
-      }, 100);
-    },
-    replaceUserName({ label }) {
-      setTimeout(() => {
-        this.message = `<strong>${label}</strong>`;
       }, 100);
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {

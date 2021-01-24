@@ -1,94 +1,27 @@
 <template>
-  <div ref="editor" class="editor-root"></div>
+  <div class="editor-root">
+    <tag-agents
+      v-if="showUserMentions"
+      :search-key="mentionSearchKey"
+      @click="insertMentionNode"
+    />
+    <div ref="editor"></div>
+  </div>
 </template>
 
 <script>
-import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import {
-  schema,
-  defaultMarkdownParser,
-  defaultMarkdownSerializer,
-  MarkdownParser,
-  MarkdownSerializer,
-} from 'prosemirror-markdown';
-import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
+import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
-import { Schema } from 'prosemirror-model';
 
-const mentionParser = () => ({
-  node: 'mention',
-  getAttrs: ({ mention }) => {
-    const { userId, userFullName } = mention;
-    return { userId, userFullName };
-  },
-});
-
-const markdownSerializer = () => (state, node) => {
-  const userFullName = state.esc(node.attrs.userFullName || '');
-  const uri = state.esc(
-    `mention://${node.attrs.userFullName}/${node.attrs.userId}`
-  );
-  state.write(`@[${userFullName}](${uri})`);
-};
-
-const addMentionsToMarkdownSerializer = serializer =>
-  new MarkdownSerializer(
-    { mention: markdownSerializer(), ...serializer.nodes },
-    serializer.marks
-  );
-
-const mentionNode = {
-  attrs: { userFullName: { default: '' }, userId: { default: '' } },
-  group: 'inline',
-  inline: true,
-  selectable: true,
-  draggable: true,
-  atom: true,
-  toDOM: node => [
-    'span',
-    {
-      class: 'prosemirror-mention-node',
-      'mention-user-id': node.attrs.userId,
-      'mention-user-full-name': node.attrs.userFullName,
-    },
-    `@${node.attrs.userFullName}`,
-  ],
-  parseDOM: [
-    {
-      tag: 'span[mention-user-id][mention-user-full-name]',
-      getAttrs: dom => {
-        const userId = dom.getAttribute('mention-user-id');
-        const userFullName = dom.getAttribute('mention-user-full-name');
-        return { userId, userFullName };
-      },
-    },
-  ],
-};
-
-const addMentionNodes = nodes => nodes.append({ mention: mentionNode });
-
-const schemaWithMentions = new Schema({
-  nodes: addMentionNodes(schema.spec.nodes),
-  marks: schema.spec.marks,
-});
-
-const addMentionsToMarkdownParser = parser => {
-  return new MarkdownParser(schemaWithMentions, parser.tokenizer, {
-    ...parser.tokens,
-    mention: mentionParser(),
-  });
-};
-
-const createState = (content, placeholder) =>
-  EditorState.create({
-    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
-    plugins: wootWriterSetup({ schema: schemaWithMentions, placeholder }),
-  });
+import { addMentionsToMarkdownSerializer, createState } from './schema';
+import { suggestionsPlugin, triggerCharacters } from './mentionPlugin';
+import TagAgents from '../conversation/TagAgents.vue';
 
 export default {
   name: 'WootMessageEditor',
+  components: { TagAgents },
   props: {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
@@ -96,30 +29,63 @@ export default {
   data() {
     return {
       lastValue: null,
+      showUserMentions: false,
+      mentionSearchKey: '',
+      editorView: null,
+      range: null,
     };
   },
+  computed: {
+    plugins() {
+      return [
+        suggestionsPlugin({
+          matcher: triggerCharacters('@', { allowSpaces: false }),
+          onEnter: args => {
+            this.showUserMentions = true;
+            this.range = args.range;
+            this.editorView = args.view;
+            return false;
+          },
+          onChange: args => {
+            this.editorView = args.view;
+            this.range = args.range;
+
+            this.mentionSearchKey = args.text.replace('@', '');
+            return false;
+          },
+          onExit: () => {
+            this.mentionSearchKey = '';
+            this.showUserMentions = false;
+            this.editorView = null;
+            return false;
+          },
+          onKeyDown: ({ event }) => {
+            return event.keyCode === 13 && this.showUserMentions;
+          },
+        }),
+      ];
+    },
+  },
   watch: {
+    showUserMentions(updatedValue) {
+      this.$emit('toggle-user-mention', updatedValue);
+    },
     value(newValue) {
       if (newValue !== this.lastValue) {
-        this.state = createState(newValue, this.placeholder);
+        this.state = createState(newValue, this.placeholder, this.plugins);
         this.view.updateState(this.state);
       }
     },
   },
   created() {
-    this.state = createState(this.value, this.placeholder);
+    this.state = createState(this.value, this.placeholder, this.plugins);
   },
   mounted() {
     this.view = new EditorView(this.$refs.editor, {
       state: this.state,
       dispatchTransaction: tx => {
         this.state = this.state.apply(tx);
-        this.view.updateState(this.state);
-        this.lastValue = addMentionsToMarkdownSerializer(
-          defaultMarkdownSerializer
-        ).serialize(this.state.doc);
-        console.log(tx, this.state, this.lastValue);
-        this.$emit('input', this.lastValue);
+        this.emitOnChange();
       },
       handleDOMEvents: {
         keyup: () => {
@@ -133,9 +99,36 @@ export default {
         },
       },
     });
-    console.log(this.view, this.$refs.editor);
   },
   methods: {
+    insertMentionNode(mentionItem) {
+      if (!this.view) {
+        return null;
+      }
+      const node = this.view.state.schema.nodes.mention.create({
+        userId: mentionItem.key,
+        userFullName: mentionItem.label,
+      });
+
+      const tr = this.view.state.tr.replaceWith(
+        this.range.from,
+        this.range.to,
+        node
+      );
+      this.state = this.view.state.apply(tr);
+      return this.emitOnChange();
+    },
+    emitOnChange() {
+      this.view.updateState(this.state);
+      console.log(this.state);
+      this.lastValue = addMentionsToMarkdownSerializer(
+        defaultMarkdownSerializer
+      ).serialize(this.state.doc);
+      this.$emit('input', this.lastValue);
+    },
+    hideMentions() {
+      this.showUserMentions = false;
+    },
     resetTyping() {
       this.$emit('typing-off');
       this.idleTimer = null;
@@ -185,5 +178,13 @@ export default {
   min-height: 8rem;
   max-height: 12rem;
   overflow: auto;
+}
+
+.prosemirror-mention-node {
+  font-weight: var(--font-weight-medium);
+  background: var(--s-300);
+  border-radius: var(--border-radius-small);
+  padding: 1px 4px;
+  color: var(--white);
 }
 </style>

@@ -1,6 +1,5 @@
 import marked from 'marked';
 import DOMPurify from 'dompurify';
-import { escapeHtml } from './HTMLSanitizer';
 
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT =
@@ -10,9 +9,11 @@ const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
 const TWITTER_HASH_REPLACEMENT =
   '$1<a href="https://twitter.com/hashtag/$2" target="_blank" rel="noreferrer nofollow noopener">#$2</a>';
 
+const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/([\w\s]+)/gm;
+
 class MessageFormatter {
   constructor(message, isATweet = false) {
-    this.message = DOMPurify.sanitize(escapeHtml(message) || '');
+    this.message = DOMPurify.sanitize(message || '');
     this.isATweet = isATweet;
     this.marked = marked;
 
@@ -21,6 +22,10 @@ class MessageFormatter {
         return `<strong>${text}</strong>`;
       },
       link(url, title, text) {
+        const mentionRegex = new RegExp(USER_MENTIONS_REGEX);
+        if (url.match(mentionRegex)) {
+          return `<span class="prosemirror-mention-node">${text}</span>`;
+        }
         return `<a rel="noreferrer noopener nofollow" href="${url}" class="link" title="${title ||
           ''}" target="_blank">${text}</a>`;
       },
