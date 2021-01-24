@@ -17,20 +17,20 @@ export const mutations = {
     const {
       count,
       current_page: currentPage,
-      unread_count: unReadCount,
+      unread_count: unreadCount,
     } = data;
 
     Vue.set($state.meta, 'count', count);
     Vue.set($state.meta, 'currentPage', currentPage);
-    Vue.set($state.meta, 'unReadCount', unReadCount);
+    Vue.set($state.meta, 'unreadCount', unreadCount);
   },
   [types.SET_NOTIFICATIONS_UNREAD_COUNT]: ($state, data) => {
-    Vue.set($state.meta, 'unReadCount', data);
+    Vue.set($state.meta, 'unreadCount', data);
   },
 
   [types.SET_UNREAD_COUNT]: ($state, data) => {
-    const { unReadCount } = data;
-    Vue.set($state.meta, 'unReadCount', unReadCount);
+    const { unreadCount } = data;
+    Vue.set($state.meta, 'unreadCount', unreadCount);
   },
 
   [types.SET_NOTIFICATIONS]: ($state, data) => {
@@ -42,14 +42,14 @@ export const mutations = {
     });
   },
   [types.UPDATE_NOTIFICATION]: ($state, primaryActorId) => {
-    Object.values($state.records).map(item => {
+    Object.values($state.records).forEach(item => {
       if (item.primary_actor_id === primaryActorId) {
         Vue.set($state.records[item.id], 'read_at', 'read_at');
       }
     });
   },
   [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
-    Object.values($state.records).map(item => {
+    Object.values($state.records).forEach(item => {
       Vue.set($state.records[item.id], 'read_at', 'read_at');
     });
   },

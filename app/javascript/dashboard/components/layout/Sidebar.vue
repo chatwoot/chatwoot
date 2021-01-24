@@ -77,7 +77,7 @@
           class="notifications icon ion-ios-bell"
           @click.stop="showNotification"
         >
-          <span v-if="unReadCount" class="unread-badge">{{ unReadCount }}</span>
+          <span v-if="unreadCount" class="unread-badge">{{ unreadCount }}</span>
         </span>
 
         <span class="current-user--options icon ion-android-more-vertical" />
@@ -213,7 +213,7 @@ export default {
       currentRole: 'getCurrentRole',
       uiFlags: 'agents/getUIFlags',
       accountLabels: 'labels/getLabelsOnSidebar',
-      meta: 'notifications/getMeta',
+      notificationMetadata: 'notifications/getMeta',
     }),
     currentUserAvailableName() {
       return this.currentUser.name;
@@ -292,8 +292,14 @@ export default {
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
-    unReadCount() {
-      return this.meta.unReadCount < 100 ? this.meta.unReadCount : '99+';
+    unreadCount() {
+      if (!this.notificationMetadata.unreadCount) {
+        return 0;
+      }
+
+      return this.notificationMetadata.unreadCount < 100
+        ? this.notificationMetadata.unreadCount
+        : '99+';
     },
   },
   mounted() {

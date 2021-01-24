@@ -77,7 +77,6 @@ export default {
 .notification--content {
   display: flex;
   flex-direction: column;
-  padding-top: var(--space-small);
   height: 100%;
 }
 </style>

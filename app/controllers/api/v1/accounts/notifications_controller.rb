@@ -13,13 +13,14 @@ class Api::V1::Accounts::NotificationsController < Api::V1::Accounts::BaseContro
   end
 
   def read_all
+    # rubocop:disable Rails/SkipsModelValidations
     if @primary_actor
       current_user.notifications.where(account_id: current_account.id, primary_actor: @primary_actor, read_at: nil)
-                  .update(read_at: DateTime.now.utc)
+                  .update_all(read_at: DateTime.now.utc)
     else
-      current_user.notifications.where(account_id: current_account.id, read_at: nil).update(read_at: DateTime.now.utc)
+      current_user.notifications.where(account_id: current_account.id, read_at: nil).update_all(read_at: DateTime.now.utc)
     end
-
+    # rubocop:enable Rails/SkipsModelValidations
     head :ok
   end
 

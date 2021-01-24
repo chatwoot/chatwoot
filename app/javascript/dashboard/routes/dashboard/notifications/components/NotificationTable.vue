@@ -1,6 +1,7 @@
 <template>
   <section class="notification--table-wrap">
     <woot-submit-button
+      v-if="notificationMetadata.unreadCount"
       class="button nice success button--fixed-right-top"
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
@@ -72,6 +73,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import timeMixin from '../../../../mixins/time';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -103,6 +105,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      notificationMetadata: 'notifications/getMeta',
+    }),
     showEmptyResult() {
       return !this.isLoading && this.notifications.length === 0;
     },
@@ -127,6 +132,7 @@ export default {
   @include scroll-on-hover;
   flex: 1 1;
   height: 100%;
+  padding: var(--space-normal);
 }
 
 .notifications-table {
@@ -143,10 +149,6 @@ export default {
       }
 
       > td {
-        &:first-child {
-          padding-left: var(--space-medium);
-        }
-
         &.conversation-count-item {
           padding-left: var(--space-medium);
         }
