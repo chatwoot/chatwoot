@@ -16,6 +16,16 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
+  unReadCount: async ({ commit } = {}) => {
+    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdatingUnreadCount: true });
+    try {
+      const { data } = await NotificationsAPI.getUnreadCount();
+      commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, data);
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdatingUnreadCount: false });
+    } catch (error) {
+      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdatingUnreadCount: false });
+    }
+  },
   read: async (
     { commit },
     { primaryActorType, primaryActorId, unReadCount }

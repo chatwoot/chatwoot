@@ -24,6 +24,9 @@ export const mutations = {
     Vue.set($state.meta, 'currentPage', currentPage);
     Vue.set($state.meta, 'unReadCount', unReadCount);
   },
+  [types.SET_NOTIFICATIONS_UNREAD_COUNT]: ($state, data) => {
+    Vue.set($state.meta, 'unReadCount', data);
+  },
 
   [types.SET_UNREAD_COUNT]: ($state, data) => {
     const { unReadCount } = data;

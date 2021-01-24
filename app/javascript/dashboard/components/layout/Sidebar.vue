@@ -299,7 +299,7 @@ export default {
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
-    this.$store.dispatch('notifications/get', { page: 1 });
+    this.$store.dispatch('notifications/unReadCount');
   },
   methods: {
     filterMenuItemsByRole(menuItems) {

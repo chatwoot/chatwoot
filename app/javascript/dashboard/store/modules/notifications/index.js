@@ -13,6 +13,7 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
+    isUpdatingUnreadCount: false,
   },
 };
 
