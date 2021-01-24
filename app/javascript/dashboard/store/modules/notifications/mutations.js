@@ -8,11 +8,9 @@ export const mutations = {
       ...data,
     };
   },
-
   [types.CLEAR_NOTIFICATIONS]: $state => {
     Vue.set($state, 'records', {});
   },
-
   [types.SET_NOTIFICATIONS_META]: ($state, data) => {
     const {
       count,
@@ -24,15 +22,9 @@ export const mutations = {
     Vue.set($state.meta, 'currentPage', currentPage);
     Vue.set($state.meta, 'unreadCount', unreadCount);
   },
-  [types.SET_NOTIFICATIONS_UNREAD_COUNT]: ($state, data) => {
-    Vue.set($state.meta, 'unreadCount', data);
+  [types.SET_NOTIFICATIONS_UNREAD_COUNT]: ($state, count) => {
+    Vue.set($state.meta, 'unreadCount', count);
   },
-
-  [types.SET_UNREAD_COUNT]: ($state, data) => {
-    const { unreadCount } = data;
-    Vue.set($state.meta, 'unreadCount', unreadCount);
-  },
-
   [types.SET_NOTIFICATIONS]: ($state, data) => {
     data.forEach(notification => {
       Vue.set($state.records, notification.id, {
@@ -44,13 +36,13 @@ export const mutations = {
   [types.UPDATE_NOTIFICATION]: ($state, primaryActorId) => {
     Object.values($state.records).forEach(item => {
       if (item.primary_actor_id === primaryActorId) {
-        Vue.set($state.records[item.id], 'read_at', 'read_at');
+        Vue.set($state.records[item.id], 'read_at', true);
       }
     });
   },
   [types.UPDATE_ALL_NOTIFICATIONS]: $state => {
     Object.values($state.records).forEach(item => {
-      Vue.set($state.records[item.id], 'read_at', 'read_at');
+      Vue.set($state.records[item.id], 'read_at', true);
     });
   },
 };

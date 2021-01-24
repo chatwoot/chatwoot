@@ -53,7 +53,7 @@ export default {
       this.$store.dispatch('notifications/read', {
         primaryActorId,
         primaryActorType,
-        unReadCount: this.meta.unReadCount,
+        unreadCount: this.meta.unreadCount,
       });
 
       this.$router.push(
