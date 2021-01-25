@@ -69,7 +69,7 @@ class Notification < ApplicationRecord
     return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
 
     if notification_type == 'conversation_mention'
-      return "You have been mentioned in conversation [ID -#{primary_actor.display_id}] by #{secondary_actor.name}"
+      return "You have been mentioned in conversation [ID -#{primary_actor.conversation.display_id}] by #{secondary_actor.name}"
     end
 
     ''

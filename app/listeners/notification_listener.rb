@@ -64,8 +64,7 @@ class NotificationListener < BaseListener
         notification_type: 'conversation_mention',
         user: User.find(user_id),
         account: account,
-        primary_actor: message.conversation,
-        secondary_actor: message.sender
+        primary_actor: message
       ).perform
     end
   end

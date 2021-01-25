@@ -19,11 +19,11 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
   end
 
-  def conversation_mention(conversation, agent)
+  def conversation_mention(message, agent)
     return unless smtp_config_set_or_development?
 
     @agent = agent
-    @conversation = conversation
+    @conversation = message.conversation
     subject = "#{@agent.available_name}, You have been mentioned in conversation [ID - #{@conversation.display_id}]"
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
