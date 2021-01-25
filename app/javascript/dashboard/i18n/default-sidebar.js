@@ -73,6 +73,10 @@ export const getSidebarItems = accountId => ({
       'settings_integrations_integration',
       'general_settings',
       'general_settings_index',
+      'settings_teams_list',
+      'settings_teams_new',
+      'settings_teams_add_agents',
+      'settings_teams_finish',
     ],
     menuItems: {
       back: {
@@ -88,6 +92,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
         toStateName: 'agent_list',
+      },
+      teams: {
+        icon: 'ion-android-car',
+        label: 'TEAMS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
+        toStateName: 'settings_teams_list',
       },
       inboxes: {
         icon: 'ion-archive',

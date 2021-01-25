@@ -1,0 +1,47 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Create new team",
+    "HEADER": "Teams",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "LIST": {
+      "404": "There are no teams attached to this account."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Create a new team",
+        "route": "settings_teams_create",
+        "body": "Create a new team of agents."
+      },
+      {
+        "title": "Add Agents",
+        "route": "settings_teams_add_agents",
+        "body": "Add agents to the created team."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_teams_finish",
+        "body": "You are all set to go!"
+      }
+    ],
+    "AGENTS": {
+      "BUTTON_TEXT": "Add agents",
+      "ADD_AGENTS": "Adding Agents to your Inbox...",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+    },
+    "ADD": {
+      "TITLE": "Add agents to team - %{teamName}",
+      "DESC": "Add Agents to your newly created inbox. Only the added agents will have permissions to view conversations assigned to this team.",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+    },
+    "FINISH": {
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
+      "BUTTON_TEXT": "Take me there",
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+    }
+  }
+}
