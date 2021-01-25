@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :mailer do
   let(:class_instance) { described_class.new }
-  let(:agent) { create(:user, email: 'agent1@example.com') }
-  let(:conversation) { create(:conversation, assignee: agent) }
-  let(:message) { create(:message, conversation: conversation) }
+  let!(:account) { create(:account) }
+  let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+  let(:conversation) { create(:conversation, assignee: agent, account: account) }
 
   before do
     allow(described_class).to receive(:new).and_return(class_instance)
@@ -39,6 +39,7 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
   end
 
   describe 'conversation_mention' do
+    let(:message) { create(:message, conversation: conversation, account: account) }
     let(:mail) { described_class.conversation_mention(message, agent).deliver_now }
 
     it 'renders the subject' do
