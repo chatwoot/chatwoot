@@ -106,13 +106,13 @@
     font-size: $font-size-medium;
     margin-top: $space-medium;
 
-    >span {
+    > span {
       margin-left: $space-one;
     }
   }
 }
 
-.menu-title+ul>li>a {
+.menu-title + ul > li > a {
   @include padding($space-micro null);
   color: $medium-gray;
   line-height: $global-lineheight;
@@ -151,6 +151,26 @@
     margin-bottom: auto;
     margin-left: auto;
     margin-top: auto;
+  }
+
+  .notifications {
+    font-size: var(--font-size-big);
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
+    position: relative;
+
+    .unread-badge {
+      background: var(--r-300);
+      border-radius: var(--space-small);
+      color: var(--white);
+      font-size: var(--font-size-micro);
+      font-weight: var(--font-weight-black);
+      left: var(--space-slab);
+      padding: 0 var(--space-smaller);
+      position: absolute;
+      top: var(--space-smaller);
+    }
   }
 }
 
