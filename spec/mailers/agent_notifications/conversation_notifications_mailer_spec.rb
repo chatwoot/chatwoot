@@ -37,6 +37,18 @@ RSpec.describe AgentNotifications::ConversationNotificationsMailer, type: :maile
     end
   end
 
+  describe 'conversation_mention' do
+    let(:mail) { described_class.conversation_mention(conversation, agent).deliver_now }
+
+    it 'renders the subject' do
+      expect(mail.subject).to eq("#{agent.available_name}, You have been mentioned in conversation [ID - #{conversation.display_id}]")
+    end
+
+    it 'renders the receiver email' do
+      expect(mail.to).to eq([agent.email])
+    end
+  end
+
   describe 'assigned_conversation_new_message' do
     let(:mail) { described_class.assigned_conversation_new_message(conversation, agent).deliver_now }
 
