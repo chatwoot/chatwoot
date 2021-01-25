@@ -857,9 +857,9 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema/tarball/main":
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#main":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema/tarball/main#bacb5a14f70ad33a51ee59992fbf41404c40f494"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#0a5bb8130df9591faa9c997b1371c5b7c06af691"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
