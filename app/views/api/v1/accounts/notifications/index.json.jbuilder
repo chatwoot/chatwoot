@@ -10,7 +10,7 @@ json.data do
       json.id notification.id
       json.notification_type notification.notification_type
       json.push_message_title notification.push_message_title
-      # TODO front end assumes primary actor to be conversation. should fix in future
+      # TODO: front end assumes primary actor to be conversation. should fix in future
       if notification.notification_type == 'conversation_mention'
         json.primary_actor_type 'Conversation'
         json.primary_actor_id notification.primary_actor.conversation_id
