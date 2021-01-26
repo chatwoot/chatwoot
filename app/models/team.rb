@@ -12,7 +12,8 @@
 #
 # Indexes
 #
-#  index_teams_on_account_id  (account_id)
+#  index_teams_on_account_id           (account_id)
+#  index_teams_on_name_and_account_id  (name,account_id) UNIQUE
 #
 # Foreign Keys
 #
