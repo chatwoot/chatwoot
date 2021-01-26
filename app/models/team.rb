@@ -20,6 +20,8 @@
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Team < ApplicationRecord
+  include RegexHelper
+
   belongs_to :account
   has_many :team_members, dependent: :destroy
   has_many :conversations, dependent: :nullify
