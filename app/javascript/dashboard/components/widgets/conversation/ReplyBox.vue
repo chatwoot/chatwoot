@@ -8,9 +8,9 @@
     />
     <div class="reply-box__top">
       <canned-response
-        v-if="showCannedResponsesList"
-        v-on-clickaway="hideCannedResponse"
-        :search-key="cannedResponseSearchKey"
+        v-if="showMentions && hasSlashCommand"
+        v-on-clickaway="hideMentions"
+        :search-key="mentionSearchKey"
         @click="replaceText"
       />
       <emoji-input
@@ -19,7 +19,7 @@
         :on-click="emojiOnClick"
       />
       <resizable-text-area
-        v-if="!isFormatMode"
+        v-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
         class="input"
@@ -34,12 +34,14 @@
         v-else
         v-model="message"
         class="input"
+        :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         @typing-off="onTypingOff"
         @typing-on="onTypingOn"
         @focus="onFocus"
         @blur="onBlur"
+        @toggle-user-mention="toggleUserMention"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box">
@@ -58,7 +60,8 @@
       :on-send="sendMessage"
       :is-send-disabled="isReplyButtonDisabled"
       :set-format-mode="setFormatMode"
-      :is-format-mode="isFormatMode"
+      :is-on-private-note="isOnPrivateNote"
+      :is-format-mode="showRichContentEditor"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       @toggleEnterToSend="toggleEnterToSend"
@@ -108,15 +111,23 @@ export default {
       message: '',
       isFocused: false,
       showEmojiPicker: false,
-      showCannedResponsesList: false,
+      showMentions: false,
       attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       isFormatMode: false,
-      cannedResponseSearchKey: '',
+      mentionSearchKey: '',
+      hasUserMention: false,
+      hasSlashCommand: false,
     };
   },
   computed: {
+    showRichContentEditor() {
+      if (this.isOnPrivateNote) {
+        return true;
+      }
+      return this.isFormatMode;
+    },
     ...mapGetters({
       currentChat: 'getSelectedChat',
       uiSettings: 'getUISettings',
@@ -126,7 +137,7 @@ export default {
     },
     isPrivate() {
       if (this.currentChat.can_reply) {
-        return this.replyType === REPLY_EDITOR_MODES.NOTE;
+        return this.isOnPrivateNote;
       }
       return true;
     },
@@ -208,18 +219,17 @@ export default {
     },
     isRichEditorEnabled() {
       return (
-        this.isAWebWidgetInbox ||
-        this.isAnEmailChannel ||
-        this.replyType === REPLY_EDITOR_MODES.NOTE
+        this.isAWebWidgetInbox || this.isAnEmailChannel || this.isOnPrivateNote
       );
+    },
+    isOnPrivateNote() {
+      return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
   },
   watch: {
     currentChat(conversation) {
       const { can_reply: canReply } = conversation;
-      const isUserReplyingOnPrivate =
-        this.replyType === REPLY_EDITOR_MODES.NOTE;
-      if (isUserReplyingOnPrivate) {
+      if (this.isOnPrivateNote) {
         return;
       }
 
@@ -230,18 +240,15 @@ export default {
       }
     },
     message(updatedMessage) {
-      const isSlashCommand = updatedMessage[0] === '/';
+      this.hasSlashCommand = updatedMessage[0] === '/';
       const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = isSlashCommand && !hasNextWord;
+      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
-        this.cannedResponseSearchKey = updatedMessage.substr(
-          1,
-          updatedMessage.length
-        );
-        this.showCannedResponsesList = true;
+        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
+        this.showMentions = true;
       } else {
-        this.cannedResponseSearchKey = '';
-        this.showCannedResponsesList = false;
+        this.mentionSearchKey = '';
+        this.showMentions = false;
       }
     },
   },
@@ -252,13 +259,19 @@ export default {
     document.removeEventListener('keydown', this.handleKeyEvents);
   },
   methods: {
+    toggleUserMention(currentMentionState) {
+      this.hasUserMention = currentMentionState;
+    },
     handleKeyEvents(e) {
       if (isEscape(e)) {
         this.hideEmojiPicker();
-        this.hideCannedResponse();
+        this.hideMentions();
       } else if (isEnter(e)) {
         const hasSendOnEnterEnabled =
-          (this.isFormatMode && this.enterToSendEnabled) || !this.isFormatMode;
+          (this.showRichContentEditor &&
+            this.enterToSendEnabled &&
+            !this.hasUserMention) ||
+          !this.showRichContentEditor;
         const shouldSendMessage =
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
@@ -279,7 +292,7 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
-      if (!this.showCannedResponsesList) {
+      if (!this.showMentions) {
         const newMessage = this.message;
         const messagePayload = this.getMessagePayload(newMessage);
         this.clearMessage();
@@ -318,8 +331,8 @@ export default {
         this.toggleEmojiPicker();
       }
     },
-    hideCannedResponse() {
-      this.showCannedResponsesList = false;
+    hideMentions() {
+      this.showMentions = false;
     },
     onTypingOn() {
       this.toggleTyping('on');

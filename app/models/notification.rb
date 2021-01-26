@@ -32,7 +32,8 @@ class Notification < ApplicationRecord
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
     conversation_assignment: 2,
-    assigned_conversation_new_message: 3
+    assigned_conversation_new_message: 3,
+    conversation_mention: 4
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -66,6 +67,10 @@ class Notification < ApplicationRecord
     return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
 
     return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
+
+    if notification_type == 'conversation_mention'
+      return "You have been mentioned in conversation [ID -#{primary_actor.conversation.display_id}] by #{secondary_actor.name}"
+    end
 
     ''
   end

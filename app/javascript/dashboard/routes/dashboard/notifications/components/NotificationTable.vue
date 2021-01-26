@@ -17,27 +17,23 @@
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
-            <div class="notification--thumbnail">
-              <thumbnail
-                :src="notificationItem.primary_actor.meta.sender.thumbnail"
-                size="36px"
-                :username="notificationItem.primary_actor.meta.sender.name"
-                :status="
-                  notificationItem.primary_actor.meta.sender.availability_status
-                "
-              />
-              <div>
-                <h4 class="notification--name">
-                  {{ `#${notificationItem.id}` }}
-                </h4>
-                <p class="notification--title">
-                  {{ notificationItem.push_message_title }}
-                </p>
-              </div>
+            <div class="">
+              <h5 class="notification--title">
+                {{
+                  `#${
+                    notificationItem.primary_actor
+                      ? notificationItem.primary_actor.id
+                      : 'deleted'
+                  }`
+                }}
+              </h5>
+              <span class="notification--message-title">
+                {{ notificationItem.push_message_title }}
+              </span>
             </div>
           </td>
-          <td>
-            <span class="label">
+          <td class="text-right">
+            <span class="notification--type">
               {{
                 $t(
                   `NOTIFICATIONS_PAGE.TYPE_LABEL.${notificationItem.notification_type}`
@@ -45,8 +41,18 @@
               }}
             </span>
           </td>
-          <td>
-            {{ dynamicTime(notificationItem.created_at) }}
+          <td class="thumbnail--column">
+            <thumbnail
+              v-if="notificationItem.primary_actor.meta.assignee"
+              :src="notificationItem.primary_actor.meta.assignee.thumbnail"
+              size="36px"
+              :username="notificationItem.primary_actor.meta.assignee.name"
+            />
+          </td>
+          <td class="text-right timestamp--column">
+            <span class="notification--created-at">
+              {{ dynamicTime(notificationItem.created_at) }}
+            </span>
           </td>
           <td>
             <div
@@ -118,13 +124,8 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/mixins';
 
-.notification--name {
-  font-size: var(--font-size-small);
-  margin-bottom: 0;
-}
-
 .notification--title {
-  font-size: var(--font-size-mini);
+  font-size: var(--font-size-small);
   margin: 0;
 }
 
@@ -132,7 +133,7 @@ export default {
   @include scroll-on-hover;
   flex: 1 1;
   height: 100%;
-  padding: var(--space-normal);
+  padding: var(--space-large) var(--space-larger);
 }
 
 .notifications-table {
@@ -153,14 +154,10 @@ export default {
           padding-left: var(--space-medium);
         }
       }
-    }
-  }
-  .notification--thumbnail {
-    display: flex;
-    align-items: center;
 
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
+      &:last-child {
+        border-bottom: 0;
+      }
     }
   }
 }
@@ -178,5 +175,26 @@ export default {
   height: var(--space-one);
   border-radius: 50%;
   background: var(--color-woot);
+}
+
+.notification--created-at {
+  color: var(--s-700);
+  font-size: var(--font-size-mini);
+}
+
+.notification--type {
+  font-size: var(--font-size-mini);
+}
+
+.thumbnail--column {
+  width: 5.2rem;
+}
+
+.timestamp--column {
+  width: 12rem;
+}
+
+.notification--message-title {
+  color: var(--s-700);
 }
 </style>
