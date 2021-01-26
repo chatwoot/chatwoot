@@ -1,31 +1,25 @@
 <template>
   <div class="wizard-body columns content-box small-9">
-    <form class="row">
+    <form class="row" @submit.prevent="addAgents()">
       <div class="medium-12 columns">
         <page-header
           :header-title="headerTitle"
           :header-content="$t('TEAMS_SETTINGS.ADD.DESC')"
         />
       </div>
-      <div class="medium-7 columns">
-        <div class="medium-12 columns">
-          <label :class="{ error: $v.selectedAgents.$error }">
-            <span v-if="$v.selectedAgents.$error" class="message">
-              {{ $t('TEAMS_SETTINGS.ADD.AGENTS.VALIDATION_ERROR') }}
-            </span>
-          </label>
-          <agent-selector
-            :agent-list="agentList"
-            :selected-agents="selectedAgents"
-            :update-selected-agents="updateSelectedAgents"
-          />
-        </div>
-        <div class="medium-12 columns">
-          <woot-submit-button
-            :button-text="$t('TEAMS_SETTINGS.AGENTS.BUTTON_TEXT')"
-            :loading="isCreating"
-          />
-        </div>
+
+      <div class="medium-12 columns">
+        <label :class="{ error: $v.selectedAgents.$error }">
+          <span v-if="$v.selectedAgents.$error" class="message">
+            {{ $t('TEAMS_SETTINGS.ADD.AGENTS.VALIDATION_ERROR') }}
+          </span>
+        </label>
+        <agent-selector
+          :agent-list="agentList"
+          :selected-agents="selectedAgents"
+          :update-selected-agents="updateSelectedAgents"
+          :is-working="isCreating"
+        />
       </div>
     </form>
   </div>

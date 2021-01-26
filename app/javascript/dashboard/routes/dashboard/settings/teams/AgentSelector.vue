@@ -1,37 +1,38 @@
 <template>
   <div>
-    <div class="table__meta">
-      <p>
-        {{
-          $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
-            selected: selectedAgents.length,
-            total: agentList.length,
-          })
-        }}
-      </p>
-      <label @click="selectAllAgents">
-        <input
-          name="select-all-agents"
-          type="checkbox"
-          :checked="allAgentsSelected ? 'checked' : ''"
-        />
-        {{ $t('TEAMS_SETTINGS.AGENTS.SELECT_ALL') }}
-      </label>
-    </div>
+    <div class="add-agents__header"></div>
     <table class="woot-table">
-      <thead></thead>
+      <thead>
+        <tr>
+          <td>
+            <div class="checkbox-wrap">
+              <input
+                name="select-all-agents"
+                type="checkbox"
+                :checked="allAgentsSelected ? 'checked' : ''"
+                :title="$t('TEAMS_SETTINGS.AGENTS.SELECT_ALL')"
+                @click.self="selectAllAgents"
+              />
+            </div>
+          </td>
+          <td>{{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}</td>
+          <td>{{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}</td>
+        </tr>
+      </thead>
       <tbody>
         <tr
           v-for="agent in agentList"
           :key="agent.id"
           :class="agentRowClass(agent.id)"
         >
-          <td>
-            <input
-              type="checkbox"
-              :checked="isAgentSelected(agent.id)"
-              @click.self="() => handleSelectAgent(agent.id)"
-            />
+          <td class="checkbox-cell">
+            <div class="checkbox-wrap">
+              <input
+                type="checkbox"
+                :checked="isAgentSelected(agent.id)"
+                @click.self="() => handleSelectAgent(agent.id)"
+              />
+            </div>
           </td>
           <td>
             <div class="user-info-wrap">
@@ -52,6 +53,20 @@
         </tr>
       </tbody>
     </table>
+    <div class="add-agents__footer">
+      <p>
+        {{
+          $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
+            selected: selectedAgents.length,
+            total: agentList.length,
+          })
+        }}
+      </p>
+      <woot-submit-button
+        :button-text="$t('TEAMS_SETTINGS.AGENTS.BUTTON_TEXT')"
+        :loading="isWorking"
+      />
+    </div>
   </div>
 </template>
 
@@ -74,6 +89,10 @@ export default {
     updateSelectedAgents: {
       type: Function,
       default: () => {},
+    },
+    isWorking: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -129,6 +148,24 @@ export default {
 
 .user-name {
   margin-bottom: 0;
-  margin-left: var(--space-smaller);
+  margin-left: var(--space-small);
+}
+
+.add-agents__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkbox-wrap {
+  display: flex;
+  align-items: center;
+
+  input {
+    margin: 0;
+  }
+}
+.checkbox-cell {
+  width: var(--space-larger);
 }
 </style>

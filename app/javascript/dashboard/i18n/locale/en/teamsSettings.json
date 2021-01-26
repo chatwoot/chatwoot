@@ -24,6 +24,8 @@
       }
     ],
     "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Inbox...",
       "SELECT": "select",
