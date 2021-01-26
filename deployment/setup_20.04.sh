@@ -56,9 +56,9 @@ rvm use 2.7.2 --default
 git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
 if [[ -z "$1" ]]; then
-  git checkout master;
+git checkout master;
 else
-  git checkout $1;
+git checkout $1;
 fi
 bundle
 yarn
@@ -83,32 +83,27 @@ cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/chatwo
 systemctl enable chatwoot.target
 systemctl start chatwoot.target
 
-# TODO: Auto-configure Nginx with SSL certificate
+read -p 'Would you like to configure Webserver and SSL (yes or no): ' configure_webserver
 
-read -p 'Would you like to configure Webserver and SSL (yes or no): ' test
-
-if [ $test != "yes" ]
+if [ $configure_webserver != "yes" ]
 then
-    echo "Woot! Woot!! Chatwoot server installation is complete"
-    echo "The server will be accessible at http://<server-ip>:3000"
-    echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
+echo "Woot! Woot!! Chatwoot server installation is complete"
+echo "The server will be accessible at http://<server-ip>:3000"
+echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
 else
-    read -p 'What is your domain name server (chatwoot.domain.com for example) : ' domain_name
-    curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
-    wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
-    cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
-    certbot certonly --nginx -d $domain_name
-    sed -i "s/chatwoot.domain.com/$domain_name/g" /etc/nginx/sites-available/nginx_chatwoot.conf
-    ln -s /etc/nginx/sites-available/nginx_chatwoot.conf /etc/nginx/sites-enabled/nginx_chatwoot.conf
-    systemctl restart nginx
-
+read -p 'What is your domain name server (chatwoot.domain.com for example) : ' domain_name
+curl https://ssl-config.mozilla.org/ffdhe4096.txt >> /etc/ssl/dhparam
+wget https://raw.githubusercontent.com/chatwoot/chatwoot/develop/deployment/nginx_chatwoot.conf
+cp nginx_chatwoot.conf /etc/nginx/sites-available/nginx_chatwoot.conf
+certbot certonly --nginx -d $domain_name
+sed -i "s/chatwoot.domain.com/$domain_name/g" /etc/nginx/sites-available/nginx_chatwoot.conf
+ln -s /etc/nginx/sites-available/nginx_chatwoot.conf /etc/nginx/sites-enabled/nginx_chatwoot.conf
+systemctl restart nginx
 sudo -i -u chatwoot << EOF
 cd chatwoot
 sed -i "s/http:\/\/0.0.0.0:3000/https:\/\/$domain_name/g" .env
 EOF
-
-    systemctl restart chatwoot.target
-
-    echo "Woot! Woot!! Chatwoot server installation is complete"
-    echo "The server will be accessible at https://$domain_name"
+systemctl restart chatwoot.target
+echo "Woot! Woot!! Chatwoot server installation is complete"
+echo "The server will be accessible at https://$domain_name"
 fi
