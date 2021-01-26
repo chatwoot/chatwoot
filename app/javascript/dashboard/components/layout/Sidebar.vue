@@ -306,6 +306,7 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
+    this.$store.dispatch('teams/get');
   },
   methods: {
     filterMenuItemsByRole(menuItems) {

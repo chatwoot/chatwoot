@@ -376,6 +376,7 @@ export default {
       this.selectedTabIndex = 0;
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
+      this.$store.dispatch('teams/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;
