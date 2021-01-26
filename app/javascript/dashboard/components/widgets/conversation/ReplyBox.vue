@@ -10,9 +10,8 @@
       <canned-response
         v-if="showCannedResponsesList"
         v-on-clickaway="hideCannedResponse"
-        data-dropdown-menu
-        :on-keyenter="replaceText"
-        :on-click="replaceText"
+        :search-key="cannedResponseSearchKey"
+        @click="replaceText"
       />
       <emoji-input
         v-if="showEmojiPicker"
@@ -114,6 +113,7 @@ export default {
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
       isFormatMode: false,
+      cannedResponseSearchKey: '',
     };
   },
   computed: {
@@ -234,14 +234,13 @@ export default {
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = isSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
+        this.cannedResponseSearchKey = updatedMessage.substr(
+          1,
+          updatedMessage.length
+        );
         this.showCannedResponsesList = true;
-        if (updatedMessage.length > 1) {
-          const searchKey = updatedMessage.substr(1, updatedMessage.length);
-          this.$store.dispatch('getCannedResponse', { searchKey });
-        } else {
-          this.$store.dispatch('getCannedResponse');
-        }
       } else {
+        this.cannedResponseSearchKey = '';
         this.showCannedResponsesList = false;
       }
     },
