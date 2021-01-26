@@ -23,4 +23,13 @@ class Team < ApplicationRecord
   belongs_to :account
   has_many :team_members, dependent: :destroy
   has_many :conversations, dependent: :nullify
+
+  validates :name,
+            presence: { message: 'must not be blank' },
+            format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
+            uniqueness: { scope: :account_id }
+
+  before_validation do
+    self.name = name.downcase if attribute_present?('name')
+  end
 end
