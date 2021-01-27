@@ -11,10 +11,16 @@
       <span class="ion-android-close" @click="closeWindow"></span>
     </button>
   </div>
+  <div v-else class="actions flex items-center">
+    <button class="copy-link" @click="copyUrl">
+      Copy Conversation Link
+    </button>
+  </div>
 </template>
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
 import { buildPopoutURL } from '../helpers/urlParamsHelper';
+import copy from 'copy-text-to-clipboard';
 
 export default {
   name: 'HeaderActions',
@@ -30,6 +36,21 @@ export default {
     },
   },
   methods: {
+    copyUrl() {
+      const {
+        location: { origin },
+        chatwootWebChannel: { websiteToken },
+        authToken,
+      } = window;
+
+      const popoutWindowURL = buildPopoutURL({
+        origin,
+        websiteToken,
+        locale: this.$root.$i18n.locale,
+        conversationCookie: authToken,
+      });
+      copy(popoutWindowURL);
+    },
     popoutWindow() {
       this.closeWindow();
       const {
@@ -80,6 +101,22 @@ export default {
 
   .close-button {
     display: none;
+  }
+
+  .copy-link {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+  }
+
+  .copy-link:hover {
+    text-decoration: underline;
+  }
+
+  .copy-link:active {
+    border: none;
+    outline: none !important;
+    color: #0056b3;
   }
 }
 </style>
