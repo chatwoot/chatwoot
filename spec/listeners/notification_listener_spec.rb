@@ -43,4 +43,37 @@ describe NotificationListener do
       end
     end
   end
+
+  describe 'message_created' do
+    let(:event_name) { :'message.created' }
+
+    context 'when message contains mention' do
+      it 'creates notifications for inbox member who was mentioned' do
+        notification_setting = agent_with_notification.notification_settings.find_by(account_id: account.id)
+        notification_setting.selected_email_flags = [:email_conversation_mention]
+        notification_setting.selected_push_flags = []
+        notification_setting.save!
+
+        builder = double
+        allow(NotificationBuilder).to receive(:new).and_return(builder)
+        allow(builder).to receive(:perform)
+
+        create(:inbox_member, user: agent_with_notification, inbox: inbox)
+        create(:inbox_member, user: agent_with_out_notification, inbox: inbox)
+        conversation.reload
+
+        message = build(:message, conversation: conversation, account: account,
+                                  content: "hi [#{agent_with_notification.name}](mention://user/#{agent_with_notification.id}/\
+          #{agent_with_notification.name})", private: true)
+
+        event = Events::Base.new(event_name, Time.zone.now, message: message)
+        listener.message_created(event)
+
+        expect(NotificationBuilder).to have_received(:new).with(notification_type: 'conversation_mention',
+                                                                user: agent_with_notification,
+                                                                account: account,
+                                                                primary_actor: message)
+      end
+    end
+  end
 end

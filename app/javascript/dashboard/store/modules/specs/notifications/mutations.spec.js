@@ -40,6 +40,12 @@ describe('#mutations', () => {
       mutations[types.SET_NOTIFICATIONS_UNREAD_COUNT](state, 3);
       expect(state.meta).toEqual({ unreadCount: 3 });
     });
+
+    it('set notifications unread count to 0 if invalid', () => {
+      const state = { meta: { unreadCount: 4 } };
+      mutations[types.SET_NOTIFICATIONS_UNREAD_COUNT](state, -1);
+      expect(state.meta).toEqual({ unreadCount: 0 });
+    });
   });
 
   describe('#SET_NOTIFICATIONS', () => {
