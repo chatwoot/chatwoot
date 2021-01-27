@@ -13,7 +13,7 @@ describe ::ContactIdentifyAction do
       expect(ContactAvatarJob).not_to receive(:perform_later).with(contact, params[:avatar_url])
       contact_identify
       expect(contact.reload.name).to eq 'test'
-      # custom attributes are merged properly without overwritting existing ones
+      # custom attributes are merged properly without overwriting existing ones
       expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
       expect(contact.reload.identifier).to eq 'test_id'
     end
