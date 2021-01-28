@@ -1,33 +1,33 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "डाउनलोड",
+      "UPLOADING": "अपलोड गर्दै..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "बुझाउनुहोस्"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "हामी अनलाइन छौं",
+    "OFFLINE": "हामी अफलाईन छौं"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "धेरै जसो केहि मिनेटमा जवाफ हुन्छ",
+    "IN_A_FEW_HOURS": "धेरै जसो केहि घण्टामा जवाफ हुन्छ",
+    "IN_A_DAY": "धेरै जसो एक दिनमा जवाफ हुन्छ"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "कुराकानी सुरु गर्नुहोस्",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "VIEW_MESSAGES_BUTTON": "नयाँ सन्देशहरू हेर्नुहोस्",
+    "CLOSE_MESSAGES_BUTTON": "बन्दा गार्नुहोस्"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "हामीसँग कुराकानी गर्नुहोस्"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "POWERED_BY": "Chatwoot द्वारा संचालित",
+  "EMAIL_PLACEHOLDER": "कृपया तपाईंको ईमेल दिनुहोस्",
+  "CHAT_PLACEHOLDER": "तपाईंको सन्देश टाइप गर्नुहोस्",
+  "TODAY": "आज",
+  "YESTERDAY": "भोली"
 }
