@@ -42,9 +42,10 @@
       "SEND": "Kirim",
       "CREATE": "Tambahkan Catatan",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_FORMAT_ICON": "Tampilkan editor teks",
+      "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
+      "TIP_ATTACH_ICON": "Lampirkan file",
+      "ENTER_TO_SEND": "Enter untuk mengirim"
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",

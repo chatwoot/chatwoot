@@ -27,6 +27,7 @@
         "NOTE": "Cập nhật tùy chọn thông báo qua email của bạn tại đây",
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo qua email khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Cập nhật tùy chọn thông báo của bạn tại đây",
         "CONVERSATION_ASSIGNMENT": "Gửi thông báo khi cuộc trò chuyện được chỉ định cho tôi",
         "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
         "REQUEST_PUSH": "Bật thông báo"
@@ -118,6 +120,7 @@
     "HOME": "Trang Chủ",
     "AGENTS": "Đại lý",
     "INBOXES": "Hộp thư đến",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
     "INTEGRATIONS": "Tích hợp",
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",

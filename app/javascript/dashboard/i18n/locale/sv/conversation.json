@@ -42,9 +42,10 @@
       "SEND": "Skicka",
       "CREATE": "Lägg till anteckning",
       "TWEET": "Twittra",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_FORMAT_ICON": "Visa textformaterare",
+      "TIP_EMOJI_ICON": "Visa emoji-väljare",
+      "TIP_ATTACH_ICON": "Bifoga filer",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",
