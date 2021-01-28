@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Нажмите Enter для удаления",
       "SELECT_ONE": "Выберите один"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifications",
+    "MARK_ALL_DONE": "Mark All Done",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
+      "TABLE_HEADER": [
+        "Имя",
+        "Номер телефона",
+        "Диалоги",
+        "Последний Контакт"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "New conversation",
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "New Message",
+      "conversation_mention": "Mention"
+    }
   }
 }
