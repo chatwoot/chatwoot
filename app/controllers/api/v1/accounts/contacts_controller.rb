@@ -46,7 +46,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   rescue ActiveRecord::RecordInvalid => e
     render json: {
       message: e.record.errors.full_messages.join(', '),
-      contact: Contact.find_by(email: contact_params[:email])
+      contact: Current.account.contacts.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
   end
 

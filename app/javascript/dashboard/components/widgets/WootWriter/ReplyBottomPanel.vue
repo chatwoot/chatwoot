@@ -22,7 +22,7 @@
         </file-upload>
       </button>
       <button
-        v-if="enableRichEditor"
+        v-if="enableRichEditor && !isOnPrivateNote"
         class="button clear button--emoji"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
@@ -31,6 +31,17 @@
       </button>
     </div>
     <div class="right-wrap">
+      <div v-if="isFormatMode" class="enter-to-send--checkbox">
+        <input
+          :checked="enterToSendEnabled"
+          type="checkbox"
+          value="enterToSend"
+          @input="toggleEnterToSend"
+        />
+        <label for="enterToSend">
+          {{ $t('CONVERSATION.REPLYBOX.ENTER_TO_SEND') }}
+        </label>
+      </div>
       <button
         class="button nice primary button--send"
         :class="buttonClass"
@@ -91,9 +102,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    isOnPrivateNote: {
+      type: Boolean,
+      default: false,
+    },
     enableRichEditor: {
       type: Boolean,
       default: false,
+    },
+    enterToSendEnabled: {
+      type: Boolean,
+      default: true,
     },
   },
   computed: {
@@ -118,6 +137,9 @@ export default {
   methods: {
     toggleFormatMode() {
       this.setFormatMode(!this.isFormatMode);
+    },
+    toggleEnterToSend() {
+      this.$emit('toggleEnterToSend', !this.enterToSendEnabled);
     },
   },
 };
@@ -173,8 +195,8 @@ export default {
 }
 
 .left-wrap {
-  display: flex;
   align-items: center;
+  display: flex;
 }
 
 .button--reply {
@@ -184,5 +206,22 @@ export default {
 .icon--font {
   color: var(--s-600);
   font-size: var(--font-size-default);
+}
+
+.right-wrap {
+  display: flex;
+
+  .enter-to-send--checkbox {
+    align-items: center;
+    display: flex;
+
+    input {
+      margin: 0;
+    }
+
+    label {
+      color: var(--s-500);
+    }
+  }
 }
 </style>
