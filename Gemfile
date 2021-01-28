@@ -27,7 +27,7 @@ gem 'uglifier'
 gem 'flag_shih_tzu'
 # Random name generator for user names
 gem 'haikunator'
-# Template parsing safetly
+# Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'redcarpet'
