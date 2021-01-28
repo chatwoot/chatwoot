@@ -111,9 +111,7 @@ export default {
       }`;
     },
     deleteRejectText() {
-      return `${this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.NO')} ${
-        this.selectedTeam.name
-      }`;
+      return this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.NO');
     },
     deleteMessage() {
       return `${this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')} ${
@@ -160,3 +158,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.button-wrapper {
+  min-width: unset;
+  justify-content: flex-end;
+  padding-right: var(--space-large);
+}
+</style>
