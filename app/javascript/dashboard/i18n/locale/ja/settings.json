@@ -27,6 +27,7 @@
         "NOTE": "メール通知設定を更新する",
         "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにメールで通知を送信する",
         "CONVERSATION_CREATION": "新しい会話が作成されたときにメールで通知を送信する",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにメールで通知を送信します"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "ここでプッシュ通知の設定を更新します",
         "CONVERSATION_ASSIGNMENT": "会話が自分に割り当てられたときにプッシュ通知を送信する",
         "CONVERSATION_CREATION": "新しい会話が作成されたときにプッシュ通知を送信する",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話で新しいメッセージが作成されたときにプッシュ通知を送信する",
         "HAS_ENABLED_PUSH": "このブラウザーでプッシュ通知を有効にしました。",
         "REQUEST_PUSH": "プッシュ通知を有効にする"
@@ -118,6 +120,7 @@
     "HOME": "ホーム",
     "AGENTS": "担当者",
     "INBOXES": "受信トレイ",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "定型文",
     "INTEGRATIONS": "連携",
     "ACCOUNT_SETTINGS": "アカウント設定",
