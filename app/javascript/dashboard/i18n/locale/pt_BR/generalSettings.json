@@ -43,13 +43,33 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Você pode receber e-mails em seu domínio personalizado agora."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Uma atualização %{latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância."
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Digite enter para selecionar",
       "ENTER_TO_REMOVE": "Digite enter para remover",
       "SELECT_ONE": "Selecione um"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notificações",
+    "MARK_ALL_DONE": "Marcar Tudo Feito",
+    "LIST": {
+      "LOADING_MESSAGE": "Carregando notificações...",
+      "404": "Sem Notificações",
+      "TABLE_HEADER": [
+        "Nome",
+        "Número de Telefone",
+        "Conversas",
+        "Último contato"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Nova conversa",
+      "conversation_assignment": "Conversa Atribuída",
+      "assigned_conversation_new_message": "Nova Mensagem",
+      "conversation_mention": "Menção"
     }
   }
 }

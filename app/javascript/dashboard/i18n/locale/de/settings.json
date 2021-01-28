@@ -27,6 +27,7 @@
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
@@ -118,6 +120,7 @@
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "INBOXES": "Posteingänge",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",

@@ -27,6 +27,7 @@
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话分配给我时发送电子邮件通知",
         "CONVERSATION_CREATION": "当对话分配给我时发送电子邮件通知",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "在此更新您的电子邮件通知设置",
         "CONVERSATION_ASSIGNMENT": "当对话被分配给我时发送推送通知",
         "CONVERSATION_CREATION": "创建新对话时发送推送通知",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "您已启用此浏览器的推送。",
         "REQUEST_PUSH": "启用推送通知"
@@ -118,6 +120,7 @@
     "HOME": "首页",
     "AGENTS": "客服代理们",
     "INBOXES": "收件箱",
+    "NOTIFICATIONS": "消息通知",
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
     "ACCOUNT_SETTINGS": "帐户设置",

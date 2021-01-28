@@ -27,6 +27,7 @@
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
         "CONVERSATION_CREATION": "建立新對話時發送推送通知",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
         "REQUEST_PUSH": "啟用推送通知"
@@ -118,6 +120,7 @@
     "HOME": "首頁",
     "AGENTS": "客服代理們",
     "INBOXES": "收件匣",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
     "ACCOUNT_SETTINGS": "帳戶設定",
