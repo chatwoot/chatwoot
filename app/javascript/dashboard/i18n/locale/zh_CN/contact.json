@@ -1,23 +1,23 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "不可用",
     "EMAIL_ADDRESS": "电子邮件地址",
     "PHONE_NUMBER": "电话号码",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "已成功复制到剪贴板",
+    "COMPANY": "公司",
     "LOCATION": "位置",
     "CONVERSATION_TITLE": "对话详情",
     "BROWSER": "浏览器",
     "OS": "操作系统",
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "IP 地址",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "自定义属性"
     },
     "LABELS": {
       "TITLE": "对话标记",
@@ -41,7 +41,7 @@
     "EDIT_LABEL": "编辑"
   },
   "EDIT_CONTACT": {
-    "BUTTON_LABEL": "Edit Contact",
+    "BUTTON_LABEL": "编辑联系人",
     "TITLE": "Edit contact",
     "DESC": "Edit contact details",
     "FORM": {
@@ -52,7 +52,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "名字"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -80,15 +80,15 @@
           "LABEL": "Facebook"
         },
         "TWITTER": {
-          "PLACEHOLDER": "Enter the Twitter username",
-          "LABEL": "Twitter"
+          "PLACEHOLDER": "输入 Twitter 用户名",
+          "LABEL": "推特"
         },
         "LINKEDIN": {
           "PLACEHOLDER": "Enter the LinkedIn username",
           "LABEL": "LinkedIn"
         },
         "GITHUB": {
-          "PLACEHOLDER": "Enter the Github username",
+          "PLACEHOLDER": "输入Github用户名",
           "LABEL": "Github"
         }
       }
@@ -99,14 +99,14 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "SEARCH_BUTTON": "搜索",
+    "SEARCH_INPUT_PLACEHOLDER": "搜索联系人",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "正在加载联系人列表...",
+      "404": "没有搜索到联系人🔍",
       "TABLE_HEADER": [
         "姓名：",
-        "Phone Number",
+        "电话号码",
         "会话",
         "Last Contacted"
       ]

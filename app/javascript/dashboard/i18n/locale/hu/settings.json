@@ -27,6 +27,7 @@
         "NOTE": "Update your email notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Update your push notification preferences here",
         "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
         "REQUEST_PUSH": "Enable push notifications"
@@ -118,6 +120,7 @@
     "HOME": "Home",
     "AGENTS": "Ügynökök",
     "INBOXES": "Inboxes",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
