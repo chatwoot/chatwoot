@@ -27,6 +27,7 @@
         "NOTE": "Perbarui preferensi pemberitahuan email Anda di sini",
         "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan email saat percakapan ditugaskan kepada saya",
         "CONVERSATION_CREATION": "Kirim pemberitahuan email ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim pemberitahuan email saat Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim pemberitahuan email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Perbarui preferensi push notification Anda di sini",
         "CONVERSATION_ASSIGNMENT": "Kirim pemberitahuan push ketika percakapan ditugaskan kepada saya",
         "CONVERSATION_CREATION": "Kirim push notification ketika percakapan baru dibuat",
+        "CONVERSATION_MENTION": "Kirim push notification ketika Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim push notification ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
         "HAS_ENABLED_PUSH": "Anda telah mengaktifkan push notification untuk browser ini.",
         "REQUEST_PUSH": "Aktifkan push notifications"
@@ -118,6 +120,7 @@
     "HOME": "Home",
     "AGENTS": "Agen",
     "INBOXES": "Kotak masuk",
+    "NOTIFICATIONS": "Notifikasi",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",

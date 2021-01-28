@@ -27,6 +27,7 @@
         "NOTE": "여기서 이메일 알림 기본 설정 업데이트",
         "CONVERSATION_ASSIGNMENT": "대화가 할당될 때 이메일 알림 보내기",
         "CONVERSATION_CREATION": "새 대화가 생성될 때 이메일 알림 보내기",
+        "CONVERSATION_MENTION": "대화에서 멘션될 때 이메일 알림 보내기",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 이메일 알림 보내기"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "여기에서 푸시 알림 기본 설정 업데이트",
         "CONVERSATION_ASSIGNMENT": "대화가 할당되면 푸시 알림 보내기",
         "CONVERSATION_CREATION": "새 대화가 만들어질 때 푸시 알림 보내기",
+        "CONVERSATION_MENTION": "대화에서 멘션될 때 푸시 알림 보내기",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "할당된 대화에서 새 메시지가 생성될 때 푸시 알림 보내기",
         "HAS_ENABLED_PUSH": "이 브라우저에 대한 푸시를 사용 가능으로 설정하셨습니다.",
         "REQUEST_PUSH": "푸시 알림 사용"
@@ -118,6 +120,7 @@
     "HOME": "홈",
     "AGENTS": "에이전트",
     "INBOXES": "받은 메시지함",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
     "ACCOUNT_SETTINGS": "계정 설정",

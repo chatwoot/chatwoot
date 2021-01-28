@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Ici vous pouvez ajouter des agents pour gérer votre boîte de réception nouvellement créée. Seuls ces agents sélectionnés auront accès à votre boîte de réception. Les agents qui ne font pas partie de cette boîte de réception ne seront pas en mesure de voir ou de répondre aux messages de cette boîte de réception lorsqu'ils se connectent. <br> <b>PS :</b> En tant qu'administrateur, si vous avez besoin d'accéder à toutes les boîtes de réception, vous devriez vous ajouter en tant qu'agent à toutes les boîtes de réception que vous créez.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Ajouter au moins un agent à votre nouvelle boîte de réception",
+        "PICK_AGENTS": "Sélectionner les agents de la boîte de réception"
       },
       "DETAILS": {
         "TITLE": "Détails de la boîte de réception",
@@ -242,8 +242,8 @@
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activer ou désactiver l'affectation automatique de nouvelles conversations aux agents ajoutés à cette boîte de réception.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "Validation de l'identité de l'utilisateur",
+      "HMAC_DESCRIPTION": "Afin de valider l'identité des utilisateurs, le SDK vous permet de passer un `identity_hash` pour chaque utilisateur. Vous pouvez générer HMAC en utilisant 'sha256' avec la clé indiquée ici."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Réautoriser",

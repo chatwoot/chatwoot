@@ -13,9 +13,9 @@
     "OFFLINE": "ما آفلاین هستیم"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+    "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
+    "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
   "UNREAD_VIEW": {

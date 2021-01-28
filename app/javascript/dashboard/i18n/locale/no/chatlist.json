@@ -1,0 +1,84 @@
+{
+  "CHAT_LIST": {
+    "LOADING": "Henter samtaler",
+    "LOAD_MORE_CONVERSATIONS": "Last inn flere samtaler",
+    "EOF": "Alle samtaler lastet 🎉",
+    "LIST": {
+      "404": "Det er ingen aktive samtaler i denne gruppen."
+    },
+    "TAB_HEADING": "Samtaler",
+    "SEARCH": {
+      "INPUT": "Søk etter personer, samtaler, lagrede svar .."
+    },
+    "STATUS_TABS": [
+      {
+        "NAME": "Åpne",
+        "KEY": "openCount"
+      },
+      {
+        "NAME": "Løst",
+        "KEY": "allConvCount"
+      }
+    ],
+    "ASSIGNEE_TYPE_TABS": [
+      {
+        "NAME": "Mine",
+        "KEY": "me",
+        "COUNT_KEY": "mineCount"
+      },
+      {
+        "NAME": "Ikke tildelt",
+        "KEY": "unassigned",
+        "COUNT_KEY": "unAssignedCount"
+      },
+      {
+        "NAME": "Alle",
+        "KEY": "all",
+        "COUNT_KEY": "allCount"
+      }
+    ],
+    "CHAT_STATUS_ITEMS": [
+      {
+        "TEXT": "Åpne",
+        "VALUE": "open"
+      },
+      {
+        "TEXT": "Løst",
+        "VALUE": "resolved"
+      },
+      {
+        "TEXT": "Bot",
+        "VALUE": "bot"
+      }
+    ],
+    "ATTACHMENTS": {
+      "image": {
+        "ICON": "ion-image",
+        "CONTENT": "Bildemelding"
+      },
+      "audio": {
+        "ICON": "ion-volume-high",
+        "CONTENT": "Lydmelding"
+      },
+      "video": {
+        "ICON": "ion-ios-videocam",
+        "CONTENT": "Video beskjed"
+      },
+      "file": {
+        "ICON": "ion-document",
+        "CONTENT": "Vedlegg"
+      },
+      "location": {
+        "ICON": "ion-ios-location",
+        "CONTENT": "Plassering"
+      },
+      "fallback": {
+        "ICON": "ion-link",
+        "CONTENT": "har delt en URL"
+      }
+    },
+    "RECEIVED_VIA_EMAIL": "Mottatt via e-post",
+    "VIEW_TWEET_IN_TWITTER": "Vis tweet i Twitter",
+    "REPLY_TO_TWEET": "Svar på denne tweeten"
+  }
+}
