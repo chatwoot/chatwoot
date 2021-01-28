@@ -1,0 +1,75 @@
+{
+  "GENERAL_SETTINGS": {
+    "TITLE": "Kontoinnstillinger",
+    "SUBMIT": "Oppdater innstillinger",
+    "BACK": "Tilbake",
+    "UPDATE": {
+      "ERROR": "Kunne ikke oppdatere innstillinger, prøv igjen!",
+      "SUCCESS": "Innstillinger ble oppdatert"
+    },
+    "FORM": {
+      "ERROR": "Vennligst fiks skjemafeil",
+      "GENERAL_SECTION": {
+        "TITLE": "Generelle innstillinger",
+        "NOTE": ""
+      },
+      "NAME": {
+        "LABEL": "Kontonavn",
+        "PLACEHOLDER": "Ditt kontonavn",
+        "ERROR": "Vennligst oppgi et gyldig kontonavn"
+      },
+      "LANGUAGE": {
+        "LABEL": "Nettstedspråk (Beta)",
+        "PLACEHOLDER": "Ditt kontonavn",
+        "ERROR": ""
+      },
+      "DOMAIN": {
+        "LABEL": "Innkommende e-postdomene",
+        "PLACEHOLDER": "Domenet hvor du vil motta e-posten",
+        "ERROR": ""
+      },
+      "SUPPORT_EMAIL": {
+        "LABEL": "Support e-post",
+        "PLACEHOLDER": "Ditt firmas support e-post",
+        "ERROR": ""
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Antall dager en sak skal løses automatisk hvis det ikke har vært aktivitet",
+        "PLACEHOLDER": "30",
+        "ERROR": "Angi en gyldig varighet for når en sak skal løses automatisk (minimum 1 dag)"
+      },
+      "FEATURES": {
+        "INBOUND_EMAIL_ENABLED": "Samtalekontinuitet med e-post er aktivert for din konto.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kan motta e-post i ditt egendefinerte domene nå."
+      }
+    },
+    "UPDATE_CHATWOOT": "En oppdatering av %{latestChatwootVersion} for Chatwoot er tilgjengelig. Oppdater din instans."
+  },
+  "FORMS": {
+    "MULTISELECT": {
+      "ENTER_TO_SELECT": "Trykk enter for å velge",
+      "ENTER_TO_REMOVE": "Trykk enter for å fjerne",
+      "SELECT_ONE": "Velg en"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Varsler",
+    "MARK_ALL_DONE": "Merk alle som ferdige",
+    "LIST": {
+      "LOADING_MESSAGE": "Laster varsler...",
+      "404": "Ingen varsler",
+      "TABLE_HEADER": [
+        "Navn",
+        "Telefonnummer",
+        "Samtaler",
+        "Siste kontakt"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Ny samtale",
+      "conversation_assignment": "Samtale tildelt",
+      "assigned_conversation_new_message": "Ny melding",
+      "conversation_mention": "Omtale"
+    }
+  }
+}
