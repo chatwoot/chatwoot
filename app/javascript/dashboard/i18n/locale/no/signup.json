@@ -1,0 +1,38 @@
+{
+  "REGISTER": {
+    "TRY_WOOT": "Registrer en konto",
+    "TITLE": "Registrer",
+    "TERMS_ACCEPT": "Ved å registrere deg, samtykker du til våre <a href=\"https://www.chatwoot.com/terms\"> brukerbetingelser </a> og <a href=\"https://www.chatwoot.com/privacy-policy\">retningslinjer for personvern</a>",
+    "ACCOUNT_NAME": {
+      "LABEL": "Kontonavn",
+      "PLACEHOLDER": "Skriv inn et kontonavn. f. eks: Ola's bedrift",
+      "ERROR": "Kontonavnet er for kort"
+    },
+    "FULL_NAME": {
+      "LABEL": "Fullt navn",
+      "PLACEHOLDER": "Skriv inn fullt navn. F. eks: Ola Nordmann",
+      "ERROR": "Kontonavnet er for kort"
+    },
+    "EMAIL": {
+      "LABEL": "Bedriftse-postadresse",
+      "PLACEHOLDER": "Skriv inn din profesjonelle e-postadresse. F.eks: ola@olasbedrift.no",
+      "ERROR": "E-postadressen er ugyldig"
+    },
+    "PASSWORD": {
+      "LABEL": "Passord",
+      "PLACEHOLDER": "Passord",
+      "ERROR": "Passordet er for kort"
+    },
+    "CONFIRM_PASSWORD": {
+      "LABEL": "Bekreft passord",
+      "PLACEHOLDER": "Bekreft passord",
+      "ERROR": "Passordet stemmer ikke"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Registrering fullført",
+      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+    },
+    "SUBMIT": "Send",
+    "HAVE_AN_ACCOUNT": "Har du allerede en konto?"
+  }
+}

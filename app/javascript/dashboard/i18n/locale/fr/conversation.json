@@ -13,8 +13,8 @@
       "PLACEHOLDER": "Saisissez n'importe quel texte pour rechercher des messages",
       "NO_MATCHING_RESULTS": "Aucun message ne correspond aux paramètres de recherche."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Messages non lus",
+    "UNREAD_MESSAGE": "Message non lu",
     "CLICK_HERE": "Cliquez ici",
     "LOADING_INBOXES": "Chargement des boîtes de réception",
     "LOADING_CONVERSATIONS": "Chargement des conversations",
@@ -24,7 +24,7 @@
     "REPLYING_TO": "Vous répondez à :",
     "REMOVE_SELECTION": "Supprimer la sélection",
     "DOWNLOAD": "Télécharger",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Envoi des pièces jointes...",
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
@@ -42,18 +42,19 @@
       "SEND": "Envoyer",
       "CREATE": "Ajouter une note",
       "TWEET": "Tweeter",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
+      "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
+      "TIP_ATTACH_ICON": "Joindre des fichiers",
+      "ENTER_TO_SEND": "Entrer pour envoyer"
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
     "CHANGE_STATUS": "Statut de la conversation modifié",
     "CHANGE_AGENT": "Responsable de la conversation modifié",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Envoyé par:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Sélectionner un agent",
       "REMOVE": "Supprimer",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Assigner"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -65,7 +66,7 @@
     "SEND_EMAIL_ERROR": "Une erreur est survenue, veuillez réessayer",
     "FORM": {
       "SEND_TO_CONTACT": "Envoyer la transcription au client",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Envoyer la transcription à l'agent assigné",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Envoyer la transcription à une autre adresse de courriel",
       "EMAIL": {
         "PLACEHOLDER": "Entrez une adresse de courriel",

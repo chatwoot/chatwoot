@@ -1,0 +1,255 @@
+{
+  "INBOX_MGMT": {
+    "HEADER": "Innbokser",
+    "SIDEBAR_TXT": "<p><b>Innboks</b></p> <p> Når du kobler til et nettsted eller en facebook-side til Chatwoot blir den kalt en <b>Innboks</b>. Du kan ha ubegrensede innbokser i din Chatwoot-konto. </p><p> Klikk på <b>Legg til innboks</b> for å koble sammen en nettside eller en facebook-side. </p><p> I oversikten kan du se alle samtalene fra innboksene på et sted og svare på de i samtaler-fanen. </p><p> Du kan også se samtaler for hver enkelt innboks ved å klikke på innboksen på venstre siden av oversikten. </p>",
+    "LIST": {
+      "404": "Det er ingen innbokser tilknyttet denne kontoen."
+    },
+    "CREATE_FLOW": [
+      {
+        "title": "Velg kanal",
+        "route": "settings_inbox_new",
+        "body": "Velg tilbyderen du vil integrere med Chatwoot."
+      },
+      {
+        "title": "Opprett innboks",
+        "route": "settings_inboxes_page_channel",
+        "body": "Autoriser din konto og opprett en innboks."
+      },
+      {
+        "title": "Legg til agenter",
+        "route": "settings_inboxes_add_agents",
+        "body": "Legg agenter til i den opprettede innboksen."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "Klar - ferdig - gå!"
+      }
+    ],
+    "ADD": {
+      "FB": {
+        "HELP": "PS: Ved å logge inn får vi bare tilgang til meldingene til siden. Dine private meldinger vil aldri bli lest av Chatwoot.",
+        "CHOOSE_PAGE": "Velg side",
+        "CHOOSE_PLACEHOLDER": "Velg en side fra listen",
+        "INBOX_NAME": "Navn på innboks",
+        "ADD_NAME": "Legge til et navn på innboksen din",
+        "PICK_NAME": "Velg et navn din innboks",
+        "PICK_A_VALUE": "Velg en verdi"
+      },
+      "TWITTER": {
+        "HELP": "For å legge til din Twitter-profil som kanal, må du autorisere din Twitter-profil ved å klikke på 'Logg inn med Twitter' "
+      },
+      "WEBSITE_CHANNEL": {
+        "TITLE": "Nettsidekanal",
+        "DESC": "Opprett en kanal for nettstedet ditt og begynn å hjelpe kundene dine via nettstedswidgeten.",
+        "LOADING_MESSAGE": "Oppretter nettstedskanal",
+        "CHANNEL_AVATAR": {
+          "LABEL": "Kanal profilbilde"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Nettstedsnavn",
+          "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
+        },
+        "CHANNEL_DOMAIN": {
+          "LABEL": "Nettstedets domene",
+          "PLACEHOLDER": "Angi URL på nettsiden (f. eks.: acme.no)"
+        },
+        "CHANNEL_WELCOME_TITLE": {
+          "LABEL": "Velkomsttittel",
+          "PLACEHOLDER": "Tjohei!"
+        },
+        "CHANNEL_WELCOME_TAGLINE": {
+          "LABEL": "Velkomsthilsen undertittel",
+          "PLACEHOLDER": "Det skal være lett å kontakte oss. Spør oss om hva som helst, eller del din tilbakemelding."
+        },
+        "CHANNEL_GREETING_MESSAGE": {
+          "LABEL": "Kanalhilsen",
+          "PLACEHOLDER": "Acme AS pleier vanligvis å svare i løpet av noen timer."
+        },
+        "CHANNEL_GREETING_TOGGLE": {
+          "LABEL": "Aktiver kanalhilsen",
+          "HELP_TEXT": "Send en velkomstmelding til brukeren når hen starter samtalen.",
+          "ENABLED": "Aktivert",
+          "DISABLED": "Deaktivert"
+        },
+        "REPLY_TIME": {
+          "TITLE": "Angi svartid",
+          "IN_A_FEW_MINUTES": "Om noen få minutter",
+          "IN_A_FEW_HOURS": "Om noen få timer",
+          "IN_A_DAY": "Om en dag",
+          "HELP_TEXT": "Denne svartiden vil bli vist i live chat widgeten"
+        },
+        "WIDGET_COLOR": {
+          "LABEL": "Widget farge",
+          "PLACEHOLDER": "Oppdater fargen brukt i widgeten"
+        },
+        "SUBMIT_BUTTON": "Opprett innboks"
+      },
+      "TWILIO": {
+        "TITLE": "Twilio SMS/Whatsapp kanal",
+        "DESC": "Integrer Twilio for å støtte kundene dine via SMS eller Whatsapp.",
+        "ACCOUNT_SID": {
+          "LABEL": "Konto-SID",
+          "PLACEHOLDER": "Skriv inn din Twilio konto-SID",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "CHANNEL_TYPE": {
+          "LABEL": "Kanaltype",
+          "ERROR": "Velg din kanaltype"
+        },
+        "AUTH_TOKEN": {
+          "LABEL": "Autoriseringstoken",
+          "PLACEHOLDER": "Vennligst skriv inn din Twilio autoriseringstoken",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Vennligst skriv inn et kanalnavn",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Telefonnummer",
+          "PLACEHOLDER": "Vennligst angi telefonnummeret som meldinger skal sendes fra.",
+          "ERROR": "Skriv inn en gyldig verdi. Telefonnummeret skal starte med `+`-tegn."
+        },
+        "API_CALLBACK": {
+          "TITLE": "Callback URL",
+          "SUBTITLE": "Du må konfigurere callback URL for meldinger med URLen nevnt her."
+        },
+        "SUBMIT_BUTTON": "Opprett Twilio-kanal",
+        "API": {
+          "ERROR_MESSAGE": "Vi kunne ikke godkjenne Twilio legitimasjonsopplysningene, vennligst prøv igjen"
+        }
+      },
+      "API_CHANNEL": {
+        "TITLE": "API Kanal",
+        "DESC": "Integrer med en API-kanal for å støtte dine kunder.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Vennligst skriv inn et kanalnavn",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "WEBHOOK_URL": {
+          "LABEL": "Webhook URL",
+          "SUBTITLE": "Konfigurere nettadressen du vil motta callbacks fra hendelser.",
+          "PLACEHOLDER": "Webhook URL"
+        },
+        "SUBMIT_BUTTON": "Opprett API-kanal",
+        "API": {
+          "ERROR_MESSAGE": "Vi klarte ikke å lagre API-kanalen"
+        }
+      },
+      "EMAIL_CHANNEL": {
+        "TITLE": "E-postkanal",
+        "DESC": "Integrer din e-postinnboks.",
+        "CHANNEL_NAME": {
+          "LABEL": "Kanalnavn",
+          "PLACEHOLDER": "Vennligst skriv inn et kanalnavn",
+          "ERROR": "Dette feltet er obligatorisk"
+        },
+        "EMAIL": {
+          "LABEL": "E-post",
+          "SUBTITLE": "E-post der kundene dine sender deg henvendelser",
+          "PLACEHOLDER": "E-post"
+        },
+        "SUBMIT_BUTTON": "Opprett e-postkanal",
+        "API": {
+          "ERROR_MESSAGE": "Vi kunne ikke lagre e-postkanalen"
+        },
+        "FINISH_MESSAGE": "Begynn å videresende e-post til følgende e-postadresse."
+      },
+      "AUTH": {
+        "TITLE": "Kanaler",
+        "DESC": "Vi støtter for tiden live chat widgets, Facebook sider, Twitter profiler og Whatsapp. Vi har flere plattformer er på vei som e-post, Telegram og Line. Disse vil lanseres snart."
+      },
+      "AGENTS": {
+        "TITLE": "Agenter",
+        "DESC": "Her kan du legge til agenter for å administrere innboksen din. Bare de valgte agentene har tilgang til innboksen din. Agenter som ikke er en del av denne innboksen vil ikke kunne se eller svare på meldinger i denne innboksen når de logger inn. <br> <b>PS:</b> Dersom du som administrator trenger tilgang til alle innbokser, må du legge deg selv til som agent i alle innbokser du lager.",
+        "VALIDATION_ERROR": "Legg til minst én agent i den nye innboksen",
+        "PICK_AGENTS": "Velg agenter for innboksen"
+      },
+      "DETAILS": {
+        "TITLE": "Innboksdetaljer",
+        "DESC": "Fra listen under, velg facebook-siden du vil koble til Chatwoot. Du kan også gi innboksen et egendefinert navn for bedre identifisering."
+      },
+      "FINISH": {
+        "TITLE": "Den satt!",
+        "DESC": "Du er ferdig med å integrere din facebook-side med Chatwoot. Neste gang en kunde sender en melding fra siden din vil samtalen vises automatisk i innboksen din.<br>Vi gir deg også et widget skript som du enkelt kan legge til på nettstedet ditt. Når dette er direkte på din nettside kan kunder sende deg meldinger fra nettstedet ditt uten hjelp av eksterne verktøy og samtalen vil vises her, i Chatwoot.<br>Kult, eller hva? Vel, vi prøver :)"
+      }
+    },
+    "DETAILS": {
+      "LOADING_FB": "Autentiserer deg med Facebook...",
+      "ERROR_FB_AUTH": "Noe gikk galt, oppdater siden...",
+      "CREATING_CHANNEL": "Oppretter innboksen din...",
+      "TITLE": "Konfigurer innboksdetaljer",
+      "DESC": ""
+    },
+    "AGENTS": {
+      "BUTTON_TEXT": "Legg til agenter",
+      "ADD_AGENTS": "Legger til agenter i innboksen..."
+    },
+    "FINISH": {
+      "TITLE": "Innboksen din er klar!",
+      "MESSAGE": "Du kan nå kommunisere med kundene dine via den nye kanalen. Til lykke med kundeservicen!",
+      "BUTTON_TEXT": "Ta meg dit",
+      "WEBSITE_SUCCESS": "Du har nå fullført opprettingen av nettstedskanalen. Kopier koden nedenfor og lim den inn på nettstedet. Neste gang en kunde bruker live-chatten vil samtalen vises automatisk i innboksen din."
+    },
+    "REAUTH": "Reautoriser",
+    "VIEW": "Vis",
+    "EDIT": {
+      "API": {
+        "SUCCESS_MESSAGE": "Innboksinnstillinger ble oppdatert",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Autotildeling ble oppdatert",
+        "ERROR_MESSAGE": "Kunne ikke oppdatere widget-fargen. Prøv igjen senere."
+      },
+      "AUTO_ASSIGNMENT": {
+        "ENABLED": "Aktivert",
+        "DISABLED": "Deaktivert"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "MESSAGE": "Er du sikker på at du vil slette ",
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Innboksen ble slettet",
+        "ERROR_MESSAGE": "Kan ikke slette innboks. Prøv igjen senere."
+      }
+    },
+    "TABS": {
+      "SETTINGS": "Innstillinger",
+      "COLLABORATORS": "Samarbeidspartnere",
+      "CONFIGURATION": "Konfigurasjon"
+    },
+    "SETTINGS": "Innstillinger",
+    "FEATURES": {
+      "LABEL": "Funksjoner",
+      "DISPLAY_FILE_PICKER": "Vis filvelger i widget",
+      "DISPLAY_EMOJI_PICKER": "Vis emoji-velger i widget"
+    },
+    "SETTINGS_POPUP": {
+      "MESSENGER_HEADING": "Kopi av samtale",
+      "MESSENGER_SUB_HEAD": "Plasser denne knappen innenfor body-taggen",
+      "INBOX_AGENTS": "Agenter",
+      "INBOX_AGENTS_SUB_TEXT": "Legg til eller fjern agenter fra denne innboksen",
+      "UPDATE": "Oppdater",
+      "AUTO_ASSIGNMENT": "Aktiver autotilordning",
+      "INBOX_UPDATE_TITLE": "Innboksinnstillinger",
+      "INBOX_UPDATE_SUB_TEXT": "Oppdater innboksinnstillinger",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktiver eller deaktiver automatisk tildeling av nye samtaler til agenter som er lagt til i denne innboksen.",
+      "HMAC_VERIFICATION": "Brukeridentitetsvalidering",
+      "HMAC_DESCRIPTION": "For å bekrefte brukerens identitet vil SDK-en la deg legge inn en `identity_hash` for hver bruker. Du kan generere HMAC ved å benytte 'sha256' med nøkkelen vist her."
+    },
+    "FACEBOOK_REAUTHORIZE": {
+      "TITLE": "Reautoriser",
+      "SUBTITLE": "Facebook-tilkoblingen din er utløpt, koble til Facebook-siden din for å fortsette tjenester",
+      "MESSAGE_SUCCESS": "Ny tilkobling vellykket",
+      "MESSAGE_ERROR": "Det oppstod en feil. Prøv igjen"
+    }
+  }
+}
