@@ -49,6 +49,23 @@
             v-model="selectedEmailFlags"
             class="notification--checkbox"
             type="checkbox"
+            value="email_conversation_mention"
+            @input="handleEmailInput"
+          />
+          <label for="conversation_mention">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.CONVERSATION_MENTION'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
             value="email_assigned_conversation_new_message"
             @input="handleEmailInput"
           />
@@ -118,6 +135,23 @@
             {{
               $t(
                 'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_ASSIGNMENT'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="push_conversation_mention"
+            @input="handlePushInput"
+          />
+          <label for="conversation_mention">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_MENTION'
               )
             }}
           </label>

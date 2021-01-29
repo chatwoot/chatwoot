@@ -1,0 +1,61 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "HEADER": "Integrasjoner",
+    "WEBHOOK": {
+      "TITLE": "Webhook",
+      "CONFIGURE": "Konfigurer",
+      "HEADER": "Webhook-innstillinger",
+      "HEADER_BTN_TXT": "Legg til ny webhook",
+      "LOADING": "Henter tilknyttede webhooks",
+      "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks er HTTP callbacks, som kan defineres for hver konto. De utløses av hendelser som opprettelse av meldinger i Chatwoot. Du kan opprette mer enn en webhook for denne kontoen. <br /><br /> For å opprette en <b>webhook</b>, klikk på <b>Legg til ny webhook</b>. Du kan også fjerne en eksisterende webhook ved å klikke på slett.</p>",
+      "LIST": {
+        "404": "Det er ingen webhook-er konfigurert for denne kontoen.",
+        "TITLE": "Administrer webhooks",
+        "TABLE_HEADER": [
+          "Webhook endepunkt",
+          "Handlinger"
+        ]
+      },
+      "ADD": {
+        "CANCEL": "Avbryt",
+        "TITLE": "Legg til ny webhook",
+        "DESC": "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer i din Chatwoot-konto. Skriv inn en gyldig nettadresse for å konfigurere en callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Eksempel: https://example/api/webhook",
+            "ERROR": "Vennligst skriv inn en gyldig URL"
+          },
+          "SUBMIT": "Opprett webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook ble lagt til",
+          "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        }
+      },
+      "DELETE": {
+        "BUTTON_TEXT": "Slett",
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook ble slettet",
+          "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+        },
+        "CONFIRM": {
+          "TITLE": "Bekreft sletting",
+          "MESSAGE": "Er du sikker på at du vil slette ",
+          "YES": "Ja, slett ",
+          "NO": "Nei, behold den"
+        }
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "API": {
+        "SUCCESS_MESSAGE": "Integrasjonen ble slettet"
+      }
+    },
+    "CONNECT": {
+      "BUTTON_TEXT": "Koble til"
+    }
+  }
+}

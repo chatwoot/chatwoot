@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
       "SELECT_ONE": "Επιλέξτε ένα"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Ειδοποιήσεις",
+    "MARK_ALL_DONE": "Όλες ολοκληρωμένες",
+    "LIST": {
+      "LOADING_MESSAGE": "Φόρτωση ειδοποιήσεων...",
+      "404": "Καμία Ειδοποίηση",
+      "TABLE_HEADER": [
+        "Όνομα",
+        "Αριθμός Τηλεφώνου",
+        "Συζητήσεις",
+        "Τελευταία επικοινωνία"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Νέα συνομιλία",
+      "conversation_assignment": "Η Συνομιλία Ανατέθηκε",
+      "assigned_conversation_new_message": "Νέο Μήνυμα",
+      "conversation_mention": "Αναφορά"
+    }
   }
 }

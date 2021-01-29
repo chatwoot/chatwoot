@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Tekan enter untuk menghapus",
       "SELECT_ONE": "Pilih satu"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifikasi",
+    "MARK_ALL_DONE": "Tandai Semua Selesai",
+    "LIST": {
+      "LOADING_MESSAGE": "Memuat notifikasi...",
+      "404": "Tidak Ada Notifikasi",
+      "TABLE_HEADER": [
+        "Nama",
+        "Nomor Telpon",
+        "Percakapan",
+        "Terakhir Dihubungi"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Percakapan baru",
+      "conversation_assignment": "Percakapan ditugaskan",
+      "assigned_conversation_new_message": "Pesan Baru",
+      "conversation_mention": "Mention"
+    }
   }
 }

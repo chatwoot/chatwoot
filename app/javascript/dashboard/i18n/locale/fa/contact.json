@@ -34,9 +34,9 @@
       "NO_AVAILABLE_LABELS": "هیچ برچسبی به این گفتگو اضافه نشده است."
     },
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
-    "UNMUTE_CONTACT": "Unmute Conversation",
+    "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTED_SUCCESS": "این گفتگو از حالت بی صدا خارج شده است",
     "SEND_TRANSCRIPT": "ارسال متن",
     "EDIT_LABEL": "ویرایش"
   },
@@ -108,7 +108,7 @@
         "نام",
         "شماره تلفن",
         "گفتگوها",
-        "Last Contacted"
+        "آخرین تماس"
       ]
     }
   }

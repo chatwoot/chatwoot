@@ -1,0 +1,21 @@
+{
+  "LOGIN": {
+    "TITLE": "Logg inn i Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-post",
+      "PLACEHOLDER": "Eksempel: ola@nordmann.no"
+    },
+    "PASSWORD": {
+      "LABEL": "Passord",
+      "PLACEHOLDER": "Passord"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Innlogging vellykket",
+      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere",
+      "UNAUTH": "Brukernavn eller passord er feil. Prøv igjen"
+    },
+    "FORGOT_PASSWORD": "Glemt passord?",
+    "CREATE_NEW_ACCOUNT": "Opprett ny konto",
+    "SUBMIT": "Logg inn"
+  }
+}
