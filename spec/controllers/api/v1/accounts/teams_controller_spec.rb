@@ -75,7 +75,7 @@ RSpec.describe 'Teams API', type: :request do
       end
 
       it 'creates a new team when its administrator' do
-        params = { name: 'Test Team' }
+        params = { name: 'test-team' }
 
         post "/api/v1/accounts/#{account.id}/teams",
              params: params,
@@ -102,7 +102,7 @@ RSpec.describe 'Teams API', type: :request do
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
       it 'returns unauthorized for agent' do
-        params = { name: 'New Team' }
+        params = { name: 'new-team' }
 
         put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
             params: params,
@@ -113,7 +113,7 @@ RSpec.describe 'Teams API', type: :request do
       end
 
       it 'updates an existing team when its an administrator' do
-        params = { name: 'New Team' }
+        params = { name: 'new-team' }
 
         put "/api/v1/accounts/#{account.id}/teams/#{team.id}",
             params: params,
@@ -121,7 +121,7 @@ RSpec.describe 'Teams API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(team.reload.name).to eq('New Team')
+        expect(team.reload.name).to eq('new-team')
       end
     end
   end
