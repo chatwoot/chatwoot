@@ -5,6 +5,7 @@ import {
   SET_TEAM_ITEM,
   EDIT_TEAM,
   DELETE_TEAM,
+  ADD_AGENTS_TO_TEAM,
 } from './types';
 import TeamsAPI from '../../../api/teams';
 

@@ -29,7 +29,6 @@
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
-import TeamMembersAPI from '../../../../api/teamMembers';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader';
 import AgentSelector from './AgentSelector';
@@ -96,7 +95,10 @@ export default {
       const { teamId, selectedAgents } = this;
 
       try {
-        await TeamMembersAPI.addAgents({ teamId, agentList: selectedAgents });
+        await this.$store.dispatch('teams/addAgents', {
+          teamId,
+          agentsList: selectedAgents,
+        });
         router.replace({
           name: 'settings_teams_finish',
           params: {
