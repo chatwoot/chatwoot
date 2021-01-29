@@ -52,8 +52,9 @@ RSpec.describe 'Team Members API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'add a new team member when its administrator' do
-        params = { user_id: agent.id }
+      it 'add a new team members when its administrator' do
+        user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
+        params = { user_ids: user_ids }
 
         post "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
              params: params,
@@ -62,7 +63,7 @@ RSpec.describe 'Team Members API', type: :request do
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)
-        expect(json_response['id']).to eq(agent.id)
+        expect(json_response.count).to eq(user_ids.count)
       end
     end
   end
@@ -90,9 +91,10 @@ RSpec.describe 'Team Members API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'destroys the team member when its administrator' do
-        params = { user_id: agent.id }
-        create(:team_member, team: team, user: agent)
+      it 'destroys the team members when its administrator' do
+        user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
+        params = { user_ids: user_ids }
+
         delete "/api/v1/accounts/#{account.id}/teams/#{team.id}",
                params: params,
                headers: administrator.create_new_auth_token,
