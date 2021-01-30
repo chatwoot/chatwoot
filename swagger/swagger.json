@@ -1254,6 +1254,10 @@
           "type": "string",
           "description": "Script used to load the website widget"
         },
+        "web_widget_token": {
+          "type": "string",
+          "description": "Website widget token"
+        },
         "welcome_title": {
           "type": "string",
           "description": "Welcome title to be displayed on the widget"

@@ -241,6 +241,12 @@
           >
             <woot-code :script="inbox.web_widget_script"></woot-code>
           </settings-section>
+          <settings-section
+            :title="$t('INBOX_MGMT.SETTINGS_POPUP.DIRECT_LINK_HEADING')"
+          >
+            <woot-code :script="getDirectChatLink()" lang="plaintext">
+            </woot-code>
+          </settings-section>
 
           <settings-section
             :title="$t('INBOX_MGMT.SETTINGS_POPUP.HMAC_VERIFICATION')"
@@ -447,6 +453,12 @@ export default {
       this.avatarFile = file;
       this.avatarUrl = url;
     },
+    getDirectChatLink() {
+      const {
+        location: { origin },
+      } = window;
+      return `${origin}/widget?website_token=${this.inbox.web_widget_token}&locale=${this.$root.$i18n.locale}`;
+    },
   },
   validations: {
     selectedAgents: {
@@ -485,5 +497,9 @@ export default {
 
 .widget--feature-flag {
   padding-top: var(--space-small);
+}
+
+.direct-chat-link {
+  margin-top: 2rem;
 }
 </style>

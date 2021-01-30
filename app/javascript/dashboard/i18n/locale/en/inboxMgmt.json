@@ -234,6 +234,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
+      "DIRECT_LINK_HEADING": "Messenger Direct Chat Link",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",

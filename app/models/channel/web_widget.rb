@@ -66,6 +66,10 @@ class Channel::WebWidget < ApplicationRecord
     "
   end
 
+  def web_widget_token
+    website_token
+  end
+
   def create_contact_inbox(additional_attributes = {})
     ActiveRecord::Base.transaction do
       contact = inbox.account.contacts.create!(

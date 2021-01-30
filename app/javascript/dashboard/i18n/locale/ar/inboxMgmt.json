@@ -234,6 +234,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "كود \"الماسنجر\"",
+      "DIRECT_LINK_HEADING": "الرابط المباشر للمحادثة",
       "MESSENGER_SUB_HEAD": "ضع هذا الكود داخل وسم الـ body في موقعك",
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
