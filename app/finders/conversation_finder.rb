@@ -22,10 +22,12 @@ class ConversationFinder
 
   def perform
     set_inboxes
+    set_team
     set_assignee_type
 
     find_all_conversations
     filter_by_status unless params[:q]
+    filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
 
@@ -61,6 +63,10 @@ class ConversationFinder
     @assignee_type = params[:assignee_type]
   end
 
+  def set_team
+    @team = current_account.teams.find(params[:team_id]) if params[:team_id]
+  end
+
   def find_all_conversations
     @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
   end
@@ -85,6 +91,10 @@ class ConversationFinder
 
   def filter_by_status
     @conversations = @conversations.where(status: params[:status] || DEFAULT_STATUS)
+  end
+
+  def filter_by_team
+    @conversations = @conversations.where(team: @team)
   end
 
   def filter_by_labels
