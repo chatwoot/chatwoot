@@ -1,7 +1,5 @@
 class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Accounts::Conversations::BaseController
 
-  before_action :set_assignee
-
   # assigns agent/team to a conversation
   def create
     set_assignee
