@@ -40,7 +40,6 @@ describe ::ConversationFinder do
     context 'with team' do
       let(:team) { create(:team, account: account) }
       let(:params) { { team_id: team.id } }
-      
 
       it 'filter conversations by team' do
         create(:conversation, account: account, inbox: inbox, team: team)
