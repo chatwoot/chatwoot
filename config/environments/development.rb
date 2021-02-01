@@ -104,6 +104,9 @@ Rails.application.configure do
   # require 'syslog/logger'
   config.logger = ActiveSupport::Logger.new(Rails.root.join('log', "#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
+  # Allow web console for development mode.
+  config.web_console.permissions = '0.0.0.0/0'
+
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
     Bullet.enable = true
