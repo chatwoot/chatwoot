@@ -41,7 +41,7 @@ services:
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/rails.sh
-    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+    command: [ "bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0" ]
 
   sidekiq:
     <<: *base
@@ -59,7 +59,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    command: [ "bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml" ]
 
   webpack:
     <<: *base
@@ -85,19 +85,16 @@ services:
   postgres:
     image: postgres:12
     restart: always
+    env_file: .env
     ports:
       - '5432:5432'
     volumes:
       - postgres:/data/postgres
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
     restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    command: [ "sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\"" ]
     env_file: .env
     volumes:
       - redis:/data/redis
@@ -111,7 +108,7 @@ services:
       - 8025:8025
 
 volumes:
-  postgres:
+  postgres: {}
   redis:
   packs:
   node_modules:
