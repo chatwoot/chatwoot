@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', type: :request do
   let(:account) { create(:account) }
   let(:contact) { create(:contact, account: account) }
-  let(:inbox_1) { create(:inbox, account: account) }
+  let(:channel_twilio_sms) { create(:channel_twilio_sms, account: account) }
   let(:channel_api) { create(:channel_api, account: account) }
   let(:user) { create(:user, account: account) }
 
@@ -28,10 +28,10 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/contact_inboxes', typ
         expect(contact.reload.contact_inboxes.map(&:inbox_id)).to include(channel_api.inbox.id)
       end
 
-      it 'throws error when its not an api inbox' do
+      it 'throws error for invalid source id' do
         expect do
           post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contact_inboxes",
-               params: { inbox_id: inbox_1.id },
+               params: { inbox_id: channel_twilio_sms.inbox.id },
                headers: user.create_new_auth_token,
                as: :json
         end.to change(ContactInbox, :count).by(0)
