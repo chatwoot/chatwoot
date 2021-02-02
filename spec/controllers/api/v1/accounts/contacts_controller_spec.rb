@@ -43,6 +43,43 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/contacts/import' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/import"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user with out permission' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/contacts/import",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'creates a data import' do
+        file = fixture_file_upload(Rails.root.join('spec/assets/contacts.csv'), 'text/csv')
+        post "/api/v1/accounts/#{account.id}/contacts/import",
+             headers: admin.create_new_auth_token,
+             params: { import_file: file }
+
+        expect(response).to have_http_status(:success)
+        expect(account.data_imports.count).to eq(1)
+        expect(account.data_imports.first.import_file.attached?).to eq(true)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/contacts/active' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
