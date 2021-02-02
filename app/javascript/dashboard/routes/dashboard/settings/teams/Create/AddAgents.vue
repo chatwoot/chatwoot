@@ -19,6 +19,7 @@
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"
           :is-working="isCreating"
+          :submit-button-text="$t('TEAMS_SETTINGS.AGENTS.ADD.BUTTON_TEXT')"
         />
       </div>
     </form>
@@ -29,9 +30,9 @@
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
-import router from '../../../index';
-import PageHeader from '../SettingsSubPageHeader';
-import AgentSelector from './AgentSelector';
+import router from '../../../../index';
+import PageHeader from '../../SettingsSubPageHeader';
+import AgentSelector from '../AgentSelector';
 
 export default {
   components: {

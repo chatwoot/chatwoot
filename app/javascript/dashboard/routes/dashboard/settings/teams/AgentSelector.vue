@@ -63,7 +63,7 @@
         }}
       </p>
       <woot-submit-button
-        :button-text="$t('TEAMS_SETTINGS.AGENTS.BUTTON_TEXT')"
+        :button-text="submitButtonText"
         :loading="isWorking"
       />
     </div>
@@ -93,6 +93,10 @@ export default {
     isWorking: {
       type: Boolean,
       default: false,
+    },
+    submitButtonText: {
+      type: String,
+      default: '',
     },
   },
   data() {

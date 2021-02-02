@@ -25,7 +25,7 @@
               <td>
                 <div class="button-wrapper">
                   <router-link
-                    :to="addAccountScoping(`settings/teams/${item.id}`)"
+                    :to="addAccountScoping(`settings/teams/${item.id}/edit`)"
                   >
                     <woot-submit-button
                       v-if="isAdmin"

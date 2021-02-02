@@ -20,7 +20,8 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      return this.$t('TEAMS_SETTINGS.CREATE_FLOW').map(item => ({
+      const data = this.$t('TEAMS_SETTINGS.EDIT_FLOW');
+      return data.map(item => ({
         ...item,
         body: this.useInstallationName(
           item.body,

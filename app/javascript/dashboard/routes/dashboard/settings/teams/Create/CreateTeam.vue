@@ -10,15 +10,16 @@
         :modal-title="null"
         :modal-description="null"
         :submit-in-progress="false"
+        :submit-button-text="$t('TEAMS_SETTINGS.FORM.CREATE')"
       />
     </div>
   </div>
 </template>
 
 <script>
-import TeamForm from './TeamForm';
-import router from '../../../index';
-import PageHeader from '../SettingsSubPageHeader';
+import TeamForm from '../TeamForm';
+import router from '../../../../index';
+import PageHeader from '../../SettingsSubPageHeader';
 import alertMixin from 'shared/mixins/alertMixin';
 
 import { mapGetters } from 'vuex';

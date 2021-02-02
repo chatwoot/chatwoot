@@ -1,10 +1,12 @@
 /* eslint arrow-body-style: 0 */
 import SettingsContent from '../Wrapper';
 import InboxHome from './Index';
-import TeamStepWrap from './TeamStepWrap';
-import CreateTeam from './CreateTeam';
-import AddAgents from './AddAgents';
-import Settings from './Settings';
+import CreateStepWrap from './Create/Index';
+import EditStepWrap from './Edit/Index';
+import CreateTeam from './Create/CreateTeam';
+import EditTeam from './Edit/EditTeam';
+import AddAgents from './Create/AddAgents';
+import EditAgents from './Edit/EditAgents';
 import FinishSetup from './FinishSetup';
 import { frontendURL } from '../../../../helper/URLHelper';
 
@@ -37,7 +39,7 @@ export default {
         },
         {
           path: 'new',
-          component: TeamStepWrap,
+          component: CreateStepWrap,
           children: [
             {
               path: '',
@@ -46,7 +48,7 @@ export default {
               roles: ['administrator'],
             },
             {
-              path: ':inbox_id/finish',
+              path: ':team_id/finish',
               name: 'settings_teams_finish',
               component: FinishSetup,
               roles: ['administrator'],
@@ -60,10 +62,28 @@ export default {
           ],
         },
         {
-          path: ':inboxId',
-          name: 'settings_teams_show',
-          component: Settings,
-          roles: ['administrator'],
+          path: ':team_id/edit',
+          component: EditStepWrap,
+          children: [
+            {
+              path: '',
+              name: 'settings_teams_edit',
+              component: EditTeam,
+              roles: ['administrator'],
+            },
+            {
+              path: 'agents',
+              name: 'settings_teams_edit_members',
+              component: EditAgents,
+              roles: ['administrator'],
+            },
+            {
+              path: 'finish',
+              name: 'settings_teams_edit_finish',
+              roles: ['administrator'],
+              component: FinishSetup,
+            },
+          ],
         },
       ],
     },

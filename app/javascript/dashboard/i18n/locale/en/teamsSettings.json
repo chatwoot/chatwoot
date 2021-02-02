@@ -6,10 +6,14 @@
     "LIST": {
       "404": "There are no teams attached to this account."
     },
+    "FORM": {
+      "UPDATE": "Update team",
+      "CREATE": "Create team"
+    },
     "CREATE_FLOW": [
       {
         "title": "Create a new team",
-        "route": "settings_teams_create",
+        "route": "settings_teams_new",
         "body": "Create a new team of agents."
       },
       {
@@ -20,6 +24,23 @@
       {
         "title": "Voila!",
         "route": "settings_teams_finish",
+        "body": "You are all set to go!"
+      }
+    ],
+    "EDIT_FLOW": [
+      {
+        "title": "Edit team details",
+        "route": "settings_teams_edit",
+        "body": "Change name, description and other details."
+      },
+      {
+        "title": "Edit Agents",
+        "route": "settings_teams_edit_members",
+        "body": "Edit agents in your team."
+      },
+      {
+        "title": "Voila!",
+        "route": "settings_teams_edit_finish",
         "body": "You are all set to go!"
       }
     ],
@@ -37,13 +58,16 @@
       "DESC": "Add Agents to your newly created inbox. Only the added agents will have permissions to view conversations assigned to this team.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "BUTTON_TEXT": "Add agents"
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Update agents"
     },
     "FINISH": {
-      "TITLE": "Your Inbox is ready!",
+      "TITLE": "Your Team is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
-      "BUTTON_TEXT": "Take me there",
-      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
+      "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

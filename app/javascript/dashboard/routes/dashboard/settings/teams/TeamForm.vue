@@ -25,12 +25,6 @@
         />
 
         <div class="medium-12">
-          <label>
-            {{ $t('TEAMS_SETTINGS.FORM.COLOR.LABEL') }}
-            <woot-color-picker v-model="color" />
-          </label>
-        </div>
-        <div class="medium-12">
           <input v-model="allowAutoAssign" type="checkbox" :value="true" />
           <label for="conversation_creation">
             {{ $t('TEAMS_SETTINGS.FORM.AUTO_ASSIGN.LABEL') }}
@@ -40,7 +34,7 @@
           <div class="medium-12 columns">
             <woot-submit-button
               :disabled="$v.title.$invalid || submitInProgress"
-              :button-text="$t('TEAMS_SETTINGS.FORM.CREATE')"
+              :button-text="submitButtonText"
               :loading="submitInProgress"
             />
           </div>
@@ -76,13 +70,29 @@ export default {
       type: Boolean,
       default: false,
     },
+    formData: {
+      type: Object,
+      default: () => {},
+    },
+    submitButtonText: {
+      type: String,
+      default: '',
+    },
   },
   data() {
+    const formData = this.formData || {};
+    const {
+      color = '#000',
+      description = '',
+      name: title = '',
+      allow_auto_assign: allowAutoAssign = true,
+    } = formData;
+
     return {
-      color: '#000',
-      description: '',
-      title: '',
-      allowAutoAssign: true,
+      color,
+      description,
+      title,
+      allowAutoAssign,
     };
   },
   validations,
