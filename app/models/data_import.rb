@@ -26,4 +26,12 @@ class DataImport < ApplicationRecord
   enum status: { pending: 0, processing: 1, completed: 2, failed: 4 }
 
   has_one_attached :import_file
+
+  after_create_commit :process_data_import
+
+  private
+
+  def process_data_import
+    DataImportJob.perform_later(self)
+  end
 end
