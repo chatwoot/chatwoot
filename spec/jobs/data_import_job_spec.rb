@@ -12,7 +12,10 @@ RSpec.describe DataImportJob, type: :job do
   end
 
   it 'imports data into the account' do
+    csv_length = CSV.parse(data_import.import_file.download, headers: true).length
     described_class.perform_now(data_import)
-    expect(data_import.account.contacts.count).to eq(CSV.parse(data_import.import_file.download, headers: true).length)
+    expect(data_import.account.contacts.count).to eq(csv_length)
+    expect(data_import.reload.total_records).to eq(csv_length)
+    expect(data_import.reload.processed_records).to eq(csv_length)
   end
 end

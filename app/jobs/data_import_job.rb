@@ -6,10 +6,11 @@ class DataImportJob < ApplicationJob
 
   def perform(data_import)
     contacts = []
-    CSV.parse(data_import.import_file.download, headers: true) do |row|
-      contacts << build_contact(row.to_h.with_indifferent_access, data_import.account)
-    end
-    Contact.import contacts
+    data_import.update!(status: :processing)
+    csv = CSV.parse(data_import.import_file.download, headers: true)
+    csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, data_import.account) }
+    result = Contact.import contacts
+    data_import.update!(status: :completed, processed_records: csv.length - result.failed_instances.length, total_records: csv.length)
   end
 
   private
