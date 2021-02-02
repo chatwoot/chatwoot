@@ -9,7 +9,7 @@ class DataImportJob < ApplicationJob
     data_import.update!(status: :processing)
     csv = CSV.parse(data_import.import_file.download, headers: true)
     csv.each { |row| contacts << build_contact(row.to_h.with_indifferent_access, data_import.account) }
-    result = Contact.import contacts
+    result = Contact.import contacts, on_duplicate_key_update: :all, batch_size: 1000
     data_import.update!(status: :completed, processed_records: csv.length - result.failed_instances.length, total_records: csv.length)
   end
 
@@ -17,12 +17,25 @@ class DataImportJob < ApplicationJob
 
   def build_contact(params, account)
     # TODO: rather than doing the find or initialize individually lets fetch objects in bulk and update them in memory
-    key_attributes = [:identifier, :email, :name]
-    contact = account.contacts.find_or_initialize_by(identifier: params[:identifier]) if params[:identifier]
-    contact ||= account.contacts.find_or_initialize_by(email: params[:email]) if params[:email]
-    contact ||= account.contacts.new
-    contact.assign_attributes(params.slice(*key_attributes))
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(*key_attributes)))
+    contact = init_contact(params, account)
+
+    contact.name = params[:name] if params[:name].present?
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name)))
+
+    # since callbacks aren't triggered lets ensure a pubsub token
+    contact.pubsub_token ||= SecureRandom.base58(24)
+    contact
+  end
+
+  def init_contact(params, account)
+    identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
+    email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
+
+    # intiating the new contact / contact attributes only by ensuring the identifier or email duplication errors won't occur
+    contact = identifier_contact
+    contact.email = params[:email] if params[:email].present? && email_contact.blank?
+    contact ||= email_contact
+    contact ||= account.contacts.new(params.slice(*IDENTIFIER_ATTRIBUTES))
     contact
   end
 end
