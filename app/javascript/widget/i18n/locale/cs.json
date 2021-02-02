@@ -2,32 +2,32 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Stáhnout",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "Nahrávání..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Odeslat"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Jsme online",
+    "OFFLINE": "Jsme offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
+    "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
+    "IN_A_DAY": "Obvykle odpoví za den"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Zahájit konverzaci",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
     "CLOSE_MESSAGES_BUTTON": "Zavřít"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Napiště nám"
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "CHAT_PLACEHOLDER": "Zde začněte psát",
+  "TODAY": "Dnes",
+  "YESTERDAY": "Včera"
 }

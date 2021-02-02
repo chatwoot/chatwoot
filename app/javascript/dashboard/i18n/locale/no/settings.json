@@ -1,0 +1,145 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Brukerinnstillinger",
+    "TITLE": "Brukerinnstillinger",
+    "BTN_TEXT": "Oppdater profil",
+    "AFTER_EMAIL_CHANGED": "Din profil har blitt oppdatert, vennligst logg inn igjen ettersom din innloggingsinformasjon er endret",
+    "FORM": {
+      "AVATAR": "Profilbilde",
+      "ERROR": "Vennligst fiks skjemafeil",
+      "REMOVE_IMAGE": "Fjern",
+      "UPLOAD_IMAGE": "Last opp bilde",
+      "UPDATE_IMAGE": "Oppdater bilde",
+      "PROFILE_SECTION": {
+        "TITLE": "Profil",
+        "NOTE": "Din e-postadresse er din identitet og brukes til å logge inn."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "Passord",
+        "NOTE": "Oppdatering av passordet ditt nullstiller logger deg ut på andre enheter."
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Tilgangstoken",
+        "NOTE": "Dette tokenet kan brukes hvis du lager en API-basert integrasjon"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "E-postvarsler",
+        "NOTE": "Oppdater varslingsinnstillingene for e-post her",
+        "CONVERSATION_ASSIGNMENT": "Send e-postvarsler når en samtale er tildelt meg",
+        "CONVERSATION_CREATION": "Send e-postvarsler når en ny samtale opprettes",
+        "CONVERSATION_MENTION": "Send varsel på e-post når du er nevnt i en samtale",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-postvarsler når en ny melding opprettes i en tilordnet samtale"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Dine varslingsinnstillinger er oppdatert",
+        "UPDATE_ERROR": "Det oppstod en feil under oppdatering av innstillingene. Prøv igjen"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Pushvarsler",
+        "NOTE": "Oppdater dine push-varslingsinnstillinger her",
+        "CONVERSATION_ASSIGNMENT": "Send push-varsler når en samtale er tildelt meg",
+        "CONVERSATION_CREATION": "Send push-varsler når en ny samtale opprettes",
+        "CONVERSATION_MENTION": "Send pushvarslinger når du er nevnt i en samtale",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-varsler når en ny melding opprettes i en tilordnet samtale",
+        "HAS_ENABLED_PUSH": "Du har aktivert push-varsler for denne nettleseren.",
+        "REQUEST_PUSH": "Aktiver push-varsler"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profilbilde"
+      },
+      "NAME": {
+        "LABEL": "Ditt fulle navn",
+        "ERROR": "Vennligst oppgi et gyldig navn",
+        "PLACEHOLDER": "Skriv inn fullt navn"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Visningsnavn",
+        "ERROR": "Vennligst oppgi et gyldig visningsnavn",
+        "PLACEHOLDER": "Skriv inn et visningsnavn, dette vil bli vist i samtaler"
+      },
+      "AVAILABILITY": {
+        "LABEL": "Tilgjengelighet",
+        "STATUSES_LIST": [
+          "Pålogget",
+          "Opptatt",
+          "Frakoblet"
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Din e-postadresse",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse",
+        "PLACEHOLDER": "Vennligst skriv inn din e-postadresse, dette vises i samtaler"
+      },
+      "PASSWORD": {
+        "LABEL": "Passord",
+        "ERROR": "Skriv inn et passord som er 6 eller flere tegn langt",
+        "PLACEHOLDER": "Vennligst angi et nytt passord"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Bekreft nytt passord",
+        "ERROR": "Det bekreftende passordet burde samsvare med passordet",
+        "PLACEHOLDER": "Oppgi ditt passord på nytt"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Endre",
+    "CHANGE_ACCOUNTS": "Bytt konto",
+    "SELECTOR_SUBTITLE": "Velg en konto fra følgende liste",
+    "PROFILE_SETTINGS": "Brukerinnstillinger",
+    "LOGOUT": "Logg ut"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "dager gjenværende av prøveperioden.",
+    "TRAIL_BUTTON": "Kjøp nå"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Kopier",
+      "COPY_SUCCESSFUL": "Koden er kopiert til utklippstavlen"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Last ned",
+      "UPLOADING": "Laster opp..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Send"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifiserer...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Legg til innboks"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "Samtaler",
+    "REPORTS": "Rapporter",
+    "CONTACTS": "Kontakter",
+    "SETTINGS": "Innstillinger",
+    "HOME": "Hjem",
+    "AGENTS": "Agenter",
+    "INBOXES": "Innbokser",
+    "NOTIFICATIONS": "Varsler",
+    "CANNED_RESPONSES": "Forhåndslagde svar",
+    "INTEGRATIONS": "Integrasjoner",
+    "ACCOUNT_SETTINGS": "Kontoinnstillinger",
+    "LABELS": "Etiketter"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "Ny konto",
+    "SELECTOR_SUBTITLE": "Opprett ny konto",
+    "API": {
+      "SUCCESS_MESSAGE": "Kontoen ble opprettet",
+      "EXIST_MESSAGE": "Kontoen eksisterer allerede",
+      "ERROR_MESSAGE": "Kunne ikke koble til Woot Server, vennligst prøv igjen senere"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Kontonavn",
+        "PLACEHOLDER": "Ola's bedrift"
+      },
+      "SUBMIT": "Send"
+    }
+  }
+}

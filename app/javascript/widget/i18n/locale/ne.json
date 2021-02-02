@@ -1,0 +1,33 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "डाउनलोड",
+      "UPLOADING": "अपलोड गर्दै..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "बुझाउनुहोस्"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "हामी अनलाइन छौं",
+    "OFFLINE": "हामी अफलाईन छौं"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "धेरै जसो केहि मिनेटमा जवाफ हुन्छ",
+    "IN_A_FEW_HOURS": "धेरै जसो केहि घण्टामा जवाफ हुन्छ",
+    "IN_A_DAY": "धेरै जसो एक दिनमा जवाफ हुन्छ"
+  },
+  "START_CONVERSATION": "कुराकानी सुरु गर्नुहोस्",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "नयाँ सन्देशहरू हेर्नुहोस्",
+    "CLOSE_MESSAGES_BUTTON": "बन्दा गार्नुहोस्"
+  },
+  "BUBBLE": {
+    "LABEL": "हामीसँग कुराकानी गर्नुहोस्"
+  },
+  "POWERED_BY": "Chatwoot द्वारा संचालित",
+  "EMAIL_PLACEHOLDER": "कृपया तपाईंको ईमेल दिनुहोस्",
+  "CHAT_PLACEHOLDER": "तपाईंको सन्देश टाइप गर्नुहोस्",
+  "TODAY": "आज",
+  "YESTERDAY": "भोली"
+}

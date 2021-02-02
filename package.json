@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -12,7 +12,7 @@
     "start:dev": "foreman start -f ./Procfile.dev"
   },
   "dependencies": {
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema/tarball/main",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#45e4efcc150e6674be02bc524061373b39cfed40",
     "@rails/actioncable": "^6.0.0",
     "@rails/webpacker": "^5.2.0",
     "axios": "^0.21.1",

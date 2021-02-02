@@ -27,6 +27,7 @@
         "NOTE": "உங்கள் ஈமெயில் வழியான அறிவிப்பு தொடர்பான விருப்பங்களை இங்கே புதுப்பிக்கவும்",
         "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்பட்டால் ஈமெயிலில் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது ஈ-மெயிலில் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "உங்கள் புஷ் அறிவிப்பு விருப்பங்களை இங்கே புதுப்பிக்கவும்",
         "CONVERSATION_ASSIGNMENT": "ஒரு உரையாடல் எனக்கு ஒதுக்கப்படும் போது புஷ் அறிவிப்புகளை அனுப்பவும்",
         "CONVERSATION_CREATION": "புதிய உரையாடல் உருவாக்கப்படும்போது புஷ் அறிவிப்புகளை அனுப்பவும்",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
         "HAS_ENABLED_PUSH": "இந்த பிரௌசருக்கான புஷ் அறிவிப்புகளை இயக்கியுள்ளீர்கள்.",
         "REQUEST_PUSH": "புஷ் அறிவிப்புகளை இயக்கு"
@@ -118,6 +120,7 @@
     "HOME": "முகப்பு",
     "AGENTS": "ஏஜென்ட்கள்",
     "INBOXES": "இன்பாக்ஸ்கள்",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "பதிவு செய்யப்பட்ட பதில்கள்",
     "INTEGRATIONS": "சேர்ப்புகள்",
     "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",

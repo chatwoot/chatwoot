@@ -27,6 +27,7 @@
         "NOTE": "Mettez à jour vos préférences de notification par courriel ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications par courriel lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications par courriel quand une nouvelle conversation est créée",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications par courriel lorsqu'un nouveau message est créé dans une conversation assignée"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Mettez à jour vos préférences de notification push ici",
         "CONVERSATION_ASSIGNMENT": "Envoyer des notifications push lorsqu'une conversation m'est assignée",
         "CONVERSATION_CREATION": "Envoyer des notifications push quand une nouvelle conversation est créée",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envoyer des notifications push lorsqu'un nouveau message est créé dans une conversation assignée",
         "HAS_ENABLED_PUSH": "Vous avez activé les notifications pour ce navigateur.",
         "REQUEST_PUSH": "Activer les notifications push"
@@ -118,6 +120,7 @@
     "HOME": "Accueil",
     "AGENTS": "Agents",
     "INBOXES": "Boîtes de réception",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Réponses standardisées",
     "INTEGRATIONS": "Intégrations",
     "ACCOUNT_SETTINGS": "Paramètres du compte",

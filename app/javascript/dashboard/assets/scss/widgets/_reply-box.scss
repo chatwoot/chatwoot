@@ -8,22 +8,6 @@
   }
 
   .reply-box__top {
-    .canned {
-      background: var(--white);
-      border-bottom: var(--space-small) solid var(--white);
-      border-top: 1px solid var(--color-border);
-      left: 0;
-      max-height: 14rem;
-      overflow: auto;
-      padding-top: var(--space-small);
-      position: absolute;
-      width: 100%;
-      z-index: 100;
-
-      .active a {
-        background: $color-woot;
-      }
-    }
 
     .icon {
       color: $medium-gray;
