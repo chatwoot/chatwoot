@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'factory_helpers'
-
 FactoryBot.define do
   factory :contact_inbox do
     contact

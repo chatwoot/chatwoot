@@ -27,15 +27,20 @@ class DataImportJob < ApplicationJob
     contact
   end
 
-  def init_contact(params, account)
+  def get_identified_contacts(params, account)
     identifier_contact = account.contacts.find_by(identifier: params[:identifier]) if params[:identifier]
     email_contact = account.contacts.find_by(email: params[:email]) if params[:email]
+    [identifier_contact, email_contact]
+  end
+
+  def init_contact(params, account)
+    identifier_contact, email_contact = get_identified_contacts(params, account)
 
     # intiating the new contact / contact attributes only by ensuring the identifier or email duplication errors won't occur
     contact = identifier_contact
-    contact.email = params[:email] if params[:email].present? && email_contact.blank?
+    contact&.email = params[:email] if params[:email].present? && email_contact.blank?
     contact ||= email_contact
-    contact ||= account.contacts.new(params.slice(*IDENTIFIER_ATTRIBUTES))
+    contact ||= account.contacts.new(params.slice(:email, :identifier))
     contact
   end
 end
