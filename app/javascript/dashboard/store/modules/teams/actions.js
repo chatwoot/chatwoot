@@ -14,18 +14,18 @@ export const actions = {
     try {
       const response = await TeamsAPI.create(teamInfo);
       const team = response.data;
-      commit(SET_TEAM_UI_FLAG, { isCreating: false });
       commit(SET_TEAM_ITEM, team);
       return team;
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_UI_FLAG, { isCreating: false });
-      throw error;
     }
   },
-  get: async ({ commit }, { page = 1 } = {}) => {
+  get: async ({ commit }) => {
     commit(SET_TEAM_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await TeamsAPI.get(page);
+      const { data } = await TeamsAPI.get();
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
 
@@ -55,8 +55,9 @@ export const actions = {
     try {
       const response = await TeamsAPI.update(id, updateObj);
       commit(EDIT_TEAM, response.data.payload);
-      commit(SET_TEAM_UI_FLAG, { isUpdating: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_UI_FLAG, { isUpdating: false });
     }
   },
@@ -66,13 +67,10 @@ export const actions = {
     try {
       await TeamsAPI.delete(teamId);
       commit(DELETE_TEAM, teamId);
-      commit(SET_TEAM_UI_FLAG, { isDeleting: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_UI_FLAG, { isDeleting: false });
     }
-  },
-
-  setTeam({ commit }, data) {
-    commit(SET_TEAM_ITEM, data);
   },
 };

@@ -9,7 +9,4 @@ export const getters = {
     const team = $state.records[id];
     return team || {};
   },
-  getMeta: $state => {
-    return $state.meta;
-  },
 };

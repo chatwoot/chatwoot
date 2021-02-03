@@ -3,7 +3,6 @@ import {
   SET_TEAM_UI_FLAG,
   CLEAR_TEAMS,
   SET_TEAMS,
-  SET_TEAM_META,
   SET_TEAM_ITEM,
   EDIT_TEAM,
   DELETE_TEAM,
@@ -19,12 +18,6 @@ export const mutations = {
 
   [CLEAR_TEAMS]: $state => {
     Vue.set($state, 'records', {});
-  },
-
-  [SET_TEAM_META]: ($state, data) => {
-    const { count, current_page: currentPage } = data;
-    Vue.set($state.meta, 'count', count);
-    Vue.set($state.meta, 'currentPage', currentPage);
   },
 
   [SET_TEAMS]: ($state, data) => {
