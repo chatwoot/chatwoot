@@ -5,7 +5,7 @@ FactoryBot.define do
     contact
     inbox
 
-    after(:build) { |contact_inbox| contact_inbox.source_id = generate_source_id(contact_inbox) }
+    after(:build) { |contact_inbox| contact_inbox.source_id ||= generate_source_id(contact_inbox) }
   end
 end
 
