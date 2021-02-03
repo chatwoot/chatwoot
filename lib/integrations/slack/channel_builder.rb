@@ -23,7 +23,7 @@ class Integrations::Slack::ChannelBuilder
   def find_or_create_channel
     current_list = slack_client.conversations_list
     channels = current_list.channels
-    while !current_list.response_metadata.next_cursor.empty?
+    while current_list.response_metadata.next_cursor.present?
       current_list = slack_client.conversations_list(cursor: current_list.response_metadata.next_cursor)
       channels.concat(current_list.channels)
     end
