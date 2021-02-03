@@ -28,7 +28,7 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.get({ commit }).rejects.toThrow(Error);
+      await expect(actions.get({ commit })).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [SET_TEAM_UI_FLAG, { isFetching: true }],
         [SET_TEAM_UI_FLAG, { isFetching: false }],

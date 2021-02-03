@@ -19,8 +19,7 @@ export const getters = {
     return _state.uiFlags;
   },
   getTeamMembers: $state => id => {
-    const members = $state.records[id];
-    return members || {};
+    return $state.records[id] || [];
   },
 };
 
@@ -36,22 +35,11 @@ export const actions = {
       commit(SET_TEAM_MEMBERS_UI_FLAG, { isFetching: false });
     }
   },
-  update: async ({ commit }, { agentsList, teamId }) => {
-    commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: true });
-    try {
-      const response = await TeamsAPI.updateAgents({ agentsList, teamId });
-      commit(ADD_AGENTS_TO_TEAM, response);
-    } catch (error) {
-      throw new Error(error);
-    } finally {
-      commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false });
-    }
-  },
   create: async ({ commit }, { agentsList, teamId }) => {
-    commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: true });
+    commit(SET_TEAM_MEMBERS_UI_FLAG, { isCreating: true });
     try {
-      const response = await TeamsAPI.addAgents({ agentsList, teamId });
-      commit(ADD_AGENTS_TO_TEAM, response);
+      const { data } = await TeamsAPI.addAgents({ agentsList, teamId });
+      commit(ADD_AGENTS_TO_TEAM, { teamId, data });
     } catch (error) {
       throw new Error(error);
     } finally {
