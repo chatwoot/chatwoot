@@ -21,10 +21,10 @@ export const mutations = {
   },
 
   [SET_TEAMS]: ($state, data) => {
-    data.forEach(contact => {
-      Vue.set($state.records, contact.id, {
-        ...($state.records[contact.id] || {}),
-        ...contact,
+    data.forEach(team => {
+      Vue.set($state.records, team.id, {
+        ...($state.records[team.id] || {}),
+        ...team,
       });
     });
   },

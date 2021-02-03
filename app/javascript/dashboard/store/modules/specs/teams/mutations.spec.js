@@ -9,7 +9,7 @@ import { mutations } from '../../teams/mutations';
 import teams from './fixtures';
 describe('#mutations', () => {
   describe('#SET_teams', () => {
-    it('set label records', () => {
+    it('set teams records', () => {
       const state = { records: {} };
       mutations[SET_TEAMS](state, [teams[1]]);
       expect(state.records).toEqual(teams);
@@ -17,7 +17,7 @@ describe('#mutations', () => {
   });
 
   describe('#ADD_TEAM', () => {
-    it('push newly created label to the store', () => {
+    it('push newly created teams to the store', () => {
       const state = { records: {} };
       mutations[SET_TEAM_ITEM](state, teams[1]);
       expect(state.records).toEqual({ 1: teams[1] });
@@ -25,7 +25,7 @@ describe('#mutations', () => {
   });
 
   describe('#EDIT_TEAM', () => {
-    it('update label record', () => {
+    it('update teams record', () => {
       const state = { records: [teams[1]] };
       mutations[EDIT_TEAM](state, {
         id: 1,
@@ -36,7 +36,7 @@ describe('#mutations', () => {
   });
 
   describe('#DELETE_TEAM', () => {
-    it('delete label record', () => {
+    it('delete teams record', () => {
       const state = { records: { 1: teams[1] } };
       mutations[DELETE_TEAM](state, 1);
       expect(state.records).toEqual({});
@@ -44,7 +44,7 @@ describe('#mutations', () => {
   });
 
   describe('#CLEAR_TEAMS', () => {
-    it('delete label record', () => {
+    it('delete teams record', () => {
       const state = { records: { 1: teams[1] } };
       mutations[CLEAR_TEAMS](state);
       expect(state.records).toEqual({});

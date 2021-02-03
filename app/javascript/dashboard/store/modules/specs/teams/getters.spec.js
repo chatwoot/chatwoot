@@ -24,20 +24,16 @@ describe('#getters', () => {
   it('getUIFlags', () => {
     const state = {
       uiFlags: {
-        isFetching: true,
-        isFetchingItem: false,
+        isFetching: false,
         isCreating: false,
         isUpdating: false,
-        isUpdatingAutoAssignment: false,
         isDeleting: false,
       },
     };
     expect(getters.getUIFlags(state)).toEqual({
-      isFetching: true,
-      isFetchingItem: false,
+      isFetching: false,
       isCreating: false,
       isUpdating: false,
-      isUpdatingAutoAssignment: false,
       isDeleting: false,
     });
   });
