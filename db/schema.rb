@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_121313) do
+ActiveRecord::Schema.define(version: 2021_02_01_150037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -239,6 +239,18 @@ ActiveRecord::Schema.define(version: 2021_01_26_121313) do
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+  end
+
+  create_table "data_imports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "data_type", null: false
+    t.integer "status", default: 0, null: false
+    t.text "processing_errors"
+    t.integer "total_records"
+    t.integer "processed_records"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_data_imports_on_account_id"
   end
 
   create_table "email_templates", force: :cascade do |t|
@@ -585,6 +597,7 @@ ActiveRecord::Schema.define(version: 2021_01_26_121313) do
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
+  add_foreign_key "data_imports", "accounts"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
   add_foreign_key "teams", "accounts"
