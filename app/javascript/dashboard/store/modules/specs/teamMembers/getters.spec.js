@@ -5,10 +5,10 @@ describe('#getters', () => {
   it('getTeamMembers', () => {
     const state = {
       records: {
-        1: teamMembers[0],
+        1: [teamMembers[0]],
       },
     };
-    expect(getters.getTeamMembers(state)(1)).toEqual(teamMembers[0]);
+    expect(getters.getTeamMembers(state)(1)).toEqual([teamMembers[0]]);
   });
 
   it('getUIFlags', () => {
