@@ -1,10 +1,10 @@
 import Vue from 'vue';
 import TeamsAPI from '../../api/teams';
 
-const SET_TEAM_MEMBERS_UI_FLAG = 'SET_TEAM_MEMBERS_UI_FLAG';
-const ADD_AGENTS_TO_TEAM = 'ADD_AGENTS_TO_TEAM';
+export const SET_TEAM_MEMBERS_UI_FLAG = 'SET_TEAM_MEMBERS_UI_FLAG';
+export const ADD_AGENTS_TO_TEAM = 'ADD_AGENTS_TO_TEAM';
 
-const state = {
+export const state = {
   records: {},
   uiFlags: {
     isFetching: false,
@@ -14,7 +14,7 @@ const state = {
   },
 };
 
-const getters = {
+export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
@@ -24,14 +24,15 @@ const getters = {
   },
 };
 
-const actions = {
+export const actions = {
   get: async ({ commit }, { teamId }) => {
     commit(SET_TEAM_MEMBERS_UI_FLAG, { isFetching: true });
     try {
       const { data } = await TeamsAPI.getAgents({ teamId });
       commit(ADD_AGENTS_TO_TEAM, { data, teamId });
-      commit(SET_TEAM_MEMBERS_UI_FLAG, { isFetching: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_MEMBERS_UI_FLAG, { isFetching: false });
     }
   },
@@ -40,8 +41,9 @@ const actions = {
     try {
       const response = await TeamsAPI.updateAgents({ agentsList, teamId });
       commit(ADD_AGENTS_TO_TEAM, response);
-      commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false });
     }
   },
@@ -50,14 +52,15 @@ const actions = {
     try {
       const response = await TeamsAPI.addAgents({ agentsList, teamId });
       commit(ADD_AGENTS_TO_TEAM, response);
-      commit(SET_TEAM_MEMBERS_UI_FLAG, { isCreating: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_MEMBERS_UI_FLAG, { isCreating: false });
     }
   },
 };
 
-const mutations = {
+export const mutations = {
   [SET_TEAM_MEMBERS_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,

@@ -28,9 +28,9 @@ export const actions = {
       const { data } = await TeamsAPI.get();
       commit(CLEAR_TEAMS);
       commit(SET_TEAMS, data);
-
-      commit(SET_TEAM_UI_FLAG, { isFetching: false });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_UI_FLAG, { isFetching: false });
     }
   },
@@ -44,6 +44,8 @@ export const actions = {
         isFetchingItem: false,
       });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(SET_TEAM_UI_FLAG, {
         isFetchingItem: false,
       });
