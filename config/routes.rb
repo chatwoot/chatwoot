@@ -67,6 +67,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              post :import
             end
             scope module: :contacts do
               resources :conversations, only: [:index]

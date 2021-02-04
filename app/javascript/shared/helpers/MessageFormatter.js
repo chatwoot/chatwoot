@@ -10,7 +10,7 @@ const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
 const TWITTER_HASH_REPLACEMENT =
   '$1<a href="https://twitter.com/hashtag/$2" target="_blank" rel="noreferrer nofollow noopener">#$2</a>';
 
-const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/([\w\s]+)/gm;
+const USER_MENTIONS_REGEX = /mention:\/\/(user|team)\/(\d+)\/(.+)/gm;
 
 class MessageFormatter {
   constructor(message, isATweet = false) {
