@@ -6,7 +6,9 @@ json.avatar_url resource.avatar_url
 json.confirmed resource.confirmed?
 json.display_name resource.display_name
 json.email resource.email
-json.hmac_identifier resource.hmac_identifier
+if GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY'].present?
+  json.hmac_identifier resource.hmac_identifier
+end
 json.id resource.id
 json.inviter_id resource.active_account_user&.inviter_id
 json.name resource.name
