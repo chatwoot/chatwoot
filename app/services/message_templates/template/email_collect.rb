@@ -28,6 +28,7 @@ class MessageTemplates::Template::EmailCollect
     }
   end
 
+  # TODO: Take WhatsApp/Facebook account by defining a new template.
   def email_input_box_template_message_params
     content = I18n.t('conversations.templates.email_input_box_message_body',
                      account_name: account.name)

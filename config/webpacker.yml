@@ -55,6 +55,7 @@ development:
 
   # Verifies that correct packages and versions are installed by inspecting package.json, yarn.lock, and node_modules
   check_yarn_integrity: true
+  devtool: source-map
 
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:

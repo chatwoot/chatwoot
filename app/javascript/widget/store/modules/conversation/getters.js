@@ -16,6 +16,14 @@ export const getters = {
     return {};
   },
   getGroupedConversation: _state => {
+    _state.conversations['0'] = {
+      showAvatar: true,
+      content: 'Hello 🌸, have you heard about Islam before?',
+      message_type: 3,
+      content_type: 'text',
+      content_attributes: {},
+      created_at: new Date().getTime() / 1000,
+    };
     const conversationGroupedByDate = groupBy(
       Object.values(_state.conversations),
       message => formatUnixDate(message.created_at)

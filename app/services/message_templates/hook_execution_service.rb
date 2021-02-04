@@ -3,10 +3,11 @@ class MessageTemplates::HookExecutionService
 
   def perform
     return if inbox.agent_bot_inbox&.active?
-
-    ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
-    ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
-    ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
+    # TODO: modify to take appropriate user contact, for example take WhatsApp/Facebook account
+    # if the agent isn't available.
+    # ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
+    # ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
+    # ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
   end
 
   private
