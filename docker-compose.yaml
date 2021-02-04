@@ -89,7 +89,7 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres-data:/var/lib/postgresql/data
 
   redis:
     image: redis:alpine
@@ -108,7 +108,7 @@ services:
       - 8025:8025
 
 volumes:
-  postgres: {}
+  postgres-data:
   redis:
   packs:
   node_modules:
