@@ -1,17 +1,17 @@
 # if you dont specify locked attribute, the default value will be true
 # which means the particular config will be locked
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Islammessage'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
   value: '/brand-assets/logo.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.islammessage.org'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.islammessage.org'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Islammessage'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
@@ -28,5 +28,5 @@
   value: false
   locked: false
 - name: INSTALLATION_EVENTS_WEBHOOK_URL
-  value: 
+  value:
   locked: false

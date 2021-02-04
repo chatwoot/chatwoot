@@ -14,3 +14,5 @@ export const MESSAGE_TYPE = {
 };
 
 export const WOOT_PREFIX = 'chatwoot-widget:';
+
+export const DEFAULT_BOT_NAME = 'Welcome Message';

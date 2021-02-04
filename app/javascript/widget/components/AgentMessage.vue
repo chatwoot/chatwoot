@@ -63,7 +63,7 @@ import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble';
 import FileBubble from 'widget/components/FileBubble';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import { MESSAGE_TYPE, DEFAULT_BOT_NAME } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
 export default {
@@ -117,12 +117,12 @@ export default {
     },
     agentName() {
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
-        return 'Bot';
+        return DEFAULT_BOT_NAME;
       }
       if (this.message.sender) {
         return this.message.sender.available_name || this.message.sender.name;
       }
-      return 'Bot';
+      return DEFAULT_BOT_NAME;
     },
     avatarUrl() {
       // eslint-disable-next-line
