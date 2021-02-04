@@ -29,7 +29,7 @@
                   >
                     <woot-submit-button
                       v-if="isAdmin"
-                      :button-text="$t('TEAMS_SETTINGS.SETTINGS')"
+                      :button-text="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
                       icon-class="ion-gear-b"
                       button-class="link hollow grey-btn"
                     />

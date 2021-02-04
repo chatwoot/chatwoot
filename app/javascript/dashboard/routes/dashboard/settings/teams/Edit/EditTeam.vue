@@ -1,8 +1,8 @@
 <template>
   <div class="wizard-body small-9 columns">
     <page-header
-      :header-title="$t('TEAMS_SETTINGS.ADD.AUTH.TITLE')"
-      :header-content="$t('TEAMS_SETTINGS.ADD.AUTH.DESC')"
+      :header-title="$t('TEAMS_SETTINGS.EDIT.TITLE')"
+      :header-content="$t('TEAMS_SETTINGS.EDIT.DESC')"
     />
     <div class="row channels">
       <team-form

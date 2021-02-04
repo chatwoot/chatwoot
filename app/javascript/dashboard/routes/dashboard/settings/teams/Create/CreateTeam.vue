@@ -1,8 +1,8 @@
 <template>
   <div class="wizard-body small-9 columns">
     <page-header
-      :header-title="$t('TEAMS_SETTINGS.ADD.AUTH.TITLE')"
-      :header-content="$t('TEAMS_SETTINGS.ADD.AUTH.DESC')"
+      :header-title="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.TITLE')"
+      :header-content="$t('TEAMS_SETTINGS.CREATE_FLOW.CREATE.DESC')"
     />
     <div class="row channels">
       <team-form
@@ -10,7 +10,7 @@
         :modal-title="null"
         :modal-description="null"
         :submit-in-progress="false"
-        :submit-button-text="$t('TEAMS_SETTINGS.FORM.CREATE')"
+        :submit-button-text="$t('TEAMS_SETTINGS.FORM.SUBMIT_CREATE')"
       />
     </div>
   </div>

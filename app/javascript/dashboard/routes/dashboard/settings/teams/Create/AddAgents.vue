@@ -19,7 +19,7 @@
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"
           :is-working="isCreating"
-          :submit-button-text="$t('TEAMS_SETTINGS.AGENTS.ADD.BUTTON_TEXT')"
+          :submit-button-text="$t('TEAMS_SETTINGS.ADD.BUTTON_TEXT')"
         />
       </div>
     </form>

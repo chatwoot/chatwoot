@@ -2,33 +2,38 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Create new team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Organizing agents into teams let you use chatwoot the way your company is structured or to  segment the agents by their responsibilities. <br /> With Chatwoot you can create multiple teams and can have any number of agents, also a user can be part of multiple teams. <br/> You can assign conversations in chatwoot to a team so that it becomes a shared responsibility. </p>",
     "LIST": {
-      "404": "There are no teams attached to this account."
+      "404": "There are no teams attached to this account.",
+      "EDIT_TEAM": "Edit team"
     },
     "FORM": {
       "UPDATE": "Update team",
       "CREATE": "Create team"
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Create a new team",
-        "route": "settings_teams_new",
-        "body": "Create a new team of agents."
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Create a new team",
+        "DESC": "Add a title and description to your new team."
       },
-      {
-        "title": "Add Agents",
-        "route": "settings_teams_add_agents",
-        "body": "Add agents to the created team."
-      },
-      {
-        "title": "Voila!",
-        "route": "settings_teams_finish",
-        "body": "You are all set to go!"
-      }
-    ],
-    "EDIT_FLOW": [
-      {
+      "WIZARD": [{
+          "title": "Create",
+          "route": "settings_teams_new",
+          "body": "Create a new team of agents."
+        },
+        {
+          "title": "Add Agents",
+          "route": "settings_teams_add_agents",
+          "body": "Add agents to the created team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_finish",
+          "body": "You are all set to go!"
+        }
+      ]
+    },
+    "EDIT_FLOW": [{
         "title": "Edit team details",
         "route": "settings_teams_edit",
         "body": "Change name, description and other details."
@@ -48,21 +53,24 @@
       "AGENT": "AGENT",
       "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox...",
+      "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
       "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created inbox. Only the added agents will have permissions to view conversations assigned to this team.",
+      "DESC": "Add Agents to your newly created team. Only the added agents will have permissions to view conversations assigned to this team.",
       "SELECT": "select",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "Add agents"
     },
+
     "EDIT": {
-      "BUTTON_TEXT": "Update agents"
+      "BUTTON_TEXT": "Update agents in team",
+      "TITLE": "Add agents to team - %{teamName}",
+      "DESC": "Add Agents to your newly created inbox. All the added agents will be notified when a conversation is assigned to this team."
     },
     "FINISH": {
       "TITLE": "Your Team is ready!",
@@ -76,6 +84,20 @@
         "NO": "Cancel"
       }
     },
-    "SETTINGS": "Settings"
+    "SETTINGS": "Settings",
+    "FORM": {
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "Create team"
+    }
   }
 }

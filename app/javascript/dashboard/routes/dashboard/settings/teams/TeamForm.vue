@@ -1,10 +1,6 @@
 <template>
   <div class="row">
-    <div class="column content-box">
-      <woot-modal-header
-        :header-title="modalTitle"
-        :header-content="modalDescription"
-      />
+    <div class="small-12 medium-8 columns">
       <form class="row" @submit.prevent="handleSubmit">
         <woot-input
           v-model.trim="title"
