@@ -136,6 +136,7 @@ export default {
   validations: {
     name: {
       required,
+      minLength: minLength(1),
     },
     displayName: {},
     email: {
