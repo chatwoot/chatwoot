@@ -146,7 +146,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .search--button {
   align-items: center;
   border: 0;
@@ -158,6 +158,12 @@ export default {
   padding: var(--space-normal) var(--space-normal) var(--space-slab);
   text-align: left;
   line-height: var(--font-size-large);
+
+  &:hover {
+    .search--icon {
+      color: var(--w-500);
+    }
+  }
 }
 
 .search--icon {
