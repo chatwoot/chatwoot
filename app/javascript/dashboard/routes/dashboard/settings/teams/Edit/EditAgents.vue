@@ -15,6 +15,7 @@
           </p>
         </div>
         <agent-selector
+          v-if="showAgentsList"
           :agent-list="agentList"
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"
@@ -23,6 +24,7 @@
             $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
           "
         />
+        <spinner v-else />
       </div>
     </form>
   </div>
@@ -31,6 +33,7 @@
 <script>
 /* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
+import Spinner from 'shared/components/Spinner';
 
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
@@ -38,6 +41,7 @@ import AgentSelector from '../AgentSelector';
 
 export default {
   components: {
+    Spinner,
     PageHeader,
     AgentSelector,
   },
@@ -82,6 +86,10 @@ export default {
     },
     teamMembers() {
       return this.$store.getters['teamMembers/getTeamMembers'](this.teamId);
+    },
+    showAgentsList() {
+      const { id } = this.currentTeam;
+      return id && !this.uiFlags.isFetching;
     },
   },
 

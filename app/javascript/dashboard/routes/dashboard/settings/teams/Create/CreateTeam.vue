@@ -63,9 +63,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
+        this.showAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
       }
     },
   },

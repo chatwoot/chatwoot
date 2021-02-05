@@ -1,6 +1,6 @@
 /* eslint arrow-body-style: 0 */
 import SettingsContent from '../Wrapper';
-import InboxHome from './Index';
+import TeamsHome from './Index';
 import CreateStepWrap from './Create/Index';
 import EditStepWrap from './Edit/Index';
 import CreateTeam from './Create/CreateTeam';
@@ -20,7 +20,7 @@ export default {
         return {
           headerTitle: 'TEAMS_SETTINGS.HEADER',
           headerButtonText: 'TEAMS_SETTINGS.NEW_TEAM',
-          icon: 'ion-archive',
+          icon: 'ion-android-car',
           newButtonRoutes: ['settings_teams_list'],
           showBackButton,
         };
@@ -34,7 +34,7 @@ export default {
         {
           path: 'list',
           name: 'settings_teams_list',
-          component: InboxHome,
+          component: TeamsHome,
           roles: ['administrator'],
         },
         {

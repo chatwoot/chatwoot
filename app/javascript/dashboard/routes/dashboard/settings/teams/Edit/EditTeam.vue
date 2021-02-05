@@ -48,10 +48,11 @@ export default {
     },
     showTeamForm() {
       const { id } = this.teamData;
-      return !!id;
+      return id && !this.uiFlags.isFetching;
     },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
+      uiFlags: 'teams/getUIFlags',
     }),
   },
   mounted() {
