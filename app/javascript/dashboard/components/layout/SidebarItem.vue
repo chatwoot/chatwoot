@@ -155,7 +155,6 @@ export default {
 
 .wrap {
   display: flex;
-  align-items: center;
 }
 
 .label-color--display {
