@@ -30,7 +30,7 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'redcarpet'
+gem 'commonmarker'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
