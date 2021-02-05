@@ -12,6 +12,14 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
     end
   end
 
+  def update
+    ActiveRecord::Base.transaction do
+      @team.team_members.destroy_all
+      @team_members = params[:user_ids].map { |user_id| create_team_member(user_id) }
+    end
+    render action: 'create'
+  end
+
   def destroy
     ActiveRecord::Base.transaction do
       params[:user_ids].map { |user_id| remove_team_member(user_id) }
