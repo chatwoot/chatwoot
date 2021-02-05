@@ -30,7 +30,7 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'redcarpet'
+gem 'commonmarker'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -44,6 +44,8 @@ gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
 gem 'redis-rack-cache'
+# super fast record imports in bulk
+gem 'activerecord-import'
 
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails'

@@ -102,7 +102,7 @@ export default {
   validations: {
     agentName: {
       required,
-      minLength: minLength(4),
+      minLength: minLength(1),
     },
     agentEmail: {
       required,

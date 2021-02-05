@@ -59,12 +59,15 @@ describe NotificationListener do
         allow(builder).to receive(:perform)
 
         create(:inbox_member, user: agent_with_notification, inbox: inbox)
-        create(:inbox_member, user: agent_with_out_notification, inbox: inbox)
         conversation.reload
 
-        message = build(:message, conversation: conversation, account: account,
-                                  content: "hi [#{agent_with_notification.name}](mention://user/#{agent_with_notification.id}/\
-          #{agent_with_notification.name})", private: true)
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi [#{agent_with_notification.name}](mention://user/#{agent_with_notification.id}/#{agent_with_notification.name})",
+          private: true
+        )
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)
         listener.message_created(event)
