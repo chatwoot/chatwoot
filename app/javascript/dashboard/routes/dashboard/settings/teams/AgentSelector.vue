@@ -65,6 +65,7 @@
       <woot-submit-button
         :button-text="submitButtonText"
         :loading="isWorking"
+        :disabled="disableSubmitButton"
       />
     </div>
   </div>
@@ -108,6 +109,9 @@ export default {
     },
     allAgentsSelected() {
       return this.selectedAgents.length === this.agentList.length;
+    },
+    disableSubmitButton() {
+      return this.selectedAgentCount === 0;
     },
   },
   methods: {

@@ -60,7 +60,7 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue({ data: { payload: teamsList[1] } });
+      axios.patch.mockResolvedValue({ data: teamsList[1] });
       await actions.update({ commit }, teamsList[1]);
 
       expect(commit.mock.calls).toEqual([

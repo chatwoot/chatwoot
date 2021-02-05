@@ -9,11 +9,11 @@
       </div>
 
       <div class="medium-12 columns">
-        <label :class="{ error: $v.selectedAgents.$error }">
-          <span v-if="$v.selectedAgents.$error" class="message">
-            {{ $t('TEAMS_SETTINGS.ADD.AGENTS.VALIDATION_ERROR') }}
-          </span>
-        </label>
+        <div v-if="$v.selectedAgents.$error">
+          <p class="error-message">
+            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
+          </p>
+        </div>
         <agent-selector
           :agent-list="agentList"
           :selected-agents="selectedAgents"
@@ -86,6 +86,7 @@ export default {
 
   methods: {
     updateSelectedAgents(newAgentList) {
+      this.$v.selectedAgents.$touch();
       this.selectedAgents = [...newAgentList];
     },
     selectAllAgents() {

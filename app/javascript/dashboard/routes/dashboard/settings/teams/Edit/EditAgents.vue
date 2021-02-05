@@ -4,22 +4,24 @@
       <div class="medium-12 columns">
         <page-header
           :header-title="headerTitle"
-          :header-content="$t('TEAMS_SETTINGS.EDIT.DESC')"
+          :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.DESC')"
         />
       </div>
 
       <div class="medium-12 columns">
-        <label :class="{ error: $v.selectedAgents.$error }">
-          <span v-if="$v.selectedAgents.$error" class="message">
-            {{ $t('TEAMS_SETTINGS.ADD.AGENTS.VALIDATION_ERROR') }}
-          </span>
-        </label>
+        <div v-if="$v.selectedAgents.$error">
+          <p class="error-message">
+            {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
+          </p>
+        </div>
         <agent-selector
           :agent-list="agentList"
           :selected-agents="selectedAgents"
           :update-selected-agents="updateSelectedAgents"
           :is-working="isCreating"
-          :submit-button-text="$t('TEAMS_SETTINGS.AGENTS.EDIT.BUTTON_TEXT')"
+          :submit-button-text="
+            $t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.BUTTON_TEXT')
+          "
         />
       </div>
     </form>
@@ -71,7 +73,7 @@ export default {
       return this.$route.params.team_id;
     },
     headerTitle() {
-      return this.$t('TEAMS_SETTINGS.EDIT.TITLE', {
+      return this.$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.TITLE', {
         teamName: this.currentTeam.name,
       });
     },
@@ -95,15 +97,12 @@ export default {
     } catch {
       this.updateSelectedAgents([]);
     }
-    console.log(this.teamMembers);
   },
 
   methods: {
     updateSelectedAgents(newAgentList) {
+      this.$v.selectedAgents.$touch();
       this.selectedAgents = [...newAgentList];
-    },
-    selectAllAgents() {
-      this.selectedAgents = this.agentList.map(agent => agent.id);
     },
     async addAgents() {
       this.isCreating = true;
@@ -118,7 +117,7 @@ export default {
           name: 'settings_teams_edit_finish',
           params: {
             page: 'edit',
-            team_id: this.$route.params.team_id,
+            team_id: teamId,
           },
         });
       } catch (error) {
@@ -129,3 +128,7 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.error-message {
+}
+</style>

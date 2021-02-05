@@ -1,17 +1,15 @@
 <template>
   <div class="wizard-body small-9 columns">
     <page-header
-      :header-title="$t('TEAMS_SETTINGS.EDIT.TITLE')"
-      :header-content="$t('TEAMS_SETTINGS.EDIT.DESC')"
+      :header-title="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.TITLE')"
+      :header-content="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.DESC')"
     />
     <div class="row channels">
       <team-form
         v-if="showTeamForm"
         :on-submit="updateTeam"
-        :modal-title="null"
-        :modal-description="null"
         :submit-in-progress="false"
-        :submit-button-text="$t('TEAMS_SETTINGS.FORM.UPDATE')"
+        :submit-button-text="$t('TEAMS_SETTINGS.EDIT_FLOW.CREATE.BUTTON_TEXT')"
         :form-data="teamData"
       />
       <spinner v-else />
@@ -81,9 +79,7 @@ export default {
           },
         });
       } catch (error) {
-        this.showAlert(
-          this.$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.API.ERROR_MESSAGE')
-        );
+        this.showAlert(this.$t('TEAMS_SETTINGS.TEAM_FORM.ERROR_MESSAGE'));
       }
     },
   },

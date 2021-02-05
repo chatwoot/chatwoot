@@ -7,8 +7,6 @@
     <div class="row channels">
       <team-form
         :on-submit="createTeam"
-        :modal-title="null"
-        :modal-description="null"
         :submit-in-progress="false"
         :submit-button-text="$t('TEAMS_SETTINGS.FORM.SUBMIT_CREATE')"
       />

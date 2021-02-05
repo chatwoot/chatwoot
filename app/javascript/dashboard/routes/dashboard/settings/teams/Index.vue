@@ -61,19 +61,13 @@
         />
       </div>
     </div>
-    <settings
-      v-if="showSettings"
-      :show.sync="showSettings"
-      :on-close="closeSettings"
-      :inbox="selectedTeam"
-    />
 
     <woot-delete-modal
       :show.sync="showDeletePopup"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
-      :title="$t('TEAMS_SETTINGS.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :title="deleteTitle"
+      :message="$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
     />
@@ -81,15 +75,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Settings from './Settings';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
 export default {
-  components: {
-    Settings,
-  },
+  components: {},
   mixins: [adminMixin, accountMixin, globalConfigMixin],
   data() {
     return {
@@ -113,21 +104,13 @@ export default {
     deleteRejectText() {
       return this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.NO');
     },
-    deleteMessage() {
-      return `${this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedTeam.name
-      } ?`;
+    deleteTitle() {
+      return this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.TITLE', {
+        teamName: this.selectedTeam.name,
+      });
     },
   },
   methods: {
-    openSettings(team) {
-      this.showSettings = true;
-      this.selectedTeam = team;
-    },
-    closeSettings() {
-      this.showSettings = false;
-      this.selectedTeam = {};
-    },
     async deleteTeam({ id }) {
       try {
         await this.$store.dispatch('teams/delete', id);
@@ -147,9 +130,9 @@ export default {
       this.deleteTeam(this.selectedTeam);
       this.closeDelete();
     },
-    openDelete(inbox) {
+    openDelete(team) {
       this.showDeletePopup = true;
-      this.selectedTeam = inbox;
+      this.selectedTeam = team;
     },
     closeDelete() {
       this.showDeletePopup = false;

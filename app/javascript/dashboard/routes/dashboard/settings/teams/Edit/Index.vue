@@ -20,7 +20,7 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     items() {
-      const data = this.$t('TEAMS_SETTINGS.EDIT_FLOW');
+      const data = this.$t('TEAMS_SETTINGS.EDIT_FLOW.WIZARD');
       return data.map(item => ({
         ...item,
         body: this.useInstallationName(

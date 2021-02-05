@@ -6,8 +6,5 @@ export default {
     minLength: minLength(2),
   },
   description: {},
-  color: {
-    required,
-  },
   showOnSidebar: {},
 };
