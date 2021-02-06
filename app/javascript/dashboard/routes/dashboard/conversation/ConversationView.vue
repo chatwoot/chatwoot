@@ -38,6 +38,7 @@ import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 import Search from './search/Search.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -46,6 +47,7 @@ export default {
     ConversationBox,
     Search,
   },
+  mixins: [uiSettingsMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -60,7 +62,6 @@ export default {
       default: '',
     },
   },
-
   data() {
     return {
       showSearchModal: false,
@@ -68,7 +69,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      uiSettings: 'getUISettings',
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
@@ -100,7 +100,6 @@ export default {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
-
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {
         return;
@@ -115,7 +114,6 @@ export default {
       const [chat] = this.chatList.filter(c => c.id === conversationId);
       return chat;
     },
-
     setActiveChat() {
       if (this.conversationId) {
         const chat = this.findConversation();
@@ -130,11 +128,8 @@ export default {
       }
     },
     onToggleContactPanel() {
-      this.$store.dispatch('updateUISettings', {
-        uiSettings: {
-          ...this.uiSettings,
-          is_contact_sidebar_open: !this.isContactPanelOpen,
-        },
+      this.updateUISettings({
+        is_contact_sidebar_open: !this.isContactPanelOpen,
       });
     },
     onSearch() {
