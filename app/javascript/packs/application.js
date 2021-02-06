@@ -28,8 +28,13 @@ import {
   verifyServiceWorkerExistence,
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
+import * as Sentry from '@sentry/vue';
 
 Vue.config.env = process.env;
+
+if (window.errorLoggingConfig) {
+  Sentry.init({ Vue: Vue, dsn: window.errorLoggingConfig });
+}
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
