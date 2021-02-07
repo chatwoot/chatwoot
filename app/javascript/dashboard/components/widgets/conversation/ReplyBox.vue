@@ -88,6 +88,7 @@ import {
 } from 'shared/helpers/KeyboardHelpers';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -99,7 +100,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin],
   props: {
     inReplyTo: {
       type: [String, Number],
@@ -115,7 +116,6 @@ export default {
       attachedFiles: [],
       isUploading: false,
       replyType: REPLY_EDITOR_MODES.REPLY,
-      isFormatMode: false,
       mentionSearchKey: '',
       hasUserMention: false,
       hasSlashCommand: false,
@@ -123,15 +123,12 @@ export default {
   },
   computed: {
     showRichContentEditor() {
-      if (this.isOnPrivateNote) {
-        return true;
-      }
-      return this.isFormatMode;
+      const {
+        display_rich_content_editor: displayRichContentEditor,
+      } = this.uiSettings;
+      return this.isOnPrivateNote || displayRichContentEditor;
     },
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      uiSettings: 'getUISettings',
-    }),
+    ...mapGetters({ currentChat: 'getSelectedChat' }),
     enterToSendEnabled() {
       return !!this.uiSettings.enter_to_send_enabled;
     },
@@ -281,12 +278,7 @@ export default {
       }
     },
     toggleEnterToSend(enterToSendEnabled) {
-      this.$store.dispatch('updateUISettings', {
-        uiSettings: {
-          ...this.uiSettings,
-          enter_to_send_enabled: enterToSendEnabled,
-        },
-      });
+      this.updateUISettings({ enter_to_send_enabled: enterToSendEnabled });
     },
     async sendMessage() {
       if (this.isReplyButtonDisabled) {
@@ -314,7 +306,10 @@ export default {
       const { can_reply: canReply } = this.currentChat;
 
       if (canReply) this.replyType = mode;
-      this.$refs.messageInput.focus();
+      if (this.showRichContentEditor) {
+        return;
+      }
+      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
       this.message = `${this.message}${emoji} `;
@@ -396,7 +391,7 @@ export default {
       return messagePayload;
     },
     setFormatMode(value) {
-      this.isFormatMode = value;
+      this.updateUISettings({ display_rich_content_editor: value });
     },
   },
 };
