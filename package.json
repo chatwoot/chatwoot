@@ -12,9 +12,10 @@
     "start:dev": "foreman start -f ./Procfile.dev"
   },
   "dependencies": {
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#45e4efcc150e6674be02bc524061373b39cfed40",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517",
     "@rails/actioncable": "^6.0.0",
     "@rails/webpacker": "^5.2.0",
+    "@sentry/vue": "^5.30.0",
     "axios": "^0.21.1",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
