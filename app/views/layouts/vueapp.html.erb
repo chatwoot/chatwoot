@@ -50,5 +50,8 @@
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
+    <audio autoplay loop muted id="notif-audio">
+      <source src="<%= audio_path 'ding.mp3' %>" type="audio/mp3">
+    </audio>
   </body>
 </html>
