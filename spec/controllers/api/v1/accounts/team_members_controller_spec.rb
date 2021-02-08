@@ -133,7 +133,7 @@ RSpec.describe 'Team Members API', type: :request do
         user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
         params = { user_ids: user_ids }
 
-        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}",
+        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
               params: params,
               headers: administrator.create_new_auth_token,
               as: :json
