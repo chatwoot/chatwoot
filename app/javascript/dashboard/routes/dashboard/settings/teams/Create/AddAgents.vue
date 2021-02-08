@@ -97,7 +97,7 @@ export default {
       const { teamId, selectedAgents } = this;
 
       try {
-        await this.$store.dispatch('teams/addAgents', {
+        await this.$store.dispatch('teamMembers/create', {
           teamId,
           agentsList: selectedAgents,
         });
