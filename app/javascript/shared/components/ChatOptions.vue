@@ -67,19 +67,16 @@ export default {
 }
 </style>
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
-@import '~dashboard/assets/scss/mixins.scss';
+@import '~widget/assets/scss/variables.scss';
 
 .options-message {
-  background: white;
-  width: 60%;
   max-width: 17rem;
   padding: $space-small $space-normal;
   border-radius: $space-small;
   overflow: hidden;
 
   .title {
-    font-size: $font-size-small;
+    font-size: $font-size-default;
     font-weight: $font-weight-normal;
     margin-top: $space-smaller;
     margin-bottom: $space-smaller;
@@ -93,7 +90,6 @@ export default {
     > li {
       list-style: none;
       padding: 0;
-      margin: 0;
     }
   }
 }
