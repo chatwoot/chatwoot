@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Create new team",
     "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Organizing agents into teams let you use chatwoot the way your company is structured or to  segment the agents by their responsibilities. <br /> With Chatwoot you can create multiple teams and can have any number of agents, also a user can be part of multiple teams. <br/> You can assign conversations in chatwoot to a team so that it becomes a shared responsibility. </p>",
+    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Organizing agents into teams let you use %{installationName} the way your company is structured or to  segment the agents by their responsibilities. <br /> With ${installationName} you can create multiple teams and can have any number of agents, also a user can be part of multiple teams. <br/> You can assign conversations in ${installationName} to a team so that it becomes a shared responsibility. </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "Edit team"

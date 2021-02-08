@@ -39,11 +39,8 @@ export default {
     };
   },
   computed: {
-    account() {
-      return this.$store.getters['accounts/getAccount'](this.accountId);
-    },
     teamData() {
-      const { team_id: teamId } = this.$route.params;
+      const { teamId } = this.$route.params;
       return this.$store.getters['teams/getTeam'](teamId);
     },
     showTeamForm() {
@@ -51,21 +48,13 @@ export default {
       return id && !this.uiFlags.isFetching;
     },
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
       uiFlags: 'teams/getUIFlags',
     }),
   },
-  mounted() {
-    this.initializeEnabledFeatures();
-  },
   methods: {
-    async initializeEnabledFeatures() {
-      await this.$store.dispatch('accounts/get', this.accountId);
-      this.enabledFeatures = this.account.features;
-    },
     async updateTeam(data) {
       try {
-        const { team_id: teamId } = this.$route.params;
+        const { teamId } = this.$route.params;
 
         await this.$store.dispatch('teams/update', {
           id: teamId,
@@ -76,7 +65,7 @@ export default {
           name: 'settings_teams_edit_members',
           params: {
             page: 'edit',
-            team_id: teamId,
+            teamId,
           },
         });
       } catch (error) {

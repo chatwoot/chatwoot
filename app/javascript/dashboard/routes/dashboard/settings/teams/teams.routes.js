@@ -48,13 +48,13 @@ export default {
               roles: ['administrator'],
             },
             {
-              path: ':team_id/finish',
+              path: ':teamId/finish',
               name: 'settings_teams_finish',
               component: FinishSetup,
               roles: ['administrator'],
             },
             {
-              path: ':team_id/agents',
+              path: ':teamId/agents',
               name: 'settings_teams_add_agents',
               roles: ['administrator'],
               component: AddAgents,
@@ -62,7 +62,7 @@ export default {
           ],
         },
         {
-          path: ':team_id/edit',
+          path: ':teamId/edit',
           component: EditStepWrap,
           children: [
             {

@@ -20,8 +20,6 @@ import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import { mapGetters } from 'vuex';
-
 export default {
   components: {
     TeamForm,
@@ -33,22 +31,7 @@ export default {
       enabledFeatures: {},
     };
   },
-  computed: {
-    account() {
-      return this.$store.getters['accounts/getAccount'](this.accountId);
-    },
-    ...mapGetters({
-      accountId: 'getCurrentAccountId',
-    }),
-  },
-  mounted() {
-    this.initializeEnabledFeatures();
-  },
   methods: {
-    async initializeEnabledFeatures() {
-      await this.$store.dispatch('accounts/get', this.accountId);
-      this.enabledFeatures = this.account.features;
-    },
     async createTeam(data) {
       try {
         const team = await this.$store.dispatch('teams/create', {
@@ -59,7 +42,7 @@ export default {
           name: 'settings_teams_add_agents',
           params: {
             page: 'new',
-            team_id: team.id,
+            teamId: team.id,
           },
         });
       } catch (error) {

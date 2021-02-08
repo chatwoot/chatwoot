@@ -1,6 +1,5 @@
 <template>
   <div class="column content-box">
-    <!-- List Canned Response -->
     <div class="row">
       <div class="small-8 columns">
         <p v-if="!teamsList.length" class="no-items-error-message">
@@ -21,7 +20,6 @@
                 <p>{{ item.description }}</p>
               </td>
 
-              <!-- Action Buttons -->
               <td>
                 <div class="button-wrapper">
                   <router-link
@@ -53,10 +51,9 @@
       <div class="small-4 columns">
         <span
           v-html="
-            useInstallationName(
-              $t('TEAMS_SETTINGS.SIDEBAR_TXT'),
-              globalConfig.installationName
-            )
+            $t('TEAMS_SETTINGS.SIDEBAR_TXT', {
+              installationName: globalConfig.installationName,
+            })
           "
         />
       </div>
@@ -77,11 +74,11 @@
 import { mapGetters } from 'vuex';
 import adminMixin from '../../../../mixins/isAdmin';
 import accountMixin from '../../../../mixins/account';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {},
-  mixins: [adminMixin, accountMixin, globalConfigMixin],
+  mixins: [adminMixin, accountMixin, alertMixin],
   data() {
     return {
       loading: {},
@@ -95,7 +92,6 @@ export default {
       teamsList: 'teams/getTeams',
       globalConfig: 'globalConfig/get',
     }),
-    // Delete Modal
     deleteConfirmText() {
       return `${this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.YES')} ${
         this.selectedTeam.name
@@ -114,15 +110,9 @@ export default {
     async deleteTeam({ id }) {
       try {
         await this.$store.dispatch('teams/delete', id);
-        bus.$emit(
-          'newToastMessage',
-          this.$t('TEAMS_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
+        this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        bus.$emit(
-          'newToastMessage',
-          this.$t('TEAMS_SETTINGS.DELETE.API.ERROR_MESSAGE')
-        );
+        this.showAlert(this.$t('TEAMS_SETTINGS.DELETE.API.ERROR_MESSAGE'));
       }
     },
 

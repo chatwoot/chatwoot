@@ -1,6 +1,6 @@
 <template>
   <div class="wizard-body columns content-box small-9">
-    <form class="row" @submit.prevent="addAgents()">
+    <form class="row" @submit.prevent="addAgents">
       <div class="medium-12 columns">
         <page-header
           :header-title="headerTitle"
@@ -27,9 +27,9 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 
+import alertMixin from 'shared/mixins/alertMixin';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 import AgentSelector from '../AgentSelector';
@@ -39,7 +39,7 @@ export default {
     PageHeader,
     AgentSelector,
   },
-
+  mixins: [alertMixin],
   props: {
     team: {
       type: Object,
@@ -67,10 +67,9 @@ export default {
     }),
 
     teamId() {
-      return this.$route.params.team_id;
+      return this.$route.params.teamId;
     },
     headerTitle() {
-      console.log(this);
       return this.$t('TEAMS_SETTINGS.ADD.TITLE', {
         teamName: this.currentTeam.name,
       });
@@ -105,11 +104,11 @@ export default {
           name: 'settings_teams_finish',
           params: {
             page: 'new',
-            team_id: this.$route.params.team_id,
+            teamId,
           },
         });
       } catch (error) {
-        bus.$emit('newToastMessage', error.message);
+        this.showAlert(error.message);
       }
       this.isCreating = false;
     },

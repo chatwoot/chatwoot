@@ -1,6 +1,6 @@
 <template>
   <div class="wizard-body columns content-box small-9">
-    <form class="row" @submit.prevent="addAgents()">
+    <form class="row" @submit.prevent="addAgents">
       <div class="medium-12 columns">
         <page-header
           :header-title="headerTitle"
@@ -31,9 +31,9 @@
 </template>
 
 <script>
-/* eslint no-console: 0 */
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
@@ -45,6 +45,7 @@ export default {
     PageHeader,
     AgentSelector,
   },
+  mixins: [alertMixin],
 
   props: {
     team: {
@@ -74,7 +75,7 @@ export default {
     }),
 
     teamId() {
-      return this.$route.params.team_id;
+      return this.$route.params.teamId;
     },
     headerTitle() {
       return this.$t('TEAMS_SETTINGS.EDIT_FLOW.AGENTS.TITLE', {
@@ -94,7 +95,7 @@ export default {
   },
 
   async mounted() {
-    const { team_id: teamId } = this.$route.params;
+    const { teamId } = this.$route.params;
     this.$store.dispatch('agents/get');
     try {
       await this.$store.dispatch('teamMembers/get', {
@@ -125,18 +126,14 @@ export default {
           name: 'settings_teams_edit_finish',
           params: {
             page: 'edit',
-            team_id: teamId,
+            teamId,
           },
         });
       } catch (error) {
-        bus.$emit('newToastMessage', error.message);
+        this.showAlert(error.message);
       }
       this.isCreating = false;
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-.error-message {
-}
-</style>
