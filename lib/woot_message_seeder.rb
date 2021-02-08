@@ -17,8 +17,10 @@ module WootMessageSeeder
       conversation: conversation,
       message_type: :template,
       content_type: 'cards',
+      content: 'cards',
       content_attributes: {
         items: [
+          sample_card_item,
           sample_card_item
         ]
       }
@@ -71,6 +73,7 @@ module WootMessageSeeder
       conversation: conversation,
       message_type: :template,
       content_type: 'form',
+      content: 'form',
       content_attributes: {
         "items": [
           { "name": 'email', "placeholder": 'Please enter your email', "type": 'email', "label": 'Email' },
