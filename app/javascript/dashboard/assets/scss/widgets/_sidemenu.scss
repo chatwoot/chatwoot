@@ -72,9 +72,9 @@
   .dropdown-pane {
     @include elegant-card;
     @include border-light;
+    bottom: 6rem;
     display: block;
-    left: 18%;
-    top: -110px;
+    left: 5rem;
     visibility: visible;
     width: 80%;
     z-index: 999;
@@ -118,62 +118,6 @@
   @include padding($space-micro null);
   color: $medium-gray;
   line-height: $global-lineheight;
-}
-
-.current-user {
-  @include flex;
-  align-items: center;
-  cursor: pointer;
-  flex-direction: row;
-
-  .current-user--data {
-    @include flex;
-    flex-direction: column;
-
-    .current-user--name {
-      font-size: $font-size-small;
-      font-weight: $font-weight-medium;
-      line-height: 1;
-      margin-bottom: $space-smaller;
-      margin-left: $space-one;
-      margin-top: $space-micro;
-    }
-
-    .current-user--role {
-      color: $color-gray;
-      font-size: $font-size-mini;
-      margin-bottom: $zero;
-      margin-left: $space-one;
-      text-transform: capitalize;
-    }
-  }
-
-  .current-user--options {
-    font-size: $font-size-big;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-top: auto;
-  }
-
-  .notifications {
-    font-size: var(--font-size-big);
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-top: auto;
-    position: relative;
-
-    .unread-badge {
-      background: var(--r-300);
-      border-radius: var(--space-small);
-      color: var(--white);
-      font-size: var(--font-size-micro);
-      font-weight: var(--font-weight-black);
-      left: var(--space-slab);
-      padding: 0 var(--space-smaller);
-      position: absolute;
-      top: var(--space-smaller);
-    }
-  }
 }
 
 .hamburger--menu {

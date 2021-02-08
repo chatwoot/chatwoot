@@ -1,6 +1,7 @@
 const {
   APP_VERSION: appVersion,
   BRAND_NAME: brandName,
+  CHATWOOT_INBOX_TOKEN: chatwootInboxToken,
   CREATE_NEW_ACCOUNT_FROM_DASHBOARD: createNewAccountFromDashboard,
   DISPLAY_MANIFEST: displayManifest,
   INSTALLATION_NAME: installationName,
@@ -14,6 +15,7 @@ const {
 const state = {
   appVersion,
   brandName,
+  chatwootInboxToken,
   createNewAccountFromDashboard,
   displayManifest,
   installationName,
