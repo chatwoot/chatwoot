@@ -27,6 +27,7 @@
         "NOTE": "Opdater dine e-mail notifikationspræferencer her",
         "CONVERSATION_ASSIGNMENT": "Send e-mail notifikationer når en samtale er tildelt mig",
         "CONVERSATION_CREATION": "Send e-mail notifikationer når en ny samtale er oprettet",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send e-mail notifikationer når en ny besked er oprettet i en tildelt samtale"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Opdater dine push-notifikationspræferencer her",
         "CONVERSATION_ASSIGNMENT": "Send push-notifikationer, når en samtale er tildelt mig",
         "CONVERSATION_CREATION": "Send push-notifikationer, når en ny samtale er oprettet",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push-notifikationer, når en ny besked oprettes i en tildelt samtale",
         "HAS_ENABLED_PUSH": "Du har aktiveret push for denne browser.",
         "REQUEST_PUSH": "Aktivér push-notifikationer"
@@ -118,6 +120,7 @@
     "HOME": "Hjem",
     "AGENTS": "Agenter",
     "INBOXES": "Indbakker",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Kontoindstillinger",

@@ -1,0 +1,44 @@
+{
+  "REPORT": {
+    "HEADER": "Rapporter",
+    "LOADING_CHART": "Laster inn diagramdata...",
+    "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
+    "DOWNLOAD_AGENT_REPORTS": "Last ned agentrapporter",
+    "METRICS": {
+      "CONVERSATIONS": {
+        "NAME": "Samtaler",
+        "DESC": "(Totalt )"
+      },
+      "INCOMING_MESSAGES": {
+        "NAME": "Innkommende meldinger",
+        "DESC": "(Totalt )"
+      },
+      "OUTGOING_MESSAGES": {
+        "NAME": "Utgående meldinger",
+        "DESC": "(Totalt )"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "NAME": "Første svartid",
+        "DESC": "( Gj. sn. )"
+      },
+      "RESOLUTION_TIME": {
+        "NAME": "Løsningstid",
+        "DESC": "( Gj. sn. )"
+      },
+      "RESOLUTION_COUNT": {
+        "NAME": "Antall løsninger",
+        "DESC": "(Totalt )"
+      }
+    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "Siste 7 dager"
+      },
+      {
+        "id": 1,
+        "name": "Siste 30 dager"
+      }
+    ]
+  }
+}

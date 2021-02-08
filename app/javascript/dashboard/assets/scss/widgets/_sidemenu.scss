@@ -49,8 +49,10 @@
       margin-top: $space-micro;
 
       .inbox-icon {
+        $icon-top-space: -1px;
         display: inline-block;
         margin-right: $space-micro;
+        margin-top: $icon-top-space;
         min-width: $space-normal;
         text-align: center;
       }
@@ -151,6 +153,26 @@
     margin-bottom: auto;
     margin-left: auto;
     margin-top: auto;
+  }
+
+  .notifications {
+    font-size: var(--font-size-big);
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-top: auto;
+    position: relative;
+
+    .unread-badge {
+      background: var(--r-300);
+      border-radius: var(--space-small);
+      color: var(--white);
+      font-size: var(--font-size-micro);
+      font-weight: var(--font-weight-black);
+      left: var(--space-slab);
+      padding: 0 var(--space-smaller);
+      position: absolute;
+      top: var(--space-smaller);
+    }
   }
 }
 
