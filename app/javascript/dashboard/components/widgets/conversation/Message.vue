@@ -72,7 +72,7 @@ import Spinner from 'shared/components/Spinner';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-
+import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 export default {
   components: {
     BubbleActions,
@@ -99,41 +99,15 @@ export default {
   },
   computed: {
     message() {
-      let messageContent = this.formatMessage(this.data.content, this.isATweet);
-      if (this.contentType === 'input_select') {
-        const {
-          submitted_values: submittedValues = [],
-        } = this.contentAttributes;
-        const [selectedOption] = submittedValues;
+      const botMessageContent = generateBotMessageContent(
+        this.contentType,
+        this.contentAttributes,
+        this.$t('CONVERSATION.NO_RESPONSE')
+      );
+      let messageContent =
+        this.formatMessage(this.data.content, this.isATweet) +
+        botMessageContent;
 
-        if (selectedOption && selectedOption.title) {
-          messageContent += `<strong>${selectedOption.title}</strong>`;
-        }
-      } else if (this.contentType === 'input_email') {
-        const { submitted_email: submittedEmail = '' } = this.contentAttributes;
-        if (submittedEmail) {
-          messageContent += `<strong>${submittedEmail}</strong>`;
-        }
-      } else if (this.contentType === 'form') {
-        const {
-          items,
-          submitted_values: submittedValues = [],
-        } = this.contentAttributes;
-        if (submittedValues.length) {
-          const submittedObject = submittedValues.reduce(
-            (acc, keyValuePair) => {
-              acc = { ...acc, [keyValuePair.name]: keyValuePair.value };
-              return acc;
-            },
-            {}
-          );
-          items.forEach(item => {
-            messageContent += `<div>${item.label}</div>\n`;
-            const response = submittedObject[item.name] || 'No Response';
-            messageContent += `<strong>${response}</strong><br/><br/>`;
-          });
-        }
-      }
       return messageContent;
     },
     contentAttributes() {
