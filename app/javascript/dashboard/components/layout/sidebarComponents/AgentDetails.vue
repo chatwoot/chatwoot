@@ -5,7 +5,7 @@
       :username="currentUserAvailableName"
     />
     <div class="current-user--data">
-      <h3 class="current-user--name">
+      <h3 class="current-user--name text-truncate">
         {{ currentUserAvailableName }}
       </h3>
       <h5 v-if="currentRole" class="current-user--role">
@@ -47,10 +47,9 @@ export default {
   .current-user--name {
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
-    line-height: 1;
-    margin-bottom: var(--space-smaller);
+    margin-bottom: var(--space-micro);
     margin-left: var(--space-one);
-    margin-top: var(--space-micro);
+    max-width: 12rem;
   }
 
   .current-user--role {
