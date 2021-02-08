@@ -46,6 +46,7 @@
         browser_name: '<%= browser.name %>',
         is_safari: '<%= browser.safari? %>'
       }
+      window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_DSN', '')%>'
     </script>
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
