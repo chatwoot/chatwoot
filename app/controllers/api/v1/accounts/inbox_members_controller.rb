@@ -22,9 +22,10 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     # get the list of  user_ids from params
     # the missing ones are the agents which are to be deleted from the inbox
     # the new ones are the agents which are to be added to the inbox
-
-    agents_to_be_added_ids.each { |user_id| @inbox.add_member(user_id) }
-    agents_to_be_removed_ids.each { |user_id| @inbox.remove_member(user_id) }
+    ActiveRecord::Base.transaction do
+      agents_to_be_added_ids.each { |user_id| @inbox.add_member(user_id) }
+      agents_to_be_removed_ids.each { |user_id| @inbox.remove_member(user_id) }
+    end
   end
 
   def agents_to_be_added_ids

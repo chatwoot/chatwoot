@@ -105,4 +105,43 @@ RSpec.describe 'Team Members API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/teams/{team_id}/team_members' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'return unauthorized for agent' do
+        params = { user_id: agent.id }
+        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates the team members when its administrator' do
+        user_ids = (1..5).map { create(:user, account: account, role: :agent).id }
+        params = { user_ids: user_ids }
+
+        patch "/api/v1/accounts/#{account.id}/teams/#{team.id}/team_members",
+              params: params,
+              headers: administrator.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = JSON.parse(response.body)
+        expect(json_response.count).to eq(user_ids.count)
+      end
+    end
+  end
 end

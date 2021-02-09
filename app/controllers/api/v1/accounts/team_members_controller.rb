@@ -8,25 +8,38 @@ class Api::V1::Accounts::TeamMembersController < Api::V1::Accounts::BaseControll
 
   def create
     ActiveRecord::Base.transaction do
-      @team_members = params[:user_ids].map { |user_id| create_team_member(user_id) }
+      @team_members = params[:user_ids].map { |user_id| @team.add_member(user_id) }
     end
+  end
+
+  def update
+    ActiveRecord::Base.transaction do
+      members_to_be_added_ids.each { |user_id| @team.add_member(user_id) }
+      members_to_be_removed_ids.each { |user_id| @team.remove_member(user_id) }
+    end
+    @team_members = @team.members
+    render action: 'create'
   end
 
   def destroy
     ActiveRecord::Base.transaction do
-      params[:user_ids].map { |user_id| remove_team_member(user_id) }
+      params[:user_ids].map { |user_id| @team.remove_member(user_id) }
     end
     head :ok
   end
 
   private
 
-  def create_team_member(user_id)
-    @team.team_members.find_or_create_by(user_id: user_id)&.user
+  def members_to_be_added_ids
+    params[:user_ids] - current_members_ids
   end
 
-  def remove_team_member(user_id)
-    @team.team_members.find_by(user_id: user_id)&.destroy
+  def members_to_be_removed_ids
+    current_members_ids - params[:user_ids]
+  end
+
+  def current_members_ids
+    @current_members_ids ||= @team.members.pluck(:id)
   end
 
   def fetch_team
