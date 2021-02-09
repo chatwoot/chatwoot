@@ -79,7 +79,10 @@
         </div>
       </div>
     </div>
-    <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
+    <div
+      v-if="vapidPublicKey && !isBrowserSafari"
+      class="profile--settings--row row push-row"
+    >
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
@@ -202,6 +205,12 @@ export default {
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
     }),
+    isBrowserSafari() {
+      if (window.browserConfig) {
+        return window.browserConfig.is_safari === 'true';
+      }
+      return false;
+    },
   },
   watch: {
     emailFlags(value) {
@@ -284,10 +293,5 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
-}
-
-// Hide on Safari
-.push-row:not(:root:root) {
-  display: none;
 }
 </style>
