@@ -72,7 +72,7 @@ import Spinner from 'shared/components/Spinner';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-
+import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 export default {
   components: {
     BubbleActions,
@@ -99,7 +99,19 @@ export default {
   },
   computed: {
     message() {
-      return this.formatMessage(this.data.content, this.isATweet);
+      const botMessageContent = generateBotMessageContent(
+        this.contentType,
+        this.contentAttributes,
+        this.$t('CONVERSATION.NO_RESPONSE')
+      );
+      let messageContent =
+        this.formatMessage(this.data.content, this.isATweet) +
+        botMessageContent;
+
+      return messageContent;
+    },
+    contentAttributes() {
+      return this.data.content_attributes || {};
     },
     sender() {
       return this.data.sender || {};
