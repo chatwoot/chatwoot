@@ -24,6 +24,7 @@ class Team < ApplicationRecord
 
   belongs_to :account
   has_many :team_members, dependent: :destroy
+  has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
 
   validates :name,
@@ -33,5 +34,13 @@ class Team < ApplicationRecord
 
   before_validation do
     self.name = name.downcase if attribute_present?('name')
+  end
+
+  def add_member(user_id)
+    team_members.find_or_create_by(user_id: user_id)&.user
+  end
+
+  def remove_member(user_id)
+    team_members.find_by(user_id: user_id)&.destroy
   end
 end
