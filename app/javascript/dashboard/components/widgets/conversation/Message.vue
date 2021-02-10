@@ -21,8 +21,11 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
             <bubble-file
-              v-if="attachment.file_type !== 'image'"
+              v-else
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
