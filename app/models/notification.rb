@@ -32,7 +32,8 @@ class Notification < ApplicationRecord
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
     conversation_assignment: 2,
-    assigned_conversation_new_message: 3
+    assigned_conversation_new_message: 3,
+    conversation_mention: 4
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -67,6 +68,8 @@ class Notification < ApplicationRecord
       "[Assigned to you] - ##{primary_actor.display_id} has been assigned to you"
     when 'assigned_conversation_new_message'
       "[New message] -##{primary_actor.display_id} #{primary_actor&.messages&.incoming&.last&.content}"
+    when 'conversation_mention'
+      "You have been mentioned in conversation [ID -#{primary_actor.conversation.display_id}] by #{secondary_actor.name}"
     else
       ''
     end

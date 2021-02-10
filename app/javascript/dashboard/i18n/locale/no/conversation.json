@@ -1,0 +1,77 @@
+{
+  "CONVERSATION": {
+    "404": "Velg en samtale fra venstre panel",
+    "NO_MESSAGE_1": "Å nei! Ser ut til at det ikke er noen meldinger fra kunder i innboksen din.",
+    "NO_MESSAGE_2": " for å sende en melding til siden din!",
+    "NO_INBOX_1": "Tjohei! Det ser ut til at du ikke har lagt til noen innbokser enda.",
+    "NO_INBOX_2": " for å komme i gang",
+    "NO_INBOX_AGENT": "Uff da! Det ser ut til at du ikke er en del av innboksen. Kontakt systemansvarlig",
+    "SEARCH_MESSAGES": "Søk etter meldinger i samtaler",
+    "SEARCH": {
+      "TITLE": "Søk i meldinger",
+      "LOADING_MESSAGE": "Knuser data...",
+      "PLACEHOLDER": "Skriv tekst for å søke etter meldinger",
+      "NO_MATCHING_RESULTS": "Det finnes ingen meldinger som samsvarer med søket."
+    },
+    "UNREAD_MESSAGES": "Uleste meldinger",
+    "UNREAD_MESSAGE": "Ulest melding",
+    "CLICK_HERE": "Klikk her",
+    "LOADING_INBOXES": "Laster innbokser",
+    "LOADING_CONVERSATIONS": "Laster samtaler",
+    "CANNOT_REPLY": "Du kan ikke svare på grunn av",
+    "24_HOURS_WINDOW": "24-timers meldingsrestriksjon",
+    "LAST_INCOMING_TWEET": "Du svarer på den siste innkommende tweet",
+    "REPLYING_TO": "Du svarer til:",
+    "REMOVE_SELECTION": "Fjern utvalget",
+    "DOWNLOAD": "Last ned",
+    "UPLOADING_ATTACHMENTS": "Laster opp vedlegg...",
+    "HEADER": {
+      "RESOLVE_ACTION": "Løs",
+      "REOPEN_ACTION": "Gjenåpne",
+      "OPEN": "Mer",
+      "CLOSE": "Lukk",
+      "DETAILS": "detaljer"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
+      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter"
+    },
+    "REPLYBOX": {
+      "REPLY": "Svar",
+      "PRIVATE_NOTE": "Privat notat",
+      "SEND": "Send",
+      "CREATE": "Legg til notat",
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Vis rik tekstredigering",
+      "TIP_EMOJI_ICON": "Vis emoji-velger",
+      "TIP_ATTACH_ICON": "Legg ved filer",
+      "ENTER_TO_SEND": "Trykk enter for å sende"
+    },
+    "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
+    "CHANGE_STATUS": "Samtalestatus er endret",
+    "CHANGE_AGENT": "Tildelt agent er endret",
+    "SENT_BY": "Sendt av:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Velg agent",
+      "REMOVE": "Fjern",
+      "ASSIGN": "Tildel"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send kopi av samtale",
+    "DESC": "Send en kopi av samtalen til den angitte e-postadressen",
+    "SUBMIT": "Send",
+    "CANCEL": "Avbryt",
+    "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
+    "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send kopi av samtalen til kunden",
+      "SEND_TO_AGENT": "Send kopi av samtalen til den tildelte agenten",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send kopi av samtalen til en annen e-postadresse",
+      "EMAIL": {
+        "PLACEHOLDER": "Skriv inn en e-postadresse",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse"
+      }
+    }
+  }
+}

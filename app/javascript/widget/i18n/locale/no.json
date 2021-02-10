@@ -1,0 +1,33 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Last ned",
+      "UPLOADING": "Laster opp..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Send"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Vi er pålogget",
+    "OFFLINE": "Vi er frakoblet"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
+    "IN_A_FEW_HOURS": "Svarer vanligvis innen et par timer",
+    "IN_A_DAY": "Svarer vanligvis innen en dag"
+  },
+  "START_CONVERSATION": "Start samtale",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
+    "CLOSE_MESSAGES_BUTTON": "Lukk"
+  },
+  "BUBBLE": {
+    "LABEL": "Chat med oss"
+  },
+  "POWERED_BY": "Drevet av Chatwoot",
+  "EMAIL_PLACEHOLDER": "Skriv inn din e-post",
+  "CHAT_PLACEHOLDER": "Skriv inn meldingen",
+  "TODAY": "I dag",
+  "YESTERDAY": "I går"
+}

@@ -44,7 +44,8 @@
       "TWEET": "Tweet",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_ATTACH_ICON": "Attach files",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
     "CHANGE_STATUS": "Gespreksstatus veranderd",

@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Tryck Enter för att ta bort",
       "SELECT_ONE": "Markera en/ett"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Aviseringar",
+    "MARK_ALL_DONE": "Markera alla som klara",
+    "LIST": {
+      "LOADING_MESSAGE": "Laddar aviseringar...",
+      "404": "Inga aviseringar",
+      "TABLE_HEADER": [
+        "Namn",
+        "Telefonnummer",
+        "Konversationer",
+        "Senast kontaktad"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "Ny konversation",
+      "conversation_assignment": "Konversationen tilldelad",
+      "assigned_conversation_new_message": "Nytt meddelande",
+      "conversation_mention": "Mention"
+    }
   }
 }

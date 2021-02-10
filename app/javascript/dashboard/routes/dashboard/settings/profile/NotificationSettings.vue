@@ -49,6 +49,23 @@
             v-model="selectedEmailFlags"
             class="notification--checkbox"
             type="checkbox"
+            value="email_conversation_mention"
+            @input="handleEmailInput"
+          />
+          <label for="conversation_mention">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.CONVERSATION_MENTION'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedEmailFlags"
+            class="notification--checkbox"
+            type="checkbox"
             value="email_assigned_conversation_new_message"
             @input="handleEmailInput"
           />
@@ -62,7 +79,10 @@
         </div>
       </div>
     </div>
-    <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
+    <div
+      v-if="vapidPublicKey && !isBrowserSafari"
+      class="profile--settings--row row push-row"
+    >
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
@@ -128,6 +148,23 @@
             v-model="selectedPushFlags"
             class="notification--checkbox"
             type="checkbox"
+            value="push_conversation_mention"
+            @input="handlePushInput"
+          />
+          <label for="conversation_mention">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.CONVERSATION_MENTION'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedPushFlags"
+            class="notification--checkbox"
+            type="checkbox"
             value="push_assigned_conversation_new_message"
             @input="handlePushInput"
           />
@@ -168,6 +205,12 @@ export default {
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
     }),
+    isBrowserSafari() {
+      if (window.browserConfig) {
+        return window.browserConfig.is_safari === 'true';
+      }
+      return false;
+    },
   },
   watch: {
     emailFlags(value) {
@@ -250,10 +293,5 @@ export default {
 
 .notification--checkbox {
   font-size: $font-size-large;
-}
-
-// Hide on Safari
-.push-row:not(:root:root) {
-  display: none;
 }
 </style>

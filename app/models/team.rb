@@ -12,14 +12,35 @@
 #
 # Indexes
 #
-#  index_teams_on_account_id  (account_id)
+#  index_teams_on_account_id           (account_id)
+#  index_teams_on_name_and_account_id  (name,account_id) UNIQUE
 #
 # Foreign Keys
 #
 #  fk_rails_...  (account_id => accounts.id)
 #
 class Team < ApplicationRecord
+  include RegexHelper
+
   belongs_to :account
   has_many :team_members, dependent: :destroy
+  has_many :members, through: :team_members, source: :user
   has_many :conversations, dependent: :nullify
+
+  validates :name,
+            presence: { message: 'must not be blank' },
+            format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
+            uniqueness: { scope: :account_id }
+
+  before_validation do
+    self.name = name.downcase if attribute_present?('name')
+  end
+
+  def add_member(user_id)
+    team_members.find_or_create_by(user_id: user_id)&.user
+  end
+
+  def remove_member(user_id)
+    team_members.find_by(user_id: user_id)&.destroy
+  end
 end
