@@ -131,7 +131,6 @@ export default {
       return !this.data.message_type ? 'left' : 'right';
     },
     readableTime() {
-      console.log(this.data.created_at);
       return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
     },
     isBubble() {
