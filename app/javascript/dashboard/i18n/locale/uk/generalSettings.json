@@ -51,5 +51,25 @@
       "ENTER_TO_REMOVE": "Press enter to remove",
       "SELECT_ONE": "Select one"
     }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Notifications",
+    "MARK_ALL_DONE": "Mark All Done",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
+      "TABLE_HEADER": [
+        "Ім'я",
+        "Phone Number",
+        "Бесіди",
+        "Last Contacted"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "New conversation",
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "New Message",
+      "conversation_mention": "Mention"
+    }
   }
 }

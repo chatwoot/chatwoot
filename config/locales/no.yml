@@ -1,0 +1,62 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+"no":
+  hello: "Hallo, verden"
+  messages:
+    reset_password_success: Woot! Forespørsel om tilbakestilling av passord er vellykket. Sjekk innboksen for instruksjoner.
+    reset_password_failure: Uff da! Vi fant ingen bruker med den angitte eposten.
+  errors:
+    signup:
+      disposable_email: Vi tillater ikke engangs e-poster
+      invalid_email: Du har angitt en ugyldig e-post
+      email_already_exists: "Du har allerede registrert en konto med %{email}"
+      failed: Registrering mislyktes
+  reports:
+    period: Rapporteringsperiode %{since} til %{until}
+  conversations:
+    messages:
+      deleted: Denne meldingen er slettet
+    activity:
+      status:
+        resolved: "Samtale ble løst av %{user_name}"
+        open: "Samtalen ble gjenåpnet av %{user_name}"
+        auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
+      assignee:
+        self_assigned: "%{user_name} tilordnet seg denne samtalen"
+        assigned: "Tildelt til %{assignee_name} av %{user_name}"
+        removed: "%{user_name} fjernet tildelingen til samtalen"
+      labels:
+        added: "%{user_name} la til %{labels}"
+        removed: "%{user_name} fjernet %{labels}"
+      muted: "%{user_name} har dempet samtalen"
+      unmuted: "%{user_name} har opphevet dempingen av samtalen"
+    templates:
+      greeting_message_body: "%{account_name} svarer vanligvis innen et par timer."
+      ways_to_reach_you_message_body: "Gi oss en måte å ta kontakt med deg på."
+      email_input_box_message_body: "Få beskjed via e-post"
+    reply:
+      email_subject: "Nye meldinger i denne samtalen"
+      transcript_subject: "Kopi av samtale"
+  integration_apps:
+    slack:
+      name: "Slack"
+      description: "Slack er et chat-verktøy som bringer all kommunikasjon sammen på ett sted. Ved å integrere Slack, kan du få beskjed om alle nye samtaler i kontoen din."
+    webhooks:
+      name: "Webhooks"
+      description: "Webhook-hendelser gir deg sanntidsinformasjon om hva som skjer med kontoen din. Du kan bruke webhooks for å sende hendelsene til favorittappene dine, som Slack eller Github. Klikk på Konfigurer for å sette opp webhooks."

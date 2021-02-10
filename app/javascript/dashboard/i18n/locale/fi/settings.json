@@ -27,6 +27,7 @@
         "NOTE": "Päivitä sähköposti-ilmoitusasetukset täällä",
         "CONVERSATION_ASSIGNMENT": "Lähetä sähköposti-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_CREATION": "Lähetä sähköposti-ilmoitus, kun keskustelu on määritetty minulle",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä sähköposti-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Päivitä push-ilmoitusasetukset täällä",
         "CONVERSATION_ASSIGNMENT": "Lähetä push-ilmoitus, kun keskustelu on määritetty minulle",
         "CONVERSATION_CREATION": "Lähetä push-ilmoitus, kun keskustelu on määritetty minulle",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Lähetä push-ilmoitus, kun uusi viesti saapuu minulle osoitettuun keskusteluun",
         "HAS_ENABLED_PUSH": "Tämän selaimen push-ilmoitukset on otettu käyttöön.",
         "REQUEST_PUSH": "Ota push-ilmoitukset käyttöön"
@@ -118,6 +120,7 @@
     "HOME": "Koti",
     "AGENTS": "Edustajat",
     "INBOXES": "Kansiot",
+    "NOTIFICATIONS": "Ilmoitukset",
     "CANNED_RESPONSES": "Tallennetut vastaukset",
     "INTEGRATIONS": "Integraatiot",
     "ACCOUNT_SETTINGS": "Tilin asetukset",

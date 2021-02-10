@@ -1,6 +1,6 @@
 {
   "CONVERSATION": {
-    "404": "لطفا یک گفتگو را از پنجره سمت چپ انتخاب کنید",
+    "404": "لطفا یک گفتگو را از پنجره گفتگوها انتخاب کنید",
     "NO_MESSAGE_1": "اوه اوه! به نظر می‌رسد هیچ پیامی از طرف مشتری در صندوق ورودی شما وجود ندارد.",
     "NO_MESSAGE_2": " برای ارسال پیام به صفحه خود بروید!",
     "NO_INBOX_1": "سلام! به نظر می‌رسد هنوز صندوق ورودی اضافه نکرده‌اید.",
@@ -11,7 +11,7 @@
       "TITLE": "جستجو پیام‌ها",
       "LOADING_MESSAGE": "درحال پردازش داده...",
       "PLACEHOLDER": "متنی برای جستجو پیام تایپ کنید",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "NO_MATCHING_RESULTS": "گفتگویی با مشخصات ورودی یافت نشد."
     },
     "UNREAD_MESSAGES": "پیام‌های خوانده نشده",
     "UNREAD_MESSAGE": "پیام خوانده نشده",
@@ -33,8 +33,8 @@
       "DETAILS": "جزئیات"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents"
+      "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
+      "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود"
     },
     "REPLYBOX": {
       "REPLY": "پاسخ",
@@ -42,18 +42,19 @@
       "SEND": "ارسال",
       "CREATE": "افزودن یادداشت",
       "TWEET": "توییت",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
+      "TIP_EMOJI_ICON": "انتخاب ایموجی",
+      "TIP_ATTACH_ICON": "ضمیمه فایل",
+      "ENTER_TO_SEND": "برای ارسال Enter را بزنید"
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
-    "CHANGE_AGENT": "Conversation Assignee changed",
-    "SENT_BY": "Sent by:",
+    "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
+    "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "انتخاب ایجنت",
       "REMOVE": "حذف",
-      "ASSIGN": "Assign"
+      "ASSIGN": "اختصاص دادن"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -65,7 +66,7 @@
     "SEND_EMAIL_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید",
     "FORM": {
       "SEND_TO_CONTACT": "متن گفتگو را برای مشتری ارسال کنید",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "متن گفتگو را به ایجنت اختصاص یافته ارسال کنید",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "متن گفتگو را به آدرس ایمیل دیگری ارسال کنید",
       "EMAIL": {
         "PLACEHOLDER": "یک آدرس ایمیل وارد کنید",

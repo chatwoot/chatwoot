@@ -24,7 +24,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def send_mail_with_liquid(*args)
     mail(*args) do |format|
-      # explored sending a multipart email containg both text type and html
+      # explored sending a multipart email containing both text type and html
       # parsing the html with nokogiri will remove the links as well
       # might also remove tags like b,li etc. so lets rethink about this later
       # format.text { Nokogiri::HTML(render(layout: false)).text }
