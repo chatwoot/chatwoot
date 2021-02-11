@@ -80,6 +80,10 @@ export default {
       type: String,
       default: '',
     },
+    activeTeam: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -133,6 +137,9 @@ export default {
     pageTitle() {
       if (this.inbox.name) {
         return this.inbox.name;
+      }
+      if (this.activeTeam.name) {
+        return this.activeTeam.name;
       }
       if (this.label) {
         return `#${this.label}`;

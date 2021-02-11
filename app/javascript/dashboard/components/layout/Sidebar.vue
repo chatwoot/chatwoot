@@ -15,6 +15,11 @@
         />
         <sidebar-item
           v-if="shouldShowInboxes"
+          :key="labelSection.toState"
+          :menu-item="teamSection"
+        />
+        <sidebar-item
+          v-if="shouldShowInboxes"
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
@@ -161,6 +166,22 @@ export default {
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
           ),
+        })),
+      };
+    },
+    teamSection() {
+      return {
+        icon: 'ion-ios-people',
+        label: 'TEAMS',
+        hasSubMenu: true,
+        key: 'team',
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
+        toStateName: 'teams_list',
+        children: [].map(team => ({
+          id: team.id,
+          team: team.name,
+          toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
         })),
       };
     },

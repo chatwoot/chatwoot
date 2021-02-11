@@ -3,6 +3,7 @@
     <chat-list
       :conversation-inbox="inboxId"
       :label="label"
+      :active-team="activeTeam"
       @conversation-load="onConversationLoad"
     >
       <button class="search--button" @click="onSearch">
@@ -61,6 +62,10 @@ export default {
       type: String,
       default: '',
     },
+    teamId: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -80,6 +85,15 @@ export default {
         return isContactSidebarOpen;
       }
       return false;
+    },
+    activeTeam() {
+      if (this.teamId) {
+        return {
+          id: 1,
+          name: 'name',
+        };
+      }
+      return {};
     },
   },
 
