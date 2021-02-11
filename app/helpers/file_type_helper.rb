@@ -9,6 +9,8 @@ module FileTypeHelper
       'image/bmp'
     ].include?(content_type)
 
+    return :audio if content_type.include?('audio/')
+
     :file
   end
 end
