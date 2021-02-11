@@ -1,53 +1,14 @@
 <template>
   <section class="contacts-table-wrap">
-    <table class="woot-table contacts-table">
-      <thead>
-        <th
-          v-for="thHeader in $t('CONTACTS_PAGE.LIST.TABLE_HEADER')"
-          :key="thHeader"
-        >
-          {{ thHeader }}
-        </th>
-      </thead>
-      <tbody v-show="showTableData">
-        <tr
-          v-for="contactItem in contacts"
-          :key="contactItem.id"
-          :class="{ 'is-active': contactItem.id === activeContactId }"
-          @click="() => onClickContact(contactItem.id)"
-        >
-          <td>
-            <div class="row-main-info">
-              <thumbnail
-                :src="contactItem.thumbnail"
-                size="36px"
-                :username="contactItem.name"
-                :status="contactItem.availability_status"
-              />
-              <div>
-                <h4 class="sub-block-title user-name">
-                  {{ contactItem.name }}
-                </h4>
-                <p class="user-email">
-                  {{ contactItem.email || '---' }}
-                </p>
-              </div>
-            </div>
-          </td>
-          <td>{{ contactItem.phone_number || '---' }}</td>
-          <td class="conversation-count-item">
-            {{ contactItem.conversations_count }}
-          </td>
-          <td>
-            {{
-              contactItem.last_seen_at
-                ? dynamicTime(contactItem.last_seen_at)
-                : '---'
-            }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ve-table
+      :fixed-header="true"
+      max-height="900px"
+      :scroll-width="2000"
+      style="width: 100%"
+      :columns="columns"
+      :table-data="tableData"
+    ></ve-table>
+
     <empty-state
       v-if="showSearchEmptyState"
       :title="$t('CONTACTS_PAGE.LIST.404')"
@@ -61,6 +22,8 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
+import { VeTable } from 'vue-easytable'; // import library
+
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
@@ -68,9 +31,11 @@ import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     Thumbnail,
     EmptyState,
     Spinner,
+    VeTable,
   },
   mixins: [clickaway, timeMixin],
   props: {
@@ -94,6 +59,54 @@ export default {
       type: [String, Number],
       default: '',
     },
+  },
+  data() {
+    return {
+      columns: [
+        {
+          field: 'name',
+          key: 'a',
+          title: 'Name',
+          fixed: 'left',
+          align: 'left',
+        },
+        {
+          field: 'email',
+          key: 'b',
+          title: 'Email',
+          align: 'left',
+        },
+        {
+          field: 'phone_number',
+          key: 'c',
+          title: 'Phone',
+          align: 'left',
+        },
+        {
+          field: 'company_name',
+          key: 'd',
+          title: 'Company',
+          align: 'left',
+        },
+        {
+          field: 'location',
+          key: 'e',
+          title: 'Location',
+          align: 'left',
+        },
+        {
+          field: 'social_profiles',
+          key: 'f',
+          title: 'Social Profiles',
+          align: 'left',
+        },
+        {
+          field: 'conversations_count',
+          key: 'g',
+          title: 'Conversations',
+        },
+      ],
+    };
   },
   computed: {
     currentRoute() {
@@ -119,6 +132,20 @@ export default {
     },
     showTableData() {
       return !this.showSearchEmptyState && !this.isLoading;
+    },
+    tableData() {
+      return this.contacts.map(item => {
+        const additional = item.additional_attributes || {};
+        return {
+          name: item.name,
+          email: item.email || '---',
+          phone: item.phone || '---',
+          company_name: additional.company_name || '---',
+          location: additional.location || '---',
+          social_profiles: additional.social_profiles || '---',
+          conversations_count: item.conversations_count || '---',
+        };
+      });
     },
   },
 };
