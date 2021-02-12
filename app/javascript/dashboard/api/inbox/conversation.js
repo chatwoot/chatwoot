@@ -64,7 +64,7 @@ class ConversationApi extends ApiClient {
         status,
         assignee_type: assigneeType,
         labels,
-        teamId,
+        team_id: teamId,
       },
     });
   }
