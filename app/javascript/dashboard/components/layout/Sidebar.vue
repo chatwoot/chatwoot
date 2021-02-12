@@ -15,7 +15,7 @@
         />
         <sidebar-item
           v-if="shouldShowInboxes"
-          :key="labelSection.toState"
+          :key="teamSection.toState"
           :menu-item="teamSection"
         />
         <sidebar-item
