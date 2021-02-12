@@ -63,13 +63,17 @@ class Notification < ApplicationRecord
   def push_message_title
     case notification_type
     when 'conversation_creation'
-      "[New conversation] - ##{primary_actor.display_id} has been created in #{primary_actor.inbox.name}"
+      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
     when 'conversation_assignment'
-      "[Assigned to you] - ##{primary_actor.display_id} has been assigned to you"
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
     when 'assigned_conversation_new_message'
-      "[New message] -##{primary_actor.display_id} #{primary_actor&.messages&.incoming&.last&.content}"
+      I18n.t(
+        'notifications.notification_title.assigned_conversation_new_message',
+        display_id: primary_actor.display_id,
+        content: primary_actor&.messages&.incoming&.last&.content
+      )
     when 'conversation_mention'
-      "You have been mentioned in conversation [ID -#{primary_actor.conversation.display_id}] by #{secondary_actor.name}"
+      I18n.t('notifications.notification_title.conversation_mention', display_id: primary_actor.conversation.display_id, name: secondary_actor.name)
     else
       ''
     end
