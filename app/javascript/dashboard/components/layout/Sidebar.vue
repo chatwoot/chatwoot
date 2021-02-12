@@ -102,7 +102,7 @@ export default {
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       accountLabels: 'labels/getLabelsOnSidebar',
-      teams: 'teams/getTeams',
+      teams: 'teams/getMyTeams',
     }),
 
     sidemenuItems() {
