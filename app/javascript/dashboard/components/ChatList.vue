@@ -132,6 +132,7 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
+        teamId: this.activeTeam.name ? this.activeTeam.id : undefined,
       };
     },
     pageTitle() {
@@ -169,6 +170,9 @@ export default {
     },
   },
   watch: {
+    activeTeam() {
+      this.resetAndFetchData();
+    },
     conversationInbox() {
       this.resetAndFetchData();
     },

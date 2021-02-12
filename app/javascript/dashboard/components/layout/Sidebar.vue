@@ -102,6 +102,7 @@ export default {
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       accountLabels: 'labels/getLabelsOnSidebar',
+      teams: 'teams/getTeams',
     }),
 
     sidemenuItems() {
@@ -175,12 +176,13 @@ export default {
         label: 'TEAMS',
         hasSubMenu: true,
         key: 'team',
-        cssClass: 'menu-title align-justify',
+        cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
         toStateName: 'teams_list',
-        children: [].map(team => ({
+        children: this.teams.map(team => ({
           id: team.id,
-          team: team.name,
+          label: team.name,
+          truncateLabel: true,
           toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
         })),
       };
@@ -200,6 +202,7 @@ export default {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
     this.$store.dispatch('notifications/unReadCount');
+    this.$store.dispatch('teams/get');
     this.setChatwootUser();
   },
   methods: {
@@ -325,5 +328,9 @@ export default {
   margin-bottom: auto;
   margin-left: auto;
   margin-top: auto;
+}
+
+.teams-sidebar-menu + .nested.vertical.menu {
+  padding-left: calc(var(--space-medium) - var(--space-one));
 }
 </style>

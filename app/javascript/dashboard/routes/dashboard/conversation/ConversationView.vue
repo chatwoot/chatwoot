@@ -88,10 +88,7 @@ export default {
     },
     activeTeam() {
       if (this.teamId) {
-        return {
-          id: 1,
-          name: 'name',
-        };
+        return this.$store.getters['teams/getTeam'](this.teamId);
       }
       return {};
     },

@@ -10,11 +10,11 @@ class ConversationApi extends ApiClient {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
+        team_id: teamId,
         status,
         assignee_type: assigneeType,
         page,
         labels,
-        teamId,
       },
     });
   }
