@@ -136,15 +136,22 @@ export default {
           align: 'left',
         },
         {
-          field: 'location',
+          field: 'city',
           sortBy: 'asc',
           key: 'e',
-          title: 'Location',
+          title: 'city',
+          align: 'left',
+        },
+        {
+          field: 'country',
+          sortBy: 'asc',
+          key: 'f',
+          title: 'Country',
           align: 'left',
         },
         {
           field: 'profiles',
-          key: 'f',
+          key: 'g',
           title: 'Social Profiles',
           align: 'left',
           // eslint-disable-next-line no-unused-vars
@@ -152,6 +159,9 @@ export default {
             const { profiles } = row;
 
             const items = Object.keys(profiles);
+
+            if (!items.length) return '---';
+
             return (
               <div class="cell-social-profiles">
                 {items.map(
@@ -171,10 +181,19 @@ export default {
           },
         },
         {
+          field: 'lastSeen',
+          sortBy: 'asc',
+          key: 'h',
+          title: 'Last seen',
+          align: 'left',
+        },
+        {
           field: 'conversations_count',
           sortBy: 'asc',
-          key: 'g',
+          key: 'i',
           title: 'Conversations',
+          width: 200,
+          align: 'left',
         },
       ],
     };
@@ -183,37 +202,23 @@ export default {
     currentRoute() {
       return ' ';
     },
-    sidebarClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas is-open ';
-      }
-      return 'off-canvas position-left is-transition-push is-closed';
-    },
-    contentClassName() {
-      if (this.isOnDesktop) {
-        return '';
-      }
-      if (this.isSidebarOpen) {
-        return 'off-canvas-content is-open-left has-transition-push has-position-left';
-      }
-      return 'off-canvas-content';
-    },
     showTableData() {
       return !this.showSearchEmptyState && !this.isLoading;
     },
     tableData() {
       return this.contacts.map(item => {
         const additional = item.additional_attributes || {};
+        const { last_seen_at: lastSeenAt } = item;
         return {
           ...item,
           phone: item.phone_number || '---',
           company: additional.company_name || '---',
           location: additional.location || '---',
           profiles: additional.social_profiles || {},
+          city: additional.city || '---',
+          country: additional.country || '---',
           conversations_count: item.conversations_count || '---',
+          lastSeen: lastSeenAt ? this.dynamicTime(lastSeenAt) : '---',
         };
       });
     },
@@ -221,7 +226,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~dashboard/assets/scss/mixins';
 
 .contacts-table-wrap {
@@ -229,27 +234,34 @@ export default {
   flex: 1 1;
   height: 100%;
   overflow: hidden;
+}
 
-  .ve-table-container {
+.contacts-table-wrap::v-deep {
+  .ve-table {
     padding-bottom: var(--space-large);
   }
-}
-.row-main-info {
-  display: flex;
-  align-items: center;
+  .row-main-info {
+    display: flex;
+    align-items: center;
 
-  .user-thumbnail-box {
-    margin-right: var(--space-small);
+    .user-thumbnail-box {
+      margin-right: var(--space-small);
+    }
+
+    .user-name {
+      font-size: var(--font-size-small);
+      margin: 0;
+      text-transform: capitalize;
+    }
+
+    .user-email {
+      margin: 0;
+    }
   }
 
-  .user-name {
-    font-size: var(--font-size-small);
-    margin: 0;
-    text-transform: capitalize;
-  }
-
-  .user-email {
-    margin: 0;
+  .ve-table-header-th,
+  .ve-table-body-td {
+    padding-left: var(--space-medium) !important;
   }
 }
 </style>
