@@ -2,12 +2,13 @@
   <section class="contacts-table-wrap">
     <ve-table
       :fixed-header="true"
-      max-height="900px"
-      :scroll-width="2000"
+      max-height="90vh"
+      scroll-width="130vw"
       style="width: 100%"
       :columns="columns"
       :table-data="tableData"
-    ></ve-table>
+      :sort-option="sortOption"
+    />
 
     <empty-state
       v-if="showSearchEmptyState"
@@ -62,46 +63,116 @@ export default {
   },
   data() {
     return {
+      sortOption: {
+        sortChange: params => {
+          console.log('sortChange::', params);
+          // this.sortChange(params);
+        },
+      },
       columns: [
         {
           field: 'name',
+          sortBy: 'asc',
           key: 'a',
           title: 'Name',
           fixed: 'left',
           align: 'left',
+          // eslint-disable-next-line no-unused-vars
+          renderBodyCell: ({ row }, h) => {
+            return (
+              <div
+                class="row-main-info"
+                onClick={() => this.onClickContact(row.id)}
+              >
+                <Thumbnail
+                  src={row.thumbnail}
+                  size="36px"
+                  username={row.name}
+                  status={row.availability_status}
+                />
+                <div>
+                  <h4 class="sub-block-title user-name">{row.name}</h4>
+                  <button class="button clear small">view details</button>
+                </div>
+              </div>
+            );
+          },
         },
         {
           field: 'email',
+          sortBy: 'asc',
           key: 'b',
           title: 'Email',
           align: 'left',
+          // eslint-disable-next-line no-unused-vars
+          renderBodyCell: ({ row }, h) => {
+            if (row.email)
+              return (
+                <div>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                    href={`mailto:${row.email}`}
+                  >
+                    {row.email}
+                  </a>
+                </div>
+              );
+            return '---';
+          },
         },
         {
-          field: 'phone_number',
+          field: 'phone',
+          sortBy: 'asc',
           key: 'c',
           title: 'Phone',
           align: 'left',
         },
         {
-          field: 'company_name',
+          field: 'company',
+          sortBy: 'asc',
           key: 'd',
           title: 'Company',
           align: 'left',
         },
         {
           field: 'location',
+          sortBy: 'asc',
           key: 'e',
           title: 'Location',
           align: 'left',
         },
         {
-          field: 'social_profiles',
+          field: 'profiles',
           key: 'f',
           title: 'Social Profiles',
           align: 'left',
+          // eslint-disable-next-line no-unused-vars
+          renderBodyCell: ({ row }, h) => {
+            const { profiles } = row;
+
+            const items = Object.keys(profiles);
+            return (
+              <div class="cell-social-profiles">
+                {items.map(
+                  profile =>
+                    profiles[profile] && (
+                      <div>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          href={`https://${profile}.com/${profiles[profile]}`}
+                        >{`${profile}.com/${profiles[profile]}`}</a>
+                      </div>
+                    )
+                )}
+              </div>
+            );
+          },
         },
         {
           field: 'conversations_count',
+          sortBy: 'asc',
           key: 'g',
           title: 'Conversations',
         },
@@ -137,12 +208,11 @@ export default {
       return this.contacts.map(item => {
         const additional = item.additional_attributes || {};
         return {
-          name: item.name,
-          email: item.email || '---',
-          phone: item.phone || '---',
-          company_name: additional.company_name || '---',
+          ...item,
+          phone: item.phone_number || '---',
+          company: additional.company_name || '---',
           location: additional.location || '---',
-          social_profiles: additional.social_profiles || '---',
+          profiles: additional.social_profiles || {},
           conversations_count: item.conversations_count || '---',
         };
       });
@@ -151,78 +221,35 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '~dashboard/assets/scss/mixins';
 
 .contacts-table-wrap {
-  @include scroll-on-hover;
+  /* @include scroll-on-hover; */
   flex: 1 1;
   height: 100%;
-}
+  overflow: hidden;
 
-.contacts-table {
-  margin-top: -1px;
-
-  > thead {
-    border-bottom: 1px solid var(--color-border);
-    background: white;
-
-    > th:first-child {
-      padding-left: var(--space-medium);
-      width: 30%;
-    }
-  }
-
-  > tbody {
-    > tr {
-      cursor: pointer;
-
-      &:hover {
-        background: var(--b-50);
-      }
-
-      &.is-active {
-        background: var(--b-100);
-      }
-
-      > td {
-        padding: var(--space-slab);
-
-        &:first-child {
-          padding-left: var(--space-medium);
-        }
-
-        &.conversation-count-item {
-          padding-left: var(--space-medium);
-        }
-      }
-    }
-  }
-  .row-main-info {
-    display: flex;
-    align-items: center;
-
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
-    }
-
-    .user-name {
-      font-size: var(--font-size-small);
-      margin: 0;
-      text-transform: capitalize;
-    }
-
-    .user-email {
-      margin: 0;
-    }
+  .ve-table-container {
+    padding-bottom: var(--space-large);
   }
 }
-
-.contacts--loader {
-  font-size: var(--font-size-default);
+.row-main-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: var(--space-big);
+
+  .user-thumbnail-box {
+    margin-right: var(--space-small);
+  }
+
+  .user-name {
+    font-size: var(--font-size-small);
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  .user-email {
+    margin: 0;
+  }
 }
 </style>
