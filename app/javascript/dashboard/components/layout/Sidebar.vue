@@ -131,6 +131,9 @@ export default {
     shouldShowInboxes() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
+    shouldShowTeams() {
+      return this.shouldShowInboxes && this.teams.length;
+    },
     inboxSection() {
       return {
         icon: 'ion-folder',
@@ -175,6 +178,7 @@ export default {
         icon: 'ion-ios-people',
         label: 'TEAMS',
         hasSubMenu: true,
+        newLink: true,
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
