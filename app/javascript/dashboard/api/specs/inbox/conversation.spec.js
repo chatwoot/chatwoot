@@ -10,7 +10,7 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('update');
     expect(conversationAPI).toHaveProperty('delete');
     expect(conversationAPI).toHaveProperty('toggleStatus');
-    expect(conversationAPI).toHaveProperty('assignAgent');
+    expect(conversationAPI).toHaveProperty('setAssignee');
     expect(conversationAPI).toHaveProperty('markMessageRead');
     expect(conversationAPI).toHaveProperty('toggleTyping');
     expect(conversationAPI).toHaveProperty('mute');

@@ -32,14 +32,16 @@
         <multiselect
           v-model="currentChat.meta.assignee"
           :allow-empty="true"
-          :deselect-label="$t('CONVERSATION.ASSIGNMENT.REMOVE')"
-          :options="agentList"
+          deselect-label=""
+          :options="asignneList"
           :placeholder="$t('CONVERSATION.ASSIGNMENT.SELECT_AGENT')"
-          :select-label="$t('CONVERSATION.ASSIGNMENT.ASSIGN')"
+          group-values="targets"
+          group-label="targetType"
+          select-label=""
           label="name"
           selected-label
           track-by="id"
-          @select="assignAgent"
+          @select="setAssignee"
           @remove="removeAgent"
         >
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
@@ -53,6 +55,9 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+
+const TYPE_TEAM = 'team';
+const TYPE_AGENT = 'agent';
 
 export default {
   components: {
@@ -80,6 +85,7 @@ export default {
   computed: {
     ...mapGetters({
       agents: 'agents/getVerifiedAgents',
+      teams: 'teams/getTeams',
       currentChat: 'getSelectedChat',
     }),
 
@@ -106,14 +112,37 @@ export default {
         ...this.agents,
       ];
     },
+    asignneList() {
+      const agents = this.agents.map(agent => ({
+        ...agent,
+        assigneeType: TYPE_AGENT,
+      }));
+      const teams = this.teams.map(team => ({
+        ...team,
+        assigneeType: TYPE_TEAM,
+      }));
+      return [
+        {
+          targetType: 'Agents',
+          targets: agents,
+        },
+        {
+          targetType: 'Teams',
+          targets: teams,
+        },
+      ];
+    },
   },
 
   methods: {
-    assignAgent(agent) {
+    setAssignee(item) {
+      const { assigneeType } = item;
+      const assigneeKey = assigneeType === TYPE_AGENT ? 'agentId' : 'teamId';
+
       this.$store
-        .dispatch('assignAgent', {
+        .dispatch('setAssignee', {
           conversationId: this.currentChat.id,
-          agentId: agent.id,
+          [assigneeKey]: item.id,
         })
         .then(() => {
           bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));

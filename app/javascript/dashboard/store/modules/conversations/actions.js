@@ -103,11 +103,12 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ commit }, { conversationId, agentId }) => {
+  setAssignee: async ({ commit }, { conversationId, agentId, teamId }) => {
     try {
-      const response = await ConversationApi.assignAgent({
+      const response = await ConversationApi.setAssignee({
         conversationId,
         agentId,
+        teamId,
       });
       commit(types.default.ASSIGN_AGENT, response.data);
     } catch (error) {

@@ -31,11 +31,14 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/toggle_status`, {});
   }
 
-  assignAgent({ conversationId, agentId }) {
-    axios.post(
-      `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
-      {}
-    );
+  setAssignee({ conversationId, agentId, teamId }) {
+    const params = {};
+    if (agentId) {
+      params.assignee_id = agentId;
+    } else if (teamId) {
+      params.team_id = teamId;
+    }
+    axios.post(`${this.url}/${conversationId}/assignments`, params);
   }
 
   markMessageRead({ id }) {
