@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "メールで受信しました",
     "VIEW_TWEET_IN_TWITTER": "ツイートをTwitterで見る",
-    "REPLY_TO_TWEET": "このつぶやきに返信"
+    "REPLY_TO_TWEET": "このつぶやきに返信",
+    "NO_MESSAGES": "No Messages"
   }
 }

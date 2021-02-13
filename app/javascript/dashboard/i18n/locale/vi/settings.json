@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
     "INTEGRATIONS": "Tích hợp",
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
-    "LABELS": "Nhãn"
+    "LABELS": "Nhãn",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Tạo mới tài khoản",

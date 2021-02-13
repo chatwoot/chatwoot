@@ -29,6 +29,12 @@ fa:
       failed: ثبت نام ناموفق بود
   reports:
     period: زمان گزارش از %{since} تا %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: این پیام حذف شد
