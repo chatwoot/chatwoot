@@ -59,21 +59,26 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
+  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
-    if notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{primary_actor.inbox.name}"
+    case notification_type
+    when 'conversation_creation'
+      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
+    when 'conversation_assignment'
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
+    when 'assigned_conversation_new_message'
+      I18n.t(
+        'notifications.notification_title.assigned_conversation_new_message',
+        display_id: primary_actor.display_id,
+        content: primary_actor&.messages&.incoming&.last&.content
+      )
+    when 'conversation_mention'
+      I18n.t('notifications.notification_title.conversation_mention', display_id: primary_actor.conversation.display_id, name: secondary_actor.name)
+    else
+      ''
     end
-
-    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
-
-    return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
-
-    if notification_type == 'conversation_mention'
-      return "You have been mentioned in conversation [ID -#{primary_actor.conversation.display_id}] by #{secondary_actor.name}"
-    end
-
-    ''
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   private
 
