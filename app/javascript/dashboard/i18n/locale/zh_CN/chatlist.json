@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "通过电子邮件接收",
     "VIEW_TWEET_IN_TWITTER": "在 Twitter 中查看 tweet",
-    "REPLY_TO_TWEET": "回复此推文"
+    "REPLY_TO_TWEET": "回复此推文",
+    "NO_MESSAGES": "No Messages"
   }
 }

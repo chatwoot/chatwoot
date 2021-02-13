@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
     "ACCOUNT_SETTINGS": "帐户设置",
-    "LABELS": "标签"
+    "LABELS": "标签",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Standaard antwoorden",
     "INTEGRATIONS": "Integraties",
     "ACCOUNT_SETTINGS": "Accountinstellingen",
-    "LABELS": "Labelen"
+    "LABELS": "Labelen",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

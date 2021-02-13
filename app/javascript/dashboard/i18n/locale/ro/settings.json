@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Răspunsuri predefinite",
     "INTEGRATIONS": "Integrări",
     "ACCOUNT_SETTINGS": "Setările contului",
-    "LABELS": "Etichete"
+    "LABELS": "Etichete",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Cont Nou",
