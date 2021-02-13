@@ -12,6 +12,7 @@ describe('#mutations', () => {
     it('set teams records', () => {
       const state = { records: {} };
       mutations[SET_TEAMS](state, [teams[1]]);
+      mutations[SET_TEAMS](state, [teams[2]]);
       expect(state.records).toEqual(teams);
     });
   });
