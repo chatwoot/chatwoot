@@ -21,8 +21,11 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
             <bubble-file
-              v-if="attachment.file_type !== 'image'"
+              v-else
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
@@ -131,7 +134,7 @@ export default {
       return !this.data.message_type ? 'left' : 'right';
     },
     readableTime() {
-      return this.messageStamp(this.data.created_at);
+      return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);

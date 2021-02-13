@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "Nhận được từ email",
     "VIEW_TWEET_IN_TWITTER": "Xem tweet trên Twitter",
-    "REPLY_TO_TWEET": "Trả lời cho tweet này"
+    "REPLY_TO_TWEET": "Trả lời cho tweet này",
+    "NO_MESSAGES": "No Messages"
   }
 }

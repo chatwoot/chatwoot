@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "ഇമെയിൽ വഴി ലഭിച്ചു",
     "VIEW_TWEET_IN_TWITTER": "ട്വിറ്ററിൽ ട്വീറ്റ് കാണുക",
-    "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക"
+    "REPLY_TO_TWEET": "ഈ ട്വീറ്റിന് മറുപടി നൽകുക",
+    "NO_MESSAGES": "No Messages"
   }
 }

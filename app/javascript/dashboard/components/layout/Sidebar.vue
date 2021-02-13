@@ -14,6 +14,11 @@
           :menu-item="item"
         />
         <sidebar-item
+          v-if="shouldShowTeams"
+          :key="teamSection.toState"
+          :menu-item="teamSection"
+        />
+        <sidebar-item
           v-if="shouldShowInboxes"
           :key="inboxSection.toState"
           :menu-item="inboxSection"
@@ -97,6 +102,7 @@ export default {
       accountId: 'getCurrentAccountId',
       currentRole: 'getCurrentRole',
       accountLabels: 'labels/getLabelsOnSidebar',
+      teams: 'teams/getMyTeams',
     }),
 
     sidemenuItems() {
@@ -124,6 +130,9 @@ export default {
     },
     shouldShowInboxes() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
+    },
+    shouldShowTeams() {
+      return this.shouldShowInboxes && this.teams.length;
     },
     inboxSection() {
       return {
@@ -161,6 +170,24 @@ export default {
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
           ),
+        })),
+      };
+    },
+    teamSection() {
+      return {
+        icon: 'ion-ios-people',
+        label: 'TEAMS',
+        hasSubMenu: true,
+        newLink: true,
+        key: 'team',
+        cssClass: 'menu-title align-justify teams-sidebar-menu',
+        toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
+        toStateName: 'teams_list',
+        children: this.teams.map(team => ({
+          id: team.id,
+          label: team.name,
+          truncateLabel: true,
+          toState: frontendURL(`accounts/${this.accountId}/team/${team.id}`),
         })),
       };
     },
@@ -305,5 +332,9 @@ export default {
   margin-bottom: auto;
   margin-left: auto;
   margin-top: auto;
+}
+
+.teams-sidebar-menu + .nested.vertical.menu {
+  padding-left: calc(var(--space-medium) - var(--space-one));
 }
 </style>

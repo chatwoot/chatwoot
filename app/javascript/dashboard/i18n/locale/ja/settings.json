@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "定型文",
     "INTEGRATIONS": "連携",
     "ACCOUNT_SETTINGS": "アカウント設定",
-    "LABELS": "ラベル"
+    "LABELS": "ラベル",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "新規アカウント",

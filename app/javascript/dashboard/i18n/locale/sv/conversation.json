@@ -25,6 +25,7 @@
     "REMOVE_SELECTION": "Ta bort urval",
     "DOWNLOAD": "Hämta",
     "UPLOADING_ATTACHMENTS": "Laddar upp bilagor...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",
@@ -45,7 +46,7 @@
       "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
-      "ENTER_TO_SEND": "Enter to send"
+      "ENTER_TO_SEND": "Enter för att skicka"
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
     "CHANGE_STATUS": "Konversationsstatus ändrad",

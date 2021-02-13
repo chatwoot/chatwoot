@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Kontoindstillinger",
-    "LABELS": "Etiketter"
+    "LABELS": "Etiketter",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Ny Konto",

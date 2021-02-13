@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Tallennetut vastaukset",
     "INTEGRATIONS": "Integraatiot",
     "ACCOUNT_SETTINGS": "Tilin asetukset",
-    "LABELS": "Tunnisteet"
+    "LABELS": "Tunnisteet",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Uusi tili",
