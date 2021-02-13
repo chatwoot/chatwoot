@@ -83,10 +83,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    conversationSize: {
-      type: Number,
-      default: 0,
-    },
     availableAgents: {
       type: Array,
       default: () => [],
@@ -111,6 +107,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      conversationSize: 'conversation/getConversationSize',
       isFetchingList: 'conversation/getIsFetchingList',
     }),
     isOpen() {

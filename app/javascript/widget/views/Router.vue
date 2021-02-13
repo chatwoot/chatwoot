@@ -11,7 +11,6 @@
     <home
       v-if="!showUnreadView"
       :grouped-messages="groupedMessages"
-      :conversation-size="conversationSize"
       :available-agents="availableAgents"
       :has-fetched="hasFetched"
       :conversation-attributes="conversationAttributes"
@@ -21,7 +20,6 @@
     <unread
       v-else
       :unread-messages="unreadMessages"
-      :conversation-size="conversationSize"
       :available-agents="availableAgents"
       :has-fetched="hasFetched"
       :conversation-attributes="conversationAttributes"
@@ -49,10 +47,6 @@ export default {
     unreadMessages: {
       type: Array,
       default: () => [],
-    },
-    conversationSize: {
-      type: Number,
-      default: 0,
     },
     availableAgents: {
       type: Array,

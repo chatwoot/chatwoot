@@ -4,7 +4,6 @@
     :is-mobile="isMobile"
     :grouped-messages="groupedMessages"
     :unread-messages="unreadMessages"
-    :conversation-size="conversationSize"
     :available-agents="availableAgents"
     :has-fetched="hasFetched"
     :conversation-attributes="conversationAttributes"
@@ -42,7 +41,6 @@ export default {
     ...mapGetters({
       groupedMessages: 'conversation/getGroupedConversation',
       unreadMessages: 'conversation/getUnreadTextMessages',
-      conversationSize: 'conversation/getConversationSize',
       availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/getHasFetched',
       conversationAttributes: 'conversationAttributes/getConversationParams',
