@@ -106,11 +106,11 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the correct custom message id' do
-        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{domain}")
+        expect(mail.message_id).to eq("conversation_#{conversation.uuid}_messages_#{message.id}@#{domain}")
       end
 
       it 'sets the correct in reply to id' do
-        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
+        expect(mail.in_reply_to).to eq("account_#{conversation.account.id}_conversation_#{conversation.uuid}@#{domain}")
       end
     end
 
@@ -153,11 +153,11 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the correct custom message id' do
-        expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+        expect(mail.message_id).to eq("conversation_#{conversation.uuid}_messages_#{message.id}@#{conversation.account.domain}")
       end
 
       it 'sets the correct in reply to id' do
-        expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{conversation.account.domain}")
+        expect(mail.in_reply_to).to eq("account_#{conversation.account.id}_conversation_#{conversation.uuid}@#{conversation.account.domain}")
       end
     end
   end
