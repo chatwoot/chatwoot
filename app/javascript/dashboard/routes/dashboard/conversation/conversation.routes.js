@@ -73,13 +73,13 @@ export default {
     },
     {
       path: frontendURL(
-        'accounts/:accountId/team/:teamId/conversations/:conversation_id'
+        'accounts/:accountId/team/:teamId/conversations/:conversationId'
       ),
       name: 'conversations_through_team',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => ({
-        conversationId: route.params.conversation_id,
+        conversationId: route.params.conversationId,
         teamId: route.params.teamId,
       }),
     },
