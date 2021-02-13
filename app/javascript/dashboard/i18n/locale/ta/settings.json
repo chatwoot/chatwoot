@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "பதிவு செய்யப்பட்ட பதில்கள்",
     "INTEGRATIONS": "சேர்ப்புகள்",
     "ACCOUNT_SETTINGS": "கணக்கின் அமைப்புகள்",
-    "LABELS": "Labels"
+    "LABELS": "Labels",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",
