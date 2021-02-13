@@ -120,11 +120,11 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def custom_message_id
-    "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{current_domain}>"
+    "<conversation_#{@conversation.uuid}_messages_#{@messages&.last&.id}@#{current_domain}>"
   end
 
   def in_reply_to_email
-    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+    conversation_reply_email_id || "<account_#{@account.id}_conversation_#{@conversation.uuid}@#{current_domain}>"
   end
 
   def conversation_reply_email_id
