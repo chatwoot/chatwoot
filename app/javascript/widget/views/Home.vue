@@ -79,21 +79,9 @@ export default {
   },
   mixins: [configMixin],
   props: {
-    groupedMessages: {
-      type: Array,
-      default: () => [],
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
     hasFetched: {
       type: Boolean,
       default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
     },
     showPopoutButton: {
       type: Boolean,
@@ -107,7 +95,10 @@ export default {
   },
   computed: {
     ...mapGetters({
+      availableAgents: 'agent/availableAgents',
+      conversationAttributes: 'conversationAttributes/getConversationParams',
       conversationSize: 'conversation/getConversationSize',
+      groupedMessages: 'conversation/getGroupedConversation',
       isFetchingList: 'conversation/getIsFetchingList',
     }),
     isOpen() {

@@ -2,11 +2,7 @@
   <router
     :show-unread-view="showUnreadView"
     :is-mobile="isMobile"
-    :grouped-messages="groupedMessages"
-    :unread-messages="unreadMessages"
-    :available-agents="availableAgents"
     :has-fetched="hasFetched"
-    :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
@@ -39,11 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
-      unreadMessages: 'conversation/getUnreadTextMessages',
-      availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/getHasFetched',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
     isLeftAligned() {

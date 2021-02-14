@@ -10,19 +10,13 @@
   >
     <home
       v-if="!showUnreadView"
-      :grouped-messages="groupedMessages"
-      :available-agents="availableAgents"
       :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
     />
     <unread
       v-else
-      :unread-messages="unreadMessages"
-      :available-agents="availableAgents"
       :has-fetched="hasFetched"
-      :conversation-attributes="conversationAttributes"
       :unread-message-count="unreadMessageCount"
       :hide-message-bubble="hideMessageBubble"
     />
@@ -40,18 +34,6 @@ export default {
     Unread,
   },
   props: {
-    groupedMessages: {
-      type: Array,
-      default: () => [],
-    },
-    unreadMessages: {
-      type: Array,
-      default: () => [],
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
     hasFetched: {
       type: Boolean,
       default: false,
@@ -71,10 +53,6 @@ export default {
     hideMessageBubble: {
       type: Boolean,
       default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
     },
     unreadMessageCount: {
       type: Number,

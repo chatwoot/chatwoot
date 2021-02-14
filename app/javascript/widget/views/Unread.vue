@@ -35,6 +35,7 @@
 import { IFrameHelper } from 'widget/helpers/utils';
 import AgentBubble from 'widget/components/AgentMessageBubble.vue';
 import configMixin from '../mixins/configMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Unread',
@@ -43,21 +44,9 @@ export default {
   },
   mixins: [configMixin],
   props: {
-    unreadMessages: {
-      type: Array,
-      default: () => [],
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
     hasFetched: {
       type: Boolean,
       default: false,
-    },
-    conversationAttributes: {
-      type: Object,
-      default: () => {},
     },
     unreadMessageCount: {
       type: Number,
@@ -69,6 +58,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      unreadMessages: 'conversation/getUnreadTextMessages',
+    }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
     },
