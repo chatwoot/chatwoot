@@ -208,6 +208,9 @@ export default {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
+    &.is-private.is-text > .message-text__wrap .link {
+      color: var(--w-700);
+    }
   }
 
   &.is-pending {
