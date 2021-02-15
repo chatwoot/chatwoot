@@ -1,6 +1,6 @@
 <template>
   <form
-    class="flex flex-1 flex-col p-6 overflow-y-scroll"
+    class="flex flex-1 flex-col p-6 overflow-y-auto"
     @submit.prevent="onSubmit"
   >
     <div v-if="options.preChatMessage" class="text-black-800 text-sm leading-5">
