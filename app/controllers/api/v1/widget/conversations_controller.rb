@@ -7,7 +7,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      update_contact(contact_email)
+      update_contact(contact_email) if @contact.email.blank?
       @conversation = create_conversation
       conversation.messages.create(message_params)
     end
