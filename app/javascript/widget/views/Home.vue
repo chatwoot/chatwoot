@@ -34,7 +34,7 @@
         />
       </transition>
     </div>
-    <div class="flex flex-1 overflow-scroll">
+    <div class="flex flex-1 overflow-auto">
       <conversation-wrap
         v-if="currentView === 'messageView'"
         :grouped-messages="groupedMessages"
