@@ -32,7 +32,7 @@ class AccountUser < ApplicationRecord
   accepts_nested_attributes_for :account
 
   after_create_commit :notify_creation, :create_notification_setting
-  after_destroy :notify_deletion, :destroy_notification_setting
+  after_destroy :notify_deletion, :remove_user_from_account
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -43,9 +43,8 @@ class AccountUser < ApplicationRecord
     setting.save!
   end
 
-  def destroy_notification_setting
-    setting = user.notification_settings.find_by(account_id: account.id)
-    setting.destroy!
+  def remove_user_from_account
+    ::Agents::DestroyService.new(account: account, user: user).perform
   end
 
   private
