@@ -80,6 +80,12 @@ class Notification < ApplicationRecord
   end
   # rubocop:enable Metrics/CyclomaticComplexity
 
+  def conversation
+    return primary_actor.conversation if ['conversation_mention'].include? notification_type
+
+    primary_actor
+  end
+
   private
 
   def process_notification_delivery
