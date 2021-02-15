@@ -176,16 +176,16 @@ export default {
   .header-wrap {
     border-radius: $space-normal $space-normal 0 0;
     flex-shrink: 0;
-    transition: height 300ms;
+    transition: max-height 300ms;
     z-index: 99;
     @include shadow-large;
 
     &.expanded {
-      height: 16rem;
+      max-height: 16rem;
     }
 
     &.collapsed {
-      height: 4.5rem;
+      max-height: 4.5rem;
     }
 
     @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
