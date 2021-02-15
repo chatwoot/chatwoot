@@ -4,7 +4,7 @@ export const playNotificationAudio = () => {
   try {
     new Audio(notificationAudio).play();
   } catch (error) {
-    console.log(error);
+    // error
   }
 };
 
@@ -18,9 +18,9 @@ export const playAudioFromIframe = () => {
     setTimeout(() => {
       audioEl.muted = true;
       audioEl.pause();
-    }, 300);
+    }, 100);
   } catch (error) {
-    console.log(error);
+    // error
   }
 };
 
@@ -29,8 +29,11 @@ export const newMessageNotification = data => {
     playAudioFromIframe();
   } else {
     const { conversation_id: currentPageId } = window.WOOT.$route.params;
-    const { conversation_id: incomingConvId } = data;
-    if (currentPageId !== incomingConvId) {
+    const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+    const { conversation_id: incomingConvId, sender_id: senderId } = data;
+    const isFromCurrentUser = currentUserId === senderId;
+
+    if (currentPageId !== incomingConvId && !isFromCurrentUser) {
       playAudioFromIframe();
     }
   }
