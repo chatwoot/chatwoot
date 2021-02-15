@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
-    "LABELS": "Label"
+    "LABELS": "Label",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Akun Baru",

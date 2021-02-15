@@ -1,67 +1,67 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER": "Etiquetas",
+    "HEADER_BTN_TXT": "Adicionar Etiqueta",
+    "LOADING": "Buscando etiquetas",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Etiquetas</b> <p>As etiquetas o ajudam a categorizar as conversas e a priorizá-las. Você pode atribuir a etiqueta a uma conversa a partir do painel lateral. <br /><br />As etiquetas estão vinculadas à conta e podem ser usadas para criar fluxos de trabalho personalizados em sua organização. Você pode atribuir uma cor personalizada para uma etiqueta, facilitando a identificação da etiqueta. Você será capaz de exibir o rótulo na barra lateral para filtrar as conversas facilmente.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Não há etiquetas disponíveis nesta conta.",
+      "TITLE": "Gerir etiquetas",
+      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
       "TABLE_HEADER": [
         "Nome:",
-        "Description",
-        "Color"
+        "Descrição",
+        "Cor"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Nome da etiqueta",
+        "PLACEHOLDER": "Nome da etiqueta",
+        "ERROR": "Nome da etiqueta é obrigatório"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Descrição da etiqueta"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Cor"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Mostrar etiqueta na barra lateral"
       },
       "EDIT": "Alterar",
-      "CREATE": "Create",
+      "CREATE": "Criar",
       "DELETE": "excluir",
       "CANCEL": "cancelar"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Adicionar Etiqueta",
+      "DESC": "Etiquetas permitem que você agrupe as conversas juntos.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Editar etiqueta",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Etiqueta eliminada com sucesso",
+        "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "No, Keep "
+        "NO": "Não, Manter "
       }
     }
   }

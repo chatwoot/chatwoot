@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
-    "LABELS": "Etiquetas"
+    "LABELS": "Etiquetas",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nueva cuenta",

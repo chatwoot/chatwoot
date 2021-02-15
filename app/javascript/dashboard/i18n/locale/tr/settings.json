@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Hazır Yanıtlar",
     "INTEGRATIONS": "Entegrasyonlar",
     "ACCOUNT_SETTINGS": "Hesap ayarları",
-    "LABELS": "Etiketler"
+    "LABELS": "Etiketler",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Yeni hesap",
