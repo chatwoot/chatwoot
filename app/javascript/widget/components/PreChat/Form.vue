@@ -42,7 +42,9 @@
       block
       :bg-color="widgetColor"
       :text-color="textColor"
+      :disabled="isCreating"
     >
+      <spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
     </woot-button>
   </form>
@@ -52,6 +54,7 @@
 import WootButton from 'shared/components/Button';
 import FormInput from '../Form/Input';
 import FormTextArea from '../Form/TextArea';
+import Spinner from 'shared/components/Spinner';
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import { required, minLength, email } from 'vuelidate/lib/validators';
@@ -60,6 +63,7 @@ export default {
     FormInput,
     FormTextArea,
     WootButton,
+    Spinner,
   },
   props: {
     options: {
@@ -88,7 +92,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+      isCreating: 'conversation/getIsCreating',
+    }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
     },
@@ -99,7 +106,7 @@ export default {
       if (this.$v.$invalid) {
         return;
       }
-      this.$store.dispatch('createConversation', {
+      this.$store.dispatch('conversation/createConversation', {
         fullName: this.fullName,
         emailAddress: this.emailAddress,
         message: this.message,
