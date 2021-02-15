@@ -24,6 +24,16 @@ export default {
     replyTime() {
       return window.chatwootWebChannel.replyTime;
     },
+    preChatFormEnabled() {
+      return window.chatwootWebChannel.preChatFormEnabled;
+    },
+    preChatFormOptions() {
+      const options = window.chatwootWebChannel.preChatFormOptions || {};
+      return {
+        requireEmail: options.require_email,
+        preChatMessage: options.pre_chat_message,
+      };
+    },
     replyTimeStatus() {
       switch (this.replyTime) {
         case 'in_a_few_minutes':
