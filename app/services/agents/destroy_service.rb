@@ -2,9 +2,11 @@ class Agents::DestroyService
   pattr_initialize [:account!, :user!]
 
   def perform
-    destroy_notification_setting
-    remove_user_from_teams
-    remove_user_from_inboxes
+    ActiveRecord::Base.transaction do
+      destroy_notification_setting
+      remove_user_from_teams
+      remove_user_from_inboxes
+    end
   end
 
   private
