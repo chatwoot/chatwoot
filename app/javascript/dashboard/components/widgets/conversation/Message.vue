@@ -208,6 +208,7 @@ export default {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
+    
     &.is-private .file.message-text__wrap {
       .ion-document-text {
         color: var(--w-400);
@@ -218,6 +219,10 @@ export default {
       .download.button {
         color: var(--w-400);
       }
+    }
+    
+    &.is-private.is-text > .message-text__wrap .link {
+      color: var(--w-700);
     }
   }
 
