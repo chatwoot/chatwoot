@@ -46,7 +46,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
+
 export default {
+  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
