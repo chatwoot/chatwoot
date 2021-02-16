@@ -47,5 +47,6 @@ module.exports = {
   globals: {
     __WEBPACK_ENV__: true,
     bus: true,
+    axios: true,
   },
 };
