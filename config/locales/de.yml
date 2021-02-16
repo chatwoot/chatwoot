@@ -27,7 +27,17 @@ de:
       invalid_email: Sie haben eine ungültige E-Mail-Adresse eingegeben
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
+  reports:
+    period: Reporting period %{since} to %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
+    messages:
+      deleted: This message was deleted
     activity:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"

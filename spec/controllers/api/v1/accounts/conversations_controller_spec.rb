@@ -14,19 +14,33 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:conversation) { create(:conversation, account: account) }
 
       before do
-        conversation = create(:conversation, account: account)
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'returns all conversations' do
+      it 'returns all conversations with messages' do
+        message = create(:message, conversation: conversation, account: account)
         get "/api/v1/accounts/#{account.id}/conversations",
             headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body, symbolize_names: true)[:data][:meta][:all_count]).to eq(1)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:data][:meta][:all_count]).to eq(1)
+        expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
+      end
+
+      it 'returns conversations with empty messages array for conversations with out messages ' do
+        get "/api/v1/accounts/#{account.id}/conversations",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:data][:meta][:all_count]).to eq(1)
+        expect(body[:data][:payload].first[:messages]).to eq([])
       end
     end
   end
@@ -113,6 +127,38 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/conversations' do
+    let(:contact) { create(:contact, account: account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations",
+             params: { source_id: contact_inbox.source_id },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'creates a new conversation' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        post "/api/v1/accounts/#{account.id}/conversations",
+             headers: agent.create_new_auth_token,
+             params: { source_id: contact_inbox.source_id },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)
+        expect(response_data[:additional_attributes]).to eq({})
       end
     end
   end

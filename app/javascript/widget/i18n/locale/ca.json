@@ -27,5 +27,7 @@
   },
   "POWERED_BY": "Desenvolupat per Chatwoot",
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
-  "CHAT_PLACEHOLDER": "Escriu el missatge"
+  "CHAT_PLACEHOLDER": "Escriu el missatge",
+  "TODAY": "Avui",
+  "YESTERDAY": "Ahir"
 }

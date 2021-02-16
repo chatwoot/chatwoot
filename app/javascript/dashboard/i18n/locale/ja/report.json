@@ -3,6 +3,7 @@
     "HEADER": "レポート",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",

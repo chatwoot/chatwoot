@@ -42,13 +42,34 @@
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-postalarla görüşme sürekliliği etkinleştirildi.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Artık özel alan adınızda e-postalar alabilirsiniz."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
+      "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "SELECT_ONE": "Birini seç"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Bildirimler",
+    "MARK_ALL_DONE": "Mark All Done",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
+      "TABLE_HEADER": [
+        "İsim",
+        "Telefon numarası",
+        "Konuşmalar",
+        "Son Görüşülen"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "New conversation",
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "New Message",
+      "conversation_mention": "Mention"
     }
   }
 }

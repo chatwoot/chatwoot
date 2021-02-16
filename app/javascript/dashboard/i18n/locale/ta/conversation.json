@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "இங்கே கிளிக் செய்யவும்",
     "LOADING_INBOXES": "இன்பாக்ஸை ஏற்றுகிறது",
     "LOADING_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றுகிறோம்",
@@ -22,6 +24,8 @@
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "பதிவிறக்கம்",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "தீர்",
       "REOPEN_ACTION": "மீண்டும் திற",
@@ -38,7 +42,11 @@
       "PRIVATE_NOTE": "தனிப்பட்ட குறிப்பு",
       "SEND": "அனுப்பு",
       "CREATE": "குறிப்பு சேர்க்க",
-      "TWEET": "ட்வீட்"
+      "TWEET": "ட்வீட்",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "தனிப்பட்ட குறிப்பு: உங்களுக்கும் உங்கள் குழுவினருக்கும் மட்டுமே தெரியும்",
     "CHANGE_STATUS": "உரையாடலின் நிலை மாற்றப்பட்டது",

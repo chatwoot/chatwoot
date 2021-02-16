@@ -5,7 +5,7 @@ class ContactBuilder
     contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
     return contact_inbox if contact_inbox
 
-    build_contact
+    build_contact_inbox
   end
 
   private
@@ -26,16 +26,29 @@ class ContactBuilder
     ::ContactAvatarJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
   end
 
-  def build_contact
-    ActiveRecord::Base.transaction do
-      contact = account.contacts.create!(
-        name: contact_attributes[:name],
-        phone_number: contact_attributes[:phone_number],
-        email: contact_attributes[:email],
-        identifier: contact_attributes[:identifier],
-        additional_attributes: contact_attributes[:additional_attributes]
-      )
+  def create_contact
+    account.contacts.create!(
+      name: contact_attributes[:name],
+      phone_number: contact_attributes[:phone_number],
+      email: contact_attributes[:email],
+      identifier: contact_attributes[:identifier],
+      additional_attributes: contact_attributes[:additional_attributes]
+    )
+  end
 
+  def find_contact
+    contact = nil
+
+    contact = account.contacts.find_by(identifier: contact_attributes[:identifier]) if contact_attributes[:identifier].present?
+
+    contact ||= account.contacts.find_by(email: contact_attributes[:email]) if contact_attributes[:email].present?
+
+    contact
+  end
+
+  def build_contact_inbox
+    ActiveRecord::Base.transaction do
+      contact = find_contact || create_contact
       contact_inbox = create_contact_inbox(contact)
       update_contact_avatar(contact)
       contact_inbox

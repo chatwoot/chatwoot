@@ -70,6 +70,32 @@ describe('#actions', () => {
     });
   });
 
+  describe('#updateUISettings', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.put.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'John',
+          availability_status: 'offline',
+          ui_settings: { is_contact_sidebar_open: true },
+        },
+        headers: { expiry: 581842904 },
+      });
+      await actions.updateUISettings(
+        { commit, dispatch },
+        { uiSettings: { is_contact_sidebar_open: false } }
+      );
+      expect(setUser).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.default.SET_CURRENT_USER_UI_SETTINGS,
+          { uiSettings: { is_contact_sidebar_open: false } },
+        ],
+        [types.default.SET_CURRENT_USER],
+      ]);
+    });
+  });
+
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
       Cookies.getJSON.mockImplementation(() => true);

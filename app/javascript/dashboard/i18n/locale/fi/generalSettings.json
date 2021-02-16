@@ -42,13 +42,34 @@
         "INBOUND_EMAIL_ENABLED": "Keskustelun jatkuvuus sähköpostin kautta on käytössä tililläsi.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Voit nyt vastaanottaa sähköposteja mukautetulla verkkotunnuksellasi."
       }
-    }
+    },
+    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Paina enter valitaksesi",
       "ENTER_TO_REMOVE": "Paina enter poistaaksesi",
       "SELECT_ONE": "Valitse yksi"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "Ilmoitukset",
+    "MARK_ALL_DONE": "Mark All Done",
+    "LIST": {
+      "LOADING_MESSAGE": "Loading notifications...",
+      "404": "No Notifications",
+      "TABLE_HEADER": [
+        "Nimi",
+        "Puhelinnumero",
+        "Keskustelut",
+        "Viimeksi otettu yhteyttä"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "New conversation",
+      "conversation_assignment": "Conversation Assigned",
+      "assigned_conversation_new_message": "New Message",
+      "conversation_mention": "Mention"
     }
   }
 }

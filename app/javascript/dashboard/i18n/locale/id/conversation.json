@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
       "NO_MATCHING_RESULTS": "Tidak ada pesan yang cocok dengan parameter pencarian."
     },
+    "UNREAD_MESSAGES": "Pesan Belum Terbaca",
+    "UNREAD_MESSAGE": "Pesan Belum Terbaca",
     "CLICK_HERE": "Klik disini",
     "LOADING_INBOXES": "Memuat kotak masuk",
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
@@ -22,6 +24,8 @@
     "REPLYING_TO": "Anda membalas:",
     "REMOVE_SELECTION": "Hapus Pilihan",
     "DOWNLOAD": "Unduh",
+    "UPLOADING_ATTACHMENTS": "Unggah lampiran...",
+    "NO_RESPONSE": "Tidak ada respon",
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
       "REOPEN_ACTION": "Buka Kembali",
@@ -38,7 +42,11 @@
       "PRIVATE_NOTE": "Catatan Pribadi",
       "SEND": "Kirim",
       "CREATE": "Tambahkan Catatan",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Tampilkan editor teks",
+      "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
+      "TIP_ATTACH_ICON": "Lampirkan file",
+      "ENTER_TO_SEND": "Enter untuk mengirim"
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",

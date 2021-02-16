@@ -214,7 +214,7 @@
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "No, Keep "
+        "NO": "Não, Manter "
       },
       "API": {
         "SUCCESS_MESSAGE": "Caixa de entrada excluída com sucesso",
@@ -241,13 +241,15 @@
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuição automática de novas conversas aos agentes adicionados a essa caixa de entrada.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Ocorreu um erro, por favor tente novamente"
     }
   }
 }

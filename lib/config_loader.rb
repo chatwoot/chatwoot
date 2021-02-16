@@ -44,19 +44,25 @@ class ConfigLoader
     end
   end
 
-  def save_general_config(existing_config, new_config)
-    if existing_config
+  def save_general_config(existing, latest)
+    if existing
       # save config only if reconcile flag is false and existing configs value does not match default value
-      save_as_new_config(new_config) if !@reconcile_only_new && existing_config.value != new_config[:value]
+      save_as_new_config(latest) if !@reconcile_only_new && compare_values(existing, latest)
     else
-      save_as_new_config(new_config)
+      save_as_new_config(latest)
     end
   end
 
-  def save_as_new_config(new_config)
-    config = InstallationConfig.new(name: new_config[:name])
-    config.value = new_config[:value]
-    config.save
+  def compare_values(existing, latest)
+    existing.value != latest[:value] ||
+      (!latest[:locked].nil? && existing.locked != latest[:locked])
+  end
+
+  def save_as_new_config(latest)
+    config = InstallationConfig.find_or_create_by(name: latest[:name])
+    config.value = latest[:value]
+    config.locked = latest[:locked]
+    config.save!
   end
 
   def reconcile_feature_config
@@ -67,7 +73,7 @@ class ConfigLoader
 
       compare_and_save_feature(config)
     else
-      save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: account_features })
+      save_as_new_config({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: account_features, locked: true })
     end
   end
 
@@ -79,6 +85,6 @@ class ConfigLoader
                  # update the existing feature flag values with default values and add new feature flags with default values
                  (account_features + config.value).uniq { |h| h['name'] }
                end
-    config.update({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features })
+    config.update({ name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS', value: features, locked: true })
   end
 end

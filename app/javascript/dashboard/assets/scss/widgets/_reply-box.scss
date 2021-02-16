@@ -1,58 +1,13 @@
 .reply-box {
-  @include light-shadow;
-  border-bottom: 0;
-  border-radius: $space-small;
-  margin: $space-normal;
-  margin-top: 0;
-  max-height: $space-mega * 3;
   transition: box-shadow .35s $swift-ease-out-function,
     height 2s $swift-ease-out-function;
 
 
   &.is-focused {
-    @include shadow;
+    box-shadow: var(--shadow);
   }
 
   .reply-box__top {
-    @include flex;
-    @include flex-align($x: left, $y: middle);
-    @include padding($space-one $space-normal);
-    @include background-white;
-    @include margin(0);
-    border-top-left-radius: $space-small;
-    border-top-right-radius: $space-small;
-    position: relative;
-
-    .canned {
-      @include elegant-card;
-      background: $color-white;
-      border-bottom: $space-small solid $color-white;
-      border-top: $space-small solid $color-white;
-      left: 0;
-
-      max-height: 14rem;
-      overflow: auto;
-      position: absolute;
-      width: 24rem;
-      z-index: 100;
-
-      .active a {
-        background: $color-woot;
-      }
-    }
-
-    &.is-active {
-      border-bottom-left-radius: $space-small;
-      border-bottom-right-radius: $space-small;
-    }
-
-    &.is-private {
-      background: lighten($warning-color, 38%);
-
-      >input {
-        background: lighten($warning-color, 38%);
-      }
-    }
 
     .icon {
       color: $medium-gray;
@@ -65,9 +20,6 @@
       }
     }
 
-    .file-uploads>label {
-      cursor: pointer;
-    }
 
     .attachment {
       cursor: pointer;
@@ -82,87 +34,45 @@
       // Override min-height : 50px in foundation
       //
       max-height: $space-mega * 2.4;
-      min-height: 4rem;
+      min-height: 4.8rem;
+      padding: var(--space-normal) 0 0;
       resize: none;
     }
   }
 
-  .reply-box__bottom {
-    @include background-light;
-    @include flex;
-    @include flex-align($x: justify, $y: middle);
-    @include border-light-top;
-    border-bottom-left-radius: $space-small;
-    border-bottom-right-radius: $space-small;
+  &.is-private {
+    background: var(--y-50);
 
-    .tabs {
-      border: 0;
-      flex: 1;
-      padding: 0;
+    .reply-box__top {
+      background: var(--y-50);
 
-      .tabs-title {
-        margin: 0;
-        transition: all .2s $swift-ease-out-function;
-        transition-property: color, background;
-
-        a {
-          font-weight: $font-weight-medium;
-          padding: $space-one $space-two;
-        }
-
-        &.is-private.is-active {
-          background: lighten($warning-color, 38%);
-
-          a {
-            border-bottom-color: darken($warning-color, 15%);
-            color: darken($warning-color, 15%);
-          }
-        }
-      }
-
-      .tabs-title:first-child {
-        border-bottom-left-radius: $space-small;
-
-        &.is-active {
-          @include border-light-right;
-          border-left: 0;
-        }
-
-        a {
-          border-bottom-left-radius: $space-small;
-        }
-      }
-
-      .is-active {
-        @include background-white;
-        @include border-light-left;
-        @include border-light-right;
-        margin-top: -1px;
-      }
-
-      .message-length {
-        float: right;
-
-        a {
-          font-size: $font-size-mini;
-        }
-      }
-
-      .message-error {
-        color: $input-error-color;
+      >input {
+        background: var(--y-50);
       }
     }
+  }
 
-    .send-button {
-      border-bottom-right-radius: $space-small;
-      height: 3.6rem;
-      padding-left: $space-two;
-      padding-right: $space-two;
-      padding-top: $space-small;
+  .file-uploads>label {
+    cursor: pointer;
 
-      .icon {
-        margin-left: $space-small;
-      }
+    &:hover .button--emoji {
+      background: var(--b-200);
+    }
+  }
+
+  .bottom-box .button--emoji.button--upload {
+    height: var(--space-large);
+    padding: 0;
+    width: var(--space-large);
+
+    .file-uploads {
+      height: 100%;
+      line-height: var(--space-large);
+      width: 100%;
+    }
+
+    label {
+      padding: var(--space-small);
     }
   }
 }

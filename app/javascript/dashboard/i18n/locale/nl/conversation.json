@@ -13,6 +13,8 @@
       "PLACEHOLDER": "Type any text to search messages",
       "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
     },
+    "UNREAD_MESSAGES": "Unread Messages",
+    "UNREAD_MESSAGE": "Unread Message",
     "CLICK_HERE": "Klik hier",
     "LOADING_INBOXES": "Inboxen laden",
     "LOADING_CONVERSATIONS": "Conversaties laden",
@@ -22,6 +24,8 @@
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Download",
+    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "Oplossen",
       "REOPEN_ACTION": "Heropenen",
@@ -38,7 +42,11 @@
       "PRIVATE_NOTE": "Privénotitie",
       "SEND": "Verzenden",
       "CREATE": "Notitie toevoegen",
-      "TWEET": "Tweet"
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_EMOJI_ICON": "Show emoji selector",
+      "TIP_ATTACH_ICON": "Attach files",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
     "CHANGE_STATUS": "Gespreksstatus veranderd",

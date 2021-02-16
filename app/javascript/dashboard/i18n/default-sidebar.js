@@ -9,11 +9,15 @@ export const getSidebarItems = accountId => ({
       'conversation_through_inbox',
       'contacts_dashboard',
       'workflows_dashboard',
+      'notifications_dashboard',
       'settings_account_reports',
       'profile_settings',
       'profile_settings_index',
       'label_conversations',
       'conversations_through_label',
+      'team_conversations',
+      'conversations_through_team',
+      'notifications_index',
     ],
     menuItems: {
       assignedToMe: {
@@ -26,7 +30,7 @@ export const getSidebarItems = accountId => ({
         toStateName: 'home',
       },
       contacts: {
-        icon: 'ion-person-stalker',
+        icon: 'ion-person',
         label: 'CONTACTS',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/contacts`),
@@ -38,6 +42,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/workflows`),
         toStateName: 'workflows_dashboard',
+      },
+      notifications: {
+        icon: 'ion-ios-bell',
+        label: 'NOTIFICATIONS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/notifications`),
+        toStateName: 'notifications_dashboard',
       },
       report: {
         icon: 'ion-arrow-graph-up-right',

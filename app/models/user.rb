@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  sign_in_count          :integer          default(0), not null
 #  tokens                 :json
+#  ui_settings            :jsonb
 #  uid                    :string           default(""), not null
 #  unconfirmed_email      :string
 #  created_at             :datetime         not null
@@ -61,6 +62,7 @@ class User < ApplicationRecord
   # validates_uniqueness_of :email, scope: :account_id
 
   validates :email, :name, presence: true
+  validates_length_of :name, minimum: 1
 
   has_many :account_users, dependent: :destroy
   has_many :accounts, through: :account_users
@@ -77,6 +79,8 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :notification_subscriptions, dependent: :destroy
+  has_many :team_members, dependent: :destroy
+  has_many :teams, through: :team_members
 
   before_validation :set_password_and_uid, on: :create
 
@@ -103,6 +107,13 @@ class User < ApplicationRecord
 
   def available_name
     self[:display_name].presence || name
+  end
+
+  def hmac_identifier
+    hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
+    return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
+
+    ''
   end
 
   def account

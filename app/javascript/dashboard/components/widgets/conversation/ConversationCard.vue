@@ -27,12 +27,18 @@
       <p v-if="lastMessageInChat" class="conversation--message">
         <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
         <span v-if="lastMessageInChat.content">
-          {{ lastMessageInChat.content }}
+          {{ parsedLastMessage }}
         </span>
         <span v-else-if="!lastMessageInChat.attachments">{{ ` ` }}</span>
         <span v-else>
           <i :class="`small-icon ${this.$t(`${attachmentIconKey}.ICON`)}`"></i>
           {{ this.$t(`${attachmentIconKey}.CONTENT`) }}
+        </span>
+      </p>
+      <p v-else class="conversation--message">
+        <i class="ion-android-alert"></i>
+        <span>
+          {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
       <div class="conversation--meta">
@@ -47,6 +53,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
@@ -59,7 +66,7 @@ export default {
     Thumbnail,
   },
 
-  mixins: [timeMixin, conversationMixin],
+  mixins: [timeMixin, conversationMixin, messageFormatterMixin],
   props: {
     activeLabel: {
       type: String,
@@ -128,6 +135,10 @@ export default {
       const lastMessage = this.lastMessageInChat;
       const { message_type: messageType } = lastMessage;
       return messageType === MESSAGE_TYPE.OUTGOING;
+    },
+
+    parsedLastMessage() {
+      return this.getPlainText(this.lastMessageInChat.content);
     },
   },
 

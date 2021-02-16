@@ -1,21 +1,21 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "로그인",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "LABEL": "이메일",
+      "PLACEHOLDER": "이메일 예시: someone@example.com"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "비밀번호",
+      "PLACEHOLDER": "비밀번호"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login Successful",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later",
-      "UNAUTH": "Username / Password Incorrect. Please try again"
+      "SUCCESS_MESSAGE": "로그인 성공",
+      "ERROR_MESSAGE": "Woot 서버에 연결할 수 없음. 나중에 다시 시도하십시오.",
+      "UNAUTH": "사용자 이름/암호가 잘못됨. 다시 시도하십시오."
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "암호를 잊으셨나요?",
+    "CREATE_NEW_ACCOUNT": "계정 생성",
+    "SUBMIT": "로그인"
   }
 }

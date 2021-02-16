@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Kullanıcılar",
         "DESC": "Burada yeni oluşturulan gelen kutunuzu yönetmek için aracılar ekleyebilirsiniz. Yalnızca bu seçilen temsilciler gelen kutunuza erişebilir. Bu gelen kutusunun parçası olmayan temsilciler, oturum açtıklarında bu gelen kutusundaki mesajları göremeyecek veya yanıtlayamayacak. <br> <b> Not: </b> Bir yönetici olarak, tüm gelen kutularına erişmeniz gerekiyorsa, kendinizi oluşturduğunuz tüm gelen kutularına aracı olarak eklemelisiniz.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Yeni Gelen Kutunuza en az bir temsilci ekleyin",
+        "PICK_AGENTS": "Gelen kutusu için aracı seçin"
       },
       "DETAILS": {
         "TITLE": "Gelen Kutusu Ayrıntıları",
@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni görüşmelerin otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın."
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni görüşmelerin otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Yeniden yetkilendir",

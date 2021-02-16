@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "啟用自動分配",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。"
+      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授權",

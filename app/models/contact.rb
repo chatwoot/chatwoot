@@ -26,6 +26,7 @@ class Contact < ApplicationRecord
   include Pubsubable
   include Avatarable
   include AvailabilityStatusable
+  include Labelable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
@@ -38,9 +39,8 @@ class Contact < ApplicationRecord
   has_many :messages, as: :sender, dependent: :destroy
 
   before_validation :prepare_email_attribute
-  after_create_commit :dispatch_create_event
+  after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
-  after_commit :ip_lookup
 
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id

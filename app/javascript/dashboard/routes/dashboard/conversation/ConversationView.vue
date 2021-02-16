@@ -3,6 +3,7 @@
     <chat-list
       :conversation-inbox="inboxId"
       :label="label"
+      :active-team="activeTeam"
       @conversation-load="onConversationLoad"
     >
       <button class="search--button" @click="onSearch">
@@ -38,6 +39,7 @@ import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 import Search from './search/Search.vue';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
   components: {
@@ -46,6 +48,7 @@ export default {
     ConversationBox,
     Search,
   },
+  mixins: [uiSettingsMixin],
   props: {
     inboxId: {
       type: [String, Number],
@@ -59,11 +62,13 @@ export default {
       type: String,
       default: '',
     },
+    teamId: {
+      type: String,
+      default: '',
+    },
   },
-
   data() {
     return {
-      panelToggleState: true,
       showSearchModal: false,
     };
   },
@@ -72,16 +77,20 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
-    isContactPanelOpen: {
-      get() {
-        if (this.currentChat.id) {
-          return this.panelToggleState;
-        }
-        return false;
-      },
-      set(val) {
-        this.panelToggleState = val;
-      },
+    isContactPanelOpen() {
+      if (this.currentChat.id) {
+        const {
+          is_contact_sidebar_open: isContactSidebarOpen,
+        } = this.uiSettings;
+        return isContactSidebarOpen;
+      }
+      return false;
+    },
+    activeTeam() {
+      if (this.teamId) {
+        return this.$store.getters['teams/getTeam'](this.teamId);
+      }
+      return {};
     },
   },
 
@@ -102,7 +111,6 @@ export default {
       this.$store.dispatch('setActiveInbox', this.inboxId);
       this.setActiveChat();
     },
-
     fetchConversationIfUnavailable() {
       if (!this.conversationId) {
         return;
@@ -117,7 +125,6 @@ export default {
       const [chat] = this.chatList.filter(c => c.id === conversationId);
       return chat;
     },
-
     setActiveChat() {
       if (this.conversationId) {
         const chat = this.findConversation();
@@ -132,7 +139,9 @@ export default {
       }
     },
     onToggleContactPanel() {
-      this.isContactPanelOpen = !this.isContactPanelOpen;
+      this.updateUISettings({
+        is_contact_sidebar_open: !this.isContactPanelOpen,
+      });
     },
     onSearch() {
       this.showSearchModal = true;
@@ -143,7 +152,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .search--button {
   align-items: center;
   border: 0;
@@ -155,6 +164,12 @@ export default {
   padding: var(--space-normal) var(--space-normal) var(--space-slab);
   text-align: left;
   line-height: var(--font-size-large);
+
+  &:hover {
+    .search--icon {
+      color: var(--w-500);
+    }
+  }
 }
 
 .search--icon {

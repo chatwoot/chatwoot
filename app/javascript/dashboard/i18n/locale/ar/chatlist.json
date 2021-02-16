@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "تم تلقيه عبر البريد الإلكتروني",
     "VIEW_TWEET_IN_TWITTER": "عرض التغريدة في تويتر",
-    "REPLY_TO_TWEET": "الرد على هذه التغريدة"
+    "REPLY_TO_TWEET": "الرد على هذه التغريدة",
+    "NO_MESSAGES": "No Messages"
   }
 }

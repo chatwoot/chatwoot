@@ -6,6 +6,10 @@ export default {
       const messageFormatter = new MessageFormatter(message, isATweet);
       return messageFormatter.formattedMessage;
     },
+    getPlainText(message, isATweet) {
+      const messageFormatter = new MessageFormatter(message, isATweet);
+      return messageFormatter.plainText;
+    },
     truncateMessage(description = '') {
       if (description.length < 100) {
         return description;

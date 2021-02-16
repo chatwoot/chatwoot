@@ -11,7 +11,7 @@
   <tr>
     <td style="padding: 10px 20px; margin: 5px 0 20px 0; background: #F2F3F7; border-radius: 10px; display: inline-block; font-family: "Helvetica Neue",Tahoma,Arial,sans-serif; text-align: start; unicode-bidi: plaintext;">
       <% if message.content %>
-        <%= message.content %>
+        <%= CommonMarker.render_html(message.content).html_safe %>
       <% end %>
       <% if message.attachments %>
         <% message.attachments.each do |attachment| %>

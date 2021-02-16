@@ -3,6 +3,7 @@
     "HEADER": "அறிக்கைகள்",
     "LOADING_CHART": "சார்ட்டுக்கான டேட்டாவை பெறுகிறது...",
     "NO_ENOUGH_DATA": "அறிக்கையை உருவாக்க போதுமான தரவுகளை பெறவில்லை, தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "உரையாடல்கள்",

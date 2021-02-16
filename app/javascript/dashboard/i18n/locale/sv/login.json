@@ -12,10 +12,10 @@
     "API": {
       "SUCCESS_MESSAGE": "Inloggning lyckades",
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare",
-      "UNAUTH": "Användarnamn / felaktigt lösenord. Försök igen"
+      "UNAUTH": "Användarnamn / lösenord felaktigt. Försök igen"
     },
     "FORGOT_PASSWORD": "Glömt ditt lösenord?",
     "CREATE_NEW_ACCOUNT": "Skapa nytt konto",
-    "SUBMIT": "Login"
+    "SUBMIT": "Logga in"
   }
 }

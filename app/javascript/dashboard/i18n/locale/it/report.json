@@ -3,6 +3,7 @@
     "HEADER": "Segnalazioni",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non abbiamo ricevuto abbastanza dati per generare la segnalazione, riprova più tardi.",
+    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",

@@ -11,6 +11,7 @@
     "OS": "سیستم عامل",
     "INITIATED_FROM": "شروع شده از",
     "INITIATED_AT": "شروع شده در",
+    "IP_ADDRESS": "آدرس آی‌پی",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "این اولین گفتگوی این کاربر است.",
       "TITLE": "گفتگوهای قبلی"
@@ -33,9 +34,9 @@
       "NO_AVAILABLE_LABELS": "هیچ برچسبی به این گفتگو اضافه نشده است."
     },
     "MUTE_CONTACT": "بی‌صدا کردن گفتگو",
-    "UNMUTE_CONTACT": "Unmute Conversation",
+    "UNMUTE_CONTACT": "خارج کردن از حالت بی صدا",
     "MUTED_SUCCESS": "این گفتگو به مدت ۶ ساعت بی‌صدا است",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "UNMUTED_SUCCESS": "این گفتگو از حالت بی صدا خارج شده است",
     "SEND_TRANSCRIPT": "ارسال متن",
     "EDIT_LABEL": "ویرایش"
   },
@@ -97,17 +98,17 @@
     "ERROR_MESSAGE": "خطایی در به‌روزرسانی مخاطب رخ داده، لطفا دوباره امتحان کنید"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "مخاطبین",
+    "SEARCH_BUTTON": "جستجو",
+    "SEARCH_INPUT_PLACEHOLDER": "جستجوی مخاطبین",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "در حال بارگذاری مخاطبین...",
+      "404": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
       "TABLE_HEADER": [
         "نام",
         "شماره تلفن",
         "گفتگوها",
-        "Last Contacted"
+        "آخرین تماس"
       ]
     }
   }

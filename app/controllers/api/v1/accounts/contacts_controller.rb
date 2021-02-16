@@ -14,9 +14,20 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = resolved_contacts.where('name LIKE :search OR email LIKE :search OR phone_number LIKE :search', search: "%#{params[:q]}%")
+    contacts = resolved_contacts.where(
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search',
+      search: "%#{params[:q]}%"
+    )
     @contacts_count = contacts.count
     @contacts = fetch_contact_last_seen_at(contacts)
+  end
+
+  def import
+    ActiveRecord::Base.transaction do
+      import = Current.account.data_imports.create!(data_type: 'contacts')
+      import.import_file.attach(params[:import_file])
+    end
+    head :ok
   end
 
   # returns online contacts
@@ -32,7 +43,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def create
     ActiveRecord::Base.transaction do
       @contact = Current.account.contacts.new(contact_params)
-      set_ip
       @contact.save!
       @contact_inbox = build_contact_inbox
     end
@@ -40,12 +50,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
-    set_ip
     @contact.save!
   rescue ActiveRecord::RecordInvalid => e
     render json: {
       message: e.record.errors.full_messages.join(', '),
-      contact: Contact.find_by(email: contact_params[:email])
+      contact: Current.account.contacts.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
   end
 
@@ -95,12 +104,5 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
-  end
-
-  def set_ip
-    return if @contact.account.feature_enabled?('ip_lookup')
-
-    @contact[:additional_attributes][:created_at_ip] ||= request.remote_ip
-    @contact[:additional_attributes][:updated_at_ip] = request.remote_ip
   end
 end

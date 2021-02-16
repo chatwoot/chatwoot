@@ -28,8 +28,13 @@ import {
   verifyServiceWorkerExistence,
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
+import * as Sentry from '@sentry/vue';
 
 Vue.config.env = process.env;
+
+if (window.errorLoggingConfig) {
+  Sentry.init({ Vue: Vue, dsn: window.errorLoggingConfig });
+}
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
@@ -42,11 +47,11 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
-Object.keys(i18n).forEach(lang => {
-  Vue.locale(lang, i18n[lang]);
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
 });
 
-Vue.config.lang = 'en';
 sync(store, router);
 // load common helpers into js
 commonHelpers();
@@ -58,6 +63,7 @@ window.onload = () => {
   window.WOOT = new Vue({
     router,
     store,
+    i18n: i18nConfig,
     components: { App },
     template: '<App/>',
   }).$mount('#app');

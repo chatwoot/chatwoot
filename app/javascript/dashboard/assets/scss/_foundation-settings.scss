@@ -236,18 +236,18 @@ $breadcrumbs-item-slash: true;
 // 11. Button
 // ----------
 
-$button-padding: $space-one $space-normal;
+$button-padding: var(--space-one) var(--space-slab);
 $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
 $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
-$button-radius: $global-radius;
-$button-sizes: (tiny: $font-size-micro,
-  small: $font-size-mini,
-  default: $font-size-default,
-  large: $font-size-large);
+$button-radius: var(--border-radius-normal);
+$button-sizes: (tiny: var(--font-size-nano),
+  small: var(--font-size-mini),
+  default: var(--font-size-small),
+  large: var(--font-size-medium));
 $button-palette: $foundation-palette;
 $button-opacity-disabled: 0.25;
 $button-background-hover-lightness: -20%;

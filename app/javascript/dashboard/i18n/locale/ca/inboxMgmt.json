@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "Agents",
         "DESC": "Aquí podeu afegir agents per gestionar la vostra safata d'entrada de nova creació. Només aquests agents seleccionats tindran accés a la vostra safata d'entrada. Els agents que no formen part d'aquesta safata d'entrada no podran veure ni respondre als missatges d'aquesta safata d'entrada quan s’inicien. <br><b>PD:</b> Com a administrador, si necessiteu accés a totes les bústies d’entrada, heu d’afegir-vos com a agent a totes les bústies de sortida que creeu.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Afageix almenys un agent a la teva safata d'entrada",
+        "PICK_AGENTS": "Tria agents per la safata d'entrada"
       },
       "DETAILS": {
         "TITLE": "Detalls de la safata d'entrada",
@@ -241,7 +241,9 @@
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses"
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activa o desactiva l'assignació automàtica d'agents disponibles a les noves converses",
+      "HMAC_VERIFICATION": "Validació de la Identitat del Usuari",
+      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautoritza",

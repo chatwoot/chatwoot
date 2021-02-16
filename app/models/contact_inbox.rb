@@ -2,12 +2,13 @@
 #
 # Table name: contact_inboxes
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  contact_id :bigint
-#  inbox_id   :bigint
-#  source_id  :string           not null
+#  id            :bigint           not null, primary key
+#  hmac_verified :boolean          default(FALSE)
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  contact_id    :bigint
+#  inbox_id      :bigint
+#  source_id     :string           not null
 #
 # Indexes
 #
@@ -26,6 +27,7 @@ class ContactInbox < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   validates :source_id, presence: true
+  validate :valid_source_id_format?
 
   belongs_to :contact
   belongs_to :inbox
@@ -45,5 +47,25 @@ class ContactInbox < ApplicationRecord
 
   def current_conversation
     conversations.last
+  end
+
+  private
+
+  def validate_twilio_source_id
+    # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
+    if inbox.channel.medium == 'sms' && !/^\+[1-9]\d{1,14}$/.match?(source_id)
+      errors.add(:source_id, 'invalid source id for twilio sms inbox. valid Regex /^\+[1-9]\d{1,14}$/')
+    elsif inbox.channel.medium == 'whatsapp' && !/^whatsapp:\+[1-9]\d{1,14}$/.match?(source_id)
+      errors.add(:source_id, 'invalid source id for twilio whatsapp inbox. valid Regex /^whatsapp:\+[1-9]\d{1,14}$/')
+    end
+  end
+
+  def validate_email_source_id
+    errors.add(:source_id, "invalid source id for Email inbox. valid Regex #{Device.email_regexp}") unless Devise.email_regexp.match?(source_id)
+  end
+
+  def valid_source_id_format?
+    validate_twilio_source_id if inbox.channel_type == 'Channel::TwilioSms'
+    validate_email_source_id if inbox.channel_type == 'Channel::Email'
   end
 end
