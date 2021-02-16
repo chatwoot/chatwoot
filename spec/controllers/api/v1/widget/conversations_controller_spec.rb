@@ -27,6 +27,31 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     end
   end
 
+  describe 'POST /api/v1/widget/conversations' do
+    it 'creates a conversation' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: 'contact-email@chatwoot.com'
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      json_response = JSON.parse(response.body)
+
+      expect(json_response['id']).not_to eq nil
+      expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
+      expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+    end
+  end
+
   describe 'POST /api/v1/widget/conversations/toggle_typing' do
     context 'with a conversation' do
       it 'dispatches the correct typing status' do

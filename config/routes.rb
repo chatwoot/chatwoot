@@ -67,6 +67,7 @@ Rails.application.routes.draw do
             collection do
               get :active
               get :search
+              post :import
             end
             scope module: :contacts do
               resources :conversations, only: [:index]
@@ -101,8 +102,13 @@ Rails.application.routes.draw do
             resources :team_members, only: [:index, :create] do
               collection do
                 delete :destroy
+                patch :update
               end
             end
+          end
+
+          namespace :twitter do
+            resource :authorization, only: [:create]
           end
 
           resources :webhooks, except: [:show]
@@ -137,7 +143,7 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index] do
+        resources :conversations, only: [:index, :create] do
           collection do
             post :update_last_seen
             post :toggle_typing
@@ -200,7 +206,6 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
   namespace :twitter do
-    resource :authorization, only: [:create]
     resource :callback, only: [:show]
   end
 

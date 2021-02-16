@@ -25,6 +25,7 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "BAIXAR",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -44,7 +45,8 @@
       "TWEET": "Tuitar",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_ATTACH_ICON": "Attach files",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa alterado",
@@ -62,7 +64,7 @@
     "SUBMIT": "submeter",
     "CANCEL": "cancelar",
     "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again",
+    "SEND_EMAIL_ERROR": "Ocorreu um erro, por favor tente novamente",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
       "SEND_TO_AGENT": "Send the transcript to the assigned agent",

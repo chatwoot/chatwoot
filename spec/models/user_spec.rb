@@ -9,6 +9,7 @@ RSpec.describe User do
   context 'validations' do
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_least(1) }
   end
 
   context 'associations' do
@@ -31,6 +32,24 @@ RSpec.describe User do
 
     it { expect(user.pubsub_token).not_to eq(nil) }
     it { expect(user.saved_changes.keys).not_to eq('pubsub_token') }
+  end
+
+  describe 'hmac_identifier' do
+    it 'return nil if CHATWOOT_INBOX_HMAC_KEY is not set' do
+      expect(user.hmac_identifier).to eq('')
+    end
+
+    it 'return value if CHATWOOT_INBOX_HMAC_KEY is set' do
+      ConfigLoader.new.process
+      i = InstallationConfig.find_by(name: 'CHATWOOT_INBOX_HMAC_KEY')
+      i.value = 'random_secret_key'
+      i.save!
+      GlobalConfig.clear_cache
+
+      expected_hmac_identifier = OpenSSL::HMAC.hexdigest('sha256', 'random_secret_key', user.email)
+
+      expect(user.hmac_identifier).to eq expected_hmac_identifier
+    end
   end
 
   context 'sso_auth_token' do

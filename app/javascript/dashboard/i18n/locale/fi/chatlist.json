@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "Vastaanotettu sähköpostitse",
     "VIEW_TWEET_IN_TWITTER": "Näytä twiitti Twitterissä",
-    "REPLY_TO_TWEET": "Vastaa tähän twiittiin"
+    "REPLY_TO_TWEET": "Vastaa tähän twiittiin",
+    "NO_MESSAGES": "No Messages"
   }
 }

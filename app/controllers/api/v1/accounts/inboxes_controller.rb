@@ -89,6 +89,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                     :webhook_url,
                     :email,
                     :reply_time,
+                    :pre_chat_form_enabled,
+                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
                     { selected_feature_flags: [] }
                   ])
   end

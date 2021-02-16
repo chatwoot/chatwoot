@@ -1,0 +1,115 @@
+{
+  "CONTACT_PANEL": {
+    "NOT_AVAILABLE": "Ikke tilgjengelig",
+    "EMAIL_ADDRESS": "E-postadresse",
+    "PHONE_NUMBER": "Telefonnummer",
+    "COPY_SUCCESSFUL": "Kopiert til utklippstavle",
+    "COMPANY": "Firma",
+    "LOCATION": "Plassering",
+    "CONVERSATION_TITLE": "Samtaledetaljer",
+    "BROWSER": "Nettleser",
+    "OS": "Operativsystem",
+    "INITIATED_FROM": "Startet fra",
+    "INITIATED_AT": "Started",
+    "IP_ADDRESS": "IP Adresse",
+    "CONVERSATIONS": {
+      "NO_RECORDS_FOUND": "Det er ingen tidligere samtaler knyttet til denne kontakten.",
+      "TITLE": "Tidligere samtaler"
+    },
+    "CUSTOM_ATTRIBUTES": {
+      "TITLE": "Egendefinerte verdier"
+    },
+    "LABELS": {
+      "TITLE": "Samtaleetiketter",
+      "MODAL": {
+        "TITLE": "Etiketter for",
+        "ACTIVE_LABELS": "Etiketter lagt til i samtalen",
+        "INACTIVE_LABELS": "Etiketter tilgjengelig i kontoen",
+        "REMOVE": "Klikk på X ikonet for å fjerne etiketten",
+        "ADD": "Klikk på + ikonet for å legge til etiketten",
+        "UPDATE_BUTTON": "Oppdater etiketter",
+        "UPDATE_ERROR": "Kunne ikke oppdatere etiketter, prøv på nytt."
+      },
+      "NO_LABELS_TO_ADD": "Det er ingen flere etiketter definert i kontoen.",
+      "NO_AVAILABLE_LABELS": "Det er ingen etiketter lagt til i denne samtalen."
+    },
+    "MUTE_CONTACT": "Demp samtale",
+    "UNMUTE_CONTACT": "Skru av demping",
+    "MUTED_SUCCESS": "Denne samtalen er dempet i 6 timer",
+    "UNMUTED_SUCCESS": "Demping er skrudd av for samtalen",
+    "SEND_TRANSCRIPT": "Send kopi av samtale",
+    "EDIT_LABEL": "Rediger"
+  },
+  "EDIT_CONTACT": {
+    "BUTTON_LABEL": "Rediger kontakt",
+    "TITLE": "Rediger kontakt",
+    "DESC": "Rediger kontaktopplysninger",
+    "FORM": {
+      "SUBMIT": "Send",
+      "CANCEL": "Avbryt",
+      "AVATAR": {
+        "LABEL": "Kontaktens profilbilde"
+      },
+      "NAME": {
+        "PLACEHOLDER": "Angi hele navnet på kontakten",
+        "LABEL": "Fullt navn"
+      },
+      "BIO": {
+        "PLACEHOLDER": "Skriv beskrivelse for kontakten",
+        "LABEL": "Beskrivelse"
+      },
+      "EMAIL_ADDRESS": {
+        "PLACEHOLDER": "Skriv inn e-postadressen til kontakten",
+        "LABEL": "E-postadresse"
+      },
+      "PHONE_NUMBER": {
+        "PLACEHOLDER": "Skriv inn telefonnummeret til kontakten",
+        "LABEL": "Telefonnummer"
+      },
+      "LOCATION": {
+        "PLACEHOLDER": "Angi plasseringen til kontakten",
+        "LABEL": "Plassering"
+      },
+      "COMPANY_NAME": {
+        "PLACEHOLDER": "Skriv inn firmanavn",
+        "LABEL": "Firmaets navn"
+      },
+      "SOCIAL_PROFILES": {
+        "FACEBOOK": {
+          "PLACEHOLDER": "Skriv inn Facebook brukernavn",
+          "LABEL": "Facebook"
+        },
+        "TWITTER": {
+          "PLACEHOLDER": "Skriv inn Twitter brukernavn",
+          "LABEL": "Twitter"
+        },
+        "LINKEDIN": {
+          "PLACEHOLDER": "Skriv inn LinkedIn brukernavn",
+          "LABEL": "LinkedIn"
+        },
+        "GITHUB": {
+          "PLACEHOLDER": "Skriv inn Github brukernavn",
+          "LABEL": "Github"
+        }
+      }
+    },
+    "SUCCESS_MESSAGE": "Kontakten er oppdatert",
+    "CONTACT_ALREADY_EXIST": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
+    "ERROR_MESSAGE": "Det oppstod en feil under oppdatering av kontakten. Prøv igjen"
+  },
+  "CONTACTS_PAGE": {
+    "HEADER": "Kontakter",
+    "SEARCH_BUTTON": "Søk",
+    "SEARCH_INPUT_PLACEHOLDER": "Søk etter kontakter",
+    "LIST": {
+      "LOADING_MESSAGE": "Laster inn kontakter...",
+      "404": "Ingen kontakter samsvarer med søket ditt 🔍",
+      "TABLE_HEADER": [
+        "Navn",
+        "Telefonnummer",
+        "Samtaler",
+        "Siste kontakt"
+      ]
+    }
+  }
+}

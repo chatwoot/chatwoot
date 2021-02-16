@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_14_202310) do
+ActiveRecord::Schema.define(version: 2021_02_12_154240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.integer "feature_flags", default: 3, null: false
     t.integer "reply_time", default: 0
     t.string "hmac_token"
+    t.boolean "pre_chat_form_enabled", default: false
+    t.jsonb "pre_chat_form_options", default: {}
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
@@ -239,6 +241,18 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+  end
+
+  create_table "data_imports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "data_type", null: false
+    t.integer "status", default: 0, null: false
+    t.text "processing_errors"
+    t.integer "total_records"
+    t.integer "processed_records"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_data_imports_on_account_id"
   end
 
   create_table "email_templates", force: :cascade do |t|
@@ -480,11 +494,9 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
-    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -498,6 +510,7 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id", "user_id"], name: "index_team_members_on_team_id_and_user_id", unique: true
     t.index ["team_id"], name: "index_team_members_on_team_id"
     t.index ["user_id"], name: "index_team_members_on_user_id"
   end
@@ -510,6 +523,7 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["account_id"], name: "index_teams_on_account_id"
+    t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
 
   create_table "telegram_bots", id: :serial, force: :cascade do |t|
@@ -583,6 +597,7 @@ ActiveRecord::Schema.define(version: 2021_01_14_202310) do
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
+  add_foreign_key "data_imports", "accounts"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
   add_foreign_key "teams", "accounts"

@@ -74,11 +74,11 @@
           "DISABLED": "已禁用"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "设置回复时间",
+          "IN_A_FEW_MINUTES": "几分钟前",
+          "IN_A_FEW_HOURS": "几个小时前",
+          "IN_A_DAY": "一天内",
+          "HELP_TEXT": "此回复时间将会显示在实时聊天窗口上"
         },
         "WIDGET_COLOR": {
           "LABEL": "窗口小部件颜色",
@@ -247,8 +247,8 @@
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授权",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "您的 Facebook 连接已过期，请重新连接您的 Facebook 页面以继续服务",
+      "MESSAGE_SUCCESS": "重新连接成功",
       "MESSAGE_ERROR": "出现错误，请重试"
     }
   }

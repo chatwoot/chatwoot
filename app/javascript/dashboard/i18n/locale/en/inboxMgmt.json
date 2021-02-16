@@ -38,7 +38,8 @@
         "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
-        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' "
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website channel",
@@ -224,7 +225,8 @@
     "TABS": {
       "SETTINGS": "Settings",
       "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration"
+      "CONFIGURATION": "Configuration",
+      "PRE_CHAT_FORM": "Pre Chat Form"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -250,6 +252,23 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
     }
   }
 }

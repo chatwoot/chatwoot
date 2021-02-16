@@ -25,6 +25,7 @@
     "REMOVE_SELECTION": "Poista valinnat",
     "DOWNLOAD": "Lataa",
     "UPLOADING_ATTACHMENTS": "Ladataan liitteitä...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",
@@ -44,7 +45,8 @@
       "TWEET": "Twiittaa",
       "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files"
+      "TIP_ATTACH_ICON": "Attach files",
+      "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Yksityinen huomautus: Näkyy vain sinulle ja tiimillesi",
     "CHANGE_STATUS": "Keskustelun tila muutettu",

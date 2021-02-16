@@ -12,9 +12,14 @@ json.welcome_title resource.channel.try(:welcome_title)
 json.welcome_tagline resource.channel.try(:welcome_tagline)
 json.enable_auto_assignment resource.enable_auto_assignment
 json.web_widget_script resource.channel.try(:web_widget_script)
+json.website_token resource.channel.try(:website_token)
 json.forward_to_address resource.channel.try(:forward_to_address)
 json.phone_number resource.channel.try(:phone_number)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.facebook?
-json.hmac_token resource.channel.try(:hmac_token) if resource.web_widget?
+if resource.web_widget?
+  json.hmac_token resource.channel.try(:hmac_token)
+  json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
+  json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
+end
