@@ -106,8 +106,10 @@ Rails.application.routes.draw do
               end
             end
           end
-          
-          resource :twitter_authorization, only: [:create]
+
+          namespace :twitter do
+            resource :authorization, only: [:create]
+          end
 
           resources :webhooks, except: [:show]
           namespace :integrations do

@@ -26,7 +26,7 @@ export default {
     async requestAuthorization() {
       try {
         this.isRequestingAuthorization = true;
-        const response = twitterClient.generateAuthorization();
+        const response = await twitterClient.generateAuthorization();
         const {
           data: { url },
         } = response;
