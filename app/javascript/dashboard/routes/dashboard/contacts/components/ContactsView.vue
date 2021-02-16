@@ -14,7 +14,7 @@
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
       />
-      <contacts-footer
+      <table-footer
         :on-page-change="onPageChange"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
@@ -34,13 +34,13 @@ import { mapGetters } from 'vuex';
 import ContactsHeader from './Header';
 import ContactsTable from './ContactsTable';
 import ContactInfoPanel from './ContactInfoPanel';
-import ContactsFooter from './Footer';
+import TableFooter from 'dashboard/components/widgets/TableFooter';
 
 export default {
   components: {
     ContactsHeader,
     ContactsTable,
-    ContactsFooter,
+    TableFooter,
     ContactInfoPanel,
   },
   data() {

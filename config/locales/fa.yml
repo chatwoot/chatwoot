@@ -28,7 +28,13 @@ fa:
       email_already_exists: "قبلا کاربری با ایمیل %{email} ثبت نام کرده است."
       failed: ثبت نام ناموفق بود
   reports:
-    period: Reporting period %{since} to %{until}
+    period: زمان گزارش از %{since} تا %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: این پیام حذف شد
@@ -36,16 +42,16 @@ fa:
       status:
         resolved: "مکالمه توسط اپراتور %{user_name} حل شده، اعلام شده بود"
         open: "گفتگو توسط اپراتور %{user_name} مجددا باز شده بود"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
         assigned: "%{user_name} گفتگو را به %{assignee_name} اختصاص داد"
         removed: "گفتگو توسط اپراتور %{user_name} به وضعیت اختصاص داده نشده تغییر یافت"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name}، %{labels} را اضافه کرد"
+        removed: "%{user_name}، %{labels} را حذف کرد"
+      muted: "%{user_name} مکالمه را بی صدا کرد"
+      unmuted: "%{user_name} مکالمه را از حالت بی صدا خراج کرد"
     templates:
       greeting_message_body: "%{account_name} معمولا ظرف مدت کوتاهی پاسخ می‌دهد."
       ways_to_reach_you_message_body: "راهی برای ارتباط گرفتن تیم با شما قرار دهید"
@@ -56,7 +62,7 @@ fa:
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack ابزاری برای گفتگو است که تمام ارتباطات شما را در یک مکان جمع می کند. با ادغام Slack ، می توانید از تمام مکالمات جدید در حساب خود در داخل Slack مطلع شوید."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "وب هوک"
+      description: "رویدادهای Webhook اطلاعات واقعی در مورد آنچه در حساب شما اتفاق می افتد را به شما ارائه می دهند. برای برقراری ارتباط رویدادها با برنامه های مورد علاقه خود مانند Slack یا Github می توانید از وب بوک ها استفاده کنید. برای تنظیم webhooks خود روی تنظیمات کلیک کنید."

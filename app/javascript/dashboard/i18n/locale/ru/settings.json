@@ -27,6 +27,7 @@
         "NOTE": "Настраивайте email уведомления здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Редактируйте настройки push-уведомлений здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять push уведомление при назначении мне диалога",
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"
@@ -118,10 +120,12 @@
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "INBOXES": "Источники",
+    "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Шаблонные ответы",
     "INTEGRATIONS": "Интеграции",
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
-    "LABELS": "Категории"
+    "LABELS": "Категории",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Новый аккаунт",

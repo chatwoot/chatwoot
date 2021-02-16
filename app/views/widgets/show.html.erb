@@ -19,7 +19,9 @@
         widgetColor: '<%= @web_widget.widget_color %>',
         enabledFeatures: <%= @web_widget.selected_feature_flags.to_json.html_safe %>,
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
-        replyTime: '<%= @web_widget.reply_time %>'
+        replyTime: '<%= @web_widget.reply_time %>',
+        preChatFormEnabled: <%= @web_widget.pre_chat_form_enabled %>,
+        preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,

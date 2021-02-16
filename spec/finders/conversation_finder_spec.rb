@@ -37,6 +37,17 @@ describe ::ConversationFinder do
       end
     end
 
+    context 'with team' do
+      let(:team) { create(:team, account: account) }
+      let(:params) { { team_id: team.id } }
+
+      it 'filter conversations by team' do
+        create(:conversation, account: account, inbox: inbox, team: team)
+        result = conversation_finder.perform
+        expect(result[:conversations].count).to be 1
+      end
+    end
+
     context 'with labels' do
       let(:params) { { labels: ['resolved'] } }
 

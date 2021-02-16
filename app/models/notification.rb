@@ -32,7 +32,8 @@ class Notification < ApplicationRecord
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
     conversation_assignment: 2,
-    assigned_conversation_new_message: 3
+    assigned_conversation_new_message: 3,
+    conversation_mention: 4
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -58,16 +59,31 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
+  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
-    if notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{primary_actor.inbox.name}"
+    case notification_type
+    when 'conversation_creation'
+      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
+    when 'conversation_assignment'
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
+    when 'assigned_conversation_new_message'
+      I18n.t(
+        'notifications.notification_title.assigned_conversation_new_message',
+        display_id: primary_actor.display_id,
+        content: primary_actor&.messages&.incoming&.last&.content
+      )
+    when 'conversation_mention'
+      I18n.t('notifications.notification_title.conversation_mention', display_id: primary_actor.conversation.display_id, name: secondary_actor.name)
+    else
+      ''
     end
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
-    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
+  def conversation
+    return primary_actor.conversation if ['conversation_mention'].include? notification_type
 
-    return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
-
-    ''
+    primary_actor
   end
 
   private

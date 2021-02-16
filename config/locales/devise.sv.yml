@@ -17,7 +17,7 @@ sv:
       unconfirmed: "Du måste bekräfta din e-postadress innan du fortsätter."
     mailer:
       confirmation_instructions:
-        subject: "Bekräftelse Instruktioner"
+        subject: "Verifieringsinstruktioner"
       reset_password_instructions:
         subject: "Instruktioner för återställning av lösenord"
       unlock_instructions:
@@ -39,7 +39,7 @@ sv:
       signed_up_but_inactive: "Du har registrerat dig. Vi kunde dock inte logga in dig eftersom ditt konto ännu inte är aktiverat."
       signed_up_but_locked: "Du har registrerat dig. Vi kunde dock inte logga in dig eftersom ditt konto är låst."
       signed_up_but_unconfirmed: "Ett meddelande med en bekräftelselänk har skickats till din e-postadress. Följ länken för att aktivera ditt konto."
-      update_needs_confirmation: "Du uppdaterade ditt konto framgångsrikt, men vi måste verifiera din nya e-postadress. Kontrollera din e-post och följ bekräftelselänken för att bekräfta din nya e-postadress."
+      update_needs_confirmation: "Du har uppdaterat ditt konto, men vi måste verifiera din nya e-postadress. Kontrollera din e-post och följ bekräftelselänken för att bekräfta din nya e-postadress."
       updated: "Ditt konto har uppdaterats."
     sessions:
       signed_in: "Inloggad framgångsrikt."

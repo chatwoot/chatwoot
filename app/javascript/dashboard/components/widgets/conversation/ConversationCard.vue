@@ -35,6 +35,12 @@
           {{ this.$t(`${attachmentIconKey}.CONTENT`) }}
         </span>
       </p>
+      <p v-else class="conversation--message">
+        <i class="ion-android-alert"></i>
+        <span>
+          {{ this.$t(`CHAT_LIST.NO_MESSAGES`) }}
+        </span>
+      </p>
       <div class="conversation--meta">
         <span class="timestamp">
           {{ dynamicTime(chat.timestamp) }}

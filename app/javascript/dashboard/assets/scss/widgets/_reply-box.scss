@@ -8,23 +8,6 @@
   }
 
   .reply-box__top {
-    .canned {
-      @include elegant-card;
-      background: $color-white;
-      border-bottom: $space-small solid $color-white;
-      border-top: $space-small solid $color-white;
-      left: 0;
-
-      max-height: 14rem;
-      overflow: auto;
-      position: absolute;
-      width: 24rem;
-      z-index: 100;
-
-      .active a {
-        background: $color-woot;
-      }
-    }
 
     .icon {
       color: $medium-gray;
