@@ -1,3 +1,4 @@
+/* global axios */
 import ApiClient from '../ApiClient';
 
 class TwitterClient extends ApiClient {
