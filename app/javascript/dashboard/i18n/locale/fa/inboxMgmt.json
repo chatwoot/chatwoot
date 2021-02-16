@@ -75,10 +75,10 @@
         },
         "REPLY_TIME": {
           "TITLE": "تنظیم زمان پاسخ",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "IN_A_FEW_MINUTES": "در چند دقیقه",
+          "IN_A_FEW_HOURS": "در چند ساعت",
+          "IN_A_DAY": "در یک روز",
+          "HELP_TEXT": "این زمان پاسخ در ویجت چت زنده نمایش داده می شود"
         },
         "WIDGET_COLOR": {
           "LABEL": "رنگ ویجت",
@@ -124,7 +124,7 @@
       },
       "API_CHANNEL": {
         "TITLE": "کانال API",
-        "DESC": "Integrate with API channel and start supporting your customers.",
+        "DESC": "با کانال API ادغام شده و از مشتریان خود پشتیبانی کنید.",
         "CHANNEL_NAME": {
           "LABEL": "عنوان کانال",
           "PLACEHOLDER": "لطفا اسم یک کانال را وارد کنید",
@@ -132,12 +132,12 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "آدرس URL وب هوک",
-          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
+          "SUBTITLE": "آدرس کال بک خود را جهت دریافت اطلاعات رویداد های وارد کنید.",
           "PLACEHOLDER": "آدرس URL وب هوک"
         },
         "SUBMIT_BUTTON": "ایجاد کانال API",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the api channel"
+          "ERROR_MESSAGE": "کانال API ذخیره نشد"
         }
       },
       "EMAIL_CHANNEL": {
@@ -150,14 +150,14 @@
         },
         "EMAIL": {
           "LABEL": "ایمیل",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "آدرس ایمیلی که مشتریان درخواست پشتیبانی را برای شما ارسال کنند",
           "PLACEHOLDER": "ایمیل"
         },
         "SUBMIT_BUTTON": "ایجاد کانال ایمیل",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "کانال ایمیل ذخیره نشد"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
       },
       "AUTH": {
         "TITLE": "کانال‌ها",
@@ -166,8 +166,8 @@
       "AGENTS": {
         "TITLE": "اپراتورها",
         "DESC": "در اینجا می‌توانید اپراتورها را به صندوق‌ ورودی خود اختصاص دهید. توجه داشته باشید که فقط اپراتورهایی که در اینجا معرفی شده باشند می‌توانند به پیام‌های این صندوق پاسخ بدهند.دیگر اپراتورها نخواهند توانست پیام‌های این صندوق را ببینید یا به آن‌ها پاسخی بدهند. <br> <b>پانویس:</b>به عنوان مدیر اگر می‌خواهید به همه صندوق‌های ورودی دسترسی داشته باشید می‌بایست خود را به عنوان اپراتور به همه صندوق‌ها اضافه کنید.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "حداقل یک ایجنت به اینباکس جدید اضافه کنید",
+        "PICK_AGENTS": "انتخاب ایجنت ها برای این صندوق ورودی"
       },
       "DETAILS": {
         "TITLE": "جزئیات صندوق‌ ورودی",
@@ -229,8 +229,8 @@
     "SETTINGS": "تنظیمات",
     "FEATURES": {
       "LABEL": "امکانات",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "DISPLAY_FILE_PICKER": "نمایش گزینه ضمیه فایل در ویجت",
+      "DISPLAY_EMOJI_PICKER": "نمایش گزینه انتخاب ایموجی در ویجت"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
@@ -242,13 +242,13 @@
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
       "AUTO_ASSIGNMENT_SUB_TEXT": "فعال کردن یا غیرفعال کردن واگذاری خودکار گفتگوها به اپراتورهای عضو این صندوق ورودی.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "اعتبار سنجی کاربر",
+      "HMAC_DESCRIPTION": "برای اعتبار سنجی کاربران با استفاده از این کلید یک هش HMAC sha256 تولید کنید."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "احراز هویت مجدد",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "اتصال فیس بوک شما منقضی شده است ، لطفاً برای ادامه خدمات دوباره صفحه فیس بوک خود را متصل کنید",
+      "MESSAGE_SUCCESS": "اتصال مجدد موفقیت آمیز بود",
       "MESSAGE_ERROR": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
     }
   }

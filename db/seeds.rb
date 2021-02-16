@@ -34,7 +34,7 @@ unless Rails.env.production?
   InboxMember.create!(user: user, inbox: inbox)
 
   contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)
-  contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id)
+  contact_inbox = ContactInbox.create!(inbox: inbox, contact: contact, source_id: user.id, hmac_verified: true)
   conversation = Conversation.create!(
     account: account,
     inbox: inbox,
@@ -44,6 +44,20 @@ unless Rails.env.production?
     contact_inbox: contact_inbox,
     additional_attributes: {}
   )
+
+  # sample email collect
+  WootMessageSeeder.create_sample_email_collect_message conversation
+
   Message.create!(content: 'Hello', account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+
+  # sample card
+  WootMessageSeeder.create_sample_cards_message conversation
+  # input select
+  WootMessageSeeder.create_sample_input_select_message conversation
+  # form
+  WootMessageSeeder.create_sample_form_message conversation
+  # articles
+  WootMessageSeeder.create_sample_articles_message conversation
+
   CannedResponse.create!(account: account, short_code: 'start', content: 'Hello welcome to chatwoot.')
 end

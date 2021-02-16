@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "Modtaget via e-mail",
     "VIEW_TWEET_IN_TWITTER": "Se tweet på Twitter",
-    "REPLY_TO_TWEET": "Svar på dette tweet"
+    "REPLY_TO_TWEET": "Svar på dette tweet",
+    "NO_MESSAGES": "No Messages"
   }
 }

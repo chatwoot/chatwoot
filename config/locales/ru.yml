@@ -28,24 +28,30 @@ ru:
       email_already_exists: "Вы уже зарегистрировались для учётной записи с %{email}"
       failed: Ошибка регистрации
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Отчётный период с %{since} по %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Это сообщение было удалено
     activity:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} назначил(а) разговор себе"
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
         removed: "Ответственный снят %{user_name}"
       labels:
         added: "%{user_name} добавил %{labels}"
         removed: "%{user_name} удалил %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+      muted: "%{user_name} заглушил(а) этот разговор"
+      unmuted: "%{user_name} включил(а) уведомления для разговора"
     templates:
       greeting_message_body: "%{account_name} как правило отвечает в течении несколько часов."
       ways_to_reach_you_message_body: "Оставьте ваш email для связи"
@@ -56,7 +62,7 @@ ru:
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack это сервис, который позволяет объединить рабочие коммуникации в одном месте. При интеграции с Slack вы будете получать уведомления обо всех новых разговорах прямо в Slack."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "События webhook позволяют получать информацию о происходящем в вашем аккаунте в реальном времени. Вы можете использовать webhook в связке с вашими приложениями, такими как Slack или Github. Нажмите на Настроить для настройки webhook."

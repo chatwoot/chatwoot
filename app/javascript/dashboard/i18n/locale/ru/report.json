@@ -3,7 +3,7 @@
     "HEADER": "Отчёты",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",

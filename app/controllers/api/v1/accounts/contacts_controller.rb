@@ -22,6 +22,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contacts = fetch_contact_last_seen_at(contacts)
   end
 
+  def import
+    ActiveRecord::Base.transaction do
+      import = Current.account.data_imports.create!(data_type: 'contacts')
+      import.import_file.attach(params[:import_file])
+    end
+    head :ok
+  end
+
   # returns online contacts
   def active
     contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
@@ -46,7 +54,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   rescue ActiveRecord::RecordInvalid => e
     render json: {
       message: e.record.errors.full_messages.join(', '),
-      contact: Contact.find_by(email: contact_params[:email])
+      contact: Current.account.contacts.find_by(email: contact_params[:email])
     }, status: :unprocessable_entity
   end
 
