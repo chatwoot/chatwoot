@@ -71,18 +71,30 @@ export default {
       default: () => ({}),
     },
   },
-  validations: {
-    fullName: {
-      required,
-    },
-    emailAddress: {
-      required,
-      email,
-    },
-    message: {
-      required,
-      minLength: minLength(10),
-    },
+  validations() {
+    const identityValidations = {
+      fullName: {
+        required,
+      },
+      emailAddress: {
+        required,
+        email,
+      },
+    };
+
+    const messageValidation = {
+      message: {
+        required,
+        minLength: minLength(10),
+      },
+    };
+    if (this.options.requireEmail) {
+      return {
+        ...identityValidations,
+        ...messageValidation,
+      };
+    }
+    return messageValidation;
   },
   data() {
     return {
