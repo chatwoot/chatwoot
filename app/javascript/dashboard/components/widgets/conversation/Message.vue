@@ -228,7 +228,7 @@ export default {
       font-weight: var(--font-weight-black);
       background: none;
       border-radius: var(--border-radius-small);
-      padding: 0px 5px;
+      padding: 0;
       color: var(--color-body);
       text-decoration: underline;
     }
