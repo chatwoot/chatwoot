@@ -49,10 +49,12 @@
               :username="notificationItem.primary_actor.meta.assignee.name"
             />
           </td>
-          <td class="text-right timestamp--column">
-            <span class="notification--created-at">
-              {{ dynamicTime(notificationItem.created_at) }}
-            </span>
+          <td>
+            <div class="text-right timestamp--column">
+              <span class="notification--created-at">
+                {{ dynamicTime(notificationItem.created_at) }}
+              </span>
+            </div>
           </td>
           <td>
             <div
@@ -191,7 +193,8 @@ export default {
 }
 
 .timestamp--column {
-  width: 12rem;
+  min-width: 13rem;
+  text-align: right;
 }
 
 .notification--message-title {
