@@ -226,7 +226,7 @@
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESSHOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -278,7 +278,8 @@
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
         "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time."
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
       }
     }
   }

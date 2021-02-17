@@ -20,7 +20,7 @@
           deselect-label=""
           select-label=""
           selected-label=""
-          placeholder="Choose"
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
         />
         <div class="separator-icon">
@@ -32,7 +32,7 @@
           deselect-label=""
           select-label=""
           selected-label=""
-          placeholder="Choose"
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="false"
         />
       </div>
@@ -214,8 +214,6 @@ export default {
 
 .date-error {
   padding: var(--space-small) 0;
-  /* position: absolute;
-  bottom: var(--space-minus-medium); */
 }
 
 .error {
