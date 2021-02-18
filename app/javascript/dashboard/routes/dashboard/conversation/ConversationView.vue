@@ -6,17 +6,7 @@
       :active-team="activeTeam"
       @conversation-load="onConversationLoad"
     >
-      <button class="search--button" @click="onSearch">
-        <i class="ion-ios-search-strong search--icon" />
-        <div class="text-truncate">
-          {{ $t('CONVERSATION.SEARCH_MESSAGES') }}
-        </div>
-      </button>
-      <search
-        v-if="showSearchModal"
-        :show="showSearchModal"
-        :on-close="closeSearch"
-      />
+      <pop-over-search />
     </chat-list>
     <conversation-box
       :inbox-id="inboxId"
@@ -38,7 +28,7 @@ import { mapGetters } from 'vuex';
 import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import Search from './search/Search.vue';
+import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 
 export default {
@@ -46,7 +36,7 @@ export default {
     ChatList,
     ContactPanel,
     ConversationBox,
-    Search,
+    PopOverSearch,
   },
   mixins: [uiSettingsMixin],
   props: {
@@ -152,29 +142,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.search--button {
-  align-items: center;
-  border: 0;
-  color: var(--s-400);
-  cursor: pointer;
-  display: flex;
-  font-size: var(--font-size-small);
-  font-weight: 400;
-  padding: var(--space-normal) var(--space-normal) var(--space-slab);
-  text-align: left;
-  line-height: var(--font-size-large);
-
-  &:hover {
-    .search--icon {
-      color: var(--w-500);
-    }
-  }
-}
-
-.search--icon {
-  color: var(--s-600);
-  font-size: var(--font-size-large);
-  padding-right: var(--space-small);
-}
-</style>
