@@ -16,73 +16,45 @@
         Search Results
       </p>
       <div class="list-content">
-        <div class="content">
-          <div class="time-ticket-wrap">
-            <div class="ticket-wrap">
-              <div><span class="ticket">#1</span></div>
-              <div class="user-wrap">
-                <span class="user-name">John</span>
-                <i class="ion-headphone" />
-              </div>
-            </div>
-            <span class="timestamp">about 1 hour ago </span>
-          </div>
-          <div>
-            <p class="search-messages">
-              We use cookies to personalize content and ads, to provide social
-              media features and to analyze our traffic.
-            </p>
-          </div>
-        </div>
-        <div class="content">
-          <div class="time-ticket-wrap">
-            <div class="ticket-wrap">
-              <div><span class="ticket">#2</span></div>
-              <div class="user-wrap">
-                <span class="user-name">Jhony</span>
-              </div>
-            </div>
-            <span class="timestamp">about 2 day ago </span>
-          </div>
-          <div>
-            <p class="search-messages">
-              We use cookies to personalize content and ads, to provide social
-              media features and to analyze our traffic.
-            </p>
-          </div>
-        </div>
-        <div class="content">
-          <div class="time-ticket-wrap">
-            <div class="ticket-wrap">
-              <div><span class="ticket">#3</span></div>
-              <div class="user-wrap">
-                <span class="user-name">James</span>
-                <i class="ion-headphone" />
-              </div>
-            </div>
-            <span class="timestamp">about 5 month ago </span>
-          </div>
-          <div>
-            <p class="search-messages">
-              We use cookies to personalize content and ads, and to analyze our
-              traffic. https://cdn.jsdelivr.net/npm/vue/dist/vue.js
-            </p>
-          </div>
-        </div>
+        <result-item
+          v-for="conversation in conversations"
+          :key="conversation.id"
+          conversation-id="6"
+          user-name="John"
+          timestamp=""
+          message="Hi there"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+// import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
+import timeMixin from '../../../../mixins/time';
+import ResultItem from './ResultItem';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+
 export default {
+  components: {
+    ResultItem,
+  },
+  mixins: [timeMixin, messageFormatterMixin],
   props: {},
   data() {
     return {
       showSearchModal: false,
     };
   },
-  computed: {},
+
+  computed: {
+    ...mapGetters({
+      conversations: 'conversationSearch/getConversations',
+      uiFlags: 'conversationSearch/getUIFlags',
+      accountId: 'getCurrentAccountId',
+    }),
+  },
 
   mounted() {},
 
@@ -128,7 +100,7 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-large);
   padding: var(--space-normal) var(--space-small) var(--space-slab)
-    var(--space-medium);
+    var(--space-normal);
 }
 
 .icon-text-wrap {
@@ -147,76 +119,11 @@ export default {
   font-size: var(--font-size-small);
   font-weight: 400;
 }
-.content {
-  display: block;
-  align-items: center;
-  border-bottom: 1px solid var(--color-border-light);
-  color: var(--color-body);
-  padding: 0.3rem var(--space-micro) var(--space-zero) 1.7rem;
-}
-.content:last-child {
-  border-bottom: none;
-  padding-bottom: var(--space-two);
-}
-
-.content:hover {
-  background-color: var(--color-background);
-}
-
-.time-ticket-wrap {
-  display: flex;
-  justify-content: space-between;
-  padding: var(--space-small) var(--space-normal) var(--space-smaller)
-    var(--space-zero);
-}
-.search-messages {
-  padding: var(--space-micro) var(--space-normal) var(--space-zero)
-    var(--space-zero);
-}
 .result-wrap {
   padding: var(--space-normal) var(--space-smaller) var(--space-smaller)
     var(--space-normal);
   border-top: 1px solid var(--b-200);
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
-}
-.ticket-wrap {
-  display: flex;
-}
-.ticket {
-  color: var(--w-600);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-bold);
-  background: var(--w-50);
-  border-radius: 4px;
-  padding: var(--space-micro) var(--space-smaller);
-}
-.user-wrap {
-  display: flex;
-  align-items: last baseline;
-}
-.user-name {
-  padding-right: var(--space-smaller);
-  padding-left: var(--space-smaller);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-heading);
-}
-.ion-headphone {
-  color: var(--w-500);
-  padding: var(--space-micro);
-  padding-right: var(--space-smaller);
-  font-size: var(--font-size-mini);
-}
-.timestamp {
-  font-size: var(--font-size-mini);
-}
-p {
-  max-width: 100%;
-}
-.ion-record {
-  font-size: 4px;
-  margin-top: 13px;
-  padding-right: var(--space-smaller);
 }
 </style>

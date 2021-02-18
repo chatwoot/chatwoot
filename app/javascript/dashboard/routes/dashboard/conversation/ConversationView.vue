@@ -24,7 +24,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
 import ChatList from '../../../components/ChatList';
 import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
