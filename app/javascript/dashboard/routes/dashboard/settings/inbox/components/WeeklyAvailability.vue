@@ -5,16 +5,20 @@
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
     >
       <form @submit.prevent="updateInbox">
-        <label for="toggle-business-availability" class="toggle-input-wrap">
+        <label for="toggle-business-hours" class="toggle-input-wrap">
           <input
             v-model="isBusinessHoursEnabled"
             type="checkbox"
-            name="toggle-business-availability"
+            name="toggle-business-hours"
           />
           {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
         </label>
         <p>{{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}</p>
-        <div v-if="isBusinessHoursEnabled">
+        <div v-if="isBusinessHoursEnabled" class="business-hours-wrap">
+          <label class="unavailable-input-wrap">
+            {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
+            <textarea v-model="unavailableMessage" type="text" />
+          </label>
           <label class="timezone-input-wrap">
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
             <multiselect
@@ -27,24 +31,21 @@
               :allow-empty="false"
             />
           </label>
-          <label class="unavailable-input-wrap">
-            {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            <input v-model="unavailableMessage" type="text" />
-          </label>
           <label>
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
           </label>
           <business-day
-            v-for="(timeSlot, index) in timeSlots"
+            v-for="timeSlot in timeSlots"
             :key="timeSlot.day"
-            :day-name="dayNames[index]"
-            :time-slot="timeSlots[index]"
-            @update="data => onSlotUpdate(index, data)"
+            :day-name="dayNames[timeSlot.day]"
+            :time-slot="timeSlots[timeSlot.day]"
+            @update="data => onSlotUpdate(timeSlot.day, data)"
           />
         </div>
         <woot-submit-button
           :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
           :loading="uiFlags.isUpdatingInbox"
+          :disabled="hasError"
         />
       </form>
     </settings-section>
@@ -62,36 +63,43 @@ const defaultWeek = [
     day: 0,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 1,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 2,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 3,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 4,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 5,
     to: '',
     from: '',
+    valid: false,
   },
   {
     day: 6,
     to: '',
     from: '',
+    valid: false,
   },
 ];
 
@@ -109,8 +117,10 @@ export default {
   },
   data() {
     return {
-      isBusinessHoursEnabled: '',
-      unavailableMessage: '',
+      isBusinessHoursEnabled: false,
+      unavailableMessage: this.$t(
+        'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
+      ),
       timeZone: '',
       dayNames: [
         'Sunday',
@@ -126,6 +136,10 @@ export default {
   },
   computed: {
     ...mapGetters({ uiFlags: 'inboxes/getUIFlags' }),
+    hasError() {
+      if (!this.isBusinessHoursEnabled) return false;
+      return this.timeSlots.filter(slot => slot.from && !slot.valid).length > 0;
+    },
   },
   watch: {
     inbox() {
@@ -139,7 +153,9 @@ export default {
     setDefaults() {
       const {
         working_hours_enabled: isEnabled = '',
-        out_of_office_message: unavailableMessage = '',
+        out_of_office_message: unavailableMessage = this.$t(
+          'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
+        ),
         working_hours: timeSlots = [...defaultWeek],
         time_zone: timeZone,
       } = this.inbox;
@@ -186,8 +202,13 @@ export default {
 .unavailable-input-wrap {
   max-width: 60rem;
 
-  input {
+  textarea {
+    min-height: var(--space-jumbo);
     margin-top: var(--space-small);
   }
+}
+
+.business-hours-wrap {
+  margin-bottom: var(--space-medium);
 }
 </style>

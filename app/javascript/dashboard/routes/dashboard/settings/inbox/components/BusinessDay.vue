@@ -92,11 +92,13 @@ export default {
               ...this.timeSlot,
               from: timeSlots[0],
               to: timeSlots[16],
+              valid: true,
             }
           : {
               ...this.timeSlot,
               from: '',
               to: '',
+              valid: false,
             };
         this.$emit('update', newSlot);
       },
@@ -106,9 +108,12 @@ export default {
         return this.timeSlot.from;
       },
       set(value) {
+        const fromDate = parse(value, 'hh:mm a', new Date());
+        const valid = differenceInMinutes(this.toDate, fromDate) / 60 > 0;
         this.$emit('update', {
           ...this.timeSlot,
           from: value,
+          valid,
         });
       },
     },
@@ -117,9 +122,12 @@ export default {
         return this.timeSlot.to;
       },
       set(value) {
+        const toDate = parse(value, 'hh:mm a', new Date());
+        const valid = differenceInMinutes(toDate, this.fromDate) / 60 > 0;
         this.$emit('update', {
           ...this.timeSlot,
           to: value,
+          valid,
         });
       },
     },
@@ -157,8 +165,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-normal) 0;
-  height: var(--space-larger);
+  padding: var(--space-small) 0;
+  min-height: var(--space-larger);
   box-sizing: content-box;
   border-bottom: 1px solid var(--color-border-light);
 }
@@ -213,7 +221,7 @@ export default {
 }
 
 .date-error {
-  padding: var(--space-small) 0;
+  padding-top: var(--space-smaller);
 }
 
 .error {
