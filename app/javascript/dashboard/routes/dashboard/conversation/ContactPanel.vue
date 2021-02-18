@@ -7,7 +7,7 @@
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
-        :title="$t('EDIT_CONTACT.FORM.LOCATION.LABEL')"
+        :title="$t('CONTACT_FORM.FORM.LOCATION.LABEL')"
         :value="location"
         icon="ion-map"
         emoji="📍"
