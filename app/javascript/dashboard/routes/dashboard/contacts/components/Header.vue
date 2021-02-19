@@ -24,6 +24,11 @@
             @click="onSearchSubmit"
           />
         </div>
+
+        <button class="button success icon" @click="onToggleCreate">
+          <i class="icon ion-android-add-circle" />
+          {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
+        </button>
       </div>
     </div>
   </header>
@@ -45,6 +50,15 @@ export default {
       type: Function,
       default: () => {},
     },
+    onToggleCreate: {
+      type: Function,
+      default: () => {},
+    },
+  },
+  data() {
+    return {
+      showCreateModal: false,
+    };
   },
   computed: {
     searchButtonClass() {
@@ -69,35 +83,41 @@ export default {
   width: 100%;
   margin-bottom: var(--space-slab);
 }
+
+.right-aligned-wrap {
+  display: flex;
+}
+
 .search-wrap {
   width: 400px;
-  height: 3.6rem;
+  height: 3.8rem;
   display: flex;
   align-items: center;
   position: relative;
+  margin-right: var(--space-small);
 
   .search-icon {
     position: absolute;
     top: 1px;
     left: var(--space-one);
-    height: 3.6rem;
+    height: 3.8rem;
     line-height: 3.6rem;
     font-size: var(--font-size-medium);
     color: var(--b-700);
   }
   .contact-search {
     margin: 0;
-    height: 3.6rem;
+    height: 3.8rem;
     width: 100%;
     padding-left: var(--space-large);
     padding-right: 6rem;
+    border-color: var(--s-100);
   }
 
   .button {
     margin-left: var(--space-small);
     height: 3.2rem;
-    top: var(--space-micro);
-    right: var(--space-micro);
+    right: var(--space-smaller);
     position: absolute;
     padding: 0 var(--space-small);
     transition: transform 100ms linear;
