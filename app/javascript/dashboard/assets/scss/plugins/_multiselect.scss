@@ -26,7 +26,6 @@
     }
   }
 
-
   .multiselect__select {
     min-height: 46px;
     padding: 0;
@@ -81,14 +80,13 @@
       }
     }
   }
-}
-
-.multiselect > .multiselect__tags {
-  @include margin(0);
-  border: 1px solid $color-border;
-  border-color: $color-border;
-  min-height: 44px;
-  padding-top: $zero;
+  .multiselect__tags {
+    @include margin(0);
+    border: 1px solid $color-border;
+    border-color: $color-border;
+    min-height: 44px;
+    padding-top: $zero;
+  }
 
   .multiselect__tags-wrap {
     display: inline-block;
