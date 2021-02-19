@@ -1,4 +1,5 @@
 @mixin label-multiselect-hover {
+
   &::after {
     color: $color-primary-dark;
   }
@@ -11,9 +12,11 @@
     }
   }
 }
+
 .multiselect__option--selected {
   background: var(--white);
 }
+
 .multiselect {
   margin-bottom: $space-normal;
   min-height: 38px;
@@ -23,6 +26,7 @@
       border-color: $color-woot;
     }
   }
+
   .multiselect__select {
     min-height: 46px;
     padding: 0;
@@ -34,6 +38,7 @@
       top: 60%;
     }
   }
+
   .multiselect__content .multiselect__option {
     font-size: $font-size-small;
     font-weight: $font-weight-normal;
@@ -42,27 +47,34 @@
       background: var(--white);
       color: var(--color-body);
     }
+
     &.multiselect__option--highlight:hover {
       background: var(--w-50);
       color: var(--color-body);
+
       &::after {
         background: var(--w-50);
         color: var(--color-body);
       }
     }
+
     &.multiselect__option--highlight::after {
       background: transparent;
     }
+
     &.multiselect__option--selected {
       background: var(--w-400);
       color: var(--white);
     }
+
     &.multiselect__option--selected.multiselect__option--highlight:hover {
       background: var(--w-600);
       color: var(--white);
+
       &::after {
         background: transparent;
         color: var(--white);
+
         &:hover {
           color: var(--color-body);
         }
@@ -70,23 +82,26 @@
     }
   }
 }
+
 .multiselect > .multiselect__tags {
   @include margin(0);
   border: 1px solid $color-border;
+  border-color: $color-border;
   min-height: 44px;
   padding-top: $zero;
-  border-color: $color-border;
 
   .multiselect__tags-wrap {
     display: inline-block;
     line-height: 1;
     margin-top: $space-smaller;
   }
+
   .multiselect__placeholder {
     color: $color-gray;
     font-weight: $font-weight-normal;
     padding-top: var(--space-slab);
   }
+
   .multiselect__tag {
     $vertical-space: $space-smaller + $space-micro;
     background: $color-background;
@@ -94,10 +109,12 @@
     margin-top: $space-smaller;
     padding: $vertical-space $space-medium $vertical-space $space-one;
   }
+
   .multiselect__tag-icon {
     @include label-multiselect-hover;
     line-height: $space-medium + $space-micro;
   }
+
   .multiselect__input {
     @include ghost-input;
     @include padding($zero);
@@ -105,11 +122,13 @@
     height: 4.4rem;
     margin-bottom: $zero;
   }
+
   .multiselect__single {
-    padding: var(--space-slab) var(--space-one);
     margin-bottom: 0;
+    padding: var(--space-slab) var(--space-one);
   }
 }
+
 .sidebar-labels-wrap {
   &.has-edited,
   &:hover {
