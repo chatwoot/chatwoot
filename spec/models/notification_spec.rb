@@ -38,7 +38,7 @@ RSpec.describe Notification do
       notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message)
 
       expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} \
-#{message.content.truncate_words(10, omission: '...')}"
+#{message.content.truncate_words(10)}"
     end
 
     it 'returns appropriate title suited for the notification type conversation_mention' do

@@ -44,7 +44,7 @@ class Notification < ApplicationRecord
   PRIMARY_ACTORS = ['Conversation'].freeze
 
   def push_event_data
-    # Secondary actor could be nill for cases like system assigning conversation
+    # Secondary actor could be nil for cases like system assigning conversation
     {
       id: id,
       notification_type: notification_type,
@@ -70,7 +70,7 @@ class Notification < ApplicationRecord
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
-        content: primary_actor.content.truncate_words(10, omission: '...')
+        content: primary_actor.content.truncate_words(10)
       )
     when 'conversation_mention'
       I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id, name: secondary_actor.name)
