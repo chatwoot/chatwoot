@@ -8,7 +8,7 @@
       <contact-form
         :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
-        @success="onCancel"
+        @success="onSuccess"
         @cancel="onCancel"
       />
     </div>
@@ -42,6 +42,9 @@ export default {
 
   methods: {
     onCancel() {
+      this.$emit('cancel');
+    },
+    onSuccess() {
       this.$emit('cancel');
     },
     async onSubmit(contactItem) {
