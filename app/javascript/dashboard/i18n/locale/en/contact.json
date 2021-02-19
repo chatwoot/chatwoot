@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "DESC": "Edit contact details"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
       "CANCEL": "Cancel",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "ERROR_MESSAGE": "There was an error, please try again"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",

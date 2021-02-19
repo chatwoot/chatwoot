@@ -41,7 +41,7 @@ class NotificationListener < BaseListener
       notification_type: 'assigned_conversation_new_message',
       user: conversation.assignee,
       account: account,
-      primary_actor: conversation
+      primary_actor: message
     ).perform
   end
 
