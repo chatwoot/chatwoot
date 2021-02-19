@@ -11,19 +11,21 @@
     }
   }
 }
-
+.multiselect__option--selected {
+  background: white;
+}
 .multiselect {
   margin-bottom: $space-normal;
   min-height: 38px;
 
   &.multiselect--active {
-    >.multiselect__tags {
+    > .multiselect__tags {
       border-color: $color-woot;
     }
   }
 
   .multiselect__select {
-    min-height: 44px;
+    min-height: 46px;
     padding: 0;
     right: 0;
     top: 0;
@@ -33,18 +35,44 @@
       top: 60%;
     }
   }
-
   .multiselect__content .multiselect__option {
     font-size: $font-size-small;
     font-weight: $font-weight-normal;
 
     &.multiselect__option--highlight {
-      font-weight: $font-weight-medium;
+      background: white;
+      color: var(--color-body);
+    }
+    &.multiselect__option--highlight:hover {
+      background: var(--w-50);
+      color: var(--color-body);
+      &::after {
+        background: var(--w-50);
+        color: var(--color-body);
+      }
+    }
+    &.multiselect__option--highlight::after {
+      background: transparent;
+    }
+    &.multiselect__option--selected {
+      background: var(--w-400);
+      color: white;
+    }
+    &.multiselect__option--selected.multiselect__option--highlight:hover {
+      background: var(--w-600);
+      color: white;
+    }
+    &.multiselect__option--selected.multiselect__option--highlight::after {
+      background: transparent;
+      color: white;
+    }
+    &:hover {
+      color: var(--color-body);
     }
   }
 }
 
-.multiselect>.multiselect__tags {
+.multiselect > .multiselect__tags {
   @include margin(0);
   border: 1px solid $color-border;
   min-height: 44px;
@@ -59,7 +87,7 @@
   .multiselect__placeholder {
     color: $color-gray;
     font-weight: $font-weight-normal;
-    padding-top: $space-small;
+    padding-top: $space-normal;
   }
 
   .multiselect__tag {
@@ -79,13 +107,12 @@
     @include ghost-input;
     @include padding($zero);
     font-size: $font-size-small;
-
+    height: 4.4rem;
     margin-bottom: $zero;
   }
 
   .multiselect__single {
-    @include padding($space-one);
-
+    padding: var(--space-slab) var(--space-one);
     margin-bottom: 0;
   }
 }
@@ -97,25 +124,25 @@
       cursor: pointer;
     }
 
-    .multiselect>.multiselect__tags {
+    .multiselect > .multiselect__tags {
       border-color: $color-border;
     }
 
-    .multiselect>.multiselect__select {
+    .multiselect > .multiselect__select {
       visibility: visible;
     }
   }
 
   .multiselect {
-    >.multiselect__select {
+    > .multiselect__select {
       visibility: hidden;
     }
 
-    >.multiselect__tags {
+    > .multiselect__tags {
       border-color: transparent;
     }
 
-    &.multiselect--active>.multiselect__tags {
+    &.multiselect--active > .multiselect__tags {
       border-color: $color-woot;
     }
   }
