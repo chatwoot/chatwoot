@@ -66,8 +66,8 @@
       background: var(--w-400);
       color: var(--white);
     }
-
-    &.multiselect__option--selected.multiselect__option--highlight:hover {
+   
+    &.multiselect__option--highlight:hover {
       background: var(--w-600);
       color: var(--white);
 
@@ -136,6 +136,7 @@
       cursor: pointer;
     }
   }
+
   .multiselect {
     > .multiselect__select {
       visibility: hidden;
