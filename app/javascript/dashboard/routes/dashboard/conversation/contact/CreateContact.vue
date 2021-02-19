@@ -2,14 +2,11 @@
   <woot-modal :show.sync="show" :on-close="onCancel">
     <div class="column content-box">
       <woot-modal-header
-        :header-title="
-          `${$t('EDIT_CONTACT.TITLE')} - ${contact.name || contact.email}`
-        "
-        :header-content="$t('EDIT_CONTACT.DESC')"
+        :header-title="$t('CREATE_CONTACT.TITLE')"
+        :header-content="$t('CREATE_CONTACT.DESC')"
       />
       <contact-form
-        :contact="contact"
-        :in-progress="uiFlags.isUpdating"
+        :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
         @success="onSuccess"
         @cancel="onCancel"
@@ -51,7 +48,7 @@ export default {
       this.$emit('cancel');
     },
     async onSubmit(contactItem) {
-      await this.$store.dispatch('contacts/update', contactItem);
+      await this.$store.dispatch('contacts/create', contactItem);
     },
   },
 };
