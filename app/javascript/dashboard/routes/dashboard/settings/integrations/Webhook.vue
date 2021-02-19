@@ -36,7 +36,9 @@
           </thead>
           <tbody>
             <tr v-for="(webHookItem, index) in records" :key="webHookItem.id">
-              <td>{{ webHookItem.url }}</td>
+              <td class="webhook-link">
+                {{ webHookItem.url }}
+              </td>
               <td class="button-wrapper">
                 <div @click="openDeletePopup(webHookItem, index)">
                   <woot-submit-button
@@ -144,3 +146,8 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+.webhook-link {
+  word-break: break-word;
+}
+</style>

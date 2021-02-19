@@ -43,7 +43,9 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "DESC": "Edit contact details"
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Submit",
       "CANCEL": "Cancel",

@@ -1,5 +1,24 @@
 import { buildSearchParamsWithLocale } from '../helpers/urlParamsHelper';
 
+const createConversation = params => {
+  const referrerURL = window.referrerURL || '';
+  const search = buildSearchParamsWithLocale(window.location.search);
+  return {
+    url: `/api/v1/widget/conversations${search}`,
+    params: {
+      contact: {
+        name: params.fullName,
+        email: params.emailAddress,
+      },
+      message: {
+        content: params.message,
+        timestamp: new Date().toString(),
+        referer_url: referrerURL,
+      },
+    },
+  };
+};
+
 const sendMessage = content => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -47,6 +66,7 @@ const getAvailableAgents = token => ({
 });
 
 export default {
+  createConversation,
   sendMessage,
   sendAttachment,
   getConversation,

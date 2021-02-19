@@ -7,7 +7,7 @@
     <div class="row channels">
       <channel-item
         v-for="channel in channelList"
-        :key="channel"
+        :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
         @channel-item-click="initChannelAuth"
