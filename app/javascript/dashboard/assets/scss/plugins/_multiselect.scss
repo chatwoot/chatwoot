@@ -12,7 +12,7 @@
   }
 }
 .multiselect__option--selected {
-  background: white;
+  background: var(--white);
 }
 .multiselect {
   margin-bottom: $space-normal;
@@ -23,7 +23,6 @@
       border-color: $color-woot;
     }
   }
-
   .multiselect__select {
     min-height: 46px;
     padding: 0;
@@ -40,7 +39,7 @@
     font-weight: $font-weight-normal;
 
     &.multiselect__option--highlight {
-      background: white;
+      background: var(--white);
       color: var(--color-body);
     }
     &.multiselect__option--highlight:hover {
@@ -56,40 +55,38 @@
     }
     &.multiselect__option--selected {
       background: var(--w-400);
-      color: white;
+      color: var(--white);
     }
     &.multiselect__option--selected.multiselect__option--highlight:hover {
       background: var(--w-600);
-      color: white;
-    }
-    &.multiselect__option--selected.multiselect__option--highlight::after {
-      background: transparent;
-      color: white;
-    }
-    &:hover {
-      color: var(--color-body);
+      color: var(--white);
+      &::after {
+        background: transparent;
+        color: var(--white);
+        &:hover {
+          color: var(--color-body);
+        }
+      }
     }
   }
 }
-
 .multiselect > .multiselect__tags {
   @include margin(0);
   border: 1px solid $color-border;
   min-height: 44px;
   padding-top: $zero;
+  border-color: $color-border;
 
   .multiselect__tags-wrap {
     display: inline-block;
     line-height: 1;
     margin-top: $space-smaller;
   }
-
   .multiselect__placeholder {
     color: $color-gray;
     font-weight: $font-weight-normal;
-    padding-top: $space-normal;
+    padding-top: var(--space-slab);
   }
-
   .multiselect__tag {
     $vertical-space: $space-smaller + $space-micro;
     background: $color-background;
@@ -97,12 +94,10 @@
     margin-top: $space-smaller;
     padding: $vertical-space $space-medium $vertical-space $space-one;
   }
-
   .multiselect__tag-icon {
     @include label-multiselect-hover;
     line-height: $space-medium + $space-micro;
   }
-
   .multiselect__input {
     @include ghost-input;
     @include padding($zero);
@@ -110,29 +105,18 @@
     height: 4.4rem;
     margin-bottom: $zero;
   }
-
   .multiselect__single {
     padding: var(--space-slab) var(--space-one);
     margin-bottom: 0;
   }
 }
-
 .sidebar-labels-wrap {
   &.has-edited,
   &:hover {
     .multiselect {
       cursor: pointer;
     }
-
-    .multiselect > .multiselect__tags {
-      border-color: $color-border;
-    }
-
-    .multiselect > .multiselect__select {
-      visibility: visible;
-    }
   }
-
   .multiselect {
     > .multiselect__select {
       visibility: hidden;
