@@ -82,6 +82,7 @@
     @include margin(0);
     border: 1px solid $color-border;
     border-color: $color-border;
+    min-height: 4.4rem;
     padding-top: $zero;
   }
 
