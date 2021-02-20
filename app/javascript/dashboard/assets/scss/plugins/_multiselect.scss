@@ -26,6 +26,11 @@
     }
   }
 
+  .multiselect__option {
+    min-height: 35px;
+    line-height: 8px;
+  }
+
   .multiselect__select {
     min-height: 46px;
     padding: 0;
@@ -54,6 +59,8 @@
       &::after {
         background: var(--w-50);
         color: var(--color-body);
+        min-height: 35px;
+        line-height: 33px;
       }
     }
 
@@ -64,6 +71,11 @@
     &.multiselect__option--selected {
       background: var(--w-400);
       color: var(--white);
+
+      &::after {
+        min-height: 35px;
+        line-height: 33px;
+      }
 
       &.multiselect__option--highlight:hover {
         background: var(--w-600);
