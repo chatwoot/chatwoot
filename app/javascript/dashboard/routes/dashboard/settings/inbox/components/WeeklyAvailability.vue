@@ -57,51 +57,11 @@ import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from 'dashboard/components/SettingsSection';
 import BusinessDay from './BusinessDay';
-
-const defaultWeek = [
-  {
-    day: 0,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 1,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 2,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 3,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 4,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 5,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 6,
-    to: '',
-    from: '',
-    valid: false,
-  },
-];
+import {
+  timeSlotParse,
+  timeSlotTransform,
+  defaultTimeSlot,
+} from '../helpers/businessHour';
 
 export default {
   components: {
@@ -131,7 +91,7 @@ export default {
         'Friday',
         'Saturday',
       ],
-      timeSlots: [...defaultWeek],
+      timeSlots: [...defaultTimeSlot],
     };
   },
   computed: {
@@ -152,16 +112,19 @@ export default {
   methods: {
     setDefaults() {
       const {
-        working_hours_enabled: isEnabled = '',
+        working_hours_enabled: isEnabled = false,
         out_of_office_message: unavailableMessage = this.$t(
           'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
         ),
-        working_hours: timeSlots = [...defaultWeek],
+        working_hours: timeSlots = [],
         time_zone: timeZone,
       } = this.inbox;
+      const slots = timeSlotParse(timeSlots).length
+        ? timeSlotParse(timeSlots)
+        : defaultTimeSlot;
       this.isBusinessHoursEnabled = isEnabled;
       this.unavailableMessage = unavailableMessage;
-      this.timeSlots = timeSlots;
+      this.timeSlots = slots;
       this.timeZone = timeZone;
     },
     onSlotUpdate(slotIndex, slotData) {
@@ -174,12 +137,11 @@ export default {
         const payload = {
           id: this.inbox.id,
           formData: false,
-          channel: {
-            working_hours_enabled: this.isBusinessHoursEnabled,
-            out_of_office_message: this.unavailableMessage,
-            working_hours: this.timeSlots,
-            time_zone: this.timeZone,
-          },
+
+          working_hours_enabled: this.isBusinessHoursEnabled,
+          out_of_office_message: this.unavailableMessage,
+          working_hours: timeSlotTransform(this.timeSlots),
+          time_zone: this.timeZone,
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
