@@ -27,8 +27,8 @@
   }
 
   .multiselect__option {
-    min-height: 35px;
     line-height: 8px;
+    min-height: 35px;
   }
 
   .multiselect__select {
@@ -59,8 +59,8 @@
       &::after {
         background: var(--w-50);
         color: var(--color-body);
-        min-height: 35px;
         line-height: 33px;
+        min-height: 35px;
       }
     }
 
@@ -73,8 +73,8 @@
       color: var(--white);
 
       &::after {
-        min-height: 35px;
         line-height: 33px;
+        min-height: 35px;
       }
 
       &.multiselect__option--highlight:hover {
