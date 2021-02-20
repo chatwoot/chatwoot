@@ -17,22 +17,14 @@
 }
 
 .multiselect {
-  margin-bottom: $space-normal;
-  min-height: 38px;
-
-  &.multiselect--active {
+  .multiselect--active {
     > .multiselect__tags {
       border-color: $color-woot;
     }
   }
 
-  .multiselect__option {
-    line-height: 8px;
-    min-height: 35px;
-  }
-
   .multiselect__select {
-    min-height: 46px;
+    min-height: 4.6rem;
     padding: 0;
     right: 0;
     top: 0;
@@ -58,9 +50,7 @@
 
       &::after {
         background: var(--w-50);
-        color: var(--color-body);
-        line-height: 33px;
-        min-height: 35px;
+        color: var(--s-600);
       }
     }
 
@@ -71,11 +61,6 @@
     &.multiselect__option--selected {
       background: var(--w-400);
       color: var(--white);
-
-      &::after {
-        line-height: 33px;
-        min-height: 35px;
-      }
 
       &.multiselect__option--highlight:hover {
         background: var(--w-600);
@@ -97,7 +82,6 @@
     @include margin(0);
     border: 1px solid $color-border;
     border-color: $color-border;
-    min-height: 44px;
     padding-top: $zero;
   }
 
