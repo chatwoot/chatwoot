@@ -20,6 +20,7 @@ import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
+import chatStatus from './modules/chatStatus';
 import reports from './modules/reports';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
@@ -53,5 +54,6 @@ export default new Vuex.Store({
     webhooks,
     teams,
     teamMembers,
+    chatStatus,
   },
 });
