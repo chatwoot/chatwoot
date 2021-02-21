@@ -1,22 +1,29 @@
 <template>
   <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
-    <option
-      v-for="item in $t('CHAT_LIST.CHAT_STATUS_ITEMS')"
-      :key="item['VALUE']"
-      :value="item['VALUE']"
-    >
-      {{ item['TEXT'] }}
+    <option v-for="item in chatStatusList" :key="item.name" :value="item.name">
+      {{ item.name }}
     </option>
   </select>
 </template>
 
 <script>
 import wootConstants from '../../../constants';
+import { mapGetters } from 'vuex';
 
 export default {
   data: () => ({
     activeStatus: wootConstants.STATUS_TYPE.OPEN,
   }),
+  computed: {
+    ...mapGetters({
+      chatStatusItems: 'chatStatus/getChatStatusItems',
+    }),
+    chatStatusList() {
+      let chatStatusList = [];
+      chatStatusList = this.chatStatusItems.slice();
+      return chatStatusList;
+    },
+  },
   methods: {
     onTabChange() {
       this.$store.dispatch('setChatFilter', this.activeStatus);

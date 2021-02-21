@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_01_150037) do
+ActiveRecord::Schema.define(version: 2021_02_21_160420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -185,6 +185,15 @@ ActiveRecord::Schema.define(version: 2021_02_01_150037) do
     t.string "hmac_token"
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
+  end
+
+  create_table "chat_status_items", force: :cascade do |t|
+    t.string "name"
+    t.boolean "custom", default: true
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_chat_status_items_on_account_id"
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -593,6 +602,7 @@ ActiveRecord::Schema.define(version: 2021_02_01_150037) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chat_status_items", "accounts"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
