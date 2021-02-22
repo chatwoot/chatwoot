@@ -5,8 +5,7 @@
     "LIST": {
       "404": "There are no inboxes attached to this account."
     },
-    "CREATE_FLOW": [
-      {
+    "CREATE_FLOW": [{
         "title": "Choose Channel",
         "route": "settings_inbox_new",
         "body": "Choose the provider you want to integrate with Chatwoot."
@@ -226,7 +225,8 @@
       "SETTINGS": "Settings",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Configuration",
-      "PRE_CHAT_FORM": "Pre Chat Form"
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -268,6 +268,18 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
       }
     }
   }
