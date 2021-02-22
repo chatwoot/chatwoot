@@ -3,6 +3,7 @@ import {
   getTime,
   timeSlotParse,
   timeSlotTransform,
+  timeZoneOptions,
 } from '../businessHour';
 
 describe('#generateTimeSlots', () => {
@@ -71,5 +72,14 @@ describe('#timeSlotTransform', () => {
         closed_all_day: false,
       },
     ]);
+  });
+});
+
+describe('#timeZoneOptions', () => {
+  it('returns transforms correctly', () => {
+    expect(timeZoneOptions()[0]).toStrictEqual({
+      label: 'Etc/GMT+12',
+      value: 'International Date Line West',
+    });
   });
 });

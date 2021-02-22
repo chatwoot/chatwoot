@@ -1,6 +1,7 @@
 import parse from 'date-fns/parse';
 import getHours from 'date-fns/getHours';
 import getMinutes from 'date-fns/getMinutes';
+import timeZoneData from './timezones.json';
 
 export const defaultTimeSlot = [
   {
@@ -71,8 +72,9 @@ export const generateTimeSlots = (step = 15) => {
 export const getTime = (hour, minute) => {
   const merdian = hour > 11 ? 'PM' : 'AM';
   const modHour = hour > 12 ? hour % 12 : hour;
-  const parsedhour = modHour < 10 ? `0${modHour}` : modHour;
-  return `${parsedhour}:${minute} ${merdian}`;
+  const parsedHour = modHour < 10 ? `0${modHour}` : modHour;
+  const parsedMinute = minute < 10 ? `0${minute}` : minute;
+  return `${parsedHour}:${parsedMinute} ${merdian}`;
 };
 
 export const timeSlotParse = timeSlots => {
@@ -100,12 +102,21 @@ export const timeSlotParse = timeSlots => {
 export const timeSlotTransform = timeSlots => {
   return timeSlots.map(slot => {
     const closed = !(slot.to && slot.from);
-    const fromDate = closed ? '' : parse(slot.from, 'hh:mm a', new Date());
-    const toDate = closed ? '' : parse(slot.to, 'hh:mm a', new Date());
-    const openHour = closed ? '' : getHours(fromDate);
-    const openMinutes = closed ? '' : getMinutes(fromDate);
-    const closeHour = closed ? '' : getHours(toDate);
-    const closeMinutes = closed ? '' : getMinutes(toDate);
+    let fromDate = '';
+    let toDate = '';
+    let openHour = '';
+    let openMinutes = '';
+    let closeHour = '';
+    let closeMinutes = '';
+
+    if (!closed) {
+      fromDate = parse(slot.from, 'hh:mm a', new Date());
+      toDate = parse(slot.to, 'hh:mm a', new Date());
+      openHour = getHours(fromDate);
+      openMinutes = getMinutes(fromDate);
+      closeHour = getHours(toDate);
+      closeMinutes = getMinutes(toDate);
+    }
 
     return {
       day_of_week: slot.day,
@@ -116,4 +127,11 @@ export const timeSlotTransform = timeSlots => {
       close_minutes: closeMinutes,
     };
   });
+};
+
+export const timeZoneOptions = () => {
+  return Object.keys(timeZoneData).map(key => ({
+    label: timeZoneData[key],
+    value: key,
+  }));
 };

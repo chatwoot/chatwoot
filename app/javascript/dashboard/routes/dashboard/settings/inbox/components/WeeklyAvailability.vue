@@ -23,10 +23,13 @@
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
             <multiselect
               v-model="timeZone"
-              :options="[]"
+              :options="timeZones"
               deselect-label=""
               select-label=""
               selected-label=""
+              track-by="value"
+              label="label"
+              :close-on-select="true"
               :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
               :allow-empty="false"
             />
@@ -61,6 +64,7 @@ import {
   timeSlotParse,
   timeSlotTransform,
   defaultTimeSlot,
+  timeZoneOptions,
 } from '../helpers/businessHour';
 
 export default {
@@ -100,6 +104,9 @@ export default {
       if (!this.isBusinessHoursEnabled) return false;
       return this.timeSlots.filter(slot => slot.from && !slot.valid).length > 0;
     },
+    timeZones() {
+      return [...timeZoneOptions()];
+    },
   },
   watch: {
     inbox() {
@@ -125,7 +132,7 @@ export default {
       this.isBusinessHoursEnabled = isEnabled;
       this.unavailableMessage = unavailableMessage;
       this.timeSlots = slots;
-      this.timeZone = timeZone;
+      this.timeZone = this.timeZones.find(item => timeZone === item.value);
     },
     onSlotUpdate(slotIndex, slotData) {
       this.timeSlots = this.timeSlots.map(item =>
@@ -141,7 +148,7 @@ export default {
           working_hours_enabled: this.isBusinessHoursEnabled,
           out_of_office_message: this.unavailableMessage,
           working_hours: timeSlotTransform(this.timeSlots),
-          time_zone: this.timeZone,
+          time_zone: this.timeZone.value,
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
