@@ -16,4 +16,11 @@ shared_examples_for 'out_of_offisable' do
     travel_to '01.11.2020 13:00'.to_datetime
     expect(obj.out_of_office?).to be true
   end
+
+  it 'updates the office hours via a hash' do
+    obj.update_working_hours(ActionController::Parameters.new(
+                               { 7 => { 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0 } }
+                             ))
+    expect(obj.reload.weekly_schedule[7]['open_hour']).to eq 9
+  end
 end

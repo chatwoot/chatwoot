@@ -26,6 +26,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     return unless @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
 
     @inbox.channel.update!(inbox_update_params[:channel])
+    @inbox.update_working_hours(params[:working_hours]) if params[:working_hours]
     update_channel_feature_flags
   end
 
