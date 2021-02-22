@@ -23,7 +23,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def update
     @inbox.update(inbox_update_params.except(:channel))
-    @inbox.update_working_hours(params.permit(working_hours: Inbox::KEY_ATTRS)[]) if params[:working_hours]
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
     return unless @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
 
     @inbox.channel.update!(inbox_update_params[:channel])
