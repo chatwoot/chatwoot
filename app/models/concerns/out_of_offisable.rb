@@ -3,7 +3,7 @@
 module OutOfOffisable
   extend ActiveSupport::Concern
 
-  KEY_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes].freeze
+  OFFISABLE_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes].freeze
 
   included do
     has_many :working_hours, dependent: :destroy
@@ -19,7 +19,7 @@ module OutOfOffisable
   end
 
   def weekly_schedule
-    working_hours.select(*KEY_ATTRS).as_json(except: :id)
+    working_hours.select(*OFFISABLE_ATTRS).as_json(except: :id)
   end
 
   # accepts an array of hashes similiar to the format of weekly_schedule
@@ -33,7 +33,7 @@ module OutOfOffisable
   def update_working_hours(params)
     ActiveRecord::Base.transaction do
       params.each do |working_hour|
-        working_hours.find_by(day_of_week: working_hour['day_of_week']).update(working_hour.slice(*KEY_ATTRS))
+        working_hours.find_by(day_of_week: working_hour['day_of_week']).update(working_hour.slice(*OFFISABLE_ATTRS))
       end
     end
   end
