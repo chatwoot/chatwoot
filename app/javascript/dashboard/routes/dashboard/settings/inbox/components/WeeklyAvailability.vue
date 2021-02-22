@@ -38,7 +38,7 @@
             v-for="timeSlot in timeSlots"
             :key="timeSlot.day"
             :day-name="dayNames[timeSlot.day]"
-            :time-slot="timeSlots[timeSlot.day]"
+            :time-slot="timeSlot"
             @update="data => onSlotUpdate(timeSlot.day, data)"
           />
         </div>
@@ -82,15 +82,15 @@ export default {
         'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
       ),
       timeZone: '',
-      dayNames: [
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-      ],
+      dayNames: {
+        1: 'Sunday',
+        2: 'Monday',
+        3: 'Tuesday',
+        4: 'Wednesday',
+        5: 'Thursday',
+        6: 'Friday',
+        7: 'Saturday',
+      },
       timeSlots: [...defaultTimeSlot],
     };
   },
@@ -128,8 +128,8 @@ export default {
       this.timeZone = timeZone;
     },
     onSlotUpdate(slotIndex, slotData) {
-      this.timeSlots = this.timeSlots.map((item, index) =>
-        index === slotIndex ? slotData : item
+      this.timeSlots = this.timeSlots.map(item =>
+        item.day === slotIndex ? slotData : item
       );
     },
     async updateInbox() {

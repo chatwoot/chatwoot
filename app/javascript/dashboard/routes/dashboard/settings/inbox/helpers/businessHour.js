@@ -4,12 +4,6 @@ import getMinutes from 'date-fns/getMinutes';
 
 export const defaultTimeSlot = [
   {
-    day: 0,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
     day: 1,
     to: '',
     from: '',
@@ -41,6 +35,12 @@ export const defaultTimeSlot = [
   },
   {
     day: 6,
+    to: '',
+    from: '',
+    valid: false,
+  },
+  {
+    day: 7,
     to: '',
     from: '',
     valid: false,
@@ -87,6 +87,7 @@ export const timeSlotParse = timeSlots => {
     } = slot;
     const from = closedAllDay ? '' : getTime(openHour, openMinutes);
     const to = closedAllDay ? '' : getTime(closeHour, closeMinutes);
+
     return {
       day,
       to,
@@ -99,12 +100,12 @@ export const timeSlotParse = timeSlots => {
 export const timeSlotTransform = timeSlots => {
   return timeSlots.map(slot => {
     const closed = !(slot.to && slot.from);
-    const fromDate = parse(slot.from, 'hh:mm a', new Date());
-    const toDate = parse(slot.to, 'hh:mm a', new Date());
-    const openHour = getHours(fromDate);
-    const openMinutes = getMinutes(fromDate);
-    const closeHour = getHours(toDate);
-    const closeMinutes = getMinutes(toDate);
+    const fromDate = closed ? '' : parse(slot.from, 'hh:mm a', new Date());
+    const toDate = closed ? '' : parse(slot.to, 'hh:mm a', new Date());
+    const openHour = closed ? '' : getHours(fromDate);
+    const openMinutes = closed ? '' : getMinutes(fromDate);
+    const closeHour = closed ? '' : getHours(toDate);
+    const closeMinutes = closed ? '' : getMinutes(toDate);
 
     return {
       day_of_week: slot.day,
