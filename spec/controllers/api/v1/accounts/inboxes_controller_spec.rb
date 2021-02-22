@@ -178,7 +178,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
       it 'updates working hours when administrator' do
         params = {
-          working_hours: { 7 => { 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0 } },
+          working_hours: [{ 'day_of_week' => 0, 'open_hour' => 9, 'open_minutes' => 0, 'close_hour' => 17, 'close_minutes' => 0 }],
           working_hours_enabled: true,
           out_of_office_message: 'hello'
         }
@@ -187,9 +187,8 @@ RSpec.describe 'Inboxes API', type: :request do
               headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('test.com')
         inbox.reload
-        expect(inbox.reload.weekly_schedule[7]['open_hour']).to eq 9
+        expect(inbox.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 0 }['open_hour']).to eq 9
       end
     end
   end
