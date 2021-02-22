@@ -14,13 +14,7 @@
 
 .multiselect {
   margin-bottom: var(--space-normal);
-}
 
-.multiselect__option--selected {
-  background: var(--white);
-}
-
-.multiselect {
   .multiselect--active {
     > .multiselect__tags {
       border-color: $color-woot;
