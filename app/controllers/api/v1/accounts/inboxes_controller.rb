@@ -81,7 +81,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def inbox_update_params
     params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
-                  :working_hours_enabled, :out_of_office_message,
+                  :working_hours_enabled, :out_of_office_message, :timezone,
                   channel: [
                     :website_url,
                     :widget_color,
