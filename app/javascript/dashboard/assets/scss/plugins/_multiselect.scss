@@ -12,6 +12,10 @@
   }
 }
 
+.multiselect {
+  margin-bottom: var(--space-normal);
+}
+
 .multiselect__option--selected {
   background: var(--white);
 }
