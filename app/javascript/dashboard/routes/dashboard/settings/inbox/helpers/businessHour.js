@@ -131,7 +131,7 @@ export const timeSlotTransform = timeSlots => {
 
 export const timeZoneOptions = () => {
   return Object.keys(timeZoneData).map(key => ({
-    label: timeZoneData[key],
-    value: key,
+    label: key,
+    value: timeZoneData[key],
   }));
 };

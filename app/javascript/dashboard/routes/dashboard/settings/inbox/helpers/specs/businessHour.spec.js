@@ -78,8 +78,8 @@ describe('#timeSlotTransform', () => {
 describe('#timeZoneOptions', () => {
   it('returns transforms correctly', () => {
     expect(timeZoneOptions()[0]).toStrictEqual({
-      label: 'Etc/GMT+12',
-      value: 'International Date Line West',
+      value: 'Etc/GMT+12',
+      label: 'International Date Line West',
     });
   });
 });
