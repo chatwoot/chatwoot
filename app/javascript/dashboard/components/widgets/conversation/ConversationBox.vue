@@ -6,20 +6,17 @@
       :is-contact-panel-open="isContactPanelOpen"
       @contact-panel-toggle="onToggleContactPanel"
     />
-    <onboarding-view />
-    <!-- <empty-state v-else /> -->
+    <empty-state v-else />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
-// import EmptyState from './EmptyState';
-import OnboardingView from './OnboardingView';
+import EmptyState from './EmptyState';
 import MessagesView from './MessagesView';
 
 export default {
   components: {
-    // EmptyState,
-    OnboardingView,
+    EmptyState,
     MessagesView,
   },
 
