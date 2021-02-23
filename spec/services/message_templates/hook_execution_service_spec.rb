@@ -19,8 +19,9 @@ describe ::MessageTemplates::HookExecutionService do
       # described class gets called in message after commit
       message = create(:message, conversation: conversation)
 
-      expect(::MessageTemplates::Template::Greeting).to have_received(:new).with(conversation: message.conversation)
-      expect(greeting_service).to have_received(:perform)
+      # TODO: remove this if this hook is removed
+      # expect(::MessageTemplates::Template::Greeting).to have_received(:new).with(conversation: message.conversation)
+      # expect(greeting_service).to have_received(:perform)
       expect(::MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
       expect(email_collect_service).to have_received(:perform)
     end
