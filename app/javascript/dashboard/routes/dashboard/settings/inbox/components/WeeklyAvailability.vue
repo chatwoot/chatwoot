@@ -67,6 +67,8 @@ import {
   timeZoneOptions,
 } from '../helpers/businessHour';
 
+const DEFAULT_TIMEZONE = 'America/Los_Angeles';
+
 export default {
   components: {
     SettingsSection,
@@ -85,7 +87,7 @@ export default {
       unavailableMessage: this.$t(
         'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
       ),
-      timeZone: '',
+      timeZone: DEFAULT_TIMEZONE,
       dayNames: {
         0: 'Sunday',
         1: 'Monday',
@@ -124,7 +126,7 @@ export default {
           'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
         ),
         working_hours: timeSlots = [],
-        time_zone: timeZone,
+        timezone: timeZone,
       } = this.inbox;
       const slots = timeSlotParse(timeSlots).length
         ? timeSlotParse(timeSlots)
@@ -132,7 +134,9 @@ export default {
       this.isBusinessHoursEnabled = isEnabled;
       this.unavailableMessage = unavailableMessage;
       this.timeSlots = slots;
-      this.timeZone = this.timeZones.find(item => timeZone === item.value);
+      this.timeZone =
+        this.timeZones.find(item => timeZone === item.value) ||
+        DEFAULT_TIMEZONE;
     },
     onSlotUpdate(slotIndex, slotData) {
       this.timeSlots = this.timeSlots.map(item =>
@@ -148,7 +152,8 @@ export default {
           working_hours_enabled: this.isBusinessHoursEnabled,
           out_of_office_message: this.unavailableMessage,
           working_hours: timeSlotTransform(this.timeSlots),
-          time_zone: this.timeZone.value,
+          timezone: this.timeZone.value,
+          channel: {},
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));

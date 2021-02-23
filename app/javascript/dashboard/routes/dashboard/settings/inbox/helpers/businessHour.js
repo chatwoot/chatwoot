@@ -5,6 +5,12 @@ import timeZoneData from './timezones.json';
 
 export const defaultTimeSlot = [
   {
+    day: 0,
+    to: '',
+    from: '',
+    valid: false,
+  },
+  {
     day: 1,
     to: '',
     from: '',
@@ -36,12 +42,6 @@ export const defaultTimeSlot = [
   },
   {
     day: 6,
-    to: '',
-    from: '',
-    valid: false,
-  },
-  {
-    day: 7,
     to: '',
     from: '',
     valid: false,
