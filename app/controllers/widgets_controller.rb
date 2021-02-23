@@ -6,8 +6,6 @@ class WidgetsController < ActionController::Base
   before_action :build_contact
   after_action :allow_iframe_requests
 
-  def index; end
-
   private
 
   def set_global_config
