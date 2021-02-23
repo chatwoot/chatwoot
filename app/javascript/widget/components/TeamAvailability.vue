@@ -13,10 +13,15 @@
           }}
         </div>
         <div class="text-xs leading-4 mt-1">
-          {{ isInBetweenTheWorkingHours ? replyTimeStatus : '' }}
+          {{
+            isInBetweenTheWorkingHours ? replyTimeStatus : outOfOfficeMessage
+          }}
         </div>
       </div>
-      <available-agents :agents="availableAgents" />
+      <available-agents
+        v-if="isInBetweenTheWorkingHours"
+        :agents="availableAgents"
+      />
     </div>
     <woot-button
       class="font-medium"
