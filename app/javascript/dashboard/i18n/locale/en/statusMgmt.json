@@ -1,0 +1,65 @@
+{
+  "STATUS_MGMT": {
+    "HEADER": "Status",
+    "HEADER_BTN_TXT": "Add Status",
+    "LOADING": "Fetching Status",
+    "SEARCH_404": "There are no items matching this query",
+    "SIDEBAR_TXT": "<p><b>Status</b> </p><p> Status are the state of a conversation. </p><p> For creating a status, just click on the <b>Add Status</b>. You can also edit or delete an existing Status by clicking on the Edit or Delete button </p>",
+    "LIST": {
+      "404": "There are no status available in this account.",
+      "TITLE": "Manage status",
+      "DESC": "Statuses are state of a conversation.",
+      "TABLE_HEADER": [
+        "Status",
+        "Actions"
+      ]
+    },
+    "ADD": {
+      "TITLE": "Add Status",
+      "DESC": "Statuses are state of a conversation.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "STATUS": {
+          "LABEL": "Status",
+          "PLACEHOLDER": "Please enter a status",
+          "ERROR": "Status is required"
+        },
+        "SUBMIT": "Submit"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Status Response added successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit Status",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "STATUS": {
+          "LABEL": "Status",
+          "PLACEHOLDER": "Please enter a status",
+          "ERROR": "Status is required"
+        },
+        "SUBMIT": "Submit"
+      },
+      "BUTTON_TEXT": "Edit",
+      "API": {
+        "SUCCESS_MESSAGE": "Status updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Status deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
+    }
+  }
+}

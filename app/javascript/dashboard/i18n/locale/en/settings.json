@@ -125,7 +125,8 @@
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
     "LABELS": "Labels",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "STATUS": "Status"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

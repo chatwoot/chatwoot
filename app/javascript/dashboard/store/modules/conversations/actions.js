@@ -126,6 +126,18 @@ const actions = {
       // Handle error
     }
   },
+  setStatus: async ({ commit }, data) => {
+    try {
+      // console.log(data);
+      const response = await ConversationApi.setStatus(data.id, data.status);
+      commit(
+        types.default.RESOLVE_CONVERSATION,
+        response.data.payload.current_status
+      );
+    } catch (error) {
+      // Handle error
+    }
+  },
 
   sendMessage: async ({ commit }, data) => {
     try {
