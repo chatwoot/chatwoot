@@ -45,6 +45,23 @@
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
+      <div class="multiselect-box">
+        <multiselect
+          v-model="
+            $t('CHAT_LIST.CHAT_STATUS_ITEMS').filter(
+              status => status.VALUE == currentChat.status
+            )[0]
+          "
+          :placeholder="$t('CHAT_LIST.ASSIGNMENT.SELECT_STATUS')"
+          :select-label="$t('CHAT_LIST.ASSIGNMENT.ASSIGN')"
+          :options="$t('CHAT_LIST.CHAT_STATUS_ITEMS')"
+          label="TEXT"
+          selected-label
+          track-by="VALUE"
+          @select="assignStatus"
+          @remove="removeStatus"
+        ></multiselect>
+      </div>
       <more-actions :conversation-id="currentChat.id" />
     </div>
   </div>
@@ -121,6 +138,20 @@ export default {
     },
 
     removeAgent() {},
+    assignStatus(status) {
+      this.isLoading = true;
+      this.$store
+        .dispatch('setStatus', {
+          id: this.currentChat.id,
+          status: status.VALUE,
+        })
+        .then(() => {
+          bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_STATUS'));
+          this.isLoading = false;
+        });
+    },
+
+    removeStatus() {},
   },
 };
 </script>

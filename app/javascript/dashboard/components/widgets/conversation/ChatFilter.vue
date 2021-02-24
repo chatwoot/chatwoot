@@ -1,7 +1,11 @@
 <template>
   <select v-model="activeStatus" class="status--filter" @change="onTabChange()">
-    <option v-for="item in chatStatusList" :key="item.name" :value="item.name">
-      {{ item.name }}
+    <option
+      v-for="(StatusItem, index) in records"
+      :key="StatusItem.name"
+      :value="StatusItem.name"
+    >
+      {{ StatusItem.name }}
     </option>
   </select>
 </template>
@@ -16,13 +20,9 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      chatStatusItems: 'chatStatus/getChatStatusItems',
+      records: 'getStatus',
+      uiFlags: 'getUIFlags',
     }),
-    chatStatusList() {
-      let chatStatusList = [];
-      chatStatusList = this.chatStatusItems.slice();
-      return chatStatusList;
-    },
   },
   methods: {
     onTabChange() {

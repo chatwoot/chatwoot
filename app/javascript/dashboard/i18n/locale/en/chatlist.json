@@ -49,8 +49,17 @@
       {
         "TEXT": "Bot",
         "VALUE": "bot"
+      },
+      {
+        "TEXT": "Escalated",
+        "VALUE": "escalated"
       }
     ],
+    "ASSIGNMENT": {
+      "SELECT_STATUS": "Select Status",
+      "REMOVE": "Remove",
+      "ASSIGN": "Assign"
+    },
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",

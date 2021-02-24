@@ -61,6 +61,7 @@ export const getSidebarItems = accountId => ({
       'agent_list',
       'canned_list',
       'labels_list',
+      'status_list',
       'settings_inbox',
       'settings_inbox_new',
       'settings_inbox_list',
@@ -111,6 +112,13 @@ export const getSidebarItems = accountId => ({
           `accounts/${accountId}/settings/canned-response/list`
         ),
         toStateName: 'canned_list',
+      },
+      status: {
+        icon: 'ion-pricetags',
+        label: 'STATUS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/status/list`),
+        toStateName: 'status_list',
       },
       settings_integrations: {
         icon: 'ion-flash',

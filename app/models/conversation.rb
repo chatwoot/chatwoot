@@ -41,7 +41,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   before_validation :validate_additional_attributes
 
-  enum status: { open: 0, resolved: 1, bot: 2 }
+  enum status: { open: 0, resolved: 1, bot: 2, escalated: 3 }
 
   scope :latest, -> { order(last_activity_at: :desc) }
   scope :unassigned, -> { where(assignee_id: nil) }

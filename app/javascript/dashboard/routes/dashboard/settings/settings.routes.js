@@ -2,6 +2,7 @@ import { frontendURL } from '../../../helper/URLHelper';
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
 import canned from './canned/canned.routes';
+import status from './status/status.routes';
 import inbox from './inbox/inbox.routes';
 import integrations from './integrations/integrations.routes';
 import labels from './labels/labels.routes';
@@ -25,6 +26,7 @@ export default {
     ...account.routes,
     ...agent.routes,
     ...canned.routes,
+    ...status.routes,
     ...inbox.routes,
     ...integrations.routes,
     ...labels.routes,

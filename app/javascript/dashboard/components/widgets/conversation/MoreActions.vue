@@ -1,9 +1,9 @@
 <template>
   <div class="flex-container actions--container">
-    <resolve-action
-      :conversation-id="currentChat.id"
-      :status="currentChat.status"
-    />
+    <!-- <resolve-action
+     :conversation-id="currentChat.id"
+     :status="currentChat.status"
+   /> -->
     <woot-button
       class="clear more--button"
       icon="ion-android-more-vertical"
