@@ -97,13 +97,18 @@ export default {
 </script>
 <style lang="scss" scoped>
 .onboarding-wrap {
-  align-items: center;
   display: flex;
   font-size: var(--font-size-small);
   justify-content: center;
   overflow: auto;
   padding: var(--space-jumbo) 13.6rem;
   text-align: left;
+
+  height: 100vh;
+  overflow: auto;
+}
+.onboarding {
+  padding-top: calc(50vh - 50% - var(--space-large));
 }
 
 .features-item {
