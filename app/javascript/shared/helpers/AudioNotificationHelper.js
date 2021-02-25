@@ -30,10 +30,17 @@ export const newMessageNotification = data => {
   } else {
     const { conversation_id: currentPageId } = window.WOOT.$route.params;
     const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+    const {
+      enable_audio_alerts: enableAudioNotifications = false,
+    } = window.WOOT.$store.getters.getUISettings;
     const { conversation_id: incomingConvId, sender_id: senderId } = data;
     const isFromCurrentUser = currentUserId === senderId;
+    const playAudio =
+      currentPageId !== incomingConvId &&
+      !isFromCurrentUser &&
+      enableAudioNotifications;
 
-    if (currentPageId !== incomingConvId && !isFromCurrentUser) {
+    if (playAudio) {
       playAudioFromIframe();
     }
   }
