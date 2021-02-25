@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
     "INTEGRATIONS": "സംയോജനങ്ങൾ",
     "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
-    "LABELS": "ലേബലുകൾ"
+    "LABELS": "ലേബലുകൾ",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "പുതിയ അക്കൗണ്ട്",

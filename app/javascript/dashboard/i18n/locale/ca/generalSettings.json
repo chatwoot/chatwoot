@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "L'actualització %{latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -54,10 +54,10 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificacions",
-    "MARK_ALL_DONE": "Mark All Done",
+    "MARK_ALL_DONE": "Marca Tot Fet",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Carregant notificacions...",
+      "404": "Cap Notificació",
       "TABLE_HEADER": [
         "Nom",
         "Número de telèfon",
@@ -66,10 +66,10 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nova conversació",
+      "conversation_assignment": "Conversació Assignada",
+      "assigned_conversation_new_message": "Missatge Nou",
+      "conversation_mention": "Menció"
     }
   }
 }

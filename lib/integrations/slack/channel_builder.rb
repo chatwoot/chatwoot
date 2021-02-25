@@ -21,7 +21,13 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def find_or_create_channel
-    existing_channel = slack_client.conversations_list.channels.find { |channel| channel['name'] == params[:channel] }
+    current_list = slack_client.conversations_list
+    channels = current_list.channels
+    while current_list.response_metadata.next_cursor.present?
+      current_list = slack_client.conversations_list(cursor: current_list.response_metadata.next_cursor)
+      channels.concat(current_list.channels)
+    end
+    existing_channel = channels.find { |channel| channel['name'] == params[:channel] }
     @channel = existing_channel || slack_client.conversations_create(name: params[:channel])['channel']
   end
 

@@ -111,12 +111,15 @@ export const actions = {
       throw new Error(error);
     }
   },
-  updateInbox: async ({ commit }, { id, ...inboxParams }) => {
+  updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, {
       isUpdatingAutoAssignment: true,
     });
     try {
-      const response = await InboxesAPI.update(id, buildInboxData(inboxParams));
+      const response = await InboxesAPI.update(
+        id,
+        formData ? buildInboxData(inboxParams) : inboxParams
+      );
       commit(types.default.EDIT_INBOXES, response.data);
       commit(types.default.SET_INBOXES_UI_FLAG, {
         isUpdatingAutoAssignment: false,

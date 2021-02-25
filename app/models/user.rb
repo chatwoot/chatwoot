@@ -109,6 +109,13 @@ class User < ApplicationRecord
     self[:display_name].presence || name
   end
 
+  def hmac_identifier
+    hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
+    return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
+
+    ''
+  end
+
   def account
     current_account_user&.account
   end

@@ -214,7 +214,7 @@
         "TITLE": "Confirmar Exclusão",
         "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "No, Keep "
+        "NO": "Não, Manter "
       },
       "API": {
         "SUCCESS_MESSAGE": "Caixa de entrada excluída com sucesso",
@@ -249,7 +249,7 @@
       "TITLE": "Reautorizar",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Ocorreu um erro, por favor tente novamente"
     }
   }
 }

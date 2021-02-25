@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Шаблонные ответы",
     "INTEGRATIONS": "Интеграции",
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
-    "LABELS": "Категории"
+    "LABELS": "Категории",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Новый аккаунт",

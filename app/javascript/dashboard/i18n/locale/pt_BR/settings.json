@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Atalhos",
     "INTEGRATIONS": "Integrações",
     "ACCOUNT_SETTINGS": "Configurações da conta",
-    "LABELS": "Marcadores"
+    "LABELS": "Marcadores",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nova conta",

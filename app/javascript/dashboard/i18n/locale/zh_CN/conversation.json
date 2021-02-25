@@ -25,6 +25,7 @@
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "下载",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
       "REOPEN_ACTION": "重新打开",
