@@ -133,7 +133,7 @@ GEM
     bootsnap (1.4.8)
       msgpack (~> 1.0)
     brakeman (4.9.0)
-    browser (4.2.0)
+    browser (5.3.1)
     builder (3.2.4)
     bullet (6.1.0)
       activesupport (>= 3.0.0)
