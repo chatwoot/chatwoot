@@ -43,10 +43,6 @@ $resolve-button-width: 13.2rem;
     @include flex;
     @include flex-align($x: center, $y: middle);
 
-    &.hide {
-      visibility: hidden;
-    }
-
     .user--name {
       @include margin(0);
       font-size: $font-size-medium;
