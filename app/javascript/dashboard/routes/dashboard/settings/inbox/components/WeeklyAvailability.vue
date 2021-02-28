@@ -19,8 +19,10 @@
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
             <textarea v-model="unavailableMessage" type="text" />
           </label>
-          <label class="timezone-input-wrap">
-            {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
+          <div class="timezone-input-wrap">
+            <label>
+              {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
+            </label>
             <multiselect
               v-model="timeZone"
               :options="timeZones"
@@ -33,7 +35,8 @@
               :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
               :allow-empty="false"
             />
-          </label>
+          </div>
+
           <label>
             {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
           </label>
@@ -148,7 +151,6 @@ export default {
         const payload = {
           id: this.inbox.id,
           formData: false,
-
           working_hours_enabled: this.isBusinessHoursEnabled,
           out_of_office_message: this.unavailableMessage,
           working_hours: timeSlotTransform(this.timeSlots),

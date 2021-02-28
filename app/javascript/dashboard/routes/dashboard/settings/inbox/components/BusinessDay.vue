@@ -123,12 +123,20 @@ export default {
       },
       set(value) {
         const toDate = parse(value, 'hh:mm a', new Date());
-        const valid = differenceInMinutes(toDate, this.fromDate) / 60 > 0;
-        this.$emit('update', {
-          ...this.timeSlot,
-          to: value,
-          valid,
-        });
+        if (value === '12:00 AM') {
+          this.$emit('update', {
+            ...this.timeSlot,
+            to: value,
+            valid: true,
+          });
+        } else {
+          const valid = differenceInMinutes(toDate, this.fromDate) / 60 > 0;
+          this.$emit('update', {
+            ...this.timeSlot,
+            to: value,
+            valid,
+          });
+        }
       },
     },
     fromDate() {
@@ -138,10 +146,14 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      return differenceInMinutes(this.toDate, this.fromDate) / 60;
+      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
+      if (this.toTime === '12:00 AM') {
+        return 24 + totalHours;
+      }
+      return totalHours;
     },
     hasError() {
-      return this.totalHours < 0;
+      return !this.timeSlot.valid;
     },
   },
 };
