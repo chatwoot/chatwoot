@@ -80,6 +80,10 @@ export default {
       type: String,
       default: '',
     },
+    activeTeam: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -128,11 +132,15 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
+        teamId: this.activeTeam.name ? this.activeTeam.id : undefined,
       };
     },
     pageTitle() {
       if (this.inbox.name) {
         return this.inbox.name;
+      }
+      if (this.activeTeam.name) {
+        return this.activeTeam.name;
       }
       if (this.label) {
         return `#${this.label}`;
@@ -162,6 +170,9 @@ export default {
     },
   },
   watch: {
+    activeTeam() {
+      this.resetAndFetchData();
+    },
     conversationInbox() {
       this.resetAndFetchData();
     },

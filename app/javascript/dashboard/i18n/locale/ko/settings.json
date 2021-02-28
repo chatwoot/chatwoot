@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
     "ACCOUNT_SETTINGS": "계정 설정",
-    "LABELS": "라벨"
+    "LABELS": "라벨",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "새 계정",

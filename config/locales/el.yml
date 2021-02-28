@@ -29,6 +29,12 @@ el:
       failed: Η εγγραφή απέτυχε
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
+      conversation_assignment: "[Ανατέθηκε σε εσάς] - #%{display_id} σας έχει ανατεθεί"
+      assigned_conversation_new_message: "[Νέο μήνυμα] - #%{display_id} %{content}"
+      conversation_mention: "Έχετε αναφερθεί σε συζήτηση [ID - %{display_id}] από %{name}"
   conversations:
     messages:
       deleted: Το μήνυμα διαγράφηκε

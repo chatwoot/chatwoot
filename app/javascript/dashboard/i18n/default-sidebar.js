@@ -14,6 +14,8 @@ export const getSidebarItems = accountId => ({
       'profile_settings_index',
       'label_conversations',
       'conversations_through_label',
+      'team_conversations',
+      'conversations_through_team',
       'notifications_index',
     ],
     menuItems: {

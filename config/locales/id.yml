@@ -29,6 +29,12 @@ id:
       failed: Pendaftaran gagal
   reports:
     period: Periode pelaporan %{since} hingga %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
+      conversation_assignment: "[Ditugaskan untuk Anda] - #%{display_id} telah ditugaskan untuk Anda"
+      assigned_conversation_new_message: "[Pesan baru] - #%{display_id} %{content}"
+      conversation_mention: "Anda telah di mention dalam percakapan [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: Pesan ini telah terhapus

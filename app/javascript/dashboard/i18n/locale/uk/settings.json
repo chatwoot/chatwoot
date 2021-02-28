@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Швидкі відповіді",
     "INTEGRATIONS": "Інтеграції",
     "ACCOUNT_SETTINGS": "Налаштування акаунту",
-    "LABELS": "Labels"
+    "LABELS": "Labels",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

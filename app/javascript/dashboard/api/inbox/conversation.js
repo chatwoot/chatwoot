@@ -6,10 +6,11 @@ class ConversationApi extends ApiClient {
     super('conversations', { accountScoped: true });
   }
 
-  get({ inboxId, status, assigneeType, page, labels }) {
+  get({ inboxId, status, assigneeType, page, labels, teamId }) {
     return axios.get(this.url, {
       params: {
         inbox_id: inboxId,
+        team_id: teamId,
         status,
         assignee_type: assigneeType,
         page,
@@ -56,13 +57,14 @@ class ConversationApi extends ApiClient {
     return axios.post(`${this.url}/${conversationId}/unmute`);
   }
 
-  meta({ inboxId, status, assigneeType, labels }) {
+  meta({ inboxId, status, assigneeType, labels, teamId }) {
     return axios.get(`${this.url}/meta`, {
       params: {
         inbox_id: inboxId,
         status,
         assignee_type: assigneeType,
         labels,
+        team_id: teamId,
       },
     });
   }

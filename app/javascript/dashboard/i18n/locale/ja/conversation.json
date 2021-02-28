@@ -25,6 +25,7 @@
     "REMOVE_SELECTION": "選択項目を削除",
     "DOWNLOAD": "ダウンロード",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "NO_RESPONSE": "No response",
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",

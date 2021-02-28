@@ -242,8 +242,8 @@
       "INBOX_UPDATE_TITLE": "Inkorg inställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "Validering av användaridentitet",
+      "HMAC_DESCRIPTION": "För att validera användarens identitet låter SDKn dig att skicka en `identity_hash` för varje användare. Du kan generera HMAC med 'sha256' med nyckeln som visas här."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Återauktorisera",

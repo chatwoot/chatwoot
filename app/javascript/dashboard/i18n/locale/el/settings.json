@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Έτοιμες Απαντήσεις",
     "INTEGRATIONS": "Ενοποιήσεις",
     "ACCOUNT_SETTINGS": "Ρυθμίσεις Λογαριασμού",
-    "LABELS": "Ετικέτες"
+    "LABELS": "Ετικέτες",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Νέος Λογαριασμός",

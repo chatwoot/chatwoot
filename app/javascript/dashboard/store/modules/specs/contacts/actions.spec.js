@@ -2,7 +2,10 @@ import axios from 'axios';
 import Contacts from '../../contacts';
 import types from '../../../mutation-types';
 import contactList from './fixtures';
-import { DuplicateContactException } from '../../../../../shared/helpers/CustomErrors';
+import {
+  DuplicateContactException,
+  ExceptionWithMessage,
+} from '../../../../../shared/helpers/CustomErrors';
 
 const { actions } = Contacts;
 
@@ -91,6 +94,47 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isUpdating: true }],
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('#create', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.post.mockResolvedValue({
+        data: { payload: { contact: contactList[0] } },
+      });
+      await actions.create({ commit }, contactList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
+        [types.SET_CONTACT_ITEM, contactList[0]],
+        [types.SET_CONTACT_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.create({ commit }, contactList[0])).rejects.toThrow(
+        Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isCreating: false }],
+      ]);
+    });
+
+    it('sends correct actions if email is already present', async () => {
+      axios.post.mockRejectedValue({
+        response: {
+          data: {
+            message: 'Email exists already',
+          },
+        },
+      });
+      await expect(actions.create({ commit }, contactList[0])).rejects.toThrow(
+        ExceptionWithMessage
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isCreating: true }],
+        [types.SET_CONTACT_UI_FLAG, { isCreating: false }],
       ]);
     });
   });

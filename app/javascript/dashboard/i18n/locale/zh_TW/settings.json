@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
     "ACCOUNT_SETTINGS": "帳戶設定",
-    "LABELS": "標籤"
+    "LABELS": "標籤",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "新帳戶",
