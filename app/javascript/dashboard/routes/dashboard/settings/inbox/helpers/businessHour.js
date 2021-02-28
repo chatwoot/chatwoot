@@ -71,7 +71,7 @@ export const generateTimeSlots = (step = 15) => {
 
 export const getTime = (hour, minute) => {
   const merdian = hour > 11 ? 'PM' : 'AM';
-  const modHour = hour > 12 ? hour % 12 : hour;
+  const modHour = hour > 12 ? hour % 12 : hour || 12;
   const parsedHour = modHour < 10 ? `0${modHour}` : modHour;
   const parsedMinute = minute < 10 ? `0${minute}` : minute;
   return `${parsedHour}:${parsedMinute} ${merdian}`;
