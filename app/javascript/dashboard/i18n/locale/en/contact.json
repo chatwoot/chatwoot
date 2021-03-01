@@ -111,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "Name",
-        "Phone Number",
-        "Conversations",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "PHONE_NUMBER": "Phone Number",
+        "CONVERSATIONS": "Conversations",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Company",
+        "EMAIL_ADDRESS": "Email Address"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }
