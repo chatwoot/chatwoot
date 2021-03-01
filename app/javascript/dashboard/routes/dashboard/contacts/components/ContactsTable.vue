@@ -95,6 +95,7 @@ export default {
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
           align: 'left',
+          width: 240,
           renderBodyCell: ({ row }) => {
             if (row.email)
               return (
@@ -175,7 +176,7 @@ export default {
           field: 'conversationsCount',
           key: 'conversationsCount',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
-          width: 200,
+          width: 150,
           align: 'left',
         },
       ],
@@ -239,9 +240,12 @@ export default {
     }
   }
 
-  .ve-table-header-th,
-  .ve-table-body-td {
+  .ve-table-header-th {
     padding: var(--space-small) var(--space-two) !important;
+  }
+
+  .ve-table-body-td {
+    padding: var(--space-slab) var(--space-two) !important;
   }
 
   .ve-table-header-th {
