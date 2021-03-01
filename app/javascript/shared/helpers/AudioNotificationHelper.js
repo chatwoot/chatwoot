@@ -1,4 +1,6 @@
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 const notificationAudio = require('shared/assets/audio/ding.mp3');
+import axios from 'axios';
 
 export const playNotificationAudio = () => {
   try {
@@ -8,40 +10,56 @@ export const playNotificationAudio = () => {
   }
 };
 
-export const playAudioFromIframe = () => {
-  try {
-    const audioEl = document.querySelector('#notif-audio');
-    audioEl.currentTime = 0;
-    audioEl.play();
-    audioEl.muted = false;
+export const getAlertAudio = async () => {
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const playsound = audioBuffer => {
+    window.playAudioAlert = () => {
+      const source = audioCtx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(audioCtx.destination);
+      source.loop = false;
+      source.start();
+    };
+  };
 
-    setTimeout(() => {
-      audioEl.muted = true;
-      audioEl.pause();
-    }, 100);
+  try {
+    const response = await axios.get('/dashboard/audios/ding.mp3', {
+      responseType: 'arraybuffer',
+    });
+
+    audioCtx.decodeAudioData(response.data).then(playsound);
   } catch (error) {
     // error
   }
 };
 
 export const newMessageNotification = data => {
+  if (!window.playAudioAlert) return false;
+
   if (document.hidden) {
-    playAudioFromIframe();
+    window.playAudioAlert();
   } else {
-    const { conversation_id: currentPageId } = window.WOOT.$route.params;
+    const { conversation_id: currentConvId } = window.WOOT.$route.params;
     const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
     const {
-      enable_audio_alerts: enableAudioNotifications = false,
+      enable_audio_alerts: enableAudioAlerts = false,
     } = window.WOOT.$store.getters.getUISettings;
-    const { conversation_id: incomingConvId, sender_id: senderId } = data;
+    const {
+      conversation_id: incomingConvId,
+      sender_id: senderId,
+      message_type: messageType,
+    } = data;
     const isFromCurrentUser = currentUserId === senderId;
+
     const playAudio =
-      currentPageId !== incomingConvId &&
+      currentConvId !== incomingConvId &&
       !isFromCurrentUser &&
-      enableAudioNotifications;
+      messageType === MESSAGE_TYPE.INCOMING &&
+      enableAudioAlerts;
 
     if (playAudio) {
-      playAudioFromIframe();
+      window.playAudioAlert();
     }
   }
+  return false;
 };

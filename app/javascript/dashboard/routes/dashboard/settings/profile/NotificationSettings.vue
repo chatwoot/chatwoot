@@ -13,7 +13,7 @@
         <div>
           <input
             id="audio_enable_alert"
-            v-model="enableAudioNotifications"
+            v-model="enableAudioAlerts"
             class="notification--checkbox"
             type="checkbox"
             @input="handleAudioInput"
@@ -224,7 +224,7 @@ export default {
     return {
       selectedEmailFlags: [],
       selectedPushFlags: [],
-      enableAudioNotifications: false,
+      enableAudioAlerts: false,
       hasEnabledPushPermissions: false,
     };
   },
@@ -250,7 +250,7 @@ export default {
     },
     uiSettings(value) {
       const { enable_audio_alerts: enableAudio = false } = value;
-      this.enableAudioNotifications = enableAudio;
+      this.enableAudioAlerts = enableAudio;
     },
   },
   mounted() {
@@ -311,9 +311,9 @@ export default {
       this.updateNotificationSettings();
     },
     handleAudioInput(e) {
-      this.enableAudioNotifications = e.target.checked;
+      this.enableAudioAlerts = e.target.checked;
       this.updateUISettings({
-        enable_audio_alerts: this.enableAudioNotifications,
+        enable_audio_alerts: this.enableAudioAlerts,
       });
     },
     toggleInput(selected, current) {

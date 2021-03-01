@@ -55,9 +55,6 @@
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>
-    <audio autoplay loop muted id="notif-audio">
-      <source src="/dashboard/audios/ding.mp3" type="audio/mp3">
-    </audio>
     <% @global_config['CHATWOOT_INBOX_TOKEN'] %>
     <% if @global_config['CHATWOOT_INBOX_TOKEN'] %>
     <script>
