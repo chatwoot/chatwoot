@@ -27,6 +27,8 @@
           </label>
         </div>
       </div>
+    </div>
+    <div class="profile--settings--row row">
       <div class="columns small-3 ">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}

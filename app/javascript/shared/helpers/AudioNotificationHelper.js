@@ -11,6 +11,7 @@ export const playNotificationAudio = () => {
 };
 
 export const getAlertAudio = async () => {
+  window.playAudioAlert = () => {};
   const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   const playsound = audioBuffer => {
     window.playAudioAlert = () => {
@@ -34,8 +35,6 @@ export const getAlertAudio = async () => {
 };
 
 export const newMessageNotification = data => {
-  if (!window.playAudioAlert) return false;
-
   if (document.hidden) {
     window.playAudioAlert();
   } else {
@@ -61,5 +60,4 @@ export const newMessageNotification = data => {
       window.playAudioAlert();
     }
   }
-  return false;
 };
