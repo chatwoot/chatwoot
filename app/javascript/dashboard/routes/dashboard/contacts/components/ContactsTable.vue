@@ -2,12 +2,11 @@
   <section class="contacts-table-wrap">
     <ve-table
       :fixed-header="true"
-      max-height="90vh"
-      scroll-width="130vw"
-      style="width: 100%"
+      max-height="calc(100vh - 11.4rem)"
+      scroll-width="187rem"
       :columns="columns"
       :table-data="tableData"
-      :sort-option="sortOption"
+      :border-around="false"
     />
 
     <empty-state
@@ -23,7 +22,7 @@
 
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
-import { VeTable } from 'vue-easytable'; // import library
+import { VeTable } from 'vue-easytable';
 
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
@@ -32,8 +31,6 @@ import timeMixin from 'dashboard/mixins/time';
 
 export default {
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    Thumbnail,
     EmptyState,
     Spinner,
     VeTable,
@@ -63,52 +60,45 @@ export default {
   },
   data() {
     return {
-      sortOption: {
-        sortChange: params => {
-          console.log('sortChange::', params);
-          // this.sortChange(params);
-        },
-      },
       columns: [
         {
           field: 'name',
-          sortBy: 'asc',
-          key: 'a',
-          title: 'Name',
+          key: 'name',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: 'left',
-          // eslint-disable-next-line no-unused-vars
-          renderBodyCell: ({ row }, h) => {
-            return (
-              <div
-                class="row-main-info"
-                onClick={() => this.onClickContact(row.id)}
-              >
-                <Thumbnail
-                  src={row.thumbnail}
-                  size="36px"
-                  username={row.name}
-                  status={row.availability_status}
-                />
-                <div>
-                  <h4 class="sub-block-title user-name">{row.name}</h4>
-                  <button class="button clear small">view details</button>
-                </div>
+          width: 300,
+          renderBodyCell: ({ row }) => (
+            <button
+              class="row--user-block cursor-pointer"
+              onClick={() => this.onClickContact(row.id)}
+            >
+              <Thumbnail
+                src={row.thumbnail}
+                size="36px"
+                username={row.name}
+                status={row.availability_status}
+              />
+              <div>
+                <h6 class="sub-block-title user-name text-truncate">
+                  {row.name}
+                </h6>
+                <button class="button clear small">
+                  {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                </button>
               </div>
-            );
-          },
+            </button>
+          ),
         },
         {
           field: 'email',
-          sortBy: 'asc',
-          key: 'b',
-          title: 'Email',
+          key: 'email',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
           align: 'left',
-          // eslint-disable-next-line no-unused-vars
-          renderBodyCell: ({ row }, h) => {
+          renderBodyCell: ({ row }) => {
             if (row.email)
               return (
-                <div>
+                <div class="text-truncate">
                   <a
                     target="_blank"
                     rel="noopener noreferrer nofollow"
@@ -123,39 +113,34 @@ export default {
         },
         {
           field: 'phone',
-          sortBy: 'asc',
-          key: 'c',
-          title: 'Phone',
+          key: 'phone',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
           align: 'left',
         },
         {
           field: 'company',
-          sortBy: 'asc',
-          key: 'd',
-          title: 'Company',
+          key: 'company',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COMPANY'),
           align: 'left',
         },
         {
           field: 'city',
-          sortBy: 'asc',
-          key: 'e',
-          title: 'city',
+          key: 'city',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CITY'),
           align: 'left',
         },
         {
           field: 'country',
-          sortBy: 'asc',
-          key: 'f',
-          title: 'Country',
+          key: 'country',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.COUNTRY'),
           align: 'left',
         },
         {
           field: 'profiles',
-          key: 'g',
-          title: 'Social Profiles',
+          key: 'profiles',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES'),
           align: 'left',
-          // eslint-disable-next-line no-unused-vars
-          renderBodyCell: ({ row }, h) => {
+          renderBodyCell: ({ row }) => {
             const { profiles } = row;
 
             const items = Object.keys(profiles);
@@ -163,17 +148,17 @@ export default {
             if (!items.length) return '---';
 
             return (
-              <div class="cell-social-profiles">
+              <div class="cell--social-profiles">
                 {items.map(
                   profile =>
                     profiles[profile] && (
-                      <div>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer nofollow"
-                          href={`https://${profile}.com/${profiles[profile]}`}
-                        >{`${profile}.com/${profiles[profile]}`}</a>
-                      </div>
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer nofollow"
+                        href={`https://${profile}.com/${profiles[profile]}`}
+                      >
+                        <i class={`ion-social-${profile}`} />
+                      </a>
                     )
                 )}
               </div>
@@ -182,16 +167,14 @@ export default {
         },
         {
           field: 'lastSeen',
-          sortBy: 'asc',
-          key: 'h',
-          title: 'Last seen',
+          key: 'lastSeen',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
           align: 'left',
         },
         {
-          field: 'conversations_count',
-          sortBy: 'asc',
-          key: 'i',
-          title: 'Conversations',
+          field: 'conversationsCount',
+          key: 'conversationsCount',
+          title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.CONVERSATIONS'),
           width: 200,
           align: 'left',
         },
@@ -199,13 +182,10 @@ export default {
     };
   },
   computed: {
-    currentRoute() {
-      return ' ';
-    },
-    showTableData() {
-      return !this.showSearchEmptyState && !this.isLoading;
-    },
     tableData() {
+      if (this.isLoading) {
+        return [];
+      }
       return this.contacts.map(item => {
         const additional = item.additional_attributes || {};
         const { last_seen_at: lastSeenAt } = item;
@@ -217,7 +197,7 @@ export default {
           profiles: additional.social_profiles || {},
           city: additional.city || '---',
           country: additional.country || '---',
-          conversations_count: item.conversations_count || '---',
+          conversationsCount: item.conversations_count || '---',
           lastSeen: lastSeenAt ? this.dynamicTime(lastSeenAt) : '---',
         };
       });
@@ -230,7 +210,6 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contacts-table-wrap {
-  /* @include scroll-on-hover; */
   flex: 1 1;
   height: 100%;
   overflow: hidden;
@@ -240,9 +219,10 @@ export default {
   .ve-table {
     padding-bottom: var(--space-large);
   }
-  .row-main-info {
-    display: flex;
+  .row--user-block {
     align-items: center;
+    display: flex;
+    text-align: left;
 
     .user-thumbnail-box {
       margin-right: var(--space-small);
@@ -261,7 +241,29 @@ export default {
 
   .ve-table-header-th,
   .ve-table-body-td {
-    padding-left: var(--space-medium) !important;
+    padding: var(--space-small) var(--space-two) !important;
+  }
+
+  .ve-table-header-th {
+    font-size: var(--font-size-mini) !important;
+  }
+}
+
+.contacts--loader {
+  align-items: center;
+  display: flex;
+  font-size: var(--font-size-default);
+  justify-content: center;
+  padding: var(--space-big);
+}
+
+.cell--social-profiles {
+  a {
+    color: var(--s-300);
+    display: inline-block;
+    font-size: var(--font-size-medium);
+    min-width: var(--space-large);
+    text-align: center;
   }
 }
 </style>
