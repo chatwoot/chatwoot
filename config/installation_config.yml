@@ -28,5 +28,11 @@
   value: false
   locked: false
 - name: INSTALLATION_EVENTS_WEBHOOK_URL
-  value: 
+  value:
+  locked: false
+- name: CHATWOOT_INBOX_TOKEN
+  value:
+  locked: false
+- name: CHATWOOT_INBOX_HMAC_KEY
+  value:
   locked: false

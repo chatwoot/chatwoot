@@ -10,7 +10,6 @@
 #  name                  :string           not null
 #  settings_flags        :integer          default(0), not null
 #  support_email         :string(100)
-#  timezone              :string           default("UTC")
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #
@@ -34,6 +33,7 @@ class Account < ApplicationRecord
 
   has_many :account_users, dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy
+  has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
   has_many :conversations, dependent: :destroy

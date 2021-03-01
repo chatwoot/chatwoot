@@ -27,7 +27,7 @@
         "NOTE": "Uppdatera dina e-postaviseringsinställningar här",
         "CONVERSATION_ASSIGNMENT": "Skicka e-postmeddelanden när en konversation är tilldelad till mig",
         "CONVERSATION_CREATION": "Skicka e-postmeddelanden när en ny konversation skapas",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Skicka e-postaviseringar när du nämns i en konversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka e-postaviseringar när ett nytt meddelande skapas i en tilldelad konversation"
       },
       "API": {
@@ -39,7 +39,7 @@
         "NOTE": "Uppdatera dina inställningar för push-notiser här",
         "CONVERSATION_ASSIGNMENT": "Skicka push-notiser när en konversation tilldelas till mig",
         "CONVERSATION_CREATION": "Skicka push-notiser när en ny konversation skapas",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Skicka push-meddelanden när du nämns i en konversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Skicka push-meddelanden när ett nytt meddelande skapas i en tilldelad konversation",
         "HAS_ENABLED_PUSH": "Du har aktiverat push-funktionen för denna webbläsare.",
         "REQUEST_PUSH": "Aktivera push-meddelanden"
@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Svarsmallar",
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Kontoinställningar",
-    "LABELS": "Etiketter"
+    "LABELS": "Etiketter",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nytt konto",

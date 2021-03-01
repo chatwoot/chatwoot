@@ -37,7 +37,7 @@ class WorkingHour < ApplicationRecord
   validate :close_after_open, unless: :closed_all_day?
 
   def self.today
-    find_by(day_of_week: Date.current.cwday)
+    find_by(day_of_week: Date.current.wday)
   end
 
   def open_at?(time)

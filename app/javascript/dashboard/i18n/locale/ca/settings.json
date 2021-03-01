@@ -27,7 +27,7 @@
         "NOTE": "Actualitza aqui les preferències de les notificacions per correu electrònic",
         "CONVERSATION_ASSIGNMENT": "Envieu notificacions per correu electrònic quan se m’assigni una conversa",
         "CONVERSATION_CREATION": "Envieu notificacions per correu electrònic quan es crea una nova conversa",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Enviar notificacions per mail quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions per correu electrònic quan es creï un missatge nou en una conversa assignada"
       },
       "API": {
@@ -39,7 +39,7 @@
         "NOTE": "Actualitzeu les preferències de notificació aquí",
         "CONVERSATION_ASSIGNMENT": "Envia notificacions automàtiques quan se m'assigna una conversa",
         "CONVERSATION_CREATION": "Envia notificacions automàtiques quan es creï una conversa nova",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Enviar notificacions push quan siguis esmentat en una conversació",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envia notificacions automàtiques quan es creï un missatge nou en una conversa assignada",
         "HAS_ENABLED_PUSH": "Heu activat les notificacions per a aquest navegador.",
         "REQUEST_PUSH": "Activa les notificacions"
@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "Respostes predeterminades",
     "INTEGRATIONS": "Integracions",
     "ACCOUNT_SETTINGS": "Configuració del compte",
-    "LABELS": "Etiquetes"
+    "LABELS": "Etiquetes",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Compte nou",

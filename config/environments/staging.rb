@@ -94,7 +94,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   config.logger = ActiveSupport::Logger.new(Rails.root.join("log/#{Rails.env}.log"), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
 
-  if ENV['RAILS_LOG_TO_STDOUT'].present?
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('RAILS_LOG_TO_STDOUT', true))
     logger           = ActiveSupport::Logger.new($stdout)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)

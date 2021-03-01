@@ -21,8 +21,11 @@
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
+            <audio v-else-if="attachment.file_type === 'audio'" controls>
+              <source :src="attachment.data_url" />
+            </audio>
             <bubble-file
-              v-if="attachment.file_type !== 'image'"
+              v-else
               :url="attachment.data_url"
               :readable-time="readableTime"
             />
@@ -72,7 +75,7 @@ import Spinner from 'shared/components/Spinner';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-
+import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 export default {
   components: {
     BubbleActions,
@@ -99,7 +102,19 @@ export default {
   },
   computed: {
     message() {
-      return this.formatMessage(this.data.content, this.isATweet);
+      const botMessageContent = generateBotMessageContent(
+        this.contentType,
+        this.contentAttributes,
+        this.$t('CONVERSATION.NO_RESPONSE')
+      );
+      let messageContent =
+        this.formatMessage(this.data.content, this.isATweet) +
+        botMessageContent;
+
+      return messageContent;
+    },
+    contentAttributes() {
+      return this.data.content_attributes || {};
     },
     sender() {
       return this.data.sender || {};
@@ -119,7 +134,7 @@ export default {
       return !this.data.message_type ? 'left' : 'right';
     },
     readableTime() {
-      return this.messageStamp(this.data.created_at);
+      return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
@@ -192,6 +207,30 @@ export default {
     &.is-image.is-text > .message-text__wrap {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
+    }
+
+    &.is-private .file.message-text__wrap {
+      .ion-document-text {
+        color: var(--w-400);
+      }
+      .text-block-title {
+        color: #3c4858;
+      }
+      .download.button {
+        color: var(--w-400);
+      }
+    }
+
+    &.is-private.is-text > .message-text__wrap .link {
+      color: var(--w-700);
+    }
+    &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
+      font-weight: var(--font-weight-black);
+      background: none;
+      border-radius: var(--border-radius-small);
+      padding: 0;
+      color: var(--color-body);
+      text-decoration: underline;
     }
   }
 

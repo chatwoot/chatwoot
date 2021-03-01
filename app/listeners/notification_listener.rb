@@ -41,7 +41,7 @@ class NotificationListener < BaseListener
       notification_type: 'assigned_conversation_new_message',
       user: conversation.assignee,
       account: account,
-      primary_actor: conversation
+      primary_actor: message
     ).perform
   end
 
@@ -56,7 +56,10 @@ class NotificationListener < BaseListener
   def generate_notifications_for_mentions(message, account)
     return unless message.private?
 
-    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/([\w\s]+)\)}).map(&:second).uniq
+    return if message.content.blank?
+
+    mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+)\)}).map(&:second).uniq
+
     return if mentioned_ids.blank?
 
     get_valid_mentioned_ids(mentioned_ids, message.inbox).each do |user_id|
