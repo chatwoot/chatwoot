@@ -226,9 +226,10 @@ export default {
 
 .conversations-list-wrap {
   flex-shrink: 0;
+  width: 34rem;
 
   @include breakpoint(large up) {
-    width: 38rem;
+    width: 36rem;
   }
   @include breakpoint(xlarge up) {
     width: 33rem;

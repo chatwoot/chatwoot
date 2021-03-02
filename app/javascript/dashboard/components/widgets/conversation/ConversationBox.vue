@@ -86,15 +86,19 @@ export default {
   height: calc(100vh - 63px);
   overflow: auto;
   background: white;
+  flex-shrink: 0;
+  width: 28rem;
 
   @include breakpoint(large up) {
-    max-width: 33rem;
+    width: 31em;
   }
+
   @include breakpoint(xlarge up) {
-    max-width: 31rem;
+    width: 32em;
   }
+
   @include breakpoint(xxlarge up) {
-    max-width: 37rem;
+    width: 36rem;
   }
 
   &::v-deep .contact--panel {
