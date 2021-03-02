@@ -311,7 +311,7 @@ export default {
 }
 
 .view-box.fill-height {
-  height: calc(100vh - 63px);
+  height: auto;
   flex-grow: 1;
 }
 </style>

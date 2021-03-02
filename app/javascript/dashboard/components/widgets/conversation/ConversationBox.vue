@@ -80,25 +80,30 @@ export default {
   display: flex;
   background: var(--color-background-light);
   margin: 0;
+  height: auto;
+  flex: 1 1;
+  overflow: hidden;
 }
 
 .conversation-sidebar-wrap {
-  height: calc(100vh - 63px);
+  height: auto;
+  flex: 0 1;
+  overflow: hidden;
   overflow: auto;
   background: white;
   flex-shrink: 0;
-  width: 28rem;
+  flex-basis: 28rem;
 
   @include breakpoint(large up) {
-    width: 31em;
+    flex-basis: 31em;
   }
 
   @include breakpoint(xlarge up) {
-    width: 32em;
+    flex-basis: 32em;
   }
 
   @include breakpoint(xxlarge up) {
-    width: 36rem;
+    flex-basis: 36rem;
   }
 
   &::v-deep .contact--panel {
