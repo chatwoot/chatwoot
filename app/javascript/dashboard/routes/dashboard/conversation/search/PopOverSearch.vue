@@ -1,29 +1,56 @@
 <template>
-  <div class="search-content">
-    <div class="search-wrap">
-      <div class="icon-text-wrap">
+  <div class="search-header">
+    <div class="search" :class="{ 'is-active': showSearchResult }">
+      <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
       </div>
       <input
+        v-model="searchTerm"
         class="search--input"
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
         @blur="closeSearch"
       />
     </div>
-    <div v-if="showSearchModal" class="list-wrap">
-      <p class="result-wrap">
-        Search Results
-      </p>
-      <div class="list-content">
-        <result-item
-          v-for="conversation in conversations"
-          :key="conversation.id"
-          conversation-id="6"
-          user-name="John"
-          timestamp=""
-          message="Hi there"
-        />
+    <div v-if="showSearchResult" class="results-wrap">
+      <div class="results">
+        <div>
+          <div class="result-view">
+            <p class="result">
+              Search Results
+              <span class="message-counter">({{ resultsCount }})</span>
+            </p>
+            <div v-if="uiFlags.isFetching" class="search--activity-message">
+              <woot-spinner size="" />
+              {{ $t('CONVERSATION.SEARCH.LOADING_MESSAGE') }}
+            </div>
+          </div>
+
+          <div
+            v-if="searchTerm && conversations.length && !uiFlags.isFetching"
+            class="search-results--container"
+          >
+            <result-item
+              v-for="conversation in conversations"
+              :key="conversation.messageId"
+              :conversation-id="conversation.id"
+              :user-name="conversation.sender_name"
+              :timestamp="conversation.created_at"
+              :message="conversation.content"
+              :search-term="conversation.content"
+              :message-type="conversation.message_type"
+              @click="() => onClick(conversations)"
+            />
+          </div>
+          <div
+            v-else-if="
+              searchTerm && !conversations.length && !uiFlags.isFetching
+            "
+            class="search--activity-no-message"
+          >
+            {{ $t('CONVERSATION.SEARCH.NO_MATCHING_RESULTS') }}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -31,8 +58,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-// import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
 import timeMixin from '../../../../mixins/time';
+import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
 import ResultItem from './ResultItem';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
@@ -40,11 +67,23 @@ export default {
   components: {
     ResultItem,
   },
+
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      },
+    },
+  },
+
   mixins: [timeMixin, messageFormatterMixin],
+
   props: {},
+
   data() {
     return {
-      showSearchModal: false,
+      searchTerm: '',
+      showSearchResult: false,
     };
   },
 
@@ -54,28 +93,60 @@ export default {
       uiFlags: 'conversationSearch/getUIFlags',
       accountId: 'getCurrentAccountId',
     }),
+    resultsCount() {
+      return this.conversations.length;
+    },
   },
 
-  mounted() {},
+  watch: {
+    searchTerm(newValue) {
+      if (this.typingTimer) {
+        clearTimeout(this.typingTimer);
+      }
+
+      this.typingTimer = setTimeout(() => {
+        this.hasSearched = true;
+        this.$store.dispatch('conversationSearch/get', { q: newValue });
+      }, 1000);
+    },
+  },
+
+  mounted() {
+    this.$store.dispatch('conversationSearch/get', { q: '' });
+  },
 
   methods: {
     onSearch() {
-      this.showSearchModal = true;
+      this.showSearchResult = true;
     },
     closeSearch() {
-      this.showSearchModal = false;
+      this.showSearchResult = false;
+    },
+    onClick(conversation) {
+      const path = conversationUrl({
+        accountId: this.accountId,
+        id: conversation.id,
+      });
+      window.location = frontendURL(path);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.search-content {
+.search-header {
   position: relative;
 }
-.search-wrap {
+
+.search {
   display: flex;
+  padding: 0;
+
+  &.is-active {
+    border-bottom: 1px solid var(--b-200);
+  }
 }
+
 .search--input {
   align-items: center;
   border: 0;
@@ -103,27 +174,59 @@ export default {
     var(--space-normal);
 }
 
-.icon-text-wrap {
+.icon {
   display: flex;
 }
 
-.list-wrap {
+.results-wrap {
   position: absolute;
   z-index: 10000;
   box-shadow: var(--shadow-large);
   background: white;
   width: 100%;
+  max-height: 415px;
+  overflow: scroll;
 }
-.list-content {
+
+.results {
   list-style-type: none;
   font-size: var(--font-size-small);
   font-weight: 400;
 }
-.result-wrap {
+
+.result-view {
+  display: flex;
+  justify-content: space-between;
+}
+
+.result {
   padding: var(--space-normal) var(--space-smaller) var(--space-smaller)
     var(--space-normal);
-  border-top: 1px solid var(--b-200);
+  color: var(--s-700);
   font-size: var(--font-size-medium);
   font-weight: var(--font-weight-bold);
+
+  .message-counter {
+    color: var(--s-500);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+.search--activity-message {
+  padding: var(--space-normal) var(--space-medium) var(--space-smaller)
+    var(--space-zero);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--s-500);
+}
+
+.search--activity-no-message {
+  padding: var(--space-one) var(--space-zero) var(--space-two) var(--space-zero);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--s-500);
+  display: flex;
+  justify-content: center;
 }
 </style>

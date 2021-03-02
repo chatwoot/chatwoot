@@ -9,6 +9,9 @@ json.payload do
     json.messages do
       json.array! conversation.messages do |message|
         json.content message.content
+        json.id message.id
+        json.sender_name message.sender.name if message.sender
+        json.message_type message.message_type_before_type_cast
         json.created_at message.created_at.to_i
       end
     end
