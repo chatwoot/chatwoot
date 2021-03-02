@@ -77,14 +77,49 @@ export default {
       ) {
         return 'inbox-empty-state';
       }
-      return 'columns full-height conv-empty-state';
+      return 'columns conv-empty-state';
     },
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .inbox-empty-state {
   height: 100%;
   overflow: auto;
+}
+
+.current-chat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    img {
+      margin: var(--space-normal);
+      width: 10rem;
+    }
+
+    span {
+      font-size: var(--font-size-small);
+      font-weight: var(--font-weight-medium);
+      text-align: center;
+    }
+  }
+}
+
+.conv-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 </style>
