@@ -261,6 +261,8 @@ export default {
     }
 
     this.$store.dispatch('userNotificationSettings/get');
+    const { enable_audio_alerts: enableAudio = false } = this.uiSettings;
+    this.enableAudioAlerts = enableAudio;
   },
   methods: {
     onRegistrationSuccess() {
@@ -317,6 +319,7 @@ export default {
       this.updateUISettings({
         enable_audio_alerts: this.enableAudioAlerts,
       });
+      this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {

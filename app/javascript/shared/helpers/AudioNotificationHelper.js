@@ -34,30 +34,36 @@ export const getAlertAudio = async () => {
   }
 };
 
+const shouldPlayAudio = data => {
+  const { conversation_id: currentConvId } = window.WOOT.$route.params;
+  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+  const {
+    conversation_id: incomingConvId,
+    sender_id: senderId,
+    message_type: messageType,
+  } = data;
+  const isFromCurrentUser = currentUserId === senderId;
+
+  const playAudio =
+    currentConvId !== incomingConvId &&
+    !isFromCurrentUser &&
+    messageType === MESSAGE_TYPE.INCOMING;
+  return playAudio;
+};
+
 export const newMessageNotification = data => {
+  const {
+    enable_audio_alerts: enableAudioAlerts = false,
+  } = window.WOOT.$store.getters.getUISettings;
+  if (!enableAudioAlerts) return false;
+
   if (document.hidden) {
     window.playAudioAlert();
   } else {
-    const { conversation_id: currentConvId } = window.WOOT.$route.params;
-    const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
-    const {
-      enable_audio_alerts: enableAudioAlerts = false,
-    } = window.WOOT.$store.getters.getUISettings;
-    const {
-      conversation_id: incomingConvId,
-      sender_id: senderId,
-      message_type: messageType,
-    } = data;
-    const isFromCurrentUser = currentUserId === senderId;
-
-    const playAudio =
-      currentConvId !== incomingConvId &&
-      !isFromCurrentUser &&
-      messageType === MESSAGE_TYPE.INCOMING &&
-      enableAudioAlerts;
-
+    const playAudio = shouldPlayAudio(data);
     if (playAudio) {
       window.playAudioAlert();
     }
   }
+  return false;
 };
