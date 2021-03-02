@@ -115,6 +115,18 @@ const actions = {
     }
   },
 
+  assignTeam: async ({ commit }, { conversationId, teamId }) => {
+    try {
+      const response = await ConversationApi.assignTeam({
+        conversationId,
+        teamId,
+      });
+      commit(types.default.ASSIGN_TEAM, response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   toggleStatus: async ({ commit }, data) => {
     try {
       const response = await ConversationApi.toggleStatus(data);

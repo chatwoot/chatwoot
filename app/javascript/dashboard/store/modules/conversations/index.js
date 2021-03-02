@@ -64,6 +64,11 @@ export const mutations = {
     chat.meta.assignee = assignee;
   },
 
+  [types.default.ASSIGN_TEAM](_state, assignee) {
+    const [chat] = getSelectedChatConversation(_state);
+    chat.meta.team = assignee;
+  },
+
   [types.default.RESOLVE_CONVERSATION](_state, status) {
     const [chat] = getSelectedChatConversation(_state);
     chat.status = status;

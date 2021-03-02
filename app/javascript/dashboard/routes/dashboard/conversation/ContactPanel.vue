@@ -4,6 +4,43 @@
       <i class="ion-chevron-right" />
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
+    <div class="conversation--actions">
+      <h4 class="sub-block-title">
+        Conversations Details
+      </h4>
+      <div>
+        <label class="">
+          Assignee
+        </label>
+        <multiselect
+          v-model="assignedAgent"
+          :options="agentsList"
+          label="name"
+          track-by="id"
+          deselect-label="Remove"
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="true"
+        />
+      </div>
+      <div>
+        <label class="">
+          Team
+        </label>
+        <multiselect
+          v-model="assignedTeam"
+          :options="teamsList"
+          label="name"
+          track-by="id"
+          deselect-label=""
+          select-label=""
+          selected-label=""
+          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :allow-empty="false"
+        />
+      </div>
+    </div>
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
@@ -96,6 +133,8 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
+      agents: 'agents/getVerifiedAgents',
+      teams: 'teams/getTeams',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
@@ -159,6 +198,44 @@ export default {
     contact() {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
+    agentsList() {
+      return [{ id: 0, name: 'None' }, ...this.agents];
+    },
+    teamsList() {
+      return [{ id: 0, name: 'None' }, ...this.teams];
+    },
+    assignedAgent: {
+      get() {
+        return this.currentChat.meta.assignee;
+      },
+      set(item) {
+        const agentId = item ? item.id : 0;
+        this.$store
+          .dispatch('assignAgent', {
+            conversationId: this.currentChat.id,
+            agentId,
+          })
+          .then(() => {
+            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
+    assignedTeam: {
+      get() {
+        return this.currentChat.meta.team;
+      },
+      set(item) {
+        const teamId = item ? item.id : 0;
+        this.$store
+          .dispatch('assignTeam', {
+            conversationId: this.currentChat.id,
+            teamId,
+          })
+          .then(() => {
+            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
+          });
+      },
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -192,6 +269,8 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';
 @import '~dashboard/assets/scss/mixins';
+
+$multiselect-height: 3.8rem;
 
 .contact--panel {
   @include border-normal-left;
@@ -245,5 +324,41 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.sub-block-title {
+  margin-bottom: var(--space-small);
+}
+
+.conversation--actions {
+  padding: 0 var(--space-normal) var(--space-small);
+
+  /* @Todo: Move as small multiselect class */
+  &::v-deep {
+    .multiselect__tags,
+    .multiselect__input,
+    .multiselect {
+      height: $multiselect-height;
+      min-height: $multiselect-height;
+      font-size: var(--font-size-small);
+      background: white;
+    }
+
+    .multiselect__input {
+      height: $multiselect-height - $space-micro;
+      min-height: $multiselect-height - $space-micro;
+    }
+    .multiselect__single {
+      padding: var(--space-small) 0;
+      font-size: var(--font-size-small);
+    }
+    .multiselect__placeholder {
+      padding: var(--space-small) 0;
+    }
+
+    .multiselect__select {
+      min-height: $multiselect-height;
+    }
+  }
 }
 </style>
