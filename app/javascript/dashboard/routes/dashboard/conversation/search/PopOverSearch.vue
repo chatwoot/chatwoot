@@ -141,6 +141,7 @@ export default {
 .search {
   display: flex;
   padding: 0;
+  border-bottom: 1px solid transparent;
 
   &.is-active {
     border-bottom: 1px solid var(--b-200);
