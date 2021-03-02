@@ -166,26 +166,26 @@ export default {
 }
 
 .inbox-icon.ion-social-facebook {
-	color: $facebook-brand-color;
+	color: var(--color-facebook-brand);
 }
 
 .inbox-icon.ion-social-whatsapp-outline {
-	color: $whatsapp-brand-color;
+	color: var(--color-twitter-brand);
 }
 
 .inbox-icon.ion-social-twitter {
-	color: $twitter-brand-color;
+	color: var(--color-twitter-brand);
 }
 
 .inbox-icon.ion-android-textsms {
-	color: $sms-twilio-color;
+	color: var(--color-sms-twilio);
 }
 
 .inbox-icon.ion-earth {
-	color: $chat-company-brand-color;
+	color: var(--color-woot);
 }
 
 .inbox-icon.ion-cloud {
-	color: $cloud-generic-color;
+	color: var(--color-cloud-generic);
 }
 </style>
