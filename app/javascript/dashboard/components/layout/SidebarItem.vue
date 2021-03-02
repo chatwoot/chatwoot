@@ -164,4 +164,28 @@ export default {
   min-width: $space-normal;
   width: $space-normal;
 }
+
+.inbox-icon.ion-social-facebook {
+	color: $facebook-brand-color;
+}
+
+.inbox-icon.ion-social-whatsapp-outline {
+	color: $whatsapp-brand-color;
+}
+
+.inbox-icon.ion-social-twitter {
+	color: $twitter-brand-color;
+}
+
+.inbox-icon.ion-android-textsms {
+	color: $sms-twilio-color;
+}
+
+.inbox-icon.ion-earth {
+	color: $chat-company-brand-color;
+}
+
+.inbox-icon.ion-cloud {
+	color: $cloud-generic-color;
+}
 </style>
