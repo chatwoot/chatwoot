@@ -61,12 +61,12 @@ export const mutations = {
 
   [types.default.ASSIGN_AGENT](_state, assignee) {
     const [chat] = getSelectedChatConversation(_state);
-    chat.meta.assignee = assignee;
+    Vue.set(chat.meta, 'assignee', assignee);
   },
 
-  [types.default.ASSIGN_TEAM](_state, assignee) {
+  [types.default.ASSIGN_TEAM](_state, team) {
     const [chat] = getSelectedChatConversation(_state);
-    chat.meta.team = assignee;
+    Vue.set(chat.meta, 'team', team);
   },
 
   [types.default.RESOLVE_CONVERSATION](_state, status) {

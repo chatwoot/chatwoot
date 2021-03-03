@@ -6,27 +6,27 @@
     <contact-info :contact="contact" :channel-type="channelType" />
     <div class="conversation--actions">
       <h4 class="sub-block-title">
-        Conversations Details
+        {{ $t('CONVERSATION_SIDEBAR.DETAILS_TITLE') }}
       </h4>
-      <div>
+      <div class="multiselect-wrap--small">
         <label class="">
-          Assignee
+          {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
         </label>
         <multiselect
           v-model="assignedAgent"
           :options="agentsList"
           label="name"
           track-by="id"
-          deselect-label="Remove"
+          deselect-label=""
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
           :allow-empty="true"
         />
       </div>
-      <div>
+      <div class="multiselect-wrap--small">
         <label class="">
-          Team
+          {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
         </label>
         <multiselect
           v-model="assignedTeam"
@@ -37,7 +37,7 @@
           select-label=""
           selected-label=""
           :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-          :allow-empty="false"
+          :allow-empty="true"
         />
       </div>
     </div>
@@ -232,7 +232,7 @@ export default {
             teamId,
           })
           .then(() => {
-            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
+            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_TEAM'));
           });
       },
     },
@@ -268,14 +268,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-$multiselect-height: 3.8rem;
 
 .contact--panel {
-  @include border-normal-left;
-
   background: white;
+  border-left: 1px solid var(--color-border);
   font-size: $font-size-small;
   overflow-y: auto;
   overflow: auto;
@@ -332,33 +328,5 @@ $multiselect-height: 3.8rem;
 
 .conversation--actions {
   padding: 0 var(--space-normal) var(--space-small);
-
-  /* @Todo: Move as small multiselect class */
-  &::v-deep {
-    .multiselect__tags,
-    .multiselect__input,
-    .multiselect {
-      height: $multiselect-height;
-      min-height: $multiselect-height;
-      font-size: var(--font-size-small);
-      background: white;
-    }
-
-    .multiselect__input {
-      height: $multiselect-height - $space-micro;
-      min-height: $multiselect-height - $space-micro;
-    }
-    .multiselect__single {
-      padding: var(--space-small) 0;
-      font-size: var(--font-size-small);
-    }
-    .multiselect__placeholder {
-      padding: var(--space-small) 0;
-    }
-
-    .multiselect__select {
-      min-height: $multiselect-height;
-    }
-  }
 }
 </style>
