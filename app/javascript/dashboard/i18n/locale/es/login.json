@@ -14,7 +14,7 @@
       "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde",
       "UNAUTH": "Nombre de usuario / Contraseña incorrecto. Inténtelo de nuevo"
     },
-    "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+    "FORGOT_PASSWORD": "¿Olvidó su contraseña?",
     "CREATE_NEW_ACCOUNT": "Crear nueva cuenta",
     "SUBMIT": "Iniciar sesión"
   }
