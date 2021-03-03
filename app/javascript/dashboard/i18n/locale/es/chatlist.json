@@ -12,17 +12,17 @@
     },
     "STATUS_TABS": [
       {
-        "NAME": "Abrir",
+        "NAME": "Abiertas",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resuelto",
+        "NAME": "Resueltas",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mina",
+        "NAME": "Mías",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
@@ -39,11 +39,11 @@
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Abrir",
+        "TEXT": "Abiertas",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resuelto",
+        "TEXT": "Resueltas",
         "VALUE": "resolved"
       },
       {
@@ -80,6 +80,6 @@
     "RECEIVED_VIA_EMAIL": "Recibido por email",
     "VIEW_TWEET_IN_TWITTER": "Ver tweet en Twitter",
     "REPLY_TO_TWEET": "Responder a este tweet",
-    "NO_MESSAGES": "No Messages"
+    "NO_MESSAGES": "Sin Mensajes"
   }
 }
