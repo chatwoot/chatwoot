@@ -26,7 +26,7 @@ class Notification::PushNotificationService
   end
 
   def conversation
-    @conversation ||= notification.primary_actor
+    @conversation ||= notification.conversation
   end
 
   def push_message

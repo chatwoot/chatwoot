@@ -23,6 +23,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def update
     @inbox.update(inbox_update_params.except(:channel))
+    @inbox.update_working_hours(params.permit(working_hours: Inbox::OFFISABLE_ATTRS)[:working_hours]) if params[:working_hours]
     return unless @inbox.channel.is_a?(Channel::WebWidget) && inbox_update_params[:channel].present?
 
     @inbox.channel.update!(inbox_update_params[:channel])
@@ -80,7 +81,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def inbox_update_params
     params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
-                  :working_hours_enabled, :out_of_office_message,
+                  :working_hours_enabled, :out_of_office_message, :timezone,
                   channel: [
                     :website_url,
                     :widget_color,
@@ -89,6 +90,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
                     :webhook_url,
                     :email,
                     :reply_time,
+                    :pre_chat_form_enabled,
+                    { pre_chat_form_options: [:pre_chat_message, :require_email] },
                     { selected_feature_flags: [] }
                   ])
   end

@@ -251,6 +251,9 @@
         </div>
       </div>
     </div>
+    <div v-if="selectedTabKey === 'preChatForm'">
+      <pre-chat-form-settings :inbox="inbox" />
+    </div>
   </div>
 </template>
 
@@ -262,11 +265,13 @@ import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
+import PreChatFormSettings from './PreChatForm/Settings';
 
 export default {
   components: {
     SettingsSection,
     FacebookReauthorize,
+    PreChatFormSettings,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -317,7 +322,21 @@ export default {
         },
       ];
 
-      if (this.isAWebWidgetInbox || this.isATwilioChannel) {
+      if (this.isAWebWidgetInbox) {
+        return [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'preChatForm',
+            name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
+          },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.isATwilioChannel) {
         return [
           ...visibleToAllChannelTabs,
           {

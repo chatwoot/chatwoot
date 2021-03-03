@@ -29,6 +29,7 @@ import {
   registerSubscription,
 } from '../dashboard/helper/pushHelper';
 import * as Sentry from '@sentry/vue';
+import 'vue-easytable/libs/theme-default/index.css';
 
 Vue.config.env = process.env;
 
