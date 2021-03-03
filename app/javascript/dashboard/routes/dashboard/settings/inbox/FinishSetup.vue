@@ -25,7 +25,7 @@
           <woot-code
             v-if="isAEmailInbox"
             lang="html"
-            :script="currentInbox.forward_to_address"
+            :script="currentInbox.forward_to_email"
           >
           </woot-code>
         </div>
