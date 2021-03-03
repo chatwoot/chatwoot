@@ -6,6 +6,7 @@
         :on-search-submit="onSearchSubmit"
         this-selected-contact-id=""
         :on-input-search="onInputSearch"
+        :on-toggle-create="onToggleCreate"
       />
       <contacts-table
         :contacts="records"
@@ -25,6 +26,7 @@
       :contact="selectedContact"
       :on-close="closeContactInfoPanel"
     />
+    <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
   </div>
 </template>
 
@@ -34,6 +36,7 @@ import { mapGetters } from 'vuex';
 import ContactsHeader from './Header';
 import ContactsTable from './ContactsTable';
 import ContactInfoPanel from './ContactInfoPanel';
+import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 
 export default {
@@ -42,11 +45,12 @@ export default {
     ContactsTable,
     TableFooter,
     ContactInfoPanel,
+    CreateContact,
   },
   data() {
     return {
       searchQuery: '',
-      showEditModal: false,
+      showCreateModal: false,
       selectedContactId: '',
     };
   },
@@ -123,6 +127,9 @@ export default {
       this.selectedContactId = '';
       this.showContactInfoPanelPane = false;
     },
+    onToggleCreate() {
+      this.showCreateModal = !this.showCreateModal;
+    },
   },
 };
 </script>
@@ -134,7 +141,6 @@ export default {
 .left-wrap {
   display: flex;
   flex-direction: column;
-  padding-top: var(--space-normal);
   height: 100%;
 }
 </style>

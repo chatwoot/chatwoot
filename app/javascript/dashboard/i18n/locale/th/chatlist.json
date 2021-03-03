@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "ได้รับทางอีเมลล์",
     "VIEW_TWEET_IN_TWITTER": "ดูทวิตในทวิตเตอร์",
-    "REPLY_TO_TWEET": "ตอบกลับทวิตนี้"
+    "REPLY_TO_TWEET": "ตอบกลับทวิตนี้",
+    "NO_MESSAGES": "No Messages"
   }
 }

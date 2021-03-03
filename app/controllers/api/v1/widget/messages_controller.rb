@@ -39,44 +39,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    @conversation = ::Conversation.create!(conversation_params) if conversation.nil?
-  end
-
-  def message_params
-    {
-      account_id: conversation.account_id,
-      sender: @contact,
-      content: permitted_params[:message][:content],
-      inbox_id: conversation.inbox_id,
-      echo_id: permitted_params[:message][:echo_id],
-      message_type: :incoming
-    }
-  end
-
-  def conversation_params
-    # FIXME: typo referrer in additional attributes
-    # will probably require a migration.
-    {
-      account_id: inbox.account_id,
-      inbox_id: inbox.id,
-      contact_id: @contact.id,
-      contact_inbox_id: @contact_inbox.id,
-      additional_attributes: {
-        browser: browser_params,
-        referer: permitted_params[:message][:referer_url],
-        initiated_at: timestamp_params
-      }
-    }
-  end
-
-  def timestamp_params
-    {
-      timestamp: permitted_params[:message][:timestamp]
-    }
-  end
-
-  def inbox
-    @inbox ||= ::Inbox.find_by(id: auth_token_params[:inbox_id])
+    @conversation = create_conversation if conversation.nil?
   end
 
   def message_finder_params
@@ -90,36 +53,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @message_finder ||= MessageFinder.new(conversation, message_finder_params)
   end
 
-  def update_contact(email)
-    contact_with_email = @current_account.contacts.find_by(email: email)
-    if contact_with_email
-      @contact = ::ContactMergeAction.new(
-        account: @current_account,
-        base_contact: contact_with_email,
-        mergee_contact: @contact
-      ).perform
-    else
-      @contact.update!(
-        email: email,
-        name: contact_name
-      )
-    end
-  end
-
-  def contact_email
-    permitted_params[:contact][:email].downcase
-  end
-
-  def contact_name
-    contact_email.split('@')[0]
-  end
-
   def message_update_params
     params.permit(message: [{ submitted_values: [:name, :title, :value] }])
   end
 
   def permitted_params
-    params.permit(:id, :before, :website_token, contact: [:email], message: [:content, :referer_url, :timestamp, :echo_id])
+    params.permit(:id, :before, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
   end
 
   def set_message

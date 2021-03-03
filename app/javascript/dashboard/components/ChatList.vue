@@ -1,5 +1,5 @@
 <template>
-  <div class="conversations-sidebar  medium-4 columns">
+  <div class="conversations-list-wrap">
     <slot></slot>
     <div class="chat-list__top">
       <h1 class="page-title text-truncate" :title="pageTitle">
@@ -80,6 +80,10 @@ export default {
       type: String,
       default: '',
     },
+    activeTeam: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -128,11 +132,15 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
+        teamId: this.activeTeam.name ? this.activeTeam.id : undefined,
       };
     },
     pageTitle() {
       if (this.inbox.name) {
         return this.inbox.name;
+      }
+      if (this.activeTeam.name) {
+        return this.activeTeam.name;
       }
       if (this.label) {
         return `#${this.label}`;
@@ -162,6 +170,9 @@ export default {
     },
   },
   watch: {
+    activeTeam() {
+      this.resetAndFetchData();
+    },
     conversationInbox() {
       this.resetAndFetchData();
     },
@@ -207,9 +218,24 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/app.scss';
 .spinner {
-  margin-top: $space-normal;
-  margin-bottom: $space-normal;
+  margin-top: var(--space-normal);
+  margin-bottom: var(--space-normal);
+}
+
+.conversations-list-wrap {
+  flex-shrink: 0;
+  width: 34rem;
+
+  @include breakpoint(large up) {
+    width: 36rem;
+  }
+  @include breakpoint(xlarge up) {
+    width: 33rem;
+  }
+  @include breakpoint(xxlarge up) {
+    width: 42rem;
+  }
 }
 </style>

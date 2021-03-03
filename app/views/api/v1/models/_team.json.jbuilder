@@ -3,3 +3,4 @@ json.name resource.name
 json.description resource.description
 json.allow_auto_assign resource.allow_auto_assign
 json.account_id resource.account.id
+json.is_member Current.user.teams.include?(resource)

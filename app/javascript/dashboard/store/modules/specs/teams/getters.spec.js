@@ -6,7 +6,18 @@ describe('#getters', () => {
     const state = {
       records: teamsList,
     };
-    expect(getters.getTeams(state)).toEqual([teamsList[1]]);
+    expect(getters.getTeams(state)).toEqual([teamsList[1], teamsList[2]]);
+  });
+
+  it('getMyTeams', () => {
+    const state = {
+      records: teamsList,
+    };
+    expect(
+      getters.getMyTeams(state, {
+        getTeams: [teamsList[1], teamsList[2]],
+      })
+    ).toEqual([teamsList[1]]);
   });
 
   it('getTeam', () => {
@@ -18,6 +29,7 @@ describe('#getters', () => {
       account_id: 1,
       name: 'Test',
       description: 'Some team',
+      is_member: true,
     });
   });
 

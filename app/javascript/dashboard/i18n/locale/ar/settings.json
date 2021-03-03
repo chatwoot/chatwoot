@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "الردود السريعة",
     "INTEGRATIONS": "خيارات الربط",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
-    "LABELS": "الوسوم"
+    "LABELS": "الوسوم",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب جديد",

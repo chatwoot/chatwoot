@@ -124,7 +124,8 @@
     "CANNED_RESPONSES": "پاسخ‌های آماده",
     "INTEGRATIONS": "برنامه‌های تلفیق شده",
     "ACCOUNT_SETTINGS": "تنظیمات حساب",
-    "LABELS": "برچسب‌ها"
+    "LABELS": "برچسب‌ها",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "حساب‌کاربری جدید",

@@ -1,8 +1,9 @@
 <template>
-  <section class="app-content columns">
+  <section class="conversation-page">
     <chat-list
       :conversation-inbox="inboxId"
       :label="label"
+      :active-team="activeTeam"
       @conversation-load="onConversationLoad"
     >
       <button class="search--button" @click="onSearch">
@@ -23,11 +24,6 @@
       @contact-panel-toggle="onToggleContactPanel"
     >
     </conversation-box>
-    <contact-panel
-      v-if="isContactPanelOpen"
-      :conversation-id="conversationId"
-      :on-toggle="onToggleContactPanel"
-    />
   </section>
 </template>
 
@@ -35,7 +31,6 @@
 import { mapGetters } from 'vuex';
 
 import ChatList from '../../../components/ChatList';
-import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 import Search from './search/Search.vue';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -43,7 +38,6 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 export default {
   components: {
     ChatList,
-    ContactPanel,
     ConversationBox,
     Search,
   },
@@ -58,6 +52,10 @@ export default {
       default: 0,
     },
     label: {
+      type: String,
+      default: '',
+    },
+    teamId: {
       type: String,
       default: '',
     },
@@ -80,6 +78,12 @@ export default {
         return isContactSidebarOpen;
       }
       return false;
+    },
+    activeTeam() {
+      if (this.teamId) {
+        return this.$store.getters['teams/getTeam'](this.teamId);
+      }
+      return {};
     },
   },
 
@@ -165,5 +169,11 @@ export default {
   color: var(--s-600);
   font-size: var(--font-size-large);
   padding-right: var(--space-small);
+}
+
+.conversation-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
 }
 </style>
