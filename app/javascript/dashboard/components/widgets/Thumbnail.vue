@@ -132,6 +132,7 @@ export default {
 .user-thumbnail-box {
   @include flex-shrink;
   position: relative;
+  padding-top: 2.6rem !important;
 
   .user-thumbnail {
     border-radius: 50%;

@@ -14,15 +14,15 @@
       size="40px"
     />
     <div class="conversation--details columns">
+      <span
+        v-if="!hideInboxName && isInboxNameVisible"
+        v-tooltip.bottom="inboxName(chat.inbox_id)"
+        class="label"
+      >
+        {{ inboxName(chat.inbox_id) }}
+      </span>
       <h4 class="conversation--user">
         {{ currentContact.name }}
-        <span
-          v-if="!hideInboxName && isInboxNameVisible"
-          v-tooltip.bottom="inboxName(chat.inbox_id)"
-          class="label"
-        >
-          {{ inboxName(chat.inbox_id) }}
-        </span>
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
         <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
@@ -160,3 +160,21 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.conversation {
+  align-items: flex-start !important;
+}
+
+.conversation--details .label {
+  padding: var(--space-small) var(--space-smaller) var(--space-micro)
+    var(--space-zero);
+  background: none;
+  color: var(--s-500);
+  font-size: var(--font-size-mini);
+}
+
+.columns {
+  padding: var(--space-micro) var(--space-zero) var(--space-one)
+    var(--space-zero);
+}
+</style>
