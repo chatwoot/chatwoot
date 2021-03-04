@@ -1,5 +1,5 @@
 <template>
-  <div class="search-header">
+  <div class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchResult }">
       <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.search-header {
+.search-wrap {
   position: relative;
 }
 
@@ -147,7 +147,7 @@ export default {
   width: 100%;
   display: flex;
   font-size: var(--font-size-small);
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   padding: var(--space-normal) var(--space-smaller) var(--space-slab);
   text-align: left;
   line-height: var(--font-size-large);
@@ -172,18 +172,18 @@ export default {
 
 .results-wrap {
   position: absolute;
-  z-index: 10000;
+  z-index: 9999;
   box-shadow: var(--shadow-large);
   background: white;
   width: 100%;
-  max-height: 415px;
+  max-height: 42rem;
   overflow: scroll;
 }
 
 .results {
   list-style-type: none;
   font-size: var(--font-size-small);
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
 }
 
 .result-view {
@@ -214,11 +214,11 @@ export default {
 }
 
 .search--activity-no-message {
+  display: flex;
+  justify-content: center;
   padding: var(--space-one) var(--space-zero) var(--space-two) var(--space-zero);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
   color: var(--s-500);
-  display: flex;
-  justify-content: center;
 }
 </style>

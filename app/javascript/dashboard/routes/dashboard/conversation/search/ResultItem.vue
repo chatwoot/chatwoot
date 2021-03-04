@@ -7,7 +7,7 @@
         </div>
         <div class="user-wrap">
           <span class="user-name">{{ userName }}</span>
-          <i v-if="messageType == 1" class="ion-headphone" />
+          <i v-if="isOutgoingMessage" class="ion-headphone" />
         </div>
       </div>
       <span class="timestamp">{{ readableTime }}</span>
@@ -20,8 +20,9 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
-import timeMixin from '../../../../mixins/time';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import timeMixin from 'dashboard/mixins/time';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
@@ -64,6 +65,9 @@ export default {
       }
       return this.dynamicTime(this.timestamp);
     },
+    isOutgoingMessage() {
+      return this.messageType === MESSAGE_TYPE.OUTGOING;
+    },
   },
 
   methods: {
@@ -91,7 +95,8 @@ export default {
   align-items: center;
   border-bottom: 1px solid var(--color-border-light);
   color: var(--color-body);
-  padding: 0.3rem var(--space-micro) var(--space-zero) 1.7rem;
+  padding: var(--space-smaller) var(--space-micro) var(--space-zero)
+    var(--space-normal);
 }
 
 .search-result:last-child {
@@ -119,7 +124,7 @@ export default {
   font-size: var(--font-size-mini);
   font-weight: var(--font-weight-bold);
   background: var(--w-50);
-  border-radius: 4px;
+  border-radius: var(--border-radius-normal);
   padding: var(--space-micro) var(--space-smaller);
 }
 
