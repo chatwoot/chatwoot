@@ -1,5 +1,5 @@
 <template>
-  <div class="search-result">
+  <div class="search-result" @click="onClick">
     <div class="result-header">
       <div class="message">
         <div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
 import timeMixin from '../../../../mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
@@ -54,6 +55,9 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
     readableTime() {
       if (!this.timestamp) {
         return '';
@@ -70,10 +74,10 @@ export default {
         '<span class="searchkey--highlight">$1</span>'
       );
     },
-    onClick(conversation) {
+    onClick() {
       const path = conversationUrl({
         accountId: this.accountId,
-        id: conversation.id,
+        id: this.conversationId,
       });
       window.location = frontendURL(path);
     },

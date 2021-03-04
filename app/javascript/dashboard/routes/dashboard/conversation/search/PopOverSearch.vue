@@ -6,10 +6,10 @@
       </div>
       <input
         v-model="searchTerm"
+        v-on-clickaway="closeSearch"
         class="search--input"
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
-        @blur="closeSearch"
       />
     </div>
     <div v-if="showSearchResult" class="results-wrap">
@@ -39,7 +39,6 @@
               :message="conversation.content"
               :search-term="conversation.content"
               :message-type="conversation.message_type"
-              @click="() => onClick(conversations)"
             />
           </div>
           <div
@@ -57,9 +56,9 @@
 </template>
 
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
-import { frontendURL, conversationUrl } from '../../../../helper/URLHelper';
 import ResultItem from './ResultItem';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
@@ -76,7 +75,7 @@ export default {
     },
   },
 
-  mixins: [timeMixin, messageFormatterMixin],
+  mixins: [timeMixin, messageFormatterMixin, clickaway],
 
   props: {},
 
@@ -91,7 +90,6 @@ export default {
     ...mapGetters({
       conversations: 'conversationSearch/getConversations',
       uiFlags: 'conversationSearch/getUIFlags',
-      accountId: 'getCurrentAccountId',
     }),
     resultsCount() {
       return this.conversations.length;
@@ -121,13 +119,6 @@ export default {
     },
     closeSearch() {
       this.showSearchResult = false;
-    },
-    onClick(conversation) {
-      const path = conversationUrl({
-        accountId: this.accountId,
-        id: conversation.id,
-      });
-      window.location = frontendURL(path);
     },
   },
 };
