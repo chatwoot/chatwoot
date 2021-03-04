@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_131155) do
+ActiveRecord::Schema.define(version: 2021_03_03_192243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -131,11 +131,11 @@ ActiveRecord::Schema.define(version: 2021_02_22_131155) do
   create_table "channel_email", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "email", null: false
-    t.string "forward_to_address", null: false
+    t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
-    t.index ["forward_to_address"], name: "index_channel_email_on_forward_to_address", unique: true
+    t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
 
   create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|

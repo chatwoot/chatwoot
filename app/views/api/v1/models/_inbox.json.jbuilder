@@ -17,7 +17,7 @@ json.welcome_tagline resource.channel.try(:welcome_tagline)
 json.enable_auto_assignment resource.enable_auto_assignment
 json.web_widget_script resource.channel.try(:web_widget_script)
 json.website_token resource.channel.try(:website_token)
-json.forward_to_address resource.channel.try(:forward_to_address)
+json.forward_to_email resource.channel.try(:forward_to_email)
 json.phone_number resource.channel.try(:phone_number)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
