@@ -3,7 +3,6 @@ module Current
   thread_mattr_accessor :account
   thread_mattr_accessor :account_user
 
-
   def self.reset
     Current.user = nil
     Current.account = nil
