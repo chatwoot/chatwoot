@@ -150,7 +150,7 @@ export const mutations = {
   // Update assignee on action cable message
   [types.default.UPDATE_ASSIGNEE](_state, payload) {
     const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    chat.meta.assignee = payload.assignee;
+    Vue.set(chat.meta, 'assignee', payload.assignee);
   },
 
   [types.default.UPDATE_CONVERSATION_CONTACT](
