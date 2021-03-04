@@ -1,11 +1,11 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
-    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
-    "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en su bandeja de entrada.",
+    "NO_MESSAGE_2": " para enviar un mensaje a su página!",
     "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
     "NO_INBOX_2": " para empezar",
-    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
+    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no es parte de ninguna bandeja de entrada. Por favor, contacte a su administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "SEARCH": {
       "TITLE": "Buscar mensajes",
@@ -13,9 +13,9 @@
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
       "NO_MATCHING_RESULTS": "No hay mensajes que coincidan con los parámetros de búsqueda."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
-    "CLICK_HERE": "Haz clic aquí",
+    "UNREAD_MESSAGES": "Mensajes sin leer",
+    "UNREAD_MESSAGE": "Mensaje sin leer",
+    "CLICK_HERE": "Haga clic aquí",
     "LOADING_INBOXES": "Cargando bandeja de entrada",
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
@@ -24,8 +24,8 @@
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "UPLOADING_ATTACHMENTS": "Subiendo adjuntos...",
+    "NO_RESPONSE": "No hay respuesta",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -34,7 +34,7 @@
       "DETAILS": "detalles"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
+      "MSG_INPUT": "Shift + enter para nueva línea. Comience con '/' para seleccionar una respuesta predefinida.",
       "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
     },
     "REPLYBOX": {
@@ -43,19 +43,19 @@
       "SEND": "Enviar",
       "CREATE": "Añadir nota",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_FORMAT_ICON": "Mostrar Editor mejorado",
+      "TIP_EMOJI_ICON": "Mostrar selector de emojis",
+      "TIP_ATTACH_ICON": "Adjuntar archivos",
+      "ENTER_TO_SEND": "Enter para enviar"
     },
-    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
+    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para usted y su equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Selecione un agente",
       "REMOVE": "Eliminar",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Asignar"
     }
   },
   "EMAIL_TRANSCRIPT": {

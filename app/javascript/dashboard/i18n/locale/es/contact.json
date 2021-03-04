@@ -11,7 +11,7 @@
     "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniciado desde",
     "INITIATED_AT": "Iniciado el",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "Dirección IP",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -34,7 +34,7 @@
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
     "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Dessilenciar conversación",
+    "UNMUTE_CONTACT": "Des silenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
@@ -98,17 +98,17 @@
     "ERROR_MESSAGE": "Se presento un error actualizando el contacto. Por favor inténtelo nuevamente"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Contactos",
+    "SEARCH_BUTTON": "Buscar",
+    "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "Cargando contactos...",
+      "404": "No hay contactos que coincidan con lo que búsca 🔍",
       "TABLE_HEADER": [
         "Nombre",
         "Número telefónico",
         "Conversaciones",
-        "Last Contacted"
+        "Último Contacto"
       ]
     }
   }

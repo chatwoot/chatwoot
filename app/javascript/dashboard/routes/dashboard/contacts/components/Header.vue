@@ -69,11 +69,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* TODO-REM; Change variables sizing to rem after html font size change from 1.0 t0 1.6 */
-
-.header {
-  padding: 0 var(--space-medium);
-}
 .page-title {
   margin: 0;
 }
@@ -81,7 +76,14 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: var(--space-slab);
+  padding: var(--space-small) var(--space-small) var(--space-small)
+    var(--space-normal);
+}
+
+.left-aligned-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .right-aligned-wrap {
