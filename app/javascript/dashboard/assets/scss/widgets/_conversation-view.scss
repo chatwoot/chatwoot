@@ -42,7 +42,7 @@
   }
 }
 
-.conversations-sidebar {
+.conversations-list-wrap {
   @include flex;
   flex-direction: column;
 
@@ -89,44 +89,6 @@
 
   .content-box {
     text-align: center;
-  }
-}
-
-.conversation-wrap {
-  @include margin(0);
-  @include border-normal-left;
-  background: var(--color-background-light);
-
-  .current-chat {
-    @include flex;
-    @include full-height;
-    @include flex-align(center, middle);
-    flex-direction: column;
-
-    div {
-      @include flex;
-      @include full-height;
-      @include flex-align(center, middle);
-      flex-direction: column;
-
-      img {
-        @include margin($space-normal);
-        width: 10rem;
-      }
-
-      span {
-        font-size: $font-size-small;
-        font-weight: $font-weight-medium;
-        text-align: center;
-      }
-    }
-  }
-
-  .conv-empty-state {
-    @include flex;
-    @include full-height;
-    @include flex-align(center, middle);
-    flex-direction: column;
   }
 }
 
