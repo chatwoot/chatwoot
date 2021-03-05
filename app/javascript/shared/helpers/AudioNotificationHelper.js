@@ -41,29 +41,26 @@ const shouldPlayAudio = data => {
     conversation_id: incomingConvId,
     sender_id: senderId,
     message_type: messageType,
+    private: isPrivate,
   } = data;
   const isFromCurrentUser = currentUserId === senderId;
 
   const playAudio =
-    currentConvId !== incomingConvId &&
-    !isFromCurrentUser &&
-    messageType === MESSAGE_TYPE.INCOMING;
-  return playAudio;
+    !isFromCurrentUser && (messageType === MESSAGE_TYPE.INCOMING || isPrivate);
+
+  if (document.hidden) return playAudio;
+  if (currentConvId !== incomingConvId) return playAudio;
+  return false;
 };
 
 export const newMessageNotification = data => {
   const {
     enable_audio_alerts: enableAudioAlerts = false,
   } = window.WOOT.$store.getters.getUISettings;
-  if (!enableAudioAlerts) return false;
 
-  if (document.hidden) {
+  const playAudio = shouldPlayAudio(data);
+
+  if (enableAudioAlerts && playAudio) {
     window.playAudioAlert();
-  } else {
-    const playAudio = shouldPlayAudio(data);
-    if (playAudio) {
-      window.playAudioAlert();
-    }
   }
-  return false;
 };
