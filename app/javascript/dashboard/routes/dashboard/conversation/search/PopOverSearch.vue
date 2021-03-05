@@ -1,6 +1,6 @@
 <template>
   <div v-on-clickaway="closeSearch" class="search-wrap">
-    <div class="search" :class="{ 'is-active': showSearchResult }">
+    <div class="search" :class="{ 'is-active': showSearchBox }">
       <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
       </div>
@@ -11,7 +11,7 @@
         @focus="onSearch"
       />
     </div>
-    <div v-if="showSearchResult" class="results-wrap">
+    <div v-if="showSearchBox" class="results-wrap">
       <div class="results">
         <div>
           <div class="result-view">
@@ -25,10 +25,7 @@
             </div>
           </div>
 
-          <div
-            v-if="searchTerm && conversations.length && !uiFlags.isFetching"
-            class="search-results--container"
-          >
+          <div v-if="showSearchResult" class="search-results--container">
             <result-item
               v-for="conversation in conversations"
               :key="conversation.messageId"
@@ -40,12 +37,7 @@
               :message-type="conversation.message_type"
             />
           </div>
-          <div
-            v-else-if="
-              searchTerm && !conversations.length && !uiFlags.isFetching
-            "
-            class="search--activity-no-message"
-          >
+          <div v-else-if="showEmptyResult" class="search--activity-no-message">
             {{ $t('CONVERSATION.SEARCH.NO_MATCHING_RESULTS') }}
           </div>
         </div>
@@ -76,12 +68,10 @@ export default {
 
   mixins: [timeMixin, messageFormatterMixin, clickaway],
 
-  props: {},
-
   data() {
     return {
       searchTerm: '',
-      showSearchResult: false,
+      showSearchBox: false,
     };
   },
 
@@ -92,6 +82,18 @@ export default {
     }),
     resultsCount() {
       return this.conversations.length;
+    },
+    showSearchResult() {
+      return (
+        this.searchTerm && this.conversations.length && !this.uiFlags.isFetching
+      );
+    },
+    showEmptyResult() {
+      return (
+        this.searchTerm &&
+        !this.conversations.length &&
+        !this.uiFlags.isFetching
+      );
     },
   },
 
@@ -114,10 +116,10 @@ export default {
 
   methods: {
     onSearch() {
-      this.showSearchResult = true;
+      this.showSearchBox = true;
     },
     closeSearch() {
-      this.showSearchResult = false;
+      this.showSearchBox = false;
     },
   },
 };
