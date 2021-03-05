@@ -39,11 +39,13 @@
 import { mapGetters } from 'vuex';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
+import {
+  buildDateFromTime,
+  formatDigitToString,
+} from 'shared/helpers/DateHelper';
 import WootButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
-import format from 'date-fns/format';
 import compareAsc from 'date-fns/compareAsc';
-import parseISO from 'date-fns/parseISO';
 
 export default {
   name: 'TeamAvailability',
@@ -75,13 +77,17 @@ export default {
       if (closedAllDay) {
         return false;
       }
-      const startTime = this.buildDate(
-        this.formatDigitToString(openHour),
-        this.formatDigitToString(openMinute)
+
+      const { utcOffset } = this.channelConfig;
+      const startTime = buildDateFromTime(
+        formatDigitToString(openHour),
+        formatDigitToString(openMinute),
+        utcOffset
       );
-      const endTime = this.buildDate(
-        this.formatDigitToString(closeHour),
-        this.formatDigitToString(closeMinute)
+      const endTime = buildDateFromTime(
+        formatDigitToString(closeHour),
+        formatDigitToString(closeMinute),
+        utcOffset
       );
 
       if (
@@ -110,14 +116,6 @@ export default {
   methods: {
     startConversation() {
       this.$emit('start-conversation');
-    },
-    buildDate(hr, min) {
-      const today = format(new Date(), 'yyyy-MM-dd');
-      const timeString = `${today}T${hr}:${min}:00${this.channelConfig.utcOffset}`;
-      return parseISO(timeString);
-    },
-    formatDigitToString(val) {
-      return val > 9 ? `${val}` : `0${val}`;
     },
   },
 };
