@@ -1,12 +1,11 @@
 <template>
-  <div class="search-wrap">
+  <div v-on-clickaway="closeSearch" class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchResult }">
       <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
       </div>
       <input
         v-model="searchTerm"
-        v-on-clickaway="closeSearch"
         class="search--input"
         :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
         @focus="onSearch"
