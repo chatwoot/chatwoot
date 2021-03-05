@@ -106,6 +106,25 @@
       >
       </woot-submit-button>
     </form>
+    <div class="profile--settings--row row">
+      <div class="columns small-3 ">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE_SECTION.TITLE') }}
+        </h4>
+        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE_SECTION.NOTE') }}</p>
+      </div>
+      <div class="columns small-9 medium-5">
+        <woot-submit-button
+          button-class="alert button nice"
+          :button-text="$t('PROFILE_SETTINGS.FORM.ACCOUNT_DELETE.BUTTON_TEXT')"
+          :loading="showDeletePopup"
+          @click="openDeletePopup()"
+        />
+      </div>
+    </div>
+    <woot-modal :show.sync="showDeletePopup" :on-close="closeDeletePopup">
+      <delete-account :on-close="closeDeletePopup" />
+    </woot-modal>
   </div>
 </template>
 
@@ -115,9 +134,11 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import DeleteAccount from './DeleteAccount';
 
 export default {
   components: {
+    DeleteAccount,
     NotificationSettings,
   },
   mixin: [alertMixin],
@@ -131,6 +152,7 @@ export default {
       password: '',
       passwordConfirmation: '',
       isUpdating: false,
+      showDeletePopup: false,
     };
   },
   validations: {
@@ -207,6 +229,15 @@ export default {
         this.isUpdating = false;
       }
     },
+
+    // Delete Function
+    openDeletePopup() {
+      this.showDeletePopup = true;
+    },
+    closeDeletePopup() {
+      this.showDeletePopup = false;
+    },
+
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;

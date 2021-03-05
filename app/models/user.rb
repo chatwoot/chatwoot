@@ -74,7 +74,7 @@ class User < ApplicationRecord
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
-  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
+  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify, source: :inviter
 
   has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy

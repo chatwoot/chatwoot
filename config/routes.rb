@@ -135,7 +135,7 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
-      resource :profile, only: [:show, :update]
+      resource :profile, only: [:show, :update, :destroy]
       resource :notification_subscriptions, only: [:create]
 
       resources :agent_bots, only: [:index]

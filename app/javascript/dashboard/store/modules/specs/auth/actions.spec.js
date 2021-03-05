@@ -52,6 +52,16 @@ describe('#actions', () => {
     });
   });
 
+  describe('#deleteAccount', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.put.mockResolvedValue({
+        response: { status: 200 },
+      });
+      await actions.deleteAccount({ commit }, { email: 'agent1@chatwoot.com' });
+      expect(clearCookiesOnLogout).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('#updateAvailability', () => {
     it('sends correct actions if API is success', async () => {
       axios.put.mockResolvedValue({

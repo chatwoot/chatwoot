@@ -100,4 +100,28 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/profile' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete '/api/v1/profile'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'agent delete its account' do
+        delete '/api/v1/profile',
+               params: { email: agent.email },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(agent.id).to eq(nil)
+      end
+    end
+  end
 end

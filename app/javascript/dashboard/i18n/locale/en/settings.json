@@ -18,6 +18,10 @@
         "TITLE": "Password",
         "NOTE": "Updating your password would reset your logins in multiple devices."
       },
+      "ACCOUNT_DELETE_SECTION": {
+        "TITLE": "Delete your Account",
+        "NOTE": "Once you deleted your account your all data will deleted."
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration"
@@ -79,6 +83,21 @@
         "LABEL": "Confirm new password",
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your password"
+      },
+      "ACCOUNT_DELETE": {
+        "BUTTON_TEXT": "Delete Your Account",
+        "API": {
+          "SUCCESS_MESSAGE": "Account deleted successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        },
+        "CONFIRM": {
+          "EMAIL_ERROR": "Email doesn't not match.",
+          "PLACEHOLDER": "Email",
+          "TITLE": "Delete Account",
+          "MESSAGE": "Deleting your Account is irreversible. Enter your email below to confirm you want to permanently delete it",
+          "NO": "No, Keep",
+          "YES": "Yes, Delete Account"
+        }
       }
     }
   },

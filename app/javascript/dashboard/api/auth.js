@@ -140,6 +140,11 @@ export default {
     return axios.put(endPoints('profileUpdate').url, formData);
   },
 
+  deleteAccount({ email }) {
+    const urlData = endPoints('profileUpdate');
+    return axios.delete(urlData.url, { data: { email: email } });
+  },
+
   updateUISettings({ uiSettings }) {
     return axios.put(endPoints('profileUpdate').url, {
       profile: { ui_settings: uiSettings },
