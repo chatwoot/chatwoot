@@ -1,7 +1,11 @@
 <template>
   <div
     class="conversation"
-    :class="{ active: isActiveChat, 'unread-chat': hasUnread }"
+    :class="{
+      active: isActiveChat,
+      'unread-chat': hasUnread,
+      'has-inbox-name': showInboxName,
+    }"
     @click="cardClick(chat)"
   >
     <Thumbnail
@@ -15,10 +19,11 @@
     />
     <div class="conversation--details columns">
       <span
-        v-if="!hideInboxName && isInboxNameVisible"
+        v-if="showInboxName"
         v-tooltip.bottom="inboxName(chat.inbox_id)"
         class="label"
       >
+        <i :class="computedInboxClass" />
         {{ inboxName(chat.inbox_id) }}
       </span>
       <h4 class="conversation--user">
@@ -54,7 +59,7 @@
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
+import { getInboxClassByType } from 'dashboard/helper/inbox';
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
@@ -140,6 +145,22 @@ export default {
     parsedLastMessage() {
       return this.getPlainText(this.lastMessageInChat.content);
     },
+
+    chatInbox() {
+      const { inbox_id: inboxId } = this.chat;
+      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+      return stateInbox;
+    },
+
+    computedInboxClass() {
+      const { phone_number: phoneNumber, channel_type: type } = this.chatInbox;
+      const classByType = getInboxClassByType(type, phoneNumber);
+      return classByType;
+    },
+
+    showInboxName() {
+      return !this.hideInboxName && this.isInboxNameVisible;
+    },
   },
 
   methods: {
@@ -153,8 +174,9 @@ export default {
       });
       router.push({ path: frontendURL(path) });
     },
-    inboxName(inboxId) {
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+
+    inboxName() {
+      const stateInbox = this.chatInbox;
       return stateInbox.name || '';
     },
   },
@@ -162,19 +184,28 @@ export default {
 </script>
 <style lang="scss" scoped>
 .conversation {
-  align-items: flex-start !important;
+  align-items: center;
+}
+
+.has-inbox-name {
+  &::v-deep .user-thumbnail-box {
+    padding-top: 0.8rem;
+    align-items: flex-start;
+  }
 }
 
 .conversation--details .label {
-  padding: var(--space-small) var(--space-smaller) var(--space-micro)
-    var(--space-zero);
+  padding: 0 0 var(--space-smaller);
+  line-height: 1.1;
+  font-weight: 500;
   background: none;
   color: var(--s-500);
   font-size: var(--font-size-mini);
 }
 
-.columns {
-  padding: var(--space-micro) var(--space-zero) var(--space-one)
-    var(--space-zero);
+.conversation--details {
+  .ion-earth {
+    font-size: var(--font-size-smaller);
+  }
 }
 </style>
