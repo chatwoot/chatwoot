@@ -57,7 +57,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { INBOX_TYPES } from 'shared/mixins/inboxMixin';

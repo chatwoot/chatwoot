@@ -12,12 +12,14 @@
       />
     </div>
     <div v-if="showSearchBox" class="results-wrap">
-      <div class="results">
+      <div class="show-results">
         <div>
           <div class="result-view">
             <p class="result">
               Search Results
-              <span class="message-counter">({{ resultsCount }})</span>
+              <span v-if="resultsCount !== 0" class="message-counter">
+                ({{ resultsCount }})
+              </span>
             </p>
             <div v-if="uiFlags.isFetching" class="search--activity-message">
               <woot-spinner size="" />
@@ -30,11 +32,8 @@
               v-for="conversation in conversations"
               :key="conversation.messageId"
               :conversation-id="conversation.id"
-              :user-name="conversation.sender_name"
-              :timestamp="conversation.created_at"
-              :message="conversation.content"
-              :search-term="conversation.content"
-              :message-type="conversation.message_type"
+              :messages="conversation.messages"
+              :search-term="searchTerm"
             />
           </div>
           <div v-else-if="showEmptyResult" class="search--activity-no-message">
@@ -134,9 +133,13 @@ export default {
   display: flex;
   padding: 0;
   border-bottom: 1px solid transparent;
+  padding: var(--space-one) var(--space-normal) var(--space-smaller)
+    var(--space-normal);
 
-  &.is-active {
-    border-bottom: 1px solid var(--b-200);
+  &:hover {
+    .search--icon {
+      color: var(--w-500);
+    }
   }
 }
 
@@ -149,26 +152,23 @@ export default {
   display: flex;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
-  padding: var(--space-normal) var(--space-smaller) var(--space-slab);
   text-align: left;
   line-height: var(--font-size-large);
-
-  &:hover {
-    .search--icon {
-      color: var(--w-500);
-    }
-  }
 }
 
 .search--icon {
   color: var(--s-600);
   font-size: var(--font-size-large);
-  padding: var(--space-normal) var(--space-small) var(--space-slab)
-    var(--space-normal);
+  padding: 0 var(--space-small) 0 0;
 }
 
 .icon {
   display: flex;
+}
+
+input::placeholder {
+  color: var(--color-body);
+  font-size: var(--font-size-small);
 }
 
 .results-wrap {
@@ -178,10 +178,10 @@ export default {
   background: white;
   width: 100%;
   max-height: 42rem;
-  overflow: scroll;
+  overflow: auto;
 }
 
-.results {
+.show-results {
   list-style-type: none;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-normal);
@@ -193,7 +193,7 @@ export default {
 }
 
 .result {
-  padding: var(--space-normal) var(--space-smaller) var(--space-smaller)
+  padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
     var(--space-normal);
   color: var(--s-700);
   font-size: var(--font-size-medium);

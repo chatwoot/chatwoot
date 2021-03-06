@@ -9,19 +9,7 @@ export const initialState = {
 
 export const getters = {
   getConversations(state) {
-    const allMessages = [];
-
-    state.records.forEach(conversationMessage => {
-      conversationMessage.messages.forEach(message => {
-        allMessages.push({
-          messageId: message.id,
-          ...message,
-          ...conversationMessage,
-        });
-      });
-    });
-
-    return allMessages;
+    return state.records;
   },
 
   getUIFlags(state) {
