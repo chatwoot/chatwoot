@@ -1,5 +1,5 @@
 <template>
-  <section class="app-content columns">
+  <section class="conversation-page">
     <chat-list
       :conversation-inbox="inboxId"
       :label="label"
@@ -14,18 +14,12 @@
       @contact-panel-toggle="onToggleContactPanel"
     >
     </conversation-box>
-    <contact-panel
-      v-if="isContactPanelOpen"
-      :conversation-id="conversationId"
-      :on-toggle="onToggleContactPanel"
-    />
   </section>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import ChatList from '../../../components/ChatList';
-import ContactPanel from './ContactPanel';
 import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
 import PopOverSearch from './search/PopOverSearch';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
@@ -33,7 +27,6 @@ import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 export default {
   components: {
     ChatList,
-    ContactPanel,
     ConversationBox,
     PopOverSearch,
   },
@@ -141,3 +134,10 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.conversation-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+</style>
