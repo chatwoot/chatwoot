@@ -36,7 +36,7 @@ RSpec.describe Message, type: :model do
     end
 
     it 'wont call notify email method for private notes' do
-      message.private = true
+      message.is_private_note = true
       allow(ConversationReplyEmailWorker).to receive(:perform_in).and_return(true)
       message.save!
       expect(ConversationReplyEmailWorker).not_to have_received(:perform_in)

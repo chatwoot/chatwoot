@@ -51,7 +51,7 @@ const getters = {
       chatMessage =>
         chatMessage.created_at * 1000 > chat.agent_last_seen_at * 1000 &&
         chatMessage.message_type === 0 &&
-        chatMessage.private !== true
+        chatMessage.is_private_note !== true
     ).length;
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,

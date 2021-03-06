@@ -54,7 +54,7 @@ class NotificationListener < BaseListener
   end
 
   def generate_notifications_for_mentions(message, account)
-    return unless message.private?
+    return unless message.is_private_note?
 
     return if message.content.blank?
 

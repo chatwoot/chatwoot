@@ -37,7 +37,7 @@
           :sender="data.sender"
           :is-a-tweet="isATweet"
           :is-email="isEmailContentType"
-          :is-private="data.private"
+          :is-private="data.is_private_note"
           :message-type="data.message_type"
           :readable-time="readableTime"
           :source-id="data.source_id"
@@ -176,7 +176,7 @@ export default {
     bubbleClass() {
       return {
         bubble: this.isBubble,
-        'is-private': this.data.private,
+        'is-private': this.data.is_private_note,
         'is-image': this.hasImageAttachment,
         'is-text': this.hasText,
       };
