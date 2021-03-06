@@ -59,6 +59,16 @@ export default {
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
+    // Pass cookie to react native widget
+    if (window.ReactNativeWebView) {
+      this.registerListeners();
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          type: 'auth-token',
+          value: window.authToken,
+        })
+      );
+    }
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
