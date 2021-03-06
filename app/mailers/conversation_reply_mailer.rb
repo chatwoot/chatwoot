@@ -142,11 +142,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def current_domain
-    @current_domain ||= begin
-      @account.domain ||
-        ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false) ||
-        GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN']
-    end
+    @current_domain ||= @account.inbound_email_domain
   end
 
   def account_support_email
