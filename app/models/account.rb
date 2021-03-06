@@ -87,6 +87,14 @@ class Account < ApplicationRecord
     }
   end
 
+  def inbound_email_domain
+    domain || GlobalConfig.get('MAILER_INBOUND_EMAIL_DOMAIN')['MAILER_INBOUND_EMAIL_DOMAIN'] || ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', false)
+  end
+
+  def support_email
+    super || GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] || ENV.fetch('MAILER_SENDER_EMAIL', nil)
+  end
+
   private
 
   def notify_creation
