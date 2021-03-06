@@ -115,7 +115,7 @@ class Message < ApplicationRecord
       created_at: created_at,
       message_type: message_type,
       content_type: content_type,
-      private: is_private_note,  # TODO: deprecate in future
+      private: is_private_note, # TODO: deprecate in future
       is_private_note: is_private_note,
       content_attributes: content_attributes,
       source_id: source_id,
