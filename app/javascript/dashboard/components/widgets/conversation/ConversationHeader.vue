@@ -1,6 +1,6 @@
 <template>
   <div class="conv-header">
-    <div class="user" :class="{ hide: isContactPanelOpen }">
+    <div class="user">
       <Thumbnail
         :src="currentContact.thumbnail"
         size="40px"
@@ -9,7 +9,7 @@
         :status="currentContact.availability_status"
       />
       <div class="user--profile__meta">
-        <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
+        <h3 class="user--name text-truncate">
           {{ currentContact.name }}
         </h3>
         <button
@@ -17,9 +17,11 @@
           @click="$emit('contact-panel-toggle')"
         >
           {{
-            `${$t('CONVERSATION.HEADER.OPEN')} ${$t(
-              'CONVERSATION.HEADER.DETAILS'
-            )}`
+            `${
+              isContactPanelOpen
+                ? $t('CONVERSATION.HEADER.CLOSE')
+                : $t('CONVERSATION.HEADER.OPEN')
+            } ${$t('CONVERSATION.HEADER.DETAILS')}`
           }}
         </button>
       </div>

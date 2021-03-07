@@ -1,7 +1,7 @@
 <template>
   <form class="contact--form" @submit.prevent="handleSubmit">
     <div class="row">
-      <div class="medium-9 columns">
+      <div class="columns">
         <label :class="{ error: $v.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
@@ -37,14 +37,14 @@
     <div class="row">
       <woot-input
         v-model.trim="phoneNumber"
-        class="medium-6 columns"
+        class="columns"
         :label="$t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL')"
         :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
       />
     </div>
     <woot-input
       v-model.trim="companyName"
-      class="medium-6 columns"
+      class="columns"
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />

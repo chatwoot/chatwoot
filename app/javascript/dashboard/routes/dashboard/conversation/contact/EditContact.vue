@@ -1,5 +1,5 @@
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
+  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="column content-box">
       <woot-modal-header
         :header-title="
