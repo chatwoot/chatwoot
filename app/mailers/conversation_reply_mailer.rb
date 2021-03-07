@@ -1,5 +1,5 @@
 class ConversationReplyMailer < ApplicationMailer
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, message_queued_time)
@@ -116,7 +116,7 @@ class ConversationReplyMailer < ApplicationMailer
   def from_email_address
     return @inbox.email_address if @inbox.email_address
 
-    ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    account_support_email
   end
 
   def custom_message_id
@@ -146,11 +146,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def account_support_email
-    @account_support_email ||= begin
-      @account.support_email ||
-        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
-        ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-    end
+    @account_support_email ||= @account.support_email
   end
 
   def choose_layout
