@@ -89,7 +89,7 @@ Rails.application.routes.draw do
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
           resources :labels, only: [:index, :show, :create, :update, :destroy]
-          resources :chat_status_items, only: [:index, :show, :create]
+          resources :conversation_statuses, only: [:index, :show, :create, :destroy]
           resources :notifications, only: [:index, :update] do
             collection do
               post :read_all

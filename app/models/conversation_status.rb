@@ -1,9 +1,10 @@
 # == Schema Information
 #
-# Table name: chat_status_items
+# Table name: conversation_statuses
 #
 #  id         :bigint           not null, primary key
-#  custom     :boolean          default(TRUE)
+#  code       :integer
+#  custom     :boolean          default(FALSE)
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -11,12 +12,16 @@
 #
 # Indexes
 #
-#  index_chat_status_items_on_account_id  (account_id)
+#  index_conversation_statuses_on_account_id  (account_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (account_id => accounts.id)
 #
-class ChatStatusItem < ApplicationRecord
+class ConversationStatus < ApplicationRecord
   belongs_to :account
+
+  before_validation do
+    self.name = name.downcase if attribute_present?('name')
+  end
 end

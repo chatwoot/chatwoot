@@ -1,7 +1,8 @@
 FactoryBot.define do
-  factory :chat_status_item do
+  factory :conversation_status do
     name { 'MyString' }
     custom { false }
+    code { 1 }
     account { nil }
   end
 end

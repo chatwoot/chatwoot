@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_22_131155) do
+ActiveRecord::Schema.define(version: 2021_03_06_101906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -188,15 +188,6 @@ ActiveRecord::Schema.define(version: 2021_02_22_131155) do
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
 
-  create_table "chat_status_items", force: :cascade do |t|
-    t.string "name"
-    t.boolean "custom", default: true
-    t.bigint "account_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["account_id"], name: "index_chat_status_items_on_account_id"
-  end
-
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
@@ -225,6 +216,16 @@ ActiveRecord::Schema.define(version: 2021_02_22_131155) do
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["pubsub_token"], name: "index_contacts_on_pubsub_token", unique: true
+  end
+
+  create_table "conversation_statuses", force: :cascade do |t|
+    t.string "name"
+    t.boolean "custom", default: false
+    t.integer "code"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_conversation_statuses_on_account_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -503,9 +504,11 @@ ActiveRecord::Schema.define(version: 2021_02_22_131155) do
     t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
     t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type", "taggable_id"], name: "index_taggings_on_taggable_type_and_taggable_id"
     t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
     t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
     t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["tagger_type", "tagger_id"], name: "index_taggings_on_tagger_type_and_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -602,9 +605,9 @@ ActiveRecord::Schema.define(version: 2021_02_22_131155) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "chat_status_items", "accounts"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "conversation_statuses", "accounts"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
   add_foreign_key "data_imports", "accounts"

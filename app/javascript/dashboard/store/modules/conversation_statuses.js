@@ -1,6 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
-import ChatStatusItemsAPI from '../../api/chat_status_items';
+import ConversationStatusesAPI from '../../api/conversation_statuses';
 
 const state = {
   records: [],
@@ -26,7 +26,7 @@ const actions = {
   getStatus: async function getStatus({ commit }) {
     commit(types.default.SET_STATUS_UI_FLAG, { isFetching: true });
     try {
-      const response = await ChatStatusItemsAPI.get();
+      const response = await ConversationStatusesAPI.get();
       commit(types.default.SET_STATUS, response.data.payload);
     } catch (error) {
       // Ignore error
@@ -38,7 +38,7 @@ const actions = {
   createStatus: async function createStatus({ commit }, STATUSObj) {
     commit(types.default.SET_STATUS_UI_FLAG, { creatingItem: true });
     try {
-      const response = await ChatStatusItemsAPI.create(STATUSObj);
+      const response = await ConversationStatusesAPI.create(STATUSObj);
       commit(types.default.ADD_STATUS, response.data);
       commit(types.default.SET_STATUS_UI_FLAG, { creatingItem: false });
     } catch (error) {
@@ -49,7 +49,7 @@ const actions = {
   updateStatus: async function updateStatus({ commit }, { id, ...updateObj }) {
     commit(types.default.SET_STATUS_UI_FLAG, { updatingItem: true });
     try {
-      const response = await ChatStatusItemsAPI.update(id, updateObj);
+      const response = await ConversationStatusesAPI.update(id, updateObj);
       commit(types.default.EDIT_STATUS, response.data);
       commit(types.default.SET_STATUS_UI_FLAG, { updatingItem: false });
     } catch (error) {
@@ -60,7 +60,7 @@ const actions = {
   deleteStatus: async function deleteStatus({ commit }, id) {
     commit(types.default.SET_STATUS_UI_FLAG, { deletingItem: true });
     try {
-      await ChatStatusItemsAPI.delete(id);
+      await ConversationStatusesAPI.delete(id);
       commit(types.default.DELETE_STATUS, id);
       commit(types.default.SET_STATUS_UI_FLAG, { deletingItem: true });
     } catch (error) {
