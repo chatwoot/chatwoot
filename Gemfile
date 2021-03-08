@@ -105,6 +105,8 @@ gem 'maxminddb'
 # to create db triggers
 gem 'hairtrigger'
 
+gem 'procore-sift'
+
 group :development do
   gem 'annotate'
   gem 'bullet'

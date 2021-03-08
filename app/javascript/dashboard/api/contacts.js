@@ -6,8 +6,8 @@ class ContactAPI extends ApiClient {
     super('contacts', { accountScoped: true });
   }
 
-  get(page) {
-    return axios.get(`${this.url}?page=${page}`);
+  get(page, sortAttr = 'name') {
+    return axios.get(`${this.url}?page=${page}&sort=${sortAttr}`);
   }
 
   getConversations(contactId) {

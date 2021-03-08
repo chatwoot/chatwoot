@@ -14,6 +14,8 @@
         :is-loading="uiFlags.isFetching"
         :on-click-contact="openContactInfoPanel"
         :active-contact-id="selectedContactId"
+        :sort-config="sortConfig"
+        @on-sort-change="onSortChange"
       />
       <table-footer
         :on-page-change="onPageChange"
@@ -52,6 +54,7 @@ export default {
       searchQuery: '',
       showCreateModal: false,
       selectedContactId: '',
+      sortConfig: { name: 'asc' },
     };
   },
   computed: {
@@ -87,14 +90,30 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('contacts/get', { page: this.pageParameter });
+    this.fetchContacts(this.pageParameter);
   },
   methods: {
+    fetchContacts(page) {
+      let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
+        const direction = this.sortConfig[sortKey];
+        if (direction) {
+          acc += `${direction === 'asc' ? '' : '-'}${
+            sortKey === 'lastActivityAt' ? 'last_activity_at' : sortKey
+          }`;
+        }
+        return acc;
+      }, '');
+      if (!sortAttr) {
+        this.sortConfig = { name: 'asc' };
+        sortAttr = 'name';
+      }
+      this.$store.dispatch('contacts/get', { page, sortAttr });
+    },
     onInputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
       if (refetchAllContacts) {
-        this.$store.dispatch('contacts/get', { page: 1 });
+        this.fetchContacts(1);
       }
       this.searchQuery = newQuery;
     },
@@ -116,7 +135,7 @@ export default {
           page,
         });
       } else {
-        this.$store.dispatch('contacts/get', { page });
+        this.fetchContacts(page);
       }
     },
     openContactInfoPanel(contactId) {
@@ -129,6 +148,10 @@ export default {
     },
     onToggleCreate() {
       this.showCreateModal = !this.showCreateModal;
+    },
+    onSortChange(params) {
+      this.sortConfig = params;
+      this.fetchContacts(this.pageParameter);
     },
   },
 };

@@ -21,12 +21,12 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1 } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page);
+      } = await ContactAPI.get(page, sortAttr);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
