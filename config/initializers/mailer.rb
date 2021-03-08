@@ -18,7 +18,7 @@ Rails.application.configure do
     port: ENV.fetch('SMTP_PORT', 587)
   }
 
-  smtp_settings[:authentication] = ENV.fetch('SMTP_AUTHENTICATION', 'login') if ENV.fetch('SMTP_AUTHENTICATION', '').present?
+  smtp_settings[:authentication] = ENV.fetch('SMTP_AUTHENTICATION', 'login').to_sym if ENV.fetch('SMTP_AUTHENTICATION', '').present?
   smtp_settings[:user_name] = ENV.fetch('SMTP_USERNAME', '')
   smtp_settings[:password] = ENV.fetch('SMTP_PASSWORD', '')
   smtp_settings[:enable_starttls_auto] = ActiveModel::Type::Boolean.new.cast(ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', true))
