@@ -80,7 +80,7 @@ export default {
   display: flex;
   background: var(--color-background-light);
   margin: 0;
-  height: calc(100vh - 63px);
+  height: calc(100vh - var(--space-jumbo));
 }
 
 .conversation-sidebar-wrap {
