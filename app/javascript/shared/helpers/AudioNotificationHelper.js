@@ -34,31 +34,43 @@ export const getAlertAudio = async () => {
   }
 };
 
-const shouldPlayAudio = data => {
-  const { conversation_id: currentConvId } = window.WOOT.$route.params;
-  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+export const shouldPlayAudio = (
+  message,
+  conversationId,
+  userId,
+  isDocHiddden
+) => {
   const {
     conversation_id: incomingConvId,
     sender_id: senderId,
     message_type: messageType,
     private: isPrivate,
-  } = data;
-  const isFromCurrentUser = currentUserId === senderId;
+  } = message;
+  const isFromCurrentUser = userId === senderId;
 
   const playAudio =
     !isFromCurrentUser && (messageType === MESSAGE_TYPE.INCOMING || isPrivate);
 
-  if (document.hidden) return playAudio;
-  if (currentConvId !== incomingConvId) return playAudio;
+  if (isDocHiddden) return playAudio;
+  if (conversationId !== incomingConvId) return playAudio;
   return false;
 };
 
 export const newMessageNotification = data => {
+  const { conversation_id: currentConvId } = window.WOOT.$route.params;
+  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+  const isDocHiddden = document.hidden;
+
   const {
     enable_audio_alerts: enableAudioAlerts = false,
   } = window.WOOT.$store.getters.getUISettings;
 
-  const playAudio = shouldPlayAudio(data);
+  const playAudio = shouldPlayAudio(
+    data,
+    currentConvId,
+    currentUserId,
+    isDocHiddden
+  );
 
   if (enableAudioAlerts && playAudio) {
     window.playAudioAlert();
