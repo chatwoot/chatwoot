@@ -335,12 +335,12 @@ export default {
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
           },
           {
-            key: 'configuration',
-            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
-          },
-          {
             key: 'businesshours',
             name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+          },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
           },
         ];
       }
