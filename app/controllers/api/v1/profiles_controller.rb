@@ -16,7 +16,7 @@ class Api::V1::ProfilesController < Api::BaseController
       if @user.destroy
         Current.reset
 
-        # TODO: Return 404 response
+        # TODO: Fix 404 response
         return head :ok
       end
     end
