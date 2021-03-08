@@ -39,6 +39,16 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
     end
 
+    context 'without assignee' do
+      let(:conversation) { create(:conversation, assignee: nil) }
+      let(:message) { create(:message, conversation: conversation) }
+      let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
+
+      it 'has correct name' do
+        expect(mail[:from].display_names).to eq(['Notifications from Inbox'])
+      end
+    end
+
     context 'without summary' do
       let(:conversation) { create(:conversation, assignee: agent, account: account).reload }
       let(:message_1) { create(:message, conversation: conversation, account: account, content: 'Outgoing Message 1').reload }
@@ -138,7 +148,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the from email to be the support email' do
-        expect(mail['FROM'].value).to eq(conversation.account.support_email)
+        expect(mail['FROM'].value).to eq("#{agent.available_name} from Inbox <#{conversation.account.support_email}>")
         expect(mail.from).to eq([conversation.account.support_email])
       end
 
