@@ -15,7 +15,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: @contact&.email,
-           from: from_email_with_name,
+           from: from_email,
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
@@ -34,7 +34,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: @contact&.email,
-           from: from_email_with_name,
+           from: from_email,
            reply_to: reply_email,
            subject: mail_subject,
            message_id: custom_message_id,
@@ -51,7 +51,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     mail({
            to: to_email,
-           from: from_email_with_name,
+           from: from_email,
            subject: "[##{@conversation.display_id}] #{I18n.t('conversations.reply.transcript_subject')}"
          })
   end
@@ -105,15 +105,15 @@ class ConversationReplyMailer < ApplicationMailer
     end
   end
 
-  def from_email_with_name
+  def from_email
     if should_use_conversation_email_address?
-      "#{assignee_name} <#{account_support_email}>"
+      account_support_email
     else
-      "#{assignee_name} <#{from_email_address}>"
+      inbox_from_email_address
     end
   end
 
-  def from_email_address
+  def inbox_from_email_address
     return @inbox.email_address if @inbox.email_address
 
     account_support_email
