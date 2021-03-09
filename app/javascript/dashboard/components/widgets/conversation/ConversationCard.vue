@@ -190,7 +190,7 @@ export default {
 }
 
 .conversation--details .label {
-  padding: 0 0 var(--space-smaller);
+  padding: var(--space-smaller) 0 var(--space-smaller) 0;
   line-height: var(--space-slab);
   font-weight: 500;
   background: none;
