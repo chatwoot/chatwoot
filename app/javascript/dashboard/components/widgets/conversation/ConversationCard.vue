@@ -1,7 +1,11 @@
 <template>
   <div
     class="conversation"
-    :class="{ active: isActiveChat, 'unread-chat': hasUnread }"
+    :class="{
+      active: isActiveChat,
+      'unread-chat': hasUnread,
+      'has-inbox-name': showInboxName,
+    }"
     @click="cardClick(chat)"
   >
     <Thumbnail
@@ -14,15 +18,12 @@
       size="40px"
     />
     <div class="conversation--details columns">
+      <span v-if="showInboxName" v-tooltip.bottom="inboxName" class="label">
+        <i :class="computedInboxClass" />
+        {{ inboxName }}
+      </span>
       <h4 class="conversation--user">
         {{ currentContact.name }}
-        <span
-          v-if="!hideInboxName && isInboxNameVisible"
-          v-tooltip.bottom="inboxName(chat.inbox_id)"
-          class="label"
-        >
-          {{ inboxName(chat.inbox_id) }}
-        </span>
       </h4>
       <p v-if="lastMessageInChat" class="conversation--message">
         <i v-if="messageByAgent" class="ion-ios-undo message-from-agent"></i>
@@ -54,7 +55,7 @@
 import { mapGetters } from 'vuex';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
+import { getInboxClassByType } from 'dashboard/helper/inbox';
 import Thumbnail from '../Thumbnail';
 import conversationMixin from '../../../mixins/conversations';
 import timeMixin from '../../../mixins/time';
@@ -140,6 +141,26 @@ export default {
     parsedLastMessage() {
       return this.getPlainText(this.lastMessageInChat.content);
     },
+
+    chatInbox() {
+      const { inbox_id: inboxId } = this.chat;
+      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
+      return stateInbox;
+    },
+
+    computedInboxClass() {
+      const { phone_number: phoneNumber, channel_type: type } = this.chatInbox;
+      const classByType = getInboxClassByType(type, phoneNumber);
+      return classByType;
+    },
+
+    showInboxName() {
+      return !this.hideInboxName && this.isInboxNameVisible;
+    },
+    inboxName() {
+      const stateInbox = this.chatInbox;
+      return stateInbox.name || '';
+    },
   },
 
   methods: {
@@ -153,10 +174,37 @@ export default {
       });
       router.push({ path: frontendURL(path) });
     },
-    inboxName(inboxId) {
-      const stateInbox = this.$store.getters['inboxes/getInbox'](inboxId);
-      return stateInbox.name || '';
-    },
   },
 };
 </script>
+<style lang="scss" scoped>
+.conversation {
+  align-items: center;
+}
+
+.has-inbox-name {
+  &::v-deep .user-thumbnail-box {
+    padding-top: var(--space-small);
+    align-items: flex-start;
+  }
+}
+
+.conversation--details .label {
+  padding: var(--space-smaller) 0 var(--space-smaller) 0;
+  line-height: var(--space-slab);
+  font-weight: 500;
+  background: none;
+  color: var(--s-500);
+  font-size: var(--font-size-mini);
+}
+
+.conversation--details {
+  .ion-earth {
+    font-size: var(--font-size-mini);
+  }
+
+  .timestamp {
+    margin-top: var(--space-slab);
+  }
+}
+</style>
