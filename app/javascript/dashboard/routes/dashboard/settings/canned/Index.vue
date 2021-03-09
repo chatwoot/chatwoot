@@ -40,7 +40,9 @@
               :key="cannedItem.short_code"
             >
               <!-- Short Code  -->
-              <td>{{ cannedItem.short_code }}</td>
+              <td class="short-code">
+                {{ cannedItem.short_code }}
+              </td>
               <!-- Content -->
               <td>{{ cannedItem.content }}</td>
               <!-- Action Buttons -->
@@ -99,9 +101,7 @@
   </div>
 </template>
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
-
 import AddCanned from './AddCanned';
 import EditCanned from './EditCanned';
 
@@ -201,3 +201,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.short-code {
+  width: 14rem;
+}
+</style>

@@ -232,10 +232,13 @@ export default {
     width: 36rem;
   }
   @include breakpoint(xlarge up) {
-    width: 33rem;
+    width: 35rem;
   }
   @include breakpoint(xxlarge up) {
-    width: 42rem;
+    width: 38rem;
+  }
+  @include breakpoint(xxxlarge up) {
+    flex-basis: 46rem;
   }
 }
 </style>
