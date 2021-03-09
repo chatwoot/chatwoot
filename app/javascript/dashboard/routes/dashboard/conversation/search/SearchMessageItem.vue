@@ -68,7 +68,24 @@ export default {
 </script>
 <style lang="scss" scoped>
 .message-item {
-  padding: 0 var(--space-small) 0 var(--space-small);
+  background: var(--color-background-light);
+  border-radius: var(--border-radius-medium);
+  color: var(--color-body);
+  margin-bottom: var(--space-small);
+  margin-left: var(--space-one);
+  padding: 0 var(--space-small);
+
+  &:hover {
+    background: var(--w-300);
+    color: var(--white);
+    .message-content::v-deep .searchkey--highlight {
+      color: var(--white);
+      text-decoration: underline;
+    }
+    .ion-headphone {
+      color: var(--white);
+    }
+  }
   &:last-child {
     .search-message {
       border-bottom: none;
@@ -77,30 +94,32 @@ export default {
 }
 
 .search-message {
-  border-bottom: 1px solid #eee;
+  padding: var(--space-micro) var(--space-smaller);
+  &:hover {
+    color: var(--white);
+  }
 }
 
 .user-wrap {
-  display: flex;
   align-items: last baseline;
+  display: flex;
   justify-content: space-between;
 }
 
 .name-wrap {
-  padding: var(--space-smaller) var(--space-smaller) 0 0;
+  padding-top: var(--space-smaller);
 }
 
 .user-name {
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-bold);
-  color: var(--b-800);
 }
 
 .ion-headphone {
   color: var(--w-500);
+  font-size: var(--font-size-mini);
   padding: var(--space-micro);
   padding-right: var(--space-smaller);
-  font-size: var(--font-size-mini);
 }
 
 .timestamp {
@@ -112,17 +131,16 @@ p {
 }
 
 .message-content {
+  font-size: var(--font-size-small);
+  line-height: 1.35;
   padding: var(--space-micro) var(--space-zero) var(--space-zero)
     var(--space-zero);
-  &:hover {
-    color: var(--s-400);
-  }
 }
 
 .message-content::v-deep .searchkey--highlight {
-  background: var(--w-50);
-  color: var(--color-heading);
-  font-weight: var(--font-weight-medium);
+  color: var(--w-500);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-small);
   padding: (var(--space-zero) var(--space-zero));
 }
 </style>

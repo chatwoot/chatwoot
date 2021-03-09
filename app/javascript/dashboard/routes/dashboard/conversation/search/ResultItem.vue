@@ -2,10 +2,16 @@
   <div class="search-result" @click="onClick">
     <div class="result-header">
       <div class="message">
-        <div>
-          <span class="message-id"># {{ conversationId }}</span>
+        <i class="ion-ios-chatboxes-outline" />
+        <div class="conversation">
+          <div class="name-wrap">
+            <span class="user-name">{{ userName }}</span>
+            <span class="message-id"># {{ conversationId }}</span>
+          </div>
+          <span class="inbox-name">Acme Support</span>
         </div>
       </div>
+      <span class="timestamp">{{ readableTime }} </span>
     </div>
     <search-message-item
       v-for="message in messages"
@@ -22,15 +28,24 @@
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import timeMixin from 'dashboard/mixins/time';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import SearchMessageItem from './SearchMessageItem.vue';
 
 export default {
   components: { SearchMessageItem },
-  mixins: [messageFormatterMixin],
+  mixins: [timeMixin, messageFormatterMixin],
 
   props: {
     conversationId: {
+      type: Number,
+      default: 0,
+    },
+    userName: {
+      type: String,
+      default: '',
+    },
+    timestamp: {
       type: Number,
       default: 0,
     },
@@ -48,6 +63,13 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    readableTime() {
+      if (!this.timestamp) {
+        return '';
+      }
+
+      return this.dynamicTime(this.timestamp);
+    },
   },
 
   methods: {
@@ -66,37 +88,71 @@ export default {
 .search-result {
   display: block;
   align-items: center;
-  border-bottom: 1px solid var(--color-border-light);
+  cursor: pointer;
   color: var(--color-body);
-  padding: var(--space-smaller) var(--space-normal) 0 var(--space-normal);
+  padding: var(--space-smaller) var(--space-two) 0 var(--space-normal);
 
   &:last-child {
     border-bottom: none;
-    padding-bottom: var(--space-two);
-  }
-
-  &:hover {
-    background-color: var(--color-background-light);
-    cursor: pointer;
+    padding-bottom: var(--space-normal);
   }
 }
 
 .result-header {
   display: flex;
   justify-content: space-between;
-  padding: var(--space-micro) var(--space-zero) var(--space-micro) 0;
+  background: var(--color-background);
+  padding: var(--space-smaller) var(--space-slab);
+  margin-bottom: var(--space-small);
+  border-radius: var(--border-radius-medium);
+
+  &:hover .ion-ios-chatboxes-outline {
+    color: var(--w-500);
+  }
 }
 
 .message {
   display: flex;
 }
 
-.message-id {
-  color: var(--w-600);
-  font-size: var(--font-size-mini);
+.ion-ios-chatboxes-outline {
+  align-items: center;
+  display: flex;
+  font-size: var(--font-size-big);
+}
+
+.conversation {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-smaller) var(--space-one);
+}
+
+.user-name {
+  font-size: var(--font-size-default);
   font-weight: var(--font-weight-bold);
+}
+
+.message-id {
   background: var(--w-50);
   border-radius: var(--border-radius-normal);
+  color: var(--w-600);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
   padding: var(--space-micro) var(--space-smaller);
+}
+
+.inbox-name {
+  border-radius: var(--border-radius-normal);
+  color: var(--s-500);
+  font-size: var(--font-size-mini);
+  font-weight: var(--font-weight-medium);
+}
+
+.timestamp {
+  color: var(--s-500);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-mini);
+  margin-top: var(--space-smaller);
 }
 </style>

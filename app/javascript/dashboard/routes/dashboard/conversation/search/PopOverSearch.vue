@@ -32,6 +32,8 @@
               v-for="conversation in conversations"
               :key="conversation.messageId"
               :conversation-id="conversation.id"
+              :user-name="conversation.contact.name"
+              :timestamp="conversation.created_at"
               :messages="conversation.messages"
               :search-term="searchTerm"
             />
@@ -177,7 +179,7 @@ input::placeholder {
   box-shadow: var(--shadow-large);
   background: white;
   width: 100%;
-  max-height: 42rem;
+  max-height: 70vh;
   overflow: auto;
 }
 

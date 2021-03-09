@@ -6,6 +6,16 @@ end
 json.payload do
   json.array! @conversations do |conversation|
     json.id conversation.display_id
+    json.created_at conversation.created_at.to_i
+    json.contact do
+      json.id conversation.contact.id
+      json.name conversation.contact.name
+    end
+    json.inbox do
+      json.id conversation.inbox.id
+      json.name conversation.inbox.name
+      json.channel_type conversation.inbox.channel_type
+    end
     json.messages do
       json.array! conversation.messages do |message|
         json.content message.content
