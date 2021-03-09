@@ -184,7 +184,7 @@ export default {
 
 .has-inbox-name {
   &::v-deep .user-thumbnail-box {
-    padding-top: var(--space-small);
+    margin-top: var(--space-two);
     align-items: flex-start;
   }
 }
