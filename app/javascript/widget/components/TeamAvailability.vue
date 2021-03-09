@@ -39,13 +39,9 @@
 import { mapGetters } from 'vuex';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
-import {
-  buildDateFromTime,
-  formatDigitToString,
-} from 'shared/helpers/DateHelper';
 import WootButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
-import compareAsc from 'date-fns/compareAsc';
+import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'TeamAvailability',
@@ -53,7 +49,7 @@ export default {
     AvailableAgents,
     WootButton,
   },
-  mixins: [configMixin],
+  mixins: [configMixin, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -64,53 +60,6 @@ export default {
     ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
-    },
-    isInBetweenTheWorkingHours() {
-      const {
-        closedAllDay,
-        openHour,
-        openMinute,
-        closeHour,
-        closeMinute,
-      } = this.currentDayAvailability;
-
-      if (closedAllDay) {
-        return false;
-      }
-
-      const { utcOffset } = this.channelConfig;
-      const startTime = buildDateFromTime(
-        formatDigitToString(openHour),
-        formatDigitToString(openMinute),
-        utcOffset
-      );
-      const endTime = buildDateFromTime(
-        formatDigitToString(closeHour),
-        formatDigitToString(closeMinute),
-        utcOffset
-      );
-
-      if (
-        compareAsc(new Date(), startTime) === 1 &&
-        compareAsc(endTime, new Date()) === 1
-      ) {
-        return true;
-      }
-
-      return false;
-    },
-    currentDayAvailability() {
-      const dayOfTheWeek = new Date().getDay();
-      const [workingHourConfig = {}] = this.channelConfig.workingHours.filter(
-        workingHour => workingHour.day_of_week === dayOfTheWeek
-      );
-      return {
-        closedAllDay: workingHourConfig.closed_all_day,
-        openHour: workingHourConfig.open_hour,
-        openMinute: workingHourConfig.open_minutes,
-        closeHour: workingHourConfig.close_hour,
-        closeMinute: workingHourConfig.close_minutes,
-      };
     },
   },
   methods: {
