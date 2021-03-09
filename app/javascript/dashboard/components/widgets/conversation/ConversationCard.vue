@@ -18,13 +18,9 @@
       size="40px"
     />
     <div class="conversation--details columns">
-      <span
-        v-if="showInboxName"
-        v-tooltip.bottom="inboxName(chat.inbox_id)"
-        class="label"
-      >
+      <span v-if="showInboxName" v-tooltip.bottom="inboxName" class="label">
         <i :class="computedInboxClass" />
-        {{ inboxName(chat.inbox_id) }}
+        {{ inboxName }}
       </span>
       <h4 class="conversation--user">
         {{ currentContact.name }}
@@ -161,6 +157,10 @@ export default {
     showInboxName() {
       return !this.hideInboxName && this.isInboxNameVisible;
     },
+    inboxName() {
+      const stateInbox = this.chatInbox;
+      return stateInbox.name || '';
+    },
   },
 
   methods: {
@@ -174,11 +174,6 @@ export default {
       });
       router.push({ path: frontendURL(path) });
     },
-
-    inboxName() {
-      const stateInbox = this.chatInbox;
-      return stateInbox.name || '';
-    },
   },
 };
 </script>
@@ -189,14 +184,14 @@ export default {
 
 .has-inbox-name {
   &::v-deep .user-thumbnail-box {
-    padding-top: 0.8rem;
+    padding-top: var(--space-small);
     align-items: flex-start;
   }
 }
 
 .conversation--details .label {
   padding: 0 0 var(--space-smaller);
-  line-height: 1.1;
+  line-height: var(--space-slab);
   font-weight: 500;
   background: none;
   color: var(--s-500);
@@ -205,7 +200,11 @@ export default {
 
 .conversation--details {
   .ion-earth {
-    font-size: var(--font-size-smaller);
+    font-size: var(--font-size-mini);
+  }
+
+  .timestamp {
+    margin-top: var(--space-slab);
   }
 }
 </style>
