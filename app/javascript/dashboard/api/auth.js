@@ -31,7 +31,6 @@ export default {
           email: creds.email,
         })
         .then(response => {
-          setAuthCredentials(response);
           resolve(response);
         })
         .catch(error => {

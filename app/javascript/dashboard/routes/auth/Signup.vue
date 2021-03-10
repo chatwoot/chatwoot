@@ -131,8 +131,8 @@ export default {
       this.isSignupInProgress = true;
       try {
         const response = await Auth.register(this.credentials);
-        if (response.status === 200) {
-          window.location = '/';
+        if (response.status === 202) {
+          window.location = '/app/auth/signup/confirmation';
         }
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');

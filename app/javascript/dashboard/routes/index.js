@@ -46,7 +46,12 @@ export const router = new VueRouter({
   routes, // short for routes: routes
 });
 
-const unProtectedRoutes = ['login', 'auth_signup', 'auth_reset_password'];
+const unProtectedRoutes = [
+  'login',
+  'auth_signup',
+  'auth_reset_password',
+  'signup_confirmation',
+];
 
 const authIgnoreRoutes = [
   'auth_confirmation',
