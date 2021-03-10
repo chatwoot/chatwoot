@@ -63,6 +63,7 @@ export default {
       this.setLocale(getLocale(window.location.search));
     }
     if (this.isRNWebView) {
+      this.registerListeners();
       this.sendRNWebViewLoadedEvent();
     }
     this.$store.dispatch('conversationAttributes/get');
@@ -137,6 +138,7 @@ export default {
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
+        console.log('registerListeners message', e);
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
