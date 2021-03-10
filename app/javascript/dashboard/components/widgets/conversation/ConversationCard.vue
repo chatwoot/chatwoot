@@ -187,7 +187,7 @@ export default {
     margin-top: var(--space-normal);
     align-items: flex-start;
   }
-  .timestamp {
+  .conversation--meta {
     margin-top: var(--space-normal);
   }
 }
