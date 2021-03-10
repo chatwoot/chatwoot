@@ -184,27 +184,29 @@ export default {
 
 .has-inbox-name {
   &::v-deep .user-thumbnail-box {
-    padding-top: var(--space-small);
+    margin-top: var(--space-normal);
     align-items: flex-start;
+  }
+  .conversation--meta {
+    margin-top: var(--space-normal);
   }
 }
 
 .conversation--details .label {
-  padding: var(--space-smaller) 0 var(--space-smaller) 0;
+  padding: var(--space-micro) 0 var(--space-micro) 0;
   line-height: var(--space-slab);
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   background: none;
   color: var(--s-500);
   font-size: var(--font-size-mini);
 }
 
 .conversation--details {
+  .conversation--user {
+    padding-top: var(--space-micro);
+  }
   .ion-earth {
     font-size: var(--font-size-mini);
-  }
-
-  .timestamp {
-    margin-top: var(--space-slab);
   }
 }
 </style>
