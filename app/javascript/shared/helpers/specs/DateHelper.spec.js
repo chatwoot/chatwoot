@@ -48,6 +48,10 @@ describe('#DateHelper', () => {
   describe('#buildDate', () => {
     it('returns correctly parsed date', () => {
       const date = new Date();
+      date.setFullYear(2021);
+      date.setMonth(2);
+      date.setDate(5);
+
       const result = buildDateFromTime(12, 15, '.465Z', date);
       expect(result + '').toEqual(
         'Fri Mar 05 2021 12:15:00 GMT+0000 (Coordinated Universal Time)'
