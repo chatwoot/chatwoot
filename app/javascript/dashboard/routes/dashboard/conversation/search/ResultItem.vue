@@ -6,9 +6,11 @@
         <div class="conversation">
           <div class="name-wrap">
             <span class="user-name">{{ userName }}</span>
-            <span class="message-id"># {{ conversationId }}</span>
+            <div>
+              <span class="conversation-id"># {{ conversationId }}</span>
+            </div>
           </div>
-          <span class="inbox-name">Acme Support</span>
+          <span class="inbox-name">{{ inboxName }}</span>
         </div>
       </div>
       <span class="timestamp">{{ readableTime }} </span>
@@ -42,6 +44,10 @@ export default {
       default: 0,
     },
     userName: {
+      type: String,
+      default: '',
+    },
+    inboxName: {
       type: String,
       default: '',
     },
@@ -106,8 +112,22 @@ export default {
   margin-bottom: var(--space-small);
   border-radius: var(--border-radius-medium);
 
-  &:hover .ion-ios-chatboxes-outline {
-    color: var(--w-500);
+  &:hover {
+    background: var(--w-400);
+    color: var(--white);
+    .inbox-name {
+      color: var(--white);
+    }
+    .timestamp {
+      color: var(--white);
+    }
+    .ion-ios-chatboxes-outline {
+      color: var(--white);
+    }
+    .conversation-id {
+      background: var(--w-50);
+      color: var(--s-500);
+    }
   }
 }
 
@@ -118,7 +138,8 @@ export default {
 .ion-ios-chatboxes-outline {
   align-items: center;
   display: flex;
-  font-size: var(--font-size-big);
+  font-size: var(--font-size-large);
+  color: var(--w-500);
 }
 
 .conversation {
@@ -128,24 +149,28 @@ export default {
   padding: var(--space-smaller) var(--space-one);
 }
 
-.user-name {
-  font-size: var(--font-size-default);
-  font-weight: var(--font-weight-bold);
-}
-
-.message-id {
-  background: var(--w-50);
-  border-radius: var(--border-radius-normal);
-  color: var(--w-600);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
-  padding: var(--space-micro) var(--space-smaller);
+.name-wrap {
+  display: flex;
+  .user-name {
+    font-size: var(--font-size-default);
+    font-weight: var(--font-weight-bold);
+    margin-right: var(--space-micro);
+  }
+  .conversation-id {
+    background: var(--w-400);
+    border-radius: var(--border-radius-normal);
+    color: var(--w-50);
+    align-items: center;
+    font-size: var(--font-size-mini);
+    font-weight: var(--font-weight-bold);
+    padding: 0 var(--space-smaller);
+  }
 }
 
 .inbox-name {
   border-radius: var(--border-radius-normal);
   color: var(--s-500);
-  font-size: var(--font-size-mini);
+  font-size: var(--font-size-normal);
   font-weight: var(--font-weight-medium);
 }
 

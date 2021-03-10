@@ -36,6 +36,7 @@
               :timestamp="conversation.created_at"
               :messages="conversation.messages"
               :search-term="searchTerm"
+              :inbox-name="conversation.inbox.name"
             />
           </div>
           <div v-else-if="showEmptyResult" class="search--activity-no-message">

@@ -76,7 +76,7 @@ export default {
   padding: 0 var(--space-small);
 
   &:hover {
-    background: var(--w-300);
+    background: var(--w-400);
     color: var(--white);
     .message-content::v-deep .searchkey--highlight {
       color: var(--white);
@@ -124,6 +124,7 @@ export default {
 
 .timestamp {
   font-size: var(--font-size-mini);
+  padding-top: var(--space-small);
 }
 
 p {
@@ -135,6 +136,7 @@ p {
   line-height: 1.35;
   padding: var(--space-micro) var(--space-zero) var(--space-zero)
     var(--space-zero);
+  overflow-wrap: break-word;
 }
 
 .message-content::v-deep .searchkey--highlight {
