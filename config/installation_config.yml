@@ -14,8 +14,10 @@
   value: 'BotCart'
 - name: TERMS_URL
   value: '/'
+  locked: false
 - name: PRIVACY_URL
   value: '/'
+  locked: false
 - name: DISPLAY_MANIFEST
   value: true
 - name: MAILER_INBOUND_EMAIL_DOMAIN

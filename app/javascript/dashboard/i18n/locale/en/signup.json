@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Register an account",
     "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"\">T & C</a> and <a href=\"\">Privacy policy</a>",
+    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"%{termsURL}\">T & C</a> and <a href=\"%{privacyURL}\">Privacy policy</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Account name",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",

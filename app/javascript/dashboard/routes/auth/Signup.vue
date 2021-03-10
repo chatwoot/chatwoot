@@ -114,12 +114,10 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     termsLink() {
-      return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
-        .replace(
-          'https://www.chatwoot.com/privacy-policy',
-          this.globalConfig.privacyURL
-        );
+      return this.$t('REGISTER.TERMS_ACCEPT', {
+        termsURL: this.globalConfig.termsURL,
+        privacyURL: this.globalConfig.privacyURL,
+      });
     },
   },
   methods: {
