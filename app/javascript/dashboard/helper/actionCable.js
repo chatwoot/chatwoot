@@ -1,5 +1,6 @@
 import AuthAPI from '../api/auth';
 import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnector';
+import { newMessageNotification } from 'shared/helpers/AudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -63,6 +64,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   onLogout = () => AuthAPI.logout();
 
   onMessageCreated = data => {
+    newMessageNotification(data);
     this.app.$store.dispatch('addMessage', data);
   };
 
