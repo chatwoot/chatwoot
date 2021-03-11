@@ -12,16 +12,20 @@
         v-if="showAttachment"
         :on-attach="onSendAttachment"
       />
+      <button
+        @click="toggleEmojiPicker()"
+        v-if="hasEmojiPickerEnabled"
+      >
+        <i
+          class="emoji-toggle icon ion-happy-outline"
+          :class="{ active: showEmojiPicker }"
+        />
+      </button>
       <emoji-input
         v-if="showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
-      />
-      <i
-        v-if="hasEmojiPickerEnabled"
-        class="emoji-toggle icon ion-happy-outline"
-        :class="{ active: showEmojiPicker }"
-        @click="toggleEmojiPicker()"
+        @keydown.esc="hideEmojiPicker"
       />
       <chat-send-button
         v-if="showSendButton"
