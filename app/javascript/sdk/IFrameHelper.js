@@ -133,6 +133,7 @@ export const IFrameHelper = {
     },
 
     onBubbleToggle: isOpen => {
+      IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (!isOpen) {
         IFrameHelper.events.resetUnreadMode();
       } else {

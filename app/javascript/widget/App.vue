@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import Router from './views/Router';
@@ -75,6 +75,7 @@ export default {
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', ['startCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    ...mapMutations('events', ['toggleOpen']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
@@ -185,6 +186,8 @@ export default {
           this.showUnreadView = true;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
+        } else if (message.event === 'toggle-open') {
+          this.toggleOpen();
         }
       });
     },

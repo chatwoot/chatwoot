@@ -4,6 +4,7 @@
       v-model="userInput"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input"
+      ref="chatInput"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
     />
@@ -82,6 +83,9 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
+    isOpen() {
+      return this.$store.state.events.isOpen;
+    }
   },
 
   destroyed() {
@@ -89,6 +93,9 @@ export default {
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
+    if(this.isOpen) {
+      this.focusInput();
+    }
   },
 
   methods: {
@@ -124,7 +131,18 @@ export default {
     toggleTyping(typingStatus) {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
+    focusInput() {
+      this.$refs.chatInput.focus();
+    }
   },
+
+  watch: {
+    isOpen(isOpen) {
+      if(isOpen) {
+        this.focusInput();
+      }
+    }
+  }
 };
 </script>
 
