@@ -1,10 +1,5 @@
 <template>
-  <div class="view-box columns">
-    <conversation-header
-      :chat="currentChat"
-      :is-contact-panel-open="isContactPanelOpen"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
+  <div class="view-box fill-height">
     <div v-if="!currentChat.can_reply" class="banner messenger-policy--banner">
       <span>
         {{ $t('CONVERSATION.CANNOT_REPLY') }}
@@ -86,7 +81,6 @@
 <script>
 import { mapGetters } from 'vuex';
 
-import ConversationHeader from './ConversationHeader';
 import ReplyBox from './ReplyBox';
 import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
@@ -95,7 +89,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
-    ConversationHeader,
     Message,
     ReplyBox,
   },
@@ -315,5 +308,10 @@ export default {
 
 .spinner--container {
   min-height: var(--space-jumbo);
+}
+
+.view-box.fill-height {
+  height: auto;
+  flex-grow: 1;
 }
 </style>
