@@ -114,12 +114,10 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     termsLink() {
-      return this.$t('REGISTER.TERMS_ACCEPT')
-        .replace('https://www.chatwoot.com/terms', this.globalConfig.termsURL)
-        .replace(
-          'https://www.chatwoot.com/privacy-policy',
-          this.globalConfig.privacyURL
-        );
+      return this.$t('REGISTER.TERMS_ACCEPT', {
+        termsURL: this.globalConfig.termsURL,
+        privacyURL: this.globalConfig.privacyURL,
+      });
     },
   },
   methods: {
@@ -131,8 +129,8 @@ export default {
       this.isSignupInProgress = true;
       try {
         const response = await Auth.register(this.credentials);
-        if (response.status === 200) {
-          window.location = '/';
+        if (response.status === 202) {
+          window.location = '/app/auth/signup/confirmation';
         }
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');

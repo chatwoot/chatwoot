@@ -39,6 +39,7 @@ public/packs*
 #VS Code files
 .vscode
 
+.env
 # ignore jetbrains IDE files
 .idea
 

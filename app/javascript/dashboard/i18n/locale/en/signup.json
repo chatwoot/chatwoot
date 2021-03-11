@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Register an account",
     "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"%{termsURL}\">T & C</a> and <a href=\"%{privacyURL}\">Privacy policy</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Account name",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
@@ -33,6 +33,7 @@
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     },
     "SUBMIT": "Submit",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "Already have an account?",
+    "CONFIRMATION_NOTE": "Welcome to BotCart! Check your mail box. We send a magic link to set login credential"
   }
 }

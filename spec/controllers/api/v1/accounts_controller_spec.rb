@@ -74,7 +74,22 @@ RSpec.describe 'Accounts API', type: :request do
         created_user = User.find_by(email: email)
         expect(created_user.confirmed?).to eq(true)
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
-        expect(response.body).to include(created_user.access_token.token)
+        expect(response.body).to include('')
+      end
+    end
+
+    context 'when called by normal user' do
+      it 'calls account builder' do
+        params = { account_name: 'test', email: email, user_full_name: user_full_name }
+
+        post api_v1_accounts_url,
+             params: params,
+             as: :json
+
+        created_user = User.find_by(email: email)
+        expect(created_user.confirmed?).to eq(false)
+        expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
+        expect(response.body).to include('')
       end
     end
 
