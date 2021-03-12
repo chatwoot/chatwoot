@@ -14,11 +14,12 @@
         :on-attach="onSendAttachment"
       />
       <button
-        @click="toggleEmojiPicker()"
         v-if="hasEmojiPickerEnabled"
+        class="emoji-toggle"
+        @click="toggleEmojiPicker()"
       >
         <i
-          class="emoji-toggle icon ion-happy-outline"
+          class="icon ion-happy-outline"
           :class="{ active: showEmojiPicker }"
         />
       </button>
@@ -148,16 +149,19 @@ export default {
 
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .chat-message--input {
   align-items: center;
   display: flex;
+  padding: 0 $space-slab;
 }
 
 .emoji-toggle {
-  font-size: $font-size-large;
+  @include button-size;
+
+  font-size: $font-size-big;
   color: $color-gray;
-  padding-right: $space-smaller;
   cursor: pointer;
 }
 
@@ -172,6 +176,7 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
+  padding-left: $space-small;
 }
 
 .user-message-input {
@@ -180,6 +185,9 @@ export default {
   min-height: $space-large;
   max-height: 2.4 * $space-mega;
   resize: none;
+  padding: 0;
   padding-top: $space-small;
+  margin-top: $space-small;
+  margin-bottom: $space-small;
 }
 </style>

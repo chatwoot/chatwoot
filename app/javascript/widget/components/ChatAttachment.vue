@@ -59,16 +59,22 @@ export default {
 </script>
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .attachment-button {
+  @include button-size;
+
   background: transparent;
   border: 0;
   cursor: pointer;
   position: relative;
   width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   i {
-    font-size: $font-size-large;
+    font-size: $font-size-big;
     color: $color-gray;
   }
 }
