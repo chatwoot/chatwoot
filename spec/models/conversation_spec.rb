@@ -1,10 +1,17 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require Rails.root.join 'spec/models/concerns/assignment_handler_spec.rb'
+require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
 
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
+  end
+
+  describe 'concerns' do
+    it_behaves_like 'assignment_handler'
+    it_behaves_like 'round_robin_handler'
   end
 
   describe '.before_create' do
@@ -130,108 +137,6 @@ RSpec.describe Conversation, type: :model do
       account.update(auto_resolve_duration: 40)
       expect { conversation.reload.update(status: :open) }
         .to have_enqueued_job(AutoResolveConversationsJob).with(conversation.id)
-    end
-  end
-
-  describe '#round robin' do
-    let(:account) { create(:account) }
-    let(:agent) { create(:user, email: 'agent1@example.com', account: account) }
-    let(:inbox) { create(:inbox, account: account) }
-    let(:conversation) do
-      create(
-        :conversation,
-        account: account,
-        contact: create(:contact, account: account),
-        inbox: inbox,
-        assignee: nil
-      )
-    end
-
-    before do
-      create(:inbox_member, inbox: inbox, user: agent)
-      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
-    end
-
-    it 'runs round robin on after_save callbacks' do
-      # run_round_robin
-      expect(conversation.reload.assignee).to eq(agent)
-    end
-
-    it 'will not auto assign agent if enable_auto_assignment is false' do
-      inbox.update(enable_auto_assignment: false)
-
-      # run_round_robin
-      expect(conversation.reload.assignee).to eq(nil)
-    end
-
-    it 'will not auto assign agent if its a bot conversation' do
-      conversation = create(
-        :conversation,
-        account: account,
-        contact: create(:contact, account: account),
-        inbox: inbox,
-        status: 'bot',
-        assignee: nil
-      )
-
-      # run_round_robin
-      expect(conversation.reload.assignee).to eq(nil)
-    end
-
-    it 'gets triggered on update only when status changes to open' do
-      conversation.status = 'resolved'
-      conversation.save!
-      expect(conversation.reload.assignee).to eq(agent)
-      inbox.inbox_members.where(user_id: agent.id).first.destroy!
-
-      # round robin changes assignee in this case since agent doesn't have access to inbox
-      agent2 = create(:user, email: 'agent2@example.com', account: account)
-      create(:inbox_member, inbox: inbox, user: agent2)
-      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent2.id)
-      conversation.status = 'open'
-      conversation.save!
-      expect(conversation.reload.assignee).to eq(agent2)
-    end
-  end
-
-  describe '#update_assignee' do
-    subject(:update_assignee) { conversation.update_assignee(agent) }
-
-    let(:conversation) { create(:conversation, assignee: nil) }
-    let(:agent) do
-      create(:user, email: 'agent@example.com', account: conversation.account, role: :agent)
-    end
-    let(:assignment_mailer) { double(deliver: true) }
-
-    it 'assigns the agent to conversation' do
-      expect(update_assignee).to eq(true)
-      expect(conversation.reload.assignee).to eq(agent)
-    end
-
-    it 'creates a new notification for the agent' do
-      expect(update_assignee).to eq(true)
-      expect(agent.notifications.count).to eq(1)
-    end
-
-    it 'does not create assignment notification if notification setting is turned off' do
-      notification_setting = agent.notification_settings.first
-      notification_setting.unselect_all_email_flags
-      notification_setting.unselect_all_push_flags
-      notification_setting.save!
-
-      expect(update_assignee).to eq(true)
-      expect(agent.notifications.count).to eq(0)
-    end
-
-    context 'when agent is current user' do
-      before do
-        Current.user = agent
-      end
-
-      it 'creates self-assigned message activity' do
-        expect(update_assignee).to eq(true)
-        expect(conversation.messages.pluck(:content)).to include("#{agent.name} self-assigned this conversation")
-      end
     end
   end
 
