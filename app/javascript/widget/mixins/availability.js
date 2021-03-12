@@ -27,27 +27,37 @@ export default {
     outOfOfficeMessage() {
       return this.channelConfig.outOfOfficeMessage;
     },
-    isInBetweenTheWorkingHours() {
-      const {
-        closedAllDay,
-        openHour,
-        openMinute,
-        closeHour,
-        closeMinute,
-      } = this.currentDayAvailability;
+    getStartTime() {
+      const { openHour, openMinute } = this.currentDayAvailability;
       const { utcOffset } = this.channelConfig;
 
-      if (closedAllDay) return false;
       const startTime = buildDateFromTime(
         formatDigitToString(openHour),
         formatDigitToString(openMinute),
         utcOffset
       );
+      return startTime;
+    },
+    getCloseTime() {
+      const { closeHour, closeMinute } = this.currentDayAvailability;
+      const { utcOffset } = this.channelConfig;
+
       const endTime = buildDateFromTime(
         formatDigitToString(closeHour),
         formatDigitToString(closeMinute),
         utcOffset
       );
+
+      return endTime;
+    },
+    isInBetweenTheWorkingHours() {
+      const { closedAllDay } = this.currentDayAvailability;
+
+      if (closedAllDay) return false;
+
+      const startTime = this.getStartTime;
+      const endTime = this.getCloseTime;
+
       if (
         compareAsc(new Date(), startTime) === 1 &&
         compareAsc(endTime, new Date()) === 1
