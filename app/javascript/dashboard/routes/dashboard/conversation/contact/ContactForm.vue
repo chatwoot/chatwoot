@@ -1,7 +1,7 @@
 <template>
   <form class="contact--form" @submit.prevent="handleSubmit">
     <div class="row">
-      <div class="medium-9 columns">
+      <div class="columns">
         <label :class="{ error: $v.name.$error }">
           {{ $t('CONTACT_FORM.FORM.NAME.LABEL') }}
           <input
@@ -37,14 +37,14 @@
     <div class="row">
       <woot-input
         v-model.trim="phoneNumber"
-        class="medium-6 columns"
+        class="columns"
         :label="$t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL')"
         :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
       />
     </div>
     <woot-input
       v-model.trim="companyName"
-      class="medium-6 columns"
+      class="columns"
       :label="$t('CONTACT_FORM.FORM.COMPANY_NAME.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.COMPANY_NAME.PLACEHOLDER')"
     />
@@ -81,7 +81,10 @@
 
 <script>
 import alertMixin from 'shared/mixins/alertMixin';
-import { DuplicateContactException } from 'shared/helpers/CustomErrors';
+import {
+  DuplicateContactException,
+  ExceptionWithMessage,
+} from 'shared/helpers/CustomErrors';
 import { required } from 'vuelidate/lib/validators';
 
 export default {
@@ -144,6 +147,9 @@ export default {
     onCancel() {
       this.$emit('cancel');
     },
+    onSuccess() {
+      this.$emit('success');
+    },
     setContactObject() {
       const { email: email, phone_number: phoneNumber, name } = this.contact;
       const additionalAttributes = this.contact.additional_attributes || {};
@@ -189,12 +195,15 @@ export default {
       }
       try {
         await this.onSubmit(this.getContactObject());
+        this.onSuccess();
         this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
       } catch (error) {
         if (error instanceof DuplicateContactException) {
           this.hasADuplicateContact = true;
           this.duplicateContact = error.data;
           this.showAlert(this.$t('CONTACT_FORM.CONTACT_ALREADY_EXIST'));
+        } else if (error instanceof ExceptionWithMessage) {
+          this.showAlert(error.data);
         } else {
           this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
@@ -211,5 +220,9 @@ export default {
   .columns {
     padding: 0 var(--space-smaller);
   }
+}
+
+.input-group-label {
+  font-size: var(--font-size-small);
 }
 </style>

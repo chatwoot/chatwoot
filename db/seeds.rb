@@ -13,9 +13,7 @@ unless Rails.env.production?
   SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
 
   account = Account.create!(
-    name: 'Acme Inc',
-    domain: 'support.chatwoot.com',
-    support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    name: 'Acme Inc'
   )
 
   user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')

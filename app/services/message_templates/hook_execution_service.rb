@@ -4,7 +4,8 @@ class MessageTemplates::HookExecutionService
   def perform
     return if inbox.agent_bot_inbox&.active?
 
-    ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
+    # TODO: let's see whether this is needed and remove this and related logic if not
+    # ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
   end
@@ -30,8 +31,9 @@ class MessageTemplates::HookExecutionService
     conversation.messages.where(content_type: 'input_email').present?
   end
 
+  # TODO: we should be able to reduce this logic once we have a toggle for email collect messages
   def should_send_email_collect?
-    !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
+    !contact_has_email? && inbox.web_widget? && !inbox.channel.pre_chat_form_enabled? && !email_collect_was_sent?
   end
 
   def contact_has_email?
