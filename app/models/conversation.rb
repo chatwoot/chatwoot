@@ -36,6 +36,8 @@
 
 class Conversation < ApplicationRecord
   include Labelable
+  include AssignmentHandler
+  include RoundRobinHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -62,7 +64,6 @@ class Conversation < ApplicationRecord
   # reinvestigate in future and identity the implications
   after_update :notify_status_change, :create_activity
   after_create_commit :notify_conversation_creation, :queue_conversation_auto_resolution_job
-  after_save :run_round_robin
   after_commit :set_display_id, unless: :display_id?
 
   delegate :auto_resolve_duration, to: :account
@@ -170,7 +171,6 @@ class Conversation < ApplicationRecord
   def create_activity
     user_name = Current.user.name if Current.user.present?
     status_change_activity(user_name) if saved_change_to_status?
-    create_assignee_change(user_name) if saved_change_to_assignee_id?
     create_label_change(user_name) if saved_change_to_label_list?
   end
 
@@ -189,7 +189,6 @@ class Conversation < ApplicationRecord
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
-      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event)
@@ -200,26 +199,10 @@ class Conversation < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self)
   end
 
-  def should_round_robin?
-    return false unless inbox.enable_auto_assignment?
-
-    # run only if assignee is blank or doesn't have access to inbox
-    assignee.blank? || inbox.members.exclude?(assignee)
-  end
-
   def conversation_status_changed_to_open?
     return false unless open?
     # saved_change_to_status? method only works in case of update
     return true if previous_changes.key?(:id) || saved_change_to_status?
-  end
-
-  def run_round_robin
-    # Round robin kicks in on conversation create & update
-    # run it only when conversation status changes to open
-    return unless conversation_status_changed_to_open?
-    return unless should_round_robin?
-
-    ::RoundRobin::AssignmentService.new(conversation: self).perform
   end
 
   def create_status_change_message(user_name)
@@ -230,17 +213,6 @@ class Conversation < ApplicationRecord
               end
 
     messages.create(activity_message_params(content)) if content
-  end
-
-  def create_assignee_change(user_name)
-    return unless user_name
-
-    params = { assignee_name: assignee&.name, user_name: user_name }.compact
-    key = assignee_id ? 'assigned' : 'removed'
-    key = 'self_assigned' if self_assign? assignee_id
-    content = I18n.t("conversations.activity.assignee.#{key}", **params)
-
-    messages.create(activity_message_params(content))
   end
 
   def create_label_change(user_name)
