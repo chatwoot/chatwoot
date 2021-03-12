@@ -1,5 +1,5 @@
 class ConversationReplyMailer < ApplicationMailer
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, message_queued_time)
@@ -99,7 +99,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def reply_email
     if should_use_conversation_email_address?
-      "#{assignee_name} <reply+#{@conversation.uuid}@#{current_domain}>"
+      "#{assignee_name} <reply+#{@conversation.uuid}@#{@account.inbound_email_domain}>"
     else
       @inbox.email_address || @agent&.email
     end
@@ -107,24 +107,28 @@ class ConversationReplyMailer < ApplicationMailer
 
   def from_email_with_name
     if should_use_conversation_email_address?
-      "#{assignee_name} <#{account_support_email}>"
+      "#{assignee_name} from #{@inbox.name} <#{parse_email(@account.support_email)}>"
     else
-      "#{assignee_name} <#{from_email_address}>"
+      "#{assignee_name} from #{@inbox.name} <#{parse_email(inbox_from_email_address)}>"
     end
   end
 
-  def from_email_address
+  def parse_email(email_string)
+    Mail::Address.new(email_string).address
+  end
+
+  def inbox_from_email_address
     return @inbox.email_address if @inbox.email_address
 
-    ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+    @account.support_email
   end
 
   def custom_message_id
-    "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{current_domain}>"
+    "<conversation/#{@conversation.uuid}/messages/#{@messages&.last&.id}@#{@account.inbound_email_domain}>"
   end
 
   def in_reply_to_email
-    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{current_domain}>"
+    conversation_reply_email_id || "<account/#{@account.id}/conversation/#{@conversation.uuid}@#{@account.inbound_email_domain}>"
   end
 
   def conversation_reply_email_id
@@ -138,19 +142,8 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def inbound_email_enabled?
-    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && current_domain.present? && account_support_email.present?
-  end
-
-  def current_domain
-    @current_domain ||= @account.inbound_email_domain
-  end
-
-  def account_support_email
-    @account_support_email ||= begin
-      @account.support_email ||
-        GlobalConfig.get('MAILER_SUPPORT_EMAIL')['MAILER_SUPPORT_EMAIL'] ||
-        ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
-    end
+    @inbound_email_enabled ||= @account.feature_enabled?('inbound_emails') && @account.inbound_email_domain
+                                                                                      .present? && @account.support_email.present?
   end
 
   def choose_layout

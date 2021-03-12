@@ -45,7 +45,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, Time.zone.now).deliver_now }
 
       it 'has correct name' do
-        expect(mail[:from].display_names).to eq(['Notifications'])
+        expect(mail[:from].display_names).to eq(['Notifications from Inbox'])
       end
     end
 
@@ -148,7 +148,7 @@ RSpec.describe ConversationReplyMailer, type: :mailer do
       end
 
       it 'sets the from email to be the support email' do
-        expect(mail['FROM'].value).to eq("#{agent.available_name} <#{conversation.account.support_email}>")
+        expect(mail['FROM'].value).to eq("#{agent.available_name} from Inbox <#{conversation.account.support_email}>")
         expect(mail.from).to eq([conversation.account.support_email])
       end
 
