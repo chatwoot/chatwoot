@@ -1,8 +1,5 @@
 import compareAsc from 'date-fns/compareAsc';
-import {
-  buildDateFromTime,
-  formatDigitToString,
-} from 'shared/helpers/DateHelper';
+import { buildDateFromTime } from 'shared/helpers/DateHelper';
 
 export default {
   computed: {
@@ -27,43 +24,25 @@ export default {
     outOfOfficeMessage() {
       return this.channelConfig.outOfOfficeMessage;
     },
-    getStartTime() {
-      const { openHour, openMinute } = this.currentDayAvailability;
-      const { utcOffset } = this.channelConfig;
-
-      const startTime = buildDateFromTime(
-        formatDigitToString(openHour),
-        formatDigitToString(openMinute),
-        utcOffset
-      );
-      return startTime;
-    },
-    getCloseTime() {
-      const { closeHour, closeMinute } = this.currentDayAvailability;
-      const { utcOffset } = this.channelConfig;
-
-      const endTime = buildDateFromTime(
-        formatDigitToString(closeHour),
-        formatDigitToString(closeMinute),
-        utcOffset
-      );
-
-      return endTime;
-    },
     isInBetweenTheWorkingHours() {
-      const { closedAllDay } = this.currentDayAvailability;
+      const {
+        openHour,
+        openMinute,
+        closeHour,
+        closeMinute,
+        closedAllDay,
+      } = this.currentDayAvailability;
+      const { utcOffset } = this.channelConfig;
 
       if (closedAllDay) return false;
 
-      const startTime = this.getStartTime;
-      const endTime = this.getCloseTime;
-
-      if (
+      const startTime = buildDateFromTime(openHour, openMinute, utcOffset);
+      const endTime = buildDateFromTime(closeHour, closeMinute, utcOffset);
+      const isBetween =
         compareAsc(new Date(), startTime) === 1 &&
-        compareAsc(endTime, new Date()) === 1
-      ) {
-        return true;
-      }
+        compareAsc(endTime, new Date()) === 1;
+
+      if (isBetween) return true;
       return false;
     },
     currentDayAvailability() {
