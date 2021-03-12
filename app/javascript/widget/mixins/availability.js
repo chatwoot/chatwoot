@@ -35,12 +35,9 @@ export default {
         closeHour,
         closeMinute,
       } = this.currentDayAvailability;
-
-      if (closedAllDay) {
-        return false;
-      }
-
       const { utcOffset } = this.channelConfig;
+
+      if (closedAllDay) return false;
       const startTime = buildDateFromTime(
         formatDigitToString(openHour),
         formatDigitToString(openMinute),
@@ -51,14 +48,12 @@ export default {
         formatDigitToString(closeMinute),
         utcOffset
       );
-
       if (
         compareAsc(new Date(), startTime) === 1 &&
         compareAsc(endTime, new Date()) === 1
       ) {
         return true;
       }
-
       return false;
     },
     currentDayAvailability() {
