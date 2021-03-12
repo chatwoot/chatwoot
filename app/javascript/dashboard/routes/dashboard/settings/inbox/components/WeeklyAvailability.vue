@@ -70,7 +70,10 @@ import {
   timeZoneOptions,
 } from '../helpers/businessHour';
 
-const DEFAULT_TIMEZONE = 'America/Los_Angeles';
+const DEFAULT_TIMEZONE = {
+  label: 'America/Los_Angeles',
+  key: 'America/Los_Angeles',
+};
 
 export default {
   components: {
@@ -125,9 +128,7 @@ export default {
     setDefaults() {
       const {
         working_hours_enabled: isEnabled = false,
-        out_of_office_message: unavailableMessage = this.$t(
-          'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
-        ),
+        out_of_office_message: unavailableMessage,
         working_hours: timeSlots = [],
         timezone: timeZone,
       } = this.inbox;
@@ -135,7 +136,9 @@ export default {
         ? timeSlotParse(timeSlots)
         : defaultTimeSlot;
       this.isBusinessHoursEnabled = isEnabled;
-      this.unavailableMessage = unavailableMessage;
+      this.unavailableMessage =
+        unavailableMessage ||
+        this.$t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT');
       this.timeSlots = slots;
       this.timeZone =
         this.timeZones.find(item => timeZone === item.value) ||
