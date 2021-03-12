@@ -7,6 +7,7 @@
       ref="chatInput"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
+      :aria-label="$t('CHAT_PLACEHOLDER')"
     />
     <div class="button-wrap">
       <chat-attachment-button
@@ -17,6 +18,7 @@
         v-if="hasEmojiPickerEnabled"
         class="emoji-toggle"
         @click="toggleEmojiPicker()"
+        aria-label="Emoji picker"
       >
         <i
           class="icon ion-happy-outline"
