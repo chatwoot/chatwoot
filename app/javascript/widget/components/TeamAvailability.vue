@@ -1,6 +1,9 @@
 <template>
   <div class="px-4">
-    <div class="flex items-center justify-between mb-4">
+    <div
+      v-if="channelConfig.workingHoursEnabled"
+      class="flex items-center justify-between mb-4"
+    >
       <div class="text-black-700">
         <div class="text-base leading-5 font-medium mb-1">
           {{
