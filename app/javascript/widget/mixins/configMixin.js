@@ -46,5 +46,8 @@ export default {
           return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
       }
     },
+    outOfOfficeMessage() {
+      return this.channelConfig.outOfOfficeMessage;
+    },
   },
 };
