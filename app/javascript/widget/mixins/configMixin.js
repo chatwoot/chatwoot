@@ -21,9 +21,6 @@ export default {
     hasAttachmentsEnabled() {
       return this.channelConfig.enabledFeatures.includes('attachments');
     },
-    replyTime() {
-      return window.chatwootWebChannel.replyTime;
-    },
     preChatFormEnabled() {
       return window.chatwootWebChannel.preChatFormEnabled;
     },
@@ -33,21 +30,6 @@ export default {
         requireEmail: options.require_email,
         preChatMessage: options.pre_chat_message,
       };
-    },
-    replyTimeStatus() {
-      switch (this.replyTime) {
-        case 'in_a_few_minutes':
-          return this.$t('REPLY_TIME.IN_A_FEW_MINUTES');
-        case 'in_a_few_hours':
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-        case 'in_a_day':
-          return this.$t('REPLY_TIME.IN_A_DAY');
-        default:
-          return this.$t('REPLY_TIME.IN_A_FEW_HOURS');
-      }
-    },
-    outOfOfficeMessage() {
-      return this.channelConfig.outOfOfficeMessage;
     },
   },
 };
