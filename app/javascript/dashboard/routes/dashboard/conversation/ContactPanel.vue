@@ -9,7 +9,7 @@
         {{ $t('CONVERSATION_SIDEBAR.DETAILS_TITLE') }}
       </h4>
       <div class="multiselect-wrap--small">
-        <label class="">
+        <label class="multiselect__label">
           {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
         </label>
         <multiselect
@@ -20,12 +20,12 @@
           deselect-label=""
           select-label=""
           selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
         />
       </div>
       <div class="multiselect-wrap--small">
-        <label class="">
+        <label class="multiselect__label">
           {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
         </label>
         <multiselect
@@ -36,7 +36,7 @@
           deselect-label=""
           select-label=""
           selected-label=""
-          :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
         />
       </div>
@@ -210,6 +210,7 @@ export default {
       },
       set(item) {
         const agentId = item ? item.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', item);
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
@@ -226,6 +227,7 @@ export default {
       },
       set(item) {
         const teamId = item ? item.id : 0;
+        this.$store.dispatch('setCurrentChatTeam', item);
         this.$store
           .dispatch('assignTeam', {
             conversationId: this.currentChat.id,
@@ -328,5 +330,9 @@ export default {
 
 .conversation--actions {
   padding: 0 var(--space-normal) var(--space-small);
+}
+
+.multiselect__label {
+  margin-bottom: var(--space-smaller);
 }
 </style>

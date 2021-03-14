@@ -103,7 +103,10 @@
   "CONVERSATION_SIDEBAR": {
     "DETAILS_TITLE": "Conversations Details",
     "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team"
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
+    }
   }
 
 }
