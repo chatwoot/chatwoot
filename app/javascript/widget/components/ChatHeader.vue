@@ -13,13 +13,13 @@
           <div
             :class="
               `status-view--badge rounded-full leading-4 ${
-                availableAgents.length ? 'bg-green-500' : 'hidden'
+                isOnline ? 'bg-green-500' : 'hidden'
               }`
             "
           />
         </div>
         <div class="text-xs mt-1 text-black-700">
-          {{ replyTimeStatus }}
+          {{ replyWaitMeessage }}
         </div>
       </div>
     </div>
@@ -30,15 +30,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import HeaderActions from './HeaderActions';
-import configMixin from 'widget/mixins/configMixin';
-import teamAvailabilityMixin from 'widget/mixins/teamAvailabilityMixin';
+import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'ChatHeader',
   components: {
     HeaderActions,
   },
-  mixins: [configMixin, teamAvailabilityMixin],
+  mixins: [availabilityMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -61,6 +60,20 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    isOnline() {
+      const { workingHoursEnabled } = this.channelConfig;
+      const anyAgentOnline = this.availableAgents.length > 0;
+
+      if (workingHoursEnabled) {
+        return this.isInBetweenTheWorkingHours;
+      }
+      return anyAgentOnline;
+    },
+    replyWaitMeessage() {
+      return this.isOnline
+        ? this.replyTimeStatus
+        : this.$t('TEAM_AVAILABILITY.OFFLINE');
+    },
   },
 };
 </script>

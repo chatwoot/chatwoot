@@ -254,6 +254,9 @@
     <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
     </div>
+    <div v-if="selectedTabKey === 'businesshours'">
+      <weekly-availability :inbox="inbox" />
+    </div>
   </div>
 </template>
 
@@ -266,12 +269,14 @@ import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
+import WeeklyAvailability from './components/WeeklyAvailability';
 
 export default {
   components: {
     SettingsSection,
     FacebookReauthorize,
     PreChatFormSettings,
+    WeeklyAvailability,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -328,6 +333,10 @@ export default {
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
+          },
+          {
+            key: 'businesshours',
+            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
           },
           {
             key: 'configuration',
