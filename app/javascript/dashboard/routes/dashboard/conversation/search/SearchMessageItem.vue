@@ -103,7 +103,6 @@ export default {
 }
 
 .user-wrap {
-  align-items: last baseline;
   display: flex;
   justify-content: space-between;
 }

@@ -11,7 +11,6 @@ export const getters = {
   getConversations(state) {
     return state.records;
   },
-
   getUIFlags(state) {
     return state.uiFlags;
   },
