@@ -104,6 +104,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
@@ -120,6 +121,7 @@ export default {
     ContactInfo,
     ConversationLabels,
   },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: [Number, String],
@@ -208,16 +210,16 @@ export default {
       get() {
         return this.currentChat.meta.assignee;
       },
-      set(item) {
-        const agentId = item ? item.id : 0;
-        this.$store.dispatch('setCurrentChatAssignee', item);
+      set(agent) {
+        const agentId = agent ? agent.id : 0;
+        this.$store.dispatch('setCurrentChatAssignee', agent);
         this.$store
           .dispatch('assignAgent', {
             conversationId: this.currentChat.id,
             agentId,
           })
           .then(() => {
-            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
+            this.showAlert(this.$t('CONVERSATION.CHANGE_AGENT'));
           });
       },
     },
@@ -225,16 +227,16 @@ export default {
       get() {
         return this.currentChat.meta.team;
       },
-      set(item) {
-        const teamId = item ? item.id : 0;
-        this.$store.dispatch('setCurrentChatTeam', item);
+      set(team) {
+        const teamId = team ? team.id : 0;
+        this.$store.dispatch('setCurrentChatTeam', team);
         this.$store
           .dispatch('assignTeam', {
             conversationId: this.currentChat.id,
             teamId,
           })
           .then(() => {
-            bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_TEAM'));
+            this.showAlert(this.$t('CONVERSATION.CHANGE_TEAM'));
           });
       },
     },
