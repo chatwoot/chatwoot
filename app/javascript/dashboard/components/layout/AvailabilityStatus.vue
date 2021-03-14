@@ -142,29 +142,35 @@ export default {
 
 .status-change {
   .dropdown-pane {
-    top: -130px;
+    top: -132px;
   }
 
   .status-items {
     display: flex;
     align-items: baseline;
+    padding: var(--space-smaller) var(--space-one);
+
+    &:hover {
+      background: var(--color-background);
+      border-radius: 0.4rem;
+    }
   }
 
   & &--change-button {
     color: $color-gray;
     font-size: $font-size-small;
-    border-bottom: 1px solid $color-gray;
     cursor: pointer;
+    outline: none;
 
     &:hover {
-      border-bottom: none;
+      color: var(--w-600);
     }
   }
 
   & &--dropdown-button {
     font-weight: $font-weight-normal;
     font-size: $font-size-small;
-    padding: $space-small $space-one;
+    padding: var(--space-smaller) var(--space-small);
     text-align: left;
     width: 100%;
   }
