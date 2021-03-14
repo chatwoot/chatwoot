@@ -149,7 +149,7 @@ export default {
 .search--input {
   align-items: center;
   border: 0;
-  color: var(--s-400);
+  color: var(--color-body);
   cursor: pointer;
   width: 100%;
   display: flex;

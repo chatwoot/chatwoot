@@ -94,7 +94,7 @@ export default {
 }
 
 .search-message {
-  padding: var(--space-micro) var(--space-smaller);
+  padding: var(--space-smaller) var(--space-smaller);
   &:hover {
     color: var(--white);
   }
@@ -104,10 +104,6 @@ export default {
   align-items: last baseline;
   display: flex;
   justify-content: space-between;
-}
-
-.name-wrap {
-  padding-top: var(--space-smaller);
 }
 
 .user-name {
@@ -124,7 +120,8 @@ export default {
 
 .timestamp {
   font-size: var(--font-size-mini);
-  padding-top: var(--space-small);
+  top: var(--space-micro);
+  position: relative;
 }
 
 p {
@@ -133,14 +130,14 @@ p {
 
 .message-content {
   font-size: var(--font-size-small);
+  margin-bottom: var(--space-micro);
+  padding: 0;
   line-height: 1.35;
-  padding: var(--space-micro) var(--space-zero) var(--space-zero)
-    var(--space-zero);
   overflow-wrap: break-word;
 }
 
 .message-content::v-deep .searchkey--highlight {
-  color: var(--w-500);
+  color: var(--w-600);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-small);
   padding: (var(--space-zero) var(--space-zero));
