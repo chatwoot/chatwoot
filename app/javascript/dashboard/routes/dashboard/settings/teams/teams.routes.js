@@ -20,8 +20,8 @@ export default {
         return {
           headerTitle: 'TEAMS_SETTINGS.HEADER',
           headerButtonText: 'TEAMS_SETTINGS.NEW_TEAM',
-          icon: 'ion-android-car',
-          newButtonRoutes: ['settings_teams_list'],
+          icon: 'ion-ios-people',
+          newButtonRoutes: ['settings_teams_new'],
           showBackButton,
         };
       },

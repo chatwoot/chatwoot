@@ -99,7 +99,7 @@ export const getSidebarItems = accountId => ({
         toStateName: 'agent_list',
       },
       teams: {
-        icon: 'ion-android-car',
+        icon: 'ion-ios-people',
         label: 'TEAMS',
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
