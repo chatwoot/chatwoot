@@ -29,7 +29,7 @@ describe('#Inbox Helpers', () => {
       expect(getInboxClassByType('Channel::Api')).toEqual('ion-cloud');
     });
     it('should return correct class for Email', () => {
-      expect(getInboxClassByType('Channel::Email')).toEqual('ion-email');
+      expect(getInboxClassByType('Channel::Email')).toEqual('ion-ios-email');
     });
   });
 });
