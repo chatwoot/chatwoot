@@ -4,7 +4,9 @@
       <div class="user-wrap">
         <div class="name-wrap">
           <span class="user-name">{{ userName }}</span>
-          <i v-if="isOutgoingMessage" class="ion-headphone" />
+          <div>
+            <i v-if="isOutgoingMessage" class="ion-headphone" />
+          </div>
         </div>
         <span class="timestamp">{{ readableTime }} </span>
       </div>
@@ -106,9 +108,17 @@ export default {
   justify-content: space-between;
 }
 
-.user-name {
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-bold);
+.name-wrap {
+  display: flex;
+  width: 22rem;
+
+  .user-name {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-bold);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .ion-headphone {
@@ -122,6 +132,7 @@ export default {
   font-size: var(--font-size-mini);
   top: var(--space-micro);
   position: relative;
+  text-align: right;
 }
 
 p {

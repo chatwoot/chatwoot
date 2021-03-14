@@ -15,12 +15,12 @@
       <div class="show-results">
         <div>
           <div class="result-view">
-            <p class="result">
+            <div class="result">
               Search Results
               <span v-if="resultsCount !== 0" class="message-counter">
                 ({{ resultsCount }})
               </span>
-            </p>
+            </div>
             <div v-if="uiFlags.isFetching" class="search--activity-message">
               <woot-spinner size="" />
               {{ $t('CONVERSATION.SEARCH.LOADING_MESSAGE') }}
@@ -210,7 +210,7 @@ input::placeholder {
 }
 
 .search--activity-message {
-  padding: var(--space-normal) var(--space-medium) var(--space-smaller)
+  padding: var(--space-small) var(--space-normal) var(--space-small)
     var(--space-zero);
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);

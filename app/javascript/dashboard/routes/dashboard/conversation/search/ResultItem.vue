@@ -151,11 +151,17 @@ export default {
 
 .name-wrap {
   display: flex;
+  width: 20rem;
+
   .user-name {
     font-size: var(--font-size-default);
     font-weight: var(--font-weight-bold);
     margin-right: var(--space-micro);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
+
   .conversation-id {
     background: var(--w-400);
     border-radius: var(--border-radius-normal);
@@ -164,6 +170,7 @@ export default {
     font-size: var(--font-size-mini);
     font-weight: var(--font-weight-bold);
     padding: 0 var(--space-smaller);
+    white-space: nowrap;
   }
 }
 
@@ -179,5 +186,6 @@ export default {
   font-weight: var(--font-weight-medium);
   font-size: var(--font-size-mini);
   margin-top: var(--space-smaller);
+  text-align: right;
 }
 </style>
