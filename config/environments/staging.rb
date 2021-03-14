@@ -54,30 +54,8 @@ Rails.application.configure do
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "chatwoot_#{Rails.env}"
-  config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
-  config.action_mailer.smtp_settings = {
-    address: ENV['SMTP_ADDRESS'],
-    port: 587,
-    user_name: ENV['SMTP_USERNAME'], # Your SMTP user
-    password: ENV['SMTP_PASSWORD'], # Your SMTP password
-    authentication: :login,
-    enable_starttls_auto: true
-  }
 
   Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
-
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
-
-  # Set this to appropriate ingress service for which the options are :
-  # :relay for Exim, Postfix, Qmail
-  # :mailgun for Mailgun
-  # :mandrill for Mandrill
-  # :postmark for Postmark
-  # :sendgrid for Sendgrid
-  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

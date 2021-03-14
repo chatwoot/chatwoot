@@ -133,4 +133,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.conv-header {
+  flex: 0 0 var(--space-jumbo);
+}
 </style>
