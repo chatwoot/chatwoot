@@ -15,25 +15,24 @@
         <div
           v-if="isStatusMenuOpened"
           v-on-clickaway="closeStatusMenu"
-          class="dropdown-pane top"
+          class="dropdown-pane dropdowm--top"
         >
-          <ul class="vertical dropdown menu">
-            <li
+          <woot-dropdown-menu>
+            <woot-dropdown-item
               v-for="status in availabilityStatuses"
               :key="status.value"
               class="status-items"
             >
-              <div :class="`status-badge status-badge__${status.value}`" />
-
               <button
                 class="button clear status-change--dropdown-button"
                 :disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
+                <span :class="`status-badge status-badge__${status.value}`" />
                 {{ status.label }}
               </button>
-            </li>
-          </ul>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
         </div>
       </transition>
 
@@ -48,8 +47,15 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 export default {
+  components: {
+    WootDropdownMenu,
+    WootDropdownItem,
+  },
+
   mixins: [clickaway],
 
   data() {
@@ -140,45 +146,11 @@ export default {
   }
 }
 
-.status-change {
-  .dropdown-pane {
-    top: -132px;
-  }
-
-  .status-items {
-    display: flex;
-    align-items: baseline;
-    padding: var(--space-smaller) var(--space-one);
-
-    &:hover {
-      background: var(--color-background);
-      border-radius: 0.4rem;
-    }
-  }
-
-  & &--change-button {
-    color: $color-gray;
-    font-size: $font-size-small;
-    cursor: pointer;
-    outline: none;
-
-    &:hover {
-      color: var(--w-600);
-    }
-  }
-
-  & &--dropdown-button {
-    font-weight: $font-weight-normal;
-    font-size: $font-size-small;
-    padding: var(--space-smaller) var(--space-small);
-    text-align: left;
-    width: 100%;
-  }
-}
-
 .status-badge {
-  width: $space-one;
-  height: $space-one;
+  width: var(--space-one);
+  height: var(--space-one);
+  margin-right: var(--space-micro);
+  display: inline-block;
   border-radius: 50%;
 
   &__online {
@@ -191,6 +163,27 @@ export default {
 
   &__busy {
     background: $warning-color;
+  }
+}
+
+.status-change {
+  .dropdown-pane {
+    top: -132px;
+  }
+
+  .status-items {
+    display: flex;
+    align-items: baseline;
+  }
+  & &--change-button {
+    color: $color-gray;
+    font-size: $font-size-small;
+    cursor: pointer;
+    outline: none;
+
+    &:hover {
+      color: var(--w-600);
+    }
   }
 }
 </style>
