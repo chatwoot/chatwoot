@@ -24,7 +24,7 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Dominio de email entrante",
+        "LABEL": "Dominio",
         "PLACEHOLDER": "El dominio donde recibirá los emails",
         "ERROR": ""
       },
@@ -43,32 +43,33 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
       }
     },
-    "UPDATE_CHATWOOT": "Una actualización %{latestChatwootVersion} para Chatwoot está disponoble. Por favor actualizar."
+    "UPDATE_CHATWOOT": "Hay una actualización %{latestChatwootVersion} para Chatwoot disponible. Por favor, actualiza tu instancia."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Presione enter para seleccionar",
-      "ENTER_TO_REMOVE": "Presione enter para quitar",
+      "ENTER_TO_SELECT": "Pulse Enter para seleccionar",
+      "ENTER_TO_REMOVE": "Presione Enter para eliminar",
       "SELECT_ONE": "Seleccione uno"
     }
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Notificaciones",
-    "MARK_ALL_DONE": "Marcar todas como hechas",
+    "MARK_ALL_DONE": "Marcar Todo Hecho",
     "LIST": {
       "LOADING_MESSAGE": "Cargando notificaciones...",
-      "404": "No hay notificaciones",
+      "404": "Aún no hay notificaciones",
       "TABLE_HEADER": [
         "Nombre",
         "Número telefónico",
         "Conversaciones",
-        "Última vez Contactado"
+        "Último Contactado"
+
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "Nueva conversación",
-      "conversation_assignment": "Conversación Asignada",
-      "assigned_conversation_new_message": "Nuevo Mensaje",
+      "conversation_assignment": "Conversación asignada",
+      "assigned_conversation_new_message": "Nuevo mensaje",
       "conversation_mention": "Mención"
     }
   }

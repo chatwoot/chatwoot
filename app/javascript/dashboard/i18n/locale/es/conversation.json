@@ -11,11 +11,11 @@
       "TITLE": "Buscar mensajes",
       "LOADING_MESSAGE": "Cruzando datos...",
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
-      "NO_MATCHING_RESULTS": "No hay mensajes que coincidan con los parámetros de búsqueda."
+      "NO_MATCHING_RESULTS": "No results found."
     },
-    "UNREAD_MESSAGES": "Mensajes sin leer",
+    "UNREAD_MESSAGES": "Mensajes no leídos",
     "UNREAD_MESSAGE": "Mensaje sin leer",
-    "CLICK_HERE": "Haga clic aquí",
+    "CLICK_HERE": "Haz clic aquí",
     "LOADING_INBOXES": "Cargando bandeja de entrada",
     "LOADING_CONVERSATIONS": "Cargando conversaciones",
     "CANNOT_REPLY": "No puede responder debido a",
@@ -24,7 +24,7 @@
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
-    "UPLOADING_ATTACHMENTS": "Subiendo adjuntos...",
+    "UPLOADING_ATTACHMENTS": "Subiendo archivos adjuntos...",
     "NO_RESPONSE": "No hay respuesta",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -43,17 +43,18 @@
       "SEND": "Enviar",
       "CREATE": "Añadir nota",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Mostrar Editor mejorado",
-      "TIP_EMOJI_ICON": "Mostrar selector de emojis",
+      "TIP_FORMAT_ICON": "Mostrar editor de textos",
+      "TIP_EMOJI_ICON": "Mostrar selector de emoji",
       "TIP_ATTACH_ICON": "Adjuntar archivos",
-      "ENTER_TO_SEND": "Enter para enviar"
+      "ENTER_TO_SEND": "Ingresar para enviar"
     },
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para usted y su equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Selecione un agente",
+      "SELECT_AGENT": "Seleccionar agente",
       "REMOVE": "Eliminar",
       "ASSIGN": "Asignar"
     }
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Escriba la dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hola 👋, ¡Bienvenido a %{installationName}!",
+    "DESCRIPTION": "Gracias por registrarse. Queremos que saque el máximo provecho de %{installationName}. Aquí hay algunas cosas que puede hacer en %{installationName} para hacer que la experiencia sea agradable.",
+    "READ_LATEST_UPDATES": "Leer nuestras últimas actualizaciones",
+    "ALL_CONVERSATION": {
+      "TITLE": "Todas sus conversaciones en un solo lugar",
+      "DESCRIPTION": "Ver todas las conversaciones de sus clientes en un solo panel de control. Puede filtrar las conversaciones por el canal entrante, etiqueta y estado."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite a los miembros de su equipo",
+      "DESCRIPTION": "Ya que usted se está preparando para hablar con su cliente, traiga a sus compañeros para asistirle. Puedes invitar a sus compañeros de equipo añadiendo su dirección de correo electrónico a la lista de agentes.",
+      "NEW_LINK": "Haga clic aquí para invitar a un miembro del equipo"
+    },
+    "INBOXES": {
+      "TITLE": "Conectar bandejas de entrada",
+      "DESCRIPTION": "Conecte varios canales a través de los cuales sus clientes le hablarían. Puede ser un sitio web en vivo, su página de Facebook o Twitter o incluso su número de WhatsApp.",
+      "NEW_LINK": "Haga clic aquí para crear una bandeja de entrada"
+    },
+    "LABELS": {
+      "TITLE": "Organice las conversaciones con etiquetas",
+      "DESCRIPTION": "Las etiquetas proporcionan una forma fácil de clasificar su conversación. Cree algunas etiquetas como #pregunta-soporte, #pregunta-dacturación etc., para que pueda usarlas en una conversación más tarde.",
+      "NEW_LINK": "Haga clic aquí para crear etiquetas"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

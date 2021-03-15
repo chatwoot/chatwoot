@@ -47,6 +47,10 @@
         self_assigned: "%{user_name} tilordnet seg denne samtalen"
         assigned: "Tildelt til %{assignee_name} av %{user_name}"
         removed: "%{user_name} fjernet tildelingen til samtalen"
+      team:
+        assigned: "Tildelt til %{team_name} av %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} la til %{labels}"
         removed: "%{user_name} fjernet %{labels}"

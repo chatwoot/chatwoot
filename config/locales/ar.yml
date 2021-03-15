@@ -47,6 +47,10 @@ ar:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
         removed: "المحادثة غير مسندة بواسطة %{user_name}"
+      team:
+        assigned: "تم إسنادها إلى %{team_name} بواسطة %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"

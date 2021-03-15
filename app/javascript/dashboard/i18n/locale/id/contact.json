@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Kontak",
     "TITLE": "Edit kontak",
-    "DESC": "Edit detail kontak",
+    "DESC": "Edit detail kontak"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Kontak Baru",
+    "TITLE": "Buat kontak baru",
+    "DESC": "Tambahkan detail informasi dasar tentang kontak tersebut."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Kirim",
       "CANCEL": "Batalkan",
@@ -60,7 +67,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Masukkan alamat email kontak",
-        "LABEL": "Alamat Email"
+        "LABEL": "Alamat email"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Masukkan nomor telepon kontak tersebut",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontak berhasil diperbaharui",
+    "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
     "CONTACT_ALREADY_EXIST": "Alamat email ini digunakan untuk kontak lain.",
-    "ERROR_MESSAGE": "Terjadi kesalahan saat memperbarui kontak, coba lagi"
+    "ERROR_MESSAGE": "Terjadi kesalahan, harap coba lagi"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontak",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Memuat kontak...",
       "404": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
-      "TABLE_HEADER": [
-        "Nama",
-        "Nomor Telpon",
-        "Percakapan",
-        "Terakhir Dihubungi"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "PHONE_NUMBER": "Nomor Telpon",
+        "CONVERSATIONS": "Percakapan",
+        "LAST_ACTIVITY": "Aktivitas Terakhir",
+        "COUNTRY": "Negara",
+        "CITY": "Kota",
+        "SOCIAL_PROFILES": "Profil Sosial",
+        "COMPANY": "Perusahaan",
+        "EMAIL_ADDRESS": "Alamat email"
+      },
+      "VIEW_DETAILS": "Lihat detail"
     }
   }
 }

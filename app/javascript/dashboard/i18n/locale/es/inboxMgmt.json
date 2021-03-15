@@ -38,7 +38,8 @@
         "PICK_A_VALUE": "Elija un valor"
       },
       "TWITTER": {
-        "HELP": "Para añadir su perfil de Twitter como un canal, necesita autenticar su perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' "
+        "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",
+        "ERROR_MESSAGE": "Se ha producido un error al conectar a Twitter, por favor inténtelo nuevamente"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal del sitio web",
@@ -165,9 +166,9 @@
       },
       "AGENTS": {
         "TITLE": "Agentes",
-        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que cree.",
-        "VALIDATION_ERROR": "Añada al menos un agente a su nueva Bandeja",
-        "PICK_AGENTS": "Escoja los agentes para la bandeja"
+        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees.",
+        "VALIDATION_ERROR": "Añadir al menos un agente a su nueva bandeja de entrada",
+        "PICK_AGENTS": "Elegir agentes para la bandeja de entrada"
       },
       "DETAILS": {
         "TITLE": "Detalles de la bandeja de entrada",
@@ -224,7 +225,9 @@
     "TABS": {
       "SETTINGS": "Ajustes",
       "COLLABORATORS": "Colaboradores",
-      "CONFIGURATION": "Configuración"
+      "CONFIGURATION": "Configuración",
+      "PRE_CHAT_FORM": "Pre-formulario de chat",
+      "BUSINESS_HOURS": "Horarios"
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
@@ -242,14 +245,49 @@
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de su bandeja de entrada",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
-      "HMAC_VERIFICATION": "Validación del la Identidad del Usuario",
-      "HMAC_DESCRIPTION": "Para validar la identidad de los usuarios, el SDK permite pasar un `identity_hash` para cada usuario. Usted puede generar HMAC usando 'sha256' con la llave mostrada aquí."
+      "HMAC_VERIFICATION": "Validación de identidad de usuario",
+      "HMAC_DESCRIPTION": "Con el fin de validar la identidad de los usuarios, el SDK le permite pasar un `identity_hash` por cada usuario. Puede generar HMAC usando 'sha256' con la clave que se muestra aquí."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
       "SUBTITLE": "Su conexión de Facebook expiró, por favor reconecte su página de Facebook para continuar con el servicio",
       "MESSAGE_SUCCESS": "Reconección satisfactoria",
       "MESSAGE_ERROR": "Se presento un error, por favor inténtelo de nuevo"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Los formularios de Pre Chat le permiten capturar la información del usuario antes de que comiencen la conversación con usted.",
+      "ENABLE": {
+        "LABEL": "Activar formulario de pre-chat",
+        "OPTIONS": {
+          "ENABLED": "Si",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Mensaje del Pre Chat",
+        "PLACEHOLDER": "Este mensaje sería visible para los usuarios junto con el formulario"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Los visitantes deben proporcionar su nombre y dirección de correo electrónico antes de iniciar el chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Establecer su disponibilidad",
+      "SUBTITLE": "Establezca su disponibilidad en su widget de livechat",
+      "WEEKLY_TITLE": "Establecer sus horas semanales",
+      "TIMEZONE_LABEL": "Seleccione la zona horaria",
+      "UPDATE": "Actualice las horas de atención",
+      "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensajes de no atención disponible para los visitantes",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "No estamos disponibles en este momento. Déjenos un mensaje y le responderemos tan pronto estemos de regreso.",
+      "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
+      "DAY": {
+        "ENABLE": "Activar la disponibilidad para este día",
+        "UNAVAILABLE": "No disponible",
+        "HOURS": "horas",
+        "VALIDATION_ERROR": "La hora de inicio debe ser antes de la hora de cierre.",
+        "CHOOSE": "Elegir"
+      }
     }
   }
 }
