@@ -107,6 +107,10 @@ Rails.application.routes.draw do
             end
           end
 
+          namespace :twitter do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -139,7 +143,7 @@ Rails.application.routes.draw do
       namespace :widget do
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
-        resources :conversations, only: [:index] do
+        resources :conversations, only: [:index, :create] do
           collection do
             post :update_last_seen
             post :toggle_typing
@@ -202,7 +206,6 @@ Rails.application.routes.draw do
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
 
   namespace :twitter do
-    resource :authorization, only: [:create]
     resource :callback, only: [:show]
   end
 

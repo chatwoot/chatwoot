@@ -251,6 +251,12 @@
         </div>
       </div>
     </div>
+    <div v-if="selectedTabKey === 'preChatForm'">
+      <pre-chat-form-settings :inbox="inbox" />
+    </div>
+    <div v-if="selectedTabKey === 'businesshours'">
+      <weekly-availability :inbox="inbox" />
+    </div>
   </div>
 </template>
 
@@ -262,11 +268,15 @@ import alertMixin from 'shared/mixins/alertMixin';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
+import PreChatFormSettings from './PreChatForm/Settings';
+import WeeklyAvailability from './components/WeeklyAvailability';
 
 export default {
   components: {
     SettingsSection,
     FacebookReauthorize,
+    PreChatFormSettings,
+    WeeklyAvailability,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -317,7 +327,25 @@ export default {
         },
       ];
 
-      if (this.isAWebWidgetInbox || this.isATwilioChannel) {
+      if (this.isAWebWidgetInbox) {
+        return [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'preChatForm',
+            name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
+          },
+          {
+            key: 'businesshours',
+            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+          },
+          {
+            key: 'configuration',
+            name: this.$t('INBOX_MGMT.TABS.CONFIGURATION'),
+          },
+        ];
+      }
+
+      if (this.isATwilioChannel) {
         return [
           ...visibleToAllChannelTabs,
           {
@@ -376,6 +404,7 @@ export default {
       this.selectedTabIndex = 0;
       this.selectedAgents = [];
       this.$store.dispatch('agents/get');
+      this.$store.dispatch('teams/get');
       this.$store.dispatch('inboxes/get').then(() => {
         this.fetchAttachedAgents();
         this.avatarUrl = this.inbox.avatar_url;

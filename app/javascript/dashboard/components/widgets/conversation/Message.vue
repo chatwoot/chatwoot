@@ -208,6 +208,30 @@ export default {
       max-width: 32rem;
       padding: var(--space-small) var(--space-normal);
     }
+
+    &.is-private .file.message-text__wrap {
+      .ion-document-text {
+        color: var(--w-400);
+      }
+      .text-block-title {
+        color: #3c4858;
+      }
+      .download.button {
+        color: var(--w-400);
+      }
+    }
+
+    &.is-private.is-text > .message-text__wrap .link {
+      color: var(--w-700);
+    }
+    &.is-private.is-text > .message-text__wrap .prosemirror-mention-node {
+      font-weight: var(--font-weight-black);
+      background: none;
+      border-radius: var(--border-radius-small);
+      padding: 0;
+      color: var(--color-body);
+      text-decoration: underline;
+    }
   }
 
   &.is-pending {

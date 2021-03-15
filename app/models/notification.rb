@@ -44,12 +44,13 @@ class Notification < ApplicationRecord
   PRIMARY_ACTORS = ['Conversation'].freeze
 
   def push_event_data
+    # Secondary actor could be nil for cases like system assigning conversation
     {
       id: id,
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
       primary_actor_id: primary_actor_id,
-      primary_actor: primary_actor&.push_event_data,
+      primary_actor: primary_actor.push_event_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
@@ -59,7 +60,6 @@ class Notification < ApplicationRecord
   end
 
   # TODO: move to a data presenter
-  # rubocop:disable Metrics/CyclomaticComplexity
   def push_message_title
     case notification_type
     when 'conversation_creation'
@@ -69,16 +69,21 @@ class Notification < ApplicationRecord
     when 'assigned_conversation_new_message'
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
-        display_id: primary_actor.display_id,
-        content: primary_actor&.messages&.incoming&.last&.content
+        display_id: conversation.display_id,
+        content: primary_actor.content.truncate_words(10)
       )
     when 'conversation_mention'
-      I18n.t('notifications.notification_title.conversation_mention', display_id: primary_actor.conversation.display_id, name: secondary_actor.name)
+      I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id, name: secondary_actor.name)
     else
       ''
     end
   end
-  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def conversation
+    return primary_actor.conversation if %w[assigned_conversation_new_message conversation_mention].include? notification_type
+
+    primary_actor
+  end
 
   private
 

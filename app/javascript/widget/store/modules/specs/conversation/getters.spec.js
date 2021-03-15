@@ -16,6 +16,11 @@ describe('#getters', () => {
     });
   });
 
+  it('getIsCreating', () => {
+    const state = { uiFlags: { isCreating: true } };
+    expect(getters.getIsCreating(state)).toEqual(true);
+  });
+
   it('getConversationSize', () => {
     const state = {
       conversations: {

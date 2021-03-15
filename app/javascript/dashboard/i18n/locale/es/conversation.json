@@ -1,11 +1,11 @@
 {
   "CONVERSATION": {
     "404": "Por favor, selecciona una conversación del panel izquierdo",
-    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en tu bandeja de entrada.",
-    "NO_MESSAGE_2": " para enviar un mensaje a tu página!",
+    "NO_MESSAGE_1": "¡Oh oh! Parece que no hay mensajes de los clientes en su bandeja de entrada.",
+    "NO_MESSAGE_2": " para enviar un mensaje a su página!",
     "NO_INBOX_1": "¡Hola! Parece que aún no has añadido ninguna bandeja de entrada.",
     "NO_INBOX_2": " para empezar",
-    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no eres parte de ninguna bandeja de entrada. Por favor, contacta con tu administrador",
+    "NO_INBOX_AGENT": "¡Uh Oh! Parece que no es parte de ninguna bandeja de entrada. Por favor, contacte a su administrador",
     "SEARCH_MESSAGES": "Buscar mensajes en conversaciones",
     "SEARCH": {
       "TITLE": "Buscar mensajes",
@@ -34,7 +34,7 @@
       "DETAILS": "detalles"
     },
     "FOOTER": {
-      "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
+      "MSG_INPUT": "Shift + enter para nueva línea. Comience con '/' para seleccionar una respuesta predefinida.",
       "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes"
     },
     "REPLYBOX": {
@@ -48,7 +48,7 @@
       "TIP_ATTACH_ICON": "Adjuntar archivos",
       "ENTER_TO_SEND": "Ingresar para enviar"
     },
-    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
+    "VISIBLE_TO_AGENTS": "Nota privada: solo visible para usted y su equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
     "CHANGE_TEAM": "Conversation team changed",
