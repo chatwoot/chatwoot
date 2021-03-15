@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Rediger Kontakt",
     "TITLE": "Rediger Kontakt",
-    "DESC": "Rediger kontaktoplysninger",
+    "DESC": "Rediger kontaktoplysninger"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Send",
       "CANCEL": "Annuller",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakt opdateret",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Denne e-mail adresse er i brug for en anden kontakt.",
-    "ERROR_MESSAGE": "Der opstod en fejl under opdatering af kontakten. Prøv igen"
+    "ERROR_MESSAGE": "Der opstod en fejl. Prøv venligst igen"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Indlæser kontakter...",
       "404": "Ingen kontakter matcher din søgning 🔍",
-      "TABLE_HEADER": [
-        "Navn",
-        "Telefonnummer",
-        "Samtaler",
-        "Sidst Kontaktet"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "PHONE_NUMBER": "Telefonnummer",
+        "CONVERSATIONS": "Samtaler",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Virksomhed",
+        "EMAIL_ADDRESS": "E-Mail Adresse"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }
