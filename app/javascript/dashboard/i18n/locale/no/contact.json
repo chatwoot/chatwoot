@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Rediger kontakt",
     "TITLE": "Rediger kontakt",
-    "DESC": "Rediger kontaktopplysninger",
+    "DESC": "Rediger kontaktopplysninger"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Send",
       "CANCEL": "Avbryt",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakten er oppdatert",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Denne e-postadressen er allerede i bruk av en annen kontakt.",
-    "ERROR_MESSAGE": "Det oppstod en feil under oppdatering av kontakten. Prøv igjen"
+    "ERROR_MESSAGE": "Det oppstod en feil. Prøv igjen"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Laster inn kontakter...",
       "404": "Ingen kontakter samsvarer med søket ditt 🔍",
-      "TABLE_HEADER": [
-        "Navn",
-        "Telefonnummer",
-        "Samtaler",
-        "Siste kontakt"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Navn",
+        "PHONE_NUMBER": "Telefonnummer",
+        "CONVERSATIONS": "Samtaler",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Firma",
+        "EMAIL_ADDRESS": "E-postadresse"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }
