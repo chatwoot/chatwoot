@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
   "CHAT_PLACEHOLDER": "Zde začněte psát",
   "TODAY": "Dnes",
-  "YESTERDAY": "Včera"
+  "YESTERDAY": "Včera",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Celé jméno",
+        "PLACEHOLDER": "Zadejte své celé jméno",
+        "ERROR": "Je vyžadováno celé jméno"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-mailová adresa",
+        "PLACEHOLDER": "Zadejte prosím Váš e-mail",
+        "ERROR": "Neplatná e-mailová adresa"
+      },
+      "MESSAGE": {
+        "LABEL": "Zpráva",
+        "PLACEHOLDER": "Zadejte prosím Vaši zprávu",
+        "ERROR": "Zpráva je příliš krátká"
+      }
+    }
+  }
 }

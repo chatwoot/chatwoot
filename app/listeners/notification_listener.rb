@@ -56,6 +56,8 @@ class NotificationListener < BaseListener
   def generate_notifications_for_mentions(message, account)
     return unless message.private?
 
+    return if message.content.blank?
+
     mentioned_ids = message.content.scan(%r{\(mention://(user|team)/(\d+)/(.+)\)}).map(&:second).uniq
 
     return if mentioned_ids.blank?

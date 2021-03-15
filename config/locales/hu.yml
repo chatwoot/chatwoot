@@ -17,52 +17,56 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 hu:
-  hello: "Hello world"
+  hello: "Szia világ"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: Mi?! A jelszóvisszaállítási kérésed sikeres volt. Nézd meg az e-mailed a részletekért.
+    reset_password_failure: Jajj ne! Nem találtunk felhasználót ezzel az e-mailcímmel.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: Nem támogatjuk az eldobható e-mailcímeket
+      invalid_email: Hibás e-mailcímet adtál meg
+      email_already_exists: "Ezzel az e-mailcímmel már van fiók: %{email}"
+      failed: Feliratkozás sikertelen
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Jelentési időszak %{since}-tól %{until}-ig
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
+      conversation_assignment: "[Hozzád rendelve] - #%{display_id} hozzád lett rendelve"
+      assigned_conversation_new_message: "[Új üzenet] - #%{display_id} %{content}"
+      conversation_mention: "%{name} megemlítet ebben a beszélgetésben [ID - %{display_id}]"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Az üzenet törölve lett
     activity:
       status:
-        resolved: "Conversation was marked resolved by %{user_name}"
-        open: "Conversation was reopened by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        resolved: "A beszélgetést lezárta %{user_name}"
+        open: "A beszélgetést újranyitotta %{user_name}"
+        auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
-        assigned: "Assigned to %{assignee_name} by %{user_name}"
-        removed: "Conversation unassigned by %{user_name}"
+        self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
+        assigned: "%{user_name} ráosztotta a beszélgetést: %{assignee_name}"
+        removed: "A beszélgetést gazdátlanná tette %{user_name}"
+      team:
+        assigned: "%{user_name} ráosztotta a beszélgetést: %{team_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} a következő cimkéket adta hozzá: %{labels}"
+        removed: "%{user_name} leszedte a következő cimkéket %{labels}"
+      muted: "%{user_name} elnémította a beszélgetést"
+      unmuted: "%{user_name} kikapcsolta a beszélgetés elnémítását"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
+      greeting_message_body: "%{account_name} általában néhány órán belül válaszol."
+      ways_to_reach_you_message_body: "Adj egy elérhetőséget hogy megkereshessenek."
+      email_input_box_message_body: "E-mail értesítés kérése"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Új üzenet a beszélgetésben"
+      transcript_subject: "Beszélgetés kivonat"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "A Slack egy chat eszköz mely minden kommunikációdat összehozza. A Slack integrálásával értesítést kaphasz új beszélgetésekről a Slack fiókodban."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhook"
+      description: "A Webhook események valós idejű információt adnak arról, hogy mi történik a fiókodban. Webhookokat használhatsz arra, hogy az eseményeket a kedvenc appjaidban, pl. a Slackben vagy a Githubban használd. Kattints hogy beállíthast a Webhookjaidat."

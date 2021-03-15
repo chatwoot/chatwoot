@@ -1,5 +1,5 @@
 <template>
-  <woot-modal :show.sync="show" :on-close="onCancel">
+  <woot-modal :show.sync="show" :on-close="onCancel" modal-type="right-aligned">
     <div class="column content-box">
       <woot-modal-header
         :header-title="
@@ -11,6 +11,8 @@
         :contact="contact"
         :in-progress="uiFlags.isUpdating"
         :on-submit="onSubmit"
+        @success="onSuccess"
+        @cancel="onCancel"
       />
     </div>
   </woot-modal>
@@ -43,6 +45,9 @@ export default {
 
   methods: {
     onCancel() {
+      this.$emit('cancel');
+    },
+    onSuccess() {
       this.$emit('cancel');
     },
     async onSubmit(contactItem) {

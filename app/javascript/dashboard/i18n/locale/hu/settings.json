@@ -1,146 +1,146 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "Profilbeállítások",
+    "TITLE": "Profilbeállítások",
+    "BTN_TEXT": "Profil frissítése",
+    "AFTER_EMAIL_CHANGED": "A profilod sikeresen frissítésre került, kérjük lépj be újra, mivel megváltoztak a belépési adataid",
     "FORM": {
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "Profilkép",
+      "ERROR": "Kérjük javítsd ki az űrlaphibákat",
+      "REMOVE_IMAGE": "Eltávolítás",
+      "UPLOAD_IMAGE": "Kép feltöltése",
+      "UPDATE_IMAGE": "Kép frissítése",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "Profil",
+        "NOTE": "Az e-mailcímed az identitásod és a belépésre használhatod."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "TITLE": "Jelszó",
+        "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet."
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration"
+        "TITLE": "Hozzáférési kulcs",
+        "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "TITLE": "E-mail értesítések",
+        "NOTE": "Frissítsd az e-mail értesítési beállításaidat itt",
+        "CONVERSATION_ASSIGNMENT": "Küldj e-mail értesítéseket, amikor a beszélgetést hozzám rendelik",
+        "CONVERSATION_CREATION": "Küldj e-mail értesítéseket, amikor egy új beszélgetés létrejön",
+        "CONVERSATION_MENTION": "Küldj e-mail értesítéseket, amikor egy beszélgetésben megemlítenek",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj e-mail értesítéseket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "Az értesítési beállításaid sikeresen frissítve",
+        "UPDATE_ERROR": "Egy hiba lépett fel a beállítások frissítése során, kérjük próbáld újra"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications"
+        "TITLE": "Push üzenetek",
+        "NOTE": "Frissítsd az push üzenet beállításaidat itt",
+        "CONVERSATION_ASSIGNMENT": "Küldj push üzeneteket, amikor a beszélgetést hozzám rendelik",
+        "CONVERSATION_CREATION": "Küldj push üzeneteket, amikor egy új beszélgetés létrejön",
+        "CONVERSATION_MENTION": "Küldj push üzeneteket, amikor egy beszélgetésben megemlítenek",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Küldj push üzeneteket, amikor egy hozzám rendelt beszélgetésben új üzenet érkezik",
+        "HAS_ENABLED_PUSH": "Engedélyezted a push üzeneteket ezen a böngészőn.",
+        "REQUEST_PUSH": "Push üznetek engedélyezése"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "Profilkép"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "A teljes neved",
+        "ERROR": "Kérjük helyes nevet adj meg",
+        "PLACEHOLDER": "Kérjük a teljes nevedet add meg"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "Rövidnév",
+        "ERROR": "Kérjük helyes rövidnevet adj meg",
+        "PLACEHOLDER": "Kérjük add meg a rövidnevet amit a beszélgetésekben szeretnél megjeleníteni"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "Elérhetőség",
         "STATUSES_LIST": [
           "Online",
-          "Busy",
+          "Foglalt",
           "Offline"
         ]
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "Az e-mailcímed",
+        "ERROR": "Kérjük helyes e-mailcímet adj meg",
+        "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
       },
       "PASSWORD": {
-        "LABEL": "Password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "Jelszó",
+        "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
+        "PLACEHOLDER": "Kérjük adj meg egy új jelszót"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your password"
+        "LABEL": "Jelszó megerősítése",
+        "ERROR": "A két jelszónak egyeznie kell",
+        "PLACEHOLDER": "Kérjük add meg egy ismét a jelszót"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch Account",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "LOGOUT": "Logout"
+    "CHANGE_AVAILABILITY_STATUS": "Megváltoztatás",
+    "CHANGE_ACCOUNTS": "Fiókváltás",
+    "SELECTOR_SUBTITLE": "Fiók kiválasztása az alábbi listából",
+    "PROFILE_SETTINGS": "Profilbeállítások",
+    "LOGOUT": "Kilépés"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now"
+    "TRIAL_MESSAGE": "nap van hátra a próbaidőszakból.",
+    "TRAIL_BUTTON": "Előfizetés"
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+      "BUTTON_TEXT": "Másolás",
+      "COPY_SUCCESSFUL": "Vágólapra másolva"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Letöltés",
+      "UPLOADING": "Feltöltés..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Elküldés"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "Ellenőrzés...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Inboxhoz adás"
     }
   },
   "SIDEBAR": {
-    "CONVERSATIONS": "Conversations",
-    "REPORTS": "Reports",
-    "CONTACTS": "Contacts",
-    "SETTINGS": "Settings",
-    "HOME": "Home",
+    "CONVERSATIONS": "Beszélgetések",
+    "REPORTS": "Jelentések",
+    "CONTACTS": "Kontaktok",
+    "SETTINGS": "Beállítások",
+    "HOME": "Nyitólap",
     "AGENTS": "Ügynökök",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "LABELS": "Labels",
-    "TEAMS": "Teams"
+    "INBOXES": "Bejövők",
+    "NOTIFICATIONS": "Értesítések",
+    "CANNED_RESPONSES": "Mentett válaszok",
+    "INTEGRATIONS": "Integrációk",
+    "ACCOUNT_SETTINGS": "Fiókbeállítások",
+    "LABELS": "Cimkék",
+    "TEAMS": "Csapatok"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NEW_ACCOUNT": "Új fiók",
+    "SELECTOR_SUBTITLE": "Új fiók létrehozása",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Ügynök sikeresen létrehozva",
+      "EXIST_MESSAGE": "A fiók már létezik",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Account Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "Fióknév",
+        "PLACEHOLDER": "Kovács Kft."
       },
-      "SUBMIT": "Submit"
+      "SUBMIT": "Elküldés"
     }
   }
 }

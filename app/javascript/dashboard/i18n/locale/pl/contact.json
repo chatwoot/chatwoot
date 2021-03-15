@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edytuj Kontakt",
     "TITLE": "Edytuj kontakt",
-    "DESC": "Edytuj dane kontaktowe",
+    "DESC": "Edytuj dane kontaktowe"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Prześlij",
       "CANCEL": "Anuluj",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Pomyślnie zaktualizowano kontakt",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Ten adres e-mail jest już zajęty przez inny kontakt.",
-    "ERROR_MESSAGE": "Podczas aktualizowania kontaktu wystąpił błąd. Spróbuj ponownie"
+    "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Ładowanie kontaktów...",
       "404": "Brak kontaktów pasujących do Twojego wyszukiwania 🔍",
-      "TABLE_HEADER": [
-        "Nazwisko",
-        "Numer telefonu",
-        "Rozmowy",
-        "Ostatnio nawiązano kontakt"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nazwisko",
+        "PHONE_NUMBER": "Numer telefonu",
+        "CONVERSATIONS": "Rozmowy",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Firma",
+        "EMAIL_ADDRESS": "Adres e-mail"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

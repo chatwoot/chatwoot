@@ -11,7 +11,7 @@
     "OS": "Sistema operativo",
     "INITIATED_FROM": "Iniciado desde",
     "INITIATED_AT": "Iniciado el",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "Dirección IP",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -34,7 +34,7 @@
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
     "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Dessilenciar conversación",
+    "UNMUTE_CONTACT": "Des silenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Editar Contacto",
     "TITLE": "Editar Contacto",
-    "DESC": "Editar detalles del contacto",
+    "DESC": "Editar detalles del contacto"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nuevo contacto",
+    "TITLE": "Crear un contacto nuevo",
+    "DESC": "Añadir información básica sobre el contacto."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Enviar",
       "CANCEL": "Cancelar",
@@ -93,23 +100,29 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "El contacto se actualizó",
+    "SUCCESS_MESSAGE": "Contacto guardado correctamente",
     "CONTACT_ALREADY_EXIST": "Ésta dirección de correo está siendo utilizada por otro contacto.",
-    "ERROR_MESSAGE": "Se presento un error actualizando el contacto. Por favor inténtelo nuevamente"
+    "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "Contactos",
+    "SEARCH_BUTTON": "Buscar",
+    "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "Nombre",
-        "Número telefónico",
-        "Conversaciones",
-        "Last Contacted"
-      ]
+      "LOADING_MESSAGE": "Cargando contactos...",
+      "404": "No hay contactos que coincidan con tu búsqueda 🔍",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "PHONE_NUMBER": "Número telefónico",
+        "CONVERSATIONS": "Conversaciones",
+        "LAST_ACTIVITY": "Última actividad",
+        "COUNTRY": "País",
+        "CITY": "Ciudad",
+        "SOCIAL_PROFILES": "Perfiles Sociales",
+        "COMPANY": "Empresa",
+        "EMAIL_ADDRESS": "Dirección de correo"
+      },
+      "VIEW_DETAILS": "Ver detalles"
     }
   }
 }

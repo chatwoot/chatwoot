@@ -56,4 +56,27 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#update', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.patch.mockResolvedValue({ data: teamMembers });
+      await actions.update({ commit }, { agentsList: teamMembers, teamId: 1 });
+
+      expect(commit.mock.calls).toEqual([
+        [SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: true }],
+        [ADD_AGENTS_TO_TEAM, { data: teamMembers }],
+        [SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.update({ commit }, { agentsList: teamMembers, teamId: 1 })
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: true }],
+        [SET_TEAM_MEMBERS_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
 });

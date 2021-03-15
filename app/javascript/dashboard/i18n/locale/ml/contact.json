@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
     "TITLE": "കോൺ‌ടാക്റ്റ് എഡിറ്റുചെയ്യുക",
-    "DESC": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക",
+    "DESC": "കോൺ‌ടാക്റ്റ് വിശദാംശങ്ങൾ‌ എഡിറ്റുചെയ്യുക"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "സമർപ്പിക്കുക",
       "CANCEL": "റദ്ദാക്കുക",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "കോൺ‌ടാക്റ്റ് വിജയകരമായി അപ്‌ഡേറ്റുചെയ്‌തു",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
-    "ERROR_MESSAGE": "കോൺ‌ടാക്റ്റ് അപ്‌ഡേറ്റ് ചെയ്യുന്നതിൽ ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+    "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
   },
   "CONTACTS_PAGE": {
     "HEADER": "കോൺ‌ടാക്റ്റുകൾ",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "കോൺ‌ടാക്റ്റുകൾ‌ ലോഡുചെയ്യുന്നു...",
       "404": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
-      "TABLE_HEADER": [
-        "പേര്",
-        "ഫോൺ നമ്പർ",
-        "സംഭാഷണങ്ങൾ",
-        "അവസാനം കോൺടാക്റ്റുചെയ്തത്"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "പേര്",
+        "PHONE_NUMBER": "ഫോൺ നമ്പർ",
+        "CONVERSATIONS": "സംഭാഷണങ്ങൾ",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "കമ്പനി",
+        "EMAIL_ADDRESS": "ഇമെയിൽ വിലാസം"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

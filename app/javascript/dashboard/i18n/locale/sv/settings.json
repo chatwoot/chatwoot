@@ -1,9 +1,9 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profilens inställningar",
-    "TITLE": "Profilens inställningar",
+    "LINK": "Profilinställningar",
+    "TITLE": "Profilinställningar",
     "BTN_TEXT": "Uppdatera profil",
-    "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats framgångsrikt, vänligen logga in igen eftersom dina inloggningsuppgifter har ändrats",
+    "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats. Vänligen logga in på nytt eftersom dina inloggningsuppgifter har ändrats",
     "FORM": {
       "AVATAR": "Profilbild",
       "ERROR": "Vänligen åtgärda formulärfel",

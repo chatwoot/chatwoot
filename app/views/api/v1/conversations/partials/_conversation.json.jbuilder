@@ -8,6 +8,11 @@ json.meta do
       json.partial! 'api/v1/models/agent.json.jbuilder', resource: conversation.assignee
     end
   end
+  if conversation.team.present?
+    json.team do
+      json.partial! 'api/v1/models/team.json.jbuilder', resource: conversation.team
+    end
+  end
 end
 
 json.id conversation.display_id

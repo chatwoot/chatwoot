@@ -3,7 +3,7 @@
     "404": "Пожалуйста, выберите диалог из левой панели",
     "NO_MESSAGE_1": "Ой! Похоже, сообщений от клиентов нет.",
     "NO_MESSAGE_2": " чтобы отправить сообщение на вашу страницу!",
-    "NO_INBOX_1": "Хола! Похоже, вы еще не добавили ни одного источника.",
+    "NO_INBOX_1": "Алоха! Похоже, вы еще не добавили ни одного источника.",
     "NO_INBOX_2": " для начала",
     "NO_INBOX_AGENT": "Ой! Похоже, вы не добавлены ни к одному источнику сообщений. Обратитесь к администратору",
     "SEARCH_MESSAGES": "Поиск по сообщениям в диалогах",
@@ -11,7 +11,7 @@
       "TITLE": "Поиск сообщений",
       "LOADING_MESSAGE": "Сохранение данных...",
       "PLACEHOLDER": "Введите любой текст для поиска сообщений",
-      "NO_MATCHING_RESULTS": "Нет сообщений, соответствующих параметрам поиска."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Непрочитанные сообщения",
     "UNREAD_MESSAGE": "Непрочитанное сообщение",
@@ -25,7 +25,7 @@
     "REMOVE_SELECTION": "Удалить выделенное",
     "DOWNLOAD": "Скачать",
     "UPLOADING_ATTACHMENTS": "Загрузка вложений...",
-    "NO_RESPONSE": "No response",
+    "NO_RESPONSE": "Нет ответа",
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "Приватная заметка: видна только вам и вашей команде",
     "CHANGE_STATUS": "Статус разговора изменен",
     "CHANGE_AGENT": "Назначенный оператор изменен",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Отправитель:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Выбрать Агента",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Введите адрес электронной почты",
         "ERROR": "Пожалуйста, введите действительный адрес электронной почты"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Привет 👋, добро пожаловать в %{installationName}!",
+    "DESCRIPTION": "Спасибо за регистрацию. Мы хотим, чтобы вы получили максимум от %{installationName}. Вот несколько вещей, которые вы можете сделать в %{installationName}, чтобы получить ещё больше приятных впечатлений.",
+    "READ_LATEST_UPDATES": "Читайте о наших последних обновлениях",
+    "ALL_CONVERSATION": {
+      "TITLE": "Все ваши диалоги в одном месте",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }
