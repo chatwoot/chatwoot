@@ -15,6 +15,12 @@ export class TeamsAPI extends ApiClient {
       user_ids: agentsList,
     });
   }
+
+  updateAgents({ teamId, agentsList }) {
+    return axios.patch(`${this.url}/${teamId}/team_members`, {
+      user_ids: agentsList,
+    });
+  }
 }
 
 export default new TeamsAPI();
