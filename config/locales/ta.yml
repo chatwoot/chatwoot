@@ -47,6 +47,10 @@ ta:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "%{user_name} இதை %{assignee_name}க்கு ஒதுக்கியுள்ளார்"
         removed: "%{user_name} இதை ஒதுக்க படாத உரையாடளாக்கியுள்ளார்"
+      team:
+        assigned: "%{user_name} இதை %{team_name}க்கு ஒதுக்கியுள்ளார்"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
