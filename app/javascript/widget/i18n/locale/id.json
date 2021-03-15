@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Masukkan email Anda",
   "CHAT_PLACEHOLDER": "Ketik pesan Anda",
   "TODAY": "Hari ini",
-  "YESTERDAY": "Kemarin"
+  "YESTERDAY": "Kemarin",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nama Lengkap",
+        "PLACEHOLDER": "Harap masukkan nama lengkap anda yang valid",
+        "ERROR": "Nama Lengkap dibutuhkan"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Alamat email",
+        "PLACEHOLDER": "Harap masukkan alamat email Anda",
+        "ERROR": "Alamat email salah"
+      },
+      "MESSAGE": {
+        "LABEL": "Pesan",
+        "PLACEHOLDER": "Harap masukkan pesan Anda",
+        "ERROR": "Pesan terlalu pendek"
+      }
+    }
+  }
 }

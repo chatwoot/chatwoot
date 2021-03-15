@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
   "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας",
   "TODAY": "Σήμερα",
-  "YESTERDAY": "Χτες"
+  "YESTERDAY": "Χτες",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Πλήρες Όνομα",
+        "PLACEHOLDER": "Παρακαλώ συμπληρώστε το πλήρες όνομα σας",
+        "ERROR": "Απαιτείται πλήρες όνομα"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Διεύθυνση Email",
+        "PLACEHOLDER": "Παρακαλούμε εισάγετε τη διεύθυνση email σας",
+        "ERROR": "Μη έγκυρη διεύθυνση email"
+      },
+      "MESSAGE": {
+        "LABEL": "Μήνυμα",
+        "PLACEHOLDER": "Παρακαλώ εισάγετε το μήνυμά σας",
+        "ERROR": "Πολύ σύντομο μήνυμα"
+      }
+    }
+  }
 }

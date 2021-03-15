@@ -38,7 +38,8 @@
         "PICK_A_VALUE": "Επιλέξτε τιμή"
       },
       "TWITTER": {
-        "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' "
+        "HELP": "Για να προσθέσετε το Προφίλ Twitter ως κανάλι, πρέπει να επικυρώστε το Προφίλ σας στο Twiter κάνοντας click στο 'Είσοδος με το Twitter' ",
+        "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα σύνδεσης στο Twitter, παρακαλώ προσπαθήστε ξανά"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Κανάλι Ιστοσελίδας",
@@ -224,7 +225,9 @@
     "TABS": {
       "SETTINGS": "Ρυθμίσεις",
       "COLLABORATORS": "Συνεργάτες",
-      "CONFIGURATION": "Διαμόρφωση"
+      "CONFIGURATION": "Διαμόρφωση",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Ώρες Εργασίας"
     },
     "SETTINGS": "Ρυθμίσεις",
     "FEATURES": {
@@ -250,6 +253,41 @@
       "SUBTITLE": "Η σύνδεση Facebook έχει λήξει, παρακαλώ ξανασυνδεθείτε στο Facebook για να συνεχίσετε",
       "MESSAGE_SUCCESS": "Επιτυχής επανασύνδεση",
       "MESSAGE_ERROR": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Ορίστε τη διαθεσιμότητά σας",
+      "SUBTITLE": "Ορίστε τη διαθεσιμότητα στο livechat widget σας",
+      "WEEKLY_TITLE": "Ορίστε τις εβδομαδιαίες ώρες σας",
+      "TIMEZONE_LABEL": "Επιλέξτε ζώνη ώρας",
+      "UPDATE": "Ενημέρωση ρυθμίσεων ωραρίου",
+      "TOGGLE_AVAILABILITY": "Ενεργοποίηση διαθεσιμότητας ωραρίου για αυτό το κιβώτιο εισερχομένων",
+      "UNAVAILABLE_MESSAGE_LABEL": "Μήνυμα μη διαθεσιμότητας για τους επισκέπτες",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Δεν είμαστε διαθέσιμοι αυτή τη στιγμή. Αφήστε ένα μήνυμα που θα απαντήσουμε όταν επιστρέψουμε.",
+      "TOGGLE_HELP": "Η ενεργοποίηση της διαθεσιμότητας ωραρίου θα δείξει τις διαθέσιμες ώρες στο widget συνομιλίας ακόμα και αν όλοι οι πράκτορες είναι εκτός σύνδεσης. Εκτός των διαθέσιμων ωρών οι επισκέπτες μπορούν να προειδοποιηθούν με ένα μήνυμα και μια φόρμα προ-συνομιλίας.",
+      "DAY": {
+        "ENABLE": "Ενεργοποιήσετε τη διαθεσιμότητα για αυτήν την ημέρα",
+        "UNAVAILABLE": "Μη διαθέσιμος",
+        "HOURS": "ώρες",
+        "VALIDATION_ERROR": "Ο χρόνος έναρξης πρέπει να είναι πριν το χρόνο λήξης.",
+        "CHOOSE": "Επιλέξτε"
+      }
     }
   }
 }

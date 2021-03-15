@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "DESC": "Edit contact details"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Invia",
       "CANCEL": "annulla",
@@ -52,7 +59,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "Nome Completo"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "ERROR_MESSAGE": "There was an error, please try again"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "nome",
-        "Phone Number",
-        "Conversazioni",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "nome",
+        "PHONE_NUMBER": "Phone Number",
+        "CONVERSATIONS": "Conversazioni",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Company",
+        "EMAIL_ADDRESS": "Indirizzo email"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

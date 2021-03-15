@@ -47,6 +47,10 @@ id:
         self_assigned: "%{user_name} menetapkan sendiri percakapan ini"
         assigned: "Ditugaskan ke %{assignee_name} oleh %{user_name}"
         removed: "Percakapan batal ditetapkan oleh %{user_name}"
+      team:
+        assigned: "Ditugaskan ke %{team_name} oleh %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} menambahkan %{labels}"
         removed: "%{user_name} menghapus %{labels}"

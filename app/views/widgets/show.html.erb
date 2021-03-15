@@ -21,7 +21,11 @@
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         replyTime: '<%= @web_widget.reply_time %>',
         preChatFormEnabled: <%= @web_widget.pre_chat_form_enabled %>,
-        preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>
+        preChatFormOptions: <%= @web_widget.pre_chat_form_options.to_json.html_safe %>,
+        workingHoursEnabled: <%= @web_widget.inbox.working_hours_enabled %>,
+        workingHours: <%= @web_widget.inbox.working_hours.to_json.html_safe %>,
+        outOfOfficeMessage: <%= @web_widget.inbox.out_of_office_message.to_json.html_safe %>,
+        utcOffset: '<%= ActiveSupport::TimeZone[@web_widget.inbox.timezone].formatted_offset %>'
       }
       window.chatwootWidgetDefaults = {
         useInboxAvatarForBot: <%= ActiveModel::Type::Boolean.new.cast(ENV.fetch('USE_INBOX_AVATAR_FOR_BOT', false)) %>,

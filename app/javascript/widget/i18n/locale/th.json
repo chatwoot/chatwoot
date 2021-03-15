@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "กรุณากรอกอีเมล์ของคุณ",
   "CHAT_PLACEHOLDER": "Type your message",
   "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "YESTERDAY": "Yesterday",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "ชื่อเต็ม",
+        "PLACEHOLDER": "Please enter your full name",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ที่อยู่อีเมล์",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

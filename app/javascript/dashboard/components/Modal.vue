@@ -2,7 +2,7 @@
   <transition name="modal-fade">
     <div
       v-if="show"
-      class="modal-mask"
+      :class="modalClassName"
       transition="modal"
       @click="onBackDropClick"
     >
@@ -30,6 +30,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    modalType: {
+      type: String,
+      default: 'centered',
+    },
   },
   computed: {
     modalContainerClassName() {
@@ -38,6 +42,14 @@ export default {
         return `${className} modal-container--full-width`;
       }
       return className;
+    },
+    modalClassName() {
+      const modalClassNameMap = {
+        centered: '',
+        'right-aligned': 'right-aligned',
+      };
+
+      return `modal-mask ${modalClassNameMap[this.modalType] || ''}`;
     },
   },
   mounted() {
@@ -60,7 +72,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .modal-container--full-width {
   align-items: center;
   border-radius: 0;
@@ -68,5 +80,15 @@ export default {
   height: 100%;
   justify-content: center;
   width: 100%;
+}
+
+.modal-mask.right-aligned {
+  justify-content: flex-end;
+
+  .modal-container {
+    border-radius: 0;
+    height: 100%;
+    width: 48rem;
+  }
 }
 </style>

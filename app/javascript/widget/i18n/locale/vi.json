@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Vui lòng nhập email",
   "CHAT_PLACEHOLDER": "Gõ tin nhắn của bạn",
   "TODAY": "Hôm nay",
-  "YESTERDAY": "Hôm qua"
+  "YESTERDAY": "Hôm qua",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Tên đầy đủ",
+        "PLACEHOLDER": "Vui lòng nhập tên đầy đủ của bạn",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

@@ -1,61 +1,61 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
-    "SEARCH_404": "There are no items matching this query",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "HEADER": "Cimkék",
+    "HEADER_BTN_TXT": "Cimke hozzáadása",
+    "LOADING": "Cimkék letöltése",
+    "SEARCH_404": "Nincs megfelelő elem",
+    "SIDEBAR_TXT": "<p><b>Cimkék</b><p>A cimkék segítenek kategorizálni és priorizálni a beszélgetéseket. A beszélgetésekhez cimkét rendelhetsz az oldalpanelben <br /><br />A cimkék a fiókodhoz vannak kötve. A cimkékkel egyedi munkameneteket hozhatsz létre a szervezetedben. Egyedi színt adhatsz a cimkéknek a könnyű azonosíthatóság érdekében. Az oldalsávban meg tudod majd jeleníteni a cimkéket hogy könnyen szűrhesd a beszélgetéseket</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "404": "Nincs megfelelő cimke ebben a fiókban.",
+      "TITLE": "Cimkék kezelése",
+      "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
       "TABLE_HEADER": [
         "Név",
-        "Description",
-        "Color"
+        "Leírás",
+        "Szín"
       ]
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Cimke neve",
+        "PLACEHOLDER": "Cimke neve",
+        "ERROR": "A cimke nevének megadása kötelező"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "Label Description"
+        "LABEL": "Leírás",
+        "PLACEHOLDER": "Cimke leírás"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Szín"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Cimke megjelenítése az oldalsávban"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Szerkesztés",
+      "CREATE": "Létrehozás",
+      "DELETE": "Törlés",
+      "CANCEL": "Mégse"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Cimke hozzáadása",
+      "DESC": "A cimkék a beszélgetések csoportokba rendezését segítik.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Cimke sikeresen hozzáadva",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Cimke szerkesztése",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Cimke sikeresen frissítve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Cimke sikeresen törölve",
+        "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
       },
       "CONFIRM": {
         "TITLE": "Törlés Megerősítése",

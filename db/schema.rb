@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_19_085719) do
+ActiveRecord::Schema.define(version: 2021_03_15_101919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(version: 2021_02_19_085719) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
-    t.string "timezone", default: "UTC"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -132,11 +131,11 @@ ActiveRecord::Schema.define(version: 2021_02_19_085719) do
   create_table "channel_email", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "email", null: false
-    t.string "forward_to_address", null: false
+    t.string "forward_to_email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
-    t.index ["forward_to_address"], name: "index_channel_email_on_forward_to_address", unique: true
+    t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
 
   create_table "channel_facebook_pages", id: :serial, force: :cascade do |t|
@@ -303,6 +302,7 @@ ActiveRecord::Schema.define(version: 2021_02_19_085719) do
     t.string "email_address"
     t.boolean "working_hours_enabled", default: false
     t.string "out_of_office_message"
+    t.string "timezone", default: "UTC"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 

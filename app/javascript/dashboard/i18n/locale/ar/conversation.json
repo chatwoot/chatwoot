@@ -11,7 +11,7 @@
       "TITLE": "Search messages",
       "LOADING_MESSAGE": "Crunching data...",
       "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "There are no messages matching the search parameters."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "أدخل عنوان بريد إلكتروني",
         "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

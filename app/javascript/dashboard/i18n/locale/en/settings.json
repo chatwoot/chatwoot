@@ -22,6 +22,11 @@
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration"
       },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+      },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
         "NOTE": "Update your email notification preferences here",

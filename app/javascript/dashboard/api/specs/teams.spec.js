@@ -11,5 +11,6 @@ describe('#TeamsAPI', () => {
     expect(teams).toHaveProperty('delete');
     expect(teams).toHaveProperty('getAgents');
     expect(teams).toHaveProperty('addAgents');
+    expect(teams).toHaveProperty('updateAgents');
   });
 });
