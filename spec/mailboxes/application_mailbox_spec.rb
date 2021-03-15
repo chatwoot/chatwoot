@@ -29,13 +29,18 @@ RSpec.describe ApplicationMailbox, type: :mailbox do
     describe 'Support' do
       let!(:channel_email) { create(:channel_email) }
 
-      before do
+      it 'routes support emails to Support Mailbox when mail is to channel email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
-        channel_email.email = 'care@example.com'
-        channel_email.save
+        channel_email.update(email: 'care@example.com')
+        dbl = double
+        expect(SupportMailbox).to receive(:new).and_return(dbl)
+        expect(dbl).to receive(:perform_processing).and_return(true)
+        described_class.route support_mail
       end
 
-      it 'routes support emails to Support Mailbox' do
+      it 'routes support emails to Support Mailbox when mail is to channel forward to email' do
+        # this email is hardcoded in the support.eml, that's why we are updating this
+        channel_email.update(forward_to_email: 'care@example.com')
         dbl = double
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)

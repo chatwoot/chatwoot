@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "请输入您的电子邮件",
   "CHAT_PLACEHOLDER": "输入您的消息",
   "TODAY": "今日",
-  "YESTERDAY": "昨日"
+  "YESTERDAY": "昨日",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "名字",
+        "PLACEHOLDER": "Please enter your full name",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "电子邮件地址",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

@@ -1,38 +1,38 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Register an account",
-    "TITLE": "Register",
-    "TERMS_ACCEPT": "By signing up, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Fiók létrehozása",
+    "TITLE": "Regisztrálás",
+    "TERMS_ACCEPT": "A feliratkozással megerősíted, hogy egyetértesz a <a href=\"https://www.chatwoot.com/terms\"> Felhasználói feltételekkel</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési politikával</a>",
     "ACCOUNT_NAME": {
-      "LABEL": "Account name",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "LABEL": "Fióknév",
+      "PLACEHOLDER": "Fióknév hozzáadása. Pl.: Wayne Kft.",
+      "ERROR": "A fióknév túl rövid"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "Teljes név",
+      "PLACEHOLDER": "Add meg a teljes neved. Pl.: Kovács János",
+      "ERROR": "A teljes név túl rövid"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "Munkahelyi e-mail",
+      "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos@email.hu",
+      "ERROR": "Az e-mailcím helytelen"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short"
+      "LABEL": "Jelszó",
+      "PLACEHOLDER": "Jelszó",
+      "ERROR": "A jelszó túl rövid"
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm Password",
-      "PLACEHOLDER": "Confirm Password",
-      "ERROR": "Password doesnot match"
+      "LABEL": "Jelszó megerősítése",
+      "PLACEHOLDER": "Jelszó megerősítése",
+      "ERROR": "A jelszavak nem egyeznek"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "Sikeres regisztráció",
+      "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
     },
-    "SUBMIT": "Submit",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Elküldés",
+    "HAVE_AN_ACCOUNT": "Már van fiókod?"
   }
 }

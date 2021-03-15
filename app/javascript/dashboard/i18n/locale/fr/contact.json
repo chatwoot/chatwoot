@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Modifier le contact",
     "TITLE": "Modifier le contact",
-    "DESC": "Modifier les informations de contact",
+    "DESC": "Modifier les informations de contact"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nouveau contact",
+    "TITLE": "Créer un nouveau contact",
+    "DESC": "Ajouter des informations de base à propos du contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Envoyer",
       "CANCEL": "Annuler",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact mis à jour avec succès",
+    "SUCCESS_MESSAGE": "Contact enregistré avec succès",
     "CONTACT_ALREADY_EXIST": "Cette adresse de courriel est déjà utilisée pour un autre contact.",
-    "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour du contact, veuillez réessayer"
+    "ERROR_MESSAGE": "Une erreur est survenue, veuillez réessayer"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Chargement des contacts...",
       "404": "Aucun contact ne correspond à votre recherche 🔍",
-      "TABLE_HEADER": [
-        "Nom",
-        "Numéro de téléphone",
-        "Conversations",
-        "Dernièrement contacté"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "PHONE_NUMBER": "Numéro de téléphone",
+        "CONVERSATIONS": "Conversations",
+        "LAST_ACTIVITY": "Dernière activité",
+        "COUNTRY": "Pays",
+        "CITY": "Ville",
+        "SOCIAL_PROFILES": "Comptes réseaux sociaux",
+        "COMPANY": "Société",
+        "EMAIL_ADDRESS": "Adresse de courriel"
+      },
+      "VIEW_DETAILS": "Voir les détails"
     }
   }
 }
