@@ -20,7 +20,7 @@ export const getInboxClassByType = (type, phoneNumber) => {
       return 'ion-cloud';
 
     case INBOX_TYPES.EMAIL:
-      return 'ion-email';
+      return 'ion-ios-email';
 
     default:
       return '';

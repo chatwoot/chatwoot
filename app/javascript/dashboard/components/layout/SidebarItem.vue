@@ -127,6 +127,7 @@ export default {
 
 .wrap {
   display: flex;
+  align-items: center;
 }
 
 .label-color--display {
@@ -137,27 +138,11 @@ export default {
   width: $space-normal;
 }
 
-.inbox-icon.ion-social-facebook {
-  color: var(--color-facebook-brand);
-}
-
-.inbox-icon.ion-social-whatsapp-outline {
-  color: var(--color-whatsapp-brand);
-}
-
-.inbox-icon.ion-social-twitter {
-  color: var(--color-twitter-brand);
-}
-
-.inbox-icon.ion-android-textsms {
-  color: var(--color-sms-twilio);
-}
-
-.inbox-icon.ion-earth {
-  color: var(--color-woot);
-}
-
-.inbox-icon.ion-cloud {
-  color: var(--color-cloud-generic);
+.inbox-icon {
+  position: relative;
+  top: -1px;
+  &.ion-ios-email {
+    font-size: var(--font-size-medium);
+  }
 }
 </style>
