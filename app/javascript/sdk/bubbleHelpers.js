@@ -64,6 +64,10 @@ export const onBubbleClick = (props = {}) => {
     toggleClass(closeBubble, 'woot--hide');
     toggleClass(widgetHolder, 'woot--hide');
     IFrameHelper.events.onBubbleToggle(newIsOpen);
+
+    if (!newIsOpen) {
+      chatBubble.focus();
+    }
   }
 };
 
