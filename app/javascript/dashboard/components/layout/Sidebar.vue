@@ -178,7 +178,6 @@ export default {
         icon: 'ion-ios-people',
         label: 'TEAMS',
         hasSubMenu: true,
-        newLink: true,
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
