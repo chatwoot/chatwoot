@@ -11,7 +11,7 @@
       "TITLE": "Procurar mensagens",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
-      "NO_MATCHING_RESULTS": "Não há mensagens que correspondam aos parâmetros de pesquisa."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Mensagens não lidas",
     "UNREAD_MESSAGE": "Mensagem não lida",
@@ -25,7 +25,7 @@
     "REMOVE_SELECTION": "Remover Seleção",
     "DOWNLOAD": "Baixar",
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
-    "NO_RESPONSE": "No response",
+    "NO_RESPONSE": "Sem resposta",
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Selecione Agente",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Digite um endereço de e-mail",
         "ERROR": "Por favor, insira um endereço de e-mail válido"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Leia as últimas atualizações",
+    "ALL_CONVERSATION": {
+      "TITLE": "Todas as suas conversas em um só lugar",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Conectar caixas de entrada",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }
