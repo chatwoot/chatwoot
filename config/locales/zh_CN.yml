@@ -16,7 +16,7 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-zh_CN:
+zh-CN:
   hello: "您好世界"
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
@@ -29,6 +29,12 @@ zh_CN:
       failed: 注册失败
   reports:
     period: Reporting period %{since} to %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: This message was deleted
@@ -41,6 +47,10 @@ zh_CN:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "由 %{assignee_name} 分配给 %{user_name}"
         removed: "对话未被 %{user_name} 分配"
+      team:
+        assigned: "由 %{team_name} 分配给 %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"

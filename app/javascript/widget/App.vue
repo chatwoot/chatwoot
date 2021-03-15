@@ -2,12 +2,7 @@
   <router
     :show-unread-view="showUnreadView"
     :is-mobile="isMobile"
-    :grouped-messages="groupedMessages"
-    :unread-messages="unreadMessages"
-    :conversation-size="conversationSize"
-    :available-agents="availableAgents"
     :has-fetched="hasFetched"
-    :conversation-attributes="conversationAttributes"
     :unread-message-count="unreadMessageCount"
     :is-left-aligned="isLeftAligned"
     :hide-message-bubble="hideMessageBubble"
@@ -18,7 +13,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
-import { IFrameHelper } from 'widget/helpers/utils';
+import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
@@ -40,12 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      groupedMessages: 'conversation/getGroupedConversation',
-      unreadMessages: 'conversation/getUnreadTextMessages',
-      conversationSize: 'conversation/getConversationSize',
-      availableAgents: 'agent/availableAgents',
       hasFetched: 'agent/getHasFetched',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
     }),
     isLeftAligned() {
@@ -54,6 +44,9 @@ export default {
     },
     isIFrame() {
       return IFrameHelper.isIFrame();
+    },
+    isRNWebView() {
+      return RNHelper.isRNWebView();
     },
   },
   mounted() {
@@ -68,6 +61,10 @@ export default {
       this.fetchOldConversations();
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
+    }
+    if (this.isRNWebView) {
+      this.registerListeners();
+      this.sendRNWebViewLoadedEvent();
     }
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
@@ -189,6 +186,15 @@ export default {
     },
     sendLoadedEvent() {
       IFrameHelper.sendMessage({
+        event: 'loaded',
+        config: {
+          authToken: window.authToken,
+          channelConfig: window.chatwootWebChannel,
+        },
+      });
+    },
+    sendRNWebViewLoadedEvent() {
+      RNHelper.sendMessage({
         event: 'loaded',
         config: {
           authToken: window.authToken,

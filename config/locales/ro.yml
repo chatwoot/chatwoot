@@ -29,6 +29,12 @@ ro:
       failed: Înregistrare eșuată
   reports:
     period: Reporting period %{since} to %{until}
+  notifications:
+    notification_title:
+      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
+      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
+      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
       deleted: This message was deleted
@@ -41,6 +47,10 @@ ro:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
         removed: "Conversație neasociată de %{user_name}"
+      team:
+        assigned: "Atribuit lui %{team_name} de %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"

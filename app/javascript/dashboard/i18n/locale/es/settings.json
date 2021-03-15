@@ -16,17 +16,18 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
-        "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos."
+        "NOTE": "Actualizar su contraseña restablecería sus entradas en varios dispositivos."
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificaciones por email",
-        "NOTE": "Actualiza tus preferencias de notificación por correo electrónico aquí",
+        "TITLE": "Notificaciones por correo",
+        "NOTE": "Actualice sus preferencias de notificación por correo electrónico aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
+        "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Actualize sus preferencias de notificaciones push aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones push cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
+        "CONVERSATION_MENTION": "Enviar notificaciones push cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando un nuevo mensaja es creadao en una conversación asignada",
         "HAS_ENABLED_PUSH": "Has habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push"
@@ -64,7 +66,7 @@
         ]
       },
       "EMAIL": {
-        "LABEL": "Tu dirección de correo",
+        "LABEL": "Su dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },
@@ -113,15 +115,17 @@
   "SIDEBAR": {
     "CONVERSATIONS": "Conversaciones",
     "REPORTS": "Informes",
-    "CONTACTS": "Contacts",
+    "CONTACTS": "Contactos",
     "SETTINGS": "Ajustes",
     "HOME": "Inicio",
     "AGENTS": "Agentes",
     "INBOXES": "Entradas",
+    "NOTIFICATIONS": "Notificaciones",
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
-    "LABELS": "Etiquetas"
+    "LABELS": "Etiquetas",
+    "TEAMS": "Equipos"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nueva cuenta",

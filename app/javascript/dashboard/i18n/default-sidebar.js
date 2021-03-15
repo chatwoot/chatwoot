@@ -14,6 +14,8 @@ export const getSidebarItems = accountId => ({
       'profile_settings_index',
       'label_conversations',
       'conversations_through_label',
+      'team_conversations',
+      'conversations_through_team',
       'notifications_index',
     ],
     menuItems: {
@@ -73,6 +75,13 @@ export const getSidebarItems = accountId => ({
       'settings_integrations_integration',
       'general_settings',
       'general_settings_index',
+      'settings_teams_list',
+      'settings_teams_new',
+      'settings_teams_add_agents',
+      'settings_teams_finish',
+      'settings_teams_edit',
+      'settings_teams_edit_members',
+      'settings_teams_edit_finish',
     ],
     menuItems: {
       back: {
@@ -88,6 +97,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/agents/list`),
         toStateName: 'agent_list',
+      },
+      teams: {
+        icon: 'ion-ios-people',
+        label: 'TEAMS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/teams/list`),
+        toStateName: 'settings_teams_list',
       },
       inboxes: {
         icon: 'ion-archive',

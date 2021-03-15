@@ -13,9 +13,9 @@
     "OFFLINE": "ما آفلاین هستیم"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
+    "IN_A_FEW_HOURS": "معمولاً در عرض چند ساعت پاسخ می دهند",
+    "IN_A_DAY": "به طور معمول در یک روز پاسخ می دهند"
   },
   "START_CONVERSATION": "شروع گفتگو",
   "UNREAD_VIEW": {
@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
   "CHAT_PLACEHOLDER": "پیام خود را وارد کنید",
   "TODAY": "امروز",
-  "YESTERDAY": "دیروز"
+  "YESTERDAY": "دیروز",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "نام کامل",
+        "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ایمیل",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

@@ -4,7 +4,7 @@
     "HEADER_BTN_TXT": "افزودن برچسب",
     "LOADING": "درحال گرفتن برچسب‌ها",
     "SEARCH_404": "هیچ آیتمی با این مشخصات یافت نشد",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p>\n <b> برچسب ها</b>\n<p> برچسب ها به شما در دسته بندی مکالمات و اولویت بندی آنها کمک می کند. می توانید برچسب را به یک مکالمه از نوار کناری اختصاص دهید.\n <br/>\n <br/>\n برچسب ها به حساب گره خورده اند و می توانند برای ایجاد گردش کار سفارشی در سازمان شما استفاده شوند. می توانید رنگ سفارشی را به برچسب اختصاص دهید ، شناسایی برچسب آسان تر می شود. شما می توانید برچسب را در نوار کناری نمایش دهید تا مکالمه ها به راحتی فیلتر شود.\n</p>",
     "LIST": {
       "404": "هیچ برچسبی در این حساب‌کاربری وجود ندارد.",
       "TITLE": "مدیریت برچسب‌ها",

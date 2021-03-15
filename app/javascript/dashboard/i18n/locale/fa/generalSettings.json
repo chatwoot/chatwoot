@@ -34,22 +34,42 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "تعداد روزهایی که اگر فعالیتی وجود نداشته باشد، گفتگو به صورت خودکار بسته شود",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "لطفاً یک مدت زمان حل خودکار معتبر (حداقل 1 روز) وارد کنید"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "INBOUND_EMAIL_ENABLED": "تداوم مکالمه با ایمیل برای حساب شما فعال است.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "اکنون می‌توانید ایمیل‌ها را در دامنه سفارشی خود دریافت کنید."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "به روزرسانی%{latestChatwootVersion} برای Chatwoot در دسترس است. لطفا نمونه خود را به روز کنید."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "برای انتخاب Enter را فشار دهید",
+      "ENTER_TO_REMOVE": "برای حذف دکمه enter را فشار دهید",
+      "SELECT_ONE": "یکی را انتخاب کن"
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "HEADER": "اعلان ها",
+    "MARK_ALL_DONE": "همه را به انجام شده تغییر بده",
+    "LIST": {
+      "LOADING_MESSAGE": "در حال بارگیری اعلان ها...",
+      "404": "اعلانی وجود ندارد",
+      "TABLE_HEADER": [
+        "نام",
+        "شماره تلفن",
+        "گفتگوها",
+        "آخرین تماس"
+      ]
+    },
+    "TYPE_LABEL": {
+      "conversation_creation": "گفتگوی جدید",
+      "conversation_assignment": "مکالمه اختصاص داده شد",
+      "assigned_conversation_new_message": "پیام جدید",
+      "conversation_mention": "اشاره"
     }
   }
 }

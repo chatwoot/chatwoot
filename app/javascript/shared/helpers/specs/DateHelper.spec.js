@@ -1,4 +1,9 @@
-import { formatDate, formatUnixDate } from '../DateHelper';
+import {
+  formatDate,
+  formatUnixDate,
+  buildDateFromTime,
+  formatDigitToString,
+} from '../DateHelper';
 
 describe('#DateHelper', () => {
   it('should format unix date correctly without dateFormat', () => {
@@ -38,5 +43,28 @@ describe('#DateHelper', () => {
         yesterdayText: 'Yesterday',
       })
     ).toEqual('Yesterday');
+  });
+
+  describe('#buildDate', () => {
+    it('returns correctly parsed date', () => {
+      const date = new Date();
+      date.setFullYear(2021);
+      date.setMonth(2);
+      date.setDate(5);
+
+      const result = buildDateFromTime(12, 15, '.465Z', date);
+      expect(result + '').toEqual(
+        'Fri Mar 05 2021 12:15:00 GMT+0000 (Coordinated Universal Time)'
+      );
+    });
+  });
+
+  describe('#formatDigitToString', () => {
+    it('returns date compatabile string from number is less than 9', () => {
+      expect(formatDigitToString(8)).toEqual('08');
+    });
+    it('returns date compatabile string from number is greater than 9', () => {
+      expect(formatDigitToString(11)).toEqual('11');
+    });
   });
 });

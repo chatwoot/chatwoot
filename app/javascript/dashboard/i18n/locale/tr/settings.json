@@ -27,6 +27,7 @@
         "NOTE": "E-posta bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında e-posta bildirimleri gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda e-posta bildirimleri gönderin",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanmış bir görüşmede yeni bir mesaj oluşturulduğunda e-posta bildirimleri gönderin"
       },
       "API": {
@@ -38,6 +39,7 @@
         "NOTE": "Bildirim tercihlerinizi buradan güncelleyin",
         "CONVERSATION_ASSIGNMENT": "Bana bir konuşma atandığında anında bildirim gönder",
         "CONVERSATION_CREATION": "Yeni bir görüşme oluşturulduğunda anlık bildirimler gönderin",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Atanan bir görüşmede yeni bir mesaj oluşturulduğunda anlık bildirimler gönderin",
         "HAS_ENABLED_PUSH": "Bu tarayıcı için bildirim özelliğini etkinleştirdiniz.",
         "REQUEST_PUSH": "Bildirimlerini etkinleştirin"
@@ -118,10 +120,12 @@
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "INBOXES": "Gelen kutuları",
+    "NOTIFICATIONS": "Bildirimler",
     "CANNED_RESPONSES": "Hazır Yanıtlar",
     "INTEGRATIONS": "Entegrasyonlar",
     "ACCOUNT_SETTINGS": "Hesap ayarları",
-    "LABELS": "Etiketler"
+    "LABELS": "Etiketler",
+    "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Yeni hesap",

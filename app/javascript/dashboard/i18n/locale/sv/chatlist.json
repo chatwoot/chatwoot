@@ -8,7 +8,7 @@
     },
     "TAB_HEADING": "Konversationer",
     "SEARCH": {
-      "INPUT": "Sök efter människor, chattar, sparade svar .."
+      "INPUT": "Sök efter personer, chattar, sparade svar .."
     },
     "STATUS_TABS": [
       {
@@ -79,6 +79,7 @@
     },
     "RECEIVED_VIA_EMAIL": "Mottaget via e-post",
     "VIEW_TWEET_IN_TWITTER": "Visa tweet i Twitter",
-    "REPLY_TO_TWEET": "Svara på detta tweet"
+    "REPLY_TO_TWEET": "Svara på detta tweet",
+    "NO_MESSAGES": "Inga meddelanden"
   }
 }

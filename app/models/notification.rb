@@ -32,7 +32,8 @@ class Notification < ApplicationRecord
   NOTIFICATION_TYPES = {
     conversation_creation: 1,
     conversation_assignment: 2,
-    assigned_conversation_new_message: 3
+    assigned_conversation_new_message: 3,
+    conversation_mention: 4
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES
@@ -43,12 +44,13 @@ class Notification < ApplicationRecord
   PRIMARY_ACTORS = ['Conversation'].freeze
 
   def push_event_data
+    # Secondary actor could be nil for cases like system assigning conversation
     {
       id: id,
       notification_type: notification_type,
       primary_actor_type: primary_actor_type,
       primary_actor_id: primary_actor_id,
-      primary_actor: primary_actor&.push_event_data,
+      primary_actor: primary_actor.push_event_data,
       read_at: read_at,
       secondary_actor: secondary_actor&.push_event_data,
       user: user&.push_event_data,
@@ -59,15 +61,28 @@ class Notification < ApplicationRecord
 
   # TODO: move to a data presenter
   def push_message_title
-    if notification_type == 'conversation_creation'
-      return "A new conversation [ID -#{primary_actor.display_id}] has been created in #{primary_actor.inbox.name}"
+    case notification_type
+    when 'conversation_creation'
+      I18n.t('notifications.notification_title.conversation_creation', display_id: primary_actor.display_id, inbox_name: primary_actor.inbox.name)
+    when 'conversation_assignment'
+      I18n.t('notifications.notification_title.conversation_assignment', display_id: primary_actor.display_id)
+    when 'assigned_conversation_new_message'
+      I18n.t(
+        'notifications.notification_title.assigned_conversation_new_message',
+        display_id: conversation.display_id,
+        content: primary_actor.content.truncate_words(10)
+      )
+    when 'conversation_mention'
+      I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id, name: secondary_actor.name)
+    else
+      ''
     end
+  end
 
-    return "A new conversation [ID -#{primary_actor.display_id}] has been assigned to you." if notification_type == 'conversation_assignment'
+  def conversation
+    return primary_actor.conversation if %w[assigned_conversation_new_message conversation_mention].include? notification_type
 
-    return "New message in your assigned conversation [ID -#{primary_actor.display_id}]." if notification_type == 'assigned_conversation_new_message'
-
-    ''
+    primary_actor
   end
 
   private

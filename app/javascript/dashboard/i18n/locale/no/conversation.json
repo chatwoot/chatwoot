@@ -1,0 +1,111 @@
+{
+  "CONVERSATION": {
+    "404": "Velg en samtale fra venstre panel",
+    "NO_MESSAGE_1": "Å nei! Ser ut til at det ikke er noen meldinger fra kunder i innboksen din.",
+    "NO_MESSAGE_2": " for å sende en melding til siden din!",
+    "NO_INBOX_1": "Tjohei! Det ser ut til at du ikke har lagt til noen innbokser enda.",
+    "NO_INBOX_2": " for å komme i gang",
+    "NO_INBOX_AGENT": "Uff da! Det ser ut til at du ikke er en del av innboksen. Kontakt systemansvarlig",
+    "SEARCH_MESSAGES": "Søk etter meldinger i samtaler",
+    "SEARCH": {
+      "TITLE": "Søk i meldinger",
+      "LOADING_MESSAGE": "Knuser data...",
+      "PLACEHOLDER": "Skriv tekst for å søke etter meldinger",
+      "NO_MATCHING_RESULTS": "No results found."
+    },
+    "UNREAD_MESSAGES": "Uleste meldinger",
+    "UNREAD_MESSAGE": "Ulest melding",
+    "CLICK_HERE": "Klikk her",
+    "LOADING_INBOXES": "Laster innbokser",
+    "LOADING_CONVERSATIONS": "Laster samtaler",
+    "CANNOT_REPLY": "Du kan ikke svare på grunn av",
+    "24_HOURS_WINDOW": "24-timers meldingsrestriksjon",
+    "LAST_INCOMING_TWEET": "Du svarer på den siste innkommende tweet",
+    "REPLYING_TO": "Du svarer til:",
+    "REMOVE_SELECTION": "Fjern utvalget",
+    "DOWNLOAD": "Last ned",
+    "UPLOADING_ATTACHMENTS": "Laster opp vedlegg...",
+    "NO_RESPONSE": "No response",
+    "HEADER": {
+      "RESOLVE_ACTION": "Løs",
+      "REOPEN_ACTION": "Gjenåpne",
+      "OPEN": "Mer",
+      "CLOSE": "Lukk",
+      "DETAILS": "detaljer"
+    },
+    "FOOTER": {
+      "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
+      "PRIVATE_MSG_INPUT": "Skift + enter for ny linje. Dette vil kun være synlig for agenter"
+    },
+    "REPLYBOX": {
+      "REPLY": "Svar",
+      "PRIVATE_NOTE": "Privat notat",
+      "SEND": "Send",
+      "CREATE": "Legg til notat",
+      "TWEET": "Tweet",
+      "TIP_FORMAT_ICON": "Vis rik tekstredigering",
+      "TIP_EMOJI_ICON": "Vis emoji-velger",
+      "TIP_ATTACH_ICON": "Legg ved filer",
+      "ENTER_TO_SEND": "Trykk enter for å sende"
+    },
+    "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",
+    "CHANGE_STATUS": "Samtalestatus er endret",
+    "CHANGE_AGENT": "Tildelt agent er endret",
+    "CHANGE_TEAM": "Conversation team changed",
+    "SENT_BY": "Sendt av:",
+    "ASSIGNMENT": {
+      "SELECT_AGENT": "Velg agent",
+      "REMOVE": "Fjern",
+      "ASSIGN": "Tildel"
+    }
+  },
+  "EMAIL_TRANSCRIPT": {
+    "TITLE": "Send kopi av samtale",
+    "DESC": "Send en kopi av samtalen til den angitte e-postadressen",
+    "SUBMIT": "Send",
+    "CANCEL": "Avbryt",
+    "SEND_EMAIL_SUCCESS": "Kopi av samtalen ble sendt",
+    "SEND_EMAIL_ERROR": "Det oppstod en feil. Prøv igjen",
+    "FORM": {
+      "SEND_TO_CONTACT": "Send kopi av samtalen til kunden",
+      "SEND_TO_AGENT": "Send kopi av samtalen til den tildelte agenten",
+      "SEND_TO_OTHER_EMAIL_ADDRESS": "Send kopi av samtalen til en annen e-postadresse",
+      "EMAIL": {
+        "PLACEHOLDER": "Skriv inn en e-postadresse",
+        "ERROR": "Vennligst skriv inn en gyldig e-postadresse"
+      }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
+    }
+  }
+}

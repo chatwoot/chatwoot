@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Ange din e-postadress",
   "CHAT_PLACEHOLDER": "Skriv ditt meddelande",
   "TODAY": "Idag",
-  "YESTERDAY": "Igår"
+  "YESTERDAY": "Igår",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Fullständigt namn",
+        "PLACEHOLDER": "Vänligen ange ditt fullständiga namn",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-postadress",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "연락처 수정",
     "TITLE": "연락처 수정",
-    "DESC": "연락처 수정 자세히",
+    "DESC": "연락처 수정 자세히"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "보내기",
       "CANCEL": "취소",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "연락처 업데이트 완료",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
-    "ERROR_MESSAGE": "연락처를 업데이트하는 동안 오류가 발생했습니다. 다시 시도하십시오."
+    "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
   "CONTACTS_PAGE": {
     "HEADER": "연락처",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "연락처를 불러오는 중...",
       "404": "검색과 일치하는 연락처 없음 🔍",
-      "TABLE_HEADER": [
-        "이름",
-        "전화 번호",
-        "대화",
-        "마지막으로 연락한 사람"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "이름",
+        "PHONE_NUMBER": "전화 번호",
+        "CONVERSATIONS": "대화",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "회사",
+        "EMAIL_ADDRESS": "이메일 주소"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

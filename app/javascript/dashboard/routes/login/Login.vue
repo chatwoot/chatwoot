@@ -143,7 +143,7 @@ export default {
           this.showAlert(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
-          // Reset URL Params if the authenication is invalid
+          // Reset URL Params if the authentication is invalid
           if (this.email) {
             window.location = '/app/login';
           }

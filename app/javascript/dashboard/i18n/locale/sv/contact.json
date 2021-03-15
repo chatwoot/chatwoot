@@ -6,7 +6,7 @@
     "COPY_SUCCESSFUL": "Kopierat till urklipp",
     "COMPANY": "Företag",
     "LOCATION": "Plats",
-    "CONVERSATION_TITLE": "Konversation Detaljer",
+    "CONVERSATION_TITLE": "Konversationsdetaljer",
     "BROWSER": "Webbläsare",
     "OS": "Operativsystem",
     "INITIATED_FROM": "Initierad från",
@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Redigera kontakt",
     "TITLE": "Redigera kontakt",
-    "DESC": "Redigera kontaktuppgifter",
+    "DESC": "Redigera kontaktuppgifter"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Skicka",
       "CANCEL": "Avbryt",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakten har uppdaterats",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Den här e-postadressen används för en annan kontakt.",
-    "ERROR_MESSAGE": "Ett fel uppstod vid uppdateringen av kontakten, vänligen försök igen"
+    "ERROR_MESSAGE": "Ett fel uppstod, vänligen försök igen"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakter",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Laddar kontakter...",
       "404": "Inga kontakter matchar din sökning 🔍",
-      "TABLE_HEADER": [
-        "Namn",
-        "Telefonnummer",
-        "Konversationer",
-        "Senast kontaktad"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Namn",
+        "PHONE_NUMBER": "Telefonnummer",
+        "CONVERSATIONS": "Konversationer",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Företag",
+        "EMAIL_ADDRESS": "E-postadress"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

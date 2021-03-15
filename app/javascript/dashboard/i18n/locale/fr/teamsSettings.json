@@ -1,0 +1,124 @@
+{
+  "TEAMS_SETTINGS": {
+    "NEW_TEAM": "Créer une nouvelle équipe",
+    "HEADER": "Équipes",
+    "SIDEBAR_TXT": "<p><b>Équipes</b></p> <p>Les équipes vous permettent d'organiser vos agents en groupes en fonction de leurs responsabilités. <br /> Un utilisateur peut faire partie de plusieurs équipes. Vous pouvez assigner des conversations à une équipe lorsque vous travaillez en collaboration. </p>",
+    "LIST": {
+      "404": "Il n'y a aucune équipe créée sur ce compte.",
+      "EDIT_TEAM": "Modifier l'équipe"
+    },
+    "CREATE_FLOW": {
+      "CREATE": {
+        "TITLE": "Créer une nouvelle équipe",
+        "DESC": "Ajoutez un titre et une description à votre nouvelle équipe."
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Ajouter un agent à votre équipe",
+        "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
+        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+      },
+      "WIZARD": [
+        {
+          "title": "Créer",
+          "route": "settings_teams_new",
+          "body": "Create a new team of agents."
+        },
+        {
+          "title": "Ajouter des agents",
+          "route": "settings_teams_add_agents",
+          "body": "Add agents to the team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_finish",
+          "body": "Vous êtes paré !"
+        }
+      ]
+    },
+    "EDIT_FLOW": {
+      "CREATE": {
+        "TITLE": "Edit your team details",
+        "DESC": "Edit title and description to your team.",
+        "BUTTON_TEXT": "Update team"
+      },
+      "AGENTS": {
+        "BUTTON_TEXT": "Update agents in team",
+        "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
+        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+      },
+      "WIZARD": [
+        {
+          "title": "Team details",
+          "route": "settings_teams_edit",
+          "body": "Change name, description and other details."
+        },
+        {
+          "title": "Edit Agents",
+          "route": "settings_teams_edit_members",
+          "body": "Edit agents in your team."
+        },
+        {
+          "title": "Finish",
+          "route": "settings_teams_edit_finish",
+          "body": "Vous êtes paré !"
+        }
+      ]
+    },
+    "TEAM_FORM": {
+      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+    },
+    "AGENTS": {
+      "AGENT": "AGENT",
+      "EMAIL": "COURRIEL",
+      "BUTTON_TEXT": "Ajouter des agents",
+      "ADD_AGENTS": "Adding Agents to your Team...",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+    },
+    "ADD": {
+      "TITLE": "Ajouter des agents à l'équipe - %{teamName}",
+      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "SELECT": "select",
+      "SELECT_ALL": "select all agents",
+      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "BUTTON_TEXT": "Ajouter des agents",
+      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+    },
+    "FINISH": {
+      "TITLE": "Your team is ready!",
+      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
+      "BUTTON_TEXT": "Finish"
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Supprimer",
+      "API": {
+        "SUCCESS_MESSAGE": "Team deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+      },
+      "CONFIRM": {
+        "TITLE": "Are you sure want to delete - %{teamName}",
+        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "YES": "Supprimer ",
+        "NO": "Annuler"
+      }
+    },
+    "SETTINGS": "Paramètres",
+    "FORM": {
+      "UPDATE": "Update team",
+      "CREATE": "Create team",
+      "NAME": {
+        "LABEL": "Team name",
+        "PLACEHOLDER": "Example: Sales, Customer Support"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Team Description",
+        "PLACEHOLDER": "Short description about this team."
+      },
+      "AUTO_ASSIGN": {
+        "LABEL": "Allow auto assign for this team."
+      },
+      "SUBMIT_CREATE": "Create team"
+    }
+  }
+}

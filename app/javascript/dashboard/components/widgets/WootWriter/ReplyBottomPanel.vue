@@ -22,7 +22,7 @@
         </file-upload>
       </button>
       <button
-        v-if="enableRichEditor"
+        v-if="enableRichEditor && !isOnPrivateNote"
         class="button clear button--emoji"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
@@ -102,6 +102,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isOnPrivateNote: {
+      type: Boolean,
+      default: false,
+    },
     enableRichEditor: {
       type: Boolean,
       default: false,
@@ -156,9 +160,9 @@ export default {
 }
 
 .button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  &.button--emoji {
+    margin-right: var(--space-small);
+  }
 
   &.is-active {
     background: white;
@@ -217,6 +221,7 @@ export default {
 
     label {
       color: var(--s-500);
+      font-size: var(--font-size-mini);
     }
   }
 }

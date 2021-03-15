@@ -172,6 +172,7 @@ export default {
     margin-left: -2px;
     font-size: var(--font-size-small);
     padding: var(--space-small) var(--space-normal);
+    border-radius: 0;
 
     &:hover,
     &:focus,
