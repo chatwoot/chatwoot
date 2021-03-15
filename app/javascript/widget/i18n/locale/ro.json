@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
   "CHAT_PLACEHOLDER": "Scrie mesajul tău",
   "TODAY": "Astăzi",
-  "YESTERDAY": "Ieri"
+  "YESTERDAY": "Ieri",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Full Name",
+        "PLACEHOLDER": "Te rugăm să introduci un nume valid",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adresa Email",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

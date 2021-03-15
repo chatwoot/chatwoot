@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Contact bewerken",
     "TITLE": "Contact bewerken",
-    "DESC": "Edit contact details",
+    "DESC": "Edit contact details"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Bevestigen",
       "CANCEL": "Annuleren",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "Naam",
-        "Phone Number",
-        "Gesprekken",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Naam",
+        "PHONE_NUMBER": "Phone Number",
+        "CONVERSATIONS": "Gesprekken",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Bedrijfsnaam",
+        "EMAIL_ADDRESS": "Uw e-mailadres"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

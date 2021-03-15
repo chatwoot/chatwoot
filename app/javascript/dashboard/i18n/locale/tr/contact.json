@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Kişiyi Düzenle",
     "TITLE": "Kişiyi Düzenle",
-    "DESC": "İletişim bilgilerini düzenleyin",
+    "DESC": "İletişim bilgilerini düzenleyin"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Yeni Kişi",
+    "TITLE": "Yeni kişi oluştur",
+    "DESC": "Kişi hakkındaki temel bilgileri giriniz."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Yolla",
       "CANCEL": "İptal Et",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kişi başarıyla güncellendi",
+    "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
     "CONTACT_ALREADY_EXIST": "Bu e-posta adresi başka bir kişi için kullanılıyor.",
-    "ERROR_MESSAGE": "Kişi güncellenirken bir hata oluştu, lütfen tekrar deneyin"
+    "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kişiler",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Kişiler yükleniyor ...",
       "404": "Aramanızla eşleşen kişi yok 🔍",
-      "TABLE_HEADER": [
-        "İsim",
-        "Telefon numarası",
-        "Konuşmalar",
-        "Son Görüşülen"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "İsim",
+        "PHONE_NUMBER": "Telefon numarası",
+        "CONVERSATIONS": "Konuşmalar",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Şirket",
+        "EMAIL_ADDRESS": "E-posta adresi"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

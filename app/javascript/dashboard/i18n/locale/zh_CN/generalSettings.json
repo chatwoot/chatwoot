@@ -60,7 +60,7 @@
       "404": "No Notifications",
       "TABLE_HEADER": [
         "姓名：",
-        "Phone Number",
+        "电话号码",
         "会话",
         "Last Contacted"
       ]

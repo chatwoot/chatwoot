@@ -47,6 +47,10 @@ ru:
         self_assigned: "%{user_name} назначил(а) разговор себе"
         assigned: "%{user_name} назначил %{assignee_name} ответственным"
         removed: "Ответственный снят %{user_name}"
+      team:
+        assigned: "%{user_name} назначил %{team_name} ответственным"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} добавил %{labels}"
         removed: "%{user_name} удалил %{labels}"

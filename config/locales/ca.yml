@@ -31,10 +31,10 @@ ca:
     period: Període d'informes %{since} a %{until}
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nova conversació] - #%{display_id} ha estat creada a %{inbox_name}"
+      conversation_assignment: "[Assignada a tu] - #%{display_id} t'ha sigut assignada"
+      assigned_conversation_new_message: "[Nou missatge] - #%{display_id} %{content}"
+      conversation_mention: "Has sigut esmentat a la conversació [ID - %{display_id} per %{name}"
   conversations:
     messages:
       deleted: Aquest missatge a sigut eliminat
@@ -47,6 +47,10 @@ ca:
         self_assigned: "%{user_name} s'ha auto assignat aquesta conversa"
         assigned: "Assignada a %{assignee_name} per %{user_name}"
         removed: "%{user_name} ha tret l'assignació de la conversa"
+      team:
+        assigned: "Assignada a %{team_name} per %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} ha afegit %{labels}"
         removed: "%{user_name} ha eliminat %{labels}"
