@@ -1,4 +1,9 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
+  def index
+    process_hmac
+    render json: @contact
+  end
+
   def update
     process_hmac
     contact_identify_action = ContactIdentifyAction.new(
