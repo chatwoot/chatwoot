@@ -85,6 +85,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    teamId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
 
   computed: {
@@ -171,6 +175,7 @@ export default {
         activeInbox,
         id: chat.id,
         label: this.activeLabel,
+        teamId: this.teamId,
       });
       router.push({ path: frontendURL(path) });
     },
