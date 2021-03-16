@@ -192,7 +192,6 @@ export default {
     this.resetAndFetchData();
 
     bus.$on('fetch_conversation_stats', () => {
-      console.log(this.conversationFilters);
       this.$store.dispatch('conversationStats/get', this.conversationFilters);
     });
   },
