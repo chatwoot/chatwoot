@@ -25,6 +25,7 @@
         v-for="chat in conversationList"
         :key="chat.id"
         :active-label="label"
+        :team-id="teamId"
         :chat="chat"
       />
 
@@ -76,13 +77,13 @@ export default {
       type: [String, Number],
       default: 0,
     },
+    teamId: {
+      type: [String, Number],
+      default: 0,
+    },
     label: {
       type: String,
       default: '',
-    },
-    activeTeam: {
-      type: Object,
-      default: () => {},
     },
   },
   data() {
@@ -132,7 +133,7 @@ export default {
         status: this.activeStatus,
         page: this.currentPage + 1,
         labels: this.label ? [this.label] : undefined,
-        teamId: this.activeTeam.name ? this.activeTeam.id : undefined,
+        teamId: this.teamId ? this.teamId : undefined,
       };
     },
     pageTitle() {
@@ -167,6 +168,12 @@ export default {
         ](conversation.id);
         return labels.includes(this.label);
       });
+    },
+    activeTeam() {
+      if (this.teamId) {
+        return this.$store.getters['teams/getTeam'](this.teamId);
+      }
+      return {};
     },
   },
   watch: {
