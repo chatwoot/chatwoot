@@ -13,7 +13,7 @@ Rails.application.configure do
 
   # Config related to smtp
   smtp_settings = {
-    domain: ENV.fetch('SMTP_DOMAIN', ''),
+    domain: ENV['SMTP_DOMAIN'],
     address: ENV.fetch('SMTP_ADDRESS', 'localhost'),
     port: ENV.fetch('SMTP_PORT', 587)
   }
