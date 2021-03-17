@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Upravit kontakt",
     "TITLE": "Upravit kontakt",
-    "DESC": "Upravit kontaktní údaje",
+    "DESC": "Upravit kontaktní údaje"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Odeslat",
       "CANCEL": "Zrušit",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Kontakt byl úspěšně aktualizován",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
-    "ERROR_MESSAGE": "Při aktualizaci kontaktu se vyskytla chyba, zkuste to prosím znovu"
+    "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Načítání kontaktů...",
       "404": "Vašemu hledání neodpovídají žádné kontakty 🔍",
-      "TABLE_HEADER": [
-        "Název",
-        "Telefonní číslo",
-        "Konverzace",
-        "Naposledy kontaktováno"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Název",
+        "PHONE_NUMBER": "Telefonní číslo",
+        "CONVERSATIONS": "Konverzace",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Společnost",
+        "EMAIL_ADDRESS": "E-mailová adresa"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

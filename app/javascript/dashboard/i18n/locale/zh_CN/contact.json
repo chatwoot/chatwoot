@@ -43,10 +43,17 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "编辑联系人",
     "TITLE": "Edit contact",
-    "DESC": "Edit contact details",
+    "DESC": "Edit contact details"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "提交",
-      "CANCEL": "取消操作",
+      "CANCEL": "取消",
       "AVATAR": {
         "LABEL": "Contact Avatar"
       },
@@ -64,7 +71,7 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "Phone Number"
+        "LABEL": "电话号码"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Updated contact successfully",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
-    "ERROR_MESSAGE": "There was an error updating the contact, please try again"
+    "ERROR_MESSAGE": "出现错误，请重试"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "正在加载联系人列表...",
       "404": "没有搜索到联系人🔍",
-      "TABLE_HEADER": [
-        "姓名：",
-        "电话号码",
-        "会话",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "PHONE_NUMBER": "电话号码",
+        "CONVERSATIONS": "会话",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "公司",
+        "EMAIL_ADDRESS": "电子邮件地址"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

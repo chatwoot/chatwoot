@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ നൽകുക",
   "CHAT_PLACEHOLDER": "നിങ്ങളുടെ സന്ദേശം ടൈപ്പുചെയ്യുക",
   "TODAY": "ഇന്ന്",
-  "YESTERDAY": "ഇന്നലെ"
+  "YESTERDAY": "ഇന്നലെ",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "പൂർണ്ണമായ പേര്",
+        "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ മുഴുവൻ പേര് നൽകുക",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ഇമെയിൽ വിലാസം",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

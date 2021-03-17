@@ -11,6 +11,7 @@ describe('#ConversationAPI', () => {
     expect(conversationAPI).toHaveProperty('delete');
     expect(conversationAPI).toHaveProperty('toggleStatus');
     expect(conversationAPI).toHaveProperty('assignAgent');
+    expect(conversationAPI).toHaveProperty('assignTeam');
     expect(conversationAPI).toHaveProperty('markMessageRead');
     expect(conversationAPI).toHaveProperty('toggleTyping');
     expect(conversationAPI).toHaveProperty('mute');

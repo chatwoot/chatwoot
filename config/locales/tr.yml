@@ -47,6 +47,10 @@ tr:
         self_assigned: "%{user_name} bu görüşmeyi kendisi atadı"
         assigned: "%{user_name} tarafından %{assignee_name} adına atandı"
         removed: "Görüşmenin ataması %{user_name} tarafından kaldırıldı"
+      team:
+        assigned: "%{user_name} tarafından %{team_name} adına atandı"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name},%{labels} ekledi"
         removed: "%{user_name} , %{labels} kaldırdı"

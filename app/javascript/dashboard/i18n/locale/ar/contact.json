@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "تعديل جهة الاتصال",
     "TITLE": "تعديل جهة الاتصال",
-    "DESC": "تعديل تفاصيل جهة الاتصال",
+    "DESC": "تعديل تفاصيل جهة الاتصال"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "إرسال",
       "CANCEL": "إلغاء",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "تم تحديث جهة الاتصال بنجاح",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
-    "ERROR_MESSAGE": "حدث خطأ أثناء تحديث جهة الاتصال، الرجاء المحاولة مرة أخرى"
+    "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "الاسم",
-        "رقم الهاتف",
-        "المحادثات",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "الاسم",
+        "PHONE_NUMBER": "رقم الهاتف",
+        "CONVERSATIONS": "المحادثات",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "الشركة",
+        "EMAIL_ADDRESS": "عنوان البريد الإلكتروني"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

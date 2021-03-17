@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Muokkaa yhteystietoa",
     "TITLE": "Muokkaa yhteystietoa",
-    "DESC": "Muokkaa yhteystietoja",
+    "DESC": "Muokkaa yhteystietoja"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Lähetä",
       "CANCEL": "Peruuta",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Yhteystiedon päivitys onnistui",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
-    "ERROR_MESSAGE": "Yhteystiedon päivityksessä tapahtui virhe. Ole hyvä ja yritä uudelleen"
+    "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Yhteystiedot",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Ladataan yhteystietoja...",
       "404": "Ei hakua vastaavia yhteystietoja 🔍",
-      "TABLE_HEADER": [
-        "Nimi",
-        "Puhelinnumero",
-        "Keskustelut",
-        "Viimeksi otettu yhteyttä"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nimi",
+        "PHONE_NUMBER": "Puhelinnumero",
+        "CONVERSATIONS": "Keskustelut",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Yritys",
+        "EMAIL_ADDRESS": "Sähköpostiosoite"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

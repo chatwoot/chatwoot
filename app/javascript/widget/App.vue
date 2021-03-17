@@ -13,7 +13,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
-import { IFrameHelper } from 'widget/helpers/utils';
+import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
@@ -45,6 +45,9 @@ export default {
     isIFrame() {
       return IFrameHelper.isIFrame();
     },
+    isRNWebView() {
+      return RNHelper.isRNWebView();
+    },
   },
   mounted() {
     const { websiteToken, locale } = window.chatwootWebChannel;
@@ -59,15 +62,9 @@ export default {
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
-    // Pass cookie to react native widget
-    if (window.ReactNativeWebView) {
+    if (this.isRNWebView) {
       this.registerListeners();
-      window.ReactNativeWebView.postMessage(
-        JSON.stringify({
-          type: 'auth-token',
-          value: window.authToken,
-        })
-      );
+      this.sendRNWebViewLoadedEvent();
     }
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
@@ -189,6 +186,15 @@ export default {
     },
     sendLoadedEvent() {
       IFrameHelper.sendMessage({
+        event: 'loaded',
+        config: {
+          authToken: window.authToken,
+          channelConfig: window.chatwootWebChannel,
+        },
+      });
+    },
+    sendRNWebViewLoadedEvent() {
+      RNHelper.sendMessage({
         event: 'loaded',
         config: {
           authToken: window.authToken,
