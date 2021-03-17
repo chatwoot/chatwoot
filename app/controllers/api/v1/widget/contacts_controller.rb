@@ -1,7 +1,7 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   before_action :process_hmac
 
-  def index; end
+  def show; end
 
   def update
     contact_identify_action = ContactIdentifyAction.new(
