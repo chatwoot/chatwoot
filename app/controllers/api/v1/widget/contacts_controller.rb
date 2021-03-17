@@ -1,11 +1,9 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
-  def index
-    process_hmac
-    render json: @contact
-  end
+  before_action :process_hmac
+
+  def index; end
 
   def update
-    process_hmac
     contact_identify_action = ContactIdentifyAction.new(
       contact: @contact,
       params: permitted_params.to_h.deep_symbolize_keys

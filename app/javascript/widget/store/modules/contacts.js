@@ -21,6 +21,14 @@ export const getters = {
 };
 
 export const actions = {
+  get: async ({ commit }) => {
+    try {
+      const { data } = await ContactsAPI.get();
+      commit(SET_CURRENT_USER, data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
   update: async ({ dispatch, commit }, { identifier, user: userObject }) => {
     try {
       const user = {
@@ -30,7 +38,6 @@ export const actions = {
         identifier_hash: userObject.identifier_hash,
       };
       commit(SET_CONTACTS_UI_FLAG, { isUpdating: true });
-      commit(SET_CURRENT_USER, user);
       const {
         data: { pubsub_token: pubsubToken },
       } = await ContactsAPI.update(identifier, user);
@@ -38,6 +45,7 @@ export const actions = {
       if (userObject.identifier_hash) {
         dispatch('conversation/clearConversations', {}, { root: true });
         dispatch('conversation/fetchOldConversations', {}, { root: true });
+        dispatch('get');
       }
 
       refreshActionCableConnector(pubsubToken);
@@ -58,7 +66,8 @@ export const actions = {
 
 export const mutations = {
   [SET_CURRENT_USER]($state, user) {
-    $state.currentUser = user;
+    const { currentUser } = $state;
+    $state.currentUser = { ...currentUser, ...user };
   },
   [SET_CONTACTS_UI_FLAG](_state, data) {
     _state.uiFlags = {
