@@ -1,12 +1,13 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      class-names="button--fixed-right-top"
+      color-scheme="success"
+      icon="ion-android-add-circle"
       @click="openAddPopup()"
     >
-      <i class="icon ion-android-add-circle"></i>
       {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
-    </button>
+    </woot-button>
     <!-- List Canned Response -->
     <div class="row">
       <div class="small-8 columns">
@@ -48,19 +49,24 @@
               <!-- Action Buttons -->
               <td class="button-wrapper">
                 <div @click="openEditPopup(cannedItem)">
-                  <woot-submit-button
-                    :button-text="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
-                    icon-class="ion-edit"
-                    button-class="link hollow grey-btn"
-                  />
+                  <woot-button
+                    color-scheme="secondary"
+                    variant="clear"
+                    class-names="left-space"
+                    icon="ion-edit"
+                  >
+                    {{ $t('CANNED_MGMT.EDIT.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
                 <div @click="openDeletePopup(cannedItem, index)">
-                  <woot-submit-button
-                    :button-text="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
+                  <woot-button
                     :loading="loading[cannedItem.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
-                  />
+                    color-scheme="secondary"
+                    variant="clear"
+                    icon="ion-close-circled"
+                  >
+                    {{ $t('CANNED_MGMT.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>
@@ -204,5 +210,8 @@ export default {
 <style scoped>
 .short-code {
   width: 14rem;
+}
+.left-space {
+  padding-left: 0;
 }
 </style>

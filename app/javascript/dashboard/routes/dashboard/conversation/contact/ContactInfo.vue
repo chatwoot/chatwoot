@@ -50,7 +50,7 @@
         </div>
       </div>
       <woot-button
-        class="clear edit-contact"
+        class-names="clear edit-contact"
         variant="primary small"
         @click="toggleEditModal"
       >

@@ -1,14 +1,12 @@
 <template>
-  <button
-    type="button"
-    class="button resolve--button"
-    :class="buttonClass"
+  <woot-button
+    :class-names="`resolve--button ${buttonClass}`"
+    :icon="buttonIconClass"
     @click="toggleStatus"
   >
-    <i v-if="!isLoading" class="icon" :class="buttonIconClass" />
     <spinner v-if="isLoading" />
     {{ currentStatus }}
-  </button>
+  </woot-button>
 </template>
 
 <script>
@@ -42,6 +40,7 @@ export default {
       return this.isOpen ? 'success' : 'warning';
     },
     buttonIconClass() {
+      if (this.isLoading) return '';
       return this.isOpen ? 'ion-checkmark' : 'ion-refresh';
     },
   },

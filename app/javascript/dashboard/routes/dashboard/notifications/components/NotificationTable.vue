@@ -1,13 +1,14 @@
 <template>
   <section class="notification--table-wrap">
-    <woot-submit-button
+    <woot-button
       v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-right-top"
-      :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
+      class-names="button--fixed-right-top"
       :loading="isUpdating"
+      color-scheme="success"
       @click="onMarkAllDoneClick"
     >
-    </woot-submit-button>
+      {{ $t('NOTIFICATIONS_PAGE.MARK_ALL_DONE') }}
+    </woot-button>
 
     <table class="woot-table notifications-table">
       <tbody v-show="!isLoading">

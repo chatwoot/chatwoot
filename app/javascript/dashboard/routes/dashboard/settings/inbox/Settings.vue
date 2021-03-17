@@ -182,11 +182,9 @@
           </label>
         </div>
 
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
-          @click="updateInbox"
-        />
+        <woot-button :loading="uiFlags.isUpdatingInbox" @click="updateInbox">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE') }}
+        </woot-button>
       </settings-section>
       <facebook-reauthorize
         v-if="isAFacebookInbox && inbox.reauthorization_required"
@@ -217,11 +215,9 @@
           @select="$v.selectedAgents.$touch"
         />
 
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-          :loading="isAgentListUpdating"
-          @click="updateAgents"
-        />
+        <woot-button :loading="isAgentListUpdating" @click="updateAgents">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.UPDATE') }}
+        </woot-button>
       </settings-section>
     </div>
     <div v-if="selectedTabKey === 'configuration'">

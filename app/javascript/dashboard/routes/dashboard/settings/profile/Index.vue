@@ -99,12 +99,13 @@
           <woot-code :script="currentUser.access_token"></woot-code>
         </div>
       </div>
-      <woot-submit-button
-        class="button nice success button--fixed-right-top"
-        :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
+      <woot-button
+        class-names="button--fixed-right-top"
         :loading="isUpdating"
+        color-scheme="success"
       >
-      </woot-submit-button>
+        {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
+      </woot-button>
     </form>
   </div>
 </template>

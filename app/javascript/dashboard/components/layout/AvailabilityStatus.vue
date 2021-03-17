@@ -25,21 +25,28 @@
             >
               <div :class="`status-badge status-badge__${status.value}`" />
 
-              <button
-                class="button clear status-change--dropdown-button"
+              <woot-button
+                class-names="status-change--dropdown-button"
+                variant="clear"
                 :disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
                 {{ status.label }}
-              </button>
+              </woot-button>
             </li>
           </ul>
         </div>
       </transition>
 
-      <button class="status-change--change-button" @click="openStatusMenu">
+      <woot-button
+        class-names="status-change--change-button"
+        color-scheme="secondary"
+        variant="clear"
+        size="small"
+        @click="openStatusMenu"
+      >
         {{ $t('SIDEBAR_ITEMS.CHANGE_AVAILABILITY_STATUS') }}
-      </button>
+      </woot-button>
     </div>
   </div>
 </template>
@@ -151,14 +158,8 @@ export default {
   }
 
   & &--change-button {
-    color: $color-gray;
     font-size: $font-size-small;
-    border-bottom: 1px solid $color-gray;
     cursor: pointer;
-
-    &:hover {
-      border-bottom: none;
-    }
   }
 
   & &--dropdown-button {

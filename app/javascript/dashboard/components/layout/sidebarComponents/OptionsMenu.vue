@@ -7,20 +7,22 @@
     >
       <ul class="vertical dropdown menu">
         <li v-if="showChangeAccountOption">
-          <button
-            class="button clear change-accounts--button"
+          <woot-button
+            class-names="change-accounts--button"
+            variant="clear"
             @click="$emit('toggle-accounts')"
           >
             {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
-          </button>
+          </woot-button>
         </li>
         <li v-if="globalConfig.chatwootInboxToken">
-          <button
-            class="button clear change-accounts--button"
+          <woot-button
+            class-names="change-accounts--button"
+            variant="clear"
             @click="$emit('show-support-chat-window')"
           >
             Contact Support
-          </button>
+          </woot-button>
         </li>
         <li>
           <router-link :to="`/app/accounts/${accountId}/profile/settings`">

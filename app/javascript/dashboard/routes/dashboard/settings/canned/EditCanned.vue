@@ -29,18 +29,19 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="
                 $v.content.$invalid ||
                   $v.shortCode.$invalid ||
                   editCanned.showLoading
               "
-              :button-text="$t('CANNED_MGMT.EDIT.FORM.SUBMIT')"
               :loading="editCanned.showLoading"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('CANNED_MGMT.EDIT.FORM.SUBMIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onClose">
               {{ $t('CANNED_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -49,23 +50,31 @@
 </template>
 
 <script>
-/* global bus */
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
-
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   props: {
-    id: Number,
-    edcontent: String,
-    edshortCode: String,
-    onClose: Function,
+    id: {
+      type: Number,
+      default: 0,
+    },
+    edcontent: {
+      type: String,
+      default: '',
+    },
+    edshortCode: {
+      type: String,
+      default: '',
+    },
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
   },
   data() {
     return {

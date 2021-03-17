@@ -1,8 +1,8 @@
 <template>
   <div class="code--container">
-    <button class="button small button--copy-code" @click="onCopy">
+    <woot-button size="small" class-names="button--copy-code" @click="onCopy">
       {{ $t('COMPONENTS.CODE.BUTTON_TEXT') }}
-    </button>
+    </woot-button>
     <highlightjs v-if="script" :language="lang" :code="script" />
   </div>
 </template>

@@ -1,16 +1,20 @@
 <template>
   <div class="bottom-box" :class="wrapClass">
     <div class="left-wrap">
-      <button
-        class="button clear button--emoji"
+      <woot-button
+        class-names="button--emoji"
+        variant="clear"
+        color-scheme="secondary"
         :title="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
+        icon="ion-happy-outline"
+        emoji="😊"
         @click="toggleEmojiPicker"
       >
-        <emoji-or-icon icon="ion-happy-outline" emoji="😊" />
-      </button>
-      <button
+      </woot-button>
+      <woot-button
         v-if="showAttachButton"
-        class="button clear button--emoji button--upload"
+        class-names="button--emoji button--upload"
+        variant="clear"
         :title="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
       >
         <file-upload
@@ -20,15 +24,17 @@
         >
           <emoji-or-icon icon="ion-android-attach" emoji="📎" />
         </file-upload>
-      </button>
-      <button
+      </woot-button>
+      <woot-button
         v-if="enableRichEditor && !isOnPrivateNote"
-        class="button clear button--emoji"
+        class-names="button--emoji"
+        variant="clear"
+        icon="ion-quote"
+        color-scheme="secondary"
         :title="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         @click="toggleFormatMode"
       >
-        <emoji-or-icon icon="ion-quote" emoji="🖊️" />
-      </button>
+      </woot-button>
     </div>
     <div class="right-wrap">
       <div v-if="isFormatMode" class="enter-to-send--checkbox">
@@ -42,13 +48,9 @@
           {{ $t('CONVERSATION.REPLYBOX.ENTER_TO_SEND') }}
         </label>
       </div>
-      <button
-        class="button nice primary button--send"
-        :class="buttonClass"
-        @click="onSend"
-      >
+      <woot-button color="warning" :class="buttonClass" @click="onSend">
         {{ sendButtonText }}
-      </button>
+      </woot-button>
     </div>
   </div>
 </template>

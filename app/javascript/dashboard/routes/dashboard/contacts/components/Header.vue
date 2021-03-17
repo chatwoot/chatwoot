@@ -25,10 +25,13 @@
           />
         </div>
 
-        <button class="button success icon" @click="onToggleCreate">
-          <i class="icon ion-android-add-circle" />
+        <woot-button
+          color-scheme="success"
+          icon="ion-android-add-circle"
+          @click="onToggleCreate"
+        >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
-        </button>
+        </woot-button>
       </div>
     </div>
   </header>

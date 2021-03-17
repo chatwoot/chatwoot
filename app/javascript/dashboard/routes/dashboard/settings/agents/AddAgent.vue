@@ -44,18 +44,19 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="
                 $v.agentEmail.$invalid ||
                   $v.agentName.$invalid ||
                   uiFlags.isCreating
               "
-              :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('AGENT_MGMT.ADD.FORM.SUBMIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onClose">
               {{ $t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>

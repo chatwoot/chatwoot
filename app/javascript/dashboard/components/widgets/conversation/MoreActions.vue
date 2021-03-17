@@ -5,7 +5,9 @@
       :status="currentChat.status"
     />
     <woot-button
-      class="clear more--button"
+      class-names="more--button"
+      variant="clear"
+      size="large"
       icon="ion-android-more-vertical"
       @click="toggleConversationActions"
     />
@@ -15,28 +17,36 @@
       class="dropdown-pane"
       :class="{ 'dropdown-pane--open': showConversationActions }"
     >
-      <button
+      <woot-button
         v-if="!currentChat.muted"
-        class="button small clear row alert small-6 action--button"
+        class-names="row small-6 action--button"
+        size="small"
+        variant="clear"
+        color-scheme="alert"
         @click="mute"
       >
         <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
-      </button>
+      </woot-button>
 
-      <button
+      <woot-button
         v-else
-        class="button small clear row alert small-6 action--button"
+        class-names="row small-6 action--button"
+        size="small"
+        variant="clear"
+        color-scheme="alert"
         @click="unmute"
       >
         <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
-      </button>
+      </woot-button>
 
-      <button
-        class="button small clear row small-6 action--button"
+      <woot-button
+        class-names="row small-6 action--button"
+        size="small"
+        variant="clear"
         @click="toggleEmailActionsModal"
       >
         {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
-      </button>
+      </woot-button>
     </div>
     <email-transcript-modal
       v-if="showEmailActionsModal"

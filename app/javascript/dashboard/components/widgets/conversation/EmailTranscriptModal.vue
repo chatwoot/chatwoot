@@ -59,13 +59,12 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 row">
-            <woot-submit-button
-              :button-text="$t('EMAIL_TRANSCRIPT.SUBMIT')"
-              :disabled="!isFormValid"
-            />
-            <button class="button clear" @click.prevent="onCancel">
+            <woot-button :disabled="!isFormValid">
+              {{ $t('EMAIL_TRANSCRIPT.SUBMIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onCancel">
               {{ $t('EMAIL_TRANSCRIPT.CANCEL') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>

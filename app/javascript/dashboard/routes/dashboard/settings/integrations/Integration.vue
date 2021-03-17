@@ -22,19 +22,15 @@
         <div v-if="integrationEnabled">
           <div v-if="integrationAction === 'disconnect'">
             <div @click="openDeletePopup()">
-              <woot-submit-button
-                :button-text="
-                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                "
-                icon-class="ion-close-circled"
-                button-class="nice alert"
-              />
+              <woot-button icon="ion-close-circled" color-scheme="alert">
+                {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
+              </woot-button>
             </div>
           </div>
           <div v-else>
-            <button class="button nice">
+            <woot-button>
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </router-link>
@@ -62,14 +58,32 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   mixins: [alertMixin],
-  props: [
-    'integrationId',
-    'integrationLogo',
-    'integrationName',
-    'integrationDescription',
-    'integrationEnabled',
-    'integrationAction',
-  ],
+  props: {
+    integrationId: {
+      type: Number,
+      default: 0,
+    },
+    integrationLogo: {
+      type: String,
+      default: '',
+    },
+    integrationName: {
+      type: String,
+      default: '',
+    },
+    integrationDescription: {
+      type: String,
+      default: '',
+    },
+    integrationEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    integrationAction: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       showDeleteConfirmationPopup: false,

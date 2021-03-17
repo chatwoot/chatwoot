@@ -89,12 +89,13 @@
         </div>
       </div>
 
-      <woot-submit-button
-        class="button nice success button--fixed-right-top"
-        :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
+      <woot-button
+        class-names="button--fixed-right-top"
+        color-scheme="success"
         :loading="isUpdating"
       >
-      </woot-submit-button>
+        {{ $t('GENERAL_SETTINGS.SUBMIT') }}
+      </woot-button>
     </form>
 
     <woot-loading-state v-if="uiFlags.isFetchingItem" />

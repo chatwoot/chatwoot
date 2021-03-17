@@ -1,23 +1,26 @@
 <template>
   <div class="top-box">
     <div class="mode-wrap button-group">
-      <button
-        class="button clear button--reply"
+      <woot-button
+        class-names="button--reply"
+        variant="clear"
         :class="replyButtonClass"
         @click="handleReplyClick"
       >
         <emoji-or-icon icon="" emoji="💬" />
         {{ $t('CONVERSATION.REPLYBOX.REPLY') }}
-      </button>
+      </woot-button>
 
-      <button
-        class="button clear button--note"
+      <woot-button
+        class-names="button--note"
+        variant="clear"
+        color-scheme="alert"
         :class="noteButtonClass"
         @click="handleNoteClick"
       >
         <emoji-or-icon icon="" emoji="📝" />
         {{ $t('CONVERSATION.REPLYBOX.PRIVATE_NOTE') }}
-      </button>
+      </woot-button>
     </div>
     <div class="action-wrap">
       <div v-if="isMessageLengthReachingThreshold" class="tabs-title">

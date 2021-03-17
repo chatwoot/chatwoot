@@ -1,12 +1,13 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      class-names="button--fixed-right-top"
+      color-scheme="success"
       @click="openAddPopup"
     >
       <i class="icon ion-android-add-circle"></i>
       {{ $t('LABEL_MGMT.HEADER_BTN_TXT') }}
-    </button>
+    </woot-button>
     <div class="row">
       <div class="small-8 columns">
         <p
@@ -42,20 +43,24 @@
                 </div>
               </td>
               <td class="button-wrapper">
-                <woot-submit-button
-                  :button-text="$t('LABEL_MGMT.FORM.EDIT')"
-                  icon-class="ion-edit"
-                  button-class="link hollow grey-btn"
+                <woot-button
+                  variant="clear"
+                  color-scheme="secondary"
+                  icon="ion-edit"
                   @click="openEditPopup(label)"
-                />
+                >
+                  {{ $t('LABEL_MGMT.FORM.EDIT') }}
+                </woot-button>
 
-                <woot-submit-button
-                  :button-text="$t('LABEL_MGMT.FORM.DELETE')"
+                <woot-button
                   :loading="loading[label.id]"
-                  icon-class="ion-close-circled"
-                  button-class="link hollow grey-btn"
+                  variant="clear"
+                  color-scheme="secondary"
+                  icon="ion-close-circled"
                   @click="openDeletePopup(label, index)"
-                />
+                >
+                  {{ $t('LABEL_MGMT.FORM.DELETE') }}
+                </woot-button>
               </td>
             </tr>
           </tbody>

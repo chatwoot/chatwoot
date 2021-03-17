@@ -2,12 +2,14 @@
   <div class="wizard-body columns content-box small-9">
     <div class="login-init full-height text-center">
       <form @submit.prevent="requestAuthorization">
-        <woot-submit-button
-          icon-class="ion-social-twitter"
-          button-text="Sign in with Twitter"
+        <woot-button
+          icon="ion-social-twitter"
           type="submit"
+          size="large"
           :loading="isRequestingAuthorization"
-        />
+        >
+          {{ 'Sign in with Twitter' }}
+        </woot-button>
       </form>
       <p>{{ $t('INBOX_MGMT.ADD.TWITTER.HELP') }}</p>
     </div>

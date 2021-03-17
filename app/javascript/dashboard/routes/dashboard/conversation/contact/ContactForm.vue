@@ -67,13 +67,12 @@
     </div>
     <div class="modal-footer">
       <div class="medium-12 columns">
-        <woot-submit-button
-          :loading="inProgress"
-          :button-text="$t('CONTACT_FORM.FORM.SUBMIT')"
-        />
-        <button class="button clear" @click.prevent="onCancel">
+        <woot-button :loading="inProgress">
+          {{ $t('CONTACT_FORM.FORM.SUBMIT') }}
+        </woot-button>
+        <woot-button variant="clear" @click.prevent="onCancel">
           {{ $t('CONTACT_FORM.FORM.CANCEL') }}
-        </button>
+        </woot-button>
       </div>
     </div>
   </form>

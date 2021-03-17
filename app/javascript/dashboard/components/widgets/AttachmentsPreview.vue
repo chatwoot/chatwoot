@@ -26,12 +26,14 @@
         </span>
       </div>
       <div class="remove-file-wrap">
-        <button
-          class="remove--attachment"
+        <woot-button
+          class-names="remove--attachment"
+          color-scheme="secondary"
+          variant="clear"
+          icon="ion-android-close"
           @click="() => onRemoveAttachment(index)"
         >
-          <i class="ion-android-close"></i>
-        </button>
+        </woot-button>
       </div>
     </div>
   </div>
@@ -137,6 +139,7 @@ export default {
 }
 
 .remove--attachment {
+  padding: 0;
   width: var(--space-medium);
   height: var(--space-medium);
   border-radius: var(--space-medium);

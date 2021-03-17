@@ -48,11 +48,9 @@
             @update="data => onSlotUpdate(timeSlot.day, data)"
           />
         </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :loading="uiFlags.isUpdatingInbox"
-          :disabled="hasError"
-        />
+        <woot-button :loading="uiFlags.isUpdatingInbox" :disabled="hasError">
+          {{ $t('INBOX_MGMT.BUSINESS_HOURS.UPDATE') }}
+        </woot-button>
       </form>
     </settings-section>
   </div>

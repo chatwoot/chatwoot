@@ -62,11 +62,9 @@
           })
         }}
       </p>
-      <woot-submit-button
-        :button-text="submitButtonText"
-        :loading="isWorking"
-        :disabled="disableSubmitButton"
-      />
+      <woot-button :loading="isWorking" :disabled="disableSubmitButton">
+        {{ submitButtonText }}
+      </woot-button>
     </div>
   </div>
 </template>

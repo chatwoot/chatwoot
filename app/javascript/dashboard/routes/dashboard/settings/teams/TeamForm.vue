@@ -28,11 +28,12 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="$v.title.$invalid || submitInProgress"
-              :button-text="submitButtonText"
               :loading="submitInProgress"
-            />
+            >
+              {{ submitButtonText }}
+            </woot-button>
           </div>
         </div>
       </form>
@@ -41,14 +42,9 @@
 </template>
 
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import validations from './helpers/validations';
 
 export default {
-  components: {
-    WootSubmitButton,
-  },
-
   props: {
     onSubmit: {
       type: Function,

@@ -2,12 +2,12 @@
   <modal :show.sync="show" :on-close="onClose">
     <woot-modal-header :header-title="title" :header-content="message" />
     <div class="modal-footer delete-item">
-      <button class="alert button nice" @click="onConfirm">
+      <woot-button color-scheme="alert" @click="onConfirm">
         {{ confirmText }}
-      </button>
-      <button class="button clear" @click="onClose">
+      </woot-button>
+      <woot-button variant="clear" @click="onClose">
         {{ rejectText }}
-      </button>
+      </woot-button>
     </div>
   </modal>
 </template>
@@ -20,13 +20,34 @@ export default {
     Modal,
   },
   props: {
-    show: Boolean,
-    onClose: Function,
-    onConfirm: Function,
-    title: String,
-    message: String,
-    confirmText: String,
-    rejectText: String,
+    show: {
+      type: Boolean,
+      default: false,
+    },
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
+    onConfirm: {
+      type: Function,
+      default: () => {},
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+    confirmText: {
+      type: String,
+      default: '',
+    },
+    rejectText: {
+      type: String,
+      default: '',
+    },
   },
 };
 </script>

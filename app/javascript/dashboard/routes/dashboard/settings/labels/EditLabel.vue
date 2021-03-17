@@ -35,14 +35,15 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="$v.title.$invalid || uiFlags.isUpdating"
-              :button-text="$t('LABEL_MGMT.FORM.EDIT')"
               :loading="uiFlags.isUpdating"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('LABEL_MGMT.FORM.EDIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onClose">
               {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -54,13 +55,11 @@
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
 
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import validations from './validations';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   mixins: [alertMixin],

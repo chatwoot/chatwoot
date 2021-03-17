@@ -38,10 +38,9 @@
       </div>
 
       <div class="medium-12 columns">
-        <woot-submit-button
-          :loading="uiFlags.isCreating"
-          :button-text="$t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON')"
-        />
+        <woot-button :loading="uiFlags.isCreating">
+          {{ $t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SUBMIT_BUTTON') }}
+        </woot-button>
       </div>
     </form>
   </div>

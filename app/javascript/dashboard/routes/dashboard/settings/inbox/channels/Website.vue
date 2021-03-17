@@ -120,11 +120,12 @@
 
       <div class="modal-footer">
         <div class="medium-12 columns">
-          <woot-submit-button
+          <woot-button
             :loading="uiFlags.isCreating"
             :disabled="!channelWebsiteUrl || !inboxName"
-            :button-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
-          />
+          >
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON') }}
+          </woot-button>
         </div>
       </div>
     </form>

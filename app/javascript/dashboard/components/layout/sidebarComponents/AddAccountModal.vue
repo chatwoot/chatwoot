@@ -24,16 +24,19 @@
         </div>
         <div class="modal-footer medium-12 columns">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="
                 $v.accountName.$invalid ||
                   $v.accountName.$invalid ||
                   uiFlags.isCreating
               "
-              :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
               :loading="uiFlags.isCreating"
-              button-class="large expanded"
-            />
+              size="expanded"
+              color-scheme="success"
+              variant="hollow"
+            >
+              {{ $t('CREATE_ACCOUNT.FORM.SUBMIT') }}
+            </woot-button>
           </div>
         </div>
       </form>

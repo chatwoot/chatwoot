@@ -5,13 +5,9 @@
         <emoji-or-icon :icon="icon" :emoji="emoji" />
         {{ title }}
       </div>
-      <button
-        v-if="showEdit"
-        class="button clear small edit-button"
-        @click="onEdit"
-      >
+      <woot-button v-if="showEdit" variant="clear" @click="onEdit">
         {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
-      </button>
+      </woot-button>
     </h4>
     <div v-if="value" class="conv-details--item__value">
       <slot>

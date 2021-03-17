@@ -30,24 +30,25 @@
         </div>
         <div class="medium-12 modal-footer">
           <div class="medium-6 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="
                 $v.agentType.$invalid ||
                   $v.agentName.$invalid ||
                   uiFlags.isUpdating
               "
-              :button-text="$t('AGENT_MGMT.EDIT.FORM.SUBMIT')"
               :loading="uiFlags.isUpdating"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('AGENT_MGMT.EDIT.FORM.SUBMIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onClose">
               {{ $t('AGENT_MGMT.EDIT.CANCEL_BUTTON_TEXT') }}
-            </button>
+            </woot-button>
           </div>
           <div class="medium-6 columns text-right">
-            <button class="button clear" @click.prevent="resetPassword">
+            <woot-button variant="clear" @click.prevent="resetPassword">
               <i class="ion-locked"></i>
               {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -58,13 +59,11 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 import { mapGetters } from 'vuex';
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import Auth from '../../../../api/auth';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   props: {

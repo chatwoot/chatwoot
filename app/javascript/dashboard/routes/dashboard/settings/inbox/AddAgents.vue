@@ -33,10 +33,9 @@
           </label>
         </div>
         <div class="medium-12 columns">
-          <woot-submit-button
-            :button-text="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
-            :loading="isCreating"
-          />
+          <woot-button :loading="isCreating">
+            {{ $t('INBOX_MGMT.AGENTS.BUTTON_TEXT') }}
+          </woot-button>
         </div>
       </div>
     </form>

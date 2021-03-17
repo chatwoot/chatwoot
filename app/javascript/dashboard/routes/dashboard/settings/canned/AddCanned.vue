@@ -32,18 +32,20 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
+              type="submit"
               :disabled="
                 $v.content.$invalid ||
                   $v.shortCode.$invalid ||
                   addCanned.showLoading
               "
-              :button-text="$t('CANNED_MGMT.ADD.FORM.SUBMIT')"
               :loading="addCanned.showLoading"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('CANNED_MGMT.ADD.FORM.SUBMIT') }}
+            </woot-button>
+            <woot-button variant="clear" @click.prevent="onClose">
               {{ $t('CANNED_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -54,13 +56,11 @@
 <script>
 import { required, minLength } from 'vuelidate/lib/validators';
 
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   mixins: [alertMixin],
