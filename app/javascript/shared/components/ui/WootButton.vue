@@ -1,13 +1,17 @@
 <template>
   <button
     class="button"
-    :class="[type, size, color, style, classNames, disabled ? 'disabled' : '']"
-    :disabled="disabled || loading"
-    :autofocus="autofocus"
-    :type="nativeType"
+    :class="[
+      variant,
+      size,
+      colorScheme,
+      classNames,
+      isDisabled ? 'disabled' : '',
+    ]"
+    :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
-    <spinner v-if="loading" size="small" />
+    <spinner v-if="isLoading" size="small" />
     <i v-if="icon" :class="icon"></i>
     <span v-if="$slots.default"><slot></slot></span>
   </button>
@@ -19,9 +23,9 @@ export default {
   name: 'WootButton',
   components: { Spinner },
   props: {
-    type: {
+    variant: {
       type: String,
-      default: 'default',
+      default: '',
     },
     size: {
       type: String,
@@ -31,7 +35,7 @@ export default {
       type: String,
       default: '',
     },
-    color: {
+    colorScheme: {
       type: String,
       default: 'primary',
     },
@@ -39,19 +43,11 @@ export default {
       type: String,
       default: '',
     },
-    style: {
-      type: String,
-      default: '',
-    },
-    disabled: {
+    isDisabled: {
       type: Boolean,
       default: false,
     },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    circle: {
+    isLoading: {
       type: Boolean,
       default: false,
     },
