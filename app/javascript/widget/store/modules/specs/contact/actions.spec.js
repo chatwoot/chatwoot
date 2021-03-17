@@ -17,7 +17,6 @@ describe('#actions', () => {
       await actions.update({ commit }, { identifier: 1, user });
       expect(commit.mock.calls).toEqual([
         ['SET_CONTACTS_UI_FLAG', { isUpdating: true }],
-        ['SET_CURRENT_USER', user],
         ['SET_CONTACTS_UI_FLAG', { isUpdating: false }],
       ]);
     });
