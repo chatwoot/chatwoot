@@ -47,33 +47,4 @@ describe('#getters', () => {
       ]);
     });
   });
-  describe('#getNextChatConversation', () => {
-    it('return the next chat', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-          },
-          {
-            id: 2,
-          },
-        ],
-        selectedChatId: 1,
-      };
-      expect(getters.getNextChatConversation(state)).toEqual({
-        id: 2,
-      });
-    });
-    it('return null when there is only one chat', () => {
-      const state = {
-        allConversations: [
-          {
-            id: 1,
-          },
-        ],
-        selectedChatId: 1,
-      };
-      expect(getters.getNextChatConversation(state)).toBeNull();
-    });
-  });
 });

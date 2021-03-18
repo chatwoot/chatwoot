@@ -63,18 +63,6 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getNextChatConversation: _state => {
-    const [selectedChat] = getSelectedChatConversation(_state);
-    const conversations = getters.getAllStatusChats(_state);
-    if (conversations.length <= 1) {
-      return null;
-    }
-    const currentIndex = conversations.findIndex(
-      conversation => conversation.id === selectedChat.id
-    );
-    const nextIndex = (currentIndex + 1) % conversations.length;
-    return conversations[nextIndex];
-  },
 };
 
 export default getters;
