@@ -19,13 +19,11 @@ export const applyPageFilters = (conversation, filters) => {
   let shouldFilter = filterByStatus;
 
   if (inboxId) {
-    const typedInboxId = +inboxId || undefined;
-    const filterByInbox = typedInboxId === chatInboxId;
+    const filterByInbox = Number(inboxId) === chatInboxId;
     shouldFilter = shouldFilter && filterByInbox;
   }
   if (teamId) {
-    const typedTeamId = +teamId || undefined;
-    const filterByTeam = typedTeamId === chatTeamId;
+    const filterByTeam = Number(teamId) === chatTeamId;
     shouldFilter = shouldFilter && filterByTeam;
   }
   if (labels.length) {
