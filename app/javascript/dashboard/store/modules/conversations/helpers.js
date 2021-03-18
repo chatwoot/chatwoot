@@ -5,14 +5,14 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const applyPageFilters = (chat, filters) => {
+export const applyPageFilters = (conversation, filters) => {
   const { inboxId, status, labels = [], teamId } = filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
     labels: chatLabels = [],
     meta = {},
-  } = chat;
+  } = conversation;
   const { team = {} } = meta;
   const { id: chatTeamId } = team;
   const filterByStatus = chatStatus === status;

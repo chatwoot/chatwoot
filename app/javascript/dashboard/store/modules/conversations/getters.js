@@ -22,25 +22,25 @@ const getters = {
   getMineChats: _state => activeFilters => {
     const currentUserID = authAPI.getCurrentUser().id;
 
-    return _state.allConversations.filter(chat => {
-      const hasAssignee = !!chat.meta.assignee;
-      const isAssignedToMe = chat.meta.assignee.id === currentUserID;
-      const shouldFilter = applyPageFilters(chat, activeFilters);
+    return _state.allConversations.filter(conversation => {
+      const hasAssignee = !!conversation.meta.assignee;
+      const isAssignedToMe = conversation.meta.assignee.id === currentUserID;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
       const isChatMine = hasAssignee && isAssignedToMe && shouldFilter;
 
       return isChatMine;
     });
   },
   getUnAssignedChats: _state => activeFilters => {
-    return _state.allConversations.filter(chat => {
-      const isUnAssigned = !chat.meta.assignee;
-      const shouldFilter = applyPageFilters(chat, activeFilters);
+    return _state.allConversations.filter(conversation => {
+      const isUnAssigned = !conversation.meta.assignee;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
     });
   },
   getAllStatusChats: _state => activeFilters => {
-    return _state.allConversations.filter(chat => {
-      const shouldFilter = applyPageFilters(chat, activeFilters);
+    return _state.allConversations.filter(conversation => {
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
       return shouldFilter;
     });
   },
