@@ -3,9 +3,6 @@ import { refreshActionCableConnector } from '../../helpers/actionCable';
 
 const state = {
   currentUser: {},
-  uiFlags: {
-    isUpdating: false,
-  },
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
@@ -29,7 +26,7 @@ export const actions = {
       // Ignore error
     }
   },
-  update: async ({ dispatch, commit }, { identifier, user: userObject }) => {
+  update: async ({ dispatch }, { identifier, user: userObject }) => {
     try {
       const user = {
         email: userObject.email,
@@ -37,22 +34,19 @@ export const actions = {
         avatar_url: userObject.avatar_url,
         identifier_hash: userObject.identifier_hash,
       };
-      commit(SET_CONTACTS_UI_FLAG, { isUpdating: true });
       const {
         data: { pubsub_token: pubsubToken },
       } = await ContactsAPI.update(identifier, user);
 
+      dispatch('get');
       if (userObject.identifier_hash) {
         dispatch('conversation/clearConversations', {}, { root: true });
         dispatch('conversation/fetchOldConversations', {}, { root: true });
-        dispatch('get');
       }
 
       refreshActionCableConnector(pubsubToken);
     } catch (error) {
       // Ingore error
-    } finally {
-      commit(SET_CONTACTS_UI_FLAG, { isUpdating: false });
     }
   },
   setCustomAttributes: async (_, customAttributes = {}) => {

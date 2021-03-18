@@ -15,10 +15,7 @@ describe('#actions', () => {
       };
       API.patch.mockResolvedValue({ data: { pubsub_token: 'token' } });
       await actions.update({ commit }, { identifier: 1, user });
-      expect(commit.mock.calls).toEqual([
-        ['SET_CONTACTS_UI_FLAG', { isUpdating: true }],
-        ['SET_CONTACTS_UI_FLAG', { isUpdating: false }],
-      ]);
+      expect(commit.mock.calls).toEqual([]);
     });
   });
 });
