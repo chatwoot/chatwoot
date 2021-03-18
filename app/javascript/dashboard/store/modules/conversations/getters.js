@@ -1,4 +1,5 @@
 import authAPI from '../../../api/auth';
+import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -18,24 +19,30 @@ const getters = {
     );
     return selectedChat || {};
   },
-  getMineChats(_state) {
+  getMineChats: _state => activeFilters => {
     const currentUserID = authAPI.getCurrentUser().id;
-    return _state.allConversations.filter(chat =>
-      !chat.meta.assignee
-        ? false
-        : chat.status === _state.chatStatusFilter &&
-          chat.meta.assignee.id === currentUserID
-    );
+
+    return _state.allConversations.filter(chat => {
+      const hasAssignee = !!chat.meta.assignee;
+      const isAssignedToMe = chat.meta.assignee.id === currentUserID;
+      const shouldFilter = applyPageFilters(chat, activeFilters);
+      const isChatMine = hasAssignee && isAssignedToMe && shouldFilter;
+
+      return isChatMine;
+    });
   },
-  getUnAssignedChats(_state) {
-    return _state.allConversations.filter(
-      chat => !chat.meta.assignee && chat.status === _state.chatStatusFilter
-    );
+  getUnAssignedChats: _state => activeFilters => {
+    return _state.allConversations.filter(chat => {
+      const isUnAssigned = !chat.meta.assignee;
+      const shouldFilter = applyPageFilters(chat, activeFilters);
+      return isUnAssigned && shouldFilter;
+    });
   },
-  getAllStatusChats(_state) {
-    return _state.allConversations.filter(
-      chat => chat.status === _state.chatStatusFilter
-    );
+  getAllStatusChats: _state => activeFilters => {
+    return _state.allConversations.filter(chat => {
+      const shouldFilter = applyPageFilters(chat, activeFilters);
+      return shouldFilter;
+    });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
   getAllMessagesLoaded(_state) {
