@@ -47,4 +47,59 @@ describe('#getters', () => {
       ]);
     });
   });
+  describe('#getUnAssignedChats', () => {
+    it('order returns only chats assigned to user', () => {
+      const conversationList = [
+        {
+          id: 1,
+          inbox_id: 2,
+          status: 1,
+          meta: { assignee: { id: 1 } },
+          labels: ['sales', 'dev'],
+        },
+        {
+          id: 2,
+          inbox_id: 2,
+          status: 1,
+          meta: {},
+          labels: ['dev'],
+        },
+        {
+          id: 11,
+          inbox_id: 3,
+          status: 1,
+          meta: { assignee: { id: 1 } },
+          labels: [],
+        },
+        {
+          id: 22,
+          inbox_id: 4,
+          status: 1,
+          meta: { team: { id: 5 } },
+          labels: ['sales'],
+        },
+      ];
+
+      expect(
+        getters.getUnAssignedChats({ allConversations: conversationList })({
+          status: 1,
+        })
+      ).toEqual([
+        {
+          id: 2,
+          inbox_id: 2,
+          status: 1,
+          meta: {},
+          labels: ['dev'],
+        },
+        {
+          id: 22,
+          inbox_id: 4,
+          status: 1,
+          meta: { team: { id: 5 } },
+          labels: ['sales'],
+        },
+      ]);
+    });
+  });
 });
