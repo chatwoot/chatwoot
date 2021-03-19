@@ -67,7 +67,7 @@
         },
         "AGENT_TYPE": {
           "LABEL": "Roll",
-          "PLACEHOLDER": "Välj en typ",
+          "PLACEHOLDER": "Välj en roll",
           "ERROR": "Roll krävs"
         },
         "EMAIL": {
@@ -85,7 +85,7 @@
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Återställ lösenord",
         "ADMIN_SUCCESS_MESSAGE": "Ett e-postmeddelande med instruktioner för att återställa lösenordet har skickats till agenten",
-        "SUCCESS_MESSAGE": "Agentlösenordet återställt",
+        "SUCCESS_MESSAGE": "Agentens lösenord återställd",
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },

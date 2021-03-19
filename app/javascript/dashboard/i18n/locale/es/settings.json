@@ -27,7 +27,7 @@
         "NOTE": "Actualice sus preferencias de notificación por correo electrónico aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
-        "CONVERSATION_MENTION": "Enviar notificaciones cuando usted sea mencionado en una conversación",
+        "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Envirar notificaciones por correo electrónico cuando un nuevo mensaje es creado en una conversación asignada"
       },
       "API": {
@@ -39,7 +39,7 @@
         "NOTE": "Actualize sus preferencias de notificaciones push aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones push cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
-        "CONVERSATION_MENTION": "Enviar notificaciones cuando usted sea mencionado en una conversación",
+        "CONVERSATION_MENTION": "Enviar notificaciones push cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando un nuevo mensaja es creadao en una conversación asignada",
         "HAS_ENABLED_PUSH": "Has habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push"

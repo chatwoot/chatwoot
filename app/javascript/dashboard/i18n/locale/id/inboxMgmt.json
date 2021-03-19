@@ -38,7 +38,8 @@
         "PICK_A_VALUE": "Pilih"
       },
       "TWITTER": {
-        "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' "
+        "HELP": "Untuk menambahkan profil Twitter Anda sebagai saluran, Anda perlu mengautentikasi Profil Twitter Anda dengan mengklik 'Masuk dengan Twitter' ",
+        "ERROR_MESSAGE": "Terjadi kesalahan saat menghubungkan ke Twitter, harap coba lagi"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Channel Website",
@@ -224,7 +225,9 @@
     "TABS": {
       "SETTINGS": "Pengaturan",
       "COLLABORATORS": "Kolaborator",
-      "CONFIGURATION": "Konfigurasi"
+      "CONFIGURATION": "Konfigurasi",
+      "PRE_CHAT_FORM": "Formulir Pra Obrolan",
+      "BUSINESS_HOURS": "Jam Kerja"
     },
     "SETTINGS": "Pengaturan",
     "FEATURES": {
@@ -250,6 +253,41 @@
       "SUBTITLE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
       "MESSAGE_SUCCESS": "Berhasil menghubungkan kembali",
       "MESSAGE_ERROR": "Terjadi kesalahan, harap coba lagi"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Formulir pra-obrolan memungkinkan Anda untuk menangkap informasi pengguna sebelum mereka memulai percakapan dengan Anda.",
+      "ENABLE": {
+        "LABEL": "Aktifkan formulir pra obrolan",
+        "OPTIONS": {
+          "ENABLED": "Ya",
+          "DISABLED": "Tidak"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pesan Pra Obrolan",
+        "PLACEHOLDER": "Pesan ini akan terlihat oleh pengguna bersama dengan formulir"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Pengunjung harus memberikan nama dan alamat email mereka sebelum memulai obrolan"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Atur ketersediaan Anda",
+      "SUBTITLE": "Atur ketersediaan Anda di widget livechat",
+      "WEEKLY_TITLE": "Tetapkan jam mingguan Anda",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Aktifkan ketersediaan untuk hari ini",
+        "UNAVAILABLE": "Tidak tersedia",
+        "HOURS": "jam",
+        "VALIDATION_ERROR": "Waktu mulai harus sebelum waktu tutup.",
+        "CHOOSE": "Pilih"
+      }
     }
   }
 }

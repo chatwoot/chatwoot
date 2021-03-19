@@ -38,10 +38,11 @@
         "PICK_A_VALUE": "Välj ett värde"
       },
       "TWITTER": {
-        "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" "
+        "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Webbplatsens kanal",
+        "TITLE": "Webbplatskanal",
         "DESC": "Skapa en kanal för din webbplats och börja stödja dina kunder via vår hemsida widget.",
         "LOADING_MESSAGE": "Skapar supportkanal för webbplats",
         "CHANNEL_AVATAR": {
@@ -49,7 +50,7 @@
         },
         "CHANNEL_NAME": {
           "LABEL": "Webbplatsens namn",
-          "PLACEHOLDER": "Ange ditt webbplatsnamn (t.ex. Acme Inc)"
+          "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Webbplatsens domän",
@@ -61,7 +62,7 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Välkomsttagline",
-          "PLACEHOLDER": "Vi gör det enkelt att få kontakt med oss. Fråga oss något, eller dela din feedback."
+          "PLACEHOLDER": "Vi gör det enkelt att ta kontakt med oss. Fråga oss något, eller dela din feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Kanalhälsningsmeddelande",
@@ -81,8 +82,8 @@
           "HELP_TEXT": "Den här svarstiden kommer att visas på livechattswidgeten"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget färg",
-          "PLACEHOLDER": "Uppdatera widgetens färg som används i widget"
+          "LABEL": "Widgetfärg",
+          "PLACEHOLDER": "Uppdatera den widgetfärg som används i widget"
         },
         "SUBMIT_BUTTON": "Skapa inkorg"
       },
@@ -90,23 +91,23 @@
         "TITLE": "Twilio SMS/Whatsapp-kanal",
         "DESC": "Integrera Twilio och börja supporta dina kunder via SMS eller Whatsapp.",
         "ACCOUNT_SID": {
-          "LABEL": "Konto SID",
-          "PLACEHOLDER": "Ange ditt Twilio-konto SID",
-          "ERROR": "Detta fält är tvingande"
+          "LABEL": "Kontots SID",
+          "PLACEHOLDER": "Ange SID för ditt Twilio-konto",
+          "ERROR": "Detta fält är obligatoriskt"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Kanaltyp",
           "ERROR": "Var god välj din kanaltyp"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Auth token",
-          "PLACEHOLDER": "Ange din Twilio Auth Token",
-          "ERROR": "Detta fält är tvingande"
+          "LABEL": "Auth-token",
+          "PLACEHOLDER": "Ange din Auth-token för Twilio",
+          "ERROR": "Detta fält är obligatoriskt"
         },
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
-          "ERROR": "Detta fält är tvingande"
+          "ERROR": "Detta fält är obligatoriskt"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
@@ -117,9 +118,9 @@
           "TITLE": "Callback-URL",
           "SUBTITLE": "Du måste konfigurera meddelande-callback-URL i Twilio med den URL som nämns här."
         },
-        "SUBMIT_BUTTON": "Skapa Twilio kanal",
+        "SUBMIT_BUTTON": "Skapa Twiliokanal",
         "API": {
-          "ERROR_MESSAGE": "Vi kunde inte autentisera Twilio autentiseringsuppgifter, försök igen"
+          "ERROR_MESSAGE": "Vi kunde inte autentisera Twilio-uppgifterna, försök igen"
         }
       },
       "API_CHANNEL": {
@@ -128,7 +129,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
-          "ERROR": "Detta fält är tvingande"
+          "ERROR": "Detta fält är obligatoriskt"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -146,7 +147,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Kanalnamn",
           "PLACEHOLDER": "Ange ett kanalnamn",
-          "ERROR": "Detta fält är tvingande"
+          "ERROR": "Detta fält är obligatoriskt"
         },
         "EMAIL": {
           "LABEL": "E-post",
@@ -170,19 +171,19 @@
         "PICK_AGENTS": "Välj agenter för inkorgen"
       },
       "DETAILS": {
-        "TITLE": "Inkorg Detaljer",
+        "TITLE": "Inkorgsdetaljer",
         "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
       },
       "FINISH": {
-        "TITLE": "Spikade det!",
+        "TITLE": "Där satt den!",
         "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentiserar dig med Facebook...",
-      "ERROR_FB_AUTH": "Något gick fel, vänligen uppdatera sidan...",
+      "ERROR_FB_AUTH": "Något gick fel, vänligen ladda om sidan...",
       "CREATING_CHANNEL": "Skapar din inkorg...",
-      "TITLE": "Konfigurera Inkorg Detaljer",
+      "TITLE": "Konfigurera Inkorgsdetaljer",
       "DESC": ""
     },
     "AGENTS": {
@@ -191,9 +192,9 @@
     },
     "FINISH": {
       "TITLE": "Din inkorg är redo!",
-      "MESSAGE": "Du kan nu samarbeta med dina kunder genom din nya kanal. ",
+      "MESSAGE": "Du kan nu interagera med dina kunder genom din nya kanal. Supporta glatt ",
       "BUTTON_TEXT": "Ta mig dit",
-      "WEBSITE_SUCCESS": "Du har lyckats skapa en webbplats kanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt på din inkorg."
+      "WEBSITE_SUCCESS": "Du har skapat en webbplatskanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt i din inkorg."
     },
     "REAUTH": "Återauktorisera",
     "VIEW": "Visa",
@@ -224,7 +225,9 @@
     "TABS": {
       "SETTINGS": "Inställningar",
       "COLLABORATORS": "Medarbetare",
-      "CONFIGURATION": "Konfiguration"
+      "CONFIGURATION": "Konfiguration",
+      "PRE_CHAT_FORM": "Pre Chat Form",
+      "BUSINESS_HOURS": "Business Hours"
     },
     "SETTINGS": "Inställningar",
     "FEATURES": {
@@ -233,13 +236,13 @@
       "DISPLAY_EMOJI_PICKER": "Visa emoji-väljare på widgeten"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Skript för budbärare",
-      "MESSENGER_SUB_HEAD": "Placera denna knapp i din kroppstagg",
+      "MESSENGER_HEADING": "Skript för Messenger",
+      "MESSENGER_SUB_HEAD": "Placera denna knapp i din body-tagg",
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Lägg till eller ta bort agenter från denna inkorg",
       "UPDATE": "Uppdatera",
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
-      "INBOX_UPDATE_TITLE": "Inkorg inställningar",
+      "INBOX_UPDATE_TITLE": "Inkorgsinställningar",
       "INBOX_UPDATE_SUB_TEXT": "Uppdatera inställningarna för din inkorg",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivera eller inaktivera automatisk tilldelning av nya konversationer till de agenter som lagts till den här inkorgen.",
       "HMAC_VERIFICATION": "Validering av användaridentitet",
@@ -250,6 +253,41 @@
       "SUBTITLE": "Din Facebook-anslutning har löpt ut, vänligen återanslut din Facebook-sida för att fortsätta med tjänsterna",
       "MESSAGE_SUCCESS": "Återanslutning lyckades",
       "MESSAGE_ERROR": "Ett fel uppstod, vänligen försök igen"
+    },
+    "PRE_CHAT_FORM": {
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "ENABLE": {
+        "LABEL": "Enable pre chat form",
+        "OPTIONS": {
+          "ENABLED": "Yes",
+          "DISABLED": "No"
+        }
+      },
+      "PRE_CHAT_MESSAGE": {
+        "LABEL": "Pre Chat Message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
+      },
+      "REQUIRE_EMAIL": {
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "DAY": {
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
+        "HOURS": "hours",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
+        "CHOOSE": "Choose"
+      }
     }
   }
 }

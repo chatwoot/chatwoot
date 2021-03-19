@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edita el contacte",
     "TITLE": "Edita el contacte",
-    "DESC": "Edita els detalls de contacte",
+    "DESC": "Edita els detalls de contacte"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "Nou Contacte",
+    "TITLE": "Crear un nou contacte",
+    "DESC": "Afegir informació bàsica sobre el contacte."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Envia",
       "CANCEL": "Cancel·la",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "S'ha actualitzat correctament el contacte",
+    "SUCCESS_MESSAGE": "Contacte guardat correctament",
     "CONTACT_ALREADY_EXIST": "Aquesta adreça de correu electrònic s’utilitza per a un altre contacte.",
-    "ERROR_MESSAGE": "S'ha produït un error en actualitzar el contacte. Tornau-ho a provar"
+    "ERROR_MESSAGE": "S'ha produït un error; tornau-ho a provar"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactes",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Carregant contactes...",
       "404": "No hi ha cap contacte que coincideixi amb la vostra cerca 🔍",
-      "TABLE_HEADER": [
-        "Nom",
-        "Número de telèfon",
-        "Converses",
-        "Darrer contacte"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "PHONE_NUMBER": "Número de telèfon",
+        "CONVERSATIONS": "Converses",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Companyia",
+        "EMAIL_ADDRESS": "Adreça de correu electrònic"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

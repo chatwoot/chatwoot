@@ -3,15 +3,15 @@
     "HEADER": "Ügynökök",
     "HEADER_BTN_TXT": "Ügynök Hozzádása",
     "LOADING": "Ügynökök Listájának Lekérése",
-    "SIDEBAR_TXT": "<p><b>Agents</b></p> <p> An <b>Agent</b> is a member of your Customer Support team. </p><p> Agents will be able to view and reply to messages from your users. The list shows all agents currently in your account. </p><p> Click on <b>Add Agent</b> to add a new agent. Agent you add will receive an email with a confirmation link to activate their account, after which they can access Chatwoot and respond to messages. </p><p> Access to Chatwoot's features are based on following roles. </p><p> <b>Agent</b> - Agents with this role can only access inboxes, reports and conversations. They can assign conversations to other agents or themselves and resolve conversations.</p><p> <b>Administrator</b> - Administrator will have access to all Chatwoot features enabled for your account, including settings, along with all of a normal agents' privileges.</p>",
+    "SIDEBAR_TXT": "<p><b>Ügynökök</b></p> <p> Egy <b>Ügynök</b> tagja a terméktámogatási csapatodnak.</p> <p>Az ügynökök láthatják és válaszolhatnak a felhasználóid üzeneteire. A lista minden jelenleg a fiókodban található ügynököt mutatja.</p><p> Kattints az <b>Ügynök hozzáadásra</b> új ügynök hozzáadásához. Az ügynök amelyet hozzáadsz e-mailt fog kapni egy megerősítő linkkel, mellyel aktiválhatják a fiókjukat, mely után hozzáférést kapnak a Chatwoot-hoz és válaszolhatnak üzenetekre. </p><p>A Chatwoot lehetőségeihez a következő szerepkörök alapján férhet hozzá.</p><p><b>Ügynökök</b> - Ezzel a szerepkörrel rendelkező ügynökök hozzáférhetnek az inboxokhoz, jelentésekhez és beszélgetésekhez. Hozzárendelhetnek beszélgetéseket más ügynökökhöz vagy saját magukhoz és lezárhatnak beszélgetéseket.</p><p> <b>Adminisztrátor</b> - Az Adminisztrátor felhasználók hozzáférhetnek minden Chatwoot funkcióhoz mely a fiókhoz tartozik, beleértve a beállításokat, illetve a normális ügynöki felhasználói jogosultságokkal is bírnak.</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Adminisztrátor",
       "AGENT": "Ügynök"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
+      "404": "Ehhez a fiókhoz nincs ügynök rendelve",
+      "TITLE": "A csapatod ügynökeinek kezelése",
+      "DESC": "Hozzáadhatsz és törölhetsz ügynököket a csapatodban.",
       "NAME": "Név",
       "EMAIL": "EMAIL",
       "STATUS": "Státusz",
@@ -42,24 +42,24 @@
       "API": {
         "SUCCESS_MESSAGE": "Ügynök sikeresen hozzáadva",
         "EXIST_MESSAGE": "Az ügynök email cím már használatban van, kérjük próbálkozzon újra másik email címmel",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Ügynök sikeresen hozzáadva",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Biztos abban, hogy törli ",
+        "YES": "Igen, Törlés ",
+        "NO": "Nem, Mégse "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Ügynök szerkesztése",
       "FORM": {
         "NAME": {
           "LABEL": "Ügynök neve",
@@ -74,23 +74,23 @@
           "LABEL": "Email cím",
           "PLACEHOLDER": "Kérjük adja meg az ügynök email címét"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Ügynök szerkesztése"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "Szerkesztés",
+      "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "Ügynök sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "Új jelszó kérése",
+        "ADMIN_SUCCESS_MESSAGE": "Egy e-mail a jelszófrissítési utasításokkal sikeresen kiküldve az ügynöknek",
+        "SUCCESS_MESSAGE": "Ügynök jelszó sikeresen frissítve",
+        "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "No agents found."
+      "NO_RESULTS": "Nem találunk ügynököt."
     }
   }
 }

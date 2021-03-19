@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "1.13.1",
+  "version": "1.14.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/javascript --fix",

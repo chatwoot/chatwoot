@@ -47,6 +47,10 @@ ro:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Atribuit lui %{assignee_name} de %{user_name}"
         removed: "Conversație neasociată de %{user_name}"
+      team:
+        assigned: "Atribuit lui %{team_name} de %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"

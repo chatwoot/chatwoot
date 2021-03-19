@@ -16,7 +16,7 @@
   margin-bottom: var(--space-normal);
 
   .multiselect--active {
-    > .multiselect__tags {
+    >.multiselect__tags {
       border-color: $color-woot;
     }
   }
@@ -124,6 +124,7 @@
 }
 
 .sidebar-labels-wrap {
+
   &.has-edited,
   &:hover {
     .multiselect {
@@ -132,16 +133,48 @@
   }
 
   .multiselect {
-    > .multiselect__select {
+    >.multiselect__select {
       visibility: hidden;
     }
 
-    > .multiselect__tags {
+    >.multiselect__tags {
       border-color: transparent;
     }
 
-    &.multiselect--active > .multiselect__tags {
+    &.multiselect--active>.multiselect__tags {
       border-color: $color-woot;
     }
+  }
+}
+
+
+.multiselect-wrap--small {
+  $multiselect-height: 3.8rem;
+
+  .multiselect__tags,
+  .multiselect__input,
+  .multiselect {
+    background: var(--white);
+    font-size: var(--font-size-small);
+    height: $multiselect-height;
+    min-height: $multiselect-height;
+  }
+
+  .multiselect__input {
+    height: $multiselect-height - $space-micro;
+    min-height: $multiselect-height - $space-micro;
+  }
+
+  .multiselect__single {
+    font-size: var(--font-size-small);
+    padding: var(--space-small) 0;
+  }
+
+  .multiselect__placeholder {
+    padding: var(--space-small) 0;
+  }
+
+  .multiselect__select {
+    min-height: $multiselect-height;
   }
 }

@@ -47,6 +47,10 @@ ja:
         self_assigned: "%{user_name} がこの会話を自身で割り当てました"
         assigned: "%{assignee_name} によって %{user_name} に割り当てられました"
         removed: "%{user_name} によって割り当てられていない会話です"
+      team:
+        assigned: "%{team_name} によって %{user_name} に割り当てられました"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
