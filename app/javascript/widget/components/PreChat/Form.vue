@@ -85,7 +85,7 @@ export default {
     const messageValidation = {
       message: {
         required,
-        minLength: minLength(10),
+        minLength: minLength(1),
       },
     };
     if (this.options.requireEmail) {

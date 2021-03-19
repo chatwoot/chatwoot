@@ -92,11 +92,13 @@ export default {
               ...this.timeSlot,
               from: timeSlots[0],
               to: timeSlots[16],
+              valid: true,
             }
           : {
               ...this.timeSlot,
               from: '',
               to: '',
+              valid: false,
             };
         this.$emit('update', newSlot);
       },
@@ -106,9 +108,12 @@ export default {
         return this.timeSlot.from;
       },
       set(value) {
+        const fromDate = parse(value, 'hh:mm a', new Date());
+        const valid = differenceInMinutes(this.toDate, fromDate) / 60 > 0;
         this.$emit('update', {
           ...this.timeSlot,
           from: value,
+          valid,
         });
       },
     },
@@ -117,10 +122,21 @@ export default {
         return this.timeSlot.to;
       },
       set(value) {
-        this.$emit('update', {
-          ...this.timeSlot,
-          to: value,
-        });
+        const toDate = parse(value, 'hh:mm a', new Date());
+        if (value === '12:00 AM') {
+          this.$emit('update', {
+            ...this.timeSlot,
+            to: value,
+            valid: true,
+          });
+        } else {
+          const valid = differenceInMinutes(toDate, this.fromDate) / 60 > 0;
+          this.$emit('update', {
+            ...this.timeSlot,
+            to: value,
+            valid,
+          });
+        }
       },
     },
     fromDate() {
@@ -130,10 +146,14 @@ export default {
       return parse(this.toTime, 'hh:mm a', new Date());
     },
     totalHours() {
-      return differenceInMinutes(this.toDate, this.fromDate) / 60;
+      const totalHours = differenceInMinutes(this.toDate, this.fromDate) / 60;
+      if (this.toTime === '12:00 AM') {
+        return 24 + totalHours;
+      }
+      return totalHours;
     },
     hasError() {
-      return this.totalHours < 0;
+      return !this.timeSlot.valid;
     },
   },
 };
@@ -157,8 +177,8 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-normal);
-  height: var(--space-larger);
+  padding: var(--space-small) 0;
+  min-height: var(--space-larger);
   box-sizing: content-box;
   border-bottom: 1px solid var(--color-border-light);
 }
@@ -213,7 +233,7 @@ export default {
 }
 
 .date-error {
-  padding: var(--space-small) 0;
+  padding-top: var(--space-smaller);
 }
 
 .error {
