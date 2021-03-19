@@ -23,10 +23,10 @@ const getters = {
     const currentUserID = authAPI.getCurrentUser().id;
 
     return _state.allConversations.filter(conversation => {
-      const hasAssignee = !!conversation.meta.assignee;
-      const isAssignedToMe = conversation.meta.assignee.id === currentUserID;
+      const { assignee } = conversation.meta;
+      const isAssignedToMe = assignee && assignee.id === currentUserID;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      const isChatMine = hasAssignee && isAssignedToMe && shouldFilter;
+      const isChatMine = isAssignedToMe && shouldFilter;
 
       return isChatMine;
     });
