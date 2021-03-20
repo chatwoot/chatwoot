@@ -270,14 +270,6 @@ export default {
   padding: $space-small $space-one;
 }
 
-.dropdown-pane {
-  li {
-    a {
-      padding: $space-small $space-one !important;
-    }
-  }
-}
-
 .account-selector {
   cursor: pointer;
   padding: $space-small $space-large;
