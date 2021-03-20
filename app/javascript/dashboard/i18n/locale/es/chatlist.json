@@ -77,9 +77,9 @@
         "CONTENT": "ha compartido una url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Recibido por email",
-    "VIEW_TWEET_IN_TWITTER": "Ver tweet en Twitter",
-    "REPLY_TO_TWEET": "Responder a este tweet",
-    "NO_MESSAGES": "Sin Mensajes"
+    "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
+    "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
+    "REPLY_TO_TWEET": "Responder a éste trino",
+    "NO_MESSAGES": "No hay mensajes"
   }
 }

@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "कृपया तपाईंको ईमेल दिनुहोस्",
   "CHAT_PLACEHOLDER": "तपाईंको सन्देश टाइप गर्नुहोस्",
   "TODAY": "आज",
-  "YESTERDAY": "भोली"
+  "YESTERDAY": "भोली",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Full Name",
+        "PLACEHOLDER": "Please enter your full name",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email Address",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

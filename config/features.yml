@@ -1,6 +1,6 @@
 # DO NOT change the order of features EVER
 - name: inbound_emails
-  enabled: false
+  enabled: true
 - name: channel_email
   enabled: true
 - name: channel_facebook

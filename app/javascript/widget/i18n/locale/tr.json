@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Lütfen E-postanızı Girin",
   "CHAT_PLACEHOLDER": "Mesajınız",
   "TODAY": "Bugün",
-  "YESTERDAY": "Dün"
+  "YESTERDAY": "Dün",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Ad Soyad",
+        "PLACEHOLDER": "lütfen tam adınızı giriniz",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-posta adresi",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }
