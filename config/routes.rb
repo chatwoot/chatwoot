@@ -150,7 +150,7 @@ Rails.application.routes.draw do
             post :transcript
           end
         end
-        resource :contact, only: [:update]
+        resource :contact, only: [:show, :update]
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
       end
