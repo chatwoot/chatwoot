@@ -12,10 +12,6 @@ export default {
   componentName: 'WootDropdownMenu',
 
   props: {
-    showArrow: {
-      type: Boolean,
-      default: true,
-    },
     placement: {
       type: String,
       default: 'top',

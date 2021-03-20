@@ -46,9 +46,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+
+const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
   components: {
