@@ -11,10 +11,10 @@
       "TITLE": "Mesajları ara",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
-      "NO_MATCHING_RESULTS": "Arama parametreleriyle eşleşen mesaj yok."
+      "NO_MATCHING_RESULTS": "No results found."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Okunmamış Mesajlar",
+    "UNREAD_MESSAGE": "Okunmamış Mesaj",
     "CLICK_HERE": "Buraya Tıkla",
     "LOADING_INBOXES": "Gelen kutuları yükleniyor",
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
@@ -25,7 +25,7 @@
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "NO_RESPONSE": "Cevap Yok",
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
@@ -43,7 +43,7 @@
       "SEND": "Gönder",
       "CREATE": "Not ekle",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "ENTER_TO_SEND": "Enter to send"
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Bir e-mail adresi girin",
         "ERROR": "Lütfen geçerli bir tam e-posta adresi"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

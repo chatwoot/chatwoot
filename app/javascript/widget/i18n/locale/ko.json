@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
   "CHAT_PLACEHOLDER": "메시지 입력",
   "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "YESTERDAY": "Yesterday",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "전체 이름",
+        "PLACEHOLDER": "전체 이름을 입력하십시오.",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "이메일 주소",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

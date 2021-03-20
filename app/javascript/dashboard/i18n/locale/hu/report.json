@@ -1,43 +1,43 @@
 {
   "REPORT": {
-    "HEADER": "Reports",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "HEADER": "Jelentések",
+    "LOADING_CHART": "Táblázat adatok betöltése...",
+    "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
+    "DOWNLOAD_AGENT_REPORTS": "Ügynök jelentések letöltése",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "Beszélgetések",
+        "DESC": "( Teljes )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "Beérkező üznetek",
+        "DESC": "( Teljes )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "Kimenő üzenetek",
+        "DESC": "( Teljes )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First response time",
-        "DESC": "( Avg )"
+        "NAME": "Első reakció idő",
+        "DESC": "( Átlag )"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )"
+        "NAME": "Megoldási idő",
+        "DESC": "( Átlag )"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "Megoldások száma",
+        "DESC": "( Teljes )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "Utolsó 7 nap"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "Utolsó 30 nap"
       }
     ]
   }

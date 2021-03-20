@@ -20,10 +20,10 @@ sv:
   hello: "Hej världen"
   messages:
     reset_password_success: Woot! Begäran om återställning av lösenord lyckades. Kontrollera din e-post för instruktioner.
-    reset_password_failure: Uh ho! Vi kunde inte hitta någon användare med den angivna e-postadressen.
+    reset_password_failure: Oj då! Vi kunde inte hitta någon användare med den angivna e-postadressen.
   errors:
     signup:
-      disposable_email: Vi tillåter inte engångs e-post
+      disposable_email: Vi tillåter inte engångsadresser
       invalid_email: Du har angett en ogiltig e-postadress
       email_already_exists: "Du har redan registrerat dig för ett konto med %{email}"
       failed: Registrering misslyckades
@@ -31,10 +31,10 @@ sv:
     period: Rapporteringsperiod %{since} till %{until}
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
+      conversation_assignment: "[Tilldelad dig] - #%{display_id} har tilldelats dig"
+      assigned_conversation_new_message: "[Nytt meddelande] - #%{display_id} %{content}"
+      conversation_mention: "Du har nämnts i konversationen [ID - %{display_id}] av %{name}"
   conversations:
     messages:
       deleted: Detta meddelande har tagits bort
@@ -47,6 +47,10 @@ sv:
         self_assigned: "%{user_name} har tilldelat sig denna konversation"
         assigned: "Tilldelad till %{assignee_name} av %{user_name}"
         removed: "Konversation otilldelad av %{user_name}"
+      team:
+        assigned: "Assigned to %{team_name} by %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} har lagt till %{labels}"
         removed: "%{user_name} tog bort %{labels}"
@@ -54,7 +58,7 @@ sv:
       unmuted: "%{user_name} har avtystat konversationen"
     templates:
       greeting_message_body: "%{account_name} svarar vanligtvis inom några timmar."
-      ways_to_reach_you_message_body: "Ge laget ett sätt att nå dig."
+      ways_to_reach_you_message_body: "Ge teamet ett sätt att nå dig."
       email_input_box_message_body: "Få meddelande via e-post"
     reply:
       email_subject: "Nya meddelanden i denna konversation"

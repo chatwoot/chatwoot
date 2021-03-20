@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Chỉnh sửa liên hệ",
     "TITLE": "Chỉnh sửa liên hệ",
-    "DESC": "Chỉnh sửa liên hệ chi tiết",
+    "DESC": "Chỉnh sửa liên hệ chi tiết"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "Gửi",
       "CANCEL": "Huỷ",
@@ -68,7 +75,7 @@
       },
       "LOCATION": {
         "PLACEHOLDER": "Nhập vị trí của liên hệ",
-        "LABEL": "Vị trí"
+        "LABEL": "Địa điểm"
       },
       "COMPANY_NAME": {
         "PLACEHOLDER": "Nhập tên công ty",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Đã cập nhật liên hệ thành công",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
-    "ERROR_MESSAGE": "Đã xảy ra lỗi khi cập nhật địa chỉ liên hệ, vui lòng thử lại"
+    "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "Tên",
-        "Số điện thoại",
-        "Các cuộc hội thoại",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Tên",
+        "PHONE_NUMBER": "Số điện thoại",
+        "CONVERSATIONS": "Các cuộc hội thoại",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Công ty",
+        "EMAIL_ADDRESS": "Email"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

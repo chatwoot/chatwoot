@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "連絡先を編集",
     "TITLE": "連絡先を編集",
-    "DESC": "連絡先の詳細を編集",
+    "DESC": "連絡先の詳細を編集"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送信",
       "CANCEL": "キャンセル",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "連絡先を正常に更新しました",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "このメールアドレスは別の連絡先に使用されています。",
-    "ERROR_MESSAGE": "連絡先の更新中にエラーが発生しました。もう一度やり直してください。"
+    "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "名前",
-        "電話番号",
-        "会話データ",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "名前",
+        "PHONE_NUMBER": "電話番号",
+        "CONVERSATIONS": "会話データ",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "企業",
+        "EMAIL_ADDRESS": "Eメールアドレス"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

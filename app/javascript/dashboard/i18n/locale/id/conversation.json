@@ -11,7 +11,7 @@
       "TITLE": "Mencari pesan",
       "LOADING_MESSAGE": "Mengolah data...",
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
-      "NO_MATCHING_RESULTS": "Tidak ada pesan yang cocok dengan parameter pencarian."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Pesan Belum Terbaca",
     "UNREAD_MESSAGE": "Pesan Belum Terbaca",
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
     "CHANGE_AGENT": "Petugas Percakapan berubah",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Dikirim oleh:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Masukkan alamat email",
         "ERROR": "Mohon masukkan alamat email yang valid"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hai 👋, Selamat datang di %{installationName}!",
+    "DESCRIPTION": "Terima kasih telah mendaftar. Kami ingin Anda mendapatkan hasil maksimal dari %{installationName}. Berikut beberapa hal yang dapat Anda lakukan di %{installationName} untuk membuat pengalaman menyenangkan.",
+    "READ_LATEST_UPDATES": "Baca pembaruan terbaru kami",
+    "ALL_CONVERSATION": {
+      "TITLE": "Semua percakapan Anda di satu tempat",
+      "DESCRIPTION": "Lihat semua percakapan dari pelanggan Anda dalam satu dasbor. Anda dapat memfilter percakapan berdasarkan saluran masuk, label, dan status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Undang anggota tim Anda",
+      "DESCRIPTION": "Saat Anda bersiap untuk berbicara dengan pelanggan Anda, bawa rekan satu tim untuk membantu Anda. Anda dapat mengundang rekan tim Anda dengan menambahkan alamat email mereka ke daftar agen.",
+      "NEW_LINK": "Klik di sini untuk mengundang anggota tim"
+    },
+    "INBOXES": {
+      "TITLE": "Hubungkan Kotak Masuk",
+      "DESCRIPTION": "Hubungkan berbagai saluran yang akan digunakan pelanggan untuk berbicara dengan Anda. Ini bisa berupa obrolan langsung situs web, halaman Facebook atau Twitter Anda atau bahkan nomor WhatsApp Anda.",
+      "NEW_LINK": "Klik di sini untuk membuat kotak masuk"
+    },
+    "LABELS": {
+      "TITLE": "Atur percakapan dengan label",
+      "DESCRIPTION": "Label memberikan cara yang lebih mudah untuk mengkategorikan percakapan Anda. Buat beberapa label seperti #support-inquiry, #billing-question, dll., Sehingga Anda dapat menggunakannya dalam percakapan nanti.",
+      "NEW_LINK": "Klik di sini untuk membuat tag"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

@@ -37,7 +37,7 @@ cs:
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Tato zpráva byla smazána
     activity:
       status:
         resolved: "Konverzace byla vyřešena uživatelem %{user_name}"
@@ -47,6 +47,10 @@ cs:
         self_assigned: "%{user_name} self-assigned this conversation"
         assigned: "Přiřazeno k %{assignee_name} uživatelem %{user_name}"
         removed: "Konverzace zrušena uživatelem %{user_name}"
+      team:
+        assigned: "Assigned to %{team_name} by %{user_name}"
+        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
+        removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
         added: "%{user_name} added %{labels}"
         removed: "%{user_name} removed %{labels}"
@@ -58,11 +62,11 @@ cs:
       email_input_box_message_body: "Dostat upozornění e-mailem"
     reply:
       email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      transcript_subject: "Přepis konverzace"
   integration_apps:
     slack:
       name: "Slack"
       description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
     webhooks:
-      name: "Webhooks"
+      name: "Webhooky"
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
