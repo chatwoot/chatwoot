@@ -6,14 +6,10 @@ const state = {
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
-const SET_CONTACTS_UI_FLAG = 'SET_CONTACTS_UI_FLAG';
 
 export const getters = {
   getCurrentUser(_state) {
     return _state.currentUser;
-  },
-  getUIFlags(_state) {
-    return _state.uiFlags;
   },
 };
 
@@ -62,12 +58,6 @@ export const mutations = {
   [SET_CURRENT_USER]($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
-  },
-  [SET_CONTACTS_UI_FLAG](_state, data) {
-    _state.uiFlags = {
-      ..._state.uiFlags,
-      ...data,
-    };
   },
 };
 
