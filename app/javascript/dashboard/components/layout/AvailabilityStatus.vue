@@ -128,7 +128,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: $space-micro $space-smaller;
+  padding: var(--space-micro) var(--space-smaller);
 }
 
 .status-view {
@@ -136,10 +136,10 @@ export default {
   align-items: baseline;
 
   & &--title {
-    color: $color-gray;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin-left: $space-small;
+    color: var(--b-600);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    margin-left: var(--space-small);
 
     &:first-letter {
       text-transform: capitalize;
@@ -155,15 +155,15 @@ export default {
   border-radius: 50%;
 
   &__online {
-    background: $success-color;
+    background: var(--g-400);
   }
 
   &__offline {
-    background: $color-gray;
+    background: var(--b-600);
   }
 
   &__busy {
-    background: $warning-color;
+    background: var(--y-700);
   }
 }
 
@@ -177,8 +177,8 @@ export default {
     align-items: baseline;
   }
   & &--change-button {
-    color: $color-gray;
-    font-size: $font-size-small;
+    color: var(--b-600);
+    font-size: var(--font-size-small);
     cursor: pointer;
     outline: none;
 
