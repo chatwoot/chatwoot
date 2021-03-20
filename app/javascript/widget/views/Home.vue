@@ -114,13 +114,15 @@ export default {
       conversationSize: 'conversation/getConversationSize',
       groupedMessages: 'conversation/getGroupedConversation',
       isFetchingList: 'conversation/getIsFetchingList',
+      currentUser: 'contacts/getCurrentUser',
     }),
     currentView() {
+      const { email: currentUserEmail = '' } = this.currentUser;
       if (this.isHeaderCollapsed) {
         if (this.conversationSize) {
           return 'messageView';
         }
-        if (this.preChatFormEnabled) {
+        if (this.preChatFormEnabled && !currentUserEmail) {
           return 'preChatFormView';
         }
         return 'messageView';
