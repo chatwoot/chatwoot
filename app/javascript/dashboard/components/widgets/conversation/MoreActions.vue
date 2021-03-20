@@ -12,31 +12,26 @@
     <div
       v-if="showConversationActions"
       v-on-clickaway="hideConversationActions"
-      class="dropdown-pane"
+      class="dropdown-pane dropdowm--bottom"
       :class="{ 'dropdown-pane--open': showConversationActions }"
     >
-      <button
-        v-if="!currentChat.muted"
-        class="button small clear row alert small-6 action--button"
-        @click="mute"
-      >
-        <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
-      </button>
-
-      <button
-        v-else
-        class="button small clear row alert small-6 action--button"
-        @click="unmute"
-      >
-        <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
-      </button>
-
-      <button
-        class="button small clear row small-6 action--button"
-        @click="toggleEmailActionsModal"
-      >
-        {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
-      </button>
+      <woot-dropdown-menu>
+        <woot-dropdown-item v-if="!currentChat.muted">
+          <button class="button clear alert " @click="mute">
+            <span>{{ $t('CONTACT_PANEL.MUTE_CONTACT') }}</span>
+          </button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-else>
+          <button class="button clear alert" @click="unmute">
+            <span>{{ $t('CONTACT_PANEL.UNMUTE_CONTACT') }}</span>
+          </button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <button class="button clear" @click="toggleEmailActionsModal">
+            {{ $t('CONTACT_PANEL.SEND_TRANSCRIPT') }}
+          </button>
+        </woot-dropdown-item>
+      </woot-dropdown-menu>
     </div>
     <email-transcript-modal
       v-if="showEmailActionsModal"
@@ -52,9 +47,13 @@ import { mixin as clickaway } from 'vue-clickaway';
 import alertMixin from 'shared/mixins/alertMixin';
 import EmailTranscriptModal from './EmailTranscriptModal';
 import ResolveAction from '../../buttons/ResolveAction';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 
 export default {
   components: {
+    WootDropdownMenu,
+    WootDropdownItem,
     EmailTranscriptModal,
     ResolveAction,
   },
@@ -117,43 +116,13 @@ export default {
 }
 
 .dropdown-pane {
-  @include elegant-card;
-  @include border-light;
   right: -12px;
   top: 48px;
   width: auto;
-
-  &::before {
-    @include arrow(top, var(--color-border-light), 14px);
-    top: -14px;
-    position: absolute;
-    right: 6px;
-  }
-
-  &::after {
-    @include arrow(top, white, var(--space-slab));
-    top: -12px;
-    position: absolute;
-    right: var(--space-small);
-  }
 }
 
-.dropdown-pane--open {
-  display: block;
-  visibility: visible;
-}
-
-.action--button {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  white-space: nowrap;
-  padding: var(--space-small) var(--space-smaller);
-  font-size: var(--font-size-small);
-
-  .icon {
-    margin-right: var(--space-smaller);
-    min-width: var(--space-normal);
-  }
+.icon {
+  margin-right: var(--space-smaller);
+  min-width: var(--space-normal);
 }
 </style>

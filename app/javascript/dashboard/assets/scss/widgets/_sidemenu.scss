@@ -68,21 +68,11 @@
   position: relative;
 
   .dropdown-pane {
-    @include elegant-card;
-    @include border-light;
     bottom: 6rem;
     display: block;
     left: 5rem;
     visibility: visible;
     width: 80%;
-    z-index: 999;
-
-    &::before {
-      @include arrow(bottom, $color-white, $space-slab);
-      bottom: -$space-slab;
-      position: absolute;
-      right: $space-slab;
-    }
   }
 
   .active {
