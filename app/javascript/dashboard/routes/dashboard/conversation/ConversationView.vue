@@ -3,7 +3,7 @@
     <chat-list
       :conversation-inbox="inboxId"
       :label="label"
-      :active-team="activeTeam"
+      :team-id="teamId"
       @conversation-load="onConversationLoad"
     >
       <pop-over-search />
@@ -67,12 +67,6 @@ export default {
         return isContactSidebarOpen;
       }
       return false;
-    },
-    activeTeam() {
-      if (this.teamId) {
-        return this.$store.getters['teams/getTeam'](this.teamId);
-      }
-      return {};
     },
   },
 
