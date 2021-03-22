@@ -246,8 +246,9 @@ export default {
     handleScroll(e) {
       this.setScrollParams();
 
+      const { dataFetched: hasFetchedData } = this.getMessages || {};
       const dataFetchCheck =
-        this.getMessages.dataFetched === true && this.shouldLoadMoreChats;
+        hasFetchedData === true && this.shouldLoadMoreChats;
       if (
         e.target.scrollTop < 100 &&
         !this.isLoadingPrevious &&
