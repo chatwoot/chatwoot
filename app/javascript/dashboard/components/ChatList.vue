@@ -150,24 +150,16 @@ export default {
     },
     conversationList() {
       let conversationList = [];
+      const filters = this.conversationFilters;
       if (this.activeAssigneeTab === 'me') {
-        conversationList = this.mineChatsList.slice();
+        conversationList = [...this.mineChatsList(filters)];
       } else if (this.activeAssigneeTab === 'unassigned') {
-        conversationList = this.unAssignedChatsList.slice();
+        conversationList = [...this.unAssignedChatsList(filters)];
       } else {
-        conversationList = this.allChatList.slice();
+        conversationList = [...this.allChatList(filters)];
       }
 
-      if (!this.label) {
-        return conversationList;
-      }
-
-      return conversationList.filter(conversation => {
-        const labels = this.$store.getters[
-          'conversationLabels/getConversationLabels'
-        ](conversation.id);
-        return labels.includes(this.label);
-      });
+      return conversationList;
     },
     activeTeam() {
       if (this.teamId) {
