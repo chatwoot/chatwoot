@@ -80,7 +80,10 @@ export default {
                 status={row.availability_status}
               />
               <div>
-                <h6 class="sub-block-title user-name text-truncate">
+                <h6
+                  class="sub-block-title user-name text-truncate"
+                  style="width: 215px"
+                >
                   {row.name}
                 </h6>
                 <button class="button clear small">

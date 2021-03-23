@@ -8,8 +8,8 @@
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
-      <div class="user--profile__meta">
-        <h3 class="user--name text-truncate">
+      <div class="user--profile__meta" style="max-width: 40rem">
+        <h3 class="user--name text-truncate" style="width: 100%">
           {{ currentContact.name }}
         </h3>
         <button
