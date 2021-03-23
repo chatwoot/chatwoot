@@ -4,7 +4,7 @@
     accept="image/*, application/pdf, audio/mpeg, video/mp4, audio/ogg, text/csv"
     @input-file="onFileUpload"
   >
-    <span class="attachment-button ">
+    <span class="attachment-button">
       <i v-if="!isUploading.image" class="ion-android-attach" />
       <spinner v-if="isUploading" size="small" />
     </span>
@@ -14,6 +14,8 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
+import { findFileSizeInMB } from 'shared/helpers/FileHelper';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
 export default {
   components: { FileUpload, Spinner },
@@ -30,15 +32,24 @@ export default {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },
+    checkFileSize(file) {
+      const fileSize = file?.file?.size;
+      const fileSizeInMB = findFileSizeInMB(fileSize);
+      return fileSizeInMB <= MAXIMUM_FILE_UPLOAD_SIZE;
+    },
     async onFileUpload(file) {
       this.isUploading = true;
       try {
-        const thumbUrl = window.URL.createObjectURL(file.file);
-        await this.onAttach({
-          fileType: this.getFileType(file.type),
-          file: file.file,
-          thumbUrl,
-        });
+        if (this.checkFileSize(file)) {
+          const thumbUrl = window.URL.createObjectURL(file.file);
+          await this.onAttach({
+            fileType: this.getFileType(file.type),
+            file: file.file,
+            thumbUrl,
+          });
+        } else {
+          window.bus.$emit('on-attachment-error');
+        }
       } catch (error) {
         // Error
       }

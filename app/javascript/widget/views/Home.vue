@@ -34,6 +34,11 @@
         />
       </transition>
     </div>
+    <div v-if="showAttachmentError" class="banner">
+      <span>
+        {{ $t('FILE_SIZE_LIMIT') }}
+      </span>
+    </div>
     <div class="flex flex-1 overflow-auto">
       <conversation-wrap
         v-if="currentView === 'messageView'"
@@ -105,7 +110,7 @@ export default {
     },
   },
   data() {
-    return { isOnCollapsedView: false };
+    return { isOnCollapsedView: false, showAttachmentError: false };
   },
   computed: {
     ...mapGetters({
@@ -151,6 +156,14 @@ export default {
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
     },
+  },
+  mounted() {
+    bus.$on('on-attachment-error', () => {
+      this.showAttachmentError = true;
+      setTimeout(() => {
+        this.showAttachmentError = false;
+      }, 3000);
+    });
   },
   methods: {
     startConversation() {
@@ -218,6 +231,14 @@ export default {
 
   .input-wrap {
     padding: 0 $space-normal;
+  }
+  .banner {
+    background: $color-error;
+    color: $color-white;
+    font-size: $font-size-default;
+    font-weight: $font-weight-bold;
+    padding: $space-slab;
+    text-align: center;
   }
 }
 </style>
