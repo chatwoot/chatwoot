@@ -81,6 +81,9 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import { findFileSizeInMB } from 'shared/helpers/FileHelper';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+
 import {
   isEscape,
   isEnter,
@@ -350,22 +353,30 @@ export default {
         });
       }
     },
+    checkFileSize(file) {
+      const fileSize = file?.file?.size;
+      const fileSizeInMB = findFileSizeInMB(fileSize);
+      return fileSizeInMB <= MAXIMUM_FILE_UPLOAD_SIZE;
+    },
     onFileUpload(file) {
-      this.attachedFiles = [];
-      if (!file) {
-        return;
+      if (this.checkFileSize(file)) {
+        this.attachedFiles = [];
+        if (!file) {
+          return;
+        }
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.currentChat.id,
+            resource: file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+          });
+        };
+      } else {
+        bus.$emit('newToastMessage', this.$t('CONVERSATION.FILE_SIZE_LIMIT'));
       }
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.currentChat.id,
-          resource: file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-        });
-      };
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
