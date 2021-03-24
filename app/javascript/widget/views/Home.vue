@@ -36,7 +36,11 @@
     </div>
     <div v-if="showAttachmentError" class="banner">
       <span>
-        {{ $t('FILE_SIZE_LIMIT') }}
+        {{
+          $t('FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE: fileUploadSizeLimit,
+          })
+        }}
       </span>
     </div>
     <div class="flex flex-1 overflow-auto">
@@ -85,6 +89,7 @@ import configMixin from '../mixins/configMixin';
 import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import PreChatForm from '../components/PreChat/Form';
 export default {
   name: 'Home',
@@ -136,6 +141,9 @@ export default {
     },
     isOpen() {
       return this.conversationAttributes.status === 'open';
+    },
+    fileUploadSizeLimit() {
+      return MAXIMUM_FILE_UPLOAD_SIZE;
     },
     showInputTextArea() {
       if (this.hideInputForBotConversations) {

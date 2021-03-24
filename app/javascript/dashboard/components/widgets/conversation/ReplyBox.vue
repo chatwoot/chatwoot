@@ -375,7 +375,12 @@ export default {
           });
         };
       } else {
-        bus.$emit('newToastMessage', this.$t('CONVERSATION.FILE_SIZE_LIMIT'));
+        bus.$emit(
+          'newToastMessage',
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
       }
     },
     removeAttachment(itemIndex) {

@@ -49,5 +49,5 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the 5MB attachment limit"
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }
