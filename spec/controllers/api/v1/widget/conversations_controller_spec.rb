@@ -30,8 +30,8 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       it 'returns the correct conversation params' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
-        payload = { source_id: 'invalid source id', inbox_id: web_widget.inbox.id } 
-        token = ::Widget::TokenService.new(payload: payload).generate_token 
+        payload = { source_id: 'invalid source id', inbox_id: web_widget.inbox.id }
+        token = ::Widget::TokenService.new(payload: payload).generate_token
         get '/api/v1/widget/conversations',
             headers: { 'X-Auth-Token' => token },
             params: { website_token: web_widget.website_token },
