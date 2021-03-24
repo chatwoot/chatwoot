@@ -10,7 +10,7 @@ export const formatBytes = (bytes, decimals = 2) => {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 };
 
-export const findFileSizeInMB = bytes => {
+export const fileSizeInMegaBytes = bytes => {
   if (bytes === 0) {
     return 0;
   }

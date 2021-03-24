@@ -14,7 +14,7 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
-import { findFileSizeInMB } from 'shared/helpers/FileHelper';
+import { fileSizeInMegaBytes } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
 export default {
@@ -34,7 +34,7 @@ export default {
     },
     checkFileSize(file) {
       const fileSize = file?.file?.size;
-      const fileSizeInMB = findFileSizeInMB(fileSize);
+      const fileSizeInMB = fileSizeInMegaBytes(fileSize);
       return fileSizeInMB <= MAXIMUM_FILE_UPLOAD_SIZE;
     },
     async onFileUpload(file) {

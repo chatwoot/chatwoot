@@ -1,4 +1,4 @@
-import { formatBytes } from '../files';
+import { formatBytes, fileSizeInMegaBytes } from '../FileHelper';
 
 describe('#File Helpers', () => {
   describe('formatBytes', () => {
@@ -13,6 +13,14 @@ describe('#File Helpers', () => {
     });
     it('should return in MB if 10000000 is passed', () => {
       expect(formatBytes(10000000)).toBe('9.54 MB');
+    });
+  });
+  describe('fileSizeInMegaBytes', () => {
+    it('should return zero if 0 is passed', () => {
+      expect(fileSizeInMegaBytes(0)).toBe(0);
+    });
+    it('should return 19.07 if 20000000 is passed', () => {
+      expect(fileSizeInMegaBytes(20000000)).toBe('19.07');
     });
   });
 });

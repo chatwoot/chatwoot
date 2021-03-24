@@ -81,7 +81,7 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
-import { findFileSizeInMB } from 'shared/helpers/FileHelper';
+import { fileSizeInMegaBytes } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 
 import {
@@ -355,7 +355,7 @@ export default {
     },
     checkFileSize(file) {
       const fileSize = file?.file?.size;
-      const fileSizeInMB = findFileSizeInMB(fileSize);
+      const fileSizeInMB = fileSizeInMegaBytes(fileSize);
       return fileSizeInMB <= MAXIMUM_FILE_UPLOAD_SIZE;
     },
     onFileUpload(file) {
