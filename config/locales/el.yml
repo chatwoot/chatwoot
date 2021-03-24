@@ -47,6 +47,10 @@ el:
         self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"
         assigned: "Ανατέθηκε στον %{assignee_name} από τον %{user_name}"
         removed: "Η συνομιλία σημάνθηκε ως μη ανατεθειμένη από τον %{user_name}"
+      team:
+        assigned: "Ανατέθηκε στον %{team_name} από τον %{user_name}"
+        assigned_with_assignee: "Ανατέθηκε στον %{assignee_name} μέσω %{team_name} από %{user_name}"
+        removed: "Από-ανατέθηκε στον %{team_name} από %{user_name}"
       labels:
         added: "Ο %{user_name} πρόσθεσε ετικέτες %{labels}"
         removed: "Ο %{user_name} αφαίρεσε τις ετικέτες %{labels}"

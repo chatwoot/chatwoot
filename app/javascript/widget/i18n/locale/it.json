@@ -1,7 +1,7 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Scaricare",
+      "DOWNLOAD": "Download",
       "UPLOADING": "Caricamento..."
     },
     "FORM_BUBBLE": {
@@ -9,25 +9,44 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Siamo online",
+    "OFFLINE": "Siamo offline"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
+    "IN_A_FEW_HOURS": "In genere risponde in poche ore",
+    "IN_A_DAY": "In genere le risposte in un giorno"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Avvia Conversazione",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
     "CLOSE_MESSAGES_BUTTON": "Chiudi"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Chatta con noi"
   },
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "Inserisci la tua email",
   "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "TODAY": "Oggi",
+  "YESTERDAY": "Ieri",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nome Completo",
+        "PLACEHOLDER": "Per favore inserisci il nome completo",
+        "ERROR": "Nome completo è richiesto"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Indirizzo email",
+        "PLACEHOLDER": "Inserisci il tuo indirizzo e-mail",
+        "ERROR": "Indirizzo email non valido"
+      },
+      "MESSAGE": {
+        "LABEL": "Messaggio",
+        "PLACEHOLDER": "Per favore inserisci il tuo messaggio",
+        "ERROR": "Messaggio troppo corto"
+      }
+    }
+  }
 }

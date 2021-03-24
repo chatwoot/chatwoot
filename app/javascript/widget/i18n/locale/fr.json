@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
   "CHAT_PLACEHOLDER": "Tapez votre message",
   "TODAY": "Aujourd'hui",
-  "YESTERDAY": "Hier"
+  "YESTERDAY": "Hier",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Veuillez entrer votre nom complet",
+        "ERROR": "Le nom complet est requis"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adresse de courriel",
+        "PLACEHOLDER": "Veuillez saisir votre adresse de courriel",
+        "ERROR": "Adresse e-mail invalide"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Veuillez entrer votre message",
+        "ERROR": "Message trop court"
+      }
+    }
+  }
 }

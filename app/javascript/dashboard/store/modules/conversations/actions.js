@@ -103,16 +103,36 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ commit }, { conversationId, agentId }) => {
+  assignAgent: async ({ dispatch }, { conversationId, agentId }) => {
     try {
       const response = await ConversationApi.assignAgent({
         conversationId,
         agentId,
       });
-      commit(types.default.ASSIGN_AGENT, response.data);
+      dispatch('setCurrentChatAssignee', response.data);
     } catch (error) {
       // Handle error
     }
+  },
+
+  setCurrentChatAssignee({ commit }, assignee) {
+    commit(types.default.ASSIGN_AGENT, assignee);
+  },
+
+  assignTeam: async ({ dispatch }, { conversationId, teamId }) => {
+    try {
+      const response = await ConversationApi.assignTeam({
+        conversationId,
+        teamId,
+      });
+      dispatch('setCurrentChatTeam', response.data);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setCurrentChatTeam({ commit }, team) {
+    commit(types.default.ASSIGN_TEAM, team);
   },
 
   toggleStatus: async ({ commit }, data) => {

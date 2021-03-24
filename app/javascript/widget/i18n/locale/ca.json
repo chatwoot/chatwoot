@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
   "CHAT_PLACEHOLDER": "Escriu el missatge",
   "TODAY": "Avui",
-  "YESTERDAY": "Ahir"
+  "YESTERDAY": "Ahir",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Nom complet",
+        "PLACEHOLDER": "Introdueix el vostre nom complet",
+        "ERROR": "El Nom Complert és obligatori"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Adreça de correu electrònic",
+        "PLACEHOLDER": "Si us plau, introdueix la teva adreça email",
+        "ERROR": "Adreça email invàlida"
+      },
+      "MESSAGE": {
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Si us plau, introdueix el teu missatge",
+        "ERROR": "Missatge massa curt"
+      }
+    }
+  }
 }

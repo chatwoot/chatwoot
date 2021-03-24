@@ -178,7 +178,6 @@ export default {
         icon: 'ion-ios-people',
         label: 'TEAMS',
         hasSubMenu: true,
-        newLink: true,
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
@@ -269,14 +268,6 @@ export default {
   font-weight: $font-weight-normal;
   font-size: $font-size-small;
   padding: $space-small $space-one;
-}
-
-.dropdown-pane {
-  li {
-    a {
-      padding: $space-small $space-one !important;
-    }
-  }
 }
 
 .account-selector {
