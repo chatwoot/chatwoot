@@ -15,25 +15,24 @@
         <div
           v-if="isStatusMenuOpened"
           v-on-clickaway="closeStatusMenu"
-          class="dropdown-pane top"
+          class="dropdown-pane dropdowm--top"
         >
-          <ul class="vertical dropdown menu">
-            <li
+          <woot-dropdown-menu>
+            <woot-dropdown-item
               v-for="status in availabilityStatuses"
               :key="status.value"
               class="status-items"
             >
-              <div :class="`status-badge status-badge__${status.value}`" />
-
               <button
                 class="button clear status-change--dropdown-button"
                 :disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
+                <span :class="`status-badge status-badge__${status.value}`" />
                 {{ status.label }}
               </button>
-            </li>
-          </ul>
+            </woot-dropdown-item>
+          </woot-dropdown-menu>
         </div>
       </transition>
 
@@ -47,9 +46,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
 export default {
+  components: {
+    WootDropdownMenu,
+    WootDropdownItem,
+  },
+
   mixins: [clickaway],
 
   data() {
@@ -121,7 +128,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: $space-micro $space-smaller;
+  padding: var(--space-micro) var(--space-smaller);
 }
 
 .status-view {
@@ -129,10 +136,10 @@ export default {
   align-items: baseline;
 
   & &--title {
-    color: $color-gray;
-    font-size: $font-size-small;
-    font-weight: $font-weight-medium;
-    margin-left: $space-small;
+    color: var(--b-600);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    margin-left: var(--space-small);
 
     &:first-letter {
       text-transform: capitalize;
@@ -140,51 +147,44 @@ export default {
   }
 }
 
+.status-badge {
+  width: var(--space-one);
+  height: var(--space-one);
+  margin-right: var(--space-micro);
+  display: inline-block;
+  border-radius: 50%;
+
+  &__online {
+    background: var(--g-400);
+  }
+
+  &__offline {
+    background: var(--b-600);
+  }
+
+  &__busy {
+    background: var(--y-700);
+  }
+}
+
 .status-change {
   .dropdown-pane {
-    top: -130px;
+    top: -132px;
   }
 
   .status-items {
     display: flex;
     align-items: baseline;
   }
-
   & &--change-button {
-    color: $color-gray;
-    font-size: $font-size-small;
-    border-bottom: 1px solid $color-gray;
+    color: var(--b-600);
+    font-size: var(--font-size-small);
     cursor: pointer;
+    outline: none;
 
     &:hover {
-      border-bottom: none;
+      color: var(--w-600);
     }
-  }
-
-  & &--dropdown-button {
-    font-weight: $font-weight-normal;
-    font-size: $font-size-small;
-    padding: $space-small $space-one;
-    text-align: left;
-    width: 100%;
-  }
-}
-
-.status-badge {
-  width: $space-one;
-  height: $space-one;
-  border-radius: 50%;
-
-  &__online {
-    background: $success-color;
-  }
-
-  &__offline {
-    background: $color-gray;
-  }
-
-  &__busy {
-    background: $warning-color;
   }
 }
 </style>

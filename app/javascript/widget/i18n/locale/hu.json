@@ -1,33 +1,52 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Letöltés",
+      "UPLOADING": "Frissítés..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Elküldés"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are offline"
+    "ONLINE": "Online vagyunk",
+    "OFFLINE": "Offilne vagyunk"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
+    "IN_A_FEW_HOURS": "Néhány órán belül válaszol",
+    "IN_A_DAY": "Általánban egy napon belül válaszol"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "Beszélgetés megkezdése",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close"
+    "VIEW_MESSAGES_BUTTON": "Új üzenetek",
+    "CLOSE_MESSAGES_BUTTON": "Bezárás"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Chatelj velünk"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "POWERED_BY": "Chatwoot",
+  "EMAIL_PLACEHOLDER": "Add meg az e-mailed",
+  "CHAT_PLACEHOLDER": "Gépeld be üzeneted",
+  "TODAY": "Ma",
+  "YESTERDAY": "Tegnap",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Teljes név",
+        "PLACEHOLDER": "Kérjük a teljes nevedet add meg",
+        "ERROR": "A teljes név megadása kötelező"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Email cím",
+        "PLACEHOLDER": "Kérjük helyes e-mailcímet adj meg",
+        "ERROR": "Helytelen e-mailcím"
+      },
+      "MESSAGE": {
+        "LABEL": "Üzenet",
+        "PLACEHOLDER": "Írd be az üzeneted",
+        "ERROR": "Az üzenet túl rövid"
+      }
+    }
+  }
 }

@@ -1,61 +1,61 @@
 {
   "INTEGRATION_SETTINGS": {
-    "HEADER": "Integrations",
+    "HEADER": "Integrációk",
     "WEBHOOK": {
       "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "CONFIGURE": "Beállítások",
+      "HEADER": "Webhook beállítások",
+      "HEADER_BTN_TXT": "Új webhook hozzáadása",
+      "LOADING": "Kapcsolódó Webhookok betöltése",
+      "SEARCH_404": "Nincs megfelelő elem",
+      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. Chatwoot események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "Nincs a fiókhoz rendelt Webhook.",
+        "TITLE": "Webhook kezelés",
         "TABLE_HEADER": [
-          "Webhook endpoint",
+          "Webhook végpont",
           "Műveletek"
         ]
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "Mégse",
+        "TITLE": "Új webhook hozzáadása",
+        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",
-            "PLACEHOLDER": "Example: https://example/api/webhook",
-            "ERROR": "Please enter a valid URL"
+            "PLACEHOLDER": "Például: https://példa.com/api/webhook",
+            "ERROR": "Kérjük helyes URL-t adj meg"
           },
-          "SUBMIT": "Create webhook"
+          "SUBMIT": "Webhook létrehozása"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook sikeresen hozzáadva",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "Törlés",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "Webhook sikeresen törölve",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "Törlés megerősítése",
+          "MESSAGE": "Biztos abban, hogy törli ",
+          "YES": "Igen, Törlés ",
+          "NO": "Nem, tartsa meg"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "Törlés",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integráció sikeresen törölve"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "Kapcsolódás"
     }
   }
 }

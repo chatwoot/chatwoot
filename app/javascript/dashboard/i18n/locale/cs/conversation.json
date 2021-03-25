@@ -11,7 +11,7 @@
       "TITLE": "Hledat zprávy",
       "LOADING_MESSAGE": "Načítám data...",
       "PLACEHOLDER": "Zadejte jakýkoli text k hledání",
-      "NO_MATCHING_RESULTS": "Vašemu vyhledávání neodpovídají žádné zprávy."
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "Nepřečtené zprávy",
     "UNREAD_MESSAGE": "Nepřečtená zpráva",
@@ -25,7 +25,7 @@
     "REMOVE_SELECTION": "Odstranit výběr",
     "DOWNLOAD": "Stáhnout",
     "UPLOADING_ATTACHMENTS": "Nahrávání příloh...",
-    "NO_RESPONSE": "No response",
+    "NO_RESPONSE": "Bez odpovědi",
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
@@ -43,14 +43,15 @@
       "SEND": "Poslat",
       "CREATE": "Přidat poznámku",
       "TWEET": "Tweet",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
+      "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
+      "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
+      "TIP_ATTACH_ICON": "Přiložit soubory",
       "ENTER_TO_SEND": "Enter to send"
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "Zadejte e-mailovou adresu",
         "ERROR": "Zadejte prosím platnou e-mailovou adresu"
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Připojit schránky",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Klikněte zde pro vytvoření štítků"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

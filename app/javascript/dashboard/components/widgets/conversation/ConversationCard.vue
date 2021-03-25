@@ -85,6 +85,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    teamId: {
+      type: [String, Number],
+      default: 0,
+    },
   },
 
   computed: {
@@ -171,6 +175,7 @@ export default {
         activeInbox,
         id: chat.id,
         label: this.activeLabel,
+        teamId: this.teamId,
       });
       router.push({ path: frontendURL(path) });
     },
@@ -204,6 +209,10 @@ export default {
 .conversation--details {
   .conversation--user {
     padding-top: var(--space-micro);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 60%;
   }
   .ion-earth {
     font-size: var(--font-size-mini);

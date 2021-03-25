@@ -162,7 +162,7 @@ export default {
     },
     shouldShowSpinner() {
       return (
-        this.getMessages.dataFetched === undefined ||
+        (this.getMessages && this.getMessages.dataFetched === undefined) ||
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },

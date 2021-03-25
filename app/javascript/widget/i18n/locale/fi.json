@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
   "CHAT_PLACEHOLDER": "Kirjoita viestisi",
   "TODAY": "Tänään",
-  "YESTERDAY": "Eilen"
+  "YESTERDAY": "Eilen",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Koko nimi",
+        "PLACEHOLDER": "Syötä koko nimesi",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Sähköpostiosoite",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

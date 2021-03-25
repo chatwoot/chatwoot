@@ -3,13 +3,17 @@
     <div class="flex items-center justify-between mb-4">
       <div class="text-black-700">
         <div class="text-base leading-5 font-medium mb-1">
-          {{ teamAvailabilityStatus }}
+          {{
+            isOnline
+              ? $t('TEAM_AVAILABILITY.ONLINE')
+              : $t('TEAM_AVAILABILITY.OFFLINE')
+          }}
         </div>
         <div class="text-xs leading-4 mt-1">
-          {{ replyTimeStatus }}
+          {{ replyWaitMeessage }}
         </div>
       </div>
-      <available-agents :agents="availableAgents" />
+      <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
     <woot-button
       class="font-medium"
@@ -29,7 +33,7 @@ import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import WootButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
-import teamAvailabilityMixin from 'widget/mixins/teamAvailabilityMixin';
+import availabilityMixin from 'widget/mixins/availability';
 
 export default {
   name: 'TeamAvailability',
@@ -37,7 +41,7 @@ export default {
     AvailableAgents,
     WootButton,
   },
-  mixins: [configMixin, teamAvailabilityMixin],
+  mixins: [configMixin, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -48,6 +52,26 @@ export default {
     ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    isOnline() {
+      const { workingHoursEnabled } = this.channelConfig;
+      const anyAgentOnline = this.availableAgents.length > 0;
+
+      if (workingHoursEnabled) {
+        return this.isInBetweenTheWorkingHours;
+      }
+      return anyAgentOnline;
+    },
+    replyWaitMeessage() {
+      const { workingHoursEnabled } = this.channelConfig;
+
+      if (this.isOnline) {
+        return this.replyTimeStatus;
+      }
+      if (workingHoursEnabled) {
+        return this.outOfOfficeMessage;
+      }
+      return this.$t('TEAM_AVAILABILITY.OFFLINE');
     },
   },
   methods: {

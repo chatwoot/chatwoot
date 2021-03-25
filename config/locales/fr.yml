@@ -31,10 +31,10 @@ fr:
     period: Période de rapport %{since} à %{until}
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
+      conversation_assignment: "[Vous a été assigné] - #%{display_id} vous a été assigné"
+      assigned_conversation_new_message: "[Nouveau message] - #%{display_id} %{content}"
+      conversation_mention: "Vous avez été mentionné dans la conversation [ID - %{display_id}] par %{name}"
   conversations:
     messages:
       deleted: Ce message a été supprimé
@@ -47,6 +47,10 @@ fr:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
         assigned: "Assigné à %{assignee_name} par %{user_name}"
         removed: "Responsable de la conversation supprimé par %{user_name}"
+      team:
+        assigned: "Assigné à %{team_name} par %{user_name}"
+        assigned_with_assignee: "Assigné à %{assignee_name} via %{team_name} par %{user_name}"
+        removed: "Non assigné de %{team_name} par %{user_name}"
       labels:
         added: "%{user_name} a ajouté %{labels}"
         removed: "%{user_name} a supprimé %{labels}"
