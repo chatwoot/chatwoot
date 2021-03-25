@@ -107,11 +107,22 @@ export default {
         this.contentAttributes,
         this.$t('CONVERSATION.NO_RESPONSE')
       );
-      let messageContent =
-        this.formatMessage(this.data.content, this.isATweet) +
-        botMessageContent;
+      if (
+        this.data?.content_attributes?.email?.html_content?.full &&
+        this.data.message_type === 0
+      ) {
+        let parsedContent = new DOMParser().parseFromString(
+          this.data?.content_attributes?.email?.html_content?.full || '',
+          'text/html'
+        );
 
-      return messageContent;
+        if (!parsedContent.getElementsByTagName('parsererror').length) {
+          return parsedContent.body.innerHTML;
+        }
+      }
+      return (
+        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+      );
     },
     contentAttributes() {
       return this.data.content_attributes || {};
