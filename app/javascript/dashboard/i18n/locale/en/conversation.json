@@ -29,9 +29,14 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
       "REOPEN_ACTION": "Reopen",
+      "OPEN_ACTION": "Open",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot",
+      "MUTE_RESOLVE": "Mute and resolve"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
