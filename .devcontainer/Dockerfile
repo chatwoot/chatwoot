@@ -32,6 +32,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     git \
     imagemagick \
     tmux \
+    shared-mime-info \
     zsh
 
 # [Optional] Uncomment this line to install global node packages.

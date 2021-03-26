@@ -26,6 +26,7 @@ RUN apk update \
     nodejs \
     yarn \
     git \
+    shared-mime-info \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -72,6 +73,7 @@ RUN apk add --update --no-cache \
     tzdata \
     postgresql-client \
     imagemagick \
+    shared-mime-info \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" = "production" ]; then \
