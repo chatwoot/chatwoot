@@ -87,14 +87,18 @@ export default {
   },
   computed: {
     activeList() {
-      return this.accountLabels.filter(accountLabel =>
-        this.savedLabels.includes(accountLabel.title)
-      );
+      return this.accountLabels
+        .filter(accountLabel => this.savedLabels.includes(accountLabel.title))
+        .sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
     },
     inactiveList() {
-      return this.accountLabels.filter(
-        accountLabel => !this.savedLabels.includes(accountLabel.title)
-      );
+      return this.accountLabels
+        .filter(accountLabel => !this.savedLabels.includes(accountLabel.title))
+        .sort((a, b) => {
+          return a.title.localeCompare(b.title);
+        });
     },
   },
   methods: {
