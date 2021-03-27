@@ -55,7 +55,7 @@ $logo-size: 56px;
   .logo {
     width: $logo-size;
     height: $logo-size;
-    border-radius: var(--border-radius-large);
+    border-radius: $logo-size;
   }
 }
 </style>
