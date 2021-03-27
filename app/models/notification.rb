@@ -70,7 +70,7 @@ class Notification < ApplicationRecord
       I18n.t(
         'notifications.notification_title.assigned_conversation_new_message',
         display_id: conversation.display_id,
-        content: primary_actor.content.truncate_words(10)
+        content: primary_actor.content&.truncate_words(10)
       )
     when 'conversation_mention'
       I18n.t('notifications.notification_title.conversation_mention', display_id: conversation.display_id, name: secondary_actor.name)
