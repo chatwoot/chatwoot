@@ -6,7 +6,7 @@
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.AWAY')
+              : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
         <div class="text-xs leading-4 mt-1">
