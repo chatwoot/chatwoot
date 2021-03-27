@@ -71,7 +71,7 @@ export default {
       if (workingHoursEnabled) {
         return this.outOfOfficeMessage;
       }
-      return this.$t('TEAM_AVAILABILITY.OFFLINE');
+      return '';
     },
   },
   methods: {

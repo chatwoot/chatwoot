@@ -12,6 +12,7 @@ import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
 import WootSwitch from 'components/ui/Switch';
 import WootWizard from 'components/ui/Wizard';
+import WootButton from 'components/ui/WootButton';
 import { sync } from 'vuex-router-sync';
 import Vuelidate from 'vuelidate';
 import VTooltip from 'v-tooltip';
@@ -48,6 +49,7 @@ Vue.use(hljs.vuePlugin);
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
+Vue.component('woot-button', WootButton);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

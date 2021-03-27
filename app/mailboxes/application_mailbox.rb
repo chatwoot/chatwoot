@@ -6,7 +6,7 @@ class ApplicationMailbox < ActionMailbox::Base
   def self.reply_mail?
     proc do |inbound_mail_obj|
       is_a_reply_email = false
-      inbound_mail_obj.mail.to.each do |email|
+      inbound_mail_obj.mail.to&.each do |email|
         username = email.split('@')[0]
         match_result = username.match(REPLY_EMAIL_USERNAME_PATTERN)
         if match_result
@@ -21,7 +21,7 @@ class ApplicationMailbox < ActionMailbox::Base
   def self.support_mail?
     proc do |inbound_mail_obj|
       is_a_support_email = false
-      inbound_mail_obj.mail.to.each do |email|
+      inbound_mail_obj.mail.to&.each do |email|
         channel = Channel::Email.find_by('email = ? OR forward_to_email = ?', email, email)
         if channel.present?
           is_a_support_email = true
