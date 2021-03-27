@@ -49,10 +49,13 @@ export default {
 <style scoped lang="scss">
 @import '~widget/assets/scss/mixins.scss';
 
+$logo-size: 56px;
+
 .header-expanded {
   .logo {
-    width: 56px;
-    height: 56px;
+    width: $logo-size;
+    height: $logo-size;
+    border-radius: $logo-size;
   }
 }
 </style>

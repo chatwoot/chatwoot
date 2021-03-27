@@ -6,7 +6,7 @@
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
+              : $t('TEAM_AVAILABILITY.AWAY')
           }}
         </div>
         <div class="text-xs leading-4 mt-1">
@@ -71,7 +71,7 @@ export default {
       if (workingHoursEnabled) {
         return this.outOfOfficeMessage;
       }
-      return this.$t('TEAM_AVAILABILITY.OFFLINE');
+      return '';
     },
   },
   methods: {
