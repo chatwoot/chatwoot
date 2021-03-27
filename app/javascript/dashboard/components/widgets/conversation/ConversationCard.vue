@@ -143,7 +143,9 @@ export default {
     },
 
     parsedLastMessage() {
-      return this.getPlainText(this.lastMessageInChat.content);
+      const { content_attributes: contentAttributes } = this.lastMessageInChat;
+      const { email: { subject } = {} } = contentAttributes || {};
+      return this.getPlainText(subject || this.lastMessageInChat.content);
     },
 
     chatInbox() {

@@ -32,7 +32,8 @@ class Api::V1::Widget::BaseController < ApplicationController
     @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
       source_id: auth_token_params[:source_id]
     )
-    @contact = @contact_inbox.contact
+    @contact = @contact_inbox&.contact
+    raise ActiveRecord::RecordNotFound unless @contact
   end
 
   def create_conversation

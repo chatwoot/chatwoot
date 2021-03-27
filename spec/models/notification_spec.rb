@@ -41,6 +41,14 @@ RSpec.describe Notification do
 #{message.content.truncate_words(10)}"
     end
 
+    it 'returns appropriate title suited for the notification type assigned_conversation_new_message when attachment message' do
+      # checking content nil should be suffice for attachments
+      message = create(:message, sender: create(:user), content: nil)
+      notification = create(:notification, notification_type: 'assigned_conversation_new_message', primary_actor: message)
+
+      expect(notification.push_message_title).to eq "[New message] - ##{notification.conversation.display_id} "
+    end
+
     it 'returns appropriate title suited for the notification type conversation_mention' do
       message = create(:message, sender: create(:user))
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: message, secondary_actor: message.sender)
