@@ -107,15 +107,16 @@ export default {
         this.contentAttributes,
         this.$t('CONVERSATION.NO_RESPONSE')
       );
-      if (
-        this.data?.content_attributes?.email?.html_content?.full &&
-        this.data.message_type === 0
-      ) {
+
+      const {
+        email: { html_content: { full: fullHTMLContent } = {} } = {},
+      } = this.contentAttributes;
+
+      if (fullHTMLContent && this.isIncoming) {
         let parsedContent = new DOMParser().parseFromString(
-          this.data?.content_attributes?.email?.html_content?.full || '',
+          fullHTMLContent || '',
           'text/html'
         );
-
         if (!parsedContent.getElementsByTagName('parsererror').length) {
           return parsedContent.body.innerHTML;
         }
@@ -271,5 +272,11 @@ export default {
     font-size: var(--font-size-mini);
     margin-left: var(--space-smaller);
   }
+}
+
+// This is a hack to hide quoted content from GMAIL
+// Replace this with actual content parser
+.gmail_quote {
+  display: none;
 }
 </style>
