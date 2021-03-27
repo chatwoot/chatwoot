@@ -273,10 +273,4 @@ export default {
     margin-left: var(--space-smaller);
   }
 }
-
-// This is a hack to hide quoted content from GMAIL
-// Replace this with actual content parser
-.gmail_quote {
-  display: none;
-}
 </style>
