@@ -56,6 +56,19 @@ $resolve-button-width: 13.2rem;
       flex-direction: column;
       justify-content: center;
       margin-left: $space-slab;
+      max-width: 50rem;
+
+      @media screen and (max-width: 1600px) {
+        max-width: 40rem;
+      }
+
+      @media screen and (max-width: 1400px) {
+        max-width: 25rem;
+      }
+
+      @media screen and (max-width: 1024px) {
+        max-width: 20rem;
+      }
     }
 
     .user--profile__button {

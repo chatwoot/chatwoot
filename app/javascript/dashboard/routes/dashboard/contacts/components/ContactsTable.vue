@@ -80,10 +80,7 @@ export default {
                 status={row.availability_status}
               />
               <div>
-                <h6
-                  class="sub-block-title user-name text-truncate"
-                  style="width: 215px"
-                >
+                <h6 class="sub-block-title user-name text-truncate">
                   {row.name}
                 </h6>
                 <button class="button clear small">
@@ -236,6 +233,7 @@ export default {
       font-size: var(--font-size-small);
       margin: 0;
       text-transform: capitalize;
+      width: 22rem;
     }
 
     .user-email {

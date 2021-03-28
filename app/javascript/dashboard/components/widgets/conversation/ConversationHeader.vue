@@ -8,8 +8,8 @@
         :username="currentContact.name"
         :status="currentContact.availability_status"
       />
-      <div class="user--profile__meta" style="max-width: 40rem">
-        <h3 class="user--name text-truncate" style="width: 100%">
+      <div class="user--profile__meta">
+        <h3 class="user--name text-truncate">
           {{ currentContact.name }}
         </h3>
         <button
@@ -132,6 +132,7 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%;
 }
 
 .conv-header {
