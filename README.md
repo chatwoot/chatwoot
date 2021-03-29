@@ -1,8 +1,7 @@
 <p align="center">
-  <img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/brand.svg" alt="Woot-logo" width="240">
+  <img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/brand.svg" alt="Woot-logo" width="240" />
 
-  <div align="center">A simple and elegant live chat software</div>
-  <div align="center">An opensource alternative to Intercom, Zendesk, Drift, Crisp etc.</div>
+  <p align="center">Customer engagement suite, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.</p>
 </p>
 
 <p align="center">
