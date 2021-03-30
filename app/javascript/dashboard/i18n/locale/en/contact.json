@@ -104,6 +104,25 @@
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "There was an error, please try again"
   },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Cancel"
+    }
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
     "SEARCH_BUTTON": "Search",

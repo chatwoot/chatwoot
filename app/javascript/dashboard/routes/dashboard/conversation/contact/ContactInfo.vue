@@ -49,19 +49,35 @@
           />
         </div>
       </div>
-      <woot-button
-        class="edit-contact"
-        variant="clear"
-        size="small"
-        @click="toggleEditModal"
-      >
-        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
-      </woot-button>
+      <div class="contact-actions">
+        <woot-button
+          v-if="showNewConversationButton"
+          size="small expanded"
+          @click="toggleConversationModal"
+        >
+          {{ 'New conversation' }}
+        </woot-button>
+        <woot-button
+          class="edit-contact"
+          variant="hollow"
+          size="small expanded"
+          @click="toggleEditModal"
+        >
+          {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+        </woot-button>
+      </div>
       <edit-contact
         v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
         @cancel="toggleEditModal"
+      />
+      <new-conversation
+        v-if="showConversationModal"
+        :show="showConversationModal"
+        :contact="contact"
+        :inboxes="messagableInboxes"
+        @cancel="toggleConversationModal"
       />
     </div>
   </div>
@@ -69,8 +85,10 @@
 <script>
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
+import NewConversation from './NewConversation';
 
 export default {
   components: {
@@ -78,6 +96,7 @@ export default {
     EditContact,
     Thumbnail,
     SocialIcons,
+    NewConversation,
   },
   props: {
     contact: {
@@ -92,6 +111,7 @@ export default {
   data() {
     return {
       showEditModal: false,
+      showConversationModal: false,
     };
   },
   computed: {
@@ -106,10 +126,28 @@ export default {
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
+    showNewConversationButton() {
+      return this.messagableInboxes.length !== 0;
+    },
+    messagableInboxes() {
+      const { contact_inboxes: contactInboxes = [] } = this.contact;
+      const usableInboxes = contactInboxes.filter(contactInbox => {
+        const { inbox } = contactInbox;
+        const { channel_type: channelType, name: name = '' } = inbox;
+
+        const isTwilioMessage =
+          channelType === INBOX_TYPES.TWILIO && name !== 'Twilio SMS';
+        return isTwilioMessage;
+      });
+      return usableInboxes;
+    },
   },
   methods: {
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
+    },
+    toggleConversationModal() {
+      this.showConversationModal = !this.showConversationModal;
     },
   },
 };
@@ -120,7 +158,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 .contact--profile {
   align-items: flex-start;
-  padding: var(--space-normal) var(--space-normal) var(--space-large);
+  padding: var(--space-normal) var(--space-normal);
 
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -166,6 +204,13 @@ export default {
 }
 
 .edit-contact {
-  margin-left: var(--space-slab);
+  margin-left: var(--space-small);
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* padding-left: var(--space-medium); */
 }
 </style>

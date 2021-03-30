@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
+import ConversationApi from '../../api/conversations';
 
 const state = {
   records: {},
@@ -19,6 +20,33 @@ export const getters = {
 };
 
 export const actions = {
+  create: async ({ commit }, { sourceId, inboxId, message }) => {
+    commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+      isCreating: true,
+    });
+    try {
+      // const response =
+      await ConversationApi.create({
+        source_id: sourceId,
+        inbox_id: inboxId,
+        message,
+      });
+      // commit(types.default.SET_CONTACT_CONVERSATIONS, {
+      //   id: contactId,
+      //   data: response.data.payload,
+      // });
+      // commit(types.default.SET_ALL_CONVERSATION, response.data.payload, {
+      //   root: true,
+      // });
+      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+        isCreating: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
+        isCreating: false,
+      });
+    }
+  },
   get: async ({ commit }, contactId) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isFetching: true,
