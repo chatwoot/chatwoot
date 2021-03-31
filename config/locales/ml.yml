@@ -29,6 +29,11 @@ ml:
       failed: സൈനപ്പ് പരാജയപ്പെട്ടു
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: ഏജന്റിന്റെ പേര്
+      conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
+      avg_first_response_time: ശരാശരി ആദ്യ പ്രതികരണ സമയം (മിനിറ്റ്)
+      avg_resolution_time: ശരാശരി മിഴിവ് സമയം (മിനിറ്റ്)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"

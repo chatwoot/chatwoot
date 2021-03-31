@@ -105,6 +105,7 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
+    - 'app/models/contact.rb'
 Rails/RenderInline:
   Exclude:
     - 'app/controllers/swagger_controller.rb'
