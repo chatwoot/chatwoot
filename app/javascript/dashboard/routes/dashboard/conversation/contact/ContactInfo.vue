@@ -133,10 +133,14 @@ export default {
       const { contact_inboxes: contactInboxes = [] } = this.contact;
       const usableInboxes = contactInboxes.filter(contactInbox => {
         const { inbox } = contactInbox;
-        const { channel_type: channelType, name: name = '' } = inbox;
+        const {
+          channel_type: channelType,
+          phone_number: phoneNumber = '',
+        } = inbox;
 
         const isTwilioMessage =
-          channelType === INBOX_TYPES.TWILIO && name !== 'Twilio SMS';
+          channelType === INBOX_TYPES.TWILIO &&
+          !phoneNumber.startsWith('whatsapp');
         return isTwilioMessage;
       });
       return usableInboxes;
