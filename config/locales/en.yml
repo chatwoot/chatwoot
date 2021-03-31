@@ -44,6 +44,11 @@ en:
 
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
 
   notifications:
     notification_title:
