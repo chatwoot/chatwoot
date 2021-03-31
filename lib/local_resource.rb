@@ -16,7 +16,7 @@ class LocalResource
   end
 
   def io
-    # TODO: should we use RestClient here too ? 
+    # TODO: should we use RestClient here too ?
     @io ||= uri.open(read_timeout: 5)
   end
 
