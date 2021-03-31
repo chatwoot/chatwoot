@@ -25,7 +25,7 @@
         v-else-if="isBot"
         class-names="resolve"
         color-scheme="primary"
-        icon="ion-outlet"
+        icon="ion-person"
         :is-loading="isLoading"
         @click="() => toggleStatus(STATUS_TYPE.OPEN)"
       >
