@@ -110,8 +110,7 @@ export default {
 
       const {
         email: {
-          html_content: { full: fullHTMLContent } = {},
-          text_content: { reply: replyHTMLContent } = {},
+          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
         } = {},
       } = this.contentAttributes;
 
