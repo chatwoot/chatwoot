@@ -30,7 +30,8 @@
       class="header-actions-wrap"
       :class="{ 'has-open-sidebar': isContactPanelOpen }"
     >
-      <div class="multiselect-box ion-headphone">
+      <div class="multiselect-box multiselect-wrap--small">
+        <i class="icon ion-headphone" />
         <multiselect
           v-model="currentChat.meta.assignee"
           :allow-empty="true"
