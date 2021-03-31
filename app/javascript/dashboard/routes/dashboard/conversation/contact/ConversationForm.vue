@@ -21,12 +21,8 @@
         <label :class="{ error: $v.selectedInbox.$error }">
           {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
           <select v-model="selectedInbox">
-            <option
-              v-for="contactInbox in inboxes"
-              :key="contactInbox.source_id"
-              :value="contactInbox"
-            >
-              {{ contactInbox.inbox.name }}
+            <option v-for="inbox in inboxes" :key="inbox.id" :value="inbox">
+              {{ inbox.name }}
             </option>
           </select>
         </label>
@@ -105,10 +101,8 @@ export default {
   },
   computed: {
     getNewConversation() {
-      const { inbox, source_id: sourceId } = this.selectedInbox;
       return {
-        sourceId,
-        selectedInbox: inbox.id,
+        inboxId: this.selectedInbox.id,
         contactId: this.contact.id,
         message: this.message,
       };

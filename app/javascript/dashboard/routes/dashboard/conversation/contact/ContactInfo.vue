@@ -85,7 +85,6 @@
 <script>
 import ContactInfoRow from './ContactInfoRow';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
@@ -107,6 +106,10 @@ export default {
       type: String,
       default: '',
     },
+    messagableInboxes: {
+      type: Object,
+      default: () => [],
+    },
   },
   data() {
     return {
@@ -127,23 +130,9 @@ export default {
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
     },
     showNewConversationButton() {
-      return this.messagableInboxes.length !== 0;
-    },
-    messagableInboxes() {
-      const { contact_inboxes: contactInboxes = [] } = this.contact;
-      const usableInboxes = contactInboxes.filter(contactInbox => {
-        const { inbox } = contactInbox;
-        const {
-          channel_type: channelType,
-          phone_number: phoneNumber = '',
-        } = inbox;
-
-        const isTwilioMessage =
-          channelType === INBOX_TYPES.TWILIO &&
-          !phoneNumber.startsWith('whatsapp');
-        return isTwilioMessage;
-      });
-      return usableInboxes;
+      const { phone_number: phoneNumber = '', email = '' } = this.contact;
+      const hasPhoneOrEmail = phoneNumber || email;
+      return this.messagableInboxes.length !== 0 && hasPhoneOrEmail;
     },
   },
   methods: {

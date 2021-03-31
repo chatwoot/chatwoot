@@ -20,14 +20,13 @@ export const getters = {
 };
 
 export const actions = {
-  create: async ({ commit }, { sourceId, inboxId, message }) => {
+  create: async ({ commit }, { inboxId, message }) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
     try {
       // const response =
       await ConversationApi.create({
-        source_id: sourceId,
         inbox_id: inboxId,
         message,
       });
