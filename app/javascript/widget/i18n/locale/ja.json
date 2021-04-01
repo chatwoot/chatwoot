@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
   "CHAT_PLACEHOLDER": "メッセージを入力してください。",
   "TODAY": "Today",
-  "YESTERDAY": "Yesterday"
+  "YESTERDAY": "Yesterday",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "フルネーム",
+        "PLACEHOLDER": "氏名を入力してください。",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "Eメールアドレス",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

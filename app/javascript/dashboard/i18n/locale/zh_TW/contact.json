@@ -43,7 +43,14 @@
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "編輯聯絡人",
     "TITLE": "編輯聯絡人",
-    "DESC": "編輯聯絡人資訊",
+    "DESC": "編輯聯絡人資訊"
+  },
+  "CREATE_CONTACT": {
+    "BUTTON_LABEL": "New Contact",
+    "TITLE": "Create new contact",
+    "DESC": "Add basic information details about the contact."
+  },
+  "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送出",
       "CANCEL": "取消操作",
@@ -93,9 +100,9 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "成功更新聯絡人資訊",
+    "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
-    "ERROR_MESSAGE": "更新聯絡人資訊發生錯誤，請重試"
+    "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
@@ -104,12 +111,18 @@
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
-      "TABLE_HEADER": [
-        "姓名：",
-        "聯絡人電話",
-        "會話",
-        "Last Contacted"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "姓名：",
+        "PHONE_NUMBER": "聯絡人電話",
+        "CONVERSATIONS": "會話",
+        "LAST_ACTIVITY": "Last Activity",
+        "COUNTRY": "Country",
+        "CITY": "City",
+        "SOCIAL_PROFILES": "Social Profiles",
+        "COMPANY": "Company",
+        "EMAIL_ADDRESS": "電子信箱地址"
+      },
+      "VIEW_DETAILS": "View details"
     }
   }
 }

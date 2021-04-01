@@ -120,12 +120,12 @@
     "HOME": "Главная",
     "AGENTS": "Операторы",
     "INBOXES": "Источники",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Уведомления",
     "CANNED_RESPONSES": "Шаблонные ответы",
     "INTEGRATIONS": "Интеграции",
     "ACCOUNT_SETTINGS": "Настройки аккаунта",
     "LABELS": "Категории",
-    "TEAMS": "Teams"
+    "TEAMS": "Команды"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Новый аккаунт",

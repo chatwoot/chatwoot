@@ -149,7 +149,13 @@ export default {
           }
 
           if (response && response.status === 401) {
-            this.showAlert(this.$t('LOGIN.API.UNAUTH'));
+						const { errors } = response.data;
+						const hasAuthErrorMsg = errors && errors.length && errors[0] && typeof errors[0] === 'string';
+            if (hasAuthErrorMsg) {
+              this.showAlert(errors[0]);
+            } else {
+							this.showAlert(this.$t('LOGIN.API.UNAUTH'));
+						} 
             return;
           }
           this.showAlert(this.$t('LOGIN.API.ERROR_MESSAGE'));

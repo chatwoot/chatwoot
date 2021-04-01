@@ -11,7 +11,7 @@
       "TITLE": "메시지 검색",
       "LOADING_MESSAGE": "데이터 처리 중...",
       "PLACEHOLDER": "메시지를 검색할 텍스트 입력",
-      "NO_MATCHING_RESULTS": "검색 매개 변수와 일치하는 메시지가 없음"
+      "NO_MATCHING_RESULTS": "No results found."
     },
     "UNREAD_MESSAGES": "안 읽은 메시지",
     "UNREAD_MESSAGE": "안 읽은 메시지",
@@ -51,6 +51,7 @@
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
     "CHANGE_STATUS": "대화 상태가 변경됨",
     "CHANGE_AGENT": "대화 담당자가 변경됨",
+    "CHANGE_TEAM": "Conversation team changed",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
@@ -73,6 +74,38 @@
         "PLACEHOLDER": "이메일 주소 입력",
         "ERROR": "올바른 전자 메일 주소를 입력하십시오."
       }
+    }
+  },
+  "ONBOARDING": {
+    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "READ_LATEST_UPDATES": "Read our latest updates",
+    "ALL_CONVERSATION": {
+      "TITLE": "All your conversations in one place",
+      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+    },
+    "TEAM_MEMBERS": {
+      "TITLE": "Invite your team members",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
+      "NEW_LINK": "Click here to invite a team member"
+    },
+    "INBOXES": {
+      "TITLE": "Connect Inboxes",
+      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "NEW_LINK": "Click here to create an inbox"
+    },
+    "LABELS": {
+      "TITLE": "Organize conversations with labels",
+      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
+      "NEW_LINK": "Click here to create tags"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "DETAILS_TITLE": "Conversations Details",
+    "ASSIGNEE_LABEL": "Assigned Agent",
+    "TEAM_LABEL": "Assigned Team",
+    "SELECT": {
+      "PLACEHOLDER": "None"
     }
   }
 }

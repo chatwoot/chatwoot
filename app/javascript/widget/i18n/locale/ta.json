@@ -29,5 +29,24 @@
   "EMAIL_PLACEHOLDER": "உங்கள் ஈ-மெயில் முகவரியை பதிவிடவும்",
   "CHAT_PLACEHOLDER": "உங்கள் செய்தியை உள்ளிடவும்",
   "TODAY": "இன்று",
-  "YESTERDAY": "நேற்று"
+  "YESTERDAY": "நேற்று",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Full Name",
+        "PLACEHOLDER": "Please enter your full name",
+        "ERROR": "Full Name is required"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "ஈ-மெயில் முகவரி",
+        "PLACEHOLDER": "Please enter your email address",
+        "ERROR": "Invalid email address"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
+      }
+    }
+  }
 }

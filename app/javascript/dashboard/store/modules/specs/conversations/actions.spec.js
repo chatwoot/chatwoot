@@ -189,4 +189,52 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([]);
     });
   });
+
+  describe('#assignAgent', () => {
+    it('sends correct mutations if assignment is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { id: 1, name: 'User' },
+      });
+      await actions.assignAgent({ commit }, { conversationId: 1, agentId: 1 });
+      expect(commit).toHaveBeenCalledTimes(0);
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#setCurrentChatAssignee', () => {
+    it('sends correct mutations if assignment is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { id: 1, name: 'User' },
+      });
+      await actions.setCurrentChatAssignee({ commit }, { id: 1, name: 'User' });
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        ['ASSIGN_AGENT', { id: 1, name: 'User' }],
+      ]);
+    });
+  });
+
+  describe('#assignTeam', () => {
+    it('sends correct mutations if assignment is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { id: 1, name: 'Team' },
+      });
+      await actions.assignTeam({ commit }, { conversationId: 1, teamId: 1 });
+      expect(commit).toHaveBeenCalledTimes(0);
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
+
+  describe('#setCurrentChatTeam', () => {
+    it('sends correct mutations if assignment is successful', async () => {
+      axios.post.mockResolvedValue({
+        data: { id: 1, name: 'Team' },
+      });
+      await actions.setCurrentChatTeam({ commit }, { id: 1, name: 'Team' });
+      expect(commit).toHaveBeenCalledTimes(1);
+      expect(commit.mock.calls).toEqual([
+        ['ASSIGN_TEAM', { id: 1, name: 'Team' }],
+      ]);
+    });
+  });
 });
