@@ -3,7 +3,6 @@
     <slot></slot>
     <div class="chat-list__top">
       <h1 class="page-title text-truncate" :title="pageTitle">
-        <woot-sidemenu-icon />
         {{ pageTitle }}
       </h1>
       <chat-filter @statusFilterChange="updateStatusType" />
