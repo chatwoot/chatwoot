@@ -55,11 +55,6 @@
             {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.OPEN_BOT') }}
           </woot-button>
         </woot-dropdown-item>
-        <woot-dropdown-item v-if="showMuteAndResolve">
-          <woot-button variant="clear" @click="muteAndResolve">
-            {{ this.$t('CONVERSATION.RESOLVE_DROPDOWN.MUTE_RESOLVE') }}
-          </woot-button>
-        </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
   </div>
@@ -107,11 +102,8 @@ export default {
       if (this.isResolved) return 'warning';
       return '';
     },
-    showMuteAndResolve() {
-      return !this.isResolved && !this.currentChat.muted;
-    },
     showDropDown() {
-      return this.showMuteAndResolve || !this.isBot;
+      return !this.isBot;
     },
   },
   methods: {
@@ -134,11 +126,6 @@ export default {
           this.isLoading = false;
         });
     },
-    muteAndResolve() {
-      this.$store.dispatch('muteConversation', this.currentChat.id);
-      this.showAlert(this.$t('CONTACT_PANEL.MUTED_SUCCESS'));
-      this.toggleStatus();
-    },
   },
 };
 </script>
@@ -154,7 +141,7 @@ export default {
   top: 4.2rem;
   margin-top: var(--space-micro);
   right: 0;
-  width: 18rem;
+  max-width: 20rem;
 }
 .icon--small::v-deep .icon {
   font-size: var(--font-size-small);
