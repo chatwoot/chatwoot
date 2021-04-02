@@ -1,6 +1,7 @@
 <template>
   <div v-on-clickaway="closeSearch" class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchBox }">
+      <woot-sidemenu-icon />
       <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
       </div>
