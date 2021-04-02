@@ -23,8 +23,11 @@ export const IFrameHelper = {
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
-    loadCSS();
+    if (IFrameHelper.getAppFrame()) {
+      return;
+    }
 
+    loadCSS();
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
