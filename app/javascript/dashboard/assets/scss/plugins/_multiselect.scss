@@ -37,12 +37,12 @@
     font-size: $font-size-small;
     font-weight: $font-weight-normal;
 
-    span{
-    display: inline-block;
-    width: 12rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    span {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 12rem;
     }
 
     &.multiselect__option--highlight {
