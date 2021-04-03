@@ -287,6 +287,14 @@ export default {
   }
 }
 
+.multiselect-wrap--small {
+  &::v-deep .multiselect__element {
+    span {
+      width: 100%;
+    }
+  }
+}
+
 .close-button {
   position: absolute;
   right: $space-normal;
