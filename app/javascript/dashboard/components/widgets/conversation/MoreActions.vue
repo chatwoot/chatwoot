@@ -118,7 +118,6 @@ export default {
 .dropdown-pane {
   right: -12px;
   top: 48px;
-  width: fit-content;
 }
 
 .icon {
