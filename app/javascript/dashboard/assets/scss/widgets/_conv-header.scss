@@ -56,18 +56,18 @@ $resolve-button-width: 13.2rem;
       flex-direction: column;
       justify-content: center;
       margin-left: $space-slab;
-      max-width: 50rem;
+      max-width: 20rem;
 
-      @media screen and (max-width: 1600px) {
-        max-width: 40rem;
+      @include breakpoint(large up) {
+        max-width: 23rem;
       }
 
-      @media screen and (max-width: 1400px) {
-        max-width: 25rem;
+      @include breakpoint(xxlarge up) {
+        max-width: 38rem;
       }
 
-      @media screen and (max-width: 1024px) {
-        max-width: 20rem;
+      @include breakpoint(xxxlarge up) {
+        max-width: 50rem;
       }
     }
 
