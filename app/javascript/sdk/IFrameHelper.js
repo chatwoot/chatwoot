@@ -23,6 +23,11 @@ export const IFrameHelper = {
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
+    if (IFrameHelper.getAppFrame()) {
+      return;
+    }
+
+    loadCSS();
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });
@@ -47,6 +52,7 @@ export const IFrameHelper = {
     IFrameHelper.preventDefaultScroll();
   },
   getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
+  getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
     const element = IFrameHelper.getAppFrame();
     element.contentWindow.postMessage(
@@ -166,7 +172,10 @@ export const IFrameHelper = {
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
 
-    loadCSS();
+    if (IFrameHelper.getBubbleHolder().length) {
+      return;
+    }
+
     createBubbleHolder();
 
     if (!window.$chatwoot.hideMessageBubble) {
