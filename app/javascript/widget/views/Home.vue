@@ -90,6 +90,7 @@ import TeamAvailability from 'widget/components/TeamAvailability';
 import Spinner from 'shared/components/Spinner.vue';
 import { mapGetters } from 'vuex';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import PreChatForm from '../components/PreChat/Form';
 export default {
   name: 'Home',
@@ -168,7 +169,7 @@ export default {
     },
   },
   mounted() {
-    bus.$on('on-attachment-error', () => {
+    bus.$on(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR, () => {
       this.showAttachmentError = true;
       setTimeout(() => {
         this.showAttachmentError = false;

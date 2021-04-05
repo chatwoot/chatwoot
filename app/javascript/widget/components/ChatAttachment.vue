@@ -16,6 +16,7 @@ import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
 import { fileSizeInMegaBytes } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: { FileUpload, Spinner },
@@ -48,7 +49,7 @@ export default {
             thumbUrl,
           });
         } else {
-          window.bus.$emit('on-attachment-error');
+          window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
         }
       } catch (error) {
         // Error
