@@ -32,6 +32,7 @@ $resolve-button-width: 13.2rem;
 
     .multiselect {
       margin: 0;
+      min-width: 0;
 
       .multiselect__tags {
         border: 0;
