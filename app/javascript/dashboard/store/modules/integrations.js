@@ -14,6 +14,7 @@ const state = {
 
 export const getters = {
   getIntegrations($state) {
+    console.log($state, $state.records);
     return $state.records;
   },
   getIntegration: $state => integrationId => {
