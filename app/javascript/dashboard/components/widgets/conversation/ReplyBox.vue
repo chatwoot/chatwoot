@@ -72,6 +72,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -103,7 +104,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     inReplyTo: {
       type: [String, Number],
@@ -375,8 +376,7 @@ export default {
           });
         };
       } else {
-        bus.$emit(
-          'newToastMessage',
+        this.showAlert(
           this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
             MAXIMUM_FILE_UPLOAD_SIZE,
           })
