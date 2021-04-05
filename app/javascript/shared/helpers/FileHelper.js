@@ -17,3 +17,9 @@ export const fileSizeInMegaBytes = bytes => {
   const sizeInMB = (bytes / (1024 * 1024)).toFixed(2);
   return sizeInMB;
 };
+
+export const checkFileSizeLimit = (file, maximumUploadLimit) => {
+  const fileSize = file?.file?.size;
+  const fileSizeInMB = fileSizeInMegaBytes(fileSize);
+  return fileSizeInMB <= maximumUploadLimit;
+};

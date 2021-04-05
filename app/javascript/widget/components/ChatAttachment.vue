@@ -14,7 +14,7 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
-import { fileSizeInMegaBytes } from 'shared/helpers/FileHelper';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -33,23 +33,20 @@ export default {
     getFileType(fileType) {
       return fileType.includes('image') ? 'image' : 'file';
     },
-    checkFileSize(file) {
-      const fileSize = file?.file?.size;
-      const fileSizeInMB = fileSizeInMegaBytes(fileSize);
-      return fileSizeInMB <= MAXIMUM_FILE_UPLOAD_SIZE;
-    },
     async onFileUpload(file) {
       this.isUploading = true;
       try {
-        if (this.checkFileSize(file)) {
-          const thumbUrl = window.URL.createObjectURL(file.file);
-          await this.onAttach({
-            fileType: this.getFileType(file.type),
-            file: file.file,
-            thumbUrl,
-          });
-        } else {
-          window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
+        if (file) {
+          if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+            const thumbUrl = window.URL.createObjectURL(file.file);
+            await this.onAttach({
+              fileType: this.getFileType(file.type),
+              file: file.file,
+              thumbUrl,
+            });
+          } else {
+            window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
+          }
         }
       } catch (error) {
         // Error
