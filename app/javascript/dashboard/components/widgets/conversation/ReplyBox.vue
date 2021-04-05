@@ -355,29 +355,27 @@ export default {
       }
     },
     onFileUpload(file) {
-      if (file) {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-          this.attachedFiles = [];
-          if (!file) {
-            return;
-          }
-          const reader = new FileReader();
-          reader.readAsDataURL(file.file);
-          reader.onloadend = () => {
-            this.attachedFiles.push({
-              currentChatId: this.currentChat.id,
-              resource: file,
-              isPrivate: this.isPrivate,
-              thumb: reader.result,
-            });
-          };
-        } else {
-          this.showAlert(
-            this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
-              MAXIMUM_FILE_UPLOAD_SIZE,
-            })
-          );
-        }
+      if (!file) {
+        return;
+      }
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.attachedFiles = [];
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.currentChat.id,
+            resource: file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+          });
+        };
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
       }
     },
     removeAttachment(itemIndex) {

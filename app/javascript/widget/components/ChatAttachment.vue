@@ -34,19 +34,20 @@ export default {
       return fileType.includes('image') ? 'image' : 'file';
     },
     async onFileUpload(file) {
+      if (!file) {
+        return;
+      }
       this.isUploading = true;
       try {
-        if (file) {
-          if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
-            const thumbUrl = window.URL.createObjectURL(file.file);
-            await this.onAttach({
-              fileType: this.getFileType(file.type),
-              file: file.file,
-              thumbUrl,
-            });
-          } else {
-            window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
-          }
+        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+          const thumbUrl = window.URL.createObjectURL(file.file);
+          await this.onAttach({
+            fileType: this.getFileType(file.type),
+            file: file.file,
+            thumbUrl,
+          });
+        } else {
+          window.bus.$emit(BUS_EVENTS.ATTACHMENT_SIZE_CHECK_ERROR);
         }
       } catch (error) {
         // Error
