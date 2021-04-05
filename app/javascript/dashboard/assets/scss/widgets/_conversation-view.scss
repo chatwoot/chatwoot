@@ -151,6 +151,7 @@
       border-top-left-radius: $space-smaller;
       color: $color-body;
       margin-right: auto;
+      word-break: break-word;
 
       &.is-image {
         border-radius: var(--border-radius-large);
@@ -198,6 +199,7 @@
       border-bottom-right-radius: $space-smaller;
       border-top-right-radius: $space-smaller;
       margin-left: auto;
+      word-break: break-word;
 
       &.is-private {
         background: lighten($warning-color, 32%);
