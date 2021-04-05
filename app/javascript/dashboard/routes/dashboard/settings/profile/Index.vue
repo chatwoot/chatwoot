@@ -120,7 +120,7 @@ export default {
   components: {
     NotificationSettings,
   },
-  mixin: [alertMixin],
+  mixins: [alertMixin],
   data() {
     return {
       avatarFile: '',
