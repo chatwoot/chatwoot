@@ -1,4 +1,8 @@
-import { formatBytes, fileSizeInMegaBytes } from '../FileHelper';
+import {
+  formatBytes,
+  fileSizeInMegaBytes,
+  checkFileSizeLimit,
+} from '../FileHelper';
 
 describe('#File Helpers', () => {
   describe('formatBytes', () => {
@@ -21,6 +25,14 @@ describe('#File Helpers', () => {
     });
     it('should return 19.07 if 20000000 is passed', () => {
       expect(fileSizeInMegaBytes(20000000)).toBe('19.07');
+    });
+  });
+  describe('checkFileSizeLimit', () => {
+    it('should return false if file with size 62208194 and file size limit 40 are passed', () => {
+      expect(checkFileSizeLimit({ file: { size: 62208194 } }, 40)).toBe(false);
+    });
+    it('should return true if file with size 62208194 and file size limit 40 are passed', () => {
+      expect(checkFileSizeLimit({ file: { size: 199154 } }, 40)).toBe(true);
     });
   });
 });
