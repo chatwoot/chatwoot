@@ -93,7 +93,9 @@
           <woot-button
             :is-loading="isPasswordChanging"
             type="submit"
-            :disabled="!passwordConfirmation"
+            :disabled="
+              !passwordConfirmation || !$v.passwordConfirmation.isEqPassword
+            "
           >
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
           </woot-button>
