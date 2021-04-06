@@ -59,6 +59,13 @@ export default {
       return this.isContactPanelOpen && this.currentChat.id;
     },
   },
+  watch: {
+    'currentChat.inbox_id'(inboxId) {
+      if (inboxId) {
+        this.$store.dispatch('inboxMembers/fetch', { inboxId });
+      }
+    },
+  },
   methods: {
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
