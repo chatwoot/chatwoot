@@ -123,12 +123,10 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
-import WootButton from 'components/ui/WootButton';
 
 export default {
   components: {
     NotificationSettings,
-    WootButton,
   },
   mixins: [alertMixin],
   data() {
