@@ -49,10 +49,9 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
-          <woot-submit-button
-            :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
-            :loading="isProfileUpdating"
-          />
+          <woot-button type="submit" :is-loading="isProfileUpdating">
+            {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
+          </woot-button>
         </div>
       </div>
     </form>
@@ -91,10 +90,9 @@
               {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
             </span>
           </label>
-          <woot-submit-button
-            :button-text="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT')"
-            :loading="isPasswordChanging"
-          />
+          <woot-button :is-loading="isPasswordChanging" type="submit">
+            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
+          </woot-button>
         </div>
       </div>
     </form>
@@ -119,10 +117,12 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import WootButton from 'components/ui/WootButton';
 
 export default {
   components: {
     NotificationSettings,
+    WootButton,
   },
   mixins: [alertMixin],
   data() {
