@@ -67,10 +67,13 @@
   flex-direction: column;
   position: relative;
 
+  &:hover {
+    background: var(--color-background-light);
+  }
+
   .dropdown-pane {
     bottom: 6rem;
     display: block;
-    left: 5rem;
     visibility: visible;
     width: fit-content;
   }
