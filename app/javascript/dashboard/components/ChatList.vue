@@ -199,6 +199,7 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();

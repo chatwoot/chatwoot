@@ -121,6 +121,9 @@ export default {
 
   mounted() {
     this.$store.dispatch('conversationSearch/get', { q: '' });
+    bus.$on('clearSearchInput', () => {
+      this.clearSearchTerm();
+    });
   },
 
   methods: {
