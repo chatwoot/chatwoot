@@ -22,3 +22,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.text-content {
+  overflow: auto;
+}
+</style>
