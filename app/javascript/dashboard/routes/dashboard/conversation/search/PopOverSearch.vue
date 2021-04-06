@@ -83,6 +83,9 @@ export default {
       conversations: 'conversationSearch/getConversations',
       uiFlags: 'conversationSearch/getUIFlags',
     }),
+    currentPage() {
+      return this.$store.state.conversationPage.currentPage;
+    },
     resultsCount() {
       return this.conversations.length;
     },
@@ -111,6 +114,9 @@ export default {
         this.$store.dispatch('conversationSearch/get', { q: newValue });
       }, 1000);
     },
+    currentPage() {
+      this.clearSearchTerm();
+    }
   },
 
   mounted() {
@@ -123,6 +129,9 @@ export default {
     },
     closeSearch() {
       this.showSearchBox = false;
+    },
+    clearSearchTerm() {
+      this.searchTerm = null;
     },
   },
 };
