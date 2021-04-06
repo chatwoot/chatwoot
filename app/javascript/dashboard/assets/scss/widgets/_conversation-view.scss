@@ -249,14 +249,14 @@
   }
 
   .activity-wrap {
-    display: flex;
-    justify-content: center;
-    margin: var(--space-small) var(--space-normal);
-    padding: var(--space-small) var(--space-normal);
     background: var(--s-50);
     border: 1px solid var(--s-100);
     border-radius: var(--border-radius-medium);
+    display: flex;
     font-size: var(--font-size-small);
+    justify-content: center;
+    margin: var(--space-small) var(--space-normal);
+    padding: var(--space-small) var(--space-normal);
 
     @include breakpoint(xlarge up) {
       margin: var(--space-small) auto;
