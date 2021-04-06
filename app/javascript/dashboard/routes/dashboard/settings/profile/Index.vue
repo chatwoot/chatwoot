@@ -90,7 +90,11 @@
               {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
             </span>
           </label>
-          <woot-button :is-loading="isPasswordChanging" type="submit">
+          <woot-button
+            :is-loading="isPasswordChanging"
+            type="submit"
+            :disabled="!passwordConfirmation"
+          >
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
           </woot-button>
         </div>
