@@ -11,7 +11,7 @@
       "TITLE": "Procurar mensagens",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
     },
     "UNREAD_MESSAGES": "Mensagens não lidas",
     "UNREAD_MESSAGE": "Mensagem não lida",
@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
+      "OPEN_ACTION": "Abertas",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
@@ -85,9 +89,9 @@
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
+      "TITLE": "Convidar membros da sua equipe",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
     "INBOXES": {
       "TITLE": "Conectar caixas de entrada",
@@ -95,17 +99,17 @@
       "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
+      "TITLE": "Organizar conversas com marcadores",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "NEW_LINK": "Clique aqui para criar marcadores"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Detalhes das conversas",
+    "ASSIGNEE_LABEL": "Agente atribuído",
+    "TEAM_LABEL": "Equipe Atribuída",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nenhuma"
     }
   }
 }
