@@ -1,18 +1,18 @@
 {
   "LABEL_MGMT": {
     "HEADER": "Labels",
-    "HEADER_BTN_TXT": "Add label",
-    "LOADING": "Fetching labels",
+    "HEADER_BTN_TXT": "Label hinzufügen",
+    "LOADING": "Label werden abgerufen",
     "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
     "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
     "LIST": {
       "404": "There are no labels available in this account.",
-      "TITLE": "Manage labels",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Labels verwalten",
+      "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
       "TABLE_HEADER": [
         "Name",
-        "Description",
-        "Color"
+        "Beschreibung",
+        "Farbe"
       ]
     },
     "FORM": {
@@ -22,40 +22,40 @@
         "ERROR": "Label Name is required"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
+        "LABEL": "Beschreibung",
         "PLACEHOLDER": "Label Description"
       },
       "COLOR": {
-        "LABEL": "Color"
+        "LABEL": "Farbe"
       },
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
       "EDIT": "Bearbeiten",
-      "CREATE": "Create",
+      "CREATE": "Erstellen",
       "DELETE": "Löschen",
       "CANCEL": "Stornieren"
     },
     "ADD": {
-      "TITLE": "Add label",
-      "DESC": "Labels let you group the conversations together.",
+      "TITLE": "Label hinzufügen",
+      "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
       "API": {
-        "SUCCESS_MESSAGE": "Label added successfully",
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich hinzugefügt",
         "ERROR_MESSAGE": "There was an error, please try again"
       }
     },
     "EDIT": {
-      "TITLE": "Edit label",
+      "TITLE": "Label bearbeiten",
       "API": {
-        "SUCCESS_MESSAGE": "Label updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Label deleted successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "Label wurde erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
