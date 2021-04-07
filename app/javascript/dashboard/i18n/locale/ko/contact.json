@@ -46,9 +46,9 @@
     "DESC": "연락처 수정 자세히"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "새 연결",
+    "TITLE": "새 연결 만들기",
+    "DESC": "연락처에 대한 기본 정보 세부 정보를 추가합니다."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -100,7 +100,7 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
     "CONTACT_ALREADY_EXIST": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
   },
@@ -115,14 +115,14 @@
         "NAME": "이름",
         "PHONE_NUMBER": "전화 번호",
         "CONVERSATIONS": "대화",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "지난 활동",
+        "COUNTRY": "국가",
+        "CITY": "도시",
+        "SOCIAL_PROFILES": "소셜 프로필",
         "COMPANY": "회사",
         "EMAIL_ADDRESS": "이메일 주소"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "상세보기"
     }
   }
 }
