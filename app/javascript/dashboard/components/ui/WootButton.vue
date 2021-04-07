@@ -12,8 +12,8 @@
     @click="handleClick"
   >
     <spinner v-if="isLoading" size="small" />
-    <i v-if="icon" :class="icon"></i>
-    <span v-if="$slots.default"><slot></slot></span>
+    <i v-else-if="icon" class="icon" :class="icon"></i>
+    <span v-if="$slots.default" class="content"><slot></slot></span>
   </button>
 </template>
 <script>
@@ -59,3 +59,15 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.button {
+  display: flex;
+  align-items: center;
+}
+.spinner {
+  padding: 0 var(--space-small);
+}
+.icon + .content {
+  padding-left: var(--space-small);
+}
+</style>
