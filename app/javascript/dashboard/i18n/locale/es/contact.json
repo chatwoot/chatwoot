@@ -34,7 +34,7 @@
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
     "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Des silenciar conversación",
+    "UNMUTE_CONTACT": "Dessilenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
