@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Online vagyunk",
-    "OFFLINE": "Offilne vagyunk"
+    "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
