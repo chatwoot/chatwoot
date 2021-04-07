@@ -19,6 +19,7 @@
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
+    "WHATSAPP": "Please change the title",
     "24_HOURS_WINDOW": "24 hour message window restriction",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
@@ -112,5 +113,4 @@
       "PLACEHOLDER": "None"
     }
   }
-
 }

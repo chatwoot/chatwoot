@@ -1,6 +1,9 @@
 <template>
   <div class="view-box fill-height">
-    <div v-if="!currentChat.can_reply" class="banner messenger-policy--banner">
+    <div
+      v-if="!currentChat.can_reply && !isATwilioWhatsappChannel"
+      class="banner messenger-policy--banner"
+    >
       <span>
         {{ $t('CONVERSATION.CANNOT_REPLY') }}
         <a
@@ -10,6 +13,14 @@
         >
           {{ $t('CONVERSATION.24_HOURS_WINDOW') }}
         </a>
+      </span>
+    </div>
+    <div
+      v-if="isATwilioWhatsappChannel"
+      class="banner messenger-policy--banner"
+    >
+      <span>
+        {{ $t('CONVERSATION.WHATSAPP') }}
       </span>
     </div>
 
@@ -86,6 +97,7 @@ import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   components: {
@@ -93,7 +105,7 @@ export default {
     ReplyBox,
   },
 
-  mixins: [conversationMixin],
+  mixins: [conversationMixin, inboxMixin],
 
   props: {
     inboxId: {
@@ -124,6 +136,9 @@ export default {
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
 
     typingUsersList() {
       const userList = this.$store.getters[
@@ -179,6 +194,20 @@ export default {
 
     isATweet() {
       return this.conversationType === 'tweet';
+    },
+
+    isAWhatsApp() {
+      const {
+        meta: { channel },
+      } = this.currentChat;
+      // console.log(
+      //   '%c Muhzi',
+      //   'color:red;font-weight:bold;font-size:12px',
+      //   'channel',
+      //   this.isATwilioWhatsappChannel
+      // );
+
+      return channel === 'Channel::TwilioSms';
     },
 
     selectedTweet() {
