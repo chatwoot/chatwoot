@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
       "REOPEN_ACTION": "Genåben",
+      "OPEN_ACTION": "Åbn",
       "OPEN": "Mere",
       "CLOSE": "Luk",
       "DETAILS": "detaljer"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
