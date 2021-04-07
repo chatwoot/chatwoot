@@ -8,12 +8,6 @@ $resolve-button-width: 13.2rem;
   @include flex-align($x: justify, $y: middle);
   @include border-normal-bottom;
 
-  // Resolve Button
-  .button {
-    @include margin(0);
-    @include flex;
-  }
-
   .multiselect-box {
     @include flex;
     @include flex-align($x: justify, $y: middle);
@@ -62,26 +56,6 @@ $resolve-button-width: 13.2rem;
       font-size: $font-size-mini;
       margin-top: $space-micro;
       padding: 0;
-    }
-  }
-}
-
-.button.resolve--button {
-  @include flex-align($x: center, $y: middle);
-  font-size: var(--font-size-default);
-  width: $resolve-button-width;
-
-  >.icon {
-    font-size: $font-size-default;
-    padding-right: $space-small;
-  }
-
-  .spinner {
-    margin-right: $space-smaller;
-    padding: 0 $space-one;
-
-    &::before {
-      border-top-color: $color-white;
     }
   }
 }
