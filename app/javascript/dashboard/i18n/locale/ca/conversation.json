@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resoldre",
       "REOPEN_ACTION": "Tornar a obrir",
+      "OPEN_ACTION": "Obrir",
       "OPEN": "Més",
       "CLOSE": "Tanca",
       "DETAILS": "detalls"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter per a una línia nova. Comença amb '/' per seleccionar una resposta predeterminada.",
