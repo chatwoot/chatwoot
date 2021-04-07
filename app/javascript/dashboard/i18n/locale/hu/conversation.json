@@ -11,7 +11,7 @@
       "TITLE": "Üzenetekben keresés",
       "LOADING_MESSAGE": "Adatelemzés...",
       "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Nincs találat."
     },
     "UNREAD_MESSAGES": "Olvasatlan üzenetek",
     "UNREAD_MESSAGE": "Olvasatlan üzenet",
@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
+      "OPEN_ACTION": "Megnyitás",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
       "DETAILS": "részletek"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Bottal megnyitni"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
@@ -51,7 +55,7 @@
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
     "SENT_BY": "Küldő:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
@@ -101,11 +105,11 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Beszélgetés részletei",
+    "ASSIGNEE_LABEL": "Hozzárendelt ügynök",
+    "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nincs"
     }
   }
 }
