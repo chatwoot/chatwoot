@@ -50,8 +50,9 @@
         </div>
       </div>
       <woot-button
-        class="clear edit-contact"
-        variant="primary small"
+        class="edit-contact"
+        variant="clear"
+        size="small"
         @click="toggleEditModal"
       >
         {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
@@ -165,8 +166,6 @@ export default {
 }
 
 .edit-contact {
-  padding: 0 var(--space-slab);
   margin-left: var(--space-slab);
-  margin-top: var(--space-smaller);
 }
 </style>
