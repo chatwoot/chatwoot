@@ -223,11 +223,11 @@
       }
     },
     "TABS": {
-      "SETTINGS": "die Einstellungen",
+      "SETTINGS": "Einstellungen",
       "COLLABORATORS": "Mitarbeitende",
       "CONFIGURATION": "Konfiguration",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Öffnungszeiten"
     },
     "SETTINGS": "die Einstellungen",
     "FEATURES": {
@@ -259,8 +259,8 @@
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Ja",
+          "DISABLED": "Nein"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -272,21 +272,21 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
+      "TITLE": "Legen Sie Ihre Verfügbarkeit fest",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
+      "TIMEZONE_LABEL": "Zeitzone auswählen",
+      "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Wir sind momentan nicht erreichbar. Hinterlassen Sie eine Nachricht und wir antworten Ihnen sobald wir wieder zurück sind.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
+        "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
+        "UNAVAILABLE": "Nicht verfügbar",
+        "HOURS": "Stunden",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Auswählen"
       }
     }
   }
