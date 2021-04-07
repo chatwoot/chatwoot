@@ -53,11 +53,11 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Push-Benachrichtigungen",
+    "MARK_ALL_DONE": "Alle als Erledigt markieren",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
+      "404": "Keine Benachrichtigungen",
       "TABLE_HEADER": [
         "Name",
         "Telefonnummer",
@@ -66,9 +66,9 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
+      "conversation_creation": "Neue Unterhaltung",
       "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
+      "assigned_conversation_new_message": "Neue Nachricht",
       "conversation_mention": "Mention"
     }
   }
