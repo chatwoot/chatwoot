@@ -272,7 +272,7 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
+      "TITLE": "Nastavte svou dostupnost",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "Vyberte časové pásmo",
@@ -286,7 +286,7 @@
         "UNAVAILABLE": "Nedostupný",
         "HOURS": "hodiny",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Vyberte"
       }
     }
   }
