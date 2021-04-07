@@ -135,9 +135,12 @@ const actions = {
     commit(types.default.ASSIGN_TEAM, team);
   },
 
-  toggleStatus: async ({ commit }, data) => {
+  toggleStatus: async ({ commit }, { conversationId, status }) => {
     try {
-      const response = await ConversationApi.toggleStatus(data);
+      const response = await ConversationApi.toggleStatus({
+        conversationId,
+        status,
+      });
       commit(
         types.default.RESOLVE_CONVERSATION,
         response.data.payload.current_status
