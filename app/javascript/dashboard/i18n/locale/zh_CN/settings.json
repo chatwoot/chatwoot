@@ -3,6 +3,8 @@
     "LINK": "个人资料设置",
     "TITLE": "个人资料设置",
     "BTN_TEXT": "更新个人资料",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "您的个人资料已成功更新，请在您的登录凭据更改后重新登录",
     "FORM": {
       "AVATAR": "头像",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "密码",
-        "NOTE": "更新您的密码会在多个设备中重置您的登录信息。"
+        "NOTE": "更新您的密码会在多个设备中重置您的登录信息。",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "电子邮件通知",
