@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 de:
-  hello: "Hello world"
+  hello: "Hallo Welt"
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
@@ -29,22 +29,28 @@ de:
       failed: Anmeldung gescheitert
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
+      conversation_assignment: "[Ihnen zugewiesen] - #%{display_id} wurde Ihnen zugewiesen"
       assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
       conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Diese Nachricht wurde gelöscht
     activity:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        bot: "Conversation was transferred to bot by %{user_name}"
+        auto_resolved: "Unterhaltung wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} hat sich diese Unterhaltung selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
         removed: "Gespräch nicht zugewiesen von %{user_name}"
       team:
@@ -52,8 +58,8 @@ de:
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
         removed: "Unassigned from %{team_name} by %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
+        added: "%{user_name} hat %{labels} hinzugefügt"
+        removed: "%{user_name} hat %{labels} entfernt"
       muted: "%{user_name} has muted the conversation"
       unmuted: "%{user_name} has unmuted the conversation"
     templates:
