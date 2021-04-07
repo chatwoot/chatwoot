@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
+      "OPEN_ACTION": "開く",
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
