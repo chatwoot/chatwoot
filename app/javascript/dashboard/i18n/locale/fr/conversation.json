@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
+      "OPEN_ACTION": "Ouvert",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Maj + entrée pour une nouvelle ligne. Commencez par '/' pour sélectionner une réponse standardisée.",
