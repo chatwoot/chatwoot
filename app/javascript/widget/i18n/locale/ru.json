@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Мы онлайн",
-    "OFFLINE": "Мы оффлайн"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
