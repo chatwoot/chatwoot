@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "지금 사용자 지정 도메인에서 이메일을 받을 수 있다."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Chatwoot에 대한 %{latestChatwootVersion} 업데이트를 사용할 수 있습니다. 인스턴스를 업데이트하십시오."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -53,11 +53,11 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "알림",
+    "MARK_ALL_DONE": "모두 완료 표시",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "알림을 불러오는 중...",
+      "404": "알림 없음",
       "TABLE_HEADER": [
         "이름",
         "전화 번호",
@@ -66,9 +66,9 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
+      "conversation_creation": "새 대화",
+      "conversation_assignment": "대화 할당됨",
+      "assigned_conversation_new_message": "새 메시지",
       "conversation_mention": "멘션"
     }
   }
