@@ -196,20 +196,6 @@ export default {
       return this.conversationType === 'tweet';
     },
 
-    isAWhatsApp() {
-      const {
-        meta: { channel },
-      } = this.currentChat;
-      // console.log(
-      //   '%c Muhzi',
-      //   'color:red;font-weight:bold;font-size:12px',
-      //   'channel',
-      //   this.isATwilioWhatsappChannel
-      // );
-
-      return channel === 'Channel::TwilioSms';
-    },
-
     selectedTweet() {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;
