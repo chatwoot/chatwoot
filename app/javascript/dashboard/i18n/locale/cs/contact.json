@@ -46,9 +46,9 @@
     "DESC": "Upravit kontaktní údaje"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Nový kontakt",
+    "TITLE": "Vytvořit nový kontakt",
+    "DESC": "Přidat základní informace o kontaktu."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -100,7 +100,7 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
     "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
   },
@@ -115,14 +115,14 @@
         "NAME": "Název",
         "PHONE_NUMBER": "Telefonní číslo",
         "CONVERSATIONS": "Konverzace",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "Poslední aktivita",
+        "COUNTRY": "Země",
+        "CITY": "Město",
+        "SOCIAL_PROFILES": "Sociální profily",
         "COMPANY": "Společnost",
         "EMAIL_ADDRESS": "E-mailová adresa"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Zobrazit detaily"
     }
   }
 }
