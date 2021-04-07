@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Oplossen",
       "REOPEN_ACTION": "Heropenen",
+      "OPEN_ACTION": "Open",
       "OPEN": "Meer",
       "CLOSE": "Sluiten",
       "DETAILS": "Details"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter voor nieuwe regel. Begin met '/' om een standaard antwoord te selecteren.",
