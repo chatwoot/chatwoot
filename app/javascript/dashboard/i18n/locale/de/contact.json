@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Nicht verfügbar",
-    "EMAIL_ADDRESS": "E-Mail-Addresse",
+    "EMAIL_ADDRESS": "E-Mail-Adresse",
     "PHONE_NUMBER": "Telefonnummer",
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "COMPANY": "Firma",
@@ -46,9 +46,9 @@
     "DESC": "Kontaktdetails bearbeiten"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Neuer Kontakt",
+    "TITLE": "Neuen Kontakt erstellen",
+    "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -100,7 +100,7 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
     "CONTACT_ALREADY_EXIST": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
   },
@@ -115,14 +115,14 @@
         "NAME": "Name",
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Gespräche",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Letzte Aktivität",
+        "COUNTRY": "Land",
+        "CITY": "Stadt",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Firma",
         "EMAIL_ADDRESS": "E-Mail-Addresse"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Details anzeigen"
     }
   }
 }
