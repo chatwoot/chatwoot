@@ -7,7 +7,7 @@
       <span>
         {{ $t('CONVERSATION.CANNOT_REPLY') }}
         <a
-          href="https://developers.facebook.com/docs/messenger-platform/policy/policy-overview/"
+          :href="facebookReplyPolicy"
           rel="noopener noreferrer nofollow"
           target="_blank"
         >
@@ -16,11 +16,18 @@
       </span>
     </div>
     <div
-      v-if="isATwilioWhatsappChannel"
+      v-if="!currentChat.can_reply && isATwilioWhatsappChannel"
       class="banner messenger-policy--banner"
     >
       <span>
-        {{ $t('CONVERSATION.WHATSAPP') }}
+        {{ $t('CONVERSATION.TWILLIO_WHATSAPP_CAN_REPLY') }}
+        <a
+          :href="twilloWhatsAppReplyPolicy"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          {{ $t('CONVERSATION.TWILLIO_WHATSAPP_24_HOURS_WINDOW') }}
+        </a>
       </span>
     </div>
 
@@ -97,6 +104,7 @@ import Message from './Message';
 import conversationMixin from '../../../mixins/conversations';
 import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
@@ -205,6 +213,12 @@ export default {
         return selectedMessage.content || '';
       }
       return '';
+    },
+    facebookReplyPolicy() {
+      return REPLY_POLICY.FACEBOOK;
+    },
+    twilloWhatsAppReplyPolicy() {
+      return REPLY_POLICY.TWILLIO_WHATSAPP;
     },
   },
 
