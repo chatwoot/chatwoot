@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
+      "OPEN_ACTION": "باز",
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
       "DETAILS": "جزئیات"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
