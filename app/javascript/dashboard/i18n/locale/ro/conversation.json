@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
       "REOPEN_ACTION": "Redeschide",
+      "OPEN_ACTION": "Deschide",
       "OPEN": "Mai mult",
       "CLOSE": "Închide",
       "DETAILS": "detalii"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
