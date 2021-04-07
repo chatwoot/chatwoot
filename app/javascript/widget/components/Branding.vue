@@ -1,4 +1,5 @@
 <template>
+<!--  
   <div v-if="globalConfig.brandName" class="branding">
     <a
       :href="brandRedirectURL"
@@ -9,6 +10,21 @@
       <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
       <span>
         {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+      </span>
+    </a>
+  </div>
+  <div v-else class="brand--alternative" />
+  -->
+    <div v-if="globalConfig.brandName" class="branding">
+    <a
+      :href="'https://tellephant.com'"
+      rel="noreferrer noopener nofollow"
+      target="_blank"
+      class="branding--link"
+    >
+      <img :alt="Tellephant" :src="'https://app.tellephant.com/assets/images/favicon-dark.png'" />
+      <span>
+        Powered By Tellephant
       </span>
     </a>
   </div>
