@@ -1,15 +1,15 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "Neues Team erstellen",
     "HEADER": "Teams",
     "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "EDIT_TEAM": "Team bearbeiten"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
+        "TITLE": "Neues Team erstellen",
         "DESC": "Add a title and description to your new team."
       },
       "AGENTS": {
@@ -19,7 +19,7 @@
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "Erstellen",
           "route": "settings_teams_new",
           "body": "Create a new team of agents."
         },
@@ -29,7 +29,7 @@
           "body": "Add agents to the team."
         },
         {
-          "title": "Finish",
+          "title": "Abschließen",
           "route": "settings_teams_finish",
           "body": "Sie sind bereit zu gehen!"
         }
@@ -39,7 +39,7 @@
       "CREATE": {
         "TITLE": "Edit your team details",
         "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "BUTTON_TEXT": "Team aktualisieren"
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
@@ -48,7 +48,7 @@
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Teamdetails",
           "route": "settings_teams_edit",
           "body": "Change name, description and other details."
         },
@@ -58,7 +58,7 @@
           "body": "Edit agents in your team."
         },
         {
-          "title": "Finish",
+          "title": "Abschließen",
           "route": "settings_teams_edit_finish",
           "body": "Sie sind bereit zu gehen!"
         }
@@ -88,16 +88,16 @@
     "FINISH": {
       "TITLE": "Your team is ready!",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "BUTTON_TEXT": "Abschließen"
     },
     "DELETE": {
       "BUTTON_TEXT": "Löschen",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Das Team wurde erfolgreich gelöscht.",
+        "ERROR_MESSAGE": "Das Team konnte nicht gelöscht werden. Versuchen Sie es erneut."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
+        "TITLE": "Sind Sie sicher, dass Sie %{teamName} löschen möchten",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "Löschen ",
         "NO": "Stornieren"
@@ -105,20 +105,20 @@
     },
     "SETTINGS": "die Einstellungen",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Team aktualisieren",
+      "CREATE": "Team erstellen",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Teamname",
+        "PLACEHOLDER": "Beispiel: Vertrieb, Kundendienst"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Teambeschreibung",
+        "PLACEHOLDER": "Kurze Beschreibung zu diesem Team."
       },
       "AUTO_ASSIGN": {
         "LABEL": "Allow auto assign for this team."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Neues Team erstellen"
     }
   }
 }
