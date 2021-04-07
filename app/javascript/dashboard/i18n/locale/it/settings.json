@@ -3,6 +3,8 @@
     "LINK": "Impostazioni profilo",
     "TITLE": "Impostazioni profilo",
     "BTN_TEXT": "Aggiorna Profilo",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Il tuo profilo è stato aggiornato correttamente, effettua nuovamente il login quando le tue credenziali di accesso sono state modificate",
     "FORM": {
       "AVATAR": "Immagine del profilo",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "password",
-        "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi."
+        "NOTE": "Aggiornare la tua password reimposterà i tuoi login in più dispositivi.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token di accesso",
         "NOTE": "Questo token può essere usato se stai costruendo un'integrazione basata su API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifiche email",
