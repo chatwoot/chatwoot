@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "เสร็จสิ้น",
       "REOPEN_ACTION": "เปิดใหม่อีกครั้ง",
+      "OPEN_ACTION": "เปิด",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
