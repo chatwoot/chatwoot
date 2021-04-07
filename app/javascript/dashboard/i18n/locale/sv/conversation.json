@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",
+      "OPEN_ACTION": "Öppna",
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
