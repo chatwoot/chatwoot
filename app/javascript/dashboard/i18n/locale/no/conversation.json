@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
       "REOPEN_ACTION": "Gjenåpne",
+      "OPEN_ACTION": "Åpne",
       "OPEN": "Mer",
       "CLOSE": "Lukk",
       "DETAILS": "detaljer"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
