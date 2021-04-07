@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
-      "OPEN": "Подробнее",
+      "OPEN_ACTION": "Открыть",
+      "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
@@ -101,9 +105,9 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Детали диалога",
+    "ASSIGNEE_LABEL": "Назначенный агент",
+    "TEAM_LABEL": "Назначенная команда",
     "SELECT": {
       "PLACEHOLDER": "None"
     }
