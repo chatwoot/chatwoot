@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
       "REOPEN_ACTION": "重新打开",
+      "OPEN_ACTION": "打开",
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "输入“/”开始选择快捷回复",
