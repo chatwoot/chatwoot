@@ -3,6 +3,8 @@
     "LINK": "Profilinställningar",
     "TITLE": "Profilinställningar",
     "BTN_TEXT": "Uppdatera profil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Din profil har uppdaterats. Vänligen logga in på nytt eftersom dina inloggningsuppgifter har ändrats",
     "FORM": {
       "AVATAR": "Profilbild",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Lösenord",
-        "NOTE": "Uppdatering av ditt lösenord skulle återställa dina inloggningar på flera enheter."
+        "NOTE": "Uppdatering av ditt lösenord skulle återställa dina inloggningar på flera enheter.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Åtkomsttoken",
         "NOTE": "Denna token kan användas om du bygger en API-baserad integration"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-postaviseringar",
