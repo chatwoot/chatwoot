@@ -1,21 +1,21 @@
 # if you dont specify locked attribute, the default value will be true
 # which means the particular config will be locked
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Tellephant'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
   value: '/brand-assets/logo.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://tellephant.com'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://tellephant.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Tellephant'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://tellephant/terms-of-service'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://tellephant/privacy-policy'
 - name: DISPLAY_MANIFEST
   value: true
 - name: MAILER_INBOUND_EMAIL_DOMAIN
