@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
       "REOPEN_ACTION": "Відкрити знову",
+      "OPEN_ACTION": "Відкриті",
       "OPEN": "Ще",
       "CLOSE": "Закрити",
       "DETAILS": "подробиці"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
