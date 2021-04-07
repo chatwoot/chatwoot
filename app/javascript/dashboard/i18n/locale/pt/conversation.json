@@ -29,9 +29,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
+      "OPEN_ACTION": "Abertas",
       "OPEN": "MAIS",
       "CLOSE": "FECHAR",
       "DETAILS": "Detalhes"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Comece com '/' para selecionar uma Resposta Pronta.",
