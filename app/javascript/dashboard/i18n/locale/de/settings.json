@@ -3,6 +3,8 @@
     "LINK": "Profileinstellungen",
     "TITLE": "Profileinstellungen",
     "BTN_TEXT": "Profil aktualisieren",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
       "AVATAR": "Profilbild",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Passwort",
-        "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt."
+        "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Zugangstoken",
         "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
@@ -100,7 +108,7 @@
     },
     "FILE_BUBBLE": {
       "DOWNLOAD": "Herunterladen",
-      "UPLOADING": "Hochladen..."
+      "UPLOADING": "Wird hochgeladen..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Einreichen"
@@ -120,7 +128,7 @@
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "INBOXES": "Posteingänge",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "Push-Benachrichtigungen",
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
@@ -128,7 +136,7 @@
     "TEAMS": "Teams"
   },
   "CREATE_ACCOUNT": {
-    "NEW_ACCOUNT": "New Account",
+    "NEW_ACCOUNT": "Neuer Account",
     "SELECTOR_SUBTITLE": "Create a new account",
     "API": {
       "SUCCESS_MESSAGE": "Benutzerkonto erfolgreich erstellt",
