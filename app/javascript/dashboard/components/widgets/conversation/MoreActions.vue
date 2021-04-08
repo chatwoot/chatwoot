@@ -112,7 +112,6 @@ export default {
 .dropdown-pane {
   right: var(--space-minus-small);
   top: 48px;
-  width: auto;
 }
 
 .icon {
