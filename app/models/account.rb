@@ -51,7 +51,6 @@ class Account < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :hooks, dependent: :destroy, class_name: 'Integrations::Hook'
-  has_one :slack, dependent: :destroy, class_name: 'Integrations::Slack'
   has_many :working_hours, dependent: :destroy
   has_many :kbase_portals, dependent: :destroy, class_name: '::Kbase::Portal'
   has_many :kbase_categories, dependent: :destroy, class_name: '::Kbase::Category'

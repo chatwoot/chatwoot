@@ -28,7 +28,7 @@ class Integrations::App
   def action
     case params[:id]
     when 'slack'
-      "#{params[:action]}&client_id=#{Current.account.slack&.client_id}&redirect_uri=#{self.class.slack_integration_url}"
+      "#{params[:action]}&client_id=#{ENV['SLACK_CLIENT_ID']}&redirect_uri=#{self.class.slack_integration_url}"
     else
       params[:action]
     end
@@ -37,7 +37,7 @@ class Integrations::App
   def active?
     case params[:id]
     when 'slack'
-      Current.account.slack&.client_secret.present?
+      ENV['SLACK_CLIENT_SECRET'].present?
     else
       true
     end
