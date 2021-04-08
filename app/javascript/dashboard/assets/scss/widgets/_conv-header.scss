@@ -25,12 +25,12 @@ $resolve-button-width: 13.2rem;
     }
 
     .multiselect {
+      border-radius: var(--border-radius-small);
       margin: 0;
       min-width: 0;
-      border-radius: var(--border-radius-small);
 
       .multiselect__tags {
-        border-color: transparent
+        border-color: transparent;
       }
     }
   }

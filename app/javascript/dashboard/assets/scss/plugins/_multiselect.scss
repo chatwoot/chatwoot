@@ -77,10 +77,10 @@
           &::after {
             background: transparent;
             color: var(--white);
+          }
 
-            &:hover {
-              color: var(--color-body);
-            }
+          &::after:hover{
+             color: var(--color-body);
           }
         }
       }
