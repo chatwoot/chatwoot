@@ -16,7 +16,9 @@ export const types = {
 
 export const getters = {
   getMembersByInbox: $state => inboxId => {
-    return $state.records[inboxId];
+    const allAgents = $state.records[inboxId] || [];
+    const verifiedAgents = allAgents.filter(record => record.confirmed);
+    return verifiedAgents;
   },
   getUIFlags($state) {
     return $state.uiFlags;
