@@ -29,7 +29,7 @@
           >
           </woot-code>
         </div>
-        <div class="router">
+        <div class="footer">
           <router-link
             class="button hollow primary settings-button"
             :to="{
@@ -102,7 +102,7 @@ export default {
   max-width: 70%;
 }
 
-.router {
+.footer {
   display: flex;
   justify-content: center;
 }
