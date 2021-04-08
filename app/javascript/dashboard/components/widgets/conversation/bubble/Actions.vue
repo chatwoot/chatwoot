@@ -95,6 +95,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~dashboard/assets/scss/app.scss';
+
 .right {
   .message-text--metadata {
     .time {
@@ -136,12 +138,16 @@ export default {
 
 .activity-wrap {
   .message-text--metadata {
-    display: inline-block;
-
     .time {
       color: var(--s-300);
+      display: flex;
+      text-align: center;
       font-size: var(--font-size-micro);
-      margin-left: var(--space-small);
+      margin-left: 0;
+
+      @include breakpoint(xlarge up) {
+        margin-left: var(--space-small);
+      }
     }
   }
 }
