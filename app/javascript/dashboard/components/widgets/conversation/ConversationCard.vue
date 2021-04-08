@@ -191,6 +191,10 @@ export default {
 <style lang="scss" scoped>
 .conversation {
   align-items: center;
+
+  &:hover {
+    background: var(--color-background-light);
+  }
 }
 
 .has-inbox-name {
