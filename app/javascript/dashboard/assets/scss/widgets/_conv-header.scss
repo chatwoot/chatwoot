@@ -14,7 +14,7 @@ $resolve-button-width: 13.2rem;
     border: 1px solid var(--color-border);
     border-radius: var(--space-smaller);
     margin-right: var(--space-small);
-    width: 20.2rem;
+    width: 21.6rem;
 
     .icon {
       color: $medium-gray;
@@ -27,9 +27,10 @@ $resolve-button-width: 13.2rem;
     .multiselect {
       margin: 0;
       min-width: 0;
+      border-radius: var(--border-radius-small);
 
       .multiselect__tags {
-        border: 0;
+        border-color: transparent
       }
     }
   }

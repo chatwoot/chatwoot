@@ -35,10 +35,10 @@
         <multiselect
           v-model="currentChat.meta.assignee"
           :allow-empty="true"
-          :deselect-label="$t('CONVERSATION.ASSIGNMENT.REMOVE')"
+          deselect-label=""
           :options="agentList"
           :placeholder="$t('CONVERSATION.ASSIGNMENT.SELECT_AGENT')"
-          :select-label="$t('CONVERSATION.ASSIGNMENT.ASSIGN')"
+          select-label=""
           label="name"
           selected-label
           track-by="id"
