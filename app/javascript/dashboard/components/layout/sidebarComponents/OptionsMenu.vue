@@ -82,6 +82,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .dropdown-pane {
-  right: 0rem;
+  right: 0;
 }
 </style>
