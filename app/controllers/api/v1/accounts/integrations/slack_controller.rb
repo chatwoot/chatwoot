@@ -9,7 +9,12 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
         inbox_id: params[:inbox_id]
       )
       @hook = builder.perform
-      create_chatwoot_slack_channel
+
+      if @hook.reference_id.present?
+        join_slack_channel
+      else
+        create_chatwoot_slack_channel
+      end
     end
   end
 
@@ -36,5 +41,13 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
       hook: @hook, channel: channel
     )
     builder.perform
+  end
+
+  def slack_client
+    @slack_client ||= Slack::Web::Client.new(token: @hook.access_token)
+  end
+
+  def join_slack_channel
+    slack_client.conversations_join(channel: @hook.reference_id)
   end
 end
