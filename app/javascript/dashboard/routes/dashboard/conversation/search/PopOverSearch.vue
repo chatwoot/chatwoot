@@ -134,7 +134,7 @@ export default {
       this.showSearchBox = false;
     },
     clearSearchTerm() {
-      this.searchTerm = null;
+      this.searchTerm = '';
     },
   },
 };
