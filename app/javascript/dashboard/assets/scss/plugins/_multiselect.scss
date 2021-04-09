@@ -118,6 +118,8 @@
   }
 
   .multiselect__single {
+    @include text-ellipsis;
+    display: inline-block;
     margin-bottom: 0;
     padding: var(--space-slab) var(--space-one);
   }
