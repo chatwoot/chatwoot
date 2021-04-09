@@ -34,6 +34,7 @@
         <i class="icon ion-headphone" />
         <multiselect
           v-model="currentChat.meta.assignee"
+          :loading="uiFlags.isFetching"
           :allow-empty="true"
           :deselect-label="$t('CONVERSATION.ASSIGNMENT.REMOVE')"
           :options="agentList"
@@ -82,7 +83,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      agents: 'agents/getVerifiedAgents',
+      getAgents: 'inboxMembers/getMembersByInbox',
+      uiFlags: 'inboxMembers/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
 
@@ -97,6 +99,8 @@ export default {
     },
 
     agentList() {
+      const { inbox_id: inboxId } = this.chat;
+      const agents = this.getAgents(inboxId) || [];
       return [
         {
           confirmed: true,
@@ -106,7 +110,7 @@ export default {
           account_id: 0,
           email: 'None',
         },
-        ...this.agents,
+        ...agents,
       ];
     },
   },
