@@ -127,6 +127,10 @@ export default {
       type: [Number, String],
       required: true,
     },
+    inboxId: {
+      type: Number,
+      default: undefined,
+    },
     onToggle: {
       type: Function,
       default: () => {},
@@ -135,8 +139,9 @@ export default {
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      agents: 'agents/getVerifiedAgents',
       teams: 'teams/getTeams',
+      getAgents: 'inboxMembers/getMembersByInbox',
+      uiFlags: 'inboxMembers/getUIFlags',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
@@ -201,7 +206,7 @@ export default {
       return this.$store.getters['contacts/getContact'](this.contactId);
     },
     agentsList() {
-      return [{ id: 0, name: 'None' }, ...this.agents];
+      return [{ id: 0, name: 'None' }, ...this.getAgents(this.inboxId)];
     },
     teamsList() {
       return [{ id: 0, name: 'None' }, ...this.teams];
