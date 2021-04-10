@@ -240,16 +240,6 @@ export default {
   },
 
   mounted() {
-    console.log(
-      'WhatsApp',
-      this.currentChat.can_reply,
-      this.isATwilioWhatsappChannel
-    );
-    console.log(
-      'Reply condition',
-      !this.currentChat.can_reply && this.isATwilioWhatsappChannel
-    );
-
     this.addScrollListener();
   },
 
