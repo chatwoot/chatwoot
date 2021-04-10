@@ -112,14 +112,8 @@ export default {
     Message,
     ReplyBox,
   },
-
   mixins: [conversationMixin, inboxMixin],
-
   props: {
-    inboxId: {
-      type: [Number, String],
-      required: true,
-    },
     isContactPanelOpen: {
       type: Boolean,
       default: false,
@@ -144,6 +138,9 @@ export default {
       getUnreadCount: 'getUnreadCount',
       loadingChatList: 'getChatListLoadingStatus',
     }),
+    inboxId() {
+      return this.currentChat.inbox_id;
+    },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
