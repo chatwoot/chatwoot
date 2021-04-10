@@ -171,7 +171,7 @@ export default {
 
     getMessages() {
       const [chat] = this.allConversations.filter(
-        c => c.id === this.currentChat.id
+        (c) => c.id === this.currentChat.id
       );
       return chat;
     },
@@ -208,7 +208,7 @@ export default {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;
         const [selectedMessage = {}] = messages.filter(
-          message => message.id === this.selectedTweetId
+          (message) => message.id === this.selectedTweetId
         );
         return selectedMessage.content || '';
       }
@@ -237,12 +237,22 @@ export default {
       this.makeMessagesRead();
     });
 
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, (selectedTweetId) => {
       this.selectedTweetId = selectedTweetId;
     });
   },
 
   mounted() {
+    console.log(
+      'WhatsApp',
+      this.currentChat.can_reply,
+      this.isATwilioWhatsappChannel
+    );
+    console.log(
+      'Reply condition',
+      !this.currentChat.can_reply && this.isATwilioWhatsappChannel
+    );
+
     this.addScrollListener();
   },
 
