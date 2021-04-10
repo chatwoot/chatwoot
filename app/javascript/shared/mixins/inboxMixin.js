@@ -36,6 +36,9 @@ export default {
     },
     isATwilioWhatsappChannel() {
       const { phone_number: phoneNumber = '' } = this.inbox;
+      console.log('phoneNumber', phoneNumber);
+      console.log('isATwilioChannel', this.isATwilioChannel);
+      console.log('startsWith', phoneNumber.startsWith('whatsapp'));
       return this.isATwilioChannel && phoneNumber.startsWith('whatsapp');
     },
   },
