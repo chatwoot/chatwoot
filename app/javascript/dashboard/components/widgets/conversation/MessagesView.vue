@@ -20,13 +20,13 @@
       class="banner messenger-policy--banner"
     >
       <span>
-        {{ $t('CONVERSATION.TWILLIO_WHATSAPP_CAN_REPLY') }}
+        {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
         <a
           :href="twilloWhatsAppReplyPolicy"
           rel="noopener noreferrer nofollow"
           target="_blank"
         >
-          {{ $t('CONVERSATION.TWILLIO_WHATSAPP_24_HOURS_WINDOW') }}
+          {{ $t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW') }}
         </a>
       </span>
     </div>
@@ -168,7 +168,7 @@ export default {
 
     getMessages() {
       const [chat] = this.allConversations.filter(
-        (c) => c.id === this.currentChat.id
+        c => c.id === this.currentChat.id
       );
       return chat;
     },
@@ -205,7 +205,7 @@ export default {
       if (this.selectedTweetId) {
         const { messages = [] } = this.getMessages;
         const [selectedMessage = {}] = messages.filter(
-          (message) => message.id === this.selectedTweetId
+          message => message.id === this.selectedTweetId
         );
         return selectedMessage.content || '';
       }
@@ -215,7 +215,7 @@ export default {
       return REPLY_POLICY.FACEBOOK;
     },
     twilloWhatsAppReplyPolicy() {
-      return REPLY_POLICY.TWILLIO_WHATSAPP;
+      return REPLY_POLICY.TWILIO_WHATSAPP;
     },
   },
 
@@ -234,7 +234,7 @@ export default {
       this.makeMessagesRead();
     });
 
-    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, (selectedTweetId) => {
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, selectedTweetId => {
       this.selectedTweetId = selectedTweetId;
     });
   },
