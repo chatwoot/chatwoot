@@ -32,15 +32,12 @@
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-import { mapGetters } from 'vuex';
-import inboxMixin from 'shared/mixins/inboxMixin';
 
 export default {
   name: 'ReplyTopPanel',
   components: {
     EmojiOrIcon,
   },
-  mixins: [inboxMixin],
   props: {
     mode: {
       type: String,
@@ -60,7 +57,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
     replyButtonClass() {
       return {
         'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
