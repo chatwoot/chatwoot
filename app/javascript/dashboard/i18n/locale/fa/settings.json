@@ -3,7 +3,7 @@
     "LINK": "تنظیمات پروفایل",
     "TITLE": "تنظیمات پروفایل",
     "BTN_TEXT": "تغییر دادن پروفایل",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "پروفایل شما با موفقیت به روز شد",
     "PASSWORD_UPDATE_SUCCESS": "رمز عبورتان عوض شد",
     "AFTER_EMAIL_CHANGED": "پروفایلتان با موفقیت تغییر یافت، اطلاعات ورود به سیستم تغییر کرده لذا لطفا مجددا به سیستم وارد شوید",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "رمز عبور",
         "NOTE": "تغییر دادن رمز عبور باعث می‌شود مجبور شوید دوباره به سیستم وارد شوید",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "تغییر رمز عبور"
       },
       "ACCESS_TOKEN": {
         "TITLE": "توکن دسترسی",
