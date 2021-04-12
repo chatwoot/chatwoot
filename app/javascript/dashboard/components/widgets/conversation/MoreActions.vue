@@ -5,7 +5,10 @@
       :status="currentChat.status"
     />
     <woot-button
-      class="clear more--button"
+      class="more--button"
+      variant="clear"
+      size="large"
+      color-scheme="secondary"
       icon="ion-android-more-vertical"
       @click="toggleConversationActions"
     />
@@ -100,15 +103,6 @@ export default {
   align-items: center;
   display: flex;
   margin-left: var(--space-small);
-  padding: var(--space-small);
-
-  &.clear.more--button {
-    color: var(--color-body);
-  }
-
-  &:hover {
-    color: var(--w-800);
-  }
 }
 
 .actions--container {
@@ -116,9 +110,8 @@ export default {
 }
 
 .dropdown-pane {
-  right: -12px;
+  right: var(--space-minus-small);
   top: 48px;
-  width: auto;
 }
 
 .icon {
