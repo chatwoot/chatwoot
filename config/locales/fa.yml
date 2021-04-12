@@ -47,7 +47,7 @@ fa:
       status:
         resolved: "مکالمه توسط اپراتور %{user_name} حل شده، اعلام شده بود"
         open: "گفتگو توسط اپراتور %{user_name} مجددا باز شده بود"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        bot: "گفتگو توسط %{user_name} به ربات منتقل شد"
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
       assignee:
         self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"
