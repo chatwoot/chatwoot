@@ -115,14 +115,14 @@
         "NAME": "İsim",
         "PHONE_NUMBER": "Telefon numarası",
         "CONVERSATIONS": "Konuşmalar",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Son aktivite",
+        "COUNTRY": "Ülke",
+        "CITY": "Şehir",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Şirket",
         "EMAIL_ADDRESS": "E-posta adresi"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Detayları göster"
     }
   }
 }
