@@ -3,7 +3,7 @@
     "LINK": "Ρυθμίσεις Προφίλ",
     "TITLE": "Ρυθμίσεις Προφίλ",
     "BTN_TEXT": "Ενημέρωση Προφίλ",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Το προφίλ σας ενημερώθηκε επιτυχώς",
     "PASSWORD_UPDATE_SUCCESS": "Ο κωδικός σας άλλαξε με επιτυχία",
     "AFTER_EMAIL_CHANGED": "Το προφίλ σας ενημερώθηκε επιτυχώς, παρακαλώ κάντε είσοδο (login) επειδή τα στοιχεία εισόδου σας έχουν αλλάξει",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "Κωδικός",
         "NOTE": "Η ενημέρωση του κωδικού κα επαναφέρει τα logins σε όλες τις συσκευές που έχετε συνδεθεί.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Αλλαγή κωδικού πρόσβασης"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
