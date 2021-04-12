@@ -1,6 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 const notificationAudio = require('shared/assets/audio/ding.mp3');
 import axios from 'axios';
+import { showBadgeOnFavicon } from './faviconHelper';
 
 export const playNotificationAudio = () => {
   try {
@@ -74,12 +75,6 @@ export const newMessageNotification = data => {
 
   if (enableAudioAlerts && playAudio) {
     window.playAudioAlert();
-
-    const icon = document.querySelectorAll('.favicon');
-
-    icon.forEach(favicon => {
-      const newFileName = `/favicon-badge-${favicon.sizes[[0]]}.png`;
-      favicon.href = newFileName;
-    });
+    showBadgeOnFavicon();
   }
 };
