@@ -194,6 +194,7 @@
       "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
       "MESSAGE": "Teraz możesz współpracować ze swoimi klientami poprzez swój nowy kanał. Szczęśliwego wsparcia ",
       "BUTTON_TEXT": "Zabierz mnie tam",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
     },
     "REAUTH": "Ponowna autoryzacja",
