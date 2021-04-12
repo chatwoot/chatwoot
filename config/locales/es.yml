@@ -47,7 +47,7 @@ es:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
         open: "La conversación fue reabierta por %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        bot: "La conversación fue transferida al botón por %{user_name}"
         auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
       assignee:
         self_assigned: "%{user_name} auto-asignado a esta conversación"
