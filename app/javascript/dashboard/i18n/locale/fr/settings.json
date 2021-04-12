@@ -3,7 +3,7 @@
     "LINK": "Paramètres de profil",
     "TITLE": "Paramètres de profil",
     "BTN_TEXT": "Mettre à jour le profil",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Votre profil a été mis à jour avec succès",
     "PASSWORD_UPDATE_SUCCESS": "Votre mot de passe a été modifié avec succès",
     "AFTER_EMAIL_CHANGED": "Votre profil a été mis à jour avec succès, veuillez vous reconnecter car vos identifiants de connexion ont été modifiés",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "Mot de passe",
         "NOTE": "Mettre à jour votre mot de passe réinitialisera vos connexions sur plusieurs appareils.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Modifier le mot de passe"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Jeton d'accès",
