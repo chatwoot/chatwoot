@@ -61,12 +61,6 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
-    inboxId() {
-      return this.currentChat.inbox_id;
-    },
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
     replyButtonClass() {
       return {
         'is-active': this.mode === REPLY_EDITOR_MODES.REPLY,
