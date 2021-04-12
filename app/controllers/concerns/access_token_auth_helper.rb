@@ -14,6 +14,7 @@ module AccessTokenAuthHelper
     render_unauthorized('Invalid Access Token') && return if @access_token.blank?
 
     @resource = @access_token.owner
+    Current.user = @resource if current_user.is_a?(User)
   end
 
   def super_admin?
@@ -21,7 +22,7 @@ module AccessTokenAuthHelper
   end
 
   def validate_bot_access_token!
-    return if current_user.is_a?(User)
+    return if Current.user.is_a?(User)
     return if super_admin?
     return if agent_bot_accessible?
 

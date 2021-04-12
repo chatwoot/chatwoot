@@ -3,6 +3,8 @@
     "LINK": "Profile Settings",
     "TITLE": "Profile Settings",
     "BTN_TEXT": "Update Profile",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
     "FORM": {
       "AVATAR": "Profile Image",
@@ -16,7 +18,8 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices."
+        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
@@ -64,11 +67,7 @@
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUSES_LIST": [
-          "Online",
-          "Busy",
-          "Offline"
-        ]
+        "STATUSES_LIST": ["Online", "Busy", "Offline"]
       },
       "EMAIL": {
         "LABEL": "Your email address",
@@ -147,6 +146,5 @@
       },
       "SUBMIT": "Submit"
     }
-
   }
 }

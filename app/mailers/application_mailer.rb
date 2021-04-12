@@ -16,11 +16,18 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
+  rescue_from(*ExceptionList::SMTP_EXCEPTIONS, with: :handle_smtp_exceptions)
+
   def smtp_config_set_or_development?
     ENV.fetch('SMTP_ADDRESS', nil).present? || Rails.env.development?
   end
 
   private
+
+  def handle_smtp_exceptions(message)
+    Rails.logger.info 'Failed to send Email'
+    Rails.logger.info "Exception: #{message}"
+  end
 
   def send_mail_with_liquid(*args)
     mail(*args) do |format|
