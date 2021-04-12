@@ -22,7 +22,7 @@
       <span>
         {{ $t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY') }}
         <a
-          :href="twilloWhatsAppReplyPolicy"
+          :href="twilioWhatsAppReplyPolicy"
           rel="noopener noreferrer nofollow"
           target="_blank"
         >
@@ -214,7 +214,7 @@ export default {
     facebookReplyPolicy() {
       return REPLY_POLICY.FACEBOOK;
     },
-    twilloWhatsAppReplyPolicy() {
+    twilioWhatsAppReplyPolicy() {
       return REPLY_POLICY.TWILIO_WHATSAPP;
     },
   },
