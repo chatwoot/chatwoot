@@ -194,6 +194,7 @@
       "TITLE": "Ihr Posteingang ist fertig!",
       "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Viel Spaß beim Unterstützen",
       "BUTTON_TEXT": "Bring mich dahin",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt."
     },
     "REAUTH": "Neu autorisieren",
