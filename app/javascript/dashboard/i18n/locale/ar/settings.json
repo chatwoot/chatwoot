@@ -3,7 +3,7 @@
     "LINK": "إعدادات الملف الشخصي",
     "TITLE": "إعدادات الملف الشخصي",
     "BTN_TEXT": "تعديل الملف الشخصي",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "تم تحديث حسابك بنجاح",
     "PASSWORD_UPDATE_SUCCESS": "تم تغيير كلمة المرور بنجاح",
     "AFTER_EMAIL_CHANGED": "تم تحديث ملفك الشخصي بنجاح، الرجاء تسجيل الدخول مرة أخرى حيث أنه قد تم تغيير بيانات تسجيل الدخول الخاصة بك",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "كلمة المرور",
         "NOTE": "تعديل كلمة المرور الخاصة بك سيعيد ضبط تسجيلات الدخول الخاصة بك في الأجهزة الأخرى.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "تغيير كلمة المرور"
       },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
