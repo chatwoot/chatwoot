@@ -32,7 +32,6 @@
 <script>
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-
 export default {
   name: 'ReplyTopPanel',
   components: {
