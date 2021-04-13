@@ -122,6 +122,7 @@ export default {
       this.showSearchBox = true;
     },
     closeSearch() {
+      this.searchTerm = '';
       this.showSearchBox = false;
     },
   },
