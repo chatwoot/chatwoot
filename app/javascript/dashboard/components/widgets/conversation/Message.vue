@@ -147,7 +147,7 @@ export default {
       if (messageType === MESSAGE_TYPE.ACTIVITY) {
         return 'center';
       }
-      return !this.data.message_type ? 'left' : 'right';
+      return !messageType ? 'left' : 'right';
     },
     readableTime() {
       return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
