@@ -113,11 +113,13 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox"
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
       },
       "MESSAGE": {
         "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here"
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
       "CANCEL": "Cancel"

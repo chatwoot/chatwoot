@@ -49,16 +49,24 @@
           />
         </div>
       </div>
-      <div class="contact-actions">
+      <woot-button
+        v-if="!showNewConversationButton"
+        class="edit-contact"
+        variant="clear link"
+        size="small"
+        @click="toggleEditModal"
+      >
+        {{ $t('EDIT_CONTACT.BUTTON_LABEL') }}
+      </woot-button>
+      <div v-else class="contact-actions">
         <woot-button
-          v-if="showNewConversationButton"
+          class="new-message"
           size="small expanded"
           @click="toggleConversationModal"
         >
           {{ 'New conversation' }}
         </woot-button>
         <woot-button
-          class="edit-contact"
           variant="hollow"
           size="small expanded"
           @click="toggleEditModal"
@@ -106,6 +114,10 @@ export default {
       type: String,
       default: '',
     },
+    showNewMessage: {
+      type: Boolean,
+      default: false,
+    },
     messagableInboxes: {
       type: Object,
       default: () => [],
@@ -132,7 +144,11 @@ export default {
     showNewConversationButton() {
       const { phone_number: phoneNumber = '', email = '' } = this.contact;
       const hasPhoneOrEmail = phoneNumber || email;
-      return this.messagableInboxes.length !== 0 && hasPhoneOrEmail;
+      return (
+        this.messagableInboxes.length !== 0 &&
+        hasPhoneOrEmail &&
+        this.showNewMessage
+      );
     },
   },
   methods: {
@@ -195,9 +211,16 @@ export default {
     font-size: $font-weight-normal;
   }
 }
+.contact-actions {
+  margin: var(--space-small) 0;
+}
+.button.edit-contact {
+  margin-left: var(--space-two);
+  padding-left: var(--space-micro);
+}
 
-.edit-contact {
-  margin-left: var(--space-small);
+.button.new-message {
+  margin-right: var(--space-small);
 }
 
 .contact-actions {

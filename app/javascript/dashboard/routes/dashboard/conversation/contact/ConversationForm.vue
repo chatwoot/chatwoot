@@ -2,6 +2,19 @@
   <form class="conversation--form" @submit.prevent="handleSubmit">
     <div class="row">
       <div class="columns">
+        <label :class="{ error: $v.targetInbox.$error }">
+          {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
+          <select v-model="targetInbox">
+            <option v-for="inbox in inboxes" :key="inbox.id" :value="inbox">
+              {{ inbox.name }}
+            </option>
+          </select>
+          <span v-if="$v.targetInbox.$error" class="message">
+            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+          </span>
+        </label>
+      </div>
+      <div class="columns">
         <label>
           {{ $t('NEW_CONVERSATION.FORM.TO.LABEL') }}
           <div class="contact-input">
@@ -17,16 +30,6 @@
           </div>
         </label>
       </div>
-      <div class="columns">
-        <label :class="{ error: $v.selectedInbox.$error }">
-          {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
-          <select v-model="selectedInbox">
-            <option v-for="inbox in inboxes" :key="inbox.id" :value="inbox">
-              {{ inbox.name }}
-            </option>
-          </select>
-        </label>
-      </div>
     </div>
     <div class="row">
       <div class="columns">
@@ -38,6 +41,9 @@
             :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
             @input="$v.message.$touch"
           />
+          <span v-if="$v.message.$error" class="message">
+            {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+          </span>
         </label>
       </div>
     </div>
@@ -95,17 +101,25 @@ export default {
     message: {
       required,
     },
-    selectedInbox: {
+    targetInbox: {
       required,
     },
   },
   computed: {
     getNewConversation() {
       return {
-        inboxId: this.selectedInbox.id,
+        inboxId: this.targetInbox.id,
         contactId: this.contact.id,
         message: this.message,
       };
+    },
+    targetInbox: {
+      get() {
+        return this.selectedInbox || '';
+      },
+      set(value) {
+        this.selectedInbox = value;
+      },
     },
   },
   methods: {

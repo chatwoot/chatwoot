@@ -63,6 +63,11 @@ export default {
 .button {
   display: flex;
   align-items: center;
+
+  &.link {
+    padding: 0;
+    margin: 0;
+  }
 }
 .spinner {
   padding: 0 var(--space-small);
