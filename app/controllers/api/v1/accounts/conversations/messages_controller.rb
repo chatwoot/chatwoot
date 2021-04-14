@@ -4,8 +4,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def create
-    user = current_user || @resource
-    mb = Messages::MessageBuilder.new(user, @conversation, params)
+    user = Current.user || @resource
+    mb = Messages::MessageBuilder.new(user, @conversation, {})
     @message = mb.perform
   rescue StandardError => e
     render_could_not_create_error(e.message)
