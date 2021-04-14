@@ -18,14 +18,19 @@ class Contacts::ContactableInboxesService
   end
 
   def website_contactable_inbox(inbox)
-    latest_contact_inbox = inbox.contact_inboxes.last
-    return if latest_contact_inbox&.conversations.present?
+    latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
+    return unless latest_contact_inbox
+    # FIXME : change this when multiple conversations comes in
+    return if latest_contact_inbox.conversations.present?
 
     { source_id: latest_contact_inbox.source_id, inbox: inbox }
   end
 
   def api_contactable_inbox(inbox)
-    { source_id: SecureRandom.uuid, inbox: inbox }
+    latest_contact_inbox = inbox.contact_inboxes.where(contact: @contact).last
+    source_id = latest_contact_inbox&.source_id || SecureRandom.uuid
+
+    { source_id: source_id, inbox: inbox }
   end
 
   def email_contactable_inbox(inbox)
