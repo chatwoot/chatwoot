@@ -123,12 +123,16 @@ export default {
   },
   computed: {
     showRichContentEditor() {
+      if (this.isOnPrivateNote) {
+        return true;
+      }
+
       if (this.isRichEditorEnabled) {
         const {
           display_rich_content_editor: displayRichContentEditor,
         } = this.uiSettings;
 
-        return this.isOnPrivateNote || displayRichContentEditor;
+        return displayRichContentEditor;
       }
       return false;
     },
@@ -219,9 +223,7 @@ export default {
       return this.attachedFiles.length;
     },
     isRichEditorEnabled() {
-      return (
-        this.isAWebWidgetInbox || this.isAnEmailChannel || this.isOnPrivateNote
-      );
+      return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
