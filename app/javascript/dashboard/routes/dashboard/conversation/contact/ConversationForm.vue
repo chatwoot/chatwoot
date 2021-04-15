@@ -62,10 +62,9 @@
       <button class="button clear" @click.prevent="onCancel">
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('NEW_CONVERSATION.FORM.SUBMIT')"
-      />
+      <woot-button type="submit" :is-loading="conversationsUiFlags.isCreating">
+        {{ $t('NEW_CONVERSATION.FORM.SUBMIT') }}
+      </woot-button>
     </div>
   </form>
 </template>
@@ -112,6 +111,7 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
+      conversationsUiFlags: 'contactConversations/getUIFlags',
     }),
     getNewConversation() {
       return {
