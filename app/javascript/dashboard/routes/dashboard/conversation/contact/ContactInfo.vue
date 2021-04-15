@@ -81,7 +81,6 @@
         @cancel="toggleEditModal"
       />
       <new-conversation
-        v-if="showConversationModal"
         :show="showConversationModal"
         :contact="contact"
         @cancel="toggleConversationModal"
