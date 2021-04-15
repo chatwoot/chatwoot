@@ -72,6 +72,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import alertMixin from 'shared/mixins/alertMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
@@ -81,6 +82,9 @@ import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { MAXIMUM_FILE_UPLOAD_SIZE } from 'shared/constants/messages';
+
 import {
   isEscape,
   isEnter,
@@ -100,7 +104,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [clickaway, inboxMixin, uiSettingsMixin],
+  mixins: [clickaway, inboxMixin, uiSettingsMixin, alertMixin],
   props: {
     inReplyTo: {
       type: [String, Number],
@@ -351,21 +355,28 @@ export default {
       }
     },
     onFileUpload(file) {
-      this.attachedFiles = [];
       if (!file) {
         return;
       }
-      const reader = new FileReader();
-      reader.readAsDataURL(file.file);
-
-      reader.onloadend = () => {
-        this.attachedFiles.push({
-          currentChatId: this.currentChat.id,
-          resource: file,
-          isPrivate: this.isPrivate,
-          thumb: reader.result,
-        });
-      };
+      if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        this.attachedFiles = [];
+        const reader = new FileReader();
+        reader.readAsDataURL(file.file);
+        reader.onloadend = () => {
+          this.attachedFiles.push({
+            currentChatId: this.currentChat.id,
+            resource: file,
+            isPrivate: this.isPrivate,
+            thumb: reader.result,
+          });
+        };
+      } else {
+        this.showAlert(
+          this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
+            MAXIMUM_FILE_UPLOAD_SIZE,
+          })
+        );
+      }
     },
     removeAttachment(itemIndex) {
       this.attachedFiles = this.attachedFiles.filter(
