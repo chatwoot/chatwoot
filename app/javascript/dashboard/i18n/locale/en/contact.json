@@ -108,6 +108,7 @@
     "BUTTON_LABEL": "Start conversation",
     "TITLE": "New conversation",
     "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
         "LABEL": "To"
@@ -122,7 +123,9 @@
         "ERROR": "Message can't be empty"
       },
       "SUBMIT": "Send message",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
     }
   },
   "CONTACTS_PAGE": {

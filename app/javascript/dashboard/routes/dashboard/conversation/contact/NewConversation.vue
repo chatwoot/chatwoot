@@ -7,9 +7,7 @@
       />
       <conversation-form
         :contact="contact"
-        :in-progress="uiFlags.isCreating"
         :on-submit="onSubmit"
-        :inboxes="inboxes"
         @success="onSuccess"
         @cancel="onCancel"
       />
@@ -18,7 +16,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import ConversationForm from './ConversationForm';
 
 export default {
@@ -34,18 +31,11 @@ export default {
       type: Object,
       default: () => ({}),
     },
-    inboxes: {
-      type: Object,
-      default: () => [],
-    },
   },
-
-  computed: {
-    ...mapGetters({
-      uiFlags: 'contacts/getUIFlags',
-    }),
+  mounted() {
+    const { id } = this.contact;
+    this.$store.dispatch('contacts/fetchContactableInbox', id);
   },
-
   methods: {
     onCancel() {
       this.$emit('cancel');

@@ -3,11 +3,7 @@
     <span class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
-    <contact-info
-      :show-new-message="true"
-      :contact="contact"
-      :messagable-inboxes="messagableInboxes"
-    />
+    <contact-info :show-new-message="true" :contact="contact" />
     <contact-custom-attributes
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
@@ -35,10 +31,6 @@ export default {
     contact: {
       type: Object,
       default: () => ({}),
-    },
-    messagableInboxes: {
-      type: Object,
-      default: () => [],
     },
     onClose: {
       type: Function,

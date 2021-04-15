@@ -20,27 +20,19 @@ export const getters = {
 };
 
 export const actions = {
-  create: async ({ commit }, { inboxId, message }) => {
+  create: async ({ commit }, { inboxId, message, contactId }) => {
     commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
       isCreating: true,
     });
     try {
-      // const response =
       await ConversationApi.create({
         inbox_id: inboxId,
+        contact_id: contactId,
         message,
       });
-      // commit(types.default.SET_CONTACT_CONVERSATIONS, {
-      //   id: contactId,
-      //   data: response.data.payload,
-      // });
-      // commit(types.default.SET_ALL_CONVERSATION, response.data.payload, {
-      //   root: true,
-      // });
-      commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
-        isCreating: false,
-      });
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, {
         isCreating: false,
       });

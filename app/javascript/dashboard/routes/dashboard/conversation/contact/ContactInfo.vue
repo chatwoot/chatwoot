@@ -50,7 +50,7 @@
         </div>
       </div>
       <woot-button
-        v-if="!showNewConversationButton"
+        v-if="!showNewMessage"
         class="edit-contact"
         variant="clear link"
         size="small"
@@ -84,7 +84,6 @@
         v-if="showConversationModal"
         :show="showConversationModal"
         :contact="contact"
-        :inboxes="messagableInboxes"
         @cancel="toggleConversationModal"
       />
     </div>
@@ -118,10 +117,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    messagableInboxes: {
-      type: Object,
-      default: () => [],
-    },
   },
   data() {
     return {
@@ -140,15 +135,6 @@ export default {
       } = this.additionalAttributes;
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
-    },
-    showNewConversationButton() {
-      const { phone_number: phoneNumber = '', email = '' } = this.contact;
-      const hasPhoneOrEmail = phoneNumber || email;
-      return (
-        this.messagableInboxes.length !== 0 &&
-        hasPhoneOrEmail &&
-        this.showNewMessage
-      );
     },
   },
   methods: {

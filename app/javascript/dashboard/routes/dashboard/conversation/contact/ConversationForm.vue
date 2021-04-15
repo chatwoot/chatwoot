@@ -1,50 +1,61 @@
 <template>
   <form class="conversation--form" @submit.prevent="handleSubmit">
-    <div class="row">
-      <div class="columns">
-        <label :class="{ error: $v.targetInbox.$error }">
-          {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
-          <select v-model="targetInbox">
-            <option v-for="inbox in inboxes" :key="inbox.id" :value="inbox">
-              {{ inbox.name }}
-            </option>
-          </select>
-          <span v-if="$v.targetInbox.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
-          </span>
-        </label>
-      </div>
-      <div class="columns">
-        <label>
-          {{ $t('NEW_CONVERSATION.FORM.TO.LABEL') }}
-          <div class="contact-input">
-            <thumbnail
-              :src="contact.thumbnail"
-              size="24px"
-              :username="contact.name"
-              :status="contact.availability_status"
-            />
-            <h4 class="text-block-title contact-name">
-              {{ contact.name }}
-            </h4>
-          </div>
-        </label>
-      </div>
+    <div v-if="showNoInboxAlert" class="callout warning">
+      <p>
+        {{ $t('NEW_CONVERSATION.NO_INBOX') }}
+      </p>
     </div>
-    <div class="row">
-      <div class="columns">
-        <label :class="{ error: $v.message.$error }">
-          {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
-          <textarea
-            v-model="message"
-            type="text"
-            :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
-            @input="$v.message.$touch"
-          />
-          <span v-if="$v.message.$error" class="message">
-            {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
-          </span>
-        </label>
+    <div v-else>
+      <div class="row">
+        <div class="columns">
+          <label :class="{ error: $v.targetInbox.$error }">
+            {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
+            <select v-model="targetInbox">
+              <option
+                v-for="{ inbox } in inboxes"
+                :key="inbox.id"
+                :value="inbox"
+              >
+                {{ inbox.name }}
+              </option>
+            </select>
+            <span v-if="$v.targetInbox.$error" class="message">
+              {{ $t('NEW_CONVERSATION.FORM.INBOX.ERROR') }}
+            </span>
+          </label>
+        </div>
+        <div class="columns">
+          <label>
+            {{ $t('NEW_CONVERSATION.FORM.TO.LABEL') }}
+            <div class="contact-input">
+              <thumbnail
+                :src="contact.thumbnail"
+                size="24px"
+                :username="contact.name"
+                :status="contact.availability_status"
+              />
+              <h4 class="text-block-title contact-name">
+                {{ contact.name }}
+              </h4>
+            </div>
+          </label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="columns">
+          <label :class="{ error: $v.message.$error }">
+            {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
+            <textarea
+              v-model="message"
+              type="text"
+              :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
+              @input="$v.message.$touch"
+            />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('NEW_CONVERSATION.FORM.MESSAGE.ERROR') }}
+            </span>
+          </label>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -52,7 +63,7 @@
         {{ $t('NEW_CONVERSATION.FORM.CANCEL') }}
       </button>
       <woot-submit-button
-        :loading="inProgress"
+        :loading="uiFlags.isCreating"
         :button-text="$t('NEW_CONVERSATION.FORM.SUBMIT')"
       />
     </div>
@@ -60,6 +71,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 
 import alertMixin from 'shared/mixins/alertMixin';
@@ -75,14 +87,6 @@ export default {
     contact: {
       type: Object,
       default: () => ({}),
-    },
-    inboxes: {
-      type: Object,
-      default: () => [],
-    },
-    inProgress: {
-      type: Boolean,
-      default: false,
     },
     onSubmit: {
       type: Function,
@@ -106,11 +110,14 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+    }),
     getNewConversation() {
       return {
         inboxId: this.targetInbox.id,
         contactId: this.contact.id,
-        message: this.message,
+        message: { content: this.message },
       };
     },
     targetInbox: {
@@ -120,6 +127,15 @@ export default {
       set(value) {
         this.selectedInbox = value;
       },
+    },
+    showNoInboxAlert() {
+      if (!this.contact.contactableInboxes) {
+        return false;
+      }
+      return this.inboxes.length === 0 && !this.uiFlags.isFetchingInboxes;
+    },
+    inboxes() {
+      return this.contact.contactableInboxes || [];
     },
   },
   methods: {
@@ -140,12 +156,12 @@ export default {
 
         await this.onSubmit(payload);
         this.onSuccess();
-        this.showAlert(this.$t('NEW_CONVERSATION.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('NEW_CONVERSATION.FORM.SUCCESS_MESSAGE'));
       } catch (error) {
         if (error instanceof ExceptionWithMessage) {
           this.showAlert(error.data);
         } else {
-          this.showAlert(this.$t('NEW_CONVERSATION.ERROR_MESSAGE'));
+          this.showAlert(this.$t('NEW_CONVERSATION.FORM.ERROR_MESSAGE'));
         }
       }
     },

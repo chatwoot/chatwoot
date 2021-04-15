@@ -24,7 +24,6 @@
     <contact-info-panel
       v-if="showContactViewPane"
       :contact="selectedContact"
-      :messagable-inboxes="messagableInboxes"
       :on-close="closeContactInfoPanel"
     />
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
@@ -60,7 +59,6 @@ export default {
       records: 'contacts/getContacts',
       uiFlags: 'contacts/getUIFlags',
       meta: 'contacts/getMeta',
-      messagableInboxes: 'inboxes/getNewConversationInboxes',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
