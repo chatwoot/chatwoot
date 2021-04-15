@@ -22,7 +22,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def create
-    @conversation = ::Conversation.create!(conversation_params)
+    ActiveRecord::Base.transaction do
+      @conversation = ::Conversation.create!(conversation_params)
+      Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
+    end
   end
 
   def show; end
@@ -78,16 +81,29 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def contact_inbox
+    @contact_inbox = build_contact_inbox
+
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
   end
 
+  def build_contact_inbox
+    return if params[:contact_id].blank? || params[:inbox_id].blank?
+
+    ContactInboxBuilder.new(
+      contact_id: params[:contact_id],
+      inbox_id: params[:inbox_id],
+      source_id: params[:source_id]
+    ).perform
+  end
+
   def conversation_params
+    additional_attributes = params[:additional_attributes]&.permit! || {}
     {
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: params[:additional_attributes]
+      additional_attributes: additional_attributes
     }
   end
 
