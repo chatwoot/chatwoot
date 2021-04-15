@@ -12,11 +12,11 @@
             {{ $t('NEW_CONVERSATION.FORM.INBOX.LABEL') }}
             <select v-model="targetInbox">
               <option
-                v-for="{ inbox } in inboxes"
-                :key="inbox.id"
-                :value="inbox"
+                v-for="contactableInbox in inboxes"
+                :key="contactableInbox.inbox.id"
+                :value="contactableInbox"
               >
-                {{ inbox.name }}
+                {{ contactableInbox.inbox.name }}
               </option>
             </select>
             <span v-if="$v.targetInbox.$error" class="message">
@@ -115,7 +115,8 @@ export default {
     }),
     getNewConversation() {
       return {
-        inboxId: this.targetInbox.id,
+        inboxId: this.targetInbox.inbox.id,
+        sourceId: this.targetInbox.source_id,
         contactId: this.contact.id,
         message: { content: this.message },
       };
