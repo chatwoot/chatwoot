@@ -69,6 +69,9 @@ Rails.application.routes.draw do
               get :search
               post :import
             end
+            member do
+              get :contactable_inboxes
+            end
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]

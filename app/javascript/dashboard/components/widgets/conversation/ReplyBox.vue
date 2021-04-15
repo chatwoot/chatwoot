@@ -137,7 +137,7 @@ export default {
       return !!this.uiSettings.enter_to_send_enabled;
     },
     isPrivate() {
-      if (this.currentChat.can_reply) {
+      if (this.currentChat.can_reply || this.isATwilioWhatsappChannel) {
         return this.isOnPrivateNote;
       }
       return true;
@@ -234,7 +234,7 @@ export default {
         return;
       }
 
-      if (canReply) {
+      if (canReply || this.isATwilioWhatsappChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -309,7 +309,7 @@ export default {
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       const { can_reply: canReply } = this.currentChat;
 
-      if (canReply) this.replyType = mode;
+      if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
       if (this.showRichContentEditor) {
         return;
       }

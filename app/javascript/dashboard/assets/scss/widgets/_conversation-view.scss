@@ -230,6 +230,10 @@
     }
   }
 
+  &.center {
+    justify-content: center;
+  }
+
   .wrap {
     @include margin($zero $space-normal);
     max-width: 69%;
@@ -258,17 +262,12 @@
     margin: var(--space-small) var(--space-normal);
     padding: var(--space-small) var(--space-normal);
 
-    @include breakpoint(xlarge up) {
-      margin: var(--space-small) auto;
-    }
-
     .is-text {
       display: inline-block;
       text-align: start;
 
-      @include breakpoint(xlarge up) {
+      @include breakpoint(xxxlarge up) {
         display: flex;
-        text-align: center;
       }
     }
   }
