@@ -123,10 +123,14 @@ export default {
   },
   computed: {
     showRichContentEditor() {
-      const {
-        display_rich_content_editor: displayRichContentEditor,
-      } = this.uiSettings;
-      return this.isOnPrivateNote || displayRichContentEditor;
+      if (this.isRichEditorEnabled) {
+        const {
+          display_rich_content_editor: displayRichContentEditor,
+        } = this.uiSettings;
+
+        return this.isOnPrivateNote || displayRichContentEditor;
+      }
+      return false;
     },
     ...mapGetters({ currentChat: 'getSelectedChat' }),
     enterToSendEnabled() {
