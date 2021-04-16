@@ -127,10 +127,18 @@ export default {
   },
   computed: {
     showRichContentEditor() {
-      const {
-        display_rich_content_editor: displayRichContentEditor,
-      } = this.uiSettings;
-      return this.isOnPrivateNote || displayRichContentEditor;
+      if (this.isOnPrivateNote) {
+        return true;
+      }
+
+      if (this.isRichEditorEnabled) {
+        const {
+          display_rich_content_editor: displayRichContentEditor,
+        } = this.uiSettings;
+
+        return displayRichContentEditor;
+      }
+      return false;
     },
     ...mapGetters({ currentChat: 'getSelectedChat' }),
     enterToSendEnabled() {
@@ -219,9 +227,7 @@ export default {
       return this.attachedFiles.length;
     },
     isRichEditorEnabled() {
-      return (
-        this.isAWebWidgetInbox || this.isAnEmailChannel || this.isOnPrivateNote
-      );
+      return this.isAWebWidgetInbox || this.isAnEmailChannel;
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
