@@ -15,7 +15,7 @@
       </div>
       <available-agents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <woot-button
+    <custom-button
       class="font-medium"
       block
       :bg-color="widgetColor"
@@ -23,7 +23,7 @@
       @click="startConversation"
     >
       {{ $t('START_CONVERSATION') }}
-    </woot-button>
+    </custom-button>
   </div>
 </template>
 
@@ -31,7 +31,7 @@
 import { mapGetters } from 'vuex';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
-import WootButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 
@@ -39,7 +39,7 @@ export default {
   name: 'TeamAvailability',
   components: {
     AvailableAgents,
-    WootButton,
+    CustomButton,
   },
   mixins: [configMixin, availabilityMixin],
   props: {

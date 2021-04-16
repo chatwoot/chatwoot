@@ -61,7 +61,9 @@ export default {
   },
 
   isLoggedIn() {
-    return !!Cookies.getJSON('auth_data');
+    const hasAuthCookie = !!Cookies.getJSON('auth_data');
+    const hasUserCookie = !!Cookies.getJSON('user');
+    return hasAuthCookie && hasUserCookie;
   },
 
   isAdmin() {
@@ -79,7 +81,9 @@ export default {
   },
   getPubSubToken() {
     if (this.isLoggedIn()) {
-      return Cookies.getJSON('user').pubsub_token;
+      const user = Cookies.getJSON('user') || {};
+      const { pubsub_token: pubsubToken } = user;
+      return pubsubToken;
     }
     return null;
   },

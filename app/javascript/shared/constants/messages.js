@@ -10,3 +10,5 @@ export const MESSAGE_TYPE = {
   ACTIVITY: 2,
   TEMPLATE: 3,
 };
+// Size in mega bytes
+export const MAXIMUM_FILE_UPLOAD_SIZE = 40;

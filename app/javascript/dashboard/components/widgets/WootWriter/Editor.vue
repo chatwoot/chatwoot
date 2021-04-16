@@ -188,6 +188,7 @@ export default {
 
   > .ProseMirror {
     padding: 0;
+    word-break: break-word;
   }
 }
 
