@@ -13,7 +13,7 @@
   >
     <spinner v-if="isLoading" size="small" />
     <i v-else-if="icon" class="icon" :class="icon"></i>
-    <span v-if="$slots.default" class="content"><slot></slot></span>
+    <span v-if="$slots.default" class="button__content"><slot></slot></span>
   </button>
 </template>
 <script>
@@ -63,11 +63,16 @@ export default {
 .button {
   display: flex;
   align-items: center;
+
+  &.link {
+    padding: 0;
+    margin: 0;
+  }
 }
 .spinner {
   padding: 0 var(--space-small);
 }
-.icon + .content {
+.icon + .button__content {
   padding-left: var(--space-small);
 }
 </style>
