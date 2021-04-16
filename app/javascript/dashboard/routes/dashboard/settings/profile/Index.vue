@@ -64,6 +64,20 @@
           <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
         </div>
         <div class="columns small-9 medium-5">
+          <label :class="{ error: $v.currentPassword.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL') }}
+            <input
+              v-model.trim="currentPassword"
+              type="password"
+              :placeholder="
+                $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')
+              "
+              @input="$v.currentPassword.$touch"
+            />
+            <span v-if="$v.currentPassword.$error" class="message">
+              {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR') }}
+            </span>
+          </label>
           <label :class="{ error: $v.password.$error }">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
             <input
@@ -94,7 +108,9 @@
             :is-loading="isPasswordChanging"
             type="submit"
             :disabled="
-              !passwordConfirmation || !$v.passwordConfirmation.isEqPassword
+              !currentPassword ||
+                !passwordConfirmation ||
+                !$v.passwordConfirmation.isEqPassword
             "
           >
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
@@ -136,6 +152,7 @@ export default {
       name: '',
       displayName: '',
       email: '',
+      currentPassword: '',
       password: '',
       passwordConfirmation: '',
       isProfileUpdating: false,
@@ -148,9 +165,13 @@ export default {
       minLength: minLength(1),
     },
     displayName: {},
+
     email: {
       required,
       email,
+    },
+    currentPassword: {
+      required,
     },
     password: {
       minLength: minLength(6),
@@ -210,6 +231,7 @@ export default {
           password: this.password,
           displayName: this.displayName,
           password_confirmation: this.passwordConfirmation,
+          currentPassword: this.currentPassword,
         });
         this.isProfileUpdating = false;
         this.isPasswordChanging = false;
