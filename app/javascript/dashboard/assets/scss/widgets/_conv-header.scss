@@ -8,20 +8,15 @@ $resolve-button-width: 13.2rem;
   @include flex-align($x: justify, $y: middle);
   @include border-normal-bottom;
 
-  // Resolve Button
-  .button {
-    @include margin(0);
-    @include flex;
-  }
-
   .multiselect-box {
     @include flex;
     @include flex-align($x: justify, $y: middle);
-    @include border-light;
-    border-radius: $space-smaller;
+    border: 1px solid var(--color-border);
+    border-radius: var(--space-smaller);
     margin-right: var(--space-small);
+    width: 20.2rem;
 
-    &::before {
+    .icon {
       color: $medium-gray;
       font-size: $font-size-default;
       line-height: 3.8rem;
@@ -31,6 +26,7 @@ $resolve-button-width: 13.2rem;
 
     .multiselect {
       margin: 0;
+      min-width: 0;
 
       .multiselect__tags {
         border: 0;
@@ -62,26 +58,6 @@ $resolve-button-width: 13.2rem;
       font-size: $font-size-mini;
       margin-top: $space-micro;
       padding: 0;
-    }
-  }
-}
-
-.button.resolve--button {
-  @include flex-align($x: center, $y: middle);
-  font-size: var(--font-size-default);
-  width: $resolve-button-width;
-
-  >.icon {
-    font-size: $font-size-default;
-    padding-right: $space-small;
-  }
-
-  .spinner {
-    margin-right: $space-smaller;
-    padding: 0 $space-one;
-
-    &::before {
-      border-top-color: $color-white;
     }
   }
 }

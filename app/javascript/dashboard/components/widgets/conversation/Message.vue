@@ -143,7 +143,11 @@ export default {
       return `https://twitter.com/${screenName}`;
     },
     alignBubble() {
-      return !this.data.message_type ? 'left' : 'right';
+      const { message_type: messageType } = this.data;
+      if (messageType === MESSAGE_TYPE.ACTIVITY) {
+        return 'center';
+      }
+      return !messageType ? 'left' : 'right';
     },
     readableTime() {
       return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
