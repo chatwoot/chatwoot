@@ -187,7 +187,7 @@ export default {
         return '';
       }
       const countryFlag = countryCode ? flag(countryCode) : '🌎';
-      return `${countryFlag} ${cityAndCountry}`;
+      return `${cityAndCountry} ${countryFlag}`;
     },
     platformName() {
       const {
