@@ -43,7 +43,9 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
 Vue.use(Vuelidate);
-Vue.use(VTooltip);
+Vue.use(VTooltip, {
+  defaultHtml: false,
+});
 Vue.use(hljs.vuePlugin);
 
 Vue.component('multiselect', Multiselect);
