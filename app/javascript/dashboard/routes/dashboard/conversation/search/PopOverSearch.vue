@@ -82,10 +82,8 @@ export default {
     ...mapGetters({
       conversations: 'conversationSearch/getConversations',
       uiFlags: 'conversationSearch/getUIFlags',
+      currentPage: 'conversationPage/getCurrentPage',
     }),
-    currentPage() {
-      return this.$store.state.conversationPage.currentPage;
-    },
     resultsCount() {
       return this.conversations.length;
     },
@@ -116,7 +114,7 @@ export default {
     },
     currentPage() {
       this.clearSearchTerm();
-    }
+    },
   },
 
   mounted() {
