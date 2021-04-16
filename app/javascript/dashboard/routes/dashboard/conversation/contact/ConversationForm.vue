@@ -47,6 +47,7 @@
             {{ $t('NEW_CONVERSATION.FORM.MESSAGE.LABEL') }}
             <textarea
               v-model="message"
+              class="message-input"
               type="text"
               :placeholder="$t('NEW_CONVERSATION.FORM.MESSAGE.PLACEHOLDER')"
               @input="$v.message.$touch"
@@ -95,7 +96,6 @@ export default {
   data() {
     return {
       name: '',
-      phoneNumber: '',
       message: '',
       selectedInbox: '',
     };
@@ -197,6 +197,10 @@ export default {
     margin: 0;
     margin-left: var(--space-small);
   }
+}
+
+.message-input {
+  min-height: 8rem;
 }
 
 .modal-footer {

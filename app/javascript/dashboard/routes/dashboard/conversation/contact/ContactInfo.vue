@@ -64,7 +64,7 @@
           size="small expanded"
           @click="toggleConversationModal"
         >
-          {{ 'New conversation' }}
+          {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
         </woot-button>
         <woot-button
           variant="hollow"
@@ -212,6 +212,5 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
-  /* padding-left: var(--space-medium); */
 }
 </style>
