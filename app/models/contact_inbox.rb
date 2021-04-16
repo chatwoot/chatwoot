@@ -53,10 +53,10 @@ class ContactInbox < ApplicationRecord
 
   def validate_twilio_source_id
     # https://www.twilio.com/docs/glossary/what-e164#regex-matching-for-e164
-    if inbox.channel.medium == 'sms' && !/^\+[1-9]\d{1,14}$/.match?(source_id)
-      errors.add(:source_id, 'invalid source id for twilio sms inbox. valid Regex /^\+[1-9]\d{1,14}$/')
-    elsif inbox.channel.medium == 'whatsapp' && !/^whatsapp:\+[1-9]\d{1,14}$/.match?(source_id)
-      errors.add(:source_id, 'invalid source id for twilio whatsapp inbox. valid Regex /^whatsapp:\+[1-9]\d{1,14}$/')
+    if inbox.channel.medium == 'sms' && !/\+[1-9]\d{1,14}\z/.match?(source_id)
+      errors.add(:source_id, 'invalid source id for twilio sms inbox. valid Regex /\+[1-9]\d{1,14}\z/')
+    elsif inbox.channel.medium == 'whatsapp' && !/whatsapp:\+[1-9]\d{1,14}\z/.match?(source_id)
+      errors.add(:source_id, 'invalid source id for twilio whatsapp inbox. valid Regex /whatsapp:\+[1-9]\d{1,14}\z/')
     end
   end
 
