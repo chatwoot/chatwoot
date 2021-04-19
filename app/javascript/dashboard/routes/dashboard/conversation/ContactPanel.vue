@@ -25,10 +25,8 @@
         >
           <template slot="option" slot-scope="props">
             <div class="option__desc">
-              <div
-                :class="
-                  `status-badge status-badge__${props.option.availability_status}`
-                "
+              <availability-status-badge
+                :availability-status="props.option.availability_status"
               />
               <span class="option__title">{{ props.option.name }}</span>
             </div>
@@ -122,6 +120,8 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
+
 import flag from 'country-code-emoji';
 
 export default {
@@ -131,6 +131,7 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
+    AvailabilityStatusBadge,
   },
   mixins: [alertMixin],
   props: {

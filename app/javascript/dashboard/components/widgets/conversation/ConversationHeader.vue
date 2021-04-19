@@ -48,10 +48,8 @@
         >
           <template slot="option" slot-scope="props">
             <div class="option__desc">
-              <div
-                :class="
-                  `status-badge status-badge__${props.option.availability_status}`
-                "
+              <availability-status-badge
+                :availability-status="props.option.availability_status"
               />
               <span class="option__title">{{ props.option.name }}</span>
             </div>
@@ -67,11 +65,13 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
 
 export default {
   components: {
     MoreActions,
     Thumbnail,
+    AvailabilityStatusBadge,
   },
 
   props: {

@@ -1,10 +1,9 @@
 <template>
   <div class="status">
     <div class="status-view">
-      <div
-        :class="`status-badge status-badge__${currentUserAvailabilityStatus}`"
+      <availability-status-badge
+        :availability-status="currentUserAvailabilityStatus"
       />
-
       <div class="status-view--title">
         {{ availabilityDisplayLabel }}
       </div>
@@ -48,6 +47,7 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
 
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
@@ -55,6 +55,7 @@ export default {
   components: {
     WootDropdownMenu,
     WootDropdownItem,
+    AvailabilityStatusBadge,
   },
 
   mixins: [clickaway],
