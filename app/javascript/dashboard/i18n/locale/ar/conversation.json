@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "LAST_INCOMING_TWEET": "أنت ترد على آخر تغريدة واردة",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
@@ -56,6 +58,7 @@
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
     "CHANGE_TEAM": "تم تغيير فريق المحادثة",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "اختر وكيل",
