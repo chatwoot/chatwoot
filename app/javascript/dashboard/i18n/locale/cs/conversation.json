@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
     "LAST_INCOMING_TWEET": "Odpovídáte na poslední příchozí tweet",
     "REPLYING_TO": "Odpovídáte uživateli:",
     "REMOVE_SELECTION": "Odstranit výběr",
@@ -56,6 +58,7 @@
     "CHANGE_STATUS": "Stav konverzace byl změněn",
     "CHANGE_AGENT": "Konverzace pověřená osoba změněna",
     "CHANGE_TEAM": "Tým konverzace se změnil",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Odeslal:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Vybrat agenta",
