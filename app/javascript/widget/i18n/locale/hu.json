@@ -48,5 +48,6 @@
         "ERROR": "Az üzenet túl rövid"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet"
 }
