@@ -39,11 +39,11 @@
         "ERROR": "Bitte gebe eine gültige automatische Auflösungsdauer ein (mindestens 1 Tag)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "INBOUND_EMAIL_ENABLED": "Für dein Konto wurde der Empfang von E-Mails aktiviert.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kannst E-Mails jetzt von der festgelegten Domain erhalten."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisiere deine Installation."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -67,9 +67,9 @@
     },
     "TYPE_LABEL": {
       "conversation_creation": "Neue Unterhaltung",
-      "conversation_assignment": "Conversation Assigned",
+      "conversation_assignment": "Unterhaltung zugewiesen",
       "assigned_conversation_new_message": "Neue Nachricht",
-      "conversation_mention": "Mention"
+      "conversation_mention": "Erwähnung"
     }
   }
 }
