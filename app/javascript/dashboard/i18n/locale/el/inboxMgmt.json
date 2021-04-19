@@ -88,7 +88,7 @@
         "SUBMIT_BUTTON": "Δημιουργία Κιβωτίου"
       },
       "TWILIO": {
-        "TITLE": "SMS κανάλι από το Twillio",
+        "TITLE": "SMS κανάλι από το Twilio",
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
@@ -116,7 +116,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL επανάκλησης",
-          "SUBTITLE": "Πρέπει να ρυθμίσετε το callback URL στο Twillio με το URL που αναφέρεται εδώ."
+          "SUBTITLE": "Πρέπει να ρυθμίσετε το callback URL στο Twilio με το URL που αναφέρεται εδώ."
         },
         "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twillio",
         "API": {

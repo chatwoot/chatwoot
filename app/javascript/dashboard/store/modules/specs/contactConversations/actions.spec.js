@@ -38,4 +38,43 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#create', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.post.mockResolvedValue({ data: conversationList[0] });
+      await actions.create(
+        { commit },
+        { inboxId: 1, message: { content: 'hi' }, contactId: 4, sourceId: 5 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
+
+        [
+          types.default.ADD_CONTACT_CONVERSATION,
+          { id: 4, data: conversationList[0] },
+        ],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+
+      await expect(
+        actions.create(
+          { commit },
+          { inboxId: 1, message: { content: 'hi' }, contactId: 4, sourceId: 5 }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG, { isCreating: true }],
+        [
+          types.default.SET_CONTACT_CONVERSATIONS_UI_FLAG,
+          { isCreating: false },
+        ],
+      ]);
+    });
+  });
 });

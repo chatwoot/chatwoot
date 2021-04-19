@@ -4,7 +4,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search]
-  before_action :fetch_contact, only: [:show, :update]
+  before_action :fetch_contact, only: [:show, :update, :contactable_inboxes]
 
   def index
     @contacts_count = resolved_contacts.count
@@ -39,6 +39,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def show; end
+
+  def contactable_inboxes
+    @contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
+  end
 
   def create
     ActiveRecord::Base.transaction do

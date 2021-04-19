@@ -118,7 +118,7 @@
           "TITLE": "URL Callback",
           "SUBTITLE": "Anda harus mengkonfigurasi pesan URL callback di Twilio dengan URL yang disebutkan di sini."
         },
-        "SUBMIT_BUTTON": "Buat Channel Twillio",
+        "SUBMIT_BUTTON": "Buat Channel Twilio",
         "API": {
           "ERROR_MESSAGE": "Kami tidak dapat mengautentikasi kredensial Twilio, harap coba lagi"
         }
