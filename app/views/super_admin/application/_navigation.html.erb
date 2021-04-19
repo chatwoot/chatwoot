@@ -16,6 +16,7 @@ as defined by the routes in the `admin/` namespace
     users: 'ion ion-person-stalker',
     super_admins: 'ion ion-unlocked',
     access_tokens: 'ion-key',
+    platform_apps: 'ion ion-social-buffer',
     installation_configs: 'ion ion-settings'
   }
 %>
@@ -32,7 +33,7 @@ as defined by the routes in the `admin/` namespace
       <%= link_to "Dashboard", super_admin_root_url %>
     </li>
     <% Administrate::Namespace.new(namespace).resources.each do |resource| %>
-      <% next if ["account_users", "agent_bots","dashboard", "devise/sessions"].include?  resource.resource %>
+      <% next if ["account_users", "agent_bots", "dashboard", "devise/sessions"].include?  resource.resource %>
       <li class="navigation__link navigation__link--<%= nav_link_state(resource) %>">
         <i class="<%= sidebar_icons[resource.resource.to_sym] %>"></i>
         <%= link_to(
