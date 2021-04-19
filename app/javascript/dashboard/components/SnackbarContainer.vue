@@ -31,7 +31,6 @@ export default {
   mounted() {
     bus.$on('newToastMessage', message => {
       this.snackMessages.push({ key: new Date().getTime(), message });
-      console.log(' this.snackMessages', this.snackMessages);
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
       }, this.duration);
