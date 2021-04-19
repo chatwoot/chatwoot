@@ -12,6 +12,7 @@
     "INITIATED_FROM": "تم البدء من",
     "INITIATED_AT": "تم البدء في",
     "IP_ADDRESS": "عنوان IP",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "لا توجد محادثات سابقة مرتبطة بجهة الاتصال هذه.",
       "TITLE": "المحادثات السابقة"
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "أدخل رقم الهاتف الخاص بجهة الاتصال",
-        "LABEL": "رقم الهاتف"
+        "LABEL": "رقم الهاتف",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "أدخل موقع جهة الاتصال",
@@ -103,6 +106,30 @@
     "SUCCESS_MESSAGE": "تم حفظ جهة الاتصال بنجاح",
     "CONTACT_ALREADY_EXIST": "عنوان البريد الإلكتروني هذا مستخدم لجهة اتصال أخرى.",
     "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "محادثة جديدة",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "إلغاء",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "جهات الاتصال",
