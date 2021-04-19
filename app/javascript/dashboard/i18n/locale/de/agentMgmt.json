@@ -22,7 +22,7 @@
     "ADD": {
       "TITLE": "Fügen Sie Ihrem Team einen Agenten hinzu",
       "DESC": "Sie können Personen hinzufügen, die die Unterstützung für Ihre Posteingänge übernehmen können.",
-      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CANCEL_BUTTON_TEXT": "Abbrechen",
       "FORM": {
         "NAME": {
           "LABEL": "Agentenname",
