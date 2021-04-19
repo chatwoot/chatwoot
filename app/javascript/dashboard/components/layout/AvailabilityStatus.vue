@@ -25,7 +25,7 @@
                 :disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
-                <span :class="`status-badge status-badge__${status.value}`" />
+                <availability-status-badge :status="status.value" />
                 {{ status.label }}
               </button>
             </woot-dropdown-item>
@@ -143,26 +143,6 @@ export default {
     &:first-letter {
       text-transform: capitalize;
     }
-  }
-}
-
-.status-badge {
-  width: var(--space-one);
-  height: var(--space-one);
-  margin-right: var(--space-micro);
-  display: inline-block;
-  border-radius: 50%;
-
-  &__online {
-    background: var(--g-400);
-  }
-
-  &__offline {
-    background: var(--b-600);
-  }
-
-  &__busy {
-    background: var(--y-700);
   }
 }
 
