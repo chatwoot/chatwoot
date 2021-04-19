@@ -48,5 +48,6 @@
         "ERROR": "Mensagem muito curta"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }
