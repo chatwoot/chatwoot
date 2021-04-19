@@ -26,7 +26,7 @@
           <template slot="option" slot-scope="props">
             <div class="option__desc">
               <availability-status-badge
-                :availability-status="props.option.availability_status"
+                :status="props.option.availability_status"
               />
               <span class="option__title">{{ props.option.name }}</span>
             </div>
@@ -353,21 +353,5 @@ export default {
 
 .multiselect__label {
   margin-bottom: var(--space-smaller);
-}
-.status-badge {
-  width: var(--space-one);
-  height: var(--space-one);
-  margin-right: var(--space-micro);
-  display: inline-block;
-  border-radius: 50%;
-  &__online {
-    background: var(--g-400);
-  }
-  &__offline {
-    background: var(--b-600);
-  }
-  &__busy {
-    background: var(--y-700);
-  }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div :class="`status-badge status-badge__${availabilityStatus}`" />
+  <span :class="`status-badge status-badge__${status}`" />
 </template>
 <script>
 export default {
   props: {
-    availabilityStatus: { type: String, default: '' },
+    status: { type: String, default: '' },
   },
 };
 </script>

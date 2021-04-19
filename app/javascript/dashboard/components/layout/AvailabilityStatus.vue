@@ -1,9 +1,7 @@
 <template>
   <div class="status">
     <div class="status-view">
-      <availability-status-badge
-        :availability-status="currentUserAvailabilityStatus"
-      />
+      <availability-status-badge :status="currentUserAvailabilityStatus" />
       <div class="status-view--title">
         {{ availabilityDisplayLabel }}
       </div>
