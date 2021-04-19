@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "LAST_INCOMING_TWEET": "Az utolsó beérkező tweetre válaszolsz",
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
@@ -56,6 +58,7 @@
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
+    "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
     "SENT_BY": "Küldő:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
