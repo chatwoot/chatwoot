@@ -33,7 +33,6 @@
       </woot-button>
       <woot-button
         v-if="showDropDown"
-        class="icon--small"
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="ion-arrow-down-b"
@@ -136,14 +135,12 @@ export default {
   align-items: center;
   justify-content: flex-end;
 }
+
 .dropdown-pane {
   left: unset;
   top: 4.2rem;
   margin-top: var(--space-micro);
   right: 0;
   max-width: 20rem;
-}
-.icon--small::v-deep .icon {
-  font-size: var(--font-size-small);
 }
 </style>
