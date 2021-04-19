@@ -6,14 +6,15 @@ class Integrations::Slack::HookBuilder
   end
 
   def perform
-    token = fetch_access_token
+    @slack_access = exchange_temporary_code
 
     hook = account.hooks.new(
-      access_token: token,
+      access_token: @slack_access['access_token'],
       status: 'enabled',
       inbox_id: params[:inbox_id],
       hook_type: hook_type,
-      app_id: 'slack'
+      app_id: 'slack',
+      reference_id: reference_id
     )
 
     hook.save!
@@ -30,14 +31,20 @@ class Integrations::Slack::HookBuilder
     params[:inbox_id] ? 'inbox' : 'account'
   end
 
-  def fetch_access_token
-    client = Slack::Web::Client.new
-    slack_access = client.oauth_v2_access(
+  def exchange_temporary_code
+    Slack::Web::Client.new.oauth_v2_access(
       client_id: ENV.fetch('SLACK_CLIENT_ID', 'TEST_CLIENT_ID'),
       client_secret: ENV.fetch('SLACK_CLIENT_SECRET', 'TEST_CLIENT_SECRET'),
       code: params[:code],
       redirect_uri: Integrations::App.slack_integration_url
     )
-    slack_access['access_token']
+  end
+
+  def reference_id
+    return if @slack_access['incoming_webhook'].blank?
+    return if @slack_access['incoming_webhook']['channel'].blank?
+    return if @slack_access['incoming_webhook']['channel'].split('#')[1].blank?
+
+    @slack_access['incoming_webhook']['channel_id']
   end
 end

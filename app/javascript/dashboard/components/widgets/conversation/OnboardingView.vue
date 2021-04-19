@@ -17,17 +17,6 @@
               })
             }}
           </p>
-          <p>
-            <a
-              href="https://changelog.chatwoot.com"
-              target="_blank"
-              rel="noopener nofollow noreferrer"
-              class="onboarding--link"
-            >
-              {{ $t('ONBOARDING.READ_LATEST_UPDATES') }}
-            </a>
-            <span>🎉</span>
-          </p>
         </div>
         <div class="features-item">
           <h2 class="block-title">
