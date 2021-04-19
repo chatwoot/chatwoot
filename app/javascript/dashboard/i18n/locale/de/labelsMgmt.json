@@ -4,9 +4,9 @@
     "HEADER_BTN_TXT": "Label hinzufügen",
     "LOADING": "Label werden abgerufen",
     "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
-    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Labels help you to categorize conversations and prioritize them. You can assign label to a conversation from the sidepanel. <br /><br />Labels are tied to the account and can be used to create custom workflows in your organization. You can assign custom color to a label, it makes it easier to identify the label. You will be able to display the label on the sidebar to filter the conversations easily.</p>",
+    "SIDEBAR_TXT": "<p><b>Labels</b> <p>Mit Labels können Sie Konversationen kategorisieren und priorisieren. Sie können einer Konversation aus der Seitenleiste ein Label zuweisen. <br /><br />Labels sind an das Konto gebunden und können verwendet werden, um benutzerdefinierte Arbeitsabläufe in Ihrem Unternehmen zu erstellen. Sie können einen Label eine benutzerdefinierte Farbe zuordnen, um die Identifizierung des Labels zu erleichtern. Sie können das Label in der Seitenleiste anzeigen, um die Unterhaltungen einfach zu filtern.</p>",
     "LIST": {
-      "404": "There are no labels available in this account.",
+      "404": "In diesem Konto sind keine Labels verfügbar.",
       "TITLE": "Labels verwalten",
       "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
       "TABLE_HEADER": [
@@ -17,19 +17,19 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Label Name",
-        "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "LABEL": "Labelname",
+        "PLACEHOLDER": "Labelname",
+        "ERROR": "Labelname ist erforderlich"
       },
       "DESCRIPTION": {
         "LABEL": "Beschreibung",
-        "PLACEHOLDER": "Label Description"
+        "PLACEHOLDER": "Label-Beschreibung"
       },
       "COLOR": {
         "LABEL": "Farbe"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Show label on sidebar"
+        "LABEL": "Label in der Seitenleiste anzeigen"
       },
       "EDIT": "Bearbeiten",
       "CREATE": "Erstellen",
@@ -41,7 +41,7 @@
       "DESC": "Mit Labels lassen sich Unterhaltungen zusammenfassen.",
       "API": {
         "SUCCESS_MESSAGE": "Label wurde erfolgreich hinzugefügt",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       }
     },
     "EDIT": {
