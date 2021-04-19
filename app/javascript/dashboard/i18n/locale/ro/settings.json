@@ -3,6 +3,8 @@
     "LINK": "Setări profil",
     "TITLE": "Setări profil",
     "BTN_TEXT": "Actualizeaza profil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Parola ta a fost schimbată cu succes",
     "AFTER_EMAIL_CHANGED": "Profilul tău a fost actualizat cu succes, te rugăm să te autentifici din nou pentru că datele tale de autentificare au fost modificate",
     "FORM": {
       "AVATAR": "Imagine de profil",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
-        "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive."
+        "NOTE": "Actualizarea parolei ar reseta autentificările pe mai multe dispozitive.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token acces",
         "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificări prin e-mail",

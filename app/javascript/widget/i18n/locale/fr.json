@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Nous sommes en ligne",
-    "OFFLINE": "Nous sommes hors ligne"
+    "OFFLINE": "Nous sommes absents pour le moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Répond généralement en quelques minutes",
@@ -48,5 +48,6 @@
         "ERROR": "Message trop court"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

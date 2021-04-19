@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "Criar novo departamento",
     "HEADER": "Times",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Departamentos</b></p> <p>As equipes permitem que você organize seus agentes em grupos baseados em suas responsabilidades. <br /> Um usuário pode fazer parte de várias equipes. Você pode atribuir conversas a uma equipe quando você estiver trabalhando colaborativamente. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Não existem agentes associados a esta conta.",
+      "EDIT_TEAM": "Editar Departamento"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Criar novo departamento",
+        "DESC": "Adicione um título e uma descrição à sua nova equipe."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Adicionar agente ao seu time",
+        "TITLE": "Adicionar agentes ao departamento - %{teamName}",
+        "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa."
       },
       "WIZARD": [
         {
           "title": "Criar",
-          "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "route": "Novo",
+          "body": "Criar uma nova equipe de agentes."
         },
         {
           "title": "Adicionar Agentes",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Adicionar agentes ao departamento."
         },
         {
-          "title": "Finish",
+          "title": "Finalizar",
           "route": "settings_teams_finish",
           "body": "Está tudo pronto para começar!"
         }
@@ -37,88 +37,88 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Editar detalhes de seu departamento",
+        "DESC": "Adicione um título e uma descrição ao seu novo departamento",
+        "BUTTON_TEXT": "Atualizar departamento"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Atualizar agentes no departamento",
+        "TITLE": "Adicionar agentes ao departamento - %{teamName}",
+        "DESC": "Adicionar agentes à sua equipe recém-criada. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a esta equipe."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Detalhes do departamento",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Alterar nome, descrição e outros detalhes."
         },
         {
-          "title": "Edit Agents",
+          "title": "Editar agente",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Gerenciar agentes de seu departamento"
         },
         {
-          "title": "Finish",
+          "title": "Finalizar",
           "route": "settings_teams_edit_finish",
           "body": "Está tudo pronto para começar!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do departamento. Tente novamente."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "AGENTE",
       "EMAIL": "E-mail",
       "BUTTON_TEXT": "Adicionar agentes",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Adicionando agentes à sua caixa de entrada...",
+      "SELECT": "Selecionar",
+      "SELECT_ALL": "Selecionar todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes selecionados."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Adicionar agentes ao departamento - %{teamName}",
+      "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa.",
+      "SELECT": "Selecionar",
+      "SELECT_ALL": "Selecionar todos os agentes",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes selecionados.",
       "BUTTON_TEXT": "Adicionar agentes",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Selecione pelo menos um agente"
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Sua caixa de entrada está pronta!",
+      "MESSAGE": "Agora você pode colaborar como equipe em conversas.",
+      "BUTTON_TEXT": "Finalizar"
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Agente excluído com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível excluir o departamento. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Tem certeza que deseja excluir - %{teamName}",
+        "MESSAGE": "A exclusão do departamento irá remover a atribuição da equipe das conversas atribuídas a esse departamento.",
         "YES": "Excluir ",
         "NO": "Cancelar"
       }
     },
     "SETTINGS": "Confirgurações",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Atualizar departamento",
+      "CREATE": "Criar novo departamento",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Nome do departamento",
+        "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Descrição do departamento",
+        "PLACEHOLDER": "Breve descrição sobre este departamento."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Permitir atribuição automática para este departamento."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Criar novo departamento"
     }
   }
 }

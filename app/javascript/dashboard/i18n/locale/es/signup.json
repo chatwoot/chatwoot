@@ -2,7 +2,7 @@
   "REGISTER": {
     "TRY_WOOT": "Registrar una cuenta",
     "TITLE": "Registrarse",
-    "TERMS_ACCEPT": "Al registrarse, acepta nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
+    "TERMS_ACCEPT": "Al registrarte, aceptas nuestra <a href=\"https://www.chatwoot.com/terms\">T & C</a> y nuestra <a href=\"https://www.chatwoot.com/privacy-policy\">política de privacidad</a>",
     "ACCOUNT_NAME": {
       "LABEL": "Nombre de cuenta",
       "PLACEHOLDER": "Empresas de Wayne",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "No se pudo conectar al servidor Woot, por favor inténtalo de nuevo más tarde"
     },
     "SUBMIT": "Enviar",
-    "HAVE_AN_ACCOUNT": "¿Ya tiene una cuenta?"
+    "HAVE_AN_ACCOUNT": "¿Ya tienes una cuenta?"
   }
 }

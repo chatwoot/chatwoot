@@ -29,6 +29,11 @@ fr:
       failed: L'inscription a échoué
   reports:
     period: Période de rapport %{since} à %{until}
+    agent_csv:
+      agent_name: Nom de l'agent
+      conversations_count: Nombre de conversations
+      avg_first_response_time: Temps de réponse moyen (Minutes)
+      avg_resolution_time: Temps moyen de résolution (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[Nouvelle conversation] - #%{display_id} a été créé dans %{inbox_name}"
@@ -42,6 +47,7 @@ fr:
       status:
         resolved: "La conversation a été marquée résolue par %{user_name}"
         open: "La conversation a été ré-ouverte par %{user_name}"
+        bot: "La conversation a été transférée au robot par %{user_name}"
         auto_resolved: "La conversation a été marquée comme résolue par le système en raison de %{duration} jours d'inactivité"
       assignee:
         self_assigned: "%{user_name} s'est auto-assigné cette conversation"
