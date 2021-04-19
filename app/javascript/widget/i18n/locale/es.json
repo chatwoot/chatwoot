@@ -48,5 +48,6 @@
         "ERROR": "Mensaje demasiado corto"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}"
 }
