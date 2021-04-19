@@ -1,15 +1,14 @@
 <template>
   <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
     <woot-snackbar
-      v-for="snackMessage in snackMessages"
-      :key="snackMessage"
+      v-for="(snackMessage, index) in snackMessages"
+      :key="snackMessage + index"
       :message="snackMessage"
     />
   </transition-group>
 </template>
 
 <script>
-/* global bus */
 import WootSnackbar from './Snackbar';
 
 export default {
