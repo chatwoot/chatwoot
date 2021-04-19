@@ -7,6 +7,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueRouter from 'vue-router';
 import axios from 'axios';
+import feather from 'feather-icons';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
@@ -83,3 +84,5 @@ window.addEventListener('load', () => {
   getAlertAudio();
   initFaviconSwitcher();
 });
+
+feather.replace();

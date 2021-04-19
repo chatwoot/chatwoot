@@ -27,6 +27,7 @@
     "date-fns": "^2.16.1",
     "dompurify": "^2.2.6",
     "dotenv": "^8.0.0",
+    "feather-icons": "^4.28.0",
     "foundation-sites": "~6.5.3",
     "highlight.js": "~10.4.1",
     "ionicons": "~2.0.1",
