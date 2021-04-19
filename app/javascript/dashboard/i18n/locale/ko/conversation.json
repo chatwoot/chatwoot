@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "LAST_INCOMING_TWEET": "마지막 수신 트윗에 회신하는 경우",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
@@ -56,6 +58,7 @@
     "CHANGE_STATUS": "대화 상태가 변경됨",
     "CHANGE_AGENT": "대화 담당자가 변경됨",
     "CHANGE_TEAM": "대화 담당자가 변경됨",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
