@@ -15,8 +15,8 @@ const actions = {
 };
 
 const mutations = {
-  toggleOpen(state) {
-    state.isOpen = !state.isOpen;
+  toggleOpen($state) {
+    $state.isOpen = !$state.isOpen;
   }
 };
 
