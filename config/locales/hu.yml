@@ -29,6 +29,11 @@ hu:
       failed: Feliratkozás sikertelen
   reports:
     period: Jelentési időszak %{since}-tól %{until}-ig
+    agent_csv:
+      agent_name: Ügynök neve
+      conversations_count: Beszélgetésszám
+      avg_first_response_time: Átlagos első reakcióidő (perc)
+      avg_resolution_time: Átlagos megoldási idő (perc)
   notifications:
     notification_title:
       conversation_creation: "[Új beszélgetés] - #%{display_id} létrejött itt:%{inbox_name}"
@@ -42,6 +47,7 @@ hu:
       status:
         resolved: "A beszélgetést lezárta %{user_name}"
         open: "A beszélgetést újranyitotta %{user_name}"
+        bot: "A beszélgetés áthelyezve bothoz %{user_name} által"
         auto_resolved: "A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt"
       assignee:
         self_assigned: "%{user_name} magára osztotta ezt a beszélgetést"
@@ -49,8 +55,8 @@ hu:
         removed: "A beszélgetést gazdátlanná tette %{user_name}"
       team:
         assigned: "%{user_name} ráosztotta a beszélgetést: %{team_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "Hozzárendelve ehhez: %{assignee_name} ezen csoportból %{team_name} általa: %{user_name}"
+        removed: "Hozzárendelés megszüntetve: %{team_name} általa: %{user_name}"
       labels:
         added: "%{user_name} a következő cimkéket adta hozzá: %{labels}"
         removed: "%{user_name} leszedte a következő cimkéket %{labels}"

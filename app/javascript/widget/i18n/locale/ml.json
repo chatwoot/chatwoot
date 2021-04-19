@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
-    "OFFLINE": "ഞങ്ങൾ ഓഫ്‌ലൈനിലാണ്"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
@@ -48,5 +48,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

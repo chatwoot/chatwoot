@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "팀 생성하기",
+    "HEADER": "팀",
+    "SIDEBAR_TXT": "<p><b>팀</b></p><p>팀은 에이전트들을 각 역할에 따라 그룹화할 수 있게 해줍니다. <br />사용자는 여러 팀에 소속될 수 있습니다. 만약 여러 사용자가 협업해야 할 대화가 있다면 팀에 할당할 수 있습니다.</p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "계정에 연결된 에이전트가 없습니다.",
+      "EDIT_TEAM": "팀 수정하기"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "팀 생성하기",
+        "DESC": "팀명 및 소개를 입력하세요."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "팀에 에이전트 추가",
+        "TITLE": "%{teamName}팀에 에이전트 추가",
+        "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요."
       },
       "WIZARD": [
         {
           "title": "만들기",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "에이전트들로 구성된 새 팀을 만드세요."
         },
         {
           "title": "에이전트 추가",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "팀에 에이전트 추가"
         },
         {
-          "title": "Finish",
+          "title": "완료",
           "route": "settings_teams_finish",
           "body": "준비가 완료되었습니다."
         }
@@ -37,76 +37,76 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
+        "TITLE": "팀 내용 수정",
+        "DESC": "팀명 및 소개를 수정하세요.",
         "BUTTON_TEXT": "Update team"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "에이전트 업데이트",
+        "TITLE": "%{teamName}팀에 에이전트 추가",
+        "DESC": "생성된 팀에 에이전트들을 추가하세요. 본 팀에 대화가 할당되면 추가된 에이전트들에게 알림이 갈 것입니다."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "팀 내용",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "팀명, 소개 등 내용을 수정하세요."
         },
         {
-          "title": "Edit Agents",
+          "title": "에이전트 수정",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "팀 내 에이전트들을 수정하세요."
         },
         {
-          "title": "Finish",
+          "title": "완료",
           "route": "settings_teams_edit_finish",
           "body": "준비가 완료되었습니다."
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "팀 내용을 저장할 수 없습니다. 다시 시도해주세요."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "에이전트",
       "EMAIL": "이메일",
       "BUTTON_TEXT": "에이전트 추가",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "팀에 에이전트를 추가하는 중...",
+      "SELECT": "선택",
+      "SELECT_ALL": "모든 에이전트 선택",
+      "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "%{teamName}팀에 에이전트 추가",
+      "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요.",
+      "SELECT": "선택",
+      "SELECT_ALL": "모든 에이전트 선택",
+      "SELECTED_COUNT": "%{total} 에이전트 중 %{selected} 선택됨.",
       "BUTTON_TEXT": "에이전트 추가",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "최소 1명의 에이전트를 선택하세요."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "준비가 완료되었습니다!",
+      "MESSAGE": "이제 대화들을 팀으로 협업할 수 있게 되었습니다. 즐거운 고객지원 되세요 ",
+      "BUTTON_TEXT": "완료"
     },
     "DELETE": {
       "BUTTON_TEXT": "삭제",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "팀이 성공적으로 삭제되었습니다.",
+        "ERROR_MESSAGE": "팀을 삭제할 수 없습니다. 다시 시도해주세요."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "%{teamName}팀을 삭제하시겠습니까?",
+        "MESSAGE": "팀을 삭제하면 팀에 할당된 대화들에 대한 할당이 모두 해제됩니다.",
         "YES": "삭제 ",
         "NO": "취소"
       }
     },
     "SETTINGS": "설정",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "팀 내용 업데이트",
+      "CREATE": "팀 생성",
       "NAME": {
         "LABEL": "Team name",
         "PLACEHOLDER": "Example: Sales, Customer Support"
@@ -118,7 +118,7 @@
       "AUTO_ASSIGN": {
         "LABEL": "Allow auto assign for this team."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "팀 생성"
     }
   }
 }

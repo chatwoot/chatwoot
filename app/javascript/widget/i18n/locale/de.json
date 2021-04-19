@@ -10,14 +10,14 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Wir sind online",
-    "OFFLINE": "Wir sind offline"
+    "OFFLINE": "Wir sind momentan abwesend"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Antworten in der Regel in wenigen Minuten",
-    "IN_A_FEW_HOURS": "Antworten in der Regel in wenigen Stunden",
-    "IN_A_DAY": "Antworten normalerweise innerhalb eines Tages"
+    "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+    "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+    "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
   },
-  "START_CONVERSATION": "Konversation starten",
+  "START_CONVERSATION": "Sende uns eine Nachricht",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
     "CLOSE_MESSAGES_BUTTON": "Schließen"
@@ -26,27 +26,28 @@
     "LABEL": "Chatten Sie mit uns"
   },
   "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
+  "EMAIL_PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein",
   "CHAT_PLACEHOLDER": "Schreiben Sie Ihre Nachricht",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "TODAY": "Heute",
+  "YESTERDAY": "Gestern",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "Vollständiger Name",
         "PLACEHOLDER": "Bitte geben Sie Ihren Namen ein, dies wird in Gesprächen angezeigt",
-        "ERROR": "Full Name is required"
+        "ERROR": "Vollständiger Name ist erforderlich"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "E-Mail-Addresse",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "Bitte geben Sie ihre E-Mail-Adresse ein",
+        "ERROR": "Ungültige E-Mail-Adresse"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Nachricht",
+        "PLACEHOLDER": "Bitte geben Sie Ihre Nachricht ein",
+        "ERROR": "Nachricht ist zu kurz"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge"
 }

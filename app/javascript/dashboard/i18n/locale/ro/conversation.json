@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Rezolvă",
       "REOPEN_ACTION": "Redeschide",
+      "OPEN_ACTION": "Deschide",
       "OPEN": "Mai mult",
       "CLOSE": "Închide",
       "DETAILS": "detalii"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter pentru linie nouă. Începe cu '/' pentru a selecta un răspuns predeterminat.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "Stare conversație schimbată",
     "CHANGE_AGENT": "Persoana căreia i-a fost ateribuită conversația a fost schimbată",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",

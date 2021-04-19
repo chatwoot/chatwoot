@@ -11,27 +11,33 @@
       "TITLE": "Szukaj wiadomości",
       "LOADING_MESSAGE": "Trwa przetwarzanie danych...",
       "PLACEHOLDER": "Wpisz dowolny tekst, aby wyszukać wiadomości",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Brak wyników."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "Nieprzeczytane wiadomości",
+    "UNREAD_MESSAGE": "Nieprzeczytana wiadomość",
     "CLICK_HERE": "Kliknij tutaj",
     "LOADING_INBOXES": "Ładowanie skrzynek odbiorczych",
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
-    "24_HOURS_WINDOW": "24 hour message window restriction",
+    "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
     "LAST_INCOMING_TWEET": "Odpowiadasz na ostatniego przychodzącego tweeta",
-    "REPLYING_TO": "You are replying to:",
+    "REPLYING_TO": "Osoba, której odpowiadasz to:",
     "REMOVE_SELECTION": "Usuń zaznaczenie",
     "DOWNLOAD": "Pobierz",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "UPLOADING_ATTACHMENTS": "Przesyłanie załączników...",
+    "NO_RESPONSE": "Brak odpowiedzi",
     "HEADER": {
       "RESOLVE_ACTION": "Rozwiąż",
       "REOPEN_ACTION": "Otwórz ponownie",
+      "OPEN_ACTION": "Otwórz",
       "OPEN": "Więcej",
       "CLOSE": "Zamknij",
       "DETAILS": "szczegóły"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter dla nowej linii. Zacznij od '/' aby wybrać Gotową odpowiedź.",
@@ -43,20 +49,21 @@
       "SEND": "Wyślij",
       "CREATE": "Dodaj notatkę",
       "TWEET": "Tweetuj",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
+      "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
+      "TIP_ATTACH_ICON": "Dołącz pliki",
+      "ENTER_TO_SEND": "Naciśnij \"enter\" aby wysłać"
     },
     "VISIBLE_TO_AGENTS": "Prywatna uwaga: widoczne tylko dla Ciebie i twojego zespołu",
     "CHANGE_STATUS": "Status konwersacji zmieniony",
     "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
-    "CHANGE_TEAM": "Conversation team changed",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "Zespół konwersacji został zmieniony",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "SENT_BY": "Wysłane przez:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Wybierz Agenta",
       "REMOVE": "Usuń",
-      "ASSIGN": "Assign"
+      "ASSIGN": "Przypisz"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -68,7 +75,7 @@
     "SEND_EMAIL_ERROR": "Wystąpił błąd, spróbuj ponownie",
     "FORM": {
       "SEND_TO_CONTACT": "Wyślij transkrypt do klienta",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Wyślij transkrypt do przypisanego agenta",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Wyślij transkrypt na inny adres e-mail",
       "EMAIL": {
         "PLACEHOLDER": "Wprowadź adres e-mail",
@@ -77,35 +84,35 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "Cześć 👋, Witamy w %{installationName}!",
+    "DESCRIPTION": "Dziękujemy za rejestracje. Chcemy, abyś skorzystał jak najbardziej z %{installationName}. Oto kilka rzeczy, których możesz spróbować w %{installationName} aby Twoje doświadczenie było możliwie jak najlepsze.",
+    "READ_LATEST_UPDATES": "Zobacz najnowsze aktualizacje",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "Wszystkie Twoje rozmowy w jednym miejscu",
+      "DESCRIPTION": "Zobacz wszystkie konwersacje ze swoimi klientami w jednym miejscu. Możesz filtrować konwersacje według kanału, z którego pochodzą, etykiety lub statusu."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Zaproś członków swojego zespołu",
+      "DESCRIPTION": "Ponieważ jesteś gotów porozmawiać ze swoim klientem, przynieś swoich kolegów z drużyny, aby Ci pomóc. Możesz zaprosić znajomych z drużyny, dodając ich adres e-mail do listy agentów.",
+      "NEW_LINK": "Kliknij tutaj, aby zaprosić członka zespołu"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "Podłącz skrzynki odbiorcze",
+      "DESCRIPTION": "Połącz różne kanały, za pomocą których klienci będą z Tobą rozmawiać. Może to być czat na żywo, strona Facebook lub Twitter lub nawet Twój numer WhatsApp.",
+      "NEW_LINK": "Kliknij tutaj, aby utworzyć skrzynkę odbiorczą"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organizuj rozmowy za pomocą etykiet",
+      "DESCRIPTION": "Etykiety zapewniają łatwiejszy sposób kategoryzacji konwersacji. Utwórz etykiety takie jak #support-enquiry, #billing-question itp., aby móc użyć ich w rozmowie później.",
+      "NEW_LINK": "Kliknij tutaj, aby stworzyć tagi"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Szczegóły rozmowy",
+    "ASSIGNEE_LABEL": "Przypisany Agent",
+    "TEAM_LABEL": "Przypisany zespół",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Brak"
     }
   }
 }

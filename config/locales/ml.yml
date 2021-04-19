@@ -30,10 +30,10 @@ ml:
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
-      agent_name: ഏജന്റിന്റെ പേര്
-      conversations_count: സംഭാഷണങ്ങളുടെ എണ്ണം
-      avg_first_response_time: ശരാശരി ആദ്യ പ്രതികരണ സമയം (മിനിറ്റ്)
-      avg_resolution_time: ശരാശരി മിഴിവ് സമയം (മിനിറ്റ്)
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -47,6 +47,7 @@ ml:
       status:
         resolved: "സംഭാഷണം %{user_name} പരിഹരിച്ചതായി അടയാളപ്പെടുത്തി"
         open: "സംഭാഷണം %{user_name} വീണ്ടും തുറന്നു"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"

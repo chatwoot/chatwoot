@@ -194,6 +194,7 @@
       "TITLE": "Vaše doručená pošta je připravena!",
       "MESSAGE": "Nyní se můžete spojit se svými zákazníky prostřednictvím nového kanálu. Šťastná podpora ",
       "BUTTON_TEXT": "Vezmi mě tam",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Úspěšně jste dokončili vytvoření webového kanálu. Zkopírujte kód zobrazený níže a vložte jej na vaše webové stránky. Když zákazník příště použije živý chat, konverzace se automaticky objeví ve vaší doručené poště."
     },
     "REAUTH": "Znovu autorizovat",
@@ -272,7 +273,7 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
+      "TITLE": "Nastavte svou dostupnost",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "Vyberte časové pásmo",
@@ -286,7 +287,7 @@
         "UNAVAILABLE": "Nedostupný",
         "HOURS": "hodiny",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Vyberte"
       }
     }
   }

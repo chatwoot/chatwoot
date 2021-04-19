@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "സംഭാഷണങ്ങൾ ലോഡു ചെയ്യുന്നു",
     "CANNOT_REPLY": "നിങ്ങൾക്ക് മറുപടി നൽകാൻ കഴിയില്ല",
     "24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 മണിക്കൂർ സന്ദേശ വിൻഡോ നിയന്ത്രണം",
     "LAST_INCOMING_TWEET": "അവസാന ഇൻ‌കമിംഗ് ട്വീറ്റിന് നിങ്ങൾ മറുപടി നൽകുന്നു",
     "REPLYING_TO": "നിങ്ങൾ ഇതിന് മറുപടി നൽകുന്നു:",
     "REMOVE_SELECTION": "തിരഞ്ഞെടുക്കൽ നീക്കംചെയ്യുക",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "പരിഹരിക്കുക",
       "REOPEN_ACTION": "വീണ്ടും തുറക്കുക",
+      "OPEN_ACTION": "സജീവം",
       "OPEN": "കൂടുതൽ",
       "CLOSE": "അടയ്ക്കുക",
       "DETAILS": "വിശദാംശങ്ങൾ"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "പുതിയ ലൈനിനു വേണ്ടി ഷിഫ്റ്റ് + എന്റർ അടിക്കുക. ഒരു ക്യാൻഡ് പ്രതികരണം തിരഞ്ഞു എടുക്കാൻ വേണ്ടി '/ ' വച്ച് ടൈപ്പ് ചെയ്തു തുടങ്ങുക.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "സംഭാഷണ നില മാറ്റി",
     "CHANGE_AGENT": "സംഭാഷണ നിയുക്തനെ മാറ്റി",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "അയച്ചത്:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "ഏജന്റ് തിരഞ്ഞെടുക്കുക",

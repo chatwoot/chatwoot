@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "மேலும் உரையாடல்களை ஏற்றுகிறோம்",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "தீர்",
       "REOPEN_ACTION": "மீண்டும் திற",
+      "OPEN_ACTION": "திற",
       "OPEN": "மேலும்",
       "CLOSE": "மூடு",
       "DETAILS": "விவரங்கள்"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "புதிய வரிக்கு Shift + Enter ஐ அழுத்தவும். பதிவு செய்யப்பட்ட பதிலைத் தேர்ந்தெடுக்க '/' உடன் தொடங்கவும்.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "உரையாடலின் நிலை மாற்றப்பட்டது",
     "CHANGE_AGENT": "உரையாடல் ஒதுக்கீட்டாளர் மாற்றப்பட்டார்",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
