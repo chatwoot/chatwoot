@@ -3,6 +3,8 @@
     "LINK": "Profil ayarları",
     "TITLE": "Profil ayarları",
     "BTN_TEXT": "Profili Güncelle",
+    "UPDATE_SUCCESS": "Profiliniz başarıyla güncellendi",
+    "PASSWORD_UPDATE_SUCCESS": "Şifreniz başarıyla değiştirildi",
     "AFTER_EMAIL_CHANGED": "Profiliniz başarıyla güncellendi, lütfen giriş bilgileriniz değiştiği için tekrar giriş yapın",
     "FORM": {
       "AVATAR": "Profil Resmi",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Parola",
-        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar."
+        "NOTE": "Parolanızı güncellemek, giriş bilgilerinizi birden fazla cihazda sıfırlar.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
         "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Sesli Bildirimler",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-posta Bildirimleri",

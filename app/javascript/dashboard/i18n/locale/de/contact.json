@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Nicht verfügbar",
-    "EMAIL_ADDRESS": "E-Mail-Addresse",
+    "EMAIL_ADDRESS": "E-Mail-Adresse",
     "PHONE_NUMBER": "Telefonnummer",
     "COPY_SUCCESSFUL": "Der Code wurde erfolgreich in die Zwischenablage kopiert",
     "COMPANY": "Firma",
@@ -12,6 +12,7 @@
     "INITIATED_FROM": "Initiiert von",
     "INITIATED_AT": "Initiiert bei",
     "IP_ADDRESS": "IP-Adresse",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
       "TITLE": "Vorherige Gespräche"
@@ -46,9 +47,9 @@
     "DESC": "Kontaktdetails bearbeiten"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Neuer Kontakt",
+    "TITLE": "Neuen Kontakt erstellen",
+    "DESC": "Fügen Sie grundlegende Informationen über den Kontakt hinzu."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
-        "LABEL": "Telefonnummer"
+        "LABEL": "Telefonnummer",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
@@ -100,9 +103,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakt erfolgreich gespeichert",
     "CONTACT_ALREADY_EXIST": "Diese E-Mail-Adresse wird bereits für einen anderen Kontakt verwendet.",
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "Neue Unterhaltung",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Nachricht",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Stornieren",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakte",
@@ -115,14 +142,14 @@
         "NAME": "Name",
         "PHONE_NUMBER": "Telefonnummer",
         "CONVERSATIONS": "Gespräche",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "LAST_ACTIVITY": "Letzte Aktivität",
+        "COUNTRY": "Land",
+        "CITY": "Stadt",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Firma",
         "EMAIL_ADDRESS": "E-Mail-Addresse"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Details anzeigen"
     }
   }
 }

@@ -12,6 +12,7 @@
     "INITIATED_FROM": "ആരംഭിച്ച ആൾ ",
     "INITIATED_AT": "ആരംഭിച്ച സമയം ",
     "IP_ADDRESS": "IP വിലാസം",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ഈ കോൺടാക്റ്റുമായി മുമ്പത്തെ സംഭാഷണങ്ങളൊന്നും ബന്ധപ്പെടുത്തിയിട്ടില്ല.",
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ ഫോൺ നമ്പർ നൽകുക",
-        "LABEL": "ഫോൺ നമ്പർ"
+        "LABEL": "ഫോൺ നമ്പർ",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "കോൺടാക്റ്റിന്റെ സ്ഥാനം നൽകുക",
@@ -103,6 +106,30 @@
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "ഈ ഇമെയിൽ വിലാസം മറ്റൊരു കോൺ‌ടാക്റ്റിനായി ഉപയോഗത്തിലാണ്.",
     "ERROR_MESSAGE": "ഒരു പിശക് ഉണ്ടായിരുന്നു, ദയവായി വീണ്ടും ശ്രമിക്കുക"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "റദ്ദാക്കുക",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "കോൺ‌ടാക്റ്റുകൾ",

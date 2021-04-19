@@ -29,6 +29,11 @@ ru:
       failed: Ошибка регистрации
   reports:
     period: Отчётный период с %{since} по %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,6 +47,7 @@ ru:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"

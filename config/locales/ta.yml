@@ -29,6 +29,11 @@ ta:
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,6 +47,7 @@ ta:
       status:
         resolved: "உரையாடலுக்கு %{user_name} தீர்வு வழங்கியுள்ளார்"
         open: "உரையாடலை %{user_name} மீண்டும் திறந்துள்ளார்"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"

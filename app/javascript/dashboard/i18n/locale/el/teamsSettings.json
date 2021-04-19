@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "Δημιουργήσετε νέα ομάδα",
     "HEADER": "Ομάδες",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Ομάδες</b></p> <p>Οι Ομάδες σας επιτρέπουν να οργανώσετε τους πράκτορές σας σε ομάδες με βάση τις ευθύνες τους. <br /> Ένας χρήστης μπορεί να είναι μέλος πολλαπλών ομάδων. Μπορείτε να αναθέσετε συνομιλίες σε μια ομάδα όταν εργάζεστε με συνεργασία. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "Δεν έχουν δημιουργηθεί ομάδες σε αυτόν τον λογαριασμό.",
+      "EDIT_TEAM": "Επεξεργασία ομάδας"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Δημιουργήσετε νέα ομάδα",
+        "DESC": "Προσθέστε έναν τίτλο και περιγραφή στη νέα ομάδα."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Προσθήκη πρακτόρων στην ομάδα",
+        "TITLE": "Προσθήκη πρακτόρων στην ομάδα - %{teamName}",
+        "DESC": "Προσθέστε Πράκτορες στη νέα σας ομάδα. Αυτό σας επιτρέπει να συνεργάζεστε ως ομάδα σε συνομιλίες και να ενημερώνεστε για νέα συμβάντα στην συνομιλία."
       },
       "WIZARD": [
         {
           "title": "Δημιουργία",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Δημιουργήστε μια νέα ομάδα πρακτόρων."
         },
         {
           "title": "Προσθήκη Πρακτόρων",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Προσθήκη πρακτόρων στην ομάδα."
         },
         {
-          "title": "Finish",
+          "title": "Τέλος",
           "route": "settings_teams_finish",
           "body": "Είσαστε έτοιμοι να ξεκινήσετε!"
         }
@@ -37,88 +37,88 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Επεξεργασία λεπτομερειών ομάδας",
+        "DESC": "Επεξεργαστείτε τον τίτλο και την περιγραφή της ομάδας σας.",
+        "BUTTON_TEXT": "Ενημέρωση ομάδας"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Ενημέρωση πρακτόρων στην ομάδα",
+        "TITLE": "Προσθήκη πρακτόρων στην ομάδα - %{teamName}",
+        "DESC": "Προσθέστε Πράκτορες στη νέα σας ομάδα. Όλοι αυτοί οι πράκτορες θα ειδοποιηθούν όταν μια συνομιλία ανατεθεί σε αυτήν την ομάδα."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Λεπτομέρειες Ομάδας",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Αλλαγή ονόματος, περιγραφής και άλλων λεπτομερειών."
         },
         {
-          "title": "Edit Agents",
+          "title": "Επεξεργασία Πρακτόρων",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Διαχείριση πρακτόρων της ομάδας σας."
         },
         {
-          "title": "Finish",
+          "title": "Τέλος",
           "route": "settings_teams_edit_finish",
           "body": "Είσαστε έτοιμοι να ξεκινήσετε!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Δεν ήταν δυνατή η αποθήκευση των λεπτομερειών της ομάδας. Δοκιμάστε ξανά."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "ΠΡΑΚΤΟΡΑΣ",
       "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Προσθήκη πρακτόρων",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Προσθήκη πρακτόρων στην ομάδα σας...",
+      "SELECT": "επιλέξτε",
+      "SELECT_ALL": "επιλογή όλων των πρακτόρων",
+      "SELECTED_COUNT": "%{selected} από τους %{total} πράκτορες επιλέχθηκαν."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Προσθήκη πρακτόρων στην ομάδα - %{teamName}",
+      "DESC": "Προσθέστε Πράκτορες στη νέα σας ομάδα. Αυτό σας επιτρέπει να συνεργάζεστε ως ομάδα σε συνομιλίες και να ενημερώνεστε για νέα συμβάντα στην συνομιλία.",
+      "SELECT": "επιλέξτε",
+      "SELECT_ALL": "επιλογή όλων των πρακτόρων",
+      "SELECTED_COUNT": "%{selected} από τους %{total} πράκτορες επιλέχθηκαν.",
       "BUTTON_TEXT": "Προσθήκη πρακτόρων",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Επιλέξτε τουλάχιστον ένα πράκτορα."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Η ομάδα σας είναι έτοιμη!",
+      "MESSAGE": "Τώρα μπορείτε να συνεργαστείτε ως ομάδα σε συνομιλίες. Καλή υποστήριξη ",
+      "BUTTON_TEXT": "Τέλος"
     },
     "DELETE": {
       "BUTTON_TEXT": "Διαγραφή",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Η ομάδα διαγράφηκε με επιτυχία.",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της ομάδας. Δοκιμάστε ξανά."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα %{teamName}",
+        "MESSAGE": "Διαγράφοντας την ομάδα θα αφαιρέσετε και τις αναθέσεις συνομιλιών σε αυτήν την ομάδα.",
         "YES": "Διαγραφή ",
         "NO": "Άκυρο"
       }
     },
     "SETTINGS": "Ρυθμίσεις",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Ενημέρωση ομάδας",
+      "CREATE": "Δημιουργία Ομάδας",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Όνομα ομάδας",
+        "PLACEHOLDER": "Παράδειγμα: Πωλήσεις, Υποστήριξη Πελατών"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Περιγραφή Ομάδας",
+        "PLACEHOLDER": "Σύντομη περιγραφή της ομάδας."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Επιτρέψτε την αυτόματη ανάθεση σε αυτήν την ομάδα."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Δημιουργία Ομάδας"
     }
   }
 }

@@ -39,7 +39,7 @@
       },
       "TWITTER": {
         "HELP": "لإضافة حساب تويتر الخاص بك كقناة تواصل، تحتاج إلى مصادقة حسابك على تويتر بك بالنقر على زر \"تسجيل الدخول باستخدام تويتر\" ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "حدث خطأ أثناء الاتصال بـ Twitter، الرجاء المحاولة مرة أخرى"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "قناة الموقع",
@@ -75,11 +75,11 @@
           "DISABLED": "معطّل"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "TITLE": "حدد وقت الرد",
+          "IN_A_FEW_MINUTES": "في غضون دقائق قليلة",
+          "IN_A_FEW_HOURS": "في غضون ساعات قليلة",
+          "IN_A_DAY": "خلال يوم",
+          "HELP_TEXT": "وقت الرد هذا سيتم عرضه على أداة الدردشة المباشرة"
         },
         "WIDGET_COLOR": {
           "LABEL": "لون صندوق الدردشة",
@@ -167,8 +167,8 @@
       "AGENTS": {
         "TITLE": "موظف الدعم",
         "DESC": "هنا يمكنك إضافة موظفين لإدارة صندوق الوارد الخاص بقناة تواصلك التي تم إنشاؤها حديثاً. الموظفين الذين يتم تحديدهم هنا هم فقط من يمكنهم الوصول إلى صندوق الوارد الخاص بتلك القناة. الموظفين الذين ليسوا جزءاً من صندوق الوارد هذا لن يكونوا قادرين على رؤية أو الرد على الرسائل في قناة التواصل هذه عند تسجيل الدخول. <br> <b>ملحوظة:</b> كمسؤول، إذا كنت بحاجة إلى الوصول إلى جميع صناديق الوارد، يجب عليك إضافة نفسك كموظف لجميع صناديق الوارد الخاصة بقنوات التواصل التي تنشئها.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "إضافة وكيل واحد على الأقل إلى علبة الوارد الجديدة",
+        "PICK_AGENTS": "اختر وكلاء لصندوق الوارد"
       },
       "DETAILS": {
         "TITLE": "تفاصيل قناة التواصل",
@@ -194,6 +194,7 @@
       "TITLE": "أصبحت قناة التواصل جاهزة الآن!",
       "MESSAGE": "يمكنك الآن التواصل مع عملائك من خلال قناتك الجديدة ",
       "BUTTON_TEXT": "خذني إلى هناك",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "لقد انتهيت بنجاح من إنشاء قناة دردشة مباشرة لموقعك. انسخ الرمز الموضح أدناه وقم بإضافته إلى موقع الويب الخاص بك. في المرة القادمة التي يستخدم فيها العميل الدردشة المباشرة، ستظهر المحادثة تلقائياً على صندوق الوارد الخاص بك."
     },
     "REAUTH": "إعادة التصريح",
@@ -226,8 +227,8 @@
       "SETTINGS": "الإعدادات",
       "COLLABORATORS": "المتعاونون",
       "CONFIGURATION": "الإعدادات",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "نموذج ما قبل الدردشة",
+      "BUSINESS_HOURS": "ساعات العمل"
     },
     "SETTINGS": "الإعدادات",
     "FEATURES": {
@@ -245,48 +246,48 @@
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
       "AUTO_ASSIGNMENT_SUB_TEXT": "تمكين أو تعطيل الإسناد التلقائي للمحادثات الجديدة إلى الموظفين المضافين إلى قناة التواصل هذه.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "التحقق من هوية المستخدم",
+      "HMAC_DESCRIPTION": "للتحقق من هوية المستخدمين، يسمح لك SDK بتمرير 'identity_hash' لكل مستخدم. يمكنك إنشاء HMAC باستخدام 'sha256' مع المفتاح المعروض هنا."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "إعادة التصريح",
-      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "SUBTITLE": "انتهت صلاحية اتصال الفيسبوك الخاص بك، يرجى إعادة الاتصال بصفحة الفيسبوك الخاصة بك لمواصلة الخدمات",
+      "MESSAGE_SUCCESS": "تمت إعادة الاتصال بنجاح",
       "MESSAGE_ERROR": "حدث خطأ، الرجاء المحاولة مرة أخرى"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "نماذج ما قبل الدردشة تمكنك من التقاط معلومات المستخدم قبل بدء المحادثة معك.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "تمكين نموذج الدردشة السابقة",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "نعم",
+          "DISABLED": "لا"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "رسالة ما قبل المحادثة",
+        "PLACEHOLDER": "ستكون هذه الرسالة مرئية للمستخدمين مع النموذج"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "يجب على الزوار تقديم اسمهم وعنوان بريدهم الإلكتروني قبل بدء المحادثة"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "قم بتعيين توافرك",
+      "SUBTITLE": "تعيين توافرك على أداة الدردشة المباشرة الخاصة بك",
+      "WEEKLY_TITLE": "تعيين ساعات العمل الأسبوعية الخاصة بك",
+      "TIMEZONE_LABEL": "اختر المنطقة الزمنية",
+      "UPDATE": "تحديث إعدادات ساعات العمل",
+      "TOGGLE_AVAILABILITY": "تمكين توافر العمل لهذا البريد الوارد",
+      "UNAVAILABLE_MESSAGE_LABEL": "رسالة غير متاح للزائرين",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "نحن غير متوفرين في هذه اللحظة. اترك رسالة سنرد عليها بمجرد عودتنا.",
+      "TOGGLE_HELP": "تمكين توفر العمل سيظهر الساعات المتاحة على أداة الدردشة المباشرة حتى لو كان جميع الوكلاء غير متصلين بالإنترنت. خارج الساعات المتاحة يمكن تحذير الزوار برسالة ونموذج ما قبل الدردشة.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "تمكين التوفر لهذا اليوم",
+        "UNAVAILABLE": "غير متوفر",
+        "HOURS": "ساعات",
+        "VALIDATION_ERROR": "يجب أن يكون وقت البدء قبل وقت الإغلاق.",
+        "CHOOSE": "اختر"
       }
     }
   }

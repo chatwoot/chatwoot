@@ -12,6 +12,7 @@
     "INITIATED_FROM": "시작 위치",
     "INITIATED_AT": "시작 시간",
     "IP_ADDRESS": "IP 주소",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "이 연락처와 관련된 이전 대화가 없습니다.",
       "TITLE": "이전 대화"
@@ -46,9 +47,9 @@
     "DESC": "연락처 수정 자세히"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "새 연결",
+    "TITLE": "새 연결 만들기",
+    "DESC": "연락처에 대한 기본 정보 세부 정보를 추가합니다."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "연락처의 전화 번호 입력",
-        "LABEL": "전화 번호"
+        "LABEL": "전화 번호",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "연락처 위치 입력",
@@ -100,9 +103,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "연락처가 성공적으로 저장되었습니다.",
     "CONTACT_ALREADY_EXIST": "이 이메일 주소는 다른 연락처에 사용 중입니다.",
     "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "새 대화",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "취소",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "연락처",
@@ -115,14 +142,14 @@
         "NAME": "이름",
         "PHONE_NUMBER": "전화 번호",
         "CONVERSATIONS": "대화",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "지난 활동",
+        "COUNTRY": "국가",
+        "CITY": "도시",
+        "SOCIAL_PROFILES": "소셜 프로필",
         "COMPANY": "회사",
         "EMAIL_ADDRESS": "이메일 주소"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "상세보기"
     }
   }
 }

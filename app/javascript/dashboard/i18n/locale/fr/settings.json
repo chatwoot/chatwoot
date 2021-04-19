@@ -3,6 +3,8 @@
     "LINK": "Paramètres de profil",
     "TITLE": "Paramètres de profil",
     "BTN_TEXT": "Mettre à jour le profil",
+    "UPDATE_SUCCESS": "Votre profil a été mis à jour avec succès",
+    "PASSWORD_UPDATE_SUCCESS": "Votre mot de passe a été modifié avec succès",
     "AFTER_EMAIL_CHANGED": "Votre profil a été mis à jour avec succès, veuillez vous reconnecter car vos identifiants de connexion ont été modifiés",
     "FORM": {
       "AVATAR": "Image de profil",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Mot de passe",
-        "NOTE": "Mettre à jour votre mot de passe réinitialisera vos connexions sur plusieurs appareils."
+        "NOTE": "Mettre à jour votre mot de passe réinitialisera vos connexions sur plusieurs appareils.",
+        "BTN_TEXT": "Modifier le mot de passe"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Jeton d'accès",
         "NOTE": "Ce jeton peut être utilisé si vous construisez une intégration basée sur l'API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notifications audio",
+        "NOTE": "Activer les notifications audio dans le tableau de bord pour les nouveaux messages et conversations.",
+        "ENABLE_AUDIO": "Jouer une notification audio lorsqu'une nouvelle conversation est créée ou que de nouveaux messages arrivent"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifications par courriel",
