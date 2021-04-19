@@ -46,6 +46,16 @@
           @select="assignAgent"
           @remove="removeAgent"
         >
+          <template slot="option" slot-scope="props">
+            <div class="option__desc">
+              <div
+                :class="
+                  `status-badge status-badge__${props.option.availability_status}`
+                "
+              />
+              <span class="option__title">{{ props.option.name }}</span>
+            </div>
+          </template>
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
@@ -126,7 +136,6 @@ export default {
           bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
         });
     },
-
     removeAgent() {},
   },
 };
@@ -141,5 +150,24 @@ export default {
 
 .conv-header {
   flex: 0 0 var(--space-jumbo);
+}
+.status-badge {
+  width: var(--space-one);
+  height: var(--space-one);
+  margin-right: var(--space-micro);
+  display: inline-block;
+  border-radius: 50%;
+
+  &__online {
+    background: var(--g-400);
+  }
+
+  &__offline {
+    background: var(--b-600);
+  }
+
+  &__busy {
+    background: var(--y-700);
+  }
 }
 </style>
