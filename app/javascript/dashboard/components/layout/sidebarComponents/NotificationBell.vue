@@ -1,5 +1,6 @@
 <template>
-  <span class="notifications icon ion-ios-bell" @click.stop="showNotification">
+  <span class="notifications icon" @click.stop="showNotification">
+    <woot-icon name="bell" size="20" />
     <span v-if="unreadCount" class="unread-badge">{{ unreadCount }}</span>
   </span>
 </template>

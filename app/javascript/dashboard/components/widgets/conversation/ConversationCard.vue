@@ -19,7 +19,7 @@
     />
     <div class="conversation--details columns">
       <span v-if="showInboxName" class="label">
-        <i :class="computedInboxClass" />
+        <woot-icon :name="computedInboxClass" size="10" />
         {{ inboxName }}
       </span>
       <h4 class="conversation--user">

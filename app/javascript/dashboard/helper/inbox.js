@@ -3,24 +3,22 @@ import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
 export const getInboxClassByType = (type, phoneNumber) => {
   switch (type) {
     case INBOX_TYPES.WEB:
-      return 'ion-earth';
+      return 'globe';
 
     case INBOX_TYPES.FB:
-      return 'ion-social-facebook';
+      return 'facebook';
 
     case INBOX_TYPES.TWITTER:
-      return 'ion-social-twitter';
+      return 'twitter';
 
     case INBOX_TYPES.TWILIO:
-      return phoneNumber.startsWith('whatsapp')
-        ? 'ion-social-whatsapp-outline'
-        : 'ion-android-textsms';
+      return phoneNumber.startsWith('whatsapp') ? 'message-circle' : 'send';
 
     case INBOX_TYPES.API:
-      return 'ion-cloud';
+      return 'cloud';
 
     case INBOX_TYPES.EMAIL:
-      return 'ion-ios-email';
+      return 'mail';
 
     default:
       return '';

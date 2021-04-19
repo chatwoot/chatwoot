@@ -13,14 +13,16 @@
       :title="menuItem.toolTip"
     >
       <div class="wrap">
-        <i :class="menuItem.icon" />
+        <woot-icon :name="menuItem.icon" class="icon" />
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </div>
       <span
         v-if="showItem(menuItem)"
-        class="child-icon ion-android-add-circle"
+        class="child-icon"
         @click.prevent="newLinkClick"
-      />
+      >
+        <woot-icon name="plus-circle" />
+      </span>
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
       <router-link
@@ -32,10 +34,11 @@
       >
         <a href="#" :class="computedChildClass(child)">
           <div class="wrap">
-            <i
+            <woot-icon
               v-if="computedInboxClass(child)"
               class="inbox-icon"
-              :class="computedInboxClass(child)"
+              :name="computedInboxClass(child)"
+              size="14"
             />
             <span
               v-if="child.color"
@@ -128,6 +131,12 @@ export default {
 .wrap {
   display: flex;
   align-items: center;
+
+  .icon {
+    padding-right: 1rem;
+    top: 2px;
+    position: relative;
+  }
 }
 
 .label-color--display {
@@ -140,7 +149,8 @@ export default {
 
 .inbox-icon {
   position: relative;
-  top: -1px;
+  top: 3px;
+  padding-right: 0.4rem;
   &.ion-ios-email {
     font-size: var(--font-size-medium);
   }
