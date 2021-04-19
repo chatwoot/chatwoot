@@ -12,33 +12,95 @@
         <label class="multiselect__label">
           {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
         </label>
-        <multiselect
-          v-model="assignedAgent"
-          :options="agentsList"
-          label="name"
-          track-by="id"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
-          :allow-empty="true"
-        />
+        <div v-on-clickaway="onCloseDropdown" class="dropdown-wrap">
+          <button
+            :v-model="assignedAgent"
+            class="button-input"
+            @click="toggleDropdown"
+          >
+            <Thumbnail
+              v-if="
+                assignedAgent &&
+                  assignedAgent.name &&
+                  assignedAgent &&
+                  assignedAgent.id
+              "
+              :src="assignedAgent && assignedAgent.thumbnail"
+              size="24px"
+              :badge="assignedAgent && assignedAgent.channel"
+              :username="assignedAgent && assignedAgent.name"
+            />
+            <div class="name-icon-wrap">
+              <div v-if="!assignedAgent" class="name select-agent">
+                {{ 'Select Agent' }}
+              </div>
+              <div v-else class="name">
+                {{ assignedAgent && assignedAgent.name }}
+              </div>
+              <i v-if="showSearchDropdown" class="icon ion-close-round" />
+              <i v-else class="icon ion-chevron-down" />
+            </div>
+          </button>
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdown }"
+            class="dropdown-pane"
+          >
+            <select-menu
+              v-if="showSearchDropdown"
+              :options="agentsList"
+              :value="assignedAgent"
+              @click="onClick"
+            />
+          </div>
+        </div>
       </div>
       <div class="multiselect-wrap--small">
         <label class="multiselect__label">
           {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
         </label>
-        <multiselect
-          v-model="assignedTeam"
-          :options="teamsList"
-          label="name"
-          track-by="id"
-          deselect-label=""
-          select-label=""
-          selected-label=""
-          :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
-          :allow-empty="true"
-        />
+
+        <div v-on-clickaway="onCloseDropdownTeam" class="dropdown-wrap">
+          <button
+            :v-model="assignedTeam"
+            class="button-input"
+            @click="toggleDropdownTeam"
+          >
+            <Thumbnail
+              v-if="
+                assignedTeam &&
+                  assignedTeam.name &&
+                  assignedTeam &&
+                  assignedTeam.id
+              "
+              :src="assignedTeam && assignedTeam.thumbnail"
+              size="24px"
+              :badge="assignedTeam.channel"
+              :username="assignedTeam && assignedTeam.name"
+            />
+            <div class="name-icon-wrap">
+              <div v-if="!assignedTeam" class="name select-agent">
+                {{ 'Select Agent' }}
+              </div>
+              <div v-else class="name">
+                {{ assignedTeam && assignedTeam.name }}
+              </div>
+
+              <i v-if="showSearchDropdownTeam" class="icon ion-close-round" />
+              <i v-else class="icon ion-chevron-down" />
+            </div>
+          </button>
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdownTeam }"
+            class="dropdown-pane"
+          >
+            <select-menu
+              v-if="showSearchDropdownTeam"
+              :options="teamsList"
+              :value="assignedTeam"
+              @click="onClickTeam"
+            />
+          </div>
+        </div>
       </div>
     </div>
     <div v-if="browser.browser_name" class="conversation--details">
@@ -105,6 +167,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import { mixin as clickaway } from 'vue-clickaway';
 
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
@@ -112,6 +175,8 @@ import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
 import flag from 'country-code-emoji';
+import SelectMenu from 'shared/components/ui/DropdownWithSearch';
+import Thumbnail from 'components/widgets/Thumbnail.vue';
 
 export default {
   components: {
@@ -120,8 +185,10 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
+    Thumbnail,
+    SelectMenu,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, clickaway],
   props: {
     conversationId: {
       type: [Number, String],
@@ -135,6 +202,13 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  data() {
+    return {
+      currentChatAssignee: null,
+      showSearchDropdown: false,
+      showSearchDropdownTeam: false,
+    };
   },
   computed: {
     ...mapGetters({
@@ -271,6 +345,34 @@ export default {
     openTranscriptModal() {
       this.showTranscriptModal = true;
     },
+    toggleDropdown() {
+      this.showSearchDropdown = !this.showSearchDropdown;
+    },
+    toggleDropdownTeam() {
+      this.showSearchDropdownTeam = !this.showSearchDropdownTeam;
+    },
+    onClick(selectedItem) {
+      if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
+        this.assignedAgent = '';
+      } else {
+        this.assignedAgent = selectedItem;
+      }
+      return this.assignedAgent;
+    },
+    onClickTeam(selectedItemTeam) {
+      if (this.assignedTeam && this.assignedTeam.id === selectedItemTeam.id) {
+        this.assignedTeam = '';
+      } else {
+        this.assignedTeam = selectedItemTeam;
+      }
+      return this.assignedTeam;
+    },
+    onCloseDropdown() {
+      this.showSearchDropdown = false;
+    },
+    onCloseDropdownTeam() {
+      this.showSearchDropdownTeam = false;
+    },
   },
 };
 </script>
@@ -315,7 +417,7 @@ export default {
 
   .label {
     color: #fff;
-    padding: 0.2rem;
+    padding: var(--space-micro);
   }
 }
 
@@ -341,5 +443,76 @@ export default {
 
 .multiselect__label {
   margin-bottom: var(--space-smaller);
+}
+.conversation--actions {
+  .dropdown-wrap {
+    display: flex;
+    position: relative;
+    margin-right: var(--space-one);
+
+    .button-input {
+      display: flex;
+      width: 34rem;
+      cursor: pointer;
+      justify-content: flex-start;
+      background: white;
+      font-size: var(--font-size-small);
+      padding: var(--space-small) 0 var(--space-one) 0;
+    }
+
+    &::v-deep .user-thumbnail-box {
+      margin-right: var(--space-one);
+    }
+
+    .name-icon-wrap {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: var(--space-smaller) 0;
+      line-height: var(--space-normal);
+
+      .select-agent {
+        color: var(--b-600);
+      }
+
+      .name {
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .icon {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.1rem;
+      }
+    }
+
+    .dropdown-pane {
+      top: 4rem;
+      right: 0;
+      width: 93.5%;
+
+      &::v-deep {
+        .dropdown-menu__item .button {
+          width: 100%;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          padding: var(--space-smaller) var(--space-small);
+
+          .name-icon-wrap {
+            width: 100%;
+          }
+
+          .name {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
 }
 </style>

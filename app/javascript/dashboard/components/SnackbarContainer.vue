@@ -9,7 +9,6 @@
 </template>
 
 <script>
-/* global bus */
 import WootSnackbar from './Snackbar';
 
 export default {
