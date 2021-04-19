@@ -3,7 +3,7 @@
     "LINK": "Profileinstellungen",
     "TITLE": "Profileinstellungen",
     "BTN_TEXT": "Profil aktualisieren",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert",
     "PASSWORD_UPDATE_SUCCESS": "Ihr Passwort wurde erfolgreich geändert",
     "AFTER_EMAIL_CHANGED": "Ihr Profil wurde erfolgreich aktualisiert. Melden Sie sich erneut an, wenn Ihre Anmeldeinformationen geändert werden",
     "FORM": {
@@ -19,24 +19,24 @@
       "PASSWORD_SECTION": {
         "TITLE": "Passwort",
         "NOTE": "Durch das Aktualisieren Ihres Kennworts werden Ihre Anmeldungen auf mehreren Geräten zurückgesetzt.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Passwort ändern"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Zugangstoken",
         "NOTE": "Dieses Token kann verwendet werden, wenn Sie eine API-basierte Integration erstellen"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "TITLE": "Audio-Benachrichtigungen",
+        "NOTE": "Audio-Benachrichtigungen im Dashboard für neue Nachrichten und Unterhaltungen aktivieren.",
+        "ENABLE_AUDIO": "Audio-Benachrichtigung abspielen, wenn eine neue Unterhaltung erstellt wurde oder neue Nachrichten eintreffen"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-Mail Benachrichtigungen",
         "NOTE": "Aktualisieren Sie hier Ihre E-Mail-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Senden Sie E-Mail-Benachrichtigungen, wenn mir ein Gespräch zugewiesen wurde",
         "CONVERSATION_CREATION": "Senden Sie E-Mail-Benachrichtigungen, wenn eine neue Konversation erstellt wird",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "Sende E-Mail-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende E-Mail-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird"
       },
       "API": {
         "UPDATE_SUCCESS": "Ihre Benachrichtigungseinstellungen wurden erfolgreich aktualisiert",
@@ -47,8 +47,8 @@
         "NOTE": "Aktualisieren Sie hier Ihre Push-Benachrichtigungseinstellungen",
         "CONVERSATION_ASSIGNMENT": "Push-Benachrichtigungen senden, wenn mir ein Gespräch zugewiesen wird",
         "CONVERSATION_CREATION": "Push-Benachrichtigungen senden, wenn eine neue Konversation startet",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "CONVERSATION_MENTION": "Sende Push-Benachrichtigungen, wenn du in einer Unterhaltung erwähnt wirst",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Sende Push-Benachrichtigungen, wenn eine neue Nachricht in einer zugewiesenen Unterhaltung erstellt wird",
         "HAS_ENABLED_PUSH": "Sie haben die Push-Benachrichtigung für diesen Browser aktiviert.",
         "REQUEST_PUSH": "Push-Benachrichtigungen aktivieren"
       },
@@ -117,7 +117,7 @@
   "CONFIRM_EMAIL": "Überprüft...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "Posteingang hinzufügen"
     }
   },
   "SIDEBAR": {
@@ -137,7 +137,7 @@
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Neuer Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "SELECTOR_SUBTITLE": "Neuen Account erstellen",
     "API": {
       "SUCCESS_MESSAGE": "Benutzerkonto erfolgreich erstellt",
       "EXIST_MESSAGE": "Benutzerkonto existiert bereits",
