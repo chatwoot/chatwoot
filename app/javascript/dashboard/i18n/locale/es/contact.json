@@ -12,6 +12,7 @@
     "INITIATED_FROM": "Iniciado desde",
     "INITIATED_AT": "Iniciado el",
     "IP_ADDRESS": "Dirección IP",
+    "NEW_MESSAGE": "Nuevo mensaje",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -34,7 +35,7 @@
       "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
     },
     "MUTE_CONTACT": "Silenciar Conversación",
-    "UNMUTE_CONTACT": "Des silenciar conversación",
+    "UNMUTE_CONTACT": "Dessilenciar conversación",
     "MUTED_SUCCESS": "Ésta conversación está silenciada por 6 horas",
     "UNMUTED_SUCCESS": "Ésta conversación ya no está silenciada",
     "SEND_TRANSCRIPT": "Enviar Transcripción",
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",
-        "LABEL": "Número telefónico"
+        "LABEL": "Número telefónico",
+        "HELP": "El número telefónico debe tener el formato E.164, por ejemplo: +753001234567 [+][código del país][código de área][número teléfonico]",
+        "ERROR": "El número telefónico debe estar vacío o en formato E.164"
       },
       "LOCATION": {
         "PLACEHOLDER": "Escriba la ubicación del contacto",
@@ -103,6 +106,30 @@
     "SUCCESS_MESSAGE": "Contacto guardado correctamente",
     "CONTACT_ALREADY_EXIST": "Ésta dirección de correo está siendo utilizada por otro contacto.",
     "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Iniciar conversación",
+    "TITLE": "Nueva conversación",
+    "DESC": "Iniciar una conversación enviando un mensaje nuevo.",
+    "NO_INBOX": "No se encontró la bandeja de entrada para iniciar una nueva conversación con este contacto.",
+    "FORM": {
+      "TO": {
+        "LABEL": "Para"
+      },
+      "INBOX": {
+        "LABEL": "Bandeja de entrada",
+        "ERROR": "Seleccione una bandeja de entrada"
+      },
+      "MESSAGE": {
+        "LABEL": "Mensaje",
+        "PLACEHOLDER": "Escriba su mensaje aquí",
+        "ERROR": "El mensaje no puede estar vacío"
+      },
+      "SUBMIT": "Enviar mensaje",
+      "CANCEL": "Cancelar",
+      "SUCCESS_MESSAGE": "¡Mensaje enviado!",
+      "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contactos",

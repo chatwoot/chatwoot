@@ -3,6 +3,8 @@
     "LINK": "Profilbeállítások",
     "TITLE": "Profilbeállítások",
     "BTN_TEXT": "Profil frissítése",
+    "UPDATE_SUCCESS": "A fiókod sikeresen frissítetted",
+    "PASSWORD_UPDATE_SUCCESS": "A jelszavad sikeresen megváltoztattad",
     "AFTER_EMAIL_CHANGED": "A profilod sikeresen frissítésre került, kérjük lépj be újra, mivel megváltoztak a belépési adataid",
     "FORM": {
       "AVATAR": "Profilkép",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Jelszó",
-        "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet."
+        "NOTE": "A jelszó frissítása minden beléptetett eszközt kiléptet.",
+        "BTN_TEXT": "Jelszó megváltoztatása"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Hozzáférési kulcs",
         "NOTE": "Ez a kulcs akkor használható, ha API-alapú integrációt építesz"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Hangüzenetek",
+        "NOTE": "Hangüzenetek engedélyezése a vezérlőpulton új üzenetek és beszélgetések esetén.",
+        "ENABLE_AUDIO": "Kapj hangüzenetet ha új beszélgetés vagy üzenet érkezik"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-mail értesítések",

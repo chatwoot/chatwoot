@@ -2,7 +2,7 @@
   "GENERAL_SETTINGS": {
     "TITLE": "Ustawienia konta",
     "SUBMIT": "Aktualizuj ustawienia",
-    "BACK": "Back",
+    "BACK": "Powrót",
     "UPDATE": {
       "ERROR": "Nie można zaktualizować ustawień, spróbuj ponownie!",
       "SUCCESS": "Pomyślnie zaktualizowano ustawienia konta"
@@ -24,40 +24,40 @@
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Incoming Email Domain",
-        "PLACEHOLDER": "The domain where you will receive the emails",
+        "LABEL": "Domena poczty przychodzącej",
+        "PLACEHOLDER": "Domena, w której otrzymasz wiadomości e-mail",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Support Email",
-        "PLACEHOLDER": "Your company's support email",
+        "LABEL": "E-mail pomocy technicznej",
+        "PLACEHOLDER": "E-mail Twojej firmy do obsługi klienta",
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Number of days after a ticket should auto resolve if there is no activity",
+        "LABEL": "Liczba dni, po upływie których, zgłoszenie powinno zostać automatycznie rozwiązane z powodu braku aktywności",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day)"
+        "ERROR": "Wprowadź prawidłowy czas automatycznego rozwiązywania (minimum 1 dzień)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
-        "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+        "INBOUND_EMAIL_ENABLED": "Kontynuacja rozmów za pomocą wiadomości e-mail jest włączona dla Twojego konta.",
+        "CUSTOM_EMAIL_DOMAIN_ENABLED": "Możesz teraz otrzymywać e-maile w swojej niestandardowej domenie."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Aktualizacja %{latestChatwootVersion} dla Chatwoot jest dostępna. Proszę zaktualizować swoją instancję."
   },
   "FORMS": {
     "MULTISELECT": {
-      "ENTER_TO_SELECT": "Press enter to select",
-      "ENTER_TO_REMOVE": "Press enter to remove",
-      "SELECT_ONE": "Select one"
+      "ENTER_TO_SELECT": "Naciśnij Enter, aby wybrać",
+      "ENTER_TO_REMOVE": "Naciśnij Enter, aby usunąć",
+      "SELECT_ONE": "Wybierz jeden"
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Powiadomienia",
+    "MARK_ALL_DONE": "Zaznacz wszystko jako zakończone",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Wczytywanie powiadomień...",
+      "404": "Brak powiadomień",
       "TABLE_HEADER": [
         "Nazwisko",
         "Numer telefonu",
@@ -66,10 +66,10 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Nowa rozmowa",
+      "conversation_assignment": "Rozmowa przypisana",
+      "assigned_conversation_new_message": "Nowa wiadomość",
+      "conversation_mention": "Wzmianka"
     }
   }
 }
