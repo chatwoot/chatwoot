@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "إنشاء فريق جديد",
+    "HEADER": "الفرق",
+    "SIDEBAR_TXT": "<p><b>الفريق</b></p> <p>الفرق تسمح لك بتنظيم عملائك في مجموعات على أساس مسؤولياتهم. <br /> يمكن للمستخدم أن يكون جزءا من فرق متعددة. يمكنك تعيين محادثات مع فريق عندما تعمل بشكل تعاوني. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "لا يوجد موظفي دعم مرتبطين بهذا الحساب.",
+      "EDIT_TEAM": "تعديل الفريق"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "إنشاء فريق جديد",
+        "DESC": "أضف عنوانا ووصفا إلى فريقك الجديد."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "إضافة وكيل للفريق",
+        "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+        "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة."
       },
       "WIZARD": [
         {
           "title": "إنشاء",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "إنشاء فريق جديد من الوكلاء."
         },
         {
           "title": "إضافة موظفين",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "إضافة وكيل إلى فريق."
         },
         {
-          "title": "Finish",
+          "title": "إنهاء",
           "route": "settings_teams_finish",
           "body": "أصبح كل شيء جاهزاً الآن!"
         }
@@ -37,88 +37,88 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "تحرير تفاصيل فريقك",
+        "DESC": "تعديل العنوان والوصف إلى فريقك.",
+        "BUTTON_TEXT": "تحديث فريق"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "تحديث الوكلاء في الفريق",
+        "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+        "DESC": "إضافة وكلاء إلى فريقك الذي تم إنشاؤه حديثاً. سيتم إعلام جميع الوكلاء المضافين عند تعيين محادثة لهذا الفريق."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "تفاصيل الفريق",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "تغيير الاسم والوصف والتفاصيل الأخرى."
         },
         {
-          "title": "Edit Agents",
+          "title": "تعديل الوكلاء",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "تعديل الوكلاء في فريقك."
         },
         {
-          "title": "Finish",
+          "title": "إنهاء",
           "route": "settings_teams_edit_finish",
           "body": "أصبح كل شيء جاهزاً الآن!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "تعذر حفظ تفاصيل الفريق. حاول مرة أخرى."
     },
     "AGENTS": {
       "AGENT": "AGENT",
       "EMAIL": "البريد الإلكتروني",
       "BUTTON_TEXT": "إضافة موظفين",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "إضافة وكلاء إلى فريقك...",
+      "SELECT": "حدد",
+      "SELECT_ALL": "تحديد جميع الوكلاء",
+      "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "إضافة وكلاء للفريق - %{teamName}",
+      "DESC": "إضافة وكلاء إلى فريقك الجديد. هذا يتيح لكم العمل كفريق في المحادثات، والحصول على إشعار عن الأحداث الجديدة في نفس المحادثة.",
+      "SELECT": "حدد",
+      "SELECT_ALL": "تحديد جميع الوكلاء",
+      "SELECTED_COUNT": "تم تحديد %{selected} من أصل %{total} وكيل.",
       "BUTTON_TEXT": "إضافة موظفين",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "اختيار وكيل واحد على الاقل."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "أصبح فريقك جاهزة الآن!",
+      "MESSAGE": "يمكنكم الآن العمل كفريق في المحادثات. دعم سعيد ",
+      "BUTTON_TEXT": "إنهاء"
     },
     "DELETE": {
       "BUTTON_TEXT": "حذف",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "تم حذف الفريق بنجاح.",
+        "ERROR_MESSAGE": "تعذر حذف الفريق. حاول مرة أخرى."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "هل أنت متأكد من أنك تريد حذف - %{teamName}",
+        "MESSAGE": "سيؤدي حذف الفريق إلى إزالة مهمة الفريق من المحادثات التي تم تعيينها لهذا الفريق.",
         "YES": "حذف ",
         "NO": "إلغاء"
       }
     },
     "SETTINGS": "الإعدادات",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "تحديث فريق",
+      "CREATE": "إنشاء فريق جديد",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "اسم الفريق",
+        "PLACEHOLDER": "على سبيل المثال: المبيعات ، خدمة العملاء"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "وصف الفريق",
+        "PLACEHOLDER": "وصف مختصر لهذا الفريق."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "السماح بالتكليف التلقائي لهذا الفريق."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "إنشاء فريق جديد"
     }
   }
 }

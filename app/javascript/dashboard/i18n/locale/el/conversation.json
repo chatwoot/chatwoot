@@ -11,7 +11,7 @@
       "TITLE": "Αναζήτηση μηνυμάτων",
       "LOADING_MESSAGE": "Σύμπτυξη δεδομένων...",
       "PLACEHOLDER": "Εισάγετε κείμενο για αναζήτηση μηνυμάτων",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Δεν βρέθηκαν αποτελέσματα."
     },
     "UNREAD_MESSAGES": "Μη αναγνωσμένα μηνύματα",
     "UNREAD_MESSAGE": "Μη αναγνωσμένο μήνυμα",
@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Φόρτωση Συζητήσεων",
     "CANNOT_REPLY": "Δεν μπορείτε να απαντήσετε εξαιτίας",
     "24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Μπορείτε να απαντήσετε μόνο σε αυτή τη συνομιλία χρησιμοποιώντας ένα πρότυπο μήνυμα επειδή",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
     "LAST_INCOMING_TWEET": "Απαντάτε στο τελευταίο εισερχόμενο tweet",
     "REPLYING_TO": "Απαντάτε στο:",
     "REMOVE_SELECTION": "Διαγραφή Επιλογής",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",
+      "OPEN_ACTION": "Ανοιχτές",
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
       "DETAILS": "Λεπτομέρειες"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Άνοιγμα με bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
@@ -51,7 +57,8 @@
     "VISIBLE_TO_AGENTS": "Ιδιωτική Σημείωση: Ορατή μόνο σε σας και την ομάδα σας",
     "CHANGE_STATUS": "Η κατάσταση της συνομιλίας άλλαξε",
     "CHANGE_AGENT": "Η εκπροσώπηση για την συνομιλία άλλαξε",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
+    "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}",
     "SENT_BY": "Αποστολή από:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Επιλογή πράκτορα",
@@ -101,11 +108,11 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Λεπτομέρειες συνομιλίας",
+    "ASSIGNEE_LABEL": "Ανατεθειμένο σε Πράκτορα",
+    "TEAM_LABEL": "Ανατεθειμένο σε Ομάδα",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Κανένα"
     }
   }
 }

@@ -29,6 +29,11 @@ id:
       failed: Pendaftaran gagal
   reports:
     period: Periode pelaporan %{since} hingga %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[Percakapan baru] - #%{display_id} telah dibuat di %{inbox_name}"
@@ -42,6 +47,7 @@ id:
       status:
         resolved: "Percakapan ditandai selesai oleh %{user_name}"
         open: "Percakapan telah dibuka kembali oleh %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari"
       assignee:
         self_assigned: "%{user_name} menetapkan sendiri percakapan ini"

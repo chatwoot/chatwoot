@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Laster samtaler",
     "CANNOT_REPLY": "Du kan ikke svare på grunn av",
     "24_HOURS_WINDOW": "24-timers meldingsrestriksjon",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-timers meldingsrestriksjon",
     "LAST_INCOMING_TWEET": "Du svarer på den siste innkommende tweet",
     "REPLYING_TO": "Du svarer til:",
     "REMOVE_SELECTION": "Fjern utvalget",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
       "REOPEN_ACTION": "Gjenåpne",
+      "OPEN_ACTION": "Åpne",
       "OPEN": "Mer",
       "CLOSE": "Lukk",
       "DETAILS": "detaljer"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for å velge et forhåndslagd svar.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "Samtalestatus er endret",
     "CHANGE_AGENT": "Tildelt agent er endret",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Sendt av:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Velg agent",

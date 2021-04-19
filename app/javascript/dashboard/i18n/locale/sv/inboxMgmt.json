@@ -194,6 +194,7 @@
       "TITLE": "Din inkorg är redo!",
       "MESSAGE": "Du kan nu interagera med dina kunder genom din nya kanal. Supporta glatt ",
       "BUTTON_TEXT": "Ta mig dit",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Du har skapat en webbplatskanal. Kopiera koden som visas nedan och klistra in den på din webbplats. Nästa gång en kund använder livechatten visas konversationen automatiskt i din inkorg."
     },
     "REAUTH": "Återauktorisera",

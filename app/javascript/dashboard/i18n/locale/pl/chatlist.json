@@ -77,9 +77,9 @@
         "CONTENT": "udostępnił adres url"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
-    "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
-    "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages"
+    "RECEIVED_VIA_EMAIL": "Otrzymano przez e-mail",
+    "VIEW_TWEET_IN_TWITTER": "Zobacz tweet na Twitterze",
+    "REPLY_TO_TWEET": "Odpowiedz na ten tweet",
+    "NO_MESSAGES": "Brak wiadomości"
   }
 }

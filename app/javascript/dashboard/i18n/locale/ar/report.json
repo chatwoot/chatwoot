@@ -3,7 +3,7 @@
     "HEADER": "التقارير",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
+    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "المحادثات",
