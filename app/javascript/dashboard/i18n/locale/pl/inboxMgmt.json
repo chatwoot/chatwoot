@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Skrzynki",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Skrzynka odbiorcza</b></p> <p> Gdy podłączysz stronę internetową lub stronę z facebookiem do chatwoota, jest nazywany <b>skrzynką odbiorczą</b>. Możesz mieć nieograniczone skrzynki odbiorcze na swoim koncie Chatwoot. </p><p> Kliknij <b>Dodaj skrzynkę odbiorczą</b>, aby połączyć stronę internetową lub stronę na Facebooku. </p><p> W Panelu, możesz zobaczyć wszystkie rozmowy ze wszystkich swoich skrzynek odbiorczych w jednym miejscu i odpowiedzieć na nie w zakładce `Konwersacje`. </p><p> Możesz również zobaczyć rozmowy specyficzne dla skrzynki odbiorczej, klikając na nazwę skrzynki odbiorczej na lewym panelu nawigacyjnym. </p>",
     "LIST": {
       "404": "Nie ma żadnych skrzynek dołączonych do tego konta."
     },
@@ -30,23 +30,23 @@
     "ADD": {
       "FB": {
         "HELP": "PS: Logując się, uzyskujemy dostęp tylko do wiadomości Twojej strony. Chatwoot nigdy nie może uzyskać dostępu do prywatnych wiadomości.",
-        "CHOOSE_PAGE": "Choose Page",
-        "CHOOSE_PLACEHOLDER": "Select a page from the list",
-        "INBOX_NAME": "Inbox Name",
-        "ADD_NAME": "Add a name for your inbox",
-        "PICK_NAME": "Pick A Name Your Inbox",
-        "PICK_A_VALUE": "Pick a value"
+        "CHOOSE_PAGE": "Wybierz stronę",
+        "CHOOSE_PLACEHOLDER": "Wybierz stronę z listy",
+        "INBOX_NAME": "Nazwa skrzynki odbiorczej",
+        "ADD_NAME": "Dodaj nazwę skrzynki odbiorczej",
+        "PICK_NAME": "Wybierz nazwę skrzynki odbiorczej",
+        "PICK_A_VALUE": "Wybierz wartość"
       },
       "TWITTER": {
         "HELP": "Aby dodać swój profil na Twitterze jako kanał, musisz uwierzytelnić swój profil Twitter klikając na 'Zaloguj się przez Twittera' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "Wystąpił błąd podczas łączenia z Twitterem, spróbuj ponownie"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Kanał strony internetowej",
         "DESC": "Utwórz kanał dla swojej strony internetowej i zacznij wspierać swoich klientów za pomocą naszego widżetu na stronie.",
         "LOADING_MESSAGE": "Tworzenie kanału wsparcia strony internetowej",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Awatar kanału"
         },
         "CHANNEL_NAME": {
           "LABEL": "Nazwa witryny",
@@ -65,20 +65,20 @@
           "PLACEHOLDER": "Łatwo się z nami połączyć. Zapytaj nas o coś lub podziel się swoją opinią."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Channel greeting message",
-          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
+          "LABEL": "Wiadomość powitalna dla kanału",
+          "PLACEHOLDER": "Acme Inc zazwyczaj odpisuje w przeciągu kilku godzin."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Enable channel greeting",
-          "HELP_TEXT": "Send a greeting message to the user when he starts the conversation.",
+          "LABEL": "Włącz powitanie dla kanału",
+          "HELP_TEXT": "Wyślij wiadomość powitalną użytkownikowi, gdy rozpocznie rozmowę.",
           "ENABLED": "Włączone",
           "DISABLED": "Wyłączone"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
+          "TITLE": "Ustaw czas odpowiedzi",
+          "IN_A_FEW_MINUTES": "W ciągu kilku minut",
+          "IN_A_FEW_HOURS": "W ciągu kilku godzin",
+          "IN_A_DAY": "W ciągu dnia",
           "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
@@ -96,8 +96,8 @@
           "ERROR": "To pole jest wymagane"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Channel Type",
-          "ERROR": "Please select your Channel Type"
+          "LABEL": "Typ kanału",
+          "ERROR": "Wybierz typ kanału"
         },
         "AUTH_TOKEN": {
           "LABEL": "Token uwierzytelniania",
@@ -124,7 +124,7 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Channel",
+        "TITLE": "Kanał API",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Nazwa kanału",
@@ -136,13 +136,13 @@
           "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
           "PLACEHOLDER": "URL webhooka"
         },
-        "SUBMIT_BUTTON": "Create API Channel",
+        "SUBMIT_BUTTON": "Utwórz kanał API",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "Email Channel",
+        "TITLE": "Kanał e-mail",
         "DESC": "Integrate you email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nazwa kanału",
@@ -154,7 +154,7 @@
           "SUBTITLE": "Email where your customers sends you support tickets",
           "PLACEHOLDER": "E-mail"
         },
-        "SUBMIT_BUTTON": "Create Email Channel",
+        "SUBMIT_BUTTON": "Utwórz kanał e-mail",
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
@@ -194,6 +194,7 @@
       "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
       "MESSAGE": "Teraz możesz współpracować ze swoimi klientami poprzez swój nowy kanał. Szczęśliwego wsparcia ",
       "BUTTON_TEXT": "Zabierz mnie tam",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
     },
     "REAUTH": "Ponowna autoryzacja",
@@ -215,7 +216,7 @@
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń ",
-        "NO": "No, Keep "
+        "NO": "Nie, zachowaj "
       },
       "API": {
         "SUCCESS_MESSAGE": "Skrzynka odbiorcza została usunięta",
@@ -225,7 +226,7 @@
     "TABS": {
       "SETTINGS": "Ustawienia",
       "COLLABORATORS": "Collaborators",
-      "CONFIGURATION": "Configuration",
+      "CONFIGURATION": "Konfiguracja",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours"
     },
@@ -252,7 +253,7 @@
       "TITLE": "Ponowna autoryzacja",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "There was an error, please try again"
+      "MESSAGE_ERROR": "Wystąpił błąd, spróbuj ponownie"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",

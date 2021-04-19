@@ -150,6 +150,7 @@ export default {
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);
+          this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'set-current-url') {

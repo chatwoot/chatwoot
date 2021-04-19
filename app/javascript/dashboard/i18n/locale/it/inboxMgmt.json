@@ -194,6 +194,7 @@
       "TITLE": "La posta in arrivo è pronta!",
       "MESSAGE": "Ora puoi interagire con i tuoi clienti attraverso il nuovo canale. Buona assistenza ",
       "BUTTON_TEXT": "Portami lì",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Hai completato la creazione di un canale sito web. Copia il codice mostrato qui sotto e incollalo sul tuo sito. La prossima volta che un cliente usa la live chat, la conversazione apparirà automaticamente nella tua casella di posta."
     },
     "REAUTH": "Riautorizza",

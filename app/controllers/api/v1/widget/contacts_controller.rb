@@ -1,6 +1,9 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
+  before_action :process_hmac
+
+  def show; end
+
   def update
-    process_hmac
     contact_identify_action = ContactIdentifyAction.new(
       contact: @contact,
       params: permitted_params.to_h.deep_symbolize_keys

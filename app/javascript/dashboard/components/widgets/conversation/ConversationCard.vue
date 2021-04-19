@@ -18,7 +18,7 @@
       size="40px"
     />
     <div class="conversation--details columns">
-      <span v-if="showInboxName" v-tooltip.bottom="inboxName" class="label">
+      <span v-if="showInboxName" class="label">
         <i :class="computedInboxClass" />
         {{ inboxName }}
       </span>
@@ -143,7 +143,9 @@ export default {
     },
 
     parsedLastMessage() {
-      return this.getPlainText(this.lastMessageInChat.content);
+      const { content_attributes: contentAttributes } = this.lastMessageInChat;
+      const { email: { subject } = {} } = contentAttributes || {};
+      return this.getPlainText(subject || this.lastMessageInChat.content);
     },
 
     chatInbox() {
@@ -159,7 +161,11 @@ export default {
     },
 
     showInboxName() {
-      return !this.hideInboxName && this.isInboxNameVisible;
+      return (
+        !this.hideInboxName &&
+        this.isInboxNameVisible &&
+        this.inboxesList.length > 1
+      );
     },
     inboxName() {
       const stateInbox = this.chatInbox;
@@ -185,6 +191,10 @@ export default {
 <style lang="scss" scoped>
 .conversation {
   align-items: center;
+
+  &:hover {
+    background: var(--color-background-light);
+  }
 }
 
 .has-inbox-name {

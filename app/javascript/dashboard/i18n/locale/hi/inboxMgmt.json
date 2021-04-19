@@ -194,6 +194,7 @@
       "TITLE": "Your Inbox is ready!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting ",
       "BUTTON_TEXT": "Take me there",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Reauthorize",

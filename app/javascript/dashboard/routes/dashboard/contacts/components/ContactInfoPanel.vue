@@ -3,7 +3,7 @@
     <span class="close-button" @click="onClose">
       <i class="ion-android-close close-icon" />
     </span>
-    <contact-info :contact="contact" />
+    <contact-info show-new-message :contact="contact" />
     <contact-custom-attributes
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"

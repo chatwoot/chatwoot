@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ограничение на 24 часа",
     "LAST_INCOMING_TWEET": "Вы отвечаете на последний входящий твит",
     "REPLYING_TO": "Вы отвечаете на:",
     "REMOVE_SELECTION": "Удалить выделенное",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
-      "OPEN": "Подробнее",
+      "OPEN_ACTION": "Открыть",
+      "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "Статус разговора изменен",
     "CHANGE_AGENT": "Назначенный оператор изменен",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Отправитель:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Выбрать Агента",
@@ -101,9 +108,9 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Детали диалога",
+    "ASSIGNEE_LABEL": "Назначенный агент",
+    "TEAM_LABEL": "Назначенная команда",
     "SELECT": {
       "PLACEHOLDER": "None"
     }

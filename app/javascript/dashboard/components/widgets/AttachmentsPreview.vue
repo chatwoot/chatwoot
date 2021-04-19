@@ -11,9 +11,7 @@
           class="image-thumb"
           :src="attachment.thumb"
         />
-        <span v-else class="attachment-thumb">
-          📄
-        </span>
+        <span v-else class="attachment-thumb"> 📄 </span>
       </div>
       <div class="file-name-wrap">
         <span class="item">
@@ -37,8 +35,7 @@
   </div>
 </template>
 <script>
-import { formatBytes } from 'dashboard/helper/files';
-
+import { formatBytes } from 'shared/helpers/FileHelper';
 export default {
   props: {
     attachments: {

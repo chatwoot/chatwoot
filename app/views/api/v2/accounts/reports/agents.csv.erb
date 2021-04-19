@@ -1,4 +1,10 @@
-<% headers = ['Agent name', 'Conversations count', 'Avg first response time (Minutes)', 'Avg resolution time (Minutes)'] %>
+<% headers = [
+    I18n.t('reports.agent_csv.agent_name'),
+    I18n.t('reports.agent_csv.conversations_count'),
+    I18n.t('reports.agent_csv.avg_first_response_time'),
+    I18n.t('reports.agent_csv.avg_resolution_time')
+  ]
+%>
 <%= CSV.generate_line headers %>
 <% Current.account.users.each do |agent| %>
   <% agent_report = V2::ReportBuilder.new(Current.account, {

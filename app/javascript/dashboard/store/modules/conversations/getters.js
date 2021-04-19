@@ -1,4 +1,5 @@
 import authAPI from '../../../api/auth';
+import { applyPageFilters } from './helpers';
 
 export const getSelectedChatConversation = ({
   allConversations,
@@ -18,24 +19,30 @@ const getters = {
     );
     return selectedChat || {};
   },
-  getMineChats(_state) {
+  getMineChats: _state => activeFilters => {
     const currentUserID = authAPI.getCurrentUser().id;
-    return _state.allConversations.filter(chat =>
-      !chat.meta.assignee
-        ? false
-        : chat.status === _state.chatStatusFilter &&
-          chat.meta.assignee.id === currentUserID
-    );
+
+    return _state.allConversations.filter(conversation => {
+      const { assignee } = conversation.meta;
+      const isAssignedToMe = assignee && assignee.id === currentUserID;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      const isChatMine = isAssignedToMe && shouldFilter;
+
+      return isChatMine;
+    });
   },
-  getUnAssignedChats(_state) {
-    return _state.allConversations.filter(
-      chat => !chat.meta.assignee && chat.status === _state.chatStatusFilter
-    );
+  getUnAssignedChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const isUnAssigned = !conversation.meta.assignee;
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return isUnAssigned && shouldFilter;
+    });
   },
-  getAllStatusChats(_state) {
-    return _state.allConversations.filter(
-      chat => chat.status === _state.chatStatusFilter
-    );
+  getAllStatusChats: _state => activeFilters => {
+    return _state.allConversations.filter(conversation => {
+      const shouldFilter = applyPageFilters(conversation, activeFilters);
+      return shouldFilter;
+    });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
   getAllMessagesLoaded(_state) {
@@ -56,18 +63,6 @@ const getters = {
   },
   getChatStatusFilter: ({ chatStatusFilter }) => chatStatusFilter,
   getSelectedInbox: ({ currentInbox }) => currentInbox,
-  getNextChatConversation: _state => {
-    const [selectedChat] = getSelectedChatConversation(_state);
-    const conversations = getters.getAllStatusChats(_state);
-    if (conversations.length <= 1) {
-      return null;
-    }
-    const currentIndex = conversations.findIndex(
-      conversation => conversation.id === selectedChat.id
-    );
-    const nextIndex = (currentIndex + 1) % conversations.length;
-    return conversations[nextIndex];
-  },
 };
 
 export default getters;

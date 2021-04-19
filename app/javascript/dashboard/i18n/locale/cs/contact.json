@@ -12,6 +12,7 @@
     "INITIATED_FROM": "Zahájeno od",
     "INITIATED_AT": "Zahájeno v",
     "IP_ADDRESS": "IP adresa",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "K tomuto kontaktu nejsou přiřazeny žádné předchozí konverzace.",
       "TITLE": "Předchozí konverzace"
@@ -46,9 +47,9 @@
     "DESC": "Upravit kontaktní údaje"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Nový kontakt",
+    "TITLE": "Vytvořit nový kontakt",
+    "DESC": "Přidat základní informace o kontaktu."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Zadejte telefonní číslo kontaktu",
-        "LABEL": "Telefonní číslo"
+        "LABEL": "Telefonní číslo",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Zadejte lokaci kontaktu",
@@ -100,9 +103,33 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakt byl úspěšně uložen",
     "CONTACT_ALREADY_EXIST": "Tuto e-mailovou adresu již používá jiný kontakt.",
     "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Zpráva",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Zrušit",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Kontakty",
@@ -115,14 +142,14 @@
         "NAME": "Název",
         "PHONE_NUMBER": "Telefonní číslo",
         "CONVERSATIONS": "Konverzace",
-        "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
-        "SOCIAL_PROFILES": "Social Profiles",
+        "LAST_ACTIVITY": "Poslední aktivita",
+        "COUNTRY": "Země",
+        "CITY": "Město",
+        "SOCIAL_PROFILES": "Sociální profily",
         "COMPANY": "Společnost",
         "EMAIL_ADDRESS": "E-mailová adresa"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "Zobrazit detaily"
     }
   }
 }
