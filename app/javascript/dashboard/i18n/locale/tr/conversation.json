@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "LAST_INCOMING_TWEET": "Son gelen tweet'e cevap veriyorsun",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
@@ -56,6 +58,7 @@
     "CHANGE_STATUS": "Görüşme durumu değişti",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
     "CHANGE_TEAM": "Görüşme takımı değişti",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
