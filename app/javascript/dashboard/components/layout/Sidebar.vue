@@ -144,6 +144,7 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
         toStateName: 'settings_inbox_list',
+        newLinkRouteName: 'settings_inbox_new',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
@@ -162,6 +163,8 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
+        showModalForNewItem: true,
+        modalName: 'AddLabel',
         children: this.accountLabels.map(label => ({
           id: label.id,
           label: label.title,
@@ -182,6 +185,7 @@ export default {
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
         toStateName: 'teams_list',
+        newLinkRouteName: 'settings_teams_new',
         children: this.teams.map(team => ({
           id: team.id,
           label: team.name,
