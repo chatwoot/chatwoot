@@ -1,5 +1,5 @@
 <template>
-  <span :class="`status-badge status-badge__${status}`" />
+  <div :class="`status-badge status-badge__${status}`" />
 </template>
 <script>
 export default {
@@ -13,7 +13,7 @@ export default {
 .status-badge {
   width: var(--space-one);
   height: var(--space-one);
-  margin-right: var(--space-micro);
+  margin-right: var(--space-small);
   display: inline-block;
   border-radius: 50%;
   &__online {
