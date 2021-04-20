@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Gotowe odpowiedzi",
-    "HEADER_BTN_TXT": "Dodaj Gotową odpowiedź",
-    "LOADING": "Pobieranie gotowych odpowiedzi",
+    "HEADER": "Przygotowane odpowiedzi",
+    "HEADER_BTN_TXT": "Dodaj przygotowaną odpowiedź",
+    "LOADING": "Pobieranie przygotowanych odpowiedzi",
     "SEARCH_404": "Brak elementów pasujących do tego zapytania",
     "SIDEBAR_TXT": "<p><b>Gotowe odpowiedzi</b> </p><p> Gotowe odpowiedzi to zapisane szablony odpowiedzi, które mogą być użyte do szybkiego wysłania odpowiedzi do rozmowy. </p><p> Aby utworzyć Gotową odpowiedź, wystarczy kliknąć <b>Dodaj Gotową Odpowiedź</b>. Możesz również edytować lub usuwać istniejącą gotową odpowiedź, klikając przycisk Edytuj lub Usuń </p><p> Gotowe odpowiedzi są używane z pomocą <b>Krótkie kody</b>. Agenci mogą uzyskać dostęp do gotowych odpowiedzi podczas czatu, wpisując <b>'/'</b> , a następnie krótki kod. </p>",
     "LIST": {
@@ -69,7 +69,7 @@
         "TITLE": "Potwierdź usunięcie",
         "MESSAGE": "Czy na pewno chcesz usunąć ",
         "YES": "Tak, usuń ",
-        "NO": "No, Keep "
+        "NO": "Nie, zachowaj "
       }
     }
   }

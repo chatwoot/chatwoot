@@ -10,8 +10,8 @@
     },
     "LIST": {
       "404": "No hay agentes asociados a esta cuenta",
-      "TITLE": "Administrar agentes en su equipo",
-      "DESC": "Puede añadir/eliminar agentes a/en su equipo.",
+      "TITLE": "Administrar agentes en tu equipo",
+      "DESC": "Puedes añadir/eliminar agentes a/en tu equipo.",
       "NAME": "Nombre",
       "EMAIL": "Correo electrónico",
       "STATUS": "Estado",
@@ -20,13 +20,13 @@
       "VERIFICATION_PENDING": "Verificación pendiente"
     },
     "ADD": {
-      "TITLE": "Añadir agente a su equipo",
-      "DESC": "Puede añadir personas que podrán manejar el soporte para sus bandejas de entrada.",
+      "TITLE": "Añadir agente a tu equipo",
+      "DESC": "Puedes añadir personas que podrán manejar el soporte para tus bandejas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "FORM": {
         "NAME": {
           "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Introduzca el nombre del agente"
+          "PLACEHOLDER": "Introduce el nombre del agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
@@ -35,7 +35,7 @@
         },
         "EMAIL": {
           "LABEL": "Dirección de correo",
-          "PLACEHOLDER": "Por favor, introduzca la dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
         },
         "SUBMIT": "Añadir agente"
       },
@@ -63,7 +63,7 @@
       "FORM": {
         "NAME": {
           "LABEL": "Nombre del agente",
-          "PLACEHOLDER": "Por favor, introduzca el nombre del agente"
+          "PLACEHOLDER": "Por favor, introduzca un nombre del agente"
         },
         "AGENT_TYPE": {
           "LABEL": "Tipo de agente",
@@ -72,7 +72,7 @@
         },
         "EMAIL": {
           "LABEL": "Dirección de email",
-          "PLACEHOLDER": "Por favor, introduzca la dirección de correo electrónico del agente"
+          "PLACEHOLDER": "Por favor, introduzca una dirección de correo electrónico del agente"
         },
         "SUBMIT": "Editar agente"
       },

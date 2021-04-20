@@ -22,12 +22,12 @@
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Мой",
+        "NAME": "Мои",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "Неназначенный",
+        "NAME": "Неназначен",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
@@ -77,7 +77,7 @@
         "CONTENT": "поделился ссылкой"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Получено по электронной почте",
+    "RECEIVED_VIA_EMAIL": "Получено по email",
     "VIEW_TWEET_IN_TWITTER": "Просмотреть твит в Twitter",
     "REPLY_TO_TWEET": "Ответить на этот твит",
     "NO_MESSAGES": "Нет сообщений"

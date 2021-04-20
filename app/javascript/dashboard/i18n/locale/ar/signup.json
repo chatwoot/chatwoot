@@ -5,18 +5,18 @@
     "TERMS_ACCEPT": "من خلال التسجيل، فإنك توافق على <a href=\"https://www.chatwoot.com/terms\">شروط الخدمة</a> و <a href=\"https://www.chatwoot.com/privacy-policy\">سياسة الخصوصية</a>",
     "ACCOUNT_NAME": {
       "LABEL": "اسم الحساب",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "أدخل اسم الحساب. مثال: Wayne Enterprises",
+      "ERROR": "اسم الحساب قصير جداً"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "الاسم الكامل",
+      "PLACEHOLDER": "أدخل اسمك الكامل. مثال: بروس وين",
+      "ERROR": "الاسم الكامل قصير جداً"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "البريد الإلكتروني للعمل",
+      "PLACEHOLDER": "أدخل عنوان بريدك الإلكتروني للعمل. مثال: bruce@wayne.enterprises",
+      "ERROR": "عنوان البريد الإلكتروني غير صالح"
     },
     "PASSWORD": {
       "LABEL": "كلمة المرور",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "تعذر الاتصال بالخادم، الرجاء المحاولة مرة أخرى لاحقاً"
     },
     "SUBMIT": "إرسال",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "هل لديك حساب مسبق؟"
   }
 }
