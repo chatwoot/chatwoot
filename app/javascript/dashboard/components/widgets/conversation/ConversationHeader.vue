@@ -151,4 +151,9 @@ export default {
 .conv-header {
   flex: 0 0 var(--space-jumbo);
 }
+
+.option__desc {
+  display: flex;
+  align-items: center;
+}
 </style>
