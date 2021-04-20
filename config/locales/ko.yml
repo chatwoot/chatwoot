@@ -29,6 +29,11 @@ ko:
       failed: Signup failed
   reports:
     period: 보고 기간 %{since} - %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,6 +47,7 @@ ko:
       status:
         resolved: "Conversation was marked resolved by %{user_name}"
         open: "Conversation was reopened by %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"

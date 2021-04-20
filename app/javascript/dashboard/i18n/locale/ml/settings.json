@@ -3,6 +3,8 @@
     "LINK": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "TITLE": "പ്രൊഫൈൽ ക്രമീകരണങ്ങൾ",
     "BTN_TEXT": "പ്രൊഫൈൽ അപ്‌ഡേറ്റ് ചെയ്യുക",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "നിങ്ങളുടെ പ്രൊഫൈൽ വിജയകരമായി അപ്‌ഡേറ്റു ചെയ്തിരിക്കുന്നു, ലോഗിൻ ക്രെഡൻഷ്യലുകൾ മാറ്റിയതിനാൽ ദയവായി വീണ്ടും ലോഗിൻ ചെയ്യുക",
     "FORM": {
       "AVATAR": "പ്രൊഫൈൽ ചിത്രം",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "പാസ്‌വേഡ്",
-        "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും."
+        "NOTE": "നിങ്ങളുടെ പാസ്‌വേഡ് അപ്‌ഡേറ്റ് ചെയ്യുന്നത് ഒന്നിലധികം ഉപകരണങ്ങളിൽ നിങ്ങളുടെ ലോഗിനുകൾ പുനഃസജ്ജീകരിക്കും.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "ആക്സസ് ടോക്കൺ",
         "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "ഇമെയിൽ അറിയിപ്പുകൾ",

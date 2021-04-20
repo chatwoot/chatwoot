@@ -32,6 +32,11 @@ export default {
       default: () => ({}),
     },
   },
+  watch: {
+    'contact.id'(id) {
+      this.$store.dispatch('contacts/fetchContactableInbox', id);
+    },
+  },
   mounted() {
     const { id } = this.contact;
     this.$store.dispatch('contacts/fetchContactableInbox', id);

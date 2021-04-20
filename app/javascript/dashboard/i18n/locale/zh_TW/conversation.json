@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "加載更多對話",
     "CANNOT_REPLY": "您不能回覆，原因是：",
     "24_HOURS_WINDOW": "24 小時消息視窗限制",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
       "REOPEN_ACTION": "重新打開",
+      "OPEN_ACTION": "打開",
       "OPEN": "詳細資訊",
       "CLOSE": "關閉",
       "DETAILS": "詳情"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "對話狀態已更改",
     "CHANGE_AGENT": "對話分配人已更改",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Sent by:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Select Agent",
