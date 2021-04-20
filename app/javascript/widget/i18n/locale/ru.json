@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Мы онлайн",
-    "OFFLINE": "Мы оффлайн"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -48,5 +48,6 @@
         "ERROR": "Сообщение слишком короткое"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

@@ -11,7 +11,7 @@
       "TITLE": "Mesajları ara",
       "LOADING_MESSAGE": "Veriler işleniyor ...",
       "PLACEHOLDER": "Mesajları aramak için herhangi bir metin yazın",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Sonuç bulunamadı."
     },
     "UNREAD_MESSAGES": "Okunmamış Mesajlar",
     "UNREAD_MESSAGE": "Okunmamış Mesaj",
@@ -20,18 +20,24 @@
     "LOADING_CONVERSATIONS": "Loading Conversations\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "LAST_INCOMING_TWEET": "Son gelen tweet'e cevap veriyorsun",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "Dosyalar gönderiliyor...",
     "NO_RESPONSE": "Cevap Yok",
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
       "REOPEN_ACTION": "Yeniden aç",
+      "OPEN_ACTION": "Açık",
       "OPEN": "Devamı",
       "CLOSE": "Kapat",
       "DETAILS": "detaylar"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Bot ile aç"
     },
     "FOOTER": {
       "MSG_INPUT": "Yeni satır için Shift + enter. Bir Hazır Yanıt seçmek için \"/\" ile başlayın.",
@@ -44,14 +50,15 @@
       "CREATE": "Not ekle",
       "TWEET": "Tweet",
       "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_EMOJI_ICON": "Emojileri göster",
+      "TIP_ATTACH_ICON": "Dosya ekle",
+      "ENTER_TO_SEND": "Göndermek için Enter tuşuna basın"
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
     "CHANGE_STATUS": "Görüşme durumu değişti",
     "CHANGE_AGENT": "Görüşme Atanan kişiyi değiştirildi",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "Görüşme takımı değişti",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "Tarafından gönderildi:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Temsilci Seçin",
@@ -68,7 +75,7 @@
     "SEND_EMAIL_ERROR": "Bir hata oluştu, lütfen tekrar deneyin",
     "FORM": {
       "SEND_TO_CONTACT": "Transkripti müşteriye gönderin",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Atanan temsilciye transkripti gönderin",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Transkripti başka bir e-posta adresine gönderin",
       "EMAIL": {
         "PLACEHOLDER": "Bir e-mail adresi girin",
@@ -79,7 +86,7 @@
   "ONBOARDING": {
     "TITLE": "Hey 👋, Welcome to %{installationName}!",
     "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "READ_LATEST_UPDATES": "Son güncellemeleri okuyun",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."

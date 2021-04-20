@@ -39,11 +39,11 @@
         "ERROR": "Bitte gebe eine gültige automatische Auflösungsdauer ein (mindestens 1 Tag)"
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
+        "INBOUND_EMAIL_ENABLED": "Für dein Konto wurde der Empfang von E-Mails aktiviert.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Du kannst E-Mails jetzt von der festgelegten Domain erhalten."
       }
     },
-    "UPDATE_CHATWOOT": "An update %{latestChatwootVersion} for Chatwoot is available. Please update your instance."
+    "UPDATE_CHATWOOT": "Ein Update %{latestChatwootVersion} für Chatwoot ist verfügbar. Bitte aktualisiere deine Installation."
   },
   "FORMS": {
     "MULTISELECT": {
@@ -53,11 +53,11 @@
     }
   },
   "NOTIFICATIONS_PAGE": {
-    "HEADER": "Notifications",
-    "MARK_ALL_DONE": "Mark All Done",
+    "HEADER": "Push-Benachrichtigungen",
+    "MARK_ALL_DONE": "Alle als Erledigt markieren",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Benachrichtigungen werden geladen...",
+      "404": "Keine Benachrichtigungen",
       "TABLE_HEADER": [
         "Name",
         "Telefonnummer",
@@ -66,10 +66,10 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
-      "conversation_mention": "Mention"
+      "conversation_creation": "Neue Unterhaltung",
+      "conversation_assignment": "Unterhaltung zugewiesen",
+      "assigned_conversation_new_message": "Neue Nachricht",
+      "conversation_mention": "Erwähnung"
     }
   }
 }

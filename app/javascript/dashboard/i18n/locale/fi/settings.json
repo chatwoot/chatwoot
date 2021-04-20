@@ -3,6 +3,8 @@
     "LINK": "Profiilin asetukset",
     "TITLE": "Profiilin asetukset",
     "BTN_TEXT": "Päivitä profiili",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Salasanasi on vaihdettu onnistuneesti",
     "AFTER_EMAIL_CHANGED": "Profiilisi on päivitetty onnistuneesti, ole hyvä ja kirjaudu uudelleen kun kirjautumistunnuksesi muuttuvat",
     "FORM": {
       "AVATAR": "Profiilikuva",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Salasana",
-        "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta."
+        "NOTE": "Salasanan vaihtaminen kirjaa sinut ulos muilta laitteilta.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Tätä tunnusta voidaan käyttää, jos olet rakentamassa API-pohjaista integraatiota"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Sähköposti-ilmoitukset",

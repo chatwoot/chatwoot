@@ -28,7 +28,6 @@
 </template>
 
 <script>
-/* global bus */
 import { required, minLength, email } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 import { frontendURL } from '../../helper/URLHelper';
@@ -74,8 +73,12 @@ export default {
           this.showAlert(successMessage);
           window.location = frontendURL('login');
         })
-        .catch(() => {
-          this.showAlert(this.$t('RESET_PASSWORD.API.ERROR_MESSAGE'));
+        .catch(error => {
+          let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+          if (error?.response?.data?.message) {
+            errorMessage = error.response.data.message;
+          }
+          this.showAlert(errorMessage);
         });
     },
   },

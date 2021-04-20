@@ -39,7 +39,7 @@
       },
       "TWITTER": {
         "HELP": "트위터 프로필을 채널로 추가하려면 '트위터로 로그인'을 클릭하여 트위터 프로필을 인증해야 합니다. ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "트위터에 연결하는 동안 오류가 발생했습니다. 다시 시도해주세요."
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "웹사이트 채널",
@@ -194,6 +194,7 @@
       "TITLE": "받은 메시지함이 준비됨!",
       "MESSAGE": "이제 새로운 채널을 통해 고객과 대화할 수 있습니다. 행복한 지원 ",
       "BUTTON_TEXT": "나를 그곳으로 데려주세요.",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "웹사이트 채널 만들기를 완료하셨습니다. 아래 표시된 코드를 복사하여 웹사이트에 붙여 넣으십시오. 다음에 고객이 라이브 채팅을 사용할 때 대화는 받은 편지함에 자동으로 표시됩니다."
     },
     "REAUTH": "재승인",
@@ -226,8 +227,8 @@
       "SETTINGS": "설정",
       "COLLABORATORS": "협력자",
       "CONFIGURATION": "설치",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "대화 전 설문",
+      "BUSINESS_HOURS": "영업시간"
     },
     "SETTINGS": "설정",
     "FEATURES": {
@@ -245,8 +246,8 @@
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
       "AUTO_ASSIGNMENT_SUB_TEXT": "받은 메시지에 추가된 에이전트에 새 대화를 자동으로 할당하거나 할당하지 않도록 설정하십시오.",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "사용자 신원 검증",
+      "HMAC_DESCRIPTION": "사용자 신원 검증을 위해 SDK에서 각 사용자별 `identity_hash`를 전달할 수 있습니다. 옆에 보이는 키를 'sha256'으로 해싱하여 HMAC를 생성할 수 있습니다."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "재승인",
@@ -255,38 +256,38 @@
       "MESSAGE_ERROR": "오류가 발생했습니다. 다시 시도하십시오."
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "대화 전 설문을 통해, 실제 대화 전에 사용자 정보를 확보할 수 있습니다.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "대화 전 설문 사용하기",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "예",
+          "DISABLED": "아니오"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "대화 전 설문용 메시지",
+        "PLACEHOLDER": "이 메시지가 대화전 설문과 함께 사용자에게 보여집니다."
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "대화 전 사용자들에게 이름과 이메일 주소를 요구합니다."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "영업시간 설정",
+      "SUBTITLE": "라이브챗 위젯의 대화용 영업시간을 설정하세요.",
+      "WEEKLY_TITLE": "일주일 중 영업시간 설정",
+      "TIMEZONE_LABEL": "표준시간대 선택",
+      "UPDATE": "변경된 영업시간 적용",
+      "TOGGLE_AVAILABILITY": "이 받은 메시지함에 대해 영업시간 설정 적용",
+      "UNAVAILABLE_MESSAGE_LABEL": "영업외 시간에 표시할 메시지",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "현재 담당자가 자리비움 상태입니다. 메시지를 남겨주시면 담당자 복귀 시 답변드리겠습니다.",
+      "TOGGLE_HELP": "영업시간 설정을 적용할 경우 라이브챗 위젯에 해당 시간을 표시합니다. 담당자가 현재 오프라인 상태일 때도 해당 영업시간을 표시합니다. 영업 외 시간에는 사용자에게 아래 메시지와 대화 전 설문을 대신 보여줍니다.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "아래 날짜에 대해 영업시간 설정 적용",
+        "UNAVAILABLE": "영업 종료",
+        "HOURS": "시간",
+        "VALIDATION_ERROR": "영업시작 시간은 영업종료 시간보다 빨라야 합니다.",
+        "CHOOSE": "선택"
       }
     }
   }
