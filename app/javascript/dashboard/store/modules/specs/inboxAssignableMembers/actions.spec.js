@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { actions, types } from '../../inboxAssignableAgents';
-import inboxAssignableAgents from './fixtures';
+import agentsData from './fixtures';
 
 const commit = jest.fn();
 global.axios = axios;
@@ -10,14 +10,14 @@ describe('#actions', () => {
   describe('#fetch', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { payload: inboxAssignableAgents },
+        data: { payload: agentsData },
       });
       await actions.fetch({ commit }, { inboxId: 1 });
       expect(commit.mock.calls).toEqual([
         [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true }],
         [
           types.SET_INBOX_ASSIGNABLE_AGENTS,
-          { inboxId: 1, members: inboxAssignableAgents },
+          { inboxId: 1, members: agentsData },
         ],
         [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false }],
       ]);
