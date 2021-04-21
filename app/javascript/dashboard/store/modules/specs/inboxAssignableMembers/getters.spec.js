@@ -2,7 +2,7 @@ import { getters } from '../../teamMembers';
 import teamMembers from './fixtures';
 
 describe('#getters', () => {
-  it('getAssignableMembers', () => {
+  it('getAssignableAgents', () => {
     const state = {
       records: {
         1: [teamMembers[0]],

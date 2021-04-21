@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { actions, types } from '../../inboxAssignableMembers';
-import inboxAssignableMembers from './fixtures';
+import { actions, types } from '../../inboxAssignableAgents';
+import inboxAssignableAgents from './fixtures';
 
 const commit = jest.fn();
 global.axios = axios;
@@ -10,16 +10,16 @@ describe('#actions', () => {
   describe('#fetch', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({
-        data: { payload: inboxAssignableMembers },
+        data: { payload: inboxAssignableAgents },
       });
       await actions.fetch({ commit }, { inboxId: 1 });
       expect(commit.mock.calls).toEqual([
-        [types.SET_INBOX_ASSIGNABLE_MEMBERS_UI_FLAG, { isFetching: true }],
+        [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true }],
         [
-          types.SET_INBOX_ASSIGNABLE_MEMBERS,
-          { inboxId: 1, members: inboxAssignableMembers },
+          types.SET_INBOX_ASSIGNABLE_AGENTS,
+          { inboxId: 1, members: inboxAssignableAgents },
         ],
-        [types.SET_INBOX_ASSIGNABLE_MEMBERS_UI_FLAG, { isFetching: false }],
+        [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -28,8 +28,8 @@ describe('#actions', () => {
         Error
       );
       expect(commit.mock.calls).toEqual([
-        [types.SET_INBOX_ASSIGNABLE_MEMBERS_UI_FLAG, { isFetching: true }],
-        [types.SET_INBOX_ASSIGNABLE_MEMBERS_UI_FLAG, { isFetching: false }],
+        [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true }],
+        [types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: false }],
       ]);
     });
   });
