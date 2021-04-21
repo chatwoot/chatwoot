@@ -156,4 +156,12 @@ export default {
   display: flex;
   align-items: center;
 }
+
+.option__desc {
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+  }
+}
 </style>
