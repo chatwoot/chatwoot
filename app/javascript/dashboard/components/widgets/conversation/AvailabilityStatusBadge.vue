@@ -13,7 +13,7 @@ export default {
 .status-badge {
   width: var(--space-one);
   height: var(--space-one);
-  margin-right: var(--space-small);
+  margin-right: var(--space-micro);
   display: inline-block;
   border-radius: 50%;
   &__online {
