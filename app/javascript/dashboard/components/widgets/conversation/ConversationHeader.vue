@@ -83,8 +83,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableMembers/getAssignableMembers',
+      uiFlags: 'inboxAssignableMembers/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
 
