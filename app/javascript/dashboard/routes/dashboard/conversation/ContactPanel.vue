@@ -31,6 +31,7 @@
               <span class="option__title">{{ props.option.name }}</span>
             </div>
           </template>
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
       <div class="multiselect-wrap--small">
@@ -48,6 +49,7 @@
           :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
         />
+        <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
       </div>
     </div>
     <div v-if="browser.browser_name" class="conversation--details">
@@ -361,5 +363,9 @@ export default {
 
 .multiselect__label {
   margin-bottom: var(--space-smaller);
+}
+.option__desc {
+  display: flex;
+  align-items: center;
 }
 </style>
