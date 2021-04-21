@@ -8,7 +8,7 @@
     >
       <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
       <span>
-        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+        {{ useInstallationName($t('POWERED_BY'), "MaaS.work") }}
       </span>
     </a>
   </div>
@@ -19,7 +19,6 @@
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
 export default {
   mixins: [globalConfigMixin],
   data() {
@@ -32,11 +31,7 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     brandRedirectURL() {
-      const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=widget_branding`;
-      if (this.referrerHost) {
-        return `${baseURL}&utm_referrer=${this.referrerHost}`;
-      }
-      return baseURL;
+      return "https://www.maas.work";
     },
   },
   mounted() {
@@ -50,21 +45,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
-
 .branding {
   align-items: center;
   display: flex;
   justify-content: center;
   padding: $space-normal 0 $space-slab;
   text-align: center;
-
   img {
     margin-right: $space-smaller;
     max-width: $space-slab;
     max-height: $space-slab;
   }
 }
-
 .branding--link {
   color: $color-light-gray;
   cursor: pointer;
@@ -73,14 +65,12 @@ export default {
   font-size: $font-size-small;
   opacity: 0.9;
   text-decoration: none;
-
   &:hover {
     filter: grayscale(0);
     opacity: 1;
     color: $color-gray;
   }
 }
-
 .brand--alternative {
   padding: $space-slab;
 }
