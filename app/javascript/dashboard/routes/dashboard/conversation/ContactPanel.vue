@@ -48,8 +48,9 @@
           selected-label=""
           :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
-        />
-        <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        >
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
       </div>
     </div>
     <div v-if="browser.browser_name" class="conversation--details">
@@ -367,5 +368,11 @@ export default {
 .option__desc {
   display: flex;
   align-items: center;
+
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+  }
 }
 </style>
