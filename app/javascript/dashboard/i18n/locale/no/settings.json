@@ -3,6 +3,8 @@
     "LINK": "Brukerinnstillinger",
     "TITLE": "Brukerinnstillinger",
     "BTN_TEXT": "Oppdater profil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Ditt passord er endret",
     "AFTER_EMAIL_CHANGED": "Din profil har blitt oppdatert, vennligst logg inn igjen ettersom din innloggingsinformasjon er endret",
     "FORM": {
       "AVATAR": "Profilbilde",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Passord",
-        "NOTE": "Oppdatering av passordet ditt nullstiller logger deg ut på andre enheter."
+        "NOTE": "Oppdatering av passordet ditt nullstiller logger deg ut på andre enheter.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Tilgangstoken",
         "NOTE": "Dette tokenet kan brukes hvis du lager en API-basert integrasjon"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "E-postvarsler",

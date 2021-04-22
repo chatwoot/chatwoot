@@ -29,6 +29,11 @@ sv:
       failed: Registrering misslyckades
   reports:
     period: Rapporteringsperiod %{since} till %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[Ny konversation] - #%{display_id} har skapats i %{inbox_name}"
@@ -42,6 +47,7 @@ sv:
       status:
         resolved: "Konversationen har markerats som löst av %{user_name}"
         open: "Konversationen öppnades igen av %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Konversationen har markerats som löst av systemet på grund av %{duration} dagars inaktivitet"
       assignee:
         self_assigned: "%{user_name} har tilldelat sig denna konversation"

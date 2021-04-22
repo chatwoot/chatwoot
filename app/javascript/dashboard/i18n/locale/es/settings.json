@@ -3,6 +3,8 @@
     "LINK": "Ajustes del perfil",
     "TITLE": "Ajustes del perfil",
     "BTN_TEXT": "Actualizar perfil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Su contraseña se ha cambiado correctamente",
     "AFTER_EMAIL_CHANGED": "Su perfil ha sido actualizado con éxito, por favor inicie sesión de nuevo cuando sus credenciales de inicio de sesión se hayan cambiado",
     "FORM": {
       "AVATAR": "Imagen de perfil",
@@ -16,15 +18,21 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
-        "NOTE": "Actualizar su contraseña restablecería sus entradas en varios dispositivos."
+        "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API"
       },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificaciones con sonido",
+        "NOTE": "Active las notificaciones de sonido en el tablero para los mensajes nuevos y conversaciones.",
+        "ENABLE_AUDIO": "Realizar un sonido cuando una nueva conversación ha sido creada o un nuevo mensaje llegue"
+      },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Notificaciones por correo",
-        "NOTE": "Actualice sus preferencias de notificación por correo electrónico aquí",
+        "TITLE": "Notificaciones por email",
+        "NOTE": "Actualiza tus preferencias de notificación por correo electrónico aquí",
         "CONVERSATION_ASSIGNMENT": "Enviar notificaciones por correo electrónico cuando se me ha asignado una conversación",
         "CONVERSATION_CREATION": "Enviar notificaciones por correo electrónico cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones por correo electrónico cuando sea mencionado en una conversación",
@@ -41,7 +49,7 @@
         "CONVERSATION_CREATION": "Enviar notificaciones push cuando se crea una nueva conversación",
         "CONVERSATION_MENTION": "Enviar notificaciones push cuando sea mencionado en una conversación",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Enviar notificaciones push cuando un nuevo mensaja es creadao en una conversación asignada",
-        "HAS_ENABLED_PUSH": "Has habilitado notificaciones push para este navegador.",
+        "HAS_ENABLED_PUSH": "Ha habilitado notificaciones push para este navegador.",
         "REQUEST_PUSH": "Habilitar notificaciones push"
       },
       "PROFILE_IMAGE": {
@@ -66,7 +74,7 @@
         ]
       },
       "EMAIL": {
-        "LABEL": "Su dirección de correo",
+        "LABEL": "Tu dirección de correo",
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },

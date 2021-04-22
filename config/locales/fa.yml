@@ -29,6 +29,11 @@ fa:
       failed: ثبت نام ناموفق بود
   reports:
     period: زمان گزارش از %{since} تا %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[گفتگو جدید] - #%{display_id} در %{inbox_name} ایجاد شده است"
@@ -42,6 +47,7 @@ fa:
       status:
         resolved: "مکالمه توسط اپراتور %{user_name} حل شده، اعلام شده بود"
         open: "گفتگو توسط اپراتور %{user_name} مجددا باز شده بود"
+        bot: "گفتگو توسط %{user_name} به ربات منتقل شد"
         auto_resolved: "به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد"
       assignee:
         self_assigned: "%{user_name} این مکالمه را به خود اختصاص داد"

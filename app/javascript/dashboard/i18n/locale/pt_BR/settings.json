@@ -3,6 +3,8 @@
     "LINK": "Configurações do Perfil",
     "TITLE": "Configurações do Perfil",
     "BTN_TEXT": "Atualizar o Perfil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "A sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
     "FORM": {
       "AVATAR": "Imagem de Perfil",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
-        "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos."
+        "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Notificações de Áudio",
+        "NOTE": "Habilitar notificações de áudio no painel para novas mensagens e conversas.",
+        "ENABLE_AUDIO": "Reproduzir notificação de áudio quando uma nova conversa é criada ou novas mensagens chegam"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",

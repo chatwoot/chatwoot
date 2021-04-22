@@ -40,7 +40,7 @@ class Contacts::ContactableInboxesService
   end
 
   def twilio_contactable_inbox(inbox)
-    return unless @contact.phone_number
+    return if @contact.phone_number.blank?
 
     case inbox.channel.medium
     when 'sms'

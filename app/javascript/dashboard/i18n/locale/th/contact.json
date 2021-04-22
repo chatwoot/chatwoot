@@ -12,6 +12,7 @@
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
     "IP_ADDRESS": "IP Address",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "ไม่มีการสนทนาก่อนหน้านี้ที่เชื่อมโยงกับผู้ติดต่อนี้",
       "TITLE": "การสนทนาก่อนหน้า"
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "กรอกหมายเลขโทรศัพท์ผู้ติดต่อ",
-        "LABEL": "หมายเลขโทรศัพท์"
+        "LABEL": "หมายเลขโทรศัพท์",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "กรอกที่อยู่ผู้ติดต่อ",
@@ -103,6 +106,30 @@
     "SUCCESS_MESSAGE": "Contact saved successfully",
     "CONTACT_ALREADY_EXIST": "อีเมล์นี้ถูกใช้ในผู้ติดต่อคนอื่นเเล้ว",
     "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "ยกเลิก",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",

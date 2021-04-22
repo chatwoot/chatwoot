@@ -3,35 +3,41 @@
     "404": "왼쪽 창에서 대화를 선택하십시오.",
     "NO_MESSAGE_1": "어라! 받은 메시지함에 고객의 메시지가 없는 것 같아요.",
     "NO_MESSAGE_2": " 페이지에 메시지를 보내기 위해서!",
-    "NO_INBOX_1": "안녕! 아직 받은 편지함을 하나도 추가하지 않은 것 같아요.",
+    "NO_INBOX_1": "안녕! 아직 받은 메시지함을 하나도 추가하지 않은 것 같아요.",
     "NO_INBOX_2": " 시작하려면",
     "NO_INBOX_AGENT": "오! 어떤 받은 메시지함에도 속하지 않는 것 같습니다. 관리자에게 문의하십시오.",
     "SEARCH_MESSAGES": "대화에서 메시지 검색",
     "SEARCH": {
       "TITLE": "메시지 검색",
       "LOADING_MESSAGE": "데이터 처리 중...",
-      "PLACEHOLDER": "메시지를 검색할 텍스트 입력",
-      "NO_MATCHING_RESULTS": "No results found."
+      "PLACEHOLDER": "검색할 텍스트를 입력하세요",
+      "NO_MATCHING_RESULTS": "검색 결과가 없습니다."
     },
     "UNREAD_MESSAGES": "안 읽은 메시지",
     "UNREAD_MESSAGE": "안 읽은 메시지",
-    "CLICK_HERE": "여기를 클릭하세요.",
+    "CLICK_HERE": "여기를 클릭하세요",
     "LOADING_INBOXES": "받은 메시지함 불러오는 중",
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "LAST_INCOMING_TWEET": "마지막 수신 트윗에 회신하는 경우",
     "REPLYING_TO": "회신할 대상:",
     "REMOVE_SELECTION": "선택 항목 제거",
     "DOWNLOAD": "다운로드",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "UPLOADING_ATTACHMENTS": "첨부 업로드 중...",
+    "NO_RESPONSE": "응답없음",
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
       "REOPEN_ACTION": "다시 열기",
+      "OPEN_ACTION": "열기",
       "OPEN": "더보기",
       "CLOSE": "닫기",
       "DETAILS": "자세히"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "줄바꿈을 하시려면 Shift + enter 클릭하십시오. '/'로 시작하여 미리 준비된 답변을 사용할 수 있습니다.",
@@ -43,15 +49,16 @@
       "SEND": "보내기",
       "CREATE": "노트 추가",
       "TWEET": "트윗",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_FORMAT_ICON": "웹 편집기 보기",
+      "TIP_EMOJI_ICON": "이모티콘 보기",
+      "TIP_ATTACH_ICON": "파일 첨부",
+      "ENTER_TO_SEND": "엔터를 눌러 전송하기"
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
     "CHANGE_STATUS": "대화 상태가 변경됨",
     "CHANGE_AGENT": "대화 담당자가 변경됨",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "대화 담당자가 변경됨",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "보낸 사람:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "에이전트 선택",
@@ -77,35 +84,35 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "안녕하세요 👋, %{installationName}에 오신 것을 환영합니다!",
+    "DESCRIPTION": "가입해주셔서 감사합니다. 저희 %{installationName}의 모든 기능을 최대로 누리기 위해 아래 몇 가지를 해주시겠어요?",
+    "READ_LATEST_UPDATES": "최근 업데이트 내용 보기",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "모든 대화를 한 곳에서",
+      "DESCRIPTION": "고객들과의 모든 대화를 하나의 대시보드에서 확인하세요. 대화들을 채널별, 라벨별, 상태별로 필터링 할 수 있습니다."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "팀 구성원들을 초대하세요.",
+      "DESCRIPTION": "드디어 고객과 대화할 준비가 되었습니다. 팀원들을 초대하세요. 팀원들의 이메일 주소를 에이전트 목록에 추가함으로써 초대할 수 있습니다.",
+      "NEW_LINK": "클릭하여 팀원을 초대하세요."
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "받은 메시지함에 연결하기",
+      "DESCRIPTION": "고객들과 대화할 수 있는 여러 채널들을 연결하세요. 웹사이트 라이브챗이 될 수도 있고, 페이스북 또는 트위터 페이지, 심지어는 왓츠앱 번호가 될 수도 있습니다.",
+      "NEW_LINK": "클릭하여 받은 메시지함을 생성하세요."
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "대화들을 라벨로 정리하기",
+      "DESCRIPTION": "라벨들은 대화들을 분류할 수 있는 쉬운 방법을 제공합니다. 예를 들면 #support-enquiry, #billing-question 등과 같은 라벨을 생성해서 나중에 대화할 때 사용할 수 있습니다.",
+      "NEW_LINK": "클릭하여 태그를 생성하세요."
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "대화 내용",
+    "ASSIGNEE_LABEL": "할당된 에이전트",
+    "TEAM_LABEL": "할당된 팀",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "없음"
     }
   }
 }
