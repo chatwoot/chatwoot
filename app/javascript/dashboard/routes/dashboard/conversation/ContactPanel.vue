@@ -155,8 +155,8 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
