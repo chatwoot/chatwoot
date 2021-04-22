@@ -116,7 +116,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
     currentPage() {
-      return this.$store.getters['conversationPage/getCurrentPage'](
+      return this.$store.getters['conversationPage/getCurrentPageFilter'](
         this.activeAssigneeTab
       );
     },
@@ -199,6 +199,7 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
