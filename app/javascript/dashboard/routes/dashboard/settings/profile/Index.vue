@@ -231,7 +231,7 @@ export default {
           password: this.password,
           displayName: this.displayName,
           password_confirmation: this.passwordConfirmation,
-          currentPassword: this.currentPassword,
+          current_password: this.currentPassword,
         });
         this.isProfileUpdating = false;
         this.isPasswordChanging = false;
