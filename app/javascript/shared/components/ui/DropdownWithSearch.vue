@@ -104,9 +104,14 @@ export default {
 <style lang="scss" scoped>
 .dropdown-search-wrap {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 18.4rem;
 
   .search-wrap {
     margin-bottom: var(--space-small);
+    flex: 0 0 auto;
+    max-height: var(--space-large);
 
     .search-input {
       margin: 0;
@@ -127,9 +132,12 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
+    flex: 1 1 auto;
+    overflow: auto;
 
     .list {
       width: 100%;
+      max-height: 15.2rem;
 
       .button {
         display: flex;
