@@ -5,13 +5,6 @@
         <emoji-or-icon :icon="icon" :emoji="emoji" />
         {{ title }}
       </div>
-      <button
-        v-if="showEdit"
-        class="button clear small edit-button"
-        @click="onEdit"
-      >
-        {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
-      </button>
     </h4>
     <div v-if="value" class="conv-details--item__value">
       <slot>
@@ -28,17 +21,12 @@ export default {
   components: {
     EmojiOrIcon,
   },
+
   props: {
     title: { type: String, required: true },
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
-  },
-  methods: {
-    onEdit() {
-      this.$emit('edit');
-    },
   },
 };
 </script>
@@ -48,17 +36,13 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: var(--space-normal);
+  padding-bottom: var(--space-small);
 
   .conv-details--item__label {
     align-items: center;
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--space-smaller);
-
-    .edit-button {
-      padding: 0;
-    }
   }
 
   .conv-details--item__value {

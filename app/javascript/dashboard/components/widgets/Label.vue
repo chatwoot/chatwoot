@@ -63,12 +63,14 @@ export default {
 
 .label {
   display: inline-block;
-  font-size: $font-size-small;
-  line-height: 1;
-  margin: $space-micro;
+  font-size: var(--font-size-mini);
+  line-height: 1.4;
+  margin: var(--space-micro);
+  border-radius: 7px;
+  font-weight: 500;
 
   &.small {
-    font-size: $font-size-mini;
+    font-size: var(--font-size-mini);
   }
 
   a {
@@ -80,8 +82,8 @@ export default {
 
 .label--icon {
   cursor: pointer;
-  font-size: $font-size-micro;
+  font-size: var(--font-size-micro);
   line-height: 1.5;
-  margin-left: $space-smaller;
+  margin-left: var(--space-smaller);
 }
 </style>

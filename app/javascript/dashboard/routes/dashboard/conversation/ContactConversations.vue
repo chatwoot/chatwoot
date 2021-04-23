@@ -81,7 +81,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: 0 var(--space-slab) var(--space-two);
+  padding: var(--space-smaller) var(--space-slab) var(--space-small);
 }
 
 .contact-conversation__wrap {

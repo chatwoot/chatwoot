@@ -53,6 +53,16 @@
         </multiselect>
       </div>
     </div>
+    <contact-custom-attributes
+      v-if="hasContactAttributes"
+      :custom-attributes="contact.custom_attributes"
+    />
+    <conversation-labels :conversation-id="conversationId" />
+    <contact-conversations
+      v-if="contact.id"
+      :contact-id="contact.id"
+      :conversation-id="conversationId"
+    />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
@@ -101,16 +111,6 @@
         emoji="🕰"
       />
     </div>
-    <contact-custom-attributes
-      v-if="hasContactAttributes"
-      :custom-attributes="contact.custom_attributes"
-    />
-    <conversation-labels :conversation-id="conversationId" />
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
   </div>
 </template>
 
@@ -296,14 +296,14 @@ export default {
 .contact--panel {
   background: white;
   border-left: 1px solid var(--color-border);
-  font-size: $font-size-small;
+  font-size: var(--font-size-small);
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-one;
+  padding: var(--space-one);
 
   i {
-    margin-right: $space-smaller;
+    margin-right: var(--space-smaller);
   }
 }
 
@@ -317,22 +317,22 @@ export default {
 
 .close-button {
   position: absolute;
-  right: $space-normal;
-  top: $space-slab;
-  font-size: $font-size-default;
-  color: $color-heading;
+  right: var(--space-normal);
+  top: var(--space-slab);
+  font-size: var(--font-size-default);
+  color: var(--color-heading);
 }
 
 .conversation--details {
-  padding: 0 var(--space-slab);
+  padding: var(--space-two) var(--space-slab) 0 var(--space-slab);
 }
 
 .conversation--labels {
-  padding: $space-medium;
+  padding: var(--space-medium);
 
   .icon {
-    margin-right: $space-micro;
-    font-size: $font-size-micro;
+    margin-right: var(--space-micro);
+    font-size: var(--font-size-micro);
     color: #fff;
   }
 
@@ -343,7 +343,7 @@ export default {
 }
 
 .contact--mute {
-  color: $alert-color;
+  color: var(--r-500);
   display: block;
   text-align: left;
 }
