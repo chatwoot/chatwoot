@@ -126,24 +126,26 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown-search-wrap {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  max-height: 18rem;
 
   .search-wrap {
     margin-bottom: var(--space-small);
-    position: relative;
-    z-index: 2;
+    flex: 0 0 auto;
+    max-height: var(--space-large);
 
     .search-input {
       margin: 0;
       width: 100%;
-      position: absolute;
-      top: -4px;
       border: none;
       height: var(--space-large);
       font-size: var(--font-size-small);
       padding: var(--space-small);
       background-color: var(--color-background);
     }
+
     input:focus {
       border: 1px solid var(--w-500);
     }
@@ -153,12 +155,12 @@ export default {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    overflow: scroll;
-    max-height: 20rem;
-    padding-top: 4rem;
+    flex: 1 1 auto;
+    overflow: auto;
 
     .list {
       width: 100%;
+      max-height: 14.8rem;
 
       .name-label-icon-wrap {
         display: flex;
@@ -166,16 +168,23 @@ export default {
         .button {
           display: flex;
           justify-content: space-between;
+
           &.active {
             display: flex;
             font-weight: 600;
             color: #1a4d8f;
           }
+
           .name-label-wrap {
             display: flex;
           }
+
           .label-color--display {
             margin-right: var(--space-small);
+          }
+
+          .icon {
+            font-size: 1.4rem;
           }
         }
 
