@@ -3,7 +3,9 @@ class Integrations::Dialogflow::ProcessorService
 
   def perform
     message = event_data[:message]
+    return if message.private?
     return unless processable_message?(message)
+    return unless message.conversation.bot?
 
     response = get_dialogflow_response(message.conversation.contact_inbox.source_id, message_content(message))
     process_response(message, response)
@@ -18,9 +20,7 @@ class Integrations::Dialogflow::ProcessorService
   end
 
   def processable_message?(message)
-    return unless message.conversation.bot?
     return unless message.reportable?
-    return if message.private?
     return if message.outgoing? && !processable_outgoing_message?(message)
 
     true
