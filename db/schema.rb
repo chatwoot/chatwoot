@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_101919) do
+ActiveRecord::Schema.define(version: 2021_04_25_093724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -321,12 +321,12 @@ ActiveRecord::Schema.define(version: 2021_03_15_101919) do
     t.integer "inbox_id"
     t.integer "account_id"
     t.string "app_id"
-    t.text "settings"
     t.integer "hook_type", default: 0
     t.string "reference_id"
     t.string "access_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "settings", default: {}
   end
 
   create_table "kbase_articles", force: :cascade do |t|

@@ -80,6 +80,8 @@ gem 'twitty'
 gem 'koala'
 # slack client
 gem 'slack-ruby-client'
+# for dialogflow integrations
+gem 'google-cloud-dialogflow'
 
 ##--- gems for debugging and error reporting ---##
 # static analysis

@@ -211,6 +211,12 @@ GEM
     fugit (1.4.1)
       et-orbi (~> 1.1, >= 1.1.8)
       raabro (~> 1.4)
+    gapic-common (0.3.4)
+      google-protobuf (~> 3.12, >= 3.12.2)
+      googleapis-common-protos (>= 1.3.9, < 2.0)
+      googleapis-common-protos-types (>= 1.0.4, < 2.0)
+      googleauth (~> 0.9)
+      grpc (~> 1.25)
     geocoder (1.6.3)
     gli (2.19.2)
     globalid (0.4.2)
@@ -226,6 +232,12 @@ GEM
     google-cloud-core (1.5.0)
       google-cloud-env (~> 1.0)
       google-cloud-errors (~> 1.0)
+    google-cloud-dialogflow (1.2.0)
+      google-cloud-core (~> 1.5)
+      google-cloud-dialogflow-v2 (~> 0.1)
+    google-cloud-dialogflow-v2 (0.6.4)
+      gapic-common (~> 0.3)
+      google-cloud-errors (~> 1.0)
     google-cloud-env (1.3.3)
       faraday (>= 0.17.3, < 2.0)
     google-cloud-errors (1.0.1)
@@ -236,6 +248,13 @@ GEM
       google-cloud-core (~> 1.2)
       googleauth (~> 0.9)
       mini_mime (~> 1.0)
+    google-protobuf (3.15.8-universal-darwin)
+    googleapis-common-protos (1.3.11)
+      google-protobuf (~> 3.14)
+      googleapis-common-protos-types (>= 1.0.6, < 2.0)
+      grpc (~> 1.27)
+    googleapis-common-protos-types (1.0.6)
+      google-protobuf (~> 3.14)
     googleauth (0.13.1)
       faraday (>= 0.17.3, < 2.0)
       jwt (>= 1.4, < 3.0)
@@ -245,6 +264,9 @@ GEM
       signet (~> 0.14)
     groupdate (5.1.0)
       activesupport (>= 5)
+    grpc (1.37.0-universal-darwin)
+      google-protobuf (~> 3.15)
+      googleapis-common-protos-types (~> 1.0)
     haikunator (1.1.0)
     hairtrigger (0.2.23)
       activerecord (>= 5.0, < 7)
@@ -612,6 +634,7 @@ DEPENDENCIES
   flag_shih_tzu
   foreman
   geocoder
+  google-cloud-dialogflow
   google-cloud-storage
   groupdate
   haikunator
