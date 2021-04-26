@@ -1,5 +1,8 @@
 <template>
   <div class="dropdown-search-wrap">
+    <h4 class="text-block-title">
+      {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
+    </h4>
     <div class="search-wrap">
       <input
         ref="searchbar"
@@ -28,15 +31,15 @@
                   <span>{{ label.title }}</span>
                 </div>
                 <i
-                  v-if="selectLabels.includes(label.title)"
+                  v-if="selectedLabels.includes(label.title)"
                   class="icon ion-checkmark-round"
                 />
               </button>
             </div>
           </woot-dropdown-item>
         </woot-dropdown-menu>
-        <div v-if="noResult" class="button clear no-result">
-          {{ 'No labels found' }}
+        <div v-if="noResult" class="no-result">
+          {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
         </div>
       </div>
     </div>
@@ -61,11 +64,19 @@ export default {
       type: Array,
       default: () => [],
     },
-    selectLabels: {
+    selectedLabels: {
       type: Array,
       default: () => [],
     },
     updateLabels: {
+      type: Function,
+      default: () => {},
+    },
+    onAdd: {
+      type: Function,
+      default: () => {},
+    },
+    onRemove: {
       type: Function,
       default: () => {},
     },
@@ -102,20 +113,9 @@ export default {
       this.$refs.searchbar.focus();
     },
 
-    onAdd(label) {
-      this.updateLabels([...this.selectLabels, label.title]);
-    },
-
-    onRemove(label) {
-      const activeLabels = this.selectLabels.filter(
-        activeLabel => activeLabel !== label.title
-      );
-      this.updateLabels(activeLabels);
-    },
-
     onAddRemove(label) {
-      if (this.selectLabels.includes(label.title)) {
-        this.onRemove(label);
+      if (this.selectedLabels.includes(label.title)) {
+        this.onRemove(label.title);
       } else {
         this.onAdd(label);
       }
@@ -129,7 +129,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: 18rem;
+  max-height: 20rem;
 
   .search-wrap {
     margin-bottom: var(--space-small);
@@ -160,7 +160,7 @@ export default {
 
     .list {
       width: 100%;
-      max-height: 14.8rem;
+      max-height: 16.8rem;
 
       .name-label-icon-wrap {
         display: flex;
@@ -184,7 +184,7 @@ export default {
           }
 
           .icon {
-            font-size: 1.4rem;
+            font-size: var(--font-size-small);
           }
         }
 
@@ -202,6 +202,10 @@ export default {
     .no-result {
       display: flex;
       justify-content: center;
+      color: var(--s-700);
+      padding: var(--space-smaller) var(--space-one);
+      font-weight: var(--font-weight-medium);
+      font-size: var(--font-size-small);
     }
   }
 }

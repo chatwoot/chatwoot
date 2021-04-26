@@ -14,7 +14,7 @@
         <div>
           <woot-button class="button-wrap button hollow" @click="toggleLabels">
             <i class="ion-plus-round" />
-            {{ 'Add labels' }}
+            {{ $t('CONTACT_PANEL.LABELS.MODAL.ADD_BUTTON') }}
           </woot-button>
           <woot-label
             v-for="label in activeLabels"
@@ -22,6 +22,8 @@
             :title="label.title"
             :description="label.description"
             :bg-color="label.color"
+            :show-icon="true"
+            @click="onRemove"
           />
         </div>
         <div class="dropdown-wrap">
@@ -31,15 +33,14 @@
           >
             <label-dropdown
               v-if="showSearchDropdownLabel"
-              :select-labels="savedLabels"
+              :selected-labels="savedLabels"
               :conversation-id="conversationId"
               :account-labels="accountLabels"
               :update-labels="onUpdateLabels"
+              :on-add="onAdd"
+              :on-remove="onRemove"
             />
           </div>
-        </div>
-        <div v-if="!activeLabels.length" class="no-label-message">
-          <span>{{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}</span>
         </div>
       </div>
     </div>
@@ -138,6 +139,17 @@ export default {
       }
       this.$store.dispatch('conversationLabels/get', conversationId);
     },
+
+    onAdd(label) {
+      this.onUpdateLabels([...this.savedLabels, label.title]);
+    },
+
+    onRemove(label) {
+      const activeLabels = this.savedLabels.filter(
+        activeLabel => activeLabel !== label
+      );
+      this.onUpdateLabels(activeLabels);
+    },
   },
 };
 </script>
@@ -172,7 +184,7 @@ export default {
       display: flex;
       position: absolute;
       margin-right: var(--space-medium);
-      top: var(--space-large);
+      top: 3.6rem;
       width: 100%;
       left: 0;
 
