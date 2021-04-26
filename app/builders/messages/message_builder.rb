@@ -3,7 +3,7 @@ class Messages::MessageBuilder
   attr_reader :message
 
   def initialize(user, conversation, params)
-    @content = params[:content]
+    @params = params
     @is_private_note = params[:is_private_note] || params[:private] || false
     @conversation = conversation
     @user = user
@@ -47,7 +47,7 @@ class Messages::MessageBuilder
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
-      content: @content,
+      content: @params[:content],
       is_private_note: @is_private_note,
       sender: sender,
       content_type: @params[:content_type],

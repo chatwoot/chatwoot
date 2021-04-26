@@ -21,7 +21,7 @@ describe Facebook::SendOnFacebookService do
   describe '#perform' do
     context 'without reply' do
       it 'if message is private' do
-        message = create(:message, message_type: 'outgoing', private: true, inbox: facebook_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', is_private_note: true, inbox: facebook_inbox, account: account)
         ::Facebook::SendOnFacebookService.new(message: message).perform
         expect(bot).not_to have_received(:deliver)
       end

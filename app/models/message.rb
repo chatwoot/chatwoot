@@ -164,7 +164,7 @@ class Message < ApplicationRecord
 
   def email_notifiable_message?
     return false unless outgoing?
-    return false if private?
+    return false if is_private_note?
 
     true
   end
