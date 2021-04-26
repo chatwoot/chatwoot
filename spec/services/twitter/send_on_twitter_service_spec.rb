@@ -47,7 +47,7 @@ describe Twitter::SendOnTwitterService do
       end
 
       it 'if message is private' do
-        message = create(:message, message_type: 'outgoing', private: true, inbox: twitter_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', is_private_note: true, inbox: twitter_inbox, account: account)
         ::Twitter::SendOnTwitterService.new(message: message).perform
         expect(twitter_client).not_to have_received(:send_direct_message)
       end

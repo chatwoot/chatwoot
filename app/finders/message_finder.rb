@@ -17,7 +17,7 @@ class MessageFinder
   def messages
     return conversation_messages if @params[:filter_internal_messages].blank?
 
-    conversation_messages.where.not('private = ? OR message_type = ?', true, 2)
+    conversation_messages.where.not('is_private_note = ? OR message_type = ?', true, 2)
   end
 
   def current_messages

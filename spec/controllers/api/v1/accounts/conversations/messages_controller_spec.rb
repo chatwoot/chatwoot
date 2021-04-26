@@ -19,7 +19,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'creates a new outgoing message' do
-        params = { content: 'test-message', private: true }
+        params = { content: 'test-message', is_private_note: true }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,

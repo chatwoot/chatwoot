@@ -68,7 +68,7 @@ describe NotificationListener do
           conversation: conversation,
           account: account,
           content: "hi [#{agent_with_notification.name}](mention://user/#{agent_with_notification.id}/#{agent_with_notification.name})",
-          private: true
+          is_private_note: true
         )
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)
@@ -95,7 +95,7 @@ describe NotificationListener do
           conversation: conversation,
           account: account,
           content: nil,
-          private: true
+          is_private_note: true
         )
 
         event = Events::Base.new(event_name, Time.zone.now, message: message)

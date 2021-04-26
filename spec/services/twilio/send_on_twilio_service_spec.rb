@@ -25,7 +25,7 @@ describe Twilio::SendOnTwilioService do
   describe '#perform' do
     context 'without reply' do
       it 'if message is private' do
-        message = create(:message, message_type: 'outgoing', private: true, inbox: twilio_inbox, account: account)
+        message = create(:message, message_type: 'outgoing', is_private_note: true, inbox: twilio_inbox, account: account)
         ::Twilio::SendOnTwilioService.new(message: message).perform
         expect(twilio_client).not_to have_received(:messages)
       end

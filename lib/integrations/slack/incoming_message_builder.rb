@@ -85,7 +85,7 @@ class Integrations::Slack::IncomingMessageBuilder
       inbox_id: conversation.inbox_id,
       content: params[:event][:text],
       external_source_id_slack: params[:event][:ts],
-      private: private_note?,
+      is_private_note: private_note?,
       sender: sender
     )
 
