@@ -29,6 +29,11 @@ es:
       failed: Registro fallido
   reports:
     period: Reportando el periodo desde %{since} hasta %{until}
+    agent_csv:
+      agent_name: Nombre del agente
+      conversations_count: Cantidad de conversaciones
+      avg_first_response_time: Promedio de tiempo de la primera respuesta (Minutos)
+      avg_resolution_time: Promedio de tiempo de resolución (Minutos)
   notifications:
     notification_title:
       conversation_creation: "[Nueva conversación] - #%{display_id} ha sido creado en %{inbox_name}"
@@ -42,6 +47,7 @@ es:
       status:
         resolved: "La conversación fue marcada por %{user_name}"
         open: "La conversación fue reabierta por %{user_name}"
+        bot: "La conversación fue transferida al botón por %{user_name}"
         auto_resolved: "La conversación fue marcada por el sistema debido a %{duration} días de inactividad"
       assignee:
         self_assigned: "%{user_name} auto-asignado a esta conversación"

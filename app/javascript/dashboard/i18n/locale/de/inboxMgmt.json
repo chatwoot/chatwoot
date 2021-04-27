@@ -32,21 +32,21 @@
         "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
         "CHOOSE_PAGE": "Seite auswählen",
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
-        "INBOX_NAME": "Name des Posteingang",
+        "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
         "PICK_NAME": "Wähle einen Namen für deinen Posteingang",
         "PICK_A_VALUE": "Wähle einen Wert"
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
         "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
         "LOADING_MESSAGE": "Website-Support-Channel erstellen",
         "CHANNEL_AVATAR": {
-          "LABEL": "Channel Avatar"
+          "LABEL": "Kanal-Avatar"
         },
         "CHANNEL_NAME": {
           "LABEL": "Webseiten-Name",
@@ -66,13 +66,13 @@
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Grußnachricht des Kanals",
-          "PLACEHOLDER": "Wir antworten in der Regel in wenigen Stunden."
+          "PLACEHOLDER": "Acme Inc antwortet in der Regel innerhalb weniger Stunden."
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Kanal Begrüßung aktivieren",
           "HELP_TEXT": "Senden Sie eine Grußnachricht an den Benutzer, wenn er die Unterhaltung beginnt.",
           "ENABLED": "Aktiviert",
-          "DISABLED": "Behindert"
+          "DISABLED": "Deaktiviert"
         },
         "REPLY_TIME": {
           "TITLE": "Reaktionszeit festlegen",
@@ -194,13 +194,14 @@
       "TITLE": "Ihr Posteingang ist fertig!",
       "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Viel Spaß beim Unterstützen",
       "BUTTON_TEXT": "Bring mich dahin",
+      "MORE_SETTINGS": "Weitere Einstellungen",
       "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt."
     },
     "REAUTH": "Neu autorisieren",
     "VIEW": "Aussicht",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Widget-Farbe erfolgreich aktualisiert",
+        "SUCCESS_MESSAGE": "Posteingangseinstellungen erfolgreich aktualisiert",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
         "ERROR_MESSAGE": "Widget-Farbe konnte nicht aktualisiert werden. Bitte versuchen Sie es später noch einmal."
       },
@@ -223,11 +224,11 @@
       }
     },
     "TABS": {
-      "SETTINGS": "die Einstellungen",
+      "SETTINGS": "Einstellungen",
       "COLLABORATORS": "Mitarbeitende",
       "CONFIGURATION": "Konfiguration",
-      "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "PRE_CHAT_FORM": "Pre-Chat-Formular",
+      "BUSINESS_HOURS": "Öffnungszeiten"
     },
     "SETTINGS": "die Einstellungen",
     "FEATURES": {
@@ -242,51 +243,51 @@
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
-      "INBOX_UPDATE_TITLE": "Posteingang Einstellungen",
-      "INBOX_UPDATE_SUB_TEXT": "Posteingang Einstellungen aktualisieren",
+      "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
+      "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
-      "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
+      "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
+      "HMAC_DESCRIPTION": "Um die Benutzer-Identität zu validieren, kannst du einen `identity_hash` für jeden Benutzer übergeben. Du kannst den Hash mithilfe des 'sha256' Verfahrens generieren, der notwendige Schlüssel wird hier angezeigt."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
       "SUBTITLE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
       "MESSAGE_SUCCESS": "Wiederverbindung erfolgreich",
-      "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
+      "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Chatformulare ermöglichen es dir, Benutzerinformationen zu erfassen, bevor ein Gespräch begonnen wird.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Vorab Chatformulare aktivieren",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Ja",
+          "DISABLED": "Nein"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Vorab Chat-Nachricht",
+        "PLACEHOLDER": "Diese Nachricht ist für alle Benutzer dieses Formulars sichtbar"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Besucher sollten ihren Namen und ihre E-Mail-Adresse angeben, bevor sie den Chat starten"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Set your availability",
-      "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TITLE": "Legen Sie Ihre Verfügbarkeit fest",
+      "SUBTITLE": "Legen Sie die Verfügbarkeit für das Live-Chat-Widget fest",
+      "WEEKLY_TITLE": "Wöchentliche Stunden festlegen",
+      "TIMEZONE_LABEL": "Zeitzone auswählen",
+      "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
+      "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
+      "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb der Geschäftszeiten",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "Wir sind momentan nicht erreichbar. Hinterlassen Sie eine Nachricht und wir antworten Ihnen sobald wir wieder zurück sind.",
+      "TOGGLE_HELP": "Die Aktivierung der Geschäftsverfügbarkeit zeigt die verfügbaren Stunden auf dem Live-Chat-Widget an, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Vor-Chat-Formular gewarnt werden.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
+        "UNAVAILABLE": "Nicht verfügbar",
+        "HOURS": "Stunden",
+        "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
+        "CHOOSE": "Auswählen"
       }
     }
   }

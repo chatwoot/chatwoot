@@ -3,6 +3,8 @@
     "LINK": "சுயவிவர அமைப்புகள்",
     "TITLE": "சுயவிவர அமைப்புகள்",
     "BTN_TEXT": "சுயவிவரத்தைப் புதுப்பிக்க",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "உங்கள் சுயவிவரம் வெற்றிகரமாக புதுப்பிக்கப்பட்டது, உங்கள் உள்நுழைவு சான்றுகள் மாற்றப்பட்டதால் மீண்டும் உள்நுழையவும்",
     "FORM": {
       "AVATAR": "சுயவிவர படம்",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "பாஸ்வேர்ட்",
-        "NOTE": "உங்கள் பாஸ்வேர்டைப் புதுப்பிப்பது உங்கள் உள்நுழைவுகளை பல சாதனங்களில் மீட்டமைக்கும்."
+        "NOTE": "உங்கள் பாஸ்வேர்டைப் புதுப்பிப்பது உங்கள் உள்நுழைவுகளை பல சாதனங்களில் மீட்டமைக்கும்.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "அணுகுவதற்கான டோக்கன்",
         "NOTE": "நீங்கள் API அடிப்படையிலான ஒருங்கிணைப்பை உருவாக்கினால் இந்த டோக்கனைப் பயன்படுத்தலாம்"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "ஈமெயில் வழியான அறிவிப்புகள்",

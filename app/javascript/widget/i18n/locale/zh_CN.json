@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "在线",
-    "OFFLINE": "离线"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
@@ -48,5 +48,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

@@ -194,6 +194,7 @@
       "TITLE": "Innboksen din er klar!",
       "MESSAGE": "Du kan nå kommunisere med kundene dine via den nye kanalen. Til lykke med kundeservicen!",
       "BUTTON_TEXT": "Ta meg dit",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Du har nå fullført opprettingen av nettstedskanalen. Kopier koden nedenfor og lim den inn på nettstedet. Neste gang en kunde bruker live-chatten vil samtalen vises automatisk i innboksen din."
     },
     "REAUTH": "Reautoriser",

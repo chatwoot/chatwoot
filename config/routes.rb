@@ -88,6 +88,7 @@ Rails.application.routes.draw do
           end
 
           resources :inboxes, only: [:index, :create, :update, :destroy] do
+            get :assignable_agents, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -241,6 +242,7 @@ Rails.application.routes.draw do
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

@@ -12,17 +12,17 @@
     },
     "STATUS_TABS": [
       {
-        "NAME": "Abiertas",
+        "NAME": "Abrir",
         "KEY": "openCount"
       },
       {
-        "NAME": "Resueltas",
+        "NAME": "Resuelto",
         "KEY": "allConvCount"
       }
     ],
     "ASSIGNEE_TYPE_TABS": [
       {
-        "NAME": "Mías",
+        "NAME": "Mina",
         "KEY": "me",
         "COUNT_KEY": "mineCount"
       },
@@ -39,11 +39,11 @@
     ],
     "CHAT_STATUS_ITEMS": [
       {
-        "TEXT": "Abiertas",
+        "TEXT": "Abrir",
         "VALUE": "open"
       },
       {
-        "TEXT": "Resueltas",
+        "TEXT": "Resuelto",
         "VALUE": "resolved"
       },
       {

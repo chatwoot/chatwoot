@@ -3,6 +3,8 @@
     "LINK": "Cài Đặt Hồ Sơ",
     "TITLE": "Cài Đặt Hồ Sơ",
     "BTN_TEXT": "Cập Nhật Hồ Sơ",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Mật khẩu của bạn đã được thay đổi thành công",
     "AFTER_EMAIL_CHANGED": "Hồ sơ của bạn đã được cập nhật thành công, vui lòng đăng nhập lại khi thông tin đăng nhập của bạn được thay đổi",
     "FORM": {
       "AVATAR": "Hình ảnh hồ sơ cá nhân",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Mật khẩu",
-        "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị."
+        "NOTE": "Cập nhật mật khẩu của bạn sẽ đặt lại thông tin đăng nhập của bạn trên nhiều thiết bị.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Thông Báo Email",

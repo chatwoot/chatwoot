@@ -61,7 +61,6 @@
         <label class="multiselect__label">
           {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
         </label>
-
         <div v-on-clickaway="onCloseDropdownTeam" class="dropdown-wrap">
           <button
             :v-model="assignedTeam"
@@ -180,6 +179,8 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
+
 import flag from 'country-code-emoji';
 import SelectMenu from 'shared/components/ui/DropdownWithSearch';
 import Thumbnail from 'components/widgets/Thumbnail.vue';
@@ -220,8 +221,8 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
@@ -400,6 +401,14 @@ export default {
   }
 }
 
+.multiselect-wrap--small {
+  &::v-deep .multiselect__element {
+    span {
+      width: 100%;
+    }
+  }
+}
+
 .close-button {
   position: absolute;
   right: $space-normal;
@@ -450,6 +459,7 @@ export default {
 .multiselect__label {
   margin-bottom: var(--space-smaller);
 }
+
 .conversation--actions {
   .dropdown-wrap {
     display: flex;

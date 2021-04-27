@@ -90,6 +90,7 @@ import { mapGetters } from 'vuex';
 import SelectMenu from 'shared/components/ui/DropdownWithSearch';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
 
 export default {
   components: {
@@ -120,8 +121,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
 
@@ -153,7 +154,6 @@ export default {
           bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
         });
     },
-
     removeAgent() {},
 
     toggleDropdown() {
@@ -263,6 +263,19 @@ export default {
         }
       }
     }
+  }
+}
+
+.option__desc {
+  display: flex;
+  align-items: center;
+}
+
+.option__desc {
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
   }
 }
 </style>

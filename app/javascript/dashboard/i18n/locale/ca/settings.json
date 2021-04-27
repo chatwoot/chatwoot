@@ -3,6 +3,8 @@
     "LINK": "Configuració del Perfil",
     "TITLE": "Configuració del Perfil",
     "BTN_TEXT": "Actualització del Perfil",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "La teva contrasenya ha estat canviada correctament",
     "AFTER_EMAIL_CHANGED": "El vostre perfil s'ha actualitzat correctament. Torneu a iniciar la sessió ja que les vostres credencials d'inici de sessió han canviat",
     "FORM": {
       "AVATAR": "Imatge del Perfil",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Contrasenya",
-        "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius."
+        "NOTE": "L'actualització de la contrasenya restableix els vostres inicis de sessió en múltiples dispositius.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token d'accés",
         "NOTE": "Aquest token es pot utilitzar si creeu una integració basada en l'API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificacions per correu electrònic",

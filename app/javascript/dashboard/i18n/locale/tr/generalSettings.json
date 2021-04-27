@@ -56,8 +56,8 @@
     "HEADER": "Bildirimler",
     "MARK_ALL_DONE": "Mark All Done",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Bildirimler yükleniyor...",
+      "404": "Bildirim yok",
       "TABLE_HEADER": [
         "İsim",
         "Telefon numarası",
@@ -66,9 +66,9 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
-      "assigned_conversation_new_message": "New Message",
+      "conversation_creation": "Yeni görüşme",
+      "conversation_assignment": "Atanan görüşme",
+      "assigned_conversation_new_message": "Yeni Mesaj",
       "conversation_mention": "Mention"
     }
   }

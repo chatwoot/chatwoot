@@ -12,6 +12,7 @@
     "INITIATED_FROM": "A partir de",
     "INITIATED_AT": "Iniciado em",
     "IP_ADDRESS": "Endereço IP",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
@@ -71,7 +72,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
-        "LABEL": "Número de Telefone"
+        "LABEL": "Número de Telefone",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -103,6 +106,30 @@
     "SUCCESS_MESSAGE": "Contato salvo com sucesso",
     "CONTACT_ALREADY_EXIST": "Esse endereço de e-mail já está sendo usado para outro contato.",
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
+  },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "Nova conversa",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Cancelar",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contato",
