@@ -32,7 +32,7 @@
             />
             <div class="name-icon-wrap">
               <div v-if="!assignedAgent" class="name select-agent">
-                {{ 'Select Agent' }}
+                {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
               </div>
               <div v-else class="name">
                 {{ assignedAgent && assignedAgent.name }}
@@ -45,6 +45,9 @@
             :class="{ 'dropdown-pane--open': showSearchDropdown }"
             class="dropdown-pane"
           >
+            <h4 class="text-block-title">
+              {{ $t('AGENT_MGMT.SELECTOR.TITLE.AGENT') }}
+            </h4>
             <select-menu
               v-if="showSearchDropdown"
               :options="agentsList"
@@ -79,7 +82,7 @@
             />
             <div class="name-icon-wrap">
               <div v-if="!assignedTeam" class="name select-agent">
-                {{ 'Select Agent' }}
+                {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
               </div>
               <div v-else class="name">
                 {{ assignedTeam && assignedTeam.name }}
@@ -93,6 +96,9 @@
             :class="{ 'dropdown-pane--open': showSearchDropdownTeam }"
             class="dropdown-pane"
           >
+            <h4 class="text-block-title">
+              {{ $t('AGENT_MGMT.SELECTOR.TITLE.TEAM') }}
+            </h4>
             <select-menu
               v-if="showSearchDropdownTeam"
               :options="teamsList"
@@ -448,11 +454,12 @@ export default {
   .dropdown-wrap {
     display: flex;
     position: relative;
+    width: 100%;
     margin-right: var(--space-one);
 
     .button-input {
       display: flex;
-      width: 34rem;
+      width: 100%;
       cursor: pointer;
       justify-content: flex-start;
       background: white;
@@ -491,9 +498,11 @@ export default {
     }
 
     .dropdown-pane {
+      box-sizing: border-box;
       top: 4rem;
       right: 0;
-      width: 93.5%;
+      position: absolute;
+      width: 100%;
 
       &::v-deep {
         .dropdown-menu__item .button {

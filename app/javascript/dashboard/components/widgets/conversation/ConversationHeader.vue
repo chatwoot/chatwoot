@@ -56,7 +56,7 @@
           <div class="name-icon-wrap">
             <div class="name-wrap">
               <div v-if="!currentChat.meta.assignee" class="name select-agent">
-                {{ 'Select Agent' }}
+                {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
               </div>
               <div v-else class="name">
                 {{

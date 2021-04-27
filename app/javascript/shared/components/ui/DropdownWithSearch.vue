@@ -39,7 +39,7 @@
             </button>
           </woot-dropdown-item>
         </woot-dropdown-menu>
-        <div v-if="noResult" class="button clear no-result">
+        <div v-if="noResult" class="no-result">
           {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
         </div>
       </div>
@@ -170,6 +170,11 @@ export default {
       .no-result {
         display: flex;
         justify-content: center;
+        color: var(--s-700);
+        width: 100%;
+        padding: var(--space-small) var(--space-one);
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-small);
       }
     }
   }
