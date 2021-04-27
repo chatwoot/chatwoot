@@ -67,6 +67,7 @@
     "@babel/plugin-proposal-class-properties": "7.13.0",
     "@babel/preset-env": "7.13.5",
     "@storybook/addon-actions": "6.2.9",
+    "@storybook/addon-docs": "^6.2.9",
     "@storybook/addon-essentials": "6.2.9",
     "@storybook/addon-links": "6.2.9",
     "@storybook/addons": "6.2.9",

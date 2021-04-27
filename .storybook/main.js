@@ -11,7 +11,20 @@ module.exports = {
     '../app/javascript/dashboard/components/ui/stories/**/*.stories.@(js|jsx|ts|tsx)',
     '../stories/**/*.stories.@(js|jsx|ts|tsx)',
   ],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
+  addons: [
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        vueDocgenOptions: {
+          alias: {
+            '@': path.resolve(__dirname, '../'),
+          },
+        },
+      },
+    },
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+  ],
   webpackFinal: config => {
     const newConfig = {
       ...config,
