@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import WootButton from '../WootButton.vue';
 
 export default {
-  title: 'Woot/Button',
+  title: 'Components/Button',
   component: WootButton,
   argTypes: {
     colorScheme: {
