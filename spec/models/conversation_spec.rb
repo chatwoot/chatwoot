@@ -340,17 +340,6 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-  describe '#lock_event_data' do
-    subject(:lock_event_data) { conversation.lock_event_data }
-
-    let(:conversation) do
-      build(:conversation, display_id: 505, locked: false)
-    end
-
-    it 'returns lock event payload' do
-      expect(lock_event_data).to eq(id: 505, locked: false)
-    end
-  end
 
   describe '#botinbox: when conversation created inside inbox with agent bot' do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
