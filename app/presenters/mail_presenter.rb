@@ -8,7 +8,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def subject
-    encode_to_unicode(@mail.subject || I18n.t('email.no_subject'))
+    encode_to_unicode(@mail.subject || '')
   end
 
   def text_content

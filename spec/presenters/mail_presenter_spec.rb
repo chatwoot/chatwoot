@@ -10,7 +10,7 @@ RSpec.describe MailPresenter do
     let(:decorated_mail_with_no_subject) { described_class.new(mail_with_no_subject) }
 
     it 'give default subject line if mail subject is empty' do
-      expect(decorated_mail_with_no_subject.subject).to eq('No subject')
+      expect(decorated_mail_with_no_subject.subject).to eq('')
     end
 
     it 'give utf8 encoded content' do
