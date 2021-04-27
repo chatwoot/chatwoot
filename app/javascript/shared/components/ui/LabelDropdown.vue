@@ -171,7 +171,7 @@ export default {
 
           &.active {
             display: flex;
-            font-weight: 600;
+            font-weight: var(--font-weight-bold);
             color: #1a4d8f;
           }
 

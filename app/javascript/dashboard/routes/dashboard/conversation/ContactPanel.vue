@@ -338,7 +338,7 @@ export default {
 
   .label {
     color: #fff;
-    padding: 0.2rem;
+    padding: var(--space-micro);
   }
 }
 

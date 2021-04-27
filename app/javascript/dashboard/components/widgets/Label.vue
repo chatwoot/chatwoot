@@ -66,8 +66,8 @@ export default {
   font-size: var(--font-size-mini);
   line-height: 1.4;
   margin: var(--space-micro);
-  border-radius: 7px;
-  font-weight: 500;
+  border-radius: var(--border-radius-medium);
+  font-weight: var(--font-weight-medium);
 
   &.small {
     font-size: var(--font-size-mini);

@@ -28,11 +28,11 @@
         </div>
         <div class="dropdown-wrap">
           <div
-            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+            :class="{ 'dropdown-pane--open': showLabelSelector }"
             class="dropdown-pane"
           >
             <label-dropdown
-              v-if="showSearchDropdownLabel"
+              v-if="showLabelSelector"
               :selected-labels="savedLabels"
               :conversation-id="conversationId"
               :account-labels="accountLabels"
@@ -52,8 +52,8 @@
 import { mapGetters } from 'vuex';
 import ContactDetailsItem from '../ContactDetailsItem';
 import Spinner from 'shared/components/Spinner';
-import LabelDropdown from 'shared/components/ui/LabelDropdown.vue';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
+import LabelDropdown from 'shared/components/ui/LabelDropdown';
+import WootButton from 'dashboard/components/ui/WootButton';
 import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       selectedLabels: [],
-      showSearchDropdownLabel: false,
+      showLabelSelector: false,
     };
   },
 
@@ -126,11 +126,11 @@ export default {
     },
 
     toggleLabels() {
-      this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
+      this.showLabelSelector = !this.showLabelSelector;
     },
 
     closeDropdownLabel() {
-      this.showSearchDropdownLabel = false;
+      this.showLabelSelector = false;
     },
 
     async fetchLabels(conversationId) {
@@ -173,7 +173,7 @@ export default {
     .button-wrap {
       display: inline;
       padding: var(--space-smaller) var(--space-small);
-      font-weight: 600;
+      font-weight: var(--font-weight-bold);
       margin: var(--space-small) 0 var(--space-small) 0;
       color: var(--s-500);
       border-color: var(--s-500);
