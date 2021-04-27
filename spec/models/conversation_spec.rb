@@ -340,7 +340,6 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-
   describe '#botinbox: when conversation created inside inbox with agent bot' do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
