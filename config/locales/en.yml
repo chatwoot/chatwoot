@@ -93,3 +93,6 @@ en:
     webhooks:
       name: "Webhooks"
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+
+  email:
+    no_subject: "No subject"
