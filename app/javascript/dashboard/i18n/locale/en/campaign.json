@@ -1,7 +1,7 @@
 {
   "CAMPAIGN": {
     "HEADER": "Campaigns",
-    "HEADER_BTN_TXT": "Create campaign",
+    "HEADER_BTN_TXT": "Create Campaign",
     "LIST": {
       "404": "There are no campaigns attached to this inbox"
     }
