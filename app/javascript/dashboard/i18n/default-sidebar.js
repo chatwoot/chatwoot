@@ -8,6 +8,7 @@ export const getSidebarItems = accountId => ({
       'inbox_conversation',
       'conversation_through_inbox',
       'contacts_dashboard',
+      'contacts_dashboard_manage',
       'notifications_dashboard',
       'settings_account_reports',
       'profile_settings',
