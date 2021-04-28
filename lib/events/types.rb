@@ -12,6 +12,7 @@ module Events::Types
   # conversation events
   CONVERSATION_CREATED = 'conversation.created'
   CONVERSATION_READ = 'conversation.read'
+  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   CONVERSATION_OPENED = 'conversation.opened'
   CONVERSATION_RESOLVED = 'conversation.resolved'
   CONVERSATION_STATUS_CHANGED = 'conversation.status_changed'

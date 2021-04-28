@@ -1,4 +1,5 @@
 class WebhookListener < BaseListener
+  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
@@ -6,6 +7,7 @@ class WebhookListener < BaseListener
     deliver_webhook_payloads(payload, inbox)
   end
 
+  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox

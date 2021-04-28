@@ -32,20 +32,6 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data)
   end
 
-  def conversation_resolved(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact&.pubsub_token]
-
-    broadcast(account, tokens, CONVERSATION_RESOLVED, conversation.push_event_data)
-  end
-
-  def conversation_opened(event)
-    conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact&.pubsub_token]
-
-    broadcast(account, tokens, CONVERSATION_OPENED, conversation.push_event_data)
-  end
-
   def conversation_status_changed(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact&.pubsub_token]
