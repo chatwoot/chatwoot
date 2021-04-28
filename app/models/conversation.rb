@@ -8,7 +8,6 @@
 #  contact_last_seen_at  :datetime
 #  identifier            :string
 #  last_activity_at      :datetime         not null
-#  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
 #  created_at            :datetime         not null
@@ -104,14 +103,6 @@ class Conversation < ApplicationRecord
     Redis::Alfred.get(mute_key).present?
   end
 
-  def lock!
-    update!(locked: true)
-  end
-
-  def unlock!
-    update!(locked: false)
-  end
-
   def unread_messages
     messages.unread_since(agent_last_seen_at)
   end
@@ -187,8 +178,8 @@ class Conversation < ApplicationRecord
     {
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
+      CONVERSATION_STATUS_CHANGED => -> { saved_change_to_status? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
-      CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event)

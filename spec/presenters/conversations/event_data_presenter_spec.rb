@@ -6,10 +6,6 @@ RSpec.describe Conversations::EventDataPresenter do
   let(:presenter) { described_class.new(conversation) }
   let(:conversation) { create(:conversation) }
 
-  describe '#lock_data' do
-    it { expect(presenter.lock_data).to eq(id: conversation.display_id, locked: false) }
-  end
-
   describe '#push_data' do
     let(:expected_data) do
       {
