@@ -104,4 +104,8 @@ class Account < ApplicationRecord
   trigger.after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
   end
+
+  trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
 end
