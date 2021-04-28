@@ -257,6 +257,9 @@
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
+    <div v-if="selectedTabKey === 'campaign'">
+      <campaign />
+    </div>
   </div>
 </template>
 
@@ -270,6 +273,7 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
 import PreChatFormSettings from './PreChatForm/Settings';
 import WeeklyAvailability from './components/WeeklyAvailability';
+import Campaign from './components/Campaign';
 
 export default {
   components: {
@@ -277,6 +281,7 @@ export default {
     FacebookReauthorize,
     PreChatFormSettings,
     WeeklyAvailability,
+    Campaign,
   },
   mixins: [alertMixin, configMixin, inboxMixin],
   data() {
@@ -330,6 +335,10 @@ export default {
       if (this.isAWebWidgetInbox) {
         return [
           ...visibleToAllChannelTabs,
+          {
+            key: 'campaign',
+            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
+          },
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
@@ -392,7 +401,7 @@ export default {
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
+        const newSelectedFlags = selected.filter((flag) => flag !== current);
         return newSelectedFlags;
       }
       return [...selected, current];
@@ -433,7 +442,7 @@ export default {
       }
     },
     async updateAgents() {
-      const agentList = this.selectedAgents.map(el => el.id);
+      const agentList = this.selectedAgents.map((el) => el.id);
       this.isAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxMembers/create', {
