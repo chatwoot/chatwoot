@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">
-      <div class="small-16 columns">
+      <div class="small-8 columns">
         <p class="no-items-error-message">
           {{ $t('CAMPAIGN.LIST.404') }}
           <a>
