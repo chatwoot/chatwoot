@@ -43,13 +43,14 @@ class WorkingHour < ApplicationRecord
   def open_at?(time)
     return false if closed_all_day?
 
-    time.hour >= open_hour &&
-      time.min  >= open_minutes &&
-      time.hour <= close_hour &&
-      time.min  <= close_minutes
+    btw_hours = time.hour > open_hour && time.hour < close_hour
+    aft_open_close = time.hour == open_hour ? time.min  >= open_minutes : false
+    bef_close_min = time.hour == close_hour ? time.min  <= close_minutes : false
+    btw_hours || aft_open_close || bef_close_min
   end
 
   def open_now?
+    Time.zone = inbox.timezone
     open_at?(Time.zone.now)
   end
 
