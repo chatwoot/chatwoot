@@ -24,7 +24,8 @@
         },
         "SENT_BY": {
           "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign"
+          "PLACEHOLDER": "Please select the the content of campaign",
+          "ERROR": "Sender is required"
         },
         "END_POINT": {
           "LABEL": "URL",

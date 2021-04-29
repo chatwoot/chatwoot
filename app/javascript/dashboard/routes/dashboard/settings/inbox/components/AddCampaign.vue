@@ -44,7 +44,7 @@
               </option>
             </select>
             <span v-if="$v.selectedAgent.$error" class="message">
-              {{ $t('AGENT_MGMT.ADD.FORM.AGENT_TYPE.ERROR') }}
+              {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
             </span>
           </label>
         </div>
