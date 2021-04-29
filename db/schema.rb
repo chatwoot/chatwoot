@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_15_101919) do
+ActiveRecord::Schema.define(version: 2021_04_26_191914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -229,7 +229,6 @@ ActiveRecord::Schema.define(version: 2021_03_15_101919) do
     t.integer "display_id", null: false
     t.datetime "contact_last_seen_at"
     t.datetime "agent_last_seen_at"
-    t.boolean "locked", default: false
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false

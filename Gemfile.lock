@@ -327,7 +327,7 @@ GEM
     nokogiri (1.11.2)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    oauth (0.5.4)
+    oauth (0.5.6)
     orm_adapter (0.5.0)
     os (1.1.1)
     parallel (1.19.2)
