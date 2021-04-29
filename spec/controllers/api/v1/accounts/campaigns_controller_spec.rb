@@ -23,7 +23,7 @@ RSpec.describe 'Campaigns API', type: :request do
         expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'returns all campaigns for administrators' do
+      it 'returns all campaigns to administrators' do
         get "/api/v1/accounts/#{account.id}/campaigns",
             headers: administrator.create_new_auth_token,
             as: :json
