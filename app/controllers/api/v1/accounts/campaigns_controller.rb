@@ -1,6 +1,4 @@
 class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
-  include Events::Types
-
   before_action :campaign, except: [:index, :create]
   before_action :check_authorization
 
