@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_26_191914) do
+ActiveRecord::Schema.define(version: 2021_04_28_151147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -111,6 +111,22 @@ ActiveRecord::Schema.define(version: 2021_04_26_191914) do
     t.datetime "updated_at", null: false
     t.string "fallback_title"
     t.string "extension"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.integer "display_id", null: false
+    t.string "title", null: false
+    t.text "description"
+    t.text "content", null: false
+    t.integer "sender_id"
+    t.boolean "enabled", default: true
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.jsonb "trigger_rules", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_campaigns_on_account_id"
+    t.index ["inbox_id"], name: "index_campaigns_on_inbox_id"
   end
 
   create_table "canned_responses", id: :serial, force: :cascade do |t|
@@ -235,8 +251,10 @@ ActiveRecord::Schema.define(version: 2021_04_26_191914) do
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
+    t.bigint "campaign_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
+    t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
   end
@@ -592,8 +610,11 @@ ActiveRecord::Schema.define(version: 2021_04_26_191914) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "campaigns", "accounts"
+  add_foreign_key "campaigns", "inboxes"
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
+  add_foreign_key "conversations", "campaigns"
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
   add_foreign_key "data_imports", "accounts"
@@ -612,6 +633,21 @@ ActiveRecord::Schema.define(version: 2021_04_26_191914) do
       before(:insert).
       for_each(:row) do
     "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
+  end
+
+  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
+      on("accounts").
+      name("camp_dpid_before_insert").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("campaigns").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
   end
 
 end
