@@ -7,6 +7,7 @@ require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:inbox) }
   end
 
   describe 'concerns' do
