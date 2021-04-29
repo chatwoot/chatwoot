@@ -1,5 +1,5 @@
 <template>
-  <div class="column page-top-bar">
+  <div class="column modal-top-bar">
     <img v-if="headerImage" :src="headerImage" alt="No image" />
     <h2 class="page-sub-title">
       {{ headerTitle }}
