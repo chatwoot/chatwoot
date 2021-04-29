@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :campaign do
     sequence(:title) { |n| "Campaign #{n}" }
+    sequence(:content) { |n| "Campaign content #{n}" }
     after(:build) do |campaign|
       campaign.account ||= create(:account)
       campaign.inbox ||= create(

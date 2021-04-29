@@ -42,6 +42,8 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :campaigns, only: [:index, :create, :show, :update]
+
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end

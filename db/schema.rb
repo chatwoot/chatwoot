@@ -117,8 +117,9 @@ ActiveRecord::Schema.define(version: 2021_04_28_151147) do
     t.integer "display_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.text "content"
+    t.text "content", null: false
     t.integer "sender_id"
+    t.boolean "enabled", default: true
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
     t.jsonb "trigger_rules", default: {}

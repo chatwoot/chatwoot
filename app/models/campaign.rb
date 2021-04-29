@@ -3,8 +3,9 @@
 # Table name: campaigns
 #
 #  id            :bigint           not null, primary key
-#  content       :text
+#  content       :text             not null
 #  description   :text
+#  enabled       :boolean          default(TRUE)
 #  title         :string           not null
 #  trigger_rules :jsonb
 #  created_at    :datetime         not null
