@@ -8,7 +8,7 @@
     },
     "ADD": {
       "TITLE": "Create a campaign",
-      "DESC": "Lets customer send outbound messages to their contacts which would trigger more conversations.",
+      "DESC": "Proactive messages allows customer send outbound messages to their contacts which would trigger more conversations",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "CREATE_BUTTON_TEXT": "Create",
       "FORM": {
