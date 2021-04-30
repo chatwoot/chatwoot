@@ -155,7 +155,7 @@
   "NOTES": {
     "ADD": {
       "BUTTON": "Add",
-      "PLACEHOLDER": "Start typing...",
+      "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
     }
   }

@@ -10,7 +10,7 @@ export default {
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { AddNote },
-  template: '<add-note v-bind="$props" @add="onAdd"></-note>',
+  template: '<add-note v-bind="$props" @add="onAdd"></add-note>',
 });
 
 export const Add = Template.bind({});
