@@ -13,7 +13,7 @@ export const applyPageFilters = (conversation, filters) => {
     labels: chatLabels = [],
     meta = {},
   } = conversation;
-  const { team = {} } = meta;
+  const team = meta.team || {};
   const { id: chatTeamId } = team;
   const filterByStatus = chatStatus === status;
   let shouldFilter = filterByStatus;
