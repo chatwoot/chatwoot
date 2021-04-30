@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_151147) do
+ActiveRecord::Schema.define(version: 2021_04_30_100138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2021_04_28_151147) do
     t.integer "display_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.text "content", null: false
+    t.text "message", null: false
     t.integer "sender_id"
     t.boolean "enabled", default: true
     t.bigint "account_id", null: false

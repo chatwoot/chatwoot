@@ -3,9 +3,9 @@
 # Table name: campaigns
 #
 #  id            :bigint           not null, primary key
-#  content       :text             not null
 #  description   :text
 #  enabled       :boolean          default(TRUE)
+#  message       :text             not null
 #  title         :string           not null
 #  trigger_rules :jsonb
 #  created_at    :datetime         not null
@@ -28,6 +28,8 @@
 class Campaign < ApplicationRecord
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  validates :title, presence: true
+  validates :message, presence: true
   belongs_to :account
   belongs_to :inbox
   belongs_to :sender, class_name: 'User', optional: true
