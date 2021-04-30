@@ -78,6 +78,18 @@
           </label>
         </div>
 
+        <div class="medium-12 columns">
+          <label>
+            <input
+              v-model="enabled"
+              type="checkbox"
+              value="enabled"
+              name="enabled"
+            />
+            {{ $t('CAMPAIGN.ADD.FORM.ENABLED') }}
+          </label>
+        </div>
+
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-submit-button
@@ -130,6 +142,7 @@ export default {
       endPoint: '',
       timeOnPage: 10,
       show: true,
+      enabled: true,
     };
   },
   validations: {
@@ -170,6 +183,7 @@ export default {
           message: this.message,
           inbox_id: this.$route.params.inboxId,
           sender_id: this.selectedAgent,
+          enabled: this.enabled,
           trigger_rules: {
             url: this.endPoint,
             time_on_page: this.timeOnPage,

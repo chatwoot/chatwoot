@@ -37,6 +37,7 @@
           "PLACEHOLDER": "Please enter the time",
           "ERROR": "Time on page is required"
         },
+        "ENABLED": "Enabled",
         "SUBMIT": "Add Campaign"
       },
       "API": {
