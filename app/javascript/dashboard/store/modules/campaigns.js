@@ -37,10 +37,7 @@ export const mutations = {
     };
   },
 
-  [types.SET_LABELS]: MutationHelpers.set,
   [types.ADD_CAMPAIGN]: MutationHelpers.create,
-  [types.EDIT_LABEL]: MutationHelpers.update,
-  [types.DELETE_LABEL]: MutationHelpers.destroy,
 };
 
 export default {
