@@ -14,11 +14,21 @@
       </div>
       <div class="actions">
         <woot-button
-          class="button clear ion-compose button--emoji"
+          variant="clear"
+          size="tiny"
+          icon="ion-compose"
+          color-scheme="secondary"
+          class-names="button--emoji"
+          class="button-wrap"
           @click="onEdit"
         />
         <woot-button
-          class="button clear ion-trash-b button--emoji"
+          variant="clear"
+          size="small"
+          icon="ion-trash-b"
+          color-scheme="secondary"
+          class-names="button--emoji"
+          class="button-wrap"
           @click="onDelete"
         />
       </div>
@@ -112,10 +122,8 @@ export default {
   .actions {
     display: flex;
 
-    .button--emoji {
+    .button-wrap {
       margin-right: var(--space-small);
-      color: var(--s-600);
-      font-size: var(--font-size-mini);
       height: var(--space-medium);
       width: var(--space-medium);
     }
