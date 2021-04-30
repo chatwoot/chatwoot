@@ -15,6 +15,8 @@ import { default as _integrations } from './integrations.json';
 import { default as _generalSettings } from './generalSettings.json';
 import { default as _teamsSettings } from './teamsSettings.json';
 
+import { default as _campaign } from './campaign.json';
+
 export default {
   ..._agentMgmt,
   ..._cannedMgmt,
@@ -32,4 +34,5 @@ export default {
   ..._integrations,
   ..._generalSettings,
   ..._teamsSettings,
+  ..._campaign,
 };

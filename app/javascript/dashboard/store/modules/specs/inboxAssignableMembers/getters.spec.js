@@ -1,14 +1,14 @@
 import { getters } from '../../teamMembers';
-import teamMembers from './fixtures';
+import agentsData from './fixtures';
 
 describe('#getters', () => {
-  it('getMembersByInbox', () => {
+  it('getAssignableAgents', () => {
     const state = {
       records: {
-        1: [teamMembers[0]],
+        1: [agentsData[0]],
       },
     };
-    expect(getters.getTeamMembers(state)(1)).toEqual([teamMembers[0]]);
+    expect(getters.getTeamMembers(state)(1)).toEqual([agentsData[0]]);
   });
 
   it('getUIFlags', () => {
