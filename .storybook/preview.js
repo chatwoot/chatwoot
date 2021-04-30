@@ -1,15 +1,18 @@
 import { addDecorator } from '@storybook/vue';
 import Vue from 'vue';
+import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
 import WootUiKit from '../app/javascript/dashboard/components';
 import i18n from '../app/javascript/dashboard/i18n';
-import store from '../app/javascript/dashboard/store';
 
 import '../app/javascript/dashboard/assets/scss/storybook.scss';
 
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
+Vue.use(Vuex);
+
+const store = new Vuex.Store({});
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,
