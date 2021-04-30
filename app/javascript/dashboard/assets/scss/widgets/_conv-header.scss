@@ -51,21 +51,8 @@ $resolve-button-width: 13.2rem;
       align-items: flex-start;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       margin-left: $space-slab;
-      max-width: 20rem;
-
-      @include breakpoint(large up) {
-        max-width: 23rem;
-      }
-
-      @include breakpoint(xxlarge up) {
-        max-width: 38rem;
-      }
-
-      @include breakpoint(xxxlarge up) {
-        max-width: 50rem;
-      }
     }
 
     .user--profile__button {

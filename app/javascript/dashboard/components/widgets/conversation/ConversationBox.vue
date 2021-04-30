@@ -78,11 +78,12 @@ export default {
 @import '~dashboard/assets/scss/app.scss';
 
 .conversation-details-wrap {
+  background: var(--color-background-light);
+  border-left: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
+  min-width: 0;
   width: 100%;
-  border-left: 1px solid var(--color-border);
-  background: var(--color-background-light);
 }
 
 .messages-and-sidebar {
