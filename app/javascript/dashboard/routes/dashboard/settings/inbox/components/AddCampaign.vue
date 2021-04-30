@@ -5,7 +5,7 @@
         :header-title="$t('CAMPAIGN.ADD.TITLE')"
         :header-content="$t('CAMPAIGN.ADD.DESC')"
       />
-      <form class="row" @submit.prevent="addCampaign()">
+      <form class="row" @submit.prevent="addCampaign">
         <div class="medium-12 columns">
           <label :class="{ error: $v.title.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.TITLE.LABEL') }}
@@ -83,11 +83,13 @@
             <woot-submit-button
               :disabled="
                 $v.content.$invalid ||
-                  $v.title.$invalid ||
-                  $v.selectedAgent.$invalid ||
-                  $v.endPoint.$invalid ||
-                  $v.timeOnPage.$invalid
+                $v.title.$invalid ||
+                $v.selectedAgent.$invalid ||
+                $v.endPoint.$invalid ||
+                $v.timeOnPage.$invalid ||
+                uiFlags.isCreating
               "
+              :loading="uiFlags.isCreating"
               :button-text="$t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT')"
             />
             <button class="button clear" @click.prevent="onClose">
@@ -126,7 +128,7 @@ export default {
       content: '',
       selectedAgent: '',
       endPoint: '',
-      timeOnPage: null,
+      timeOnPage: 10,
       show: true,
     };
   },
@@ -153,10 +155,33 @@ export default {
   computed: {
     ...mapGetters({
       agentList: 'agents/getAgents',
+      uiFlags: 'campaigns/getUIFlags',
     }),
 
     agentsList() {
       return this.agentList;
+    },
+  },
+  methods: {
+    addCampaign() {
+      this.$store
+        .dispatch('campaigns/create', {
+          title: this.title,
+          content: this.content,
+          inbox_id: this.$route.params.inboxId,
+          sender_id: this.selectedAgent,
+          trigger_rules: {
+            url: this.endPoint,
+            timeOnPage: this.timeOnPage,
+          },
+        })
+        .then(() => {
+          this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
+          this.onClose();
+        })
+        .catch(() => {
+          this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+        });
     },
   },
 };
