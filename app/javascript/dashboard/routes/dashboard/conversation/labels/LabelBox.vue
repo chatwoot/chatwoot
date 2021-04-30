@@ -36,9 +36,9 @@
               :selected-labels="savedLabels"
               :conversation-id="conversationId"
               :account-labels="accountLabels"
-              :update-labels="onUpdateLabels"
-              :on-add="onAdd"
-              :on-remove="onRemove"
+              @update="onUpdateLabels"
+              @add="onAdd"
+              @remove="onRemove"
             />
           </div>
         </div>

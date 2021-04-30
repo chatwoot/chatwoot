@@ -10,7 +10,7 @@
         type="text"
         class="search-input"
         autofocus="true"
-        placeholder="Filter"
+        :placeholder="$t('CONTACT_PANEL.LABELS.LABEL_SELECT.PLACEHOLDER')"
       />
     </div>
     <div class="list-wrap">
@@ -68,18 +68,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    updateLabels: {
-      type: Function,
-      default: () => {},
-    },
-    onAdd: {
-      type: Function,
-      default: () => {},
-    },
-    onRemove: {
-      type: Function,
-      default: () => {},
-    },
   },
 
   data() {
@@ -111,6 +99,18 @@ export default {
 
     focusInput() {
       this.$refs.searchbar.focus();
+    },
+
+    updateLabels(label) {
+      this.$emit('update', label);
+    },
+
+    onAdd(label) {
+      this.$emit('add', label);
+    },
+
+    onRemove(label) {
+      this.$emit('remove', label);
     },
 
     onAddRemove(label) {
