@@ -194,6 +194,7 @@
       "TITLE": "Sua caixa de entrada está pronta!",
       "MESSAGE": "Agora, você pode se envolver com seus clientes através do seu novo Canal. Feliz apoio ",
       "BUTTON_TEXT": "Me leve lá",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Você terminou de criar um canal de site. Copie o código mostrado abaixo e cole-o em seu site. Na próxima vez que um cliente usar o chat em tempo real, a conversa aparecerá automaticamente em sua caixa de entrada."
     },
     "REAUTH": "Reautorizar",

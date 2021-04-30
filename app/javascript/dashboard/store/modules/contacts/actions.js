@@ -83,6 +83,26 @@ export const actions = {
     }
   },
 
+  fetchContactableInbox: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
+    try {
+      const response = await ContactAPI.getContactableInboxes(id);
+      const contact = {
+        id,
+        contactableInboxes: response.data.payload,
+      };
+      commit(types.SET_CONTACT_ITEM, contact);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: false });
+    }
+  },
+
   updatePresence: ({ commit }, data) => {
     commit(types.UPDATE_CONTACTS_PRESENCE, data);
   },

@@ -35,12 +35,26 @@
       </label>
     </div>
     <div class="row">
-      <woot-input
-        v-model.trim="phoneNumber"
-        class="columns"
-        :label="$t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL')"
-        :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
-      />
+      <div class="medium-12 columns">
+        <label :class="{ error: $v.phoneNumber.$error }">
+          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
+          <input
+            v-model.trim="phoneNumber"
+            type="text"
+            :placeholder="$t('CONTACT_FORM.FORM.PHONE_NUMBER.PLACEHOLDER')"
+            @input="$v.phoneNumber.$touch"
+          />
+          <span v-if="$v.phoneNumber.$error" class="message">
+            {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR') }}
+          </span>
+        </label>
+        <div
+          v-if="$v.phoneNumber.$error || !phoneNumber"
+          class="callout small warning"
+        >
+          {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
+        </div>
+      </div>
     </div>
     <woot-input
       v-model.trim="companyName"
@@ -87,6 +101,8 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { required } from 'vuelidate/lib/validators';
 
+import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
+
 export default {
   mixins: [alertMixin],
   props: {
@@ -131,7 +147,9 @@ export default {
     description: {},
     email: {},
     companyName: {},
-    phoneNumber: {},
+    phoneNumber: {
+      isPhoneE164OrEmpty,
+    },
     bio: {},
   },
 
@@ -190,6 +208,7 @@ export default {
     async handleSubmit() {
       this.resetDuplicate();
       this.$v.$touch();
+
       if (this.$v.$invalid) {
         return;
       }

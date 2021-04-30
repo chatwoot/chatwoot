@@ -1,37 +1,43 @@
 {
   "CONVERSATION": {
-    "404": "الرجاء اختيار محادثة من سجل المحادثات",
+    "404": "الرجاء اختيار محادثة من قائمة المحادثات",
     "NO_MESSAGE_1": "لا توجد رسائل بعد من العملاء في صندوق الوارد الخاص بك.",
     "NO_MESSAGE_2": " لإرسال رسالة إلى الصفحة الخاصة بك!",
     "NO_INBOX_1": "يبدو أنك لم تقم بإضافة أي صناديق بريدية بعد.",
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "البحث عن رسائل في المحادثات",
     "SEARCH": {
-      "TITLE": "Search messages",
-      "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "TITLE": "البحث في الرسائل",
+      "LOADING_MESSAGE": "جار تجزئة البيانات...",
+      "PLACEHOLDER": "اكتب أي نص للبحث في الرسائل",
+      "NO_MATCHING_RESULTS": "لم يتم العثور على النتائج."
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "الرسائل الغير مقروءة",
+    "UNREAD_MESSAGE": "رسالة غير مقروءة",
     "CLICK_HERE": "اضغط هنا",
     "LOADING_INBOXES": "جار تحميل صناديق الوارد",
     "LOADING_CONVERSATIONS": "جاري تحميل المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
     "LAST_INCOMING_TWEET": "أنت ترد على آخر تغريدة واردة",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تنزيل",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "UPLOADING_ATTACHMENTS": "جاري تحميل المرفقات...",
+    "NO_RESPONSE": "لا توجد استجابة",
     "HEADER": {
       "RESOLVE_ACTION": "إغلاق المحادثة",
       "REOPEN_ACTION": "إعادة فتح",
+      "OPEN_ACTION": "فتح",
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Open with bot"
     },
     "FOOTER": {
       "MSG_INPUT": "زر Shift + Enter لإضافة سطر جديد. ابدأ بزر / للاختيار من الردود السريعة.",
@@ -43,20 +49,21 @@
       "SEND": "إرسال",
       "CREATE": "إضافة ملاحظة",
       "TWEET": "تغريد",
-      "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_FORMAT_ICON": "عرض محرر النصوص",
+      "TIP_EMOJI_ICON": "إظهار قائمة الرموز التعبيرية",
+      "TIP_ATTACH_ICON": "إرفاق الملفات",
+      "ENTER_TO_SEND": "زر الإدخل للإرسال"
     },
     "VISIBLE_TO_AGENTS": "ملاحظة خاصة: مرئية فقط لأعضاء فريق العمل والموظفين",
     "CHANGE_STATUS": "تم تغيير حالة المحادثة",
     "CHANGE_AGENT": "تم تغيير الموظف الذي تم إحالة المحادثة إليه",
-    "CHANGE_TEAM": "Conversation team changed",
-    "SENT_BY": "Sent by:",
+    "CHANGE_TEAM": "تم تغيير فريق المحادثة",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "SENT_BY": "أرسلت بواسطة:",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "اختر وكيل",
       "REMOVE": "حذف",
-      "ASSIGN": "Assign"
+      "ASSIGN": "تكليف"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -77,35 +84,35 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
-    "READ_LATEST_UPDATES": "Read our latest updates",
+    "TITLE": "اهلاً 👋، مرحباً بك في %{installationName}!",
+    "DESCRIPTION": "شكرا للتسجيل. نريدك أن تحصل على أقصى استفادة من %{installationName}. إليك بعض الأشياء التي يمكنك القيام بها في %{installationName} لجعل التجربة رائعة.",
+    "READ_LATEST_UPDATES": "اطلع على آخر التحديثات",
     "ALL_CONVERSATION": {
-      "TITLE": "All your conversations in one place",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "TITLE": "جميع محادثاتك في مكان واحد",
+      "DESCRIPTION": "عرض جميع المحادثات من عملائك في لوحة تحكم واحدة. يمكنك تصفية المحادثات بحسب قناة الواردة والتسمية والحالة."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "قم بدعوة أعضاء فريقك",
+      "DESCRIPTION": "عندما تصبح جاهز للتخاطب مع عميلك، احضر زملائك في الفريق لمساعدتك. يمكنك دعوة زملائك في الفريق بإضافة عنوان البريد الإلكتروني الخاص بهم إلى قائمة الوكيل.",
+      "NEW_LINK": "انقر هنا لدعوة عضو في الفريق"
     },
     "INBOXES": {
-      "TITLE": "Connect Inboxes",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "TITLE": "ربط صندوق الوارد",
+      "DESCRIPTION": "قم بتوصيل مختلف القنوات التي من خلالها يتحدث عملاؤك إليك. يمكن أن تكون محادثة مباشرة على موقع الويب أو صفحة فيسبوك أو تويتر أو حتى رقم WhatsApp الخاص بك.",
+      "NEW_LINK": "انقر هنا لإنشاء علبة الوارد"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "تنظيم المحادثات مع التسميات",
+      "DESCRIPTION": "التسميات توفر طريقة أسهل لتصنيف محادثتك. إنشاء بعض التسميات مثل #كبار_العملاء، #العملاء_المحتملون الخ، بحيث يمكنك استخدامها في محادثة لاحقا.",
+      "NEW_LINK": "انقر هنا لإنشاء وسوم"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "تفاصيل المحادثة",
+    "ASSIGNEE_LABEL": "الوكيل المكلف",
+    "TEAM_LABEL": "العضو المكلف",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "لا شيء"
     }
   }
 }

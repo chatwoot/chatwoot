@@ -1,6 +1,7 @@
 <template>
   <div v-on-clickaway="closeSearch" class="search-wrap">
     <div class="search" :class="{ 'is-active': showSearchBox }">
+      <woot-sidemenu-icon />
       <div class="icon">
         <i class="ion-ios-search-strong search--icon" />
       </div>
@@ -81,6 +82,7 @@ export default {
     ...mapGetters({
       conversations: 'conversationSearch/getConversations',
       uiFlags: 'conversationSearch/getUIFlags',
+      currentPage: 'conversationPage/getCurrentPage',
     }),
     resultsCount() {
       return this.conversations.length;
@@ -110,10 +112,16 @@ export default {
         this.$store.dispatch('conversationSearch/get', { q: newValue });
       }, 1000);
     },
+    currentPage() {
+      this.clearSearchTerm();
+    },
   },
 
   mounted() {
     this.$store.dispatch('conversationSearch/get', { q: '' });
+    bus.$on('clearSearchInput', () => {
+      this.clearSearchTerm();
+    });
   },
 
   methods: {
@@ -122,6 +130,9 @@ export default {
     },
     closeSearch() {
       this.showSearchBox = false;
+    },
+    clearSearchTerm() {
+      this.searchTerm = '';
     },
   },
 };

@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Είμαστε online",
-    "OFFLINE": "Είμαστε offline"
+    "OFFLINE": "Προς το παρόν, είμαστε εκτός"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Τυπικά έχετε απάντηση σε μερικά λεπτά",
@@ -48,5 +48,6 @@
         "ERROR": "Πολύ σύντομο μήνυμα"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_FILE_UPLOAD_SIZE}"
 }

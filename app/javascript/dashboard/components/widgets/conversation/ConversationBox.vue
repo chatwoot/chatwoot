@@ -19,6 +19,7 @@
         <contact-panel
           v-if="showContactPanel"
           :conversation-id="currentChat.id"
+          :inbox-id="currentChat.inbox_id"
           :on-toggle="onToggleContactPanel"
         />
       </div>
@@ -57,6 +58,13 @@ export default {
     }),
     showContactPanel() {
       return this.isContactPanelOpen && this.currentChat.id;
+    },
+  },
+  watch: {
+    'currentChat.inbox_id'(inboxId) {
+      if (inboxId) {
+        this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
+      }
     },
   },
   methods: {

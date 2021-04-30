@@ -1,10 +1,7 @@
 <template>
   <div class="status">
     <div class="status-view">
-      <div
-        :class="`status-badge status-badge__${currentUserAvailabilityStatus}`"
-      />
-
+      <availability-status-badge :status="currentUserAvailabilityStatus" />
       <div class="status-view--title">
         {{ availabilityDisplayLabel }}
       </div>
@@ -28,7 +25,7 @@
                 :disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"
               >
-                <span :class="`status-badge status-badge__${status.value}`" />
+                <availability-status-badge :status="status.value" />
                 {{ status.label }}
               </button>
             </woot-dropdown-item>
@@ -48,6 +45,7 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge';
 
 const AVAILABILITY_STATUS_KEYS = ['online', 'busy', 'offline'];
 
@@ -55,6 +53,7 @@ export default {
   components: {
     WootDropdownMenu,
     WootDropdownItem,
+    AvailabilityStatusBadge,
   },
 
   mixins: [clickaway],
@@ -147,29 +146,10 @@ export default {
   }
 }
 
-.status-badge {
-  width: var(--space-one);
-  height: var(--space-one);
-  margin-right: var(--space-micro);
-  display: inline-block;
-  border-radius: 50%;
-
-  &__online {
-    background: var(--g-400);
-  }
-
-  &__offline {
-    background: var(--b-600);
-  }
-
-  &__busy {
-    background: var(--y-700);
-  }
-}
-
 .status-change {
   .dropdown-pane {
     top: -132px;
+    right: var(--space-normal);
   }
 
   .status-items {
