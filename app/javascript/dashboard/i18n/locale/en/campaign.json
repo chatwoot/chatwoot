@@ -38,6 +38,10 @@
           "ERROR": "Time on page is required"
         },
         "SUBMIT": "Add Campaign"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign created successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
       }
     }
   }
