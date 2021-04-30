@@ -7,6 +7,7 @@ require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:inbox) }
   end
 
   describe 'concerns' do
@@ -93,7 +94,6 @@ RSpec.describe Conversation, type: :model do
 
       conversation.update(
         status: :resolved,
-        locked: true,
         contact_last_seen_at: Time.now,
         assignee: new_assignee,
         label_list: [label.title]
@@ -106,8 +106,6 @@ RSpec.describe Conversation, type: :model do
         .with(described_class::CONVERSATION_RESOLVED, kind_of(Time), conversation: conversation)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::CONVERSATION_READ, kind_of(Time), conversation: conversation)
-      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
-        .with(described_class::CONVERSATION_LOCK_TOGGLE, kind_of(Time), conversation: conversation)
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(described_class::ASSIGNEE_CHANGED, kind_of(Time), conversation: conversation)
     end
@@ -190,28 +188,6 @@ RSpec.describe Conversation, type: :model do
     it 'toggles conversation status' do
       expect(toggle_status).to eq(true)
       expect(conversation.reload.status).to eq('resolved')
-    end
-  end
-
-  describe '#lock!' do
-    subject(:lock!) { conversation.lock! }
-
-    let(:conversation) { create(:conversation) }
-
-    it 'assigns locks the conversation' do
-      expect(lock!).to eq(true)
-      expect(conversation.reload.locked).to eq(true)
-    end
-  end
-
-  describe '#unlock!' do
-    subject(:unlock!) { conversation.unlock! }
-
-    let(:conversation) { create(:conversation) }
-
-    it 'unlocks the conversation' do
-      expect(unlock!).to eq(true)
-      expect(conversation.reload.locked).to eq(false)
     end
   end
 
@@ -362,18 +338,6 @@ RSpec.describe Conversation, type: :model do
 
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
-    end
-  end
-
-  describe '#lock_event_data' do
-    subject(:lock_event_data) { conversation.lock_event_data }
-
-    let(:conversation) do
-      build(:conversation, display_id: 505, locked: false)
-    end
-
-    it 'returns lock event payload' do
-      expect(lock_event_data).to eq(id: 505, locked: false)
     end
   end
 
