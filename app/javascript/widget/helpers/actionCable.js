@@ -8,8 +8,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.updated': this.onMessageUpdated,
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
-      'conversation.resolved': this.onStatusChange,
-      'conversation.opened': this.onStatusChange,
+      'conversation.status_changed': this.onStatusChange,
       'presence.update': this.onPresenceUpdate,
     };
   }
