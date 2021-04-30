@@ -15,7 +15,7 @@
       <div class="actions">
         <woot-button
           variant="clear"
-          size="tiny"
+          size="small"
           icon="ion-compose"
           color-scheme="secondary"
           class-names="button--emoji"
