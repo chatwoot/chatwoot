@@ -9,7 +9,7 @@ RSpec.describe '/api/v1/widget/events', type: :request do
   let(:token) { ::Widget::TokenService.new(payload: payload).generate_token }
 
   describe 'POST /api/v1/widget/events' do
-    let(:params) { { website_token: web_widget.website_token, name: 'webwidget.triggered', event_info: { test_id: "test" } } }
+    let(:params) { { website_token: web_widget.website_token, name: 'webwidget.triggered', event_info: { test_id: 'test' } } }
 
     context 'with invalid website token' do
       it 'returns unauthorized' do

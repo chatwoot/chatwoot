@@ -2,7 +2,7 @@ class CampaignListener < BaseListener
   def campaign_triggered(event)
     contact_inbox = event.data[:contact_inbox]
     campaign_display_id = event.data[:event_info][:campaign_id]
-    
+
     return if campaign_display_id.blank?
 
     ::Campaigns::CampaignConversationBuilder.new(

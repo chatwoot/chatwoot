@@ -19,8 +19,8 @@ class Campaigns::CampaignConversationBuilder
 
   def message_params
     ActionController::Parameters.new({
-      content: @campaign.message
-    })
+                                       content: @campaign.message
+                                     })
   end
 
   def conversation_params
