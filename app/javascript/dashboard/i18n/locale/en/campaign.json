@@ -17,10 +17,10 @@
           "PLACEHOLDER": "Please enter the title of campaign",
           "ERROR": "Title is required"
         },
-        "CONTENT": {
-          "LABEL": "Content",
-          "PLACEHOLDER": "Please enter the content of campaign",
-          "ERROR": "Content is required"
+        "MESSAGE": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Please enter the message of campaign",
+          "ERROR": "Message is required"
         },
         "SENT_BY": {
           "LABEL": "Sent by",

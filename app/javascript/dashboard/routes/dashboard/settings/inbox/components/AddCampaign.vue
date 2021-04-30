@@ -19,14 +19,14 @@
         </div>
 
         <div class="medium-12 columns">
-          <label :class="{ error: $v.content.$error }">
-            {{ $t('CAMPAIGN.ADD.FORM.CONTENT.LABEL') }}
+          <label :class="{ error: $v.message.$error }">
+            {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
             <textarea
-              v-model.trim="content"
+              v-model.trim="message"
               rows="5"
               type="text"
-              :placeholder="$t('CAMPAIGN.ADD.FORM.CONTENT.PLACEHOLDER')"
-              @input="$v.content.$touch"
+              :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
+              @input="$v.message.$touch"
             />
           </label>
         </div>
@@ -82,7 +82,7 @@
           <div class="medium-12 columns">
             <woot-submit-button
               :disabled="
-                $v.content.$invalid ||
+                $v.message.$invalid ||
                 $v.title.$invalid ||
                 $v.selectedAgent.$invalid ||
                 $v.endPoint.$invalid ||
@@ -125,7 +125,7 @@ export default {
   data() {
     return {
       title: '',
-      content: '',
+      message: '',
       selectedAgent: '',
       endPoint: '',
       timeOnPage: 10,
@@ -136,7 +136,7 @@ export default {
     title: {
       required,
     },
-    content: {
+    message: {
       required,
     },
     selectedAgent: {
@@ -167,12 +167,12 @@ export default {
       this.$store
         .dispatch('campaigns/create', {
           title: this.title,
-          content: this.content,
+          message: this.message,
           inbox_id: this.$route.params.inboxId,
           sender_id: this.selectedAgent,
           trigger_rules: {
             url: this.endPoint,
-            timeOnPage: this.timeOnPage,
+            time_on_page: this.timeOnPage,
           },
         })
         .then(() => {
