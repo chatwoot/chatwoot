@@ -75,7 +75,7 @@ RSpec.describe 'Campaigns API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/api/v1/accounts/#{account.id}/campaigns",
-             params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -88,7 +88,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'returns unauthorized for agents' do
         post "/api/v1/accounts/#{account.id}/campaigns",
-             params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
              headers: agent.create_new_auth_token,
              as: :json
 
@@ -97,7 +97,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'creates a new campaign' do
         post "/api/v1/accounts/#{account.id}/campaigns",
-             params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+             params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
              headers: administrator.create_new_auth_token,
              as: :json
 
@@ -114,7 +114,7 @@ RSpec.describe 'Campaigns API', type: :request do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
-              params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+              params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
               as: :json
 
         expect(response).to have_http_status(:unauthorized)
@@ -127,7 +127,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'returns unauthorized for agents' do
         patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
-              params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+              params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
               headers: agent.create_new_auth_token,
               as: :json
 
@@ -136,7 +136,7 @@ RSpec.describe 'Campaigns API', type: :request do
 
       it 'updates the campaign' do
         patch "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
-              params: { inbox_id: inbox.id, title: 'test', content: 'test message' },
+              params: { inbox_id: inbox.id, title: 'test', message: 'test message' },
               headers: administrator.create_new_auth_token,
               as: :json
 
