@@ -52,7 +52,7 @@
 import { mapGetters } from 'vuex';
 import ContactDetailsItem from '../ContactDetailsItem';
 import Spinner from 'shared/components/Spinner';
-import LabelDropdown from 'shared/components/ui/LabelDropdown';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
 import WootButton from 'dashboard/components/ui/WootButton';
 import { mixin as clickaway } from 'vue-clickaway';
 

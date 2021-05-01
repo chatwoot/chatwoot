@@ -16,27 +16,14 @@
     <div class="list-wrap">
       <div class="list">
         <woot-dropdown-menu>
-          <woot-dropdown-item
+          <label-dropdown-item
             v-for="label in filteredActiveLabels"
             :key="label.title"
-          >
-            <div class="name-label-icon-wrap">
-              <button class="button clear" @click="() => onAddRemove(label)">
-                <div class="name-label-wrap">
-                  <div
-                    v-if="label.color"
-                    class="label-color--display"
-                    :style="{ backgroundColor: label.color }"
-                  />
-                  <span>{{ label.title }}</span>
-                </div>
-                <i
-                  v-if="selectedLabels.includes(label.title)"
-                  class="icon ion-checkmark-round"
-                />
-              </button>
-            </div>
-          </woot-dropdown-item>
+            :title="label.title"
+            :color="label.color"
+            :selected="selectedLabels.includes(label.title)"
+            @click="onAddRemove(label)"
+          />
         </woot-dropdown-menu>
         <div v-if="noResult" class="no-result">
           {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
@@ -47,12 +34,10 @@
 </template>
 
 <script>
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import LabelDropdownItem from './LabelDropdownItem';
 export default {
   components: {
-    WootDropdownItem,
-    WootDropdownMenu,
+    LabelDropdownItem,
   },
 
   props: {
@@ -93,10 +78,6 @@ export default {
   },
 
   methods: {
-    onclick(label) {
-      this.$emit('click', label);
-    },
-
     focusInput() {
       this.$refs.searchbar.focus();
     },
@@ -161,42 +142,6 @@ export default {
     .list {
       width: 100%;
       max-height: 16.8rem;
-
-      .name-label-icon-wrap {
-        display: flex;
-
-        .button {
-          display: flex;
-          justify-content: space-between;
-
-          &.active {
-            display: flex;
-            font-weight: var(--font-weight-bold);
-            color: #1a4d8f;
-          }
-
-          .name-label-wrap {
-            display: flex;
-          }
-
-          .label-color--display {
-            margin-right: var(--space-small);
-          }
-
-          .icon {
-            font-size: var(--font-size-small);
-          }
-        }
-
-        .label-color--display {
-          border-radius: var(--border-radius-normal);
-          height: var(--space-slab);
-          margin-right: var(--space-smaller);
-          margin-top: var(--space-micro);
-          min-width: var(--space-slab);
-          width: var(--space-slab);
-        }
-      }
     }
 
     .no-result {
