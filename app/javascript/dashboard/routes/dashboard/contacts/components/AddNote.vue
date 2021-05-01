@@ -10,18 +10,16 @@
       </textarea>
     </div>
     <div class="footer">
-      <div class="action">
-        <woot-button
-          size="tiny"
-          color-scheme="warning"
-          :title="$t('NOTES.ADD.TITLE')"
-          :is-disabled="buttonDisabled"
-          class="button-wrap"
-          @click="onAdd"
-        >
-          {{ $t('NOTES.ADD.BUTTON') }}
-        </woot-button>
-      </div>
+      <woot-button
+        size="tiny"
+        color-scheme="warning"
+        :title="$t('NOTES.ADD.TITLE')"
+        :is-disabled="buttonDisabled"
+        class="button-wrap"
+        @click="onAdd"
+      >
+        {{ $t('NOTES.ADD.BUTTON') }}
+      </woot-button>
     </div>
   </div>
 </template>
@@ -63,12 +61,10 @@ export default {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-small);
   width: 100%;
-  max-height: 11.2rem;
 
   .input-wrap {
     display: flex;
     flex: 0 0 auto;
-    min-height: 6.6rem;
     width: 100%;
 
     .input--note {
@@ -77,24 +73,22 @@ export default {
       padding: var(--space-small) var(--space-small) 0 var(--space-small);
       resize: none;
       box-sizing: border-box;
-      min-height: 6.2rem;
+      min-height: var(--space-larger);
       margin-bottom: var(--space-small);
     }
   }
 
   .footer {
+    display: flex;
+    justify-content: flex-end;
     flex: 1 1 auto;
     overflow: auto;
+    width: 100%;
 
-    .action {
-      width: 100%;
-      max-height: 4.2rem;
-
-      .button-wrap {
-        float: right;
-        margin-bottom: var(--space-small);
-        margin-right: var(--space-small);
-      }
+    .button-wrap {
+      float: right;
+      margin-bottom: var(--space-small);
+      margin-right: var(--space-small);
     }
   }
 }
