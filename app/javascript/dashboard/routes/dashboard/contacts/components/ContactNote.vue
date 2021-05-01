@@ -6,7 +6,7 @@
     <div class="footer">
       <div class="meta">
         <div :title="userName">
-          <Thumbnail :src="thumbnail" :username="userName" size="16" />
+          <Thumbnail :src="thumbnail" :username="userName" size="16px" />
         </div>
         <div class="date-wrap">
           <span>{{ readableTime }}</span>
