@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="notelist-wrap">
-      <h3 class="page-sub-title">
+      <h3 class="block-title">
         Notes
       </h3>
+      <add-note @add="onAddNote" />
       <contact-note
         v-for="note in notes"
         :key="note.id"
@@ -11,20 +12,27 @@
         :user-name="note.user.name"
         :time-stamp="note.created_at"
         :thumbnail="note.user.thumbnail"
+        @edit="onRemoveNote"
+        @delete="onDeleteNote"
       />
-      <woot-button variant="clear link" @click="onclick">
-        View all notes
-        <i class="ion-arrow-right-c" />
-      </woot-button>
+      <div class="button-wrap">
+        <woot-button variant="clear link" class="button" @click="onclick">
+          View all notes
+          <i class="ion-arrow-right-c" />
+        </woot-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import ContactNote from './ContactNote';
+import AddNote from './AddNote';
+
 export default {
   components: {
     ContactNote,
+    AddNote,
   },
 
   props: {
@@ -38,8 +46,21 @@ export default {
     onclick() {
       this.$emit('show');
     },
+    onAddNote() {
+      this.$emit('addNote');
+    },
+    onRemoveNote() {
+      this.$emit('removeNote');
+    },
+    onDeleteNote() {
+      this.$emit('deleteNote');
+    },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.button-wrap {
+  margin-top: var(--space-one);
+}
+</style>

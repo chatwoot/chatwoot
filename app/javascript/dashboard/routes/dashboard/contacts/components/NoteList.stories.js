@@ -1,8 +1,8 @@
 import { action } from '@storybook/addon-actions';
-import noteList from '../../app/javascript/dashboard/routes/dashboard/contacts/components/NoteList.vue';
+import noteList from './NoteList';
 
 export default {
-  title: 'Components/Note/List',
+  title: 'Components/Notes/List',
   component: noteList,
   argTypes: {},
 };
@@ -10,12 +10,16 @@ export default {
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { noteList },
-  template: '<note-list v-bind="$props" @show="onClick"></note-list>',
+  template:
+    '<note-list v-bind="$props" @addNote="onAddNote" @removeNote="onRemoveNote" @deleteNote="onDeleteNote" @show="onClick"></note-list>',
 });
 
 export const List = Template.bind({});
 List.args = {
   onClick: action('show'),
+  onAddNote: action('added'),
+  onRemoveNote: action('removed'),
+  onDeleteNote: action('deleted'),
   notes: [
     {
       id: '12345',

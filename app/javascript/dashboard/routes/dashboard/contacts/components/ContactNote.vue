@@ -90,6 +90,7 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-small);
+  margin-bottom: var(--space-smaller);
 
   .text {
     padding-bottom: var(--space-small);
