@@ -8,8 +8,7 @@ const custom = require('../config/webpack/environment');
 module.exports = {
   stories: [
     '../stories/**/*.stories.mdx',
-    '../app/javascript/dashboard/components/ui/stories/**/*.stories.@(js|jsx|ts|tsx)',
-    '../stories/**/*.stories.@(js|jsx|ts|tsx)',
+    '../app/javascript/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     {
