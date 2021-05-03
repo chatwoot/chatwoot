@@ -1,5 +1,5 @@
 class Campaigns::CampaignConversationBuilder
-  pattr_initialize [:contact_inbox_id!, :campaign_display_id]
+  pattr_initialize [:contact_inbox_id!, :campaign_display_id!, :conversation_additional_attributes]
 
   def perform
     @contact_inbox = ContactInbox.find(@contact_inbox_id)
@@ -29,7 +29,8 @@ class Campaigns::CampaignConversationBuilder
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      campaign_id: @campaign.id
+      campaign_id: @campaign.id,
+      additional_attributes: conversation_additional_attributes
     }
   end
 end
