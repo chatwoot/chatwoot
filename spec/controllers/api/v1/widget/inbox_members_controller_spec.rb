@@ -11,7 +11,7 @@ RSpec.describe '/api/v1/widget/inbox_members', type: :request do
     create(:inbox_member, user: agent_2, inbox: web_widget.inbox)
   end
 
-  describe 'POST /api/v1/widget/inbox_members' do
+  describe 'GET /api/v1/widget/inbox_members' do
     let(:params) { { website_token: web_widget.website_token } }
 
     context 'with correct website token' do
