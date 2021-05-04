@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import ContactNote from '../../app/javascript/dashboard/routes/dashboard/contacts/components/ContactNote';
+import ContactNote from './ContactNote.vue';
 
 export default {
   title: 'Components/Notes/Note',
