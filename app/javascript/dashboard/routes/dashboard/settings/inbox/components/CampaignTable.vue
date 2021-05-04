@@ -107,7 +107,7 @@ export default {
                 <div class="row--user-block">
                   <Thumbnail
                     src={row.sender.thumbnail}
-                    size="36px"
+                    size="20px"
                     username={row.sender.name}
                     status={row.sender.availability_status}
                   />
