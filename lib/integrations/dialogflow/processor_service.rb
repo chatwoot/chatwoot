@@ -42,11 +42,10 @@ class Integrations::Dialogflow::ProcessorService
     text_response = response.query_result['fulfillment_text']
 
     content_params = { content: text_response } if text_response.present?
-    content_params ||= response.query_result['fulfillment_messages']&.first['payload'].to_h
-
+    content_params ||= response.query_result['fulfillment_messages'].first['payload'].to_h
 
     process_action(message, content_params['action']) and return if content_params['action'].present?
-    return unless content_params.present?
+    return if content_params.blank?
 
     conversation = message.conversation
     conversation.messages.create(content_params.merge({
