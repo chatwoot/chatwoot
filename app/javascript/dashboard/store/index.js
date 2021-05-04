@@ -26,6 +26,7 @@ import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
 import teams from './modules/teams';
 import teamMembers from './modules/teamMembers';
+import campaigns from './modules/campaigns';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -55,5 +56,6 @@ export default new Vuex.Store({
     webhooks,
     teams,
     teamMembers,
+    campaigns,
   },
 });
