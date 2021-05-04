@@ -160,10 +160,6 @@ export default {
       agentList: 'agents/getAgents',
       uiFlags: 'campaigns/getUIFlags',
     }),
-
-    agentsList() {
-      return this.agentList;
-    },
     buttonDisabled() {
       return (
         this.$v.message.$invalid ||
