@@ -58,17 +58,10 @@
         "EDIT": "Edit",
         "DELETE": "Delete"
       },
-      "404": "There are no campaigns created for this inbox.",
-      "DESC": "You can add/remove agents to/in your team.",
-      "EMAIL": "EMAIL",
       "STATUS": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
-      },
-
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending"
+      }
     }
   }
 }
