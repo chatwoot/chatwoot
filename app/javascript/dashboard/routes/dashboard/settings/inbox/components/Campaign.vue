@@ -1,13 +1,18 @@
 <template>
   <div class="column content-box">
-    <div v-if="campaigns.length" class="row button-wrapper">
+    <div class="row button-wrapper">
       <woot-button @click="openAddPopup">
         <i class="icon ion-android-add-circle"></i>
         {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
       </woot-button>
     </div>
+    <campaign-table
+      :campaigns="records"
+      :show-empty-state="showEmptyResult"
+      :is-loading="uiFlags.isFetching"
+    />
 
-    <div v-if="!campaigns.length" class="row">
+    <div v-if="!uiFlags.isFetching && !records.length" class="row">
       <div class="small-8 columns">
         <p class="no-items-error-message">
           {{ $t('CAMPAIGN.LIST.404') }}
@@ -32,16 +37,34 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import AddCampaign from './AddCampaign';
+import CampaignTable from './CampaignTable';
+
 export default {
   components: {
     AddCampaign,
+    CampaignTable,
   },
   data() {
     return {
       campaigns: [],
       showAddPopup: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      records: 'campaigns/getCampaigns',
+      uiFlags: 'campaigns/getUIFlags',
+    }),
+    showEmptyResult() {
+      const hasEmptyResults =
+        !this.uiFlags.isFetching && this.records.length === 0;
+      return hasEmptyResults;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('campaigns/get');
   },
   methods: {
     openAddPopup() {
@@ -58,5 +81,6 @@ export default {
 .button-wrapper {
   display: flex;
   justify-content: flex-end;
+  padding-bottom: var(--space-one);
 }
 </style>
