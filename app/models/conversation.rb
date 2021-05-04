@@ -8,13 +8,13 @@
 #  contact_last_seen_at  :datetime
 #  identifier            :string
 #  last_activity_at      :datetime         not null
-#  locked                :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  uuid                  :uuid             not null
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
 #  assignee_id           :integer
+#  campaign_id           :bigint
 #  contact_id            :bigint
 #  contact_inbox_id      :bigint
 #  display_id            :integer          not null
@@ -25,11 +25,13 @@
 #
 #  index_conversations_on_account_id                 (account_id)
 #  index_conversations_on_account_id_and_display_id  (account_id,display_id) UNIQUE
+#  index_conversations_on_campaign_id                (campaign_id)
 #  index_conversations_on_contact_inbox_id           (contact_inbox_id)
 #  index_conversations_on_team_id                    (team_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (campaign_id => campaigns.id)
 #  fk_rails_...  (contact_inbox_id => contact_inboxes.id)
 #  fk_rails_...  (team_id => teams.id)
 #
@@ -55,6 +57,7 @@ class Conversation < ApplicationRecord
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
+  belongs_to :campaign, optional: true
 
   has_many :messages, dependent: :destroy, autosave: true
 
@@ -102,14 +105,6 @@ class Conversation < ApplicationRecord
 
   def muted?
     Redis::Alfred.get(mute_key).present?
-  end
-
-  def lock!
-    update!(locked: true)
-  end
-
-  def unlock!
-    update!(locked: false)
   end
 
   def unread_messages
@@ -187,8 +182,8 @@ class Conversation < ApplicationRecord
     {
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
+      CONVERSATION_STATUS_CHANGED => -> { saved_change_to_status? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
-      CONVERSATION_LOCK_TOGGLE => -> { saved_change_to_locked? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event)
