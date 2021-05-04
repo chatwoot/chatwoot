@@ -45,6 +45,11 @@ class Integrations::Dialogflow::ProcessorService
     content_params ||= response.query_result['fulfillment_messages'].first['payload'].to_h
 
     process_action(message, content_params['action']) and return if content_params['action'].present?
+
+    create_conversation(message, content_params)
+  end
+
+  def create_conversation(message, content_params)
     return if content_params.blank?
 
     conversation = message.conversation
