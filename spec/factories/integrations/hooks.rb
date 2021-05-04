@@ -4,7 +4,7 @@ FactoryBot.define do
     inbox
     account
     app_id { 'slack' }
-    settings { 'MyText' }
+    settings { {'test': 'test'} }
     hook_type { Integrations::Hook.statuses["account"] }
     access_token { SecureRandom.hex }
     reference_id { SecureRandom.hex }
