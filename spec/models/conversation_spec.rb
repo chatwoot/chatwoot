@@ -359,7 +359,6 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
-
   describe '#can_reply?' do
     describe 'on channels without 24 hour restriction' do
       let(:conversation) { create(:conversation) }
