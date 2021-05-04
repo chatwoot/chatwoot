@@ -24,7 +24,6 @@ import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import timeMixin from 'dashboard/mixins/time';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton';
 
 export default {
@@ -33,7 +32,7 @@ export default {
     Spinner,
     VeTable,
   },
-  mixins: [clickaway, timeMixin],
+  mixins: [clickaway],
   props: {
     campaigns: {
       type: Array,
@@ -70,7 +69,7 @@ export default {
           key: 'message',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.MESSAGE'),
           align: 'left',
-          width: 250,
+          width: 300,
           renderBodyCell: ({ row }) => {
             return (
               <div class="text-truncate">
