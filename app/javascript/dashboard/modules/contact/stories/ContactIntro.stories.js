@@ -13,8 +13,8 @@ const Template = (args, { argTypes }) => ({
     '<contact-intro v-bind="$props" :user="user" @edit="onEdit" @message="onNewMessage" />',
 });
 
-export const DefaultNote = Template.bind({});
-DefaultNote.args = {
+export const DefaultContactIntro = Template.bind({});
+DefaultContactIntro.args = {
   contact: {
     id: 979442,
     name: 'Eden Hazard',
