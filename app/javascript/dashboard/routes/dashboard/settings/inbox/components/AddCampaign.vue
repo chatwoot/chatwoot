@@ -93,14 +93,7 @@
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-submit-button
-              :disabled="
-                $v.message.$invalid ||
-                $v.title.$invalid ||
-                $v.selectedAgent.$invalid ||
-                $v.endPoint.$invalid ||
-                $v.timeOnPage.$invalid ||
-                uiFlags.isCreating
-              "
+              :disabled="buttonDisabled"
               :loading="uiFlags.isCreating"
               :button-text="$t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT')"
             />
@@ -117,14 +110,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { required, url, minLength } from 'vuelidate/lib/validators';
-
-import WootSubmitButton from '../../../../../components/buttons/FormSubmitButton';
-import Modal from '../../../../../components/Modal';
+import Modal from 'dashboard/components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   mixins: [alertMixin],
@@ -174,11 +164,21 @@ export default {
     agentsList() {
       return this.agentList;
     },
+    buttonDisabled() {
+      return (
+        this.$v.message.$invalid ||
+        this.$v.title.$invalid ||
+        this.$v.selectedAgent.$invalid ||
+        this.$v.endPoint.$invalid ||
+        this.$v.timeOnPage.$invalid ||
+        this.uiFlags.isCreating
+      );
+    },
   },
   methods: {
-    addCampaign() {
-      this.$store
-        .dispatch('campaigns/create', {
+    async addCampaign() {
+      try {
+        await this.$store.dispatch('campaigns/create', {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
@@ -188,15 +188,19 @@ export default {
             url: this.endPoint,
             time_on_page: this.timeOnPage,
           },
-        })
-        .then(() => {
-          this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
-          this.onClose();
-        })
-        .catch(() => {
-          this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
         });
+        this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
+        this.onClose();
+      } catch (error) {
+        this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+      }
     },
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '~dashboard/assets/scss/variables';
+.content-box .page-top-bar::v-deep {
+  padding: var(--space-large) var(--space-large) var(--space-zero);
+}
+</style>

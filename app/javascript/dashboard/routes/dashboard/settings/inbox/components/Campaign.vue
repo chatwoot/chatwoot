@@ -1,10 +1,10 @@
 <template>
   <div class="column content-box">
     <div v-if="campaigns.length" class="row button-wrapper">
-      <a class="button icon success nice" @click="openAddPopup">
+      <woot-button @click="openAddPopup">
         <i class="icon ion-android-add-circle"></i>
         {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
-      </a>
+      </woot-button>
     </div>
 
     <div v-if="!campaigns.length" class="row">
