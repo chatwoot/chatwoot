@@ -133,6 +133,7 @@ export default {
                 target="_blank"
                 rel="noopener noreferrer nofollow"
                 href={row.url}
+                title={row.url}
               >
                 {row.url}
               </a>

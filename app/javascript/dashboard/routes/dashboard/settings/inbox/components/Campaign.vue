@@ -12,25 +12,6 @@
       :is-loading="uiFlags.isFetching"
     />
 
-    <div v-if="!uiFlags.isFetching && !records.length" class="row">
-      <div class="small-8 columns">
-        <p class="no-items-error-message">
-          {{ $t('CAMPAIGN.LIST.404') }}
-          <a @click="openAddPopup">
-            {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
-          </a>
-        </p>
-      </div>
-
-      <div class="small-4 columns">
-        <span>
-          <p>
-            <b> {{ $t('CAMPAIGN.HEADER') }}</b>
-          </p>
-          <p v-html="$t('CAMPAIGN.SIDEBAR_TXT')" />
-        </span>
-      </div>
-    </div>
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <add-campaign :on-close="hideAddPopup" />
     </woot-modal>
