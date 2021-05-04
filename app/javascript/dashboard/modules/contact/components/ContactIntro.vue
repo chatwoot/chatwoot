@@ -13,7 +13,7 @@
       </h2>
       <h3 class="sub-block-title contact--work">
         {{ contact.title }}
-        <i class="icon ion-minus-round" />
+        <i v-if="contact.company.name" class="icon ion-minus-round" />
         <span class="company-name">{{ contact.company.name }}</span>
       </h3>
       <p v-if="additionalAttributes.description" class="contact--bio">
