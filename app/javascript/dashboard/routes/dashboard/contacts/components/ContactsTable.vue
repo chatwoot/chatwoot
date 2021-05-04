@@ -69,7 +69,7 @@ export default {
           align: 'left',
           width: 300,
           renderBodyCell: ({ row }) => (
-            <woot-button
+            <WootButton
               variant="clear"
               size="expanded"
               onClick={() => this.onClickContact(row.id)}
@@ -90,7 +90,7 @@ export default {
                   </span>
                 </div>
               </div>
-            </woot-button>
+            </WootButton>
           ),
         },
         {
