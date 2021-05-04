@@ -82,9 +82,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
 .contact--details {
   margin-top: var(--space-small);
 }
@@ -99,9 +96,7 @@ export default {
 }
 
 .contact--name {
-  @include text-ellipsis;
   text-transform: capitalize;
-  white-space: normal;
   font-weight: var(--font-weight-bold);
 }
 
