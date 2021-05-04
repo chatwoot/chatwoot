@@ -6,7 +6,7 @@
       scroll-width="150rem"
       :columns="columns"
       :table-data="tableData"
-      :border-around="false"
+      :border-around="true"
     />
 
     <empty-state v-if="showEmptyResult" :title="$t('CAMPAIGN.LIST.404')" />
