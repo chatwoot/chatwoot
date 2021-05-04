@@ -1,6 +1,5 @@
-import campaignStoreModule from '../../campaigns';
+import { getters } from '../../campaigns';
 import campaigns from './fixtures';
-const { getters } = campaignStoreModule;
 
 describe('#getters', () => {
   it('getCampaigns', () => {

@@ -1,12 +1,11 @@
 import axios from 'axios';
-import campaignStoreModule from '../../campaigns';
+import { actions } from '../../campaigns';
 import * as types from '../../../mutation-types';
 import campaignList from './fixtures';
 
 const commit = jest.fn();
 global.axios = axios;
 jest.mock('axios');
-const { actions } = campaignStoreModule;
 
 describe('#actions', () => {
   describe('#create', () => {
