@@ -168,8 +168,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/mixins';
-
 .campaigns-table-wrap::v-deep {
   .ve-table {
     padding-bottom: var(--space-large);
