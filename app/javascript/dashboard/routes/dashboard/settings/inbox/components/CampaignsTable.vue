@@ -1,8 +1,6 @@
 <template>
   <section class="campaigns-table-wrap">
     <ve-table
-      :fixed-header="true"
-      max-height="calc(100vh - 11.4rem)"
       :columns="columns"
       scroll-width="155rem"
       :table-data="tableData"

@@ -7,7 +7,7 @@
       :status="sender.availability_status"
     />
     <div>
-      <h6 class="sub-block-title user-name text-truncate">
+      <h6 class="text-block-title text-truncate">
         {{ sender.name }}
       </h6>
     </div>
@@ -37,7 +37,6 @@ export default {
   text-align: left;
 
   .user-name {
-    font-size: var(--font-size-small);
     margin: 0;
     text-transform: capitalize;
   }
