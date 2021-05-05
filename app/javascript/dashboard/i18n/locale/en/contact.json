@@ -153,10 +153,16 @@
     }
   },
   "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

@@ -5,6 +5,11 @@ export default {
   title: 'Components/Notes/Note',
   component: ContactNote,
   argTypes: {
+    id: {
+      control: {
+        type: 'number',
+      },
+    },
     note: {
       defaultValue:
         'A copy and paste musical notes symbols & music symbols collection for easy access.',
