@@ -18,7 +18,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
     context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      before do 
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
@@ -113,7 +113,8 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
     context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      before do 
+
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
@@ -142,7 +143,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
     context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      before do 
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
@@ -160,7 +161,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      before do 
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 

@@ -16,7 +16,7 @@ RSpec.describe 'Inbox Member API', type: :request do
     context 'when it is an authenticated agent' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      before do 
+      before do
         create(:inbox_member, user: agent, inbox: inbox)
       end
 

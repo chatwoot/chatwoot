@@ -128,7 +128,7 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
       end
-      
+
       it 'shows the conversation if you are an administrator' do
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
             headers: administrator.create_new_auth_token,
@@ -172,15 +172,15 @@ RSpec.describe 'Conversations API', type: :request do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         additional_attributes = { test: 'test' }
         post "/api/v1/accounts/#{account.id}/conversations",
-            headers: agent.create_new_auth_token,
-            params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
-            as: :json
+             headers: agent.create_new_auth_token,
+             params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
+             as: :json
 
         expect(response).to have_http_status(:unauthorized)
       end
 
-      context "authenticated user has access to the inbox" do 
-        before do 
+      context 'when it is an authenticated user who has access to the inbox' do
+        before do
           create(:inbox_member, user: agent, inbox: inbox)
         end
 
@@ -188,9 +188,9 @@ RSpec.describe 'Conversations API', type: :request do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           additional_attributes = { test: 'test' }
           post "/api/v1/accounts/#{account.id}/conversations",
-              headers: agent.create_new_auth_token,
-              params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
-              as: :json
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
+               as: :json
 
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
@@ -200,9 +200,9 @@ RSpec.describe 'Conversations API', type: :request do
         it 'creates a new conversation with message when message is passed' do
           allow(Rails.configuration.dispatcher).to receive(:dispatch)
           post "/api/v1/accounts/#{account.id}/conversations",
-              headers: agent.create_new_auth_token,
-              params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
-              as: :json
+               headers: agent.create_new_auth_token,
+               params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
+               as: :json
 
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
@@ -218,9 +218,9 @@ RSpec.describe 'Conversations API', type: :request do
           expect(builder).to receive(:perform)
 
           post "/api/v1/accounts/#{account.id}/conversations",
-              headers: agent.create_new_auth_token,
-              params: { contact_id: contact.id, inbox_id: inbox.id },
-              as: :json
+               headers: agent.create_new_auth_token,
+               params: { contact_id: contact.id, inbox_id: inbox.id },
+               as: :json
         end
       end
     end
@@ -239,8 +239,8 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      
-      before do 
+
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
@@ -293,7 +293,8 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      before do 
+
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
@@ -324,7 +325,8 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      before do 
+
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
@@ -352,7 +354,8 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      before do 
+
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
@@ -381,7 +384,8 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      before do 
+
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
@@ -411,10 +415,9 @@ RSpec.describe 'Conversations API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:params) { { email: 'test@test.com' } }
 
-      before do 
+      before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
-      
 
       it 'mutes conversation' do
         allow(ConversationReplyMailer).to receive(:conversation_transcript)

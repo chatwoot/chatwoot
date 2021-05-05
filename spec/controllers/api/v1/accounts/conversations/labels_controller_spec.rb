@@ -19,8 +19,8 @@ RSpec.describe 'Conversation Label API', type: :request do
 
     context 'when it is an authenticated user with access to the conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
-      
-      before do 
+
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Conversation Label API', type: :request do
 
     context 'when it is an authenticated user with access to the conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
-     
+
       before do
         conversation.update_labels('label1, label2')
         create(:inbox_member, inbox: conversation.inbox, user: agent)

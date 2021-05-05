@@ -212,7 +212,10 @@ RSpec.describe 'Contacts API', type: :request do
 
         inbox_service = double
         allow(Contacts::ContactableInboxesService).to receive(:new).and_return(inbox_service)
-        allow(inbox_service).to receive(:get).and_return([{ source_id: '1123', inbox: twilio_sms_inbox }, { source_id: '1123', inbox: twilio_whatsapp_inbox }])
+        allow(inbox_service).to receive(:get).and_return([
+                                                           { source_id: '1123', inbox: twilio_sms_inbox },
+                                                           { source_id: '1123', inbox: twilio_whatsapp_inbox }
+                                                         ])
         expect(inbox_service).to receive(:get)
         get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contactable_inboxes",
             headers: agent.create_new_auth_token,
@@ -220,7 +223,7 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         # only the inboxes which agent has access to are shown
-        expect(JSON.parse(response.body)["payload"].pluck("inbox").pluck("id")).to eq([twilio_whatsapp_inbox.id])
+        expect(JSON.parse(response.body)['payload'].pluck('inbox').pluck('id')).to eq([twilio_whatsapp_inbox.id])
       end
     end
   end

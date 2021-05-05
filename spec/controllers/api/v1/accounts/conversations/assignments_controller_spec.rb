@@ -18,7 +18,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:team) { create(:team, account: account) }
 
-      before do 
+      before do
         create(:inbox_member, inbox: conversation.inbox, user: agent)
       end
 
