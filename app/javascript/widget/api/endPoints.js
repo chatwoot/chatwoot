@@ -64,6 +64,12 @@ const getAvailableAgents = token => ({
     website_token: token,
   },
 });
+const getCampaigns = token => ({
+  url: '/api/v1/widget/campaigns',
+  params: {
+    website_token: token,
+  },
+});
 
 export default {
   createConversation,
@@ -72,4 +78,5 @@ export default {
   getConversation,
   updateMessage,
   getAvailableAgents,
+  getCampaigns,
 };
