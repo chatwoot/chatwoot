@@ -178,8 +178,7 @@ export default {
         return {
           ...item,
           url: item.trigger_rules.url,
-          timeOnPage:
-            item.trigger_rules.timeOnPage || item.trigger_rules.time_on_page,
+          timeOnPage: item.trigger_rules.time_on_page,
         };
       });
     },
