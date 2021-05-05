@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 
 export default {
-  title: 'Components/Label/Label',
+  title: 'Components/Label',
   argTypes: {
     title: {
       defaultValue: 'sales',
@@ -52,7 +52,7 @@ const Template = (args, { argTypes }) => ({
   template: '<woot-label v-bind="$props" @click="onClick"></woot-label>',
 });
 
-export const Label = Template.bind({});
-Label.args = {
+export const DefaultLabel = Template.bind({});
+DefaultLabel.args = {
   onClick: action('clicked'),
 };
