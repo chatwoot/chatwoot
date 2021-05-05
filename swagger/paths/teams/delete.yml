@@ -1,0 +1,12 @@
+tags:
+  - Teams
+operationId: delete-a-team,
+summary: Delete a team
+description: Delete a team from the account
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The team does not exist in the account
