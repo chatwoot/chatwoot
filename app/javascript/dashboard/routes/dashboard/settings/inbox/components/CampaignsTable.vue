@@ -170,12 +170,6 @@ export default {
 <style lang="scss" scoped>
 @import '~dashboard/assets/scss/mixins';
 
-.campaigns-table-wrap {
-  flex: 1 1;
-  height: 100%;
-  overflow: hidden;
-}
-
 .campaigns-table-wrap::v-deep {
   .ve-table {
     padding-bottom: var(--space-large);
