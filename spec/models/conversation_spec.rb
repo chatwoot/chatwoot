@@ -350,6 +350,15 @@ RSpec.describe Conversation, type: :model do
     end
   end
 
+  describe '#botintegration: when conversation created in inbox with dialogflow integration' do
+    let(:hook) { create(:integrations_hook, app_id: 'dialogflow') }
+    let(:conversation) { create(:conversation, inbox: hook.inbox) }
+
+    it 'returns conversation status as bot' do
+      expect(conversation.status).to eq('bot')
+    end
+  end
+
   describe '#can_reply?' do
     describe 'on channels without 24 hour restriction' do
       let(:conversation) { create(:conversation) }
