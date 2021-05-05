@@ -1,12 +1,9 @@
 <template>
-  <div
-    :class="labelClass"
-    :style="{ background: bgColor, color: textColor }"
-    :title="description"
-  >
+  <div :class="labelClass" :style="labelStyle" :title="description">
+    <i v-if="icon" class="label--icon" :class="icon" @click="onClick" />
     <span v-if="!href">{{ title }}</span>
-    <a v-else :href="href" :style="{ color: textColor }">{{ title }}</a>
-    <i v-if="showIcon" class="label--icon" :class="icon" @click="onClick" />
+    <a v-else :href="href" :style="anchorStyle">{{ title }}</a>
+    <i v-if="showClose" class="close--icon ion-close" @click="onClick" />
   </div>
 </template>
 <script>
@@ -27,19 +24,23 @@ export default {
     },
     bgColor: {
       type: String,
-      default: '#1f93ff',
+      default: '',
     },
     small: {
       type: Boolean,
       default: false,
     },
-    showIcon: {
+    showClose: {
       type: Boolean,
       default: false,
     },
     icon: {
       type: String,
-      default: 'ion-close',
+      default: '',
+    },
+    colorScheme: {
+      type: String,
+      default: '',
     },
   },
   computed: {
@@ -47,7 +48,19 @@ export default {
       return getContrastingTextColor(this.bgColor);
     },
     labelClass() {
-      return `label ${this.small ? 'small' : ''}`;
+      return `label ${this.colorScheme} ${this.small ? 'small' : ''}`;
+    },
+    labelStyle() {
+      if (this.bgColor) {
+        return { background: this.bgColor, color: this.textColor };
+      }
+      return {};
+    },
+    anchorStyle() {
+      if (this.bgColor) {
+        return { color: this.textColor };
+      }
+      return {};
     },
   },
   methods: {
@@ -68,21 +81,68 @@ export default {
 
   &.small {
     font-size: var(--font-size-micro);
+  }
 
-    .label--icon {
-      font-size: var(--font-size-nano);
-    }
+  .label--icon {
+    cursor: pointer;
+  }
+  .label--icon,
+  .close--icon {
+    font-size: var(--font-size-micro);
+  }
+
+  &.small .label--icon,
+  &.small .close--icon {
+    font-size: var(--font-size-nano);
   }
 
   a {
+    font-size: var(--font-size-mini);
     &:hover {
       text-decoration: underline;
     }
   }
-}
 
-.label--icon {
-  cursor: pointer;
-  font-size: var(--font-size-micro);
+  /* Color Schemes */
+  &.primary {
+    background: var(--w-100);
+    color: var(--w-900);
+    border: 1px solid var(--w-200);
+    a {
+      color: var(--w-900);
+    }
+  }
+  &.secondary {
+    background: var(--s-100);
+    color: var(--s-900);
+    border: 1px solid var(--s-200);
+    a {
+      color: var(--s-900);
+    }
+  }
+  &.success {
+    background: var(--g-100);
+    color: var(--g-900);
+    border: 1px solid var(--g-200);
+    a {
+      color: var(--g-900);
+    }
+  }
+  &.alert {
+    background: var(--r-100);
+    color: var(--r-900);
+    border: 1px solid var(--r-200);
+    a {
+      color: var(--r-900);
+    }
+  }
+  &.warning {
+    background: var(--y-100);
+    color: var(--y-900);
+    border: 1px solid var(--y-300);
+    a {
+      color: var(--y-900);
+    }
+  }
 }
 </style>

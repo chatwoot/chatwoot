@@ -21,7 +21,7 @@
               :title="label.title"
               :description="label.description"
               :bg-color="label.color"
-              :show-icon="true"
+              :show-close="true"
               @click="onRemove"
             />
           </div>
@@ -44,7 +44,6 @@
               :title="label.title"
               :description="label.description"
               :bg-color="label.color"
-              :show-icon="true"
               icon="ion-plus"
               @click="onAdd"
             />
