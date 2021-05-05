@@ -19,6 +19,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def show?
+    Current.user.assigned_inboxes.include? record
+  end
+
   def assignable_agents?
     true
   end
