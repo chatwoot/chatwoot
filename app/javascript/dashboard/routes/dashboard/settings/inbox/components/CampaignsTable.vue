@@ -22,7 +22,7 @@ import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton';
+import WootButton from 'dashboard/components/ui/WootButton.vue';
 import CampaignSender from './CampaignSender';
 
 export default {
@@ -141,12 +141,15 @@ export default {
           align: 'left',
           renderBodyCell: () => (
             <div class="button-wrapper">
-              <WootSubmitButton
-                button-text={this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
-                icon-class="ion-edit"
-                button-class="link hollow grey-btn"
+              <WootButton
+                variant="clear"
+                icon="ion-edit"
+                color-scheme="secondary"
+                classNames="hollow grey-btn"
                 click="openEditPopup(label)"
-              />
+              >
+                {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
+              </WootButton>
             </div>
           ),
         },
