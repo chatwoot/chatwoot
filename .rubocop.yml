@@ -101,6 +101,7 @@ Rails/BulkChangeTable:
     - 'db/migrate/20170511134418_latlong.rb'
     - 'db/migrate/20191027054756_create_contact_inboxes.rb'
     - 'db/migrate/20191130164019_add_template_type_to_messages.rb'
+    - 'db/migrate/20210425093724_convert_integration_hook_settings_field.rb'
 Rails/UniqueValidationWithoutIndex: 
   Exclude:
     - 'app/models/channel/twitter_profile.rb'

@@ -142,7 +142,7 @@ class Conversation < ApplicationRecord
   end
 
   def set_bot_conversation
-    self.status = :bot if inbox.agent_bot_inbox&.active?
+    self.status = :bot if inbox.agent_bot_inbox&.active? || inbox.hooks.pluck(:app_id).include?('dialogflow')
   end
 
   def notify_conversation_creation
