@@ -62,13 +62,16 @@ export default {
 @import '~dashboard/assets/scss/variables';
 
 .label {
-  display: inline-block;
-  font-size: $font-size-small;
-  line-height: 1;
-  margin: $space-micro;
+  font-weight: var(--font-weight-medium);
+  margin-right: var(--space-smaller);
+  margin-bottom: var(--space-smaller);
 
   &.small {
-    font-size: $font-size-mini;
+    font-size: var(--font-size-micro);
+
+    .label--icon {
+      font-size: var(--font-size-nano);
+    }
   }
 
   a {
@@ -80,8 +83,6 @@ export default {
 
 .label--icon {
   cursor: pointer;
-  font-size: $font-size-micro;
-  line-height: 1.5;
-  margin-left: $space-smaller;
+  font-size: var(--font-size-micro);
 }
 </style>
