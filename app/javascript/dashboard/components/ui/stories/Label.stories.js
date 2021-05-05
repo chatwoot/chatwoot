@@ -9,6 +9,12 @@ export default {
         type: 'text',
       },
     },
+    colorScheme: {
+      control: {
+        type: 'select',
+        options: ['primary', 'secondary', 'success', 'alert', 'warning'],
+      },
+    },
     description: {
       defaultValue: 'label',
       control: {
@@ -32,7 +38,7 @@ export default {
         type: 'boolean',
       },
     },
-    showIcon: {
+    showClose: {
       defaultValue: false,
       control: {
         type: 'boolean',
