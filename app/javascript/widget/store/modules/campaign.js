@@ -11,8 +11,7 @@ const state = {
 
 export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
-  enabledCampaigns: $state =>
-    $state.records.filter(campaign => campaign.enabled),
+  fetchCampaigns: $state => $state.records,
 };
 
 export const actions = {
@@ -21,7 +20,7 @@ export const actions = {
       const { data } = await getCampaigns(websiteToken);
       commit('setCampaigns', data);
       commit('setError', false);
-      commit('setCampaigns', true);
+      commit('setHasFetched', true);
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
