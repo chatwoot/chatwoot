@@ -168,45 +168,60 @@ RSpec.describe 'Conversations API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
-      it 'creates a new conversation' do
+      it 'will not create a new conversation if agent does not have access to inbox' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
         additional_attributes = { test: 'test' }
         post "/api/v1/accounts/#{account.id}/conversations",
-             headers: agent.create_new_auth_token,
-             params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
-             as: :json
+            headers: agent.create_new_auth_token,
+            params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
+            as: :json
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data[:additional_attributes]).to eq(additional_attributes)
+        expect(response).to have_http_status(:unauthorized)
       end
 
-      it 'creates a new conversation with message when message is passed' do
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-        post "/api/v1/accounts/#{account.id}/conversations",
-             headers: agent.create_new_auth_token,
-             params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
-             as: :json
+      context "authenticated user has access to the inbox" do 
+        before do 
+          create(:inbox_member, user: agent, inbox: inbox)
+        end
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
-        expect(response_data[:additional_attributes]).to eq({})
-        expect(account.conversations.find_by(display_id: response_data[:id]).messages.first.content).to eq 'hi'
-      end
+        it 'creates a new conversation' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          additional_attributes = { test: 'test' }
+          post "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
+              as: :json
 
-      it 'calls contact inbox builder if contact_id and inbox_id is present' do
-        builder = double
-        contact = create(:contact, account: account)
-        inbox = create(:inbox, account: account)
-        allow(Rails.configuration.dispatcher).to receive(:dispatch)
-        allow(ContactInboxBuilder).to receive(:new).and_return(builder)
-        allow(builder).to receive(:perform)
-        expect(builder).to receive(:perform)
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:additional_attributes]).to eq(additional_attributes)
+        end
 
-        post "/api/v1/accounts/#{account.id}/conversations",
-             headers: agent.create_new_auth_token,
-             params: { contact_id: contact.id, inbox_id: inbox.id },
-             as: :json
+        it 'creates a new conversation with message when message is passed' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { source_id: contact_inbox.source_id, message: { content: 'hi' } },
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:additional_attributes]).to eq({})
+          expect(account.conversations.find_by(display_id: response_data[:id]).messages.outgoing.first.content).to eq 'hi'
+        end
+
+        it 'calls contact inbox builder if contact_id and inbox_id is present' do
+          builder = double
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          allow(ContactInboxBuilder).to receive(:new).and_return(builder)
+          allow(builder).to receive(:perform)
+          expect(builder).to receive(:perform)
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { contact_id: contact.id, inbox_id: inbox.id },
+              as: :json
+        end
       end
     end
   end

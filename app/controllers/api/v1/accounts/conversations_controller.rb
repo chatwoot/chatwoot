@@ -89,10 +89,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @contact_inbox = build_contact_inbox
 
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    raise Pundit::NotAuthorizedError unless Current.user.assigned_inboxes.include? @contact_inbox.inbox
   end
 
   def build_contact_inbox
     return if params[:contact_id].blank? || params[:inbox_id].blank?
+    @inbox = Current.account.inboxes.find(params[:inbox_id])
+
+    raise Pundit::NotAuthorizedError unless Current.user.assigned_inboxes.include? @inbox
 
     ContactInboxBuilder.new(
       contact_id: params[:contact_id],
