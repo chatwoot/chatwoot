@@ -51,11 +51,7 @@ class ConversationFinder
     if params[:inbox_id]
       @inbox_ids = current_account.inboxes.where(id: params[:inbox_id])
     else
-      if @current_user.administrator?
-        @inbox_ids = current_account.inboxes.pluck(:id)
-      elsif @current_user.agent?
-        @inbox_ids = @current_user.assigned_inboxes.pluck(:id)
-      end
+      @inbox_ids = @current_user.assigned_inboxes.pluck(:id)
     end
   end
 

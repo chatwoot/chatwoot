@@ -8,9 +8,7 @@ class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::
   private
 
   def inbox_ids
-    if Current.user.administrator?
-      Current.account.inboxes.pluck(:id)
-    elsif Current.user.agent?
+    if Current.user.administrator? || Current.user.agent?
       Current.user.assigned_inboxes.pluck(:id)
     else
       []

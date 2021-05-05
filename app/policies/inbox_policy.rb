@@ -11,11 +11,7 @@ class InboxPolicy < ApplicationPolicy
     end
 
     def resolve
-      if @account_user.administrator?
-        scope.all
-      elsif @account_user.agent?
-        user.assigned_inboxes
-      end
+      user.assigned_inboxes
     end
   end
 

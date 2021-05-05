@@ -2,6 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
 
   before_action :conversation, except: [:index]
+  before_action :authorize_conversation, except: [:index]
   before_action :contact_inbox, only: [:create]
 
   def index
@@ -78,6 +79,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation
     @conversation ||= Current.account.conversations.find_by(display_id: params[:id])
+  end
+
+  def authorize_conversation
+    authorize @conversation if @conversation
   end
 
   def contact_inbox

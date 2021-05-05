@@ -119,8 +119,27 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      it 'shows the conversation' do
+      it 'does not shows the conversation if you do not have access to it' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+      
+      it 'shows the conversation if you are an administrator' do
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
+      end
+
+      it 'shows the conversation if you are an agent with access to inbox' do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
             headers: agent.create_new_auth_token,
             as: :json
@@ -205,6 +224,10 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
 
       it 'toggles the conversation status' do
         expect(conversation.status).to eq('open')
@@ -255,6 +278,9 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
 
       it 'toggles the conversation status' do
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
@@ -283,6 +309,9 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
 
       it 'updates last seen' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
@@ -308,6 +337,9 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
 
       it 'mutes conversation' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/mute",
@@ -334,6 +366,9 @@ RSpec.describe 'Conversations API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
 
       it 'unmutes conversation' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unmute",
@@ -360,6 +395,11 @@ RSpec.describe 'Conversations API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:params) { { email: 'test@test.com' } }
+
+      before do 
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+      
 
       it 'mutes conversation' do
         allow(ConversationReplyMailer).to receive(:conversation_transcript)
