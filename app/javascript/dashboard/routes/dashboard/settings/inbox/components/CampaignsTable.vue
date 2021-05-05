@@ -3,8 +3,8 @@
     <ve-table
       :fixed-header="true"
       max-height="calc(100vh - 11.4rem)"
-      scroll-width="150rem"
       :columns="columns"
+      scroll-width="155rem"
       :table-data="tableData"
       :border-around="true"
     />
@@ -80,7 +80,7 @@ export default {
         {
           field: 'enabled',
           key: 'enabled',
-          width: 100,
+          // width: 100,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
           align: 'left',
           renderBodyCell: ({ row }) => {
@@ -101,7 +101,7 @@ export default {
           key: 'sender',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
           align: 'left',
-          width: 200,
+          // width: 200,
           renderBodyCell: ({ row }) => {
             if (row.sender) return <CampaignSender sender={row.sender} />;
             return '---';
@@ -110,7 +110,7 @@ export default {
         {
           field: 'url',
           key: 'url',
-          width: 250,
+          // width: 250,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
           align: 'left',
           renderBodyCell: ({ row }) => (
@@ -129,7 +129,7 @@ export default {
         {
           field: 'timeOnPage',
           key: 'timeOnPage',
-          width: 150,
+          // width: 150,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
           align: 'left',
         },
