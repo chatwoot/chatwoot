@@ -69,7 +69,7 @@ export default {
           key: 'message',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.MESSAGE'),
           align: 'left',
-          width: 300,
+          width: 350,
           renderBodyCell: ({ row }) => {
             return (
               <div class="text-truncate">
@@ -81,6 +81,7 @@ export default {
         {
           field: 'enabled',
           key: 'enabled',
+          width: 100,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
           align: 'left',
           renderBodyCell: ({ row }) => {
@@ -101,6 +102,7 @@ export default {
           key: 'sender',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
           align: 'left',
+          width: 200,
           renderBodyCell: ({ row }) => {
             if (row.sender)
               return (
@@ -124,6 +126,7 @@ export default {
         {
           field: 'url',
           key: 'url',
+          width: 250,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
           align: 'left',
           renderBodyCell: ({ row }) => (
@@ -142,6 +145,7 @@ export default {
         {
           field: 'timeOnPage',
           key: 'timeOnPage',
+          width: 150,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
           align: 'left',
         },
@@ -156,12 +160,6 @@ export default {
               <WootSubmitButton
                 button-text={this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
                 icon-class="ion-edit"
-                button-class="link hollow grey-btn"
-                click="openEditPopup(label)"
-              />
-              <WootSubmitButton
-                button-text={this.$t('CAMPAIGN.LIST.BUTTONS.DELETE')}
-                icon-class="ion-close-circled"
                 button-class="link hollow grey-btn"
                 click="openEditPopup(label)"
               />
@@ -227,7 +225,7 @@ export default {
       margin-right: var(--space-small);
     }
   }
-
+  /*
   .ve-table-header-th {
     padding: var(--space-small) var(--space-two) !important;
   }
@@ -238,7 +236,7 @@ export default {
 
   .ve-table-header-th {
     font-size: var(--font-size-mini) !important;
-  }
+  } */
 }
 
 .campaign--loader {

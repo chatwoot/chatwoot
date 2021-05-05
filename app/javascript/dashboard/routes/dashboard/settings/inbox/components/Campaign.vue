@@ -6,7 +6,7 @@
         {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
       </woot-button>
     </div>
-    <campaign-table
+    <campaigns-table
       :campaigns="records"
       :show-empty-state="showEmptyResult"
       :is-loading="uiFlags.isFetching"
@@ -20,12 +20,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import AddCampaign from './AddCampaign';
-import CampaignTable from './CampaignTable';
+import CampaignsTable from './CampaignsTable';
 
 export default {
   components: {
     AddCampaign,
-    CampaignTable,
+    CampaignsTable,
   },
   data() {
     return {
