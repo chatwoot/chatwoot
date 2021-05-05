@@ -50,6 +50,10 @@ export default {
   mixins: [timeMixin],
 
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     note: {
       type: String,
       default: '',
@@ -76,10 +80,10 @@ export default {
 
   methods: {
     onEdit() {
-      this.$emit('edit');
+      this.$emit('edit', this.id);
     },
     onDelete() {
-      this.$emit('delete');
+      this.$emit('delete', this.id);
     },
   },
 };

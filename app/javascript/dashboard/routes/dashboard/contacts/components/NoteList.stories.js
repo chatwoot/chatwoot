@@ -11,14 +11,14 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { noteList },
   template:
-    '<note-list v-bind="$props" @addNote="onAddNote" @removeNote="onRemoveNote" @deleteNote="onDeleteNote" @show="onClick"></note-list>',
+    '<note-list v-bind="$props" @addNote="onAddNote" @editNote="onEditNote" @deleteNote="onDeleteNote" @show="onClick"></note-list>',
 });
 
 export const List = Template.bind({});
 List.args = {
   onClick: action('show'),
   onAddNote: action('added'),
-  onRemoveNote: action('removed'),
+  onEditNote: action('edit'),
   onDeleteNote: action('deleted'),
   notes: [
     {

@@ -2,22 +2,23 @@
   <div>
     <div class="notelist-wrap">
       <h3 class="block-title">
-        Notes
+        {{ $t('NOTES.HEADER.TITLE') }}
       </h3>
       <add-note @add="onAddNote" />
       <contact-note
         v-for="note in notes"
+        :id="note.id"
         :key="note.id"
         :note="note.content"
         :user-name="note.user.name"
         :time-stamp="note.created_at"
         :thumbnail="note.user.thumbnail"
-        @edit="onRemoveNote"
+        @edit="onEditNote"
         @delete="onDeleteNote"
       />
       <div class="button-wrap">
         <woot-button variant="clear link" class="button" @click="onclick">
-          View all notes
+          {{ $t('NOTES.FOOTER.BUTTON') }}
           <i class="ion-arrow-right-c" />
         </woot-button>
       </div>
@@ -46,14 +47,14 @@ export default {
     onclick() {
       this.$emit('show');
     },
-    onAddNote() {
-      this.$emit('addNote');
+    onAddNote(value) {
+      this.$emit('addNote', value);
     },
-    onRemoveNote() {
-      this.$emit('removeNote');
+    onEditNote(value) {
+      this.$emit('editNote', value);
     },
-    onDeleteNote() {
-      this.$emit('deleteNote');
+    onDeleteNote(value) {
+      this.$emit('deleteNote', value);
     },
   },
 };
