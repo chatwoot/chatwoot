@@ -20,6 +20,9 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def show?
+    # FIXME: for agent bots, lets bring this validation to policies as well in future
+    return true if @user.blank?
+
     Current.user.assigned_inboxes.include? record
   end
 
