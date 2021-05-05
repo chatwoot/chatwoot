@@ -1,5 +1,5 @@
 {
-  "swagger": 2.0,
+  "swagger": "2.0",
   "info": {
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
@@ -698,7 +698,7 @@
         ],
         "operationId": "conversationAssignment",
         "summary": "Assign Conversation",
-        "description": "Assign a conversation to an agent",
+        "description": "Assign a conversation to an agent or a team",
         "parameters": [
           {
             "name": "id",
@@ -715,7 +715,12 @@
               "type": "object",
               "properties": {
                 "assignee_id": {
-                  "type": "number"
+                  "type": "number",
+                  "description": "Id of the assignee user"
+                },
+                "team_id": {
+                  "type": "number",
+                  "description": "Id of the team. If the assignee_id is present, this param would be ignored"
                 }
               }
             }
@@ -999,6 +1004,144 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/teams": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "list-all-teams",
+        "summary": "List all teams",
+        "description": "List all teams available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "create-a-team",
+        "summary": "Create a team",
+        "description": "Create a team in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/team_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/teams/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/team_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "get-details-of-a-single-team",
+        "summary": "Get a team details",
+        "description": "Get the details of a team in the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given team id does not exist in the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "update-a-team",
+        "summary": "Update a team",
+        "description": "Update a team's attributes",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/team_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "delete-a-tea,",
+        "summary": "Delete a team",
+        "description": "Delete a team from the account",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The team does not exist in the account"
           }
         }
       }
@@ -1323,6 +1466,35 @@
             "agent"
           ],
           "description": "The user role in the account"
+        }
+      }
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "The id of the team"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the team"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the team"
+        },
+        "allow_auto_assign": {
+          "type": "boolean",
+          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        },
+        "account_id": {
+          "type": "number",
+          "description": "The id of the account with the team is a part of"
+        },
+        "is_member": {
+          "type": "boolean",
+          "description": "This field shows whether the current user is a part of the team"
         }
       }
     },
@@ -1671,6 +1843,43 @@
           "description": "attributes based on your content type"
         }
       }
+    },
+    "team_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the team"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the team"
+        },
+        "allow_auto_assign": {
+          "type": "boolean",
+          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "account_id": {
+      "in": "path",
+      "name": "account_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "Numeric ID of the account"
+    },
+    "team_id": {
+      "in": "path",
+      "name": "id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The id of the team to be updated"
     }
   }
 }
