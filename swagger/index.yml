@@ -1,4 +1,4 @@
-swagger: 2.0
+swagger: "2.0"
 info:
   description: This is the API documentation for Chatwoot server.
   version: 1.0.0
@@ -40,3 +40,5 @@ paths:
   $ref: ./paths/index.yml
 definitions:
   $ref: ./definitions/index.yml
+parameters:
+  $ref: ./parameters/index.yml
