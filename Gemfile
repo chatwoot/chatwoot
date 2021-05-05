@@ -112,7 +112,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: '131b11294fd6af9c428171f38516e6222a58c874'
 
   # When we want to squash migrations
   gem 'squasher'

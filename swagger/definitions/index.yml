@@ -23,6 +23,8 @@ contact_inboxes:
   $ref: ./resource/contact_inboxes.yml
 account:
   $ref: ./resource/account.yml
+team:
+  $ref: ./resource/team.yml
 
 # RESPONSE
 
@@ -78,3 +80,8 @@ contact_update:
 ## conversation
 conversation_message_create:
   $ref: ./request/conversation/create_message.yml
+
+# Team request Payload
+
+team_create_update_payload:
+  $ref: ./request/team/create_update_payload.yml

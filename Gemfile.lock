@@ -7,10 +7,10 @@ GIT
 
 GIT
   remote: https://github.com/tzmfreedom/json_refs
-  revision: e32deb073ce9aef39bdd63556bffd7fe7c2a803d
-  ref: e32deb0
+  revision: 131b11294fd6af9c428171f38516e6222a58c874
+  ref: 131b11294fd6af9c428171f38516e6222a58c874
   specs:
-    json_refs (0.1.2)
+    json_refs (0.1.6)
       hana
 
 GEM
@@ -250,7 +250,7 @@ GEM
       activerecord (>= 5.0, < 7)
       ruby2ruby (~> 2.4)
       ruby_parser (~> 3.10)
-    hana (1.3.6)
+    hana (1.3.7)
     hashdiff (1.0.1)
     hashie (4.1.0)
     hkdf (0.3.0)
