@@ -21,9 +21,11 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
+import Label from 'dashboard/components/widgets/Label.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import CampaignSender from './CampaignSender';
+import { CAMPAIGN_STATUS_COLORS } from 'shared/constants/campaign';
 
 export default {
   components: {
@@ -80,19 +82,16 @@ export default {
         {
           field: 'enabled',
           key: 'enabled',
-          // width: 100,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.STATUS'),
           align: 'left',
           renderBodyCell: ({ row }) => {
-            return (
-              <div>
-                <span class={`status status__${row.enabled}`}>
-                  {row.enabled
-                    ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-                    : this.$t('CAMPAIGN.LIST.STATUS.DISABLED')}
-                </span>
-              </div>
-            );
+            const labelText = row.enabled
+              ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
+              : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+            const bGColor = row.enabled
+              ? CAMPAIGN_STATUS_COLORS.enabled
+              : CAMPAIGN_STATUS_COLORS.disabled;
+            return <Label title={labelText} bg-color={bGColor} />;
           },
         },
 
@@ -101,7 +100,6 @@ export default {
           key: 'sender',
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.SENDER'),
           align: 'left',
-          // width: 200,
           renderBodyCell: ({ row }) => {
             if (row.sender) return <CampaignSender sender={row.sender} />;
             return '---';
@@ -110,7 +108,6 @@ export default {
         {
           field: 'url',
           key: 'url',
-          // width: 250,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.URL'),
           align: 'left',
           renderBodyCell: ({ row }) => (
@@ -129,7 +126,6 @@ export default {
         {
           field: 'timeOnPage',
           key: 'timeOnPage',
-          // width: 150,
           title: this.$t('CAMPAIGN.LIST.TABLE_HEADER.TIME_ON_PAGE'),
           align: 'left',
         },
@@ -205,6 +201,9 @@ export default {
       text-transform: capitalize;
     }
   }
+  .label {
+    padding: var(--space-smaller) var(--space-small);
+  }
 }
 
 .campaign--loader {
@@ -220,19 +219,5 @@ export default {
   display: flex;
   flex-direction: row;
   min-width: 20rem;
-}
-.status {
-  padding: var(--space-smaller) var(--space-small);
-  display: inline-block;
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-bold);
-  border-radius: var(--border-radius-small);
-  color: var(--white);
-  &__true {
-    background-color: var(--g-400);
-  }
-  &__false {
-    background-color: var(--b-600);
-  }
 }
 </style>
