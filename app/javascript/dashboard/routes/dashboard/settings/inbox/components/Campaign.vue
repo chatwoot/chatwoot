@@ -1,17 +1,17 @@
 <template>
   <div class="column content-box">
-    <div class="row">
-      <a class="button icon success nice button--fixed-right-top">
+    <div v-if="campaigns.length" class="row button-wrapper">
+      <woot-button @click="openAddPopup">
         <i class="icon ion-android-add-circle"></i>
         {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
-      </a>
+      </woot-button>
     </div>
 
-    <div class="row">
+    <div v-if="!campaigns.length" class="row">
       <div class="small-8 columns">
         <p class="no-items-error-message">
           {{ $t('CAMPAIGN.LIST.404') }}
-          <a>
+          <a @click="openAddPopup">
             {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
           </a>
         </p>
@@ -22,16 +22,41 @@
           <p>
             <b> {{ $t('CAMPAIGN.HEADER') }}</b>
           </p>
-          <p>
-            Proactive messages allows customer send outbound messages to their
-            contacts which would trigger more conversations. Campaigns are tied
-            to inbox. Click on
-            <b>Add Campaign</b>
-            to create a new campaign. You can also edit or delete an existing
-            campaigns Response by clicking on the Edit or Delete button.
-          </p>
+          <p v-html="$t('CAMPAIGN.SIDEBAR_TXT')" />
         </span>
       </div>
     </div>
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <add-campaign :on-close="hideAddPopup" />
+    </woot-modal>
   </div>
 </template>
+<script>
+import AddCampaign from './AddCampaign';
+export default {
+  components: {
+    AddCampaign,
+  },
+  data() {
+    return {
+      campaigns: [],
+      showAddPopup: false,
+    };
+  },
+  methods: {
+    openAddPopup() {
+      this.showAddPopup = true;
+    },
+    hideAddPopup() {
+      this.showAddPopup = false;
+    },
+  },
+};
+</script>
+
+<style scoped lang="scss">
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+}
+</style>
