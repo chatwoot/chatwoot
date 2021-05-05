@@ -19,11 +19,10 @@
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
-import Label from 'dashboard/components/widgets/Label.vue';
+import Label from 'dashboard/components/ui/Label';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 import CampaignSender from './CampaignSender';
-import { CAMPAIGN_STATUS_COLORS } from 'shared/constants/campaign';
 
 export default {
   components: {
@@ -86,10 +85,8 @@ export default {
             const labelText = row.enabled
               ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
               : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
-            const bGColor = row.enabled
-              ? CAMPAIGN_STATUS_COLORS.enabled
-              : CAMPAIGN_STATUS_COLORS.disabled;
-            return <Label title={labelText} bg-color={bGColor} />;
+            const colorScheme = row.enabled ? 'success' : 'secondary';
+            return <Label title={labelText} colorScheme={colorScheme} />;
           },
         },
 
