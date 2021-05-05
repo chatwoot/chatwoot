@@ -10,6 +10,7 @@
     "test:coverage": "jest -w 1 --no-cache --collectCoverage",
     "webpacker-start": "webpack-dev-server -d --config webpack.dev.config.js --content-base public/ --progress --colors",
     "start:dev": "foreman start -f ./Procfile.dev",
+    "start:dev-overmind": "overmind start -f ./Procfile.dev",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
