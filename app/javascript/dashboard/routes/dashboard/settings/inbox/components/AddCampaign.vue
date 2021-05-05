@@ -119,6 +119,10 @@ export default {
   },
   mixins: [alertMixin],
   props: {
+    senderList: {
+      type: Array,
+      default: () => [],
+    },
     onClose: {
       type: Function,
       default: () => {},
@@ -157,7 +161,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      senderList: 'agents/getAgents',
       uiFlags: 'campaigns/getUIFlags',
     }),
     buttonDisabled() {

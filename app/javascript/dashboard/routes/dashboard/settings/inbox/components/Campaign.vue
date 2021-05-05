@@ -13,7 +13,7 @@
     />
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :on-close="hideAddPopup" />
+      <add-campaign :on-close="hideAddPopup" :sender-list="selectedAgents" />
     </woot-modal>
   </div>
 </template>
@@ -26,6 +26,12 @@ export default {
   components: {
     AddCampaign,
     CampaignsTable,
+  },
+  props: {
+    selectedAgents: {
+      type: Array,
+      default: () => [],
+    },
   },
   data() {
     return {

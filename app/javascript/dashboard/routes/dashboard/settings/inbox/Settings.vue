@@ -258,7 +258,7 @@
       <weekly-availability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'campaign'">
-      <campaign />
+      <campaign :selected-agents="selectedAgents" />
     </div>
   </div>
 </template>
