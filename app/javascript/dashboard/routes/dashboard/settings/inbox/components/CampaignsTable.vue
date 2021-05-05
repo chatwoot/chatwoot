@@ -250,7 +250,7 @@ export default {
   min-width: 20rem;
 }
 .status {
-  padding: var(--space-micro) var(--space-small);
+  padding: var(--space-smaller) var(--space-small);
   display: inline-block;
   font-size: var(--font-size-mini);
   font-weight: var(--font-weight-bold);
