@@ -6,7 +6,7 @@ class CampaignListener < BaseListener
     return if campaign_display_id.blank?
 
     ::Campaigns::CampaignConversationBuilder.new(
-      contact_inbox: contact_inbox.id,
+      contact_inbox_id: contact_inbox.id,
       campaign_display_id: campaign_display_id,
       conversation_additional_attributes: event.data[:event_info].except(:campaign_id)
     ).perform
