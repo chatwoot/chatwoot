@@ -199,7 +199,15 @@ export default {
 .campaigns-table-wrap::v-deep {
   .ve-table {
     padding-bottom: var(--space-large);
+    thead.ve-table-header .ve-table-header-tr .ve-table-header-th {
+      font-size: var(--font-size-mini);
+      padding: var(--space-small) var(--space-two);
+    }
+    tbody.ve-table-body .ve-table-body-tr .ve-table-body-td {
+      padding: var(--space-slab) var(--space-two);
+    }
   }
+
   .row--title-block {
     align-items: center;
     display: flex;
@@ -225,18 +233,6 @@ export default {
       margin-right: var(--space-small);
     }
   }
-  /*
-  .ve-table-header-th {
-    padding: var(--space-small) var(--space-two) !important;
-  }
-
-  .ve-table-body-td {
-    padding: var(--space-slab) var(--space-two) !important;
-  }
-
-  .ve-table-header-th {
-    font-size: var(--font-size-mini) !important;
-  } */
 }
 
 .campaign--loader {
