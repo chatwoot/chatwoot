@@ -20,11 +20,10 @@
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 import { VeTable } from 'vue-easytable';
-
 import Spinner from 'shared/components/Spinner.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton';
+import CampaignSender from './CampaignSender';
 
 export default {
   components: {
@@ -104,22 +103,7 @@ export default {
           align: 'left',
           width: 200,
           renderBodyCell: ({ row }) => {
-            if (row.sender)
-              return (
-                <div class="row--user-block">
-                  <Thumbnail
-                    src={row.sender.thumbnail}
-                    size="20px"
-                    username={row.sender.name}
-                    status={row.sender.availability_status}
-                  />
-                  <div>
-                    <h6 class="sub-block-title user-name text-truncate">
-                      {row.sender.name}
-                    </h6>
-                  </div>
-                </div>
-              );
+            if (row.sender) return <CampaignSender sender={row.sender} />;
             return '---';
           },
         },
@@ -216,20 +200,6 @@ export default {
       font-size: var(--font-size-small);
       margin: 0;
       text-transform: capitalize;
-    }
-  }
-  .row--user-block {
-    align-items: center;
-    display: flex;
-    text-align: left;
-
-    .user-name {
-      font-size: var(--font-size-small);
-      margin: 0;
-      text-transform: capitalize;
-    }
-    .user-thumbnail-box {
-      margin-right: var(--space-small);
     }
   }
 }
