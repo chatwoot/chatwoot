@@ -384,9 +384,9 @@ $label-background: lighten($primary-color, 40%);
 $label-color: $primary-color;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
-$label-font-size: $font-size-micro;
+$label-font-size: $font-size-mini;
 $label-padding: $space-smaller $space-small;
-$label-radius: $space-micro;
+$label-radius: var(--border-radius-small);
 
 // 21. Media Object
 // ----------------
