@@ -138,7 +138,7 @@ export default {
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
-      window.addEventListener('message', (e) => {
+      window.addEventListener('message', e => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
