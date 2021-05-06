@@ -10,10 +10,18 @@
       :campaigns="records"
       :show-empty-state="showEmptyResult"
       :is-loading="uiFlags.isFetching"
+      :on-edit-click="openEditPopup"
     />
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
       <add-campaign :on-close="hideAddPopup" :sender-list="selectedAgents" />
+    </woot-modal>
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-campaign
+        :on-close="hideEditPopup"
+        :selected-campaign="selectedCampaign"
+        :sender-list="selectedAgents"
+      />
     </woot-modal>
   </div>
 </template>
@@ -21,11 +29,13 @@
 import { mapGetters } from 'vuex';
 import AddCampaign from './AddCampaign';
 import CampaignsTable from './CampaignsTable';
+import EditCampaign from './EditCampaign';
 
 export default {
   components: {
     AddCampaign,
     CampaignsTable,
+    EditCampaign,
   },
   props: {
     selectedAgents: {
@@ -37,6 +47,8 @@ export default {
     return {
       campaigns: [],
       showAddPopup: false,
+      showEditPopup: false,
+      selectedCampaign: {},
     };
   },
   computed: {
@@ -58,6 +70,14 @@ export default {
     },
     hideAddPopup() {
       this.showAddPopup = false;
+    },
+    openEditPopup(response) {
+      const { row: campaign } = response;
+      this.selectedCampaign = campaign;
+      this.showEditPopup = true;
+    },
+    hideEditPopup() {
+      this.showEditPopup = false;
     },
   },
 };
