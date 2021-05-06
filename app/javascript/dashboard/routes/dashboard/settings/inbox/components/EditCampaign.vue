@@ -12,6 +12,9 @@
               :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
               @input="$v.title.$touch"
             />
+            <span v-if="$v.title.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') }}
+            </span>
           </label>
         </div>
 
@@ -25,6 +28,9 @@
               :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
               @input="$v.message.$touch"
             />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
           </label>
         </div>
 
@@ -88,15 +94,21 @@
         </div>
 
         <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
+          <div class="medium-12 columns button-wrapper">
+            <woot-button
               :disabled="buttonDisabled"
               :loading="uiFlags.isCreating"
-              :button-text="$t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT')"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
+            </woot-button>
+            <woot-button
+              class="button clear"
+              :disabled="buttonDisabled"
+              :loading="uiFlags.isCreating"
+              @click.prevent="onClose"
+            >
               {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -185,11 +197,17 @@ export default {
   },
   methods: {
     setFormValues() {
-      this.title = this.selectedCampaign.title;
-      this.message = this.selectedCampaign.message;
-      this.endPoint = this.selectedCampaign.trigger_rules.url;
-      this.timeOnPage = this.selectedCampaign.trigger_rules.time_on_page;
-      this.selectedSender = this.selectedCampaign.sender.id;
+      const {
+        title,
+        message,
+        trigger_rules: { endPoint, time_on_page: timeOnPage },
+        sender: { id: selectedSender },
+      } = this.selectedCampaign;
+      this.title = title;
+      this.message = message;
+      this.endPoint = endPoint;
+      this.timeOnPage = timeOnPage;
+      this.selectedSender = selectedSender;
     },
     async editCampaign() {
       try {
@@ -217,5 +235,9 @@ export default {
 <style lang="scss" scoped>
 .content-box .page-top-bar::v-deep {
   padding: var(--space-large) var(--space-large) var(--space-zero);
+}
+.button-wrapper {
+  justify-content: flex-start;
+  display: flex;
 }
 </style>
