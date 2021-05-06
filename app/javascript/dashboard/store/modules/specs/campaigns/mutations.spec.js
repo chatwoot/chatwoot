@@ -18,4 +18,16 @@ describe('#mutations', () => {
       expect(state.records).toEqual([campaigns[0], campaigns[1]]);
     });
   });
+  describe('#EDIT_CAMPAIGN', () => {
+    it('update campaign record', () => {
+      const state = { records: [campaigns[0]] };
+      mutations[types.EDIT_CAMPAIGN](state, {
+        id: 1,
+        title: 'Welcome',
+        account_id: 1,
+        message: 'Hey, What brings you today',
+      });
+      expect(state.records[0].message).toEqual('Hey, What brings you today');
+    });
+  });
 });
