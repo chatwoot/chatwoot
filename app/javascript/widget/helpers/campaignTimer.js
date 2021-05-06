@@ -1,5 +1,5 @@
 import { triggerCampaign } from 'widget/api/campaign';
-export const start = async ({ allCampaigns }) => {
+const startTimer = async ({ allCampaigns }) => {
   allCampaigns.forEach(campaign => {
     const {
       trigger_rules: { time_on_page: timeOnPage },
@@ -11,4 +11,4 @@ export const start = async ({ allCampaigns }) => {
   });
 };
 
-export default { start };
+export { startTimer };
