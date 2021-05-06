@@ -75,7 +75,7 @@ const triggerCampaign = (token, campaignId) => ({
   data: {
     name: 'campaign.triggered',
     event_info: {
-      campaignId,
+      campaign_id: campaignId,
     },
   },
   params: {

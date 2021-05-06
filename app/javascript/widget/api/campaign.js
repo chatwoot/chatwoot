@@ -12,9 +12,7 @@ const triggerCampaign = async ({ campaignId }) => {
   const urlData = endPoints.triggerCampaign(websiteToken, campaignId);
   await API.post(
     urlData.url,
-    {
-      data: { ...urlData.data },
-    },
+    { ...urlData.data },
     {
       params: {
         ...urlData.params,
