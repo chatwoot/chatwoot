@@ -32,18 +32,18 @@
         </div>
 
         <div class="medium-12 columns">
-          <label :class="{ error: $v.selectedAgent.$error }">
+          <label :class="{ error: $v.selectedSender.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
-            <select v-model="selectedAgent">
+            <select v-model="selectedSender">
               <option
-                v-for="agent in agentsList"
-                :key="agent.name"
-                :value="agent.name"
+                v-for="sender in senderList"
+                :key="sender.name"
+                :value="sender.id"
               >
-                {{ agent.name }}
+                {{ sender.name }}
               </option>
             </select>
-            <span v-if="$v.selectedAgent.$error" class="message">
+            <span v-if="$v.selectedSender.$error" class="message">
               {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
             </span>
           </label>
@@ -119,6 +119,10 @@ export default {
   },
   mixins: [alertMixin],
   props: {
+    senderList: {
+      type: Array,
+      default: () => [],
+    },
     onClose: {
       type: Function,
       default: () => {},
@@ -128,7 +132,7 @@ export default {
     return {
       title: '',
       message: '',
-      selectedAgent: '',
+      selectedSender: '',
       endPoint: '',
       timeOnPage: 10,
       show: true,
@@ -142,7 +146,7 @@ export default {
     message: {
       required,
     },
-    selectedAgent: {
+    selectedSender: {
       required,
     },
     endPoint: {
@@ -157,18 +161,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      agentList: 'agents/getAgents',
       uiFlags: 'campaigns/getUIFlags',
     }),
-
-    agentsList() {
-      return this.agentList;
-    },
     buttonDisabled() {
       return (
         this.$v.message.$invalid ||
         this.$v.title.$invalid ||
-        this.$v.selectedAgent.$invalid ||
+        this.$v.selectedSender.$invalid ||
         this.$v.endPoint.$invalid ||
         this.$v.timeOnPage.$invalid ||
         this.uiFlags.isCreating
@@ -182,7 +181,7 @@ export default {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
-          sender_id: this.selectedAgent,
+          sender_id: this.selectedSender,
           enabled: this.enabled,
           trigger_rules: {
             url: this.endPoint,
