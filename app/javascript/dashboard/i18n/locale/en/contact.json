@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Labels available in the account",
         "REMOVE": "Click on X icon to remove the label",
         "ADD": "Click on + icon to add the label",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Update labels",
         "UPDATE_ERROR": "Couldn't update labels, try again."
       },
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation."
+      "NO_AVAILABLE_LABELS": "There are no labels added to this conversation.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mute Conversation",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -153,10 +159,16 @@
     }
   },
   "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
     "ADD": {
       "BUTTON": "Add",
       "PLACEHOLDER": "Add a note",
       "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

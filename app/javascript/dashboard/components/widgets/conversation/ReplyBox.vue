@@ -186,9 +186,11 @@ export default {
       if (this.isPrivate) {
         return MESSAGE_MAX_LENGTH.GENERAL;
       }
-
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
+      }
+      if (this.isATwilioWhatsappChannel) {
+        return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
       if (this.isATwilioSMSChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;

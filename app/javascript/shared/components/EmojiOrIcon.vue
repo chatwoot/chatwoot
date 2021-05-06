@@ -14,7 +14,7 @@ export default {
   computed: {
     ...mapGetters({ uiSettings: 'getUISettings' }),
     isIconTypeEmoji() {
-      const { icon_type: iconType } = this.uiSettings;
+      const { icon_type: iconType } = this.uiSettings || {};
       return iconType === 'emoji';
     },
     showEmoji() {

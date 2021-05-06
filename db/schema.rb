@@ -338,12 +338,12 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
     t.integer "inbox_id"
     t.integer "account_id"
     t.string "app_id"
-    t.text "settings"
     t.integer "hook_type", default: 0
     t.string "reference_id"
     t.string "access_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "settings", default: {}
   end
 
   create_table "kbase_articles", force: :cascade do |t|

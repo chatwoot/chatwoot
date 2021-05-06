@@ -258,7 +258,7 @@
       <weekly-availability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'campaign'">
-      <campaign />
+      <campaign :selected-agents="selectedAgents" />
     </div>
   </div>
 </template>
@@ -335,10 +335,10 @@ export default {
       if (this.isAWebWidgetInbox) {
         return [
           ...visibleToAllChannelTabs,
-          {
-            key: 'campaign',
-            name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
-          },
+          // {
+          //   key: 'campaign',
+          //   name: this.$t('INBOX_MGMT.TABS.CAMPAIGN'),
+          // },
           {
             key: 'preChatForm',
             name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
