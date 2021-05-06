@@ -1,8 +1,7 @@
 <template>
   <div class="column content-box">
     <div class="row button-wrapper">
-      <woot-button @click="openAddPopup">
-        <i class="icon ion-android-add-circle"></i>
+      <woot-button icon="ion-android-add-circle" @click="openAddPopup">
         {{ $t('CAMPAIGN.HEADER_BTN_TXT') }}
       </woot-button>
     </div>
