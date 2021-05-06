@@ -65,11 +65,11 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def ensure_current_account(account)
-    Current.account = account if account.present?
+    @current_account = account if account.present?
   end
 
   def switch_locale(&action)
-    locale ||= locale_from_account(Current.account)
+    locale ||= locale_from_account(@current_account)
     locale ||= I18n.default_locale
     # ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
