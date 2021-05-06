@@ -240,7 +240,6 @@ export default {
       font-size: var(--font-size-small);
       margin: 0;
       text-transform: capitalize;
-      width: 22rem;
     }
 
     .user-email {

@@ -142,21 +142,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user {
-  min-width: 0;
-  margin-right: var(--space-normal);
-
-  .user--profile__meta {
-    min-width: 0;
-  }
-
-  .text-truncate {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 100%;
-  }
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .conv-header {
