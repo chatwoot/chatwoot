@@ -94,22 +94,17 @@
         </div>
 
         <div class="modal-footer">
-          <div class="medium-12 columns button-wrapper">
-            <woot-button
-              :disabled="buttonDisabled"
-              :loading="uiFlags.isCreating"
-            >
-              {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
-            </woot-button>
-            <woot-button
-              class="button clear"
-              :disabled="buttonDisabled"
-              :loading="uiFlags.isCreating"
-              @click.prevent="onClose"
-            >
-              {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
-            </woot-button>
-          </div>
+          <woot-button :disabled="buttonDisabled" :loading="uiFlags.isCreating">
+            {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
+          </woot-button>
+          <woot-button
+            class="button clear"
+            :disabled="buttonDisabled"
+            :loading="uiFlags.isCreating"
+            @click.prevent="onClose"
+          >
+            {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
+          </woot-button>
         </div>
       </form>
     </div>
