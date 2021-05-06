@@ -12,39 +12,41 @@
         v-if="totalCount"
         class="primary button-group pagination-button-group"
       >
-        <button
-          class="button small goto-first"
+        <woot-button
+          size="small"
+          class-names="goto-first"
           :class="firstPageButtonClass"
           @click="onFirstPage"
         >
           <i class="ion-chevron-left" />
           <i class="ion-chevron-left" />
-        </button>
-        <button
-          class="button small"
+        </woot-button>
+        <woot-button
+          size="small"
           :class="prevPageButtonClass"
           @click="onPrevPage"
         >
           <i class="ion-chevron-left" />
-        </button>
-        <button class="button" @click.prevent>
+        </woot-button>
+        <woot-button @click.prevent>
           {{ currentPage }}
-        </button>
-        <button
-          class="button small"
+        </woot-button>
+        <woot-button
+          size="small"
           :class="nextPageButtonClass"
           @click="onNextPage"
         >
           <i class="ion-chevron-right" />
-        </button>
-        <button
-          class="button small goto-last"
+        </woot-button>
+        <woot-button
+          size="small"
+          class-names="goto-last"
           :class="lastPageButtonClass"
           @click="onLastPage"
         >
           <i class="ion-chevron-right" />
           <i class="ion-chevron-right" />
-        </button>
+        </woot-button>
       </div>
     </div>
   </footer>
