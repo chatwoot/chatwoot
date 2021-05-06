@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :integrations_hook, class: 'Integrations::Hook' do
-    status { 1 }
-    inbox_id { 1 }
-    account_id { 1 }
+    status { Integrations::Hook.statuses['enabled'] }
+    inbox
+    account
     app_id { 'slack' }
-    settings { 'MyText' }
-    hook_type { 1 }
+    settings { { 'test': 'test' } }
+    hook_type { Integrations::Hook.statuses['account'] }
     access_token { SecureRandom.hex }
     reference_id { SecureRandom.hex }
   end

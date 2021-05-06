@@ -8,6 +8,25 @@ global.axios = axios;
 jest.mock('axios');
 
 describe('#actions', () => {
+  describe('#get', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.get.mockResolvedValue({ data: campaignList });
+      await actions.get({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
+        [types.default.SET_CAMPAIGNS, campaignList],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.get({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+  });
   describe('#create', () => {
     it('sends correct actions if API is success', async () => {
       axios.post.mockResolvedValue({ data: campaignList[0] });

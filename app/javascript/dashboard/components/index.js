@@ -7,7 +7,7 @@ import Code from './Code';
 import ColorPicker from './widgets/ColorPicker';
 import DeleteModal from './widgets/modal/DeleteModal.vue';
 import Input from './widgets/forms/Input.vue';
-import Label from './widgets/Label.vue';
+import Label from './ui/Label';
 import LoadingState from './widgets/LoadingState';
 import Modal from './Modal';
 import ModalHeader from './ModalHeader';
