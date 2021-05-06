@@ -70,6 +70,18 @@ const getCampaigns = token => ({
     website_token: token,
   },
 });
+const triggerCampaign = (token, campaignId) => ({
+  url: '/api/v1/widget/events',
+  data: {
+    name: 'campaign.triggered',
+    event_info: {
+      campaignId,
+    },
+  },
+  params: {
+    website_token: token,
+  },
+});
 
 export default {
   createConversation,
@@ -79,4 +91,5 @@ export default {
   updateMessage,
   getAvailableAgents,
   getCampaigns,
+  triggerCampaign,
 };
