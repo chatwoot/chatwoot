@@ -200,7 +200,7 @@ export default {
       const {
         title,
         message,
-        trigger_rules: { endPoint, time_on_page: timeOnPage },
+        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
         sender: { id: selectedSender },
       } = this.selectedCampaign;
       this.title = title;
