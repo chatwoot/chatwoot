@@ -42,6 +42,8 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :campaigns, only: [:index, :create, :show, :update]
+
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -89,6 +91,7 @@ Rails.application.routes.draw do
 
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
+            get :campaigns, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -145,6 +148,7 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index]
 
       namespace :widget do
+        resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do

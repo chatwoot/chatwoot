@@ -380,13 +380,13 @@ $form-button-radius: $global-radius;
 // 20. Label
 // ---------
 
-$label-background: lighten($primary-color, 40%);
-$label-color: $primary-color;
+$label-background: $primary-color;
+$label-color: $white;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
-$label-font-size: $font-size-micro;
+$label-font-size: $font-size-mini;
 $label-padding: $space-smaller $space-small;
-$label-radius: $space-micro;
+$label-radius: var(--border-radius-small);
 
 // 21. Media Object
 // ----------------
