@@ -1,0 +1,14 @@
+tags:
+  - Teams
+operationId: list-all-teams
+summary: List all teams
+description: List all teams available in the current account
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of teams'
+      $ref: '#/definitions/team'
+  401:
+    description: Unauthorized
