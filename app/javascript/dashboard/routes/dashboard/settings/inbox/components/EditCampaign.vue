@@ -2,7 +2,7 @@
   <modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header :header-title="pageTitle" />
-      <form class="row" @submit.prevent="addCampaign">
+      <form class="row" @submit.prevent="editCampaign">
         <div class="medium-12 columns">
           <label :class="{ error: $v.title.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.TITLE.LABEL') }}
@@ -191,7 +191,7 @@ export default {
       this.timeOnPage = this.selectedCampaign.trigger_rules.time_on_page;
       this.selectedSender = this.selectedCampaign.sender.id;
     },
-    async addCampaign() {
+    async editCampaign() {
       try {
         await this.$store.dispatch('campaigns/update', {
           id: this.selectedCampaign.id,
