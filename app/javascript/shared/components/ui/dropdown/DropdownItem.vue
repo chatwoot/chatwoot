@@ -33,12 +33,11 @@ export default {
   ::v-deep {
     a,
     .button {
-      font-weight: var(--font-size-normal);
-      font-size: var(--font-size-small);
       width: 100%;
       text-align: left;
       white-space: nowrap;
       padding: var(--space-small) var(--space-one);
+
       &:hover {
         background: var(--color-background);
         border-radius: var(--border-radius-normal);
