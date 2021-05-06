@@ -54,7 +54,7 @@ export default {
     &.active {
       display: flex;
       font-weight: var(--font-weight-bold);
-      color: #1a4d8f;
+      color: var(--w-700);
     }
 
     .name-label-wrap {
