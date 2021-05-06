@@ -27,19 +27,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.dropdown-menu__item ::v-deep {
-  a,
-  .button {
-    font-weight: var(--font-size-normal);
-    font-size: var(--font-size-small);
-    width: 100%;
-    text-align: left;
-    white-space: nowrap;
-    padding: var(--space-small) var(--space-one);
+.dropdown-menu__item {
+  list-style: none;
 
-    &:hover {
-      background: var(--color-background);
-      border-radius: var(--border-radius-normal);
+  ::v-deep {
+    a,
+    .button {
+      width: 100%;
+      text-align: left;
+      white-space: nowrap;
+      padding: var(--space-small) var(--space-one);
+
+      &:hover {
+        background: var(--color-background);
+        border-radius: var(--border-radius-normal);
+      }
     }
   }
 }
