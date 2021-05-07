@@ -42,7 +42,7 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
   },
-  update: async function updateCampaign({ commit }, { id, ...updateObj }) {
+  update: async ({ commit }, { id, ...updateObj }) => {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: true });
     try {
       const response = await CampaignsAPI.update(id, updateObj);
