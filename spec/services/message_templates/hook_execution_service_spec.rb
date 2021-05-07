@@ -43,7 +43,6 @@ describe ::MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact, campaign: create(:campaign))
 
- 
       allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
 
       # described class gets called in message after commit
@@ -51,7 +50,6 @@ describe ::MessageTemplates::HookExecutionService do
 
       expect(::MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
     end
-
 
     it 'doesnot calls ::MessageTemplates::Template::Greeting if greeting_message is empty' do
       contact = create(:contact, email: nil)
