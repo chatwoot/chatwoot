@@ -233,8 +233,4 @@ export default {
 .content-box .page-top-bar::v-deep {
   padding: var(--space-large) var(--space-large) var(--space-zero);
 }
-.button-wrapper {
-  justify-content: flex-start;
-  display: flex;
-}
 </style>
