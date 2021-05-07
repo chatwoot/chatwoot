@@ -20,7 +20,6 @@ unless Rails.env.production?
     name: 'Acme Org'
   )
 
-
   user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
   user.skip_confirmation!
   user.save!
@@ -42,7 +41,6 @@ unless Rails.env.production?
   installation_config.value = true
   installation_config.save!
   GlobalConfig.clear_cache
-
 
   web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
 
