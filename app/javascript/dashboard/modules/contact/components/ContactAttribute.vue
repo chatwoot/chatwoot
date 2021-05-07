@@ -8,7 +8,26 @@
         {{ label }}
       </h4>
     </div>
-    <div class="value-wrap">
+    <div v-show="isEditing">
+      <div class="input-group small">
+        <input
+          ref="inputfield"
+          v-model="editedValue"
+          type="text"
+          class="input-group-field"
+          autofocus="true"
+          @keyup.enter="onUpdate"
+        />
+        <div class="input-group-button">
+          <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
+        </div>
+      </div>
+    </div>
+    <div
+      v-show="!isEditing"
+      class="value--view"
+      :class="{ 'is-editable': showEdit }"
+    >
       <p v-if="value" class="value">
         {{ value }}
       </p>
@@ -39,9 +58,25 @@ export default {
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
   },
+  data() {
+    return {
+      isEditing: false,
+      editedValue: this.value,
+    };
+  },
   methods: {
+    focusInput() {
+      this.$refs.inputfield.focus();
+    },
     onEdit() {
-      this.$emit('edit');
+      this.isEditing = true;
+      this.$nextTick(() => {
+        this.focusInput();
+      });
+    },
+    onUpdate() {
+      this.isEditing = false;
+      this.$emit('update', this.editedValue);
     },
   },
 };
@@ -54,6 +89,7 @@ export default {
 .title-wrap {
   display: flex;
   align-items: center;
+  margin-bottom: var(--space-mini);
 }
 .title {
   display: flex;
@@ -66,10 +102,10 @@ export default {
 .edit-button {
   display: none;
 }
-.value-wrap {
+.value--view {
   display: flex;
 
-  &:hover {
+  &.is-editable:hover {
     .value {
       background: var(--color-background);
     }
