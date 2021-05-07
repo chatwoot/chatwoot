@@ -8,3 +8,8 @@ webhooks:
   logo: cable.svg
   i18n_key: webhooks
   action: /webhook
+dialogflow:
+  id: dialogflow
+  logo: dialogflow.svg
+  i18n_key: dialogflow
+  action: /dialogflow

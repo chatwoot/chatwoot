@@ -7,6 +7,7 @@ require Rails.root.join 'spec/models/concerns/round_robin_handler_spec.rb'
 RSpec.describe Conversation, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
+    it { is_expected.to belong_to(:inbox) }
   end
 
   describe 'concerns' do
@@ -343,6 +344,15 @@ RSpec.describe Conversation, type: :model do
   describe '#botinbox: when conversation created inside inbox with agent bot' do
     let!(:bot_inbox) { create(:agent_bot_inbox) }
     let(:conversation) { create(:conversation, inbox: bot_inbox.inbox) }
+
+    it 'returns conversation status as bot' do
+      expect(conversation.status).to eq('bot')
+    end
+  end
+
+  describe '#botintegration: when conversation created in inbox with dialogflow integration' do
+    let(:hook) { create(:integrations_hook, app_id: 'dialogflow') }
+    let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
     it 'returns conversation status as bot' do
       expect(conversation.status).to eq('bot')
