@@ -195,6 +195,7 @@ export default {
       const {
         title,
         message,
+        enabled,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
         sender: { id: selectedSender },
       } = this.selectedCampaign;
@@ -203,6 +204,7 @@ export default {
       this.endPoint = endPoint;
       this.timeOnPage = timeOnPage;
       this.selectedSender = selectedSender;
+      this.enabled = enabled;
     },
     async editCampaign() {
       try {
