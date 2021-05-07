@@ -3,9 +3,6 @@
     "HEADER": "Campaigns",
     "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
     "HEADER_BTN_TXT": "Create a campaign",
-    "LIST": {
-      "404": "There are no campaigns created for this inbox."
-    },
     "ADD": {
       "TITLE": "Create a campaign",
       "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
@@ -43,6 +40,27 @@
       "API": {
         "SUCCESS_MESSAGE": "Campaign created successfully",
         "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "TABLE_HEADER": {
+        "TITLE": "Title",
+        "MESSAGE": "Message",
+        "STATUS": "Status",
+        "SENDER": "Sender",
+        "URL": "URL",
+        "TIME_ON_PAGE": "Time(Seconds)",
+        "CREATED_AT": "Created at"
+      },
+      "BUTTONS": {
+        "ADD": "Add",
+        "EDIT": "Edit",
+        "DELETE": "Delete"
+      },
+      "STATUS": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
       }
     }
   }
