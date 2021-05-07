@@ -362,14 +362,16 @@ RSpec.describe 'Conversations API', type: :request do
       let(:params) { { email: 'test@test.com' } }
 
       it 'mutes conversation' do
-        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:conversation_transcript)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
              headers: agent.create_new_auth_token,
              params: params,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
     end
   end
