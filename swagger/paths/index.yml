@@ -52,3 +52,23 @@
 # Profile
 /profile:
   $ref: ./profile/index.yml
+
+# Teams
+/accounts/{account_id}/teams:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: ./teams/index.yml
+  post:
+    $ref: ./teams/create.yml
+
+/accounts/{account_id}/teams/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/team_id'
+  get:
+    $ref: './teams/show.yml'
+  patch:
+    $ref: ./teams/update.yml
+  delete:
+    $ref: ./teams/delete.yml
