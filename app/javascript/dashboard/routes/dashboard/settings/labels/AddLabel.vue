@@ -37,16 +37,14 @@
           </label>
         </div>
         <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="$v.title.$invalid || uiFlags.isCreating"
-              :button-text="$t('LABEL_MGMT.FORM.CREATE')"
-              :loading="uiFlags.isCreating"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-            </button>
-          </div>
+          <woot-submit-button
+            :disabled="$v.title.$invalid || uiFlags.isCreating"
+            :button-text="$t('LABEL_MGMT.FORM.CREATE')"
+            :loading="uiFlags.isCreating"
+          />
+          <button class="button clear" @click.prevent="onClose">
+            {{ $t('LABEL_MGMT.FORM.CANCEL') }}
+          </button>
         </div>
       </form>
     </div>
