@@ -1,17 +1,19 @@
 <template>
   <woot-dropdown-item>
     <div class="item-wrap">
-      <button class="button clear" @click="onclick">
-        <div class="name-label-wrap">
-          <div
-            v-if="color"
-            class="label-color--display"
-            :style="{ backgroundColor: color }"
-          />
-          <span>{{ title }}</span>
+      <woot-button variant="clear" @click="onClick">
+        <div class="button-wrap">
+          <div class="name-label-wrap">
+            <div
+              v-if="color"
+              class="label-color--display"
+              :style="{ backgroundColor: color }"
+            />
+            <span>{{ title }}</span>
+          </div>
+          <i v-if="selected" class="icon ion-checkmark-round" />
         </div>
-        <i v-if="selected" class="icon ion-checkmark-round" />
-      </button>
+      </woot-button>
     </div>
   </woot-dropdown-item>
 </template>
@@ -34,7 +36,7 @@ export default {
   },
 
   methods: {
-    onclick() {
+    onClick() {
       this.$emit('click', this.title);
     },
   },
@@ -45,14 +47,14 @@ export default {
 .item-wrap {
   display: flex;
 
-  .button {
+  .button-wrap {
     display: flex;
     justify-content: space-between;
 
     &.active {
       display: flex;
       font-weight: var(--font-weight-bold);
-      color: #1a4d8f;
+      color: var(--w-700);
     }
 
     .name-label-wrap {
