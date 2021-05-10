@@ -42,6 +42,14 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "Update",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "There was an error, please try again"
+      }
+    },
     "LIST": {
       "LOADING_MESSAGE": "Loading campaigns...",
       "TABLE_HEADER": {
