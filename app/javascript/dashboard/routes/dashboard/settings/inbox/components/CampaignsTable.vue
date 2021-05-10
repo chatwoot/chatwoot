@@ -44,6 +44,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    onEditClick: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   data() {
@@ -130,14 +134,14 @@ export default {
           key: 'buttons',
           title: '',
           align: 'left',
-          renderBodyCell: () => (
+          renderBodyCell: (row) => (
             <div class="button-wrapper">
               <WootButton
                 variant="clear"
                 icon="ion-edit"
                 color-scheme="secondary"
                 classNames="hollow grey-btn"
-                click="openEditPopup(label)"
+                onClick={() => this.onEditClick(row)}
               >
                 {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
               </WootButton>
