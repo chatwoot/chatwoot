@@ -35,15 +35,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  width: 100%;
-  height: 100%;
+@import '~dashboard/assets/scss/mixins';
 
+.wrap {
+  @include three-column-grid(27.2rem);
   background: var(--color-background);
   border-top: 1px solid var(--color-border);
-
-  display: grid;
-  grid-template-columns: minmax(27.2rem, 3fr) 6fr minmax(25.6rem, 3fr);
 }
 
 .center {
