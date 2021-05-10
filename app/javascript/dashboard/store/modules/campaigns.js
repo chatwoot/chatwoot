@@ -42,6 +42,17 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
   },
+  update: async ({ commit }, { id, ...updateObj }) => {
+    commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await CampaignsAPI.update(id, updateObj);
+      commit(types.EDIT_CAMPAIGN, response.data);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -54,6 +65,7 @@ export const mutations = {
 
   [types.ADD_CAMPAIGN]: MutationHelpers.create,
   [types.SET_CAMPAIGNS]: MutationHelpers.set,
+  [types.EDIT_CAMPAIGN]: MutationHelpers.update,
 };
 
 export default {
