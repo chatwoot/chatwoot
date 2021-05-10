@@ -39,7 +39,7 @@
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
             <select v-model="selectedSender">
               <option
-                v-for="sender in senderList"
+                v-for="sender in sendersAndBotList"
                 :key="sender.name"
                 :value="sender.id"
               >
@@ -186,6 +186,15 @@ export default {
         this.selectedCampaign.title
       }`;
     },
+    sendersAndBotList() {
+      return [
+        {
+          id: 0,
+          name: 'Bot',
+        },
+        ...this.senderList,
+      ];
+    },
   },
   mounted() {
     this.setFormValues();
@@ -197,15 +206,16 @@ export default {
         message,
         enabled,
         trigger_rules: { url: endPoint, time_on_page: timeOnPage },
-        sender: { id: selectedSender },
+        sender,
       } = this.selectedCampaign;
       this.title = title;
       this.message = message;
       this.endPoint = endPoint;
       this.timeOnPage = timeOnPage;
-      this.selectedSender = selectedSender;
+      this.selectedSender = (sender && sender.id) || 0;
       this.enabled = enabled;
     },
+
     async editCampaign() {
       try {
         await this.$store.dispatch('campaigns/update', {
@@ -213,7 +223,7 @@ export default {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
-          sender_id: this.selectedSender,
+          sender_id: this.selectedSender || null,
           enabled: this.enabled,
           trigger_rules: {
             url: this.endPoint,
