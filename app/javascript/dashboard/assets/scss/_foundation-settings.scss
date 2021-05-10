@@ -358,7 +358,7 @@ $form-label-font-weight: $font-weight-medium;
 $form-label-line-height: 1.8;
 $select-background: $white;
 $select-triangle-color: $dark-gray;
-$select-radius: $global-radius;
+$select-radius: var(--border-radius-normal);
 $input-color: $header-color;
 $input-placeholder-color: $light-gray;
 $input-font-family: inherit;
@@ -374,8 +374,8 @@ $input-shadow-focus: 0;
 $input-cursor-disabled: not-allowed;
 $input-transition: border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $global-radius;
-$form-button-radius: $global-radius;
+$input-radius: var(--border-radius-normal);
+$form-button-radius: var(--border-radius-normal);
 
 // 20. Label
 // ---------
