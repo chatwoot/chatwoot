@@ -15,7 +15,7 @@
         <woot-button
           size="small"
           class-names="goto-first"
-          :class="firstPageButtonClass"
+          :is-disabled="hasFirstPage"
           @click="onFirstPage"
         >
           <i class="ion-chevron-left" />
@@ -41,7 +41,7 @@
         <woot-button
           size="small"
           class-names="goto-last"
-          :class="lastPageButtonClass"
+          :is-disabled="hasLastPage"
           @click="onLastPage"
         >
           <i class="ion-chevron-right" />
@@ -93,17 +93,9 @@ export default {
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
       return isDisabled;
     },
-    lastPageButtonClass() {
-      const className = this.hasLastPage ? 'disabled' : '';
-      return className;
-    },
     hasFirstPage() {
       const isDisabled = this.currentPage === 1;
       return isDisabled;
-    },
-    firstPageButtonClass() {
-      const className = this.hasFirstPage ? 'disabled' : '';
-      return className;
     },
     hasNextPage() {
       const isDisabled =
