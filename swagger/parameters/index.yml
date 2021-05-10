@@ -3,3 +3,6 @@ account_id:
 
 team_id:
   $ref: ./team_id.yml
+
+source_id:
+  $ref: ./source_id.yml
