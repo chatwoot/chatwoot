@@ -52,7 +52,7 @@
     },
     "LIST": {
       "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this account.",
+      "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "Message",
