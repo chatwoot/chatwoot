@@ -1,6 +1,6 @@
 export default [
   {
-    id: 8,
+    id: 1,
     title: 'Welcome',
     description: null,
     account_id: 1,
@@ -115,7 +115,7 @@ export default [
     updated_at: '2021-05-03T04:53:36.354Z',
   },
   {
-    id: 11,
+    id: 2,
     title: 'Onboarding Campaign',
     description: null,
     account_id: 1,
@@ -231,7 +231,7 @@ export default [
     updated_at: '2021-05-03T08:15:35.828Z',
   },
   {
-    id: 12,
+    id: 3,
     title: 'Thanks',
     description: null,
     account_id: 1,
