@@ -1,0 +1,23 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Chatwoot/Layout" />
+
+# Layout guidelines
+
+Chatwoot follows a fixed-width sidebar on the left menu on all pages. The remaining space of the layout is where the layout changes according to what the page needs.
+
+### Normal Grid
+
+Chatwoot is built on top of [foundation](https://get.foundation/sites/docs/) and uses the **flex-grid** from Foundation. We insist to solve every possible layout with this grid.
+The docs for the grid can be found here on [foundation grid docs](https://get.foundation/sites/docs/grid.html).
+
+### 3 column layout
+
+We Recommend the use of this solution only when the normal grid fails to solve it or needs severe overriding. Some layouts need custom functionality where Foundation grid is not enough. The main conversation page is an example of this grid as a candidate.
+
+**Usage** - We have created a mixin `three-column-grid` which can be included by importing the file
+
+`@import '~dashboard/assets/scss/mixins';`
+
+There are 2 parameters for this mixin, The first one being the minimum possible width for the first column in `rem`. This value is usually a multiple of `8` when converted to `px`. Eg: `256px` will be used as `25.6rem`.
+Similarly, the second param is the minimum possible width of the third column.
