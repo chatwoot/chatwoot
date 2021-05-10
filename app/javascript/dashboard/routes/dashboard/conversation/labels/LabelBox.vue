@@ -2,16 +2,16 @@
   <div class="contact-conversation--panel sidebar-labels-wrap">
     <div
       v-if="!conversationUiFlags.isFetching"
+      v-on-clickaway="closeDropdownLabel"
       class="contact-conversation--list"
     >
       <contact-details-item
         :title="$t('CONTACT_PANEL.LABELS.TITLE')"
         icon="ion-pricetags"
         emoji="🏷️"
-        :show-edit="true"
-        @edit="onEdit"
       />
       <div class="label-wrap">
+        <add-label @add="toggleLabels"></add-label>
         <woot-label
           v-for="label in activeLabels"
           :key="label.id"
@@ -19,19 +19,20 @@
           :description="label.description"
           :bg-color="label.color"
         />
-        <div v-if="!activeLabels.length" class="no-label-message">
-          <span>{{ $t('CONTACT_PANEL.LABELS.NO_AVAILABLE_LABELS') }}</span>
-        </div>
       </div>
-      <add-label-to-conversation
-        v-if="isEditing"
-        :conversation-id="conversationId"
-        :account-labels="accountLabels"
-        :saved-labels="savedLabels"
-        :show.sync="isEditing"
-        :on-close="closeEditModal"
-        :update-labels="onUpdateLabels"
-      />
+      <div
+        :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+        class="dropdown-pane"
+      >
+        <label-dropdown
+          v-if="showSearchDropdownLabel"
+          :account-labels="accountLabels"
+          :selected-labels="savedLabels"
+          :conversation-id="conversationId"
+          @add="addItem"
+          @remove="removeItem"
+        />
+      </div>
     </div>
     <spinner v-else></spinner>
   </div>
@@ -39,45 +40,55 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import AddLabelToConversation from './AddLabelToConversation';
 import ContactDetailsItem from '../ContactDetailsItem';
 import Spinner from 'shared/components/Spinner';
+import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
+import AddLabel from 'shared/components/ui/dropdown/AddLabel';
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
-    AddLabelToConversation,
     ContactDetailsItem,
     Spinner,
+    LabelDropdown,
+    AddLabel,
   },
+
+  mixins: [clickaway],
   props: {
     conversationId: {
       type: [String, Number],
       required: true,
     },
   },
+
   data() {
     return {
-      isEditing: false,
       selectedLabels: [],
+      showSearchDropdownLabel: false,
     };
   },
+
   computed: {
     savedLabels() {
       return this.$store.getters['conversationLabels/getConversationLabels'](
         this.conversationId
       );
     },
+
     ...mapGetters({
       conversationUiFlags: 'contactConversations/getUIFlags',
       labelUiFlags: 'conversationLabels/getUIFlags',
       accountLabels: 'labels/getLabels',
     }),
+
     activeLabels() {
       return this.accountLabels.filter(({ title }) =>
         this.savedLabels.includes(title)
       );
     },
   },
+
   watch: {
     conversationId(newConversationId, prevConversationId) {
       if (newConversationId && newConversationId !== prevConversationId) {
@@ -85,10 +96,12 @@ export default {
       }
     },
   },
+
   mounted() {
     const { conversationId } = this;
     this.fetchLabels(conversationId);
   },
+
   methods: {
     async onUpdateLabels(selectedLabels) {
       try {
@@ -100,13 +113,24 @@ export default {
         // Ignore error
       }
     },
-    onEdit() {
-      this.isEditing = true;
+
+    toggleLabels() {
+      this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
     },
-    closeEditModal() {
-      bus.$emit('fetch_conversation_stats');
-      this.isEditing = false;
+
+    addItem(value) {
+      this.selectedLabels.push(value.title);
+      this.onUpdateLabels(this.selectedLabels);
     },
+
+    removeItem(value) {
+      this.selectedLabels.filter(label => label.title === value.title);
+    },
+
+    closeDropdownLabel() {
+      this.showSearchDropdownLabel = false;
+    },
+
     async fetchLabels(conversationId) {
       if (!conversationId) {
         return;
@@ -122,53 +146,17 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: var(--space-medium) var(--space-slab) var(--space-two);
+  padding: var(--space-small) var(--space-slab) var(--space-normal)
+    var(--space-slab);
 }
 
-.contact-conversation--list .conv-details--item {
-  padding-bottom: 0;
-}
-.conversation--label {
-  color: $color-white;
-  margin-right: $space-small;
-  font-size: $font-size-small;
-  padding: $space-smaller;
-}
-.label-wrap {
-  margin-left: var(--space-medium);
-}
-.no-label-message {
-  color: var(--b-500);
-}
-
-.select-tags {
-  .multiselect {
-    &:hover {
-      cursor: pointer;
-    }
-    transition: $transition-ease-in;
-    margin-bottom: 0;
-  }
-}
-
-.button {
-  margin-top: $space-small;
-  margin-left: auto;
-}
-
-.no-results-wrap {
-  padding: 0 $space-small;
-}
-
-.no-results {
-  margin: $space-normal 0 0 0;
-  color: $color-gray;
-  font-weight: $font-weight-normal;
+.contact-conversation--list {
+  width: 100%;
 }
 
 .error {
-  color: $alert-color;
-  font-size: $font-size-mini;
-  font-weight: $font-weight-medium;
+  color: var(--r-500);
+  font-size: var(--font-size-mini);
+  font-weight: var(--font-weight-medium);
 }
 </style>
