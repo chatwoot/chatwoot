@@ -23,7 +23,7 @@ describe CampaignListener do
     context 'when params contain campaign id' do
       it 'triggers campaign conversation builder' do
         expect(Campaigns::CampaignConversationBuilder).to receive(:new)
-          .with({ contact_inbox: contact_inbox.id, campaign_display_id: campaign.display_id, conversation_additional_attributes: {} }).once
+          .with({ contact_inbox_id: contact_inbox.id, campaign_display_id: campaign.display_id, conversation_additional_attributes: {} }).once
         listener.campaign_triggered(event)
       end
     end
