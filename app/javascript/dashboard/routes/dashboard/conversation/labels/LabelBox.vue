@@ -2,7 +2,6 @@
   <div class="contact-conversation--panel sidebar-labels-wrap">
     <div
       v-if="!conversationUiFlags.isFetching"
-      v-on-clickaway="closeDropdownLabel"
       class="contact-conversation--list"
     >
       <contact-details-item
@@ -10,28 +9,34 @@
         icon="ion-pricetags"
         emoji="🏷️"
       />
-      <div class="label-wrap">
-        <add-label @add="toggleLabels"></add-label>
-        <woot-label
-          v-for="label in activeLabels"
-          :key="label.id"
-          :title="label.title"
-          :description="label.description"
-          :bg-color="label.color"
-        />
-      </div>
-      <div
-        :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
-        class="dropdown-pane"
-      >
-        <label-dropdown
-          v-if="showSearchDropdownLabel"
-          :account-labels="accountLabels"
-          :selected-labels="savedLabels"
-          :conversation-id="conversationId"
-          @add="addItem"
-          @remove="removeItem"
-        />
+      <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
+        <div>
+          <add-label @add="toggleLabels" />
+          <div
+            :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+            class="dropdown-pane"
+          >
+            <label-dropdown
+              v-if="showSearchDropdownLabel"
+              :account-labels="accountLabels"
+              :selected-labels="savedLabels"
+              :conversation-id="conversationId"
+              @add="addItem"
+              @remove="removeItem"
+            />
+          </div>
+        </div>
+        <div class="active">
+          <woot-label
+            v-for="label in activeLabels"
+            :key="label.id"
+            :title="label.title"
+            :description="label.description"
+            :show-close="true"
+            :bg-color="label.color"
+            @click="removeItem"
+          />
+        </div>
       </div>
     </div>
     <spinner v-else></spinner>
@@ -119,13 +124,15 @@ export default {
     },
 
     addItem(value) {
-      const result = this.activeLabels;
+      const result = this.activeLabels.map(item => item.title);
       result.push(value.title);
       this.onUpdateLabels(result);
     },
 
     removeItem(value) {
-      const result = this.activeLabels.filter(label => label.title === value);
+      const result = this.activeLabels
+        .map(label => label.title)
+        .filter(label => label !== value);
       this.onUpdateLabels(result);
     },
 
@@ -148,12 +155,26 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: var(--space-small) var(--space-slab) var(--space-normal)
+  padding: var(--space-micro) var(--space-slab) var(--space-slab)
     var(--space-slab);
 }
 
 .contact-conversation--list {
   width: 100%;
+
+  .label-wrap {
+    margin-left: var(--space-two);
+    position: relative;
+
+    .dropdown-pane {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .active {
+      margin-top: var(--space-small);
+    }
+  }
 }
 
 .error {
