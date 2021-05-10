@@ -95,7 +95,7 @@ export default {
     },
 
     onAddRemove(label) {
-      if (this.selectedLabels.includes(label)) {
+      if (this.selectedLabels.includes(label.title)) {
         this.onRemove(label.title);
       } else {
         this.onAdd(label);

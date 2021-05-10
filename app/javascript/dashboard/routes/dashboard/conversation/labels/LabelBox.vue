@@ -119,12 +119,14 @@ export default {
     },
 
     addItem(value) {
-      this.selectedLabels.push(value.title);
-      this.onUpdateLabels(this.selectedLabels);
+      const result = this.activeLabels;
+      result.push(value.title);
+      this.onUpdateLabels(result);
     },
 
     removeItem(value) {
-      this.selectedLabels.filter(label => label.title === value.title);
+      const result = this.activeLabels.filter(label => label.title === value);
+      this.onUpdateLabels(result);
     },
 
     closeDropdownLabel() {
