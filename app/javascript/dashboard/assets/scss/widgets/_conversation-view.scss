@@ -132,7 +132,6 @@
 
   .bubble {
     @include bubble-with-types;
-    max-width: 50rem;
     text-align: left;
     word-wrap: break-word;
 
@@ -235,8 +234,9 @@
   }
 
   .wrap {
+    --bubble-max-width: 49.6rem;
     @include margin($zero $space-normal);
-    max-width: 85%;
+    max-width: Min(var(--bubble-max-width), 85%);
 
     .sender--name {
       font-size: $font-size-mini;
