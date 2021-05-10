@@ -36,7 +36,7 @@
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
             <select v-model="selectedSender">
               <option
-                v-for="sender in allSenderList"
+                v-for="sender in sendersAndBotList"
                 :key="sender.name"
                 :value="sender.id"
               >
@@ -173,7 +173,7 @@ export default {
         this.uiFlags.isCreating
       );
     },
-    allSenderList() {
+    sendersAndBotList() {
       return [
         {
           id: 0,

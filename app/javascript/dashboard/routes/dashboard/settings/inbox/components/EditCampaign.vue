@@ -39,7 +39,7 @@
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
             <select v-model="selectedSender">
               <option
-                v-for="sender in allSenderList"
+                v-for="sender in sendersAndBotList"
                 :key="sender.name"
                 :value="sender.id"
               >
@@ -186,7 +186,7 @@ export default {
         this.selectedCampaign.title
       }`;
     },
-    allSenderList() {
+    sendersAndBotList() {
       return [
         {
           id: 0,
@@ -223,7 +223,7 @@ export default {
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
-          sender_id: this.selectedSender,
+          sender_id: this.selectedSender || null,
           enabled: this.enabled,
           trigger_rules: {
             url: this.endPoint,

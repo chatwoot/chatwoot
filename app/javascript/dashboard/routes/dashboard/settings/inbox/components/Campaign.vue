@@ -56,7 +56,8 @@ export default {
       uiFlags: 'campaigns/getUIFlags',
     }),
     showEmptyResult() {
-      const hasEmptyResults = this.records.length === 0;
+      const hasEmptyResults =
+        !this.uiFlags.isFetching && this.records.length === 0;
       return hasEmptyResults;
     },
   },
