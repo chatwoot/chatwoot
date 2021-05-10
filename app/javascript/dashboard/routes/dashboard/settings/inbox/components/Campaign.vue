@@ -7,7 +7,7 @@
     </div>
     <campaigns-table
       :campaigns="records"
-      :show-empty-state="showEmptyResult"
+      :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
       :on-edit-click="openEditPopup"
     />
