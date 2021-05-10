@@ -46,4 +46,26 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#update', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.patch.mockResolvedValue({ data: campaignList[0] });
+      await actions.update({ commit }, campaignList[0]);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: true }],
+        [types.default.EDIT_CAMPAIGN, campaignList[0]],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.patch.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(actions.update({ commit }, campaignList[0])).rejects.toThrow(
+        Error
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: true }],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
 });

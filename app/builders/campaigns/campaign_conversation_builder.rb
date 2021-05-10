@@ -5,10 +5,12 @@ class Campaigns::CampaignConversationBuilder
     @contact_inbox = ContactInbox.find(@contact_inbox_id)
     @campaign = @contact_inbox.inbox.campaigns.find_by!(display_id: campaign_display_id)
 
-    # We won't send campaigns if a conversation is already present
-    return if @contact_inbox.conversations.present?
-
     ActiveRecord::Base.transaction do
+      @contact_inbox.lock!
+
+      # We won't send campaigns if a conversation is already present
+      return if @contact_inbox.reload.conversations.present?
+
       @conversation = ::Conversation.create!(conversation_params)
       Messages::MessageBuilder.new(@campaign.sender, @conversation, message_params).perform
     end

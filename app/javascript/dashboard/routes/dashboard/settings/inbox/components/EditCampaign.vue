@@ -1,11 +1,8 @@
 <template>
   <modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
-      <woot-modal-header
-        :header-title="$t('CAMPAIGN.ADD.TITLE')"
-        :header-content="$t('CAMPAIGN.ADD.DESC')"
-      />
-      <form class="row" @submit.prevent="addCampaign">
+      <woot-modal-header :header-title="pageTitle" />
+      <form class="row" @submit.prevent="editCampaign">
         <div class="medium-12 columns">
           <label :class="{ error: $v.title.$error }">
             {{ $t('CAMPAIGN.ADD.FORM.TITLE.LABEL') }}
@@ -15,6 +12,9 @@
               :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
               @input="$v.title.$touch"
             />
+            <span v-if="$v.title.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.TITLE.ERROR') }}
+            </span>
           </label>
         </div>
 
@@ -28,6 +28,9 @@
               :placeholder="$t('CAMPAIGN.ADD.FORM.MESSAGE.PLACEHOLDER')"
               @input="$v.message.$touch"
             />
+            <span v-if="$v.message.$error" class="message">
+              {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
+            </span>
           </label>
         </div>
 
@@ -91,16 +94,17 @@
         </div>
 
         <div class="modal-footer">
-          <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="buttonDisabled"
-              :loading="uiFlags.isCreating"
-              :button-text="$t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT')"
-            />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
-          </div>
+          <woot-button :disabled="buttonDisabled" :loading="uiFlags.isCreating">
+            {{ $t('CAMPAIGN.EDIT.UPDATE_BUTTON_TEXT') }}
+          </woot-button>
+          <woot-button
+            class="button clear"
+            :disabled="buttonDisabled"
+            :loading="uiFlags.isCreating"
+            @click.prevent="onClose"
+          >
+            {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
+          </woot-button>
         </div>
       </form>
     </div>
@@ -119,20 +123,24 @@ export default {
   },
   mixins: [alertMixin],
   props: {
-    senderList: {
-      type: Array,
-      default: () => [],
-    },
     onClose: {
       type: Function,
       default: () => {},
+    },
+    selectedCampaign: {
+      type: Object,
+      default: () => {},
+    },
+    senderList: {
+      type: Array,
+      default: () => [],
     },
   },
   data() {
     return {
       title: '',
       message: '',
-      selectedSender: 0,
+      selectedSender: '',
       endPoint: '',
       timeOnPage: 10,
       show: true,
@@ -173,6 +181,11 @@ export default {
         this.uiFlags.isCreating
       );
     },
+    pageTitle() {
+      return `${this.$t('CAMPAIGN.EDIT.TITLE')} - ${
+        this.selectedCampaign.title
+      }`;
+    },
     sendersAndBotList() {
       return [
         {
@@ -183,11 +196,30 @@ export default {
       ];
     },
   },
-
+  mounted() {
+    this.setFormValues();
+  },
   methods: {
-    async addCampaign() {
+    setFormValues() {
+      const {
+        title,
+        message,
+        enabled,
+        trigger_rules: { url: endPoint, time_on_page: timeOnPage },
+        sender,
+      } = this.selectedCampaign;
+      this.title = title;
+      this.message = message;
+      this.endPoint = endPoint;
+      this.timeOnPage = timeOnPage;
+      this.selectedSender = (sender && sender.id) || 0;
+      this.enabled = enabled;
+    },
+
+    async editCampaign() {
       try {
-        await this.$store.dispatch('campaigns/create', {
+        await this.$store.dispatch('campaigns/update', {
+          id: this.selectedCampaign.id,
           title: this.title,
           message: this.message,
           inbox_id: this.$route.params.inboxId,
@@ -198,10 +230,10 @@ export default {
             time_on_page: this.timeOnPage,
           },
         });
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
         this.onClose();
       } catch (error) {
-        this.showAlert(this.$t('CAMPAIGN.ADD.API.ERROR_MESSAGE'));
+        this.showAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },
