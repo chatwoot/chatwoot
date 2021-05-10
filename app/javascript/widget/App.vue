@@ -73,6 +73,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('campaign', ['fetchCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -149,6 +150,7 @@ export default {
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
+          this.fetchCampaigns(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);
           this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
