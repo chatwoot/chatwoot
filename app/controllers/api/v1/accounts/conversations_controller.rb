@@ -41,8 +41,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def transcript
-    render json: { error: "email param missing" }, status: :unprocessable_entity and return   if params[:email].blank?
-      
+    render json: { error: 'email param missing' }, status: :unprocessable_entity and return if params[:email].blank?
+
     ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, params[:email])&.deliver_later
     head :ok
   end
