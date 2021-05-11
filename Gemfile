@@ -34,7 +34,6 @@ gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 
-
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
 gem 'azure-storage-blob', require: false
