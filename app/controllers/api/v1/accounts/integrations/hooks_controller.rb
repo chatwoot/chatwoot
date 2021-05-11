@@ -7,7 +7,7 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
   end
 
   def update
-    @hook.update!(permitted_params)
+    @hook.update!(permitted_params.slice(:status, :settings))
   end
 
   def destroy

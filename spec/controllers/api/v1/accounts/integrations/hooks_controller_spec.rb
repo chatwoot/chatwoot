@@ -40,4 +40,72 @@ RSpec.describe 'Integration Hooks API', type: :request do
       end
     end
   end
+
+  describe 'PATCH /api/v1/accounts/{account.id}/integrations/hooks/{hook_id}' do
+    let(:hook) { create(:integrations_hook, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+              params: params,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'return unauthorized if agent' do
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates hook if admin' do
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+              params: params,
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        data = JSON.parse(response.body)
+        expect(data['app']['id']).to eq 'slack'
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/integrations/hooks/{hook_id}' do
+    let(:hook) { create(:integrations_hook, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'return unauthorized if agent' do
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'updates hook if admin' do
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(::Integrations::Hook.exists?(hook.id)).to eq false
+      end
+    end
+  end
 end
