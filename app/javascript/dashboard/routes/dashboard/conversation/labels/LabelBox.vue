@@ -10,8 +10,18 @@
         emoji="🏷️"
       />
       <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
-        <div>
-          <add-label @add="toggleLabels" />
+        <add-label @add="toggleLabels" />
+        <woot-label
+          v-for="label in activeLabels"
+          :key="label.id"
+          :title="label.title"
+          :description="label.description"
+          :show-close="true"
+          :bg-color="label.color"
+          @click="removeItem"
+        />
+
+        <div class="dropdown-wrap">
           <div
             :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
             class="dropdown-pane"
@@ -25,17 +35,6 @@
               @remove="removeItem"
             />
           </div>
-        </div>
-        <div class="active">
-          <woot-label
-            v-for="label in activeLabels"
-            :key="label.id"
-            :title="label.title"
-            :description="label.description"
-            :show-close="true"
-            :bg-color="label.color"
-            @click="removeItem"
-          />
         </div>
       </div>
     </div>
@@ -165,14 +164,20 @@ export default {
   .label-wrap {
     margin-left: var(--space-two);
     position: relative;
+    line-height: var(--space-medium);
 
-    .dropdown-pane {
+    .dropdown-wrap {
+      display: flex;
+      position: absolute;
+      margin-right: var(--space-medium);
+      top: var(--space-medium);
       width: 100%;
-      box-sizing: border-box;
-    }
+      left: -1px;
 
-    .active {
-      margin-top: var(--space-small);
+      .dropdown-pane {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
   }
 }
