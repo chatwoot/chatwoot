@@ -1915,12 +1915,12 @@
     },
     "message_id": {
       "in": "path",
-      "name": "conversation_id",
+      "name": "message_id",
       "schema": {
         "type": "integer"
       },
       "required": true,
-      "description": "The numeric ID of the conversation"
+      "description": "The numeric ID of the message"
     }
   }
 }

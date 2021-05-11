@@ -8,4 +8,4 @@ conversation_id:
   $ref: ./conversation_id.yml
 
 message_id:
-  $ref: ./conversation_id.yml
+  $ref: ./message_id.yml
