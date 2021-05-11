@@ -373,6 +373,14 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
       end
+    
+      it 'renders error when parameter missing' do 
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
+             headers: agent.create_new_auth_token,
+             params: {},
+             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 end
