@@ -1,0 +1,14 @@
+tags:
+  - Conversation Labels
+operationId: list-all-labels-of-a-conversation
+summary: List Labels
+description: Lists all the labels of a conversation
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/conversation_labels'
+  404:
+    description: Conversation not found
+  401:
+    description: Unauthorized
