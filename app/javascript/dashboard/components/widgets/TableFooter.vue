@@ -23,7 +23,7 @@
         </woot-button>
         <woot-button
           size="small"
-          :class="prevPageButtonClass"
+          :is-disabled="hasPrevPage"
           @click="onPrevPage"
         >
           <i class="ion-chevron-left" />
@@ -33,7 +33,7 @@
         </woot-button>
         <woot-button
           size="small"
-          :class="nextPageButtonClass"
+          :is-disabled="hasNextPage"
           @click="onNextPage"
         >
           <i class="ion-chevron-right" />
@@ -62,7 +62,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 15,
+      default: 5,
     },
     totalCount: {
       type: Number,
@@ -102,17 +102,9 @@ export default {
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
       return isDisabled;
     },
-    nextPageButtonClass() {
-      const className = this.hasNextPage ? 'disabled' : '';
-      return className;
-    },
     hasPrevPage() {
       const isDisabled = this.currentPage === 1;
       return isDisabled;
-    },
-    prevPageButtonClass() {
-      const className = this.hasPrevPage ? 'disabled' : '';
-      return className;
     },
   },
   methods: {
