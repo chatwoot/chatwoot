@@ -44,14 +44,6 @@ export default {
     additionalAttributes() {
       return this.contact.additional_attributes || {};
     },
-    socialProfiles() {
-      const {
-        social_profiles: socialProfiles,
-        screen_name: twitterScreenName,
-      } = this.additionalAttributes;
-
-      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
-    },
     company() {
       const { company = {} } = this.contact;
       return company;
