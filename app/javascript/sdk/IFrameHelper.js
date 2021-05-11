@@ -1,5 +1,11 @@
 import Cookies from 'js-cookie';
-import { wootOn, addClass, loadCSS, removeClass } from './DOMHelpers';
+import {
+  wootOn,
+  addClass,
+  loadCSS,
+  removeClass,
+  onLocationChangeListener,
+} from './DOMHelpers';
 import {
   body,
   widgetHolder,
@@ -140,6 +146,9 @@ export const IFrameHelper = {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
+    onLocationChange: url => {
+      IFrameHelper.sendMessage('change-url', { url });
+    },
 
     setUnreadMode: message => {
       const { unreadMessageCount } = message;
@@ -167,6 +176,7 @@ export const IFrameHelper = {
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
+
   onLoad: ({ widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
@@ -175,9 +185,8 @@ export const IFrameHelper = {
     if (IFrameHelper.getBubbleHolder().length) {
       return;
     }
-
     createBubbleHolder();
-
+    onLocationChangeListener();
     if (!window.$chatwoot.hideMessageBubble) {
       const chatIcon = createBubbleIcon({
         className: 'woot-widget-bubble',

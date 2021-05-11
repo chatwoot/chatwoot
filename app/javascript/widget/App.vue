@@ -14,7 +14,7 @@
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-
+import { startCampaigns } from 'widget/helpers/campaignHelper';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -37,6 +37,7 @@ export default {
     ...mapGetters({
       hasFetched: 'agent/getHasFetched',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      campaigns: 'campaign/fetchCampaigns',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -87,7 +88,7 @@ export default {
     },
     setLocale(locale) {
       const { enabledLanguages } = window.chatwootWebChannel;
-      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
+      if (enabledLanguages.some((lang) => lang.iso_639_1_code === locale)) {
         this.$root.$i18n.locale = locale;
       }
     },
@@ -138,7 +139,7 @@ export default {
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
-      window.addEventListener('message', e => {
+      window.addEventListener('message', (e) => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
@@ -184,6 +185,8 @@ export default {
           this.showUnreadView = true;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
+        } else if (message.event === 'change-url') {
+          startCampaigns({ allCampaigns: this.campaigns, URL: message.url });
         }
       });
     },

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { getCampaigns } from 'widget/api/campaign';
-import { startTimer } from 'widget/helpers/campaignTimer';
+import { startCampaigns } from 'widget/helpers/campaignHelper';
 
 const state = {
   records: [],
@@ -19,7 +19,7 @@ export const actions = {
   fetchCampaigns: async ({ commit }, websiteToken) => {
     try {
       const { data } = await getCampaigns(websiteToken);
-      startTimer({ allCampaigns: data });
+      startCampaigns({ allCampaigns: data });
       commit('setCampaigns', data);
       commit('setError', false);
       commit('setHasFetched', true);
