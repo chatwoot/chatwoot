@@ -3,3 +3,9 @@ account_id:
 
 team_id:
   $ref: ./team_id.yml
+
+conversation_id:
+  $ref: ./conversation_id.yml
+
+message_id:
+  $ref: ./message_id.yml
