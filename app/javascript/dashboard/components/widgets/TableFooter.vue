@@ -62,7 +62,7 @@ export default {
     },
     pageSize: {
       type: Number,
-      default: 5,
+      default: 15,
     },
     totalCount: {
       type: Number,
