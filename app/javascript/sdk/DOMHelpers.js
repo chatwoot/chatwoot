@@ -1,4 +1,5 @@
 import { SDK_CSS } from './sdk.js';
+import { IFrameHelper } from './IFrameHelper';
 
 export const loadCSS = () => {
   const css = document.createElement('style');
@@ -64,4 +65,24 @@ export const toggleClass = (elm, classes) => {
 
 export const removeClass = (elm, classes) => {
   classHelper(classes, 'remove', elm);
+};
+
+export const onLocationChangeListener = () => {
+  let oldHref = document.location.href;
+  const config = {
+    childList: true,
+    subtree: true,
+  };
+
+  const bodyList = document.querySelector('body');
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(() => {
+      if (oldHref !== document.location.href) {
+        oldHref = document.location.href;
+        IFrameHelper.events.onLocationChange(document.location.href);
+      }
+    });
+  });
+
+  observer.observe(bodyList, config);
 };
