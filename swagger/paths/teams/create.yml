@@ -1,0 +1,19 @@
+tags:
+  - Teams
+operationId: create-a-team
+summary: Create a team
+description: Create a team in the account
+parameters:
+  - $ref: '#/parameters/account_id'
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/team_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/team'
+  401:
+    description: Unauthorized

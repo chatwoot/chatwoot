@@ -1,4 +1,4 @@
-class Campaigns < ActiveRecord::Migration[6.0]
+class AddCampaigns < ActiveRecord::Migration[6.0]
   def change
     create_table :campaigns do |t|
       t.integer :display_id, null: false

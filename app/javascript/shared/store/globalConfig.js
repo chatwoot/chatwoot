@@ -10,7 +10,7 @@ const {
   PRIVACY_URL: privacyURL,
   TERMS_URL: termsURL,
   WIDGET_BRAND_URL: widgetBrandURL,
-} = window.globalConfig;
+} = window.globalConfig || {};
 
 const state = {
   appVersion,

@@ -112,25 +112,28 @@ export default {
           sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
-            <button
-              class="row--user-block cursor-pointer"
+            <woot-button
+              variant="clear"
+              size="expanded"
               onClick={() => this.onClickContact(row.id)}
             >
-              <Thumbnail
-                src={row.thumbnail}
-                size="36px"
-                username={row.name}
-                status={row.availability_status}
-              />
-              <div>
-                <h6 class="sub-block-title user-name text-truncate">
-                  {row.name}
-                </h6>
-                <button class="button clear small">
-                  {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                </button>
+              <div class="row--user-block">
+                <Thumbnail
+                  src={row.thumbnail}
+                  size="36px"
+                  username={row.name}
+                  status={row.availability_status}
+                />
+                <div class="user-block">
+                  <h6 class="sub-block-title user-name text-truncate">
+                    {row.name}
+                  </h6>
+                  <span class="button clear small">
+                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                  </span>
+                </div>
               </div>
-            </button>
+            </woot-button>
           ),
         },
         {
@@ -259,6 +262,10 @@ export default {
     align-items: center;
     display: flex;
     text-align: left;
+
+    .user-block {
+      min-width: 0;
+    }
 
     .user-thumbnail-box {
       margin-right: var(--space-small);
