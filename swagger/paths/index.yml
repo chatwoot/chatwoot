@@ -16,21 +16,58 @@
 
 # Conversations
 /accounts/{account_id}/conversations:
+  parameters:
+    - $ref: '#/parameters/account_id'
   $ref: ./conversation/index_or_create.yml
-/accounts/{account_id}/conversations/{id}:
-  $ref: ./conversation/crud.yml
-/accounts/{account_id}/conversations/{id}/toggle_status:
-  $ref: ./conversation/toggle_status.yml
+
+/accounts/{account_id}/conversations/{converstion_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  get:
+    $ref: ./conversation/show.yml
+
+/accounts/{account_id}/conversations/{conversation_id}/toggle_status:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./conversation/toggle_status.yml
 
 # Messages
-/accounts/{account_id}/conversations/{id}/messages:
-  $ref: ./conversation/messages/index_create.yml
+/accounts/{account_id}/conversations/{converstion_id}/messages:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  get:
+    $ref: ./conversation/messages/index.yml
+  post:
+    $ref: ./conversation/messages/create.yml
 
-/accounts/{account_id}/conversations/{id}/labels:
-  $ref: ./conversation/labels.yml
+/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+    - $ref: '#/parameters/message_id'
+  delete:
+    $ref: ./conversation/messages/delete.yml
 
-/accounts/{account_id}/conversations/{id}/assignments:
-  $ref: ./conversation/assignments.yml
+
+/accounts/{account_id}/conversations/{conversation_id}/labels:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  get:
+    $ref: ./conversation/labels/index.yml
+  post:
+    $ref: ./conversation/labels/create.yml
+
+/accounts/{account_id}/conversations/{conversation_id}/assignments:
+  parameters:
+    - $ref: '#/parameters/account_id'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./conversation/assignments.yml
 
 # Contacts
 /accounts/{account_id}/contacts:

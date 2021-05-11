@@ -5,6 +5,7 @@ get:
   description: List all the conversations with pagination
   summary: Conversations List
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: assignee_type
       in: query
       type: string
@@ -68,6 +69,7 @@ get:
       type: array
       items:
         type: string
+    - $ref: '#/parameters/account_id'
 
   responses:
     200:
@@ -91,6 +93,7 @@ post:
     - userApiKey: []
     - agentBotApiKey: []
   parameters:
+    - $ref: '#/parameters/account_id'
     - name: data
       in: body
       required: true
