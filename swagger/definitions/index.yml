@@ -21,6 +21,8 @@ agent_bot:
   $ref: ./resource/agent_bot.yml
 contact_inboxes:
   $ref: ./resource/contact_inboxes.yml
+contactable_inboxes:
+  $ref: ./resource/contactable_inboxes.yml
 account:
   $ref: ./resource/account.yml
 team:
