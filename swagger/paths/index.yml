@@ -39,16 +39,16 @@
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
-    - $ref: '#/parameters/message_id'
   get:
     $ref: ./conversation/messages/index.yml
   post:
     $ref: ./conversation/messages/create.yml
 
-/accounts/{account_id}/conversations/{conversation_id}/messages/{id}:
+/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
+    - $ref: '#/parameters/message_id'
   delete:
     $ref: ./conversation/messages/delete.yml
 

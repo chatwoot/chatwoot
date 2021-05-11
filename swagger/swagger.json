@@ -524,9 +524,6 @@
         },
         {
           "$ref": "#/parameters/conversation_id"
-        },
-        {
-          "$ref": "#/parameters/message_id"
         }
       ],
       "get": {
@@ -611,13 +608,16 @@
         }
       }
     },
-    "/accounts/{account_id}/conversations/{conversation_id}/messages/{id}": {
+    "/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}": {
       "parameters": [
         {
           "$ref": "#/parameters/account_id"
         },
         {
           "$ref": "#/parameters/conversation_id"
+        },
+        {
+          "$ref": "#/parameters/message_id"
         }
       ],
       "delete": {
