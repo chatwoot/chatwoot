@@ -16,10 +16,10 @@ export const getters = {
 };
 
 export const actions = {
-  fetchCampaigns: async ({ commit }, websiteToken) => {
+  fetchCampaigns: async ({ commit }, { websiteToken, currentURL }) => {
     try {
       const { data } = await getCampaigns(websiteToken);
-      startCampaigns({ allCampaigns: data });
+      startCampaigns({ allCampaigns: data, currentURL });
       commit('setCampaigns', data);
       commit('setError', false);
       commit('setHasFetched', true);

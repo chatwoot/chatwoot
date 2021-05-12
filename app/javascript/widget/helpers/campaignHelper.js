@@ -1,7 +1,6 @@
 import { triggerCampaign } from 'widget/api/campaign';
 window.campaignTimers = [];
-const startCampaigns = async ({ allCampaigns, URL }) => {
-  const matchedURL = URL || window?.parent?.location?.href;
+const startCampaigns = async ({ allCampaigns, currentURL }) => {
   // Clear all timeouts
   window.campaignTimers.forEach(timerId => {
     clearTimeout(timerId);
@@ -16,9 +15,8 @@ const startCampaigns = async ({ allCampaigns, URL }) => {
       };
     })
     .filter(item => {
-      return item.url === matchedURL;
+      return item.url === currentURL;
     });
-
   // Execute campaigns
   filteredCampaigns.forEach(campaign => {
     const {

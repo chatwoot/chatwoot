@@ -88,7 +88,7 @@ export default {
     },
     setLocale(locale) {
       const { enabledLanguages } = window.chatwootWebChannel;
-      if (enabledLanguages.some((lang) => lang.iso_639_1_code === locale)) {
+      if (enabledLanguages.some(lang => lang.iso_639_1_code === locale)) {
         this.$root.$i18n.locale = locale;
       }
     },
@@ -139,7 +139,7 @@ export default {
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
-      window.addEventListener('message', (e) => {
+      window.addEventListener('message', e => {
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
@@ -151,7 +151,6 @@ export default {
           this.fetchOldConversations().then(() => this.setUnreadView());
           this.setPopoutDisplay(message.showPopoutButton);
           this.fetchAvailableAgents(websiteToken);
-          this.fetchCampaigns(websiteToken);
           this.setHideMessageBubble(message.hideMessageBubble);
           this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
@@ -159,6 +158,10 @@ export default {
         } else if (message.event === 'set-current-url') {
           window.referrerURL = message.referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, message.referrerHost);
+          this.fetchCampaigns({
+            websiteToken,
+            currentURL: message.referrerURL,
+          });
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
