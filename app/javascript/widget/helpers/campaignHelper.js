@@ -4,14 +4,13 @@ window.campaignTimers = [];
 const stripTrailingSlash = ({ URL }) => {
   return URL.replace(/\/$/, '');
 };
-const startCampaigns = async ({ allCampaigns, currentURL }) => {
-  console.log('CurrentURL-->', currentURL);
 
-  // Clear all timeouts
+const startCampaigns = async ({ allCampaigns, currentURL }) => {
+  // Clear all campaign timers
   window.campaignTimers.forEach(timerId => {
     clearTimeout(timerId);
   });
-  // Find all campaigns matches the URL
+  // Find all campaigns that matches the current URL
   const filteredCampaigns = allCampaigns
     .map(item => {
       return {
@@ -26,8 +25,6 @@ const startCampaigns = async ({ allCampaigns, currentURL }) => {
         stripTrailingSlash({ URL: currentURL })
       );
     });
-  console.log('filteredCampaigns-->', filteredCampaigns);
-
   // Execute campaigns
   filteredCampaigns.forEach(campaign => {
     const {
