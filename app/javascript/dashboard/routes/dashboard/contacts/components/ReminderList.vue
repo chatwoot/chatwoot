@@ -106,7 +106,7 @@ export default {
 
         .date-wrap {
           padding: var(--space-micro) var(--space-small);
-          border-radius: var(--border-radius-norma);
+          border-radius: var(--border-radius-normal);
           background: var(--color-background);
           line-height: var(--space-one);
           display: flex;
@@ -134,7 +134,7 @@ export default {
             color: var(--color-body);
             padding: var(--space-micro) var(--space-small);
             font-weight: var(--font-weight-bold);
-            border-radius: var(--border-radius-norma);
+            border-radius: var(--border-radius-normal);
             background: var(--color-background);
           }
         }
