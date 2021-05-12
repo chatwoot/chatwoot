@@ -1,5 +1,9 @@
 import { triggerCampaign } from 'widget/api/campaign';
 window.campaignTimers = [];
+
+const stripTrailingSlash = ({ URL }) => {
+  return URL.replace(/\/$/, '');
+};
 const startCampaigns = async ({ allCampaigns, currentURL }) => {
   console.log('CurrentURL-->', currentURL);
 
@@ -17,7 +21,10 @@ const startCampaigns = async ({ allCampaigns, currentURL }) => {
       };
     })
     .filter(item => {
-      return item.url === currentURL;
+      return (
+        stripTrailingSlash({ URL: item.url }) ===
+        stripTrailingSlash({ URL: currentURL })
+      );
     });
   console.log('filteredCampaigns-->', filteredCampaigns);
 
