@@ -1,6 +1,6 @@
 export const getters = {
   getContacts($state) {
-    return $state.order.map(contactId => $state.records[contactId]);
+    return $state.sortOrder.map(contactId => $state.records[contactId]);
   },
   getUIFlags($state) {
     return $state.uiFlags;

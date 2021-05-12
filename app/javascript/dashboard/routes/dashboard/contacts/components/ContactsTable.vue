@@ -72,9 +72,7 @@ export default {
       sortConfig: {},
       sortOption: {
         sortAlways: true,
-        sortChange: params => {
-          this.$emit('on-sort-change', params);
-        },
+        sortChange: params => this.$emit('on-sort-change', params),
       },
     };
   },
@@ -84,6 +82,8 @@ export default {
         return [];
       }
       return this.contacts.map(item => {
+        // Note: The attributes used here is in snake case
+        // as it simplier the sort attribute calculation
         const additional = item.additional_attributes || {};
         const { last_activity_at: lastActivityAt } = item;
         return {
@@ -94,7 +94,7 @@ export default {
           profiles: additional.social_profiles || {},
           city: additional.city || '---',
           country: additional.country || '---',
-          conversationsCount: item.conversations_count || '---',
+          conversations_count: item.conversations_count || '---',
           last_activity_at: lastActivityAt
             ? this.dynamicTime(lastActivityAt)
             : '---',
@@ -233,14 +233,19 @@ export default {
   },
   watch: {
     sortOrder() {
-      this.sortConfig = { [this.sortParam]: this.sortOrder };
+      this.setSortConfig();
     },
     sortParam() {
-      this.sortConfig = { [this.sortParam]: this.sortOrder };
+      this.setSortConfig();
     },
   },
   mounted() {
-    this.sortConfig = { [this.sortParam]: this.sortOrder };
+    this.setSortConfig();
+  },
+  methods: {
+    setSortConfig() {
+      this.sortConfig = { [this.sortParam]: this.sortOrder };
+    },
   },
 };
 </script>

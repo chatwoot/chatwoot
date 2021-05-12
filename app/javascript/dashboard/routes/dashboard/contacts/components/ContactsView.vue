@@ -100,9 +100,7 @@ export default {
       let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
         const direction = this.sortConfig[sortKey];
         if (direction) {
-          acc += `${direction === 'asc' ? '' : '-'}${
-            sortKey === 'lastActivityAt' ? 'last_activity_at' : sortKey
-          }`;
+          acc += `${direction === 'asc' ? '' : '-'}${sortKey}`;
         }
         return acc;
       }, '');
