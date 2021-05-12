@@ -189,7 +189,10 @@ export default {
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
         } else if (message.event === 'change-url') {
-          startCampaigns({ allCampaigns: this.campaigns, URL: message.url });
+          startCampaigns({
+            allCampaigns: this.campaigns,
+            currentURL: message.url,
+          });
         }
       });
     },
