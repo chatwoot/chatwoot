@@ -1,0 +1,34 @@
+name: Merge Remote Action
+
+on: 
+  workflow_dispatch:
+    inputs:
+      upstream:
+        description: 'Upstream repository chatwoot/chatwoot'
+        required: true
+        default: 'chatwoot/chatwoot'       
+      upstream-branch:
+        description: 'Upstream branch to merge from.'
+        required: true
+        default: 'develop'           
+      branch:
+        description: 'Branch to merge to'
+        required: true
+        default: 'develop'
+
+jobs:
+  merge-upstream:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+          fetch-depth: 0 
+      - name: Merge Upstream
+        uses: exions/merge-upstream@v1
+        with:
+          upstream: ${{ github.event.inputs.upstream }}
+          upstream-branch: ${{ github.event.inputs.upstream-branch }}
+          branch: ${{ github.event.inputs.branch }}
+          token: ${{ secrets.TOKEN }}
