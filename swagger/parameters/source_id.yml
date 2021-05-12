@@ -1,0 +1,2 @@
+type: string
+description: "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"

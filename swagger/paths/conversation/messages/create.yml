@@ -1,0 +1,25 @@
+tags:
+  - Messages
+operationId: create-a-new-message-in-a-conversation
+summary: Create New Message
+description: Create a new message in the conversation
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/conversation_message_create'
+responses:
+  200:
+    description: Success
+    schema:
+      allOf:
+        - $ref: '#/definitions/generic_id'
+        - $ref: '#/definitions/message'
+  404:
+    description: Conversation not found
+  403:
+    description: Access denied
