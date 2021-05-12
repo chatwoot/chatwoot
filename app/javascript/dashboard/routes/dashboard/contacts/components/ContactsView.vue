@@ -93,7 +93,10 @@ export default {
     this.fetchContacts(this.pageParameter);
   },
   methods: {
-    fetchContacts(page) {
+    updatePageParam(page) {
+      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
+    },
+    getSortAttribute() {
       let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
         const direction = this.sortConfig[sortKey];
         if (direction) {
@@ -107,36 +110,37 @@ export default {
         this.sortConfig = { name: 'asc' };
         sortAttr = 'name';
       }
-      this.$store.dispatch('contacts/get', { page, sortAttr });
+      return sortAttr;
+    },
+    fetchContacts(page) {
+      this.updatePageParam(page);
+      const requestParams = { page, sortAttr: this.getSortAttribute() };
+      if (!this.searchQuery) {
+        this.$store.dispatch('contacts/get', requestParams);
+      } else {
+        this.$store.dispatch('contacts/search', {
+          search: this.searchQuery,
+          ...requestParams,
+        });
+      }
     },
     onInputSearch(event) {
       const newQuery = event.target.value;
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
+      this.searchQuery = newQuery;
       if (refetchAllContacts) {
         this.fetchContacts(1);
       }
-      this.searchQuery = newQuery;
     },
     onSearchSubmit() {
       this.selectedContactId = '';
       if (this.searchQuery) {
-        this.$store.dispatch('contacts/search', {
-          search: this.searchQuery,
-          page: 1,
-        });
+        this.fetchContacts(1);
       }
     },
     onPageChange(page) {
       this.selectedContactId = '';
-      window.history.pushState({}, null, `${this.$route.path}?page=${page}`);
-      if (this.searchQuery) {
-        this.$store.dispatch('contacts/search', {
-          search: this.searchQuery,
-          page,
-        });
-      } else {
-        this.fetchContacts(page);
-      }
+      this.fetchContacts(page);
     },
     openContactInfoPanel(contactId) {
       this.selectedContactId = contactId;
@@ -151,7 +155,7 @@ export default {
     },
     onSortChange(params) {
       this.sortConfig = params;
-      this.fetchContacts(this.pageParameter);
+      this.fetchContacts(this.meta.currentPage);
     },
   },
 };
