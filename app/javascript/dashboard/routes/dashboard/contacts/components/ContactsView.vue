@@ -41,6 +41,8 @@ import ContactInfoPanel from './ContactInfoPanel';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 import TableFooter from 'dashboard/components/widgets/TableFooter';
 
+const DEFAULT_PAGE = 1;
+
 export default {
   components: {
     ContactsHeader,
@@ -84,9 +86,10 @@ export default {
     },
     pageParameter() {
       const selectedPageNumber = Number(this.$route.query?.page);
-      return !Number.isNaN(selectedPageNumber) && selectedPageNumber >= 1
+      return !Number.isNaN(selectedPageNumber) &&
+        selectedPageNumber >= DEFAULT_PAGE
         ? selectedPageNumber
-        : 1;
+        : DEFAULT_PAGE;
     },
   },
   mounted() {
@@ -98,9 +101,10 @@ export default {
     },
     getSortAttribute() {
       let sortAttr = Object.keys(this.sortConfig).reduce((acc, sortKey) => {
-        const direction = this.sortConfig[sortKey];
-        if (direction) {
-          acc += `${direction === 'asc' ? '' : '-'}${sortKey}`;
+        const sortOrder = this.sortConfig[sortKey];
+        if (sortOrder) {
+          const sortOrderSign = sortOrder === 'asc' ? '' : '-';
+          return `${sortOrderSign}${sortKey}`;
         }
         return acc;
       }, '');
@@ -127,13 +131,13 @@ export default {
       const refetchAllContacts = !!this.searchQuery && newQuery === '';
       this.searchQuery = newQuery;
       if (refetchAllContacts) {
-        this.fetchContacts(1);
+        this.fetchContacts(DEFAULT_PAGE);
       }
     },
     onSearchSubmit() {
       this.selectedContactId = '';
       if (this.searchQuery) {
-        this.fetchContacts(1);
+        this.fetchContacts(DEFAULT_PAGE);
       }
     },
     onPageChange(page) {
@@ -163,6 +167,7 @@ export default {
 .contacts-page {
   width: 100%;
 }
+
 .left-wrap {
   display: flex;
   flex-direction: column;
