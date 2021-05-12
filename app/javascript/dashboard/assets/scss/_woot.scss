@@ -1,8 +1,26 @@
-@import 'typography';
-@import 'layout';
-@import 'animations';
+@import 'shared/assets/fonts/inter';
+@import 'shared/assets/stylesheets/colors';
+@import 'shared/assets/stylesheets/spacing';
+@import 'shared/assets/stylesheets/font-size';
+@import 'shared/assets/stylesheets/font-weights';
+@import 'shared/assets/stylesheets/shadows';
+@import 'shared/assets/stylesheets/border-radius';
 
+@import 'variables';
+@import 'mixins';
+@import 'typography';
+
+
+@import 'foundation-sites/scss/foundation';
+@import 'foundation-settings';
 @import 'foundation-custom';
+@import '~bourbon/core/bourbon';
+
+@include foundation-everything($flex: true);
+
+@import 'animations';
+@import 'layout';
+@import 'helper-classes';
 @import 'widgets/buttons';
 @import 'widgets/conv-header';
 @import 'widgets/conversation-card';
@@ -27,3 +45,4 @@
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
 @import '@chatwoot/prosemirror-schema/src/woot-editor.css';
+@import '~shared/assets/stylesheets/ionicons';

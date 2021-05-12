@@ -2,11 +2,12 @@
   <button
     class="button"
     :class="[
-      variant,
+      variantClasses,
       size,
       colorScheme,
       classNames,
       isDisabled ? 'disabled' : '',
+      isExpanded ? 'expanded' : '',
     ]"
     :disabled="isDisabled || isLoading"
     @click="handleClick"
@@ -51,6 +52,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    isExpanded: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    variantClasses() {
+      if (this.variant.includes('link')) {
+        return `clear ${this.variant}`;
+      }
+      return this.variant;
+    },
   },
   methods: {
     handleClick(evt) {
@@ -60,15 +73,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.button {
-  display: flex;
-  align-items: center;
-
-  &.link {
-    padding: 0;
-    margin: 0;
-  }
-}
 .spinner {
   padding: 0 var(--space-small);
 }
