@@ -48,7 +48,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: var(--space-small);
+  padding-bottom: var(--space-normal);
 
   .conv-details--item__label {
     align-items: center;

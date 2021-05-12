@@ -154,7 +154,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .contact-conversation--panel {
-  padding: var(--space-micro) var(--space-slab) var(--space-slab)
+  padding: var(--space-micro) var(--space-slab) var(--space-one)
     var(--space-slab);
 }
 
@@ -165,6 +165,7 @@ export default {
     margin-left: var(--space-two);
     position: relative;
     line-height: var(--space-medium);
+    bottom: var(--space-small);
 
     .dropdown-wrap {
       display: flex;
