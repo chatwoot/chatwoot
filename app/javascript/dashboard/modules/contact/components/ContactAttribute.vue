@@ -28,8 +28,8 @@
       class="value--view"
       :class="{ 'is-editable': showEdit }"
     >
-      <p v-if="value" class="value">
-        {{ value }}
+      <p class="value">
+        {{ value || '---' }}
       </p>
       <woot-button
         v-if="showEdit"
@@ -84,7 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .contact-attribute {
-  margin-bottom: var(--space-normal);
+  margin-bottom: var(--space-small);
 }
 .title-wrap {
   display: flex;
@@ -116,6 +116,7 @@ export default {
 }
 .value {
   display: inline-block;
+  min-width: var(--space-mega);
   border-radius: var(--border-radius-small);
   word-break: break-all;
   margin: 0 var(--space-smaller) 0 var(--space-normal);
