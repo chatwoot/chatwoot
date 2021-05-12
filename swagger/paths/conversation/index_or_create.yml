@@ -88,7 +88,7 @@ post:
     - Conversation
   operationId: newConversation
   summary: Create New Conversation
-  description: Create conversation
+  description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations"
   security:
     - userApiKey: []
     - agentBotApiKey: []
@@ -100,9 +100,14 @@ post:
       schema:
         type: object
         properties:
-          source_id:
+          source_id: 
+            $ref: '#/parameters/source_id'
+          inbox_id:
             type: string
-            description: Contact Source Id
+            description: "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
+          contact_id:
+            type: string
+            description: Contact Id for which conversation is created
           additional_attributes:
             type: object
             description: Lets you specify attributes like browser information
