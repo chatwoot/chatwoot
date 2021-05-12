@@ -4,7 +4,6 @@ account_id:
 team_id:
   $ref: ./team_id.yml
 
-
 source_id:
   $ref: ./source_id.yml
 
@@ -14,3 +13,8 @@ conversation_id:
 message_id:
   $ref: ./message_id.yml
 
+contact_sort_param:
+  $ref: ./contact_sort.yml
+
+page:
+  $ref: ./page.yml
