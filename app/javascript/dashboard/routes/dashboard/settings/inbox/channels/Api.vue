@@ -56,7 +56,8 @@ import { required } from 'vuelidate/lib/validators';
 import router from '../../../../index';
 import PageHeader from '../../SettingsSubPageHeader';
 
-const shouldBeWebhookUrl = (value = '') => value.startsWith('http');
+const shouldBeWebhookUrl = (value = '') =>
+  value ? value.startsWith('http') : true;
 
 export default {
   components: {
@@ -76,7 +77,7 @@ export default {
   },
   validations: {
     channelName: { required },
-    webhookUrl: { required, shouldBeWebhookUrl },
+    webhookUrl: { shouldBeWebhookUrl },
   },
   methods: {
     async createChannel() {
