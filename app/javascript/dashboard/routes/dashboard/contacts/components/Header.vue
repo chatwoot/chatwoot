@@ -17,18 +17,22 @@
             @keyup.enter="onSearchSubmit"
             @input="onInputSearch"
           />
-          <woot-submit-button
-            :button-text="$t('CONTACTS_PAGE.SEARCH_BUTTON')"
-            :loading="false"
-            :button-class="searchButtonClass"
+          <woot-button
+            :is-loading="false"
+            :class-names="searchButtonClass"
             @click="onSearchSubmit"
-          />
+          >
+            {{ $t('CONTACTS_PAGE.SEARCH_BUTTON') }}
+          </woot-button>
         </div>
 
-        <button class="button success icon" @click="onToggleCreate">
-          <i class="icon ion-android-add-circle" />
+        <woot-button
+          color-scheme="success"
+          icon="ion-android-add-circle"
+          @click="onToggleCreate"
+        >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
-        </button>
+        </woot-button>
       </div>
     </div>
   </header>
