@@ -49,7 +49,7 @@ $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
-  secondary: #35c5ff,
+  secondary: #5d7592,
   success: #44ce4b,
   warning: #ffc532,
   alert: #ff382d);
@@ -260,11 +260,11 @@ color 0.25s ease-out;
 // 12. Button Group
 // ----------------
 
-$buttongroup-margin: 1rem;
-$buttongroup-spacing: 1px;
+$buttongroup-margin: 0;
+$buttongroup-spacing: 0;
 $buttongroup-child-selector: '.button';
 $buttongroup-expand-max: 6;
-$buttongroup-radius-on-each: true;
+$buttongroup-radius-on-each: false;
 
 // 13. Callout
 // -----------

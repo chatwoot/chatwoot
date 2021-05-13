@@ -29,6 +29,11 @@
       failed: Registrering mislyktes
   reports:
     period: Rapporteringsperiode %{since} til %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,6 +47,7 @@
       status:
         resolved: "Samtale ble løst av %{user_name}"
         open: "Samtalen ble gjenåpnet av %{user_name}"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Samtale ble automatisk merket løst på grunn av %{duration} dager med inaktivitet"
       assignee:
         self_assigned: "%{user_name} tilordnet seg denne samtalen"

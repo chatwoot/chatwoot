@@ -118,7 +118,7 @@
           "TITLE": "URL Callback",
           "SUBTITLE": "Anda harus mengkonfigurasi pesan URL callback di Twilio dengan URL yang disebutkan di sini."
         },
-        "SUBMIT_BUTTON": "Buat Channel Twillio",
+        "SUBMIT_BUTTON": "Buat Channel Twilio",
         "API": {
           "ERROR_MESSAGE": "Kami tidak dapat mengautentikasi kredensial Twilio, harap coba lagi"
         }
@@ -194,6 +194,7 @@
       "TITLE": "Kotak Masuk anda sudah siap!",
       "MESSAGE": "Anda sekarang dapat menangani pelanggan Anda melalui Channel baru Anda. Selamat mendukung ",
       "BUTTON_TEXT": "Pergi ke Kotak Masuk",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Anda telah berhasil menyelesaikan pembuatan channel website. Salin kode yang ditunjukkan di bawah ini dan tempelkan di website Anda. Saat pelanggan menggunakan live chat, percakapan tersebut secara otomatis akan muncul di kotak masuk Anda."
     },
     "REAUTH": "Otorisasi ulang",

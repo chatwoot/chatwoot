@@ -107,11 +107,23 @@ export default {
         this.contentAttributes,
         this.$t('CONVERSATION.NO_RESPONSE')
       );
-      let messageContent =
-        this.formatMessage(this.data.content, this.isATweet) +
-        botMessageContent;
 
-      return messageContent;
+      const {
+        email: { html_content: { full: fullHTMLContent } = {} } = {},
+      } = this.contentAttributes;
+
+      if (fullHTMLContent && this.isIncoming) {
+        let parsedContent = new DOMParser().parseFromString(
+          fullHTMLContent || '',
+          'text/html'
+        );
+        if (!parsedContent.getElementsByTagName('parsererror').length) {
+          return parsedContent.body.innerHTML;
+        }
+      }
+      return (
+        this.formatMessage(this.data.content, this.isATweet) + botMessageContent
+      );
     },
     contentAttributes() {
       return this.data.content_attributes || {};
@@ -131,7 +143,11 @@ export default {
       return `https://twitter.com/${screenName}`;
     },
     alignBubble() {
-      return !this.data.message_type ? 'left' : 'right';
+      const { message_type: messageType } = this.data;
+      if (messageType === MESSAGE_TYPE.ACTIVITY) {
+        return 'center';
+      }
+      return !messageType ? 'left' : 'right';
     },
     readableTime() {
       return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');

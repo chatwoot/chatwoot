@@ -107,6 +107,7 @@ export default {
             teamId,
           },
         });
+        this.$store.dispatch('teams/get');
       } catch (error) {
         this.showAlert(error.message);
       }

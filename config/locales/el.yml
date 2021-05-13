@@ -29,6 +29,11 @@ el:
       failed: Η εγγραφή απέτυχε
   reports:
     period: Περίοδος αναφοράς %{since} έως %{until}
+    agent_csv:
+      agent_name: Όνομα Πράκτορα
+      conversations_count: Αριθμός συνομιλιών
+      avg_first_response_time: Μέσος χρόνος πρώτης ανταπόκρισης (λεπτά)
+      avg_resolution_time: Μέσος χρόνος επίλυσης (λεπτά)
   notifications:
     notification_title:
       conversation_creation: "[Νέα συνομιλία] - #%{display_id} δημιουργήθηκε στο %{inbox_name}"
@@ -42,6 +47,7 @@ el:
       status:
         resolved: "Η συνομιλία έχει επιλυθεί από τον %{user_name}"
         open: "Έγινε επαναφορά της συνομιλίας από τον %{user_name}"
+        bot: "Η συνομιλία μεταφέρθηκε στο bot από τον/την %{user_name}"
         auto_resolved: "Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας"
       assignee:
         self_assigned: "Ο χρήστης %{user_name} ανέλαβε αυτήν την συνομιλία"

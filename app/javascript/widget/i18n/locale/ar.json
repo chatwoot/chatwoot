@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "متواجدون لخدمتك",
-    "OFFLINE": "نحن غير متصلين"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "عادة نقوم بالرد خلال بضع دقائق",
@@ -35,18 +35,19 @@
       "FULL_NAME": {
         "LABEL": "الاسم الكامل",
         "PLACEHOLDER": "الرجاء إدخال اسمك الكامل",
-        "ERROR": "Full Name is required"
+        "ERROR": "الاسم الكامل مطلوب"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "عنوان البريد الإلكتروني",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
+        "ERROR": "عنوان بريد إلكتروني غير صحيح"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "رسالة",
+        "PLACEHOLDER": "يرجى إدخال رسالتك",
+        "ERROR": "رسالة قصيرة جداً"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

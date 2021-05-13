@@ -19,12 +19,12 @@
           :menu-item="teamSection"
         />
         <sidebar-item
-          v-if="shouldShowInboxes"
+          v-if="shouldShowSidebarItem"
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
         <sidebar-item
-          v-if="shouldShowInboxes"
+          v-if="shouldShowSidebarItem"
           :key="labelSection.toState"
           :menu-item="labelSection"
         />
@@ -128,11 +128,11 @@ export default {
     currentRoute() {
       return this.$store.state.route.name;
     },
-    shouldShowInboxes() {
+    shouldShowSidebarItem() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
     shouldShowTeams() {
-      return this.shouldShowInboxes && this.teams.length;
+      return this.shouldShowSidebarItem && this.teams.length;
     },
     inboxSection() {
       return {

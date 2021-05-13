@@ -29,46 +29,57 @@
 
     &::before {
       right: 0;
-      top: 60%;
     }
   }
 
-  .multiselect__content .multiselect__option {
-    font-size: $font-size-small;
-    font-weight: $font-weight-normal;
+  .multiselect__content {
+    max-width: 100%;
 
-    &.multiselect__option--highlight {
-      background: var(--white);
-      color: var(--color-body);
-    }
+    .multiselect__option {
+      font-size: $font-size-small;
+      font-weight: $font-weight-normal;
 
-    &.multiselect__option--highlight:hover {
-      background: var(--w-50);
-      color: var(--color-body);
-
-      &::after {
-        background: var(--w-50);
-        color: var(--s-600);
+      span {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
       }
-    }
 
-    &.multiselect__option--highlight::after {
-      background: transparent;
-    }
-
-    &.multiselect__option--selected {
-      background: var(--w-400);
-      color: var(--white);
+      &.multiselect__option--highlight {
+        background: var(--white);
+        color: var(--color-body);
+      }
 
       &.multiselect__option--highlight:hover {
-        background: var(--w-600);
-        color: var(--white);
+        background: var(--w-50);
+        color: var(--color-body);
 
         &::after {
-          background: transparent;
+          background: var(--w-50);
+          color: var(--s-600);
+        }
+      }
+
+      &.multiselect__option--highlight::after {
+        background: transparent;
+      }
+
+      &.multiselect__option--selected {
+        background: var(--w-400);
+        color: var(--white);
+
+        &.multiselect__option--highlight:hover {
+          background: var(--w-600);
           color: var(--white);
 
-          &:hover {
+          &::after {
+            background: transparent;
+            color: var(--white);
+          }
+
+          &::after:hover {
             color: var(--color-body);
           }
         }
@@ -118,13 +129,14 @@
   }
 
   .multiselect__single {
+    @include text-ellipsis;
+    display: inline-block;
     margin-bottom: 0;
     padding: var(--space-slab) var(--space-one);
   }
 }
 
 .sidebar-labels-wrap {
-
   &.has-edited,
   &:hover {
     .multiselect {
@@ -146,7 +158,6 @@
     }
   }
 }
-
 
 .multiselect-wrap--small {
   $multiselect-height: 3.8rem;

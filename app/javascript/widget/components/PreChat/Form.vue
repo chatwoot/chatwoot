@@ -37,7 +37,7 @@
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
       :error="$v.message.$error ? $t('PRE_CHAT_FORM.FIELDS.MESSAGE.ERROR') : ''"
     />
-    <woot-button
+    <custom-button
       class="font-medium"
       block
       :bg-color="widgetColor"
@@ -46,12 +46,12 @@
     >
       <spinner v-if="isCreating" class="p-0" />
       {{ $t('START_CONVERSATION') }}
-    </woot-button>
+    </custom-button>
   </form>
 </template>
 
 <script>
-import WootButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button';
 import FormInput from '../Form/Input';
 import FormTextArea from '../Form/TextArea';
 import Spinner from 'shared/components/Spinner';
@@ -62,7 +62,7 @@ export default {
   components: {
     FormInput,
     FormTextArea,
-    WootButton,
+    CustomButton,
     Spinner,
   },
   props: {

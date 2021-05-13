@@ -194,6 +194,7 @@
       "TITLE": "Votre boîte de réception est prête !",
       "MESSAGE": "Vous pouvez maintenant vous impliquer auprès de vos clients par le biais de votre nouveau canal. Bonne assistance ",
       "BUTTON_TEXT": "Emmenez-moi là",
+      "MORE_SETTINGS": "Plus de paramètres",
       "WEBSITE_SUCCESS": "Vous avez terminé avec succès la création d'un canal Web. Copiez le code affiché ci-dessous et collez-le sur votre site web. La prochaine fois qu'un client utilisera le chat en direct, la conversation apparaîtra automatiquement dans votre boîte de réception."
     },
     "REAUTH": "Réautoriser",

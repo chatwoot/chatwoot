@@ -3,6 +3,8 @@
     "LINK": "Налаштування облікового запису",
     "TITLE": "Налаштування облікового запису",
     "BTN_TEXT": "Оновити обліковий запис",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Ваш обліковий запис було успішно оновлено. Будь ласка, увійдіть знову, оскільки ваші дані були змінені",
     "FORM": {
       "AVATAR": "Зображення облікового запису",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
-        "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях."
+        "NOTE": "Оновлення вашого пароля призведе до скидання ваших записів про вхід на інших пристроях.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Ключ доступу",
         "NOTE": "Цей ключ можна використовувати, якщо ви створюєте API-інтеграцію"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Сповіщення електронною поштою",

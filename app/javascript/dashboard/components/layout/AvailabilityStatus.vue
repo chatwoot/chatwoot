@@ -170,6 +170,7 @@ export default {
 .status-change {
   .dropdown-pane {
     top: -132px;
+    right: var(--space-normal);
   }
 
   .status-items {

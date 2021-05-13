@@ -16,7 +16,7 @@
 #'true': 'foo'
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
-zh-CN:
+zh_CN:
   hello: "您好世界"
   messages:
     reset_password_success: 哇！密码重置请求成功。请检查您的邮件获取说明。
@@ -29,6 +29,11 @@ zh-CN:
       failed: 注册失败
   reports:
     period: Reporting period %{since} to %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
       conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
@@ -42,6 +47,7 @@ zh-CN:
       status:
         resolved: "对话被标记由 %{user_name} 解决"
         open: "对话被 %{user_name} 重新打开"
+        bot: "Conversation was transferred to bot by %{user_name}"
         auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
       assignee:
         self_assigned: "%{user_name} self-assigned this conversation"
