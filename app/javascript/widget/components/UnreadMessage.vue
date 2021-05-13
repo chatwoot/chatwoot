@@ -71,7 +71,7 @@ export default {
 
 .chat-bubble {
   max-width: 85%;
-  padding: 1rem 1rem;
+  padding: $space-normal $space-normal;
 }
 .chat-bubble .message-content::v-deep pre {
   background: $color-primary-light;
