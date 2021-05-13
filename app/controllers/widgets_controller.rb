@@ -8,6 +8,19 @@ class WidgetsController < ActionController::Base
 
   private
 
+  def show
+    respond_to do |format|
+      format.html { render :show }
+      format.json do
+        render json: {
+          web_widget: @web_widget,
+          token: @token,
+          contact: @contact
+        }
+      end
+    end
+  end
+
   def set_global_config
     @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL')
   end
