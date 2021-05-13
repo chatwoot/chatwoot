@@ -12,39 +12,41 @@
         v-if="totalCount"
         class="primary button-group pagination-button-group"
       >
-        <button
-          class="button small goto-first"
-          :class="firstPageButtonClass"
+        <woot-button
+          size="small"
+          class-names="goto-first"
+          :is-disabled="hasFirstPage"
           @click="onFirstPage"
         >
           <i class="ion-chevron-left" />
           <i class="ion-chevron-left" />
-        </button>
-        <button
-          class="button small"
-          :class="prevPageButtonClass"
+        </woot-button>
+        <woot-button
+          size="small"
+          :is-disabled="hasPrevPage"
           @click="onPrevPage"
         >
           <i class="ion-chevron-left" />
-        </button>
-        <button class="button" @click.prevent>
+        </woot-button>
+        <woot-button @click.prevent>
           {{ currentPage }}
-        </button>
-        <button
-          class="button small"
-          :class="nextPageButtonClass"
+        </woot-button>
+        <woot-button
+          size="small"
+          :is-disabled="hasNextPage"
           @click="onNextPage"
         >
           <i class="ion-chevron-right" />
-        </button>
-        <button
-          class="button small goto-last"
-          :class="lastPageButtonClass"
+        </woot-button>
+        <woot-button
+          size="small"
+          class-names="goto-last"
+          :is-disabled="hasLastPage"
           @click="onLastPage"
         >
           <i class="ion-chevron-right" />
           <i class="ion-chevron-right" />
-        </button>
+        </woot-button>
       </div>
     </div>
   </footer>
@@ -91,34 +93,18 @@ export default {
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
       return isDisabled;
     },
-    lastPageButtonClass() {
-      const className = this.hasLastPage ? 'disabled' : '';
-      return className;
-    },
     hasFirstPage() {
       const isDisabled = this.currentPage === 1;
       return isDisabled;
-    },
-    firstPageButtonClass() {
-      const className = this.hasFirstPage ? 'disabled' : '';
-      return className;
     },
     hasNextPage() {
       const isDisabled =
         this.currentPage === Math.ceil(this.totalCount / this.pageSize);
       return isDisabled;
     },
-    nextPageButtonClass() {
-      const className = this.hasNextPage ? 'disabled' : '';
-      return className;
-    },
     hasPrevPage() {
       const isDisabled = this.currentPage === 1;
       return isDisabled;
-    },
-    prevPageButtonClass() {
-      const className = this.hasPrevPage ? 'disabled' : '';
-      return className;
     },
   },
   methods: {

@@ -2,12 +2,11 @@ get:
   tags:
     - Contact
   operationId: contactList
-  description: Listing all the contacts with pagination
+  description: Listing all the contacts with pagination (Page size = 15)
   summary: List Contacts
   parameters:
-    - name: query_hash
-      in: query
-      type: string
+    - $ref: '#/parameters/contact_sort_param'
+    - $ref: '#/parameters/page'
   responses:
     200:
       description: Success

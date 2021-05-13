@@ -1,5 +1,5 @@
 {
-  "swagger": 2.0,
+  "swagger": "2.0",
   "info": {
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
@@ -53,6 +53,30 @@
   ],
   "paths": {
     "/accounts/{account_id}/inboxes": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "listAllInboxes",
+        "summary": "List all inboxes",
+        "description": "List all inboxes available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/inboxes/": {
       "post": {
         "tags": [
           "Inbox"
@@ -329,6 +353,9 @@
             "items": {
               "type": "string"
             }
+          },
+          {
+            "$ref": "#/parameters/account_id"
           }
         ],
         "responses": {
@@ -353,7 +380,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Create conversation",
+        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
             "userApiKey": [
@@ -368,6 +395,9 @@
         ],
         "parameters": [
           {
+            "$ref": "#/parameters/account_id"
+          },
+          {
             "name": "data",
             "in": "body",
             "required": true,
@@ -375,8 +405,15 @@
               "type": "object",
               "properties": {
                 "source_id": {
+                  "$ref": "#/parameters/source_id"
+                },
+                "inbox_id": {
                   "type": "string",
-                  "description": "Contact Source Id"
+                  "description": "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
+                },
+                "contact_id": {
+                  "type": "string",
+                  "description": "Contact Id for which conversation is created"
                 },
                 "additional_attributes": {
                   "type": "object",
@@ -413,23 +450,22 @@
         }
       }
     },
-    "/accounts/{account_id}/conversations/{id}": {
+    "/accounts/{account_id}/conversations/{converstion_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
       "get": {
         "tags": [
           "Conversation"
         ],
-        "operationId": "conversationDetails",
+        "operationId": "get-details-of-a-conversation",
         "summary": "Conversation Details",
         "description": "Get all details regarding a conversation with all messages in the conversation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of Conversation",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -446,12 +482,20 @@
         }
       }
     },
-    "/accounts/{account_id}/conversations/{id}/toggle_status": {
+    "/accounts/{account_id}/conversations/{conversation_id}/toggle_status": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
       "post": {
         "tags": [
           "Conversation"
         ],
-        "operationId": "conversationToggleStatus",
+        "operationId": "toggle-status-of-a-conversation",
         "summary": "Toggle Status",
         "description": "Toggles the status of the conversation between open and resolved",
         "security": [
@@ -467,13 +511,6 @@
           }
         ],
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -505,33 +542,77 @@
           "404": {
             "description": "Conversation not found"
           },
-          "403": {
-            "description": "Access denied"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
     "/accounts/{account_id}/conversations/{id}/messages": {
-      "get": {
+      "post": {
         "tags": [
           "Messages"
         ],
-        "operationId": "listAllMessages",
-        "summary": "Get messages",
-        "description": "List all messages of a conversation",
+        "operationId": "conversationNewMessageAttachment",
+        "summary": "Create New Message Attachment",
+        "description": "Create an attachment Message",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "$ref": "#/parameters/conversation_id"
+          },
+          {
+            "in": "formData",
+            "name": "content",
+            "type": "string",
+            "description": "The content of the message",
             "required": true
+          },
+          {
+            "in": "formData",
+            "name": "message_type",
+            "type": "string",
+            "enum": [
+              "outgoing",
+              "incoming"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "private",
+            "type": "boolean",
+            "description": "Flag to identify if it is a private note"
+          },
+          {
+            "in": "formData",
+            "name": "attachments",
+            "type": "array",
+            "description": "The files to be uploaded.",
+            "items": {
+              "type": "file"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Array of messages",
-            "type": "array",
+            "description": "Success",
             "schema": {
               "allOf": [
                 {
@@ -550,14 +631,54 @@
             "description": "Access denied"
           }
         }
+      }
+    },
+    "/accounts/{account_id}/conversations/{converstion_id}/messages": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "list-all-messages",
+        "summary": "Get messages",
+        "description": "List all messages of a conversation",
+        "responses": {
+          "200": {
+            "description": "Array of messages",
+            "type": "array",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       },
       "post": {
         "tags": [
           "Messages"
         ],
-        "operationId": "conversationNewMessage",
+        "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "All the agent replies are created as new messages through this endpoint",
+        "description": "Create a new message in the conversation",
         "security": [
           {
             "userApiKey": [
@@ -571,13 +692,6 @@
           }
         ],
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -610,23 +724,54 @@
         }
       }
     },
-    "/accounts/{account_id}/conversations/{id}/labels": {
+    "/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        },
+        {
+          "$ref": "#/parameters/message_id"
+        }
+      ],
+      "delete": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "delete-a-message",
+        "summary": "Delete a message",
+        "description": "Delete a message and it's attachments from the conversation.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The message or conversation does not exist in the account"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/conversations/{conversation_id}/labels": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
       "get": {
         "tags": [
-          "ConversationLabels"
+          "Conversation Labels"
         ],
-        "operationId": "conversationLabelsList",
+        "operationId": "list-all-labels-of-a-conversation",
         "summary": "List Labels",
         "description": "Lists all the labels of a conversation",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -637,26 +782,19 @@
           "404": {
             "description": "Conversation not found"
           },
-          "403": {
-            "description": "Access denied"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       },
       "post": {
         "tags": [
-          "ConversationLabels"
+          "Conversation Labels"
         ],
-        "operationId": "conversationAddLabels",
+        "operationId": "conversation-add-labels",
         "summary": "Add Labels",
-        "description": "Creates new labels and associates it with the conversation",
+        "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "ID of the conversation",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -666,7 +804,7 @@
               "properties": {
                 "labels": {
                   "type": "array",
-                  "description": "Array of labels",
+                  "description": "Array of labels (comma-separated strings)",
                   "properties": {
                     "type": "string"
                   }
@@ -685,28 +823,29 @@
           "404": {
             "description": "Conversation not found"
           },
-          "403": {
-            "description": "Access denied"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
     },
-    "/accounts/{account_id}/conversations/{id}/assignments": {
+    "/accounts/{account_id}/conversations/{conversation_id}/assignments": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
       "post": {
         "tags": [
-          "ConversationAssignment"
+          "Conversation Assignment"
         ],
-        "operationId": "conversationAssignment",
+        "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
-        "description": "Assign a conversation to an agent",
+        "description": "Assign a conversation to an agent or a team",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "type": "number",
-            "description": "id of the conversation",
-            "required": true
-          },
           {
             "name": "data",
             "in": "body",
@@ -715,7 +854,12 @@
               "type": "object",
               "properties": {
                 "assignee_id": {
-                  "type": "number"
+                  "type": "number",
+                  "description": "Id of the assignee user"
+                },
+                "team_id": {
+                  "type": "number",
+                  "description": "Id of the team. If the assignee_id is present, this param would be ignored"
                 }
               }
             }
@@ -731,8 +875,8 @@
           "404": {
             "description": "Conversation not found"
           },
-          "403": {
-            "description": "Access denied"
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
@@ -743,13 +887,14 @@
           "Contact"
         ],
         "operationId": "contactList",
-        "description": "Listing all the contacts with pagination",
+        "description": "Listing all the contacts with pagination (Page size = 15)",
         "summary": "List Contacts",
         "parameters": [
           {
-            "name": "query_hash",
-            "in": "query",
-            "type": "string"
+            "$ref": "#/parameters/contact_sort_param"
+          },
+          {
+            "$ref": "#/parameters/page"
           }
         ],
         "responses": {
@@ -908,13 +1053,19 @@
           "Contact"
         ],
         "operationId": "contactSearch",
-        "description": "Search the contacts using a search key, currently supports email search",
+        "description": "Search the contacts using a search key, currently supports email search (Page size = 15)",
         "summary": "Search Contacts",
         "parameters": [
           {
             "name": "q",
             "in": "query",
             "type": "string"
+          },
+          {
+            "$ref": "#/parameters/contact_sort_param"
+          },
+          {
+            "$ref": "#/parameters/page"
           }
         ],
         "responses": {
@@ -958,6 +1109,9 @@
                   "type": "number",
                   "description": "The id of the inbox",
                   "required": true
+                },
+                "source_id": {
+                  "$ref": "#/parameters/source_id"
                 }
               }
             }
@@ -968,6 +1122,33 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/contact_inboxes"
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          },
+          "422": {
+            "description": "Incorrect payload"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactableInboxesGet",
+        "description": "Get List of contactable Inboxes",
+        "summary": "Get Contactable Inboxes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contactable_inboxes"
             }
           },
           "401": {
@@ -999,6 +1180,144 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/teams": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "list-all-teams",
+        "summary": "List all teams",
+        "description": "List all teams available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "create-a-team",
+        "summary": "Create a team",
+        "description": "Create a team in the account",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/team_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/teams/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/team_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "get-details-of-a-single-team",
+        "summary": "Get a team details",
+        "description": "Get the details of a team in the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given team id does not exist in the account"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "update-a-team",
+        "summary": "Update a team",
+        "description": "Update a team's attributes",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/team_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/team"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Teams"
+        ],
+        "operationId": "delete-a-team",
+        "summary": "Delete a team",
+        "description": "Delete a team from the account",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The team does not exist in the account"
           }
         }
       }
@@ -1305,6 +1624,18 @@
         }
       }
     },
+    "contactable_inboxes": {
+      "type": "object",
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Contact Inbox Source Id"
+        },
+        "inbox": {
+          "$ref": "#/definitions/inbox"
+        }
+      }
+    },
     "account": {
       "type": "object",
       "properties": {
@@ -1323,6 +1654,35 @@
             "agent"
           ],
           "description": "The user role in the account"
+        }
+      }
+    },
+    "team": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "description": "The id of the team"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the team"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the team"
+        },
+        "allow_auto_assign": {
+          "type": "boolean",
+          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        },
+        "account_id": {
+          "type": "number",
+          "description": "The id of the account with the team is a part of"
+        },
+        "is_member": {
+          "type": "boolean",
+          "description": "This field shows whether the current user is a part of the team"
         }
       }
     },
@@ -1671,6 +2031,94 @@
           "description": "attributes based on your content type"
         }
       }
+    },
+    "team_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the team"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the team"
+        },
+        "allow_auto_assign": {
+          "type": "boolean",
+          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        }
+      }
+    }
+  },
+  "parameters": {
+    "account_id": {
+      "in": "path",
+      "name": "account_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The numeric ID of the account"
+    },
+    "team_id": {
+      "in": "path",
+      "name": "id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The id of the team to be updated"
+    },
+    "source_id": {
+      "type": "string",
+      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+    },
+    "conversation_id": {
+      "in": "path",
+      "name": "conversation_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The numeric ID of the conversation"
+    },
+    "message_id": {
+      "in": "path",
+      "name": "message_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The numeric ID of the message"
+    },
+    "contact_sort_param": {
+      "in": "query",
+      "name": "sort",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "name",
+          "email",
+          "phone_number",
+          "last_activity_at",
+          "-name",
+          "-email",
+          "-phone_number",
+          "-last_activity_at"
+        ]
+      },
+      "required": false,
+      "description": "The attribute by which list should be sorted"
+    },
+    "page": {
+      "in": "query",
+      "name": "page",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "The page parameter"
     }
   }
 }

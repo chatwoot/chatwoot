@@ -6,7 +6,7 @@
     <div class="footer">
       <div class="meta">
         <div :title="userName">
-          <Thumbnail :src="thumbnail" :username="userName" size="16" />
+          <Thumbnail :src="thumbnail" :username="userName" size="16px" />
         </div>
         <div class="date-wrap">
           <span>{{ readableTime }}</span>
@@ -50,6 +50,10 @@ export default {
   mixins: [timeMixin],
 
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     note: {
       type: String,
       default: '',
@@ -76,10 +80,10 @@ export default {
 
   methods: {
     onEdit() {
-      this.$emit('edit');
+      this.$emit('edit', this.id);
     },
     onDelete() {
-      this.$emit('delete');
+      this.$emit('delete', this.id);
     },
   },
 };
@@ -90,6 +94,7 @@ export default {
   padding: var(--space-small);
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius-small);
+  margin-bottom: var(--space-smaller);
 
   .text {
     padding-bottom: var(--space-small);

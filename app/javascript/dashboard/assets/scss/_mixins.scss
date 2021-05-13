@@ -236,3 +236,11 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin three-column-grid($column-one-width: 25.6rem,
+  $column-three-width: 25.6rem) {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax($column-one-width, 6fr) 10fr minmax($column-three-width, 6fr);
+}

@@ -148,6 +148,7 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index]
 
       namespace :widget do
+        resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
