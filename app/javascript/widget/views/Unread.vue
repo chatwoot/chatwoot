@@ -11,10 +11,12 @@
       </button>
     </div>
     <div class="unread-messages">
-      <agent-bubble
-        v-for="message in unreadMessages"
+      <unread-message
+        v-for="(message, index) in unreadMessages"
         :key="message.id"
         :message-id="message.id"
+        :show-sender="index === 0"
+        :sender="message.sender"
         :message="getMessageContent(message)"
       />
     </div>
@@ -33,14 +35,14 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import AgentBubble from 'widget/components/AgentMessageBubble.vue';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Unread',
   components: {
-    AgentBubble,
+    UnreadMessage,
   },
   mixins: [configMixin],
   props: {
