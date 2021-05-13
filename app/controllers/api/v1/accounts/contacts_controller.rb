@@ -1,4 +1,11 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  include Sift
+
+  sort_on :email, type: :string
+  sort_on :name, type: :string
+  sort_on :phone_number, type: :string
+  sort_on :last_activity_at, type: :datetime
+
   RESULTS_PER_PAGE = 15
   protect_from_forgery with: :null_session
 
@@ -68,7 +75,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts ||= Current.account.contacts
                                   .where.not(email: [nil, ''])
                                   .or(Current.account.contacts.where.not(phone_number: [nil, '']))
-                                  .order('LOWER(name)')
   end
 
   def set_current_page
@@ -76,11 +82,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def fetch_contact_last_seen_at(contacts)
-    contacts.left_outer_joins(:conversations)
-            .select('contacts.*, COUNT(conversations.id) as conversations_count, MAX(conversations.contact_last_seen_at) as last_seen_at')
-            .group('contacts.id')
-            .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
-            .page(@current_page).per(RESULTS_PER_PAGE)
+    filtrate(contacts).left_outer_joins(:conversations)
+                      .select('contacts.*, COUNT(conversations.id) as conversations_count')
+                      .group('contacts.id')
+                      .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
+                      .page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def build_contact_inbox

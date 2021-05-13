@@ -6,9 +6,13 @@ const { getters } = Contacts;
 describe('#getters', () => {
   it('getContacts', () => {
     const state = {
-      records: { 1: contactList[0] },
+      records: { 1: contactList[0], 3: contactList[2] },
+      sortOrder: [3, 1],
     };
-    expect(getters.getContacts(state)).toEqual([contactList[0]]);
+    expect(getters.getContacts(state)).toEqual([
+      contactList[2],
+      contactList[0],
+    ]);
   });
 
   it('getContact', () => {
