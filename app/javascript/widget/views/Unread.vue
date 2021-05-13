@@ -10,13 +10,13 @@
         {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
       </button>
     </div>
+
     <div class="unread-messages">
+      <message-sender :sender="sender" />
       <unread-message
-        v-for="(message, index) in unreadMessages"
+        v-for="message in unreadMessages"
         :key="message.id"
         :message-id="message.id"
-        :show-sender="index === 0"
-        :sender="message.sender"
         :message="getMessageContent(message)"
       />
     </div>
@@ -36,6 +36,8 @@
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
+import MessageSender from 'widget/components/MessageSender.vue';
+
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
 
@@ -43,6 +45,7 @@ export default {
   name: 'Unread',
   components: {
     UnreadMessage,
+    MessageSender,
   },
   mixins: [configMixin],
   props: {
@@ -65,6 +68,10 @@ export default {
     }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
+    },
+    sender() {
+      const [firstMessage] = this.unreadMessages;
+      return firstMessage.sender ? firstMessage.sender : {};
     },
   },
   methods: {
@@ -159,7 +166,7 @@ export default {
   overflow-y: auto;
 
   .chat-bubble-wrap {
-    margin-bottom: $space-smaller;
+    margin-right: $space-large;
 
     &:first-child {
       margin-top: auto;
@@ -184,6 +191,8 @@ export default {
   overflow: hidden;
 
   .chat-bubble-wrap {
+    margin-left: $space-large;
+
     .chat-bubble {
       border-radius: $space-two;
       border-bottom-right-radius: $space-smaller;
