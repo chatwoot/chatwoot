@@ -1,7 +1,7 @@
 <template>
-  <div class="note-wrap">
+  <div class="item-wrap">
     <div class="radio-button">
-      <input type="radio" />
+      <input :checked="isCompleted" type="radio" />
     </div>
     <div class="wrap">
       <div class="text">
@@ -57,6 +57,10 @@ export default {
       type: String,
       default: '',
     },
+    isCompleted: {
+      type: Boolean,
+      default: false,
+    },
     date: {
       type: Number,
       default: 0,
@@ -79,7 +83,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.note-wrap {
+.item-wrap {
   display: flex;
   margin-bottom: var(--space-smaller);
 
@@ -147,7 +151,7 @@ export default {
   display: none;
 }
 
-.note-wrap:hover {
+.item-wrap:hover {
   .actions {
     display: flex;
 

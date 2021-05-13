@@ -1,15 +1,25 @@
 import { action } from '@storybook/addon-actions';
-import ReminderList from './ReminderList';
+import ReminderItem from './ReminderItem';
 
 export default {
-  title: 'Components/Reminder/List',
-  component: ReminderList,
+  title: 'Components/Reminder/Item',
+  component: ReminderItem,
   argTypes: {
+    id: {
+      control: {
+        type: 'number',
+      },
+    },
     text: {
       defaultValue:
         'A copy and paste musical notes symbols & music symbols collection for easy access.',
       control: {
         type: 'text',
+      },
+    },
+    isCompleted: {
+      control: {
+        type: 'boolean',
       },
     },
     date: {
@@ -29,13 +39,13 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { ReminderList },
+  components: { ReminderItem },
   template:
-    '<reminder-list v-bind="$props" @edit="onEdit" @delete="onDelete"></reminder-list>',
+    '<reminder-item v-bind="$props" @edit="onEdit" @delete="onDelete"></reminder-item>',
 });
 
-export const List = Template.bind({});
-List.args = {
+export const Item = Template.bind({});
+Item.args = {
   onEdit: action('Edit'),
   onDelete: action('Delete'),
 };
