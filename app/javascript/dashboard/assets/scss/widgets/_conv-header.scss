@@ -70,11 +70,11 @@ $resolve-button-width: 13.2rem;
 
 
 .header-actions-wrap {
+  align-items: center;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   justify-content: flex-end;
-  align-items: center;
 
   &.has-open-sidebar {
     justify-content: flex-end;
