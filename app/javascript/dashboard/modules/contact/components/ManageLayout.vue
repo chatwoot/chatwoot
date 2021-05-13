@@ -1,6 +1,8 @@
 <template>
   <div class="wrap">
-    <div class="left"></div>
+    <div class="left">
+      <contact-panel v-if="!uiFlags.isFetchingItem" :contact="contact" />
+    </div>
     <div class="center"></div>
     <div class="right"></div>
   </div>
@@ -8,9 +10,12 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import ContactPanel from './ContactPanel';
 
 export default {
-  components: {},
+  components: {
+    ContactPanel,
+  },
   props: {
     contactId: {
       type: [String, Number],
@@ -28,9 +33,20 @@ export default {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
       return hasEmptyResults;
     },
+    contact() {
+      return this.$store.getters['contacts/getContact'](this.contactId);
+    },
   },
-  mounted() {},
-  methods: {},
+  mounted() {
+    this.getContactDetails();
+  },
+  methods: {
+    getContactDetails() {
+      if (this.contactId) {
+        this.$store.dispatch('contacts/show', { id: this.contactId });
+      }
+    },
+  },
 };
 </script>
 
