@@ -1,6 +1,6 @@
 tags:
   - Teams
-operationId: delete-a-team,
+operationId: delete-a-team
 summary: Delete a team
 description: Delete a team from the account
 responses:

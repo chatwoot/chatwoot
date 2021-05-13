@@ -1,0 +1,47 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CICD  
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ develop ]
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: docker login
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+      - name: build rails
+        run: |
+          docker build -f ./docker/dockerfiles/rails.Dockerfile -t $DOCKER_USER/chatwoot-rails:1.0 .
+
+      - name: build webpack
+        run: |
+          docker build -f ./docker/dockerfiles/webpack.Dockerfile -t $DOCKER_USER/chatwoot-webpack:1.0 .
+
+      # Runs a single command using the runners shell
+      - name: build base
+        run: |
+          docker build -f ./docker/Dockerfile -t $DOCKER_USER/chatwoot-base:1.0 .
+
+      - name: docker push
+        run: |
+          docker push $DOCKER_USER/chatwoot-rails:1.0
+          docker push $DOCKER_USER/chatwoot-webpack:1.0
+          docker push $DOCKER_USER/chatwoot-base:1.0
