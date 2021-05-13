@@ -27,11 +27,6 @@
     justify-content: center;
   }
 
-  &.link {
-    padding: 0;
-    margin: 0;
-  }
-
   &.round {
     border-radius: $space-larger;
   }
@@ -46,25 +41,26 @@
   // Smooth style
   &.smooth {
     @include button-style(var(--w-100), var(--w-50), var(--w-700));
+
+
+    &.secondary {
+      @include button-style(var(--s-100), var(--s-50), var(--s-700));
+    }
+
+    &.success {
+      @include button-style(var(--g-100), var(--g-50), var(--g-700));
+    }
+
+    &.alert {
+      @include button-style(var(--r-100), var(--r-50), var(--r-700));
+    }
+
+    &.warning {
+      @include button-style(var(--y-200), var(--y-100), var(--y-900));
+    }
   }
 
-  &.smooth.secondary {
-    @include button-style(var(--s-100), var(--s-50), var(--s-700));
-  }
-
-  &.smooth.success {
-    @include button-style(var(--g-100), var(--g-50), var(--g-700));
-  }
-
-  &.smooth.alert {
-    @include button-style(var(--r-100), var(--r-50), var(--r-700));
-  }
-
-  &.smooth.warning {
-    @include button-style(var(--y-200), var(--y-100), var(--y-900));
-  }
-
-  // Sizes 
+  // Sizes
   &.tiny {
     height: var(--space-medium);
   }
@@ -76,6 +72,13 @@
   &.large {
     height: var(--space-larger);
   }
+
+  &.link {
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
 
 }
 

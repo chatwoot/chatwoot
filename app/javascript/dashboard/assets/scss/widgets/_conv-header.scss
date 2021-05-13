@@ -6,7 +6,7 @@ $resolve-button-width: 13.2rem;
   @include flex;
   @include flex-align($x: justify, $y: middle);
   @include border-normal-bottom;
-  padding: --var(space-small) var(--space-normal);
+  padding: var(--space-small) var(--space-normal);
 
   .multiselect-box {
     @include flex;
@@ -74,6 +74,7 @@ $resolve-button-width: 13.2rem;
   flex-direction: row;
   flex-grow: 1;
   justify-content: flex-end;
+  align-items: center;
 
   &.has-open-sidebar {
     justify-content: flex-end;
