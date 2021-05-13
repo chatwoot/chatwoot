@@ -3,9 +3,11 @@ class MessageTemplates::HookExecutionService
 
   def perform
     return if inbox.agent_bot_inbox&.active?
+    return if conversation.campaign.present?
 
     # TODO: let's see whether this is needed and remove this and related logic if not
     # ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
+
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if should_send_email_collect?
   end

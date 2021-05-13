@@ -9,9 +9,9 @@ import conversationLabels from 'widget/store/modules/conversationLabels';
 import events from 'widget/store/modules/events';
 import globalConfig from 'shared/store/globalConfig';
 import message from 'widget/store/modules/message';
+import campaign from 'widget/store/modules/campaign';
 
 Vue.use(Vuex);
-
 export default new Vuex.Store({
   modules: {
     agent,
@@ -23,5 +23,6 @@ export default new Vuex.Store({
     events,
     globalConfig,
     message,
+    campaign,
   },
 });

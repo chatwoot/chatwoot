@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_28_151147) do
+ActiveRecord::Schema.define(version: 2021_04_30_100138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 2021_04_28_151147) do
     t.integer "display_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.text "content", null: false
+    t.text "message", null: false
     t.integer "sender_id"
     t.boolean "enabled", default: true
     t.bigint "account_id", null: false
@@ -338,12 +338,12 @@ ActiveRecord::Schema.define(version: 2021_04_28_151147) do
     t.integer "inbox_id"
     t.integer "account_id"
     t.string "app_id"
-    t.text "settings"
     t.integer "hook_type", default: 0
     t.string "reference_id"
     t.string "access_token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.jsonb "settings", default: {}
   end
 
   create_table "kbase_articles", force: :cascade do |t|

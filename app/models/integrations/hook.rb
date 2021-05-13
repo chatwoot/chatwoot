@@ -5,7 +5,7 @@
 #  id           :bigint           not null, primary key
 #  access_token :string
 #  hook_type    :integer          default("account")
-#  settings     :text
+#  settings     :jsonb
 #  status       :integer          default("disabled")
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
