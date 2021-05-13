@@ -25,7 +25,7 @@ export default {
 .button-wrap {
   padding: var(--space-micro) var(--space-small);
   display: inline;
-  line-height: 1.4rem;
+  line-height: 1.2;
 
   &::v-deep .icon {
     font-size: var(--font-size-mini);
