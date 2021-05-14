@@ -2,7 +2,7 @@ import {
   stripTrailingSlash,
   formatCampaigns,
   filterCampaigns,
-} from '../campaignHelper';
+} from '../campaignTimer';
 import campaigns from './camapginFixtures';
 describe('#Campagin Helper', () => {
   describe('stripTrailingSlash', () => {

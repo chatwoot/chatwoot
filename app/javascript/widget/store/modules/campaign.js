@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import { getCampaigns } from 'widget/api/campaign';
-import { startCampaigns } from 'widget/helpers/camapginTimer';
+import campaignTimer from 'widget/helpers/campaignTimer';
+import {
+  formatCampaigns,
+  filterCampaigns,
+} from 'widget/helpers/campaignHelper';
 
 const state = {
   records: [],
@@ -17,7 +21,20 @@ export const getters = {
 
 export const actions = {
   initCampaigns: async (_, { allCampaigns, currentURL }) => {
-    startCampaigns({ allCampaigns, currentURL });
+    const formattedCampaigns = formatCampaigns({
+      campagins: allCampaigns,
+    });
+    // Find all campaigns that matches the current URL
+    const filteredCampaigns = filterCampaigns({
+      campagins: formattedCampaigns,
+      currentURL,
+    });
+
+    const campaign = campaignTimer.init({
+      allCampaigns: filteredCampaigns,
+      currentURL,
+    });
+    campaign.initTimer();
   },
   fetchCampaigns: async (
     { commit, dispatch },
