@@ -5,7 +5,7 @@ const stripTrailingSlash = ({ URL }) => {
   return URL.replace(/\/$/, '');
 };
 
-const startCampaigns = async ({ allCampaigns, currentURL }) => {
+export const startCampaigns = async ({ allCampaigns, currentURL }) => {
   // Clear all campaign timers
   window.campaignTimers.forEach(timerId => {
     clearTimeout(timerId);
@@ -32,10 +32,8 @@ const startCampaigns = async ({ allCampaigns, currentURL }) => {
       id: campaignId,
     } = campaign;
     const timeoutID = setTimeout(async () => {
-      await triggerCampaign({ campaignId });
+      triggerCampaign({ campaignId });
     }, timeOnPage * 1000);
     window.campaignTimers.push(timeoutID);
   });
 };
-
-export { startCampaigns };
