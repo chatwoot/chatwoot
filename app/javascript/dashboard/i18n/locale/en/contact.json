@@ -170,5 +170,14 @@
     "FOOTER": {
       "BUTTON": "View all notes"
     }
+  },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
   }
 }
