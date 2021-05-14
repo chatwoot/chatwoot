@@ -1,39 +1,23 @@
-import { triggerCampaign } from 'widget/api/campaign';
-window.campaignTimers = [];
-
-const stripTrailingSlash = ({ URL }) => {
+export const stripTrailingSlash = ({ URL }) => {
   return URL.replace(/\/$/, '');
 };
 
-export const startCampaigns = async ({ allCampaigns, currentURL }) => {
-  // Clear all campaign timers
-  window.campaignTimers.forEach(timerId => {
-    clearTimeout(timerId);
+// Format all campaigns
+export const formatCampaigns = ({ campagins }) => {
+  return campagins.map(item => {
+    return {
+      id: item.id,
+      timeOnPage: item?.trigger_rules?.time_on_page,
+      url: item?.trigger_rules?.url,
+    };
   });
-  // Find all campaigns that matches the current URL
-  const filteredCampaigns = allCampaigns
-    .map(item => {
-      return {
-        ...item,
-        timeOnpage: item?.trigger_rules?.time_on_page,
-        url: item?.trigger_rules?.url,
-      };
-    })
-    .filter(item => {
-      return (
-        stripTrailingSlash({ URL: item.url }) ===
-        stripTrailingSlash({ URL: currentURL })
-      );
-    });
-  // Execute campaigns
-  filteredCampaigns.forEach(campaign => {
-    const {
-      trigger_rules: { time_on_page: timeOnPage },
-      id: campaignId,
-    } = campaign;
-    const timeoutID = setTimeout(async () => {
-      triggerCampaign({ campaignId });
-    }, timeOnPage * 1000);
-    window.campaignTimers.push(timeoutID);
-  });
+};
+
+// Find all campaigns that matches the current URL
+export const filterCampaigns = ({ campagins, currentURL }) => {
+  return campagins.filter(
+    item =>
+      stripTrailingSlash({ URL: item.url }) ===
+      stripTrailingSlash({ URL: currentURL })
+  );
 };

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { getCampaigns } from 'widget/api/campaign';
-import { startCampaigns } from 'widget/helpers/campaignHelper';
+import { startCampaigns } from 'widget/helpers/camapginTimer';
 
 const state = {
   records: [],
