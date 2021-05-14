@@ -74,7 +74,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['fetchCampaigns']),
+    ...mapActions('campaign', ['fetchCampaigns', 'initCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -189,7 +189,7 @@ export default {
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
         } else if (message.event === 'change-url') {
-          startCampaigns({
+          this.initCampaigns({
             allCampaigns: this.campaigns,
             currentURL: message.url,
           });
