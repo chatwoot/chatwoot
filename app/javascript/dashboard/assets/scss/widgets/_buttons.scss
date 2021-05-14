@@ -1,6 +1,6 @@
 .button {
   align-items: center;
-  display: flex;
+  display: inline-flex;
   height: 4.0rem;
   margin-bottom: 0;
 
@@ -20,6 +20,14 @@
     &:hover {
       background: var(--b-200);
     }
+  }
+
+  .spinner {
+    padding: 0 var(--space-small);
+  }
+
+  .icon+.button__content {
+    padding-left: var(--space-small);
   }
 
   &.expanded {

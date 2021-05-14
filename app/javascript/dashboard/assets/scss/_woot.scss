@@ -7,20 +7,22 @@
 @import 'shared/assets/stylesheets/border-radius';
 
 @import 'variables';
-@import 'mixins';
-@import 'typography';
 
+@import 'mixins';
+@import 'foundation-settings';
+@import 'helper-classes';
 
 @import 'foundation-sites/scss/foundation';
-@import 'foundation-settings';
-@import 'foundation-custom';
 @import '~bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);
 
-@import 'animations';
+
+@import 'typography';
 @import 'layout';
-@import 'helper-classes';
+@import 'animations';
+@import 'foundation-custom';
+
 @import 'widgets/buttons';
 @import 'widgets/conv-header';
 @import 'widgets/conversation-card';
