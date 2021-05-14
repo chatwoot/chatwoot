@@ -56,9 +56,12 @@ export default {
 .avatar-container {
   width: $space-large;
   margin-bottom: $space-small;
+  display: flex;
+  justify-content: flex-end;
 }
 .is-widget-right .avatar-container {
   flex-direction: row;
+  justify-content: flex-start;
 }
 
 .row--agent-block {
