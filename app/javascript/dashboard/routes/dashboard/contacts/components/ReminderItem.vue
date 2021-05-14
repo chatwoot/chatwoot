@@ -1,25 +1,27 @@
 <template>
-  <div class="item-wrap">
-    <div class="radio-button">
-      <input :checked="isCompleted" type="radio" />
+  <div class="reminder-wrap">
+    <div class="status-wrap">
+      <input :checked="isCompleted" @click="onClick" type="radio" />
     </div>
     <div class="wrap">
-      <div class="text">
+      <div class="content">
         {{ text }}
       </div>
       <div class="footer">
         <div class="meta">
-          <div class="date-wrap">
-            <i class="icon ion-android-calendar" />
-            <span class="date">
-              {{ date }}
-            </span>
-          </div>
-          <div class="label-wrap">
-            <div class="label-text">
-              {{ label }}
-            </div>
-          </div>
+          <woot-label
+            :title="date"
+            description="date"
+            bg-color="#f4f6fb"
+            icon="ion-android-calendar"
+            color-scheme="secondary"
+          />
+          <woot-label
+            :title="label"
+            description="label"
+            bg-color="#f4f6fb"
+            color-scheme="secondary"
+          />
         </div>
         <div class="actions">
           <woot-button
@@ -72,6 +74,9 @@ export default {
   },
 
   methods: {
+    onClick() {
+      this.$emit('completed', this.isCompleted);
+    },
     onEdit() {
       this.$emit('edit', this.id);
     },
@@ -83,18 +88,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item-wrap {
+.reminder-wrap {
   display: flex;
   margin-bottom: var(--space-smaller);
 
-  .radio-button {
+  .status-wrap {
     padding: var(--space-one) var(--space-smaller);
   }
 
   .wrap {
     padding: var(--space-one);
 
-    .text {
+    .content {
       padding-bottom: var(--space-small);
       font-size: var(--font-size-mini);
       color: var(--color-body);
@@ -107,41 +112,6 @@ export default {
       .meta {
         display: flex;
         margin-top: var(--space-smaller);
-
-        .date-wrap {
-          padding: var(--space-micro) var(--space-small);
-          border-radius: var(--border-radius-normal);
-          background: var(--color-background);
-          line-height: var(--space-one);
-          display: flex;
-          align-items: center;
-
-          .icon {
-            font-size: var(--font-size-small);
-            font-weight: var(--font-weight-bold);
-            color: var(--w-300);
-          }
-
-          .date {
-            font-size: var(--font-size-micro);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-body);
-            margin-left: var(--space-smaller);
-          }
-        }
-
-        .label-wrap {
-          margin-left: var(--space-one);
-
-          .label-text {
-            font-size: var(--font-size-micro);
-            color: var(--color-body);
-            padding: var(--space-micro) var(--space-small);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--border-radius-normal);
-            background: var(--color-background);
-          }
-        }
       }
     }
   }
@@ -151,7 +121,7 @@ export default {
   display: none;
 }
 
-.item-wrap:hover {
+.reminder-wrap:hover {
   .actions {
     display: flex;
 

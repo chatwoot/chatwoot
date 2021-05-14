@@ -41,11 +41,12 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ReminderItem },
   template:
-    '<reminder-item v-bind="$props" @edit="onEdit" @delete="onDelete"></reminder-item>',
+    '<reminder-item v-bind="$props" @completed="onClick" @edit="onEdit" @delete="onDelete"></reminder-item>',
 });
 
 export const Item = Template.bind({});
 Item.args = {
+  onClick: action('Marked'),
   onEdit: action('Edit'),
   onDelete: action('Delete'),
 };
