@@ -4,9 +4,10 @@ class CampaignTimer {
   constructor(allCampaigns) {
     this.campaignTimers = [];
     this.allCampaigns = allCampaigns;
+    this.initTimers();
   }
 
-  initTimer = () => {
+  initTimers = () => {
     this.clearTimers();
     this.allCampaigns.forEach(campaign => {
       const { timeOnPage, id: campaignId } = campaign;

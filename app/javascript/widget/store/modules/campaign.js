@@ -29,12 +29,10 @@ export const actions = {
       campagins: formattedCampaigns,
       currentURL,
     });
-
-    const campaign = campaignTimer.init({
+    campaignTimer.init({
       allCampaigns: filteredCampaigns,
       currentURL,
     });
-    campaign.initTimer();
   },
   fetchCampaigns: async (
     { commit, dispatch },
