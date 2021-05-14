@@ -10,15 +10,16 @@
         {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
       </button>
     </div>
-
-    <div class="unread-messages">
-      <message-sender :sender="sender" />
-      <unread-message
-        v-for="message in unreadMessages"
-        :key="message.id"
-        :message-id="message.id"
-        :message="getMessageContent(message)"
-      />
+    <div class="unread-messages-wrapper">
+      <div class="unread-messages">
+        <message-sender :sender="sender" />
+        <unread-message
+          v-for="message in unreadMessages"
+          :key="message.id"
+          :message-id="message.id"
+          :message="getMessageContent(message)"
+        />
+      </div>
     </div>
     <div>
       <button
@@ -100,7 +101,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~widget/assets/scss/variables';
-
+.unread-messages-wrapper {
+  display: flex;
+  justify-content: flex-start;
+}
+.is-widget-right .unread-messages-wrapper {
+  justify-content: flex-end;
+}
 .unread-wrap {
   width: 100%;
   height: 100%;
@@ -151,13 +158,39 @@ export default {
     text-align: left;
   }
 }
+
+.is-widget-right .unread-wrap {
+  text-align: right;
+  overflow: hidden;
+
+  .chat-bubble-wrap {
+    margin-left: $space-large;
+    margin-right: 0;
+    .chat-bubble {
+      border-radius: $space-two;
+      border-bottom-right-radius: $space-smaller;
+    }
+
+    + .chat-bubble-wrap {
+      .chat-bubble {
+        border-top-right-radius: $space-smaller;
+      }
+    }
+    &:last-child .chat-bubble {
+      border-bottom-right-radius: $space-two;
+    }
+  }
+
+  .close-unread-wrap {
+    text-align: right;
+  }
+}
 </style>
 
 <style lang="scss">
 @import '~widget/assets/scss/variables';
 
 .unread-messages {
-  width: 100%;
   margin-top: auto;
   padding-bottom: $space-small;
   display: flex;
@@ -184,33 +217,6 @@ export default {
     &:last-child .chat-bubble {
       border-bottom-left-radius: $space-two;
     }
-  }
-}
-
-.is-widget-right .unread-wrap {
-  text-align: right;
-  overflow: hidden;
-
-  .chat-bubble-wrap {
-    margin-left: $space-large;
-    margin-right: 0;
-    .chat-bubble {
-      border-radius: $space-two;
-      border-bottom-right-radius: $space-smaller;
-    }
-
-    + .chat-bubble-wrap {
-      .chat-bubble {
-        border-top-right-radius: $space-smaller;
-      }
-    }
-    &:last-child .chat-bubble {
-      border-bottom-right-radius: $space-two;
-    }
-  }
-
-  .close-unread-wrap {
-    text-align: right;
   }
 }
 </style>
