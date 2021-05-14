@@ -167,6 +167,7 @@ export default {
 
   .chat-bubble-wrap {
     margin-right: $space-large;
+    margin-left: 0;
 
     &:first-child {
       margin-top: auto;
@@ -192,7 +193,7 @@ export default {
 
   .chat-bubble-wrap {
     margin-left: $space-large;
-
+    margin-right: 0;
     .chat-bubble {
       border-radius: $space-two;
       border-bottom-right-radius: $space-smaller;
