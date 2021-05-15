@@ -53,6 +53,30 @@
   ],
   "paths": {
     "/accounts/{account_id}/inboxes": {
+      "get": {
+        "tags": [
+          "Inbox"
+        ],
+        "operationId": "listAllInboxes",
+        "summary": "List all inboxes",
+        "description": "List all inboxes available in the current account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/inbox"
+            }
+          },
+          "404": {
+            "description": "Inbox not found"
+          },
+          "403": {
+            "description": "Access denied"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/inboxes/": {
       "post": {
         "tags": [
           "Inbox"
@@ -356,7 +380,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Create conversation",
+        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
             "userApiKey": [
@@ -381,8 +405,15 @@
               "type": "object",
               "properties": {
                 "source_id": {
+                  "$ref": "#/parameters/source_id"
+                },
+                "inbox_id": {
                   "type": "string",
-                  "description": "Contact Source Id"
+                  "description": "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
+                },
+                "contact_id": {
+                  "type": "string",
+                  "description": "Contact Id for which conversation is created"
                 },
                 "additional_attributes": {
                   "type": "object",
@@ -513,6 +544,91 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/conversations/{id}/messages": {
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "operationId": "conversationNewMessageAttachment",
+        "summary": "Create New Message Attachment",
+        "description": "Create an attachment Message",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "$ref": "#/parameters/conversation_id"
+          },
+          {
+            "in": "formData",
+            "name": "content",
+            "type": "string",
+            "description": "The content of the message",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "message_type",
+            "type": "string",
+            "enum": [
+              "outgoing",
+              "incoming"
+            ]
+          },
+          {
+            "in": "formData",
+            "name": "private",
+            "type": "boolean",
+            "description": "Flag to identify if it is a private note"
+          },
+          {
+            "in": "formData",
+            "name": "attachments",
+            "type": "array",
+            "description": "The files to be uploaded.",
+            "items": {
+              "type": "file"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/generic_id"
+                },
+                {
+                  "$ref": "#/definitions/message"
+                }
+              ]
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "403": {
+            "description": "Access denied"
           }
         }
       }
@@ -771,13 +887,14 @@
           "Contact"
         ],
         "operationId": "contactList",
-        "description": "Listing all the contacts with pagination",
+        "description": "Listing all the contacts with pagination (Page size = 15)",
         "summary": "List Contacts",
         "parameters": [
           {
-            "name": "query_hash",
-            "in": "query",
-            "type": "string"
+            "$ref": "#/parameters/contact_sort_param"
+          },
+          {
+            "$ref": "#/parameters/page"
           }
         ],
         "responses": {
@@ -936,13 +1053,19 @@
           "Contact"
         ],
         "operationId": "contactSearch",
-        "description": "Search the contacts using a search key, currently supports email search",
+        "description": "Search the contacts using a search key, currently supports email search (Page size = 15)",
         "summary": "Search Contacts",
         "parameters": [
           {
             "name": "q",
             "in": "query",
             "type": "string"
+          },
+          {
+            "$ref": "#/parameters/contact_sort_param"
+          },
+          {
+            "$ref": "#/parameters/page"
           }
         ],
         "responses": {
@@ -986,6 +1109,9 @@
                   "type": "number",
                   "description": "The id of the inbox",
                   "required": true
+                },
+                "source_id": {
+                  "$ref": "#/parameters/source_id"
                 }
               }
             }
@@ -996,6 +1122,33 @@
             "description": "Success",
             "schema": {
               "$ref": "#/definitions/contact_inboxes"
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "schema": {
+              "$ref": "#/definitions/bad_request_error"
+            }
+          },
+          "422": {
+            "description": "Incorrect payload"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "operationId": "contactableInboxesGet",
+        "description": "Get List of contactable Inboxes",
+        "summary": "Get Contactable Inboxes",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contactable_inboxes"
             }
           },
           "401": {
@@ -1471,6 +1624,18 @@
         }
       }
     },
+    "contactable_inboxes": {
+      "type": "object",
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Contact Inbox Source Id"
+        },
+        "inbox": {
+          "$ref": "#/definitions/inbox"
+        }
+      }
+    },
     "account": {
       "type": "object",
       "properties": {
@@ -1904,6 +2069,10 @@
       "required": true,
       "description": "The id of the team to be updated"
     },
+    "source_id": {
+      "type": "string",
+      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+    },
     "conversation_id": {
       "in": "path",
       "name": "conversation_id",
@@ -1921,6 +2090,35 @@
       },
       "required": true,
       "description": "The numeric ID of the message"
+    },
+    "contact_sort_param": {
+      "in": "query",
+      "name": "sort",
+      "schema": {
+        "type": "string",
+        "enum": [
+          "name",
+          "email",
+          "phone_number",
+          "last_activity_at",
+          "-name",
+          "-email",
+          "-phone_number",
+          "-last_activity_at"
+        ]
+      },
+      "required": false,
+      "description": "The attribute by which list should be sorted"
+    },
+    "page": {
+      "in": "query",
+      "name": "page",
+      "schema": {
+        "type": "integer",
+        "default": 1
+      },
+      "required": false,
+      "description": "The page parameter"
     }
   }
 }

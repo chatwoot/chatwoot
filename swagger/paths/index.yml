@@ -4,7 +4,7 @@
 # Inboxes
 /accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
-/accounts/{account_id}/inboxes:
+/accounts/{account_id}/inboxes/:
   $ref: ./inboxes/create.yml
 /accounts/{account_id}/inboxes/{id}:
   $ref: ./inboxes/update.yml
@@ -35,6 +35,8 @@
     $ref: ./conversation/toggle_status.yml
 
 # Messages
+/accounts/{account_id}/conversations/{id}/messages:
+  $ref: ./conversation/messages/create_attachment.yml
 /accounts/{account_id}/conversations/{converstion_id}/messages:
   parameters:
     - $ref: '#/parameters/account_id'
@@ -84,6 +86,8 @@
 
 /accounts/{account_id}/contacts/{id}/contact_inboxes:
   $ref: ./contact_inboxes/create.yml
+/accounts/{account_id}/contacts/{id}/contactable_inboxes:
+  $ref: ./contactable_inboxes/get.yml
 
 
 # Profile
