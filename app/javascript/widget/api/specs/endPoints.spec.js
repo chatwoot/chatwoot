@@ -44,3 +44,27 @@ describe('#getConversation', () => {
     });
   });
 });
+
+describe('#triggerCampaign', () => {
+  it('should returns correct payload', () => {
+    const token = 'ADSDJ2323MSDSDFMMMASDM';
+    const campaignId = 12;
+    expect(
+      endPoints.triggerCampaign({
+        token,
+        campaignId,
+      })
+    ).toEqual({
+      url: `/api/v1/widget/events`,
+      data: {
+        name: 'campaign.triggered',
+        event_info: {
+          campaign_id: campaignId,
+        },
+      },
+      params: {
+        website_token: token,
+      },
+    });
+  });
+});

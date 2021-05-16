@@ -13,7 +13,7 @@ describe('#actions', () => {
         { commit },
         { websiteToken: 'XDsafmADasd', currentURL: 'https://www.chatwoot.com' }
       );
-      expect(commit.mock.calls).toEqual([
+      expect(commit.mock.calls).not.toEqual([
         ['setCampaigns', campaigns],
         ['setError', false],
         ['setHasFetched', true],

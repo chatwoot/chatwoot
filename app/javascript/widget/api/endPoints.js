@@ -70,7 +70,7 @@ const getCampaigns = token => ({
     website_token: token,
   },
 });
-const triggerCampaign = (token, campaignId) => ({
+const triggerCampaign = ({ token, campaignId }) => ({
   url: '/api/v1/widget/events',
   data: {
     name: 'campaign.triggered',
