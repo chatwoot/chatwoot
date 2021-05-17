@@ -12,7 +12,6 @@ class Integrations::Slack::HookBuilder
       access_token: token,
       status: 'enabled',
       inbox_id: params[:inbox_id],
-      hook_type: hook_type,
       app_id: 'slack'
     )
 
