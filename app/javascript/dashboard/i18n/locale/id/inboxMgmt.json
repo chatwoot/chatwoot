@@ -118,7 +118,7 @@
           "TITLE": "URL Callback",
           "SUBTITLE": "Anda harus mengkonfigurasi pesan URL callback di Twilio dengan URL yang disebutkan di sini."
         },
-        "SUBMIT_BUTTON": "Buat Channel Twilio",
+        "SUBMIT_BUTTON": "Buat Channel Twillio",
         "API": {
           "ERROR_MESSAGE": "Kami tidak dapat mengautentikasi kredensial Twilio, harap coba lagi"
         }
@@ -227,6 +227,7 @@
       "SETTINGS": "Pengaturan",
       "COLLABORATORS": "Kolaborator",
       "CONFIGURATION": "Konfigurasi",
+      "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Formulir Pra Obrolan",
       "BUSINESS_HOURS": "Jam Kerja"
     },
