@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Zainicjowano z",
     "INITIATED_AT": "Zainicjowano w",
     "IP_ADDRESS": "Adres IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Nowa wiadomość",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
       "TITLE": "Poprzednie rozmowy"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etykiety dostępne na koncie",
         "REMOVE": "Kliknij na ikonę X, aby usunąć etykietę",
         "ADD": "Kliknij na ikonę +, aby dodać etykietę",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Zaktualizuj etykiety",
         "UPDATE_ERROR": "Nie udało się zaktualizować etykiet, spróbuj ponownie."
       },
       "NO_LABELS_TO_ADD": "Nie ma więcej etykiet zdefiniowanych na koncie.",
-      "NO_AVAILABLE_LABELS": "Do tej rozmowy nie dodano żadnych etykiet."
+      "NO_AVAILABLE_LABELS": "Do tej rozmowy nie dodano żadnych etykiet.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Wycisz rozmowę",
     "UNMUTE_CONTACT": "Wyłącz wyciszenie rozmowy",
@@ -73,8 +79,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Wprowadź numer telefonu kontaktu",
         "LABEL": "Numer telefonu",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "Numer telefonu powinien mieć format E.164, np. +1415555555 [+][kod krajowy][kod kierunkowy][numer telefonu]",
+        "ERROR": "Numer telefonu powinien być pusty lub w formacie E.164"
       },
       "LOCATION": {
         "PLACEHOLDER": "Wprowadź lokalizację kontaktu",
@@ -108,27 +114,27 @@
     "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Rozpocznij rozmowę",
     "TITLE": "Nowa rozmowa",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Rozpocznij nową rozmowę wysyłając wiadomość.",
+    "NO_INBOX": "Nie można odnaleźć skrzynki odbiorczej do rozpoczęcia nowej rozmowy z tym kontaktem.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Do"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Skrzynka odbiorcza",
+        "ERROR": "Wybierz skrzynkę odbiorczą"
       },
       "MESSAGE": {
         "LABEL": "Wiadomość",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Wpisz swoją wiadomość tutaj",
+        "ERROR": "Wiadomość nie może być pusta"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Wyślij wiadomość",
       "CANCEL": "Anuluj",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Wiadomość wysłana!",
+      "ERROR_MESSAGE": "Nie udało się wysłać! Spróbuj ponownie"
     }
   },
   "CONTACTS_PAGE": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Adres e-mail"
       },
       "VIEW_DETAILS": "Wyświetl szczegóły"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notatki"
+    },
+    "ADD": {
+      "BUTTON": "Dodaj",
+      "PLACEHOLDER": "Dodaj notatkę",
+      "TITLE": "Shift + Enter by utworzyć notatkę"
+    },
+    "FOOTER": {
+      "BUTTON": "Wyświetl wszystkie notatki"
     }
   }
 }

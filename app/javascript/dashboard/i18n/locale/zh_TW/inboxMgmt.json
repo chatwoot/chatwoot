@@ -17,7 +17,7 @@
         "body": "驗證您的帳戶並建立建立收件匣。"
       },
       {
-        "title": "建立客服代理",
+        "title": "建立客服",
         "route": "settings_inboxes_add_agents",
         "body": "將客服增加到建立的收件匣。"
       },
@@ -75,10 +75,10 @@
           "DISABLED": "已停用"
         },
         "REPLY_TIME": {
-          "TITLE": "Set Reply time",
-          "IN_A_FEW_MINUTES": "In a few minutes",
-          "IN_A_FEW_HOURS": "In a few hours",
-          "IN_A_DAY": "In a day",
+          "TITLE": "設定回覆時間",
+          "IN_A_FEW_MINUTES": "幾分鐘內",
+          "IN_A_FEW_HOURS": "幾小時內",
+          "IN_A_DAY": "一天內",
           "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
@@ -165,8 +165,8 @@
         "DESC": "目前我們支持網站線上聊天小元件、Facebook 頁面和 Twitter 配置文件作為平台。 我們在工作中擁有更多平台，如 Whatsapp、Email、Telegram 和 Line，這些平台將很快支援。"
       },
       "AGENTS": {
-        "TITLE": "客服代理們",
-        "DESC": "在這裡您可以建立代理來管理您新建立的收件匣。只有這些選定的代理才能訪問您的收件匣。 不屬於此收件匣的代理人在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
+        "TITLE": "客服",
+        "DESC": "在這裡您可以建立客服來管理您新建立的收件匣。只有這些選定的客服才能訪問您的收件匣。 不屬於此收件匣的客服在登入時將無法看到或回覆此收件匣中的消息。 <br> <b>PS：</b> 作為管理員，如果您需要訪問所有收件匣， 您應該將自己建立到您建立的所有收件匣中。",
         "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
@@ -187,14 +187,14 @@
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "建立客服代理",
-      "ADD_AGENTS": "正在向收件匣建立代理..."
+      "BUTTON_TEXT": "新增客服",
+      "ADD_AGENTS": "正在新增客服到你的收件匣..."
     },
     "FINISH": {
       "TITLE": "您的收件匣已準備就緒！",
       "MESSAGE": "您現在可以通過您的新頻道與您的客户聯繫。開心的支援客戶吧 ",
       "BUTTON_TEXT": "带我到這裡",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "更多設定",
       "WEBSITE_SUCCESS": "您已成功完成建立網站頻道。複製下面顯示的代碼並將其黏貼在您的網站上。 下次客户使用即時聊天時，對話將自動出現在您的收件匣中。"
     },
     "REAUTH": "重新授權",
@@ -227,14 +227,15 @@
       "SETTINGS": "設定",
       "COLLABORATORS": "客服人員",
       "CONFIGURATION": "組態",
+      "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "營業時間"
     },
     "SETTINGS": "設定",
     "FEATURES": {
       "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "DISPLAY_FILE_PICKER": "在小工具上顯示檔案選擇器",
+      "DISPLAY_EMOJI_PICKER": "在小工具上顯示 emoji 選擇器"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
@@ -245,14 +246,14 @@
       "AUTO_ASSIGNMENT": "啟用自動分配",
       "INBOX_UPDATE_TITLE": "收件匣設定",
       "INBOX_UPDATE_SUB_TEXT": "更新收件匣設定",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用建立到此收件匣的代理人自動分配新的會話。",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "啟用或停用此收件匣客服的對話自動分配。",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "重新授權",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
-      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_SUCCESS": "重新連接成功",
       "MESSAGE_ERROR": "出現錯誤，請重試"
     },
     "PRE_CHAT_FORM": {
@@ -276,7 +277,7 @@
       "TITLE": "Set your availability",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
+      "TIMEZONE_LABEL": "選擇時區",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
@@ -284,7 +285,7 @@
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
+        "UNAVAILABLE": "無法使用",
         "HOURS": "hours",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Choose"

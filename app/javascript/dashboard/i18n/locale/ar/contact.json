@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "الوسوم المتاحة في الحساب",
         "REMOVE": "انقر على أيقونة X لإزالة الوسم",
         "ADD": "اضغط على أيقونة + لإضافة وسوم",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "تحديث الوسوم",
         "UPDATE_ERROR": "تعذر تحديث الوسوم، الرجاء المحاولة مرة أخرى."
       },
       "NO_LABELS_TO_ADD": "لا يوجد وسوم في الحساب.",
-      "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة."
+      "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "كتم المحادثة",
     "UNMUTE_CONTACT": "إلغاء كتم المحادثة",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "عنوان البريد الإلكتروني"
       },
       "VIEW_DETAILS": "عرض التفاصيل"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

@@ -9,18 +9,19 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "オンライン中",
+    "OFFLINE": "留守中"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "通常数分以内にご返信します。",
+    "IN_A_FEW_HOURS": "通常数時間以内にご返信します。",
+    "IN_A_DAY": "通常数日以内にご返信します。"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "チャットを開始する",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "新しいメッセージを見る",
-    "CLOSE_MESSAGES_BUTTON": "閉じる"
+    "CLOSE_MESSAGES_BUTTON": "閉じる",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "チャットをする"
@@ -28,26 +29,26 @@
   "POWERED_BY": "Powered by Chatwoot",
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
   "CHAT_PLACEHOLDER": "メッセージを入力してください。",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "TODAY": "今日",
+  "YESTERDAY": "昨日",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
         "LABEL": "フルネーム",
         "PLACEHOLDER": "氏名を入力してください。",
-        "ERROR": "Full Name is required"
+        "ERROR": "お名前を入力してください"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Eメールアドレス",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "メールアドレスを入力してください",
+        "ERROR": "メールアドレスを正しく入力してください"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "メッセージ",
+        "PLACEHOLDER": "メッセージを入力してください",
+        "ERROR": "メッセージが短すぎます"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "添付ファイルサイズの上限 {MAXIMUM_FILE_UPLOAD_SIZE} を超えています"
 }

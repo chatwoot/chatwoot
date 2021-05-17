@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Aloitettu lähteestä",
     "INITIATED_AT": "Aloitettu lähteestä",
     "IP_ADDRESS": "IP-osoite",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Uusi viesti",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Tähän yhteystietoon ei liity aikaisempia keskusteluja.",
       "TITLE": "Edelliset keskustelut"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Tilissä saatavilla olevat tunnisteet",
         "REMOVE": "Napsauta X-kuvaketta poistaaksesi tunnisteen",
         "ADD": "Napsauta + kuvaketta lisätäksesi tunnisteen",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Päivitä tunnisteet",
         "UPDATE_ERROR": "Tunnisteita ei voitu päivittää, yritä uudelleen."
       },
       "NO_LABELS_TO_ADD": "Tällä tilillä ei ole enempää tunnisteita.",
-      "NO_AVAILABLE_LABELS": "Tälle keskustelulle ei ole lisätty tunnisteita."
+      "NO_AVAILABLE_LABELS": "Tälle keskustelulle ei ole lisätty tunnisteita.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mykistä Keskustelu",
     "UNMUTE_CONTACT": "Poista keskustelun mykistys",
@@ -47,9 +53,9 @@
     "DESC": "Muokkaa yhteystietoja"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "Uusi kontakti",
+    "TITLE": "Luo uusi kontakti",
+    "DESC": "Lisää kontaktin yhteystiedot."
   },
   "CONTACT_FORM": {
     "FORM": {
@@ -103,14 +109,14 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "Kontakti tallennettu onnistuneesti",
     "CONTACT_ALREADY_EXIST": "Tämä sähköpostiosoite on käytössä toiselle yhteyshenkilölle.",
     "ERROR_MESSAGE": "Tapahtui virhe, yritä uudelleen"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
+    "BUTTON_LABEL": "Aloita keskustelu",
+    "TITLE": "Uusi keskustelu",
+    "DESC": "Aloita uusi keskustelu lähettämällä uusi viesti.",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Sähköpostiosoite"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

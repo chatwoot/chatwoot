@@ -46,6 +46,14 @@
           @select="assignAgent"
           @remove="removeAgent"
         >
+          <template slot="option" slot-scope="props">
+            <div class="option__desc">
+              <availability-status-badge
+                :status="props.option.availability_status"
+              />
+              <span class="option__title">{{ props.option.name }}</span>
+            </div>
+          </template>
           <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
         </multiselect>
       </div>
@@ -57,11 +65,13 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+import AvailabilityStatusBadge from '../conversation/AvailabilityStatusBadge';
 
 export default {
   components: {
     MoreActions,
     Thumbnail,
+    AvailabilityStatusBadge,
   },
 
   props: {
@@ -83,8 +93,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
       currentChat: 'getSelectedChat',
     }),
 
@@ -126,7 +136,6 @@ export default {
           bus.$emit('newToastMessage', this.$t('CONVERSATION.CHANGE_AGENT'));
         });
     },
-
     removeAgent() {},
   },
 };
@@ -141,5 +150,18 @@ export default {
 
 .conv-header {
   flex: 0 0 var(--space-jumbo);
+}
+
+.option__desc {
+  display: flex;
+  align-items: center;
+}
+
+.option__desc {
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+  }
 }
 </style>
