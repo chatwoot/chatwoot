@@ -31,6 +31,8 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Validate Data against JSON Schema
+gem 'json_schemer'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
