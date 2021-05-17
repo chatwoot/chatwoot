@@ -12,7 +12,7 @@
     "INITIATED_FROM": "A partir de",
     "INITIATED_AT": "Iniciado em",
     "IP_ADDRESS": "Endereço IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Nova Mensagem",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Não há conversas anteriores associadas a este contato.",
       "TITLE": "Conversas anteriores"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Marcadores disponíveis na conta",
         "REMOVE": "Clique no ícone X para remover o marcador",
         "ADD": "Clique no ícone + para adicionar o marcador",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Atualizar marcadores",
         "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
       },
       "NO_LABELS_TO_ADD": "Não há mais marcadores definidos na conta.",
-      "NO_AVAILABLE_LABELS": "Não há marcadores adicionados a esta conversa."
+      "NO_AVAILABLE_LABELS": "Não há marcadores adicionados a esta conversa.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Silenciar Conversa",
     "UNMUTE_CONTACT": "Reativar Conversa",
@@ -73,8 +79,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Adicione o número de telefone do contato",
         "LABEL": "Número de Telefone",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "O número de telefone deve ser do formato E.164, por exemplo: +1415555555 [+][código do país][código de área][número de telefone local]",
+        "ERROR": "O número de telefone deve estar vazio ou no formato E.164"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -108,27 +114,27 @@
     "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Iniciar Conversa",
     "TITLE": "Nova conversa",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Iniciar uma nova conversa enviando uma nova mensagem.",
+    "NO_INBOX": "Não foi possível encontrar uma caixa de entrada para iniciar uma nova conversa com este contato.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Para"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Caixa de Entrada",
+        "ERROR": "Selecione uma caixa de entrada"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Escreva sua mensagem aqui",
+        "ERROR": "A mensagem não pode estar vazia"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Enviar mensagem",
       "CANCEL": "Cancelar",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Mensagem enviada!",
+      "ERROR_MESSAGE": "Não foi possível enviar! Tente novamente"
     }
   },
   "CONTACTS_PAGE": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Endereço de e-mail"
       },
       "VIEW_DETAILS": "Ver detalhes"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

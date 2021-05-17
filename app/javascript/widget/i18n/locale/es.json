@@ -20,7 +20,8 @@
   "START_CONVERSATION": "Iniciar conversación",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
-    "CLOSE_MESSAGES_BUTTON": "Cerrar"
+    "CLOSE_MESSAGES_BUTTON": "Cerrar",
+    "COMPANY_FROM": "De"
   },
   "BUBBLE": {
     "LABEL": "Chatea con nosotros"

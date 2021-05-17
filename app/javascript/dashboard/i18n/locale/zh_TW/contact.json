@@ -1,43 +1,49 @@
 {
   "CONTACT_PANEL": {
-    "NOT_AVAILABLE": "Not Available",
+    "NOT_AVAILABLE": "無法使用",
     "EMAIL_ADDRESS": "電子信箱地址",
     "PHONE_NUMBER": "電話號碼",
-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
-    "COMPANY": "Company",
+    "COPY_SUCCESSFUL": "成功複製到剪貼簿",
+    "COMPANY": "公司",
     "LOCATION": "位置",
-    "CONVERSATION_TITLE": "對話詳情",
+    "CONVERSATION_TITLE": "對話詳細資訊",
     "BROWSER": "瀏覽器",
-    "OS": "操作系统",
-    "INITIATED_FROM": "啟動自：",
+    "OS": "作業系统",
+    "INITIATED_FROM": "發起自：",
     "INITIATED_AT": "發起於",
-    "IP_ADDRESS": "IP Address",
-    "NEW_MESSAGE": "New message",
+    "IP_ADDRESS": "IP 位置",
+    "NEW_MESSAGE": "新訊息",
     "CONVERSATIONS": {
-      "NO_RECORDS_FOUND": "此聯繫人没有關聯到以前的會話。",
+      "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
       "TITLE": "上一次對話"
     },
     "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
+      "TITLE": "自訂屬性"
     },
     "LABELS": {
       "TITLE": "對話標記",
       "MODAL": {
         "TITLE": "標記為",
-        "ACTIVE_LABELS": "建立到對話的標籤",
+        "ACTIVE_LABELS": "將標籤新增至對話",
         "INACTIVE_LABELS": "帳戶中可用的標籤",
-        "REMOVE": "點擊 X 圖示刪除標籤",
-        "ADD": "點擊 + 圖示建立標籤",
+        "REMOVE": "點擊 X 圖示以刪除標籤",
+        "ADD": "點擊 + 圖示以新增標籤",
+        "ADD_BUTTON": "新增標籤",
         "UPDATE_BUTTON": "更新標籤",
         "UPDATE_ERROR": "無法更新標籤，請重試。"
       },
-      "NO_LABELS_TO_ADD": "帳戶中没有更多標籤。",
-      "NO_AVAILABLE_LABELS": "没有標籤建立到此對話。"
+      "NO_LABELS_TO_ADD": "帳戶中沒有更多標籤。",
+      "NO_AVAILABLE_LABELS": "此對話沒有被新增任何標籤。",
+      "LABEL_SELECT": {
+        "TITLE": "新增標籤",
+        "PLACEHOLDER": "搜尋標籤",
+        "NO_RESULT": "查無標籤"
+      }
     },
-    "MUTE_CONTACT": "Mute Conversation",
-    "UNMUTE_CONTACT": "Unmute Conversation",
-    "MUTED_SUCCESS": "This conversation is muted for 6 hours",
-    "UNMUTED_SUCCESS": "This conversation is unmuted",
+    "MUTE_CONTACT": "將對話靜音",
+    "UNMUTE_CONTACT": "將對話解除靜音",
+    "MUTED_SUCCESS": "將對話靜音 6 小時",
+    "UNMUTED_SUCCESS": "對話已解除靜音",
     "SEND_TRANSCRIPT": "Send Transcript",
     "EDIT_LABEL": "編輯"
   },
@@ -47,14 +53,14 @@
     "DESC": "編輯聯絡人資訊"
   },
   "CREATE_CONTACT": {
-    "BUTTON_LABEL": "New Contact",
-    "TITLE": "Create new contact",
-    "DESC": "Add basic information details about the contact."
+    "BUTTON_LABEL": "新聯絡人",
+    "TITLE": "新增聯絡人",
+    "DESC": "為聯絡人增加基本資訊"
   },
   "CONTACT_FORM": {
     "FORM": {
       "SUBMIT": "送出",
-      "CANCEL": "取消操作",
+      "CANCEL": "取消",
       "AVATAR": {
         "LABEL": "連絡人頭像"
       },
@@ -103,14 +109,14 @@
         }
       }
     },
-    "SUCCESS_MESSAGE": "Contact saved successfully",
+    "SUCCESS_MESSAGE": "聯絡人儲存成功",
     "CONTACT_ALREADY_EXIST": "這個電子信箱已經被其他聯絡人使用了。",
     "ERROR_MESSAGE": "出現錯誤，請重試"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
+    "BUTTON_LABEL": "開始對話",
+    "TITLE": "新的對話",
+    "DESC": "傳送一則新訊息以開始新的對話",
     "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
     "FORM": {
       "TO": {
@@ -121,35 +127,48 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "LABEL": "訊息",
+        "PLACEHOLDER": "在此填寫你的訊息",
+        "ERROR": "訊息不得為空"
       },
-      "SUBMIT": "Send message",
-      "CANCEL": "取消操作",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUBMIT": "傳送訊息",
+      "CANCEL": "取消",
+      "SUCCESS_MESSAGE": "訊息已傳送",
+      "ERROR_MESSAGE": "無法傳送！請重新嘗試。"
     }
   },
   "CONTACTS_PAGE": {
-    "HEADER": "Contacts",
-    "SEARCH_BUTTON": "Search",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
+    "HEADER": "聯絡人",
+    "SEARCH_BUTTON": "搜尋",
+    "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
     "LIST": {
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "TABLE_HEADER": {
-        "NAME": "姓名：",
+        "NAME": "姓名",
         "PHONE_NUMBER": "聯絡人電話",
-        "CONVERSATIONS": "會話",
+        "CONVERSATIONS": "對話",
         "LAST_ACTIVITY": "Last Activity",
-        "COUNTRY": "Country",
-        "CITY": "City",
+        "COUNTRY": "國家",
+        "CITY": "城市",
         "SOCIAL_PROFILES": "Social Profiles",
-        "COMPANY": "Company",
+        "COMPANY": "公司",
         "EMAIL_ADDRESS": "電子信箱地址"
       },
-      "VIEW_DETAILS": "View details"
+      "VIEW_DETAILS": "查看詳細資訊"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "筆記"
+    },
+    "ADD": {
+      "BUTTON": "建立",
+      "PLACEHOLDER": "建立筆記",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "查看所有筆記"
     }
   }
 }

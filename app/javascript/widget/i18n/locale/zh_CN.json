@@ -20,7 +20,8 @@
   "START_CONVERSATION": "开始会话",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
-    "CLOSE_MESSAGES_BUTTON": "关闭"
+    "CLOSE_MESSAGES_BUTTON": "关闭",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "联系我们"

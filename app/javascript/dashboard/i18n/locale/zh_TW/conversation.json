@@ -5,16 +5,16 @@
     "NO_MESSAGE_2": " 向您的頁面發送一條消息！",
     "NO_INBOX_1": "看來你還没有建立任何收件匣。",
     "NO_INBOX_2": " 開始吧",
-    "NO_INBOX_AGENT": "看起來您還没有分配到收件匣。請聯繫您的管理員",
+    "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "SEARCH": {
-      "TITLE": "Search messages",
+      "TITLE": "搜尋訊息",
       "LOADING_MESSAGE": "Crunching data...",
-      "PLACEHOLDER": "Type any text to search messages",
-      "NO_MATCHING_RESULTS": "No results found."
+      "PLACEHOLDER": "輸入任何文字以搜尋訊息",
+      "NO_MATCHING_RESULTS": "查無結果。"
     },
-    "UNREAD_MESSAGES": "Unread Messages",
-    "UNREAD_MESSAGE": "Unread Message",
+    "UNREAD_MESSAGES": "未讀訊息",
+    "UNREAD_MESSAGE": "未讀訊息",
     "CLICK_HERE": "點擊這裡",
     "LOADING_INBOXES": "正在加載收件匣",
     "LOADING_CONVERSATIONS": "加載更多對話",
@@ -23,11 +23,11 @@
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小時消息視窗限制",
     "LAST_INCOMING_TWEET": "You are replying to the last incoming tweet",
-    "REPLYING_TO": "You are replying to:",
-    "REMOVE_SELECTION": "Remove Selection",
+    "REPLYING_TO": "你正在回覆到：",
+    "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
-    "NO_RESPONSE": "No response",
+    "NO_RESPONSE": "無回應",
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
       "REOPEN_ACTION": "重新打開",
@@ -37,7 +37,7 @@
       "DETAILS": "詳情"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "OPEN_BOT": "使用 bot 開啟"
     },
     "FOOTER": {
       "MSG_INPUT": "輸入“/”開始選擇快捷回覆",
@@ -50,20 +50,20 @@
       "CREATE": "建立筆記",
       "TWEET": "推特",
       "TIP_FORMAT_ICON": "Show rich text editor",
-      "TIP_EMOJI_ICON": "Show emoji selector",
-      "TIP_ATTACH_ICON": "Attach files",
-      "ENTER_TO_SEND": "Enter to send"
+      "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
+      "TIP_ATTACH_ICON": "附件",
+      "ENTER_TO_SEND": "按下 Enter 傳送"
     },
     "VISIBLE_TO_AGENTS": "私人筆記：僅對您和您的團隊可以看見",
     "CHANGE_STATUS": "對話狀態已更改",
-    "CHANGE_AGENT": "對話分配人已更改",
+    "CHANGE_AGENT": "對話指派人已更改",
     "CHANGE_TEAM": "Conversation team changed",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
-    "SENT_BY": "Sent by:",
+    "SENT_BY": "寄送者：",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "選擇客服",
       "REMOVE": "刪除",
-      "ASSIGN": "Assign"
+      "ASSIGN": "指派"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -84,7 +84,7 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to %{installationName}!",
+    "TITLE": "Hey 👋， 歡迎來到 %{installationName}！",
     "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
@@ -92,27 +92,27 @@
       "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
+      "TITLE": "邀請團隊成員",
       "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "NEW_LINK": "按此邀請一個新成員"
     },
     "INBOXES": {
       "TITLE": "Connect Inboxes",
       "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
-      "NEW_LINK": "Click here to create an inbox"
+      "NEW_LINK": "按此建立一個收件匣"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",
       "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "NEW_LINK": "按此建立標籤"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "對話詳細資訊",
+    "ASSIGNEE_LABEL": "指派客服",
+    "TEAM_LABEL": "指派團隊",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "無"
     }
   }
 }
