@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Начат из",
     "INITIATED_AT": "Начат в",
     "IP_ADDRESS": "IP адрес",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Новое сообщение",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Все категории",
         "REMOVE": "Нажмите на иконку X для удаления категории",
         "ADD": "Нажмите на значок +, чтобы добавить категорию",
+        "ADD_BUTTON": "Добавить метки",
         "UPDATE_BUTTON": "Изменить категории",
         "UPDATE_ERROR": "Не удалось обновить категории, попробуйте снова."
       },
       "NO_LABELS_TO_ADD": "У вас больше нет категорий.",
-      "NO_AVAILABLE_LABELS": "У диалога больше нет категорий."
+      "NO_AVAILABLE_LABELS": "У диалога больше нет категорий.",
+      "LABEL_SELECT": {
+        "TITLE": "Добавить метки",
+        "PLACEHOLDER": "Поиск меток",
+        "NO_RESULT": "Метки не найдены"
+      }
     },
     "MUTE_CONTACT": "Заглушить диалог",
     "UNMUTE_CONTACT": "Включить звук диалога",
@@ -73,8 +79,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Введите номер телефона контакта",
         "LABEL": "Номер телефона",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "Номер телефона должен быть в формате E.164, например: +1415555555 [+] [код страны][код города] [локальный номер телефона]",
+        "ERROR": "Номер телефона должен быть пустым или в формате E.164"
       },
       "LOCATION": {
         "PLACEHOLDER": "Введите местоположение контакта",
@@ -108,27 +114,27 @@
     "ERROR_MESSAGE": "Произошла ошибка, попробуйте еще раз"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
-    "TITLE": "New conversation",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "BUTTON_LABEL": "Начать диалог",
+    "TITLE": "Новый диалог",
+    "DESC": "Начните новую беседу, отправив новое сообщение.",
+    "NO_INBOX": "Не удалось найти электронную почту для начала нового разговора с этим контактом.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Кому"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Электронная почта",
+        "ERROR": "Выберите электронную почту"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Напишите здесь ваше сообщение",
+        "ERROR": "Сообщение не может быть пустым"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Отправить сообщение",
       "CANCEL": "Отменить",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Сообщение отправлено!",
+      "ERROR_MESSAGE": "Не удалось отправить! Попробуйте еще раз"
     }
   },
   "CONTACTS_PAGE": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Email"
       },
       "VIEW_DETAILS": "Просмотреть подробности"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Заметки"
+    },
+    "ADD": {
+      "BUTTON": "Добавить",
+      "PLACEHOLDER": "Добавить заметку",
+      "TITLE": "Shift + Enter для создания заметки"
+    },
+    "FOOTER": {
+      "BUTTON": "Показать все заметки"
     }
   }
 }
