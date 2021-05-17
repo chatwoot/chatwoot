@@ -62,7 +62,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('campaigns/get');
+    this.$store.dispatch('campaigns/get', {
+      inboxId: this.$route.params.inboxId,
+    });
   },
   methods: {
     openAddPopup() {
