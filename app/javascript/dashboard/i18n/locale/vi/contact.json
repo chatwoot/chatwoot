@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Các nhãn có sẵn trong tài khoản",
         "REMOVE": "Click vào X icon xóa nhãn",
         "ADD": "Click vào + icon thêm nhãn",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Cập nhật nhãn",
         "UPDATE_ERROR": "Không thể cập nhật nhãn, hãy thử lại."
       },
       "NO_LABELS_TO_ADD": "Không có thêm nhãn nào được xác định trong tài khoản.",
-      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này."
+      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Email"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

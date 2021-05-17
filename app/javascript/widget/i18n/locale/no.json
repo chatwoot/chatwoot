@@ -20,7 +20,8 @@
   "START_CONVERSATION": "Start samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
-    "CLOSE_MESSAGES_BUTTON": "Lukk"
+    "CLOSE_MESSAGES_BUTTON": "Lukk",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "Chat med oss"

@@ -63,7 +63,7 @@ export default {
   watch: {
     'currentChat.inbox_id'(inboxId) {
       if (inboxId) {
-        this.$store.dispatch('inboxMembers/fetch', { inboxId });
+        this.$store.dispatch('inboxAssignableAgents/fetch', { inboxId });
       }
     },
   },
@@ -80,6 +80,7 @@ export default {
 .conversation-details-wrap {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   width: 100%;
   border-left: 1px solid var(--color-border);
   background: var(--color-background-light);

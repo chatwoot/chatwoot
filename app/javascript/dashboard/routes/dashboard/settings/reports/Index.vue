@@ -83,7 +83,14 @@ export default {
       return getUnixTime(startOfDay(new Date()));
     },
     from() {
-      const diff = this.currentDateRangeSelection.id ? 29 : 6;
+      const dateRange = {
+        0: 6,
+        1: 29,
+        2: 89,
+        3: 179,
+        4: 364,
+      };
+      const diff = dateRange[this.currentDateRangeSelection.id];
       const fromDate = subDays(new Date(), diff);
       return getUnixTime(startOfDay(fromDate));
     },

@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "账户中可用的标签",
         "REMOVE": "点击 X 图标删除标签",
         "ADD": "点击 + 图标添加标签",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "更新标签",
         "UPDATE_ERROR": "无法更新标签，请重试。"
       },
       "NO_LABELS_TO_ADD": "帐户中没有更多标签。",
-      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。"
+      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mute Conversation",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "电子邮件地址"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
