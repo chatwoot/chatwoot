@@ -46,18 +46,18 @@ export default {
       }`;
     },
     avatarUrl() {
+      const { avatar_url: avatarUrl } = this.sender;
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
-      return !isEmptyObject(this.sender)
-        ? this.sender.avatar_url
-        : displayImage;
+      return !isEmptyObject(this.sender) ? avatarUrl : displayImage;
     },
     agentName() {
+      const { available_name: availableName, name } = this.sender;
       if (!isEmptyObject(this.sender)) {
-        return this.sender.available_name || this.sender.name;
+        return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
@@ -69,7 +69,7 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {
   max-width: 85%;
-  padding: $font-size-medium;
+  padding: $space-normal;
 }
 </style>
 <style lang="scss" scoped>
