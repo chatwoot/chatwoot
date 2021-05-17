@@ -1,0 +1,79 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Campaigns",
+    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": "Create a campaign",
+    "ADD": {
+      "TITLE": "Create a campaign",
+      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "CANCEL_BUTTON_TEXT": "취소",
+      "CREATE_BUTTON_TEXT": "만들기",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Please enter the title of campaign",
+          "ERROR": "Title is required"
+        },
+        "MESSAGE": {
+          "LABEL": "Message",
+          "PLACEHOLDER": "Please enter the message of campaign",
+          "ERROR": "Message is required"
+        },
+        "SENT_BY": {
+          "LABEL": "보낸 사람",
+          "PLACEHOLDER": "Please select the the content of campaign",
+          "ERROR": "Sender is required"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Please enter the URL",
+          "ERROR": "올바른 URL을 입력하십시오."
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Time on page(Seconds)",
+          "PLACEHOLDER": "Please enter the time",
+          "ERROR": "Time on page is required"
+        },
+        "ENABLED": "Enable campaign",
+        "SUBMIT": "Add Campaign"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign created successfully",
+        "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "업데이트",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "404": "There are no campaigns created for this inbox.",
+      "TABLE_HEADER": {
+        "TITLE": "Title",
+        "MESSAGE": "Message",
+        "STATUS": "상태",
+        "SENDER": "Sender",
+        "URL": "URL",
+        "TIME_ON_PAGE": "Time(Seconds)",
+        "CREATED_AT": "Created at"
+      },
+      "BUTTONS": {
+        "ADD": "Add",
+        "EDIT": "수정",
+        "DELETE": "삭제"
+      },
+      "STATUS": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
+      },
+      "SENDER": {
+        "BOT": "봇"
+      }
+    }
+  }
+}

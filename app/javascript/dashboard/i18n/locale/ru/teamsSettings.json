@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "Создать новую команду",
     "HEADER": "Команды",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>Команды</b></p> <p>Команды позволяют вам организовывать своих операторов в группы в зависимости от их обязанностей. <br /> Пользователь может быть частью нескольких команд. Вы можете назначить разговоры команде, когда вы работаете совместно. </p>",
     "LIST": {
-      "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "404": "В этом аккаунте нет ни одной команды.",
+      "EDIT_TEAM": "Редактировать команду"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "Создать новую команду",
+        "DESC": "Добавьте название и описание в вашу новую команду."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "BUTTON_TEXT": "Добавить операторов в команду",
+        "TITLE": "Добавить операторов в команду - %{teamName}",
+        "DESC": "Добавьте операторов в вашу только что созданную команду. Это позволит вам сотрудничать как команде при разговорах, получать уведомления о новых событиях в том же разговоре."
       },
       "WIZARD": [
         {
           "title": "Создать",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Создайте новую команду операторов."
         },
         {
           "title": "Добавить операторов",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Добавить операторов в команду."
         },
         {
-          "title": "Finish",
+          "title": "Завершить",
           "route": "settings_teams_finish",
           "body": "Все готово!"
         }
@@ -37,88 +37,88 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Редактировать данные вашей команды",
+        "DESC": "Редактировать название и описание для вашей команды.",
+        "BUTTON_TEXT": "Обновить команду"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "Обновить операторов в команде",
+        "TITLE": "Добавить операторов в команду - %{teamName}",
+        "DESC": "Добавьте операторов в вашу только что созданную команду. Все добавленные операторы будут уведомлены, когда беседа будет назначена этой команде."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Информация о команде",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Изменить имя, описание и другие сведения."
         },
         {
-          "title": "Edit Agents",
+          "title": "Редактировать операторов",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Управляйте операторами вашей команды."
         },
         {
-          "title": "Finish",
+          "title": "Завершить",
           "route": "settings_teams_edit_finish",
           "body": "Все готово!"
         }
       ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Couldn't save the team details. Try again."
+      "ERROR_MESSAGE": "Не удалось сохранить информацию о команде. Попробуйте еще раз."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "Оператор",
       "EMAIL": "Email",
       "BUTTON_TEXT": "Добавить операторов",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "ADD_AGENTS": "Добавление операторов в вашу команду...",
+      "SELECT": "выбрать",
+      "SELECT_ALL": "выбрать всех операторов",
+      "SELECTED_COUNT": "Выбрано %{selected} из %{total} операторов."
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "TITLE": "Добавить операторов в команду - %{teamName}",
+      "DESC": "Добавьте операторов в вашу только что созданную команду. Это позволит вам сотрудничать как команде при разговорах, получать уведомления о новых событиях в том же разговоре.",
+      "SELECT": "выбрать",
+      "SELECT_ALL": "выбрать всех операторов",
+      "SELECTED_COUNT": "Выбрано %{selected} из %{total} операторов.",
       "BUTTON_TEXT": "Добавить операторов",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "Выберите хотя бы одного оператора."
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
-      "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "TITLE": "Ваша команда готова!",
+      "MESSAGE": "Теперь вы можете сотрудничать как команда в беседах. Удачной вам поддержки",
+      "BUTTON_TEXT": "Завершить"
     },
     "DELETE": {
       "BUTTON_TEXT": "Удалить",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "Команда успешно удалена.",
+        "ERROR_MESSAGE": "Не удалось удалить команду. Повторите попытку."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "Вы уверены, что хотите удалить - %{teamName}",
+        "MESSAGE": "Удаление команды снимет назначение команды из бесед, связанных с этой командой.",
         "YES": "Удалить ",
         "NO": "Отменить"
       }
     },
     "SETTINGS": "Настройки",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "Обновить команду",
+      "CREATE": "Создать команду",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "Название команды",
+        "PLACEHOLDER": "Пример: Продажи, Поддержка клиентов"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "Описание команды",
+        "PLACEHOLDER": "Краткое описание этой команды."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "Разрешить автоматическое назначение для этой команды."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "Создать команду"
     }
   }
 }

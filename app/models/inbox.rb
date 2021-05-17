@@ -36,6 +36,7 @@ class Inbox < ApplicationRecord
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
+  has_many :campaigns, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :contacts, through: :contact_inboxes
 

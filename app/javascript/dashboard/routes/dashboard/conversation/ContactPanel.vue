@@ -22,7 +22,17 @@
           selected-label=""
           :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
-        />
+        >
+          <template slot="option" slot-scope="props">
+            <div class="option__desc">
+              <availability-status-badge
+                :status="props.option.availability_status"
+              />
+              <span class="option__title">{{ props.option.name }}</span>
+            </div>
+          </template>
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
       </div>
       <div class="multiselect-wrap--small">
         <label class="multiselect__label">
@@ -38,9 +48,12 @@
           selected-label=""
           :placeholder="$t('CONVERSATION_SIDEBAR.SELECT.PLACEHOLDER')"
           :allow-empty="true"
-        />
+        >
+          <span slot="noResult">{{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}</span>
+        </multiselect>
       </div>
     </div>
+    <conversation-labels :conversation-id="conversationId" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
@@ -93,7 +106,6 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
-    <conversation-labels :conversation-id="conversationId" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
@@ -111,6 +123,8 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
+import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
+
 import flag from 'country-code-emoji';
 
 export default {
@@ -120,6 +134,7 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
+    AvailabilityStatusBadge,
   },
   mixins: [alertMixin],
   props: {
@@ -140,8 +155,8 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
-      getAgents: 'inboxMembers/getMembersByInbox',
-      uiFlags: 'inboxMembers/getUIFlags',
+      getAgents: 'inboxAssignableAgents/getAssignableAgents',
+      uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
     currentConversationMetaData() {
       return this.$store.getters[
@@ -344,10 +359,20 @@ export default {
 }
 
 .conversation--actions {
-  padding: 0 var(--space-normal) var(--space-small);
+  padding: 0 var(--space-normal) var(--space-smaller);
 }
 
 .multiselect__label {
   margin-bottom: var(--space-smaller);
+}
+.option__desc {
+  display: flex;
+  align-items: center;
+
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+  }
 }
 </style>
