@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etiketter tillgängliga på kontot",
         "REMOVE": "Klicka på X-ikonen för att ta bort etiketten",
         "ADD": "Klicka på + ikonen för att lägga till etiketten",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Uppdatera etiketter",
         "UPDATE_ERROR": "Kunde inte uppdatera etiketter, försök igen."
       },
       "NO_LABELS_TO_ADD": "Det finns inga fler etiketter definierade på kontot.",
-      "NO_AVAILABLE_LABELS": "Det finns inga etiketter tillagda till denna konversation."
+      "NO_AVAILABLE_LABELS": "Det finns inga etiketter tillagda till denna konversation.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Tysta konversation",
     "UNMUTE_CONTACT": "Avtysta konversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "E-postadress"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
