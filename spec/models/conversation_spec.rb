@@ -351,7 +351,7 @@ RSpec.describe Conversation, type: :model do
   end
 
   describe '#botintegration: when conversation created in inbox with dialogflow integration' do
-    let(:hook) { create(:integrations_hook, app_id: 'dialogflow') }
+    let(:hook) { create(:integrations_hook, :dialogflow) }
     let(:conversation) { create(:conversation, inbox: hook.inbox) }
 
     it 'returns conversation status as bot' do
