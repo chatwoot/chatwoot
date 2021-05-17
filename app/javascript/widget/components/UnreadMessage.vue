@@ -64,16 +64,12 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
 }
-</style>
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
 .row--agent-block {
   align-items: center;
   display: flex;
@@ -81,7 +77,7 @@ export default {
   padding-bottom: $space-small;
   font-size: $font-size-small;
   .agent--name {
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     margin-left: $space-smaller;
   }
   .company--name {
