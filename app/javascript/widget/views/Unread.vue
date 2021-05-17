@@ -15,7 +15,7 @@
         v-for="(message, index) in unreadMessages"
         :key="message.id"
         :message-id="message.id"
-        :show-sender="showSender(index)"
+        :show-sender="!index"
         :sender="message.sender"
         :message="getMessageContent(message)"
       />
@@ -93,9 +93,6 @@ export default {
       if (hasAttachments) return `📑`;
 
       return '';
-    },
-    showSender(index) {
-      return index === 0;
     },
   },
 };

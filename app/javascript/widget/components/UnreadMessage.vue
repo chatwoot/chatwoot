@@ -22,7 +22,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 export default {
-  name: 'AgentMessageBubble',
+  name: 'UnreadMessage',
   components: { Thumbnail },
   mixins: [messageFormatterMixin, configMixin],
   props: {
