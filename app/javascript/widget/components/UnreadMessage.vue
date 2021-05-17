@@ -58,14 +58,14 @@ export default {
       return displayImage;
     },
     agentName() {
-      if (this.checkSenderIsEmpty(this.sender)) {
+      if (this.isSenderEmpty(this.sender)) {
         const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
     availabilityStatus() {
-      if (this.checkSenderIsEmpty(this.sender)) {
+      if (this.isSenderEmpty(this.sender)) {
         const { availability_status: availabilityStatus } = this.sender;
         return availabilityStatus;
       }
