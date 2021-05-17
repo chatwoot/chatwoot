@@ -39,7 +39,7 @@
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к Twitter, попробуйте еще раз"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Сайт",
@@ -194,7 +194,7 @@
       "TITLE": "Истоник готов!",
       "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки ",
       "BUTTON_TEXT": "Перейти",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Больше параметров",
       "WEBSITE_SUCCESS": "Вы успешно создали источник-сайт. Скопируйте указанный ниже код и вставьте его на ваш сайт. В следующий раз, когда клиент напишет в чат, диалог автоматически появится здесь."
     },
     "REAUTH": "Войти заново",
@@ -227,8 +227,9 @@
       "SETTINGS": "Настройки",
       "COLLABORATORS": "Соавторы",
       "CONFIGURATION": "Настройки",
+      "CAMPAIGN": "Кампании",
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Время работы"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -256,9 +257,9 @@
       "MESSAGE_ERROR": "Произошла ошибка, попробуйте еще раз"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Предварительные формы позволяют получить информацию о пользователе, прежде чем они начнут разговор.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Включить форму сбора предварительной информации",
         "OPTIONS": {
           "ENABLED": "Да",
           "DISABLED": "Нет"
@@ -266,22 +267,22 @@
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Сообщение для формы, показываемой перед стартом диалога",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "PLACEHOLDER": "Это сообщение будет отображаться вместе с формой для пользователя"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Посетители должны указать свое имя и адрес электронной почты перед началом общения"
       }
     },
     "BUSINESS_HOURS": {
       "TITLE": "Настройте ваши рабочие часы",
       "SUBTITLE": "Настройте ваши рабочие часы для общения через виджет на сайте",
       "WEEKLY_TITLE": "Укажите ваши рабочие часы",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TIMEZONE_LABEL": "Выберите часовой пояс",
+      "UPDATE": "Обновить настройки часов работы",
+      "TOGGLE_AVAILABILITY": "Включить доступность бизнеса для этого входящего канала",
+      "UNAVAILABLE_MESSAGE_LABEL": "Сообщение для посетителей о недоступности",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "В данный момент мы недоступны. Оставьте сообщение, мы вам ответим, как только будем на связи.",
+      "TOGGLE_HELP": "Включение доступности для бизнеса покажет часы работы в виджете онлайн общения, даже если все менеджеры не в сети. Вне доступных часов работы - посетители могут быть предупреждены сообщением и формой предварительного чата.",
       "DAY": {
         "ENABLE": "Я работаю в этот день",
         "UNAVAILABLE": "Я не работаю в этот день",
