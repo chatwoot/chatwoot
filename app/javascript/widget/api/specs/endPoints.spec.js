@@ -47,11 +47,11 @@ describe('#getConversation', () => {
 
 describe('#triggerCampaign', () => {
   it('should returns correct payload', () => {
-    const token = 'ADSDJ2323MSDSDFMMMASDM';
+    const websiteToken = 'ADSDJ2323MSDSDFMMMASDM';
     const campaignId = 12;
     expect(
       endPoints.triggerCampaign({
-        token,
+        websiteToken,
         campaignId,
       })
     ).toEqual({
@@ -63,7 +63,7 @@ describe('#triggerCampaign', () => {
         },
       },
       params: {
-        website_token: token,
+        website_token: websiteToken,
       },
     });
   });
