@@ -58,14 +58,14 @@ export default {
       return displayImage;
     },
     agentName() {
-      if (this.isSenderEmpty(this.sender)) {
+      if (this.isSenderExist(this.sender)) {
         const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
     availabilityStatus() {
-      if (this.isSenderEmpty(this.sender)) {
+      if (this.isSenderExist(this.sender)) {
         const { availability_status: availabilityStatus } = this.sender;
         return availabilityStatus;
       }
@@ -73,7 +73,7 @@ export default {
     },
   },
   methods: {
-    isSenderEmpty(sender) {
+    isSenderExist(sender) {
       return sender && !isEmptyObject(sender);
     },
   },
