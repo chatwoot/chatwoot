@@ -3,7 +3,7 @@
     "LINK": "Configurações do Perfil",
     "TITLE": "Configurações do Perfil",
     "BTN_TEXT": "Atualizar o Perfil",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Seu perfil foi atualizado com sucesso",
     "PASSWORD_UPDATE_SUCCESS": "A sua senha foi alterada com sucesso",
     "AFTER_EMAIL_CHANGED": "Seu perfil foi atualizado com sucesso. Faça login novamente, pois suas credenciais de login foram alteradas",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "Senha",
         "NOTE": "A atualização da sua senha redefiniria o seu login em vários dispositivos.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Mudar Senha"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
