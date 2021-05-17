@@ -6,7 +6,7 @@
           :src="avatarUrl"
           size="20px"
           :username="agentName"
-          :status="sender.availability_status"
+          :status="availabilityStatus"
         />
         <span class="agent--name">{{ agentName }}</span>
         <span class="company--name"> {{ companyName }}</span>
@@ -51,18 +51,30 @@ export default {
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
-      if (!isEmptyObject(this.sender)) {
+      if (this.sender && !isEmptyObject(this.sender)) {
         const { avatar_url: avatarUrl } = this.sender;
         return avatarUrl;
       }
       return displayImage;
     },
     agentName() {
-      if (!isEmptyObject(this.sender)) {
+      if (this.checkSenderIsEmpty(this.sender)) {
         const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
+    },
+    availabilityStatus() {
+      if (this.checkSenderIsEmpty(this.sender)) {
+        const { availability_status: availabilityStatus } = this.sender;
+        return availabilityStatus;
+      }
+      return null;
+    },
+  },
+  methods: {
+    isSenderEmpty(sender) {
+      return sender && !isEmptyObject(sender);
     },
   },
 };
