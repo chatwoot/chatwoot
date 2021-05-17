@@ -24,7 +24,7 @@ export const actions = {
   get: async function getCampaigns({ commit }, { inboxId }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
-      const response = await InboxesAPI.getCamapigns(inboxId);
+      const response = await InboxesAPI.getCampaigns(inboxId);
       commit(types.SET_CAMPAIGNS, response.data);
     } catch (error) {
       // Ignore error

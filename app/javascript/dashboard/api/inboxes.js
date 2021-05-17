@@ -10,7 +10,7 @@ class Inboxes extends ApiClient {
     return axios.get(`${this.url}/${inboxId}/assignable_agents`);
   }
 
-  getCamapigns(inboxId) {
+  getCampaigns(inboxId) {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
 }
