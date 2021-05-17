@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Label tersedia di akun",
         "REMOVE": "Klik ikon X untuk menghapus label",
         "ADD": "Klik ikon + untuk menambah label",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Memperbaharui label",
         "UPDATE_ERROR": "Tidak dapat memperbarui label, coba lagi."
       },
       "NO_LABELS_TO_ADD": "Tidak ada lagi label yang ditentukan di akun.",
-      "NO_AVAILABLE_LABELS": "Tidak ada label yang ditambahkan ke percakapan ini."
+      "NO_AVAILABLE_LABELS": "Tidak ada label yang ditambahkan ke percakapan ini.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mute Percakapan",
     "UNMUTE_CONTACT": "Unmute Percakapan",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Alamat email"
       },
       "VIEW_DETAILS": "Lihat detail"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
