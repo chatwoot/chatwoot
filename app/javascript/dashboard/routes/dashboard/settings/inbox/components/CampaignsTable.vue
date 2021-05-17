@@ -93,7 +93,6 @@ export default {
             return <Label title={labelText} colorScheme={colorScheme} />;
           },
         },
-
         {
           field: 'sender',
           key: 'sender',
@@ -101,7 +100,7 @@ export default {
           align: 'left',
           renderBodyCell: ({ row }) => {
             if (row.sender) return <CampaignSender sender={row.sender} />;
-            return '---';
+            return this.$t('CAMPAIGN.LIST.SENDER.BOT');
           },
         },
         {
