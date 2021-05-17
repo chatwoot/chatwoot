@@ -20,7 +20,8 @@
   "START_CONVERSATION": "Starta konversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nya meddelanden",
-    "CLOSE_MESSAGES_BUTTON": "Stäng"
+    "CLOSE_MESSAGES_BUTTON": "Stäng",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "Chatta med oss"

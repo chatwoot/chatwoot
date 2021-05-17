@@ -20,7 +20,8 @@
   "START_CONVERSATION": "സംഭാഷണം ആരംഭിക്കുക",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
-    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക"
+    "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"

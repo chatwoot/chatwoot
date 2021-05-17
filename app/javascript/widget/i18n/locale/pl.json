@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Jesteśmy dostępni",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "W tej chwili jesteśmy niedostępni"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Zwykle odpowiadamy w ciągu paru minut",
@@ -20,7 +20,8 @@
   "START_CONVERSATION": "Rozpocznij rozmowę",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
-    "CLOSE_MESSAGES_BUTTON": "Zamknij"
+    "CLOSE_MESSAGES_BUTTON": "Zamknij",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "Porozmawiaj z nami"
@@ -49,5 +50,5 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika"
 }

@@ -20,7 +20,8 @@
   "START_CONVERSATION": "شروع گفتگو",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "مشاهده پیام‌های جدید",
-    "CLOSE_MESSAGES_BUTTON": "بستن"
+    "CLOSE_MESSAGES_BUTTON": "بستن",
+    "COMPANY_FROM": "از"
   },
   "BUBBLE": {
     "LABEL": "با ما گفتگو کنید"
