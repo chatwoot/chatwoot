@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etiketter tilgjengelig i kontoen",
         "REMOVE": "Klikk på X ikonet for å fjerne etiketten",
         "ADD": "Klikk på + ikonet for å legge til etiketten",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Oppdater etiketter",
         "UPDATE_ERROR": "Kunne ikke oppdatere etiketter, prøv på nytt."
       },
       "NO_LABELS_TO_ADD": "Det er ingen flere etiketter definert i kontoen.",
-      "NO_AVAILABLE_LABELS": "Det er ingen etiketter lagt til i denne samtalen."
+      "NO_AVAILABLE_LABELS": "Det er ingen etiketter lagt til i denne samtalen.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Demp samtale",
     "UNMUTE_CONTACT": "Skru av demping",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "E-postadresse"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

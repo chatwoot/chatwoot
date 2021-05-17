@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Labels beschikbaar in het account",
         "REMOVE": "Klik op het X-pictogram om het label te verwijderen",
         "ADD": "Klik op + pictogram om het label toe te voegen",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Labels bijwerken",
         "UPDATE_ERROR": "Kon labels niet updaten, probeer het opnieuw."
       },
       "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "Er zijn geen labels toegevoegd aan dit gesprek."
+      "NO_AVAILABLE_LABELS": "Er zijn geen labels toegevoegd aan dit gesprek.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Gesprek dempen",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Uw e-mailadres"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
