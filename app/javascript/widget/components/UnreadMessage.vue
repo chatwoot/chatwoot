@@ -6,7 +6,7 @@
           :src="avatarUrl"
           size="20px"
           :username="agentName"
-          :status="sender.availability_status"
+          :status="availabilityStatus"
         />
         <span class="agent--name">{{ agentName }}</span>
         <span class="company--name"> {{ companyName }}</span>
@@ -46,34 +46,45 @@ export default {
       }`;
     },
     avatarUrl() {
-      const { avatar_url: avatarUrl } = this.sender;
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
-      return !isEmptyObject(this.sender) ? avatarUrl : displayImage;
+      if (this.isSenderExist(this.sender)) {
+        const { avatar_url: avatarUrl } = this.sender;
+        return avatarUrl;
+      }
+      return displayImage;
     },
     agentName() {
-      const { available_name: availableName, name } = this.sender;
-      if (!isEmptyObject(this.sender)) {
+      if (this.isSenderExist(this.sender)) {
+        const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
     },
+    availabilityStatus() {
+      if (this.isSenderExist(this.sender)) {
+        const { availability_status: availabilityStatus } = this.sender;
+        return availabilityStatus;
+      }
+      return null;
+    },
+  },
+  methods: {
+    isSenderExist(sender) {
+      return sender && !isEmptyObject(sender);
+    },
   },
 };
 </script>
-
-<style lang="scss">
+<style lang="scss" scoped>
 @import '~widget/assets/scss/variables.scss';
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
 }
-</style>
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
 .row--agent-block {
   align-items: center;
   display: flex;
@@ -81,7 +92,7 @@ export default {
   padding-bottom: $space-small;
   font-size: $font-size-small;
   .agent--name {
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-medium;
     margin-left: $space-smaller;
   }
   .company--name {
