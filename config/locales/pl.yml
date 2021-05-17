@@ -30,10 +30,10 @@ pl:
   reports:
     period: Okres raportowania od %{since} do %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Nazwa agenta
+      conversations_count: Liczba rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
   notifications:
     notification_title:
       conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
@@ -47,7 +47,7 @@ pl:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        bot: "Rozmowa została przeniesiona do bota przez %{user_name}"
         auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
       assignee:
         self_assigned: "%{user_name} przypisał się do tej rozmowy"
@@ -72,7 +72,10 @@ pl:
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack to narzędzie czatu, które łączy całą Twoją komunikację w jednym miejscu. Integrując Slack, możesz otrzymywać powiadomienia o wszystkich nowych rozmowach na swoim koncie bezpośrednio wewnątrz Slack."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhooki"
+      description: "Webhooki dostarczają informacji o tym, co dzieje się na Twoim koncie do usług zewnętrznych. Możesz wykorzystać webhooki do przekazywania wydarzeń do ulubionych aplikacji, takich jak Slack lub Github. Kliknij na Konfiguruj, aby skonfigurować webhooki."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

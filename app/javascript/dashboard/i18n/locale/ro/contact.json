@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etichete disponibile în cont",
         "REMOVE": "Faceți clic pe pictograma X pentru a elimina eticheta",
         "ADD": "Faceți clic pe + pictogramă pentru a adăuga eticheta",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Actualizare etichete",
         "UPDATE_ERROR": "Nu s-au putut actualiza etichetele, încercați din nou."
       },
       "NO_LABELS_TO_ADD": "Nu mai sunt etichete definite în cont.",
-      "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație."
+      "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mute Conversation",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Adresa Email"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

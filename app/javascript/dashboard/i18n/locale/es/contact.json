@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etiquetas disponibles en la cuenta",
         "REMOVE": "Haga clic en el icono X para quitar la etiqueta",
         "ADD": "Haga clic en el icono + para añadir la etiqueta",
+        "ADD_BUTTON": "Añadir etiquetas",
         "UPDATE_BUTTON": "Actualizar etiquetas",
         "UPDATE_ERROR": "No se han podido actualizar las etiquetas, inténtelo de nuevo."
       },
       "NO_LABELS_TO_ADD": "No hay más etiquetas definidas en la cuenta.",
-      "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación."
+      "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación.",
+      "LABEL_SELECT": {
+        "TITLE": "Añadir etiquetas",
+        "PLACEHOLDER": "Buscar etiquetas",
+        "NO_RESULT": "No se encontraron etiquetas"
+      }
     },
     "MUTE_CONTACT": "Silenciar Conversación",
     "UNMUTE_CONTACT": "Dessilenciar conversación",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Dirección de correo"
       },
       "VIEW_DETAILS": "Ver detalles"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notas"
+    },
+    "ADD": {
+      "BUTTON": "Añadir",
+      "PLACEHOLDER": "Añadir nota",
+      "TITLE": "Shift + Enter para crear una nota"
+    },
+    "FOOTER": {
+      "BUTTON": "Ver todas las notas"
     }
   }
 }

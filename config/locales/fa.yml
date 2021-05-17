@@ -76,3 +76,6 @@ fa:
     webhooks:
       name: "وب هوک"
       description: "رویدادهای Webhook اطلاعات واقعی در مورد آنچه در حساب شما اتفاق می افتد را به شما ارائه می دهند. برای برقراری ارتباط رویدادها با برنامه های مورد علاقه خود مانند Slack یا Github می توانید از وب بوک ها استفاده کنید. برای تنظیم webhooks خود روی تنظیمات کلیک کنید."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
