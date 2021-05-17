@@ -51,7 +51,7 @@ export default {
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
-      if (this.sender && !isEmptyObject(this.sender)) {
+      if (this.isSenderExist(this.sender)) {
         const { avatar_url: avatarUrl } = this.sender;
         return avatarUrl;
       }
