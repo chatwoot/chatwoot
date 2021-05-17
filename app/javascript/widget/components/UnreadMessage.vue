@@ -46,17 +46,20 @@ export default {
       }`;
     },
     avatarUrl() {
-      const { avatar_url: avatarUrl } = this.sender;
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;
-      return !isEmptyObject(this.sender) ? avatarUrl : displayImage;
+      if (!isEmptyObject(this.sender)) {
+        const { avatar_url: avatarUrl } = this.sender;
+        return avatarUrl;
+      }
+      return displayImage;
     },
     agentName() {
-      const { available_name: availableName, name } = this.sender;
       if (!isEmptyObject(this.sender)) {
+        const { available_name: availableName, name } = this.sender;
         return availableName || name;
       }
       return this.$t('UNREAD_VIEW.BOT');
