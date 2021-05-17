@@ -70,7 +70,7 @@ export default {
     },
     sender() {
       const [firstMessage] = this.unreadMessages;
-      return firstMessage.sender ? firstMessage.sender : {};
+      return firstMessage.sender || {};
     },
   },
   methods: {
