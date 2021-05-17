@@ -1,0 +1,79 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Campañas",
+    "SIDEBAR_TXT": "Los mensajes proactivos permiten al cliente enviar mensajes a sus contactos, lo que generaría más conversaciones. Haga clic en <b>Añadir Campaña</b> para crear una nueva campaña. También puede editar o borrar una campaña existente haciendo clic en el botón de Editar o Borrar.",
+    "HEADER_BTN_TXT": "Crear campaña",
+    "ADD": {
+      "TITLE": "Crear campaña",
+      "DESC": "Los mensajes proactivos permiten al cliente enviar mensajes a sus contactos, lo que generaría más conversaciones.",
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CREATE_BUTTON_TEXT": "Crear",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Título",
+          "PLACEHOLDER": "Por favor escriba un título para la campaña",
+          "ERROR": "El título es obligatorio"
+        },
+        "MESSAGE": {
+          "LABEL": "Mensaje",
+          "PLACEHOLDER": "Por favor escriba el mensaje para la campaña",
+          "ERROR": "El mensaje es obligatorio"
+        },
+        "SENT_BY": {
+          "LABEL": "Enviado por",
+          "PLACEHOLDER": "Por favor seleccione el contenido de la campaña",
+          "ERROR": "El remitente es obligatorio"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Por favor escriba el URL",
+          "ERROR": "Por favor, introduzca una URL válida"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Tiempo en la página (segundos)",
+          "PLACEHOLDER": "Por favor escriba la hora",
+          "ERROR": "La hora en la página es obligatoria"
+        },
+        "ENABLED": "Habilitar campaña",
+        "SUBMIT": "Añadir campaña"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "campaña creada satisfactoriamente",
+        "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Editar campaña",
+      "UPDATE_BUTTON_TEXT": "Actualizar",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaña actualizada satisfactoriamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Cargando campañas...",
+      "404": "No hay campañas creadas en esta bandeja.",
+      "TABLE_HEADER": {
+        "TITLE": "Título",
+        "MESSAGE": "Mensaje",
+        "STATUS": "Estado",
+        "SENDER": "Remitente",
+        "URL": "URL",
+        "TIME_ON_PAGE": "Tiempo (segundos)",
+        "CREATED_AT": "Creado el"
+      },
+      "BUTTONS": {
+        "ADD": "Añadir",
+        "EDIT": "Editar",
+        "DELETE": "Eliminar"
+      },
+      "STATUS": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    }
+  }
+}
