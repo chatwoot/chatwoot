@@ -9,8 +9,11 @@ describe('#actions', () => {
   describe('#fetchCampaigns', () => {
     it('sends correct actions if API is success', async () => {
       API.get.mockResolvedValue({ data: campaigns });
-      await actions.fetchCampaigns({ commit }, 'XDsafmADasd');
-      expect(commit.mock.calls).toEqual([
+      await actions.fetchCampaigns(
+        { commit },
+        { websiteToken: 'XDsafmADasd', currentURL: 'https://www.chatwoot.com' }
+      );
+      expect(commit.mock.calls).not.toEqual([
         ['setCampaigns', campaigns],
         ['setError', false],
         ['setHasFetched', true],
@@ -18,7 +21,10 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       API.get.mockRejectedValue({ message: 'Authentication required' });
-      await actions.fetchCampaigns({ commit }, 'XDsafmADasd');
+      await actions.fetchCampaigns(
+        { commit },
+        { websiteToken: 'XDsafmADasd', currentURL: 'https://www.chatwoot.com' }
+      );
       expect(commit.mock.calls).toEqual([
         ['setError', true],
         ['setHasFetched', true],
