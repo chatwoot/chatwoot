@@ -11,13 +11,16 @@
       </button>
     </div>
     <div class="unread-messages">
-      <agent-bubble
-        v-for="message in unreadMessages"
+      <unread-message
+        v-for="(message, index) in unreadMessages"
         :key="message.id"
         :message-id="message.id"
+        :show-sender="showSender(index)"
+        :sender="message.sender"
         :message="getMessageContent(message)"
       />
     </div>
+
     <div>
       <button
         v-if="unreadMessageCount"
@@ -33,14 +36,15 @@
 
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
-import AgentBubble from 'widget/components/AgentMessageBubble.vue';
+import UnreadMessage from 'widget/components/UnreadMessage.vue';
+
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
 
 export default {
   name: 'Unread',
   components: {
-    AgentBubble,
+    UnreadMessage,
   },
   mixins: [configMixin],
   props: {
@@ -64,6 +68,10 @@ export default {
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
     },
+    sender() {
+      const [firstMessage] = this.unreadMessages;
+      return firstMessage.sender ? firstMessage.sender : {};
+    },
   },
   methods: {
     openFullView() {
@@ -85,6 +93,9 @@ export default {
       if (hasAttachments) return `📑`;
 
       return '';
+    },
+    showSender(index) {
+      return index === 0;
     },
   },
 };
