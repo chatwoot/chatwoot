@@ -73,7 +73,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['fetchCampaigns', 'initCampaigns']),
+    ...mapActions('campaign', ['startCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -154,13 +154,11 @@ export default {
           this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
-        } else if (message.event === 'set-current-url') {
-          window.referrerURL = message.referrerURL;
-          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, message.referrerHost);
-          this.fetchCampaigns({
-            websiteToken,
-            currentURL: message.referrerURL,
-          });
+        } else if (message.event === 'change-url') {
+          const { referrerURL, referrerHost } = message;
+          this.startCampaigns({ currentURL: referrerURL, websiteToken });
+          window.referrerURL = referrerURL;
+          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {
@@ -187,11 +185,6 @@ export default {
           this.showUnreadView = true;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
-        } else if (message.event === 'change-url') {
-          this.initCampaigns({
-            allCampaigns: this.campaigns,
-            currentURL: message.url,
-          });
         }
       });
     },

@@ -19,30 +19,37 @@ export const getters = {
 };
 
 export const actions = {
-  initCampaigns: async (_, { allCampaigns, currentURL }) => {
-    const formattedCampaigns = formatCampaigns({
-      campagins: allCampaigns,
-    });
-    // Find all campaigns that matches the current URL
-    const filteredCampaigns = filterCampaigns({
-      campagins: formattedCampaigns,
-      currentURL,
-    });
-    campaignTimer.initTimers({ allCampaigns: filteredCampaigns });
-  },
   fetchCampaigns: async (
     { commit, dispatch },
     { websiteToken, currentURL }
   ) => {
     try {
       const { data } = await getCampaigns(websiteToken);
-      dispatch('initCampaigns', { allCampaigns: data, currentURL });
       commit('setCampaigns', data);
+      dispatch('startCampaigns', { currentURL, websiteToken });
       commit('setError', false);
       commit('setHasFetched', true);
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
+    }
+  },
+  startCampaigns: async (
+    { getters: { fetchCampaigns: campagins }, dispatch },
+    { currentURL, websiteToken }
+  ) => {
+    if (!campagins.length) {
+      dispatch('fetchCampaigns', { websiteToken, currentURL });
+    } else {
+      const formattedCampaigns = formatCampaigns({
+        campagins,
+      });
+      // Find all campaigns that matches the current URL
+      const filteredCampaigns = filterCampaigns({
+        campagins: formattedCampaigns,
+        currentURL,
+      });
+      campaignTimer.initTimers({ campagins: filteredCampaigns });
     }
   },
 };

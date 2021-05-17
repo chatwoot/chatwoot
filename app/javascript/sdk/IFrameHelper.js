@@ -53,7 +53,6 @@ export const IFrameHelper = {
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
-    IFrameHelper.initLocationListener();
     IFrameHelper.initWindowSizeListener();
     IFrameHelper.preventDefaultScroll();
   },
@@ -65,11 +64,6 @@ export const IFrameHelper = {
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
       '*'
     );
-  },
-  initLocationListener: () => {
-    window.onhashchange = () => {
-      IFrameHelper.setCurrentUrl();
-    };
   },
   initPostMessageCommunication: () => {
     window.onmessage = e => {
@@ -119,7 +113,6 @@ export const IFrameHelper = {
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
       });
-      IFrameHelper.setCurrentUrl();
       IFrameHelper.toggleCloseButton();
 
       if (window.$chatwoot.user) {
@@ -146,8 +139,8 @@ export const IFrameHelper = {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
     },
-    onLocationChange: url => {
-      IFrameHelper.sendMessage('change-url', { url });
+    onLocationChange: ({ referrerURL, referrerHost }) => {
+      IFrameHelper.sendMessage('change-url', { referrerURL, referrerHost });
     },
 
     setUnreadMode: message => {
@@ -206,12 +199,6 @@ export const IFrameHelper = {
       bubbleHolder.appendChild(createNotificationBubble());
       onClickChatBubble();
     }
-  },
-  setCurrentUrl: () => {
-    IFrameHelper.sendMessage('set-current-url', {
-      referrerURL: window.location.href,
-      referrerHost: window.location.host,
-    });
   },
   toggleCloseButton: () => {
     if (window.matchMedia('(max-width: 668px)').matches) {

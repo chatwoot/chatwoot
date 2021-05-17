@@ -5,9 +5,9 @@ class CampaignTimer {
     this.campaignTimers = [];
   }
 
-  initTimers = ({ allCampaigns }) => {
+  initTimers = ({ campagins }) => {
     this.clearTimers();
-    allCampaigns.forEach(campaign => {
+    campagins.forEach(campaign => {
       const { timeOnPage, id: campaignId } = campaign;
       this.campaignTimers[campaignId] = setTimeout(() => {
         triggerCampaign({ campaignId });
