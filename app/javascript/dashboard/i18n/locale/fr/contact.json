@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Étiquettes disponibles dans le compte",
         "REMOVE": "Cliquez sur l'icône X pour supprimer l'étiquette",
         "ADD": "Cliquez sur l'icône + pour ajouter l'étiquette",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Mettre à jour les étiquettes",
         "UPDATE_ERROR": "Impossible de mettre à jour les étiquettes. Veuillez réessayer."
       },
       "NO_LABELS_TO_ADD": "Il n'y a pas d'autres étiquettes définies dans le compte.",
-      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation."
+      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mettre la conversation en sourdine",
     "UNMUTE_CONTACT": "Réactiver le son de conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Adresse de courriel"
       },
       "VIEW_DETAILS": "Voir les détails"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
