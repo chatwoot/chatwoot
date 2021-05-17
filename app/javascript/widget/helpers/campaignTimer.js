@@ -1,15 +1,13 @@
 import { triggerCampaign } from 'widget/api/campaign';
 
 class CampaignTimer {
-  constructor(allCampaigns) {
+  constructor() {
     this.campaignTimers = [];
-    this.allCampaigns = allCampaigns;
-    this.initTimers();
   }
 
-  initTimers = () => {
+  initTimers = ({ allCampaigns }) => {
     this.clearTimers();
-    this.allCampaigns.forEach(campaign => {
+    allCampaigns.forEach(campaign => {
       const { timeOnPage, id: campaignId } = campaign;
       this.campaignTimers[campaignId] = setTimeout(() => {
         triggerCampaign({ campaignId });
@@ -24,10 +22,4 @@ class CampaignTimer {
     });
   };
 }
-
-export default {
-  init({ allCampaigns }) {
-    const campaignTimer = new CampaignTimer(allCampaigns);
-    return campaignTimer;
-  },
-};
+export default new CampaignTimer();

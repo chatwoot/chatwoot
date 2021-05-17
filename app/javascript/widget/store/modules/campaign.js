@@ -5,7 +5,6 @@ import {
   formatCampaigns,
   filterCampaigns,
 } from 'widget/helpers/campaignHelper';
-
 const state = {
   records: [],
   uiFlags: {
@@ -29,10 +28,7 @@ export const actions = {
       campagins: formattedCampaigns,
       currentURL,
     });
-    campaignTimer.init({
-      allCampaigns: filteredCampaigns,
-      currentURL,
-    });
+    campaignTimer.initTimers({ allCampaigns: filteredCampaigns });
   },
   fetchCampaigns: async (
     { commit, dispatch },
