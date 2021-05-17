@@ -1,10 +1,6 @@
 import InboxMembersAPI from '../../api/inboxMembers';
 
-const state = {};
-
-const getters = {};
-
-const actions = {
+export const actions = {
   get(_, { inboxId }) {
     return InboxMembersAPI.show(inboxId);
   },
@@ -13,12 +9,7 @@ const actions = {
   },
 };
 
-const mutations = {};
-
 export default {
   namespaced: true,
-  state,
-  getters,
   actions,
-  mutations,
 };

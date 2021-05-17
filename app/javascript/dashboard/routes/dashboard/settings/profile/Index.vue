@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
-    <form @submit.prevent="updateUser">
+  <div class="columns profile--settings">
+    <form @submit.prevent="updateUser('profile')">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
@@ -49,10 +49,15 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <woot-button type="submit" :is-loading="isProfileUpdating">
+            {{ $t('PROFILE_SETTINGS.BTN_TEXT') }}
+          </woot-button>
         </div>
       </div>
+    </form>
+    <form @submit.prevent="updateUser('password')">
       <div class="profile--settings--row row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
           </h4>
@@ -85,27 +90,30 @@
               {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
             </span>
           </label>
+          <woot-button
+            :is-loading="isPasswordChanging"
+            type="submit"
+            :disabled="
+              !passwordConfirmation || !$v.passwordConfirmation.isEqPassword
+            "
+          >
+            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
+          </woot-button>
         </div>
       </div>
-      <notification-settings />
-      <div class="profile--settings--row row">
-        <div class="columns small-3 ">
-          <h4 class="block-title">
-            {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
-          </h4>
-          <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
-        </div>
-        <div class="columns small-9 medium-5">
-          <woot-code :script="currentUser.access_token"></woot-code>
-        </div>
-      </div>
-      <woot-submit-button
-        class="button nice success button--fixed-right-top"
-        :button-text="$t('PROFILE_SETTINGS.BTN_TEXT')"
-        :loading="isUpdating"
-      >
-      </woot-submit-button>
     </form>
+    <notification-settings />
+    <div class="profile--settings--row row">
+      <div class="columns small-3">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
+        </h4>
+        <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
+      </div>
+      <div class="columns small-9 medium-5">
+        <woot-code :script="currentUser.access_token"></woot-code>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -120,7 +128,7 @@ export default {
   components: {
     NotificationSettings,
   },
-  mixin: [alertMixin],
+  mixins: [alertMixin],
   data() {
     return {
       avatarFile: '',
@@ -130,7 +138,8 @@ export default {
       email: '',
       password: '',
       passwordConfirmation: '',
-      isUpdating: false,
+      isProfileUpdating: false,
+      isPasswordChanging: false,
     };
   },
   validations: {
@@ -181,13 +190,17 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
     },
-    async updateUser() {
+    async updateUser(type) {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
-      this.isUpdating = true;
+      if (type === 'profile') {
+        this.isProfileUpdating = true;
+      } else if (type === 'password') {
+        this.isPasswordChanging = true;
+      }
       const hasEmailChanged = this.currentUser.email !== this.email;
       try {
         await this.$store.dispatch('updateProfile', {
@@ -198,13 +211,20 @@ export default {
           displayName: this.displayName,
           password_confirmation: this.passwordConfirmation,
         });
-        this.isUpdating = false;
+        this.isProfileUpdating = false;
+        this.isPasswordChanging = false;
         if (hasEmailChanged) {
           clearCookiesOnLogout();
           this.showAlert(this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED'));
         }
+        if (type === 'profile') {
+          this.showAlert(this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'));
+        } else if (type === 'password') {
+          this.showAlert(this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS'));
+        }
       } catch (error) {
-        this.isUpdating = false;
+        this.isProfileUpdating = false;
+        this.isPasswordChanging = false;
       }
     },
     handleImageUpload({ file, url }) {

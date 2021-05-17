@@ -19,12 +19,12 @@
           :menu-item="teamSection"
         />
         <sidebar-item
-          v-if="shouldShowInboxes"
+          v-if="shouldShowSidebarItem"
           :key="inboxSection.toState"
           :menu-item="inboxSection"
         />
         <sidebar-item
-          v-if="shouldShowInboxes"
+          v-if="shouldShowSidebarItem"
           :key="labelSection.toState"
           :menu-item="labelSection"
         />
@@ -128,11 +128,11 @@ export default {
     currentRoute() {
       return this.$store.state.route.name;
     },
-    shouldShowInboxes() {
+    shouldShowSidebarItem() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
     shouldShowTeams() {
-      return this.shouldShowInboxes && this.teams.length;
+      return this.shouldShowSidebarItem && this.teams.length;
     },
     inboxSection() {
       return {
@@ -144,6 +144,7 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
         toStateName: 'settings_inbox_list',
+        newLinkRouteName: 'settings_inbox_new',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
@@ -158,10 +159,13 @@ export default {
         icon: 'ion-pound',
         label: 'LABELS',
         hasSubMenu: true,
+        newLink: true,
         key: 'label',
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
         toStateName: 'labels_list',
+        showModalForNewItem: true,
+        modalName: 'AddLabel',
         children: this.accountLabels.map(label => ({
           id: label.id,
           label: label.title,
@@ -178,10 +182,12 @@ export default {
         icon: 'ion-ios-people',
         label: 'TEAMS',
         hasSubMenu: true,
+        newLink: true,
         key: 'team',
         cssClass: 'menu-title align-justify teams-sidebar-menu',
         toState: frontendURL(`accounts/${this.accountId}/settings/teams`),
         toStateName: 'teams_list',
+        newLinkRouteName: 'settings_teams_new',
         children: this.teams.map(team => ({
           id: team.id,
           label: team.name,

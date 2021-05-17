@@ -7,6 +7,14 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
   end
 
+  def assignable_agents
+    @assignable_agents = (Current.account.users.where(id: @inbox.members.select(:user_id)) + Current.account.administrators).uniq
+  end
+
+  def campaigns
+    @campaigns = @inbox.campaigns
+  end
+
   def create
     ActiveRecord::Base.transaction do
       channel = create_channel

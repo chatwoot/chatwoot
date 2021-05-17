@@ -5,18 +5,18 @@
     "TERMS_ACCEPT": "회원가입 시, 당신은 우리의 <a href=\"https://www.chatwoot.com/terms\">T & C</a> 및<a href=\"https://www.chatwoot.com/privacy-policy\">개인 정보 보호 정책</a>에 동의하게 됩니다.",
     "ACCOUNT_NAME": {
       "LABEL": "계정 이름",
-      "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "PLACEHOLDER": "계정 이름을 입력합니다. 예: Girls Generation",
+      "ERROR": "계정 이름이 너무 짧음"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "전체 이름",
+      "PLACEHOLDER": "전체 이름을 입력합니다. 예: Taeyeon Kim",
+      "ERROR": "계정 이름이 너무 짧음"
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "LABEL": "회사 이메일",
+      "PLACEHOLDER": "회사 이메일 주소를 입력하세요. 예: taeyeon@girls.generation",
+      "ERROR": "이메일 주소가 잘못되었습니다."
     },
     "PASSWORD": {
       "LABEL": "비밀번호",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
     },
     "SUBMIT": "보내기",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"
   }
 }

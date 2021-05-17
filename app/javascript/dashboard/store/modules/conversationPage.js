@@ -18,8 +18,11 @@ export const getters = {
   getHasEndReached: $state => filter => {
     return $state.hasEndReached[filter];
   },
-  getCurrentPage: $state => filter => {
+  getCurrentPageFilter: $state => filter => {
     return $state.currentPage[filter];
+  },
+  getCurrentPage: $state => {
+    return $state.currentPage;
   },
 };
 

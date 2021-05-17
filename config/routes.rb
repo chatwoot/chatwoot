@@ -42,6 +42,8 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, except: [:show, :edit, :new]
+          resources :campaigns, only: [:index, :create, :show, :update]
+
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
@@ -69,6 +71,9 @@ Rails.application.routes.draw do
               get :search
               post :import
             end
+            member do
+              get :contactable_inboxes
+            end
             scope module: :contacts do
               resources :conversations, only: [:index]
               resources :contact_inboxes, only: [:create]
@@ -85,6 +90,8 @@ Rails.application.routes.draw do
           end
 
           resources :inboxes, only: [:index, :create, :update, :destroy] do
+            get :assignable_agents, on: :member
+            get :campaigns, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -114,6 +121,7 @@ Rails.application.routes.draw do
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
+            resources :hooks, only: [:create, :update, :destroy]
             resource :slack, only: [:create, :update, :destroy], controller: 'slack'
           end
           resources :working_hours, only: [:update]
@@ -141,6 +149,7 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index]
 
       namespace :widget do
+        resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
@@ -238,6 +247,7 @@ Rails.application.routes.draw do
       # resources that doesn't appear in primary navigation in super admin
       resources :account_users, only: [:new, :create, :destroy]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

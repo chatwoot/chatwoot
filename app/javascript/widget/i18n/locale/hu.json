@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Online vagyunk",
-    "OFFLINE": "Offilne vagyunk"
+    "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
@@ -48,5 +48,6 @@
         "ERROR": "Az üzenet túl rövid"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet"
 }

@@ -42,6 +42,76 @@ RSpec.describe 'Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/assignable_agents' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignable_agents"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+      end
+
+      it 'returns all assignable inbox members along with administrators' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/assignable_agents",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
+        expect(response_data.size).to eq(2)
+        expect(response_data.pluck(:role)).to include('agent', 'administrator')
+      end
+    end
+  end
+
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/campaigns' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      let!(:campaign) { create(:campaign, account: account, inbox: inbox) }
+
+      it 'returns unauthorized for agents' do
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns all campaigns belonging to the inbox to administrators' do
+        # create a random campaign
+        create(:campaign, account: account)
+        get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/campaigns",
+            headers: administrator.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body.first[:id]).to eq(campaign.display_id)
+        expect(body.length).to eq(1)
+      end
+    end
+  end
+
   describe 'DELETE /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account) }
 

@@ -31,6 +31,8 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Validate Data against JSON Schema
+gem 'json_schemer'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -80,6 +82,8 @@ gem 'twitty'
 gem 'koala'
 # slack client
 gem 'slack-ruby-client'
+# for dialogflow integrations
+gem 'google-cloud-dialogflow'
 
 ##--- gems for debugging and error reporting ---##
 # static analysis
@@ -105,6 +109,8 @@ gem 'maxminddb'
 # to create db triggers
 gem 'hairtrigger'
 
+gem 'procore-sift'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -112,7 +118,7 @@ group :development do
   gem 'web-console'
 
   # used in swagger build
-  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'
+  gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: '131b11294fd6af9c428171f38516e6222a58c874'
 
   # When we want to squash migrations
   gem 'squasher'

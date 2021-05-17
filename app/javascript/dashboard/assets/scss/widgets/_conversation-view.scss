@@ -132,7 +132,6 @@
 
   .bubble {
     @include bubble-with-types;
-    max-width: 50rem;
     text-align: left;
     word-wrap: break-word;
 
@@ -151,6 +150,7 @@
       border-top-left-radius: $space-smaller;
       color: $color-body;
       margin-right: auto;
+      word-break: break-word;
 
       &.is-image {
         border-radius: var(--border-radius-large);
@@ -198,6 +198,7 @@
       border-bottom-right-radius: $space-smaller;
       border-top-right-radius: $space-smaller;
       margin-left: auto;
+      word-break: break-word;
 
       &.is-private {
         background: lighten($warning-color, 32%);
@@ -228,9 +229,15 @@
     }
   }
 
+  &.center {
+    justify-content: center;
+  }
+
   .wrap {
     @include margin($zero $space-normal);
-    max-width: 69%;
+
+    --bubble-max-width: 49.6rem;
+    max-width: Min(var(--bubble-max-width), 85%);
 
     .sender--name {
       font-size: $font-size-mini;
@@ -247,17 +254,22 @@
   }
 
   .activity-wrap {
-    @include flex;
-    @include margin($space-small auto);
-    @include padding($space-small $space-normal);
-    @include flex-align($x: center, $y: null);
-    background: lighten($warning-color, 32%);
-    border: 1px solid lighten($warning-color, 22%);
-    border-radius: $space-smaller;
-    font-size: $font-size-small;
+    background: var(--s-50);
+    border: 1px solid var(--s-100);
+    border-radius: var(--border-radius-medium);
+    display: flex;
+    font-size: var(--font-size-small);
+    justify-content: center;
+    margin: var(--space-small) var(--space-normal);
+    padding: var(--space-small) var(--space-normal);
 
-    .message-text__wrap {
+    .is-text {
       display: inline-block;
+      text-align: start;
+
+      @include breakpoint(xxxlarge up) {
+        display: flex;
+      }
     }
   }
 }

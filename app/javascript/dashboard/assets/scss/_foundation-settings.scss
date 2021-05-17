@@ -49,7 +49,7 @@ $global-font-size: 10px;
 $global-width: 100%;
 $global-lineheight: 1.5;
 $foundation-palette: (primary: $color-woot,
-  secondary: #35c5ff,
+  secondary: #5d7592,
   success: #44ce4b,
   warning: #ffc532,
   alert: #ff382d);
@@ -260,11 +260,11 @@ color 0.25s ease-out;
 // 12. Button Group
 // ----------------
 
-$buttongroup-margin: 1rem;
-$buttongroup-spacing: 1px;
+$buttongroup-margin: 0;
+$buttongroup-spacing: 0;
 $buttongroup-child-selector: '.button';
 $buttongroup-expand-max: 6;
-$buttongroup-radius-on-each: true;
+$buttongroup-radius-on-each: false;
 
 // 13. Callout
 // -----------
@@ -358,7 +358,7 @@ $form-label-font-weight: $font-weight-medium;
 $form-label-line-height: 1.8;
 $select-background: $white;
 $select-triangle-color: $dark-gray;
-$select-radius: $global-radius;
+$select-radius: var(--border-radius-normal);
 $input-color: $header-color;
 $input-placeholder-color: $light-gray;
 $input-font-family: inherit;
@@ -374,19 +374,19 @@ $input-shadow-focus: 0;
 $input-cursor-disabled: not-allowed;
 $input-transition: border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $global-radius;
-$form-button-radius: $global-radius;
+$input-radius: var(--border-radius-normal);
+$form-button-radius: var(--border-radius-normal);
 
 // 20. Label
 // ---------
 
-$label-background: lighten($primary-color, 40%);
-$label-color: $primary-color;
+$label-background: $primary-color;
+$label-color: $white;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
-$label-font-size: $font-size-micro;
+$label-font-size: $font-size-mini;
 $label-padding: $space-smaller $space-small;
-$label-radius: $space-micro;
+$label-radius: var(--border-radius-small);
 
 // 21. Media Object
 // ----------------

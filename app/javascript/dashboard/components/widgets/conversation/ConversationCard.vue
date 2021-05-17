@@ -30,10 +30,12 @@
         <span v-if="lastMessageInChat.content">
           {{ parsedLastMessage }}
         </span>
-        <span v-else-if="!lastMessageInChat.attachments">{{ ` ` }}</span>
-        <span v-else>
+        <span v-else-if="lastMessageInChat.attachments">
           <i :class="`small-icon ${this.$t(`${attachmentIconKey}.ICON`)}`"></i>
           {{ this.$t(`${attachmentIconKey}.CONTENT`) }}
+        </span>
+        <span v-else>
+          {{ $t('CHAT_LIST.NO_CONTENT') }}
         </span>
       </p>
       <p v-else class="conversation--message">
@@ -191,6 +193,10 @@ export default {
 <style lang="scss" scoped>
 .conversation {
   align-items: center;
+
+  &:hover {
+    background: var(--color-background-light);
+  }
 }
 
 .has-inbox-name {

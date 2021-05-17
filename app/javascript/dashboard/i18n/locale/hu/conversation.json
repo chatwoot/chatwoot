@@ -11,7 +11,7 @@
       "TITLE": "Üzenetekben keresés",
       "LOADING_MESSAGE": "Adatelemzés...",
       "PLACEHOLDER": "Írj be szöveget hogy keress az üzenetek közt",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Nincs találat."
     },
     "UNREAD_MESSAGES": "Olvasatlan üzenetek",
     "UNREAD_MESSAGE": "Olvasatlan üzenet",
@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "LAST_INCOMING_TWEET": "Az utolsó beérkező tweetre válaszolsz",
     "REPLYING_TO": "Neki válaszolsz:",
     "REMOVE_SELECTION": "Kijelölés törlése",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
+      "OPEN_ACTION": "Megnyitás",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
       "DETAILS": "részletek"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Bottal megnyitni"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
@@ -51,7 +57,8 @@
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
     "CHANGE_STATUS": "A beszélgetés státusza megváltozott",
     "CHANGE_AGENT": "Hozzárendelt ügynök megváltoztatva",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
+    "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet",
     "SENT_BY": "Küldő:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Ügynök kiválasztása",
@@ -101,11 +108,11 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Beszélgetés részletei",
+    "ASSIGNEE_LABEL": "Hozzárendelt ügynök",
+    "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nincs"
     }
   }
 }
