@@ -2,16 +2,16 @@
   <div class="message-sender">
     <div class="avatar-container">
       <thumbnail
-        :src="sender.avatar_url"
+        :src="avatarUrl"
         size="28px"
-        :username="sender.available_name"
+        :username="agentName"
         :status="sender.availability_status"
       />
     </div>
 
     <div class="row--agent-block">
       <div class="name-container">
-        <span class="agent--name">{{ sender.available_name }}</span>
+        <span class="agent--name">{{ agentName }}</span>
         <span class="company--name"> {{ companyName }}</span>
       </div>
     </div>
@@ -19,6 +19,7 @@
 </template>
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import { isEmptyObject } from 'widget/helpers/utils';
 import configMixin from '../mixins/configMixin';
 export default {
   name: 'MessageSender',
@@ -37,6 +38,22 @@ export default {
       return `${this.$t('UNREAD_VIEW.COMPANY_FROM')} ${
         this.channelConfig.websiteName
       }`;
+    },
+    avatarUrl() {
+      // eslint-disable-next-line
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const displayImage = this.useInboxAvatarForBot
+        ? this.inboxAvatarUrl
+        : BotImage;
+      return !isEmptyObject(this.sender)
+        ? this.sender.avatar_url
+        : displayImage;
+    },
+    agentName() {
+      if (!isEmptyObject(this.sender)) {
+        return this.sender.available_name || this.sender.name;
+      }
+      return this.$t('UNREAD_VIEW.BOT');
     },
   },
 };
