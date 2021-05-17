@@ -23,7 +23,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bourbon": "^6.0.0",
-    "chart.js": "~2.5.0",
+    "chart.js": "~2.9.4",
     "copy-text-to-clipboard": "2.2.0",
     "core-js": "3.11.0",
     "country-code-emoji": "^1.0.0",
