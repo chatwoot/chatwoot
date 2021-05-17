@@ -1,18 +1,18 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "客服代理們",
-    "HEADER_BTN_TXT": "建立客服代理",
-    "LOADING": "正在獲取客服代理列表",
-    "SIDEBAR_TXT": "<p><b>客服代理</b></p> <p> 客服代理 <b></b> 是您的客户支持團隊成員。 </p><p>客服 代理人將能夠查看和回覆您用户的消息。 列表顯示當前帳戶中的所有客服代理人。 </p><p> 點擊 <b>建立客服代理</b> 建立新客服代理人。 您建立的客服代理將收到一封含有確認連結的電子信箱來啟動他們的帳戶，然後他們可以訪問Chatwoot 並回覆消息。 </p><p> 聊天視窗的功能基于以下角色。 </p><p> <b>Agent</b> - 具有此角色的代理只能訪問收件匣、報表和會話。 他們可以將對話分配給其他客服代理人或自己，並解決會話。</p><p> <b>管理員</b> - 管理員將可以訪問您帳戶中所有已啟用的聊天功能。 包括設定，以及所有正常客服代理的权限。</p>",
+    "HEADER": "客服",
+    "HEADER_BTN_TXT": "新增客服",
+    "LOADING": "正在取得客服列表",
+    "SIDEBAR_TXT": "<p><b>客服</b></p> <p> 客服 <b></b> 是您的客戶支持團隊成員。 </p><p>客服將能夠查看和回覆您使用者的訊息。 列表顯示目前帳戶中的所有客服。 </p><p> 點擊 <b>建立客服</b> 建立新客服。 您建立的客服將收到一封包含確認連結的電子信箱來啟動他們的帳戶，然後他們可以訪問Chatwoot 並回覆訊息。 </p><p> 聊天視窗的功能基於以下角色。 </p><p> <b>客服</b> - 具有此角色的客服只能訪問收件匣、報表和對話。 他們可以將對話分配給其他客服或自己，並封存會話。</p><p> <b>管理員</b> - 管理員將可以訪問您帳戶中所有已啟用的聊天功能。 包括設定，以及所有正常客服的權限。</p>",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理員",
-      "AGENT": "客服代理"
+      "AGENT": "客服"
     },
     "LIST": {
-      "404": "没有與此帳戶关联的代理",
-      "TITLE": "管理您團隊中的代理",
-      "DESC": "您可以建立/移除代理到您的團隊。",
-      "NAME": "姓名：",
+      "404": "沒有與此帳號關聯的客服",
+      "TITLE": "管理您團隊中的客服",
+      "DESC": "你可以建立 / 移除客服到你的團隊。",
+      "NAME": "姓名",
       "EMAIL": "電子信箱",
       "STATUS": "狀態",
       "ACTIONS": "操作",
@@ -20,77 +20,77 @@
       "VERIFICATION_PENDING": "待驗證"
     },
     "ADD": {
-      "TITLE": "建立代理到你的團隊",
+      "TITLE": "新增客服到你的團隊",
       "DESC": "您可以建立能夠处理支持您的收件匣的人。",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "CANCEL_BUTTON_TEXT": "取消",
       "FORM": {
         "NAME": {
-          "LABEL": "代理人姓名",
-          "PLACEHOLDER": "請輸入代理人名稱"
+          "LABEL": "客服姓名",
+          "PLACEHOLDER": "請輸客服名稱"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理類型",
-          "PLACEHOLDER": "請選擇一個類型",
-          "ERROR": "代理類型必填"
+          "LABEL": "客服角色",
+          "PLACEHOLDER": "請選擇一個角色",
+          "ERROR": "客服角色為必填"
         },
         "EMAIL": {
           "LABEL": "電子信箱地址",
-          "PLACEHOLDER": "請輸入代理的信箱地址"
+          "PLACEHOLDER": "請輸入客服的電子郵件"
         },
-        "SUBMIT": "建立客服代理"
+        "SUBMIT": "新增客服"
       },
       "API": {
-        "SUCCESS_MESSAGE": "代理建立成功",
-        "EXIST_MESSAGE": "該信箱已被註冊，請重新輸入新的電子信箱",
+        "SUCCESS_MESSAGE": "成功新增客服",
+        "EXIST_MESSAGE": "該電子郵件已被註冊，請輸入新的電子郵件",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "代理建立成功",
+        "SUCCESS_MESSAGE": "刪除客服成功",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "CONFIRM": {
         "TITLE": "確認刪除",
-        "MESSAGE": "您確定要刪除吗？ ",
+        "MESSAGE": "您確定要刪除嗎？ ",
         "YES": "是，刪除 ",
         "NO": "不，保留 "
       }
     },
     "EDIT": {
-      "TITLE": "編輯代理",
+      "TITLE": "編輯客服",
       "FORM": {
         "NAME": {
-          "LABEL": "代理人姓名",
-          "PLACEHOLDER": "請輸入代理人名稱"
+          "LABEL": "客服姓名",
+          "PLACEHOLDER": "請輸入客服名稱"
         },
         "AGENT_TYPE": {
-          "LABEL": "代理類型",
-          "PLACEHOLDER": "請選擇一個類型",
-          "ERROR": "代理類型必填"
+          "LABEL": "角色",
+          "PLACEHOLDER": "請選擇一個角色",
+          "ERROR": "客服角色為必填"
         },
         "EMAIL": {
           "LABEL": "電子信箱地址",
-          "PLACEHOLDER": "請輸入代理的信箱地址"
+          "PLACEHOLDER": "請輸入客服的電子郵件"
         },
-        "SUBMIT": "編輯代理"
+        "SUBMIT": "編輯客服"
       },
       "BUTTON_TEXT": "編輯",
-      "CANCEL_BUTTON_TEXT": "取消操作",
+      "CANCEL_BUTTON_TEXT": "取消",
       "API": {
         "SUCCESS_MESSAGE": "更新客服資訊成功",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "重置密碼",
-        "ADMIN_SUCCESS_MESSAGE": "一封包含重置密碼說明的電子信箱已發送給代理",
-        "SUCCESS_MESSAGE": "代理的密碼重置成功",
+        "ADMIN_SUCCESS_MESSAGE": "一封包含重置密碼說明的電子郵件已發送給客服",
+        "SUCCESS_MESSAGE": "客服密碼重置成功",
         "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "没有找到代理人。"
+      "NO_RESULTS": "查無客服。"
     }
   }
 }
