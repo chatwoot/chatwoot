@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Etiquetes disponibles al compte",
         "REMOVE": "Fes clic a la icona X per eliminar l'etiqueta",
         "ADD": "Fes clic a la icona + per afegir l'etiqueta",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Actualitza les etiquetes",
         "UPDATE_ERROR": "No s'han pogut actualitzar les etiquetes, torna-ho a provar."
       },
       "NO_LABELS_TO_ADD": "No hi ha cap etiqueta definida al compte.",
-      "NO_AVAILABLE_LABELS": "No hi ha etiquetes afegides a aquesta conversa."
+      "NO_AVAILABLE_LABELS": "No hi ha etiquetes afegides a aquesta conversa.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Silencia la conversa",
     "UNMUTE_CONTACT": "Desactiva el silenci de la conversa",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Adreça de correu electrònic"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

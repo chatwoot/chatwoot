@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "ป้ายกำกับที่ใช้ได้ในบัญชีนี้",
         "REMOVE": "คลิกที่ X เพื่อลบป้ายกำกับ",
         "ADD": "คลิกที่ + เพื่อเพิ่มป้ายกำกับ",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "อัพเดทป้ายกำกับ",
         "UPDATE_ERROR": "ไม่สามารถอัพเดทป้านกำกับได้กรุณาลองใหม่"
       },
       "NO_LABELS_TO_ADD": "ไม่มีป้ายกำกับที่กำหนดให้บัญชีนี้",
-      "NO_AVAILABLE_LABELS": "ไม่มีป้ายกำกับที่เพิ่มให้การสนทนานี้"
+      "NO_AVAILABLE_LABELS": "ไม่มีป้ายกำกับที่เพิ่มให้การสนทนานี้",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "ระงับการสนทนา",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "ที่อยู่อีเมล์"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

@@ -1,0 +1,79 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampagnen",
+    "SIDEBAR_TXT": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde. Klicke auf <b>Kampagne hinzufügen</b> um eine neue Kampagne zu erstellen. Sie können auch eine bestehende Kampagne bearbeiten oder löschen, indem Sie auf die Schaltfläche Bearbeiten oder Löschen klicken.",
+    "HEADER_BTN_TXT": "Kampagne erstellen",
+    "ADD": {
+      "TITLE": "Kampagne erstellen",
+      "DESC": "Proaktive Nachrichten erlauben dem Kunden, ausgehende Nachrichten an seine Kontakte zu senden, was weitere Unterhaltungen auslösen würde.",
+      "CANCEL_BUTTON_TEXT": "Stornieren",
+      "CREATE_BUTTON_TEXT": "Erstellen",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Titel",
+          "PLACEHOLDER": "Bitte geben Sie den Titel der Kampagne ein",
+          "ERROR": "Titel ist erforderlich"
+        },
+        "MESSAGE": {
+          "LABEL": "Nachricht",
+          "PLACEHOLDER": "Bitte geben Sie die Nachricht der Kampagne ein",
+          "ERROR": "Nachricht ist erforderlich"
+        },
+        "SENT_BY": {
+          "LABEL": "Gesendet von",
+          "PLACEHOLDER": "Bitte wählen Sie den Inhalt der Kampagne aus",
+          "ERROR": "Absender ist erforderlich"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Bitte URL eingeben",
+          "ERROR": "Bitte geben Sie eine gültige URL ein"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Zeit auf Seite (Sekunden)",
+          "PLACEHOLDER": "Bitte die Uhrzeit eingeben",
+          "ERROR": "Uhrzeit auf Seite ist erforderlich"
+        },
+        "ENABLED": "Kampagne aktivieren",
+        "SUBMIT": "Kampagne hinzufügen"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich erstellt",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Kampagne bearbeiten",
+      "UPDATE_BUTTON_TEXT": "Aktualisieren",
+      "API": {
+        "SUCCESS_MESSAGE": "Kampagne erfolgreich aktualisiert",
+        "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Lade Kampagnen...",
+      "404": "There are no campaigns created for this inbox.",
+      "TABLE_HEADER": {
+        "TITLE": "Titel",
+        "MESSAGE": "Nachricht",
+        "STATUS": "Status",
+        "SENDER": "Absender",
+        "URL": "URL",
+        "TIME_ON_PAGE": "Zeit (Sekunden)",
+        "CREATED_AT": "Erstellt am"
+      },
+      "BUTTONS": {
+        "ADD": "Hinzufügen",
+        "EDIT": "Bearbeiten",
+        "DELETE": "Löschen"
+      },
+      "STATUS": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Behindert"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    }
+  }
+}

@@ -1,15 +1,53 @@
+######  Attributes Supported by Integration Apps #######
+# id: Internal Id for the integrations, used by the hooks
+# logo: place the image in /public/dashboard/images/integrations and reference here
+# i18n_key: the key under which translations for the integration is placed in en.yml
+# action: if integration requires external redirect url
+# hook_type: ( account / inbox ) 
+# allow_multiple_hooks: whether multiple hooks can be created for the integration
+# settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
+# settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
+########################################################
+
 slack:
   id: slack
   logo: slack.png
   i18n_key: slack
   action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history
+  hook_type: account
+  allow_multiple_hooks: false
 webhooks:
   id: webhook
   logo: cable.svg
   i18n_key: webhooks
   action: /webhook
+  hook_type: account
+  allow_multiple_hooks: true
 dialogflow:
   id: dialogflow
   logo: dialogflow.svg
   i18n_key: dialogflow
   action: /dialogflow
+  hook_type: inbox
+  allow_multiple_hooks: true
+  settings_json_schema:  {
+    "type": "object",
+    "properties": {
+      "project_id": { "type": "string" },
+      "credentials": { "type": "object" }
+    },
+    "required": ["project_id", "credentials"],
+    "additionalProperties": false
+  }
+  settings_form_schema: [
+    {
+      "label": "Dialogflow Project ID",
+      "type": "text",
+      "name": "project_id"
+    },
+    {
+      "label": "Dialogflow Project Key File",
+      "type": "textarea",
+      "name": "credentials",
+    }
+  ]

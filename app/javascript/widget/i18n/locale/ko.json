@@ -20,7 +20,8 @@
   "START_CONVERSATION": "대화 시작",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "새 메시지 보기",
-    "CLOSE_MESSAGES_BUTTON": "닫기"
+    "CLOSE_MESSAGES_BUTTON": "닫기",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "채팅하기"
