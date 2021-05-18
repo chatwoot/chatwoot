@@ -36,7 +36,7 @@ export default {
     ...mapGetters({
       hasFetched: 'agent/getHasFetched',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
-      campaigns: 'campaign/fetchCampaigns',
+      campaigns: 'campaign/getCampaigns',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';

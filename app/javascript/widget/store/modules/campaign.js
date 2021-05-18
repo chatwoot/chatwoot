@@ -13,43 +13,42 @@ const state = {
   },
 };
 
+const resetCampaignTimers = (campaigns, currentURL) => {
+  const formattedCampaigns = formatCampaigns({ campaigns });
+  // Find all campaigns that matches the current URL
+  const filteredCampaigns = filterCampaigns({
+    campaigns: formattedCampaigns,
+    currentURL,
+  });
+  campaignTimer.initTimers({ campaigns: filteredCampaigns });
+};
+
 export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
-  fetchCampaigns: $state => $state.records,
+  getCampaigns: $state => $state.records,
 };
 
 export const actions = {
-  fetchCampaigns: async (
-    { commit, dispatch },
-    { websiteToken, currentURL }
-  ) => {
+  fetchCampaigns: async ({ commit }, { websiteToken, currentURL }) => {
     try {
-      const { data } = await getCampaigns(websiteToken);
-      commit('setCampaigns', data);
-      dispatch('startCampaigns', { currentURL, websiteToken });
+      const { data: campaigns } = await getCampaigns(websiteToken);
+      commit('setCampaigns', campaigns);
       commit('setError', false);
       commit('setHasFetched', true);
+      resetCampaignTimers(campaigns, currentURL);
     } catch (error) {
       commit('setError', true);
       commit('setHasFetched', true);
     }
   },
   startCampaigns: async (
-    { getters: { fetchCampaigns: campagins }, dispatch },
+    { getters: { getCampaigns: campaigns }, dispatch },
     { currentURL, websiteToken }
   ) => {
-    if (!campagins.length) {
+    if (!campaigns.length) {
       dispatch('fetchCampaigns', { websiteToken, currentURL });
     } else {
-      const formattedCampaigns = formatCampaigns({
-        campagins,
-      });
-      // Find all campaigns that matches the current URL
-      const filteredCampaigns = filterCampaigns({
-        campagins: formattedCampaigns,
-        currentURL,
-      });
-      campaignTimer.initTimers({ campagins: filteredCampaigns });
+      resetCampaignTimers(campaigns, currentURL);
     }
   },
 };
