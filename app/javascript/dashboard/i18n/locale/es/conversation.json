@@ -11,7 +11,7 @@
       "TITLE": "Buscar mensajes",
       "LOADING_MESSAGE": "Cruzando datos...",
       "PLACEHOLDER": "Escriba cualquier texto para buscar mensajes",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "No se encontraron resultados."
     },
     "UNREAD_MESSAGES": "Mensajes no leídos",
     "UNREAD_MESSAGE": "Mensaje sin leer",
@@ -57,7 +57,7 @@
     "VISIBLE_TO_AGENTS": "Nota privada: solo visible para ti y tu equipo",
     "CHANGE_STATUS": "Estado de la conversación cambiado",
     "CHANGE_AGENT": "Conversación cambiada de asignatario",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "Equipo de conversación cambiado",
     "FILE_SIZE_LIMIT": "El archivo excede el límite de los archivos adjuntos {MAXIMUM_FILE_UPLOAD_SIZE}",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
@@ -108,11 +108,11 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Detalles de la conversación",
+    "ASSIGNEE_LABEL": "Agente asignado",
+    "TEAM_LABEL": "Equipo asignado",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Ninguna"
     }
   }
 }

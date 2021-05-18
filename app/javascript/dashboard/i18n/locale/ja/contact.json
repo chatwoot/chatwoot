@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "アカウントで利用可能なラベル名",
         "REMOVE": "ラベルを削除するには×アイコンをクリックします",
         "ADD": "+アイコンをクリックしてラベルを追加",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "ラベルの更新",
         "UPDATE_ERROR": "ラベルを更新できませんでした。再度お試し下さい。"
       },
       "NO_LABELS_TO_ADD": "アカウントに定義されているラベルがありません。",
-      "NO_AVAILABLE_LABELS": "この会話に追加されたラベルはありません。"
+      "NO_AVAILABLE_LABELS": "この会話に追加されたラベルはありません。",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "会話をミュート",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -121,7 +127,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "メッセージ",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Eメールアドレス"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }

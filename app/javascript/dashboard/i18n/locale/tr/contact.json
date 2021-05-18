@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Hesapta bulunan etiketler",
         "REMOVE": "Etiketi kaldırmak için X simgesine tıklayın",
         "ADD": "Etiketi eklemek için + simgesine tıklayın",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Etiketleri güncelle",
         "UPDATE_ERROR": "Etiketler güncellenemedi, tekrar deneyin."
       },
       "NO_LABELS_TO_ADD": "Hesapta tanımlanmış başka etiket yok.",
-      "NO_AVAILABLE_LABELS": "Bu görüşmeye eklenen etiket yok."
+      "NO_AVAILABLE_LABELS": "Bu görüşmeye eklenen etiket yok.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Konuşmayı Sessize Al",
     "UNMUTE_CONTACT": "Konuşmanın Sesini Aç",
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "E-posta adresi"
       },
       "VIEW_DETAILS": "Detayları göster"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
     }
   }
 }
