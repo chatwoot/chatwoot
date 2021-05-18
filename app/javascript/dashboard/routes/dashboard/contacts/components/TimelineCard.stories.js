@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import TimelineCard from './TimelineCard';
 
 export default {
-  title: 'Components/Timeline/Card',
+  title: 'Components/Events/Timeline',
   component: TimelineCard,
   argTypes: {
     eventType: {
@@ -39,7 +39,7 @@ const Template = (args, { argTypes }) => ({
   template: '<timeline-card v-bind="$props" @more="onClick"></timeline-card>',
 });
 
-export const Card = Template.bind({});
-Card.args = {
+export const Timeline = Template.bind({});
+Timeline.args = {
   onClick: action('more'),
 };
