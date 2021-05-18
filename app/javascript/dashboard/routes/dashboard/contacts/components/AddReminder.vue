@@ -11,7 +11,7 @@
       <div class="input-wrap">
         <textarea
           v-model="content"
-          class="input--note"
+          class="input--reminder"
           @keydown.enter.shift.exact="onAdd"
         >
         </textarea>
@@ -96,7 +96,7 @@ export default {
       border: 1px solid var(--color-border);
       border-radius: var(--border-radius-small);
 
-      .input--note {
+      .input--reminder {
         font-size: var(--font-size-mini);
         border-color: transparent;
         padding: var(--space-small) var(--space-smaller) 0 var(--space-smaller);
