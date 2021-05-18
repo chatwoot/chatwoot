@@ -1321,6 +1321,131 @@
           }
         }
       }
+    },
+    "/accounts/{account_id}/integrations/apps": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Integrations"
+        ],
+        "operationId": "get-details-of-all-integrations",
+        "summary": "List all the Integrations",
+        "description": "Get the details of all Integrations available for the account",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/integrations_app"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Url not found"
+          }
+        }
+      }
+    },
+    "/accounts/{account_id}/integrations/hooks": {
+      "post": {
+        "tags": [
+          "Integrations"
+        ],
+        "operationId": "create-an-integration-hook",
+        "summary": "Create an integeration hook",
+        "description": "Create an integration hook",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/integrations_hook_create_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/integrations_hook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Integrations"
+        ],
+        "operationId": "update-an-integrations-hook",
+        "summary": "Update an Integration Hook",
+        "description": "Update an Integration Hook",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "$ref": "#/parameters/hook_id"
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/integrations_hook_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/integrations_hook"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Integrations"
+        ],
+        "operationId": "delete-an-integration-hook",
+        "summary": "Delete an Integration Hook",
+        "description": "Delete an Integration Hook",
+        "parameters": [
+          {
+            "$ref": "#/parameters/account_id"
+          },
+          {
+            "$ref": "#/parameters/hook_id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The hook does not exist in the account"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1686,6 +1811,72 @@
         }
       }
     },
+    "integrations_app": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the integeration"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the integeration"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the team"
+        },
+        "hook_type": {
+          "type": "string",
+          "description": "Whether the it's account or inbox integeration"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the integration is enabled for the account"
+        },
+        "allow_multiple_hooks": {
+          "type": "boolean",
+          "description": "Whether multiple hooks can be created for the integration"
+        },
+        "hooks": {
+          "type": "array",
+          "description": "If there are any hooks created for this integeration"
+        }
+      }
+    },
+    "integrations_hook": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the integeration hook"
+        },
+        "app_id": {
+          "type": "string",
+          "description": "integeration about the integration"
+        },
+        "inbox_id": {
+          "type": "string",
+          "description": "Inbox id if its an Inbox integeration"
+        },
+        "account_id": {
+          "type": "string",
+          "description": "Account id of the integeration"
+        },
+        "status": {
+          "type": "boolean",
+          "description": "Whether the integration hook is enabled for the account"
+        },
+        "hook_type": {
+          "type": "boolean",
+          "description": "Whether its an account or inbox integeration hook"
+        },
+        "settings": {
+          "type": "object",
+          "description": "The associated settings for the integeration"
+        }
+      }
+    },
     "extended_contact": {
       "allOf": [
         {
@@ -2048,6 +2239,32 @@
           "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
         }
       }
+    },
+    "integrations_hook_create_payload": {
+      "type": "object",
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "description": "The id of app for which integeration hook is being created"
+        },
+        "inbox_id": {
+          "type": "string",
+          "description": "The inbox id if its an inbox hook"
+        },
+        "settings": {
+          "type": "object",
+          "description": "The settings required by the integeration"
+        }
+      }
+    },
+    "integrations_hook_update_payload": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "description": "The settings required by the integeration"
+        }
+      }
     }
   },
   "parameters": {
@@ -2068,6 +2285,15 @@
       },
       "required": true,
       "description": "The id of the team to be updated"
+    },
+    "hook_id": {
+      "in": "path",
+      "name": "hook_id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The id of the hook to be updated"
     },
     "source_id": {
       "type": "string",

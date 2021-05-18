@@ -1,0 +1,11 @@
+type: object
+properties:
+  app_id:
+    type: string
+    description: The id of app for which integeration hook is being created
+  inbox_id:
+    type: string
+    description: The inbox id if its an inbox hook
+  settings:
+    type: object
+    description: The settings required by the integeration

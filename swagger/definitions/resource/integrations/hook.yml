@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The id of the integeration hook
+  app_id:
+    type: string
+    description: integeration about the integration
+  inbox_id:
+    type: string
+    description: Inbox id if its an Inbox integeration
+  account_id:
+    type: string
+    description: Account id of the integeration
+  status:
+    type: boolean
+    description: Whether the integration hook is enabled for the account
+  hook_type:
+    type: boolean
+    description: Whether its an account or inbox integeration hook
+  settings:
+    type: object
+    description: The associated settings for the integeration

@@ -4,6 +4,9 @@ account_id:
 team_id:
   $ref: ./team_id.yml
 
+hook_id:
+  $ref: ./hook_id.yml
+
 source_id:
   $ref: ./source_id.yml
 
