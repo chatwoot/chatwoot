@@ -20,7 +20,8 @@
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
-    "CLOSE_MESSAGES_BUTTON": "Kapat"
+    "CLOSE_MESSAGES_BUTTON": "Kapat",
+    "COMPANY_FROM": "from"
   },
   "BUBBLE": {
     "LABEL": "Sohbet et"

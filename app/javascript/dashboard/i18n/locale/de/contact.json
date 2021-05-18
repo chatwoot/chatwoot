@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Initiiert von",
     "INITIATED_AT": "Initiiert bei",
     "IP_ADDRESS": "IP-Adresse",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Neue Nachricht",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Es sind keine vorherigen Gespräche mit diesem Kontakt verbunden.",
       "TITLE": "Vorherige Gespräche"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Verfügbare Labels im Konto",
         "REMOVE": "Klicken Sie auf das X-Symbol, um das Label zu entfernen",
         "ADD": "Klicken Sie auf das + Symbol, um ein Label hinzuzufügen",
+        "ADD_BUTTON": "Label hinzufügen",
         "UPDATE_BUTTON": "Labels aktualisieren",
         "UPDATE_ERROR": "Etiketten konnten nicht aktualisiert werden. Versuchen Sie es erneut."
       },
       "NO_LABELS_TO_ADD": "Es sind keine weiteren Labels im Konto definiert.",
-      "NO_AVAILABLE_LABELS": "Zu dieser Unterhaltung wurden noch keine Labels hinzugefügt."
+      "NO_AVAILABLE_LABELS": "Zu dieser Unterhaltung wurden noch keine Labels hinzugefügt.",
+      "LABEL_SELECT": {
+        "TITLE": "Label hinzufügen",
+        "PLACEHOLDER": "Labels suchen",
+        "NO_RESULT": "Keine Labels gefunden"
+      }
     },
     "MUTE_CONTACT": "Unterhaltung stummschalten",
     "UNMUTE_CONTACT": "Unterhaltung entmuten",
@@ -73,8 +79,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Geben Sie die Telefonnummer des Kontakts ein",
         "LABEL": "Telefonnummer",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "Telefonnummer sollte im E.164-Format sein, z. B.: +1415555555 [+][Landesvorwahl][Landesvorwahl][Ortsvorwahl]",
+        "ERROR": "Telefonnummer muss leer sein oder im E.164-Format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Geben Sie den Standort des Kontakts ein",
@@ -108,27 +114,27 @@
     "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuche es erneut"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Gespräch starten",
     "TITLE": "Neue Unterhaltung",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Starte eine Unterhaltung mit einer neuen Nachricht",
+    "NO_INBOX": "Konnte keinen Posteingang finden, um eine neue Unterhaltung mit diesem Kontakt zu starten.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "An"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Posteingang",
+        "ERROR": "Posteingang auswählen"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Schreiben Sie Ihre Nachricht hier",
+        "ERROR": "Nachricht darf nicht leer sein"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Nachricht senden",
       "CANCEL": "Stornieren",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Nachricht gesendet!",
+      "ERROR_MESSAGE": "Senden fehlgeschlagen! Bitte erneut versuchen"
     }
   },
   "CONTACTS_PAGE": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "E-Mail-Addresse"
       },
       "VIEW_DETAILS": "Details anzeigen"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notizen"
+    },
+    "ADD": {
+      "BUTTON": "Hinzufügen",
+      "PLACEHOLDER": "Notiz hinzufügen",
+      "TITLE": "Shift + Enter um eine Notiz zu erstellen"
+    },
+    "FOOTER": {
+      "BUTTON": "Alle Notizen anzeigen"
     }
   }
 }

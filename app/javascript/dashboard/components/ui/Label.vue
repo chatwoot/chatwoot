@@ -89,6 +89,7 @@ export default {
   .label--icon,
   .close--icon {
     font-size: var(--font-size-micro);
+    cursor: pointer;
   }
 
   &.small .label--icon,
