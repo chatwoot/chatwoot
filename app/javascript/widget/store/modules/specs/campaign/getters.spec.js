@@ -2,11 +2,11 @@ import { getters } from '../../campaign';
 import { campaigns } from './data';
 
 describe('#getters', () => {
-  it('fetchCampaigns', () => {
+  it('getCampaigns', () => {
     const state = {
       records: campaigns,
     };
-    expect(getters.fetchCampaigns(state)).toEqual([
+    expect(getters.getCampaigns(state)).toEqual([
       {
         id: 1,
         title: 'Welcome',
