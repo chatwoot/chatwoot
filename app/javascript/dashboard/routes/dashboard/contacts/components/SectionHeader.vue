@@ -63,13 +63,8 @@ export default {
   width: 100%;
   padding: var(--space-small);
 
-  .header {
-    padding: var(--space-smaller) 0;
-  }
-
   .button-wrap {
     display: flex;
-    margin-top: var(--space-smaller);
 
     .buttons {
       margin-right: var(--space-one);
