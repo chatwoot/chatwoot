@@ -15,7 +15,7 @@ describe('#Campagin Helper', () => {
 
   describe('formatCampaigns', () => {
     it('should return formated campaigns if camapgins are passed', () => {
-      expect(formatCampaigns({ campagins: campaigns })).toStrictEqual([
+      expect(formatCampaigns({ campaigns })).toStrictEqual([
         {
           id: 1,
           timeOnPage: 3,
@@ -33,7 +33,7 @@ describe('#Campagin Helper', () => {
     it('should return filtered campaigns if formatted camapgins are passed', () => {
       expect(
         filterCampaigns({
-          campagins: [
+          campaigns: [
             {
               id: 1,
               timeOnPage: 3,

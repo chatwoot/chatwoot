@@ -3,8 +3,8 @@ export const stripTrailingSlash = ({ URL }) => {
 };
 
 // Format all campaigns
-export const formatCampaigns = ({ campagins }) => {
-  return campagins.map(item => {
+export const formatCampaigns = ({ campaigns }) => {
+  return campaigns.map(item => {
     return {
       id: item.id,
       timeOnPage: item?.trigger_rules?.time_on_page,
@@ -14,8 +14,8 @@ export const formatCampaigns = ({ campagins }) => {
 };
 
 // Find all campaigns that matches the current URL
-export const filterCampaigns = ({ campagins, currentURL }) => {
-  return campagins.filter(
+export const filterCampaigns = ({ campaigns, currentURL }) => {
+  return campaigns.filter(
     item =>
       stripTrailingSlash({ URL: item.url }) ===
       stripTrailingSlash({ URL: currentURL })
