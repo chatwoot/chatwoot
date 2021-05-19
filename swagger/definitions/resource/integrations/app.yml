@@ -11,7 +11,7 @@ properties:
     description: The description about the team
   hook_type:
     type: string
-    description: Whether the it's account or inbox integration
+    description: Whether the integration is an account or inbox integration
   enabled:
     type: boolean
     description: Whether the integration is enabled for the account

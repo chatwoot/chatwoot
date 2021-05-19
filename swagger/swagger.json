@@ -1828,7 +1828,7 @@
         },
         "hook_type": {
           "type": "string",
-          "description": "Whether the it's account or inbox integration"
+          "description": "Whether the integration is an account or inbox integration"
         },
         "enabled": {
           "type": "boolean",
@@ -2245,7 +2245,7 @@
       "properties": {
         "app_id": {
           "type": "string",
-          "description": "The id of app for which integration hook is being created"
+          "description": "The ID of app for which integration hook is being created"
         },
         "inbox_id": {
           "type": "string",
@@ -2293,7 +2293,7 @@
         "type": "integer"
       },
       "required": true,
-      "description": "The ID of the hook to be updated"
+      "description": "The numeric ID of the integration hook"
     },
     "source_id": {
       "type": "string",

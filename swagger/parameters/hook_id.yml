@@ -3,4 +3,4 @@ name: hook_id
 schema:
   type: integer
 required: true
-description: The ID of the hook to be updated
+description: The numeric ID of the integration hook
