@@ -10,7 +10,7 @@
         variant="hollow"
         size="tiny"
         color-scheme="secondary"
-        class-names="buttons"
+        class-names="pill-button"
         label="notes"
         @click="onClickNotes"
       >
@@ -20,7 +20,7 @@
         variant="hollow"
         size="tiny"
         color-scheme="secondary"
-        class-names="buttons"
+        class-names="pill-button"
         label="events"
         @click="onClickEvents"
       >
@@ -30,7 +30,7 @@
         variant="hollow"
         size="tiny"
         color-scheme="secondary"
-        class-names="buttons"
+        class-names="pill-button"
         label="conversations"
         @click="onClickConversation"
       >
@@ -61,12 +61,12 @@ export default {
 <style lang="scss" scoped>
 .wrap {
   width: 100%;
-  padding: var(--space-small);
+  padding: var(--space-normal);
 
   .button-wrap {
     display: flex;
 
-    .buttons {
+    .pill-button {
       margin-right: var(--space-one);
     }
   }
