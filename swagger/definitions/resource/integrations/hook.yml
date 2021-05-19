@@ -5,7 +5,7 @@ properties:
     description: The ID of the integration hook
   app_id:
     type: string
-    description: integration about the integration
+    description: The ID of the integration app
   inbox_id:
     type: string
     description: Inbox ID if its an Inbox integration

@@ -1853,7 +1853,7 @@
         },
         "app_id": {
           "type": "string",
-          "description": "integration about the integration"
+          "description": "The ID of the integration app"
         },
         "inbox_id": {
           "type": "string",
