@@ -76,3 +76,6 @@ es:
     webhooks:
       name: "Webhook"
       description: "Los eventos Webhook le proporcionan información en tiempo real sobre lo que está sucediendo en su cuenta de Chatwoot. Puede hacer uso de los webhooks para comunicar los eventos a sus aplicaciones favoritas como Slack o Github. Haga clic en Configurar para configurar sus webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Conecte su bot de Dialogflow a su bandeja de entrada. Deje que los bots manejen las preguntas antes de entregarlo al agente de servicio al cliente."

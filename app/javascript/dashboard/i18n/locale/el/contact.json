@@ -12,7 +12,7 @@
     "INITIATED_FROM": "Αρχικοποίηση από",
     "INITIATED_AT": "Αρχικοποίηση τις",
     "IP_ADDRESS": "Διεύθυνση IP",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Νέο Μήνυμα",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
       "TITLE": "Προηγούμενες συνομιλίες"
@@ -28,11 +28,17 @@
         "INACTIVE_LABELS": "Υπάρχουν διαθέσιμες ετικέτες στον λογαριασμό",
         "REMOVE": "Πατήστε στο εικονίδιο X για να απομακρύνετε την ετικέτα",
         "ADD": "Πατήστε στο εικονίδιο + για να προσθέστε την ετικέτα",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Ενημέρωση Ετικετών",
         "UPDATE_ERROR": "Δεν μπορούν να ενημερωθούν οι ετικέτες, προσπαθήστε ξανά."
       },
       "NO_LABELS_TO_ADD": "Δεν υπάρχουν άλλες ετικέτες στον λογαριασμό.",
-      "NO_AVAILABLE_LABELS": "Δεν υπάρχουν προστεθεί ετικέτες στην συνομιλία."
+      "NO_AVAILABLE_LABELS": "Δεν υπάρχουν προστεθεί ετικέτες στην συνομιλία.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Σίγαση Συνομιλίας",
     "UNMUTE_CONTACT": "Επαναφορά Συνομιλίας",
@@ -108,27 +114,27 @@
     "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Έναρξη Συνομιλίας",
     "TITLE": "Νέα συνομιλία",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Ξεκινήστε μια νέα συνομιλία στέλνοντας ένα νέο μήνυμα.",
+    "NO_INBOX": "Δεν βρέθηκε ένα κιβώτιο εισερχόμενων για να ξεκινήσει μια νέα συνομιλία με αυτήν την επαφή.",
     "FORM": {
       "TO": {
-        "LABEL": "To"
+        "LABEL": "Προς"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "Εισερχόμενα",
+        "ERROR": "Επιλέξτε ένα κιβώτιο εισερχόμενων"
       },
       "MESSAGE": {
         "LABEL": "Μήνυμα",
-        "PLACEHOLDER": "Write your message here",
-        "ERROR": "Message can't be empty"
+        "PLACEHOLDER": "Γράψτε το μήνυμά σας εδώ",
+        "ERROR": "Το μήνυμα δεν μπορεί να είναι άδειο"
       },
-      "SUBMIT": "Send message",
+      "SUBMIT": "Αποστολή μηνύματος",
       "CANCEL": "Άκυρο",
-      "SUCCESS_MESSAGE": "Message sent!",
-      "ERROR_MESSAGE": "Couldn't send! try again"
+      "SUCCESS_MESSAGE": "Το μήνυμα στάλθηκε!",
+      "ERROR_MESSAGE": "Αδυναμία αποστολής! Προσπαθήστε ξανά"
     }
   },
   "CONTACTS_PAGE": {
@@ -150,6 +156,19 @@
         "EMAIL_ADDRESS": "Διεύθυνση Email"
       },
       "VIEW_DETAILS": "Προβολή λεπτομεριών"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Σημειώσεις"
+    },
+    "ADD": {
+      "BUTTON": "Προσθήκη",
+      "PLACEHOLDER": "Προσθήκη σημείωσης",
+      "TITLE": "Shift + Enter για δημιουργία σημείωσης"
+    },
+    "FOOTER": {
+      "BUTTON": "Εμφάνιση όλων των σημειώσεων"
     }
   }
 }

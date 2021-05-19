@@ -76,3 +76,6 @@ tr:
     webhooks:
       name: "Webhooks"
       description: "Webhook olayları size hesabınızda gerçekleşen gerçek zamanlı bilgileri getirmenizi sağlar. Bu webhookları kullanarak olaylar ile favori uygulamalarınızı haberleştirebilirsiniz(ör: Slack , \n Github). Yapılandıra basarak webhooklarınızı ayarlayabilirsiniz."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

@@ -92,7 +92,7 @@
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
-          "PLACEHOLDER": "Παρακαλώ εισάγετε το SID του Λογαριασμού Twillio",
+          "PLACEHOLDER": "Παρακαλώ εισάγετε το SID του Λογαριασμού Twilio",
           "ERROR": "Το πεδίο είναι απαραίτητο"
         },
         "CHANNEL_TYPE": {
@@ -118,7 +118,7 @@
           "TITLE": "URL επανάκλησης",
           "SUBTITLE": "Πρέπει να ρυθμίσετε το callback URL στο Twilio με το URL που αναφέρεται εδώ."
         },
-        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twillio",
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twilio",
         "API": {
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
@@ -227,6 +227,7 @@
       "SETTINGS": "Ρυθμίσεις",
       "COLLABORATORS": "Συνεργάτες",
       "CONFIGURATION": "Διαμόρφωση",
+      "CAMPAIGN": "Καμπάνιες",
       "PRE_CHAT_FORM": "Φόρμα Προ-Συνομιλίας",
       "BUSINESS_HOURS": "Ώρες Εργασίας"
     },
