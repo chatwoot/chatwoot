@@ -38,8 +38,6 @@ class Integrations::App
     case params[:id]
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
-    when 'dialogflow'
-      false
     else
       true
     end

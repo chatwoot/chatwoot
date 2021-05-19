@@ -4,6 +4,7 @@ import agent from './agents/agent.routes';
 import canned from './canned/canned.routes';
 import inbox from './inbox/inbox.routes';
 import integrations from './integrations/integrations.routes';
+import integrationapps from './integrationapps/integrations.routes';
 import labels from './labels/labels.routes';
 import profile from './profile/profile.routes';
 import reports from './reports/reports.routes';
@@ -32,5 +33,6 @@ export default {
     ...profile.routes,
     ...reports.routes,
     ...teams.routes,
+    ...integrationapps.routes,
   ],
 };
