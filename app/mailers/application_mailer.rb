@@ -43,7 +43,7 @@ class ApplicationMailer < ActionMailer::Base
     # Merge additional objects into this in your mailer
     # liquid template handler converts these objects into drop objects
     {
-      account: @current_account,
+      account: Current.account,
       user: @agent,
       conversation: @conversation,
       inbox: @conversation&.inbox
@@ -65,11 +65,12 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def ensure_current_account(account)
-    @current_account = account if account.present?
+    Current.reset
+    Current.account = account if account.present?
   end
 
   def switch_locale(&action)
-    locale ||= locale_from_account(@current_account)
+    locale ||= locale_from_account(Current.account)
     locale ||= I18n.default_locale
     # ensure locale won't bleed into other requests
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
