@@ -71,19 +71,19 @@ export default {
   padding: var(--space-small);
 
   .icon-chatbox {
-    width: 3.6rem;
-    height: 3.4rem;
+    width: var(--space-large);
+    height: var(--space-large);
     border-radius: 50%;
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     border: 1px solid var(--color-border);
     background-color: var(--color-background);
 
     .ion-chatboxes {
-      font-size: var(--font-size-medium);
+      font-size: var(--font-size-default);
       display: flex;
       align-items: center;
-      justify-content: center;
     }
   }
 
