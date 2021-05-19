@@ -5,7 +5,7 @@ properties:
     description: The id of app for which integration hook is being created
   inbox_id:
     type: string
-    description: The inbox id if its an inbox hook
+    description: The inbox ID, if the hook is an inbox hook
   settings:
     type: object
-    description: The settings required by the integeration
+    description: The settings required by the integration
