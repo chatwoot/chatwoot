@@ -1,7 +1,7 @@
 <template>
   <div class="reminder-wrap">
     <div class="status-wrap">
-      <input :checked="isCompleted" @click="onClick" type="radio" />
+      <input :checked="isCompleted" type="radio" @click="onClick" />
     </div>
     <div class="wrap">
       <div class="content">
@@ -64,8 +64,8 @@ export default {
       default: false,
     },
     date: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
     label: {
       type: String,
