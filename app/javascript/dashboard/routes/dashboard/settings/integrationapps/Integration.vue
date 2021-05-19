@@ -22,61 +22,47 @@
           )
         "
       >
-        <div v-if="!integrationEnabled">
-          <div v-if="integrationAction === 'disconnect'">
-            <div @click="openDeletePopup()">
-              <woot-submit-button
-                :button-text="
-                  $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                "
-                icon-class="ion-close-circled"
-                button-class="nice alert"
-              />
-            </div>
-          </div>
-
-          <div>
-            <button class="button nice">
-              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
-            </button>
-          </div>
-        </div>
+        <woot-button>
+          {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
+        </woot-button>
       </router-link>
     </div>
-    <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
-      :on-close="closeDeletePopup"
-      :on-confirm="confirmDeletion"
-      :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
-    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import alertMixin from 'shared/mixins/alertMixin';
 import Label from 'dashboard/components/ui/Label';
 
 export default {
   components: {
     Label,
   },
-  mixins: [alertMixin],
-  props: [
-    'integrationId',
-    'integrationLogo',
-    'integrationName',
-    'integrationDescription',
-    'integrationEnabled',
-    'integrationAction',
-  ],
-  data() {
-    return {
-      showDeleteConfirmationPopup: false,
-    };
+  props: {
+    integrationId: {
+      type: String,
+      default: '',
+    },
+    integrationLogo: {
+      type: String,
+      default: '',
+    },
+    integrationName: {
+      type: String,
+      default: '',
+    },
+    integrationDescription: {
+      type: String,
+      default: '',
+    },
+    integrationEnabled: {
+      type: Number,
+      default: 0,
+    },
+    integrationAction: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapGetters({
@@ -94,32 +80,6 @@ export default {
   },
   methods: {
     frontendURL,
-    openDeletePopup() {
-      this.showDeleteConfirmationPopup = true;
-    },
-    closeDeletePopup() {
-      this.showDeleteConfirmationPopup = false;
-    },
-    confirmDeletion() {
-      this.closeDeletePopup();
-      this.deleteIntegration(this.deleteIntegration);
-      this.$router.push({ name: 'settings_integrations' });
-    },
-    async deleteIntegration() {
-      try {
-        await this.$store.dispatch(
-          'integrations/deleteIntegration',
-          this.integrationId
-        );
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
-      }
-    },
   },
 };
 </script>

@@ -57,14 +57,14 @@
       </div>
 
       <div class="small-4 columns">
-        <span
-          v-html="
-            useInstallationName(
-              $t('INTEGRATION_SETTINGS.WEBHOOK.SIDEBAR_TXT'),
-              globalConfig.installationName
-            )
-          "
-        />
+        <span>
+          <p>
+            <b>{{ integration.name }}</b>
+          </p>
+          <p>
+            {{ integration.description }}
+          </p>
+        </span>
       </div>
     </div>
 
@@ -94,6 +94,12 @@ export default {
     NewWebhook,
   },
   mixins: [alertMixin, globalConfigMixin],
+  props: {
+    integration: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       loading: {},
@@ -110,6 +116,7 @@ export default {
     }),
   },
   mounted() {
+    console.log('Integration', this.integration);
     this.$store.dispatch('webhooks/get');
   },
   methods: {

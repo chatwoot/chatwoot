@@ -41,10 +41,6 @@ export default {
       accountId: 'getCurrentAccountId',
     }),
   },
-  mounted() {
-    console.log('integrationId', this.$route.params.integration_id);
-    // this.intializeSlackIntegration();
-  },
   methods: {
     integrationAction() {
       if (this.integration.enabled) {
