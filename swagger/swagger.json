@@ -957,7 +957,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the contact",
+            "description": "ID of the contact",
             "required": true
           }
         ],
@@ -987,7 +987,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the contact",
+            "description": "ID of the contact",
             "required": true
           },
           {
@@ -1027,7 +1027,7 @@
             "name": "id",
             "in": "path",
             "type": "number",
-            "description": "id of the contact",
+            "description": "ID of the contact",
             "required": true
           }
         ],
@@ -1107,7 +1107,7 @@
               "properties": {
                 "inbox_id": {
                   "type": "number",
-                  "description": "The id of the inbox",
+                  "description": "The ID of the inbox",
                   "required": true
                 },
                 "source_id": {
@@ -1269,7 +1269,7 @@
             "description": "Unauthorized"
           },
           "404": {
-            "description": "The given team id does not exist in the account"
+            "description": "The given team ID does not exist in the account"
           }
         }
       },
@@ -1357,7 +1357,7 @@
           "Integrations"
         ],
         "operationId": "create-an-integration-hook",
-        "summary": "Create an integeration hook",
+        "summary": "Create an integration hook",
         "description": "Create an integration hook",
         "parameters": [
           {
@@ -1787,7 +1787,7 @@
       "properties": {
         "id": {
           "type": "number",
-          "description": "The id of the team"
+          "description": "The ID of the team"
         },
         "name": {
           "type": "string",
@@ -1803,7 +1803,7 @@
         },
         "account_id": {
           "type": "number",
-          "description": "The id of the account with the team is a part of"
+          "description": "The ID of the account with the team is a part of"
         },
         "is_member": {
           "type": "boolean",
@@ -1816,11 +1816,11 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The id of the integeration"
+          "description": "The ID of the integration"
         },
         "name": {
           "type": "string",
-          "description": "The name of the integeration"
+          "description": "The name of the integration"
         },
         "description": {
           "type": "string",
@@ -1828,7 +1828,7 @@
         },
         "hook_type": {
           "type": "string",
-          "description": "Whether the it's account or inbox integeration"
+          "description": "Whether the it's account or inbox integration"
         },
         "enabled": {
           "type": "boolean",
@@ -1840,7 +1840,7 @@
         },
         "hooks": {
           "type": "array",
-          "description": "If there are any hooks created for this integeration"
+          "description": "If there are any hooks created for this integration"
         }
       }
     },
@@ -1849,19 +1849,19 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "The id of the integeration hook"
+          "description": "The ID of the integration hook"
         },
         "app_id": {
           "type": "string",
-          "description": "integeration about the integration"
+          "description": "integration about the integration"
         },
         "inbox_id": {
           "type": "string",
-          "description": "Inbox id if its an Inbox integeration"
+          "description": "Inbox ID if its an Inbox integration"
         },
         "account_id": {
           "type": "string",
-          "description": "Account id of the integeration"
+          "description": "Account ID of the integration"
         },
         "status": {
           "type": "boolean",
@@ -1869,11 +1869,11 @@
         },
         "hook_type": {
           "type": "boolean",
-          "description": "Whether its an account or inbox integeration hook"
+          "description": "Whether its an account or inbox integration hook"
         },
         "settings": {
           "type": "object",
-          "description": "The associated settings for the integeration"
+          "description": "The associated settings for the integration"
         }
       }
     },
@@ -2245,15 +2245,15 @@
       "properties": {
         "app_id": {
           "type": "string",
-          "description": "The id of app for which integeration hook is being created"
+          "description": "The id of app for which integration hook is being created"
         },
         "inbox_id": {
           "type": "string",
-          "description": "The inbox id if its an inbox hook"
+          "description": "The inbox ID, if the hook is an inbox hook"
         },
         "settings": {
           "type": "object",
-          "description": "The settings required by the integeration"
+          "description": "The settings required by the integration"
         }
       }
     },
@@ -2262,7 +2262,7 @@
       "properties": {
         "settings": {
           "type": "object",
-          "description": "The settings required by the integeration"
+          "description": "The settings required by the integration"
         }
       }
     }
@@ -2284,7 +2284,7 @@
         "type": "integer"
       },
       "required": true,
-      "description": "The id of the team to be updated"
+      "description": "The ID of the team to be updated"
     },
     "hook_id": {
       "in": "path",
@@ -2293,7 +2293,7 @@
         "type": "integer"
       },
       "required": true,
-      "description": "The id of the hook to be updated"
+      "description": "The ID of the hook to be updated"
     },
     "source_id": {
       "type": "string",
