@@ -1,7 +1,7 @@
 tags:
   - Integrations
 operationId: create-an-integration-hook
-summary: Create an integeration hook
+summary: Create an integration hook
 description: Create an integration hook
 parameters:
   - $ref: '#/parameters/account_id'

@@ -2,16 +2,16 @@ type: object
 properties:
   id:
     type: string
-    description: The id of the integeration
+    description: The ID of the integration
   name:
     type: string
-    description: The name of the integeration
+    description: The name of the integration
   description:
     type: string
     description: The description about the team
   hook_type:
     type: string
-    description: Whether the it's account or inbox integeration
+    description: Whether the it's account or inbox integration
   enabled:
     type: boolean
     description: Whether the integration is enabled for the account
@@ -20,4 +20,4 @@ properties:
     description: Whether multiple hooks can be created for the integration
   hooks:
     type: array
-    description: If there are any hooks created for this integeration
+    description: If there are any hooks created for this integration
