@@ -96,3 +96,7 @@ en:
     dialogflow:
       name: "Dialogflow"
       description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "Connect your fullcontact to your account. It enables chatwoot to connect, consolidate, and enrich fragmented or incomplete offline, online, professional, and personal identifiers"
+
