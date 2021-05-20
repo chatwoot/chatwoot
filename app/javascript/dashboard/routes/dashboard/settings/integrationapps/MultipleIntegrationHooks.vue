@@ -90,12 +90,6 @@ export default {
   components: {
     NewHook,
   },
-  props: {
-    integration: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   data() {
     return {
       loading: {},
@@ -108,6 +102,11 @@ export default {
     ...mapGetters({
       uiFlags: 'integrations/getUIFlags',
     }),
+    integration() {
+      return this.$store.getters['integrations/getIntegration'](
+        this.$route.params.integration_id
+      );
+    },
     headerItems() {
       return this.integration.visible_properties;
     },

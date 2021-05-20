@@ -46,12 +46,14 @@ dialogflow:
       "type": "text",
       "name": "project_id",
       "validation": "required",
+      "validationName": 'Project Id',
     },
     {
       "label": "Dialogflow Project Key File",
       "type": "textarea",
       "name": "credentials",
       "validation": "required",
+      "validationName": 'Credentials',
     }
   ]
 fullcontact:

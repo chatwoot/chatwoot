@@ -6,6 +6,7 @@ import IntegrationsAPI from '../../api/integrations';
 const state = {
   records: [],
   uiFlags: {
+    isCreating: false,
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
@@ -63,6 +64,26 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
     }
   },
+  createHook: async ({ commit }, hookData) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: true });
+    try {
+      const response = await IntegrationsAPI.createHook(hookData);
+      commit(types.default.ADD_INTEGRATION_HOOKS, response.data);
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+    } catch (error) {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+    }
+  },
+  deleteHook: async ({ commit }, hookId) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: true });
+    try {
+      const response = await IntegrationsAPI.deleteHook(hookId);
+      commit(types.default.DELETE_INTEGRATION_HOOKS, response.data);
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+    } catch (error) {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -72,6 +93,8 @@ export const mutations = {
   [types.default.SET_INTEGRATIONS]: MutationHelpers.set,
   [types.default.ADD_INTEGRATION]: MutationHelpers.updateAttributes,
   [types.default.DELETE_INTEGRATION]: MutationHelpers.updateAttributes,
+  [types.default.ADD_INTEGRATION_HOOKS]: MutationHelpers.update,
+  [types.default.DELETE_INTEGRATION_HOOKS]: MutationHelpers.update,
 };
 
 export default {

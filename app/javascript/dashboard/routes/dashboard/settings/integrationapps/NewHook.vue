@@ -1,5 +1,5 @@
 <template>
-  <modal :show.sync="show" :on-close="onClose" :close-on-backdrop-click="false">
+  <modal :show.sync="show" :on-close="onClose">
     <div class="column content-box">
       <woot-modal-header
         :header-title="integration.name"
@@ -8,18 +8,26 @@
       <FormulateForm
         #default="{ hasErrors }"
         v-model="values"
-        :schema="schema"
         @submit="submitForm"
       >
-        <FormulateInput type="text" label="Select a username">
-          <template #label="{ label, id }">
-            <label :for="id">
-              {{ label }}
-            </label>
-          </template>
-        </FormulateInput>
+        <FormulateInput
+          v-for="item in formItems"
+          :key="item.name"
+          v-bind="item"
+        />
+
+        <FormulateInput
+          v-if="showInboxSelect"
+          :options="inboxes"
+          type="select"
+          name="inbox"
+          placeholder="Select Inbox"
+          label="Select Inbox"
+          validation="required"
+          validation-name="Inbox"
+        />
         <div class="modal-footer">
-          <woot-button :disabled="hasErrors">
+          <woot-button :disabled="hasErrors" :loading="addHook.showLoading">
             Create
           </woot-button>
           <woot-button class="button clear" @click.prevent="onClose">
@@ -32,6 +40,8 @@
   </modal>
 </template>
 <script>
+/* global bus */
+import { mapGetters } from 'vuex';
 import Modal from '../../../../components/Modal';
 
 export default {
@@ -51,41 +61,66 @@ export default {
   data() {
     return {
       endPoint: '',
-      addWebHook: {
+      addHook: {
         showAlert: false,
         showLoading: false,
         message: '',
       },
       show: true,
       values: {},
-      schema: [
-        {
-          label: 'Dialogflow Project ID',
-          placeholder: 'Dialogflow Project ID',
-          type: 'text',
-          name: 'project_id',
-          validation: 'required|min:5',
-          validationName: 'Project Id',
-          'validation-messages': {
-            min: 'Miniumm 5 characters required',
-          },
-        },
-        {
-          label: 'Dialogflow Project Key File',
-          placeholder: 'Dialogflow Project Key File',
-          type: 'textarea',
-          name: 'credentials',
-          validation: 'required',
-        },
-      ],
+      formItems: this.integration.settings_form_schema,
     };
   },
-  mounted() {
-    console.log('Integration', this.integration);
+  computed: {
+    ...mapGetters({
+      uiFlags: 'integrations/getUIFlags',
+    }),
+    inboxes() {
+      const inboxes = this.$store.getters['inboxes/getInboxes'];
+      const selectedInboxes = inboxes
+        .filter(item => item.channel_type === 'Channel::WebWidget')
+        .map(item => {
+          return { ...item, label: item.name, value: item.name };
+        });
+      return selectedInboxes;
+    },
+    showInboxSelect() {
+      return this.integration.hook_type === 'inbox';
+    },
   },
   methods: {
-    submitForm() {
-      console.log('Form submitted', this.values);
+    showAlert() {
+      bus.$emit('newToastMessage', this.addHook.message);
+    },
+    async submitForm() {
+      this.addHook.showLoading = true;
+      const hookSettings = {};
+      Object.keys(this.values).forEach(key => {
+        if (key !== 'inbox') {
+          hookSettings[key] = this.values[key];
+        }
+      });
+      const hookData = {
+        app_id: this.integration.id,
+        inbox_id: this.values.inbox_id,
+        settings: hookSettings,
+      };
+      // eslint-disable-next-line
+      if (this.values.hasOwnProperty('inbox_id')) {
+        hookData.inbox_id = this.values.inbox_id;
+      }
+      try {
+        await this.$store.dispatch('integrations/createHook', hookData);
+        this.addHook.showLoading = false;
+        this.addHook.message = 'Hook added successfully';
+        this.showAlert();
+        this.onClose();
+      } catch (error) {
+        this.addHook.showLoading = false;
+        this.addHook.message =
+          error.response.data.message || 'Something went wrong';
+        this.showAlert();
+      }
     },
   },
 };
