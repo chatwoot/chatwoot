@@ -76,7 +76,6 @@
 
     .status--filter {
       @include padding($zero null $zero $space-normal);
-      @include round-corner;
       @include margin($space-smaller $space-slab $zero $zero);
       background-color: $color-background-light;
       border: 1px solid $color-border;

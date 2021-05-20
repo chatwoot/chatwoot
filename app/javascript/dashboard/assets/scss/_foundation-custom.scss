@@ -6,13 +6,11 @@
     border-radius: 1000px;
   }
 
-  &.grey-btn {
-    color: $color-gray;
 
-    &:hover {
-      color: $color-light-gray;
-    }
-  }
+}
+
+.button-wrapper .button.link.grey-btn {
+  margin-left: var(--space-normal);
 }
 
 .tooltip {

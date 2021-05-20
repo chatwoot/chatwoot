@@ -2,11 +2,11 @@ $resolve-button-width: 13.2rem;
 
 // Conversation header - Light BG
 .conv-header {
-  @include padding($space-small $space-normal);
   @include background-white;
   @include flex;
   @include flex-align($x: justify, $y: middle);
   @include border-normal-bottom;
+  padding: var(--space-small) var(--space-normal);
 
   .multiselect-box {
     @include flex;
@@ -70,6 +70,7 @@ $resolve-button-width: 13.2rem;
 
 
 .header-actions-wrap {
+  align-items: center;
   display: flex;
   flex-direction: row;
   flex-grow: 1;
