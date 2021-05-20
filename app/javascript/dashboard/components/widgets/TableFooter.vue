@@ -14,6 +14,8 @@
       >
         <woot-button
           size="small"
+          variant="clear"
+          color-scheme="secondary"
           class-names="goto-first"
           :is-disabled="hasFirstPage"
           @click="onFirstPage"
@@ -23,16 +25,25 @@
         </woot-button>
         <woot-button
           size="small"
+          variant="clear"
+          color-scheme="secondary"
           :is-disabled="hasPrevPage"
           @click="onPrevPage"
         >
           <i class="ion-chevron-left" />
         </woot-button>
-        <woot-button @click.prevent>
+        <woot-button
+          size="small"
+          variant="clear"
+          color-scheme="secondary"
+          @click.prevent
+        >
           {{ currentPage }}
         </woot-button>
         <woot-button
           size="small"
+          variant="clear"
+          color-scheme="secondary"
           :is-disabled="hasNextPage"
           @click="onNextPage"
         >
@@ -40,6 +51,8 @@
         </woot-button>
         <woot-button
           size="small"
+          variant="clear"
+          color-scheme="secondary"
           class-names="goto-last"
           :is-disabled="hasLastPage"
           @click="onLastPage"
@@ -147,52 +160,11 @@ export default {
 .page-meta {
   font-size: var(--font-size-mini);
 }
-.pagination-button-group {
-  margin: 0;
 
-  .button {
-    background: transparent;
-    border-color: var(--color-border);
-    color: var(--color-body);
-    margin-bottom: 0;
-    margin-left: -2px;
-    font-size: var(--font-size-small);
-    padding: var(--space-small) var(--space-normal);
-    border-radius: 0;
-
-    &:hover,
-    &:focus,
-    &:active {
-      background: var(--s-200);
-      color: white;
-    }
-
-    &:first-child {
-      border-top-left-radius: var(--space-smaller);
-      border-bottom-left-radius: var(--space-smaller);
-    }
-
-    &:last-child {
-      border-top-right-radius: var(--space-smaller);
-      border-bottom-right-radius: var(--space-smaller);
-    }
-
-    &.small {
-      font-size: var(--font-size-micro);
-    }
-
-    &.disabled {
-      background: var(--s-200);
-      border-color: var(--s-200);
-      color: var(--b-900);
-    }
-
-    &.goto-first,
-    &.goto-last {
-      i:last-child {
-        margin-left: var(--space-minus-smaller);
-      }
-    }
+.goto-first,
+.goto-last {
+  i:last-child {
+    margin-left: var(--space-minus-smaller);
   }
 }
 </style>
