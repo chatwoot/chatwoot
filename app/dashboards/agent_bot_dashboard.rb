@@ -16,7 +16,6 @@ class AgentBotDashboard < Administrate::BaseDashboard
     outgoing_url: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    hide_input_for_bot_conversations: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -39,7 +38,6 @@ class AgentBotDashboard < Administrate::BaseDashboard
     name
     description
     outgoing_url
-    hide_input_for_bot_conversations
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -49,7 +47,6 @@ class AgentBotDashboard < Administrate::BaseDashboard
     name
     description
     outgoing_url
-    hide_input_for_bot_conversations
   ].freeze
 
   # COLLECTION_FILTERS

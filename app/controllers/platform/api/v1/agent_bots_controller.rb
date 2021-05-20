@@ -30,6 +30,6 @@ class Platform::Api::V1::AgentBotsController < PlatformController
   end
 
   def agent_bot_params
-    params.permit(:name, :description, :outgoing_url)
+    params.permit(:name, :description, :account_id, :outgoing_url)
   end
 end
