@@ -10,6 +10,7 @@ import axios from 'axios';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
+import VueFormulate from '@braid/vue-formulate';
 import WootSwitch from 'components/ui/Switch';
 import WootWizard from 'components/ui/Wizard';
 import { sync } from 'vuex-router-sync';
@@ -43,6 +44,7 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
 Vue.use(Vuelidate);
+Vue.use(VueFormulate);
 Vue.use(VTooltip, {
   defaultHtml: false,
 });
