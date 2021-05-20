@@ -270,12 +270,6 @@ export default {
   }
 }
 
-.change-accounts--button.button {
-  font-weight: $font-weight-normal;
-  font-size: $font-size-small;
-  padding: $space-small $space-one;
-}
-
 .account-selector {
   cursor: pointer;
   padding: $space-small $space-large;
