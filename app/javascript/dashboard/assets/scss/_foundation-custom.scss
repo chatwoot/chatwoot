@@ -5,8 +5,10 @@
   &.round {
     border-radius: 1000px;
   }
+}
 
-
+.card {
+  padding: var(--space-small);
 }
 
 .button-wrapper .button.link.grey-btn {
