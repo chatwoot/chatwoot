@@ -146,8 +146,6 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :update]
       resource :notification_subscriptions, only: [:create]
 
-      resources :agent_bots, only: [:index]
-
       namespace :widget do
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -189,6 +187,7 @@ Rails.application.routes.draw do
             get :login
           end
         end
+        resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
