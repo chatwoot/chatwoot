@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Confirmation Instructions', type: :mailer do
   describe :notify do
     let(:account) { create(:account) }
-    let(:confirmable_user) { build(:user, inviter: inviter_val, account: account) }
+    let(:confirmable_user) { create(:user, inviter: inviter_val, account: account) }
     let(:inviter_val) { nil }
     let(:mail) { Devise::Mailer.confirmation_instructions(confirmable_user, nil, {}) }
 
@@ -27,11 +27,9 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
       let(:inviter_val) { create(:user, :administrator, skip_confirmation: true, account: account) }
 
       it 'refers to the inviter and their account' do
-        Current.account = account
         expect(mail.body).to match(
-          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(inviter_val.account.name)}, has invited you to try out Chatwoot!"
+          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot!"
         )
-        Current.account = nil
       end
     end
   end
