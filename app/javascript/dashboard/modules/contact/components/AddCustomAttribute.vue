@@ -9,6 +9,7 @@
         v-model.trim="attributeName"
         :class="{ error: $v.attributeName.$error }"
         class="medium-12 columns"
+        :error="$v.attributeName.$error"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
         @input="$v.attributeName.$touch"
@@ -26,7 +27,7 @@
         >
           {{ $t('CUSTOM_ATTRIBUTES.FORM.CREATE') }}
         </woot-button>
-        <woot-button variant="smooth" @click.prevent="onClose">
+        <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CUSTOM_ATTRIBUTES.FORM.CANCEL') }}
         </woot-button>
       </div>
@@ -72,9 +73,11 @@ export default {
         attributeValue: this.attributeValue,
         attributeName: this.attributeName || '',
       });
+      this.reset();
       this.$emit('cancel');
     },
     onClose() {
+      this.reset();
       this.$emit('cancel');
     },
     reset() {
