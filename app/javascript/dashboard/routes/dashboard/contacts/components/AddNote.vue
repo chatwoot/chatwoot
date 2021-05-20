@@ -46,21 +46,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  .input--note {
-    font-size: var(--font-size-mini);
-    border-color: transparent;
-    margin: 0;
-    resize: none;
-    min-height: var(--space-larger);
-  }
+.input--note {
+  font-size: var(--font-size-mini);
+  border-color: transparent;
+  margin-bottom: var(--space-small);
+  padding: 0;
+  resize: none;
+  min-height: var(--space-larger);
+}
 
-  .footer {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-    padding: var(--space-small);
-    padding-top: 0;
-  }
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 }
 </style>
