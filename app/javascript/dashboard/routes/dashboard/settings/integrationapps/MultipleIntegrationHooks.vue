@@ -5,47 +5,45 @@
       @click="openAddPopup()"
     >
       <i class="icon ion-android-add-circle"></i>
-      {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
+      {{ `Add new ${integration.id}` }}
     </button>
     <div class="row">
       <div class="small-8 columns">
-        <p
-          v-if="!uiFlags.fetchingList && !records.length"
-          class="no-items-error-message"
-        >
-          {{ $t('INTEGRATION_SETTINGS.WEBHOOK.LIST.404') }}
-        </p>
         <woot-loading-state
-          v-if="uiFlags.fetchingList"
-          :message="$t('INTEGRATION_SETTINGS.WEBHOOK.LOADING')"
+          v-if="uiFlags.isFetching"
+          :message="loadingMessage"
         />
+        <p v-if="isHooksEmpty" class="no-items-error-message">
+          {{ emptyMessage }}
+        </p>
 
-        <table
-          v-if="!uiFlags.fetchingList && records.length"
-          class="woot-table"
-        >
+        <table v-if="isHooksExist" class="woot-table">
           <thead>
-            <th
-              v-for="thHeader in $t(
-                'INTEGRATION_SETTINGS.WEBHOOK.LIST.TABLE_HEADER'
-              )"
-              :key="thHeader"
-            >
+            <th v-for="thHeader in headerItems" :key="thHeader">
               {{ thHeader }}
+            </th>
+            <th v-if="checkHookTypeIsInbox">
+              Inbox Id
             </th>
           </thead>
           <tbody>
-            <tr v-for="(webHookItem, index) in records" :key="webHookItem.id">
-              <td class="webhook-link">
-                {{ webHookItem.url }}
+            <tr v-for="hook in tableItems" :key="hook.id">
+              <td
+                v-for="property in hook.properties"
+                :key="property"
+                class="webhook-link"
+              >
+                {{ property }}
+              </td>
+              <td v-if="checkHookTypeIsInbox" class="webhook-link">
+                {{ hook.inbox_id }}
               </td>
               <td class="button-wrapper">
-                <div @click="openDeletePopup(webHookItem, index)">
+                <div>
                   <woot-submit-button
                     :button-text="
                       $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
                     "
-                    :loading="loading[webHookItem.id]"
                     icon-class="ion-close-circled"
                     button-class="link hollow grey-btn"
                   />
@@ -69,7 +67,7 @@
     </div>
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <new-webhook :on-close="hideAddPopup" />
+      <new-hook :on-close="hideAddPopup" :integration="integration" />
     </woot-modal>
 
     <woot-delete-modal
@@ -84,16 +82,14 @@
   </div>
 </template>
 <script>
+import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
-import NewWebhook from './New';
-import alertMixin from 'shared/mixins/alertMixin';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import NewHook from './NewHook';
 
 export default {
   components: {
-    NewWebhook,
+    NewHook,
   },
-  mixins: [alertMixin, globalConfigMixin],
   props: {
     integration: {
       type: Object,
@@ -110,14 +106,52 @@ export default {
   },
   computed: {
     ...mapGetters({
-      records: 'webhooks/getWebhooks',
-      uiFlags: 'webhooks/getUIFlags',
-      globalConfig: 'globalConfig/get',
+      uiFlags: 'integrations/getUIFlags',
     }),
-  },
-  mounted() {
-    console.log('Integration', this.integration);
-    this.$store.dispatch('webhooks/get');
+    headerItems() {
+      return this.integration.visible_properties;
+    },
+    tableItems() {
+      const items = [];
+      if (this.integration && this.integration.hooks.length) {
+        // TODO: Please change this logic
+        this.integration.hooks.forEach(hook => {
+          let item = { id: hook.id, inbox_id: hook.inbox_id, properties: [] };
+          this.integration.visible_properties.forEach(property => {
+            // eslint-disable-next-line no-prototype-builtins
+            if (hook.settings.hasOwnProperty(property)) {
+              item.properties.push(hook.settings[property]);
+            }
+          });
+          items.push(item);
+        });
+      }
+
+      return items;
+    },
+    checkHookTypeIsInbox() {
+      return this.integration.hook_type === 'inbox';
+    },
+    isHooksEmpty() {
+      return (
+        !this.uiFlags.isFetching &&
+        !isEmptyObject(this.integration) &&
+        !this.integration.hooks.length
+      );
+    },
+    isHooksExist() {
+      return (
+        !this.uiFlags.isFetching &&
+        !isEmptyObject(this.integration) &&
+        this.integration.hooks.length
+      );
+    },
+    emptyMessage() {
+      return `There are no ${this.integration.id}s configured for this account.`;
+    },
+    loadingMessage() {
+      return `Fetching hooks`;
+    },
   },
   methods: {
     openAddPopup() {
@@ -133,23 +167,7 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    confirmDeletion() {
-      this.loading[this.selectedWebHook.id] = true;
-      this.closeDeletePopup();
-      this.deleteWebhook(this.selectedWebHook.id);
-    },
-    async deleteWebhook(id) {
-      try {
-        await this.$store.dispatch('webhooks/delete', id);
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.SUCCESS_MESSAGE')
-        );
-      } catch (error) {
-        this.showAlert(
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE')
-        );
-      }
-    },
+    confirmDeletion() {},
   },
 };
 </script>
