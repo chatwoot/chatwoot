@@ -1,12 +1,14 @@
 <template>
   <div class="row content-box full-height">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-add-circle"
       @click="openAddPopup()"
     >
-      <i class="icon ion-android-add-circle"></i>
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
-    </button>
+    </woot-button>
+
     <div class="row">
       <div class="small-8 columns">
         <p
