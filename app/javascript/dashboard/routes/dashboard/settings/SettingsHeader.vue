@@ -9,10 +9,12 @@
     <router-link
       v-if="showNewButton && isAdmin"
       :to="buttonRoute"
-      class="button icon success nice button--fixed-right-top"
+      class="button success button--fixed-right-top"
     >
       <i class="icon ion-android-add-circle"></i>
-      {{ buttonText }}
+      <span class="button__content">
+        {{ buttonText }}
+      </span>
     </router-link>
   </div>
 </template>
