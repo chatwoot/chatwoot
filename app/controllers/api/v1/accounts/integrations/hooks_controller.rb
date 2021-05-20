@@ -12,7 +12,6 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def destroy
     @hook.destroy
-    head :ok
   end
 
   private
