@@ -34,17 +34,12 @@ export default {
   },
   watch: {
     'contact.id'(id) {
-      if (id) {
-        this.$store.dispatch('contacts/fetchContactableInbox', id);
-      }
+      this.$store.dispatch('contacts/fetchContactableInbox', id);
     },
   },
   mounted() {
     const { id } = this.contact;
-
-    if (id) {
-      this.$store.dispatch('contacts/fetchContactableInbox', id);
-    }
+    this.$store.dispatch('contacts/fetchContactableInbox', id);
   },
   methods: {
     onCancel() {

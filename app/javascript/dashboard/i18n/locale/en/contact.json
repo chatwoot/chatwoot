@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
-    },
     "LABELS": {
       "TITLE": "Conversation Labels",
       "MODAL": {
@@ -172,6 +169,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
     "ADD": {
       "TITLE": "Create custom attribute",
@@ -182,7 +180,8 @@
       "CANCEL": "Cancel",
       "NAME": {
         "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id"
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {
         "LABEL": "Attribute value",

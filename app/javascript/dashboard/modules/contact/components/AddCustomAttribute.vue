@@ -9,7 +9,7 @@
         v-model.trim="attributeName"
         :class="{ error: $v.attributeName.$error }"
         class="medium-12 columns"
-        :error="$v.attributeName.$error"
+        :error="$t('CUSTOM_ATTRIBUTES.FORM.NAME.ERROR')"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
         @input="$v.attributeName.$touch"

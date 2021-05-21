@@ -17,11 +17,7 @@
       @cancel="toggleEditModal"
     />
     <new-conversation
-      :show="showConversationModal"
-      :contact="contact"
-      @cancel="toggleConversationModal"
-    />
-    <new-conversation
+      v-if="enableNewConversation"
       :show="showConversationModal"
       :contact="contact"
       @cancel="toggleConversationModal"
@@ -60,6 +56,11 @@ export default {
       showEditModal: false,
       showConversationModal: false,
     };
+  },
+  computed: {
+    enableNewConversation() {
+      return this.contact && this.contact.id;
+    },
   },
   methods: {
     toggleCustomAttributeModal() {
