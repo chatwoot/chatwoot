@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
     "CLOSE_MESSAGES_BUTTON": "Bezárás",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chatelj velünk"
