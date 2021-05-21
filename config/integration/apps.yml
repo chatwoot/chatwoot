@@ -30,7 +30,6 @@ dialogflow:
   action: /dialogflow
   hook_type: inbox
   allow_multiple_hooks: true
-  visible_properties: ['project_id']
   settings_json_schema:  {
     "type": "object",
     "properties": {
@@ -56,6 +55,7 @@ dialogflow:
       "validationName": 'Credentials',
     }
   ]
+  visible_properties: ['project_id']
 fullcontact:
   id: fullcontact
   logo: fullcontact.svg

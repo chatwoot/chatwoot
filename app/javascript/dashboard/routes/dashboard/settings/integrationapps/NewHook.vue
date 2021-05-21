@@ -35,7 +35,6 @@
           </woot-button>
         </div>
       </FormulateForm>
-      <span>{{ values }}</span>
     </div>
   </modal>
 </template>
@@ -80,7 +79,7 @@ export default {
       const selectedInboxes = inboxes
         .filter(item => item.channel_type === 'Channel::WebWidget')
         .map(item => {
-          return { ...item, label: item.name, value: item.name };
+          return { ...item, label: item.name, value: item.id };
         });
       return selectedInboxes;
     },
@@ -100,9 +99,14 @@ export default {
           hookSettings[key] = this.values[key];
         }
       });
+      // eslint-disable-next-line no-prototype-builtins
+      if (hookSettings.hasOwnProperty('inbox')) {
+        delete hookSettings.inbox;
+      }
+
       const hookData = {
         app_id: this.integration.id,
-        inbox_id: this.values.inbox_id,
+        inbox_id: this.values.inbox,
         settings: hookSettings,
       };
       // eslint-disable-next-line

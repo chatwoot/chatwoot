@@ -39,9 +39,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      integrationsList: 'integrations/getIntegrations',
       uiFlags: 'labels/getUIFlags',
     }),
+    integrationsList() {
+      const integrations = this.$store.getters['integrations/getIntegrations'];
+      return integrations.filter(
+        item => item.id !== 'webhook' && item.id !== 'fullcontact'
+      );
+    },
   },
   mounted() {
     this.$store.dispatch('integrations/get');
