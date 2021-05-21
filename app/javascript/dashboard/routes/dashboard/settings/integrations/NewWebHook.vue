@@ -28,14 +28,15 @@
 
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
+            <woot-button
               :disabled="$v.endPoint.$invalid || addWebHook.showLoading"
-              :button-text="$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.SUBMIT')"
               :loading="addWebHook.showLoading"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            >
+              {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.SUBMIT') }}
+            </woot-button>
+            <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.CANCEL') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -46,13 +47,10 @@
 <script>
 /* global bus */
 import { required, url, minLength } from 'vuelidate/lib/validators';
-
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   props: {
