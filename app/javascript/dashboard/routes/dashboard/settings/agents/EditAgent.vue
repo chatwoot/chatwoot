@@ -44,10 +44,13 @@
             </button>
           </div>
           <div class="medium-6 columns text-right">
-            <button class="button clear" @click.prevent="resetPassword">
-              <i class="ion-locked"></i>
+            <woot-button
+              icon="ion-locked"
+              variant="clear"
+              @click.prevent="resetPassword"
+            >
               {{ $t('AGENT_MGMT.EDIT.PASSWORD_RESET.ADMIN_RESET_BUTTON') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
