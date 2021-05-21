@@ -71,8 +71,9 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
     }),
     isFormValid() {
-      return this.items.reduce((acc, { name }) => {
-        return !!this.formValues[name] && acc;
+      return this.items.reduce((acc, { name, regex }) => {
+        const isValid = this.fieldValidation(name, regex);
+        return !!this.formValues[name] && isValid && acc;
       }, true);
     },
   },
@@ -90,6 +91,20 @@ export default {
       }
       this.$emit('submit', this.formValues);
     },
+
+    fieldValidation(name, regex = '') {
+      const formValue = this.formValues[name];
+      if (!regex) {
+        return true;
+      }
+      const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
+      const reg = new RegExp(pattern, flags);
+      if (!reg.test(formValue)) {
+        return false;
+      }
+      return true;
+    },
+
     buildFormObject(formObjectArray) {
       return formObjectArray.reduce((acc, obj) => {
         return {

@@ -76,7 +76,7 @@ module WootMessageSeeder
       content: 'form',
       content_attributes: {
         "items": [
-          { "name": 'email', "placeholder": 'Please enter your email', "type": 'email', "label": 'Email' },
+          { "name": 'email', "placeholder": 'Please enter your email', "type": 'email', "label": 'Email', "regex": '/^[^\s@]+@[^\s@]+\.[^\s@]+$/' },
           { "name": 'text_aread', "placeholder": 'Please enter text', "type": 'text_area', "label": 'Large Text' },
           { "name": 'text', "placeholder": 'Please enter text', "type": 'text', "label": 'text', "default": 'defaut value' }
         ]
