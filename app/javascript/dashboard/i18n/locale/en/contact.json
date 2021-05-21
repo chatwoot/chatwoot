@@ -170,5 +170,15 @@
     "FOOTER": {
       "BUTTON": "View all notes"
     }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversations"
+    }
   }
 }

@@ -2,7 +2,7 @@
   <div class="wrap">
     <div class="header">
       <h5 class="block-title">
-        Activities
+        {{ $t('EVENTS.HEADER.TITLE') }}
       </h5>
     </div>
     <div class="button-wrap">
@@ -14,7 +14,7 @@
         label="notes"
         @click="onClickNotes"
       >
-        notes
+        {{ $t('EVENTS.BUTTON.PILL_BUTTON_NOTES') }}
       </woot-button>
       <woot-button
         variant="hollow"
@@ -24,7 +24,7 @@
         label="events"
         @click="onClickEvents"
       >
-        events
+        {{ $t('EVENTS.BUTTON.PILL_BUTTON_EVENTS') }}
       </woot-button>
       <woot-button
         variant="hollow"
@@ -34,7 +34,7 @@
         label="conversations"
         @click="onClickConversation"
       >
-        conversations
+        {{ $t('EVENTS.BUTTON.PILL_BUTTON_CONVO') }}
       </woot-button>
     </div>
   </div>
