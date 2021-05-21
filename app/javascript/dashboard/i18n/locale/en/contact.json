@@ -158,6 +158,15 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -169,15 +178,6 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
-    }
-  },
-  "REMINDER": {
-    "ADD_BUTTON": {
-      "TITLE": "Shift + Enter to create a task"
-    },
-    "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
     }
   }
 }
