@@ -26,6 +26,27 @@
       :show-edit="true"
       @update="onLocationUpdate"
     />
+    <div
+      v-for="attribute in customAttributekeys"
+      :key="attribute"
+      class="custom-attribute--row"
+    >
+      <attribute
+        :label="attribute"
+        icon="ion-arrow-right-c"
+        :value="customAttributes[attribute]"
+        :show-edit="true"
+        @update="value => onCustomAttributeUpdate(attribute, value)"
+      />
+    </div>
+    <woot-button
+      size="small"
+      variant="link"
+      icon="ion-plus"
+      @click="handleCustomCreate"
+    >
+      {{ $t('CUSTOM_ATTRIBUTES.ADD.TITLE') }}
+    </woot-button>
   </div>
 </template>
 <script>
@@ -48,16 +69,32 @@ export default {
       const { company = {} } = this.contact;
       return company;
     },
+    customAttributes() {
+      const { custom_attributes: customAttributes = {} } = this.contact;
+      return customAttributes;
+    },
+    customAttributekeys() {
+      return Object.keys(this.customAttributes).filter(key => {
+        const value = this.customAttributes[key];
+        return value !== null && value !== undefined;
+      });
+    },
   },
   methods: {
     onEmailUpdate(value) {
       this.$emit('update', { email: value });
     },
     onPhoneUpdate(value) {
-      this.$emit('update', { phone: value });
+      this.$emit('update', { phone_number: value });
     },
     onLocationUpdate(value) {
       this.$emit('update', { location: value });
+    },
+    handleCustomCreate() {
+      this.$emit('create-attribute');
+    },
+    onCustomAttributeUpdate(key, value) {
+      this.$emit('update', { custom_attributes: { [key]: value } });
     },
   },
 };
