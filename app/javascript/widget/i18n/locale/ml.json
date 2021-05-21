@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "പുതിയ സന്ദേശങ്ങൾ കാണുക",
     "CLOSE_MESSAGES_BUTTON": "അടയ്ക്കുക",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "ബോട്ട്"
   },
   "BUBBLE": {
     "LABEL": "ഞങ്ങളുമായി ചാറ്റുചെയ്യുക"
