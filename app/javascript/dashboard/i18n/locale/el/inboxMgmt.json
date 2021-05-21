@@ -118,8 +118,7 @@
           "TITLE": "URL επανάκλησης",
           "SUBTITLE": "Πρέπει να ρυθμίσετε το callback URL στο Twilio με το URL που αναφέρεται εδώ."
         },
-        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twi
-        lio",
+        "SUBMIT_BUTTON": "Δημιουργία Καναλιού Twilio",
         "API": {
           "ERROR_MESSAGE": "Δεν ήταν δυνατή η πιστοποίηση των διαπιστευτηρίων Twilio. Δοκιμάστε ξανά"
         }
