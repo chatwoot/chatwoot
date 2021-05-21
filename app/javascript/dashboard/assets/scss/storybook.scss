@@ -14,6 +14,8 @@
 @import 'foundation-settings';
 @import 'helper-classes';
 @import 'foundation-sites/scss/foundation';
+
+@include foundation-prototype-spacing;
 @import '~bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);

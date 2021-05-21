@@ -114,13 +114,12 @@ export default {
           renderBodyCell: ({ row }) => (
             <woot-button
               variant="clear"
-              size="expanded"
               onClick={() => this.onClickContact(row.id)}
             >
               <div class="row--user-block">
                 <Thumbnail
                   src={row.thumbnail}
-                  size="36px"
+                  size="32px"
                   username={row.name}
                   status={row.availability_status}
                 />
@@ -128,7 +127,7 @@ export default {
                   <h6 class="sub-block-title user-name text-truncate">
                     {row.name}
                   </h6>
-                  <span class="button clear small">
+                  <span class="button clear small link">
                     {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
                   </span>
                 </div>
@@ -292,7 +291,7 @@ export default {
   }
 
   .ve-table-body-td {
-    padding: var(--space-slab) var(--space-two) !important;
+    padding: var(--space-small) var(--space-two) !important;
   }
 
   .ve-table-header-th {
