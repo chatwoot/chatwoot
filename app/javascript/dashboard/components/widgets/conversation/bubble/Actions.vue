@@ -95,7 +95,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/app.scss';
+@import '~dashboard/assets/scss/woot';
 
 .right {
   .message-text--metadata {

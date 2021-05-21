@@ -1,8 +1,8 @@
 <template>
-  <div class="note-wrap">
-    <div class="text">
+  <div class="card note-wrap">
+    <p class="note__content">
       {{ note }}
-    </div>
+    </p>
     <div class="footer">
       <div class="meta">
         <div :title="userName">
@@ -19,7 +19,6 @@
           icon="ion-compose"
           color-scheme="secondary"
           class-names="button--emoji"
-          class="button-wrap"
           @click="onEdit"
         />
         <woot-button
@@ -28,7 +27,6 @@
           icon="ion-trash-b"
           color-scheme="secondary"
           class-names="button--emoji"
-          class="button-wrap"
           @click="onDelete"
         />
       </div>
@@ -90,17 +88,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.note-wrap {
-  padding: var(--space-small);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-small);
-  margin-bottom: var(--space-smaller);
-
-  .text {
-    padding-bottom: var(--space-small);
-    font-size: var(--font-size-mini);
-    color: var(--color-body);
-  }
+.note__content {
+  font-size: var(--font-size-mini);
+  margin-bottom: var(--space-small);
 }
 
 .footer {
@@ -119,19 +109,20 @@ export default {
     }
   }
   .actions {
-    display: none;
+    display: flex;
+    visibility: hidden;
+  }
+
+  .button--emoji {
+    margin-left: var(--space-small);
+    height: var(--space-medium);
+    width: var(--space-medium);
   }
 }
 
 .note-wrap:hover {
   .actions {
-    display: flex;
-
-    .button-wrap {
-      margin-right: var(--space-small);
-      height: var(--space-medium);
-      width: var(--space-medium);
-    }
+    visibility: visible;
   }
 }
 </style>

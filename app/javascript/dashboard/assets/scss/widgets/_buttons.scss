@@ -1,4 +1,7 @@
 .button {
+  align-items: center;
+  display: inline-flex;
+  height: 4.0rem;
   margin-bottom: 0;
 
   &.button--emoji {
@@ -19,52 +22,76 @@
     }
   }
 
-
-
-  &.icon {
-    padding-left: $space-normal;
-    padding-right: $space-normal;
-
-    i {
-      padding-right: $space-small;
-    }
+  .spinner {
+    padding: 0 var(--space-small);
   }
 
-  &.nice {
-    border-radius: $space-smaller;
+  .icon+.button__content {
+    padding-left: var(--space-small);
   }
 
-  &.hollow {
-    &.link {
-      border-color: transparent;
-      padding-left: 0;
-
-      &:hover,
-      &:focus {
-        border-color: transparent;
-      }
-    }
-  }
-
-  >.icon {
-    font-size: $font-size-default;
-  }
-
-  &.tiny {
-    font-size: $font-size-mini;
-    padding: $space-small $space-slab;
+  &.expanded {
+    display: flex;
+    justify-content: center;
   }
 
   &.round {
     border-radius: $space-larger;
   }
 
+  // @TODO Use with link
+
   &.compact {
     padding-bottom: 0;
     padding-top: 0;
   }
+
+  // Smooth style
+  &.smooth {
+    @include button-style(var(--w-100), var(--w-50), var(--w-700));
+
+
+    &.secondary {
+      @include button-style(var(--s-100), var(--s-50), var(--s-700));
+    }
+
+    &.success {
+      @include button-style(var(--g-100), var(--g-50), var(--g-700));
+    }
+
+    &.alert {
+      @include button-style(var(--r-100), var(--r-50), var(--r-700));
+    }
+
+    &.warning {
+      @include button-style(var(--y-200), var(--y-100), var(--y-900));
+    }
+  }
+
+  // Sizes
+  &.tiny {
+    height: var(--space-medium);
+  }
+
+  &.small {
+    height: var(--space-large);
+  }
+
+  &.large {
+    height: var(--space-larger);
+  }
+
+  &.link {
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+
 }
 
+
+// @TDOD move to utility file
 .button--fixed-right-top {
   position: fixed;
   right: $space-small;

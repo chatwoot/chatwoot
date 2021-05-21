@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/app.scss';
+@import '~dashboard/assets/scss/woot';
 
 .conversation-details-wrap {
   display: flex;
