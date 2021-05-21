@@ -34,7 +34,7 @@
       <woot-button
         v-if="showEdit"
         variant="clear link"
-        size="tiny"
+        size="small"
         color-scheme="secondary"
         icon="ion-compose"
         class-names="edit-button"

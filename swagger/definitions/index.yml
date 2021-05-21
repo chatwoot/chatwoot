@@ -27,6 +27,10 @@ account:
   $ref: ./resource/account.yml
 team:
   $ref: ./resource/team.yml
+integrations_app:
+   $ref: ./resource/integrations/app.yml
+integrations_hook:
+   $ref: ./resource/integrations/hook.yml
 
 # RESPONSE
 
@@ -87,3 +91,9 @@ conversation_message_create:
 
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+integrations_hook_create_payload:
+  $ref: ./request/integrations/hook_create_payload.yml
+
+integrations_hook_update_payload:
+  $ref: ./request/integrations/hook_update_payload.yml
