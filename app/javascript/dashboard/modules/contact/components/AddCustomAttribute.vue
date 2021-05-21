@@ -9,7 +9,7 @@
         v-model.trim="attributeName"
         :class="{ error: $v.attributeName.$error }"
         class="medium-12 columns"
-        :error="$t('CUSTOM_ATTRIBUTES.FORM.NAME.ERROR')"
+        :error="attributeNameError"
         :label="$t('CUSTOM_ATTRIBUTES.FORM.NAME.LABEL')"
         :placeholder="$t('CUSTOM_ATTRIBUTES.FORM.NAME.PLACEHOLDER')"
         @input="$v.attributeName.$touch"
@@ -65,6 +65,14 @@ export default {
     attributeName: {
       required,
       minLength: minLength(2),
+    },
+  },
+  computed: {
+    attributeNameError() {
+      if (this.$v.attributeName.$error) {
+        return this.$t('CUSTOM_ATTRIBUTES.FORM.NAME.ERROR');
+      }
+      return '';
     },
   },
   methods: {
