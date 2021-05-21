@@ -48,7 +48,6 @@
                     icon="ion-close-circled"
                     variant="link"
                     color-scheme="secondary"
-                    class-names="grey-btn"
                   >
                     {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
                   </woot-button>
