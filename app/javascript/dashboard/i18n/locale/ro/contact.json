@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "Nu există conversații anterioare asociate cu acest contact.",
       "TITLE": "Conversații anterioare"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Custom Attributes"
-    },
     "LABELS": {
       "TITLE": "Etichete conversație",
       "MODAL": {
@@ -169,6 +166,27 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Renunță",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }
