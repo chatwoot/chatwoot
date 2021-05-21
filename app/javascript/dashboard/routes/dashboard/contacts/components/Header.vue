@@ -80,7 +80,7 @@ export default {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: var(--space-small) var(--space-small) var(--space-small)
+  padding: var(--space-small) var(--space-normal) var(--space-small)
     var(--space-normal);
 }
 
@@ -96,7 +96,6 @@ export default {
 
 .search-wrap {
   width: 400px;
-  height: 3.8rem;
   display: flex;
   align-items: center;
   position: relative;

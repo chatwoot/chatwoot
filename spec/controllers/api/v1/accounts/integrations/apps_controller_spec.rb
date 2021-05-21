@@ -25,6 +25,21 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(apps['id']).to eql(first_app.id)
         expect(apps['name']).to eql(first_app.name)
       end
+
+      it 'returns slack app with appropriate redirect url when configured' do
+        ENV['SLACK_CLIENT_ID'] = 'client_id'
+        ENV['SLACK_CLIENT_SECRET'] = 'client_secret'
+        get api_v1_account_integrations_apps_url(account),
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        apps = JSON.parse(response.body)['payload']
+        slack_app = apps.find { |app| app['id'] == 'slack' }
+        expect(slack_app['action']).to include('client_id=client_id')
+        ENV['SLACK_CLIENT_ID'] = nil
+        ENV['SLACK_CLIENT_SECRET'] = nil
+      end
     end
   end
 

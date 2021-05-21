@@ -8,7 +8,7 @@ post:
     - name: id
       in: path
       type: number
-      description: id of the conversation
+      description: ID of the conversation
       required: true
   responses:
     200:
