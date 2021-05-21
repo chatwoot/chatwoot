@@ -15,11 +15,11 @@ RSpec.describe 'Inboxes API', type: :request do
     context 'when it is an authenticated user' do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox)  { create(:inbox, account: account) }
 
       before do
         create(:inbox, account: account)
-        second_inbox = create(:inbox, account: account)
-        create(:inbox_member, user: agent, inbox: second_inbox)
+        create(:inbox_member, user: agent, inbox: inbox)
       end
 
       it 'returns all inboxes of current_account as administrator' do
@@ -38,6 +38,18 @@ RSpec.describe 'Inboxes API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(JSON.parse(response.body, symbolize_names: true)[:payload].size).to eq(1)
+      end
+
+      it 'returns agent bot information if associated to the inbox' do
+        agent_bot = create(:agent_bot)
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: inbox)
+        get "/api/v1/accounts/#{account.id}/inboxes",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        inbox_data = JSON.parse(response.body, symbolize_names: true)[:payload].first
+        expect(inbox_data[:agent_bot][:name]).to eq agent_bot.name
       end
     end
   end
