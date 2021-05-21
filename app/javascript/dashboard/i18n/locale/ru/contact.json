@@ -170,21 +170,21 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Пользовательские атрибуты",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Добавить пользовательский атрибут",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Создать пользовательский атрибут",
+      "DESC": "Добавить пользовательскую информацию этому контакту."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Добавить параметр",
       "CANCEL": "Отменить",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Имя пользовательского параметра",
+        "PLACEHOLDER": "Например: id shopify",
+        "ERROR": "Неверное название пользовательского параметра"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Значение параметра",
         "PLACEHOLDER": "Eg: 11901 "
       }
     }
