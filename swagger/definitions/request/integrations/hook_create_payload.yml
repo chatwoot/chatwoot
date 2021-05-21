@@ -1,0 +1,11 @@
+type: object
+properties:
+  app_id:
+    type: string
+    description: The ID of app for which integration hook is being created
+  inbox_id:
+    type: string
+    description: The inbox ID, if the hook is an inbox hook
+  settings:
+    type: object
+    description: The settings required by the integration

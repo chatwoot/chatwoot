@@ -113,3 +113,20 @@
     $ref: ./teams/update.yml
   delete:
     $ref: ./teams/delete.yml
+
+
+# Integrations
+/accounts/{account_id}/integrations/apps:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: './integrations/apps/show.yml'
+  
+ 
+/accounts/{account_id}/integrations/hooks:
+  post:
+    $ref: './integrations/hooks/create.yml'
+  patch:
+    $ref: ./integrations/hooks/update.yml
+  delete:
+    $ref: ./integrations/hooks/delete.yml

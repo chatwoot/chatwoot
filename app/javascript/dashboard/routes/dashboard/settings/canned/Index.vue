@@ -1,12 +1,14 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-add-circle"
       @click="openAddPopup()"
     >
-      <i class="icon ion-android-add-circle"></i>
       {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
-    </button>
+    </woot-button>
+
     <!-- List Canned Response -->
     <div class="row">
       <div class="small-8 columns">
@@ -47,21 +49,25 @@
               <td>{{ cannedItem.content }}</td>
               <!-- Action Buttons -->
               <td class="button-wrapper">
-                <div @click="openEditPopup(cannedItem)">
-                  <woot-submit-button
-                    :button-text="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
-                    icon-class="ion-edit"
-                    button-class="link hollow grey-btn"
-                  />
-                </div>
-                <div @click="openDeletePopup(cannedItem, index)">
-                  <woot-submit-button
-                    :button-text="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
-                    :loading="loading[cannedItem.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
-                  />
-                </div>
+                <woot-button
+                  variant="link"
+                  color-scheme="secondary"
+                  icon="ion-edit"
+                  class-names="grey-btn"
+                  @click="openEditPopup(cannedItem)"
+                >
+                  {{ $t('CANNED_MGMT.EDIT.BUTTON_TEXT') }}
+                </woot-button>
+                <woot-button
+                  variant="link"
+                  color-scheme="secondary"
+                  icon="ion-close-circled"
+                  class-names="grey-btn"
+                  :is-loading="loading[cannedItem.id]"
+                  @click="openDeletePopup(cannedItem, index)"
+                >
+                  {{ $t('CANNED_MGMT.DELETE.BUTTON_TEXT') }}
+                </woot-button>
               </td>
             </tr>
           </tbody>

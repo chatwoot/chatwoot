@@ -133,13 +133,13 @@ export default {
           key: 'buttons',
           title: '',
           align: 'left',
-          renderBodyCell: (row) => (
+          renderBodyCell: row => (
             <div class="button-wrapper">
               <WootButton
                 variant="clear"
                 icon="ion-edit"
                 color-scheme="secondary"
-                classNames="hollow grey-btn"
+                classNames="grey-btn"
                 onClick={() => this.onEditClick(row)}
               >
                 {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
@@ -155,7 +155,7 @@ export default {
       if (this.isLoading) {
         return [];
       }
-      return this.campaigns.map((item) => {
+      return this.campaigns.map(item => {
         return {
           ...item,
           url: item.trigger_rules.url,
