@@ -1,5 +1,5 @@
 <template>
-  <div class="text-wrap">
+  <div class="wrap">
     <div
       class="add-button"
       :title="$t('REMINDER.ADD_BUTTON.TITLE')"
@@ -7,8 +7,8 @@
     >
       <i class="ion-android-add-circle" />
     </div>
-    <div class="wrap">
-      <div class="input-wrap">
+    <div class="input-select-wrap">
+      <div class="input">
         <textarea
           v-model="content"
           class="input--reminder"
@@ -75,7 +75,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.text-wrap {
+.wrap {
   display: flex;
   margin-bottom: var(--space-smaller);
   width: 100%;
@@ -85,12 +85,12 @@ export default {
     font-size: var(--font-size-medium);
   }
 
-  .wrap {
+  .input-select-wrap {
     padding: var(--space-one) var(--space-one) var(--space-one)
       var(--space-small);
     width: 100%;
 
-    .input-wrap {
+    .input {
       display: flex;
       width: 100%;
       border: 1px solid var(--color-border);
