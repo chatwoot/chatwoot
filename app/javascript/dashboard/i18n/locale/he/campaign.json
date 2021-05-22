@@ -15,7 +15,7 @@
           "ERROR": "Title is required"
         },
         "MESSAGE": {
-          "LABEL": "Message",
+          "LABEL": "הודעה",
           "PLACEHOLDER": "Please enter the message of campaign",
           "ERROR": "Message is required"
         },
@@ -55,7 +55,7 @@
       "404": "There are no campaigns created for this inbox.",
       "TABLE_HEADER": {
         "TITLE": "Title",
-        "MESSAGE": "Message",
+        "MESSAGE": "הודעה",
         "STATUS": "Status",
         "SENDER": "Sender",
         "URL": "URL",
