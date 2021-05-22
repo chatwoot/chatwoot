@@ -1,16 +1,64 @@
-import teams from '../teams';
+import teamsAPI from '../teams';
 import ApiClient from '../ApiClient';
 
 describe('#TeamsAPI', () => {
   it('creates correct instance', () => {
-    expect(teams).toBeInstanceOf(ApiClient);
-    expect(teams).toHaveProperty('get');
-    expect(teams).toHaveProperty('show');
-    expect(teams).toHaveProperty('create');
-    expect(teams).toHaveProperty('update');
-    expect(teams).toHaveProperty('delete');
-    expect(teams).toHaveProperty('getAgents');
-    expect(teams).toHaveProperty('addAgents');
-    expect(teams).toHaveProperty('updateAgents');
+    expect(teamsAPI).toBeInstanceOf(ApiClient);
+    expect(teamsAPI).toHaveProperty('get');
+    expect(teamsAPI).toHaveProperty('show');
+    expect(teamsAPI).toHaveProperty('create');
+    expect(teamsAPI).toHaveProperty('update');
+    expect(teamsAPI).toHaveProperty('delete');
+    expect(teamsAPI).toHaveProperty('getAgents');
+    expect(teamsAPI).toHaveProperty('addAgents');
+    expect(teamsAPI).toHaveProperty('updateAgents');
+  });
+  describe('API calls', () => {
+    let originalAxios = null;
+    let axiosMock = null;
+    beforeEach(() => {
+      originalAxios = window.axios;
+      axiosMock = {
+        post: jest.fn(() => Promise.resolve()),
+        get: jest.fn(() => Promise.resolve()),
+        patch: jest.fn(() => Promise.resolve()),
+      };
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
+    it('#getAgents', () => {
+      teamsAPI.getAgents({ teamId: 1 });
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/teams/1/team_members'
+      );
+    });
+
+    it('#addAgents', () => {
+      teamsAPI.addAgents({ teamId: 1, agentsList: { user_ids: [1, 10, 21] } });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/teams/1/team_members',
+        {
+          user_ids: { user_ids: [1, 10, 21] },
+        }
+      );
+    });
+
+    it('#updateAgents', () => {
+      const agentsList = { user_ids: [1, 10, 21] };
+      teamsAPI.updateAgents({
+        teamId: 1,
+        agentsList,
+      });
+      expect(axiosMock.patch).toHaveBeenCalledWith(
+        '/api/v1/teams/1/team_members',
+        {
+          user_ids: agentsList,
+        }
+      );
+    });
   });
 });

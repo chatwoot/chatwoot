@@ -1,6 +1,5 @@
 import conversationAPI from '../../inbox/conversation';
 import ApiClient from '../../ApiClient';
-
 describe('#ConversationAPI', () => {
   it('creates correct instance', () => {
     expect(conversationAPI).toBeInstanceOf(ApiClient);
@@ -23,11 +22,12 @@ describe('#ConversationAPI', () => {
   describe('API calls', () => {
     let originalAxios = null;
     let axiosMock = null;
-
     beforeEach(() => {
       originalAxios = window.axios;
-      axiosMock = { post: jest.fn(() => Promise.resolve()) };
-
+      axiosMock = {
+        post: jest.fn(() => Promise.resolve()),
+        get: jest.fn(() => Promise.resolve()),
+      };
       window.axios = axiosMock;
     });
 
@@ -35,11 +35,135 @@ describe('#ConversationAPI', () => {
       window.axios = originalAxios;
     });
 
+    it('#get conversations', () => {
+      conversationAPI.get({
+        inboxId: 1,
+        status: 'open',
+        assigneeType: 'me',
+        page: 1,
+        labels: [],
+        teamId: 1,
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/conversations', {
+        params: {
+          inbox_id: 1,
+          team_id: 1,
+          status: 'open',
+          assignee_type: 'me',
+          page: 1,
+          labels: [],
+        },
+      });
+    });
+
+    it('#search', () => {
+      conversationAPI.search({
+        q: 'leads',
+        page: 1,
+      });
+
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/conversations/search',
+        {
+          params: {
+            q: 'leads',
+            page: 1,
+          },
+        }
+      );
+    });
+
+    it('#toggleStatus', () => {
+      conversationAPI.toggleStatus({ conversationId: 12, status: 'online' });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        `/api/v1/conversations/12/toggle_status`,
+        {
+          status: 'online',
+        }
+      );
+    });
+
+    it('#assignAgent', () => {
+      conversationAPI.assignAgent({ conversationId: 12, agentId: 34 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        `/api/v1/conversations/12/assignments?assignee_id=34`,
+        {}
+      );
+    });
+
+    it('#assignTeam', () => {
+      conversationAPI.assignTeam({ conversationId: 12, teamId: 1 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        `/api/v1/conversations/12/assignments`,
+        {
+          team_id: 1,
+        }
+      );
+    });
+
+    it('#markMessageRead', () => {
+      conversationAPI.markMessageRead({ id: 12 });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        `/api/v1/conversations/12/update_last_seen`
+      );
+    });
+
+    it('#toggleTyping', () => {
+      conversationAPI.toggleTyping({
+        conversationId: 12,
+        status: 'typing_on',
+      });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        `/api/v1/conversations/12/toggle_typing_status`,
+        {
+          typing_status: 'typing_on',
+        }
+      );
+    });
+
+    it('#mute', () => {
+      conversationAPI.mute(45);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/45/mute'
+      );
+    });
+
     it('#unmute', () => {
       conversationAPI.unmute(45);
-
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/conversations/45/unmute'
+      );
+    });
+
+    it('#meta', () => {
+      conversationAPI.meta({
+        inboxId: 1,
+        status: 'open',
+        assigneeType: 'me',
+        labels: [],
+        teamId: 1,
+      });
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/conversations/meta', {
+        params: {
+          inbox_id: 1,
+          team_id: 1,
+          status: 'open',
+          assignee_type: 'me',
+          labels: [],
+        },
+      });
+    });
+
+    it('#sendEmailTranscript', () => {
+      conversationAPI.sendEmailTranscript({
+        conversationId: 45,
+        email: 'john@acme.inc',
+      });
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/conversations/45/transcript',
+        {
+          email: 'john@acme.inc',
+        }
       );
     });
   });
