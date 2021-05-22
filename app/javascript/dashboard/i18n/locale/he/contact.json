@@ -63,7 +63,7 @@
       },
       "NAME": {
         "PLACEHOLDER": "Enter the full name of the contact",
-        "LABEL": "Full Name"
+        "LABEL": "שם מלא"
       },
       "BIO": {
         "PLACEHOLDER": "Enter the bio of the contact",
@@ -124,7 +124,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "הודעה",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
