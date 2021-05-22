@@ -14,20 +14,14 @@ describe('#TeamsAPI', () => {
     expect(teamsAPI).toHaveProperty('updateAgents');
   });
   describe('API calls', () => {
-    let originalAxios = null;
     let axiosMock = null;
     beforeEach(() => {
-      originalAxios = window.axios;
       axiosMock = {
         post: jest.fn(() => Promise.resolve()),
         get: jest.fn(() => Promise.resolve()),
         patch: jest.fn(() => Promise.resolve()),
       };
       window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
     });
 
     it('#getAgents', () => {
