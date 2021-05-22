@@ -3,11 +3,11 @@ he:
   devise:
     confirmations:
       confirmed: "כתובת המייל שלך אושרה בהצלחה."
-      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
-      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_instructions: "אתה תקבל הוראות לאישרור המייל לתיבת המייל שלך תוך כמה דקות."
+      send_paranoid_instructions: "אם המייל שלך רשום אצלינו, אתה תקבל מייל עם הוראות לאישרור כתובת המייל שלך תוך כמה דקות."
     failure:
-      already_authenticated: "You are already signed in."
-      inactive: "Your account is not activated yet."
+      already_authenticated: "אתה כבר רשום."
+      inactive: "החשבון שלך עוד לא הופעל."
       invalid: "Invalid %{authentication_keys}/password or account is not verified yet."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
