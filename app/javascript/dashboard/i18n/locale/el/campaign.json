@@ -43,10 +43,10 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Επεξεργασία καμπάνιας",
       "UPDATE_BUTTON_TEXT": "Ενημέρωση",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Η ετικέτα ενημερώθηκε επιτυχώς",
         "ERROR_MESSAGE": "Υπήρξε ένα σφάλμα, παρακαλώ προσπαθήστε ξανά"
       }
     },
