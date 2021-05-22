@@ -17,16 +17,16 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 he:
-  hello: "Hello world"
+  hello: "שלום עולם"
   messages:
-    reset_password_success: Woot! Request for password reset is successful. Check your mail for instructions.
-    reset_password_failure: Uh ho! We could not find any user with the specified email.
+    reset_password_success: יאס! בקשה לאיפוס ססמה נשלחה בהצלחה. בדוק תיבת מייל להוראות.
+    reset_password_failure: אופס! לא מצאנו משתמש עם המייל שצוין.
   errors:
     signup:
-      disposable_email: We do not allow disposable emails
-      invalid_email: You have entered an invalid email
-      email_already_exists: "You have already signed up for an account with %{email}"
-      failed: Signup failed
+      disposable_email: אנחנו לא מאפשרים מיילים חד פעמיים
+      invalid_email: הכנסת מייל לא תקין
+      email_already_exists: "כבר נרשמת לחשבון עם %{email}"
+      failed: הרשמה נכשלה
   reports:
     period: Reporting period %{since} to %{until}
     agent_csv:
