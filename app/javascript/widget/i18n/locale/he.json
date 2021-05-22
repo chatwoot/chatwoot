@@ -2,54 +2,54 @@
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "הורד",
-      "UPLOADING": "Uploading..."
+      "UPLOADING": "מעלה..."
     },
     "FORM_BUBBLE": {
       "SUBMIT": "שלח"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "ONLINE": "אנחנו אונליין",
+    "OFFLINE": "אנחנו לא זמינים כרגע"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day"
+    "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
+    "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
+    "IN_A_DAY": "מענה ממוצע לאחר יום"
   },
-  "START_CONVERSATION": "Start Conversation",
+  "START_CONVERSATION": "התחל שיחה",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
+    "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
     "CLOSE_MESSAGES_BUTTON": "סגור",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "מ",
     "BOT": "בוט"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "דבר איתנו"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "מופעל על ידי Chatwoot",
   "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
-  "CHAT_PLACEHOLDER": "Type your message",
+  "CHAT_PLACEHOLDER": "הקלד הודעה",
   "TODAY": "היום",
   "YESTERDAY": "אתמול",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "ERROR": "Full Name is required"
+        "LABEL": "שם מלא",
+        "PLACEHOLDER": "הכנס שם מלא בבקשה",
+        "ERROR": "שם מלא שדה חובה"
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Email Address",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "LABEL": "כתובת מייל",
+        "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
+        "ERROR": "כתובת מייל לא חוקית"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "הקלד הודעה בבקשה",
+        "ERROR": "הודעה קצרה מדי"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}"
 }
