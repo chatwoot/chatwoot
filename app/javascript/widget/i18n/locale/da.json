@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
     "CLOSE_MESSAGES_BUTTON": "Luk",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chat med os"
