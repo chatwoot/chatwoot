@@ -55,10 +55,14 @@ export default {
 
 .wrap {
   @include three-column-grid(27.2rem);
-  background: var(--color-background);
+  min-height: 0;
+
+  background: var(--color-background-light);
   border-top: 1px solid var(--color-border);
 }
-
+.left {
+  overflow: auto;
+}
 .center {
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
