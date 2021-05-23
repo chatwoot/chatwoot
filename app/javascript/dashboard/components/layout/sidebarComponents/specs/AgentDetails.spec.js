@@ -56,4 +56,9 @@ describe('agentDetails', () => {
     const agentTitle = agentDetails.find('.current-user--role');
     expect(agentTitle.text()).toBe('Agent');
   });
+
+  it('agent thumbnail exists', () => {
+    const thumbnailComponent = agentDetails.findComponent(Thumbnail);
+    expect(thumbnailComponent.exists()).toBe(true);
+  });
 });
