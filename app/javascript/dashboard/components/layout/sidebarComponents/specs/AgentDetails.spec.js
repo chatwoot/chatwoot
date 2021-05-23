@@ -8,7 +8,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
-localVue.use('thumbnail', Thumbnail);
+localVue.component('thumbnail', Thumbnail);
 
 const i18nConfig = new VueI18n({
   locale: 'en',
