@@ -1,0 +1,91 @@
+{
+  "application.js": "/packs/js/application-80b4af4c6f96588a278b.js",
+  "application.js.map": "/packs/js/application-80b4af4c6f96588a278b.js.map",
+  "entrypoints": {
+    "application": {
+      "js": [
+        "/packs/js/application-80b4af4c6f96588a278b.js"
+      ],
+      "js.map": [
+        "/packs/js/application-80b4af4c6f96588a278b.js.map"
+      ]
+    },
+    "sdk": {
+      "js": [
+        "/packs/js/sdk.js"
+      ],
+      "js.map": [
+        "/packs/js/sdk.js.map"
+      ]
+    },
+    "superadmin_pages": {
+      "js": [
+        "/packs/js/superadmin_pages-80b4af4c6f96588a278b.js"
+      ],
+      "js.map": [
+        "/packs/js/superadmin_pages-80b4af4c6f96588a278b.js.map"
+      ]
+    },
+    "superadmin": {
+      "js": [
+        "/packs/js/superadmin-80b4af4c6f96588a278b.js"
+      ],
+      "js.map": [
+        "/packs/js/superadmin-80b4af4c6f96588a278b.js.map"
+      ]
+    },
+    "widget": {
+      "js": [
+        "/packs/js/widget-80b4af4c6f96588a278b.js"
+      ],
+      "js.map": [
+        "/packs/js/widget-80b4af4c6f96588a278b.js.map"
+      ]
+    }
+  },
+  "media/dashboard/assets/images/channels/api.png": "/packs/media/dashboard/assets/images/channels/api-24484816aff369b55b7f9b0d73e307df.png",
+  "media/dashboard/assets/images/channels/email.png": "/packs/media/dashboard/assets/images/channels/email-edb81e257f766dcf134c4a0b65f446c4.png",
+  "media/dashboard/assets/images/channels/facebook.png": "/packs/media/dashboard/assets/images/channels/facebook-a6b128f68acf2d76b41a2220fa035250.png",
+  "media/dashboard/assets/images/channels/facebook_login.png": "/packs/media/dashboard/assets/images/channels/facebook_login-7692d6c379288885d619b1e80bb214a4.png",
+  "media/dashboard/assets/images/channels/line.png": "/packs/media/dashboard/assets/images/channels/line-6c4fad9f00eb3796397246b91f4c6b70.png",
+  "media/dashboard/assets/images/channels/telegram.png": "/packs/media/dashboard/assets/images/channels/telegram-c098afe3a464bed8ad5337d4cee490b7.png",
+  "media/dashboard/assets/images/channels/twilio.png": "/packs/media/dashboard/assets/images/channels/twilio-71bb773085a13b6d086b79a50e6fde84.png",
+  "media/dashboard/assets/images/channels/twitter.png": "/packs/media/dashboard/assets/images/channels/twitter-f7bb5bf512cea46241b7c3618c4d94ae.png",
+  "media/dashboard/assets/images/channels/website.png": "/packs/media/dashboard/assets/images/channels/website-754e87fb4b13b9cdd77e2800a0241b05.png",
+  "media/dashboard/assets/images/channels/whatsapp.png": "/packs/media/dashboard/assets/images/channels/whatsapp-4936fb8a94148593afdb3dc1305ad7a7.png",
+  "media/dashboard/assets/images/chat.svg": "/packs/media/dashboard/assets/images/chat-a06542d766feaecc071c3a2b77f313e8.svg",
+  "media/dashboard/assets/images/chatwoot_bot.png": "/packs/media/dashboard/assets/images/chatwoot_bot-905112376e6493b37e2cecea8f9dc50c.png",
+  "media/dashboard/assets/images/fb-badge.png": "/packs/media/dashboard/assets/images/fb-badge-c71b1a0335031b15a239c475fc0d9154.png",
+  "media/dashboard/assets/images/flag.svg": "/packs/media/dashboard/assets/images/flag-2fe41f128623199c8388d77dfc4cff4e.svg",
+  "media/dashboard/assets/images/inboxes.svg": "/packs/media/dashboard/assets/images/inboxes-e2cba09a94575964719857a16fb42e41.svg",
+  "media/dashboard/assets/images/twitter-badge.png": "/packs/media/dashboard/assets/images/twitter-badge-9bab3edf9559259d9c712e4b9d0562a0.png",
+  "media/dashboard/assets/images/typing.gif": "/packs/media/dashboard/assets/images/typing-6027d21b24f45e3377a729a55158f948.gif",
+  "media/font/iconfont.eot?t=1607666235845": "/packs/media/font/iconfont-b7feab36.eot",
+  "media/font/iconfont.svg?t=1607666235845": "/packs/media/font/iconfont-5f9cfce9.svg",
+  "media/font/iconfont.ttf?t=1607666235845": "/packs/media/font/iconfont-2c6ef557.ttf",
+  "media/font/iconfont.woff?t=1607666235845": "/packs/media/font/iconfont-c3c6fe49.woff",
+  "media/fonts/ionicons.woff?v=2.0.1": "/packs/media/fonts/ionicons-e5a4fae0.woff",
+  "media/shared/assets/fonts/Inter-Bold.woff": "/packs/media/shared/assets/fonts/Inter-Bold-3053fbd18c9c00d7783e462e04beed10.woff",
+  "media/shared/assets/fonts/Inter-Bold.woff2": "/packs/media/shared/assets/fonts/Inter-Bold-8ce7b9e67a6b7cd8c6d71b084095ddf8.woff2",
+  "media/shared/assets/fonts/Inter-Italic.woff": "/packs/media/shared/assets/fonts/Inter-Italic-c52bf90bf478701f3d4f5950041ca78f.woff",
+  "media/shared/assets/fonts/Inter-Italic.woff2": "/packs/media/shared/assets/fonts/Inter-Italic-2171665508e87b63ab462307d21e7cb0.woff2",
+  "media/shared/assets/fonts/Inter-Light.woff": "/packs/media/shared/assets/fonts/Inter-Light-951c5254c8c4aff4fd790906be216bb8.woff",
+  "media/shared/assets/fonts/Inter-Light.woff2": "/packs/media/shared/assets/fonts/Inter-Light-a44d8c552d1c8cacede33b5c443d6780.woff2",
+  "media/shared/assets/fonts/Inter-Medium.woff": "/packs/media/shared/assets/fonts/Inter-Medium-e78f8f072aa56924dc4d735fd1abeb68.woff",
+  "media/shared/assets/fonts/Inter-Medium.woff2": "/packs/media/shared/assets/fonts/Inter-Medium-aec38a6b266a908bc320e30f261771d1.woff2",
+  "media/shared/assets/fonts/Inter-Regular.woff": "/packs/media/shared/assets/fonts/Inter-Regular-608dbe34b525dbf880b8d8ce921a5b54.woff",
+  "media/shared/assets/fonts/Inter-Regular.woff2": "/packs/media/shared/assets/fonts/Inter-Regular-b35f79d43d03b9a20047efe416c35d08.woff2",
+  "media/shared/assets/fonts/Inter-SemiBold.woff": "/packs/media/shared/assets/fonts/Inter-SemiBold-af031ccbfc3d90928feba54c9a4b2d4d.woff",
+  "media/shared/assets/fonts/Inter-SemiBold.woff2": "/packs/media/shared/assets/fonts/Inter-SemiBold-878e0cfc04d6108e9f97f3ce94e25b5e.woff2",
+  "media/shared/assets/fonts/Inter-Thin.woff": "/packs/media/shared/assets/fonts/Inter-Thin-046ff26493bd0c8b7af11d58d459e525.woff",
+  "media/shared/assets/fonts/Inter-Thin.woff2": "/packs/media/shared/assets/fonts/Inter-Thin-bc0c400ab97641432db27b3541daa5ac.woff2",
+  "media/widget/assets/images/typing.gif": "/packs/media/widget/assets/images/typing-6027d21b24f45e3377a729a55158f948.gif",
+  "sdk.js": "/packs/js/sdk.js",
+  "sdk.js.map": "/packs/js/sdk.js.map",
+  "superadmin.js": "/packs/js/superadmin-80b4af4c6f96588a278b.js",
+  "superadmin.js.map": "/packs/js/superadmin-80b4af4c6f96588a278b.js.map",
+  "superadmin_pages.js": "/packs/js/superadmin_pages-80b4af4c6f96588a278b.js",
+  "superadmin_pages.js.map": "/packs/js/superadmin_pages-80b4af4c6f96588a278b.js.map",
+  "widget.js": "/packs/js/widget-80b4af4c6f96588a278b.js",
+  "widget.js.map": "/packs/js/widget-80b4af4c6f96588a278b.js.map"
+}

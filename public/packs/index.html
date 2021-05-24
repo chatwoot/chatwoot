@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <title>Local Dev CHAT WIDGET</title>
+  <link rel="stylesheet" href="./index.css">
+  <script>
+    if (!window.customElements) {
+      document.write('<!--');
+    }
+  </script>
+</head>
+<body>
+  <titan-chat></titan-chat>
+  <script src="./index.js" type="module"></script>
+
+  <script>
+    (function(d,t) {
+      var BASE_URL="https://dford-chatwoot.herokuapp.com";
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src="/packs/js/sdk.js";
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chatwootSDK.run({
+          websiteToken: 'mdnufZ3sqApfPQJTc2RaqALy',
+          baseUrl: BASE_URL
+        })
+      }
+    })(document,"script");
+  </script>
+</body>
+</html>
