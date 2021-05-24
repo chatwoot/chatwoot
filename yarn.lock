@@ -1096,6 +1096,11 @@
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.17.2"
 
+"@chatwoot/utils@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chatwoot/utils/-/utils-0.0.3.tgz#40fbb6c6d1aed853b3c5189d0f4979d3ca185a2f"
+  integrity sha512-2KbA1r34IM2U58CUvsC9dEN3gsx5Dcc6uD1iHPFNC3zTsg8Tb+K7IQXxfZt+VAvV0fbniLzCuXt6h81Ds0aj6Q==
+
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@cnakazawa/watch/-/watch-1.0.4.tgz#f864ae85004d0fcab6f50be9141c4da368d1656a"
