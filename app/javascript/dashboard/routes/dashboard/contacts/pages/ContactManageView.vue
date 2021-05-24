@@ -73,6 +73,9 @@ export default {
 
 <style lang="scss" scoped>
 .contact-manage-view {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  flex: 1 1 0;
 }
 </style>
