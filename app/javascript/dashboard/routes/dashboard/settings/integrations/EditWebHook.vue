@@ -4,7 +4,7 @@
       <woot-modal-header
         :header-title="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.TITLE')"
       />
-      <form class="row" @submit.prevent="addWebhook()">
+      <form class="row" @submit.prevent="editWebhook()">
         <div class="medium-12 columns">
           <label :class="{ error: $v.endPoint.$error }">
             {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.FORM.END_POINT.LABEL') }}
@@ -49,12 +49,15 @@
 
 <script>
 import { required, url, minLength } from 'vuelidate/lib/validators';
+import alertMixin from 'shared/mixins/alertMixin';
+
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     id: {
       type: Number,
@@ -71,7 +74,7 @@ export default {
   },
   data() {
     return {
-      addWebHook: {
+      editWebHook: {
         showAlert: false,
         showLoading: false,
         message: '',
@@ -89,33 +92,29 @@ export default {
     },
   },
   methods: {
-    showAlert() {
-      bus.$emit('newToastMessage', this.addWebHook.message);
-    },
     resetForm() {
       this.endPoint = '';
       this.$v.endPoint.$reset();
     },
-    async addWebhook() {
-      this.addWebHook.showLoading = true;
+    async editWebhook() {
+      this.editWebHook.showLoading = true;
       try {
         await this.$store.dispatch('webhooks/update', {
           webhook: { url: this.endPoint },
           id: this.webhookId,
         });
-        this.addWebHook.showLoading = false;
-        this.addWebHook.message = this.$t(
+        this.editWebHook.message = this.$t(
           'INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.SUCCESS_MESSAGE'
         );
-        this.showAlert();
         this.resetForm();
         this.onClose();
       } catch (error) {
-        this.addWebHook.showLoading = false;
-        this.addWebHook.message =
+        this.editWebHook.message =
           error.response.data.message ||
           this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
-        this.showAlert();
+      } finally {
+        this.editWebHook.showLoading = false;
+        this.showAlert(this.editWebHook.message);
       }
     },
   },

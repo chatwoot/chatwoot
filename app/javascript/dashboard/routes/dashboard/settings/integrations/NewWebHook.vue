@@ -45,14 +45,15 @@
 </template>
 
 <script>
-/* global bus */
 import { required, url, minLength } from 'vuelidate/lib/validators';
+import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -65,7 +66,6 @@ export default {
       addWebHook: {
         showAlert: false,
         showLoading: false,
-        message: '',
       },
       show: true,
     };
@@ -78,9 +78,6 @@ export default {
     },
   },
   methods: {
-    showAlert() {
-      bus.$emit('newToastMessage', this.addWebHook.message);
-    },
     resetForm() {
       this.endPoint = '';
       this.$v.endPoint.$reset();
@@ -93,18 +90,20 @@ export default {
           webhook: { url: this.endPoint },
         });
         this.addWebHook.showLoading = false;
+
         this.addWebHook.message = this.$t(
           'INTEGRATION_SETTINGS.WEBHOOK.ADD.API.SUCCESS_MESSAGE'
         );
-        this.showAlert();
         this.resetForm();
         this.onClose();
       } catch (error) {
         this.addWebHook.showLoading = false;
         this.addWebHook.message =
           error.response.data.message ||
-          this.$t('INTEGRATION_SETTINGS.WEBHOOK.ADD.API.ERROR_MESSAGE');
-        this.showAlert();
+          this.$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.API.ERROR_MESSAGE');
+      } finally {
+        this.addWebHook.showLoading = false;
+        this.showAlert(this.addWebHook.message);
       }
     },
   },
