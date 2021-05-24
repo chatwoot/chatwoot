@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "See new messages",
     "CLOSE_MESSAGES_BUTTON": "關閉",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "機器人"
   },
   "BUBBLE": {
     "LABEL": "與我們對話"
