@@ -1,6 +1,6 @@
 import contactAPI from '../contacts';
 import ApiClient from '../ApiClient';
-import AxiosHelper from './axiosHelper';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#ContactsAPI', () => {
   it('creates correct instance', () => {
@@ -13,38 +13,30 @@ describe('#ContactsAPI', () => {
     expect(contactAPI).toHaveProperty('getConversations');
   });
 
-  describe('API calls', () => {
-    beforeEach(() => {
-      AxiosHelper.beforeEach();
-    });
-
-    afterEach(() => {
-      AxiosHelper.afterEach();
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#get', () => {
       contactAPI.get(1, 'name');
-      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts?page=1&sort=name'
       );
     });
 
     it('#getConversations', () => {
       contactAPI.getConversations(1);
-      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/conversations'
       );
     });
 
     it('#getContactableInboxes', () => {
       contactAPI.getContactableInboxes(1);
-      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/contactable_inboxes'
       );
     });
     it('#search', () => {
       contactAPI.search('leads', 1, 'date');
-      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/search?q=leads&page=1&sort=date'
       );
     });

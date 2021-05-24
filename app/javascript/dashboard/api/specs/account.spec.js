@@ -1,6 +1,6 @@
 import accountAPI from '../account';
 import ApiClient from '../ApiClient';
-import apiSpecHelper from './apiSpecHelper';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#accountAPI', () => {
   it('creates correct instance', () => {
@@ -13,7 +13,7 @@ describe('#accountAPI', () => {
     expect(accountAPI).toHaveProperty('createAccount');
   });
 
-  apiSpecHelper('API calls', context => {
+  describeWithAPIMock('API calls', context => {
     it('#createAccount', () => {
       accountAPI.createAccount({
         name: 'Chatwoot',

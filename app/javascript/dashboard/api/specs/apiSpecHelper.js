@@ -1,4 +1,4 @@
-function specHelper() {
+function apiSpecHelper() {
   beforeEach(() => {
     this.originalAxios = window.axios;
     this.axiosMock = {
@@ -15,12 +15,12 @@ function specHelper() {
 }
 // https://stackoverflow.com/a/59344023/3901856
 const sharedWrapper = describe('sharedWrapper', () => {});
-export default function apiSpecHelper(skillName, testFn) {
+export default function describeWithAPIMock(skillName, testFn) {
   return describe(skillName, function configureContext() {
     function Context() {}
     Context.prototype = sharedWrapper.ctx;
     this.ctx = new Context();
-    specHelper.call(this);
+    apiSpecHelper.call(this);
     testFn.call(this, this);
   });
 }
