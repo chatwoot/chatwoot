@@ -120,8 +120,8 @@
         "LABEL": "To"
       },
       "INBOX": {
-        "LABEL": "Inbox",
-        "ERROR": "Select an inbox"
+        "LABEL": "收件匣",
+        "ERROR": "選擇一個收件匣"
       },
       "MESSAGE": {
         "LABEL": "訊息",
@@ -139,13 +139,13 @@
     "SEARCH_BUTTON": "搜尋",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋聯絡人",
     "LIST": {
-      "LOADING_MESSAGE": "Loading contacts...",
-      "404": "No contacts matches your search 🔍",
+      "LOADING_MESSAGE": "聯絡人載入中...",
+      "404": "找不到符合條件的聯絡人 🔍",
       "TABLE_HEADER": {
         "NAME": "姓名",
         "PHONE_NUMBER": "聯絡人電話",
         "CONVERSATIONS": "對話",
-        "LAST_ACTIVITY": "Last Activity",
+        "LAST_ACTIVITY": "最後活動",
         "COUNTRY": "國家",
         "CITY": "城市",
         "SOCIAL_PROFILES": "Social Profiles",
@@ -170,22 +170,22 @@
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "自訂屬性",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "新增自訂屬性",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "建立自訂屬性",
+      "DESC": "為聯絡人新增自訂資訊"
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "新增屬性",
       "CANCEL": "取消",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
+        "LABEL": "自訂屬性名稱",
+        "PLACEHOLDER": "例如：shopify id",
         "ERROR": "Invalid custom attribute name"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "屬性值",
+        "PLACEHOLDER": "例如：11901 "
       }
     }
   }
