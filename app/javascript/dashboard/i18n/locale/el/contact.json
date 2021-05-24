@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "Δεν υπάρχουν προηγούμενες συνομιλίες που σχετίζονται με αυτήν την επαφή.",
       "TITLE": "Προηγούμενες συνομιλίες"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Προσαρμοζόμενες Ιδιότητες"
-    },
     "LABELS": {
       "TITLE": "Ετικέτες συνομιλίας",
       "MODAL": {
@@ -28,16 +25,16 @@
         "INACTIVE_LABELS": "Υπάρχουν διαθέσιμες ετικέτες στον λογαριασμό",
         "REMOVE": "Πατήστε στο εικονίδιο X για να απομακρύνετε την ετικέτα",
         "ADD": "Πατήστε στο εικονίδιο + για να προσθέστε την ετικέτα",
-        "ADD_BUTTON": "Add Labels",
+        "ADD_BUTTON": "Προσθήκη Ετικετών",
         "UPDATE_BUTTON": "Ενημέρωση Ετικετών",
         "UPDATE_ERROR": "Δεν μπορούν να ενημερωθούν οι ετικέτες, προσπαθήστε ξανά."
       },
       "NO_LABELS_TO_ADD": "Δεν υπάρχουν άλλες ετικέτες στον λογαριασμό.",
       "NO_AVAILABLE_LABELS": "Δεν υπάρχουν προστεθεί ετικέτες στην συνομιλία.",
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Προσθήκη Ετικετών",
+        "PLACEHOLDER": "Αναζήτηση ετικετών",
+        "NO_RESULT": "Δεν βρέθηκαν ετικέτες"
       }
     },
     "MUTE_CONTACT": "Σίγαση Συνομιλίας",
@@ -169,6 +166,27 @@
     },
     "FOOTER": {
       "BUTTON": "Εμφάνιση όλων των σημειώσεων"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Προσαρμοζόμενες Ιδιότητες",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Άκυρο",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }
