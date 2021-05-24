@@ -29,8 +29,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
 import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
 import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
