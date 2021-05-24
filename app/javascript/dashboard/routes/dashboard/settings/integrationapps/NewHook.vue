@@ -103,11 +103,13 @@ export default {
       if (hookSettings.hasOwnProperty('inbox')) {
         delete hookSettings.inbox;
       }
-
       const hookData = {
         app_id: this.integration.id,
         inbox_id: this.values.inbox,
-        settings: hookSettings,
+        settings: {
+          ...hookSettings,
+          credentials: JSON.parse(hookSettings.credentials),
+        },
       };
       // eslint-disable-next-line
       if (this.values.hasOwnProperty('inbox_id')) {
