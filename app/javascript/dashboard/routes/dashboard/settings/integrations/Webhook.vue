@@ -45,7 +45,6 @@
                 <woot-button
                   variant="link"
                   color-scheme="secondary"
-                  class-names="grey-btn"
                   icon="ion-edit"
                   @click="openEditPopup(webHookItem)"
                 >
@@ -53,9 +52,8 @@
                 </woot-button>
                 <woot-button
                   variant="link"
-                  color-scheme="secondary"
                   icon="ion-close-circled"
-                  class-names="grey-btn"
+                  color-scheme="secondary"
                   @click="openDeletePopup(webHookItem, index)"
                 >
                   {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
@@ -178,5 +176,8 @@ export default {
 <style scoped lang="scss">
 .webhook-link {
   word-break: break-word;
+}
+.button-wrapper button:nth-child(2) {
+  margin-left: var(--space-normal);
 }
 </style>
