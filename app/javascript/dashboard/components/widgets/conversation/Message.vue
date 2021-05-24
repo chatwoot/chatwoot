@@ -109,12 +109,14 @@ export default {
       );
 
       const {
-        email: { html_content: { full: fullHTMLContent } = {} } = {},
+        email: {
+          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
+        } = {},
       } = this.contentAttributes;
 
-      if (fullHTMLContent && this.isIncoming) {
+      if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
         let parsedContent = new DOMParser().parseFromString(
-          fullHTMLContent || '',
+          replyHTMLContent || fullHTMLContent || '',
           'text/html'
         );
         if (!parsedContent.getElementsByTagName('parsererror').length) {

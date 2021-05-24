@@ -5,18 +5,14 @@
   &.round {
     border-radius: 1000px;
   }
-
-  &.grey-btn {
-    color: $color-gray;
-
-    &:hover {
-      color: $color-light-gray;
-    }
-  }
 }
 
-.label {
-  font-weight: $font-weight-bold;
+.card {
+  padding: var(--space-small);
+}
+
+.button-wrapper .button.link.grey-btn {
+  margin-left: var(--space-normal);
 }
 
 .tooltip {

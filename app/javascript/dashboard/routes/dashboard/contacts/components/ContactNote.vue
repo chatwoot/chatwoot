@@ -1,12 +1,12 @@
 <template>
-  <div class="note-wrap">
-    <div class="text">
+  <div class="card note-wrap">
+    <p class="note__content">
       {{ note }}
-    </div>
+    </p>
     <div class="footer">
       <div class="meta">
         <div :title="userName">
-          <Thumbnail :src="thumbnail" :username="userName" size="16" />
+          <Thumbnail :src="thumbnail" :username="userName" size="16px" />
         </div>
         <div class="date-wrap">
           <span>{{ readableTime }}</span>
@@ -19,7 +19,6 @@
           icon="ion-compose"
           color-scheme="secondary"
           class-names="button--emoji"
-          class="button-wrap"
           @click="onEdit"
         />
         <woot-button
@@ -28,7 +27,6 @@
           icon="ion-trash-b"
           color-scheme="secondary"
           class-names="button--emoji"
-          class="button-wrap"
           @click="onDelete"
         />
       </div>
@@ -50,6 +48,10 @@ export default {
   mixins: [timeMixin],
 
   props: {
+    id: {
+      type: Number,
+      default: 0,
+    },
     note: {
       type: String,
       default: '',
@@ -76,26 +78,19 @@ export default {
 
   methods: {
     onEdit() {
-      this.$emit('edit');
+      this.$emit('edit', this.id);
     },
     onDelete() {
-      this.$emit('delete');
+      this.$emit('delete', this.id);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.note-wrap {
-  padding: var(--space-small);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-small);
-
-  .text {
-    padding-bottom: var(--space-small);
-    font-size: var(--font-size-mini);
-    color: var(--color-body);
-  }
+.note__content {
+  font-size: var(--font-size-mini);
+  margin-bottom: var(--space-small);
 }
 
 .footer {
@@ -114,19 +109,20 @@ export default {
     }
   }
   .actions {
-    display: none;
+    display: flex;
+    visibility: hidden;
+  }
+
+  .button--emoji {
+    margin-left: var(--space-small);
+    height: var(--space-medium);
+    width: var(--space-medium);
   }
 }
 
 .note-wrap:hover {
   .actions {
-    display: flex;
-
-    .button-wrap {
-      margin-right: var(--space-small);
-      height: var(--space-medium);
-      width: var(--space-medium);
-    }
+    visibility: visible;
   }
 }
 </style>

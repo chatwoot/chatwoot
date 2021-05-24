@@ -7,14 +7,15 @@
         $t('CONTACT_PANEL.NOT_AVAILABLE')
       }}</span>
 
-      <button
+      <woot-button
         v-if="showCopy"
         type="submit"
-        class="button nice link hollow grey-btn compact"
+        variant="link"
+        color-scheme="secondary"
+        icon="ion-clipboard"
+        class-names="icon copy-icon"
         @click="onCopy"
-      >
-        <i class="icon copy-icon ion-clipboard"></i>
-      </button>
+      />
     </a>
 
     <div v-else class="contact-info--details">
@@ -85,9 +86,6 @@ export default {
 
   .copy-icon {
     margin-left: $space-one;
-    &:hover {
-      color: $color-woot;
-    }
   }
 
   &.a {

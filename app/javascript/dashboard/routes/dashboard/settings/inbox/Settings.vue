@@ -258,7 +258,7 @@
       <weekly-availability :inbox="inbox" />
     </div>
     <div v-if="selectedTabKey === 'campaign'">
-      <campaign />
+      <campaign :selected-agents="selectedAgents" />
     </div>
   </div>
 </template>
@@ -401,7 +401,7 @@ export default {
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter((flag) => flag !== current);
+        const newSelectedFlags = selected.filter(flag => flag !== current);
         return newSelectedFlags;
       }
       return [...selected, current];
@@ -442,7 +442,7 @@ export default {
       }
     },
     async updateAgents() {
-      const agentList = this.selectedAgents.map((el) => el.id);
+      const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxMembers/create', {

@@ -1,0 +1,14 @@
+tags:
+  - Teams
+operationId: get-details-of-a-single-team
+summary: Get a team details
+description: Get the details of a team in the account
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/team'
+  401:
+    description: Unauthorized
+  404:
+    description: The given team ID does not exist in the account

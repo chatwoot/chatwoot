@@ -238,7 +238,7 @@ $breadcrumbs-item-slash: true;
 // 11. Button
 // ----------
 
-$button-padding: var(--space-one) var(--space-slab);
+$button-padding: var(--space-smaller) 1em;
 $button-margin: 0 0 $global-margin 0;
 $button-fill: solid;
 $button-background: $primary-color;
@@ -246,7 +246,7 @@ $button-background-hover: scale-color($button-background, $lightness: -15%);
 $button-color: $white;
 $button-color-alt: $white;
 $button-radius: var(--border-radius-normal);
-$button-sizes: (tiny: var(--font-size-nano),
+$button-sizes: (tiny: var(--font-size-micro),
   small: var(--font-size-mini),
   default: var(--font-size-small),
   large: var(--font-size-medium));
@@ -285,10 +285,10 @@ $callout-link-tint: 30%;
 $card-background: $white;
 $card-font-color: $body-font-color;
 $card-divider-background: $light-gray;
-$card-border: 1px solid $light-gray;
-$card-shadow: none;
-$card-border-radius: $global-radius;
-$card-padding: $global-padding;
+$card-border: 1px solid var(--color-border);
+$card-shadow: var(--shadow-small);
+$card-border-radius: var(--border-radius-normal);
+$card-padding: var(--space-small);
 $card-margin: $global-margin;
 
 // 15. Close Button
@@ -358,7 +358,7 @@ $form-label-font-weight: $font-weight-medium;
 $form-label-line-height: 1.8;
 $select-background: $white;
 $select-triangle-color: $dark-gray;
-$select-radius: $global-radius;
+$select-radius: var(--border-radius-normal);
 $input-color: $header-color;
 $input-placeholder-color: $light-gray;
 $input-font-family: inherit;
@@ -374,19 +374,19 @@ $input-shadow-focus: 0;
 $input-cursor-disabled: not-allowed;
 $input-transition: border-color 0.25s ease-in-out;
 $input-number-spinners: true;
-$input-radius: $global-radius;
-$form-button-radius: $global-radius;
+$input-radius: var(--border-radius-normal);
+$form-button-radius: var(--border-radius-normal);
 
 // 20. Label
 // ---------
 
-$label-background: lighten($primary-color, 40%);
-$label-color: $primary-color;
+$label-background: $primary-color;
+$label-color: $white;
 $label-color-alt: $black;
 $label-palette: $foundation-palette;
-$label-font-size: $font-size-micro;
+$label-font-size: $font-size-mini;
 $label-padding: $space-smaller $space-small;
-$label-radius: $space-micro;
+$label-radius: var(--border-radius-small);
 
 // 21. Media Object
 // ----------------

@@ -46,7 +46,7 @@ It renders the `_table` partial to display details about the resources.
         "administrate.actions.new_resource",
         name: page.resource_name.titleize.downcase
       ),
-      [:new, namespace, page.resource_path],
+      [:new, namespace, page.resource_path.to_sym],
       class: "button",
     ) if valid_action?(:new) && show_action?(:new, new_resource) %>
   </div>

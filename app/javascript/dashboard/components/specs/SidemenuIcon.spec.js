@@ -4,7 +4,7 @@ import SidemenuIcon from '../SidemenuIcon';
 describe('SidemenuIcon', () => {
   test('matches snapshot', () => {
     const wrapper = mount(SidemenuIcon);
-    expect(wrapper.isVueInstance()).toBeTruthy();
+    expect(wrapper.vm).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });
 });
