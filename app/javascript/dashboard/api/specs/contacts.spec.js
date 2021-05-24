@@ -1,5 +1,6 @@
 import contactAPI from '../contacts';
 import ApiClient from '../ApiClient';
+import AxiosHelper from './axiosHelper';
 
 describe('#ContactsAPI', () => {
   it('creates correct instance', () => {
@@ -13,44 +14,37 @@ describe('#ContactsAPI', () => {
   });
 
   describe('API calls', () => {
-    let originalAxios = null;
-    let axiosMock = null;
     beforeEach(() => {
-      originalAxios = window.axios;
-      axiosMock = {
-        post: jest.fn(() => Promise.resolve()),
-        get: jest.fn(() => Promise.resolve()),
-      };
-      window.axios = axiosMock;
+      AxiosHelper.beforeEach();
     });
 
     afterEach(() => {
-      window.axios = originalAxios;
+      AxiosHelper.afterEach();
     });
 
     it('#get', () => {
       contactAPI.get(1, 'name');
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts?page=1&sort=name'
       );
     });
 
     it('#getConversations', () => {
       contactAPI.getConversations(1);
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/conversations'
       );
     });
 
     it('#getContactableInboxes', () => {
       contactAPI.getContactableInboxes(1);
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/1/contactable_inboxes'
       );
     });
     it('#search', () => {
       contactAPI.search('leads', 1, 'date');
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(AxiosHelper.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/contacts/search?q=leads&page=1&sort=date'
       );
     });
