@@ -27,23 +27,6 @@ describe('#ConversationAPI', () => {
       window.axios = originalAxios;
     });
 
-    // it('#create', () => {
-    //   messageAPI.create({
-    //     conversationId: 12,
-    //     message: 'Hi',
-    //     private: false,
-    //     contentAttributes: {},
-    //     echo_id: 123,
-    //     file: null,
-    //   });
-
-    //   expect(axiosMock).toHaveBeenCalledWith('/api/v1/conversations/messages', {
-    //     data: {
-    //       message: 'leads',
-    //     },
-    //   });
-    // });
-
     it('#getPreviousMessages', () => {
       messageAPI.getPreviousMessages({
         conversationId: 12,
