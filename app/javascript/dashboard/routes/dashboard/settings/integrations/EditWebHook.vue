@@ -33,7 +33,7 @@
                   addWebHook.showLoading ||
                   endPoint === url
               "
-              :loading="addWebHook.showLoading"
+              :is-loading="addWebHook.showLoading"
             >
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.FORM.SUBMIT') }}
             </woot-button>

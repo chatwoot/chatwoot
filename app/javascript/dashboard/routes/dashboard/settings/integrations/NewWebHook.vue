@@ -30,7 +30,7 @@
           <div class="medium-12 columns">
             <woot-button
               :disabled="$v.endPoint.$invalid || addWebHook.showLoading"
-              :loading="addWebHook.showLoading"
+              :is-loading="addWebHook.showLoading"
             >
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.ADD.FORM.SUBMIT') }}
             </woot-button>
