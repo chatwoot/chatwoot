@@ -1,5 +1,6 @@
 import reportsAPI from '../reports';
 import ApiClient from '../ApiClient';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#Reports API', () => {
   it('creates correct instance', () => {
@@ -14,40 +15,28 @@ describe('#Reports API', () => {
     expect(reportsAPI).toHaveProperty('getAccountSummary');
     expect(reportsAPI).toHaveProperty('getAgentReports');
   });
-  describe('API calls', () => {
-    let originalAxios = null;
-    let axiosMock = null;
-    beforeEach(() => {
-      originalAxios = window.axios;
-      axiosMock = {
-        post: jest.fn(() => Promise.resolve()),
-        get: jest.fn(() => Promise.resolve()),
-      };
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#getAccountReports', () => {
       reportsAPI.getAccountReports(
         'conversations_count',
         1621103400,
         1621621800
       );
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/account', {
-        params: {
-          metric: 'conversations_count',
-          since: 1621103400,
-          until: 1621621800,
-        },
-      });
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/account',
+        {
+          params: {
+            metric: 'conversations_count',
+            since: 1621103400,
+            until: 1621621800,
+          },
+        }
+      );
     });
 
     it('#getAccountSummary', () => {
       reportsAPI.getAccountSummary(1621103400, 1621621800);
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v2/reports/account_summary',
         {
           params: {
@@ -60,12 +49,15 @@ describe('#Reports API', () => {
 
     it('#getAgentReports', () => {
       reportsAPI.getAgentReports(1621103400, 1621621800);
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/agents', {
-        params: {
-          since: 1621103400,
-          until: 1621621800,
-        },
-      });
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v2/reports/agents',
+        {
+          params: {
+            since: 1621103400,
+            until: 1621621800,
+          },
+        }
+      );
     });
   });
 });

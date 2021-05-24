@@ -1,5 +1,6 @@
 import inboxesAPI from '../inboxes';
 import ApiClient from '../ApiClient';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#InboxesAPI', () => {
   it('creates correct instance', () => {
@@ -12,32 +13,19 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getAssignableAgents');
     expect(inboxesAPI).toHaveProperty('getCampaigns');
   });
-  describe('API calls', () => {
-    let originalAxios = null;
-    let axiosMock = null;
-    beforeEach(() => {
-      originalAxios = window.axios;
-      axiosMock = {
-        post: jest.fn(() => Promise.resolve()),
-        get: jest.fn(() => Promise.resolve()),
-      };
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#getAssignableAgents', () => {
       inboxesAPI.getAssignableAgents(1);
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/inboxes/1/assignable_agents'
       );
     });
 
     it('#getCampaigns', () => {
       inboxesAPI.getCampaigns(2);
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/inboxes/2/campaigns');
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/campaigns'
+      );
     });
   });
 });

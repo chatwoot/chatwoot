@@ -1,5 +1,7 @@
 import messageAPI from '../../inbox/message';
 import ApiClient from '../../ApiClient';
+import describeWithAPIMock from '../apiSpecHelper';
+
 describe('#ConversationAPI', () => {
   it('creates correct instance', () => {
     expect(messageAPI).toBeInstanceOf(ApiClient);
@@ -11,28 +13,13 @@ describe('#ConversationAPI', () => {
     expect(messageAPI).toHaveProperty('getPreviousMessages');
   });
 
-  describe('API calls', () => {
-    let originalAxios = null;
-    let axiosMock = null;
-    beforeEach(() => {
-      originalAxios = window.axios;
-      axiosMock = {
-        post: jest.fn(() => Promise.resolve()),
-        get: jest.fn(() => Promise.resolve()),
-      };
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#getPreviousMessages', () => {
       messageAPI.getPreviousMessages({
         conversationId: 12,
         before: 4573,
       });
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         `/api/v1/conversations/12/messages`,
         {
           params: {
