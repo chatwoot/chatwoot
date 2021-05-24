@@ -106,7 +106,7 @@ export default {
     account_id: 1,
     labels: [],
   },
-  lastMesage: {
+  lastMessage: {
     id: 438100,
     content: 'Hey',
     account_id: 1,

@@ -14,7 +14,7 @@ describe('#conversationMixin', () => {
   it('should return last message if conversation is passed', () => {
     expect(
       conversationMixin.methods.lastMessage(conversationFixture.conversation)
-    ).toEqual(conversationMixin.lastMessage);
+    ).toEqual(conversationFixture.lastMessage);
   });
   it('should return read messages if conversation is passed', () => {
     expect(
