@@ -32,6 +32,7 @@ default: &default
     - .ttf
     - .woff
     - .woff2
+    - .html
 
   extensions:
     - .vue
