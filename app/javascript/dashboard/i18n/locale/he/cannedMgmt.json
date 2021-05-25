@@ -53,23 +53,23 @@
         },
         "SUBMIT": "שלח"
       },
-      "BUTTON_TEXT": "Edit",
+      "BUTTON_TEXT": "ערוך",
       "API": {
         "SUCCESS_MESSAGE": "Canned Response updated successfully",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "Canned response deleted successfully",
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
       }
     }
   }
