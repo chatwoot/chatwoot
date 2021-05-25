@@ -1,7 +1,7 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
+    "EMAIL_ADDRESS": "כתובת מייל",
     "PHONE_NUMBER": "Phone number",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -42,7 +42,7 @@
     "MUTED_SUCCESS": "This conversation is muted for 6 hours",
     "UNMUTED_SUCCESS": "This conversation is unmuted",
     "SEND_TRANSCRIPT": "Send Transcript",
-    "EDIT_LABEL": "Edit"
+    "EDIT_LABEL": "ערוך"
   },
   "EDIT_CONTACT": {
     "BUTTON_LABEL": "Edit Contact",
@@ -71,7 +71,7 @@
       },
       "EMAIL_ADDRESS": {
         "PLACEHOLDER": "Enter the email address of the contact",
-        "LABEL": "Email Address"
+        "LABEL": "כתובת מייל"
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
@@ -142,7 +142,7 @@
       "LOADING_MESSAGE": "Loading contacts...",
       "404": "No contacts matches your search 🔍",
       "TABLE_HEADER": {
-        "NAME": "Name",
+        "NAME": "שם",
         "PHONE_NUMBER": "Phone Number",
         "CONVERSATIONS": "שיחות",
         "LAST_ACTIVITY": "Last Activity",
@@ -150,7 +150,7 @@
         "CITY": "City",
         "SOCIAL_PROFILES": "Social Profiles",
         "COMPANY": "Company",
-        "EMAIL_ADDRESS": "Email Address"
+        "EMAIL_ADDRESS": "כתובת מייל"
       },
       "VIEW_DETAILS": "View details"
     }
