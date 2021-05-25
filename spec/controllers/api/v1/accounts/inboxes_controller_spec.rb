@@ -276,11 +276,10 @@ RSpec.describe 'Inboxes API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-
       it 'returns empty when no agent bot is present' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/agent_bot",
-          headers: agent.create_new_auth_token,
-          as: :json
+            headers: agent.create_new_auth_token,
+            as: :json
 
         expect(response).to have_http_status(:success)
         inbox_data = JSON.parse(response.body, symbolize_names: true)
