@@ -22,9 +22,6 @@ json.phone_number resource.channel.try(:phone_number)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.facebook?
-json.agent_bot do
-  json.partial! 'api/v1/models/agent_bot.json.jbuilder', resource: resource.agent_bot if resource.agent_bot.present?
-end
 if resource.web_widget?
   json.hmac_token resource.channel.try(:hmac_token)
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
