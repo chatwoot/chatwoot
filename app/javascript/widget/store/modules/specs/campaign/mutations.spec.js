@@ -1,6 +1,6 @@
 import { mutations } from '../../campaign';
 import { campaigns } from './data';
-
+jest.mock('widget/store/index.js');
 describe('#mutations', () => {
   describe('#setCampaigns', () => {
     it('set campaign records', () => {
