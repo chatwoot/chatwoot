@@ -125,7 +125,8 @@ export default {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      if (this.isIFrame) {
+      const { unreadMessageCount } = this;
+      if (this.isIFrame && unreadMessageCount === 0) {
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });

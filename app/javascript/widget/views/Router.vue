@@ -9,7 +9,7 @@
     }"
   >
     <home
-      v-if="!showUnreadView && !showCampaignView"
+      v-if="showHomePage"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
@@ -74,6 +74,11 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    showHomePage() {
+      return !this.showUnreadView && !this.showCampaignView;
     },
   },
 };
