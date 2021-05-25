@@ -12,22 +12,10 @@
     </div>
     <div class="unread-messages">
       <unread-message
-        :key="campaign.message.id"
-        :message-id="campaign.message.id"
         show-sender
-        :sender="campaign.message.sender"
-        :message="getMessageContent(campaign.message)"
+        :sender="campaign.sender"
+        :message="campaign.message"
       />
-    </div>
-    <div>
-      <button
-        v-if="unreadMessageCount"
-        class="button clear-button"
-        @click="openFullView"
-      >
-        <i class="ion-arrow-right-c" />
-        {{ $t('UNREAD_VIEW.VIEW_MESSAGES_BUTTON') }}
-      </button>
     </div>
   </div>
 </template>
@@ -70,9 +58,6 @@ export default {
       return this.unreadMessageCount && this.hideMessageBubble;
     },
   },
-  mounted() {
-    console.log('showCampaignView', this.showCampaignView);
-  },
   methods: {
     openFullView() {
       bus.$emit('on-unread-view-clicked');
@@ -83,13 +68,6 @@ export default {
           event: 'toggleBubble',
         });
       }
-    },
-    getMessageContent(message) {
-      const { attachments, content } = message;
-      const hasAttachments = attachments && attachments.length;
-      if (content) return content;
-      if (hasAttachments) return `📑`;
-      return '';
     },
   },
 };

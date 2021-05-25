@@ -54,9 +54,9 @@ export default {
   },
   watch: {
     activeCampaign(campaign) {
-      console.log('campaign', campaign);
       if (campaign) {
         this.showCampaignView = true;
+        this.setCampaignView();
       }
     },
   },
@@ -124,6 +124,13 @@ export default {
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },
+    setCampaignView() {
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage({
+          event: 'setCampaignMode',
+        });
+      }
+    },
     setUnreadView() {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount > 0) {
@@ -154,6 +161,7 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

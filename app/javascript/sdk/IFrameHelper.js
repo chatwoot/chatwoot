@@ -156,6 +156,16 @@ export const IFrameHelper = {
       }
     },
 
+    setCampaignMode: () => {
+      const { isOpen } = window.$chatwoot;
+      const toggleValue = true;
+      if (!isOpen) {
+        onBubbleClick({ toggleValue });
+        const holderEl = document.querySelector('.woot-widget-holder');
+        addClass(holderEl, 'has-unread-view');
+      }
+    },
+
     resetUnreadMode: () => {
       IFrameHelper.sendMessage('unset-unread-view');
       IFrameHelper.events.removeUnreadClass();

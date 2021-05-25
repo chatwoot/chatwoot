@@ -76,10 +76,5 @@ export default {
       default: false,
     },
   },
-  watch: {
-    showCampaignView(newvalue) {
-      console.log('campaign is activated-->', newvalue);
-    },
-  },
 };
 </script>

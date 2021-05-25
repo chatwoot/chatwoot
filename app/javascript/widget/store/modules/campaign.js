@@ -11,7 +11,7 @@ const state = {
     isError: false,
     hasFetched: false,
   },
-  activeCampaign: [],
+  activeCampaign: {},
 };
 
 const resetCampaignTimers = (campaigns, currentURL) => {
@@ -58,15 +58,6 @@ export const actions = {
     { campaignId }
   ) => {
     const campaign = campaigns.find(item => item.id === campaignId);
-    campaign.message = {
-      content: 'Hey welcome to chatwoot',
-      content_attributes: {},
-      content_type: null,
-      conversation_id: 5847,
-      created_at: 1621928014,
-      id: 438241,
-      message_type: 1,
-    };
     commit('setActiveCampaign', campaign);
   },
 };
