@@ -35,21 +35,21 @@
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "מחק",
         "API": {
           "SUCCESS_MESSAGE": "Webhook deleted successfully",
           "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete ",
-          "YES": "Yes, Delete ",
+          "TITLE": "אשר מחיקה",
+          "MESSAGE": "האם אתה בטוח שברצונך למחוק ",
+          "YES": "כן, מחק ",
           "NO": "No, Keep it"
         }
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "Integration deleted successfully"
       }
