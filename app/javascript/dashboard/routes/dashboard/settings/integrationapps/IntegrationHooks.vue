@@ -38,7 +38,7 @@
                 {{ property }}
               </td>
               <td v-if="checkHookTypeIsInbox" class="webhook-link">
-                {{ hook.inbox_id }}
+                {{ inboxName(hook) }}
               </td>
               <td class="button-wrapper">
                 <!-- <woot-button
@@ -125,7 +125,11 @@ export default {
       if (this.integration && this.integration.hooks.length) {
         // TODO: Please change this logic
         this.integration.hooks.forEach(hook => {
-          let item = { id: hook.id, inbox_id: hook.inbox_id, properties: [] };
+          let item = {
+            ...hook,
+            id: hook.id,
+            properties: [],
+          };
           this.integration.visible_properties.forEach(property => {
             // eslint-disable-next-line no-prototype-builtins
             if (hook.settings.hasOwnProperty(property)) {
@@ -178,6 +182,12 @@ export default {
     },
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
+    },
+    inboxName(hook) {
+      if (hook.inbox) {
+        return hook.inbox.name;
+      }
+      return '';
     },
     async confirmDeletion() {
       try {
