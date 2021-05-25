@@ -90,7 +90,7 @@ Rails.application.configure do
     end
     allow do
       origins '*'
-      resource '/api/*', headers: :any, methods: :any
+      resource '/api/v1/widget/*', headers: :any, methods: [:get, :post, :patch, :put, :options]
     end
   end
 end
