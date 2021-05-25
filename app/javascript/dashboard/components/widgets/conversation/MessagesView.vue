@@ -339,5 +339,6 @@ export default {
 .view-box.fill-height {
   height: auto;
   flex-grow: 1;
+  min-width: 0;
 }
 </style>

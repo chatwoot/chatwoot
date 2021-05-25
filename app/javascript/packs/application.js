@@ -32,11 +32,16 @@ import {
 } from '../dashboard/helper/pushHelper';
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
+import { Integrations } from '@sentry/tracing';
 
 Vue.config.env = process.env;
 
 if (window.errorLoggingConfig) {
-  Sentry.init({ Vue: Vue, dsn: window.errorLoggingConfig });
+  Sentry.init({
+    Vue,
+    dsn: window.errorLoggingConfig,
+    integrations: [new Integrations.BrowserTracing()],
+  });
 }
 
 Vue.use(VueRouter);
