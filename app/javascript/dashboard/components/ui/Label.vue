@@ -52,7 +52,11 @@ export default {
     },
     labelStyle() {
       if (this.bgColor) {
-        return { background: this.bgColor, color: this.textColor };
+        return {
+          background: this.bgColor,
+          color: this.textColor,
+          border: `1px solid ${this.bgColor}`,
+        };
       }
       return {};
     },
