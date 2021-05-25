@@ -1,13 +1,13 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
+    "HEADER": "קמפיין",
     "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER_BTN_TXT": "צור קמפיין",
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "צור קמפיין",
+      "DESC": "הודעות יזומות מאפשרות ללקוח לשלוח הודעות לאנשי הקשר שלהם דבר אשר יגרום לשיחות נוספות.",
       "CANCEL_BUTTON_TEXT": "ביטול",
-      "CREATE_BUTTON_TEXT": "Create",
+      "CREATE_BUTTON_TEXT": "צור",
       "FORM": {
         "TITLE": {
           "LABEL": "Title",
@@ -56,7 +56,7 @@
       "TABLE_HEADER": {
         "TITLE": "Title",
         "MESSAGE": "הודעה",
-        "STATUS": "Status",
+        "STATUS": "מצב",
         "SENDER": "Sender",
         "URL": "URL",
         "TIME_ON_PAGE": "Time(Seconds)",
@@ -64,8 +64,8 @@
       },
       "BUTTONS": {
         "ADD": "Add",
-        "EDIT": "Edit",
-        "DELETE": "Delete"
+        "EDIT": "ערוך",
+        "DELETE": "מחק"
       },
       "STATUS": {
         "ENABLED": "Enabled",
