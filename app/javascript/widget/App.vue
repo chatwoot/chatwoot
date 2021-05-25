@@ -39,7 +39,7 @@ export default {
       hasFetched: 'agent/getHasFetched',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
-      runningCampaigns: 'campaign/getRunningCampaigns',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -53,9 +53,10 @@ export default {
     },
   },
   watch: {
-    runningCampaigns(campaigns) {
-      if (campaigns.length) {
-        this.showCampaignView = false;
+    activeCampaign(campaign) {
+      console.log('campaign', campaign);
+      if (campaign) {
+        this.showCampaignView = true;
       }
     },
   },

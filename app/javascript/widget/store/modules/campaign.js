@@ -11,7 +11,7 @@ const state = {
     isError: false,
     hasFetched: false,
   },
-  runningCampaigns: [],
+  activeCampaign: [],
 };
 
 const resetCampaignTimers = (campaigns, currentURL) => {
@@ -27,7 +27,7 @@ const resetCampaignTimers = (campaigns, currentURL) => {
 export const getters = {
   getHasFetched: $state => $state.uiFlags.hasFetched,
   getCampaigns: $state => $state.records,
-  getRunningCampaigns: $state => $state.runningCampaigns,
+  getActiveCampaign: $state => $state.activeCampaign,
 };
 
 export const actions = {
@@ -57,8 +57,17 @@ export const actions = {
     { getters: { getCampaigns: campaigns }, commit },
     { campaignId }
   ) => {
-    const campaign = campaigns.filter(item => item.id === campaignId);
-    commit('setRunningCampaigns', campaign);
+    const campaign = campaigns.find(item => item.id === campaignId);
+    campaign.message = {
+      content: 'Hey welcome to chatwoot',
+      content_attributes: {},
+      content_type: null,
+      conversation_id: 5847,
+      created_at: 1621928014,
+      id: 438241,
+      message_type: 1,
+    };
+    commit('setActiveCampaign', campaign);
   },
 };
 
@@ -66,8 +75,8 @@ export const mutations = {
   setCampaigns($state, data) {
     Vue.set($state, 'records', data);
   },
-  setRunningCampaigns($state, data) {
-    Vue.set($state, 'runningCampaigns', [...$state.runningCampaigns, ...data]);
+  setActiveCampaign($state, data) {
+    Vue.set($state, 'activeCampaign', data);
   },
   setError($state, value) {
     Vue.set($state.uiFlags, 'isError', value);

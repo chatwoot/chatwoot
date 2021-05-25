@@ -12,15 +12,13 @@
     </div>
     <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in unreadMessages"
-        :key="message.id"
-        :message-id="message.id"
-        :show-sender="!index"
-        :sender="message.sender"
-        :message="getMessageContent(message)"
+        :key="campaign.message.id"
+        :message-id="campaign.message.id"
+        show-sender
+        :sender="campaign.message.sender"
+        :message="getMessageContent(campaign.message)"
       />
     </div>
-
     <div>
       <button
         v-if="unreadMessageCount"
@@ -37,12 +35,11 @@
 <script>
 import { IFrameHelper } from 'widget/helpers/utils';
 import UnreadMessage from 'widget/components/UnreadMessage.vue';
-
 import configMixin from '../mixins/configMixin';
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'Unread',
+  name: 'Campaign',
   components: {
     UnreadMessage,
   },
@@ -60,18 +57,21 @@ export default {
       type: Boolean,
       default: false,
     },
+    showCampaignView: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
-      unreadMessages: 'conversation/getUnreadTextMessages',
+      campaign: 'campaign/getActiveCampaign',
     }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
     },
-    sender() {
-      const [firstMessage] = this.unreadMessages;
-      return firstMessage.sender || {};
-    },
+  },
+  mounted() {
+    console.log('showCampaignView', this.showCampaignView);
   },
   methods: {
     openFullView() {
@@ -87,11 +87,8 @@ export default {
     getMessageContent(message) {
       const { attachments, content } = message;
       const hasAttachments = attachments && attachments.length;
-
       if (content) return content;
-
       if (hasAttachments) return `📑`;
-
       return '';
     },
   },

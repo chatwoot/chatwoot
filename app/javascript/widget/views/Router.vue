@@ -9,7 +9,7 @@
     }"
   >
     <home
-      v-if="!showUnreadView"
+      v-if="!showUnreadView && !showCampaignView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
@@ -22,6 +22,7 @@
     />
     <campaign
       v-else-if="showCampaignView"
+      :show-campaign-view="showCampaignView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :hide-message-bubble="hideMessageBubble"
@@ -73,6 +74,11 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  watch: {
+    showCampaignView(newvalue) {
+      console.log('campaign is activated-->', newvalue);
     },
   },
 };
