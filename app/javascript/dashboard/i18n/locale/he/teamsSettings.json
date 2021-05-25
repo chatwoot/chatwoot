@@ -69,7 +69,7 @@
     },
     "AGENTS": {
       "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
+      "EMAIL": "מייל",
       "BUTTON_TEXT": "Add agents",
       "ADD_AGENTS": "Adding Agents to your Team...",
       "SELECT": "select",
@@ -91,7 +91,7 @@
       "BUTTON_TEXT": "Finish"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "מחק",
       "API": {
         "SUCCESS_MESSAGE": "Team deleted successfully.",
         "ERROR_MESSAGE": "Couldn't delete the team. Try again."
