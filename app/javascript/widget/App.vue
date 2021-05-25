@@ -1,6 +1,7 @@
 <template>
   <router
     :show-unread-view="showUnreadView"
+    :show-campaign-view="showCampaignView"
     :is-mobile="isMobile"
     :has-fetched="hasFetched"
     :unread-message-count="unreadMessageCount"
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       showUnreadView: false,
+      showCampaignView: false,
       isMobile: false,
       hideMessageBubble: false,
       widgetPosition: 'right',
@@ -37,6 +39,7 @@ export default {
       hasFetched: 'agent/getHasFetched',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
+      runningCampaigns: 'campaign/getRunningCampaigns',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -47,6 +50,13 @@ export default {
     },
     isRNWebView() {
       return RNHelper.isRNWebView();
+    },
+  },
+  watch: {
+    runningCampaigns(campaigns) {
+      if (campaigns.length) {
+        this.showCampaignView = false;
+      }
     },
   },
   mounted() {
