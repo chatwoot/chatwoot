@@ -10,66 +10,66 @@
       "CREATE_BUTTON_TEXT": "צור",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "כותרת",
+          "PLACEHOLDER": "אנא הכנס כותרת לקמפיין",
+          "ERROR": "כותרת שדה חובה"
         },
         "MESSAGE": {
           "LABEL": "הודעה",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "PLACEHOLDER": "אנא הכנס הודעה לקמפיין",
+          "ERROR": "הודעה שדה חובה"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "נשלח על ידי",
+          "PLACEHOLDER": "אנא בחר תוכן לקמפיין",
+          "ERROR": "שולח שדה חובה"
         },
         "END_POINT": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
-          "ERROR": "Please enter a valid URL"
+          "PLACEHOLDER": "אנא הכנס כתובת URL",
+          "ERROR": "אנא הכנס כתובת URL חוקית"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "זמן על הדף (שניות)",
+          "PLACEHOLDER": "אנא הכנס זמן",
+          "ERROR": "זמן על הדף שדה חובה"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "הפעל קמפיין",
+        "SUBMIT": "הוסף קמפיין"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "קמפיין נוצר בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "TITLE": "ערוך קמפיין",
+      "UPDATE_BUTTON_TEXT": "עדכן",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "קמפיין עודכן בהצלחה",
+        "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "טוען קמפיינים...",
+      "404": "אין קמפיינים שנוצרו עבור תיבה זו.",
       "TABLE_HEADER": {
-        "TITLE": "Title",
+        "TITLE": "כותרת",
         "MESSAGE": "הודעה",
         "STATUS": "מצב",
-        "SENDER": "Sender",
+        "SENDER": "שולח",
         "URL": "URL",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "TIME_ON_PAGE": "זמן(שניות)",
+        "CREATED_AT": "נוצר בזמן"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "הוסף",
         "EDIT": "ערוך",
         "DELETE": "מחק"
       },
       "STATUS": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled"
+        "ENABLED": "מופעל",
+        "DISABLED": "כבוי"
       },
       "SENDER": {
         "BOT": "בוט"
