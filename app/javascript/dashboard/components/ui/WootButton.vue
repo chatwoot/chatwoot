@@ -1,13 +1,7 @@
 <template>
   <button
     class="button"
-    :class="[
-      variant,
-      size,
-      colorScheme,
-      classNames,
-      isDisabled ? 'disabled' : '',
-    ]"
+    :class="buttonClasses"
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
@@ -51,6 +45,28 @@ export default {
       type: Boolean,
       default: false,
     },
+    isExpanded: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    variantClasses() {
+      if (this.variant.includes('link')) {
+        return `clear ${this.variant}`;
+      }
+      return this.variant;
+    },
+    buttonClasses() {
+      return [
+        this.variantClasses,
+        this.size,
+        this.colorScheme,
+        this.classNames,
+        this.isDisabled ? 'disabled' : '',
+        this.isExpanded ? 'expanded' : '',
+      ];
+    },
   },
   methods: {
     handleClick(evt) {
@@ -59,20 +75,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.button {
-  display: flex;
-  align-items: center;
-
-  &.link {
-    padding: 0;
-    margin: 0;
-  }
-}
-.spinner {
-  padding: 0 var(--space-small);
-}
-.icon + .button__content {
-  padding-left: var(--space-small);
-}
-</style>

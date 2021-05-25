@@ -1,5 +1,11 @@
 import Cookies from 'js-cookie';
-import { wootOn, addClass, loadCSS, removeClass } from './DOMHelpers';
+import {
+  wootOn,
+  addClass,
+  loadCSS,
+  removeClass,
+  onLocationChangeListener,
+} from './DOMHelpers';
 import {
   body,
   widgetHolder,
@@ -47,7 +53,6 @@ export const IFrameHelper = {
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
-    IFrameHelper.initLocationListener();
     IFrameHelper.initWindowSizeListener();
     IFrameHelper.preventDefaultScroll();
   },
@@ -59,11 +64,6 @@ export const IFrameHelper = {
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
       '*'
     );
-  },
-  initLocationListener: () => {
-    window.onhashchange = () => {
-      IFrameHelper.setCurrentUrl();
-    };
   },
   initPostMessageCommunication: () => {
     window.onmessage = e => {
@@ -113,7 +113,6 @@ export const IFrameHelper = {
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
       });
-      IFrameHelper.setCurrentUrl();
       IFrameHelper.toggleCloseButton();
 
       if (window.$chatwoot.user) {
@@ -139,6 +138,9 @@ export const IFrameHelper = {
       } else {
         IFrameHelper.pushEvent('webwidget.triggered');
       }
+    },
+    onLocationChange: ({ referrerURL, referrerHost }) => {
+      IFrameHelper.sendMessage('change-url', { referrerURL, referrerHost });
     },
 
     setUnreadMode: message => {
@@ -167,6 +169,7 @@ export const IFrameHelper = {
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
+
   onLoad: ({ widgetColor }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
@@ -175,9 +178,8 @@ export const IFrameHelper = {
     if (IFrameHelper.getBubbleHolder().length) {
       return;
     }
-
     createBubbleHolder();
-
+    onLocationChangeListener();
     if (!window.$chatwoot.hideMessageBubble) {
       const chatIcon = createBubbleIcon({
         className: 'woot-widget-bubble',
@@ -197,12 +199,6 @@ export const IFrameHelper = {
       bubbleHolder.appendChild(createNotificationBubble());
       onClickChatBubble();
     }
-  },
-  setCurrentUrl: () => {
-    IFrameHelper.sendMessage('set-current-url', {
-      referrerURL: window.location.href,
-      referrerHost: window.location.host,
-    });
   },
   toggleCloseButton: () => {
     if (window.matchMedia('(max-width: 668px)').matches) {

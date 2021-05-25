@@ -2,7 +2,7 @@ import { mutations } from '../../campaign';
 import { campaigns } from './data';
 
 describe('#mutations', () => {
-  describe('#setCampagins', () => {
+  describe('#setCampaigns', () => {
     it('set campaign records', () => {
       const state = { records: [] };
       mutations.setCampaigns(state, campaigns);
