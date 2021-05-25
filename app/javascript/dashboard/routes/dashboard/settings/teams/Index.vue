@@ -25,22 +25,27 @@
                   <router-link
                     :to="addAccountScoping(`settings/teams/${item.id}/edit`)"
                   >
-                    <woot-submit-button
+                    <woot-button
                       v-if="isAdmin"
-                      :button-text="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
-                      icon-class="ion-gear-b"
-                      button-class="link hollow grey-btn"
-                    />
+                      variant="link"
+                      color-scheme="secondary"
+                      class-names="grey-btn"
+                      icon="ion-gear-b"
+                    >
+                      {{ $t('TEAMS_SETTINGS.LIST.EDIT_TEAM') }}
+                    </woot-button>
                   </router-link>
-
-                  <woot-submit-button
+                  <woot-button
                     v-if="isAdmin"
-                    :button-text="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
-                    :loading="loading[item.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
+                    variant="link"
+                    color-scheme="secondary"
+                    icon="ion-close-circled"
+                    class-names="grey-btn"
+                    :is-loading="loading[item.id]"
                     @click="openDelete(item)"
-                  />
+                  >
+                    {{ $t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>

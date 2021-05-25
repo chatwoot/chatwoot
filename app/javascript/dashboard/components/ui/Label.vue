@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
+import { getContrastingTextColor } from '@chatwoot/utils';
 export default {
   props: {
     title: {
@@ -89,6 +89,7 @@ export default {
   .label--icon,
   .close--icon {
     font-size: var(--font-size-micro);
+    cursor: pointer;
   }
 
   &.small .label--icon,

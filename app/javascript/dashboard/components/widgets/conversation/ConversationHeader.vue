@@ -12,8 +12,10 @@
         <h3 class="user--name text-truncate">
           {{ currentContact.name }}
         </h3>
-        <button
-          class="user--profile__button clear button small"
+        <woot-button
+          class="user--profile__button"
+          size="small"
+          variant="link"
           @click="$emit('contact-panel-toggle')"
         >
           {{
@@ -23,7 +25,7 @@
                 : $t('CONVERSATION.HEADER.OPEN')
             } ${$t('CONVERSATION.HEADER.DETAILS')}`
           }}
-        </button>
+        </woot-button>
       </div>
     </div>
     <div

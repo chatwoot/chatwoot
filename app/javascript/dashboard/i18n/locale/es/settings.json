@@ -3,7 +3,7 @@
     "LINK": "Ajustes del perfil",
     "TITLE": "Ajustes del perfil",
     "BTN_TEXT": "Actualizar perfil",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Tu perfil se ha actualizado correctamente",
     "PASSWORD_UPDATE_SUCCESS": "Su contraseña se ha cambiado correctamente",
     "AFTER_EMAIL_CHANGED": "Su perfil ha sido actualizado con éxito, por favor inicie sesión de nuevo cuando sus credenciales de inicio de sesión se hayan cambiado",
     "FORM": {
@@ -19,7 +19,7 @@
       "PASSWORD_SECTION": {
         "TITLE": "Contraseña",
         "NOTE": "Actualizar tu contraseña restablecería tus entradas en varios dispositivos.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Cambiar contraseña"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",

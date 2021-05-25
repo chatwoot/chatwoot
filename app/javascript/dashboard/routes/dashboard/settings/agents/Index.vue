@@ -1,13 +1,13 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-add-circle"
       @click="openAddPopup()"
     >
-      <i class="icon ion-android-add-circle"></i>
       {{ $t('AGENT_MGMT.HEADER_BTN_TXT') }}
-    </button>
-    <!-- Canned Response API Status -->
+    </woot-button>
 
     <!-- List Agents -->
     <div class="row">
@@ -55,21 +55,27 @@
                 <!-- Actions -->
                 <td>
                   <div class="button-wrapper">
-                    <woot-submit-button
+                    <woot-button
                       v-if="showEditAction(agent)"
-                      :button-text="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
-                      icon-class="ion-edit"
-                      button-class="link hollow grey-btn"
+                      variant="link"
+                      color-scheme="secondary"
+                      icon="ion-edit"
+                      class-names="grey-btn"
                       @click="openEditPopup(agent)"
-                    />
-                    <woot-submit-button
+                    >
+                      {{ $t('AGENT_MGMT.EDIT.BUTTON_TEXT') }}
+                    </woot-button>
+                    <woot-button
                       v-if="showDeleteAction(agent)"
-                      :button-text="$t('AGENT_MGMT.DELETE.BUTTON_TEXT')"
-                      :loading="loading[agent.id]"
-                      icon-class="ion-close-circled"
-                      button-class="link hollow grey-btn"
+                      variant="link"
+                      color-scheme="secondary"
+                      icon="ion-close-circled"
+                      class-names="grey-btn"
+                      :is-loading="loading[agent.id]"
                       @click="openDeletePopup(agent, index)"
-                    />
+                    >
+                      {{ $t('AGENT_MGMT.DELETE.BUTTON_TEXT') }}
+                    </woot-button>
                   </div>
                 </td>
               </tr>

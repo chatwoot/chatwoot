@@ -108,6 +108,7 @@
         </div>
       </div>
     </div>
+    <conversation-labels :conversation-id="conversationId" />
     <div v-if="browser.browser_name" class="conversation--details">
       <contact-details-item
         v-if="location"
@@ -160,7 +161,6 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
-    <conversation-labels :conversation-id="conversationId" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
@@ -453,7 +453,7 @@ export default {
 }
 
 .conversation--actions {
-  padding: 0 var(--space-normal) var(--space-small);
+  padding: 0 var(--space-normal) var(--space-smaller);
 }
 
 .multiselect__label {

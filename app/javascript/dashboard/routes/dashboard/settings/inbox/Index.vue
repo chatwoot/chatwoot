@@ -59,22 +59,28 @@
                   <router-link
                     :to="addAccountScoping(`settings/inboxes/${item.id}`)"
                   >
-                    <woot-submit-button
+                    <woot-button
                       v-if="isAdmin"
-                      :button-text="$t('INBOX_MGMT.SETTINGS')"
-                      icon-class="ion-gear-b"
-                      button-class="link hollow grey-btn"
-                    />
+                      icon="ion-gear-b"
+                      variant="link"
+                      color-scheme="secondary"
+                      class-names="grey-btn"
+                    >
+                      {{ $t('INBOX_MGMT.SETTINGS') }}
+                    </woot-button>
                   </router-link>
 
-                  <woot-submit-button
+                  <woot-button
                     v-if="isAdmin"
-                    :button-text="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                    :loading="loading[item.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
+                    variant="link"
+                    color-scheme="secondary"
+                    class-names="grey-btn"
+                    :is-loading="loading[item.id]"
+                    icon="ion-close-circled"
                     @click="openDelete(item)"
-                  />
+                  >
+                    {{ $t('INBOX_MGMT.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>
