@@ -25,4 +25,12 @@ describe('#mutations', () => {
       expect(state.uiFlags.hasFetched).toEqual(true);
     });
   });
+
+  describe('#setActiveCampaign', () => {
+    it('set active campaign', () => {
+      const state = { records: [] };
+      mutations.setActiveCampaign(state, campaigns[0]);
+      expect(state.activeCampaign).toEqual(campaigns[0]);
+    });
+  });
 });
