@@ -3,14 +3,28 @@
     <form @submit.prevent="onSubmit">
       <div v-for="item in items" :key="item.key" class="form-block">
         <label>{{ item.label }}</label>
-        <input
-          v-if="item.type === 'email' || item.type === 'text'"
-          v-model="formValues[item.name]"
-          :type="item.type"
-          :name="item.name"
-          :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
-        />
+        <div v-if="item.type === 'email' || item.type === 'text'">
+          <div v-if="item.type === 'email'">
+            <input
+              v-model="formValues[item.name]"
+              :type="item.type"
+              :class="{ error: hasFetch }"
+              :name="item.name"
+              :placeholder="item.placeholder"
+              :disabled="!!submittedValues.length"
+              @focus="hasFetch = true && !emailValidation(item.name, item.type)"
+            />
+          </div>
+          <div v-if="item.type === 'text'">
+            <input
+              v-model="formValues[item.name]"
+              :type="item.type"
+              :name="item.name"
+              :placeholder="item.placeholder"
+              :disabled="!!submittedValues.length"
+            />
+          </div>
+        </div>
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
@@ -64,6 +78,7 @@ export default {
   data() {
     return {
       formValues: {},
+      hasFetch: false,
     };
   },
   computed: {
@@ -72,7 +87,7 @@ export default {
     }),
     isFormValid() {
       return this.items.reduce((acc, { name, regex }) => {
-        const isValid = this.fieldValidation(name, regex);
+        const isValid = this.validateFormWithApi(name, regex);
         return !!this.formValues[name] && isValid && acc;
       }, true);
     },
@@ -92,17 +107,25 @@ export default {
       this.$emit('submit', this.formValues);
     },
 
-    fieldValidation(name, regex = '') {
+    validateFormWithApi(name, regex = '') {
       const formValue = this.formValues[name];
       if (!regex) {
         return true;
       }
       const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
       const reg = new RegExp(pattern, flags);
-      if (!reg.test(formValue)) {
-        return false;
+      return reg.test(formValue);
+    },
+
+    emailValidation(name, type) {
+      if (this.hasFetch === true) {
+        const formValue = this.formValues[name];
+        const regex = this.items.find(obj => obj.type === type).regex;
+        const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
+        const reg = new RegExp(pattern, flags);
+        return reg.test(formValue);
       }
-      return true;
+      return false;
     },
 
     buildFormObject(formObjectArray) {
@@ -140,6 +163,10 @@ export default {
     font-weight: $font-weight-medium;
     padding: $space-smaller 0;
     text-transform: capitalize;
+  }
+
+  .error {
+    border: 1px solid red;
   }
 
   input,
