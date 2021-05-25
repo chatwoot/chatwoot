@@ -4,22 +4,20 @@
       <input :checked="isCompleted" type="radio" @click="onClick" />
     </div>
     <div class="wrap">
-      <div class="content">
+      <p class="content">
         {{ text }}
-      </div>
+      </p>
       <div class="footer">
         <div class="meta">
           <woot-label
             :title="date"
             description="date"
-            bg-color="#f4f6fb"
             icon="ion-android-calendar"
             color-scheme="secondary"
           />
           <woot-label
             :title="label"
             description="label"
-            bg-color="#f4f6fb"
             color-scheme="secondary"
           />
         </div>
@@ -30,7 +28,7 @@
             icon="ion-compose"
             color-scheme="secondary"
             class-names="button--emoji"
-            class="button-wrap"
+            class="action-button"
             @click="onEdit"
           />
           <woot-button
@@ -39,7 +37,7 @@
             icon="ion-trash-b"
             color-scheme="secondary"
             class-names="button--emoji"
-            class="button-wrap"
+            class="action-button"
             @click="onDelete"
           />
         </div>
@@ -93,14 +91,14 @@ export default {
   margin-bottom: var(--space-smaller);
 
   .status-wrap {
-    padding: var(--space-one) var(--space-smaller);
+    padding: var(--space-small) var(--space-smaller);
+    margin-top: var(--space-micro);
   }
 
   .wrap {
-    padding: var(--space-one);
+    padding: var(--space-small);
 
     .content {
-      padding-bottom: var(--space-small);
       font-size: var(--font-size-mini);
       color: var(--color-body);
     }
@@ -125,7 +123,7 @@ export default {
   .actions {
     display: flex;
 
-    .button-wrap {
+    .action-button {
       margin-right: var(--space-small);
       height: var(--space-medium);
       width: var(--space-medium);
