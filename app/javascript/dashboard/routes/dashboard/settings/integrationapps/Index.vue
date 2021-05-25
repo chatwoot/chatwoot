@@ -15,7 +15,7 @@
             :key="item.id"
             class="small-12 columns integration"
           >
-            <integration
+            <integration-item
               :integration-id="item.id"
               :integration-logo="item.logo"
               :integration-name="item.name"
@@ -31,11 +31,11 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import Integration from './Integration';
+import IntegrationItem from './IntegrationItem';
 
 export default {
   components: {
-    Integration,
+    IntegrationItem,
   },
   computed: {
     ...mapGetters({
@@ -44,7 +44,7 @@ export default {
     integrationsList() {
       const integrations = this.$store.getters['integrations/getIntegrations'];
       return integrations.filter(
-        item => item.id !== 'webhook' && item.id !== 'fullcontact'
+        item => item.id === 'dialogflow' || item.id === 'fullcontact'
       );
     },
   },

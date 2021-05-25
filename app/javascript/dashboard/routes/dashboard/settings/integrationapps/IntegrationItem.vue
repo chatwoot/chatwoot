@@ -23,7 +23,7 @@
         "
       >
         <woot-button>
-          {{ $t('INTEGRATION_SETTINGS.WEBHOOK.CONFIGURE') }}
+          Configure
         </woot-button>
       </router-link>
     </div>

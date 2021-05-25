@@ -26,6 +26,7 @@
           validation="required"
           validation-name="Inbox"
         />
+
         <div class="modal-footer">
           <woot-button :disabled="hasErrors" :loading="addHook.showLoading">
             Create
@@ -39,14 +40,15 @@
   </modal>
 </template>
 <script>
-/* global bus */
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import Modal from '../../../../components/Modal';
 
 export default {
   components: {
     Modal,
   },
+  mixins: [alertMixin],
   props: {
     onClose: {
       type: Function,
@@ -57,6 +59,7 @@ export default {
       default: () => ({}),
     },
   },
+
   data() {
     return {
       endPoint: '',
@@ -67,7 +70,6 @@ export default {
       },
       show: true,
       values: {},
-      formItems: this.integration.settings_form_schema,
     };
   },
   computed: {
@@ -83,14 +85,14 @@ export default {
         });
       return selectedInboxes;
     },
+    formItems() {
+      return this.integration.settings_form_schema;
+    },
     showInboxSelect() {
       return this.integration.hook_type === 'inbox';
     },
   },
   methods: {
-    showAlert() {
-      bus.$emit('newToastMessage', this.addHook.message);
-    },
     async submitForm() {
       this.addHook.showLoading = true;
       const hookSettings = {};
@@ -117,15 +119,14 @@ export default {
       }
       try {
         await this.$store.dispatch('integrations/createHook', hookData);
-        this.addHook.showLoading = false;
         this.addHook.message = 'Hook added successfully';
-        this.showAlert();
         this.onClose();
       } catch (error) {
-        this.addHook.showLoading = false;
         this.addHook.message =
           error.response.data.message || 'Something went wrong';
-        this.showAlert();
+      } finally {
+        this.addHook.showLoading = false;
+        this.showAlert(this.addHook.message);
       }
     },
   },

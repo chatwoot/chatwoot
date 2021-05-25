@@ -1,6 +1,7 @@
 <template>
   <div class="row content-box full-height">
     <woot-button
+      v-if="!uiFlags.isFetching"
       color-scheme="success"
       class-names="button--fixed-right-top"
       icon="ion-android-add-circle"
@@ -9,7 +10,7 @@
       {{ `Add new ${integration.id}` }}
     </woot-button>
 
-    <div class="row">
+    <div class="row integration-hooks">
       <div class="small-8 columns">
         <woot-loading-state
           v-if="uiFlags.isFetching"
@@ -207,5 +208,8 @@ export default {
 <style scoped lang="scss">
 .webhook-link {
   word-break: break-word;
+}
+.integration-hooks {
+  width: 100%;
 }
 </style>
