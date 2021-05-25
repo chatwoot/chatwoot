@@ -93,7 +93,6 @@ import PreChatForm from '../components/PreChat/Form';
 export default {
   name: 'Home',
   components: {
-    Branding,
     ChatFooter,
     ChatHeader,
     ChatHeaderExpanded,
