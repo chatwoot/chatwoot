@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "התחבר ל Woot",
     "EMAIL": {
       "LABEL": "אימייל",
-      "PLACEHOLDER": "Email eg: someone@example.com"
+      "PLACEHOLDER": "מייל לדוגמא: someone@example.com"
     },
     "PASSWORD": {
       "LABEL": "סיסמה",
@@ -16,6 +16,6 @@
     },
     "FORGOT_PASSWORD": "שכחת את הסיסמה?",
     "CREATE_NEW_ACCOUNT": "צור חשבון",
-    "SUBMIT": "Login"
+    "SUBMIT": "התחבר"
   }
 }
