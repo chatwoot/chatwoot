@@ -51,8 +51,12 @@ dialogflow:
       "label": "Dialogflow Project Key File",
       "type": "textarea",
       "name": "credentials",
-      "validation": "required",
+      "validation": "required|JSON",
       "validationName": 'Credentials',
+      "validation-messages": {
+          "JSON": "Invalid JSON",
+          "required": "Credentials is required"
+      }
     }
   ]
   visible_properties: ['project_id']
