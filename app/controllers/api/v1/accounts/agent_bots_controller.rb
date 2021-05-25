@@ -25,7 +25,8 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
   private
 
   def fetch_agent_bot
-    @agent_bot = Current.account.agent_bots.find(params[:id])
+    @agent_bot =  AgentBot.where(account_id: [nil, Current.account.id]).find(params[:id])  if params[:action] == 'show'
+    @agent_bot ||= Current.account.agent_bots.find(params[:id])
   end
 
   def permitted_params

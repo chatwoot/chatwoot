@@ -48,13 +48,14 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(response.body).to include(agent_bot.name)
       end
 
-      it 'would not show a global agent bot' do
+      it 'will show a global agent bot' do
         global_bot = create(:agent_bot)
         get "/api/v1/accounts/#{account.id}/agent_bots/#{global_bot.id}",
             headers: agent.create_new_auth_token,
             as: :json
 
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(global_bot.name)
       end
     end
   end
