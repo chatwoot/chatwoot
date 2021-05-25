@@ -77,8 +77,10 @@ module WootMessageSeeder
       content_attributes: {
         "items": [
           { "name": 'email', "placeholder": 'Please enter your email', "type": 'email', "label": 'Email' },
-          { "name": 'text_aread', "placeholder": 'Please enter text', "type": 'text_area', "label": 'Large Text' },
-          { "name": 'text', "placeholder": 'Please enter text', "type": 'text', "label": 'text', "default": 'defaut value' }
+          { "name": 'text_area', "placeholder": 'Please enter text', "type": 'text_area', "label": 'Large Text' },
+          { "name": 'text', "placeholder": 'Please enter text', "type": 'text', "label": 'text', "default": 'defaut value' },
+          { "name": 'select', "label": 'Select Option', "type": 'select', "options": [{ "label": '🌯 Burito', "value": 'Burito' },
+                                                                                      { "label": '🍝 Pasta', "value": 'Pasta' }] }
         ]
       }
     )
