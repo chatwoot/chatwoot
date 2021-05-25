@@ -39,14 +39,14 @@ describe('#actions', () => {
     });
   });
 
-  describe('#startCampaigns', () => {
+  describe('#initCampaigns', () => {
     const actionParams = {
       websiteToken: 'XDsafmADasd',
       currentURL: 'https://chatwoot.com',
     };
 
     it('sends correct actions if campaigns are empty', async () => {
-      await actions.startCampaigns(
+      await actions.initCampaigns(
         { dispatch, getters: { getCampaigns: [] } },
         actionParams
       );
@@ -54,7 +54,7 @@ describe('#actions', () => {
       expect(campaignTimer.initTimers).not.toHaveBeenCalled();
     });
     it('resets time if campaigns are available', async () => {
-      await actions.startCampaigns(
+      await actions.initCampaigns(
         { dispatch, getters: { getCampaigns: campaigns } },
         actionParams
       );

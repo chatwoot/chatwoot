@@ -41,7 +41,7 @@ export const actions = {
       commit('setHasFetched', true);
     }
   },
-  startCampaigns: async (
+  initCampaigns: async (
     { getters: { getCampaigns: campaigns }, dispatch },
     { currentURL, websiteToken }
   ) => {
