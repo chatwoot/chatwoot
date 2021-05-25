@@ -1,69 +1,69 @@
 {
   "CAMPAIGN": {
-    "HEADER": "Campaigns",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
-    "HEADER_BTN_TXT": "Create a campaign",
+    "HEADER": "แคมเปญ",
+    "SIDEBAR_TXT": "ข้อความที่ช่วยให้ลูกค้าสามารถส่งข้อควาไปยังผู้ติดต่อซึ่งจะทำให้เกิดการสนทนามากขึ้น คลิกที่ <b> เพิ่มแคมเปญ </b> เพื่อสร้างแคมเปญใหม่ คุณยังสามารถแก้ไขหรือลบแคมเปญที่มีอยู่ได้โดยคลิกที่ปุ่มแก้ไขหรือลบ",
+    "HEADER_BTN_TXT": "สร้างแคมเปญใหม่",
     "ADD": {
-      "TITLE": "Create a campaign",
-      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "TITLE": "สร้างแคมเปญใหม่",
+      "DESC": "ข้อความที่จะทำให้ลูกค้าส่งไปยังผู้ติดต่อที่จะได้รับข้อความมากขึ้น",
       "CANCEL_BUTTON_TEXT": "ยกเลิก",
-      "CREATE_BUTTON_TEXT": "Create",
+      "CREATE_BUTTON_TEXT": "สร้าง",
       "FORM": {
         "TITLE": {
-          "LABEL": "Title",
-          "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "LABEL": "หัวข้อ",
+          "PLACEHOLDER": "กรุณาใส่หัวข้อแคมเปญ",
+          "ERROR": "โปรดระบุหัวข้อด้วย"
         },
         "MESSAGE": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please enter the message of campaign",
-          "ERROR": "Message is required"
+          "LABEL": "ข้อความ",
+          "PLACEHOLDER": "โปรดระบุข้อความของแคมเปญด้วย",
+          "ERROR": "โปรดระบุข้อความด้วย"
         },
         "SENT_BY": {
-          "LABEL": "Sent by",
-          "PLACEHOLDER": "Please select the the content of campaign",
-          "ERROR": "Sender is required"
+          "LABEL": "ส่งโดย",
+          "PLACEHOLDER": "กรุณาเลือกเนื้อหาด้วย",
+          "ERROR": "โปรดระบุชื่อผู้ส่ง"
         },
         "END_POINT": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Please enter the URL",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "ลิ้ง",
+          "PLACEHOLDER": "โปรดระบุลิ้งด้วย",
+          "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
         },
         "TIME_ON_PAGE": {
-          "LABEL": "Time on page(Seconds)",
-          "PLACEHOLDER": "Please enter the time",
-          "ERROR": "Time on page is required"
+          "LABEL": "เวลาของหน้า (วินาที)",
+          "PLACEHOLDER": "โปรดระบุเวลาด้วย",
+          "ERROR": "กรุณาระบุเวลาที่อยู่ในหน้านั้นด้วย"
         },
-        "ENABLED": "Enable campaign",
-        "SUBMIT": "Add Campaign"
+        "ENABLED": "เปิดเเคมเปญ",
+        "SUBMIT": "เพิ่มเเคมเปญ"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign created successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "สร้างเเคมเปญเสร็จสิ้น",
+        "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง."
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
-      "UPDATE_BUTTON_TEXT": "Update",
+      "TITLE": "เเก้ไขเเคมเปญ",
+      "UPDATE_BUTTON_TEXT": "อัพเดท",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "อัพเดทเเคมเปญเรียบร้อยเเล้ว",
         "ERROR_MESSAGE": "เกิดข้อผิดพลาดกรุณาลองใหม่อีกครั้ง"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
-      "404": "There are no campaigns created for this inbox.",
+      "LOADING_MESSAGE": "กำลังโหลดแคมเปญ",
+      "404": "ไม่มีเเคมเปณลญในกล่องข้อความนี้",
       "TABLE_HEADER": {
-        "TITLE": "Title",
-        "MESSAGE": "Message",
+        "TITLE": "หัวข้อ",
+        "MESSAGE": "ข้อความ",
         "STATUS": "สถานะ",
-        "SENDER": "Sender",
-        "URL": "URL",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "SENDER": "ผู้ส่ง",
+        "URL": "ลิ้ง",
+        "TIME_ON_PAGE": "เวลา (วินาที)",
+        "CREATED_AT": "สร้างเมื่อ"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "เพิ่ม",
         "EDIT": "เเก้ไข",
         "DELETE": "ลบ"
       },

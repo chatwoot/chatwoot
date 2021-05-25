@@ -43,14 +43,14 @@
               </td>
               <td class="button-wrapper">
                 <div @click="openDeletePopup(webHookItem, index)">
-                  <woot-submit-button
-                    :button-text="
-                      $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                    "
-                    :loading="loading[webHookItem.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
-                  />
+                  <woot-button
+                    :is-loading="loading[webHookItem.id]"
+                    icon="ion-close-circled"
+                    variant="link"
+                    color-scheme="secondary"
+                  >
+                    {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>

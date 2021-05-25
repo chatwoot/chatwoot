@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Ver nuevos mensajes",
     "CLOSE_MESSAGES_BUTTON": "Cerrar",
-    "COMPANY_FROM": "De"
+    "COMPANY_FROM": "De",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chatea con nosotros"
