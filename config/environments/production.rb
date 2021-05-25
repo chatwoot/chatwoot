@@ -113,7 +113,11 @@ Rails.application.configure do
   config.middleware.insert_before 0, Rack::Cors do
     allow do
       origins '*'
-      resource '*', headers: :any, methods: [:get, :post, :put, :options]
+      resource '/packs/*', headers: :any, methods: [:get, :options]
+    end
+    allow do
+      origins '*'
+      resource '/api/*', headers: :any, methods: :any
     end
   end
 end
