@@ -29,7 +29,6 @@
         size="tiny"
         color-scheme="secondary"
         class-names="pill-button"
-        label="conversations"
         @click="onClickConversation"
       >
         {{ $t('EVENTS.BUTTON.PILL_BUTTON_CONVO') }}
