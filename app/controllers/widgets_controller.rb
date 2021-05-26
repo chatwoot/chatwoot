@@ -59,7 +59,6 @@ class WidgetsController < ActionController::Base
   end
 
   def allow_iframe_requests
-    protect_from_forgery with: :null_session
     response.headers.delete('X-Frame-Options')
   end
 end
