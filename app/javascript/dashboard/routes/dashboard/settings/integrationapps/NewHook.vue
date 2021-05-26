@@ -110,9 +110,11 @@ export default {
         app_id: this.integration.id,
         settings: hookSettings,
       };
-      if ({}.hasOwnProperty.call(this.values, 'inbox_id')) {
-        hookData.inbox_id = this.values.inbox_id;
+
+      if (this.showInboxSelect && this.values.inbox) {
+        hookData.inbox_id = this.values.inbox;
       }
+      console.log('Hook data', hookData);
       try {
         await this.$store.dispatch('integrations/createHook', hookData);
         this.addHook.message = 'Hook added successfully';
