@@ -109,7 +109,6 @@ export default {
 
       .meta {
         display: flex;
-        margin-top: var(--space-smaller);
       }
     }
   }
