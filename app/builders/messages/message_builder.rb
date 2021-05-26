@@ -15,15 +15,7 @@ class Messages::MessageBuilder
 
   def perform
     @message = @conversation.messages.build(message_params)
-    if @attachments.present?
-      @attachments.each do |uploaded_attachment|
-        attachment = @message.attachments.new(
-          account_id: @message.account_id,
-          file_type: file_type(uploaded_attachment&.content_type)
-        )
-        attachment.file.attach(uploaded_attachment)
-      end
-    end
+    process_attachments
     @message.save
     @message
   end
@@ -36,6 +28,18 @@ class Messages::MessageBuilder
     end
 
     @message_type
+  end
+
+  def process_attachments
+    return unless @attachments.present?
+
+    @attachments.each do |uploaded_attachment|
+      attachment = @message.attachments.new(
+        account_id: @message.account_id,
+        file_type: file_type(uploaded_attachment&.content_type)
+      )
+      attachment.file.attach(uploaded_attachment)
+    end
   end
 
   def sender
