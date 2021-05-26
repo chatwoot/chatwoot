@@ -1,6 +1,7 @@
 class Api::V1::Widget::BaseController < ApplicationController
   include SwitchLocale
 
+  protect_from_forgery with: :null_session
   before_action :set_web_widget
   before_action :set_contact
 
