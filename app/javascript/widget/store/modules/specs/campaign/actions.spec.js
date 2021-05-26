@@ -65,14 +65,14 @@ describe('#actions', () => {
     });
   });
   describe('#startCampaign', () => {
-    it('reset campaign if campaign id is not preseent in the campaign list', async () => {
+    it('reset campaign if campaign id is not present in the campaign list', async () => {
       await actions.startCampaign(
         { dispatch, getters: { getCampaigns: campaigns }, commit },
         { campaignId: 32 }
       );
       expect(commit.mock.calls).toEqual([['setActiveCampaign', undefined]]);
     });
-    it('start campaign if campaign is available', async () => {
+    it('start campaign if campaign id passed', async () => {
       await actions.startCampaign(
         { dispatch, getters: { getCampaigns: campaigns }, commit },
         { campaignId: 1 }
