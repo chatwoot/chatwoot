@@ -101,20 +101,16 @@ export default {
           hookSettings[key] = this.values[key];
         }
       });
-      // eslint-disable-next-line no-prototype-builtins
-      if (hookSettings.hasOwnProperty('inbox')) {
-        delete hookSettings.inbox;
-      }
+      this.formItems.forEach(item => {
+        if (item.validation.includes('JSON')) {
+          hookSettings[item.name] = JSON.parse(hookSettings[item.name]);
+        }
+      });
       const hookData = {
         app_id: this.integration.id,
-        inbox_id: this.values.inbox,
-        settings: {
-          ...hookSettings,
-          credentials: JSON.parse(hookSettings.credentials),
-        },
+        settings: hookSettings,
       };
-      // eslint-disable-next-line
-      if (this.values.hasOwnProperty('inbox_id')) {
+      if ({}.hasOwnProperty.call(this.values, 'inbox_id')) {
         hookData.inbox_id = this.values.inbox_id;
       }
       try {
