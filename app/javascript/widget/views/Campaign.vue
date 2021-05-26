@@ -12,9 +12,11 @@
     </div>
     <div class="unread-messages">
       <unread-message
+        message-type="campaign"
         show-sender
         :sender="campaign.sender"
         :message="campaign.message"
+        :campaign-id="campaign.id"
       />
     </div>
   </div>
@@ -59,9 +61,6 @@ export default {
     },
   },
   methods: {
-    openFullView() {
-      bus.$emit('on-unread-view-clicked');
-    },
     closeFullView() {
       if (IFrameHelper.isIFrame()) {
         IFrameHelper.sendMessage({

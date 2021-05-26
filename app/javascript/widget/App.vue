@@ -37,6 +37,7 @@ export default {
   computed: {
     ...mapGetters({
       hasFetched: 'agent/getHasFetched',
+      messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
       activeCampaign: 'campaign/getActiveCampaign',
@@ -53,11 +54,9 @@ export default {
     },
   },
   watch: {
-    activeCampaign(campaign) {
-      if (campaign) {
-        this.showCampaignView = true;
-        this.setCampaignView();
-      }
+    activeCampaign() {
+      console.log('conversation', this.messageCount);
+      this.setCampaignView();
     },
   },
   mounted() {
@@ -83,8 +82,12 @@ export default {
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['initCampaigns']),
+    ...mapActions('conversation', [
+      'fetchOldConversations',
+      'setUserLastSeen',
+      'sendMessage',
+    ]),
+    ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -120,6 +123,15 @@ export default {
         this.unsetUnreadView();
         this.setUserLastSeen();
       });
+
+      bus.$on('on-campaign-view-clicked', (campaignId, message) => {
+        this.showCampaignView = false;
+        this.showUnreadView = false;
+        this.unsetUnreadView();
+        this.setUserLastSeen();
+        this.executeCampaign({ campaignId });
+        this.sendMessage({ content: message });
+      });
     },
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
@@ -127,6 +139,7 @@ export default {
     setCampaignView() {
       const { unreadMessageCount } = this;
       if (this.isIFrame && unreadMessageCount === 0) {
+        this.showCampaignView = true;
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
         });

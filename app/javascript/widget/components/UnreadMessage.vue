@@ -1,6 +1,9 @@
 <template>
   <div class="chat-bubble-wrap">
-    <div class="chat-bubble agent">
+    <div
+      :class="['chat-bubble agent', checkMessageIsCampaign && 'campaign']"
+      v-on="checkMessageIsCampaign ? { click: onClickCampaign } : {}"
+    >
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
           :src="avatarUrl"
@@ -30,6 +33,10 @@ export default {
       type: String,
       default: '',
     },
+    messageType: {
+      type: String,
+      default: 'normal',
+    },
     showSender: {
       type: Boolean,
       default: false,
@@ -38,8 +45,20 @@ export default {
       type: Object,
       default: () => {},
     },
+    campaignId: {
+      type: Number,
+      default: null,
+    },
   },
   computed: {
+    campaignClass() {
+      return {
+        campaign: this.messageType === 'campaign',
+      };
+    },
+    checkMessageIsCampaign() {
+      return this.messageType === 'campaign';
+    },
     companyName() {
       return `${this.$t('UNREAD_VIEW.COMPANY_FROM')} ${
         this.channelConfig.websiteName
@@ -76,6 +95,9 @@ export default {
     isSenderExist(sender) {
       return sender && !isEmptyObject(sender);
     },
+    onClickCampaign() {
+      bus.$emit('on-campaign-view-clicked', this.campaignId, this.message);
+    },
   },
 };
 </script>
@@ -84,6 +106,9 @@ export default {
 .chat-bubble {
   max-width: 85%;
   padding: $space-normal;
+}
+.campaign {
+  cursor: pointer;
 }
 .row--agent-block {
   align-items: center;

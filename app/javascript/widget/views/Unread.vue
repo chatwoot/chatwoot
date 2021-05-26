@@ -14,6 +14,7 @@
       <unread-message
         v-for="(message, index) in unreadMessages"
         :key="message.id"
+        message-type="normal"
         :message-id="message.id"
         :show-sender="!index"
         :sender="message.sender"

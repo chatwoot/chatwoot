@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getCampaigns } from 'widget/api/campaign';
+import { getCampaigns, triggerCampaign } from 'widget/api/campaign';
 import campaignTimer from 'widget/helpers/campaignTimer';
 import {
   formatCampaigns,
@@ -59,6 +59,14 @@ export const actions = {
   ) => {
     const campaign = campaigns.find(item => item.id === campaignId);
     commit('setActiveCampaign', campaign);
+  },
+
+  executeCampaign: async ({ commit }, { campaignId }) => {
+    try {
+      await triggerCampaign({ campaignId });
+    } catch (error) {
+      commit('setError', true);
+    }
   },
 };
 
