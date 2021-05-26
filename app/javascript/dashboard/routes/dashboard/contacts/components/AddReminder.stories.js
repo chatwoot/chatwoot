@@ -5,8 +5,7 @@ export default {
   title: 'Components/Reminder/Add',
   component: AddReminder,
   argTypes: {
-    types: {
-      defaultValue: 'call',
+    options: {
       control: {
         type: 'object',
       },
@@ -25,4 +24,18 @@ export const Add = Template.bind({});
 Add.args = {
   onAdd: action('Added'),
   onClick: action('Label'),
+  options: [
+    {
+      id: '12345',
+      name: 'calls',
+    },
+    {
+      id: '12346',
+      name: 'meeting',
+    },
+    {
+      id: '12347',
+      name: 'review',
+    },
+  ],
 };

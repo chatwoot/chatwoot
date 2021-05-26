@@ -26,12 +26,16 @@
           />
         </div>
         <div class="label-wrap">
-          <select class="label">
+          <select class="label" @change="optionSelected($event)">
             <option value="" disabled selected>
               {{ $t('REMINDER.FOOTER.LABEL_TITLE') }}
             </option>
-            <option>
-              {{ type }}
+            <option
+              v-for="option in options"
+              :key="option.id"
+              :value="option.name"
+            >
+              {{ option.name }}
             </option>
           </select>
         </div>
@@ -43,7 +47,7 @@
 <script>
 export default {
   props: {
-    types: {
+    options: {
       type: Array,
       default: () => [],
     },
@@ -52,20 +56,24 @@ export default {
     return {
       content: '',
       date: '',
-      type: 'Call',
+      label: '',
     };
   },
-
   methods: {
     resetValue() {
       this.content = '';
       this.date = '';
     },
+
+    optionSelected(event) {
+      this.label = event.target.value;
+    },
+
     onAdd() {
       const task = {
         content: this.content,
         date: this.date,
-        type: this.type,
+        label: this.label,
       };
       this.$emit('add', task);
       this.resetValue();
@@ -81,7 +89,7 @@ export default {
   width: 100%;
 
   .add-button {
-    margin: var(--space-slab) var(--space-smaller) 0 0;
+    margin: var(--space-slab) 0 0 var(--space-smaller);
     font-size: var(--font-size-medium);
   }
 
@@ -91,18 +99,15 @@ export default {
     width: 100%;
 
     .input {
-      display: flex;
-      width: 100%;
       border: 1px solid var(--color-border);
+      margin-bottom: var(--space-smaller);
       border-radius: var(--border-radius-small);
 
       .input--reminder {
         font-size: var(--font-size-mini);
         border-color: transparent;
-        padding: var(--space-small) var(--space-smaller) 0 var(--space-smaller);
         resize: none;
         box-sizing: border-box;
-        min-height: var(--space-larger);
         margin-bottom: var(--space-small);
       }
     }
@@ -113,7 +118,6 @@ export default {
 
     .date-wrap {
       position: relative;
-      margin-top: var(--space-smaller);
 
       .icon {
         position: absolute;
@@ -123,12 +127,11 @@ export default {
 
       .date-input {
         border: 1px solid var(--color-border);
-        border-radius: var(--border-radius-normal);
+        border-radius: var(--border-radius-small);
         padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
           var(--space-medium);
         background: var(--color-background-light);
         color: var(--color-body);
-        max-width: var(--space-mega);
 
         &:focus {
           border: 1px solid var(--color-border-dark);
@@ -138,16 +141,14 @@ export default {
 
     .label-wrap {
       .label {
-        margin-left: var(--space-smaller);
-        margin-top: var(--space-smaller);
+        margin: 0 0 0 var(--space-smaller);
         border: 1px solid var(--color-border);
         background: var(--color-background-light);
         font-size: var(--font-size-micro);
         height: auto;
-        padding: var(--space-smaller);
         line-height: 1.1;
-        border-radius: var(--border-radius-normal);
-        color: var(--s-200);
+        border-radius: var(--border-radius-small);
+        color: var(--s-400);
 
         &:focus {
           border: 1px solid var(--color-border-dark);
