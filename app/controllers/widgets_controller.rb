@@ -6,8 +6,6 @@ class WidgetsController < ActionController::Base
   before_action :build_contact
   after_action :allow_iframe_requests
 
-  protect_from_forgery with: :null_session
-
   private
 
   def set_global_config
