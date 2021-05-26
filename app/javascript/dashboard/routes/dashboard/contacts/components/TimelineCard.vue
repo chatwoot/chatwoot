@@ -5,8 +5,10 @@
     </div>
     <div class="card-wrap">
       <div class="header">
-        <div>
-          <span class="event-type">{{ eventType }}</span>
+        <div class="text-wrap">
+          <h6 class="text-block-title">
+            {{ eventType }}
+          </h6>
           <span class="event-path">on {{ eventPath }}</span>
         </div>
         <div class="date-wrap">
@@ -90,28 +92,24 @@ export default {
   .card-wrap {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     width: 100%;
-    color: var(--color-body);
-    padding: var(--space-smaller) var(--space-normal) 0 var(--space-normal);
+    padding: var(--space-smaller) var(--space-normal) 0;
 
     .header {
       display: flex;
-      padding: 0 0 var(--space-slab) 0;
       justify-content: space-between;
 
-      .event-type {
-        font-size: var(--font-size-small);
-        font-weight: var(--font-weight-bold);
+      .text-wrap {
+        display: flex;
       }
 
       .event-path {
         font-size: var(--font-size-mini);
+        margin-left: var(--space-smaller);
       }
 
       .date-wrap {
         font-size: var(--font-size-micro);
-        padding-top: var(--space-smaller);
       }
     }
 
@@ -119,7 +117,7 @@ export default {
       border: 1px solid var(--color-border-light);
 
       .comment {
-        padding: var(--space-one);
+        padding: var(--space-small);
         font-size: var(--font-size-mini);
         margin: 0;
       }
@@ -127,7 +125,6 @@ export default {
   }
 
   .icon-more {
-    padding: var(--space-micro);
     .ion-android-more-vertical {
       font-size: var(--font-size-medium);
     }
