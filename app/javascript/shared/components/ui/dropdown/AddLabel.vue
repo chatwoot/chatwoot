@@ -1,11 +1,11 @@
 <template>
-  <span role="button" class="label--add" @click="addLabel">
+  <woot-button variant="link" class="label--add" @click="addLabel">
     <woot-label
       color-scheme="secondary"
       :title="$t('CONTACT_PANEL.LABELS.MODAL.ADD_BUTTON')"
       icon="ion-plus-round"
     />
-  </span>
+  </woot-button>
 </template>
 
 <script>
@@ -20,11 +20,11 @@ export default {
 
 <style lang="scss" scoped>
 .label--add {
-  display: inline-block;
   &::v-deep .label {
     cursor: pointer;
     background: transparent;
     border-color: var(--s-700);
+    margin: 0;
 
     &:hover {
       background: var(--s-50);
