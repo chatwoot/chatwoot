@@ -64,6 +64,7 @@ export const actions = {
   executeCampaign: async ({ commit }, { campaignId }) => {
     try {
       await triggerCampaign({ campaignId });
+      commit('setActiveCampaign', {});
     } catch (error) {
       commit('setError', true);
     }

@@ -18,6 +18,7 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   name: 'App',
@@ -55,7 +56,6 @@ export default {
   },
   watch: {
     activeCampaign() {
-      console.log('conversation', this.messageCount);
       this.setCampaignView();
     },
   },
@@ -85,7 +85,7 @@ export default {
     ...mapActions('conversation', [
       'fetchOldConversations',
       'setUserLastSeen',
-      'sendMessage',
+      'sendCampaignMessage',
     ]),
     ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
@@ -124,21 +124,25 @@ export default {
         this.setUserLastSeen();
       });
 
-      bus.$on('on-campaign-view-clicked', (campaignId, message) => {
+      bus.$on('on-campaign-view-clicked', campaignId => {
         this.showCampaignView = false;
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
         this.executeCampaign({ campaignId });
-        this.sendMessage({ content: message });
       });
     },
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      const { unreadMessageCount } = this;
-      if (this.isIFrame && unreadMessageCount === 0) {
+      const { unreadMessageCount, messageCount, activeCampaign } = this;
+      if (
+        this.isIFrame &&
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        unreadMessageCount === 0
+      ) {
         this.showCampaignView = true;
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
@@ -175,7 +179,6 @@ export default {
           return;
         }
         const message = IFrameHelper.getMessage(e);
-
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
@@ -218,6 +221,7 @@ export default {
           this.showUnreadView = true;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
+          this.showCampaignView = false;
         }
       });
     },

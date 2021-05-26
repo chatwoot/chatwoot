@@ -96,7 +96,7 @@ export default {
       return sender && !isEmptyObject(sender);
     },
     onClickCampaign() {
-      bus.$emit('on-campaign-view-clicked', this.campaignId, this.message);
+      bus.$emit('on-campaign-view-clicked', this.campaignId);
     },
   },
 };
