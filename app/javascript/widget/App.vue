@@ -82,11 +82,7 @@ export default {
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
-    ...mapActions('conversation', [
-      'fetchOldConversations',
-      'setUserLastSeen',
-      'sendCampaignMessage',
-    ]),
+    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
