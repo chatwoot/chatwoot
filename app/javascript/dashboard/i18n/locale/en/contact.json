@@ -157,6 +157,7 @@
   },
   "REMINDER": {
     "ADD_BUTTON": {
+      "BUTTON": "Add",
       "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {

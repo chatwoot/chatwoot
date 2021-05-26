@@ -37,10 +37,11 @@
           size="tiny"
           color-scheme="primary"
           class-names="add-button"
+          :title="$t('REMINDER.ADD_BUTTON.TITLE')"
           :is-disabled="buttonDisabled"
           @click="onAdd"
         >
-          Add
+          {{ $t('REMINDER.ADD_BUTTON.BUTTON') }}
         </woot-button>
       </div>
     </div>
