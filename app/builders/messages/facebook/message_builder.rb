@@ -42,6 +42,8 @@ class Messages::Facebook::MessageBuilder
   def build_message
     @message = conversation.messages.create!(message_params)
     (response.attachments || []).each do |attachment|
+      next if attachment['type'].to_sym == :template
+
       attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
       attachment_obj.save!
       attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
