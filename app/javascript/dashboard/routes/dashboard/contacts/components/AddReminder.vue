@@ -1,44 +1,47 @@
 <template>
   <div class="wrap">
-    <div
-      class="add-button"
-      :title="$t('REMINDER.ADD_BUTTON.TITLE')"
-      @click="onAdd"
-    >
-      <i class="ion-android-add-circle" />
-    </div>
     <div class="input-select-wrap">
-      <div class="input">
-        <textarea
-          v-model="content"
-          class="input--reminder"
-          @keydown.enter.shift.exact="onAdd"
+      <textarea
+        v-model="content"
+        class="input--reminder"
+        @keydown.enter.shift.exact="onAdd"
+      >
+      </textarea>
+      <div class="select-wrap">
+        <div class="select">
+          <div class="date-wrap">
+            <i class="icon ion-android-calendar" />
+            <input
+              v-model="date"
+              type="text"
+              :placeholder="$t('REMINDER.FOOTER.DUE_DATE')"
+              class="date-input"
+            />
+          </div>
+          <div class="task-wrap">
+            <select class="task__type" @change="optionSelected($event)">
+              <option value="" disabled selected>
+                {{ $t('REMINDER.FOOTER.LABEL_TITLE') }}
+              </option>
+              <option
+                v-for="option in options"
+                :key="option.id"
+                :value="option.id"
+              >
+                {{ option.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <woot-button
+          size="tiny"
+          color-scheme="primary"
+          class-names="add-button"
+          :is-disabled="buttonDisabled"
+          @click="onAdd"
         >
-        </textarea>
-      </div>
-      <div class="select">
-        <div class="date-wrap">
-          <i class="icon ion-android-calendar" />
-          <input
-            v-model="date"
-            :placeholder="$t('REMINDER.FOOTER.DUE_DATE')"
-            class="date-input"
-          />
-        </div>
-        <div class="label-wrap">
-          <select class="label" @change="optionSelected($event)">
-            <option value="" disabled selected>
-              {{ $t('REMINDER.FOOTER.LABEL_TITLE') }}
-            </option>
-            <option
-              v-for="option in options"
-              :key="option.id"
-              :value="option.name"
-            >
-              {{ option.name }}
-            </option>
-          </select>
-        </div>
+          Add
+        </woot-button>
       </div>
     </div>
   </div>
@@ -58,6 +61,11 @@ export default {
       date: '',
       label: '',
     };
+  },
+  computed: {
+    buttonDisabled() {
+      return this.content && this.date === '';
+    },
   },
   methods: {
     resetValue() {
@@ -88,32 +96,23 @@ export default {
   margin-bottom: var(--space-smaller);
   width: 100%;
 
-  .add-button {
-    margin: var(--space-slab) 0 0 var(--space-smaller);
-    font-size: var(--font-size-medium);
-  }
-
   .input-select-wrap {
-    padding: var(--space-one) var(--space-one) var(--space-one)
-      var(--space-small);
+    padding: var(--space-small) var(--space-small);
     width: 100%;
 
-    .input {
-      border: 1px solid var(--color-border);
-      margin-bottom: var(--space-smaller);
-      border-radius: var(--border-radius-small);
-
-      .input--reminder {
-        font-size: var(--font-size-mini);
-        border-color: transparent;
-        resize: none;
-        box-sizing: border-box;
-        margin-bottom: var(--space-small);
-      }
+    .input--reminder {
+      font-size: var(--font-size-mini);
+      margin-bottom: var(--space-small);
+      resize: none;
     }
 
-    .select {
+    .select-wrap {
       display: flex;
+      justify-content: space-between;
+
+      .select {
+        display: flex;
+      }
     }
 
     .date-wrap {
@@ -121,38 +120,24 @@ export default {
 
       .icon {
         position: absolute;
-        margin-left: var(--space-slab);
-        top: 3px;
+        margin-left: var(--space-small);
+        top: 5px;
       }
 
       .date-input {
-        border: 1px solid var(--color-border);
-        border-radius: var(--border-radius-small);
+        font-size: var(--font-size-micro);
+        height: var(--space-medium);
         padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
-          var(--space-medium);
-        background: var(--color-background-light);
-        color: var(--color-body);
-
-        &:focus {
-          border: 1px solid var(--color-border-dark);
-        }
+          var(--space-two);
       }
     }
 
-    .label-wrap {
-      .label {
+    .task-wrap {
+      .task__type {
         margin: 0 0 0 var(--space-smaller);
-        border: 1px solid var(--color-border);
-        background: var(--color-background-light);
+        height: var(--space-medium);
+        padding: 0 var(--space-two) 0 var(--space-smaller);
         font-size: var(--font-size-micro);
-        height: auto;
-        line-height: 1.1;
-        border-radius: var(--border-radius-small);
-        color: var(--s-400);
-
-        &:focus {
-          border: 1px solid var(--color-border-dark);
-        }
       }
     }
   }
