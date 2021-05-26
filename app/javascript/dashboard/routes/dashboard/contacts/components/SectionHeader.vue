@@ -11,7 +11,6 @@
         size="tiny"
         color-scheme="secondary"
         class-names="pill-button"
-        label="notes"
         @click="onClickNotes"
       >
         {{ $t('EVENTS.BUTTON.PILL_BUTTON_NOTES') }}
@@ -21,7 +20,6 @@
         size="tiny"
         color-scheme="secondary"
         class-names="pill-button"
-        label="events"
         @click="onClickEvents"
       >
         {{ $t('EVENTS.BUTTON.PILL_BUTTON_EVENTS') }}
@@ -67,7 +65,7 @@ export default {
     display: flex;
 
     .pill-button {
-      margin-right: var(--space-one);
+      margin-right: var(--space-small);
     }
   }
 }
