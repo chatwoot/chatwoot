@@ -125,11 +125,12 @@ export default {
       });
 
       bus.$on('on-campaign-view-clicked', campaignId => {
+        const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
         this.showUnreadView = false;
         this.unsetUnreadView();
         this.setUserLastSeen();
-        this.executeCampaign({ campaignId });
+        this.executeCampaign({ campaignId, websiteToken });
       });
     },
     setPopoutDisplay(showPopoutButton) {
