@@ -10,7 +10,7 @@ describe Facebook::SendOnFacebookService do
   end
 
   let!(:account) { create(:account) }
-  let(:bot) { class_double('FacebookBot::Bot').as_stubbed_const }
+  let(:bot) { class_double('Facebook::Messenger::Bot').as_stubbed_const }
   let!(:widget_inbox) { create(:inbox, account: account) }
   let!(:facebook_channel) { create(:channel_facebook_page, account: account) }
   let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: account) }
@@ -61,7 +61,7 @@ describe Facebook::SendOnFacebookService do
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
                                                       message: { text: message.content }
-                                                    }, { access_token: facebook_channel.page_access_token })
+                                                    }, { page_id: facebook_channel.page_id })
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
                                                       message: {
@@ -72,7 +72,7 @@ describe Facebook::SendOnFacebookService do
                                                           }
                                                         }
                                                       }
-                                                    }, { access_token: facebook_channel.page_access_token })
+                                                    }, { page_id: facebook_channel.page_id })
       end
     end
   end
