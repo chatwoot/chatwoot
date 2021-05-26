@@ -43,8 +43,9 @@ Rails.application.configure do
   # config.action_cable.mount_path = nil
   # config.action_cable.url = 'wss://example.com/cable'
   if ENV['FRONTEND_URL'].present?
-    config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}]
+    config.action_cable.allowed_request_origins = [ENV['FRONTEND_URL'], %r{https?://#{URI.parse(ENV['FRONTEND_URL']).host}(:[0-9]+)?}, '*']
   end
+  config.action_controller.forgery_protection_origin_check = false
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = ActiveModel::Type::Boolean.new.cast(ENV.fetch('FORCE_SSL', false))
@@ -117,7 +118,7 @@ Rails.application.configure do
     end
     allow do
       origins '*'
-      resource '/api/*', headers: :any, methods: :any
+      resource '/api/*', headers: :any, methods: [:get, :post, :patch, :put, :options]
     end
   end
 end
