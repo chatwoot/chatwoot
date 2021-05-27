@@ -133,13 +133,8 @@ export default {
       this.showPopoutButton = showPopoutButton;
     },
     setCampaignView() {
-      const { unreadMessageCount, messageCount, activeCampaign } = this;
-      if (
-        this.isIFrame &&
-        !isEmptyObject(activeCampaign) &&
-        !messageCount &&
-        unreadMessageCount === 0
-      ) {
+      const { messageCount, activeCampaign } = this;
+      if (this.isIFrame && !isEmptyObject(activeCampaign) && !messageCount) {
         this.showCampaignView = true;
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',
@@ -216,6 +211,7 @@ export default {
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
           this.showUnreadView = true;
+          this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
           this.showCampaignView = false;

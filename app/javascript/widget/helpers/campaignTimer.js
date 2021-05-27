@@ -1,7 +1,6 @@
 import store from '../store';
 class CampaignTimer {
-  constructor(app) {
-    this.app = app;
+  constructor() {
     this.campaignTimers = [];
   }
 
@@ -10,7 +9,6 @@ class CampaignTimer {
     campaigns.forEach(campaign => {
       const { timeOnPage, id: campaignId } = campaign;
       this.campaignTimers[campaignId] = setTimeout(() => {
-        // this.app.$store.dispatch('campaign/startCampaign',{campaignId});
         store.dispatch('campaign/startCampaign', { campaignId });
       }, timeOnPage * 1000);
     });
@@ -23,11 +21,4 @@ class CampaignTimer {
     });
   };
 }
-
-// export default {
-//   init() {
-//     const campaign = new CampaignTimer(window.WOOT_WIDGET);
-//     return campaign;
-//   },
-// };
-export default new CampaignTimer(window.WOOT_WIDGET);
+export default new CampaignTimer();
