@@ -132,8 +132,6 @@ group :test do
 end
 
 group :development, :test do
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
-  gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'
