@@ -114,14 +114,13 @@ export default {
       if (this.showInboxSelect && this.values.inbox) {
         hookData.inbox_id = this.values.inbox;
       }
-      console.log('Hook data', hookData);
       try {
         await this.$store.dispatch('integrations/createHook', hookData);
         this.addHook.message = 'Hook added successfully';
         this.onClose();
       } catch (error) {
-        this.addHook.message =
-          error.response.data.message || 'Something went wrong';
+        const errorMessage = error?.response?.data?.message;
+        this.addHook.message = errorMessage || 'Something went wrong';
       } finally {
         this.addHook.showLoading = false;
         this.showAlert(this.addHook.message);
