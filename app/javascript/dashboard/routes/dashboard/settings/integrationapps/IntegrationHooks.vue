@@ -9,7 +9,7 @@
     >
       {{ `Add new ${integration.id}` }}
     </woot-button>
-    <div v-if="showIntegrationHooks">
+    <div v-if="showIntegrationHooks" class="integration-hooks">
       <div v-if="isIntegrationMultiple">
         <multiple-integration-hooks
           :integration="integration"
@@ -133,9 +133,6 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.webhook-link {
-  word-break: break-word;
-}
 .integration-hooks {
   width: 100%;
 }

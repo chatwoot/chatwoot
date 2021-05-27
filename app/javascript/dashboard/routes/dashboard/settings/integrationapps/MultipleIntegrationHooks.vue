@@ -1,41 +1,32 @@
 <template>
-  <div class="row integration-hooks">
+  <div class="row ">
     <div class="small-8 columns">
-      <woot-loading-state v-if="uiFlags.isFetching" :message="loadingMessage" />
-      <p v-if="isHooksEmpty" class="no-items-error-message">
+      <p v-if="isHooksAreEmpty" class="no-items-error-message">
         {{ emptyMessage }}
       </p>
 
-      <table v-if="isHooksExist" class="woot-table">
+      <table v-if="!isHooksAreEmpty" class="woot-table">
         <thead>
-          <th v-for="thHeader in headerItems" :key="thHeader">
-            {{ thHeader }}
+          <th v-for="hookHeader in hookHeaders" :key="hookHeader">
+            {{ hookHeader }}
           </th>
           <th v-if="checkHookTypeIsInbox">
-            Inbox Id
+            Inbox
           </th>
         </thead>
         <tbody>
-          <tr v-for="hook in tableItems" :key="hook.id">
+          <tr v-for="hook in hooks" :key="hook.id">
             <td
               v-for="property in hook.properties"
               :key="property"
-              class="webhook-link"
+              class="hook-item"
             >
               {{ property }}
             </td>
-            <td v-if="checkHookTypeIsInbox" class="webhook-link">
+            <td v-if="checkHookTypeIsInbox" class="hook-item">
               {{ inboxName(hook) }}
             </td>
             <td class="button-wrapper">
-              <!-- <woot-button
-                  variant="link"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  icon="ion-edit"
-                >
-                  Edit
-                </woot-button> -->
               <woot-button
                 variant="link"
                 color-scheme="secondary"
@@ -64,9 +55,6 @@
   </div>
 </template>
 <script>
-import { isEmptyObject } from '../../../../helper/commons';
-import { mapGetters } from 'vuex';
-
 export default {
   props: {
     openDeletePopup: {
@@ -78,51 +66,13 @@ export default {
       default: () => ({}),
     },
   },
-  data() {
-    return {
-      loading: {},
-      showAddPopup: false,
-      showDeleteConfirmationPopup: false,
-      selectedHook: {},
-    };
-  },
-
   computed: {
-    ...mapGetters({
-      uiFlags: 'integrations/getUIFlags',
-    }),
-    isIntegrationLoaded() {
-      return !this.uiFlags.isFetching && !isEmptyObject(this.integration);
-    },
-    integrationType() {
-      return this.integration.allow_multiple_hooks ? 'multiple' : 'single';
-    },
-    isIntegrationMultiple() {
-      return this.integrationType === 'multiple';
-    },
-    isIntegrationSingle() {
-      return this.integrationType === 'single';
-    },
-
-    showAddButton() {
-      if (
-        this.uiFlags.isFetching ||
-        isEmptyObject(this.integration) ||
-        (this.integration &&
-          !this.integration.allow_multiple_hooks &&
-          this.integration.hooks.length >= 1)
-      ) {
-        return false;
-      }
-      return true;
-    },
-    headerItems() {
+    hookHeaders() {
       return this.integration.visible_properties;
     },
-    tableItems() {
+    hooks() {
       const items = [];
-      if (this.integration && this.integration.hooks.length) {
-        // TODO: Please change this logic
+      if (this.integration.hooks.length) {
         this.integration.hooks.forEach(hook => {
           let item = {
             ...hook,
@@ -130,33 +80,20 @@ export default {
             properties: [],
           };
           this.integration.visible_properties.forEach(property => {
-            // eslint-disable-next-line no-prototype-builtins
-            if (hook.settings.hasOwnProperty(property)) {
-              item.properties.push(hook.settings[property]);
-            }
+            item.properties.push(
+              hook.settings[property] ? hook.settings[property] : '--'
+            );
           });
           items.push(item);
         });
       }
-
       return items;
     },
     checkHookTypeIsInbox() {
       return this.integration.hook_type === 'inbox';
     },
-    isHooksEmpty() {
-      return (
-        !this.uiFlags.isFetching &&
-        !isEmptyObject(this.integration) &&
-        !this.integration.hooks.length
-      );
-    },
-    isHooksExist() {
-      return (
-        !this.uiFlags.isFetching &&
-        !isEmptyObject(this.integration) &&
-        this.integration.hooks.length
-      );
+    isHooksAreEmpty() {
+      return !this.integration.hooks.length;
     },
     emptyMessage() {
       return `There are no ${this.integration.id}s configured for this account.`;
@@ -176,10 +113,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-.webhook-link {
+.hook-item {
   word-break: break-word;
-}
-.integration-hooks {
-  width: 100%;
 }
 </style>
