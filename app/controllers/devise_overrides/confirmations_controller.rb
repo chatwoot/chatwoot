@@ -5,16 +5,12 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
 
   def create
     @confirmable = User.find_by(confirmation_token: params[:confirmation_token])
-    render_confirmation_success and return if confirm
+    render_confirmation_success and return if @confirmable&.confirm
 
     render_confirmation_error
   end
 
-  protected
-
-  def confirm
-    @confirmable&.confirm || @confirmable&.confirmed_at
-  end
+  private
 
   def render_confirmation_success
     send_auth_headers(@confirmable)

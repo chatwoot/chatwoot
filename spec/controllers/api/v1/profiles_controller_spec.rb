@@ -58,7 +58,7 @@ RSpec.describe 'Profile API', type: :request do
 
       it 'updates the password' do
         put '/api/v1/profile',
-            params: { profile: { password: 'test123', password_confirmation: 'test123' } },
+            params: { profile: { password: 'Password1!', password_confirmation: 'Password1!' } },
             headers: agent.create_new_auth_token,
             as: :json
 

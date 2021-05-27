@@ -18,13 +18,13 @@ RSpec.describe 'Accounts API', type: :request do
       it 'calls account builder' do
         allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name }
+        params = { account_name: 'test', email: email, user: nil, user_full_name: user_full_name, password: "Password1!" }
 
         post api_v1_accounts_url,
              params: params,
              as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.merge(confirmed: false))
+        expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
         expect(account_builder).to have_received(:perform)
         expect(response.headers.keys).to include('access-token', 'token-type', 'client', 'expiry', 'uid')
       end
@@ -38,7 +38,7 @@ RSpec.describe 'Accounts API', type: :request do
              params: params,
              as: :json
 
-        expect(AccountBuilder).to have_received(:new).with(params.merge(confirmed: false))
+        expect(AccountBuilder).to have_received(:new).with(params.merge(user_password: params[:password]))
         expect(account_builder).to have_received(:perform)
         expect(response).to have_http_status(:forbidden)
         expect(response.body).to eq({ message: I18n.t('errors.signup.failed') }.to_json)
