@@ -3,27 +3,27 @@
     <form @submit.prevent="onSubmit">
       <div v-for="item in items" :key="item.key" class="form-block">
         <label>{{ item.label }}</label>
-        <div v-if="item.type === 'email' || item.type === 'text'">
-          <div v-if="item.type === 'email'">
-            <input
-              v-model="formValues[item.name]"
-              :type="item.type"
-              :class="{ error: hasFetch }"
-              :name="item.name"
-              :placeholder="item.placeholder"
-              :disabled="!!submittedValues.length"
-              @focus="hasFetch = true && !emailValidation(item.name, item.type)"
-            />
-          </div>
-          <div v-if="item.type === 'text'">
-            <input
-              v-model="formValues[item.name]"
-              :type="item.type"
-              :name="item.name"
-              :placeholder="item.placeholder"
-              :disabled="!!submittedValues.length"
-            />
-          </div>
+        <div v-if="item.type === 'email'">
+          <input
+            v-model="formValues[item.name]"
+            :type="item.type"
+            :class="{
+              error: hasTouched && !emailValidation(item.name, item.type),
+            }"
+            :name="item.name"
+            :placeholder="item.placeholder"
+            :disabled="!!submittedValues.length"
+            @focus="isTouched()"
+          />
+        </div>
+        <div v-if="item.type === 'text'">
+          <input
+            v-model="formValues[item.name]"
+            :type="item.type"
+            :name="item.name"
+            :placeholder="item.placeholder"
+            :disabled="!!submittedValues.length"
+          />
         </div>
         <textarea
           v-else-if="item.type === 'text_area'"
@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       formValues: {},
-      hasFetch: false,
+      hasTouched: false,
     };
   },
   computed: {
@@ -117,8 +117,12 @@ export default {
       return reg.test(formValue);
     },
 
+    isTouched() {
+      this.hasTouched = true;
+    },
+
     emailValidation(name, type) {
-      if (this.hasFetch === true) {
+      if (this.hasTouched === true) {
         const formValue = this.formValues[name];
         const regex = this.items.find(obj => obj.type === type).regex;
         const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
