@@ -22,6 +22,4 @@ class SuperAdmin < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :trackable, :rememberable, :validatable, :password_has_required_content
-
-  include AccessTokenable
 end
