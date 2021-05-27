@@ -1,4 +1,5 @@
 class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
+  include AuthHelper
   skip_before_action :require_no_authentication, raise: false
   skip_before_action :authenticate_user!, raise: false
 
@@ -6,7 +7,7 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
     @confirmable = User.find_by(confirmation_token: params[:confirmation_token])
 
     if confirm
-      render_confirmation_success
+      render_confirmation_success and return
     else
       render_confirmation_error
     end
@@ -15,11 +16,12 @@ class DeviseOverrides::ConfirmationsController < Devise::ConfirmationsController
   protected
 
   def confirm
-    @confirmable&.confirm || (@confirmable&.confirmed_at && @confirmable&.reset_password_token)
+    @confirmable&.confirm || (@confirmable&.confirmed_at)
   end
 
   def render_confirmation_success
-    render json: { "message": 'Success', "redirect_url": create_reset_token_link(@confirmable) }, status: :ok
+    send_auth_headers(@confirmable)
+    render partial: 'devise/auth.json', locals: { resource: @confirmable }
   end
 
   def render_confirmation_error

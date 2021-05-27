@@ -13,6 +13,18 @@
     <div class="row align-center">
       <div class="small-12 medium-6 large-5 column">
         <form class="signup--box login-box" @submit.prevent="submit">
+           <woot-input
+            v-model="credentials.accountName"
+            :class="{ error: $v.credentials.accountName.$error }"
+            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
+            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.accountName.$error
+                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.accountName.$touch"
+          />
           <woot-input
             v-model="credentials.fullName"
             :class="{ error: $v.credentials.fullName.$error }"
@@ -26,18 +38,6 @@
             @blur="$v.credentials.fullName.$touch"
           />
           <woot-input
-            v-model="credentials.accountName"
-            :class="{ error: $v.credentials.accountName.$error }"
-            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
-            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.accountName.$error
-                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.accountName.$touch"
-          />
-          <woot-input
             v-model.trim="credentials.email"
             type="email"
             :class="{ error: $v.credentials.email.$error }"
@@ -47,6 +47,34 @@
               $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
             "
             @blur="$v.credentials.email.$touch"
+          />
+
+          <woot-input
+            v-model.trim="credentials.password"
+            type="password"
+            :class="{ error: $v.credentials.password.$error }"
+            :label="$t('LOGIN.PASSWORD.LABEL')"
+            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+            :error="
+              $v.credentials.password.$error
+                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.password.$touch"
+          />
+
+          <woot-input
+            v-model.trim="credentials.confirmPassword"
+            type="password"
+            :class="{ error: $v.credentials.confirmPassword.$error }"
+            :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
+            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+            :error="
+              $v.credentials.confirmPassword.$error
+                ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.confirmPassword.$touch"
           />
           <woot-submit-button
             :disabled="isSignupInProgress"
@@ -88,6 +116,8 @@ export default {
         accountName: '',
         fullName: '',
         email: '',
+        password: '',
+        confirmPassword: '',
       },
       isSignupInProgress: false,
       error: '',
@@ -106,6 +136,19 @@ export default {
       email: {
         required,
         email,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+      confirmPassword: {
+        required,
+        isEqPassword(value) {
+          if (value !== this.credentials.password) {
+            return false;
+          }
+          return true;
+        },
       },
     },
   },

@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed!, :user, :user_full_name, :user_password]
+  pattr_initialize [:account_name!, :email!, :confirmed, :user, :user_full_name, :user_password]
 
   def perform
     if @user.nil?
