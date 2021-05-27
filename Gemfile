@@ -60,6 +60,7 @@ gem 'barnes'
 ##--- gems for authentication & authorization ---##
 gem 'devise'
 gem 'devise_token_auth'
+gem 'devise-secure_password', '~> 2.0'
 # authorization
 gem 'jwt'
 gem 'pundit'

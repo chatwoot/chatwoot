@@ -61,11 +61,9 @@ class AccountBuilder
   end
 
   def create_user
-    password = user_password || SecureRandom.alphanumeric(12)
-
     @user = User.new(email: @email,
-                     password: password,
-                     password_confirmation: password,
+                     password: user_password,
+                     password_confirmation: user_password,
                      name: @user_full_name)
     @user.confirm if @confirmed
     @user.save!

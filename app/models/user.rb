@@ -53,7 +53,8 @@ class User < ApplicationRecord
          :rememberable,
          :trackable,
          :validatable,
-         :confirmable
+         :confirmable,
+         :password_has_required_content
 
   enum availability: { online: 0, offline: 1, busy: 2 }
 
