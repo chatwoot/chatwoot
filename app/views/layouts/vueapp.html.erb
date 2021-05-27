@@ -32,7 +32,7 @@
     <%= csrf_meta_tags %>
     <script>
       window.chatwootConfig = {
-        hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
+        hostURL: 'https://app.chatwoot.com',
         fbAppId: '<%= ENV.fetch('FB_APP_ID', nil) %>',
         signupEnabled: '<%= ENV.fetch('ENABLE_ACCOUNT_SIGNUP', true) %>',
         <% if ENV['VAPID_PUBLIC_KEY'] %>

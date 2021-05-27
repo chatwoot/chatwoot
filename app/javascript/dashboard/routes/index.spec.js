@@ -13,10 +13,6 @@ jest.mock('./login/login.routes', () => ({
 }));
 jest.mock('../constants', () => {
   return {
-    APP_BASE_URL: '/',
-    get apiUrl() {
-      return `${this.APP_BASE_URL}/`;
-    },
     GRAVATAR_URL: 'https://www.gravatar.com/avatar',
     CHANNELS: {
       FACEBOOK: 'facebook',
