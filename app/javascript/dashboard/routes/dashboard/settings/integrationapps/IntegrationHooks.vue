@@ -5,7 +5,7 @@
       color-scheme="success"
       class-names="button--fixed-right-top"
       icon="ion-android-add-circle"
-      @click="openAddPopup()"
+      @click="openAddHookModal()"
     >
       {{ `Add new ${integration.id}` }}
     </woot-button>
@@ -13,14 +13,15 @@
       <div v-if="isIntegrationMultiple">
         <multiple-integration-hooks
           :integration="integration"
-          :open-delete-popup="openDeletePopup"
+          :delete-hook="openDeletePopup"
         />
       </div>
 
       <div v-if="isIntegrationSingle">
         <single-integration-hooks
           :integration="integration"
-          :open-delete-popup="openDeletePopup"
+          :delete-hook="openDeletePopup"
+          :add-hook="openAddHookModal"
         />
       </div>
     </div>
@@ -94,7 +95,7 @@ export default {
     },
   },
   methods: {
-    openAddPopup() {
+    openAddHookModal() {
       this.showAddHookModal = true;
     },
     hideAddHookModal() {

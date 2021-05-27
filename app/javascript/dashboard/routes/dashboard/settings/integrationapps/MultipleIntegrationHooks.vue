@@ -32,7 +32,7 @@
                 color-scheme="secondary"
                 icon="ion-close-circled"
                 class-names="grey-btn"
-                @click="openDeletePopup(hook)"
+                @click="deleteHook(hook)"
               >
                 Delete
               </woot-button>
@@ -57,7 +57,7 @@
 <script>
 export default {
   props: {
-    openDeletePopup: {
+    deleteHook: {
       type: Function,
       required: true,
     },
