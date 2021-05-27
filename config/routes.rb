@@ -8,14 +8,19 @@ Rails.application.routes.draw do
     token_validations: 'devise_overrides/token_validations'
   }, via: [:get, :post]
 
-  root to: 'dashboard#index'
+  ## renders the frontend paths only if its not an api only server
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
+    root to: 'api#index'
+  else
+    root to: 'dashboard#index'
 
-  get '/app', to: 'dashboard#index'
-  get '/app/*params', to: 'dashboard#index'
-  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+    get '/app', to: 'dashboard#index'
+    get '/app/*params', to: 'dashboard#index'
+    get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
 
-  resource :widget, only: [:show]
+    resource :widget, only: [:show]
+  end
 
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do

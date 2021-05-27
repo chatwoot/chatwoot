@@ -76,4 +76,13 @@ Rails.application.configure do
     Bullet.bullet_logger = true
     Bullet.rails_logger = true
   end
+
+  # ref: https://github.com/cyu/rack-cors
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins '*'
+      resource '/packs/*', headers: :any, methods: [:get, :options]
+      resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
+    end
+  end
 end
