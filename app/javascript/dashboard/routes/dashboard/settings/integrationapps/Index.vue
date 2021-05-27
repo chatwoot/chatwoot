@@ -40,13 +40,8 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
+      integrationsList: 'integrations/getAppIntegrations',
     }),
-    integrationsList() {
-      const integrations = this.$store.getters['integrations/getIntegrations'];
-      return integrations.filter(
-        item => item.id === 'dialogflow' || item.id === 'fullcontact'
-      );
-    },
   },
   mounted() {
     this.$store.dispatch('integrations/get');

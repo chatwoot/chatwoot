@@ -15,7 +15,14 @@ const state = {
 
 export const getters = {
   getIntegrations($state) {
-    return $state.records;
+    return $state.records.filter(
+      item => item.id !== 'fullcontact' && item.id !== 'dialogflow'
+    );
+  },
+  getAppIntegrations($state) {
+    return $state.records.filter(
+      item => item.id === 'fullcontact' || item.id === 'dialogflow'
+    );
   },
   getIntegration: $state => integrationId => {
     const [integration] = $state.records.filter(
