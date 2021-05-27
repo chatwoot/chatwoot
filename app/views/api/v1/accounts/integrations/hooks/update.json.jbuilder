@@ -1,1 +1,1 @@
-json.partial! 'api/v1/models/hook.json.jbuilder', resource: @hook.app
+json.partial! 'api/v1/models/app.json.jbuilder', resource: @hook.app
