@@ -59,10 +59,6 @@ export default {
       type: Number,
       default: 0,
     },
-    integrationAction: {
-      type: String,
-      default: '',
-    },
   },
   computed: {
     ...mapGetters({

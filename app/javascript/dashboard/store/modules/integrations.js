@@ -90,6 +90,7 @@ export const actions = {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
     } catch (error) {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+      throw error;
     }
   },
 };

@@ -9,7 +9,7 @@
     >
       {{ `Add new ${integration.id}` }}
     </woot-button>
-    <div v-if="isIntegrationLoaded">
+    <div v-if="showIntegrationHooks">
       <div v-if="isIntegrationMultiple">
         <multiple-integration-hooks
           :integration="integration"
@@ -18,12 +18,15 @@
       </div>
 
       <div v-if="isIntegrationSingle">
-        <single-integration-hooks :integration="integration" />
+        <single-integration-hooks
+          :integration="integration"
+          :open-delete-popup="openDeletePopup"
+        />
       </div>
     </div>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <new-hook :on-close="hideAddPopup" :integration="integration" />
+    <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
+      <new-hook :on-close="hideAddHookModal" :integration="integration" />
     </woot-modal>
 
     <woot-delete-modal
@@ -40,6 +43,7 @@
 <script>
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import NewHook from './NewHook';
 import SingleIntegrationHooks from './SingleIntegrationHooks';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks';
@@ -50,12 +54,18 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
+  mixins: [alertMixin],
   data() {
     return {
       loading: {},
-      showAddPopup: false,
+      showAddHookModal: false,
       showDeleteConfirmationPopup: false,
       selectedHook: {},
+      deleteHook: {
+        showAlert: false,
+        showLoading: false,
+        message: '',
+      },
     };
   },
   computed: {
@@ -67,7 +77,7 @@ export default {
         this.$route.params.integration_id
       );
     },
-    isIntegrationLoaded() {
+    showIntegrationHooks() {
       return !this.uiFlags.isFetching && !isEmptyObject(this.integration);
     },
     integrationType() {
@@ -79,30 +89,16 @@ export default {
     isIntegrationSingle() {
       return this.integrationType === 'single';
     },
-
     showAddButton() {
-      if (
-        this.uiFlags.isFetching ||
-        isEmptyObject(this.integration) ||
-        this.isIntegrationSingle ||
-        (this.integration &&
-          !this.integration.allow_multiple_hooks &&
-          this.integration.hooks.length >= 1)
-      ) {
-        return false;
-      }
-      return true;
+      return this.showIntegrationHooks && this.isIntegrationMultiple;
     },
   },
   methods: {
-    showAlert(message) {
-      bus.$emit('newToastMessage', message);
-    },
     openAddPopup() {
-      this.showAddPopup = true;
+      this.showAddHookModal = true;
     },
-    hideAddPopup() {
-      this.showAddPopup = false;
+    hideAddHookModal() {
+      this.showAddHookModal = false;
     },
     openDeletePopup(response) {
       this.showDeleteConfirmationPopup = true;
@@ -123,10 +119,14 @@ export default {
           'integrations/deleteHook',
           this.selectedHook.id
         );
-        this.showAlert('Hooke deleted succssfully');
+        this.deleteHook.message = 'Hooke deleted succssfully';
         this.closeDeletePopup();
       } catch (error) {
-        this.showAlert('Something went wrong');
+        const errorMessage = error?.response?.data?.message;
+        this.deleteHook.message = errorMessage || 'Something went wrong';
+      } finally {
+        this.deleteHook.showLoading = false;
+        this.showAlert(this.deleteHook.message);
       }
     },
   },

@@ -21,7 +21,6 @@
               :integration-name="item.name"
               :integration-description="item.description"
               :integration-enabled="item.hooks.length"
-              :integration-action="item.action"
             />
           </div>
         </div>
