@@ -46,8 +46,6 @@
 </template>
 
 <script>
-/* global bus */
-
 import { required, minLength } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 
