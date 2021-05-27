@@ -4,14 +4,26 @@
       <div class="small-12 columns integrations-wrap">
         <div class="row integrations">
           <div class="small-12 columns integration">
-            <integration
-              :integration-id="integration.id"
-              :integration-logo="integration.logo"
-              :integration-name="integration.name"
-              :integration-description="integration.description"
-              :integration-enabled="integration.enabled"
-              :integration-action="integrationAction()"
-            />
+            <div class="row">
+              <div class="integration--image">
+                <img
+                  :src="'/dashboard/images/integrations/' + integration.logo"
+                />
+              </div>
+              <div class="column">
+                <h3 class="integration--title">
+                  {{ integration.name }}
+                </h3>
+                <p class="integration--description">
+                  {{ integration.description }}
+                </p>
+              </div>
+              <div class="small-2 column button-wrap">
+                <woot-button>
+                  Configure
+                </woot-button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -21,14 +33,15 @@
 <script>
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import Integration from './Integration';
 
 export default {
-  components: {
-    Integration,
-  },
   mixins: [globalConfigMixin],
-  props: ['integrationId', 'code', 'integration'],
+  props: {
+    integration: {
+      type: Object,
+      default: () => ({}),
+    },
+  },
   data() {
     return {
       integrationLoaded: false,
