@@ -19,13 +19,13 @@
               <div v-if="isIntegrationEnabled">
                 <div @click="deleteHook(integration.hooks[0])">
                   <woot-button class="nice alert">
-                    Disconnect
+                    {{ $t('INTEGRATION.DISCONNECT.BUTTON_TEXT') }}
                   </woot-button>
                 </div>
               </div>
               <div v-else>
                 <woot-button class="button nice" @click="addHook()">
-                  Connect
+                  {{ $t('INTEGRATION.CONNECT.BUTTON_TEXT') }}
                 </woot-button>
               </div>
             </div>

@@ -21,18 +21,18 @@
           :options="inboxes"
           type="select"
           name="inbox"
-          placeholder="Select Inbox"
-          label="Select Inbox"
+          :placeholder="$t('INTEGRATION.ADD.FORM.INBOX.LABEL')"
+          :label="$t('INTEGRATION.ADD.FORM.INBOX.PLACEHOLDER')"
           validation="required"
           validation-name="Inbox"
         />
 
         <div class="modal-footer">
           <woot-button :disabled="hasErrors" :loading="addHook.showLoading">
-            Create
+            {{ $t('INTEGRATION.ADD.FORM.SUBMIT') }}
           </woot-button>
           <woot-button class="button clear" @click.prevent="onClose">
-            Cancel
+            {{ $t('INTEGRATION.ADD.FORM.CANCEL') }}
           </woot-button>
         </div>
       </FormulateForm>
@@ -116,11 +116,12 @@ export default {
       }
       try {
         await this.$store.dispatch('integrations/createHook', hookData);
-        this.addHook.message = 'Hook added successfully';
+        this.addHook.message = this.$t('INTEGRATION.ADD.API.SUCCESS_MESSAGE');
         this.onClose();
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.addHook.message = errorMessage || 'Something went wrong';
+        this.addHook.message =
+          errorMessage || this.$t('INTEGRATION.ADD.API.ERROR_MESSAGE');
       } finally {
         this.addHook.showLoading = false;
         this.showAlert(this.addHook.message);

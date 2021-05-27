@@ -7,7 +7,7 @@
       icon="ion-android-add-circle"
       @click="openAddHookModal()"
     >
-      {{ `Add new ${integration.id}` }}
+      {{ $t('INTEGRATION.ADD_BUTTON') }}
     </woot-button>
     <div v-if="showIntegrationHooks" class="integration-hooks">
       <div v-if="isIntegrationMultiple">
@@ -34,10 +34,10 @@
       :show.sync="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
-      :title="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.TITLE')"
-      :message="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.MESSAGE')"
-      :confirm-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')"
-      :reject-text="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      :title="deleteTitle"
+      :message="deleteMessage"
+      :confirm-text="confirmText"
+      :reject-text="cancelText"
     />
   </div>
 </template>
@@ -93,6 +93,27 @@ export default {
     showAddButton() {
       return this.showIntegrationHooks && this.isIntegrationMultiple;
     },
+    checkHookTypeIsInbox() {
+      return this.integration.hook_type === 'inbox';
+    },
+    deleteTitle() {
+      return this.checkHookTypeIsInbox
+        ? this.$t('INTEGRATION.DELETE.TITLE.INBOX')
+        : this.$t('INTEGRATION.DELETE.TITLE.ACCOUNT');
+    },
+    deleteMessage() {
+      return this.checkHookTypeIsInbox
+        ? this.$t('INTEGRATION.DELETE.MESSAGE.INBOX')
+        : this.$t('INTEGRATION.DELETE.MESSAGE.ACCOUNT');
+    },
+    confirmText() {
+      return this.checkHookTypeIsInbox
+        ? this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.INBOX')
+        : this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.ACCOUNT');
+    },
+    cancelText() {
+      return this.$t('INTEGRATION.DELETE.CANCEL_BUTTON_TEXT');
+    },
   },
   methods: {
     openAddHookModal() {
@@ -108,23 +129,20 @@ export default {
     closeDeletePopup() {
       this.showDeleteConfirmationPopup = false;
     },
-    inboxName(hook) {
-      if (hook.inbox) {
-        return hook.inbox.name;
-      }
-      return '';
-    },
     async confirmDeletion() {
       try {
         await this.$store.dispatch(
           'integrations/deleteHook',
           this.selectedHook.id
         );
-        this.deleteHook.message = 'Hooke deleted succssfully';
+        this.deleteHook.message = this.$t(
+          'INTEGRATION.DELETE.API.SUCCESS_MESSAGE'
+        );
         this.closeDeletePopup();
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.deleteHook.message = errorMessage || 'Something went wrong';
+        this.deleteHook.message =
+          errorMessage || this.$t('INTEGRATION.DELETE.API.ERROR_MESSAGE');
       } finally {
         this.deleteHook.showLoading = false;
         this.showAlert(this.deleteHook.message);

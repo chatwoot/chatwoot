@@ -11,7 +11,7 @@
             {{ hookHeader }}
           </th>
           <th v-if="checkHookTypeIsInbox">
-            Inbox
+            {{ $t('INTEGRATION.LIST.INBOX') }}
           </th>
         </thead>
         <tbody>
@@ -34,7 +34,7 @@
                 class-names="grey-btn"
                 @click="deleteHook(hook)"
               >
-                Delete
+                {{ $t('INTEGRATION.LIST.DELETE.BUTTON_TEXT') }}
               </woot-button>
             </td>
           </tr>
@@ -97,9 +97,6 @@ export default {
     },
     emptyMessage() {
       return `There are no ${this.integration.id}s configured for this account.`;
-    },
-    loadingMessage() {
-      return `Fetching hooks`;
     },
   },
   methods: {

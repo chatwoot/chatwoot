@@ -22,8 +22,8 @@
           )
         "
       >
-        <woot-button>
-          Configure
+        <woot-button icon="ion-gear-b">
+          {{ $t('INTEGRATION.CONFIGURE') }}
         </woot-button>
       </router-link>
     </div>
@@ -67,8 +67,8 @@ export default {
     }),
     labelText() {
       return this.integrationEnabled
-        ? this.$t('CAMPAIGN.LIST.STATUS.ENABLED')
-        : this.$t('CAMPAIGN.LIST.STATUS.DISABLED');
+        ? this.$t('INTEGRATION.STATUS.ENABLED')
+        : this.$t('INTEGRATION.STATUS.DISABLED');
     },
     labelColor() {
       return this.integrationEnabled ? 'success' : 'secondary';

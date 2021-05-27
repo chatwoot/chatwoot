@@ -4,7 +4,7 @@
       <div class="empty-wrapper">
         <woot-loading-state
           v-if="uiFlags.isFetching"
-          message="Fetching Integrations"
+          :message="$t('INTEGRATION.FETCHING')"
         />
       </div>
 

@@ -15,7 +15,7 @@ export default {
             ? { name: 'settings_applications' }
             : '';
         return {
-          headerTitle: 'Applications',
+          headerTitle: 'INTEGRATION.HEADER',
           icon: 'ion-asterisk',
           showBackButton,
           backUrl,
