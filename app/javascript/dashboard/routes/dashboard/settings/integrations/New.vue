@@ -44,7 +44,6 @@
 </template>
 
 <script>
-/* global bus */
 import { required, url, minLength } from 'vuelidate/lib/validators';
 
 import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
