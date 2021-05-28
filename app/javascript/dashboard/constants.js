@@ -11,3 +11,4 @@ export default {
     BOT: 'bot',
   },
 };
+export const DEFAULT_REDIRECT_URL = '/app/';

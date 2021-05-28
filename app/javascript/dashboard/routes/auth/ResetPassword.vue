@@ -71,7 +71,6 @@ export default {
             successMessage = res.data.message;
           }
           this.showAlert(successMessage);
-          window.location = frontendURL('login');
         })
         .catch(error => {
           let errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');

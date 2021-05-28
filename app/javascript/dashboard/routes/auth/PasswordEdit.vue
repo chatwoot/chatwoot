@@ -50,6 +50,7 @@ import { required, minLength } from 'vuelidate/lib/validators';
 import Auth from '../../api/auth';
 
 import WootSubmitButton from '../../components/buttons/FormSubmitButton';
+import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 export default {
   components: {
@@ -79,7 +80,7 @@ export default {
     // If url opened without token
     // redirect to login
     if (!this.resetPasswordToken) {
-      window.location = '/';
+      window.location = DEFAULT_REDIRECT_URL;
     }
   },
   validations: {
@@ -116,7 +117,7 @@ export default {
       Auth.setNewPassword(credentials)
         .then(res => {
           if (res.status === 200) {
-            window.location = '/';
+            window.location = DEFAULT_REDIRECT_URL;
           }
         })
         .catch(() => {
