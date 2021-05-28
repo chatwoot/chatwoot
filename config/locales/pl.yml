@@ -17,56 +17,65 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 pl:
-  hello: "Witaj świat"
+  hello: "Witaj świecie"
   messages:
     reset_password_success: Woot! Prośba o zresetowanie hasła zakończona pomyślnie. Sprawdź swoją pocztę, aby uzyskać instrukcje.
-    reset_password_failure: Uh ho! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
+    reset_password_failure: Ups! Nie mogliśmy znaleźć żadnego użytkownika z podanym adresem e-mail.
   errors:
     signup:
-      disposable_email: Nie zezwalamy na jednorazowe wiadomości e-mail
+      disposable_email: Nie zezwalamy na jednorazowe konta e-mail
       invalid_email: Wprowadzono nieprawidłowy adres e-mail
-      email_already_exists: "Już zarejestrowałeś konto w %{email}"
+      email_already_exists: "Już zarejestrowałeś się na konto %{email}"
       failed: Rejestracja nie powiodła się
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Okres raportowania od %{since} do %{until}
+    agent_csv:
+      agent_name: Nazwa agenta
+      conversations_count: Liczba rozmów
+      avg_first_response_time: Średni czas pierwszej odpowiedzi (minuty)
+      avg_resolution_time: Średni czas do rozwiązania problemu (minuty)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Nowa rozmowa] - #%{display_id} został utworzony w %{inbox_name}"
+      conversation_assignment: "[Przypisane do Ciebie] - #%{display_id} został przypisany do Ciebie"
+      assigned_conversation_new_message: "[Nowa wiadomość] - #%{display_id} %{content}"
+      conversation_mention: "Zostałeś wspomniany w konwersacji [ID - %{display_id}] przez %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Ta wiadomość została usunięta
     activity:
       status:
         resolved: "Rozmowa została oznaczona przez %{user_name}"
         open: "Rozmowa została ponownie otwarta przez %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        bot: "Rozmowa została przeniesiona do bota przez %{user_name}"
+        auto_resolved: "Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} przypisał się do tej rozmowy"
         assigned: "Przypisane do %{assignee_name} przez %{user_name}"
         removed: "Rozmowa nieprzypisana przez %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Przydzielone do %{team_name} przez %{user_name}"
+        assigned_with_assignee: "Przypisano do %{assignee_name} przez %{team_name} przez %{user_name}"
+        removed: "Usunięto przydzielenie do %{team_name} przez %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} dodał/a %{labels}"
+        removed: "%{user_name} usunął/a %{labels}"
+      muted: "%{user_name} wyciszył/a rozmowę"
+      unmuted: "%{user_name} cofnął wyciszenie rozmowy"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Daj drużynie możliwość dotarcia do Ciebie."
+      greeting_message_body: "%{account_name} zazwyczaj odpowiada w ciągu kilku godzin."
+      ways_to_reach_you_message_body: "Daj zespołowi możliwość dotarcia do Ciebie."
       email_input_box_message_body: "Otrzymuj powiadomienia przez e-mail"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Nowe wiadomości w tej dyskusji"
+      transcript_subject: "Transkrypcja rozmowy"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack to narzędzie czatu, które łączy całą Twoją komunikację w jednym miejscu. Integrując Slack, możesz otrzymywać powiadomienia o wszystkich nowych rozmowach na swoim koncie bezpośrednio wewnątrz Slack."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhooki"
+      description: "Webhooki dostarczają informacji o tym, co dzieje się na Twoim koncie do usług zewnętrznych. Możesz wykorzystać webhooki do przekazywania wydarzeń do ulubionych aplikacji, takich jak Slack lub Github. Kliknij na Konfiguruj, aby skonfigurować webhooki."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

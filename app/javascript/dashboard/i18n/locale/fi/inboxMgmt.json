@@ -194,6 +194,7 @@
       "TITLE": "Postilaatikkosi on valmis!",
       "MESSAGE": "Voit nyt sitoutua asiakkaisiisi uuden kanavan kautta. Hyvää asiakaspalveluhenkeä! ",
       "BUTTON_TEXT": "Vie minut sinne",
+      "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Olet onnistuneesti lisännyt sivuston chat-widgetin. Kopioi alla näkyvä koodi ja liitä se verkkosivuillesi. Seuraavalla kerralla kun asiakas käyttää live-keskustelua, keskustelu ilmestyy automaattisesti saapuneet-kansioon."
     },
     "REAUTH": "Uudelleenvaltuuta",
@@ -226,6 +227,7 @@
       "SETTINGS": "Asetukset",
       "COLLABORATORS": "Yhteistyökumppanit",
       "CONFIGURATION": "Määritykset",
+      "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours"
     },

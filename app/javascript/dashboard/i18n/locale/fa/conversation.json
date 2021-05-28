@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
     "LAST_INCOMING_TWEET": "شما در حال پاسخ به آخرین توییت ورودی هستید",
     "REPLYING_TO": "شما در حال پاسخ دادن به:",
     "REMOVE_SELECTION": "حذف انتخاب‌شده‌ها",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
       "REOPEN_ACTION": "دوباره باز کنید",
+      "OPEN_ACTION": "باز",
       "OPEN": "بیشتر",
       "CLOSE": "بستن",
       "DETAILS": "جزئیات"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "با ربات باز کنید"
     },
     "FOOTER": {
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
@@ -52,6 +58,7 @@
     "CHANGE_STATUS": "وضعیت گفتگو تغییر کرد",
     "CHANGE_AGENT": "مسول گفتگو تغییر کرد",
     "CHANGE_TEAM": "Conversation team changed",
+    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
     "SENT_BY": "ارسال شده توسط:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "انتخاب ایجنت",

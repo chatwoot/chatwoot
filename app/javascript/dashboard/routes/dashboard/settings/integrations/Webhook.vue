@@ -1,12 +1,14 @@
 <template>
   <div class="row content-box full-height">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-add-circle"
       @click="openAddPopup()"
     >
-      <i class="icon ion-android-add-circle"></i>
       {{ $t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT') }}
-    </button>
+    </woot-button>
+
     <div class="row">
       <div class="small-8 columns">
         <p
@@ -41,14 +43,14 @@
               </td>
               <td class="button-wrapper">
                 <div @click="openDeletePopup(webHookItem, index)">
-                  <woot-submit-button
-                    :button-text="
-                      $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-                    "
-                    :loading="loading[webHookItem.id]"
-                    icon-class="ion-close-circled"
-                    button-class="link hollow grey-btn"
-                  />
+                  <woot-button
+                    :is-loading="loading[webHookItem.id]"
+                    icon="ion-close-circled"
+                    variant="link"
+                    color-scheme="secondary"
+                  >
+                    {{ $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT') }}
+                  </woot-button>
                 </div>
               </td>
             </tr>

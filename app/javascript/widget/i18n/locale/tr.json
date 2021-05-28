@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Çevrimiçi",
-    "OFFLINE": "Çevrimdışı"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Görüşmeyi Başlatın",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Yeni mesajları gör",
-    "CLOSE_MESSAGES_BUTTON": "Kapat"
+    "CLOSE_MESSAGES_BUTTON": "Kapat",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Sohbet et"
@@ -48,5 +50,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

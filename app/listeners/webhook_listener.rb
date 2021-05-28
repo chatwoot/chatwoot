@@ -1,4 +1,5 @@
 class WebhookListener < BaseListener
+  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
@@ -6,7 +7,15 @@ class WebhookListener < BaseListener
     deliver_webhook_payloads(payload, inbox)
   end
 
+  # FIXME: deprecate the opened and resolved events in future in favor of status changed event.
   def conversation_opened(event)
+    conversation = extract_conversation_and_account(event)[0]
+    inbox = conversation.inbox
+    payload = conversation.webhook_data.merge(event: __method__.to_s)
+    deliver_webhook_payloads(payload, inbox)
+  end
+
+  def conversation_status_changed(event)
     conversation = extract_conversation_and_account(event)[0]
     inbox = conversation.inbox
     payload = conversation.webhook_data.merge(event: __method__.to_s)
@@ -50,7 +59,9 @@ class WebhookListener < BaseListener
       WebhookJob.perform_later(webhook.url, payload)
     end
 
-    # Deliver for API Inbox
-    WebhookJob.perform_later(inbox.channel.webhook_url, payload) if inbox.channel_type == 'Channel::Api'
+    return unless inbox.channel_type == 'Channel::Api'
+    return if inbox.channel.webhook_url.blank?
+
+    WebhookJob.perform_later(inbox.channel.webhook_url, payload)
   end
 end

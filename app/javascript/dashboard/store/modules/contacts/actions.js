@@ -6,12 +6,12 @@ import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 
 export const actions = {
-  search: async ({ commit }, { search, page }) => {
+  search: async ({ commit }, { search, page, sortAttr }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.search(search, page);
+      } = await ContactAPI.search(search, page, sortAttr);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -21,12 +21,12 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1 } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page);
+      } = await ContactAPI.get(page, sortAttr);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -80,6 +80,26 @@ export const actions = {
       } else {
         throw new Error(error);
       }
+    }
+  },
+
+  fetchContactableInbox: async ({ commit }, id) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: true });
+    try {
+      const response = await ContactAPI.getContactableInboxes(id);
+      const contact = {
+        id,
+        contactableInboxes: response.data.payload,
+      };
+      commit(types.SET_CONTACT_ITEM, contact);
+    } catch (error) {
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      } else {
+        throw new Error(error);
+      }
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingInboxes: false });
     }
   },
 

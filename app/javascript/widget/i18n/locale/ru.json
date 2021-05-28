@@ -9,8 +9,8 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Мы онлайн",
-    "OFFLINE": "Мы оффлайн"
+    "ONLINE": "Мы в сети",
+    "OFFLINE": "В данный момент мы отсутствуем"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Начать диалог",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Посмотреть новые сообщения",
-    "CLOSE_MESSAGES_BUTTON": "Закрыть"
+    "CLOSE_MESSAGES_BUTTON": "Закрыть",
+    "COMPANY_FROM": "от",
+    "BOT": "Бот"
   },
   "BUBBLE": {
     "LABEL": "Пообщайтесь с нами"
@@ -48,5 +50,6 @@
         "ERROR": "Сообщение слишком короткое"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "Превышен размер загружаемого файла - {MAXIMUM_FILE_UPLOAD_SIZE}"
 }

@@ -23,6 +23,14 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def assignable_agents?
+    true
+  end
+
+  def campaigns?
+    @account_user.administrator?
+  end
+
   def create?
     @account_user.administrator?
   end

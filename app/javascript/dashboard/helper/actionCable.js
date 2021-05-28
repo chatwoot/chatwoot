@@ -4,14 +4,14 @@ import { newMessageNotification } from 'shared/helpers/AudioNotificationHelper';
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
-    super(app, pubsubToken);
+    const { websocketURL = '' } = window.chatwootConfig || {};
+    super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.created': this.onConversationCreated,
-      'conversation.opened': this.onStatusChange,
-      'conversation.resolved': this.onStatusChange,
+      'conversation.status_changed': this.onStatusChange,
       'user:logout': this.onLogout,
       'page:reload': this.onReload,
       'assignee.changed': this.onAssigneeChanged,

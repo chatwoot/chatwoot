@@ -12,12 +12,10 @@
     "INITIATED_FROM": "启动自：",
     "INITIATED_AT": "发起于",
     "IP_ADDRESS": "IP 地址",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"
-    },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "自定义属性"
     },
     "LABELS": {
       "TITLE": "对话标记",
@@ -27,11 +25,17 @@
         "INACTIVE_LABELS": "账户中可用的标签",
         "REMOVE": "点击 X 图标删除标签",
         "ADD": "点击 + 图标添加标签",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "更新标签",
         "UPDATE_ERROR": "无法更新标签，请重试。"
       },
       "NO_LABELS_TO_ADD": "帐户中没有更多标签。",
-      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。"
+      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Mute Conversation",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -71,7 +75,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Enter the phone number of the contact",
-        "LABEL": "电话号码"
+        "LABEL": "电话号码",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Enter the location of the contact",
@@ -104,6 +110,30 @@
     "CONTACT_ALREADY_EXIST": "This email address is in use for another contact.",
     "ERROR_MESSAGE": "出现错误，请重试"
   },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "取消",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
     "SEARCH_BUTTON": "搜索",
@@ -123,6 +153,40 @@
         "EMAIL_ADDRESS": "电子邮件地址"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "自定义属性",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "取消",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

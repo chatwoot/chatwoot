@@ -11,7 +11,7 @@
       "TITLE": "Procurar mensagens",
       "LOADING_MESSAGE": "Preparando dados...",
       "PLACEHOLDER": "Digite qualquer texto para pesquisar mensagens",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Nenhum resultado encontrado."
     },
     "UNREAD_MESSAGES": "Mensagens não lidas",
     "UNREAD_MESSAGE": "Mensagem não lida",
@@ -20,6 +20,8 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
+    "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "LAST_INCOMING_TWEET": "Você está respondendo ao último tweet recebido",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover Seleção",
@@ -29,9 +31,13 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
+      "OPEN_ACTION": "Abertas",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes"
+    },
+    "RESOLVE_DROPDOWN": {
+      "OPEN_BOT": "Abra com bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter para nova linha. Digite '/' para atalhos.",
@@ -51,7 +57,8 @@
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
     "CHANGE_STATUS": "Estado da conversa mudou",
     "CHANGE_AGENT": "Responsável da conversa alterado",
-    "CHANGE_TEAM": "Conversation team changed",
+    "CHANGE_TEAM": "Estado da conversa mudou",
+    "FILE_SIZE_LIMIT": "O arquivo excede o limite de anexos {MAXIMUM_FILE_UPLOAD_SIZE}",
     "SENT_BY": "Enviado por:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Selecione Agente",
@@ -78,34 +85,34 @@
   },
   "ONBOARDING": {
     "TITLE": "Olá, 👋. Bem-vindo ao %{installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of %{installationName}. Here are a few things you can do in %{installationName} to make the experience delightful.",
+    "DESCRIPTION": "Obrigado por se inscrever. Queremos que você aproveite o máximo de %{installationName}. Aqui estão algumas coisas que você consegue fazer no(a) %{installationName} para que tenha uma experiência agradável.",
     "READ_LATEST_UPDATES": "Leia as últimas atualizações",
     "ALL_CONVERSATION": {
       "TITLE": "Todas as suas conversas em um só lugar",
-      "DESCRIPTION": "View all the conversations from your customers in one single dashboard. You can filter the conversations by the incoming channel, label and status."
+      "DESCRIPTION": "Veja todas as conversas dos seus clientes em um único painel. Você pode filtrar as conversas pelo canal de entrada, rótulo e status."
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email address to the agent list.",
-      "NEW_LINK": "Click here to invite a team member"
+      "TITLE": "Convidar membros da sua equipe",
+      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando o endereço de e-mail deles na lista de agentes.",
+      "NEW_LINK": "Clique aqui para convidar um membro da equipe"
     },
     "INBOXES": {
       "TITLE": "Conectar caixas de entrada",
-      "DESCRIPTION": "Connect various channels through which your customers would be talking to you. It can be a website live-chat, your Facebook or Twitter page or even your WhatsApp number.",
+      "DESCRIPTION": "Conecte vários canais através dos quais seus clientes estariam conversando com você. Podendo ser a partir de um chat ao vivo no seu website, sua página do Facebook ou Twitter ou até mesmo seu número do WhatsApp.",
       "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "LABELS": {
-      "TITLE": "Organize conversations with labels",
-      "DESCRIPTION": "Labels provide an easier way to categorize your conversation. Create some labels like #support-enquiry, #billing-question etc., so that you can use them in a conversation later.",
-      "NEW_LINK": "Click here to create tags"
+      "TITLE": "Organizar conversas com marcadores",
+      "DESCRIPTION": "Etiquetas fornecem uma forma mais fácil de organizar a sua conversa. Criar algumas estiquetas como #solicitação-suporte, #fatura-assunto etc., assim você poderá futuramente utiliza-las em uma conversa posteriormente.",
+      "NEW_LINK": "Clique aqui para criar marcadores"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "DETAILS_TITLE": "Detalhes das conversas",
+    "ASSIGNEE_LABEL": "Agente atribuído",
+    "TEAM_LABEL": "Equipe Atribuída",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Nenhuma"
     }
   }
 }

@@ -7,6 +7,7 @@
       :columns="columns"
       :table-data="tableData"
       :border-around="false"
+      :sort-option="sortOption"
     />
 
     <empty-state
@@ -57,37 +58,81 @@ export default {
       type: [String, Number],
       default: '',
     },
+    sortParam: {
+      type: String,
+      default: 'name',
+    },
+    sortOrder: {
+      type: String,
+      default: 'asc',
+    },
   },
   data() {
     return {
-      columns: [
+      sortConfig: {},
+      sortOption: {
+        sortAlways: true,
+        sortChange: params => this.$emit('on-sort-change', params),
+      },
+    };
+  },
+  computed: {
+    tableData() {
+      if (this.isLoading) {
+        return [];
+      }
+      return this.contacts.map(item => {
+        // Note: The attributes used here is in snake case
+        // as it simplier the sort attribute calculation
+        const additional = item.additional_attributes || {};
+        const { last_activity_at: lastActivityAt } = item;
+        return {
+          ...item,
+          phone_number: item.phone_number || '---',
+          company: additional.company_name || '---',
+          location: additional.location || '---',
+          profiles: additional.social_profiles || {},
+          city: additional.city || '---',
+          country: additional.country || '---',
+          conversations_count: item.conversations_count || '---',
+          last_activity_at: lastActivityAt
+            ? this.dynamicTime(lastActivityAt)
+            : '---',
+        };
+      });
+    },
+    columns() {
+      return [
         {
           field: 'name',
           key: 'name',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.NAME'),
           fixed: 'left',
           align: 'left',
+          sortBy: this.sortConfig.name || '',
           width: 300,
           renderBodyCell: ({ row }) => (
-            <button
-              class="row--user-block cursor-pointer"
+            <woot-button
+              variant="clear"
               onClick={() => this.onClickContact(row.id)}
             >
-              <Thumbnail
-                src={row.thumbnail}
-                size="36px"
-                username={row.name}
-                status={row.availability_status}
-              />
-              <div>
-                <h6 class="sub-block-title user-name text-truncate">
-                  {row.name}
-                </h6>
-                <button class="button clear small">
-                  {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
-                </button>
+              <div class="row--user-block">
+                <Thumbnail
+                  src={row.thumbnail}
+                  size="32px"
+                  username={row.name}
+                  status={row.availability_status}
+                />
+                <div class="user-block">
+                  <h6 class="sub-block-title user-name text-truncate">
+                    {row.name}
+                  </h6>
+                  <span class="button clear small link">
+                    {this.$t('CONTACTS_PAGE.LIST.VIEW_DETAILS')}
+                  </span>
+                </div>
               </div>
-            </button>
+            </woot-button>
           ),
         },
         {
@@ -95,6 +140,7 @@ export default {
           key: 'email',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.EMAIL_ADDRESS'),
           align: 'left',
+          sortBy: this.sortConfig.email || '',
           width: 240,
           renderBodyCell: ({ row }) => {
             if (row.email)
@@ -113,8 +159,9 @@ export default {
           },
         },
         {
-          field: 'phone',
-          key: 'phone',
+          field: 'phone_number',
+          key: 'phone_number',
+          sortBy: this.sortConfig.phone_number || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.PHONE_NUMBER'),
           align: 'left',
         },
@@ -167,8 +214,9 @@ export default {
           },
         },
         {
-          field: 'lastSeen',
-          key: 'lastSeen',
+          field: 'last_activity_at',
+          key: 'last_activity_at',
+          sortBy: this.sortConfig.last_activity_at || '',
           title: this.$t('CONTACTS_PAGE.LIST.TABLE_HEADER.LAST_ACTIVITY'),
           align: 'left',
         },
@@ -179,29 +227,23 @@ export default {
           width: 150,
           align: 'left',
         },
-      ],
-    };
+      ];
+    },
   },
-  computed: {
-    tableData() {
-      if (this.isLoading) {
-        return [];
-      }
-      return this.contacts.map(item => {
-        const additional = item.additional_attributes || {};
-        const { last_seen_at: lastSeenAt } = item;
-        return {
-          ...item,
-          phone: item.phone_number || '---',
-          company: additional.company_name || '---',
-          location: additional.location || '---',
-          profiles: additional.social_profiles || {},
-          city: additional.city || '---',
-          country: additional.country || '---',
-          conversationsCount: item.conversations_count || '---',
-          lastSeen: lastSeenAt ? this.dynamicTime(lastSeenAt) : '---',
-        };
-      });
+  watch: {
+    sortOrder() {
+      this.setSortConfig();
+    },
+    sortParam() {
+      this.setSortConfig();
+    },
+  },
+  mounted() {
+    this.setSortConfig();
+  },
+  methods: {
+    setSortConfig() {
+      this.sortConfig = { [this.sortParam]: this.sortOrder };
     },
   },
 };
@@ -225,6 +267,10 @@ export default {
     display: flex;
     text-align: left;
 
+    .user-block {
+      min-width: 0;
+    }
+
     .user-thumbnail-box {
       margin-right: var(--space-small);
     }
@@ -245,11 +291,14 @@ export default {
   }
 
   .ve-table-body-td {
-    padding: var(--space-slab) var(--space-two) !important;
+    padding: var(--space-small) var(--space-two) !important;
   }
 
   .ve-table-header-th {
     font-size: var(--font-size-mini) !important;
+  }
+  .ve-table-sort {
+    top: -4px;
   }
 }
 

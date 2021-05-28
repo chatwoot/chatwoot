@@ -3,6 +3,8 @@
     "LINK": "프로필 설정",
     "TITLE": "프로필 설정",
     "BTN_TEXT": "프로필 업데이트",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "프로필이 성공적으로 업데이트되었습니다. 로그인 자격 증명이 변경된 경우 다시 로그인하십시오.",
     "FORM": {
       "AVATAR": "프로필 이미지",
@@ -16,11 +18,17 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "비밀번호",
-        "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다."
+        "NOTE": "암호를 업데이트하면 여러 장치의 로그인이 재설정됩니다.",
+        "BTN_TEXT": "Change password"
       },
       "ACCESS_TOKEN": {
         "TITLE": "엑세스 토큰",
         "NOTE": "API 기반 통합을 구축하는 경우 이 토큰을 사용할 수 있음"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "음성 알림",
+        "NOTE": "대시보드에서 새 메시지 및 대화에 대한 오디오 알림을 활성화합니다.",
+        "ENABLE_AUDIO": "새 대화가 생성되거나 새 메시지가 도착할 때 오디오 알림 재생"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "이메일 알림",
@@ -120,12 +128,12 @@
     "HOME": "홈",
     "AGENTS": "에이전트",
     "INBOXES": "받은 메시지함",
-    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS": "알림",
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
     "ACCOUNT_SETTINGS": "계정 설정",
     "LABELS": "라벨",
-    "TEAMS": "Teams"
+    "TEAMS": "팀"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "새 계정",

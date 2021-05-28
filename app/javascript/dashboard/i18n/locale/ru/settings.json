@@ -3,6 +3,8 @@
     "LINK": "Настройки профиля",
     "TITLE": "Настройки профиля",
     "BTN_TEXT": "Обновить профиль",
+    "UPDATE_SUCCESS": "Ваши данные успешно обновлены",
+    "PASSWORD_UPDATE_SUCCESS": "Ваш пароль успешно изменен",
     "AFTER_EMAIL_CHANGED": "Ваш профиль был успешно обновлен, пожалуйста, войдите снова, так как ваши учетные данные были изменены",
     "FORM": {
       "AVATAR": "Изображение",
@@ -16,18 +18,24 @@
       },
       "PASSWORD_SECTION": {
         "TITLE": "Пароль",
-        "NOTE": "Обновление пароля сбросит вашу авторизацию на всех устройствах."
+        "NOTE": "Обновление пароля сбросит вашу авторизацию на всех устройствах.",
+        "BTN_TEXT": "Изменить пароль"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Токен доступа",
         "NOTE": "Этот токен может быть использован, если вы настраиваете интеграцию на основе API"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Звуковые уведомления",
+        "NOTE": "Включить звуковые уведомления в панели управления для новых сообщений и разговоров.",
+        "ENABLE_AUDIO": "Воспроизводить звуковое уведомление при создании новой беседы или получении новых сообщений"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Уведомления",
         "NOTE": "Настраивайте email уведомления здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять email уведомление, когда мне назначен диалог",
         "CONVERSATION_CREATION": "Отправлять email уведомление, когда новый диалог создан",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Отправлять email уведомление, когда вас упоминают в диалоге",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять email уведомления при создании нового сообщения в назначенном диалоге"
       },
       "API": {
@@ -39,7 +47,7 @@
         "NOTE": "Редактируйте настройки push-уведомлений здесь",
         "CONVERSATION_ASSIGNMENT": "Отправлять push уведомление при назначении мне диалога",
         "CONVERSATION_CREATION": "Отправлять push уведомление, когда новый диалог создан",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "CONVERSATION_MENTION": "Отправлять уведомления при упоминании в разговоре",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Отправлять push уведомления при создании нового сообщения в назначенном диалоге",
         "HAS_ENABLED_PUSH": "Вы включили push уведомления для этого браузера.",
         "REQUEST_PUSH": "Включить push-уведомления"

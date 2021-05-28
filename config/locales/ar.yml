@@ -28,34 +28,40 @@ ar:
       email_already_exists: "لقد قمت بالفعل بتسجيل حساب سابقاً بالعنوان %{email}"
       failed: فشلت عملية التسجيل
   reports:
-    period: Reporting period %{since} to %{until}
+    period: فترة التبليغ %{since} إلى %{until}
+    agent_csv:
+      agent_name: Agent name
+      conversations_count: Conversations count
+      avg_first_response_time: Avg first response time (Minutes)
+      avg_resolution_time: Avg resolution time (Minutes)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[محادثة جديدة] - #%{display_id} تم إنشاؤها في %{inbox_name}"
+      conversation_assignment: "[تعيين لك] - #%{display_id} تم تعيينه لك"
+      assigned_conversation_new_message: "[رسالة جديدة] - #%{display_id} %{content}"
+      conversation_mention: "تمت الإشارة إليك في المحادثة [ID - %{display_id}] من قبل %{name}"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: تم حذف هذه الرسالة
     activity:
       status:
         resolved: "تم تحديث حالة المحادثة لـ\"مغلقة\" بواسطة %{user_name}"
         open: "تم إعادة فتح المحادثة بواسطة %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        bot: "Conversation was transferred to bot by %{user_name}"
+        auto_resolved: "تم وضع علامة على المحادثة كمحلولة من قبل بالنظام بسبب %{duration} أيام من عدم النشاط"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} تم تعيينه تلقائياً لهذه المحادثة"
         assigned: "تم إسنادها إلى %{assignee_name} بواسطة %{user_name}"
         removed: "المحادثة غير مسندة بواسطة %{user_name}"
       team:
         assigned: "تم إسنادها إلى %{team_name} بواسطة %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "تم تعيينه إلى %{assignee_name} عبر %{team_name} بواسطة %{user_name}"
+        removed: "إلغاء التعيين من %{team_name} بواسطة %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} أضاف %{labels}"
+        removed: "%{user_name} أزال %{labels}"
+      muted: "%{user_name} كتم صوت المحادثة"
+      unmuted: "%{user_name} قام بإلغاء كتم المحادثة"
     templates:
       greeting_message_body: "%{account_name} يرد عادة خلال بضع ساعات."
       ways_to_reach_you_message_body: "زودنا بوسيلة للتواصل معك."
@@ -66,7 +72,10 @@ ar:
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack هي أداة دردشة تجمع كل اتصالاتك معا في مكان واحد. من خلال دمج Slack، يمكنك الحصول على إشعار بجميع المحادثات الجديدة في حسابك مباشرة داخل Slack."
     webhooks:
-      name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      name: "Webhook"
+      description: "أحداث Webhook توفر لك معلومات في الوقت الحقيقي حول ما يحدث في حساب Chatwoot الخاص بك. يمكنك استخدام خاصية الـ Webhook لإيصال الأحداث إلى تطبيقاتك المفضلة مثل Slack أو Github. انقر على \"تهيئة\" لإعداد الـ Webhooks الخاصة بك."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

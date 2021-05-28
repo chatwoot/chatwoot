@@ -32,13 +32,14 @@
         <span class="spinner"></span>
       </div>
 
-      <div
+      <woot-button
         v-if="!hasCurrentPageEndReached && !chatListLoading"
-        class="clear button load-more-conversations"
+        variant="clear"
+        size="expanded"
         @click="fetchConversations"
       >
         {{ $t('CHAT_LIST.LOAD_MORE_CONVERSATIONS') }}
-      </div>
+      </woot-button>
 
       <p
         v-if="
@@ -116,7 +117,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.activeInbox);
     },
     currentPage() {
-      return this.$store.getters['conversationPage/getCurrentPage'](
+      return this.$store.getters['conversationPage/getCurrentPageFilter'](
         this.activeAssigneeTab
       );
     },
@@ -199,6 +200,7 @@ export default {
     },
     updateAssigneeTab(selectedTab) {
       if (this.activeAssigneeTab !== selectedTab) {
+        bus.$emit('clearSearchInput');
         this.activeAssigneeTab = selectedTab;
         if (!this.currentPage) {
           this.fetchConversations();
@@ -216,7 +218,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/app.scss';
+@import '~dashboard/assets/scss/woot';
 .spinner {
   margin-top: var(--space-normal);
   margin-bottom: var(--space-normal);

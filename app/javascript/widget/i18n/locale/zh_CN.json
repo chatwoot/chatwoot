@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "在线",
-    "OFFLINE": "离线"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "开始会话",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
-    "CLOSE_MESSAGES_BUTTON": "关闭"
+    "CLOSE_MESSAGES_BUTTON": "关闭",
+    "COMPANY_FROM": "from",
+    "BOT": "机器人"
   },
   "BUBBLE": {
     "LABEL": "联系我们"
@@ -48,5 +50,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

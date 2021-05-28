@@ -76,7 +76,6 @@
 
     .status--filter {
       @include padding($zero null $zero $space-normal);
-      @include round-corner;
       @include margin($space-smaller $space-slab $zero $zero);
       background-color: $color-background-light;
       border: 1px solid $color-border;
@@ -132,7 +131,6 @@
 
   .bubble {
     @include bubble-with-types;
-    max-width: 50rem;
     text-align: left;
     word-wrap: break-word;
 
@@ -230,9 +228,15 @@
     }
   }
 
+  &.center {
+    justify-content: center;
+  }
+
   .wrap {
     @include margin($zero $space-normal);
-    max-width: 69%;
+
+    --bubble-max-width: 49.6rem;
+    max-width: Min(var(--bubble-max-width), 85%);
 
     .sender--name {
       font-size: $font-size-mini;
@@ -258,17 +262,12 @@
     margin: var(--space-small) var(--space-normal);
     padding: var(--space-small) var(--space-normal);
 
-    @include breakpoint(xlarge up) {
-      margin: var(--space-small) auto;
-    }
-
     .is-text {
       display: inline-block;
       text-align: start;
 
-      @include breakpoint(xlarge up) {
+      @include breakpoint(xxxlarge up) {
         display: flex;
-        text-align: center;
       }
     }
   }

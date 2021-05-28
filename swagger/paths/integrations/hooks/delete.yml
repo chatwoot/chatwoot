@@ -1,0 +1,15 @@
+tags:
+  -  Integrations
+operationId: delete-an-integration-hook
+summary: Delete an Integration Hook
+description: Delete an Integration Hook
+parameters:
+  - $ref: '#/parameters/account_id'
+  - $ref: '#/parameters/hook_id'
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The hook does not exist in the account

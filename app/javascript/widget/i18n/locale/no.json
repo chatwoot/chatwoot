@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er pålogget",
-    "OFFLINE": "Vi er frakoblet"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer vanligvis innen et par timer",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Start samtale",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye meldinger",
-    "CLOSE_MESSAGES_BUTTON": "Lukk"
+    "CLOSE_MESSAGES_BUTTON": "Lukk",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chat med oss"
@@ -48,5 +50,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

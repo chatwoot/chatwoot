@@ -17,7 +17,7 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 de:
-  hello: "Hello world"
+  hello: "Hallo Welt"
   messages:
     reset_password_success: Woot! Die Anforderung zum Zurücksetzen des Passworts ist erfolgreich. Überprüfen Sie Ihre E-Mails auf Anweisungen.
     reset_password_failure: Uh ho! Wir konnten keinen Benutzer mit der angegebenen E-Mail-Adresse finden.
@@ -28,45 +28,54 @@ de:
       email_already_exists: "Sie haben sich bereits für ein Konto bei %{email} angemeldet."
       failed: Anmeldung gescheitert
   reports:
-    period: Reporting period %{since} to %{until}
+    period: Berichtszeitraum %{since} bis %{until}
+    agent_csv:
+      agent_name: Agentenname
+      conversations_count: Anzahl Unterhaltungen
+      avg_first_response_time: Durchschnittliche Reaktionszeit (Minuten)
+      avg_resolution_time: Durchschnittliche Auflösungszeit (Minuten)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Neue Unterhaltung] - #%{display_id} wurde in %{inbox_name} erstellt"
+      conversation_assignment: "[Ihnen zugewiesen] - #%{display_id} wurde Ihnen zugewiesen"
+      assigned_conversation_new_message: "[Neue Nachricht] - #%{display_id} %{content}"
+      conversation_mention: "Sie wurden in der Unterhaltung [ID - %{display_id}] von %{name} erwähnt"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: Diese Nachricht wurde gelöscht
     activity:
       status:
         resolved: "Das Gespräch wurde von gelöst gelöst %{user_name}"
         open: "Das Gespräch wurde von wieder eröffnet %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        bot: "Unterhaltung wurde von %{user_name} an Bot übertragen"
+        auto_resolved: "Unterhaltung wurde vom System aufgrund von %{duration} Tagen Inaktivität gelöst"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} hat sich diese Unterhaltung selbst zugewiesen"
         assigned: "%{user_name} von %{assignee_name} zugewiesen"
         removed: "Gespräch nicht zugewiesen von %{user_name}"
       team:
-        assigned: "Assigned to %{team_name} by %{user_name}"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned: "Zugewiesen an %{team_name} von %{user_name}"
+        assigned_with_assignee: "Zugewiesen an %{assignee_name} über %{team_name} von %{user_name}"
+        removed: "Entfernt aus %{team_name} von %{user_name}"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} hat %{labels} hinzugefügt"
+        removed: "%{user_name} hat %{labels} entfernt"
+      muted: "%{user_name} hat die Unterhaltung stumm geschaltet"
+      unmuted: "%{user_name} hat die Unterhaltung laut gestellt"
     templates:
-      greeting_message_body: "%{account_name} Antworten in der Regel in wenigen Stunden."
+      greeting_message_body: "%{account_name} antwortet in der Regel in wenigen Stunden."
       ways_to_reach_you_message_body: "Geben Sie dem Team einen Weg, Sie zu erreichen."
       email_input_box_message_body: "Lassen Sie sich per E-Mail benachrichtigen"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "Neue Nachrichten in dieser Unterhaltung"
+      transcript_subject: "Konversations-Protokoll"
   integration_apps:
     slack:
       name: "Slack"
-      description: "Slack is a chat tool that brings all your communication together in one place. By integrating Slack, you can get notified of all the new conversations in your account right inside your Slack."
+      description: "Slack ist ein Chat-Tool, das all deine Kommunikation an einem Ort zusammenbringt. Durch die Integration von Slack kannst du über alle neuen Unterhaltungen in deinem Account direkt in deinem Slack benachrichtigt werden."
     webhooks:
       name: "Webhooks"
-      description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
+      description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Schließen Sie Ihren Dialogflow-Bot an Ihren Posteingang an. Lassen Sie die Bots die Abfragen bearbeiten, bevor Sie ihn an den Kundendienst-Agent übergeben."

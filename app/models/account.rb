@@ -36,6 +36,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
+  has_many :campaigns, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :messages, dependent: :destroy
   has_many :contacts, dependent: :destroy
@@ -103,5 +104,9 @@ class Account < ApplicationRecord
 
   trigger.after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
+  end
+
+  trigger.name('camp_dpid_before_insert').after(:insert).for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
   end
 end

@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Online vagyunk",
-    "OFFLINE": "Offilne vagyunk"
+    "OFFLINE": "Jelenleg nem vagyunk elérhetőek"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Néhány percen belül válaszol",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Beszélgetés megkezdése",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Új üzenetek",
-    "CLOSE_MESSAGES_BUTTON": "Bezárás"
+    "CLOSE_MESSAGES_BUTTON": "Bezárás",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chatelj velünk"
@@ -48,5 +50,6 @@
         "ERROR": "Az üzenet túl rövid"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_FILE_UPLOAD_SIZE} limitet"
 }

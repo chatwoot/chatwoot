@@ -189,6 +189,34 @@ RSpec.describe 'Contacts API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/contacts/:id/contactable_inboxes' do
+    let!(:contact) { create(:contact, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contactable_inboxes"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'shows the contact' do
+        inbox_service = double
+        allow(Contacts::ContactableInboxesService).to receive(:new).and_return(inbox_service)
+        allow(inbox_service).to receive(:get).and_return({})
+        expect(inbox_service).to receive(:get).and_return({})
+        get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contactable_inboxes",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/contacts' do
     let(:custom_attributes) { { test: 'test', test1: 'test1' } }
     let(:valid_params) { { contact: { name: 'test', custom_attributes: custom_attributes } } }

@@ -29,6 +29,11 @@ pt_BR:
       failed: Registro falhou
   reports:
     period: Reportando o período %{since} a %{until}
+    agent_csv:
+      agent_name: Nome do Agente
+      conversations_count: Contagem de conversas
+      avg_first_response_time: Tempo médio de primeira resposta (minutos)
+      avg_resolution_time: Tempo médio de resolução (minutos)
   notifications:
     notification_title:
       conversation_creation: "[Nova conversa] - #%{display_id} foi criado em %{inbox_name}"
@@ -42,6 +47,7 @@ pt_BR:
       status:
         resolved: "Conversa foi marcada como resolvida por %{user_name}"
         open: "Conversa foi reaberta por %{user_name}"
+        bot: "Conversa foi marcada como resolvida por %{user_name}"
         auto_resolved: "Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade"
       assignee:
         self_assigned: "%{user_name} atribuiu a si mesmo essa conversa"
@@ -70,3 +76,6 @@ pt_BR:
     webhooks:
       name: "Webhooks"
       description: "Webhooks fornecem informações em tempo real sobre o que está acontecendo em sua conta. Você pode usar os webhooks para comunicar eventos com seus aplicativos favoritos como Slack ou Github. Clique em Configurar para configurar seus webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

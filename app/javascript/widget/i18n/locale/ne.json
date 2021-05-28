@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "हामी अनलाइन छौं",
-    "OFFLINE": "हामी अफलाईन छौं"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "धेरै जसो केहि मिनेटमा जवाफ हुन्छ",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "कुराकानी सुरु गर्नुहोस्",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "नयाँ सन्देशहरू हेर्नुहोस्",
-    "CLOSE_MESSAGES_BUTTON": "बन्दा गार्नुहोस्"
+    "CLOSE_MESSAGES_BUTTON": "बन्दा गार्नुहोस्",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "हामीसँग कुराकानी गर्नुहोस्"
@@ -48,5 +50,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

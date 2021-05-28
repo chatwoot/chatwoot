@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Olemme online-tilassa",
-    "OFFLINE": "Olemme offline-tilassa"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Aloita keskustelu",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
-    "CLOSE_MESSAGES_BUTTON": "Sulje"
+    "CLOSE_MESSAGES_BUTTON": "Sulje",
+    "COMPANY_FROM": "from",
+    "BOT": "Botti"
   },
   "BUBBLE": {
     "LABEL": "Keskustele kanssamme"
@@ -48,5 +50,6 @@
         "ERROR": "Message too short"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

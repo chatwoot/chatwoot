@@ -12,12 +12,10 @@
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
     "IP_ADDRESS": "IP Address",
+    "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
       "TITLE": "Cuộc trò chuyện trước đó"
-    },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Thuộc tính tùy chỉnh"
     },
     "LABELS": {
       "TITLE": "Nhãn hội thoại",
@@ -27,11 +25,17 @@
         "INACTIVE_LABELS": "Các nhãn có sẵn trong tài khoản",
         "REMOVE": "Click vào X icon xóa nhãn",
         "ADD": "Click vào + icon thêm nhãn",
+        "ADD_BUTTON": "Add Labels",
         "UPDATE_BUTTON": "Cập nhật nhãn",
         "UPDATE_ERROR": "Không thể cập nhật nhãn, hãy thử lại."
       },
       "NO_LABELS_TO_ADD": "Không có thêm nhãn nào được xác định trong tài khoản.",
-      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này."
+      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này.",
+      "LABEL_SELECT": {
+        "TITLE": "Add Labels",
+        "PLACEHOLDER": "Search labels",
+        "NO_RESULT": "No labels found"
+      }
     },
     "MUTE_CONTACT": "Tắt tiếng cuộc trò chuyện",
     "UNMUTE_CONTACT": "Unmute Conversation",
@@ -71,7 +75,9 @@
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Nhập số điện thoại của liên hệ",
-        "LABEL": "Số điện thoại"
+        "LABEL": "Số điện thoại",
+        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
+        "ERROR": "Phone number should be either empty or of E.164 format"
       },
       "LOCATION": {
         "PLACEHOLDER": "Nhập vị trí của liên hệ",
@@ -104,6 +110,30 @@
     "CONTACT_ALREADY_EXIST": "Địa chỉ email này đang được sử dụng cho một liên hệ khác.",
     "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
   },
+  "NEW_CONVERSATION": {
+    "BUTTON_LABEL": "Start conversation",
+    "TITLE": "New conversation",
+    "DESC": "Start a new conversation by sending a new message.",
+    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "FORM": {
+      "TO": {
+        "LABEL": "To"
+      },
+      "INBOX": {
+        "LABEL": "Inbox",
+        "ERROR": "Select an inbox"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Write your message here",
+        "ERROR": "Message can't be empty"
+      },
+      "SUBMIT": "Send message",
+      "CANCEL": "Huỷ",
+      "SUCCESS_MESSAGE": "Message sent!",
+      "ERROR_MESSAGE": "Couldn't send! try again"
+    }
+  },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
     "SEARCH_BUTTON": "Search",
@@ -123,6 +153,40 @@
         "EMAIL_ADDRESS": "Email"
       },
       "VIEW_DETAILS": "View details"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Notes"
+    },
+    "ADD": {
+      "BUTTON": "Add",
+      "PLACEHOLDER": "Add a note",
+      "TITLE": "Shift + Enter to create a note"
+    },
+    "FOOTER": {
+      "BUTTON": "View all notes"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Thuộc tính tùy chỉnh",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Huỷ",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

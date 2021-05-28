@@ -49,7 +49,6 @@
 </template>
 
 <script>
-/* global bus */
 /* eslint no-console: 0 */
 import { required, minLength } from 'vuelidate/lib/validators';
 

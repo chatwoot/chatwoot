@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Siamo online",
-    "OFFLINE": "Siamo offline"
+    "OFFLINE": "We are away at the moment"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "In genere risponde in pochi minuti",
@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Avvia Conversazione",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
-    "CLOSE_MESSAGES_BUTTON": "Chiudi"
+    "CLOSE_MESSAGES_BUTTON": "Chiudi",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chatta con noi"
@@ -48,5 +50,6 @@
         "ERROR": "Messaggio troppo corto"
       }
     }
-  }
+  },
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
 }

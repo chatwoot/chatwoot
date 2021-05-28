@@ -6,6 +6,7 @@ import authAPI from '../../api/auth';
 import createAxios from '../../helper/APIHelper';
 import actionCable from '../../helper/actionCable';
 import { setUser, getHeaderExpiry, clearCookiesOnLogout } from '../utils/api';
+import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 const state = {
   currentUser: {
@@ -69,7 +70,7 @@ export const actions = {
           commit(types.default.SET_CURRENT_USER);
           window.axios = createAxios(axios);
           actionCable.init(Vue);
-          window.location = '/';
+          window.location = DEFAULT_REDIRECT_URL;
           resolve();
         })
         .catch(error => {
@@ -83,7 +84,7 @@ export const actions = {
       setUser(response.data.payload.data, getHeaderExpiry(response));
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
-      if (error.response.status === 401) {
+      if (error?.response?.status === 401) {
         clearCookiesOnLogout();
       }
     }
