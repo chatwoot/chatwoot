@@ -78,6 +78,9 @@ extended_message:
 
 # REQUEST
 
+agent_bot_create_update_payload:
+  $ref: ./request/agent_bot/create_update_payload.yml
+  
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml
