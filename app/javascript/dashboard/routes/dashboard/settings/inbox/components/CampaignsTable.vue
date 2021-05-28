@@ -44,6 +44,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    onEditClick: {
+      type: Function,
+      default: () => {},
+    },
   },
 
   data() {
@@ -89,7 +93,6 @@ export default {
             return <Label title={labelText} colorScheme={colorScheme} />;
           },
         },
-
         {
           field: 'sender',
           key: 'sender',
@@ -97,7 +100,7 @@ export default {
           align: 'left',
           renderBodyCell: ({ row }) => {
             if (row.sender) return <CampaignSender sender={row.sender} />;
-            return '---';
+            return this.$t('CAMPAIGN.LIST.SENDER.BOT');
           },
         },
         {
@@ -130,14 +133,14 @@ export default {
           key: 'buttons',
           title: '',
           align: 'left',
-          renderBodyCell: () => (
+          renderBodyCell: row => (
             <div class="button-wrapper">
               <WootButton
                 variant="clear"
                 icon="ion-edit"
                 color-scheme="secondary"
-                classNames="hollow grey-btn"
-                click="openEditPopup(label)"
+                classNames="grey-btn"
+                onClick={() => this.onEditClick(row)}
               >
                 {this.$t('CAMPAIGN.LIST.BUTTONS.EDIT')}
               </WootButton>
@@ -152,7 +155,7 @@ export default {
       if (this.isLoading) {
         return [];
       }
-      return this.campaigns.map((item) => {
+      return this.campaigns.map(item => {
         return {
           ...item,
           url: item.trigger_rules.url,

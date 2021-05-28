@@ -16,7 +16,7 @@ RSpec.describe 'Api::V1::Accounts::Integrations::Slacks', type: :request do
     context 'when it is an authenticated user' do
       it 'creates hook' do
         hook_builder = Integrations::Slack::HookBuilder.new(account: account, code: SecureRandom.hex)
-        expect(hook_builder).to receive(:fetch_access_token).and_return(SecureRandom.hex)
+        expect(hook_builder).to receive(:perform).and_return(hook)
         expect(Integrations::Slack::HookBuilder).to receive(:new).and_return(hook_builder)
 
         channel_builder = Integrations::Slack::ChannelBuilder.new(hook: hook, channel: 'channel')

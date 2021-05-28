@@ -19,7 +19,7 @@
       <span
         v-if="showItem(menuItem)"
         class="child-icon ion-android-add-circle"
-        @click.prevent="newLinkClick"
+        @click.prevent="newLinkClick(menuItem)"
       />
     </a>
     <ul v-if="menuItem.hasSubMenu" class="nested vertical menu">
@@ -52,6 +52,11 @@
         </a>
       </router-link>
     </ul>
+    <add-label-modal
+      v-if="showAddLabel"
+      :show.sync="showAddLabel"
+      :on-close="hideAddLabelPopup"
+    />
   </router-link>
 </template>
 
@@ -61,8 +66,17 @@ import { mapGetters } from 'vuex';
 import router from '../../routes';
 import adminMixin from '../../mixins/isAdmin';
 import { getInboxClassByType } from 'dashboard/helper/inbox';
+import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 export default {
+  components: {
+    AddLabelModal,
+  },
   mixins: [adminMixin],
+  data() {
+    return {
+      showAddLabel: false,
+    };
+  },
   props: {
     menuItem: {
       type: Object,
@@ -108,11 +122,23 @@ export default {
       if (!child.truncateLabel) return false;
       return child.label;
     },
-    newLinkClick() {
-      router.push({ name: 'settings_inbox_new', params: { page: 'new' } });
+    newLinkClick(item) {
+      if (item.newLinkRouteName) {
+        router.push({ name: item.newLinkRouteName, params: { page: 'new' } });
+      } else if (item.showModalForNewItem) {
+        if (item.modalName === 'AddLabel') {
+          this.showAddLabelPopup();
+        }
+      }
     },
     showItem(item) {
       return this.isAdmin && item.newLink !== undefined;
+    },
+    showAddLabelPopup() {
+      this.showAddLabel = true;
+    },
+    hideAddLabelPopup() {
+      this.showAddLabel = false;
     },
   },
 };

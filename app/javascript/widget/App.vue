@@ -14,7 +14,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -37,6 +36,7 @@ export default {
     ...mapGetters({
       hasFetched: 'agent/getHasFetched',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      campaigns: 'campaign/getCampaigns',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -73,6 +73,7 @@ export default {
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
+    ...mapActions('campaign', ['startCampaigns']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -153,9 +154,11 @@ export default {
           this.$store.dispatch('contacts/get');
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
-        } else if (message.event === 'set-current-url') {
-          window.referrerURL = message.referrerURL;
-          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, message.referrerHost);
+        } else if (message.event === 'change-url') {
+          const { referrerURL, referrerHost } = message;
+          this.startCampaigns({ currentURL: referrerURL, websiteToken });
+          window.referrerURL = referrerURL;
+          bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
           this.isMobile = message.showClose;
         } else if (message.event === 'push-event') {

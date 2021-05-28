@@ -1,0 +1,14 @@
+tags:
+  - Integrations
+operationId: get-details-of-all-integrations
+summary: List all the Integrations
+description: Get the details of all Integrations available for the account
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/integrations_app'
+  401:
+    description: Unauthorized
+  404:
+    description: Url not found

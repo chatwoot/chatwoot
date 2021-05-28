@@ -31,6 +31,8 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Validate Data against JSON Schema
+gem 'json_schemer'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
@@ -107,6 +109,8 @@ gem 'maxminddb'
 # to create db triggers
 gem 'hairtrigger'
 
+gem 'procore-sift'
+
 group :development do
   gem 'annotate'
   gem 'bullet'
@@ -128,8 +132,6 @@ group :test do
 end
 
 group :development, :test do
-  # locking until https://github.com/codeclimate/test-reporter/issues/418 is resolved
-  gem 'action-cable-testing'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'

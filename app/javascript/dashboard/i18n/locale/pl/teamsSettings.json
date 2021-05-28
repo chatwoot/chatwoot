@@ -15,21 +15,21 @@
       "AGENTS": {
         "BUTTON_TEXT": "Dodaj agentów do zespołu",
         "TITLE": "Dodaj agentów do zespołu - %{teamName}",
-        "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
+        "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie."
       },
       "WIZARD": [
         {
-          "title": "Create",
+          "title": "Stwórz",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "Stwórz nowy zespół agentów."
         },
         {
           "title": "Dodaj agentów",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "Dodaj agentów do zespołu."
         },
         {
-          "title": "Finish",
+          "title": "Zakończ",
           "route": "settings_teams_finish",
           "body": "Wszystko jest gotowe!"
         }
@@ -37,28 +37,28 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "Edytuj dane swojego zespołu",
+        "DESC": "Edytuj tytuł i opis swojego zespołu.",
+        "BUTTON_TEXT": "Aktualizuj zespół"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
+        "BUTTON_TEXT": "Aktualizuj agentów w zespole",
         "TITLE": "Dodaj agentów do zespołu - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Wszyscy dodani agenci zostaną powiadomieni, gdy rozmowa zostanie przypisana do tego zespołu."
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "Szczegóły zespołu",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "Zmień nazwę, opis i inne dane."
         },
         {
-          "title": "Edit Agents",
+          "title": "Edytuj agentów",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "Edytuj agentów w zespole."
         },
         {
-          "title": "Finish",
+          "title": "Zakończ",
           "route": "settings_teams_edit_finish",
           "body": "Wszystko jest gotowe!"
         }
@@ -72,14 +72,14 @@
       "EMAIL": "EMAIL",
       "BUTTON_TEXT": "Dodaj agentów",
       "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
+      "SELECT": "wybierz",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
     },
     "ADD": {
       "TITLE": "Dodaj agentów do zespołu - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
+      "DESC": "Dodaj agentów do swojego nowo utworzonego zespołu. Dzięki temu możesz współpracować jako zespół w rozmowach oraz otrzymywać powiadomienia o nowych wydarzeniach w tej samej rozmowie.",
+      "SELECT": "wybierz",
       "SELECT_ALL": "select all agents",
       "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
       "BUTTON_TEXT": "Dodaj agentów",
@@ -88,7 +88,7 @@
     "FINISH": {
       "TITLE": "Your team is ready!",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "BUTTON_TEXT": "Zakończ"
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
@@ -105,7 +105,7 @@
     },
     "SETTINGS": "Ustawienia",
     "FORM": {
-      "UPDATE": "Update team",
+      "UPDATE": "Aktualizuj zespół",
       "CREATE": "Utwórz zespół",
       "NAME": {
         "LABEL": "Team name",

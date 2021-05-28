@@ -1,25 +1,34 @@
 <template>
-  <div>
-    <woot-button
-      variant="hollow"
-      size="tiny"
-      icon="ion-plus-round"
+  <woot-button variant="link" class="label--add" @click="addLabel">
+    <woot-label
       color-scheme="secondary"
-      @click="toggleLabels"
-    >
-      {{ $t('CONTACT_PANEL.LABELS.MODAL.ADD_BUTTON') }}
-    </woot-button>
-  </div>
+      :title="$t('CONTACT_PANEL.LABELS.MODAL.ADD_BUTTON')"
+      icon="ion-plus-round"
+    />
+  </woot-button>
 </template>
 
 <script>
 export default {
   methods: {
-    toggleLabels() {
+    addLabel() {
       this.$emit('add');
     },
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.label--add {
+  &::v-deep .label {
+    cursor: pointer;
+    background: transparent;
+    border-color: var(--s-700);
+    margin: 0;
+
+    &:hover {
+      background: var(--s-50);
+    }
+  }
+}
+</style>
