@@ -62,7 +62,7 @@ dialogflow:
   visible_properties: ['project_id']
 fullcontact:
   id: fullcontact
-  logo: fullcontact.svg
+  logo: fullcontact.png
   i18n_key: fullcontact
   action: /fullcontact
   hook_type: account
