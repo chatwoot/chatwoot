@@ -47,9 +47,14 @@ export default {
 .item-wrap {
   display: flex;
 
+  ::v-deep .button__content {
+    width: 100%;
+  }
+
   .button-wrap {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 
     &.active {
       display: flex;
