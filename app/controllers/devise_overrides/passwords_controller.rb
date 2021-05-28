@@ -13,7 +13,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
       send_auth_headers(@recoverable)
       render partial: 'devise/auth.json', locals: { resource: @recoverable }
     else
-      render json: { "message": 'Invalid token', "redirect_url": '/' }, status: 422
+      render json: { message: 'Invalid token', redirect_url: '/' }, status: :unprocessable_entity
     end
   end
 
@@ -40,7 +40,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
 
   def build_response(message, status)
     render json: {
-      "message": message
+      message: message
     }, status: status
   end
 end

@@ -59,7 +59,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
 
   def new_agent_params
     # intial string ensures the password requirements are met
-    temp_password = "1!aA" + SecureRandom.alphanumeric(12)
+    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
     params.require(:agent).permit(:email, :name, :role)
           .merge!(password: temp_password, password_confirmation: temp_password, inviter: current_user)
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ChatwootHub do
   it 'get latest version from chatwoot hub' do
     version = '1.1.1'
-    allow(RestClient).to receive(:get).and_return({ 'version': version }.to_json)
+    allow(RestClient).to receive(:get).and_return({ version: version }.to_json)
     expect(described_class.latest_version).to eq version
     expect(RestClient).to have_received(:get).with(described_class::BASE_URL, { params: described_class.instance_config })
   end

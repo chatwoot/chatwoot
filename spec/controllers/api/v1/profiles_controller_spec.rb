@@ -44,7 +44,7 @@ RSpec.describe 'Profile API', type: :request do
       it 'updates the name & email' do
         new_email = Faker::Internet.email
         put '/api/v1/profile',
-            params: { profile: { name: 'test', 'email': new_email } },
+            params: { profile: { name: 'test', email: new_email } },
             headers: agent.create_new_auth_token,
             as: :json
 

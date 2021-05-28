@@ -4,7 +4,7 @@
 # layout will be rendered with erb and other content in html format
 # Further processing in liquid is implemented in mailers
 
-# Note: rails resolver looks for templates in cache first
+# NOTE: rails resolver looks for templates in cache first
 # which we don't want to happen here
 # so we are overriding find_all method in action view resolver
 # If anything breaks - look into rails : actionview/lib/action_view/template/resolver.rb
