@@ -79,6 +79,7 @@ import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 export default {
   mixins: [globalConfigMixin, alertMixin],
@@ -132,7 +133,7 @@ export default {
       try {
         const response = await Auth.register(this.credentials);
         if (response.status === 200) {
-          window.location = '/';
+          window.location = DEFAULT_REDIRECT_URL;
         }
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');
