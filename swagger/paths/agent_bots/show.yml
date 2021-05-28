@@ -1,6 +1,6 @@
 tags:
   - Account AgentBots
-operationId: get-details-of-a-single-agent-bot
+operationId: get-details-of-a-single-account-agent-bot
 summary: Get an agent bot details
 description: Get the details of an agent bot in the account
 responses:

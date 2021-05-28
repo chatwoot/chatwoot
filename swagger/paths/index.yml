@@ -1,5 +1,6 @@
 # ------------  Platform API routes  ------------#
 
+# Accounts
 
 platform/api/v1/accounts:
   post:
@@ -14,6 +15,20 @@ platform/api/v1/accounts/{id}:
   delete:
     $ref: ./platform/accounts/delete.yml
 
+
+# Account Users
+
+platform/api/v1/accounts/{id}/account_users:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: './platform/account_users/index.yml'
+  post:
+    $ref: ./platform/account_users/create.yml
+  delete:
+    $ref: ./platform/account_users/delete.yml
+
+# AgentBots
 
 platform/api/v1/agent_bots:
   get:
@@ -30,6 +45,7 @@ platform/api/v1/agent_bots/{id}:
   delete:
     $ref: ./platform/agent_bots/delete.yml
 
+# Users
 
 platform/api/v1/users:
   post:

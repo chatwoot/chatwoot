@@ -11,6 +11,7 @@ responses:
     schema:
       type: array
       description: 'Array of agent bots'
-      $ref: '#/definitions/agent_bot'
+      items:
+        $ref: '#/definitions/agent_bot'
   401:
     description: Unauthorized

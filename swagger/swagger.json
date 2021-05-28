@@ -188,6 +188,161 @@
         }
       }
     },
+    "platform/api/v1/accounts/{id}/account_users": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Account Users"
+        ],
+        "operationId": "list-all-account-users",
+        "summary": "List all Account Users",
+        "description": "List all account users",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of account users",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "account_id": {
+                    "type": "integer",
+                    "description": "The ID of the user"
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "The ID of the user"
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "whether user is an administrator or agent"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Account Users"
+        ],
+        "operationId": "create-an-account-user",
+        "summary": "Create an Account User",
+        "description": "Create an Account User",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "integer",
+                  "description": "The ID of the user",
+                  "required": true
+                },
+                "role": {
+                  "type": "string",
+                  "description": "whether user is an administrator or agent",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "properties": {
+                "account_id": {
+                  "type": "integer",
+                  "description": "The ID of the user"
+                },
+                "user_id": {
+                  "type": "integer",
+                  "description": "The ID of the user"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "whether user is an administrator or agent"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Account Users"
+        ],
+        "operationId": "delete-an-account-user",
+        "summary": "Delete an Account User",
+        "description": "Delete an Account User",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "type": "integer",
+                  "description": "The ID of the user",
+                  "required": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The account does not exist"
+          }
+        }
+      }
+    },
     "platform/api/v1/agent_bots": {
       "get": {
         "tags": [
@@ -207,7 +362,11 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/agent_bot"
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": {
+                "$ref": "#/definitions/agent_bot"
+              }
             }
           },
           "401": {
@@ -533,14 +692,20 @@
         "tags": [
           "Account AgentBots"
         ],
-        "operationId": "list-all-agent-bots",
+        "operationId": "list-all-account-agent-bots",
         "summary": "List all AgentBots",
         "description": "List all agent bots available for the current account",
         "responses": {
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/agent_bot"
+              "type": "array",
+              "description": "Array of agent bots",
+              "items": [
+                {
+                  "$ref": "#/definitions/agent_bot"
+                }
+              ]
             }
           },
           "401": {
@@ -552,7 +717,7 @@
         "tags": [
           "Account AgentBots"
         ],
-        "operationId": "create-an-agent-bot",
+        "operationId": "create-an-account-agent-bot",
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot in the account",
         "parameters": [
@@ -594,7 +759,7 @@
         "tags": [
           "Account AgentBots"
         ],
-        "operationId": "get-details-of-a-single-agent-bot",
+        "operationId": "get-details-of-a-single-account-agent-bot",
         "summary": "Get an agent bot details",
         "description": "Get the details of an agent bot in the account",
         "responses": {
@@ -616,7 +781,7 @@
         "tags": [
           "Account AgentBots"
         ],
-        "operationId": "update-an-agent-bot",
+        "operationId": "update-an-account-agent-bot",
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
         "parameters": [
@@ -645,7 +810,7 @@
         "tags": [
           "Account AgentBots"
         ],
-        "operationId": "delete-an-agent-bot",
+        "operationId": "delete-an-account-agent-bot",
         "summary": "Delete an AgentBot",
         "description": "Delete an AgentBot from the account",
         "responses": {
@@ -1326,7 +1491,11 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/inbox"
+              "type": "array",
+              "description": "Array of inboxes",
+              "items": {
+                "$ref": "#/definitions/inbox"
+              }
             }
           },
           "404": {
@@ -1798,7 +1967,11 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/integrations_app"
+              "type": "array",
+              "description": "Array of Integration apps",
+              "items": {
+                "$ref": "#/definitions/integrations_app"
+              }
             }
           },
           "401": {
@@ -1944,7 +2117,11 @@
           "200": {
             "description": "Success",
             "schema": {
-              "$ref": "#/definitions/team"
+              "type": "array",
+              "description": "Array of teams",
+              "items": {
+                "$ref": "#/definitions/team"
+              }
             }
           },
           "401": {
@@ -3048,7 +3225,7 @@
         "Messages",
         "Integrations",
         "Profile",
-        "Team"
+        "Teams"
       ]
     }
   ]

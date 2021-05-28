@@ -1,6 +1,6 @@
 tags:
   - Account AgentBots
-operationId: update-an-agent-bot
+operationId: update-an-account-agent-bot
 summary: Update an agent bot
 description: Update an agent bot's attributes
 parameters:

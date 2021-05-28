@@ -1,6 +1,6 @@
 tags:
   - Account AgentBots
-operationId: list-all-agent-bots
+operationId: list-all-account-agent-bots
 summary: List all AgentBots
 description: List all agent bots available for the current account
 responses:
@@ -9,6 +9,8 @@ responses:
     schema:
       type: array
       description: 'Array of agent bots'
-      $ref: '#/definitions/agent_bot'
+      items:
+        - $ref: '#/definitions/agent_bot'
+
   401:
     description: Unauthorized
