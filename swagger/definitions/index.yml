@@ -85,7 +85,10 @@ account_create_update_payload:
 
 agent_bot_create_update_payload:
   $ref: ./request/agent_bot/create_update_payload.yml
-  
+
+user_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml

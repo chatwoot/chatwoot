@@ -100,7 +100,7 @@
         "tags": [
           "Accounts"
         ],
-        "operationId": "get-details-of-a-account",
+        "operationId": "get-details-of-an-account",
         "summary": "Get an account details",
         "description": "Get the details of an account",
         "security": [
@@ -346,6 +346,179 @@
           },
           "404": {
             "description": "The agent bot does not exist"
+          }
+        }
+      }
+    },
+    "platform/api/v1/users": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "create-a-user",
+        "summary": "Create a User",
+        "description": "Create a User",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "platform/api/v1/users/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/user_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "get-details-of-a-user",
+        "summary": "Get an user details",
+        "description": "Get the details of an user",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "update-a-user",
+        "summary": "Update a user",
+        "description": "Update a user's attributes",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/user_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/user"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "delete-a-user",
+        "summary": "Delete a User",
+        "description": "Delete a User",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The user does not exist"
+          }
+        }
+      }
+    },
+    "platform/api/v1/users/{id}/login": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "get-sso-url-of-a-user",
+        "summary": "Get User SSO Link",
+        "description": "Get the sso link of a user",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "SSO url to autenticate the user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
           }
         }
       }
@@ -2639,6 +2812,15 @@
         "outgoing_url": {
           "type": "string",
           "description": "The webhook URL for the bot"
+        }
+      }
+    },
+    "user_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the account"
         }
       }
     },

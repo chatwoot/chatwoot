@@ -30,21 +30,23 @@ platform/api/v1/agent_bots/{id}:
   delete:
     $ref: ./platform/agent_bots/delete.yml
 
-platform/api/v1/agent_bots:
-  get:
-    $ref: ./platform/agent_bots/index.yml
-  post:
-    $ref: ./platform/agent_bots/create.yml
-platform/api/v1/agent_bots/{id}:
-  parameters:
-    - $ref: '#/parameters/agent_bot_id'
-  get:
-    $ref: './platform/agent_bots/show.yml'
-  patch:
-    $ref: ./platform/agent_bots/update.yml
-  delete:
-    $ref: ./platform/agent_bots/delete.yml
 
+platform/api/v1/users:
+  post:
+    $ref: ./platform/users/create.yml
+platform/api/v1/users/{id}:
+  parameters:
+    - $ref: '#/parameters/user_id'
+  get:
+    $ref: './platform/users/show.yml'
+  patch:
+    $ref: ./platform/users/update.yml
+  delete:
+    $ref: ./platform/users/delete.yml
+platform/api/v1/users/{id}/login:
+  parameters:
+    - $ref: '#/parameters/user_id'
+  $ref: './platform/users/login.yml'
 
 
 # ---------------- end of platform path -----------#
