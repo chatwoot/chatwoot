@@ -92,16 +92,11 @@ export default {
 
   .status-wrap {
     padding: var(--space-small) var(--space-smaller);
-    margin-top: var(--space-micro);
+    margin-top: var(--space-smaller);
   }
 
   .wrap {
     padding: var(--space-small);
-
-    .content {
-      font-size: var(--font-size-mini);
-      color: var(--color-body);
-    }
 
     .footer {
       display: flex;
