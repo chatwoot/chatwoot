@@ -8,6 +8,7 @@ class Api::V1::ProfilesController < Api::BaseController
   def update
     if password_params[:password].present?
       render_could_not_create_error('Invalid current password') and return unless @user.valid_password?(password_params[:current_password])
+
       @user.update!(password_params.except(:current_password))
     end
 
@@ -17,7 +18,7 @@ class Api::V1::ProfilesController < Api::BaseController
   private
 
   def set_user
-    @user = current_user 
+    @user = current_user
   end
 
   def profile_params
