@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import VueRouter from 'vue-router';
 
 import auth from '../api/auth';
@@ -7,14 +6,13 @@ import dashboard from './dashboard/dashboard.routes';
 import authRoute from './auth/auth.routes';
 import { frontendURL } from '../helper/URLHelper';
 
-const loggedInUser = auth.getCurrentUser() || {};
 const routes = [
   ...login.routes,
   ...dashboard.routes,
   ...authRoute.routes,
   {
     path: '/',
-    redirect: frontendURL(`accounts/${loggedInUser.account_id}/dashboard`),
+    redirect: '/app',
   },
 ];
 
@@ -41,10 +39,7 @@ const generateRoleWiseRoute = route => {
 // returns an object with roles as keys and routeArr as values
 generateRoleWiseRoute(routes);
 
-export const router = new VueRouter({
-  mode: 'history',
-  routes, // short for routes: routes
-});
+export const router = new VueRouter({ mode: 'history', routes });
 
 const unProtectedRoutes = ['login', 'auth_signup', 'auth_reset_password'];
 
@@ -117,7 +112,10 @@ const validateRouteAccess = (to, from, next) => {
 router.beforeEach((to, from, next) => {
   if (!to.name) {
     const user = auth.getCurrentUser();
-    return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+    if (user) {
+      return next(frontendURL(`accounts/${user.account_id}/dashboard`));
+    }
+    return next('/app/login');
   }
 
   return validateRouteAccess(to, from, next);
