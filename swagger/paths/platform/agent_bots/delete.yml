@@ -1,12 +1,14 @@
 tags:
-  - Account AgentBots
+  - AgentBots
 operationId: delete-an-agent-bot
 summary: Delete an AgentBot
-description: Delete an AgentBot from the account
+description: Delete an AgentBot
+security:
+  - platformAppApiKey: []
 responses:
   200:
     description: Success
   401:
     description: Unauthorized
   404:
-    description: The agent bot does not exist in the account
+    description: The agent bot does not exist

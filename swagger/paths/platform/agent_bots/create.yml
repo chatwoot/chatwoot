@@ -1,10 +1,11 @@
 tags:
-  - Account AgentBots
+  - AgentBots
 operationId: create-an-agent-bot
 summary: Create an Agent Bot
-description: Create an agent bot in the account
+description: Create an agent bot
+security:
+  - platformAppApiKey: []
 parameters:
-  - $ref: '#/parameters/account_id'
   - name: data
     in: body
     required: true

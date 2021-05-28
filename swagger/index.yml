@@ -5,12 +5,12 @@ info:
   title: Chatwoot
   termsOfService:	https://www.chatwoot.com/terms-of-service/
   contact:
-    email: support@chatwoot.com
+    email: hello@chatwoot.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 host: app.chatwoot.com
-basePath: /api/v1/
+basePath: 
 schemes:
   - https
 produces:
@@ -42,3 +42,23 @@ definitions:
   $ref: ./definitions/index.yml
 parameters:
   $ref: ./parameters/index.yml
+
+x-tagGroups:
+  - name: Platform
+    tags:
+      - Accounts
+      - Account Users
+      - AgentBots
+      - Users
+  - name: Application
+    tags:
+      - Account AgentBots
+      - Contact
+      - Conversation
+      - Conversation Assignment
+      - Conversation Labels
+      - Inbox
+      - Messages
+      - Integrations
+      - Profile
+      - Team

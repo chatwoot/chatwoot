@@ -1,14 +1,64 @@
+# ------------  Platform API routes  ------------#
+
+
+platform/api/v1/accounts:
+  post:
+    $ref: ./platform/accounts/create.yml
+platform/api/v1/accounts/{id}:
+  parameters:
+    - $ref: '#/parameters/account_id'
+  get:
+    $ref: './platform/accounts/show.yml'
+  patch:
+    $ref: ./platform/accounts/update.yml
+  delete:
+    $ref: ./platform/accounts/delete.yml
+
+
+platform/api/v1/agent_bots:
+  get:
+    $ref: ./platform/agent_bots/index.yml
+  post:
+    $ref: ./platform/agent_bots/create.yml
+platform/api/v1/agent_bots/{id}:
+  parameters:
+    - $ref: '#/parameters/agent_bot_id'
+  get:
+    $ref: './platform/agent_bots/show.yml'
+  patch:
+    $ref: ./platform/agent_bots/update.yml
+  delete:
+    $ref: ./platform/agent_bots/delete.yml
+
+platform/api/v1/agent_bots:
+  get:
+    $ref: ./platform/agent_bots/index.yml
+  post:
+    $ref: ./platform/agent_bots/create.yml
+platform/api/v1/agent_bots/{id}:
+  parameters:
+    - $ref: '#/parameters/agent_bot_id'
+  get:
+    $ref: './platform/agent_bots/show.yml'
+  patch:
+    $ref: ./platform/agent_bots/update.yml
+  delete:
+    $ref: ./platform/agent_bots/delete.yml
+
+
+
+# ---------------- end of platform path -----------#
 
 # AgentBots
 
-/accounts/{account_id}/agent_bots:
+/api/v1/accounts/{account_id}/agent_bots:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
     $ref: ./agent_bots/index.yml
   post:
     $ref: ./agent_bots/create.yml
-/accounts/{account_id}/agent_bots/{id}:
+/api/v1/accounts/{account_id}/agent_bots/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/agent_bot_id'
@@ -21,32 +71,32 @@
 
 
 # Contacts
-/accounts/{account_id}/contacts:
+/api/v1/accounts/{account_id}/contacts:
   $ref: ./contact/list_create.yml
-/accounts/{account_id}/contacts/{id}:
+/api/v1/accounts/{account_id}/contacts/{id}:
   $ref: ./contact/crud.yml
-/accounts/{account_id}/contacts/{id}/conversations:
+/api/v1/accounts/{account_id}/contacts/{id}/conversations:
   $ref: ./contact/conversations.yml
-/accounts/{account_id}/contacts/search:
+/api/v1/accounts/{account_id}/contacts/search:
   $ref: ./contact/search.yml
-/accounts/{account_id}/contacts/{id}/contact_inboxes:
+/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes:
   $ref: ./contact_inboxes/create.yml
-/accounts/{account_id}/contacts/{id}/contactable_inboxes:
+/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./contactable_inboxes/get.yml
 
 
 # Conversations
-/accounts/{account_id}/conversations:
+/api/v1/accounts/{account_id}/conversations:
   parameters:
     - $ref: '#/parameters/account_id'
   $ref: ./conversation/index_or_create.yml
-/accounts/{account_id}/conversations/{converstion_id}:
+/api/v1/accounts/{account_id}/conversations/{converstion_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
   get:
     $ref: ./conversation/show.yml
-/accounts/{account_id}/conversations/{conversation_id}/toggle_status:
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_status:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -55,7 +105,7 @@
 
 # Conversations Assignments
 
-/accounts/{account_id}/conversations/{conversation_id}/assignments:
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -64,7 +114,7 @@
 
 # Conversation Labels
 
-/accounts/{account_id}/conversations/{conversation_id}/labels:
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/labels:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -75,22 +125,22 @@
 
 
 # Inboxes
-/accounts/{account_id}/inboxes:
+/api/v1/accounts/{account_id}/inboxes:
   $ref: ./inboxes/index.yml
-/accounts/{account_id}/inboxes/:
+/api/v1/accounts/{account_id}/inboxes/:
   $ref: ./inboxes/create.yml
-/accounts/{account_id}/inboxes/{id}:
+/api/v1/accounts/{account_id}/inboxes/{id}:
   $ref: ./inboxes/update.yml
-/accounts/{account_id}/inboxes/{id}/agent_bot:
+/api/v1/accounts/{account_id}/inboxes/{id}/agent_bot:
   $ref: ./inboxes/get_agent_bot.yml
-/accounts/{account_id}/inboxes/{id}/set_agent_bot:
+/api/v1/accounts/{account_id}/inboxes/{id}/set_agent_bot:
   $ref: ./inboxes/set_agent_bot.yml
 
 
 # Messages
-/accounts/{account_id}/conversations/{id}/messages:
+/api/v1/accounts/{account_id}/conversations/{id}/messages:
   $ref: ./conversation/messages/create_attachment.yml
-/accounts/{account_id}/conversations/{converstion_id}/messages:
+/api/v1/accounts/{account_id}/conversations/{converstion_id}/messages:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -98,7 +148,7 @@
     $ref: ./conversation/messages/index.yml
   post:
     $ref: ./conversation/messages/create.yml
-/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
+/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages/{message_id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/conversation_id'
@@ -109,12 +159,12 @@
 
 
 # Integrations
-/accounts/{account_id}/integrations/apps:
+/api/v1/accounts/{account_id}/integrations/apps:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
     $ref: './integrations/apps/show.yml'
-/accounts/{account_id}/integrations/hooks:
+/api/v1/accounts/{account_id}/integrations/hooks:
   post:
     $ref: './integrations/hooks/create.yml'
   patch:
@@ -130,14 +180,14 @@
 
 
 # Teams
-/accounts/{account_id}/teams:
+/api/v1/accounts/{account_id}/teams:
   parameters:
     - $ref: '#/parameters/account_id'
   get:
     $ref: ./teams/index.yml
   post:
     $ref: ./teams/create.yml
-/accounts/{account_id}/teams/{id}:
+/api/v1/accounts/{account_id}/teams/{id}:
   parameters:
     - $ref: '#/parameters/account_id'
     - $ref: '#/parameters/team_id'

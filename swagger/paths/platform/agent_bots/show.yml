@@ -1,8 +1,10 @@
 tags:
-  - Account AgentBots
+  - AgentBots
 operationId: get-details-of-a-single-agent-bot
 summary: Get an agent bot details
-description: Get the details of an agent bot in the account
+description: Get the details of an agent bot
+security:
+  - platformAppApiKey: []
 responses:
   200:
     description: Success
@@ -11,4 +13,4 @@ responses:
   401:
     description: Unauthorized
   404:
-    description: The given agent bot ID does not exist in the account
+    description: The given agent bot ID does not exist
