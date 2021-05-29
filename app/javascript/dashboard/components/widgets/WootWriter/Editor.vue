@@ -28,6 +28,7 @@ import TagAgents from '../conversation/TagAgents.vue';
 import { EditorState } from 'prosemirror-state';
 import { defaultMarkdownParser } from 'prosemirror-markdown';
 import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
+import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
