@@ -28,12 +28,12 @@
         <div class="modal-footer">
           <div class="medium-12 columns">
             <woot-button
-              :disabled="
+              :is-disabled="
                 $v.endPoint.$invalid ||
-                  addWebHook.showLoading ||
+                  editWebHook.showLoading ||
                   endPoint === url
               "
-              :is-loading="addWebHook.showLoading"
+              :is-loading="editWebHook.showLoading"
             >
               {{ $t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.FORM.SUBMIT') }}
             </woot-button>
