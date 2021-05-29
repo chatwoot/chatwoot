@@ -66,6 +66,7 @@ RSpec.configure do |config|
   config.include SlackStubs
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
+  config.include ActionCable::TestHelper
 end
 
 Shoulda::Matchers.configure do |config|
