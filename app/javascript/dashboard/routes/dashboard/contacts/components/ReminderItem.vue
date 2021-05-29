@@ -111,17 +111,17 @@ export default {
 
 .actions {
   display: none;
+
+  .action-button {
+    margin-right: var(--space-small);
+    height: var(--space-medium);
+    width: var(--space-medium);
+  }
 }
 
 .reminder-wrap:hover {
   .actions {
     display: flex;
-
-    .action-button {
-      margin-right: var(--space-small);
-      height: var(--space-medium);
-      width: var(--space-medium);
-    }
   }
 }
 </style>
