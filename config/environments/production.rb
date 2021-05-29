@@ -110,10 +110,14 @@ Rails.application.configure do
 
   # font cors issue with CDN
   # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
+  # ref: https://github.com/cyu/rack-cors
   config.middleware.insert_before 0, Rack::Cors do
     allow do
       origins '*'
       resource '/packs/*', headers: :any, methods: [:get, :options]
+      if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
+        resource '*', headers: :any, methods: :any, expose: ['access-token', 'client', 'uid', 'expiry']
+      end
     end
   end
 end
