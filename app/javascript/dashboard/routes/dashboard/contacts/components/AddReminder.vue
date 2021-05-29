@@ -9,13 +9,13 @@
       </textarea>
       <div class="select-wrap">
         <div class="select">
-          <div class="date-wrap">
-            <i class="icon ion-android-calendar" />
+          <div class="input-group">
+            <i class="ion-android-calendar input-group-label" />
             <input
               v-model="date"
               type="text"
               :placeholder="$t('REMINDER.FOOTER.DUE_DATE')"
-              class="date-input"
+              class="input-group-field"
             />
           </div>
           <div class="task-wrap">
@@ -116,20 +116,13 @@ export default {
       }
     }
 
-    .date-wrap {
-      position: relative;
+    .input-group {
+      margin-bottom: 0;
+      font-size: var(--font-size-mini);
 
-      .icon {
-        position: absolute;
-        margin-left: var(--space-small);
-        top: 5px;
-      }
-
-      .date-input {
-        font-size: var(--font-size-micro);
+      .input-group-field {
         height: var(--space-medium);
-        padding: var(--space-smaller) var(--space-smaller) var(--space-smaller)
-          var(--space-two);
+        font-size: var(--font-size-micro);
       }
     }
 
@@ -137,6 +130,7 @@ export default {
       .task__type {
         margin: 0 0 0 var(--space-smaller);
         height: var(--space-medium);
+        width: fit-content;
         padding: 0 var(--space-two) 0 var(--space-smaller);
         font-size: var(--font-size-micro);
       }
