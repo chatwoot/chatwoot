@@ -75,7 +75,7 @@ export default [
       timezone: 'Asia/Kolkata',
       avatar_url: '',
       page_id: null,
-      widget_color: '#1F93FF',
+      widget_color: '#132a4f',
       website_url: 'chatwoot.com',
       welcome_title: 'Hi there ! 🙌🏼',
       welcome_tagline:
@@ -190,7 +190,7 @@ export default [
       timezone: 'Asia/Kolkata',
       avatar_url: '',
       page_id: null,
-      widget_color: '#1F93FF',
+      widget_color: '#132a4f',
       website_url: 'chatwoot.com',
       welcome_title: 'Hi there ! 🙌🏼',
       welcome_tagline:
@@ -306,7 +306,7 @@ export default [
       timezone: 'Asia/Kolkata',
       avatar_url: '',
       page_id: null,
-      widget_color: '#1F93FF',
+      widget_color: '#132a4f',
       website_url: 'chatwoot.com',
       welcome_title: 'Hi there ! 🙌🏼',
       welcome_tagline:

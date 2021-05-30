@@ -98,7 +98,7 @@ class InitSchema < ActiveRecord::Migration[6.0]
       t.datetime 'created_at', null: false
       t.datetime 'updated_at', null: false
       t.string 'website_token'
-      t.string 'widget_color', default: '#1f93ff'
+      t.string 'widget_color', default: '#132a4f'
       t.index ['website_token'], name: 'index_channel_web_widgets_on_website_token', unique: true
     end
     create_table 'contact_inboxes' do |t|

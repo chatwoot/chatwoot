@@ -22,7 +22,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#1f93ff',
+      default: '#132a4f',
     },
     customStyle: {
       type: Object,

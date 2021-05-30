@@ -3,7 +3,7 @@
 # Table name: labels
 #
 #  id              :bigint           not null, primary key
-#  color           :string           default("#1f93ff"), not null
+#  color           :string           default("#132a4f"), not null
 #  description     :text
 #  show_on_sidebar :boolean
 #  title           :string
