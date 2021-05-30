@@ -13,9 +13,6 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(
-      'LOGO',
-      'LOGO_THUMBNAIL',
-      'INSTALLATION_NAME',
       'WIDGET_BRAND_URL',
       'TERMS_URL',
       'PRIVACY_URL',
@@ -23,7 +20,10 @@ class DashboardController < ActionController::Base
       'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
       'CHATWOOT_INBOX_TOKEN'
     ).merge(
-      APP_VERSION: Chatwoot.config[:version]
+      APP_VERSION: Chatwoot.config[:version],
+      INSTALLATION_NAME: 'Abrand',
+      LOGO: '/brand-assets/logo.png',
+      LOGO_THUMBNAIL: '/brand-assets/logo_thumbnail.png'
     )
   end
 
