@@ -26,24 +26,24 @@ ___
 
 <img src="https://s3.us-west-2.amazonaws.com/gh-assets.chatwoot.com/chatwoot-dashboard-assets.png" width="100%" alt="Chat dashboard"/>
 
-Chatwoot is an open-source omnichannel customer support software. The development of Chatwoot started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, Chatwoot became a trending project on Hacker News and best of all, got lots of love from the community.
+ABrand is an open-source omnichannel customer support software. The development of ABrand started in 2016. It failed to succeed as a business and eventually shut up shop in 2017. During 2019 #Hacktoberfest, the maintainers decided to make it open-source, instead of letting the code rust in a private repo. With a pleasant surprise, ABrand became a trending project on Hacker News and best of all, got lots of love from the community.
 Now, a failed project is back on track and the prospects are looking great. The team is back to working on the project and this time, we are building it in the open. Thanks to the ideas and contributions from the community.
 
 ---
 
 ### Features
 
-Chatwoot gives an integrated view of conversations happening in different communication channels.
+ABrand gives an integrated view of conversations happening in different communication channels.
 
 It supports the following conversation channels:
 
  - **Website**: Talk to your customers using our live chat widget and make use of our SDK to identify a user and provide contextual support.
  - **Facebook**: Connect your Facebook pages and start replying to the direct messages to your page.
  - **Twitter**: Connect your Twitter profiles and reply to direct messages or the tweets where you are mentioned.
- - **Whatsapp**: Connect your Whatsapp business account and manage the conversation in Chatwoot
- - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in Chatwoot
+ - **Whatsapp**: Connect your Whatsapp business account and manage the conversation in ABrand
+ - **SMS**: Connect your Twilio SMS account and reply to the SMS queries in ABrand
  - **API Channel**: Build custom communication channels using our API channel.
- - **Email (beta)**: Forward all your email queries to Chatwoot and view it in our integrated dashboard.
+ - **Email (beta)**: Forward all your email queries to ABrand and view it in our integrated dashboard.
 
 Other features include:
 
@@ -51,11 +51,11 @@ Other features include:
 - **Private notes**: Inter team communication is possible using private notes in a conversation.
 - **Canned responses (Saved replies)**: Improve the response rate by adding saved replies for frequently asked questions.
 - **Conversation Labels**: Use conversation labelling to create custom workflows.
-- **Auto assignment**: Chatwoot intelligently assigns a ticket to the agents who have access to the inbox depending on their availability and load.
-- **Conversation continuity**: If the user has provided an email address through the chat widget, Chatwoot would send an email to the customer under the agent name so that the user can continue the conversation over the email.
-- **Multi-lingual support**: Chatwoot supports 10+ languages.
-- **Powerful API & Webhooks**: Extend the capability of the software using Chatwoot’s webhooks and APIs.
-- **Integrations**: Chatwoot natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
+- **Auto assignment**: ABrand intelligently assigns a ticket to the agents who have access to the inbox depending on their availability and load.
+- **Conversation continuity**: If the user has provided an email address through the chat widget, ABrand would send an email to the customer under the agent name so that the user can continue the conversation over the email.
+- **Multi-lingual support**: ABrand supports 10+ languages.
+- **Powerful API & Webhooks**: Extend the capability of the software using ABrand’s webhooks and APIs.
+- **Integrations**: ABrand natively integrates with Slack right now. Manage your conversations in Slack without logging into the dashboard.
 
 ---
 
@@ -65,7 +65,7 @@ Detailed documentation is available at [www.chatwoot.com/help-center](https://ww
 
 ### Translation process
 
-The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
+The translation process for ABrand web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to ABrand.
 
 ---
 
@@ -80,7 +80,7 @@ If you are looking for a stable version, please use the `master` or tags labelle
 
 #### Heroku one-click deploy
 
-Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:
+Deploying ABrand to Heroku is a breeze. It's as simple as clicking this button:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
 
@@ -99,4 +99,4 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 <a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
 
 
-*Chatwoot* &copy; 2017-2021, Chatwoot Inc - Released under the MIT License.
+*ABrand* &copy; 2017-2021, ABrand Inc - Released under the MIT License.

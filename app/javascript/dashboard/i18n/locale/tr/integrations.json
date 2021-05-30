@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Yeni web kancası ekle",
       "LOADING": "Ekli web kancaları getiriliyor",
       "SEARCH_404": "Bu sorgu ile eşleşen öğe yok",
-      "SIDEBAR_TXT": "<p> <b> Web kancaları </b> </p> <p> Web kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. Chatwoot'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla webhook oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni web kancası ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
+      "SIDEBAR_TXT": "<p> <b> Web kancaları </b> </p> <p> Web kancaları, her hesap için tanımlanabilen HTTP geri aramalarıdır. ABrand'ta mesaj oluşturma gibi olaylar tarafından tetiklenirler. Bu hesap için birden fazla webhook oluşturabilirsiniz. <br /> <br /> Bir <b> web kancası </b> oluşturmak için, <b> Yeni web kancası ekle </b> düğmesini tıklayın. Ayrıca, Sil düğmesini tıklayarak mevcut herhangi bir web kancasını kaldırabilirsiniz. </p>",
       "LIST": {
         "404": "Bu hesap için yapılandırılmış web kancası yok.",
         "TITLE": "Web kancalarını yönet",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "İptal Et",
         "TITLE": "Yeni web kancası ekle",
-        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "DESC": "Web kancası etkinlikleri size ABrand hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Web kancası URL'si",

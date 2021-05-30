@@ -7,7 +7,7 @@ export default [
     inbox: {
       id: 37,
       channel_id: 1,
-      name: 'Chatwoot',
+      name: 'ABrand',
       channel_type: 'Channel::WebWidget',
       greeting_enabled: true,
       greeting_message: '',
@@ -122,7 +122,7 @@ export default [
     inbox: {
       id: 37,
       channel_id: 1,
-      name: 'Chatwoot',
+      name: 'ABrand',
       channel_type: 'Channel::WebWidget',
       greeting_enabled: true,
       greeting_message: '',
@@ -238,7 +238,7 @@ export default [
     inbox: {
       id: 37,
       channel_id: 1,
-      name: 'Chatwoot',
+      name: 'ABrand',
       channel_type: 'Channel::WebWidget',
       greeting_enabled: true,
       greeting_message: '',

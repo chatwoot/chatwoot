@@ -1,5 +1,5 @@
 class ConversationReplyMailer < ApplicationMailer
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'ABrand <accounts@chatwoot.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, message_queued_time)

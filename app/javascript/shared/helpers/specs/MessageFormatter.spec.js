@@ -4,16 +4,16 @@ describe('#MessageFormatter', () => {
   describe('content with links', () => {
     it('should format correctly', () => {
       const message =
-        'Chatwoot is an opensource tool. [Chatwoot](https://www.chatwoot.com)';
+        'ABrand is an opensource tool. [ABrand](https://www.chatwoot.com)';
       expect(new MessageFormatter(message).formattedMessage).toMatch(
-        '<p>Chatwoot is an opensource tool. <a rel="noreferrer noopener nofollow" href="https://www.chatwoot.com" class="link" title="" target="_blank">Chatwoot</a></p>'
+        '<p>ABrand is an opensource tool. <a rel="noreferrer noopener nofollow" href="https://www.chatwoot.com" class="link" title="" target="_blank">ABrand</a></p>'
       );
     });
     it('should format correctly', () => {
       const message =
-        'Chatwoot is an opensource tool. https://www.chatwoot.com';
+        'ABrand is an opensource tool. https://www.chatwoot.com';
       expect(new MessageFormatter(message).formattedMessage).toMatch(
-        '<p>Chatwoot is an opensource tool. <a rel="noreferrer noopener nofollow" href="https://www.chatwoot.com" class="link" title="" target="_blank">https://www.chatwoot.com</a></p>'
+        '<p>ABrand is an opensource tool. <a rel="noreferrer noopener nofollow" href="https://www.chatwoot.com" class="link" title="" target="_blank">https://www.chatwoot.com</a></p>'
       );
     });
   });
@@ -29,7 +29,7 @@ describe('#MessageFormatter', () => {
 
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
-      const message = 'Chatwoot is an opensource tool';
+      const message = 'ABrand is an opensource tool';
       expect(new MessageFormatter(message).formattedMessage).toMatch(message);
     });
 
@@ -52,9 +52,9 @@ describe('#MessageFormatter', () => {
   describe('plain text content', () => {
     it('returns the plain text without HTML', () => {
       const message =
-        '<b>Chatwoot is an opensource tool. https://www.chatwoot.com</b>';
+        '<b>ABrand is an opensource tool. https://www.chatwoot.com</b>';
       expect(new MessageFormatter(message).plainText).toMatch(
-        'Chatwoot is an opensource tool. https://www.chatwoot.com'
+        'ABrand is an opensource tool. https://www.chatwoot.com'
       );
     });
   });

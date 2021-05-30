@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Neuen Webhook hinzufügen",
       "LOADING": "Angehängte Webhooks abrufen",
       "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
-      "SIDEBAR_TXT": "<p> <b> Webhooks </b> </p> <p> Webhooks sind HTTP-Rückrufe, die für jedes Konto definiert werden können. Sie werden durch Ereignisse wie die Erstellung von Nachrichten in Chatwoot ausgelöst. Sie können mehr als einen Webhook für dieses Konto erstellen. <br /> <br /> Um einen <b> Webhook </b> zu erstellen, klicken Sie auf die Schaltfläche <b> Neuen Webhook hinzufügen </b>. Sie können auch vorhandene Webhooks entfernen, indem Sie auf die Schaltfläche Löschen klicken. </p>",
+      "SIDEBAR_TXT": "<p> <b> Webhooks </b> </p> <p> Webhooks sind HTTP-Rückrufe, die für jedes Konto definiert werden können. Sie werden durch Ereignisse wie die Erstellung von Nachrichten in ABrand ausgelöst. Sie können mehr als einen Webhook für dieses Konto erstellen. <br /> <br /> Um einen <b> Webhook </b> zu erstellen, klicken Sie auf die Schaltfläche <b> Neuen Webhook hinzufügen </b>. Sie können auch vorhandene Webhooks entfernen, indem Sie auf die Schaltfläche Löschen klicken. </p>",
       "LIST": {
         "404": "Für dieses Konto sind keine Webhooks konfiguriert.",
         "TITLE": "Webhooks verwalten",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "Stornieren",
         "TITLE": "Neuen Webhook hinzufügen",
-        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
+        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem ABrand-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook-URL",

@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Schránky",
-    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to ABrand, it is called an <b>Inbox</b>. You can have unlimited inboxes in your ABrand account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
       "404": "K tomuto účtu nejsou připojeny žádné doručené schránky."
     },
@@ -9,7 +9,7 @@
       {
         "title": "Vybrat kanál",
         "route": "settings_inbox_new",
-        "body": "Vyberte si poskytovatele, který chcete integrovat do Chatwoot."
+        "body": "Vyberte si poskytovatele, který chcete integrovat do ABrand."
       },
       {
         "title": "Vytvořit doručenou poštu",
@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné Chatwoot.",
+        "HELP": "PS: Přihlášením získáme přístup pouze ke zprávám vaší stránky. Vaše soukromé zprávy nikdy nemohou být přístupné ABrand.",
         "CHOOSE_PAGE": "Vybrat stránku",
         "CHOOSE_PLACEHOLDER": "Vyberte stránku ze seznamu",
         "INBOX_NAME": "Název schránky",
@@ -172,11 +172,11 @@
       },
       "DETAILS": {
         "TITLE": "Doručená pošta detaily",
-        "DESC": "Z rozevíracího seznamu níže vyberte Facebook stránku, kterou chcete připojit k Chatwoot. Můžete také zadat vlastní název doručené poště pro lepší identifikaci."
+        "DESC": "Z rozevíracího seznamu níže vyberte Facebook stránku, kterou chcete připojit k ABrand. Můžete také zadat vlastní název doručené poště pro lepší identifikaci."
       },
       "FINISH": {
         "TITLE": "Nalezeno to!",
-        "DESC": "Úspěšně jste dokončili integraci vaší facebookové stránky s Chatwootem. Až příště přijde zákaznická zpráva, konverzace se automaticky objeví ve vaší schránce.<br>Poskytujeme vám také widget skript, který můžete snadno přidat na vaše webové stránky. Jakmile je toto aktivní na vašich webových stránkách, zákazníci vám mohou posílat zprávy přímo z vašich webových stránek bez pomoci externího nástroje a konverzace se objeví přímo zde, na Chatwoot.<br>Skvěle, co? No, určitě se pokusíme být :)"
+        "DESC": "Úspěšně jste dokončili integraci vaší facebookové stránky s Chatwootem. Až příště přijde zákaznická zpráva, konverzace se automaticky objeví ve vaší schránce.<br>Poskytujeme vám také widget skript, který můžete snadno přidat na vaše webové stránky. Jakmile je toto aktivní na vašich webových stránkách, zákazníci vám mohou posílat zprávy přímo z vašich webových stránek bez pomoci externího nástroje a konverzace se objeví přímo zde, na ABrand.<br>Skvěle, co? No, určitě se pokusíme být :)"
       }
     },
     "DETAILS": {

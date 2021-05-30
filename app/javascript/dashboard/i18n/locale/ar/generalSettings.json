@@ -43,7 +43,7 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "يمكنك تلقي رسائل البريد الإلكتروني في النطاق المخصص الخاص بك الآن."
       }
     },
-    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ Chatwoot. الرجاء التحديث."
+    "UPDATE_CHATWOOT": "يتوفر تحديث %{latestChatwootVersion} لـ ABrand. الرجاء التحديث."
   },
   "FORMS": {
     "MULTISELECT": {

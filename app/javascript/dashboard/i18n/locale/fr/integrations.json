@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Ajouter un nouveau Webhook",
       "LOADING": "Récupération des Webhooks connectés",
       "SEARCH_404": "Il n'y a aucun élément correspondant à cette requête",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Les Webhooks sont des fonctions de rappel HTTP qui peuvent être définis pour chaque compte. Ils sont déclenchés par des événements comme la création de messages dans Chatwoot. Vous pouvez créer plusieurs Webhook pour ce compte. <br /><br /> Pour créer un <b>Webhook</b>, cliquez sur le bouton <b>Ajouter un nouveau webhook</b> . Vous pouvez également supprimer n'importe quel Webhook existant en cliquant sur le bouton Supprimer.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Les Webhooks sont des fonctions de rappel HTTP qui peuvent être définis pour chaque compte. Ils sont déclenchés par des événements comme la création de messages dans ABrand. Vous pouvez créer plusieurs Webhook pour ce compte. <br /><br /> Pour créer un <b>Webhook</b>, cliquez sur le bouton <b>Ajouter un nouveau webhook</b> . Vous pouvez également supprimer n'importe quel Webhook existant en cliquant sur le bouton Supprimer.</p>",
       "LIST": {
         "404": "Il n'y a aucun Webhook configuré pour ce compte.",
         "TITLE": "Gérer les webhooks",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "Annuler",
         "TITLE": "Ajouter un nouveau webhook",
-        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
+        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte ABrand. Veuillez entrer une URL valide pour configurer un callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "URL du Webhook",

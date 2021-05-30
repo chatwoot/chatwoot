@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Description: Chatwoot installation script
+# Description: ABrand installation script
 # OS: Ubuntu 20.04 LTS / Ubuntu 20.10
 # Script Version: 0.5
 # Run this script as root
@@ -87,7 +87,7 @@ read -p 'Would you like to configure Webserver and SSL (yes or no): ' configure_
 
 if [ $configure_webserver != "yes" ]
 then
-echo "Woot! Woot!! Chatwoot server installation is complete"
+echo "Woot! Woot!! ABrand server installation is complete"
 echo "The server will be accessible at http://<server-ip>:3000"
 echo "To configure a domain and SSL certificate, follow the guide at https://www.chatwoot.com/docs/deployment/deploy-chatwoot-in-linux-vm"
 else
@@ -104,6 +104,6 @@ cd chatwoot
 sed -i "s/http:\/\/0.0.0.0:3000/https:\/\/$domain_name/g" .env
 EOF
 systemctl restart chatwoot.target
-echo "Woot! Woot!! Chatwoot server installation is complete"
+echo "Woot! Woot!! ABrand server installation is complete"
 echo "The server will be accessible at https://$domain_name"
 fi

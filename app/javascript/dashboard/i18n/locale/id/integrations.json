@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Tambah webhook baru",
       "LOADING": "Mengambil webhook terlampir",
       "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di ABrand. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
       "LIST": {
         "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
         "TITLE": "Kelola webhook",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "Batalkan",
         "TITLE": "Tambah webhook baru",
-        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
+        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun ABrand Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
         "FORM": {
           "END_POINT": {
             "LABEL": "URL Webhook",

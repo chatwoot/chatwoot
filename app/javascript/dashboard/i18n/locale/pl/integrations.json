@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Dodaj nowy webhook",
       "LOADING": "Pobieranie dołączonych webhooków",
       "SEARCH_404": "Brak elementów pasujących do tego zapytania",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in ABrand. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
       "LIST": {
         "404": "Brak skonfigurowanych webhooków dla tego konta.",
         "TITLE": "Zarządzaj webhookami",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "Anuluj",
         "TITLE": "Dodaj nowy webhook",
-        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
+        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie ABrand. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
         "FORM": {
           "END_POINT": {
             "LABEL": "URL webhooka",

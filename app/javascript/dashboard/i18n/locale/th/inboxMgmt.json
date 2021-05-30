@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "กล่องข้อความ",
-    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ Chatwoot จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี Chatwoot ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
+    "SIDEBAR_TXT": "<p><b>กล่องข้อความ</b></p> <p> เมื่อคุณเชื่อมต่อเว็บไซต์หรือหน้า Facebook กับ ABrand จะเรียกว่า <b>Inbox</b> คุณสามารถมีกล่องจดหมายได้ไม่ จำกัด ในบัญชี ABrand ของคุณ </p> <p> คลิกที่ <b> เพิ่มกล่องจดหมาย </b>เพื่อเชื่อมต่อเว็บไซต์หรือเพจ Facebook </p> <p> ในแดชบอร์ดคุณสามารถดูการสนทนาทั้งหมดจากกล่องจดหมายทั้งหมดของคุณในที่เดียวและตอบกลับได้ในแท็บ \"การสนทนา\" </p> <p> คุณยังสามารถดูการสนทนาเฉพาะสำหรับกล่องจดหมายได้โดยคลิกที่ชื่อกล่องจดหมายในบานหน้าต่างด้านซ้ายของแผงควบคุม </p>",
     "LIST": {
       "404": "ไม่มีกล่องข้อความที่เกี่ยวข้องในบัญชีนี้"
     },
@@ -9,7 +9,7 @@
       {
         "title": "เลือกช่อง",
         "route": "settings_inbox_new",
-        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ Chatwoot"
+        "body": "เลือกผู้ให้บริการที่คุณต้องการจะใช้สำหรับ ABrand"
       },
       {
         "title": "สร้างกล่องข้อความ",
@@ -29,7 +29,7 @@
     ],
     "ADD": {
       "FB": {
-        "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น Chatwoot ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
+        "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น ABrand ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
         "CHOOSE_PAGE": "เลือกหน้า",
         "CHOOSE_PLACEHOLDER": "เลือกหน้าจากรายชื่อ",
         "INBOX_NAME": "ชื่อกล่องข้อความ",
@@ -172,11 +172,11 @@
       },
       "DETAILS": {
         "TITLE": "Inbox Details",
-        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to ABrand. You can also give a custom name to your inbox for better identification."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
+        "DESC": "You have successfully finished integrating your Facebook Page with ABrand. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on ABrand.<br>Cool, huh? Well, we sure try to be :)"
       }
     },
     "DETAILS": {

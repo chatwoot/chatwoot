@@ -8,7 +8,7 @@
       "HEADER_BTN_TXT": "Nieuwe webhook toevoegen",
       "LOADING": "Bijgevoegde webhooks ophalen",
       "SEARCH_404": "Er zijn geen items die overeenkomen met deze zoekopdracht",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks zijn HTTP callbacks die voor elk account kunnen worden gedefinieerd. Ze worden geactiveerd door gebeurtenissen zoals het aanmaken van berichten in Chatwoot. Je kunt meer dan één webhook aanmaken voor dit account. <br /><br /> Voor het maken van een <b>webhook</b>, klik op de <b>Voeg nieuwe webhook</b> knop toe. U kunt ook alle bestaande webhook verwijderen door te klikken op de verwijderknop.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks zijn HTTP callbacks die voor elk account kunnen worden gedefinieerd. Ze worden geactiveerd door gebeurtenissen zoals het aanmaken van berichten in ABrand. Je kunt meer dan één webhook aanmaken voor dit account. <br /><br /> Voor het maken van een <b>webhook</b>, klik op de <b>Voeg nieuwe webhook</b> knop toe. U kunt ook alle bestaande webhook verwijderen door te klikken op de verwijderknop.</p>",
       "LIST": {
         "404": "Er zijn geen webhooks geconfigureerd voor dit account.",
         "TITLE": "Webhooks beheren",
@@ -20,7 +20,7 @@
       "ADD": {
         "CANCEL": "annuleren",
         "TITLE": "Nieuwe webhook toevoegen",
-        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je Chatwoot account. Voer een geldige URL in om een callback te configureren.",
+        "DESC": "Webhook events bieden je realtime informatie over wat er gebeurt in je ABrand account. Voer een geldige URL in om een callback te configureren.",
         "FORM": {
           "END_POINT": {
             "LABEL": "Webhook URL",

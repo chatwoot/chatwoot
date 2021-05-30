@@ -20,7 +20,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
     end
 
     it 'does not refer to the inviter and their account' do
-      expect(mail.body).to_not match('has invited you to try out Chatwoot!')
+      expect(mail.body).to_not match('has invited you to try out ABrand!')
     end
 
     context 'when there is an inviter' do
@@ -29,7 +29,7 @@ RSpec.describe 'Confirmation Instructions', type: :mailer do
       it 'refers to the inviter and their account' do
         Current.account = account
         expect(mail.body).to match(
-          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(inviter_val.account.name)}, has invited you to try out Chatwoot!"
+          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(inviter_val.account.name)}, has invited you to try out ABrand!"
         )
         Current.account = nil
       end
