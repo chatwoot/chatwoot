@@ -168,6 +168,16 @@
       "BUTTON": "ดูโน็ตทั้งหมด"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "โน้ต",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "การสนทนา"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "แอตทริบิวต์ที่กำหนดเอง",
     "BUTTON": "Add custom attribute",
