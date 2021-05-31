@@ -170,11 +170,11 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Действия"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "заметки",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "события",
       "PILL_BUTTON_CONVO": "диалоги"
     }
   },
