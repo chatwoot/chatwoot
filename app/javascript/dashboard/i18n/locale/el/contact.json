@@ -168,6 +168,16 @@
       "BUTTON": "Εμφάνιση όλων των σημειώσεων"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "σημειώσεις",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "συζητήσεις"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Προσαρμοζόμενες Ιδιότητες",
     "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
