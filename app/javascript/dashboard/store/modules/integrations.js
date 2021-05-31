@@ -20,9 +20,7 @@ export const getters = {
     );
   },
   getAppIntegrations($state) {
-    return $state.records.filter(
-      item => item.id === 'fullcontact' || item.id === 'dialogflow'
-    );
+    return $state.records.filter(item => item.id === 'dialogflow');
   },
   getIntegration: $state => integrationId => {
     const [integration] = $state.records.filter(
