@@ -79,6 +79,7 @@ export default {
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
+    this.registerCampaignEvents();
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
@@ -119,7 +120,8 @@ export default {
         this.unsetUnreadView();
         this.setUserLastSeen();
       });
-
+    },
+    registerCampaignEvents() {
       bus.$on('on-campaign-view-clicked', campaignId => {
         const { websiteToken } = window.chatwootWebChannel;
         this.showCampaignView = false;
@@ -134,7 +136,9 @@ export default {
     },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
-      if (this.isIFrame && !isEmptyObject(activeCampaign) && !messageCount) {
+      const isCampaignReadyToExecute =
+        !isEmptyObject(activeCampaign) && !messageCount;
+      if (this.isIFrame && isCampaignReadyToExecute) {
         this.showCampaignView = true;
         IFrameHelper.sendMessage({
           event: 'setCampaignMode',

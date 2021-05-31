@@ -1,8 +1,9 @@
 <template>
   <div class="chat-bubble-wrap">
     <div
-      :class="['chat-bubble agent', checkMessageIsCampaign && 'campaign']"
-      v-on="checkMessageIsCampaign ? { click: onClickCampaign } : {}"
+      :class="{ campaign: isCampaignMessage }"
+      class="chat-bubble agent"
+      @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
@@ -56,7 +57,7 @@ export default {
         campaign: this.messageType === 'campaign',
       };
     },
-    checkMessageIsCampaign() {
+    isCampaignMessage() {
       return this.messageType === 'campaign';
     },
     companyName() {
@@ -95,8 +96,10 @@ export default {
     isSenderExist(sender) {
       return sender && !isEmptyObject(sender);
     },
-    onClickCampaign() {
-      bus.$emit('on-campaign-view-clicked', this.campaignId);
+    onClickMessage() {
+      if (this.checkMessageIsCampaign) {
+        bus.$emit('on-campaign-view-clicked', this.campaignId);
+      }
     },
   },
 };
