@@ -168,6 +168,16 @@
       "BUTTON": "View all notes"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "സംഭാഷണങ്ങൾ"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "ഇഷ്‌ടാനുസൃത ആട്രിബ്യൂട്ടുകൾ",
     "BUTTON": "Add custom attribute",
