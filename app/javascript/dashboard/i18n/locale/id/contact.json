@@ -168,6 +168,16 @@
       "BUTTON": "View all notes"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "catatan",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "percakapan"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Atribut Kustom",
     "BUTTON": "Add custom attribute",
