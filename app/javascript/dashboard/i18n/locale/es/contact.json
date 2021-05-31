@@ -168,6 +168,16 @@
       "BUTTON": "Ver todas las notas"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notas",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversaciones"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Atributos personalizados",
     "BUTTON": "Add custom attribute",
