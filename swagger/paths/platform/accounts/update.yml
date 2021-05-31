@@ -1,0 +1,20 @@
+tags:
+  - Accounts
+operationId: update-an-account
+summary: Update an account
+description: Update an account's attributes
+security:
+  - platformAppApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/account_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/platform_account'
+  401:
+    description: Unauthorized

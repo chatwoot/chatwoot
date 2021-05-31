@@ -1,0 +1,20 @@
+tags:
+  - AgentBots
+operationId: update-an-agent-bot
+summary: Update an agent bot
+description: Update an agent bot's attributes
+security:
+  - platformAppApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/agent_bot_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/agent_bot'
+  401:
+    description: Unauthorized
