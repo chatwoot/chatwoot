@@ -168,6 +168,16 @@
       "BUTTON": "查看所有筆記"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "筆記",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "對話"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "自訂屬性",
     "BUTTON": "新增自訂屬性",
