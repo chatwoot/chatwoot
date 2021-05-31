@@ -1,8 +1,10 @@
 tags:
-  - Account AgentBots
-operationId: list-all-account-agent-bots
+  - AgentBots
+operationId: list-all-agent-bots
 summary: List all AgentBots
-description: List all agent bots available for the current account
+description: List all agent bots available
+security:
+  - platformAppApiKey: []
 responses:
   200:
     description: Success
@@ -10,7 +12,6 @@ responses:
       type: array
       description: 'Array of agent bots'
       items:
-        - $ref: '#/definitions/agent_bot'
-
+        $ref: '#/definitions/agent_bot'
   401:
     description: Unauthorized
