@@ -168,6 +168,16 @@
       "BUTTON": "Alle Notizen anzeigen"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "gespräche"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Benutzerdefinierte Attribute",
     "BUTTON": "Add custom attribute",
