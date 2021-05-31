@@ -168,6 +168,16 @@
       "BUTTON": "Показать все заметки"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "заметки",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "диалоги"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Пользовательские атрибуты",
     "BUTTON": "Добавить пользовательский атрибут",
