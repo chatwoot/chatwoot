@@ -1,0 +1,12 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Name of the user
+  email:
+    type: string
+    description: Email of the user
+  password:
+    type: string
+    description: Password must contain uppercase, lowercase letters, number and a special character
+
