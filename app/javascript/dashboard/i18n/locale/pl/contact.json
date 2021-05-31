@@ -170,11 +170,11 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Aktywności"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notatki",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "zdarzenia",
       "PILL_BUTTON_CONVO": "rozmowy"
     }
   },
