@@ -25,6 +25,8 @@ contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
 account:
   $ref: ./resource/account.yml
+platform_account:
+  $ref: ./resource/platform_account.yml
 team:
   $ref: ./resource/team.yml
 integrations_app:
@@ -77,6 +79,15 @@ extended_message:
     - $ref: ./resource/extension/message/with_source_sender.yml
 
 # REQUEST
+
+account_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
+agent_bot_create_update_payload:
+  $ref: ./request/agent_bot/create_update_payload.yml
+
+user_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
 
 ## contact
 contact_create:
