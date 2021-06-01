@@ -249,7 +249,8 @@ export default {
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand = updatedMessage[0] === '/';
+      this.hasSlashCommand =
+        updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
