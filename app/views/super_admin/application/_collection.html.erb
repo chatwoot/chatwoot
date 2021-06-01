@@ -54,7 +54,7 @@ to display a collection of resources in an HTML table.
 
   <tbody>
     <% resources.each do |resource| %>
-      <% next if resource.owner_type == "PlatformAppPermissible" %>
+      <% next if resource.try(:owner_type) == "PlatformAppPermissible" %>
       <tr class="js-table-row"
           tabindex="0"
           <% if valid_action? :show, collection_presenter.resource_name %>
