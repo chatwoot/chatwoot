@@ -2,7 +2,7 @@ class Platform::Api::V1::AccountsController < PlatformController
   def create
     @resource = Account.new(account_params)
     @resource.save!
-    # @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
+    @platform_app.platform_app_permissibles.find_or_create_by(permissible: @resource)
     render json: @resource
   end
 
