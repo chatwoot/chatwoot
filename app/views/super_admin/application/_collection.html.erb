@@ -54,44 +54,43 @@ to display a collection of resources in an HTML table.
 
   <tbody>
     <% resources.each do |resource| %>
-      <% unless resource.owner_type == "PlatformAppPermissible" %>
-        <tr class="js-table-row"
-            tabindex="0"
-            <% if valid_action? :show, collection_presenter.resource_name %>
-              <%= %(role=link data-url=#{polymorphic_path([namespace, resource])}) %>
-            <% end %>
-            >
-          <% collection_presenter.attributes_for(resource).each do |attribute| %>
-            <td class="cell-data cell-data--<%= attribute.html_class %>">
-              <% if show_action? :show, resource -%>
-                <a href="<%= polymorphic_path([namespace, resource]) -%>"
-                  class="action-show"
-                  >
-                  <%= render_field attribute  %>
-                </a>
-              <% end -%>
-            </td>
+      <% next if resource.owner_type == "PlatformAppPermissible" %>
+      <tr class="js-table-row"
+          tabindex="0"
+          <% if valid_action? :show, collection_presenter.resource_name %>
+            <%= %(role=link data-url=#{polymorphic_path([namespace, resource])}) %>
           <% end %>
+          >
+        <% collection_presenter.attributes_for(resource).each do |attribute| %>
+          <td class="cell-data cell-data--<%= attribute.html_class %>">
+            <% if show_action? :show, resource -%>
+              <a href="<%= polymorphic_path([namespace, resource]) -%>"
+                class="action-show"
+                >
+                <%= render_field attribute  %>
+              </a>
+            <% end -%>
+          </td>
+        <% end %>
 
-          <% if valid_action? :edit, collection_presenter.resource_name %>
-            <td><%= link_to(
-              t("administrate.actions.edit"),
-              [:edit, namespace, resource],
-              class: "action-edit",
-            ) if show_action? :edit, resource%></td>
-          <% end %>
+        <% if valid_action? :edit, collection_presenter.resource_name %>
+          <td><%= link_to(
+            t("administrate.actions.edit"),
+            [:edit, namespace, resource],
+            class: "action-edit",
+          ) if show_action? :edit, resource%></td>
+        <% end %>
 
-          <% if valid_action? :destroy, collection_presenter.resource_name %>
-            <td><%= link_to(
-              t("administrate.actions.destroy"),
-              [namespace, resource],
-              class: "text-color-red",
-              method: :delete,
-              data: { confirm: t("administrate.actions.confirm") }
-            ) if show_action? :destroy, resource %></td>
-          <% end %>
-        </tr>
-      <% end %>
+        <% if valid_action? :destroy, collection_presenter.resource_name %>
+          <td><%= link_to(
+            t("administrate.actions.destroy"),
+            [namespace, resource],
+            class: "text-color-red",
+            method: :delete,
+            data: { confirm: t("administrate.actions.confirm") }
+          ) if show_action? :destroy, resource %></td>
+        <% end %>
+      </tr>
     <% end %>
   </tbody>
 </table>
