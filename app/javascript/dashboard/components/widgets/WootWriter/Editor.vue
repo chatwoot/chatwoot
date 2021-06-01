@@ -133,6 +133,9 @@ export default {
     showUserMentions(updatedValue) {
       this.$emit('toggle-user-mention', this.isPrivate && updatedValue);
     },
+    showCannedMenu(updatedValue) {
+      this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
+    },
     value(newValue) {
       if (newValue !== this.lastValue) {
         this.state = createState(newValue, this.placeholder, this.plugins);
