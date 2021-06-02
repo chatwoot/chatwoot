@@ -18,22 +18,10 @@
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
       />
-      <resizable-text-area
-        v-if="!showRichContentEditor"
-        ref="messageInput"
-        v-model="message"
-        class="input"
-        :placeholder="messagePlaceHolder"
-        :min-height="4"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
       <woot-message-editor
-        v-else
         v-model="message"
         class="input"
+        :is-format-mode="showFormatting"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :min-height="4"
@@ -62,7 +50,7 @@
       :is-send-disabled="isReplyButtonDisabled"
       :set-format-mode="setFormatMode"
       :is-on-private-note="isOnPrivateNote"
-      :is-format-mode="showRichContentEditor"
+      :is-format-mode="showFormatting"
       :enable-rich-editor="isRichEditorEnabled"
       :enter-to-send-enabled="enterToSendEnabled"
       @toggleEnterToSend="toggleEnterToSend"
@@ -77,7 +65,6 @@ import alertMixin from 'shared/mixins/alertMixin';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput';
 import CannedResponse from './CannedResponse';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview';
 import ReplyTopPanel from 'dashboard/components/widgets/WootWriter/ReplyTopPanel';
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel';
@@ -99,7 +86,6 @@ export default {
   components: {
     EmojiInput,
     CannedResponse,
-    ResizableTextArea,
     AttachmentPreview,
     ReplyTopPanel,
     ReplyBottomPanel,
@@ -127,7 +113,7 @@ export default {
     };
   },
   computed: {
-    showRichContentEditor() {
+    showFormatting() {
       if (this.isOnPrivateNote) {
         return true;
       }
@@ -249,19 +235,6 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
     },
-    message(updatedMessage) {
-      this.hasSlashCommand =
-        updatedMessage[0] === '/' && !this.showRichContentEditor;
-      const hasNextWord = updatedMessage.includes(' ');
-      const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
-      if (isShortCodeActive) {
-        this.mentionSearchKey = updatedMessage.substr(1, updatedMessage.length);
-        this.showMentions = true;
-      } else {
-        this.mentionSearchKey = '';
-        this.showMentions = false;
-      }
-    },
   },
   mounted() {
     document.addEventListener('keydown', this.handleKeyEvents);
@@ -282,11 +255,9 @@ export default {
         this.hideMentions();
       } else if (isEnter(e)) {
         const hasSendOnEnterEnabled =
-          (this.showRichContentEditor &&
-            this.enterToSendEnabled &&
-            !this.hasUserMention &&
-            !this.showCannedMenu) ||
-          !this.showRichContentEditor;
+          this.enterToSendEnabled &&
+          !this.hasUserMention &&
+          !this.showCannedMenu;
         const shouldSendMessage =
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;
         if (shouldSendMessage) {
@@ -324,10 +295,6 @@ export default {
       const { can_reply: canReply } = this.currentChat;
 
       if (canReply || this.isATwilioWhatsappChannel) this.replyType = mode;
-      if (this.showRichContentEditor) {
-        return;
-      }
-      this.$nextTick(() => this.$refs.messageInput.focus());
     },
     emojiOnClick(emoji) {
       this.message = `${this.message}${emoji} `;

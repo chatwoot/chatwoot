@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root">
+  <div class="editor-root" :class="{ 'without-format-menu': isFormatMode }">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
@@ -15,9 +15,6 @@
 </template>
 
 <script>
-import { EditorView } from 'prosemirror-view';
-
-import { defaultMarkdownSerializer } from 'prosemirror-markdown';
 import {
   addMentionsToMarkdownSerializer,
   addMentionsToMarkdownParser,
@@ -28,9 +25,13 @@ import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import { EditorState } from 'prosemirror-state';
-import { defaultMarkdownParser } from 'prosemirror-markdown';
-import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
+import {
+  wootWriterSetup,
+  EditorState,
+  EditorView,
+  defaultMarkdownParser,
+  defaultMarkdownSerializer,
+} from '@chatwoot/prosemirror-schema';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
@@ -57,6 +58,7 @@ export default {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
     isPrivate: { type: Boolean, default: false },
+    isFormatMode: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -255,10 +257,23 @@ export default {
   width: 100%;
 }
 
+.without-format-menu {
+  .ProseMirror-menubar {
+    display: none;
+  }
+  .ProseMirror-woot-style {
+    padding-top: var(--space-small);
+  }
+}
+
 .ProseMirror-woot-style {
   min-height: 8rem;
   max-height: 12rem;
   overflow: auto;
+
+  * {
+    font-size: var(--font-size-default);
+  }
 }
 
 .is-private {
