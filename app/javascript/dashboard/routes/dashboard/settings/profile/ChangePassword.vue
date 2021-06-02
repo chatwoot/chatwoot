@@ -8,46 +8,50 @@
         <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
       </div>
       <div class="columns small-9 medium-5">
-        <label :class="{ error: $v.currentPassword.$error }">
-          {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL') }}
-          <input
-            v-model.trim="currentPassword"
-            type="password"
-            :placeholder="
-              $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')
-            "
-            @input="$v.currentPassword.$touch"
-          />
-          <span v-if="$v.currentPassword.$error" class="message">
-            {{ $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR') }}
-          </span>
-        </label>
-        <label :class="{ error: $v.password.$error }">
-          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
-          <input
-            v-model.trim="password"
-            type="password"
-            :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-            @input="$v.password.$touch"
-          />
-          <span v-if="$v.password.$error" class="message">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') }}
-          </span>
-        </label>
-        <label :class="{ error: $v.passwordConfirmation.$error }">
-          {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL') }}
-          <input
-            v-model.trim="passwordConfirmation"
-            type="password"
-            :placeholder="
-              $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
-            "
-            @input="$v.passwordConfirmation.$touch"
-          />
-          <span v-if="$v.passwordConfirmation.$error" class="message">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
-          </span>
-        </label>
+        <woot-input
+          type="password"
+          v-model="currentPassword"
+          :class="{ error: $v.currentPassword.$error }"
+          :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
+          :placeholder="
+            $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.PLACEHOLDER')
+          "
+          :error="
+            $v.currentPassword.$error
+              ? $t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.ERROR')
+              : ''
+          "
+          @blur="$v.currentPassword.$touch"
+        />
+
+        <woot-input
+          v-model="password"
+          type="password"
+          :class="{ error: $v.password.$error }"
+          :label="$t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL')"
+          :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
+          :error="
+            $v.password.$error ? $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') : ''
+          "
+          @blur="$v.password.$touch"
+        />
+
+        <woot-input
+          type="password"
+          v-model="passwordConfirmation"
+          :class="{ error: $v.passwordConfirmation.$error }"
+          :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
+          :placeholder="
+            $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
+          "
+          :error="
+            $v.passwordConfirmation.$error
+              ? $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR')
+              : ''
+          "
+          @blur="$v.passwordConfirmation.$touch"
+        />
+
         <woot-button
           :is-loading="isPasswordChanging"
           type="submit"
@@ -133,22 +137,16 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~dashboard/assets/scss/variables.scss';
 @import '~dashboard/assets/scss/mixins.scss';
-
-.profile--settings {
-  padding: 24px;
-  overflow: auto;
-}
 
 .profile--settings--row {
   @include border-normal-bottom;
-  padding: $space-normal;
+  padding: var(--space-normal);
   .small-3 {
-    padding: $space-normal $space-medium $space-normal 0;
+    padding: var(--space-normal) var(--space-medium) var(--space-normal) 0;
   }
   .small-9 {
-    padding: $space-normal;
+    padding: var(--space-normal);
   }
 }
 </style>
