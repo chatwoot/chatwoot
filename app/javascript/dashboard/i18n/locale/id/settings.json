@@ -78,6 +78,11 @@
         "ERROR": "Harap masukkan alamat email yang valid",
         "PLACEHOLDER": "Silakan masukkan alamat email Anda, ini akan ditampilkan dalam percakapan"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Kata Sandi",
         "ERROR": "Silakan masukkan sandi dengan panjang 6 karakter atau lebih",
