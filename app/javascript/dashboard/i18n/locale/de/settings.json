@@ -79,9 +79,9 @@
         "PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein, diese wird in Gesprächen angezeigt"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Aktuelles Passwort",
+        "ERROR": "Bitte geben Sie das aktuelle Passwort ein",
+        "PLACEHOLDER": "Bitte geben Sie das aktuelle Passwort ein"
       },
       "PASSWORD": {
         "LABEL": "Passwort",
