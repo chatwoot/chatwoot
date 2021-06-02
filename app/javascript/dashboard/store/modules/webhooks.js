@@ -52,12 +52,10 @@ export const actions = {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: true });
     try {
       const response = await webHookAPI.update(id, updateObj);
-      const {
-        payload: { webhook },
-      } = response.data;
-      commit(types.default.UPDATE_WEBHOOK, webhook);
-      commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false });
+      commit(types.default.UPDATE_WEBHOOK, response.data.payload.webhook);
     } catch (error) {
+      throw new Error(error);
+    } finally {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false });
     }
   },
