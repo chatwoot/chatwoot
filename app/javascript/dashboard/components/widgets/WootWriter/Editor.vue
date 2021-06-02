@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-root" :class="{ 'without-format-menu': isFormatMode }">
+  <div class="editor-root" :class="{ 'without-format-menu': !isFormatMode }">
     <tag-agents
       v-if="showUserMentions && isPrivate"
       :search-key="mentionSearchKey"
