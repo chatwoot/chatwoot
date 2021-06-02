@@ -79,9 +79,9 @@
         "PLACEHOLDER": "Введите email, который будет отображаться в диалогах"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "Текущий пароль",
+        "ERROR": "Пожалуйста, введите текущий пароль",
+        "PLACEHOLDER": "Пожалуйста, введите текущий пароль"
       },
       "PASSWORD": {
         "LABEL": "Пароль",
