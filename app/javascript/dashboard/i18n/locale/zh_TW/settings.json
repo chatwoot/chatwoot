@@ -78,6 +78,11 @@
         "ERROR": "請輸入一個有效的電子信箱",
         "PLACEHOLDER": "請輸入您的名字，這將會在對話中顯示"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "密碼",
         "ERROR": "請輸入長度6或更長的密碼",
