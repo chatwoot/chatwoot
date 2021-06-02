@@ -208,6 +208,22 @@ Rails.application.routes.draw do
   end
 
   # ----------------------------------------------------------------------
+  # Routes for inbox APIs Exposed to contacts
+  namespace :public, defaults: { format: 'json' } do
+    namespace :api do
+      namespace :v1 do
+        resources :inboxes do
+          scope module: :inboxes do
+            resources :messages, only: [:index, :create, :update]
+            resources :conversations, only: [:index, :create]
+            resource :contacts, only: [:create, :update]
+          end
+        end
+      end
+    end
+  end
+
+  # ----------------------------------------------------------------------
   # Used in mailer templates
   resource :app, only: [:index] do
     resources :accounts do

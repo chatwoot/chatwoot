@@ -4,6 +4,7 @@
 #
 #  id                    :integer          not null, primary key
 #  feature_flags         :integer          default(3), not null
+#  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
