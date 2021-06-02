@@ -78,6 +78,11 @@
         "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்",
         "PLACEHOLDER": "தயவுசெய்து உங்கள் ஈ-மெயில் முகவரியை உள்ளிடவும், இது உரையாடல்களில் காண்பிக்கப்படும்"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "பாஸ்வேர்ட்",
         "ERROR": "6 அல்லது அதற்கு மேற்பட்ட நீள பாஸ்வேர்டை உள்ளிடவும்",
