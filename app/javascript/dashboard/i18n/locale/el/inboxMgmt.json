@@ -88,7 +88,7 @@
         "SUBMIT_BUTTON": "Δημιουργία Κιβωτίου"
       },
       "TWILIO": {
-        "TITLE": "SMS κανάλι από το Twilio",
+        "TITLE": "Κανάλι Twilio SMS/Whatsapp",
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
