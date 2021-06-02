@@ -78,6 +78,11 @@
         "ERROR": "لطفا ایمیل خود را به شکل صحیح وارد کنید",
         "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید، این ایمیل در گفتگوها دیده می‌شود"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "رمز عبور",
         "ERROR": "رمز عبور می‌بایست ۶ کاراکتر یا بیشتر باشد",
