@@ -9,8 +9,8 @@
       </div>
       <div class="columns small-9 medium-5">
         <woot-input
-          type="password"
           v-model="currentPassword"
+          type="password"
           :class="{ error: $v.currentPassword.$error }"
           :label="$t('PROFILE_SETTINGS.FORM.CURRENT_PASSWORD.LABEL')"
           :placeholder="
@@ -37,8 +37,8 @@
         />
 
         <woot-input
-          type="password"
           v-model="passwordConfirmation"
+          type="password"
           :class="{ error: $v.passwordConfirmation.$error }"
           :label="$t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL')"
           :placeholder="
