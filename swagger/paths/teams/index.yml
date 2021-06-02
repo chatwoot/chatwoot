@@ -9,6 +9,7 @@ responses:
     schema:
       type: array
       description: 'Array of teams'
-      $ref: '#/definitions/team'
+      items:
+        $ref: '#/definitions/team'
   401:
     description: Unauthorized

@@ -7,7 +7,10 @@ responses:
   200:
     description: Success
     schema:
-      $ref: '#/definitions/integrations_app'
+      type: array
+      description: 'Array of Integration apps'
+      items:
+        $ref: '#/definitions/integrations_app'
   401:
     description: Unauthorized
   404:

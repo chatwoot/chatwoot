@@ -1,0 +1,11 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the agent bot
+  description:
+    type: string
+    description: The description about the agent bot
+  outgoing_url:
+    type: string
+    description: The webhook URL for the bot
