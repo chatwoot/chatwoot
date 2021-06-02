@@ -232,6 +232,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
+  get '.well-known/assetlinks.json' => 'android_app#assetlinks'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
