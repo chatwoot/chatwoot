@@ -1,8 +1,5 @@
 export default {
   computed: {
-    hideInputForBotConversations() {
-      return window.chatwootWebChannel.hideInputForBotConversations;
-    },
     useInboxAvatarForBot() {
       return window.chatwootWidgetDefaults.useInboxAvatarForBot;
     },
