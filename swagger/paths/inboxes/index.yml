@@ -10,7 +10,8 @@ get:
       schema:
         type: array
         description: 'Array of inboxes'
-        $ref: '#/definitions/inbox'
+        items:
+          $ref: '#/definitions/inbox'
     404:
       description: Inbox not found
     403:

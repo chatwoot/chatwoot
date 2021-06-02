@@ -1,0 +1,20 @@
+tags:
+  - Users
+operationId: create-a-user
+summary: Create a User
+description: Create a User
+security:
+  - platformAppApiKey: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/user_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/user'
+  401:
+    description: Unauthorized

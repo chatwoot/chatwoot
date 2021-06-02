@@ -102,12 +102,13 @@ export const actions = {
   },
 
   updateProfile: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const response = await authAPI.profileUpdate(params);
       setUser(response.data, getHeaderExpiry(response));
       commit(types.default.SET_CURRENT_USER);
     } catch (error) {
-      // Ignore error
+      throw error;
     }
   },
 
