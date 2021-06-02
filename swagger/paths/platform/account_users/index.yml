@@ -1,0 +1,28 @@
+tags:
+  - Account Users
+operationId: list-all-account-users
+summary: List all Account Users
+description: List all account users
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of account users'
+      items:
+        type: object
+        properties: 
+          account_id:
+            type: integer
+            description: The ID of the user
+          user_id:
+            type: integer
+            description: The ID of the user
+          role:
+            type: string
+            description: whether user is an administrator or agent
+      
+  401:
+    description: Unauthorized
