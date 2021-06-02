@@ -155,6 +155,16 @@
       "VIEW_DETAILS": "Details anzeigen"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Hinzufügen",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notizen"
@@ -168,23 +178,33 @@
       "BUTTON": "Alle Notizen anzeigen"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "gespräche"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Benutzerdefinierte Attribute",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Eigenes Attribut hinzufügen",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Eigenes Attribut erstellen",
+      "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Attribut hinzufügen",
       "CANCEL": "Stornieren",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Benutzerdefinierter Attributname",
+        "PLACEHOLDER": "Eg: Shopify Id",
+        "ERROR": "Ungültiger eigener Attributname"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Attributwert",
         "PLACEHOLDER": "Eg: 11901 "
       }
     }
