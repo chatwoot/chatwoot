@@ -16,8 +16,12 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
       from: channel.phone_number,
       to: contact_inbox.source_id
     }
-    params[:media_url] = attachments if message.attachments.present? && (channel.whatsapp? || contact_inbox.source_id.start_with?('+1'))
+    params[:media_url] = attachments if accepts_attachments && message.attachments.present?
     params
+  end
+
+  def accepts_attachments
+    channel.whatsapp? || contact_inbox.source_id.start_with?('+1')
   end
 
   def attachments

@@ -76,7 +76,7 @@ export default {
     },
     showFileUpload: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     onFileUpload: {
       type: Function,
