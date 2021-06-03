@@ -13,6 +13,7 @@
       :contact-id="contact.id"
       conversation-id=""
     />
+    <contact-label />
   </div>
 </template>
 
@@ -20,12 +21,14 @@
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo';
 import ContactCustomAttributes from 'dashboard/routes/dashboard/conversation/ContactCustomAttributes';
+import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 
 export default {
   components: {
     ContactCustomAttributes,
     ContactConversations,
     ContactInfo,
+    ContactLabel,
   },
   props: {
     contact: {
@@ -75,10 +78,6 @@ export default {
 
 .conversation--details {
   padding: 0 var(--space-normal);
-}
-
-.contact-conversation--panel {
-  height: 100%;
 }
 
 .contact--mute {

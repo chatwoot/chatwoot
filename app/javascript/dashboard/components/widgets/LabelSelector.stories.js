@@ -1,11 +1,11 @@
 import { action } from '@storybook/addon-actions';
-import ContactLabel from './ContactLabel';
+import LabelSelector from './LabelSelector';
 
 export default {
-  title: 'Components/Labels/Contact',
-  component: ContactLabel,
+  title: 'Components/Label/Contact Label',
+  component: LabelSelector,
   argTypes: {
-    conversationId: {
+    contactId: {
       control: {
         type: 'text ,number',
       },
@@ -15,13 +15,13 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { ContactLabel },
+  components: { LabelSelector },
   template:
-    '<contact-label v-bind="$props" @add="onAdd" @remove="onRemove"></contact-label>',
+    '<label-selector v-bind="$props" @add="onAdd" @remove="onRemove"></label-selector>',
 });
 
-export const Contact = Template.bind({});
-Contact.args = {
+export const ContactLabel = Template.bind({});
+ContactLabel.args = {
   onAdd: action('Added'),
   onRemove: action('Removed'),
   allLabels: [
@@ -64,5 +64,4 @@ Contact.args = {
       color: '#42d1f5',
     },
   ],
-  selectedLabels: ['refund', 'scheduled'],
 };

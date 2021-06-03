@@ -7,6 +7,7 @@ import auth from './modules/auth';
 import cannedResponse from './modules/cannedResponse';
 import contactConversations from './modules/contactConversations';
 import contacts from './modules/contacts';
+import contactLabels from './modules/contactLabels';
 import notifications from './modules/notifications';
 import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
@@ -37,6 +38,7 @@ export default new Vuex.Store({
     cannedResponse,
     contactConversations,
     contacts,
+    contactLabels,
     notifications,
     conversationLabels,
     conversationMetadata,

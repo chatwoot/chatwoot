@@ -15,7 +15,10 @@
         @click="removeItem"
       />
       <div class="dropdown-wrap">
-        <div :class="{ 'dropdown-pane--open': showSearchDropdownLabel }">
+        <div
+          :class="{ 'dropdown-pane--open': showSearchDropdownLabel }"
+          class="dropdown-pane"
+        >
           <label-dropdown
             v-if="showSearchDropdownLabel"
             :v-for="label in selectedLabels"
@@ -41,15 +44,11 @@ export default {
   },
 
   props: {
-    conversationId: {
+    contactId: {
       type: [String, Number],
       required: true,
     },
     allLabels: {
-      type: Array,
-      default: () => [],
-    },
-    selectedLabels: {
       type: Array,
       default: () => [],
     },
@@ -63,6 +62,12 @@ export default {
     return {
       showSearchDropdownLabel: false,
     };
+  },
+
+  computed: {
+    selectedLabels() {
+      return this.savedLabels.map(label => label.title);
+    },
   },
 
   methods: {
