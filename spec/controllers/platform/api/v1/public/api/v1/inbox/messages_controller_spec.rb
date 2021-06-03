@@ -45,7 +45,7 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
   describe 'PATCH /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}/messages/{id}' do
     it 'creates a message in the conversation' do
       message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
-      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" +
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
             "#{conversation.display_id}/messages/#{message.id}",
             params: { submitted_values: [{ title: 'test' }] }
 
