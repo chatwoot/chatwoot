@@ -1,7 +1,7 @@
 <template>
   <div class="custom-attributes--panel">
     <contact-details-item
-      :title="$t('CONTACT_PANEL.CUSTOM_ATTRIBUTES.TITLE')"
+      :title="$t('CUSTOM_ATTRIBUTES.TITLE')"
       icon="ion-code"
       emoji="📕"
     />
