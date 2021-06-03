@@ -1,5 +1,5 @@
 class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesController
-  before_action :contact, except: [:create]
+  before_action :contact_inbox, except: [:create]
   before_action :process_hmac
 
   def create
@@ -24,7 +24,7 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
 
   private 
   
-  def contact
+  def contact_inbox
     @contact_inbox = @inbox_channel.inbox.contact_inboxes.find_by!(source_id: params[:id])
   end
 
