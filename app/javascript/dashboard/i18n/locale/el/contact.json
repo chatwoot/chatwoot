@@ -158,11 +158,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Προσθήκη",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter για δημιουργία εργασίας"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Ημερομηνία λήξης",
+      "LABEL_TITLE": "Ορισμός τύπου"
     }
   },
   "NOTES": {
