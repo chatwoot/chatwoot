@@ -197,10 +197,14 @@ export default {
         'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
         'is-text': this.hasText,
+        'is-from-bot': this.isSentByBot,
       };
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
+    },
+    isSentByBot() {
+      return !this.sender.type || this.sender.type === 'bot';
     },
   },
 };
@@ -249,6 +253,13 @@ export default {
       padding: 0;
       color: var(--color-body);
       text-decoration: underline;
+    }
+
+    &.is-from-bot {
+      background: var(--v-400);
+      .message-text--metadata .time {
+        color: var(--v-50);
+      }
     }
   }
 
