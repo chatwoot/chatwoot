@@ -10,9 +10,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
       contact_attributes: permitted_params.except(:identifier, :identifier_hash)
     ).perform
   end
- 
-  def show
-  end
+
+  def show; end
 
   def update
     contact_identify_action = ContactIdentifyAction.new(
@@ -22,8 +21,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
     render json: contact_identify_action.perform
   end
 
-  private 
-  
+  private
+
   def contact_inbox
     @contact_inbox = @inbox_channel.inbox.contact_inboxes.find_by!(source_id: params[:id])
   end

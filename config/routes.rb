@@ -214,7 +214,7 @@ Rails.application.routes.draw do
       namespace :v1 do
         resources :inboxes do
           scope module: :inboxes do
-            resources :contacts, only: [:create, :show, :update] do 
+            resources :contacts, only: [:create, :show, :update] do
               resources :conversations, only: [:index, :create] do
                 resources :messages, only: [:index, :create, :update]
               end
