@@ -26,7 +26,6 @@
           <input
             v-model="formValues[item.name]"
             :required="item.required ? 'required' : false"
-            :pattern="item.regex"
             :type="item.type"
             :name="item.name"
             :placeholder="item.placeholder"
