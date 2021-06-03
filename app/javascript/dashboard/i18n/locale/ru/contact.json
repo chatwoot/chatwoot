@@ -158,11 +158,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Добавить",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter для создания задачи"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Дата окончания",
+      "LABEL_TITLE": "Установить тип"
     }
   },
   "NOTES": {
