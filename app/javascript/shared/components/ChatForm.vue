@@ -1,37 +1,49 @@
 <template>
   <div class="form chat-bubble agent">
     <form @submit.prevent="onSubmit">
-      <div v-for="item in items" :key="item.key" class="form-block">
+      <div
+        v-for="item in items"
+        :key="item.key"
+        class="form-block"
+        :class="{
+          hasSubmitted: hasSubmitted,
+        }"
+      >
         <label>{{ item.label }}</label>
         <div v-if="item.type === 'email'">
           <input
             v-model="formValues[item.name]"
             :type="item.type"
-            :class="{
-              error: hasTouched && !emailValidation(item.name, item.type),
-            }"
+            :pattern="item.regex"
+            :required="item.required ? 'required' : false"
             :name="item.name"
             :placeholder="item.placeholder"
             :disabled="!!submittedValues.length"
-            @focus="isTouched()"
           />
+          <span class="error-message">{{ $t('CHAT_FORM.INVALID.EMAIL') }}</span>
         </div>
         <div v-if="item.type === 'text'">
           <input
             v-model="formValues[item.name]"
+            :required="item.required ? 'required' : false"
+            :pattern="item.regex"
             :type="item.type"
             :name="item.name"
             :placeholder="item.placeholder"
             :disabled="!!submittedValues.length"
           />
+          <span class="error-message">{{ $t('CHAT_FORM.INVALID.TEXT') }}</span>
         </div>
-        <textarea
-          v-else-if="item.type === 'text_area'"
-          v-model="formValues[item.name]"
-          :name="item.name"
-          :placeholder="item.placeholder"
-          :disabled="!!submittedValues.length"
-        />
+        <div v-else-if="item.type === 'text_area'">
+          <textarea
+            v-model="formValues[item.name]"
+            :required="item.required ? 'required' : false"
+            :name="item.name"
+            :placeholder="item.placeholder"
+            :disabled="!!submittedValues.length"
+          />
+          <span class="error-message">{{ $t('CHAT_FORM.INVALID.TEXT') }}</span>
+        </div>
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
@@ -49,8 +61,8 @@
         v-if="!submittedValues.length"
         class="button block"
         type="submit"
-        :disabled="!isFormValid"
         :style="{ background: widgetColor, borderColor: widgetColor }"
+        @click="onSubmitClick"
       >
         {{ buttonLabel || $t('COMPONENTS.FORM_BUBBLE.SUBMIT') }}
       </button>
@@ -78,7 +90,7 @@ export default {
   data() {
     return {
       formValues: {},
-      hasTouched: false,
+      hasSubmitted: false,
     };
   },
   computed: {
@@ -86,9 +98,8 @@ export default {
       widgetColor: 'appConfig/getWidgetColor',
     }),
     isFormValid() {
-      return this.items.reduce((acc, { name, regex }) => {
-        const isValid = this.validateFormWithApi(name, regex);
-        return !!this.formValues[name] && isValid && acc;
+      return this.items.reduce((acc, { name }) => {
+        return !!this.formValues[name] && acc;
       }, true);
     },
   },
@@ -100,38 +111,15 @@ export default {
     }
   },
   methods: {
+    onSubmitClick() {
+      this.hasSubmitted = true;
+    },
     onSubmit() {
       if (!this.isFormValid) {
         return;
       }
       this.$emit('submit', this.formValues);
     },
-
-    validateFormWithApi(name, regex = '') {
-      const formValue = this.formValues[name];
-      if (!regex) {
-        return true;
-      }
-      const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
-      const reg = new RegExp(pattern, flags);
-      return reg.test(formValue);
-    },
-
-    isTouched() {
-      this.hasTouched = true;
-    },
-
-    emailValidation(name, type) {
-      if (this.hasTouched === true) {
-        const formValue = this.formValues[name];
-        const regex = this.items.find(obj => obj.type === type).regex;
-        const [, pattern, flags] = regex.match(/\/(.*)\/([a-z]*)/);
-        const reg = new RegExp(pattern, flags);
-        return reg.test(formValue);
-      }
-      return false;
-    },
-
     buildFormObject(formObjectArray) {
       return formObjectArray.reduce((acc, obj) => {
         return {
@@ -167,10 +155,6 @@ export default {
     font-weight: $font-weight-medium;
     padding: $space-smaller 0;
     text-transform: capitalize;
-  }
-
-  .error {
-    border: 1px solid $color-error;
   }
 
   input,
@@ -216,6 +200,30 @@ export default {
 
   .button {
     font-size: $font-size-default;
+  }
+
+  .error-message {
+    display: none;
+    margin-top: $space-smaller;
+    color: $color-error;
+  }
+
+  .hasSubmitted {
+    input:invalid {
+      border: 1px solid $color-error;
+    }
+
+    input:invalid + .error-message {
+      display: block;
+    }
+
+    textarea:invalid {
+      border: 1px solid $color-error;
+    }
+
+    textarea:invalid + .error-message {
+      display: block;
+    }
   }
 }
 </style>
