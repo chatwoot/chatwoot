@@ -58,6 +58,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
+    # timestamp parameter is used in create conversation method
     params.permit(:id, :before, :website_token, contact: [:name, :email], message: [:content, :referer_url, :timestamp, :echo_id])
   end
 

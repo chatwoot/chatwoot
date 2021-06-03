@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Public Inbox Contacts API', type: :request do
+RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
   let!(:api_channel) { create(:channel_api) }
   let!(:contact) { create(:contact) }
   let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: api_channel.inbox)}

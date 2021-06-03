@@ -18,6 +18,6 @@ class Public::Api::V1::InboxesController < PublicController
   def set_conversation
     return if params[:conversation_id].blank?
 
-    @contact_inbox = @contact_inbox.contact.conversations.find_by!(display_id: params[:conversation_id])
+    @conversation = @contact_inbox.contact.conversations.find_by!(display_id: params[:conversation_id])
   end
 end
