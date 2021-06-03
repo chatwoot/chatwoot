@@ -11,9 +11,8 @@
       />
       <div class="button-wrapper">
         <woot-button
-          color-scheme="secondary"
-          class="alert nice"
-          :disabled="!value || !$v.value.isEqual"
+          color-scheme="alert"
+          :is-disabled="!value || !$v.value.isEqual"
         >
           {{ confirmText }}
         </woot-button>
