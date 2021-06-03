@@ -16,8 +16,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
 
   def update
     contact_identify_action = ContactIdentifyAction.new(
-      contact: @contact,
-      params: permitted_params.to_h.deep_symbolize_keys
+      contact: @contact_inbox.contact,
+      params: permitted_params.to_h.deep_symbolize_keys.except(:identifier)
     )
     render json: contact_identify_action.perform
   end
