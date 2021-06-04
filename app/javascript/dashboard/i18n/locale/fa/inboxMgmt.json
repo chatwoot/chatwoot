@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
         "MESSAGE": "مطمئن هستید که حذف شود ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "بله، حذف شود ",
         "NO": "نه، بماند "
       },
