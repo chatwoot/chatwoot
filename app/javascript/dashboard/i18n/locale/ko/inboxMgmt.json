@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "삭제 확인",
         "MESSAGE": "삭제하시겠습니까? ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "예, 삭제합니다. ",
         "NO": "아니요, 유지해주세요. "
       },
