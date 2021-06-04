@@ -15,7 +15,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517",
+    "@chatwoot/prosemirror-schema": "https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022",
     "@chatwoot/utils": "^0.0.3",
     "@rails/actioncable": "6.1.3",
     "@rails/webpacker": "5.3.0",

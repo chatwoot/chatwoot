@@ -1081,9 +1081,9 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517":
+"@chatwoot/prosemirror-schema@https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022":
   version "1.0.0"
-  resolved "https://github.com/chatwoot/prosemirror-schema.git#7e8acadd10d7b932c0dc0bd0a18f804434f83517"
+  resolved "https://github.com/chatwoot/prosemirror-schema.git#1735b804235bf93a6f49124a35f762e4a2294022"
   dependencies:
     prosemirror-commands "^1.1.4"
     prosemirror-dropcursor "^1.3.2"
@@ -1091,7 +1091,9 @@
     prosemirror-history "^1.1.3"
     prosemirror-inputrules "^1.1.3"
     prosemirror-keymap "^1.1.4"
+    prosemirror-markdown "1.5.1"
     prosemirror-menu "^1.1.4"
+    prosemirror-model "^1.1.0"
     prosemirror-schema-list "^1.1.4"
     prosemirror-state "^1.3.3"
     prosemirror-view "^1.17.2"
@@ -6001,6 +6003,11 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.2.0.tgz#098dc90ebb83d8dffa089d55256b351d34c4da55"
   integrity sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
 
+entities@~2.0.0:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
+  integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==
+
 errno@^0.1.3, errno@~0.1.7:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/errno/-/errno-0.1.8.tgz#8bb3e9c7d463be4976ff888f76b4809ebc2e811f"
@@ -9355,6 +9362,13 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.1.6.tgz#1c00c743b433cd0a4e80758f7b64a57440d9ff00"
   integrity sha1-HADHQ7QzzQpOgHWPe2SldEDZ/wA=
 
+linkify-it@^2.0.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/linkify-it/-/linkify-it-2.2.0.tgz#e3b54697e78bf915c70a38acd78fd09e0058b1cf"
+  integrity sha512-GnAl/knGn+i1U/wjBz3akz2stz+HrHLsxMwHQGofCDfPvlf+gDKN58UtfmUquTY4/MXeE2x7k19KQmeoZi94Iw==
+  dependencies:
+    uc.micro "^1.0.1"
+
 lint-staged@10.5.4:
   version "10.5.4"
   resolved "https://registry.yarnpkg.com/lint-staged/-/lint-staged-10.5.4.tgz#cd153b5f0987d2371fc1d2847a409a2fe705b665"
@@ -9694,6 +9708,17 @@ markdown-escapes@^1.0.0:
   resolved "https://registry.yarnpkg.com/markdown-escapes/-/markdown-escapes-1.0.4.tgz#c95415ef451499d7602b91095f3c8e8975f78535"
   integrity sha512-8z4efJYk43E0upd0NbVXwgSTQs6cT3T06etieCMEg7dRbzCbxUCK/GHlX8mhHRDcp+OLlHkPKsvqQTCvsRl2cg==
 
+markdown-it@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it/-/markdown-it-10.0.0.tgz#abfc64f141b1722d663402044e43927f1f50a8dc"
+  integrity sha512-YWOP1j7UbDNz+TumYP1kpwnP0aEa711cJjrAQrzd0UXlbJfc5aAq0F/PZHjiioqDC1NKgvIMX+o+9Bk7yuM2dg==
+  dependencies:
+    argparse "^1.0.7"
+    entities "~2.0.0"
+    linkify-it "^2.0.0"
+    mdurl "^1.0.1"
+    uc.micro "^1.0.5"
+
 markdown-to-jsx@^6.11.4:
   version "6.11.4"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-6.11.4.tgz#b4528b1ab668aef7fe61c1535c27e837819392c5"
@@ -9778,7 +9803,7 @@ mdn-data@2.0.4:
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.4.tgz#699b3c38ac6f1d728091a64650b65d388502fd5b"
   integrity sha512-iV3XNKw06j5Q7mi6h+9vbx23Tv7JkjEVgKHW4pimwyDGWm0OIQntJJ+u1C6mg6mK1EaTv42XQ7w76yuzH7M2cA==
 
-mdurl@^1.0.0:
+mdurl@^1.0.0, mdurl@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
   integrity sha1-/oWy7HWlkDfyrf7BAP1sYBdhFS4=
@@ -11958,6 +11983,14 @@ prosemirror-keymap@^1.0.0, prosemirror-keymap@^1.1.4:
   dependencies:
     prosemirror-state "^1.0.0"
     w3c-keyname "^2.2.0"
+
+prosemirror-markdown@1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/prosemirror-markdown/-/prosemirror-markdown-1.5.1.tgz#877c7faea2225d3c52e988599bbe4457bcb3190f"
+  integrity sha512-QvucPHx+gKOQW1SETKUysrful9VBjKqpCFmPotgLfVZ3BdQEGy/NEIFhaXXo3TcuW316MMnKfA90K7GE5I7z8A==
+  dependencies:
+    markdown-it "^10.0.0"
+    prosemirror-model "^1.0.0"
 
 prosemirror-menu@^1.1.4:
   version "1.1.4"
@@ -14439,6 +14472,11 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
+
+uc.micro@^1.0.1, uc.micro@^1.0.5:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.6.tgz#9c411a802a409a91fc6cf74081baba34b24499ac"
+  integrity sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
 
 unbox-primitive@^1.0.0:
   version "1.0.1"
