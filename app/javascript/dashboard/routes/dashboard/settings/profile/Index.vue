@@ -55,53 +55,7 @@
         </div>
       </div>
     </form>
-    <form @submit.prevent="updateUser('password')">
-      <div class="profile--settings--row row">
-        <div class="columns small-3">
-          <h4 class="block-title">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
-          </h4>
-          <p>{{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.NOTE') }}</p>
-        </div>
-        <div class="columns small-9 medium-5">
-          <label :class="{ error: $v.password.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.LABEL') }}
-            <input
-              v-model.trim="password"
-              type="password"
-              :placeholder="$t('PROFILE_SETTINGS.FORM.PASSWORD.PLACEHOLDER')"
-              @input="$v.password.$touch"
-            />
-            <span v-if="$v.password.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.PASSWORD.ERROR') }}
-            </span>
-          </label>
-          <label :class="{ error: $v.passwordConfirmation.$error }">
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.LABEL') }}
-            <input
-              v-model.trim="passwordConfirmation"
-              type="password"
-              :placeholder="
-                $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.PLACEHOLDER')
-              "
-              @input="$v.passwordConfirmation.$touch"
-            />
-            <span v-if="$v.passwordConfirmation.$error" class="message">
-              {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_CONFIRMATION.ERROR') }}
-            </span>
-          </label>
-          <woot-button
-            :is-loading="isPasswordChanging"
-            type="submit"
-            :disabled="
-              !passwordConfirmation || !$v.passwordConfirmation.isEqPassword
-            "
-          >
-            {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.BTN_TEXT') }}
-          </woot-button>
-        </div>
-      </div>
-    </form>
+    <change-password />
     <notification-settings />
     <div class="profile--settings--row row">
       <div class="columns small-3">
@@ -123,10 +77,12 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 import alertMixin from 'shared/mixins/alertMixin';
+import ChangePassword from './ChangePassword.vue';
 
 export default {
   components: {
     NotificationSettings,
+    ChangePassword,
   },
   mixins: [alertMixin],
   data() {
@@ -136,10 +92,8 @@ export default {
       name: '',
       displayName: '',
       email: '',
-      password: '',
-      passwordConfirmation: '',
       isProfileUpdating: false,
-      isPasswordChanging: false,
+      errorMessage: '',
     };
   },
   validations: {
@@ -151,18 +105,6 @@ export default {
     email: {
       required,
       email,
-    },
-    password: {
-      minLength: minLength(6),
-    },
-    passwordConfirmation: {
-      minLength: minLength(6),
-      isEqPassword(value) {
-        if (value !== this.password) {
-          return false;
-        }
-        return true;
-      },
     },
   },
   computed: {
@@ -190,41 +132,36 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
     },
-    async updateUser(type) {
+    async updateUser() {
       this.$v.$touch();
       if (this.$v.$invalid) {
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.ERROR'));
         return;
       }
-      if (type === 'profile') {
-        this.isProfileUpdating = true;
-      } else if (type === 'password') {
-        this.isPasswordChanging = true;
-      }
+
+      this.isProfileUpdating = true;
       const hasEmailChanged = this.currentUser.email !== this.email;
       try {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
           email: this.email,
           avatar: this.avatarFile,
-          password: this.password,
           displayName: this.displayName,
-          password_confirmation: this.passwordConfirmation,
         });
         this.isProfileUpdating = false;
-        this.isPasswordChanging = false;
         if (hasEmailChanged) {
           clearCookiesOnLogout();
-          this.showAlert(this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED'));
+          this.errorMessage = this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
         }
-        if (type === 'profile') {
-          this.showAlert(this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'));
-        } else if (type === 'password') {
-          this.showAlert(this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS'));
-        }
+        this.errorMessage = this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
       } catch (error) {
+        this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        if (error?.response?.data?.error) {
+          this.errorMessage = error.response.data.error;
+        }
+      } finally {
         this.isProfileUpdating = false;
-        this.isPasswordChanging = false;
+        this.showAlert(this.errorMessage);
       }
     },
     handleImageUpload({ file, url }) {
