@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import WootSubmitButton from '../../../../components/buttons/FormSubmitButton';
 import Modal from '../../../../components/Modal';
 import alertMixin from 'shared/mixins/alertMixin';
 import { mapGetters } from 'vuex';
@@ -64,7 +63,6 @@ import validations from './validations';
 
 export default {
   components: {
-    WootSubmitButton,
     Modal,
   },
   mixins: [alertMixin],
@@ -92,13 +90,16 @@ export default {
       uiFlags: 'labels/getUIFlags',
     }),
     titleErrorMessage() {
-      if (!this.$v.title.minLength || !this.title) {
+      if (!this.title) {
+        return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+      }
+      if (!this.$v.title.minLength) {
         return this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
       }
       if (!this.$v.title.validLabelCharacters) {
         return this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
       }
-      return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+      return '';
     },
   },
   mounted() {
