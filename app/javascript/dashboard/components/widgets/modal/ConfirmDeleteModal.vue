@@ -1,19 +1,16 @@
 <template>
   <modal :show.sync="show" :on-close="closeModal">
     <woot-modal-header :header-title="title" :header-content="message" />
-    <form @submit.prevent="onConfirm()">
+    <form @submit.prevent="onConfirm">
       <woot-input
         v-model="value"
         type="text"
         :class="{ error: $v.value.$error }"
-        :placeholder="cofirmPlaceHolderText"
+        :placeholder="confirmPlaceHolderText"
         @blur="$v.value.$touch"
       />
       <div class="button-wrapper">
-        <woot-button
-          color-scheme="alert"
-          :is-disabled="!value || !$v.value.isEqual"
-        >
+        <woot-button color-scheme="alert" :is-disabled="$v.value.$invalid">
           {{ confirmText }}
         </woot-button>
         <woot-button class="clear" @click.prevent="closeModal">
@@ -38,14 +35,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    onClose: {
-      type: Function,
-      default: () => {},
-    },
-    onConfirm: {
-      type: Function,
-      default: () => {},
-    },
     title: {
       type: String,
       default: '',
@@ -66,7 +55,7 @@ export default {
       type: String,
       default: '',
     },
-    cofirmPlaceHolderText: {
+    confirmPlaceHolderText: {
       type: String,
       default: '',
     },
@@ -80,17 +69,17 @@ export default {
     value: {
       required,
       isEqual(value) {
-        if (value !== this.confirmValue) {
-          return false;
-        }
-        return true;
+        return value === this.confirmValue;
       },
     },
   },
   methods: {
     closeModal() {
       this.value = '';
-      this.onClose();
+      this.$emit('on-close');
+    },
+    onConfirm() {
+      this.$emit('on-confirm');
     },
   },
 };

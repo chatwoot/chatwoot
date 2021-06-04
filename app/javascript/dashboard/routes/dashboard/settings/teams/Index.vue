@@ -65,14 +65,14 @@
     </div>
     <woot-confirm-delete-modal
       :show.sync="showDeletePopup"
-      :on-close="closeDelete"
-      :on-confirm="confirmDeletion"
       :title="confirmDeleteTitle"
       :message="$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
       :confirm-value="selectedTeam.name"
-      :cofirm-place-holder-text="cofirmPlaceHolderText"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>
@@ -111,7 +111,7 @@ export default {
         teamName: this.selectedTeam.name,
       });
     },
-    cofirmPlaceHolderText() {
+    confirmPlaceHolderText() {
       return `${this.$t('TEAMS_SETTINGS.DELETE.CONFIRM.PLACE_HOLDER', {
         teamName: this.selectedTeam.name,
       })}`;
