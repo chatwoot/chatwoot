@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "確定要刪除 - %{teamName} ？",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
         "YES": "刪除 ",
         "NO": "取消"
