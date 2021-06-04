@@ -76,9 +76,9 @@ $default-button-height: 4.0rem;
 
   &.button--only-icon {
     justify-content: center;
-    width: $default-button-height;
     padding-left: 0;
     padding-right: 0;
+    width: $default-button-height;
 
     &.tiny {
       width: var(--space-medium);
