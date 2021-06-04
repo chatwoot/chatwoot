@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",
         "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Evet, Sil ",
         "NO": "Hayır, Tut"
       },
