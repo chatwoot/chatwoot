@@ -5,29 +5,39 @@
       :search-key="mentionSearchKey"
       @click="insertMentionNode"
     />
+    <canned-response
+      v-if="showCannedMenu"
+      :search-key="cannedSearchTerm"
+      @click="insertCannedResponse"
+    />
     <div ref="editor"></div>
   </div>
 </template>
 
 <script>
 import { EditorView } from 'prosemirror-view';
+
 import { defaultMarkdownSerializer } from 'prosemirror-markdown';
-
-const TYPING_INDICATOR_IDLE_TIME = 4000;
-
 import {
   addMentionsToMarkdownSerializer,
   addMentionsToMarkdownParser,
   schemaWithMentions,
 } from '@chatwoot/prosemirror-schema/src/mentions/schema';
+
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
-import TagAgents from '../conversation/TagAgents.vue';
 import { EditorState } from 'prosemirror-state';
 import { defaultMarkdownParser } from 'prosemirror-markdown';
 import { wootWriterSetup } from '@chatwoot/prosemirror-schema';
+
+import TagAgents from '../conversation/TagAgents';
+import CannedResponse from '../conversation/CannedResponse';
+
+const TYPING_INDICATOR_IDLE_TIME = 4000;
+
+import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 
 const createState = (content, placeholder, plugins = []) => {
   return EditorState.create({
@@ -42,7 +52,7 @@ const createState = (content, placeholder, plugins = []) => {
 
 export default {
   name: 'WootMessageEditor',
-  components: { TagAgents },
+  components: { TagAgents, CannedResponse },
   props: {
     value: { type: String, default: '' },
     placeholder: { type: String, default: '' },
@@ -52,7 +62,9 @@ export default {
     return {
       lastValue: null,
       showUserMentions: false,
+      showCannedMenu: false,
       mentionSearchKey: '',
+      cannedSearchTerm: '',
       editorView: null,
       range: null,
     };
@@ -85,6 +97,35 @@ export default {
             return event.keyCode === 13 && this.showUserMentions;
           },
         }),
+        suggestionsPlugin({
+          matcher: triggerCharacters('/'),
+          suggestionClass: '',
+          onEnter: args => {
+            if (this.isPrivate) {
+              return false;
+            }
+            this.showCannedMenu = true;
+            this.range = args.range;
+            this.editorView = args.view;
+            return false;
+          },
+          onChange: args => {
+            this.editorView = args.view;
+            this.range = args.range;
+
+            this.cannedSearchTerm = args.text.replace('/', '');
+            return false;
+          },
+          onExit: () => {
+            this.cannedSearchTerm = '';
+            this.showCannedMenu = false;
+            this.editorView = null;
+            return false;
+          },
+          onKeyDown: ({ event }) => {
+            return event.keyCode === 13 && this.showCannedMenu;
+          },
+        }),
       ];
     },
   },
@@ -92,9 +133,14 @@ export default {
     showUserMentions(updatedValue) {
       this.$emit('toggle-user-mention', this.isPrivate && updatedValue);
     },
-    value(newValue) {
+    showCannedMenu(updatedValue) {
+      this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
+    },
+    value(newValue = '') {
       if (newValue !== this.lastValue) {
-        this.state = createState(newValue, this.placeholder, this.plugins);
+        const { tr } = this.state;
+        tr.insertText(newValue, 0, tr.doc.content.size);
+        this.state = this.view.state.apply(tr);
         this.view.updateState(this.state);
       }
     },
@@ -140,6 +186,21 @@ export default {
       this.state = this.view.state.apply(tr);
       return this.emitOnChange();
     },
+
+    insertCannedResponse(cannedItem) {
+      if (!this.view) {
+        return null;
+      }
+
+      const tr = this.view.state.tr.insertText(
+        cannedItem,
+        this.range.from,
+        this.range.to
+      );
+      this.state = this.view.state.apply(tr);
+      return this.emitOnChange();
+    },
+
     emitOnChange() {
       this.view.updateState(this.state);
       this.lastValue = addMentionsToMarkdownSerializer(
@@ -205,10 +266,9 @@ export default {
 .is-private {
   .prosemirror-mention-node {
     font-weight: var(--font-weight-medium);
-    background: var(--s-300);
-    border-radius: var(--border-radius-small);
-    padding: 1px 4px;
-    color: var(--white);
+    background: var(--s-50);
+    color: var(--s-900);
+    padding: 0 var(--space-smaller);
   }
 }
 </style>
