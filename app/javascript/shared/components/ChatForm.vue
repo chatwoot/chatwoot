@@ -44,6 +44,7 @@
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
+          :required="item.required ? 'required' : false"
         >
           <option
             v-for="option in item.options"
