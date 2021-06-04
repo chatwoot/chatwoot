@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Yes, Delete ",
         "NO": "No, Keep "
       },
