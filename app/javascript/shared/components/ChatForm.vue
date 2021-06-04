@@ -10,39 +10,37 @@
         }"
       >
         <label>{{ item.label }}</label>
-        <div v-if="item.type === 'email'">
-          <input
-            v-model="formValues[item.name]"
-            :type="item.type"
-            :pattern="item.regex"
-            :required="item.required ? 'required' : false"
-            :name="item.name"
-            :placeholder="item.placeholder"
-            :disabled="!!submittedValues.length"
-          />
-          <span class="error-message">{{ $t('CHAT_FORM.INVALID.EMAIL') }}</span>
-        </div>
-        <div v-if="item.type === 'text'">
-          <input
-            v-model="formValues[item.name]"
-            :required="item.required ? 'required' : false"
-            :type="item.type"
-            :name="item.name"
-            :placeholder="item.placeholder"
-            :disabled="!!submittedValues.length"
-          />
-          <span class="error-message">{{ $t('CHAT_FORM.INVALID.TEXT') }}</span>
-        </div>
-        <div v-else-if="item.type === 'text_area'">
-          <textarea
-            v-model="formValues[item.name]"
-            :required="item.required ? 'required' : false"
-            :name="item.name"
-            :placeholder="item.placeholder"
-            :disabled="!!submittedValues.length"
-          />
-          <span class="error-message">{{ $t('CHAT_FORM.INVALID.TEXT') }}</span>
-        </div>
+        <input
+          v-if="item.type === 'email'"
+          v-model="formValues[item.name]"
+          :type="item.type"
+          :pattern="item.regex"
+          :title="item.title"
+          :required="item.required ? 'required' : false"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <input
+          v-else-if="item.type === 'text'"
+          v-model="formValues[item.name]"
+          :required="item.required ? 'required' : false"
+          :pattern="item.pattern"
+          :title="item.title"
+          :type="item.type"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
+        <textarea
+          v-else-if="item.type === 'text_area'"
+          v-model="formValues[item.name]"
+          :required="item.required ? 'required' : false"
+          :title="item.title"
+          :name="item.name"
+          :placeholder="item.placeholder"
+          :disabled="!!submittedValues.length"
+        />
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
@@ -55,6 +53,9 @@
             {{ option.label }}
           </option>
         </select>
+        <span class="error-message">
+          {{ item.error || $t('CHAT_FORM.INVALID.FIELD') }}
+        </span>
       </div>
       <button
         v-if="!submittedValues.length"
