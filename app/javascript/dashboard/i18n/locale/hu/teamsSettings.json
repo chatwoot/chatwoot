@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "A csapat letörlése a hozzárendelt beszélgetéseket is eltávolítja.",
         "YES": "Törlés ",
         "NO": "Mégse"
