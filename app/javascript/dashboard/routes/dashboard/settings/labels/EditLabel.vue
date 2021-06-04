@@ -137,16 +137,3 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.message {
-  color: var(--r-400);
-  display: block;
-  font-size: var(--font-size-small);
-  font-weight: $font-weight-normal;
-  margin-bottom: $space-one;
-  margin-top: -$space-slab;
-  width: 100%;
-}
-</style>
