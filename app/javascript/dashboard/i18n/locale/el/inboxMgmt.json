@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ναι, Διέγραψε το ",
         "NO": "Όχι, Κράτησε τον/την"
       },
