@@ -12,6 +12,7 @@
           class="medium-12 columns"
           :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
           :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
+          :error="titleErrorMessage"
           @input="$v.title.$touch"
         />
 
@@ -37,14 +38,17 @@
           </label>
         </div>
         <div class="modal-footer">
-          <woot-submit-button
-            :disabled="$v.title.$invalid || uiFlags.isCreating"
-            :button-text="$t('LABEL_MGMT.FORM.CREATE')"
-            :loading="uiFlags.isCreating"
-          />
-          <button class="button clear" @click.prevent="onClose">
-            {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-          </button>
+          <div class="medium-12 columns">
+            <woot-button
+              :is-disabled="$v.title.$invalid || uiFlags.isCreating"
+              :is-loading="uiFlags.isCreating"
+            >
+              {{ $t('LABEL_MGMT.FORM.CREATE') }}
+            </woot-button>
+            <woot-button class="button clear" @click.prevent="onClose">
+              {{ $t('LABEL_MGMT.FORM.CANCEL') }}
+            </woot-button>
+          </div>
         </div>
       </form>
     </div>
@@ -87,6 +91,15 @@ export default {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
     }),
+    titleErrorMessage() {
+      if (!this.$v.title.minLength || !this.title) {
+        return this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
+      }
+      if (!this.$v.title.validLabelCharacters) {
+        return this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
+      }
+      return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+    },
   },
   mounted() {
     this.color = this.getRandomColor();
@@ -119,3 +132,16 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+
+.message {
+  color: var(--r-400);
+  display: block;
+  font-size: var(--font-size-small);
+  font-weight: $font-weight-normal;
+  margin-bottom: $space-one;
+  margin-top: -$space-slab;
+  width: 100%;
+}
+</style>

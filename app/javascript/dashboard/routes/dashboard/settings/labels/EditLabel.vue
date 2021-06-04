@@ -9,9 +9,9 @@
           class="medium-12 columns"
           :label="$t('LABEL_MGMT.FORM.NAME.LABEL')"
           :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
+          :error="titleErrorMessage"
           @input="$v.title.$touch"
         />
-
         <woot-input
           v-model.trim="description"
           :class="{ error: $v.description.$error }"
@@ -35,14 +35,15 @@
         </div>
         <div class="modal-footer">
           <div class="medium-12 columns">
-            <woot-submit-button
-              :disabled="$v.title.$invalid || uiFlags.isUpdating"
-              :button-text="$t('LABEL_MGMT.FORM.EDIT')"
-              :loading="uiFlags.isUpdating"
-            />
-            <button class="button clear" @click.prevent="onClose">
+            <woot-button
+              :is-disabled="$v.title.$invalid || uiFlags.isUpdating"
+              :is-loading="uiFlags.isUpdating"
+            >
+              {{ $t('LABEL_MGMT.FORM.EDIT') }}
+            </woot-button>
+            <woot-button class="button clear" @click.prevent="onClose">
               {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-            </button>
+            </woot-button>
           </div>
         </div>
       </form>
@@ -96,6 +97,15 @@ export default {
         this.selectedResponse.title
       }`;
     },
+    titleErrorMessage() {
+      if (!this.$v.title.minLength || !this.title) {
+        return this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
+      }
+      if (!this.$v.title.validLabelCharacters) {
+        return this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
+      }
+      return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+    },
   },
   mounted() {
     this.setFormValues();
@@ -127,3 +137,16 @@ export default {
   },
 };
 </script>
+<style scoped lang="scss">
+@import '~dashboard/assets/scss/variables';
+
+.message {
+  color: var(--r-400);
+  display: block;
+  font-size: var(--font-size-small);
+  font-weight: $font-weight-normal;
+  margin-bottom: $space-one;
+  margin-top: -$space-slab;
+  width: 100%;
+}
+</style>

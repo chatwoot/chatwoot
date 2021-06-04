@@ -1,6 +1,6 @@
 import { required, minLength } from 'vuelidate/lib/validators';
 
-export const validLabelCharacters = (str = '') => !!str && !str.includes(' ');
+export const validLabelCharacters = (str = '') => !/ /.test(str);
 
 export default {
   title: {
