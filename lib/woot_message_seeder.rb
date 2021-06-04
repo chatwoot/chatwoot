@@ -86,7 +86,7 @@ module WootMessageSeeder
         { "name": 'text_area', "placeholder": 'Please enter text', "type": 'text_area', "label": 'Large Text', "required": 'required',
           "error": 'Please fill this field' },
         { "name": 'text', "placeholder": 'Please enter text', "type": 'text', "label": 'text', "default": 'defaut value', "required": 'required',
-          "pattern": '^[a-zA-Z ]*$' },
+          "pattern": '^[a-zA-Z ]*$', "title": "Only alphabets are allowed" },
         { "name": 'select', "label": 'Select Option', "type": 'select', "options": [{ "label": '🌯 Burito', "value": 'Burito' },
                                                                                     { "label": '🍝 Pasta', "value": 'Pasta' }] }
       ]
