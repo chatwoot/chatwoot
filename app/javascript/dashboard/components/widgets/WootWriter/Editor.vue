@@ -136,9 +136,11 @@ export default {
     showCannedMenu(updatedValue) {
       this.$emit('toggle-canned-menu', !this.isPrivate && updatedValue);
     },
-    value(newValue) {
+    value(newValue = '') {
       if (newValue !== this.lastValue) {
-        this.state = createState(newValue, this.placeholder, this.plugins);
+        const { tr } = this.state;
+        tr.insertText(newValue, 0, tr.doc.content.size);
+        this.state = this.view.state.apply(tr);
         this.view.updateState(this.state);
       }
     },
