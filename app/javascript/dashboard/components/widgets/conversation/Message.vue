@@ -204,10 +204,7 @@ export default {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
     isSentByBot() {
-      if (this.sender) {
-        return !this.sender.type || this.sender.type === 'bot';
-      }
-      return true;
+      return !this.sender.type || this.sender.type === 'bot';
     },
   },
 };
