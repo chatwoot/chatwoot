@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Vahvista poistaminen",
         "MESSAGE": "Oletko varma että haluat poistaa ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Kyllä, poista ",
         "NO": "Ei, säilytä "
       },
