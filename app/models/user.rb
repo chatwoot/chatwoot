@@ -150,7 +150,7 @@ class User < ApplicationRecord
       name: name,
       available_name: available_name,
       avatar_url: avatar_url,
-      type: 'user',
+      type: "user",
       availability_status: availability_status
     }
   end
@@ -160,8 +160,20 @@ class User < ApplicationRecord
       id: id,
       name: name,
       email: email,
-      type: 'user'
+      type: "user"
     }
+  end
+
+  def non_covered_method
+    true
+  end
+
+  def non_covered_method_1
+    true
+  end
+
+  def non_covered_method_2
+    true
   end
 
   private

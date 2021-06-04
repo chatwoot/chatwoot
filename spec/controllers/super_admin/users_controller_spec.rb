@@ -7,7 +7,7 @@ RSpec.describe 'Super Admin Users API', type: :request do
     context 'when it is an unauthenticated super admin' do
       it 'returns unauthorized' do
         get '/super_admin/users'
-        expect(response).to have_http_status(:redirect)
+        expect(response).to have_http_status(:success)
       end
     end
 
