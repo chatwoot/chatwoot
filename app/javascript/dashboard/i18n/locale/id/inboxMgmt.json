@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",
         "MESSAGE": "Apakah Anda yakin untuk menghapus ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ya, Hapus ",
         "NO": "Tidak, Simpan "
       },
