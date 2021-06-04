@@ -204,6 +204,7 @@ export default {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
     },
     isSentByBot() {
+      if (this.isPending) return false;
       return !this.sender.type || this.sender.type === 'bot';
     },
   },
