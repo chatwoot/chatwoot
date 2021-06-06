@@ -129,10 +129,10 @@ export default {
     },
     async confirmDeletion() {
       try {
-        await this.$store.dispatch(
-          'integrations/deleteHook',
-          this.selectedHook.id
-        );
+        await this.$store.dispatch('integrations/deleteHook', {
+          hookId: this.selectedHook.id,
+          appId: this.selectedHook.app_id,
+        });
         this.alertMessage = this.$t('INTEGRATION.DELETE.API.SUCCESS_MESSAGE');
         this.closeDeletePopup();
       } catch (error) {

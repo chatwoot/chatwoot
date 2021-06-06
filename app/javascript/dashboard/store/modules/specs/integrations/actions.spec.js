@@ -94,18 +94,18 @@ describe('#actions', () => {
 
   describe('#deleteHook', () => {
     it('sends correct actions if API is success', async () => {
-      let data = { id: 'slack', enabled: false };
+      let data = { appId: 'dialogflow', hookId: 2 };
       axios.delete.mockResolvedValue({ data });
-      await actions.deleteHook({ commit }, data.id);
+      await actions.deleteHook({ commit }, data);
       expect(commit.mock.calls).toEqual([
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: true }],
-        [types.DELETE_INTEGRATION_HOOKS, data],
+        [types.DELETE_INTEGRATION_HOOKS, { appId: 'dialogflow', hookId: 2 }],
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
       axios.delete.mockRejectedValue(errorMessage);
-      await expect(actions.deleteHook({ commit })).rejects.toThrow(Error);
+      await expect(actions.deleteHook({ commit }, {})).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: true }],
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false }],

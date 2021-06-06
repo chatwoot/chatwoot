@@ -14,7 +14,6 @@
         :key="item.name"
         v-bind="item"
       />
-
       <formulate-input
         v-if="isHookTypeInbox"
         :options="inboxes"
@@ -62,14 +61,27 @@ export default {
       websiteInboxes: 'inboxes/getWebsiteInboxes',
     }),
     inboxes() {
-      return this.websiteInboxes.map(item => ({
-        ...item,
-        label: item.name,
-        value: item.id,
-      }));
+      return this.websiteInboxes
+        .filter(inbox => {
+          if (!this.isIntegrationDialogflow) {
+            return true;
+          }
+          return !this.connectedDialogflowInboxIds.includes(inbox.id);
+        })
+        .map(inbox => ({ label: inbox.name, value: inbox.id }));
+    },
+
+    connectedDialogflowInboxIds() {
+      if (!this.isIntegrationDialogflow) {
+        return [];
+      }
+      return this.integration.hooks.map(hook => hook.inbox?.id);
     },
     formItems() {
       return this.integration.settings_form_schema;
+    },
+    isIntegrationDialogflow() {
+      return this.integration.id === 'dialogflow';
     },
   },
   methods: {
