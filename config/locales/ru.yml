@@ -78,7 +78,7 @@ ru:
       description: "События webhook позволяют получать информацию о происходящем в вашем аккаунте в реальном времени. Вы можете использовать webhook в связке с вашими приложениями, такими как Slack или Github. Нажмите на Настроить для настройки webhook."
     dialogflow:
       name: "Диалог"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Создавайте чатботы используя Dialogflow и быстро подключайте их к входящим каналам. Пусть боты обрабатывают запросы, прежде чем передать их агенту по обслуживанию клиентов."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "Полная карточка контакта"
+      description: "Интеграция с FullContact помогает получить всю информацию о профиле посетителей. Определяйте пользователей как только они поделится своим электронным адресом и предложите им индивидуальное обслуживание клиентов. Подключите ваш FullContact к своей учетной записи, поделившись API ключом FullContact."
