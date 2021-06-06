@@ -30,4 +30,14 @@ describe('#mutations', () => {
       expect(state.records).toEqual([]);
     });
   });
+
+  describe('#UPDATE_WEBHOOK', () => {
+    it('update webhook ', () => {
+      const state = {
+        records: [webhooks[0]],
+      };
+      mutations[types.default.UPDATE_WEBHOOK](state, webhooks[0]);
+      expect(state.records[0].url).toEqual('https://1.chatwoot.com');
+    });
+  });
 });
