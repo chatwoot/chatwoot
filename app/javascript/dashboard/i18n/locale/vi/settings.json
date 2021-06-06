@@ -78,6 +78,11 @@
         "ERROR": "Vui lòng nhập một địa chỉ email hợp lệ",
         "PLACEHOLDER": "Vui lòng nhập địa chỉ email của bạn, địa chỉ này sẽ được hiển thị trong các cuộc trò chuyện"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Mật khẩu",
         "ERROR": "Vui lòng nhập mật khẩu có độ dài từ 6 trở lên",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
     "INTEGRATIONS": "Tích hợp",
     "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
+    "APPLICATIONS": "Applications",
     "LABELS": "Nhãn",
     "TEAMS": "Teams"
   },
