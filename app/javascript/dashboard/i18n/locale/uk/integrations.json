@@ -17,6 +17,24 @@
           "Дії"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Редагувати",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Скасувати",
+        "DESC": "Вебхуки автоматично повідомляють про те, що відбувається у вашому обліковому записі Chatwoot. Будь ласка, введіть дійсний URL для налаштування зворотного виклику.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL вебхука",
+            "PLACEHOLDER": "Наприклад: https://example/api/webhook",
+            "ERROR": "Будь ласка, введіть правильний URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Не вдалося підключитися до Woot Server, спробуйте ще раз пізніше"
+        }
+      },
       "ADD": {
         "CANCEL": "Скасувати",
         "TITLE": "Додати новий вебхук",
