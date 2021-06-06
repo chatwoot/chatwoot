@@ -12,7 +12,7 @@
         "TITLE": {
           "LABEL": "標題",
           "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "ERROR": "標題為必填"
         },
         "MESSAGE": {
           "LABEL": "訊息",
