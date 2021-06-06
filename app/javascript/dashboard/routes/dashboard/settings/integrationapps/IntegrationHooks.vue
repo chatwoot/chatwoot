@@ -7,7 +7,7 @@
       icon="ion-android-add-circle"
       @click="openAddHookModal"
     >
-      {{ $t('INTEGRATION.ADD_BUTTON') }}
+      {{ $t('INTEGRATION_APPS.ADD_BUTTON') }}
     </woot-button>
     <div v-if="showIntegrationHooks" class="integration-hooks">
       <div v-if="isIntegrationMultiple">
@@ -96,21 +96,21 @@ export default {
     },
     deleteTitle() {
       return this.isHookTypeInbox
-        ? this.$t('INTEGRATION.DELETE.TITLE.INBOX')
-        : this.$t('INTEGRATION.DELETE.TITLE.ACCOUNT');
+        ? this.$t('INTEGRATION_APPS.DELETE.TITLE.INBOX')
+        : this.$t('INTEGRATION_APPS.DELETE.TITLE.ACCOUNT');
     },
     deleteMessage() {
       return this.isHookTypeInbox
-        ? this.$t('INTEGRATION.DELETE.MESSAGE.INBOX')
-        : this.$t('INTEGRATION.DELETE.MESSAGE.ACCOUNT');
+        ? this.$t('INTEGRATION_APPS.DELETE.MESSAGE.INBOX')
+        : this.$t('INTEGRATION_APPS.DELETE.MESSAGE.ACCOUNT');
     },
     confirmText() {
       return this.isHookTypeInbox
-        ? this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.INBOX')
-        : this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.ACCOUNT');
+        ? this.$t('INTEGRATION_APPS.DELETE.CONFIRM_BUTTON_TEXT.INBOX')
+        : this.$t('INTEGRATION_APPS.DELETE.CONFIRM_BUTTON_TEXT.ACCOUNT');
     },
     cancelText() {
-      return this.$t('INTEGRATION.DELETE.CANCEL_BUTTON_TEXT');
+      return this.$t('INTEGRATION_APPS.DELETE.CANCEL_BUTTON_TEXT');
     },
   },
   methods: {
@@ -133,12 +133,14 @@ export default {
           hookId: this.selectedHook.id,
           appId: this.selectedHook.app_id,
         });
-        this.alertMessage = this.$t('INTEGRATION.DELETE.API.SUCCESS_MESSAGE');
+        this.alertMessage = this.$t(
+          'INTEGRATION_APPS.DELETE.API.SUCCESS_MESSAGE'
+        );
         this.closeDeletePopup();
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
         this.alertMessage =
-          errorMessage || this.$t('INTEGRATION.DELETE.API.ERROR_MESSAGE');
+          errorMessage || this.$t('INTEGRATION_APPS.DELETE.API.ERROR_MESSAGE');
       } finally {
         this.showAlert(this.alertMessage);
       }

@@ -7,7 +7,7 @@
             {{ hookHeader }}
           </th>
           <th v-if="isHookTypeInbox">
-            {{ $t('INTEGRATION.LIST.INBOX') }}
+            {{ $t('INTEGRATION_APPS.LIST.INBOX') }}
           </th>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
                 class-names="grey-btn"
                 @click="$emit('delete', hook)"
               >
-                {{ $t('INTEGRATION.LIST.DELETE.BUTTON_TEXT') }}
+                {{ $t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT') }}
               </woot-button>
             </td>
           </tr>
@@ -38,7 +38,7 @@
       </table>
       <p v-else class="no-items-error-message">
         {{
-          $t('INTEGRATION.NO_HOOK_CONFIGURED', {
+          $t('INTEGRATION_APPS.NO_HOOK_CONFIGURED', {
             integrationId: integration.id,
           })
         }}
@@ -48,13 +48,19 @@
       <p>
         <b>{{ integration.name }}</b>
       </p>
-      <p>
-        {{ integration.description }}
-      </p>
+      <p
+        v-html="
+          $t(
+            `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
+            { installationName: globalConfig.installationName }
+          )
+        "
+      />
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import hookMixin from './hookMixin';
 export default {
   mixins: [hookMixin],
@@ -65,6 +71,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      globalConfig: 'globalConfig/get',
+    }),
     hookHeaders() {
       return this.integration.visible_properties;
     },
@@ -82,6 +91,7 @@ export default {
       }));
     },
   },
+  mounted() {},
   methods: {
     inboxName(hook) {
       return hook.inbox ? hook.inbox.name : '';

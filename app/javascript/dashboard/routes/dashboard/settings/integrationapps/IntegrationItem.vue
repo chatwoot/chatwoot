@@ -23,7 +23,7 @@
         "
       >
         <woot-button icon="ion-gear-b">
-          {{ $t('INTEGRATION.CONFIGURE') }}
+          {{ $t('INTEGRATION_APPS.CONFIGURE') }}
         </woot-button>
       </router-link>
     </div>
@@ -64,8 +64,8 @@ export default {
     ...mapGetters({ accountId: 'getCurrentAccountId' }),
     labelText() {
       return this.integrationEnabled
-        ? this.$t('INTEGRATION.STATUS.ENABLED')
-        : this.$t('INTEGRATION.STATUS.DISABLED');
+        ? this.$t('INTEGRATION_APPS.STATUS.ENABLED')
+        : this.$t('INTEGRATION_APPS.STATUS.DISABLED');
     },
     labelColor() {
       return this.integrationEnabled ? 'success' : 'secondary';

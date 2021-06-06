@@ -18,13 +18,13 @@
             <div v-if="hasConnectedHooks">
               <div @click="$emit('delete', integration.hooks[0])">
                 <woot-button class="nice alert">
-                  {{ $t('INTEGRATION.DISCONNECT.BUTTON_TEXT') }}
+                  {{ $t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT') }}
                 </woot-button>
               </div>
             </div>
             <div v-else>
               <woot-button class="button nice" @click="$emit('add')">
-                {{ $t('INTEGRATION.CONNECT.BUTTON_TEXT') }}
+                {{ $t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT') }}
               </woot-button>
             </div>
           </div>
