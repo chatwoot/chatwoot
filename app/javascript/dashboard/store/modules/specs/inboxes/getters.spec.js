@@ -9,6 +9,11 @@ describe('#getters', () => {
     expect(getters.getInboxes(state)).toEqual(inboxList);
   });
 
+  it('getWebsiteInboxes', () => {
+    const state = { records: inboxList };
+    expect(getters.getWebsiteInboxes(state).length).toEqual(3);
+  });
+
   it('getInbox', () => {
     const state = {
       records: inboxList,
