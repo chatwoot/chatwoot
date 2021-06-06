@@ -17,6 +17,24 @@
           "செயல்கள்"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "திருத்து",
+        "TITLE": "Edit webhook",
+        "CANCEL": "ரத்துசெய்",
+        "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "வெப்ஹூக் URL",
+            "PLACEHOLDER": "உதாரணமாக: https://example/api/webhook",
+            "ERROR": "சரியான URL ஐ பதிவிடவும்"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
+        }
+      },
       "ADD": {
         "CANCEL": "ரத்துசெய்",
         "TITLE": "புதிய வெப்ஹூக் சேர்க்கவும்",
