@@ -78,6 +78,11 @@
         "ERROR": "请输入一个有效的电子邮件",
         "PLACEHOLDER": "请输入您的名字，这将会在对话中显示"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "密码",
         "ERROR": "请输入长度6或更长的密码",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "预设回复",
     "INTEGRATIONS": "集成方式",
     "ACCOUNT_SETTINGS": "帐户设置",
+    "APPLICATIONS": "Applications",
     "LABELS": "标签",
     "TEAMS": "Teams"
   },
