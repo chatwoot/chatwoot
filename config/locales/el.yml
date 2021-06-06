@@ -78,4 +78,7 @@ el:
       description: "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας. Μπορείτε να χρησιμοποιήσετε τα webhooks για να μεταφέρετε τα συμβάντα σε άλλες εφαρμογές ή υπηρεσίες όπως το Slack ή Github. Πατήστε στην Διαμόρφωση για να ενημερώστε τα δικά σας webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Συνδέστε το Dialogflow bot στα εισερχόμενά σας. Αφήστε τα bots να χειριστούν τα ερωτήματα πριν τα παραδώσουν στον πράκτορα εξυπηρέτησης πελατών."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
