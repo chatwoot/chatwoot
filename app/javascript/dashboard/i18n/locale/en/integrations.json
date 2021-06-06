@@ -12,10 +12,25 @@
       "LIST": {
         "404": "There are no webhooks configured for this account.",
         "TITLE": "Manage webhooks",
-        "TABLE_HEADER": [
-          "Webhook endpoint",
-          "Actions"
-        ]
+        "TABLE_HEADER": ["Webhook endpoint", "Actions"]
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edit",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Cancel",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "ERROR": "Please enter a valid URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        }
       },
       "ADD": {
         "CANCEL": "Cancel",
