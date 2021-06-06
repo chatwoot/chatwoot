@@ -10,6 +10,8 @@ const state = {
     isFetching: false,
     isFetchingItem: false,
     isUpdating: false,
+    isCreatingHook: false,
+    isDeletingHook: false,
   },
 };
 
@@ -70,25 +72,25 @@ export const actions = {
     }
   },
   createHook: async ({ commit }, hookData) => {
-    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: true });
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingHook: true });
     try {
       const response = await IntegrationsAPI.createHook(hookData);
       commit(types.default.ADD_INTEGRATION_HOOKS, response.data);
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingHook: false });
     } catch (error) {
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
-      throw error;
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreatingHook: false });
+      throw new Error(error);
     }
   },
   deleteHook: async ({ commit }, hookId) => {
-    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: true });
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: true });
     try {
       const response = await IntegrationsAPI.deleteHook(hookId);
       commit(types.default.DELETE_INTEGRATION_HOOKS, response.data);
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false });
     } catch (error) {
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isCreating: false });
-      throw error;
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeletingHook: false });
+      throw new Error(error);
     }
   },
 };

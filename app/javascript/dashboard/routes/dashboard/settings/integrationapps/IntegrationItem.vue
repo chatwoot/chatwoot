@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="small-2 column button-wrap">
-      <Label :title="labelText" :color-scheme="labelColor" />
+      <woot-label :title="labelText" :color-scheme="labelColor" />
     </div>
     <div class="small-2 column button-wrap">
       <router-link
@@ -32,11 +32,11 @@
 <script>
 import { mapGetters } from 'vuex';
 import { frontendURL } from '../../../../helper/URLHelper';
-import Label from 'dashboard/components/ui/Label';
+import WootLabel from 'dashboard/components/ui/Label';
 
 export default {
   components: {
-    Label,
+    WootLabel,
   },
   props: {
     integrationId: {
@@ -61,10 +61,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      currentUser: 'getCurrentUser',
-      accountId: 'getCurrentAccountId',
-    }),
+    ...mapGetters({ accountId: 'getCurrentAccountId' }),
     labelText() {
       return this.integrationEnabled
         ? this.$t('INTEGRATION.STATUS.ENABLED')

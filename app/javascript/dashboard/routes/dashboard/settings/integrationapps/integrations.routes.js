@@ -29,16 +29,13 @@ export default {
           roles: ['administrator'],
         },
         {
-          path: ':integration_id/',
+          path: ':integration_id',
           name: 'settings_applications_integration',
           component: IntegrationHooks,
           roles: ['administrator'],
-          props: route => {
-            return {
-              integrationId: route.params.integration_id,
-              code: route.query.code,
-            };
-          },
+          props: route => ({
+            integrationId: route.params.integration_id,
+          }),
         },
       ],
     },

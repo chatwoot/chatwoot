@@ -210,7 +210,6 @@ export default {
   mounted() {
     this.$store.dispatch('labels/get');
     this.$store.dispatch('inboxes/get');
-    this.$store.dispatch('integrations/get');
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.setChatwootUser();

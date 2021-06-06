@@ -15,19 +15,17 @@
             </p>
           </div>
           <div class="small-2 column button-wrap">
-            <div>
-              <div v-if="isIntegrationEnabled">
-                <div @click="deleteHook(integration.hooks[0])">
-                  <woot-button class="nice alert">
-                    {{ $t('INTEGRATION.DISCONNECT.BUTTON_TEXT') }}
-                  </woot-button>
-                </div>
-              </div>
-              <div v-else>
-                <woot-button class="button nice" @click="addHook()">
-                  {{ $t('INTEGRATION.CONNECT.BUTTON_TEXT') }}
+            <div v-if="hasConnectedHooks">
+              <div @click="$emit('delete', integration.hooks[0])">
+                <woot-button class="nice alert">
+                  {{ $t('INTEGRATION.DISCONNECT.BUTTON_TEXT') }}
                 </woot-button>
               </div>
+            </div>
+            <div v-else>
+              <woot-button class="button nice" @click="$emit('add')">
+                {{ $t('INTEGRATION.CONNECT.BUTTON_TEXT') }}
+              </woot-button>
             </div>
           </div>
         </div>
@@ -36,24 +34,13 @@
   </div>
 </template>
 <script>
+import hookMixin from './hookMixin';
 export default {
+  mixins: [hookMixin],
   props: {
     integration: {
       type: Object,
       default: () => ({}),
-    },
-    deleteHook: {
-      type: Function,
-      required: true,
-    },
-    addHook: {
-      type: Function,
-      required: true,
-    },
-  },
-  computed: {
-    isIntegrationEnabled() {
-      return this.integration.hooks.length;
     },
   },
 };

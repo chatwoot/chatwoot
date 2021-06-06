@@ -1,16 +1,12 @@
 <template>
   <div class="row ">
     <div class="small-8 columns">
-      <p v-if="isHooksAreEmpty" class="no-items-error-message">
-        {{ emptyMessage }}
-      </p>
-
-      <table v-if="!isHooksAreEmpty" class="woot-table">
+      <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
             {{ hookHeader }}
           </th>
-          <th v-if="checkHookTypeIsInbox">
+          <th v-if="isHookTypeInbox">
             {{ $t('INTEGRATION.LIST.INBOX') }}
           </th>
         </thead>
@@ -23,7 +19,7 @@
             >
               {{ property }}
             </td>
-            <td v-if="checkHookTypeIsInbox" class="hook-item">
+            <td v-if="isHookTypeInbox" class="hook-item">
               {{ inboxName(hook) }}
             </td>
             <td class="button-wrapper">
@@ -32,7 +28,7 @@
                 color-scheme="secondary"
                 icon="ion-close-circled"
                 class-names="grey-btn"
-                @click="deleteHook(hook)"
+                @click="$emit('delete', hook)"
               >
                 {{ $t('INTEGRATION.LIST.DELETE.BUTTON_TEXT') }}
               </woot-button>
@@ -40,27 +36,29 @@
           </tr>
         </tbody>
       </table>
+      <p v-else class="no-items-error-message">
+        {{
+          $t('INTEGRATION.NO_HOOK_CONFIGURED', {
+            integrationId: integration.id,
+          })
+        }}
+      </p>
     </div>
-
     <div class="small-4 columns">
-      <span>
-        <p>
-          <b>{{ integration.name }}</b>
-        </p>
-        <p>
-          {{ integration.description }}
-        </p>
-      </span>
+      <p>
+        <b>{{ integration.name }}</b>
+      </p>
+      <p>
+        {{ integration.description }}
+      </p>
     </div>
   </div>
 </template>
 <script>
+import hookMixin from './hookMixin';
 export default {
+  mixins: [hookMixin],
   props: {
-    deleteHook: {
-      type: Function,
-      required: true,
-    },
     integration: {
       type: Object,
       default: () => ({}),
@@ -71,40 +69,22 @@ export default {
       return this.integration.visible_properties;
     },
     hooks() {
-      const items = [];
-      if (this.integration.hooks.length) {
-        this.integration.hooks.forEach(hook => {
-          let item = {
-            ...hook,
-            id: hook.id,
-            properties: [],
-          };
-          this.integration.visible_properties.forEach(property => {
-            item.properties.push(
-              hook.settings[property] ? hook.settings[property] : '--'
-            );
-          });
-          items.push(item);
-        });
+      if (!this.hasConnectedHooks) {
+        return [];
       }
-      return items;
-    },
-    checkHookTypeIsInbox() {
-      return this.integration.hook_type === 'inbox';
-    },
-    isHooksAreEmpty() {
-      return !this.integration.hooks.length;
-    },
-    emptyMessage() {
-      return `There are no ${this.integration.id}s configured for this account.`;
+      const { hooks } = this.integration;
+      return hooks.map(hook => ({
+        ...hook,
+        id: hook.id,
+        properties: this.hookHeaders.map(property =>
+          hook.settings[property] ? hook.settings[property] : '--'
+        ),
+      }));
     },
   },
   methods: {
     inboxName(hook) {
-      if (hook.inbox) {
-        return hook.inbox.name;
-      }
-      return '';
+      return hook.inbox ? hook.inbox.name : '';
     },
   },
 };

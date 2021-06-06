@@ -5,7 +5,7 @@
       color-scheme="success"
       class-names="button--fixed-right-top"
       icon="ion-android-add-circle"
-      @click="openAddHookModal()"
+      @click="openAddHookModal"
     >
       {{ $t('INTEGRATION.ADD_BUTTON') }}
     </woot-button>
@@ -13,21 +13,21 @@
       <div v-if="isIntegrationMultiple">
         <multiple-integration-hooks
           :integration="integration"
-          :delete-hook="openDeletePopup"
+          @delete="openDeletePopup"
         />
       </div>
 
       <div v-if="isIntegrationSingle">
         <single-integration-hooks
           :integration="integration"
-          :delete-hook="openDeletePopup"
-          :add-hook="openAddHookModal"
+          @add="openAddHookModal"
+          @delete="openDeletePopup"
         />
       </div>
     </div>
 
     <woot-modal :show.sync="showAddHookModal" :on-close="hideAddHookModal">
-      <new-hook :on-close="hideAddHookModal" :integration="integration" />
+      <new-hook :integration="integration" @close="hideAddHookModal" />
     </woot-modal>
 
     <woot-delete-modal
@@ -45,6 +45,7 @@
 import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import hookMixin from './hookMixin';
 import NewHook from './NewHook';
 import SingleIntegrationHooks from './SingleIntegrationHooks';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks';
@@ -55,27 +56,27 @@ export default {
     SingleIntegrationHooks,
     MultipleIntegrationHooks,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, hookMixin],
+  props: {
+    integrationId: {
+      type: [String, Number],
+      required: true,
+    },
+  },
   data() {
     return {
       loading: {},
       showAddHookModal: false,
       showDeleteConfirmationPopup: false,
       selectedHook: {},
-      deleteHook: {
-        showAlert: false,
-        showLoading: false,
-        message: '',
-      },
+      alertMessage: '',
     };
   },
   computed: {
-    ...mapGetters({
-      uiFlags: 'integrations/getUIFlags',
-    }),
+    ...mapGetters({ uiFlags: 'integrations/getUIFlags' }),
     integration() {
       return this.$store.getters['integrations/getIntegration'](
-        this.$route.params.integration_id
+        this.integrationId
       );
     },
     showIntegrationHooks() {
@@ -93,21 +94,18 @@ export default {
     showAddButton() {
       return this.showIntegrationHooks && this.isIntegrationMultiple;
     },
-    checkHookTypeIsInbox() {
-      return this.integration.hook_type === 'inbox';
-    },
     deleteTitle() {
-      return this.checkHookTypeIsInbox
+      return this.isHookTypeInbox
         ? this.$t('INTEGRATION.DELETE.TITLE.INBOX')
         : this.$t('INTEGRATION.DELETE.TITLE.ACCOUNT');
     },
     deleteMessage() {
-      return this.checkHookTypeIsInbox
+      return this.isHookTypeInbox
         ? this.$t('INTEGRATION.DELETE.MESSAGE.INBOX')
         : this.$t('INTEGRATION.DELETE.MESSAGE.ACCOUNT');
     },
     confirmText() {
-      return this.checkHookTypeIsInbox
+      return this.isHookTypeInbox
         ? this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.INBOX')
         : this.$t('INTEGRATION.DELETE.CONFIRM_BUTTON_TEXT.ACCOUNT');
     },
@@ -135,17 +133,14 @@ export default {
           'integrations/deleteHook',
           this.selectedHook.id
         );
-        this.deleteHook.message = this.$t(
-          'INTEGRATION.DELETE.API.SUCCESS_MESSAGE'
-        );
+        this.alertMessage = this.$t('INTEGRATION.DELETE.API.SUCCESS_MESSAGE');
         this.closeDeletePopup();
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
-        this.deleteHook.message =
+        this.alertMessage =
           errorMessage || this.$t('INTEGRATION.DELETE.API.ERROR_MESSAGE');
       } finally {
-        this.deleteHook.showLoading = false;
-        this.showAlert(this.deleteHook.message);
+        this.showAlert(this.alertMessage);
       }
     },
   },

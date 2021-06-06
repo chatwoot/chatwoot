@@ -1,6 +1,7 @@
 {
   "INTEGRATION": {
     "FETCHING": "Fetching Integrations",
+    "NO_HOOK_CONFIGURED": "There are no %{integrationId} integrations configured for this account.",
     "HEADER": "Applications",
     "STATUS": {
       "ENABLED": "Enabled",
