@@ -28,7 +28,7 @@
           "SUBMIT": "Edit webhook"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Webhook edited successfully",
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
           "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
         }
       },
