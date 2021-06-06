@@ -65,6 +65,11 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
+  getWebsiteInboxes($state) {
+    return $state.records.filter(
+      item => item.channel_type === 'Channel::WebWidget'
+    );
+  },
 };
 
 export const actions = {
