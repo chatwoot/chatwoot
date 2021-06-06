@@ -49,7 +49,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "按下 enter 以選擇",
       "ENTER_TO_REMOVE": "按下 enter 以移除",
-      "SELECT_ONE": "Select one"
+      "SELECT_ONE": "選擇其中一項"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -62,14 +62,14 @@
         "姓名",
         "聯絡人電話",
         "對話",
-        "Last Contacted"
+        "最後聯絡"
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "新對話",
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "新訊息",
-      "conversation_mention": "Mention"
+      "conversation_mention": "被提及"
     }
   }
 }
