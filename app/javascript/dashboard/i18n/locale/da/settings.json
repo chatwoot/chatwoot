@@ -78,6 +78,11 @@
         "ERROR": "Indtast venligst en gyldig e-mailadresse",
         "PLACEHOLDER": "Indtast venligst din e-mailadresse, dette vil blive vist i samtaler"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Adgangskode",
         "ERROR": "Indtast en adgangskode med længde 6 eller flere",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Standardsvar Svar",
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Kontoindstillinger",
+    "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
     "TEAMS": "Teams"
   },
