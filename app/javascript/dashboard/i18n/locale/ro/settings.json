@@ -78,6 +78,11 @@
         "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă",
         "PLACEHOLDER": "Te rugăm să introduci adresa ta de e-mail, aceasta va fi afișată în conversații"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Parola",
         "ERROR": "Te rugăm să introduci o parolă pentru lungimea de 6 caractere sau mai mult",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Răspunsuri predefinite",
     "INTEGRATIONS": "Integrări",
     "ACCOUNT_SETTINGS": "Setările contului",
+    "APPLICATIONS": "Applications",
     "LABELS": "Etichete",
     "TEAMS": "Teams"
   },
