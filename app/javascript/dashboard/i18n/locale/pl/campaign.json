@@ -43,24 +43,24 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit campaign",
+      "TITLE": "Edytuj kampanię",
       "UPDATE_BUTTON_TEXT": "Aktualizuj",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "SUCCESS_MESSAGE": "Kampania zaktualizowana pomyślnie",
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
       }
     },
     "LIST": {
-      "LOADING_MESSAGE": "Loading campaigns...",
+      "LOADING_MESSAGE": "Wczytywanie kampanii...",
       "404": "Brak kampanii stworzonych dla tej skrzynki odbiorczej.",
       "TABLE_HEADER": {
         "TITLE": "Tytuł",
         "MESSAGE": "Wiadomość",
         "STATUS": "Status",
-        "SENDER": "Sender",
+        "SENDER": "Nadawca",
         "URL": "Adres URL",
-        "TIME_ON_PAGE": "Time(Seconds)",
-        "CREATED_AT": "Created at"
+        "TIME_ON_PAGE": "Czas (sekundy)",
+        "CREATED_AT": "Utworzono"
       },
       "BUTTONS": {
         "ADD": "Dodaj",
