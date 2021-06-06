@@ -17,6 +17,24 @@
           "Hành động"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Chỉnh sửa",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Huỷ",
+        "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Ví dụ: https://example/api/webhook",
+            "ERROR": "Vui lòng nhập một URL hợp lệ"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+        }
+      },
       "ADD": {
         "CANCEL": "Xoá",
         "TITLE": "Thêm mới webhook",
