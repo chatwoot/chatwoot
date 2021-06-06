@@ -1,0 +1,160 @@
+{
+  "PROFILE_SETTINGS": {
+    "LINK": "Profile Settings",
+    "TITLE": "Profile Settings",
+    "BTN_TEXT": "Update Profile",
+    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "FORM": {
+      "AVATAR": "Profile Image",
+      "ERROR": "Please fix form errors",
+      "REMOVE_IMAGE": "Remove",
+      "UPLOAD_IMAGE": "Upload image",
+      "UPDATE_IMAGE": "Update image",
+      "PROFILE_SECTION": {
+        "TITLE": "Profile",
+        "NOTE": "Your email address is your identity and is used to log in."
+      },
+      "PASSWORD_SECTION": {
+        "TITLE": "סיסמה",
+        "NOTE": "Updating your password would reset your logins in multiple devices.",
+        "BTN_TEXT": "Change password"
+      },
+      "ACCESS_TOKEN": {
+        "TITLE": "Access Token",
+        "NOTE": "This token can be used if you are building an API based integration"
+      },
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "TITLE": "Audio Notifications",
+        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
+        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+      },
+      "EMAIL_NOTIFICATIONS_SECTION": {
+        "TITLE": "Email Notifications",
+        "NOTE": "Update your email notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "שלח התראה באימייל כאשר שיחה מוקצית עבורי",
+        "CONVERSATION_CREATION": "שלח התראה באימייל כאשר נפתחת שיחה חדשה",
+        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראה באימייל כאשר יש הודעה חדשה בשיחה המוקצית עבורי"
+      },
+      "API": {
+        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
+        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+      },
+      "PUSH_NOTIFICATIONS_SECTION": {
+        "TITLE": "Push Notifications",
+        "NOTE": "Update your push notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "שלח התראת פוש כאשר שיחה מוקצית עבורי",
+        "CONVERSATION_CREATION": "שלח התראת פוש כאשר נפתחת שיחה חדשה",
+        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "שלח התראת פוש כאשר יש הודעה חדשה בשיחה המוקצית עבורי",
+        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
+        "REQUEST_PUSH": "Enable push notifications"
+      },
+      "PROFILE_IMAGE": {
+        "LABEL": "Profile Image"
+      },
+      "NAME": {
+        "LABEL": "Your full name",
+        "ERROR": "Please enter a valid full name",
+        "PLACEHOLDER": "Please enter your full name"
+      },
+      "DISPLAY_NAME": {
+        "LABEL": "Display name",
+        "ERROR": "Please enter a valid display name",
+        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+      },
+      "AVAILABILITY": {
+        "LABEL": "זמינות",
+        "STATUSES_LIST": [
+          "מחובר",
+          "עסוק",
+          "לא מחובר"
+        ]
+      },
+      "EMAIL": {
+        "LABEL": "Your email address",
+        "ERROR": "Please enter a valid email address",
+        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
+      "PASSWORD": {
+        "LABEL": "סיסמה",
+        "ERROR": "Please enter a password of length 6 or more",
+        "PLACEHOLDER": "Please enter a new password"
+      },
+      "PASSWORD_CONFIRMATION": {
+        "LABEL": "Confirm new password",
+        "ERROR": "Confirm password should match the password",
+        "PLACEHOLDER": "Please re-enter your password"
+      }
+    }
+  },
+  "SIDEBAR_ITEMS": {
+    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_ACCOUNTS": "החלף חשבון",
+    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "PROFILE_SETTINGS": "Profile Settings",
+    "LOGOUT": "התנתק"
+  },
+  "APP_GLOBAL": {
+    "TRIAL_MESSAGE": "days trial remaining.",
+    "TRAIL_BUTTON": "Buy Now"
+  },
+  "COMPONENTS": {
+    "CODE": {
+      "BUTTON_TEXT": "Copy",
+      "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
+    },
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "הורד",
+      "UPLOADING": "מעלה..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "שלח"
+    }
+  },
+  "CONFIRM_EMAIL": "Verifying...",
+  "SETTINGS": {
+    "INBOXES": {
+      "NEW_INBOX": "Add Inbox"
+    }
+  },
+  "SIDEBAR": {
+    "CONVERSATIONS": "שיחות",
+    "REPORTS": "Reports",
+    "CONTACTS": "Contacts",
+    "SETTINGS": "הגדרות",
+    "HOME": "בית",
+    "AGENTS": "סוכנים",
+    "INBOXES": "Inboxes",
+    "NOTIFICATIONS": "התראות",
+    "CANNED_RESPONSES": "Canned Responses",
+    "INTEGRATIONS": "Integrations",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "APPLICATIONS": "Applications",
+    "LABELS": "Labels",
+    "TEAMS": "Teams"
+  },
+  "CREATE_ACCOUNT": {
+    "NEW_ACCOUNT": "New Account",
+    "SELECTOR_SUBTITLE": "Create a new account",
+    "API": {
+      "SUCCESS_MESSAGE": "Account created successfully",
+      "EXIST_MESSAGE": "Account already exists",
+      "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Account Name",
+        "PLACEHOLDER": "Wayne Enterprises"
+      },
+      "SUBMIT": "שלח"
+    }
+  }
+}
