@@ -17,6 +17,24 @@
           "Åtgärder"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Redigera",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Avbryt",
+        "DESC": "Webbhook-händelser ger dig realtidsinformation om vad som händer i ditt Chatwoot-konto. Ange en giltig URL för att konfigurera en callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Exempel: https://exempel/api/webhook",
+            "ERROR": "Ange en giltig URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
+        }
+      },
       "ADD": {
         "CANCEL": "Avbryt",
         "TITLE": "Lägg till ny webhook",
