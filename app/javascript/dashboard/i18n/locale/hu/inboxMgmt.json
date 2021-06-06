@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Törlés megerősítése",
         "MESSAGE": "Biztos abban, hogy törli ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Igen, Törlés ",
         "NO": "Nem, Mégse "
       },
