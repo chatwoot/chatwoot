@@ -17,6 +17,24 @@
           "Akce"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Upravit",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Zrušit",
+        "DESC": "Události webhooku vám poskytují reálné informace o tom, co se děje ve vašem Chatwoot účtu. Zadejte prosím platnou URL pro nastavení hovoru.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL webového háčku",
+            "PLACEHOLDER": "Příklad: https://example/api/webhook",
+            "ERROR": "Zadejte prosím platnou URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
+        }
+      },
       "ADD": {
         "CANCEL": "Zrušit",
         "TITLE": "Přidat nový webový háček",
