@@ -78,6 +78,11 @@
         "ERROR": "Lütfen geçerli bir tam e-posta adresi",
         "PLACEHOLDER": "Lütfen e-posta adresinizi girin, bu görüşmelerde görüntülenecektir"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Parola",
         "ERROR": "Lütfen 6 veya daha uzun bir şifre girin",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Hazır Yanıtlar",
     "INTEGRATIONS": "Entegrasyonlar",
     "ACCOUNT_SETTINGS": "Hesap ayarları",
+    "APPLICATIONS": "Applications",
     "LABELS": "Etiketler",
     "TEAMS": "Teams"
   },
