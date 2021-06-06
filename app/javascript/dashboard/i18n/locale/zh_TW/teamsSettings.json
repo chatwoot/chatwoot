@@ -2,7 +2,7 @@
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "建立新團隊",
     "HEADER": "團隊",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "SIDEBAR_TXT": "<p><b>團隊</b></p> <p>團隊讓你將客服依照他們的職責分組。<br /> 一個使用者可以再多個團隊中。你可以將對話指派給一個團隊以協作。 </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
       "EDIT_TEAM": "編輯團隊"
@@ -10,7 +10,7 @@
     "CREATE_FLOW": {
       "CREATE": {
         "TITLE": "建立一個新團隊",
-        "DESC": "Add a title and description to your new team."
+        "DESC": "為你的新團隊新增一個標題跟描述"
       },
       "AGENTS": {
         "BUTTON_TEXT": "將客服加入團隊",
@@ -21,7 +21,7 @@
         {
           "title": "建立",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "為客服建立一個新團隊"
         },
         {
           "title": "建立客服",
@@ -38,24 +38,24 @@
     "EDIT_FLOW": {
       "CREATE": {
         "TITLE": "編輯團隊詳細資訊",
-        "DESC": "Edit title and description to your team.",
+        "DESC": "編輯團隊標題及描述",
         "BUTTON_TEXT": "更新團隊"
       },
       "AGENTS": {
         "BUTTON_TEXT": "更新團隊客服",
         "TITLE": "將客服加入團隊 - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "DESC": "為新建立的團隊新增客服，當對話被指派至團隊時，所有加入的客服都會被通知。"
       },
       "WIZARD": [
         {
           "title": "團隊詳細資訊",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "變更名稱、描述及其他詳細資訊。"
         },
         {
           "title": "編輯客服",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "編輯團隊內的客服"
         },
         {
           "title": "完成",
@@ -74,16 +74,16 @@
       "ADD_AGENTS": "正在將客服加入到你的團隊...",
       "SELECT": "選擇",
       "SELECT_ALL": "選取所有客服",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取"
     },
     "ADD": {
       "TITLE": "將客服加入團隊 - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
+      "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。",
       "SELECT": "選擇",
       "SELECT_ALL": "選取所有克服",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
+      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取",
       "BUTTON_TEXT": "新增客服",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "AGENT_VALIDATION_ERROR": "至少選擇一個客服"
     },
     "FINISH": {
       "TITLE": "你的團隊已經準備好了",
@@ -98,7 +98,8 @@
       },
       "CONFIRM": {
         "TITLE": "確定要刪除 - %{teamName} ？",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
         "YES": "刪除 ",
         "NO": "取消"
       }
@@ -109,7 +110,7 @@
       "CREATE": "建立團隊",
       "NAME": {
         "LABEL": "團隊名稱",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "PLACEHOLDER": "例如：業務、客戶支援"
       },
       "DESCRIPTION": {
         "LABEL": "團隊描述",
