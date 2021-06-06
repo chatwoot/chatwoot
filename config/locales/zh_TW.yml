@@ -36,39 +36,39 @@ zh_TW:
       avg_resolution_time: 平均解決時間（分鐘）
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[新對話] - #%{display_id} 已經在 %{inbox_name} 中被建立"
+      conversation_assignment: "[已指派給你] - #%{display_id} 已經被指派給你"
+      assigned_conversation_new_message: "[新訊息] - #%{display_id} %{content}"
+      conversation_mention: "你在對話 %{name} 的 [ID - %{display_id}] 中被提及"
   conversations:
     messages:
-      deleted: This message was deleted
+      deleted: 訊息已被刪除
     activity:
       status:
         resolved: "被%{user_name}標記的對話已解決。"
         open: "被%{user_name}恢復對話。"
-        bot: "Conversation was transferred to bot by %{user_name}"
-        auto_resolved: "Conversation was marked resolved by system due to %{duration} days of inactivity"
+        bot: "對話已經被 %{user_name} 轉換至機器人模式"
+        auto_resolved: "由於對話已經 %{duration} 天沒有新活動，已經被系統標記為完成"
       assignee:
-        self_assigned: "%{user_name} self-assigned this conversation"
+        self_assigned: "%{user_name} 將對話指派給自己"
         assigned: "被%{user_name}分配給%{assignee_name}。"
         removed: "對話被%{user_name}設定成未分配。"
       team:
         assigned: "被%{user_name}分配給%{team_name}。"
         assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        removed: "被 %{user_name} 從 %{team_name} 解除指派"
       labels:
-        added: "%{user_name} added %{labels}"
-        removed: "%{user_name} removed %{labels}"
-      muted: "%{user_name} has muted the conversation"
-      unmuted: "%{user_name} has unmuted the conversation"
+        added: "%{user_name} 新增了 %{labels}"
+        removed: "%{user_name} 移除了 %{labels}"
+      muted: "%{user_name} 已將對話靜音"
+      unmuted: "%{user_name} 將對話解除靜音"
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
+      greeting_message_body: "%{account_name} 通常在幾小時內回覆"
       ways_to_reach_you_message_body: "給個聯繫方式讓團隊可以聯繫到您。"
       email_input_box_message_body: "透過電子郵件得到通知。"
     reply:
-      email_subject: "New messages on this conversation"
-      transcript_subject: "Conversation Transcript"
+      email_subject: "在對話中的新訊息"
+      transcript_subject: "對話紀錄"
   integration_apps:
     slack:
       name: "Slack"
@@ -78,4 +78,7 @@ zh_TW:
       description: "Webhook events provide you the realtime information about what's happening in your account. You can make use of the webhooks to communicate the events to your favourite apps like Slack or Github. Click on Configure to set up your webhooks."
     dialogflow:
       name: "Dialogflow"
-      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."
+      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+    fullcontact:
+      name: "Fullcontact"
+      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
