@@ -155,6 +155,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +176,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversations"
     }
   },
   "CUSTOM_ATTRIBUTES": {
