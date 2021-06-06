@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "确认删除",
         "MESSAGE": "您确定要删除吗？ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "是，删除 ",
         "NO": "不，保留 "
       },
