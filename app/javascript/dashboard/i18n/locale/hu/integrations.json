@@ -17,6 +17,24 @@
           "Műveletek"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Szerkesztés",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Mégse",
+        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Például: https://példa.com/api/webhook",
+            "ERROR": "Kérjük helyes URL-t adj meg"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Nem sikerült csatlakozni a Woot szerverhez, kérjük próbáld később"
+        }
+      },
       "ADD": {
         "CANCEL": "Mégse",
         "TITLE": "Új webhook hozzáadása",
