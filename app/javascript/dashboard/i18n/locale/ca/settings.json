@@ -78,6 +78,11 @@
         "ERROR": "Introduïu una adreça de correu electrònic vàlida",
         "PLACEHOLDER": "Introduïu la vostra adreça de correu electrònic, que es mostrarà a les converses"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Contrasenya",
         "ERROR": "Introduïu una contrasenya d'una longitud de 6 o més",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Respostes predeterminades",
     "INTEGRATIONS": "Integracions",
     "ACCOUNT_SETTINGS": "Configuració del compte",
+    "APPLICATIONS": "Applications",
     "LABELS": "Etiquetes",
     "TEAMS": "Equips"
   },
