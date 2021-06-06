@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "نعم، احذف ",
         "NO": "لا، احتفظ "
       },
