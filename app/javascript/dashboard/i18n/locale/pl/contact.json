@@ -155,6 +155,16 @@
       "VIEW_DETAILS": "Wyświetl szczegóły"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Dodaj",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notatki"
@@ -166,6 +176,16 @@
     },
     "FOOTER": {
       "BUTTON": "Wyświetl wszystkie notatki"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Aktywności"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notatki",
+      "PILL_BUTTON_EVENTS": "zdarzenia",
+      "PILL_BUTTON_CONVO": "rozmowy"
     }
   },
   "CUSTOM_ATTRIBUTES": {
