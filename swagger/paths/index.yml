@@ -52,7 +52,7 @@ platform/api/v1/users:
     $ref: ./platform/users/create.yml
 platform/api/v1/users/{id}:
   parameters:
-    - $ref: '#/parameters/user_id'
+    - $ref: '#/parameters/platform_user_id'
   get:
     $ref: './platform/users/show.yml'
   patch:
@@ -61,7 +61,7 @@ platform/api/v1/users/{id}:
     $ref: ./platform/users/delete.yml
 platform/api/v1/users/{id}/login:
   parameters:
-    - $ref: '#/parameters/user_id'
+    - $ref: '#/parameters/platform_user_id'
   $ref: './platform/users/login.yml'
 
 
@@ -215,4 +215,3 @@ platform/api/v1/users/{id}/login:
     $ref: ./teams/update.yml
   delete:
     $ref: ./teams/delete.yml
-
