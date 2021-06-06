@@ -78,6 +78,11 @@
         "ERROR": "Veuillez saisir une adresse de courriel valide",
         "PLACEHOLDER": "Veuillez entrer votre adresse de courriel, cela sera affiché dans les conversations"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Mot de passe",
         "ERROR": "Veuillez entrer un mot de passe de 6 caractères ou plus",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Réponses standardisées",
     "INTEGRATIONS": "Intégrations",
     "ACCOUNT_SETTINGS": "Paramètres du compte",
+    "APPLICATIONS": "Applications",
     "LABELS": "Étiquettes",
     "TEAMS": "Équipes"
   },
