@@ -78,6 +78,11 @@
         "ERROR": "Будь ласка, введіть коректну адресу електронної пошти",
         "PLACEHOLDER": "Введіть адресу електронної пошти, її буде видно в бесідах"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Пароль",
         "ERROR": "Будь ласка, введіть пароль довжиною 6 або більше символів",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Швидкі відповіді",
     "INTEGRATIONS": "Інтеграції",
     "ACCOUNT_SETTINGS": "Налаштування акаунту",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "TEAMS": "Teams"
   },
