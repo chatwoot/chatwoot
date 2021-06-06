@@ -88,7 +88,7 @@
         "SUBMIT_BUTTON": "Δημιουργία Κιβωτίου"
       },
       "TWILIO": {
-        "TITLE": "SMS κανάλι από το Twilio",
+        "TITLE": "Κανάλι Twilio SMS/Whatsapp",
         "DESC": "Ενσωματώστε το Twilio και αρχίστε να υποστηρίζετε τους πελάτες σας μέσω SMS.",
         "ACCOUNT_SID": {
           "LABEL": "SID Λογαριασμού",
@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Επιβεβαίωση Διαγραφής",
         "MESSAGE": "Είσαστε σίγουρος για την διαγραφή ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ναι, Διέγραψε το ",
         "NO": "Όχι, Κράτησε τον/την"
       },
