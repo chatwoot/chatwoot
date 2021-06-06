@@ -78,6 +78,11 @@
         "ERROR": "ദയവായി സാധുവായ ഒരു ഇമെയിൽ വിലാസം നൽകുക",
         "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ ഇമെയിൽ വിലാസം നൽകുക, ഇത് സംഭാഷണങ്ങളിൽ ദൃശ്യമാകും"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "പാസ്‌വേഡ്",
         "ERROR": "ദയവായി 6 അല്ലെങ്കിൽ അതിൽ കൂടുതൽ ദൈർഘ്യമുള്ള പാസ്‌വേഡ് നൽകുക",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "ക്യാൻഡ് പ്രതികരണങ്ങൾ",
     "INTEGRATIONS": "സംയോജനങ്ങൾ",
     "ACCOUNT_SETTINGS": "അക്കൗണ്ട് ക്രമീകരണങ്ങൾ",
+    "APPLICATIONS": "Applications",
     "LABELS": "ലേബലുകൾ",
     "TEAMS": "Teams"
   },
