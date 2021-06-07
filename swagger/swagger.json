@@ -1224,6 +1224,10 @@
                 "additional_attributes": {
                   "type": "object",
                   "description": "Lets you specify attributes like browser information"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Specify the conversation whether it's bot, open, closed"
                 }
               }
             }
