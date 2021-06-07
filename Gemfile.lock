@@ -186,7 +186,7 @@ GEM
     et-orbi (1.2.4)
       tzinfo
     execjs (2.7.0)
-    facebook-messenger (1.5.0)
+    facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.4.5)
     factory_bot (6.1.0)
@@ -333,7 +333,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2020.0512)
+    mime-types-data (3.2021.0225)
     mini_magick (4.10.1)
     mini_mime (1.1.0)
     mini_portile2 (2.5.1)
@@ -631,7 +631,7 @@ DEPENDENCIES
   devise
   devise_token_auth
   dotenv-rails
-  facebook-messenger (= 1.5.0)
+  facebook-messenger
   factory_bot_rails
   faker
   fcm
