@@ -14,7 +14,7 @@ FactoryBot.define do
     name { Faker::Name.name }
     display_name { Faker::Name.first_name }
     email { display_name + "@#{SecureRandom.uuid}.com" }
-    password { 'password' }
+    password { 'Password1!' }
 
     after(:build) do |user, evaluator|
       user.skip_confirmation! if evaluator.skip_confirmation
