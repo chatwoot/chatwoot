@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_27_173755) do
+ActiveRecord::Schema.define(version: 2021_06_07_164125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -249,7 +249,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_173755) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -322,6 +322,7 @@ ActiveRecord::Schema.define(version: 2021_05_27_173755) do
     t.boolean "working_hours_enabled", default: false
     t.string "out_of_office_message"
     t.string "timezone", default: "UTC"
+    t.boolean "enable_email_collect"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
