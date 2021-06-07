@@ -1227,6 +1227,11 @@
                 },
                 "status": {
                   "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved",
+                    "bot"
+                  ],
                   "description": "Specify the conversation whether it's bot, open, closed"
                 }
               }

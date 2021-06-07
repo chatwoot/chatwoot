@@ -104,7 +104,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
-      additional_attributes: additional_attributes,
+      additional_attributes: additional_attributes
     }.merge(status)
   end
 

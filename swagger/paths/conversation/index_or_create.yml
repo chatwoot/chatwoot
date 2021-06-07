@@ -100,7 +100,7 @@ post:
       schema:
         type: object
         properties:
-          source_id: 
+          source_id:
             $ref: '#/parameters/source_id'
           inbox_id:
             type: string
@@ -112,7 +112,8 @@ post:
             type: object
             description: Lets you specify attributes like browser information
           status:
-            type: string 
+            type: string
+            enum: ['open', 'resolved', 'bot']
             description: Specify the conversation whether it's bot, open, closed
 
   responses:
