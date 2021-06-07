@@ -38,6 +38,8 @@ Rails.application.routes.draw do
           end
 
           resources :agents, except: [:show, :edit, :new]
+          resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
+
           resources :callbacks, only: [] do
             collection do
               post :register_facebook_page
@@ -97,6 +99,7 @@ Rails.application.routes.draw do
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
+            get :agent_bot, on: :member
             post :set_agent_bot, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id
@@ -151,8 +154,6 @@ Rails.application.routes.draw do
       resource :profile, only: [:show, :update]
       resource :notification_subscriptions, only: [:create]
 
-      resources :agent_bots, only: [:index]
-
       namespace :widget do
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
@@ -194,6 +195,7 @@ Rails.application.routes.draw do
             get :login
           end
         end
+        resources :agent_bots, only: [:index, :create, :show, :update, :destroy]
         resources :accounts, only: [:create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
@@ -230,6 +232,7 @@ Rails.application.routes.draw do
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'
+  get '.well-known/assetlinks.json' => 'android_app#assetlinks'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes

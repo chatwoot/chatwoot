@@ -106,14 +106,16 @@
       :inbox="selectedInbox"
     />
 
-    <woot-delete-modal
+    <woot-confirm-delete-modal
       :show.sync="showDeletePopup"
-      :on-close="closeDelete"
-      :on-confirm="confirmDeletion"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
-      :message="deleteMessage"
+      :message="confirmDeleteMessage"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
+      :confirm-value="selectedInbox.name"
+      :confirm-place-holder-text="confirmPlaceHolderText"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>
@@ -153,10 +155,15 @@ export default {
         this.selectedInbox.name
       }`;
     },
-    deleteMessage() {
+    confirmDeleteMessage() {
       return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
         this.selectedInbox.name
       } ?`;
+    },
+    confirmPlaceHolderText() {
+      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+        inboxName: this.selectedInbox.name,
+      })}`;
     },
   },
   methods: {

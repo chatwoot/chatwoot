@@ -11,12 +11,12 @@
 @import 'mixins';
 @import 'foundation-settings';
 @import 'helper-classes';
+@import 'formulate';
 
 @import 'foundation-sites/scss/foundation';
 @import '~bourbon/core/bourbon';
 
 @include foundation-everything($flex: true);
-
 
 @import 'typography';
 @import 'layout';
@@ -46,5 +46,4 @@
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 @import '~shared/assets/stylesheets/ionicons';
