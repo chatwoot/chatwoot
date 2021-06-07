@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :super_admin do
     email { "admin@#{SecureRandom.uuid}.com" }
-    password { 'password' }
+    password { 'Password1!' }
   end
 end
