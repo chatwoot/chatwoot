@@ -13,18 +13,6 @@
     <div class="row align-center">
       <div class="small-12 medium-6 large-5 column">
         <form class="signup--box login-box" @submit.prevent="submit">
-           <woot-input
-            v-model="credentials.accountName"
-            :class="{ error: $v.credentials.accountName.$error }"
-            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
-            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
-            :error="
-              $v.credentials.accountName.$error
-                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
-                : ''
-            "
-            @blur="$v.credentials.accountName.$touch"
-          />
           <woot-input
             v-model="credentials.fullName"
             :class="{ error: $v.credentials.fullName.$error }"
@@ -48,7 +36,18 @@
             "
             @blur="$v.credentials.email.$touch"
           />
-
+          <woot-input
+            v-model="credentials.accountName"
+            :class="{ error: $v.credentials.accountName.$error }"
+            :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
+            :placeholder="$t('REGISTER.ACCOUNT_NAME.PLACEHOLDER')"
+            :error="
+              $v.credentials.accountName.$error
+                ? $t('REGISTER.ACCOUNT_NAME.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.accountName.$touch"
+          />
           <woot-input
             v-model.trim="credentials.password"
             type="password"
