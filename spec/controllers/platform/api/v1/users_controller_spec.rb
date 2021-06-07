@@ -94,7 +94,7 @@ RSpec.describe 'Platform Users API', type: :request do
       let(:platform_app) { create(:platform_app) }
 
       it 'creates a new user and permissible for the user' do
-        post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'password123' },
+        post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'Password1!' },
                                         headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
@@ -105,7 +105,7 @@ RSpec.describe 'Platform Users API', type: :request do
 
       it 'fetch existing user and creates permissible for the user' do
         create(:user, name: 'old test', email: 'test@test.com')
-        post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'password123' },
+        post '/platform/api/v1/users/', params: { name: 'test', email: 'test@test.com', password: 'Password1!' },
                                         headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         expect(response).to have_http_status(:success)
