@@ -18,12 +18,8 @@ RSpec.describe 'Token Confirmation', type: :request do
         expect(response.status).to eq 200
       end
 
-      it 'returns message "Success"' do
-        expect(response_json[:message]).to eq 'Success'
-      end
-
-      it 'returns "redirect_url"' do
-        expect(response_json[:redirect_url]).to include '/app/auth/password/edit?config=default&redirect_url=&reset_password_token'
+      it 'returns "auth data"' do
+        expect(response.body).to include('john.doe@gmail.com')
       end
     end
 
