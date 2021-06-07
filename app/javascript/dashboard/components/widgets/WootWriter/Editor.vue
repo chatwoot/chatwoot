@@ -16,8 +16,10 @@
 
 <script>
 import {
+  plainTextParser,
   addMentionsToMarkdownSerializer,
   addMentionsToMarkdownParser,
+  defaultPlainTextSchema,
   schemaWithMentions,
 } from '@chatwoot/prosemirror-schema/src/mentions/schema';
 
@@ -29,9 +31,8 @@ import {
   wootWriterSetup,
   EditorState,
   EditorView,
-  defaultMarkdownParser,
-  defaultMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
+import { Selection } from 'prosemirror-state';
 
 import TagAgents from '../conversation/TagAgents';
 import CannedResponse from '../conversation/CannedResponse';
@@ -40,11 +41,27 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 
 import '@chatwoot/prosemirror-schema/src/woot-editor.css';
 
-const createState = (content, placeholder, plugins = []) => {
+const createState = (
+  content,
+  placeholder,
+  plugins = [],
+  isFormatMode = false
+) => {
+  const schema = isFormatMode ? schemaWithMentions : defaultPlainTextSchema;
+  const parser = isFormatMode
+    ? addMentionsToMarkdownParser()
+    : plainTextParser();
+
+  const htmlNode = document.createElement('span');
+  htmlNode.innerHTML = content;
+
+  const parsable = isFormatMode ? content : htmlNode;
+  const doc = parser.parse(parsable);
+
   return EditorState.create({
-    doc: addMentionsToMarkdownParser(defaultMarkdownParser).parse(content),
+    doc,
     plugins: wootWriterSetup({
-      schema: schemaWithMentions,
+      schema,
       placeholder,
       plugins,
     }),
@@ -146,9 +163,24 @@ export default {
         this.view.updateState(this.state);
       }
     },
+    isFormatMode(newValue) {
+      this.state = createState(
+        this.value,
+        this.placeholder,
+        this.plugins,
+        newValue
+      );
+      this.view.updateState(this.state);
+      this.setFocusToLast();
+    },
   },
   created() {
-    this.state = createState(this.value, this.placeholder, this.plugins);
+    this.state = createState(
+      this.value,
+      this.placeholder,
+      this.plugins,
+      this.isFormatMode
+    );
   },
   mounted() {
     this.view = new EditorView(this.$refs.editor, {
@@ -205,9 +237,9 @@ export default {
 
     emitOnChange() {
       this.view.updateState(this.state);
-      this.lastValue = addMentionsToMarkdownSerializer(
-        defaultMarkdownSerializer
-      ).serialize(this.state.doc);
+      this.lastValue = addMentionsToMarkdownSerializer().serialize(
+        this.state.doc
+      );
       this.$emit('input', this.lastValue);
     },
     hideMentions() {
@@ -239,6 +271,14 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    setFocusToLast() {
+      const selection = Selection.atEnd(this.view.docView.node);
+      const tr = this.view.state.tr.setSelection(selection);
+      this.state = this.view.state.apply(tr);
+      this.view.updateState(this.state);
+
+      this.view.focus();
     },
   },
 };
