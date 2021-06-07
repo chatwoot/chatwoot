@@ -11,7 +11,7 @@ class Messages::MessageBuilder
     @items = params.to_unsafe_h&.dig(:content_attributes, :items)
     @attachments = params[:attachments]
     @in_reply_to = params.to_unsafe_h&.dig(:content_attributes, :in_reply_to)
-end
+  end
 
   def perform
     @message = @conversation.messages.build(message_params)
@@ -39,8 +39,7 @@ end
   end
 
   def sender
-    sender = message_sender || @user
-    message_type == 'outgoing' ? message_sender : @conversation.contact
+    message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
   end
 
   def external_created_at
@@ -48,8 +47,8 @@ end
   end
 
   def message_sender
-    return if @params.dig(:sender_type) != 'AgentBot'
-   
+    return if @params[:sender_type] != 'AgentBot'
+
     AgentBot.where(account_id: [nil, @conversation.account.id]).find_by(id: @params[:sender_id])
   end
 

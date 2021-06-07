@@ -33,8 +33,8 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
       it 'creates an outgoing message with a specific bot sender' do
         agent_bot = create(:agent_bot)
-        time_stamp = Time.now.getutc.to_s
-        params = { content: 'test-message', external_created_at: time_stamp, sender_type: 'AgentBot', sender_id: agent_bot.id  }
+        time_stamp = Time.now.utc.to_s
+        params = { content: 'test-message', external_created_at: time_stamp, sender_type: 'AgentBot', sender_id: agent_bot.id }
 
         post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
              params: params,
@@ -43,9 +43,9 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_data = JSON.parse(response.body)
-        expect(response_data["content_attributes"]["external_created_at"]).to eq time_stamp
+        expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
         expect(conversation.messages.count).to eq(1)
-        expect(conversation.messages.last.sender_id). to eq(agent_bot.id)
+        expect(conversation.messages.last.sender_id).to eq(agent_bot.id)
       end
 
       it 'creates a new outgoing message with attachment' do
