@@ -120,8 +120,12 @@ export default {
             window.location = DEFAULT_REDIRECT_URL;
           }
         })
-        .catch(() => {
-          this.showAlert(this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE'));
+        .catch(error => {
+          let errorMessage = this.$t('SET_NEW_PASSWORD.API.ERROR_MESSAGE');
+          if (error?.data?.message) {
+            errorMessage = error.data.message;
+          }
+          this.showAlert(errorMessage);
         });
     },
   },

@@ -88,14 +88,6 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :facebook_indicators, only: [] do
-            collection do
-              post :mark_seen
-              post :typing_on
-              post :typing_off
-            end
-          end
-
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member

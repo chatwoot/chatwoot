@@ -124,8 +124,8 @@ export default {
         this.errorMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       } catch (error) {
         this.errorMessage = this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
-        if (error?.response?.data?.error) {
-          this.errorMessage = error.response.data.error;
+        if (error?.response?.data?.message) {
+          this.errorMessage = error.response.data.message;
         }
       } finally {
         this.isPasswordChanging = false;

@@ -59,6 +59,7 @@ gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise'
+gem 'devise-secure_password', '~> 2.0'
 gem 'devise_token_auth'
 # authorization
 gem 'jwt'
@@ -72,7 +73,7 @@ gem 'wisper', '2.0.0'
 
 ##--- gems for channels ---##
 # TODO: bump up gem to 2.0
-gem 'facebook-messenger', '1.5.0'
+gem 'facebook-messenger'
 gem 'telegram-bot-ruby'
 gem 'twilio-ruby', '~> 5.32.0'
 # twitty will handle subscription of twitter account events
