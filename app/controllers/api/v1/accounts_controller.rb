@@ -18,7 +18,7 @@ class Api::V1::AccountsController < Api::BaseController
       account_name: account_params[:account_name],
       user_full_name: account_params[:user_full_name],
       email: account_params[:email],
-      confirmed: confirmed?,
+      user_password: account_params[:password],
       user: current_user
     ).perform
     if @user
@@ -46,17 +46,13 @@ class Api::V1::AccountsController < Api::BaseController
 
   private
 
-  def confirmed?
-    super_admin? && params[:confirmed]
-  end
-
   def fetch_account
     @account = current_user.accounts.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
   end
 
   def check_signup_enabled
