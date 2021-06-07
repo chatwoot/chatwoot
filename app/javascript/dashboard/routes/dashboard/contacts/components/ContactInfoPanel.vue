@@ -8,12 +8,12 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
+    <contact-label :contact-id="contact.id" class="contact-labels" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
       conversation-id=""
     />
-    <contact-label />
   </div>
 </template>
 
@@ -62,6 +62,11 @@ export default {
   overflow: auto;
   position: relative;
   padding: var(--space-one);
+
+  .contact-labels {
+    padding: var(--space-micro) var(--space-slab) var(--space-one)
+      var(--space-slab);
+  }
 }
 
 .close-button {

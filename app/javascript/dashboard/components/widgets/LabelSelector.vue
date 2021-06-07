@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h6 class="text-block-title">
+    <h6 class="text-block-title title">
+      <i class="title-icon ion-pricetags" />
       Contact Label
     </h6>
-    <div class="label-wrap">
+    <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
       <add-label @add="toggleLabels" />
       <woot-label
         v-for="label in savedLabels"
@@ -24,7 +25,6 @@
             :v-for="label in selectedLabels"
             :account-labels="allLabels"
             :selected-labels="selectedLabels"
-            :conversation-id="conversationId"
             @add="addItem"
             @remove="removeItem"
           />
@@ -37,17 +37,17 @@
 <script>
 import AddLabel from 'shared/components/ui/dropdown/AddLabel';
 import LabelDropdown from 'shared/components/ui/label/LabelDropdown';
+import { mixin as clickaway } from 'vue-clickaway';
+
 export default {
   components: {
     AddLabel,
     LabelDropdown,
   },
 
+  mixins: [clickaway],
+
   props: {
-    contactId: {
-      type: [String, Number],
-      required: true,
-    },
     allLabels: {
       type: Array,
       default: () => [],
@@ -82,18 +82,42 @@ export default {
     toggleLabels() {
       this.showSearchDropdownLabel = !this.showSearchDropdownLabel;
     },
+
+    closeDropdownLabel() {
+      this.showSearchDropdownLabel = false;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.title {
+  padding-bottom: var(--space-normal);
+  margin: 0;
+
+  .title-icon {
+    margin-right: var(--space-smaller);
+  }
+}
+
 .label-wrap {
   position: relative;
+  margin-left: var(--space-two);
+  line-height: var(--space-medium);
+  bottom: var(--space-small);
 
   .dropdown-wrap {
     display: flex;
     position: absolute;
+    margin-right: var(--space-medium);
+    top: var(--space-medium);
     width: 100%;
+    left: -1px;
+
+    .dropdown-pane {
+      width: 100%;
+      box-sizing: border-box;
+    }
   }
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
   <label-selector
-    :all-labels="accountLabels"
+    :all-labels="allLabels"
     :saved-labels="savedLabels"
-    :selected-labels="activeLabels"
+    @add="addItem"
+    @remove="removeItem"
   />
 </template>
 
@@ -12,21 +13,27 @@ import LabelSelector from 'dashboard/components/widgets/LabelSelector.vue';
 
 export default {
   components: { LabelSelector },
+  props: {
+    contactId: {
+      type: [String, Number],
+      required: true,
+    },
+  },
+
   computed: {
     savedLabels() {
-      return [this.accountLabels[1]];
+      const result = this.$store.getters['contactLabels/getContactLabels'](
+        this.contactId
+      );
+      return result.map(e => {
+        return this.allLabels.find(x => x.title === e);
+      });
     },
 
     ...mapGetters({
       labelUiFlags: 'contactLabels/getUIFlags',
-      accountLabels: 'labels/getLabels',
+      allLabels: 'labels/getLabels',
     }),
-
-    activeLabels() {
-      return this.accountLabels.filter(({ title }) =>
-        this.savedLabels.includes(title)
-      );
-    },
   },
 
   watch: {
@@ -34,6 +41,44 @@ export default {
       if (newContactId && newContactId !== prevContactId) {
         this.fetchLabels(newContactId);
       }
+    },
+  },
+
+  mounted() {
+    const { contactId } = this;
+    this.fetchLabels(contactId);
+  },
+
+  methods: {
+    async onUpdateLabels(selectedLabels) {
+      try {
+        await this.$store.dispatch('contactLabels/update', {
+          contactId: this.contactId,
+          labels: selectedLabels,
+        });
+      } catch (error) {
+        // Ignore error
+      }
+    },
+
+    addItem(value) {
+      const result = this.savedLabels.map(item => item.title);
+      result.push(value.title);
+      this.onUpdateLabels(result);
+    },
+
+    removeItem(value) {
+      const result = this.savedLabels
+        .map(label => label.title)
+        .filter(label => label !== value);
+      this.onUpdateLabels(result);
+    },
+
+    async fetchLabels(contactId) {
+      if (!contactId) {
+        return;
+      }
+      this.$store.dispatch('contactLabels/get', contactId);
     },
   },
 };

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import * as types from '../mutation-types';
-import ContactLabelsAPI from '../../api/labels';
+import ContactAPI from '../../api/contacts';
 
 const state = {
   records: {},
@@ -26,7 +26,7 @@ export const actions = {
       isFetching: true,
     });
     try {
-      const response = await ContactLabelsAPI.getLabels(contactId);
+      const response = await ContactAPI.getContactLabels(contactId);
       commit(types.default.SET_CONTACT_LABELS, {
         id: contactId,
         data: response.data.payload,
@@ -45,7 +45,7 @@ export const actions = {
       isUpdating: true,
     });
     try {
-      const response = await ContactLabelsAPI.updateLabels(contactId, labels);
+      const response = await ContactAPI.updateContactLabels(contactId, labels);
       commit(types.default.SET_CONTACT_LABELS, {
         id: contactId,
         data: response.data.payload,
