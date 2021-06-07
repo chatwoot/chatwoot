@@ -13,6 +13,7 @@ class Messages::Facebook::MessageBuilder
     @outgoing_echo = outgoing_echo
     @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (@outgoing_echo ? :outgoing : :incoming)
+    @attachments = (@response.attachments || [])
   end
 
   def perform
@@ -41,11 +42,17 @@ class Messages::Facebook::MessageBuilder
 
   def build_message
     @message = conversation.messages.create!(message_params)
-    (response.attachments || []).each do |attachment|
-      attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
-      attachment_obj.save!
-      attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
+    @attachments.each do |attachment|
+      process_attachment(attachment)
     end
+  end
+
+  def process_attachment(attachment)
+    return if attachment['type'].to_sym == :template
+
+    attachment_obj = @message.attachments.new(attachment_params(attachment).except(:remote_file_url))
+    attachment_obj.save!
+    attach_file(attachment_obj, attachment_params(attachment)[:remote_file_url]) if attachment_params(attachment)[:remote_file_url]
   end
 
   def attach_file(attachment, file_url)
