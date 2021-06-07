@@ -141,6 +141,23 @@
           </p>
         </label>
 
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
+          <select v-model="emailCollectEnabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT')
+            }}
+          </p>
+        </label>
+
         <label class="medium-9 columns">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           <select v-model="autoAssignment">
@@ -292,6 +309,7 @@ export default {
       greetingEnabled: true,
       greetingMessage: '',
       autoAssignment: false,
+      emailCollectEnabled: false,
       isAgentListUpdating: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
@@ -421,6 +439,7 @@ export default {
         this.greetingEnabled = this.inbox.greeting_enabled;
         this.greetingMessage = this.inbox.greeting_message;
         this.autoAssignment = this.inbox.enable_auto_assignment;
+        this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -461,6 +480,7 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
+          enable_email_collect: this.emailCollectEnabled,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {
