@@ -124,7 +124,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "메시지",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
