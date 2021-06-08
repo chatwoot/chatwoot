@@ -22,7 +22,7 @@ class Messages::Facebook::MessageBuilder
       build_message
     end
   rescue StandardError => e
-    Raven.capture_exception(e)
+    Sentry.capture_exception(e)
     true
   end
 
@@ -138,7 +138,7 @@ class Messages::Facebook::MessageBuilder
       result = k.get_object(@sender_id) || {}
     rescue StandardError => e
       result = {}
-      Raven.capture_exception(e)
+      Sentry.capture_exception(e)
     end
     {
       name: "#{result['first_name'] || 'John'} #{result['last_name'] || 'Doe'}",

@@ -89,8 +89,12 @@ gem 'google-cloud-dialogflow'
 ##--- gems for debugging and error reporting ---##
 # static analysis
 gem 'brakeman'
+gem 'ddtrace'
 gem 'scout_apm'
-gem 'sentry-raven'
+gem 'sentry-ruby'
+gem "sentry-rails"
+gem "sentry-sidekiq"
+
 
 ##-- background job processing --##
 gem 'sidekiq'
@@ -126,13 +130,14 @@ group :development do
 end
 
 group :test do
-  # Cypress in rails.
+  # Cypress in r.
   gem 'cypress-on-rails', '~> 1.0'
   # fast cleaning of database
   gem 'database_cleaner'
 end
 
 group :development, :test do
+  gem 'active_record_query_trace'
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'factory_bot_rails'

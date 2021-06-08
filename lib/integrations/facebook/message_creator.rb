@@ -15,7 +15,7 @@ class Integrations::Facebook::MessageCreator
       create_contact_message
     end
     # rescue => e
-    # Raven.capture_exception(e)
+    # Sentry.capture_exception(e)
     # end
   end
 
