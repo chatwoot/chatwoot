@@ -45,11 +45,11 @@
         "ERROR": "잘못된 이메일 주소입니다."
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "메시지",
         "PLACEHOLDER": "메시지를 입력해 주세요.",
-        "ERROR": "Message too short"
+        "ERROR": "너무 짧은 메시지"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다."
 }
