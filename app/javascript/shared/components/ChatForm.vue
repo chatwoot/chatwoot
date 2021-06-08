@@ -55,7 +55,7 @@
           </option>
         </select>
         <span class="error-message">
-          {{ item.error || $t('CHAT_FORM.INVALID.FIELD') }}
+          {{ item.pattern_error || $t('CHAT_FORM.INVALID.FIELD') }}
         </span>
       </div>
       <button
