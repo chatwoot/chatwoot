@@ -152,7 +152,10 @@ export default {
       return !messageType ? 'left' : 'right';
     },
     readableTime() {
-      return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
+      return this.messageStamp(
+        this.contentAttributes.external_created_at || this.data.created_at,
+        'LLL d, h:mm a'
+      );
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
@@ -205,7 +208,7 @@ export default {
     },
     isSentByBot() {
       if (this.isPending) return false;
-      return !this.sender.type || this.sender.type === 'bot';
+      return !this.sender.type || this.sender.type === 'agent_bot';
     },
   },
 };
