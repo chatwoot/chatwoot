@@ -6,7 +6,7 @@
         :key="item.key"
         class="form-block"
         :class="{
-          hasSubmitted: hasSubmitted,
+          'has-submitted': hasSubmitted,
         }"
       >
         <label>{{ item.label }}</label>
@@ -16,7 +16,7 @@
           :type="item.type"
           :pattern="item.regex"
           :title="item.title"
-          :required="item.required ? 'required' : false"
+          :required="item.required && 'required'"
           :name="item.name"
           :placeholder="item.placeholder"
           :disabled="!!submittedValues.length"
@@ -24,7 +24,7 @@
         <input
           v-else-if="item.type === 'text'"
           v-model="formValues[item.name]"
-          :required="item.required ? 'required' : false"
+          :required="item.required && 'required'"
           :pattern="item.pattern"
           :title="item.title"
           :type="item.type"
@@ -35,7 +35,7 @@
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
-          :required="item.required ? 'required' : false"
+          :required="item.required && 'required'"
           :title="item.title"
           :name="item.name"
           :placeholder="item.placeholder"
@@ -44,7 +44,7 @@
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
-          :required="item.required ? 'required' : false"
+          :required="item.required && 'required'"
         >
           <option
             v-for="option in item.options"
@@ -209,7 +209,7 @@ export default {
     color: $color-error;
   }
 
-  .hasSubmitted {
+  .has-submitted {
     input:invalid {
       border: 1px solid $color-error;
     }
