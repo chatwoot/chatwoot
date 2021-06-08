@@ -5,12 +5,12 @@ info:
   title: Chatwoot
   termsOfService:	https://www.chatwoot.com/terms-of-service/
   contact:
-    email: support@chatwoot.com
+    email: hello@chatwoot.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 host: app.chatwoot.com
-basePath: /api/v1/
+basePath: 
 schemes:
   - https
 produces:
@@ -28,11 +28,11 @@ securityDefinitions:
     in: header
     name: api_access_token
     description: This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis.
-  superAdminApiKey:
+  platformAppApiKey:
     type: apiKey
     in: header
     name: api_access_token
-    description: This token is only for the system admin or obtained via rails console. This token is to be used rarely for cases like creating a pre verified user through api from external system.
+    description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
 security:
   - userApiKey: []
 
@@ -42,3 +42,23 @@ definitions:
   $ref: ./definitions/index.yml
 parameters:
   $ref: ./parameters/index.yml
+
+x-tagGroups:
+  - name: Platform
+    tags:
+      - Accounts
+      - Account Users
+      - AgentBots
+      - Users
+  - name: Application
+    tags:
+      - Account AgentBots
+      - Contact
+      - Conversation
+      - Conversation Assignment
+      - Conversation Labels
+      - Inbox
+      - Messages
+      - Integrations
+      - Profile
+      - Teams

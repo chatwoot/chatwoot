@@ -1,0 +1,16 @@
+tags:
+  - Accounts
+operationId: get-details-of-an-account
+summary: Get an account details
+description: Get the details of an account
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/platform_account'
+  401:
+    description: Unauthorized
+  404:
+    description: The given account does not exist

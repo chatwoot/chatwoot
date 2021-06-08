@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
       "TITLE": "上一次對話"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "自訂屬性"
-    },
     "LABELS": {
       "TITLE": "對話標記",
       "MODAL": {
@@ -169,6 +166,27 @@
     },
     "FOOTER": {
       "BUTTON": "查看所有筆記"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "自訂屬性",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "取消",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

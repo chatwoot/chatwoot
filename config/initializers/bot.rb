@@ -1,3 +1,7 @@
+# Remember that Rails only eager loads everything in its production environment.
+# In the development and test environments, it only requires files as you reference constants. 
+# You'll need to explicitly load app/bot
+
 unless Rails.env.production?
   bot_files = Dir[Rails.root.join('app', 'bot', '**', '*.rb')]
   bot_reloader = ActiveSupport::FileUpdateChecker.new(bot_files) do
@@ -11,21 +15,7 @@ unless Rails.env.production?
   bot_files.each { |file| require_dependency file }
 end
 
-module Facebook
-  module Messenger
-    module Incoming
-      # The Message class represents an incoming Facebook Messenger message.
-      class Message
-        include Facebook::Messenger::Incoming::Common
-
-        def app_id
-          @messaging['message']['app_id']
-        end
-      end
-    end
-  end
-end
-
+# ref: https://github.com/jgorset/facebook-messenger#make-a-configuration-provider
 class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   def valid_verify_token?(_verify_token)
     ENV['FB_VERIFY_TOKEN']
@@ -36,13 +26,13 @@ class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   end
 
   def access_token_for(page_id)
-    Channel::FacebookPage.where(page_id: page_id).last.access_token
+    Channel::FacebookPage.where(page_id: page_id).last.page_access_token
   end
 
   private
 
   def bot
-    MyApp::Bot
+    Chatwoot::Bot
   end
 end
 

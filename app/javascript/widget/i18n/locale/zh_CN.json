@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "查看新消息",
     "CLOSE_MESSAGES_BUTTON": "关闭",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "机器人"
   },
   "BUBBLE": {
     "LABEL": "联系我们"

@@ -33,6 +33,7 @@ class Account < ApplicationRecord
 
   has_many :account_users, dependent: :destroy
   has_many :agent_bot_inboxes, dependent: :destroy
+  has_many :agent_bots, dependent: :destroy
   has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy

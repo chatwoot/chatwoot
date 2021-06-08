@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
       "TITLE": "前の会話"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "カスタム属性"
-    },
     "LABELS": {
       "TITLE": "会話のラベル",
       "MODAL": {
@@ -169,6 +166,27 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "カスタム属性",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "キャンセル",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }

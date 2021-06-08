@@ -17,9 +17,6 @@
       "NO_RECORDS_FOUND": "Brak poprzednich rozmów powiązanych z tym kontaktem.",
       "TITLE": "Poprzednie rozmowy"
     },
-    "CUSTOM_ATTRIBUTES": {
-      "TITLE": "Niestandardowe atrybuty"
-    },
     "LABELS": {
       "TITLE": "Etykiety konwersacji",
       "MODAL": {
@@ -169,6 +166,27 @@
     },
     "FOOTER": {
       "BUTTON": "Wyświetl wszystkie notatki"
+    }
+  },
+  "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Niestandardowe atrybuty",
+    "BUTTON": "Add custom attribute",
+    "ADD": {
+      "TITLE": "Create custom attribute",
+      "DESC": "Add custom information to this contact."
+    },
+    "FORM": {
+      "CREATE": "Add attribute",
+      "CANCEL": "Anuluj",
+      "NAME": {
+        "LABEL": "Custom attribute name",
+        "PLACEHOLDER": "Eg: shopify id",
+        "ERROR": "Invalid custom attribute name"
+      },
+      "VALUE": {
+        "LABEL": "Attribute value",
+        "PLACEHOLDER": "Eg: 11901 "
+      }
     }
   }
 }
