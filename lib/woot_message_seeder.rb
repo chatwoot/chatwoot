@@ -29,19 +29,19 @@ module WootMessageSeeder
 
   def self.sample_card_item
     {
-      "media_url": 'https://i.imgur.com/d8Djr4k.jpg',
-      "title": 'Acme Shoes 2.0',
-      "description": 'Move with Acme Shoe 2.0',
-      "actions": [
+      media_url: 'https://i.imgur.com/d8Djr4k.jpg',
+      title: 'Acme Shoes 2.0',
+      description: 'Move with Acme Shoe 2.0',
+      actions: [
         {
-          "type": 'link',
-          "text": 'View More',
-          "uri": 'http://acme-shoes.inc'
+          type: 'link',
+          text: 'View More',
+          uri: 'http://acme-shoes.inc'
         },
         {
-          "type": 'postback',
-          "text": 'Add to cart',
-          "payload": 'ITEM_SELECTED'
+          type: 'postback',
+          text: 'Add to cart',
+          payload: 'ITEM_SELECTED'
         }
       ]
     }
@@ -56,11 +56,11 @@ module WootMessageSeeder
       content: 'Your favorite food',
       content_type: 'input_select',
       content_attributes: {
-        "items": [
-          { "title": '🌯 Burito', "value": 'Burito' },
-          { "title": '🍝 Pasta', "value": 'Pasta' },
-          { "title": ' 🍱 Sushi', "value": 'Sushi' },
-          { "title": ' 🥗 Salad', "value": 'Salad' }
+        items: [
+          { title: '🌯 Burito', value: 'Burito' },
+          { title: '🍝 Pasta', value: 'Pasta' },
+          { title: ' 🍱 Sushi', value: 'Sushi' },
+          { title: ' 🥗 Salad', value: 'Salad' }
         ]
       }
     )
@@ -102,9 +102,9 @@ module WootMessageSeeder
       content: 'Tech Companies',
       content_type: 'article',
       content_attributes: {
-        "items": [
-          { "title": 'Acme Hardware', "description": 'Hardware reimagined', "link": 'http://acme-hardware.inc' },
-          { "title": 'Acme Search', "description": 'The best Search Engine', "link": 'http://acme-search.inc' }
+        items: [
+          { title: 'Acme Hardware', description: 'Hardware reimagined', link: 'http://acme-hardware.inc' },
+          { title: 'Acme Search', description: 'The best Search Engine', link: 'http://acme-search.inc' }
         ]
       }
     )

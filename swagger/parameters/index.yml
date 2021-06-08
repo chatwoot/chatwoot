@@ -24,3 +24,6 @@ contact_sort_param:
 
 page:
   $ref: ./page.yml
+
+platform_user_id:
+  $ref: ./platform_user_id.yml

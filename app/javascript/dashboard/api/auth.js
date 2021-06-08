@@ -29,6 +29,7 @@ export default {
           account_name: creds.accountName.trim(),
           user_full_name: creds.fullName.trim(),
           email: creds.email,
+          password: creds.password,
         })
         .then(response => {
           setAuthCredentials(response);
@@ -95,8 +96,18 @@ export default {
   },
 
   verifyPasswordToken({ confirmationToken }) {
-    return axios.post('auth/confirmation', {
-      confirmation_token: confirmationToken,
+    return new Promise((resolve, reject) => {
+      axios
+        .post('auth/confirmation', {
+          confirmation_token: confirmationToken,
+        })
+        .then(response => {
+          setAuthCredentials(response);
+          resolve(response);
+        })
+        .catch(error => {
+          reject(error.response);
+        });
     });
   },
 
