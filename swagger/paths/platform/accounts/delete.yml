@@ -1,0 +1,14 @@
+tags:
+  - Accounts
+operationId: delete-an-account
+summary: Delete an Account
+description: Delete an Account
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The account does not exist

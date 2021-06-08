@@ -27,6 +27,10 @@ class InboxPolicy < ApplicationPolicy
     true
   end
 
+  def agent_bot?
+    true
+  end
+
   def campaigns?
     @account_user.administrator?
   end

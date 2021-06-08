@@ -1,4 +1,6 @@
 const {
+  API_CHANNEL_NAME: apiChannelName,
+  API_CHANNEL_THUMBNAIL: apiChannelThumbnail,
   APP_VERSION: appVersion,
   BRAND_NAME: brandName,
   CHATWOOT_INBOX_TOKEN: chatwootInboxToken,
@@ -13,6 +15,8 @@ const {
 } = window.globalConfig || {};
 
 const state = {
+  apiChannelName,
+  apiChannelThumbnail,
   appVersion,
   brandName,
   chatwootInboxToken,
