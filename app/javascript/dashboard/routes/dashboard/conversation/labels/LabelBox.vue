@@ -5,7 +5,7 @@
       class="contact-conversation--list"
     >
       <contact-details-item
-        :title="$t('CONTACT_PANEL.LABELS.TITLE')"
+        :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.TITLE')"
         icon="ion-pricetags"
         emoji="🏷️"
       />

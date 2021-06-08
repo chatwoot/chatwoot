@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h6 class="text-block-title title">
+    <h6 class="text-block-title">
       <i class="title-icon ion-pricetags" />
-      Contact Label
+      {{ $t('CONTACT_PANEL.LABELS.CONTACT.TITLE') }}
     </h6>
     <div v-on-clickaway="closeDropdownLabel" class="label-wrap">
       <add-label @add="toggleLabels" />
@@ -91,20 +91,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.title {
-  padding-bottom: var(--space-normal);
-  margin: 0;
-
-  .title-icon {
-    margin-right: var(--space-smaller);
-  }
+.title-icon {
+  margin-right: var(--space-smaller);
 }
 
 .label-wrap {
   position: relative;
   margin-left: var(--space-two);
   line-height: var(--space-medium);
-  bottom: var(--space-small);
 
   .dropdown-wrap {
     display: flex;
