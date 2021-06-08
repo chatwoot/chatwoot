@@ -98,13 +98,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    status = params[:status].present? ? { status: params[:status] } : {}
     {
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes
-    }
+    }.merge(status)
   end
 
   def conversation_finder

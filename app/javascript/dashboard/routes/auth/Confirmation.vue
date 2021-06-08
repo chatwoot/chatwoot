@@ -21,12 +21,10 @@ export default {
   methods: {
     async confirmToken() {
       try {
-        const {
-          data: { redirect_url: redirectURL },
-        } = await Auth.verifyPasswordToken({
+        await Auth.verifyPasswordToken({
           confirmationToken: this.confirmationToken,
         });
-        window.location = redirectURL;
+        window.location = DEFAULT_REDIRECT_URL;
       } catch (error) {
         window.location = DEFAULT_REDIRECT_URL;
       }
