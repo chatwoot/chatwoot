@@ -31,8 +31,9 @@
     }
 
     img {
-      width: 50%;
       @include margin($space-normal auto);
+      flex: 1;
+      width: 50%;
     }
 
     .channel__title{

@@ -10,6 +10,7 @@ import axios from 'axios';
 // Global Components
 import hljs from 'highlight.js';
 import Multiselect from 'vue-multiselect';
+import VueFormulate from '@braid/vue-formulate';
 import WootSwitch from 'components/ui/Switch';
 import WootWizard from 'components/ui/Wizard';
 import { sync } from 'vuex-router-sync';
@@ -19,7 +20,7 @@ import WootUiKit from '../dashboard/components';
 import App from '../dashboard/App';
 import i18n from '../dashboard/i18n';
 import createAxios from '../dashboard/helper/APIHelper';
-import commonHelpers from '../dashboard/helper/commons';
+import commonHelpers, { isJSONValid } from '../dashboard/helper/commons';
 import { getAlertAudio } from '../shared/helpers/AudioNotificationHelper';
 import { initFaviconSwitcher } from '../shared/helpers/faviconHelper';
 import router from '../dashboard/routes';
@@ -48,6 +49,11 @@ Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(WootUiKit);
 Vue.use(Vuelidate);
+Vue.use(VueFormulate, {
+  rules: {
+    JSON: ({ value }) => isJSONValid(value),
+  },
+});
 Vue.use(VTooltip, {
   defaultHtml: false,
 });

@@ -550,7 +550,7 @@
     "platform/api/v1/users/{id}": {
       "parameters": [
         {
-          "$ref": "#/parameters/user_id"
+          "$ref": "#/parameters/platform_user_id"
         }
       ],
       "get": {
@@ -1224,6 +1224,15 @@
                 "additional_attributes": {
                   "type": "object",
                   "description": "Lets you specify attributes like browser information"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "resolved",
+                    "bot"
+                  ],
+                  "description": "Specify the conversation whether it's bot, open, closed"
                 }
               }
             }
@@ -3201,6 +3210,15 @@
       },
       "required": false,
       "description": "The page parameter"
+    },
+    "platform_user_id": {
+      "in": "path",
+      "name": "id",
+      "schema": {
+        "type": "integer"
+      },
+      "required": true,
+      "description": "The numeric ID of the user on the platform"
     }
   },
   "x-tagGroups": [

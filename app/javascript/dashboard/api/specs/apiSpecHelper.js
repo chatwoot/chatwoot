@@ -5,6 +5,7 @@ function apiSpecHelper() {
       post: jest.fn(() => Promise.resolve()),
       get: jest.fn(() => Promise.resolve()),
       patch: jest.fn(() => Promise.resolve()),
+      delete: jest.fn(() => Promise.resolve()),
     };
     window.axios = this.axiosMock;
   });
