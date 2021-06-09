@@ -1,9 +1,5 @@
 .settings {
   overflow: auto;
-
-  .page-top-bar {
-    @include padding($space-normal $space-two $zero);
-  }
 }
 
 // Conversation header - Light BG
@@ -27,7 +23,6 @@
     @include flex-align($x: center, $y: middle);
     @include margin($zero);
   }
-
 }
 
 .wizard-box {
@@ -76,7 +71,6 @@
     }
 
     &.over {
-
       &::after {
         background: $color-woot;
       }
@@ -85,7 +79,7 @@
         background: $color-woot;
       }
 
-      &+.item {
+      & + .item {
         &::before {
           background: $color-woot;
         }
@@ -140,7 +134,6 @@
 }
 
 .inoboxes-list {
-
   .inbox-item {
     @include margin($space-normal);
     @include flex;
@@ -194,9 +187,9 @@
       align-self: center;
       color: $medium-gray;
       font-size: $font-size-small;
-      opacity: .7;
+      opacity: 0.7;
       transform: translateX(0);
-      transition: opacity 0.100s ease-in 0s, transform 0.200s ease-in 0.030s;
+      transition: opacity 0.1s ease-in 0s, transform 0.2s ease-in 0.03s;
     }
   }
 }
@@ -231,7 +224,7 @@
     @include padding($space-medium);
   }
 
-  >a>img {
+  > a > img {
     width: $space-larger * 5;
   }
 }
