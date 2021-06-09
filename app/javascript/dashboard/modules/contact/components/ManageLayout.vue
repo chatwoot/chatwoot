@@ -69,7 +69,6 @@ export default {
 }
 
 .right {
-  /* background: white; */
   padding: var(--space-normal);
 }
 </style>
