@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome da Caixa de Entrada",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
+      },
       "FB": {
         "HELP": "Obs: ao fazer login, apenas temos acesso às mensagens da sua página. Suas mensagens privadas nunca podem ser acessadas pelo Chatwoot.",
         "CHOOSE_PAGE": "Escolher Página",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Criando canal de suporte ao site",
         "CHANNEL_AVATAR": {
           "LABEL": "Imagem do Canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nome do website",
-          "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do website",
