@@ -6,7 +6,7 @@
     <div class="footer">
       <div class="meta">
         <div :title="userName">
-          <Thumbnail :src="thumbnail" :username="userName" size="16px" />
+          <thumbnail :src="thumbnail" :username="userName" size="16px" />
         </div>
         <div class="date-wrap">
           <span>{{ readableTime }}</span>
@@ -15,14 +15,14 @@
       <div class="actions">
         <woot-button
           variant="smooth"
-          size="small"
+          size="tiny"
           icon="ion-compose"
           color-scheme="secondary"
           @click="onEdit"
         />
         <woot-button
           variant="smooth"
-          size="small"
+          size="tiny"
           icon="ion-trash-b"
           color-scheme="secondary"
           @click="onDelete"
@@ -33,14 +33,12 @@
 </template>
 
 <script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail';
 import timeMixin from 'dashboard/mixins/time';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
 
 export default {
   components: {
     Thumbnail,
-    WootButton,
   },
 
   mixins: [timeMixin],
@@ -88,12 +86,13 @@ export default {
 <style lang="scss" scoped>
 .note__content {
   font-size: var(--font-size-mini);
-  margin-bottom: var(--space-small);
+  margin-bottom: var(--space-smaller);
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
 
   .meta {
     display: flex;
@@ -112,8 +111,6 @@ export default {
 
     .button {
       margin-left: var(--space-small);
-      height: var(--space-medium);
-      width: var(--space-medium);
     }
   }
 }
