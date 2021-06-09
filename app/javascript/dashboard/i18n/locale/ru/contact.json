@@ -155,6 +155,16 @@
       "VIEW_DETAILS": "Просмотреть подробности"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Добавить",
+      "TITLE": "Shift + Enter для создания задачи"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Дата окончания",
+      "LABEL_TITLE": "Установить тип"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Заметки"
@@ -166,6 +176,16 @@
     },
     "FOOTER": {
       "BUTTON": "Показать все заметки"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Действия"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "заметки",
+      "PILL_BUTTON_EVENTS": "события",
+      "PILL_BUTTON_CONVO": "диалоги"
     }
   },
   "CUSTOM_ATTRIBUTES": {
