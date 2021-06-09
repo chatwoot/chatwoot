@@ -24,7 +24,7 @@ export default {
       },
     },
     timeStamp: {
-      defaultValue: '1618046084',
+      defaultValue: 1618046084,
       control: {
         type: 'number',
       },
