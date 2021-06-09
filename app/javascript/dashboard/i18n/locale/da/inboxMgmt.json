@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Indbakke Navn",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Websted Navn",
+        "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
+      },
       "FB": {
         "HELP": "PS: Ved at logge ind får vi kun adgang til din sides beskeder. Dine private beskeder kan aldrig tilgås af Chatwoot.",
         "CHOOSE_PAGE": "Vælg Side",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Opretter Website Support Kanal",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Websted Navn",
-          "PLACEHOLDER": "Indtast dit websted navn (fx: Firma ApS)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Hjemmeside Domæne",
