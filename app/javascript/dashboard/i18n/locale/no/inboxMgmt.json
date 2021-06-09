@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Navn på innboks",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nettstedsnavn",
+        "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Ved å logge inn får vi bare tilgang til meldingene til siden. Dine private meldinger vil aldri bli lest av Chatwoot.",
         "CHOOSE_PAGE": "Velg side",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Oppretter nettstedskanal",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal profilbilde"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nettstedsnavn",
-          "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Nettstedets domene",
