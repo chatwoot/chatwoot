@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Gelen Kutusu Adı",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Web Sitesi Adı",
+        "PLACEHOLDER": "Web sitenizin adını girin"
+      },
       "FB": {
         "HELP": "Not: Oturum açarak, yalnızca Sayfanızın mesajlarına erişebiliriz. Özel mesajlarınıza Chatwoot ile asla erişilemez.",
         "CHOOSE_PAGE": "Sayfa Seçin",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Web Sitesi Destek Kanalı Oluşturma",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatarı"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Web Sitesi Adı",
-          "PLACEHOLDER": "Web sitenizin adını girin"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
