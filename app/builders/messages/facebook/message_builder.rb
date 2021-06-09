@@ -10,9 +10,6 @@ class Messages::Facebook::MessageBuilder
   def initialize(response, inbox, outgoing_echo: false)
     @response = response
     @inbox = inbox
-    # This channel might require reauthorization, may be owner might have changed the fb password
-    return if @inbox.channel.reauthorization_required?
-
     @outgoing_echo = outgoing_echo
     @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (@outgoing_echo ? :outgoing : :incoming)
@@ -20,6 +17,9 @@ class Messages::Facebook::MessageBuilder
   end
 
   def perform
+    # This channel might require reauthorization, may be owner might have changed the fb password
+    return if @inbox.channel.reauthorization_required?
+
     ActiveRecord::Base.transaction do
       build_contact
       build_message
