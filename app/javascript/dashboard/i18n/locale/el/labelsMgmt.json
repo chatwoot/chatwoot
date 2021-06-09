@@ -19,9 +19,9 @@
       "NAME": {
         "LABEL": "Όνομα Ετικέτας",
         "PLACEHOLDER": "Όνομα ετικέτας",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "Το Όνομα Ετικέτας είναι απαραίτητο",
+        "MINIMUM_LENGTH_ERROR": "Απαιτείται ελάχιστο μήκος 2 χαρακτήρες",
+        "VALID_ERROR": "Επιτρέπονται μόνο γράμματα, αριθμοί, παύλα και υπογράμμιση"
       },
       "DESCRIPTION": {
         "LABEL": "Περιγραφή",
