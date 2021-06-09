@@ -380,17 +380,15 @@ export default {
     },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
-        return this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WEBSITE_NAME.LABEL');
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
       }
-      return this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL');
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.LABEL');
     },
     inboxNamePlaceHolder() {
       if (this.isAWebWidgetInbox) {
-        return this.$t(
-          'INBOX_MGMT.ADD.WEBSITE_CHANNEL.WEBSITE_NAME.PLACEHOLDER'
-        );
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
       }
-      return this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER');
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
     },
   },
   watch: {
