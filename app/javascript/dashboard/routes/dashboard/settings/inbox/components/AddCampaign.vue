@@ -15,9 +15,7 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TITLE.PLACEHOLDER')"
           @blur="$v.title.$touch"
         />
-      </div>
 
-      <div class="medium-12 columns">
         <label :class="{ error: $v.message.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.LABEL') }}
           <textarea
@@ -31,9 +29,7 @@
             {{ $t('CAMPAIGN.ADD.FORM.MESSAGE.ERROR') }}
           </span>
         </label>
-      </div>
 
-      <div class="medium-12 columns">
         <label :class="{ error: $v.selectedSender.$error }">
           {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.LABEL') }}
           <select v-model="selectedSender">
@@ -49,9 +45,7 @@
             {{ $t('CAMPAIGN.ADD.FORM.SENT_BY.ERROR') }}
           </span>
         </label>
-      </div>
 
-      <div class="medium-12 columns">
         <woot-input
           v-model="endPoint"
           :label="$t('CAMPAIGN.ADD.FORM.END_POINT.LABEL')"
@@ -63,8 +57,6 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.END_POINT.PLACEHOLDER')"
           @blur="$v.endPoint.$touch"
         />
-      </div>
-      <div class="medium-12 columns">
         <woot-input
           v-model="timeOnPage"
           :label="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.LABEL')"
@@ -78,9 +70,6 @@
           :placeholder="$t('CAMPAIGN.ADD.FORM.TIME_ON_PAGE.PLACEHOLDER')"
           @blur="$v.timeOnPage.$touch"
         />
-      </div>
-
-      <div class="medium-12 columns">
         <label>
           <input
             v-model="enabled"
@@ -93,14 +82,13 @@
       </div>
 
       <div class="modal-footer">
-        <woot-button :disabled="buttonDisabled" :loading="uiFlags.isCreating">
+        <woot-button
+          :is-disabled="buttonDisabled"
+          :is-loading="uiFlags.isCreating"
+        >
           {{ $t('CAMPAIGN.ADD.CREATE_BUTTON_TEXT') }}
         </woot-button>
-        <woot-button
-          class="button clear"
-          :loading="uiFlags.isCreating"
-          @click.prevent="onClose"
-        >
+        <woot-button variant="clear" @click.prevent="onClose">
           {{ $t('CAMPAIGN.ADD.CANCEL_BUTTON_TEXT') }}
         </woot-button>
       </div>
