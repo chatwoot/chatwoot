@@ -1,7 +1,7 @@
 <template>
   <div class="chat-bubble-wrap">
     <div
-      :class="{ campaign: isCampaignMessage }"
+      :class="{ campaign: checkMessageIsCampaign }"
       class="chat-bubble agent"
       @click="onClickMessage"
     >
@@ -52,12 +52,7 @@ export default {
     },
   },
   computed: {
-    campaignClass() {
-      return {
-        campaign: this.messageType === 'campaign',
-      };
-    },
-    isCampaignMessage() {
+    checkMessageIsCampaign() {
       return this.messageType === 'campaign';
     },
     companyName() {
