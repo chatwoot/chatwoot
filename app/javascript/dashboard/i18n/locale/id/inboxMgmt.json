@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nama Kotak Masuk",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nama Website",
+        "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
+      },
       "FB": {
         "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
         "CHOOSE_PAGE": "Pilih Halaman",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Membuat Saluran Dukungan Website",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar Channel"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nama Website",
-          "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Website",
