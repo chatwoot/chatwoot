@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
         "MESSAGE": "நீக்குவதில் உறுதியாக உள்ளீர்களா ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "ஆம், நீக்கு ",
         "NO": "இல்லை, வைத்திரு "
       },
