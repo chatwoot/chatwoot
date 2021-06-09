@@ -43,12 +43,12 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     handler = ActionView::Template.registered_template_handler(:liquid)
 
     template_details = {
+      locals: [],
       format: Mime['html'].to_sym,
-      updated_at: @db_template.updated_at,
       virtual_path: virtual_path(path, partial)
     }
 
-    [ActionView::Template.new(@db_template.body, "DB Template - #{@db_template.id}", handler, template_details)]
+    [ActionView::Template.new(@db_template.body, "DB Template - #{@db_template.id}", handler, **template_details)]
   end
 
   private

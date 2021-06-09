@@ -38,6 +38,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
     @user =  User.find_by(email: new_agent_params[:email])
   end
 
+  # TODO: move this to a builder and combine the save account user method into a builder
+  # ensure the account user association is also created in a single transaction
   def create_user
     return if @user
 
