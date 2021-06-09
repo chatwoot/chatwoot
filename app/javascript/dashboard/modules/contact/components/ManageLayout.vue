@@ -5,7 +5,7 @@
     </div>
     <div class="center"></div>
     <div class="right">
-      <note-list :notes="notes" @add="onAddNote" @delete="onDeleteNote" />
+      <contact-notes :contact-id="contactId" />
     </div>
   </div>
 </template>
@@ -13,12 +13,12 @@
 <script>
 import { mapGetters } from 'vuex';
 import ContactPanel from './ContactPanel';
-import NoteList from 'dashboard/routes/dashboard/contacts/components/NoteList';
+import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage';
 
 export default {
   components: {
     ContactPanel,
-    NoteList,
+    ContactNotes,
   },
   props: {
     contactId: {
@@ -26,14 +26,9 @@ export default {
       default: 0,
     },
   },
-  data() {
-    return {};
-  },
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
-      noteUiFlags: 'contactNotes/getUIFlags',
-      notes: 'contactNotes/getAllNotes',
     }),
     showEmptySearchResult() {
       const hasEmptyResults = !!this.searchQuery && this.records.length === 0;
@@ -44,20 +39,12 @@ export default {
     },
   },
   mounted() {
-    this.getContactDetails();
+    this.fetchContactDetails();
   },
   methods: {
-    getContactDetails() {
-      if (this.contactId) {
-        this.$store.dispatch('contacts/show', { id: this.contactId });
-      }
-    },
-    onAddNote(content) {
-      this.$store.dispatch('contactNotes/create', { content });
-    },
-    onDeleteNote(id) {
-      debugger;
-      this.$store.dispatch('contactNotes/delete', id);
+    fetchContactDetails() {
+      const { contactId } = this;
+      if (contactId) this.$store.dispatch('contacts/show', { id: contactId });
     },
   },
 };

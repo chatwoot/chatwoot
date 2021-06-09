@@ -2,9 +2,9 @@ import { getters } from '../../contactNotes';
 import notesData from './fixtures';
 
 describe('#getters', () => {
-  it('getAllNotes', () => {
-    const state = { records: notesData };
-    expect(getters.getAllNotes(state)).toEqual(notesData);
+  it('getAllNotesByContact', () => {
+    const state = { records: { 1: notesData } };
+    expect(getters.getAllNotes(state)(1)).toEqual(notesData);
   });
 
   it('getUIFlags', () => {
