@@ -13,6 +13,18 @@ export default () => {
   }
 };
 
+export const isEmptyObject = obj =>
+  Object.keys(obj).length === 0 && obj.constructor === Object;
+
+export const isJSONValid = value => {
+  try {
+    JSON.parse(value);
+  } catch (e) {
+    return false;
+  }
+  return true;
+};
+
 export const getTypingUsersText = (users = []) => {
   const count = users.length;
   if (count === 1) {

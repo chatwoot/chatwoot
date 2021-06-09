@@ -39,7 +39,17 @@ class Messages::MessageBuilder
   end
 
   def sender
-    message_type == 'outgoing' ? @user : @conversation.contact
+    message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
+  end
+
+  def external_created_at
+    @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
+  end
+
+  def message_sender
+    return if @params[:sender_type] != 'AgentBot'
+
+    AgentBot.where(account_id: [nil, @conversation.account.id]).find_by(id: @params[:sender_id])
   end
 
   def message_params
@@ -54,6 +64,6 @@ class Messages::MessageBuilder
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id]
-    }
+    }.merge(external_created_at)
   end
 end

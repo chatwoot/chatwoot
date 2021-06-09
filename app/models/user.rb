@@ -53,7 +53,8 @@ class User < ApplicationRecord
          :rememberable,
          :trackable,
          :validatable,
-         :confirmable
+         :confirmable,
+         :password_has_required_content
 
   enum availability: { online: 0, offline: 1, busy: 2 }
 
@@ -90,7 +91,7 @@ class User < ApplicationRecord
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
   def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+    devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
   end
 
   def set_password_and_uid

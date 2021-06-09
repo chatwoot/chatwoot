@@ -55,7 +55,10 @@ class Message < ApplicationRecord
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
-  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted], coder: JSON
+  # [:deleted] : Used to denote whether the message was deleted by the agent
+  # [:external_created_at] : Can specify if the message was created at a different timestamp externally
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
+                                         :external_created_at], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
