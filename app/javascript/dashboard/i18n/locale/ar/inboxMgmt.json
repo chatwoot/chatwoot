@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "اسم صندوق الوارد لقناة التواصل",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "اسم الموقع",
+        "PLACEHOLDER": "أدخل اسم موقع الويب الخاص بك (مثال: Acme Inc)"
+      },
       "FB": {
         "HELP": "ملحوظة: بالمصادقة على حسابك، فنحن يمكننا فقط الوصول إلى الرسائل الواردة لصفحتك. لا يستطيع Chatwoot أبداً بأي شكل من الأشكال الوصول إلى رسائلك الخاصة في حسابك الشخصي.",
         "CHOOSE_PAGE": "اختر صفحة",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "جاري إنشاء قناة تواصل للموقع",
         "CHANNEL_AVATAR": {
           "LABEL": "الصورة الرمزية للقناة"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "اسم الموقع",
-          "PLACEHOLDER": "أدخل اسم موقع الويب الخاص بك (مثال: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "نطاق الموقع",
