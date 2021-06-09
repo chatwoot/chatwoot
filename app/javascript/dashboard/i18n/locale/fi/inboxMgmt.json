@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Kansion nimi",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Sivuston nimi",
+        "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
+      },
       "FB": {
         "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Luodaan chat-tukikanavaa",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanavan avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Sivuston nimi",
-          "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Sivuston verkkotunnus",
