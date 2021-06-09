@@ -10,6 +10,11 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
     @campaign = Current.account.campaigns.create!(campaign_params)
   end
 
+  def destroy
+    @campaign.destroy
+    head :ok
+  end
+
   def show; end
 
   def update
