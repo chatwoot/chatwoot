@@ -15,43 +15,43 @@ describe ::EmailTemplates::DbResolverService do
         email_template = create(:email_template, name: 'test', body: 'test')
         handler = ActionView::Template.registered_template_handler(:liquid)
         template_details = {
+          locals: [],
           format: Mime['html'].to_sym,
-          updated_at: email_template.updated_at,
           virtual_path: 'test'
         }
 
         expect(
-          resolver.find_templates('test', '', false, []).first.to_json
+          resolver.find_templates('test', '', false, []).first.inspect
         ).to eq(
           ActionView::Template.new(
             email_template.body,
-            "DB Template - #{email_template.id}", handler, template_details
-          ).to_json
+            "DB Template - #{email_template.id}", handler, **template_details
+          ).inspect
         )
       end
     end
 
     context 'when account template exists in db' do
       let(:account) { create(:account) }
-      let(:installation_template) { create(:email_template, name: 'test', body: 'test') }
-      let(:account_template) { create(:email_template, name: 'test', body: 'test2', account: account) }
+      let!(:installation_template) { create(:email_template, name: 'test', body: 'test') }
+      let!(:account_template) { create(:email_template, name: 'test', body: 'test2', account: account) }
 
       it 'return account template for current account' do
         Current.account = account
         handler = ActionView::Template.registered_template_handler(:liquid)
         template_details = {
+          locals: [],
           format: Mime['html'].to_sym,
-          updated_at: account_template.updated_at,
           virtual_path: 'test'
         }
 
         expect(
-          resolver.find_templates('test', '', false, []).first.to_json
+          resolver.find_templates('test', '', false, []).first.inspect
         ).to eq(
           ActionView::Template.new(
             account_template.body,
-            "DB Template - #{account_template.id}", handler, template_details
-          ).to_json
+            "DB Template - #{account_template.id}", handler, **template_details
+          ).inspect
         )
         Current.account = nil
       end
@@ -60,18 +60,18 @@ describe ::EmailTemplates::DbResolverService do
         Current.account = create(:account)
         handler = ActionView::Template.registered_template_handler(:liquid)
         template_details = {
+          locals: [],
           format: Mime['html'].to_sym,
-          updated_at: installation_template.updated_at,
           virtual_path: 'test'
         }
 
         expect(
-          resolver.find_templates('test', '', false, []).first.to_json
+          resolver.find_templates('test', '', false, []).first.inspect
         ).to eq(
           ActionView::Template.new(
             installation_template.body,
-            "DB Template - #{installation_template.id}", handler, template_details
-          ).to_json
+            "DB Template - #{installation_template.id}", handler, **template_details
+          ).inspect
         )
         Current.account = nil
       end

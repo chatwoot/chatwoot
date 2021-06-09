@@ -11,7 +11,6 @@ class SuperAdminDashboard < Administrate::BaseDashboard
     id: Field::Number,
     email: Field::String,
     password: Field::Password,
-    access_token: Field::HasOne,
     remember_created_at: Field::DateTime,
     sign_in_count: Field::Number,
     current_sign_in_at: Field::DateTime,
@@ -30,7 +29,6 @@ class SuperAdminDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     id
     email
-    access_token
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

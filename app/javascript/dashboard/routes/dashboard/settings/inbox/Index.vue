@@ -49,7 +49,7 @@
                   Email
                 </span>
                 <span v-if="item.channel_type === 'Channel::Api'">
-                  Api
+                  {{ globalConfig.apiChannelName || 'API' }}
                 </span>
               </td>
 
