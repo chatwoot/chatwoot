@@ -175,7 +175,6 @@ RSpec.describe 'Conversations API', type: :request do
              headers: agent.create_new_auth_token,
              params: { source_id: contact_inbox.source_id, additional_attributes: additional_attributes },
              as: :json
-
         expect(response).to have_http_status(:unauthorized)
       end
 
@@ -195,6 +194,18 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response).to have_http_status(:success)
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:additional_attributes]).to eq(additional_attributes)
+        end
+   
+        it 'creates a conversation in specificed status' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+              headers: agent.create_new_auth_token,
+              params: { source_id: contact_inbox.source_id, status: 'bot' },
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+          expect(response_data[:status]).to eq('bot')
         end
 
         it 'creates a new conversation with message when message is passed' do
@@ -420,14 +431,24 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'mutes conversation' do
-        allow(ConversationReplyMailer).to receive(:conversation_transcript)
+        mailer = double
+        allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
+        allow(mailer).to receive(:conversation_transcript)
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
              headers: agent.create_new_auth_token,
              params: params,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(ConversationReplyMailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+        expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
+      end
+
+      it 'renders error when parameter missing' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/transcript",
+             headers: agent.create_new_auth_token,
+             params: {},
+             as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
