@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "收件匣名稱",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "網站名稱",
+        "PLACEHOLDER": "輸入您的網站名稱 (e.g: Acme Inc)"
+      },
       "FB": {
         "HELP": "注意: 通過登入，我們只能訪問您的頁面的消息。您的私人消息永遠不能被聊天室訪問。",
         "CHOOSE_PAGE": "選擇頁面",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "建立網站支持頻道",
         "CHANNEL_AVATAR": {
           "LABEL": "頻道頭像"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "網站名稱",
-          "PLACEHOLDER": "輸入您的網站名稱 (e.g: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站域名",
