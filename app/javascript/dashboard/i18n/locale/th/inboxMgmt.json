@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "ชื่อกล่องข้อความ",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "ชื่อเว็บไซต์",
+        "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
+      },
       "FB": {
         "HELP": "ป. ล. เมื่อลงชื่อเข้าใช้เราจะสามารถเข้าถึงข้อความของเพจของคุณเท่านั้น Chatwoot ไม่สามารถเข้าถึงข้อความส่วนตัวของคุณได้",
         "CHOOSE_PAGE": "เลือกหน้า",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "กำลังสร้างช่องช่วยเหลือสำหรับเว็บไซต์",
         "CHANNEL_AVATAR": {
           "LABEL": "รูปของช่อง"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "ชื่อเว็บไซต์",
-          "PLACEHOLDER": "กรอกชื่อเว็บไซต์ของคุณ (เช่น SnowBoltz Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "โดเมนเว็บไซต์",
