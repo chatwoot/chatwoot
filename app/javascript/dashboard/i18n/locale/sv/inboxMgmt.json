@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inkorgsnamn",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
         "CHOOSE_PAGE": "Välj sida",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Skapar supportkanal för webbplats",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanalavatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Webbplatsens namn",
-          "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Webbplatsens domän",
