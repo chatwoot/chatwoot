@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "받은 메시지함 이름",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "웹사이트 이름",
+        "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
+      },
       "FB": {
         "HELP": "추신: 로그인을 함으로써, 우리는 오직 당신의 페이지의 메시지에 접근할 수 있다. 당신의 사적인 메시지에 Chatwoot는 절대 접근할 수 없습니다.",
         "CHOOSE_PAGE": "페이지 선택",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "웹사이트 지원 채널 만들기",
         "CHANNEL_AVATAR": {
           "LABEL": "채널 아바타"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "웹사이트 이름",
-          "PLACEHOLDER": "웹사이트 이름 입력 (예: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "웹사이트 도메인",
