@@ -17,8 +17,6 @@ class Messages::Facebook::MessageBuilder
     @sender_id = (@outgoing_echo ? @response.recipient_id : @response.sender_id)
     @message_type = (@outgoing_echo ? :outgoing : :incoming)
     @attachments = (@response.attachments || [])
-  rescue Koala::Facebook::AuthenticationError
-    Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   end
 
   def perform
@@ -26,6 +24,8 @@ class Messages::Facebook::MessageBuilder
       build_contact
       build_message
     end
+  rescue Koala::Facebook::AuthenticationError
+    Rails.logger.info "Facebook Authorization expired for Inbox #{@inbox.id}"
   rescue StandardError => e
     Raven.capture_exception(e)
     true
