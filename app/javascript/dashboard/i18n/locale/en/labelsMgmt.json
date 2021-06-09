@@ -15,8 +15,8 @@
       "NAME": {
         "LABEL": "Label Name",
         "PLACEHOLDER": "Label name",
-        "REQUIRED_ERROR": "Label Name is required",
-        "MINIMUM_LENGTH_ERROR": "Miniumum length 2 is required",
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
         "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {

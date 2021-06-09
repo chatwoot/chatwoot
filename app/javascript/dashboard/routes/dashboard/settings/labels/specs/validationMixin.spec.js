@@ -43,7 +43,7 @@ describe('validationMixin', () => {
         };
       },
     });
-    expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label Name is required');
+    expect(wrapper.vm.getLabelTitleErrorMessage).toBe('Label name is required');
   });
   it('it should return label minimum length error message if one charceter label name is passed', async () => {
     const wrapper = shallowMount(Component, {
@@ -56,7 +56,7 @@ describe('validationMixin', () => {
       },
     });
     expect(wrapper.vm.getLabelTitleErrorMessage).toBe(
-      'Miniumum length 2 is required'
+      'Minimum length 2 is required'
     );
   });
   it('it should return invalid character error message if invalid lable name passed', async () => {
