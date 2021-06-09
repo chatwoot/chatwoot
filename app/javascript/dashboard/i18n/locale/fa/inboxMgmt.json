@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "عنوان صندوق ورودی",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "عنوان سایت",
+        "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
+      },
       "FB": {
         "HELP": "پانویس: با وارد شدن ما فقط به پیام‌های صفحه دسترسی پیدا می‌کنیم. پیام‌های خصوصی شما را هرگز نخواهیم دید",
         "CHOOSE_PAGE": "انتخاب صفحه",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "در حال ساخت کانال پشتیبانی آنلاین سایت",
         "CHANNEL_AVATAR": {
           "LABEL": "آواتار کانال"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "عنوان سایت",
-          "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "دامنه سایت",
