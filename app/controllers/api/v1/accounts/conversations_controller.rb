@@ -41,7 +41,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def transcript
-    ConversationReplyMailer.conversation_transcript(@conversation, params[:email])&.deliver_later if params[:email].present?
+    render json: { error: 'email param missing' }, status: :unprocessable_entity and return if params[:email].blank?
+
+    ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, params[:email])&.deliver_later
     head :ok
   end
 
@@ -98,13 +100,14 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    status = params[:status].present? ? { status: params[:status] } : {}
     {
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes
-    }
+    }.merge(status)
   end
 
   def conversation_finder

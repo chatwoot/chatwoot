@@ -1,3 +1,5 @@
+require Rails.root.join('lib/redis/config')
+
 schedule_file = 'config/schedule.yml'
 
 Sidekiq.configure_client do |config|
