@@ -215,6 +215,7 @@
       "CONFIRM": {
         "TITLE": "Bekræft Sletning",
         "MESSAGE": "Er du sikker på du vil slette ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, Slet ",
         "NO": "Nej, Behold "
       },
