@@ -33,6 +33,8 @@ import {
 import * as Sentry from '@sentry/vue';
 import 'vue-easytable/libs/theme-default/index.css';
 import { Integrations } from '@sentry/tracing';
+import { Auth0Plugin } from './auth0';
+import { domain, clientId } from '../../../auth_config.json';
 
 Vue.config.env = process.env;
 
@@ -56,7 +58,17 @@ Vue.use(hljs.vuePlugin);
 Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
-
+Vue.use(Auth0Plugin, {
+  domain,
+  clientId,
+  onRedirectCallback: appState => {
+    router.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    );
+  },
+});
 const i18nConfig = new VueI18n({
   locale: 'en',
   messages: i18n,

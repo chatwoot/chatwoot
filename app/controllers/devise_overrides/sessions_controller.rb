@@ -6,6 +6,7 @@ class DeviseOverrides::SessionsController < ::DeviseTokenAuth::SessionsControlle
 
   def create
     # Authenticate user via the temporary sso auth token
+    logger.info "Processing the request... ########################################"
     if params[:sso_auth_token].present? && @resource.present?
       authenticate_resource_with_sso_token
       yield @resource if block_given?
