@@ -125,7 +125,8 @@ export default {
   justify-content: flex-end;
   padding-bottom: var(--space-one);
 }
-.column .content-box .page-top-bar {
+
+.content-box .page-top-bar::v-deep {
   padding: var(--space-large) var(--space-large) var(--space-zero);
 }
 </style>

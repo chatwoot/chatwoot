@@ -216,7 +216,7 @@ export default {
           },
         });
         this.showAlert(this.$t('CAMPAIGN.EDIT.API.SUCCESS_MESSAGE'));
-        this.$emit('on-close');
+        this.onClose();
       } catch (error) {
         this.showAlert(this.$t('CAMPAIGN.EDIT.API.ERROR_MESSAGE'));
       }
