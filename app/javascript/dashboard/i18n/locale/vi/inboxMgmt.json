@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Tên hộp thư đến",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Tên trang web",
+        "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
+      },
       "FB": {
         "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Trang của bạn. Chatwoot không bao giờ có thể truy cập tin nhắn riêng tư của bạn.",
         "CHOOSE_PAGE": "Chọn trang",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Tạo kênh hỗ trợ trang web",
         "CHANNEL_AVATAR": {
           "LABEL": "Hình đại diện kênh"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Tên trang web",
-          "PLACEHOLDER": "Nhập tên trang web của bạn (ví dụ: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain trang web",
