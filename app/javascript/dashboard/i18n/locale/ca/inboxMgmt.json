@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nom de la safata d'entrada",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nom del lloc web",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PD: Al iniciar la sessió, només accediu als missatges de la vostra pàgina. Chatwoot mai no podrà accedir als vostres missatges privats.",
         "CHOOSE_PAGE": "Trieu la pàgina",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "S'està creant el canal de suport web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nom del lloc web",
-          "PLACEHOLDER": "Introduïu el nom del vostre lloc web (per exemple, Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domini del lloc web",
