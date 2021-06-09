@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "இன்பாக்ஸ் பெயர்",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "கவனத்திற்கு: உள்நுழைவதன் மூலம், உங்கள் பக்கத்தின் செய்திகளை மட்டுமே நாங்கள் அணுகுவோம். உங்கள் தனிப்பட்ட செய்திகளை ஒருபோதும் சாட்வூட்டால் அணுக முடியாது.",
         "CHOOSE_PAGE": "பக்கத்தைத் தேர்வுசெய்க",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "வலைத்தள சேவை சேனலை உருவாக்குதல்",
         "CHANNEL_AVATAR": {
           "LABEL": "சேனல் அவதார்"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "வலைத்தளத்தின் பெயர்",
-          "PLACEHOLDER": "உங்கள் இணையதள பெயரை உள்ளிடவும் (eg: உதாரணமாக Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "இணையதள களம்",
