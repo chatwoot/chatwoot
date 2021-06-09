@@ -25,13 +25,10 @@
           @change="handleImageUpload"
         />
         <woot-input
-          v-if="isAWebWidgetInbox"
           v-model.trim="selectedInboxName"
           class="medium-9 columns"
-          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL')"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-          "
+          :label="inboxNameLabel"
+          :placeholder="inboxNamePlaceHolder"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -380,6 +377,18 @@ export default {
     },
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);
+    },
+    inboxNameLabel() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.LABEL');
+    },
+    inboxNamePlaceHolder() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
     },
   },
   watch: {
