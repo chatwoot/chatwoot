@@ -23,20 +23,18 @@
         </div>
         <div class="actions">
           <woot-button
-            variant="clear"
+            variant="smooth"
             size="small"
             icon="ion-compose"
             color-scheme="secondary"
-            class-names="button--emoji"
             class="action-button"
             @click="onEdit"
           />
           <woot-button
-            variant="clear"
+            variant="smooth"
             size="small"
             icon="ion-trash-b"
             color-scheme="secondary"
-            class-names="button--emoji"
             class="action-button"
             @click="onDelete"
           />
