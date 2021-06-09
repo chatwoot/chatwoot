@@ -78,6 +78,11 @@
         "ERROR": "Ole hyvä ja syötä validi sähköposti",
         "PLACEHOLDER": "Sähköposti, joka näytetään keskusteluissa"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Salasana",
         "ERROR": "Anna salasana jonka pituus on 6 tai enemmän",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Tallennetut vastaukset",
     "INTEGRATIONS": "Integraatiot",
     "ACCOUNT_SETTINGS": "Tilin asetukset",
+    "APPLICATIONS": "Applications",
     "LABELS": "Tunnisteet",
     "TEAMS": "Teams"
   },
