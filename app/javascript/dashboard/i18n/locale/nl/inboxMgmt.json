@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website naam",
+        "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
         "CHOOSE_PAGE": "Choose Page",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Website naam",
-          "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domein",
