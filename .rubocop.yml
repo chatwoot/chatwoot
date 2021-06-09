@@ -13,6 +13,7 @@ Metrics/ClassLength:
     - 'app/models/conversation.rb'
     - 'app/mailers/conversation_reply_mailer.rb'
     - 'app/models/message.rb'
+    - 'app/builders/messages/facebook/message_builder.rb'
 RSpec/ExampleLength:
   Max: 25
 Style/Documentation:

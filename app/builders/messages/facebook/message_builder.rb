@@ -140,7 +140,6 @@ class Messages::Facebook::MessageBuilder
   def contact_params
     begin
       k = Koala::Facebook::API.new(@inbox.channel.page_access_token) if @inbox.facebook?
-      byebug
       result = k.get_object(@sender_id) || {}
     rescue Koala::Facebook::AuthenticationError
       @inbox.channel.authorization_error!
