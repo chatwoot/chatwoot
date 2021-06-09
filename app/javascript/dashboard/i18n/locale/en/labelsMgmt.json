@@ -9,17 +9,15 @@
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
-      "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
-      ]
+      "TABLE_HEADER": ["Name", "Description", "Color"]
     },
     "FORM": {
       "NAME": {
         "LABEL": "Label Name",
         "PLACEHOLDER": "Label name",
-        "ERROR": "Label Name is required"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
