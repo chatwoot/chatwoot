@@ -73,19 +73,16 @@
         <span v-html="$t('LABEL_MGMT.SIDEBAR_TXT')"></span>
       </div>
     </div>
+    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+      <add-label @close="hideAddPopup" />
+    </woot-modal>
 
-    <add-label
-      v-if="showAddPopup"
-      :show.sync="showAddPopup"
-      :on-close="hideAddPopup"
-    />
-
-    <edit-label
-      v-if="showEditPopup"
-      :show.sync="showEditPopup"
-      :selected-response="selectedResponse"
-      :on-close="hideEditPopup"
-    />
+    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+      <edit-label
+        :selected-response="selectedResponse"
+        @close="hideEditPopup"
+      />
+    </woot-modal>
 
     <woot-delete-modal
       :show.sync="showDeleteConfirmationPopup"
