@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Fiók név",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website név",
+        "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
+      },
       "FB": {
         "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatwoot.",
         "CHOOSE_PAGE": "Oldal kiválasztása",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Website támogatási csatorna létrehozása",
         "CHANNEL_AVATAR": {
           "LABEL": "Csatorna avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Website név",
-          "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domain",
