@@ -17,6 +17,24 @@
           "Hareketler"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Düzenle",
+        "TITLE": "Edit webhook",
+        "CANCEL": "İptal Et",
+        "DESC": "Web kancası etkinlikleri size Chatwoot hesabınızda neler olduğu hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Web kancası URL'si",
+            "PLACEHOLDER": "Örnek: https://siteadi/api/webkancasi",
+            "ERROR": "Lütfen geçerli bir adres girin"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Woot Sunucusuna bağlanılamadı, Lütfen daha sonra tekrar deneyin"
+        }
+      },
       "ADD": {
         "CANCEL": "İptal Et",
         "TITLE": "Yeni web kancası ekle",
