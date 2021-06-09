@@ -3,7 +3,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import NoteList from './components/NoteList';
 
 export default {
