@@ -155,6 +155,16 @@
       "VIEW_DETAILS": "Ver detalles"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Añadir",
+      "TITLE": "Shift + Enter para crear una tarea"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Fecha límite",
+      "LABEL_TITLE": "Establecer el tipo"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notas"
@@ -166,6 +176,16 @@
     },
     "FOOTER": {
       "BUTTON": "Ver todas las notas"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Actividades"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notas",
+      "PILL_BUTTON_EVENTS": "Eventos",
+      "PILL_BUTTON_CONVO": "conversaciones"
     }
   },
   "CUSTOM_ATTRIBUTES": {
