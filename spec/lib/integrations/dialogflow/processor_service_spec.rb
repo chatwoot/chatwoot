@@ -63,7 +63,7 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     context 'when message is private' do
-      let(:message) { create(:message, account: account, conversation: conversation, private: true) }
+      let(:message) { create(:message, account: account, conversation: conversation, is_private_note: true) }
 
       it 'returns nil' do
         expect(processor.perform).to be(nil)

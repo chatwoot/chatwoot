@@ -3,7 +3,7 @@ class Integrations::Dialogflow::ProcessorService
 
   def perform
     message = event_data[:message]
-    return if message.private?
+    return if message.is_private_note?
     return unless processable_message?(message)
     return unless message.conversation.bot?
 
