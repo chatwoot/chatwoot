@@ -6,6 +6,7 @@
         class-names="resolve"
         color-scheme="success"
         icon="ion-checkmark"
+        emoji="✅"
         :is-loading="isLoading"
         @click="() => toggleStatus(STATUS_TYPE.RESOLVED)"
       >
@@ -16,6 +17,7 @@
         class-names="resolve"
         color-scheme="warning"
         icon="ion-refresh"
+        emoji="👀"
         :is-loading="isLoading"
         @click="() => toggleStatus(STATUS_TYPE.OPEN)"
       >
@@ -36,9 +38,9 @@
         :color-scheme="buttonClass"
         :disabled="isLoading"
         icon="ion-arrow-down-b"
+        emoji="🔽"
         @click="openDropdown"
-      >
-      </woot-button>
+      />
     </div>
     <div
       v-if="showDropdown"
