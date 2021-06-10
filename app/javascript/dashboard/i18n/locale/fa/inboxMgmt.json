@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "اپراتورها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی اپراتور به صندوق ورودی",
       "UPDATE": "اعمال شود",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به اپراتورها",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",
