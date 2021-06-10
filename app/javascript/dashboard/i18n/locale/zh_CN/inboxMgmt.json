@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
       "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "启用自动分配",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",
