@@ -7,7 +7,7 @@ describe ::MessageTemplates::HookExecutionService do
       conversation = create(:conversation, contact: contact)
 
       # ensure greeting hook is enabled and greeting_message is present
-      conversation.inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message')
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
 
       email_collect_service = double
       greeting_service = double
@@ -55,7 +55,7 @@ describe ::MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
       # ensure greeting hook is enabled
-      conversation.inbox.update(greeting_enabled: true)
+      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
 
       email_collect_service = double
 
@@ -69,6 +69,21 @@ describe ::MessageTemplates::HookExecutionService do
       expect(::MessageTemplates::Template::Greeting).not_to have_received(:new)
       expect(::MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
       expect(email_collect_service).to have_received(:perform)
+    end
+
+    it 'doesnot calls ::MessageTemplates::Template::EmailCollect when enable_email_collect form is disabled' do
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact)
+
+      conversation.inbox.update(enable_email_collect: false)
+      # ensure prechat form is enabled
+      conversation.inbox.channel.update(pre_chat_form_enabled: true)
+      allow(::MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
+
+      # described class gets called in message after commit
+      message = create(:message, conversation: conversation)
+
+      expect(::MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
     end
   end
 
