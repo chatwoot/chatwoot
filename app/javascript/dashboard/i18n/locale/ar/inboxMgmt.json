@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
       "UPDATE": "تحديث",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",
