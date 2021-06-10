@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella di posta",
       "UPDATE": "Aggiornamento",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",
