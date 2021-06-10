@@ -25,8 +25,8 @@ export default {
       const result = this.$store.getters['contactLabels/getContactLabels'](
         this.contactId
       );
-      return result.map(e => {
-        return this.allLabels.find(x => x.title === e);
+      return result.map(value => {
+        return this.allLabels.find(label => label.title === value);
       });
     },
 

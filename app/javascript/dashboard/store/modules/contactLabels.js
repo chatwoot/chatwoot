@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import * as types from '../mutation-types';
+import types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
 
 const state = {
@@ -22,40 +22,40 @@ export const getters = {
 
 export const actions = {
   get: async ({ commit }, contactId) => {
-    commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+    commit(types.SET_CONTACT_LABELS_UI_FLAG, {
       isFetching: true,
     });
     try {
       const response = await ContactAPI.getContactLabels(contactId);
-      commit(types.default.SET_CONTACT_LABELS, {
+      commit(types.SET_CONTACT_LABELS, {
         id: contactId,
         data: response.data.payload,
       });
-      commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+      commit(types.SET_CONTACT_LABELS_UI_FLAG, {
         isFetching: false,
       });
     } catch (error) {
-      commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+      commit(types.SET_CONTACT_LABELS_UI_FLAG, {
         isFetching: false,
       });
     }
   },
   update: async ({ commit }, { contactId, labels }) => {
-    commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+    commit(types.SET_CONTACT_LABELS_UI_FLAG, {
       isUpdating: true,
     });
     try {
       const response = await ContactAPI.updateContactLabels(contactId, labels);
-      commit(types.default.SET_CONTACT_LABELS, {
+      commit(types.SET_CONTACT_LABELS, {
         id: contactId,
         data: response.data.payload,
       });
-      commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+      commit(types.SET_CONTACT_LABELS_UI_FLAG, {
         isUpdating: false,
         isError: false,
       });
     } catch (error) {
-      commit(types.default.SET_CONTACT_LABELS_UI_FLAG, {
+      commit(types.SET_CONTACT_LABELS_UI_FLAG, {
         isUpdating: false,
         isError: true,
       });
@@ -63,18 +63,18 @@ export const actions = {
   },
 
   setContactLabel({ commit }, { id, data }) {
-    commit(types.default.SET_CONTACT_LABELS, { id, data });
+    commit(types.SET_CONTACT_LABELS, { id, data });
   },
 };
 
 export const mutations = {
-  [types.default.SET_CONTACT_LABELS_UI_FLAG]($state, data) {
+  [types.SET_CONTACT_LABELS_UI_FLAG]($state, data) {
     $state.uiFlags = {
       ...$state.uiFlags,
       ...data,
     };
   },
-  [types.default.SET_CONTACT_LABELS]: ($state, { id, data }) => {
+  [types.SET_CONTACT_LABELS]: ($state, { id, data }) => {
     Vue.set($state.records, id, data);
   },
 };
