@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "사용함",
         "DISABLED": "사용 안 함"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "사용함",
+        "DISABLED": "사용 안 함"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "에이전트",
       "INBOX_AGENTS_SUB_TEXT": "받은 메시지함에서 에이전트 추가 또는 제거",
       "UPDATE": "업데이트",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "자동 할당 사용",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
       "INBOX_UPDATE_SUB_TEXT": "받은 메시지함 설정 업데이트",
