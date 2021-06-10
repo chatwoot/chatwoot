@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Habilita",
         "DISABLED": "Inhabilita"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Habilita",
+        "DISABLED": "Inhabilita"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Afegir o eliminar agents d'aquesta safata d'entrada",
       "UPDATE": "Actualitza",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
       "INBOX_UPDATE_TITLE": "Configuració de la safata d'entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualitza la configuració de la safata d'entrada",
