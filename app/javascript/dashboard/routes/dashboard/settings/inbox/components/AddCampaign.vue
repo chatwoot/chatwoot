@@ -207,8 +207,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.content-box .page-top-bar::v-deep {
-  padding: var(--space-large) var(--space-large) var(--space-zero);
-}
-</style>
