@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Ativado",
         "DISABLED": "Desabilitado"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Ativado",
+        "DISABLED": "Desabilitado"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
       "UPDATE": "Atualização",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações da caixa de entrada",
