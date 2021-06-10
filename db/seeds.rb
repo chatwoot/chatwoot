@@ -10,13 +10,17 @@ end
 
 ## Seeds for Local Development
 unless Rails.env.production?
-  SuperAdmin.create!(email: 'john@acme.inc', password: '123456')
+  SuperAdmin.create!(email: 'john@acme.inc', password: 'Password1!')
 
   account = Account.create!(
     name: 'Acme Inc'
   )
 
-  user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
+  secondary_account = Account.create!(
+    name: 'Acme Org'
+  )
+
+  user = User.new(name: 'John', email: 'john@acme.inc', password: 'Password1!')
   user.skip_confirmation!
   user.save!
 
@@ -25,6 +29,18 @@ unless Rails.env.production?
     user_id: user.id,
     role: :administrator
   )
+
+  AccountUser.create!(
+    account_id: secondary_account.id,
+    user_id: user.id,
+    role: :administrator
+  )
+
+  # Enables creating additional accounts from dashboard
+  installation_config = InstallationConfig.find_by(name: 'CREATE_NEW_ACCOUNT_FROM_DASHBOARD')
+  installation_config.value = true
+  installation_config.save!
+  GlobalConfig.clear_cache
 
   web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
 

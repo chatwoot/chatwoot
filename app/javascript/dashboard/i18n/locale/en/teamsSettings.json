@@ -17,7 +17,8 @@
         "TITLE": "Add agents to team - %{teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
-      "WIZARD": [{
+      "WIZARD": [
+        {
           "title": "Create",
           "route": "settings_teams_new",
           "body": "Create a new team of agents."
@@ -45,7 +46,8 @@
         "TITLE": "Add agents to team - %{teamName}",
         "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
       },
-      "WIZARD": [{
+      "WIZARD": [
+        {
           "title": "Team details",
           "route": "settings_teams_edit",
           "body": "Change name, description and other details."
@@ -97,6 +99,7 @@
       },
       "CONFIRM": {
         "TITLE": "Are you sure want to delete - %{teamName}",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
         "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
         "YES": "Delete ",
         "NO": "Cancel"

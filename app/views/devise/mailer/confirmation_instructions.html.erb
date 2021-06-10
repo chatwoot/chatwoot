@@ -1,7 +1,8 @@
 <p>Welcome, <%= @resource.name %>!</p>
 
-<% if @resource&.inviter.present? %>
-  <p><%= @resource.inviter.name %>, with <%= @resource.inviter.account.name %>, has invited you to try out Chatwoot! </p>
+<% account_user = @resource&.account_users&.first %>
+<% if account_user&.inviter.present? %>
+  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out Chatwoot! </p>
 <% end %>
 
 <p>You can confirm your account email through the link below:</p>
