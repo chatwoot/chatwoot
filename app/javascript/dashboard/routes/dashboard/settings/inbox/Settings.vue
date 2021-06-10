@@ -1,6 +1,9 @@
 <template>
   <div class="settings columns container">
-    <settings-header :header-image="inbox.avatarUrl" :header-title="inboxName">
+    <setting-intro-banner
+      :header-image="inbox.avatarUrl"
+      :header-title="inboxName"
+    >
       <woot-tabs :index="selectedTabIndex" @change="onTabChange">
         <woot-tabs-item
           v-for="tab in tabs"
@@ -9,7 +12,7 @@
           :show-badge="false"
         />
       </woot-tabs>
-    </settings-header>
+    </setting-intro-banner>
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
       <settings-section
@@ -262,7 +265,7 @@ import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
-import SettingsHeader from 'dashboard/components/widgets/SettingsHeader';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
@@ -272,7 +275,7 @@ import Campaign from './components/Campaign';
 
 export default {
   components: {
-    SettingsHeader,
+    SettingIntroBanner,
     SettingsSection,
     FacebookReauthorize,
     PreChatFormSettings,
@@ -517,15 +520,9 @@ export default {
     }
   }
 
-  .page-top-banner {
-    @include background-light;
-    @include border-normal-bottom;
-    padding: $space-normal $space-large 0;
-
-    .tabs {
-      padding: 0;
-      margin-bottom: -1px;
-    }
+  .tabs {
+    padding: 0;
+    margin-bottom: -1px;
   }
 }
 
