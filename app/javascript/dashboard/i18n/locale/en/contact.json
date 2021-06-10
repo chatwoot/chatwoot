@@ -208,5 +208,15 @@
         "PLACEHOLDER": "Eg: 11901 "
       }
     }
+  },
+  "MERGE_CONTACTS": {
+    "TITLE": "Merge contacts",
+    "PRIMARY": {
+      "TITLE": "Primary contact"
+    },
+    "CHILD": {
+      "TITLE": "Contact to merge"
+    }
+
   }
 }
