@@ -1,4 +1,3 @@
-import { action } from '@storybook/addon-actions';
 import SettingIntroBanner from './SettingIntroBanner';
 
 export default {
