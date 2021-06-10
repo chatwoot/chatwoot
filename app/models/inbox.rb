@@ -8,6 +8,7 @@
 #  channel_type           :string
 #  email_address          :string
 #  enable_auto_assignment :boolean          default(TRUE)
+#  enable_email_collect   :boolean          default(TRUE)
 #  greeting_enabled       :boolean          default(FALSE)
 #  greeting_message       :string
 #  name                   :string           not null

@@ -15,13 +15,11 @@
     >
       <div class="medium-12 columns">
         <label>
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL') }}
+          {{ $t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL') }}
           <input
             v-model.trim="inboxName"
             type="text"
-            :placeholder="
-              $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-            "
+            :placeholder="$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER')"
           />
         </label>
       </div>
