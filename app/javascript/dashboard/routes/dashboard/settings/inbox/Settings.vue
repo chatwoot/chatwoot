@@ -1,6 +1,6 @@
 <template>
   <div class="settings columns container">
-    <woot-modal-header
+    <setting-intro-banner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
@@ -12,7 +12,7 @@
           :show-badge="false"
         />
       </woot-tabs>
-    </woot-modal-header>
+    </setting-intro-banner>
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
       <settings-section
@@ -282,6 +282,7 @@ import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
@@ -291,6 +292,7 @@ import Campaign from './components/Campaign';
 
 export default {
   components: {
+    SettingIntroBanner,
     SettingsSection,
     FacebookReauthorize,
     PreChatFormSettings,
@@ -538,15 +540,9 @@ export default {
     }
   }
 
-  .page-top-bar {
-    @include background-light;
-    @include border-normal-bottom;
-    padding: $space-normal $space-large 0;
-
-    .tabs {
-      padding: 0;
-      margin-bottom: -1px;
-    }
+  .tabs {
+    padding: 0;
+    margin-bottom: -1px;
   }
 }
 
