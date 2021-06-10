@@ -1,6 +1,4 @@
-<template>
-  <div class="medium-12 column login"></div>
-</template>
+
 
 <script>
 import { required, email } from 'vuelidate/lib/validators';
