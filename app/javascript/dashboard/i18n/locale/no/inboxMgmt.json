@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktivert",
         "DISABLED": "Deaktivert"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Aktivert",
+        "DISABLED": "Deaktivert"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Legg til eller fjern agenter fra denne innboksen",
       "UPDATE": "Oppdater",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Aktiver autotilordning",
       "INBOX_UPDATE_TITLE": "Innboksinnstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Oppdater innboksinnstillinger",
