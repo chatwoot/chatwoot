@@ -11,8 +11,8 @@ export default {
   },
   props: {
     contactId: {
-      type: [String, Number],
-      default: 0,
+      type: Number,
+      required: true,
     },
   },
   computed: {

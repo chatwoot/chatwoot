@@ -88,12 +88,12 @@ export const mutations = {
     Vue.set($state.records, contactId, data);
   },
   [types.default.ADD_CONTACT_NOTE]($state, { data, contactId }) {
-    const conatctNotes = $state.records[contactId] || [];
-    $state.records[contactId] = [...conatctNotes, data];
+    const contactNotes = $state.records[contactId] || [];
+    $state.records[contactId] = [...contactNotes, data];
   },
   [types.default.DELETE_CONTACT_NOTE]($state, { noteId, contactId }) {
-    const conatctNotes = $state.records[contactId];
-    const withoutDeletedNote = conatctNotes.filter(note => note.id !== noteId);
+    const contactNotes = $state.records[contactId];
+    const withoutDeletedNote = contactNotes.filter(note => note.id !== noteId);
     $state.records[contactId] = [...withoutDeletedNote];
   },
 };

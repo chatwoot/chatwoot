@@ -5,7 +5,7 @@
     </div>
     <div class="center"></div>
     <div class="right">
-      <contact-notes :contact-id="contactId" />
+      <contact-notes :contact-id="Number(contactId)" />
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@ export default {
   props: {
     contactId: {
       type: [String, Number],
-      default: 0,
+      required: true,
     },
   },
   computed: {
@@ -43,8 +43,8 @@ export default {
   },
   methods: {
     fetchContactDetails() {
-      const { contactId } = this;
-      if (contactId) this.$store.dispatch('contacts/show', { id: contactId });
+      const { contactId: id } = this;
+      this.$store.dispatch('contacts/show', { id });
     },
   },
 };
