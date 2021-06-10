@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "இயக்கப்பட்டது",
         "DISABLED": "முடக்கப்பட்டது"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "இயக்கப்பட்டது",
+        "DISABLED": "முடக்கப்பட்டது"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "ஏஜென்ட்கள்",
       "INBOX_AGENTS_SUB_TEXT": "இந்த இன்பாக்ஸிலிருந்து ஏஜென்ட்களைச் சேர்க்கவும் அல்லது அகற்றவும்",
       "UPDATE": "புதுப்பிப்பு",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "தானாக ஒதுக்கீட்டை இயக்கு",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
       "INBOX_UPDATE_SUB_TEXT": "உங்கள் இன்பாக்ஸ் அமைப்புகளைப் புதுப்பிக்கவும்",
