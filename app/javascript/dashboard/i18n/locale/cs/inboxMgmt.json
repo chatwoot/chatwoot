@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Povoleno",
         "DISABLED": "Zakázáno"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Povoleno",
+        "DISABLED": "Zakázáno"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Přidat nebo odebrat agenty z této složky doručené pošty",
       "UPDATE": "Aktualizovat",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Povolit automatické přiřazení",
       "INBOX_UPDATE_TITLE": "Nastavení doručené pošty",
       "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastavení doručené pošty",
