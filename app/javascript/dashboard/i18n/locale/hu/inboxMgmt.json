@@ -212,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva"
       }
     },
     "DELETE": {
@@ -248,6 +252,8 @@
       "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
       "UPDATE": "Frissítés",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",
