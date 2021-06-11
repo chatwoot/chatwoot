@@ -79,4 +79,5 @@ end
 # Required for fixture_file_upload
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess
+  include ActiveSupport::Testing::FileFixtures
 end
