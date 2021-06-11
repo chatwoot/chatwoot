@@ -184,6 +184,8 @@
   }
 
   .multiselect__single {
+    align-items: center;
+    display: flex;
     font-size: var(--font-size-small);
     margin: 0;
     padding: var(--space-smaller) var(--space-micro);

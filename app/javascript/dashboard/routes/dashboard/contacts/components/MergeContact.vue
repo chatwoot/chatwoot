@@ -165,14 +165,9 @@ export default {
   left: var(--space-normal);
 }
 
-::v-deep .multiselect__tags {
-  .multiselect__single {
-    display: flex;
-  }
-  .option__title {
-    display: inline-flex;
-    align-items: center;
-    margin-left: var(--space-small);
-  }
+::v-deep .multiselect__tags .option__title {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--space-small);
 }
 </style>
