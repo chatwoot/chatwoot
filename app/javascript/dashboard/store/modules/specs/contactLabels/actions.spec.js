@@ -58,7 +58,9 @@ describe('#actions', () => {
 
     it('sends correct actions if API is error', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.update({ commit }, { contactId: '1', labels: ['on-hold'] });
+      await expect(
+        actions.update({ commit }, { contactId: '1', labels: ['on-hold'] })
+      ).rejects.toThrow(Error);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CONTACT_LABELS_UI_FLAG, { isUpdating: true }],
         [

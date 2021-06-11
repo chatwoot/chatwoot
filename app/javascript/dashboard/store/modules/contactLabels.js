@@ -59,6 +59,7 @@ export const actions = {
         isUpdating: false,
         isError: true,
       });
+      throw new Error(error);
     }
   },
 

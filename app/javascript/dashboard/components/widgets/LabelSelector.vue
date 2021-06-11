@@ -22,7 +22,6 @@
         >
           <label-dropdown
             v-if="showSearchDropdownLabel"
-            :v-for="label in selectedLabels"
             :account-labels="allLabels"
             :selected-labels="selectedLabels"
             @add="addItem"

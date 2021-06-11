@@ -19,7 +19,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels"
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
       "CONVERSATION": {
         "TITLE": "Conversation Labels",

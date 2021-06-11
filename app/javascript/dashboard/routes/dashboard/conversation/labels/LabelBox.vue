@@ -30,7 +30,6 @@
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
-              :conversation-id="conversationId"
               @add="addItem"
               @remove="removeItem"
             />
@@ -61,7 +60,7 @@ export default {
   mixins: [clickaway],
   props: {
     conversationId: {
-      type: [String, Number],
+      type: Number,
       required: true,
     },
   },
