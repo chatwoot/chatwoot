@@ -19,7 +19,6 @@ class ChatwootFbProvider < Facebook::Messenger::Configuration::Providers::Base
   end
 end
 
-# rubocop:enable Metrics/BlockLength
 Rails.application.reloader.to_prepare do
   Facebook::Messenger.configure do |config|
     config.provider = ChatwootFbProvider.new
@@ -48,4 +47,3 @@ Rails.application.reloader.to_prepare do
     ::Integrations::Facebook::MessageCreator.new(response).perform
   end
 end
-# rubocop:enable Metrics/BlockLength

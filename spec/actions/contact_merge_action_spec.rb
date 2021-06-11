@@ -8,9 +8,11 @@ describe ::ContactMergeAction do
   let!(:mergee_contact) { create(:contact, account: account) }
 
   before do
-    2.times.each { create(:conversation, contact: base_contact) }
-    2.times.each { create(:conversation, contact: mergee_contact) }
-    2.times.each { create(:message, sender: mergee_contact) }
+    2.times.each do
+      create(:conversation, contact: base_contact)
+      create(:conversation, contact: mergee_contact)
+      create(:message, sender: mergee_contact)
+    end
   end
 
   describe '#perform' do

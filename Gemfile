@@ -91,10 +91,9 @@ gem 'google-cloud-dialogflow'
 gem 'brakeman'
 gem 'ddtrace'
 gem 'scout_apm'
+gem 'sentry-rails'
 gem 'sentry-ruby'
-gem "sentry-rails"
-gem "sentry-sidekiq"
-
+gem 'sentry-sidekiq'
 
 ##-- background job processing --##
 gem 'sidekiq'

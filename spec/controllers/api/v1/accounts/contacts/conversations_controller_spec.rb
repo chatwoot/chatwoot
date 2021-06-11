@@ -13,8 +13,10 @@ RSpec.describe '/api/v1/accounts/{account.id}/contacts/:id/conversations', type:
 
   before do
     create(:inbox_member, user: agent, inbox: inbox_1)
-    2.times.each { create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1) }
-    2.times.each { create(:conversation, account: account, inbox: inbox_2, contact: contact, contact_inbox: contact_inbox_2) }
+    2.times.each do
+      create(:conversation, account: account, inbox: inbox_1, contact: contact, contact_inbox: contact_inbox_1)
+      create(:conversation, account: account, inbox: inbox_2, contact: contact, contact_inbox: contact_inbox_2)
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/contacts/:id/conversations' do

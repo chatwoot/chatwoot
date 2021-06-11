@@ -69,7 +69,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     return [] if data.empty?
 
     data.inject([]) do |result, page_detail|
-      page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id']) ? true : false
+      page_detail[:exists] = Current.account.facebook_pages.exists?(page_id: page_detail['id'])
       result << page_detail
     end
   end
