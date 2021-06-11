@@ -122,7 +122,7 @@ class User < ApplicationRecord
   end
 
   def assigned_inboxes
-    inboxes.where(account_id: Current.account.id)
+    administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
   end
 
   def administrator?
