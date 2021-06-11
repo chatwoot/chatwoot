@@ -16,7 +16,6 @@
     />
     <unread
       :show-unread-view="showUnreadView"
-      :show-campaign-view="showCampaignView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :hide-message-bubble="hideMessageBubble"

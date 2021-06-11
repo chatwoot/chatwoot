@@ -10,24 +10,16 @@
         {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
       </button>
     </div>
-    <div v-if="showUnreadView" class="unread-messages">
+    <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in unreadMessages"
+        v-for="(message, index) in allMessages"
         :key="message.id"
-        message-type="normal"
+        :message-type="message.messageType"
         :message-id="message.id"
         :show-sender="!index"
         :sender="message.sender"
         :message="getMessageContent(message)"
-      />
-    </div>
-    <div v-else class="unread-messages">
-      <unread-message
-        message-type="campaign"
-        show-sender
-        :sender="campaign.sender"
-        :message="campaign.message"
-        :campaign-id="campaign.id"
+        :campaign-id="message.campaignId"
       />
     </div>
 
@@ -70,10 +62,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    showCampaignView: {
-      type: Boolean,
-      default: false,
-    },
     showUnreadView: {
       type: Boolean,
       default: false,
@@ -90,6 +78,19 @@ export default {
     sender() {
       const [firstMessage] = this.unreadMessages;
       return firstMessage.sender || {};
+    },
+    allMessages() {
+      if (this.showUnreadView) {
+        return this.unreadMessages;
+      }
+      const { sender, id: campaignId, message: content } = this.campaign;
+      return [
+        {
+          content,
+          sender,
+          campaignId,
+        },
+      ];
     },
   },
   methods: {
