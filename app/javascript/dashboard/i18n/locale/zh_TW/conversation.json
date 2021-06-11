@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "對話詳細資訊",
     "ASSIGNEE_LABEL": "指派客服",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "指派團隊",
     "SELECT": {
       "PLACEHOLDER": "無"
