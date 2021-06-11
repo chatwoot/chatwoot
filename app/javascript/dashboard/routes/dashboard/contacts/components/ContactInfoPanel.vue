@@ -47,18 +47,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
+::v-deep {
+  .contact--profile {
+    padding-bottom: var(--space-slab);
+    margin-bottom: var(--space-normal);
+  }
+}
 .contact--panel {
-  @include border-normal-left;
-
   background: white;
   font-size: var(--font-size-small);
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: var(--space-one);
+  border-left: 1px solid var(--color-border);
+  padding: var(--space-medium) var(--space-two);
 }
 
 .close-button {
