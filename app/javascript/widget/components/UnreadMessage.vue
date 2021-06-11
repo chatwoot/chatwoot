@@ -1,6 +1,6 @@
 <template>
   <div class="chat-bubble-wrap">
-    <div class="chat-bubble agent" @click="onClickMessage">
+    <button class="chat-bubble agent" @click="onClickMessage">
       <div v-if="showSender" class="row--agent-block">
         <thumbnail
           :src="avatarUrl"
@@ -12,7 +12,7 @@
         <span class="company--name"> {{ companyName }}</span>
       </div>
       <div class="message-content" v-html="formatMessage(message, false)"></div>
-    </div>
+    </button>
   </div>
 </template>
 
