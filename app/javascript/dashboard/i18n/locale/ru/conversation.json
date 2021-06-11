@@ -109,7 +109,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Назначенный агент",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Назначить мне",
     "TEAM_LABEL": "Назначенная команда",
     "SELECT": {
       "PLACEHOLDER": "Ничего"
