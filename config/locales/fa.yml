@@ -30,7 +30,7 @@ fa:
   reports:
     period: زمان گزارش از %{since} تا %{until}
     agent_csv:
-      agent_name: Agent name
+      agent_name: اسم اپراتور
       conversations_count: Conversations count
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
