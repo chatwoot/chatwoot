@@ -13,14 +13,34 @@ RSpec.describe 'Inbox Member API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated agent' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+      end
+
+      it 'returns unauthorized' do
+        params = { inbox_id: inbox.id, user_ids: [agent.id] }
+
+        post "/api/v1/accounts/#{account.id}/inbox_members",
+             headers: agent.create_new_auth_token,
+             params: params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user with access to inbox' do
+      let(:administrator) { create(:user, account: account, role: :administrator) }
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'modifies inbox members' do
         params = { inbox_id: inbox.id, user_ids: [agent.id] }
 
         post "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: agent.create_new_auth_token,
+             headers: administrator.create_new_auth_token,
              params: params,
              as: :json
 
@@ -33,7 +53,7 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: nil, user_ids: [agent.id] }
 
         post "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: agent.create_new_auth_token,
+             headers: administrator.create_new_auth_token,
              params: params,
              as: :json
 
@@ -44,7 +64,7 @@ RSpec.describe 'Inbox Member API', type: :request do
         params = { inbox_id: inbox.id, user_ids: ['invalid'] }
 
         post "/api/v1/accounts/#{account.id}/inbox_members",
-             headers: agent.create_new_auth_token,
+             headers: administrator.create_new_auth_token,
              params: params,
              as: :json
 
@@ -65,7 +85,7 @@ RSpec.describe 'Inbox Member API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with out access to inbox' do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       it 'returns inbox member' do
@@ -73,8 +93,22 @@ RSpec.describe 'Inbox Member API', type: :request do
             headers: agent.create_new_auth_token,
             as: :json
 
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user with access to inbox' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns inbox member' do
+        create(:inbox_member, user: agent, inbox: inbox)
+
+        get "/api/v1/accounts/#{account.id}/inbox_members/#{inbox.id}",
+            headers: agent.create_new_auth_token,
+            as: :json
+
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)).to eq({ payload: inbox.inbox_members }.as_json)
+        expect(JSON.parse(response.body)['payload'].pluck('id')).to eq(inbox.inbox_members.pluck(:user_id))
       end
     end
   end
