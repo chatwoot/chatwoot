@@ -5,13 +5,7 @@
         <emoji-or-icon :icon="icon" :emoji="emoji" />
         <span>{{ title }}</span>
       </span>
-      <button
-        v-if="showEdit"
-        class="button clear small edit-button"
-        @click="onEdit"
-      >
-        {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
-      </button>
+      <slot name="button"></slot>
     </h4>
     <div v-if="value" class="conv-details--item__value">
       <slot>
@@ -33,20 +27,11 @@ export default {
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
-  },
-  methods: {
-    onEdit() {
-      this.$emit('edit');
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
 .conv-details--item {
   overflow: auto;
   .conv-details--item__label {

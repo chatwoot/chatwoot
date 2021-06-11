@@ -10,7 +10,20 @@
           :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
           icon="ion-headphone"
           emoji="🧑‍🚀"
-        />
+        >
+          <template v-slot:button>
+            <woot-button
+              v-if="showSelfAssign"
+              icon="ion-arrow-right-c"
+              variant="link"
+              size="small"
+              class-names="button-content"
+              @click="onSelfAssign"
+            >
+              {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+            </woot-button>
+          </template>
+        </contact-details-item>
         <multiselect
           v-model="assignedAgent"
           :options="agentsList"
@@ -156,6 +169,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
       getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
@@ -261,6 +275,15 @@ export default {
           });
       },
     },
+    showSelfAssign() {
+      if (!this.assignedAgent) {
+        return true;
+      }
+      if (this.assignedAgent.id !== this.currentUser.id) {
+        return true;
+      }
+      return false;
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -286,6 +309,29 @@ export default {
     },
     openTranscriptModal() {
       this.showTranscriptModal = true;
+    },
+    onSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      };
+      this.assignedAgent = selfAssign;
     },
   },
 };
@@ -374,9 +420,5 @@ export default {
     min-width: 0;
     flex-shrink: 0;
   }
-}
-
-.merge-contact-wrap {
-  background: var(--color-background);
 }
 </style>
