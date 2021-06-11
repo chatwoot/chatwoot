@@ -15,14 +15,41 @@
             id="audio_enable_alert"
             v-model="enableAudioAlerts"
             class="notification--checkbox"
-            type="checkbox"
+            type="radio"
+            value="none"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert">
+            {{ $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NONE') }}
+          </label>
+        </div>
+        <div>
+          <input
+            id="audio_enable_alert"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="radio"
+            value="mine"
             @input="handleAudioInput"
           />
           <label for="audio_enable_alert">
             {{
-              $t(
-                'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ENABLE_AUDIO'
-              )
+              $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ASSIGNED')
+            }}
+          </label>
+        </div>
+        <div>
+          <input
+            id="audio_enable_alert"
+            v-model="enableAudioAlerts"
+            class="notification--checkbox"
+            type="radio"
+            value="all"
+            @input="handleAudioInput"
+          />
+          <label for="audio_enable_alert">
+            {{
+              $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALL_CONVO')
             }}
           </label>
         </div>
@@ -315,7 +342,7 @@ export default {
       this.updateNotificationSettings();
     },
     handleAudioInput(e) {
-      this.enableAudioAlerts = e.target.checked;
+      this.enableAudioAlerts = e.target.value;
       this.updateUISettings({
         enable_audio_alerts: this.enableAudioAlerts,
       });
