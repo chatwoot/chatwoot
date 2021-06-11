@@ -211,11 +211,15 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
+    "DESC": "Merge contacts to combine two profiles attributes into one. In case of conflict, the second member s attributes will take precedence.",
     "PRIMARY": {
       "TITLE": "Primary contact"
     },
     "CHILD": {
       "TITLE": "Contact to merge"
+    },
+    "SUMMARY": {
+      "TITLE": "Summary"
     }
 
   }

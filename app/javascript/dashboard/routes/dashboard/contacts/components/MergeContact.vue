@@ -1,7 +1,6 @@
 <template>
   <div class="merge-contacts">
-    <h5 class="sub-block-title">{{ $t('MERGE_CONTACTS.TITLE') }}</h5>
-    <div class="wrap">
+    <div class="selector-wrap">
       <div class="multiselect-wrap--small">
         <label class="multiselect__label">
           {{ $t('MERGE_CONTACTS.PRIMARY.TITLE') }}
@@ -35,7 +34,8 @@
               {{ $t('MERGE_CONTACTS.CHILD.TITLE') }}
             </label>
             <multiselect
-              :options="options"
+              v-model="childContact"
+              :options="searchResults"
               label="name"
               track-by="id"
               :internal-search="false"
@@ -64,6 +64,21 @@
         </div>
       </div>
     </div>
+    <div>
+      <div class="card merge-summary--card">
+        <h5 class="text-block-title">
+          {{ $t('MERGE_CONTACTS.SUMMARY.TITLE') }}
+        </h5>
+        <p>
+          <span>❌</span>
+          Contact of <span>Nithin David</span> will be deleted.
+        </p>
+        <p>
+          <span>✅</span>
+          Contact data of <span>Nithin David</span> will be copied to Jose.
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,12 +103,7 @@ export default {
     return {
       isSearching: false,
       searchResults: [],
-      value: {
-        name: 'Micheal Scott',
-        id: 11,
-        thumbnail: 'https://randomuser.me/api/portraits/men/47.jpg',
-      },
-      options: [],
+      childContact: undefined,
     };
   },
   computed: {
@@ -110,6 +120,8 @@ export default {
         this.searchResults = result;
       } catch (error) {
         this.showAlert('Something went wrong!');
+      } finally {
+        this.isSearching = false;
       }
     },
   },
@@ -117,8 +129,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  margin-top: var(--space-smaller);
+.selector-wrap {
+  margin-bottom: var(--space-normal);
 }
 .child-contact-wrap {
   display: flex;

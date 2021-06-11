@@ -85,6 +85,7 @@
         :contact="contact"
         @cancel="toggleConversationModal"
       />
+      <ContactMergeModal :primary-contact="contact" />
     </div>
   </div>
 </template>
@@ -94,6 +95,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons';
 import EditContact from './EditContact';
 import NewConversation from './NewConversation';
+import ContactMergeModal from 'dashboard/routes/dashboard/conversation/contact/ContactMergeModal';
 
 export default {
   components: {
@@ -102,6 +104,7 @@ export default {
     Thumbnail,
     SocialIcons,
     NewConversation,
+    ContactMergeModal,
   },
   props: {
     contact: {
@@ -192,5 +195,8 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
+}
+.merege-summary--card {
+  padding: var(--space-normal);
 }
 </style>
