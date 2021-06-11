@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Λεπτομέρειες συνομιλίας",
     "ASSIGNEE_LABEL": "Ανατεθειμένο σε Πράκτορα",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Ανατεθειμένο σε Ομάδα",
     "SELECT": {
       "PLACEHOLDER": "Κανένα"
