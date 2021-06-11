@@ -62,6 +62,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])
+    authorize @inbox, :show?
   end
 
   def fetch_agent_bot
