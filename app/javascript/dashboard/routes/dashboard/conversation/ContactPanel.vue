@@ -9,9 +9,20 @@
         {{ $t('CONVERSATION_SIDEBAR.DETAILS_TITLE') }}
       </h4>
       <div class="multiselect-wrap--small">
-        <label class="multiselect__label">
-          {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
-        </label>
+        <div class="self-assign">
+          <label class="multiselect__label">
+            {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
+          </label>
+          <woot-button
+            v-if="showSelfAssign"
+            icon="ion-arrow-right-c"
+            variant="link"
+            class-names="button-content"
+            @click="onSelfAssign"
+          >
+            {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+          </woot-button>
+        </div>
         <multiselect
           v-model="assignedAgent"
           :options="agentsList"
@@ -155,6 +166,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
       getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
@@ -260,6 +272,15 @@ export default {
           });
       },
     },
+    showSelfAssign() {
+      if (!this.assignedAgent) {
+        return true;
+      }
+      if (this.assignedAgent.id !== this.currentUser.id) {
+        return true;
+      }
+      return false;
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -285,6 +306,29 @@ export default {
     },
     openTranscriptModal() {
       this.showTranscriptModal = true;
+    },
+    onSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      };
+      this.assignedAgent = selfAssign;
     },
   },
 };
@@ -373,6 +417,14 @@ export default {
     margin-right: var(--space-small);
     min-width: 0;
     flex-shrink: 0;
+  }
+}
+.self-assign {
+  display: flex;
+  justify-content: space-between;
+
+  .button-content {
+    margin-bottom: var(--space-small);
   }
 }
 </style>
