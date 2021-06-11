@@ -1,10 +1,10 @@
 <template>
   <div class="conv-details--item">
     <h4 class="conv-details--item__label text-block-title">
-      <div class="title--icon">
+      <span class="title--icon">
         <emoji-or-icon :icon="icon" :emoji="emoji" />
-        {{ title }}
-      </div>
+        <span>{{ title }}</span>
+      </span>
       <button
         v-if="showEdit"
         class="button clear small edit-button"
@@ -48,13 +48,11 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 
 .conv-details--item {
-  padding-bottom: var(--space-normal);
-
+  overflow: auto;
   .conv-details--item__label {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: var(--space-smaller);
 
     .edit-button {
       padding: 0;
@@ -64,11 +62,13 @@ export default {
   .conv-details--item__value {
     word-break: break-all;
     margin-left: var(--space-medium);
+    margin-bottom: var(--space-normal);
   }
 
   .title--icon .icon--emoji,
   .title--icon .icon--font {
-    margin-right: var(--space-small);
+    display: inline-block;
+    width: var(--space-medium);
   }
 
   .title--icon {
