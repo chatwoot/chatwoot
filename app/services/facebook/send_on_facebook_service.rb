@@ -14,7 +14,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def send_message_to_facebook(delivery_params)
-    result = FacebookBot::Bot.deliver(delivery_params, access_token: message.channel_token)
+    result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
     message.update!(source_id: JSON.parse(result)['message_id'])
   end
 

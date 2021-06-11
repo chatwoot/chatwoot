@@ -8,6 +8,7 @@ const state = {
     fetchingList: false,
     creatingItem: false,
     deletingItem: false,
+    updatingItem: false,
   },
 };
 
@@ -36,11 +37,26 @@ export const actions = {
     commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: true });
     try {
       const response = await webHookAPI.create(params);
-      commit(types.default.ADD_WEBHOOK, response.data.payload.webhook);
+      const {
+        payload: { webhook },
+      } = response.data;
+      commit(types.default.ADD_WEBHOOK, webhook);
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
     } catch (error) {
       commit(types.default.SET_WEBHOOK_UI_FLAG, { creatingItem: false });
       throw error;
+    }
+  },
+
+  update: async ({ commit }, { id, ...updateObj }) => {
+    commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: true });
+    try {
+      const response = await webHookAPI.update(id, updateObj);
+      commit(types.default.UPDATE_WEBHOOK, response.data.payload.webhook);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.default.SET_WEBHOOK_UI_FLAG, { updatingItem: false });
     }
   },
 
@@ -64,10 +80,10 @@ export const mutations = {
       ...data,
     };
   },
-
   [types.default.SET_WEBHOOK]: MutationHelpers.set,
   [types.default.ADD_WEBHOOK]: MutationHelpers.create,
   [types.default.DELETE_WEBHOOK]: MutationHelpers.destroy,
+  [types.default.UPDATE_WEBHOOK]: MutationHelpers.update,
 };
 
 export default {

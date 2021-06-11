@@ -1,6 +1,9 @@
 account_id:
   $ref: ./account_id.yml
 
+agent_bot_id:
+  $ref: ./agent_bot_id.yml
+
 team_id:
   $ref: ./team_id.yml
 
@@ -21,3 +24,6 @@ contact_sort_param:
 
 page:
   $ref: ./page.yml
+
+platform_user_id:
+  $ref: ./platform_user_id.yml

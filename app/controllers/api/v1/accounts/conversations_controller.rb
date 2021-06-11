@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
 
-  before_action :conversation, except: [:index]
+  before_action :conversation, except: [:index, :meta, :search, :create]
   before_action :contact_inbox, only: [:create]
 
   def index
@@ -41,7 +41,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def transcript
-    ConversationReplyMailer.conversation_transcript(@conversation, params[:email])&.deliver_later if params[:email].present?
+    render json: { error: 'email param missing' }, status: :unprocessable_entity and return if params[:email].blank?
+
+    ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, params[:email])&.deliver_later
     head :ok
   end
 
@@ -77,34 +79,40 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation
-    @conversation ||= Current.account.conversations.find_by(display_id: params[:id])
+    @conversation ||= Current.account.conversations.find_by!(display_id: params[:id])
+    authorize @conversation.inbox, :show?
   end
 
   def contact_inbox
     @contact_inbox = build_contact_inbox
 
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    authorize @contact_inbox.inbox, :show?
   end
 
   def build_contact_inbox
     return if params[:contact_id].blank? || params[:inbox_id].blank?
 
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+    authorize inbox, :show?
+
     ContactInboxBuilder.new(
       contact_id: params[:contact_id],
-      inbox_id: params[:inbox_id],
+      inbox_id: inbox.id,
       source_id: params[:source_id]
     ).perform
   end
 
   def conversation_params
     additional_attributes = params[:additional_attributes]&.permit! || {}
+    status = params[:status].present? ? { status: params[:status] } : {}
     {
       account_id: Current.account.id,
       inbox_id: @contact_inbox.inbox_id,
       contact_id: @contact_inbox.contact_id,
       contact_inbox_id: @contact_inbox.id,
       additional_attributes: additional_attributes
-    }
+    }.merge(status)
   end
 
   def conversation_finder
