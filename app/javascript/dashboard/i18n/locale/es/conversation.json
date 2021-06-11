@@ -109,7 +109,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente asignado",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Asignar a mi",
     "TEAM_LABEL": "Equipo asignado",
     "SELECT": {
       "PLACEHOLDER": "Ninguna"
