@@ -10,7 +10,7 @@
         {{ $t('UNREAD_VIEW.CLOSE_MESSAGES_BUTTON') }}
       </button>
     </div>
-    <div class="unread-messages">
+    <div v-if="showUnreadView" class="unread-messages">
       <unread-message
         v-for="(message, index) in unreadMessages"
         :key="message.id"
@@ -19,6 +19,15 @@
         :show-sender="!index"
         :sender="message.sender"
         :message="getMessageContent(message)"
+      />
+    </div>
+    <div v-else class="unread-messages">
+      <unread-message
+        message-type="campaign"
+        show-sender
+        :sender="campaign.sender"
+        :message="campaign.message"
+        :campaign-id="campaign.id"
       />
     </div>
 
@@ -61,10 +70,19 @@ export default {
       type: Boolean,
       default: false,
     },
+    showCampaignView: {
+      type: Boolean,
+      default: false,
+    },
+    showUnreadView: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
       unreadMessages: 'conversation/getUnreadTextMessages',
+      campaign: 'campaign/getActiveCampaign',
     }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;

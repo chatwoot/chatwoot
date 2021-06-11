@@ -15,13 +15,7 @@
       :show-popout-button="showPopoutButton"
     />
     <unread
-      v-else-if="showUnreadView"
-      :has-fetched="hasFetched"
-      :unread-message-count="unreadMessageCount"
-      :hide-message-bubble="hideMessageBubble"
-    />
-    <campaign
-      v-else-if="showCampaignView"
+      :show-unread-view="showUnreadView"
       :show-campaign-view="showCampaignView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
@@ -33,14 +27,12 @@
 <script>
 import Home from './Home';
 import Unread from './Unread';
-import Campaign from './Campaign';
 
 export default {
   name: 'Router',
   components: {
     Home,
     Unread,
-    Campaign,
   },
   props: {
     hasFetched: {
