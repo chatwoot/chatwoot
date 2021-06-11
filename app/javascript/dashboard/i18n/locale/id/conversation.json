@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Detail Percakapan",
     "ASSIGNEE_LABEL": "Agen Ditugaskan",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Tim Ditugaskan",
     "SELECT": {
       "PLACEHOLDER": "Tidak ada"
