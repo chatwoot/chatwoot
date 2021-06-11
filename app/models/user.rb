@@ -91,7 +91,7 @@ class User < ApplicationRecord
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
   def send_devise_notification(notification, *args)
-    devise_mailer.send(notification, self, *args).deliver_later
+    devise_mailer.with(account: Current.account).send(notification, self, *args).deliver_later
   end
 
   def set_password_and_uid
@@ -122,7 +122,7 @@ class User < ApplicationRecord
   end
 
   def assigned_inboxes
-    inboxes.where(account_id: Current.account.id)
+    administrator? ? Current.account.inboxes : inboxes.where(account_id: Current.account.id)
   end
 
   def administrator?

@@ -1,31 +1,24 @@
+$default-button-height: 4.0rem;
+
 .button {
   align-items: center;
   display: inline-flex;
-  height: 4.0rem;
+  height: $default-button-height;
   margin-bottom: 0;
-
-  &.button--emoji {
-    align-items: center;
-    background: var(--b-50);
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--border-radius-large);
-    display: flex;
-    font-size: var(--font-size-small);
-    height: var(--space-large);
-    justify-content: center;
-    padding: var(--space-micro);
-    text-align: center;
-    width: var(--space-large);
-
-    &:hover {
-      background: var(--b-200);
-    }
-  }
 
   .spinner {
     padding: 0 var(--space-small);
   }
 
+  .icon--emoji+.button__content {
+    padding-left: var(--space-small);
+  }
+
+  .icon--font+.button__content {
+    padding-left: var(--space-small);
+  }
+
+  // @TODDO - Remove after moving all buttons to woot-button
   .icon+.button__content {
     padding-left: var(--space-small);
   }
@@ -48,23 +41,23 @@
 
   // Smooth style
   &.smooth {
-    @include button-style(var(--w-100), var(--w-50), var(--w-700));
+    @include button-style(var(--w-50), var(--w-100), var(--w-700));
 
 
     &.secondary {
-      @include button-style(var(--s-100), var(--s-50), var(--s-700));
+      @include button-style(var(--s-50), var(--s-100), var(--s-700));
     }
 
     &.success {
-      @include button-style(var(--g-100), var(--g-50), var(--g-700));
+      @include button-style(var(--g-50), var(--g-100), var(--g-700));
     }
 
     &.alert {
-      @include button-style(var(--r-100), var(--r-50), var(--r-700));
+      @include button-style(var(--r-50), var(--r-100), var(--r-700));
     }
 
     &.warning {
-      @include button-style(var(--y-200), var(--y-100), var(--y-900));
+      @include button-style(var(--y-100), var(--y-200), var(--y-900));
     }
   }
 
@@ -79,6 +72,25 @@
 
   &.large {
     height: var(--space-larger);
+  }
+
+  &.button--only-icon {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+    width: $default-button-height;
+
+    &.tiny {
+      width: var(--space-medium);
+    }
+
+    &.small {
+      width: var(--space-large);
+    }
+
+    &.large {
+      width: var(--space-larger);
+    }
   }
 
   &.link {

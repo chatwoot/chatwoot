@@ -48,7 +48,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def contactable_inboxes
-    @contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
+    @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
+    @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
   end
 
   def create

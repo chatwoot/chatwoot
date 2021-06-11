@@ -1,5 +1,5 @@
 <template>
-  <div class="contact-conversation--panel sidebar-labels-wrap">
+  <div class="sidebar-labels-wrap">
     <div
       v-if="!conversationUiFlags.isFetching"
       class="contact-conversation--list"
@@ -150,22 +150,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
-.contact-conversation--panel {
-  padding: var(--space-micro) var(--space-slab) var(--space-one)
-    var(--space-slab);
+.sidebar-labels-wrap {
+  margin-bottom: var(--space-normal);
 }
-
 .contact-conversation--list {
   width: 100%;
 
   .label-wrap {
-    margin-left: var(--space-two);
+    margin-left: var(--space-medium);
     position: relative;
     line-height: var(--space-medium);
-    bottom: var(--space-small);
 
     .dropdown-wrap {
       display: flex;
