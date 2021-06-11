@@ -267,6 +267,10 @@ RSpec.describe 'Inboxes API', type: :request do
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/agent_bot' do
     let(:inbox) { create(:inbox, account: account) }
 
+    before do
+      create(:inbox_member, user: agent, inbox: inbox)
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/agent_bot"

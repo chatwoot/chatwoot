@@ -62,6 +62,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:id])
+    authorize @inbox, :show?
   end
 
   def fetch_agent_bot
@@ -87,12 +88,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, channel:
+    params.permit(:id, :avatar, :name, :greeting_message, :greeting_enabled, :enable_email_collect, channel:
       [:type, :website_url, :widget_color, :welcome_title, :welcome_tagline, :webhook_url, :email, :reply_time])
   end
 
   def inbox_update_params
-    params.permit(:enable_auto_assignment, :name, :avatar, :greeting_message, :greeting_enabled,
+    params.permit(:enable_auto_assignment, :enable_email_collect, :name, :avatar, :greeting_message, :greeting_enabled,
                   :working_hours_enabled, :out_of_office_message, :timezone,
                   channel: [
                     :website_url,

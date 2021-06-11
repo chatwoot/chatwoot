@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe 'Agents API', type: :request do
   let(:account) { create(:account) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
+  let(:agent) { create(:user, account: account, role: :agent) }
 
   describe 'GET /api/v1/accounts/{account.id}/agents' do
     context 'when it is an unauthenticated user' do
@@ -38,7 +40,13 @@ RSpec.describe 'Agents API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:admin) { create(:user, account: account, role: :administrator) }
+      it 'returns unauthorized for agents' do
+        delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
 
       it 'deletes an agent' do
         delete "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
@@ -63,9 +71,16 @@ RSpec.describe 'Agents API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:admin) { create(:user, account: account, role: :administrator) }
-
       params = { name: 'TestUser' }
+
+      it 'returns unauthorized for agents' do
+        put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
+            params: params,
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
 
       it 'modifies an agent' do
         put "/api/v1/accounts/#{account.id}/agents/#{other_agent.id}",
@@ -91,9 +106,16 @@ RSpec.describe 'Agents API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:admin) { create(:user, account: account, role: :administrator) }
-
       params = { name: 'NewUser', email: Faker::Internet.email, role: :agent }
+
+      it 'returns unauthorized for agents' do
+        post "/api/v1/accounts/#{account.id}/agents",
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
 
       it 'creates a new agent' do
         post "/api/v1/accounts/#{account.id}/agents",
