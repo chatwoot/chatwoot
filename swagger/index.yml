@@ -62,3 +62,8 @@ x-tagGroups:
       - Integrations
       - Profile
       - Teams
+  - name: Public
+    tags: 
+      - Contacts API
+      - Conversations API
+      - Messages API

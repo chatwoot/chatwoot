@@ -19,8 +19,6 @@ properties:
     enum: ['agent', 'administrator']
   confirmed:
     type: boolean
-  display_name:
-    type: string
   accounts:
     type: array
     items:
