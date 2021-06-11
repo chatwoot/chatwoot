@@ -165,8 +165,8 @@
 
   .multiselect__tags,
   .multiselect__input {
-    display: flex;
     align-items: center;
+    display: flex;
   }
 
   .multiselect__tags,
@@ -185,13 +185,13 @@
 
   .multiselect__single {
     font-size: var(--font-size-small);
-    padding: var(--space-smaller) var(--space-micro);
     margin: 0;
+    padding: var(--space-smaller) var(--space-micro);
   }
 
   .multiselect__placeholder {
-    padding: var(--space-smaller) var(--space-micro);
     margin: 0;
+    padding: var(--space-smaller) var(--space-micro);
 
   }
 
