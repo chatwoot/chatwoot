@@ -17,4 +17,4 @@ Rails.application.config.assets.precompile += %w[dashboardChart.js]
 # to take care of fonts in assets pre-compiling
 # Ref: https://stackoverflow.com/questions/56960709/rails-font-cors-policy
 # https://github.com/rails/sprockets/issues/632#issuecomment-551324428
-Rails.application.config.assets.precompile << ["*.svg", "*.eot", "*.woff", "*.ttf"]
+Rails.application.config.assets.precompile << ['*.svg', '*.eot', '*.woff', '*.ttf']
