@@ -3,19 +3,18 @@
     <div class="contact--info">
       <thumbnail
         :src="contact.thumbnail"
-        size="64px"
-        :badge="channelType"
+        size="56px"
         :username="contact.name"
         :status="contact.availability_status"
       />
 
       <div class="contact--details">
-        <div class="contact--name">
+        <h3 class="sub-block-title contact--name">
           {{ contact.name }}
-        </div>
-        <div v-if="additionalAttributes.description" class="contact--bio">
+        </h3>
+        <p v-if="additionalAttributes.description" class="contact--bio">
           {{ additionalAttributes.description }}
-        </div>
+        </p>
         <social-icons :social-profiles="socialProfiles" />
         <div class="contact--metadata">
           <contact-info-row
@@ -52,7 +51,7 @@
       <woot-button
         v-if="!showNewMessage"
         class="edit-contact"
-        variant="clear link"
+        variant="link"
         size="small"
         @click="toggleEditModal"
       >
@@ -61,6 +60,7 @@
       <div v-else class="contact-actions">
         <woot-button
           class="new-message"
+          variant="smooth"
           size="small expanded"
           @click="toggleConversationModal"
         >
@@ -152,7 +152,7 @@ export default {
 @import '~dashboard/assets/scss/mixins';
 .contact--profile {
   align-items: flex-start;
-  padding: var(--space-normal) var(--space-normal);
+  margin-bottom: var(--space-normal);
 
   .user-thumbnail-box {
     margin-right: $space-normal;
@@ -162,46 +162,26 @@ export default {
 .contact--details {
   margin-top: $space-small;
   width: 100%;
-
-  p {
-    margin-bottom: 0;
-  }
 }
 
 .contact--info {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
   text-align: left;
 }
 
 .contact--name {
-  @include text-ellipsis;
   text-transform: capitalize;
   white-space: normal;
-  font-weight: $font-weight-bold;
-  font-size: $font-size-default;
-}
-
-.contact--bio {
-  margin: $space-small 0 0;
 }
 
 .contact--metadata {
-  margin: var(--space-normal) 0 0;
+  margin-bottom: var(--space-small);
 }
 
-.social--icons {
-  i {
-    font-size: $font-weight-normal;
-  }
-}
 .contact-actions {
-  margin: var(--space-small) 0;
+  margin-top: var(--space-small);
 }
 .button.edit-contact {
-  margin-left: var(--space-two);
-  padding-left: var(--space-micro);
+  margin-left: var(--space-medium);
 }
 
 .button.new-message {
