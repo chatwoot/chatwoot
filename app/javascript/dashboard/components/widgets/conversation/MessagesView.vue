@@ -56,6 +56,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
+        class="readMessage"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -72,6 +73,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
+        class="unreadMessage"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -259,7 +261,32 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      this.conversationPanel.scrollTop = this.conversationPanel.scrollHeight;
+      function totalMessageHeight(total, element) {
+        return total + element.scrollHeight;
+      }
+
+      if (this.getUnreadCount > 0) {
+        let unreadMessages = this.conversationPanel.querySelectorAll(
+          '.unreadMessage'
+        );
+        let totalUnreadScrollHeight = [...unreadMessages].reduce(
+          totalMessageHeight,
+          0
+        );
+        this.conversationPanel.scrollTop =
+          this.conversationPanel.scrollHeight -
+          totalUnreadScrollHeight -
+          this.$el.scrollHeight / 2;
+      } else {
+        let readMessages = this.conversationPanel.querySelectorAll(
+          '.readMessage'
+        );
+        let lastReadMessage = readMessages[readMessages.length - 1];
+        this.conversationPanel.scrollTop =
+          this.conversationPanel.scrollHeight -
+          lastReadMessage.scrollHeight -
+          this.$el.scrollHeight / 2;
+      }
     },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
