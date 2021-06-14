@@ -8,6 +8,7 @@
       v-if="hasContactAttributes"
       :custom-attributes="contact.custom_attributes"
     />
+    <contact-label :contact-id="contact.id" class="contact-labels" />
     <contact-conversations
       v-if="contact.id"
       :contact-id="contact.id"
@@ -20,12 +21,14 @@
 import ContactConversations from 'dashboard/routes/dashboard/conversation/ContactConversations';
 import ContactInfo from 'dashboard/routes/dashboard/conversation/contact/ContactInfo';
 import ContactCustomAttributes from 'dashboard/routes/dashboard/conversation/ContactCustomAttributes';
+import ContactLabel from 'dashboard/routes/dashboard/contacts/components/ContactLabels.vue';
 
 export default {
   components: {
     ContactCustomAttributes,
     ContactConversations,
     ContactInfo,
+    ContactLabel,
   },
   props: {
     contact: {
@@ -61,6 +64,10 @@ export default {
   position: relative;
   border-left: 1px solid var(--color-border);
   padding: var(--space-medium) var(--space-two);
+  
+  .contact-labels {
+    padding-bottom: var(--space-normal);
+  }
 }
 
 .close-button {
@@ -77,10 +84,6 @@ export default {
 
 .conversation--details {
   padding: 0 var(--space-normal);
-}
-
-.contact-conversation--panel {
-  height: 100%;
 }
 
 .contact--mute {

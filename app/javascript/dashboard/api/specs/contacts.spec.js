@@ -34,6 +34,25 @@ describe('#ContactsAPI', () => {
         '/api/v1/contacts/1/contactable_inboxes'
       );
     });
+
+    it('#getContactLabels', () => {
+      contactAPI.getContactLabels(1);
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/labels'
+      );
+    });
+
+    it('#updateContactLabels', () => {
+      const labels = ['support-query'];
+      contactAPI.updateContactLabels(1, labels);
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/contacts/1/labels',
+        {
+          labels,
+        }
+      );
+    });
+
     it('#search', () => {
       contactAPI.search('leads', 1, 'date');
       expect(context.axiosMock.get).toHaveBeenCalledWith(
