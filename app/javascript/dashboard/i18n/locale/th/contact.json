@@ -18,19 +18,14 @@
       "TITLE": "การสนทนาก่อนหน้า"
     },
     "LABELS": {
-      "TITLE": "ป้ายกำกับการสนทนา",
-      "MODAL": {
-        "TITLE": "ป้ายกำกับสำหรับ",
-        "ACTIVE_LABELS": "เพิ่มป้ายกำกับไปสนทนา",
-        "INACTIVE_LABELS": "ป้ายกำกับที่ใช้ได้ในบัญชีนี้",
-        "REMOVE": "คลิกที่ X เพื่อลบป้ายกำกับ",
-        "ADD": "คลิกที่ + เพื่อเพิ่มป้ายกำกับ",
-        "ADD_BUTTON": "เพิ่มหัวข้อ",
-        "UPDATE_BUTTON": "อัพเดทป้ายกำกับ",
-        "UPDATE_ERROR": "ไม่สามารถอัพเดทป้านกำกับได้กรุณาลองใหม่"
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "ไม่มีป้ายกำกับที่กำหนดให้บัญชีนี้",
-      "NO_AVAILABLE_LABELS": "ไม่มีป้ายกำกับที่เพิ่มให้การสนทนานี้",
+      "CONVERSATION": {
+        "TITLE": "ป้ายกำกับการสนทนา",
+        "ADD_BUTTON": "เพิ่มหัวข้อ"
+      },
       "LABEL_SELECT": {
         "TITLE": "เพิ่มหัวข้อ",
         "PLACEHOLDER": "ค้นหาหัวข้อ",
