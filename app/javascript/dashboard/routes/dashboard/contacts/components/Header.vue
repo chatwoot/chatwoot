@@ -30,6 +30,7 @@
           color-scheme="success"
           icon="ion-android-add-circle"
           @click="onToggleCreate"
+          data-testid="create-new-contact"
         >
           {{ $t('CREATE_CONTACT.BUTTON_LABEL') }}
         </woot-button>

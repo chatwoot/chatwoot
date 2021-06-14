@@ -13,6 +13,7 @@
         :placeholder="$t('LABEL_MGMT.FORM.NAME.PLACEHOLDER')"
         :error="getLabelTitleErrorMessage"
         @input="$v.title.$touch"
+        data-testId="label-title"
       />
 
       <woot-input
@@ -22,6 +23,7 @@
         :label="$t('LABEL_MGMT.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('LABEL_MGMT.FORM.DESCRIPTION.PLACEHOLDER')"
         @input="$v.description.$touch"
+         data-testId="label-description"
       />
 
       <div class="medium-12">
@@ -41,6 +43,7 @@
           <woot-button
             :is-disabled="$v.title.$invalid || uiFlags.isCreating"
             :is-loading="uiFlags.isCreating"
+            data-testId="label-submit"
           >
             {{ $t('LABEL_MGMT.FORM.CREATE') }}
           </woot-button>
