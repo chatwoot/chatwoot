@@ -264,10 +264,6 @@ export default {
   .modal-container {
     width: 40rem;
   }
-
-  .page-top-bar {
-    padding-bottom: $space-two;
-  }
 }
 
 .account-selector {

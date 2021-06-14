@@ -4,26 +4,27 @@
       <contact-panel v-if="!uiFlags.isFetchingItem" :contact="contact" />
     </div>
     <div class="center"></div>
-    <div class="right"></div>
+    <div class="right">
+      <contact-notes :contact-id="Number(contactId)" />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import ContactPanel from './ContactPanel';
+import ContactNotes from 'dashboard/modules/notes/NotesOnContactPage';
 
 export default {
   components: {
     ContactPanel,
+    ContactNotes,
   },
   props: {
     contactId: {
       type: [String, Number],
-      default: 0,
+      required: true,
     },
-  },
-  data() {
-    return {};
   },
   computed: {
     ...mapGetters({
@@ -38,13 +39,12 @@ export default {
     },
   },
   mounted() {
-    this.getContactDetails();
+    this.fetchContactDetails();
   },
   methods: {
-    getContactDetails() {
-      if (this.contactId) {
-        this.$store.dispatch('contacts/show', { id: this.contactId });
-      }
+    fetchContactDetails() {
+      const { contactId: id } = this;
+      this.$store.dispatch('contacts/show', { id });
     },
   },
 };
@@ -66,5 +66,9 @@ export default {
 .center {
   border-right: 1px solid var(--color-border);
   border-left: 1px solid var(--color-border);
+}
+
+.right {
+  padding: var(--space-normal);
 }
 </style>

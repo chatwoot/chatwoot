@@ -1,17 +1,11 @@
 <template>
   <div class="conv-details--item">
     <h4 class="conv-details--item__label text-block-title">
-      <div class="title--icon">
+      <span class="title--icon">
         <emoji-or-icon :icon="icon" :emoji="emoji" />
-        {{ title }}
-      </div>
-      <button
-        v-if="showEdit"
-        class="button clear small edit-button"
-        @click="onEdit"
-      >
-        {{ $t('CONTACT_PANEL.EDIT_LABEL') }}
-      </button>
+        <span>{{ title }}</span>
+      </span>
+      <slot name="button"></slot>
     </h4>
     <div v-if="value" class="conv-details--item__value">
       <slot>
@@ -33,28 +27,17 @@ export default {
     icon: { type: String, default: '' },
     emoji: { type: String, default: '' },
     value: { type: [String, Number], default: '' },
-    showEdit: { type: Boolean, default: false },
-  },
-  methods: {
-    onEdit() {
-      this.$emit('edit');
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
-@import '~dashboard/assets/scss/mixins';
-
 .conv-details--item {
-  padding-bottom: var(--space-normal);
-
+  overflow: auto;
   .conv-details--item__label {
     align-items: center;
     display: flex;
     justify-content: space-between;
-    margin-bottom: var(--space-smaller);
 
     .edit-button {
       padding: 0;
@@ -64,11 +47,13 @@ export default {
   .conv-details--item__value {
     word-break: break-all;
     margin-left: var(--space-medium);
+    margin-bottom: var(--space-normal);
   }
 
   .title--icon .icon--emoji,
   .title--icon .icon--font {
-    margin-right: var(--space-small);
+    display: inline-block;
+    width: var(--space-medium);
   }
 
   .title--icon {
