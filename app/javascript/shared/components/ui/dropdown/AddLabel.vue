@@ -2,7 +2,7 @@
   <woot-button variant="link" class="label--add" @click="addLabel">
     <woot-label
       color-scheme="secondary"
-      :title="$t('CONTACT_PANEL.LABELS.MODAL.ADD_BUTTON')"
+      :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON')"
       icon="ion-plus-round"
     />
   </woot-button>
