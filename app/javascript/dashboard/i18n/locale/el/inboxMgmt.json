@@ -30,10 +30,10 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Όνομα Κιβωτίου",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Συμπληρώστε την ονομασία του κιβωτίου σας (π. χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
+        "LABEL": "Όνομα Ιστοσελίδας",
         "PLACEHOLDER": "Συμπληρώστε την ονομασία της ιστοσελίδας σας (π.χ: Ελληνικό Μεσογειακό Πανεπιστήμιο)"
       },
       "FB": {
@@ -252,8 +252,8 @@
       "INBOX_AGENTS": "Πράκτορες",
       "INBOX_AGENTS_SUB_TEXT": "Προσθέστε ή αφαιρέστε πράκτορες σε αυτό το κιβώτιο",
       "UPDATE": "Ενημέρωση",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "Ενεργοποιήσετε το πλαίσιο συλλογής email",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ενεργοποίηση ή απενεργοποίηση του πλαισίου συλλογής μηνυμάτων ηλεκτρονικού ταχυδρομείου στη νέα συνομιλία",
       "AUTO_ASSIGNMENT": "Επιτρέπεται η αυτόματη αντιστοίχιση",
       "INBOX_UPDATE_TITLE": "Ρυθμίσεις Κιβωτίου",
       "INBOX_UPDATE_SUB_TEXT": "Ενημερώστε τις ρυθμίσεις του κιβωτίου σας",
