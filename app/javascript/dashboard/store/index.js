@@ -28,6 +28,7 @@ import webhooks from './modules/webhooks';
 import teams from './modules/teams';
 import teamMembers from './modules/teamMembers';
 import campaigns from './modules/campaigns';
+import contactNotes from './modules/contactNotes';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -59,5 +60,6 @@ export default new Vuex.Store({
     teams,
     teamMembers,
     campaigns,
+    contactNotes,
   },
 });
