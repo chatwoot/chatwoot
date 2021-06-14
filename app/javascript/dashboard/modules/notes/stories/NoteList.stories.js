@@ -1,15 +1,15 @@
 import { action } from '@storybook/addon-actions';
-import noteList from './NoteList';
+import NoteList from '../components/NoteList';
 
 export default {
   title: 'Components/Notes/List',
-  component: noteList,
+  component: NoteList,
   argTypes: {},
 };
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { noteList },
+  components: { NoteList },
   template:
     '<note-list v-bind="$props" @addNote="onAddNote" @editNote="onEditNote" @deleteNote="onDeleteNote" @show="onClick"></note-list>',
 });
