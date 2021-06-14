@@ -18,19 +18,14 @@
       "TITLE": "Korábbi beszélgetések"
     },
     "LABELS": {
-      "TITLE": "Beszélgetés cimkék",
-      "MODAL": {
-        "TITLE": "Kapcsolódó cimkék",
-        "ACTIVE_LABELS": "A beszélgetéshez hozzáadott cimkék",
-        "INACTIVE_LABELS": "A fiókhoz tartozó cimkék",
-        "REMOVE": "Kattints az X ikonra a cimke eltávolításához",
-        "ADD": "Kattints a + ikonra a cimke hozzáadásához",
-        "ADD_BUTTON": "Címkék hozzáadása",
-        "UPDATE_BUTTON": "Cimkék frissítése",
-        "UPDATE_ERROR": "Cimke frissítés sikertelen, kérjük próbáld később."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Ebben a fiókban már nincsenek további cimkék.",
-      "NO_AVAILABLE_LABELS": "Nincs több cimke ehhez a beszélgetéshez.",
+      "CONVERSATION": {
+        "TITLE": "Beszélgetés cimkék",
+        "ADD_BUTTON": "Címkék hozzáadása"
+      },
       "LABEL_SELECT": {
         "TITLE": "Címkék hozzáadása",
         "PLACEHOLDER": "Címkék keresése",
