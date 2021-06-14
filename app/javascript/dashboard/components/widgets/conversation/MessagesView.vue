@@ -56,7 +56,7 @@
       <message
         v-for="message in getReadMessages"
         :key="message.id"
-        class="readMessage"
+        class="message--read"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -73,7 +73,7 @@
       <message
         v-for="message in getUnReadMessages"
         :key="message.id"
-        class="unreadMessage"
+        class="message--unread"
         :data="message"
         :is-a-tweet="isATweet"
       />
@@ -267,7 +267,7 @@ export default {
 
       if (this.getUnreadCount > 0) {
         let unreadMessages = this.conversationPanel.querySelectorAll(
-          '.unreadMessage'
+          '.message--unread'
         );
         let totalUnreadScrollHeight = [...unreadMessages].reduce(
           totalMessageHeight,
@@ -279,7 +279,7 @@ export default {
           this.$el.scrollHeight / 2;
       } else {
         let readMessages = this.conversationPanel.querySelectorAll(
-          '.readMessage'
+          '.message--read'
         );
         let lastReadMessage = readMessages[readMessages.length - 1];
         this.conversationPanel.scrollTop =
