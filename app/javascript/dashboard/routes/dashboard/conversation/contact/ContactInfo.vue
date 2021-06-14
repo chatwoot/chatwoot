@@ -60,14 +60,13 @@
       <div v-else class="contact-actions">
         <woot-button
           class="new-message"
-          variant="smooth"
           size="small expanded"
           @click="toggleConversationModal"
         >
           {{ $t('CONTACT_PANEL.NEW_MESSAGE') }}
         </woot-button>
         <woot-button
-          variant="hollow"
+          variant="smooth"
           size="small expanded"
           @click="toggleEditModal"
         >

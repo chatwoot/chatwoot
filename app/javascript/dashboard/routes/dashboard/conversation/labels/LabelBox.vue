@@ -5,7 +5,7 @@
       class="contact-conversation--list"
     >
       <contact-details-item
-        :title="$t('CONTACT_PANEL.LABELS.TITLE')"
+        :title="$t('CONTACT_PANEL.LABELS.CONVERSATION.TITLE')"
         icon="ion-pricetags"
         emoji="🏷️"
       />
@@ -30,7 +30,6 @@
               v-if="showSearchDropdownLabel"
               :account-labels="accountLabels"
               :selected-labels="savedLabels"
-              :conversation-id="conversationId"
               @add="addItem"
               @remove="removeItem"
             />
@@ -61,7 +60,7 @@ export default {
   mixins: [clickaway],
   props: {
     conversationId: {
-      type: [String, Number],
+      type: Number,
       required: true,
     },
   },
