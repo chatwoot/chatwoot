@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import AddNote from './AddNote.vue';
+import AddNote from '../components/AddNote.vue';
 
 export default {
   title: 'Components/Notes/Add',
