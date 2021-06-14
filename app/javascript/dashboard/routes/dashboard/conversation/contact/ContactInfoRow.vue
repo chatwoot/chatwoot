@@ -69,23 +69,21 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
 .contact-info--row {
   .contact-info--icon {
-    font-size: $font-size-default;
-    min-width: $space-medium;
+    font-size: var(--font-size-default);
+    min-width: var(--space-medium);
   }
 }
 
 .contact-info--details {
   display: flex;
   align-items: center;
-  margin-bottom: var(--space-one);
-  color: $color-body;
+  margin-bottom: var(--space-small);
+  color: var(--color-body);
 
   .copy-icon {
-    margin-left: $space-one;
+    margin-left: var(--space-smaller);
   }
 
   &.a {
@@ -97,6 +95,7 @@ export default {
 
 .contact-info--details .icon--emoji,
 .contact-info--details .icon--font {
-  margin-right: var(--space-small);
+  display: inline-block;
+  width: var(--space-medium);
 }
 </style>
