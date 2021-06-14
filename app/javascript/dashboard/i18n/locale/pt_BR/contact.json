@@ -18,19 +18,14 @@
       "TITLE": "Conversas anteriores"
     },
     "LABELS": {
-      "TITLE": "Marcador da conversa",
-      "MODAL": {
-        "TITLE": "Marcadores para",
-        "ACTIVE_LABELS": "Marcadores adicionados à conversa",
-        "INACTIVE_LABELS": "Marcadores disponíveis na conta",
-        "REMOVE": "Clique no ícone X para remover o marcador",
-        "ADD": "Clique no ícone + para adicionar o marcador",
-        "ADD_BUTTON": "Adicionar marcador",
-        "UPDATE_BUTTON": "Atualizar marcadores",
-        "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Não há mais marcadores definidos na conta.",
-      "NO_AVAILABLE_LABELS": "Não há marcadores adicionados a esta conversa.",
+      "CONVERSATION": {
+        "TITLE": "Marcador da conversa",
+        "ADD_BUTTON": "Adicionar marcador"
+      },
       "LABEL_SELECT": {
         "TITLE": "Adicionar marcador",
         "PLACEHOLDER": "Pesquisar marcador ",
