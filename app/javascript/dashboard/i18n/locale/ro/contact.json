@@ -18,19 +18,14 @@
       "TITLE": "Conversații anterioare"
     },
     "LABELS": {
-      "TITLE": "Etichete conversație",
-      "MODAL": {
-        "TITLE": "Etichete pentru",
-        "ACTIVE_LABELS": "Etichete adăugate la conversație",
-        "INACTIVE_LABELS": "Etichete disponibile în cont",
-        "REMOVE": "Faceți clic pe pictograma X pentru a elimina eticheta",
-        "ADD": "Faceți clic pe + pictogramă pentru a adăuga eticheta",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Actualizare etichete",
-        "UPDATE_ERROR": "Nu s-au putut actualiza etichetele, încercați din nou."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Nu mai sunt etichete definite în cont.",
-      "NO_AVAILABLE_LABELS": "Nu există etichete adăugate la această conversație.",
+      "CONVERSATION": {
+        "TITLE": "Etichete conversație",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
