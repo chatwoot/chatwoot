@@ -18,19 +18,14 @@
       "TITLE": "上一次對話"
     },
     "LABELS": {
-      "TITLE": "對話標記",
-      "MODAL": {
-        "TITLE": "標記為",
-        "ACTIVE_LABELS": "將標籤新增至對話",
-        "INACTIVE_LABELS": "帳戶中可用的標籤",
-        "REMOVE": "點擊 X 圖示以刪除標籤",
-        "ADD": "點擊 + 圖示以新增標籤",
-        "ADD_BUTTON": "新增標籤",
-        "UPDATE_BUTTON": "更新標籤",
-        "UPDATE_ERROR": "無法更新標籤，請重試。"
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "帳戶中沒有更多標籤。",
-      "NO_AVAILABLE_LABELS": "此對話沒有被新增任何標籤。",
+      "CONVERSATION": {
+        "TITLE": "對話標記",
+        "ADD_BUTTON": "新增標籤"
+      },
       "LABEL_SELECT": {
         "TITLE": "新增標籤",
         "PLACEHOLDER": "搜尋標籤",
