@@ -17,7 +17,7 @@
         @delete="onDeleteNote"
       />
       <div class="button-wrap">
-        <woot-button variant="clear link" class="button" @click="onclick">
+        <woot-button variant="link" @click="onclick">
           {{ $t('NOTES.FOOTER.BUTTON') }}
           <i class="ion-arrow-right-c" />
         </woot-button>
@@ -48,13 +48,13 @@ export default {
       this.$emit('show');
     },
     onAddNote(value) {
-      this.$emit('addNote', value);
+      this.$emit('add', value);
     },
     onEditNote(value) {
-      this.$emit('editNote', value);
+      this.$emit('edit', value);
     },
     onDeleteNote(value) {
-      this.$emit('deleteNote', value);
+      this.$emit('delete', value);
     },
   },
 };
