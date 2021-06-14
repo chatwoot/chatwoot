@@ -108,6 +108,7 @@ import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import inboxMixin from 'shared/mixins/inboxMixin';
+import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 
 export default {
   components: {
@@ -261,32 +262,23 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      function totalMessageHeight(total, element) {
-        return total + element.scrollHeight;
-      }
-
+      let relevantMessages = [];
       if (this.getUnreadCount > 0) {
-        let unreadMessages = this.conversationPanel.querySelectorAll(
+        // capturing only the unread messages
+        relevantMessages = this.conversationPanel.querySelectorAll(
           '.message--unread'
         );
-        let totalUnreadScrollHeight = [...unreadMessages].reduce(
-          totalMessageHeight,
-          0
-        );
-        this.conversationPanel.scrollTop =
-          this.conversationPanel.scrollHeight -
-          totalUnreadScrollHeight -
-          this.$el.scrollHeight / 2;
       } else {
-        let readMessages = this.conversationPanel.querySelectorAll(
-          '.message--read'
-        );
-        let lastReadMessage = readMessages[readMessages.length - 1];
-        this.conversationPanel.scrollTop =
-          this.conversationPanel.scrollHeight -
-          lastReadMessage.scrollHeight -
-          this.$el.scrollHeight / 2;
+        // capturing last message from the messages list
+        relevantMessages = Array.from(
+          this.conversationPanel.querySelectorAll('.message--read')
+        ).slice(-1);
       }
+      this.conversationPanel.scrollTop = calculateScrollTop(
+        this.conversationPanel.scrollHeight,
+        this.$el.scrollHeight,
+        relevantMessages
+      );
     },
     onToggleContactPanel() {
       this.$emit('contact-panel-toggle');
