@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 .custom-attributes--panel {
-  padding: 0 var(--space-slab) var(--space-slab);
+  margin-bottom: var(--space-normal);
 }
 
 .conv-details--item {
