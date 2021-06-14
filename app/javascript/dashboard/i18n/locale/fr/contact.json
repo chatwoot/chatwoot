@@ -18,19 +18,14 @@
       "TITLE": "Conversations précédentes"
     },
     "LABELS": {
-      "TITLE": "Étiquettes de conversation",
-      "MODAL": {
-        "TITLE": "Étiquettes pour",
-        "ACTIVE_LABELS": "Étiquettes ajoutées à la conversation",
-        "INACTIVE_LABELS": "Étiquettes disponibles dans le compte",
-        "REMOVE": "Cliquez sur l'icône X pour supprimer l'étiquette",
-        "ADD": "Cliquez sur l'icône + pour ajouter l'étiquette",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Mettre à jour les étiquettes",
-        "UPDATE_ERROR": "Impossible de mettre à jour les étiquettes. Veuillez réessayer."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Il n'y a pas d'autres étiquettes définies dans le compte.",
-      "NO_AVAILABLE_LABELS": "Aucune étiquette n'a été ajoutée à cette conversation.",
+      "CONVERSATION": {
+        "TITLE": "Étiquettes de conversation",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
