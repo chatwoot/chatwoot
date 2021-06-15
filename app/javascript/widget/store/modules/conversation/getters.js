@@ -9,6 +9,8 @@ export const getters = {
   getIsAgentTyping: _state => _state.uiFlags.isAgentTyping,
   getConversation: _state => _state.conversations,
   getConversationSize: _state => Object.keys(_state.conversations).length,
+  getConversationById: _state => conversationId =>
+    _state.conversations[conversationId],
   getEarliestMessage: _state => {
     const conversation = Object.values(_state.conversations);
     if (conversation.length) {

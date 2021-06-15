@@ -39,7 +39,9 @@ export const shouldPlayAudio = (
   message,
   conversationId,
   userId,
-  isDocHiddden
+  isDocHiddden,
+  enableAudioAlerts,
+  id
 ) => {
   const {
     conversation_id: incomingConvId,
@@ -54,14 +56,35 @@ export const shouldPlayAudio = (
 
   if (isDocHiddden) return playAudio;
   if (conversationId !== incomingConvId) return playAudio;
+
+  if (enableAudioAlerts === 'mine') {
+    return userId === id;
+  }
+  if (enableAudioAlerts === 'all') {
+    return playAudio;
+  }
+  if (enableAudioAlerts === 'none') {
+    return false;
+  }
   return false;
 };
 
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
-  const isDocHiddden = document.hidden;
 
+  const currentConv = window.WOOT.$store.getters.getConversationById(
+    currentConvId
+  );
+
+  const assignee = currentConv.assignee;
+  let id;
+
+  if (assignee) {
+    id = assignee.id;
+  }
+
+  const isDocHiddden = document.hidden;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
   } = window.WOOT.$store.getters.getUISettings;
@@ -70,10 +93,12 @@ export const newMessageNotification = data => {
     data,
     currentConvId,
     currentUserId,
-    isDocHiddden
+    isDocHiddden,
+    enableAudioAlerts,
+    id
   );
 
-  if (enableAudioAlerts && playAudio) {
+  if (playAudio) {
     window.playAudioAlert();
     showBadgeOnFavicon();
   }
