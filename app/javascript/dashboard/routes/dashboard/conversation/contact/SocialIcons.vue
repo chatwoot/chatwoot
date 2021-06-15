@@ -42,15 +42,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~dashboard/assets/scss/variables';
-
-.contact--social-icon {
-  font-size: $font-size-medium;
-  padding-right: $space-slab;
-  color: $color-body;
-}
-
 .social--icons {
-  margin-top: $space-small;
+  margin-bottom: var(--space-small);
+}
+.contact--social-icon {
+  font-size: var(--font-size-medium);
+  padding-right: var(--space-slab);
+  color: var(--color-body);
 }
 </style>

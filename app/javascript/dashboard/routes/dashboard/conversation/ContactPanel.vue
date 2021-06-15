@@ -24,7 +24,6 @@
             {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
           </woot-button>
         </div>
-
         <agent-dropdown
           :assigned-agent="assignedAgent"
           :agents-list="agentsList"
@@ -446,6 +445,18 @@ export default {
   justify-content: space-between;
   .button-content {
     margin-bottom: var(--space-one);
+   }
+ }
+
+.option__desc {
+  display: flex;
+  align-items: center;
+
+  &::v-deep .status-badge {
+    margin-right: var(--space-small);
+    min-width: 0;
+    flex-shrink: 0;
+
   }
 }
 </style>
