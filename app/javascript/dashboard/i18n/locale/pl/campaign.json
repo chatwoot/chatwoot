@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Usuń",
+      "CONFIRM": {
+        "TITLE": "Potwierdź usunięcie",
+        "MESSAGE": "Czy na pewno chcesz usunąć?",
+        "YES": "Tak, usuń ",
+        "NO": "Nie, zachowaj "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edytuj kampanię",
       "UPDATE_BUTTON_TEXT": "Aktualizuj",
