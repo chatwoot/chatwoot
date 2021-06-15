@@ -51,8 +51,8 @@
         "NO": "Όχι, Κράτησε τον/την"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Η καμπάνια διαγράφηκε επιτυχώς",
+        "ERROR_MESSAGE": "Δεν ήταν δυνατή η διαγραφή της καμπάνιας. Παρακαλώ προσπαθήστε ξανά αργότερα."
       }
     },
     "EDIT": {
