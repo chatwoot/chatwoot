@@ -51,8 +51,8 @@
         "NO": "Нет, не удалять "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Кампания успешно удалена",
+        "ERROR_MESSAGE": "Не удалось удалить кампанию. Повторите попытку позже."
       }
     },
     "EDIT": {
