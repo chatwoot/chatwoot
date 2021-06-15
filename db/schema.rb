@@ -143,6 +143,11 @@ ActiveRecord::Schema.define(version: 2021_06_09_133433) do
     t.string "webhook_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "identifier"
+    t.string "hmac_token"
+    t.boolean "hmac_mandatory", default: false
+    t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
+    t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
 
   create_table "channel_email", force: :cascade do |t|
@@ -201,6 +206,7 @@ ActiveRecord::Schema.define(version: 2021_06_09_133433) do
     t.string "hmac_token"
     t.boolean "pre_chat_form_enabled", default: false
     t.jsonb "pre_chat_form_options", default: {}
+    t.boolean "hmac_mandatory", default: false
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
