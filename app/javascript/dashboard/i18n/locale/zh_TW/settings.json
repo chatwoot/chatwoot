@@ -3,8 +3,8 @@
     "LINK": "個人資料設定",
     "TITLE": "個人資料設定",
     "BTN_TEXT": "更新個人資料",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
+    "UPDATE_SUCCESS": "你的個人檔案已經成功更新",
+    "PASSWORD_UPDATE_SUCCESS": "你的密碼已成功變更",
     "AFTER_EMAIL_CHANGED": "您的個人資料已成功更新，請在您的登入憑證更改後重新登入",
     "FORM": {
       "AVATAR": "頭像",
@@ -26,17 +26,17 @@
         "NOTE": "如果要構建基於 API 的整合，則可以使用此 token"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
+        "TITLE": "音效通知",
         "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "ENABLE_AUDIO": "當新的對話被建立或收到新訊息時播放音效通知"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "電子信箱通知",
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話分配給我時發送電子信箱通知",
         "CONVERSATION_CREATION": "當對話分配給我時發送電子信箱通知",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
+        "CONVERSATION_MENTION": "當你在對話中被提及時以 Email 通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以 Email 通知"
       },
       "API": {
         "UPDATE_SUCCESS": "您的通知設定已成功更新",
@@ -47,8 +47,8 @@
         "NOTE": "在此更新您的電子信箱通知設定",
         "CONVERSATION_ASSIGNMENT": "當對話被分配給我時發送推送通知",
         "CONVERSATION_CREATION": "建立新對話時發送推送通知",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "CONVERSATION_MENTION": "當你在對話中被提及時以推播通知",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "當被指派的對話中有新訊息時以推播通知",
         "HAS_ENABLED_PUSH": "您已啟用此瀏覽器的推送。",
         "REQUEST_PUSH": "啟用推送通知"
       },
@@ -78,6 +78,11 @@
         "ERROR": "請輸入一個有效的電子信箱",
         "PLACEHOLDER": "請輸入您的名字，這將會在對話中顯示"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "密碼",
         "ERROR": "請輸入長度6或更長的密碼",
@@ -91,7 +96,7 @@
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "改變",
+    "CHANGE_AVAILABILITY_STATUS": "變更",
     "CHANGE_ACCOUNTS": "切換帳戶",
     "SELECTOR_SUBTITLE": "從以下列表中選擇一個帳戶",
     "PROFILE_SETTINGS": "個人資料設定",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "預設回覆",
     "INTEGRATIONS": "整合方式",
     "ACCOUNT_SETTINGS": "帳戶設定",
+    "APPLICATIONS": "Applications",
     "LABELS": "標籤",
     "TEAMS": "團隊"
   },

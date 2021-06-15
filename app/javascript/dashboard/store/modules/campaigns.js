@@ -54,6 +54,17 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
   },
+  delete: async ({ commit }, id) => {
+    commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: true });
+    try {
+      await CampaignsAPI.delete(id);
+      commit(types.DELETE_CAMPAIGN, id);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -67,6 +78,7 @@ export const mutations = {
   [types.ADD_CAMPAIGN]: MutationHelpers.create,
   [types.SET_CAMPAIGNS]: MutationHelpers.set,
   [types.EDIT_CAMPAIGN]: MutationHelpers.update,
+  [types.DELETE_CAMPAIGN]: MutationHelpers.destroy,
 };
 
 export default {

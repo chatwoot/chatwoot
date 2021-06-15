@@ -34,6 +34,33 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getAppIntegrations', () => {
+    const state = {
+      records: [
+        {
+          id: 1,
+          name: 'test1',
+          logo: 'test',
+          enabled: true,
+        },
+        {
+          id: 'dialogflow',
+          name: 'test2',
+          logo: 'test',
+          enabled: true,
+        },
+      ],
+    };
+    expect(getters.getAppIntegrations(state)).toEqual([
+      {
+        id: 'dialogflow',
+        name: 'test2',
+        logo: 'test',
+        enabled: true,
+      },
+    ]);
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {

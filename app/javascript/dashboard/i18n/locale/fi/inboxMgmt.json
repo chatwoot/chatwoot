@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Kansion nimi",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Sivuston nimi",
+        "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
+      },
       "FB": {
         "HELP": "PS: Kirjautumalla sisään saamme vain pääsyn sivusi viesteihin. Chatwoot ei koskaan näe yksityisviestejäsi.",
         "CHOOSE_PAGE": "Valitse sivu",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Luodaan chat-tukikanavaa",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanavan avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Sivuston nimi",
-          "PLACEHOLDER": "Anna sivuston nimi (esim. Acme Oy)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Sivuston verkkotunnus",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Käytössä",
         "DISABLED": "Pois käytöstä"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Käytössä",
+        "DISABLED": "Pois käytöstä"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Vahvista poistaminen",
         "MESSAGE": "Oletko varma että haluat poistaa ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Kyllä, poista ",
         "NO": "Ei, säilytä "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Edustajat",
       "INBOX_AGENTS_SUB_TEXT": "Lisää tai poista edustajia tästä saapuneet-kansiosta",
       "UPDATE": "Päivitä",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Ota automaattinen delegointi käyttöön",
       "INBOX_UPDATE_TITLE": "Postilaatikon tiedot",
       "INBOX_UPDATE_SUB_TEXT": "Päivitä postilaatikon asetukset",

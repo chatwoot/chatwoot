@@ -17,6 +17,24 @@
           "رویدادها"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "ویرایش",
+        "TITLE": "Edit webhook",
+        "CANCEL": "انصراف",
+        "DESC": "رویدادهای وب هوک اطلاعات لحظه‌ای حساب چت ووت شما را منتقل می‌کنند. لطفا آدرس URL صحیحی وارد کنید.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "آدرس URL وب هوک",
+            "PLACEHOLDER": "به عنوان مثال: https://example/api/webhook",
+            "ERROR": "لطفا آدرس URL صحیحی وارد کنید"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "متاسفانه ارتباط با سرور برقرار نشد، مجددا امتحان کنید"
+        }
+      },
       "ADD": {
         "CANCEL": "انصراف",
         "TITLE": "اضافه کردن وب هوک جدید",

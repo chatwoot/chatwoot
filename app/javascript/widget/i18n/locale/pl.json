@@ -21,7 +21,8 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Pokaż nowe wiadomości",
     "CLOSE_MESSAGES_BUTTON": "Zamknij",
-    "COMPANY_FROM": "from"
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Porozmawiaj z nami"
@@ -50,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika"
+  "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }

@@ -1,0 +1,14 @@
+tags:
+  - Users
+operationId: delete-a-user
+summary: Delete a User
+description: Delete a User
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+  401:
+    description: Unauthorized
+  404:
+    description: The user does not exist

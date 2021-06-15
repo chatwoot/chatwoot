@@ -17,8 +17,12 @@
       src="~dashboard/assets/images/channels/telegram.png"
     />
     <img
-      v-if="channel.key === 'api'"
+      v-if="channel.key === 'api' && !channel.thumbnail"
       src="~dashboard/assets/images/channels/api.png"
+    />
+    <img
+      v-if="channel.key === 'api' && channel.thumbnail"
+      :src="channel.thumbnail"
     />
     <img
       v-if="channel.key === 'email'"

@@ -9,13 +9,13 @@
     }"
   >
     <home
-      v-if="!showUnreadView"
+      v-if="showHomePage"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :show-popout-button="showPopoutButton"
     />
     <unread
-      v-else
+      :show-unread-view="showUnreadView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
       :hide-message-bubble="hideMessageBubble"
@@ -50,6 +50,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showCampaignView: {
+      type: Boolean,
+      default: false,
+    },
     hideMessageBubble: {
       type: Boolean,
       default: false,
@@ -61,6 +65,11 @@ export default {
     showPopoutButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    showHomePage() {
+      return !this.showUnreadView && !this.showCampaignView;
     },
   },
 };

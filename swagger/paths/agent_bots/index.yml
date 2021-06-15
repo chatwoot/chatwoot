@@ -1,17 +1,16 @@
-get:
-  tags:
-    - AgentBot
-  operationId: listAgentBots
-  summary: List all agentbots
-  description: List all available agentbots for the current installation
-  responses:
-    200:
-      description: Success
-      schema:
-        type: Array
-        description: 'List of agent bots'
-        $ref: '#/definitions/agent_bot'
-    404:
-      description: Inbox not found, Agent bot not found
-    403:
-      description: Access denied
+tags:
+  - Account AgentBots
+operationId: list-all-account-agent-bots
+summary: List all AgentBots
+description: List all agent bots available for the current account
+responses:
+  200:
+    description: Success
+    schema:
+      type: array
+      description: 'Array of agent bots'
+      items:
+        - $ref: '#/definitions/agent_bot'
+
+  401:
+    description: Unauthorized
