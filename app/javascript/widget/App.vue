@@ -33,6 +33,7 @@ export default {
       hideMessageBubble: false,
       widgetPosition: 'right',
       showPopoutButton: false,
+      isWebWidgetTriggerd: false,
     };
   },
   computed: {
@@ -137,7 +138,9 @@ export default {
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
       const isCampaignReadyToExecute =
-        !isEmptyObject(activeCampaign) && !messageCount;
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        !this.isWebWidgetTriggerd;
       if (this.isIFrame && isCampaignReadyToExecute) {
         this.showCampaignView = true;
         IFrameHelper.sendMessage({
@@ -162,6 +165,7 @@ export default {
     createWidgetEvents(message) {
       const { eventName } = message;
       const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
+      this.isWebWidgetTriggerd = true;
       if (isWidgetTriggerEvent && this.showUnreadView) {
         return;
       }
