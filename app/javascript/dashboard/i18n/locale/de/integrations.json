@@ -17,6 +17,24 @@
           "Aktionen"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Bearbeiten",
+        "TITLE": "Webhook bearbeiten",
+        "CANCEL": "Stornieren",
+        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook-URL",
+            "PLACEHOLDER": "Beispiel: https://example/api/webhook",
+            "ERROR": "Bitte geben Sie eine gültige URL ein"
+          },
+          "SUBMIT": "Webhook bearbeiten"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL erfolgreich aktualisiert",
+          "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot Server hergestellt werden. Bitte versuchen Sie es später erneut"
+        }
+      },
       "ADD": {
         "CANCEL": "Stornieren",
         "TITLE": "Neuen Webhook hinzufügen",

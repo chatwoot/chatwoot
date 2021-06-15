@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Eliminar",
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro de eliminar?",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaña borrada satisfactoriamente",
+        "ERROR_MESSAGE": "La campaña no se pudo borrar. Intente nuevamente más tarde."
+      }
+    },
     "EDIT": {
       "TITLE": "Editar campaña",
       "UPDATE_BUTTON_TEXT": "Actualizar",

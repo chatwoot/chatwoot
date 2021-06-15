@@ -18,19 +18,14 @@
       "TITLE": "이전 대화"
     },
     "LABELS": {
-      "TITLE": "대화 라벨",
-      "MODAL": {
-        "TITLE": "라벨",
-        "ACTIVE_LABELS": "대화에 추가된 라벨",
-        "INACTIVE_LABELS": "계정에서 사용할 수 있는 라벨",
-        "REMOVE": "라벨을 제거하려면 X 아이콘을 클릭하십시오.",
-        "ADD": "라벨을 추가하려면 + 아이콘을 클릭하십시오.",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "라벨 업데이트",
-        "UPDATE_ERROR": "라벨을 업데이트할 수 없습니다. 다시 시도하십시오."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "계정에는 더 이상 라벨이 정의되어 있지 않습니다.",
-      "NO_AVAILABLE_LABELS": "이 대화에 추가된 라벨이 없습니다.",
+      "CONVERSATION": {
+        "TITLE": "대화 라벨",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -124,7 +119,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "메시지",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "상세보기"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "대화"
     }
   },
   "CUSTOM_ATTRIBUTES": {

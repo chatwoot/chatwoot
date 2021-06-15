@@ -78,6 +78,11 @@
         "ERROR": "Ange en giltig e-postadress",
         "PLACEHOLDER": "Ange din e-postadress, detta visas i konversationer"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Lösenord",
         "ERROR": "Ange ett lösenord med minst 6 tecken",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Svarsmallar",
     "INTEGRATIONS": "Integrationer",
     "ACCOUNT_SETTINGS": "Kontoinställningar",
+    "APPLICATIONS": "Applications",
     "LABELS": "Etiketter",
     "TEAMS": "Teams"
   },

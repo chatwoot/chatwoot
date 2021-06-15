@@ -12,29 +12,24 @@
     "INITIATED_FROM": "Kezdeményezve",
     "INITIATED_AT": "Kezdeményezve",
     "IP_ADDRESS": "IP cím",
-    "NEW_MESSAGE": "New message",
+    "NEW_MESSAGE": "Új üzenet",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
       "TITLE": "Korábbi beszélgetések"
     },
     "LABELS": {
-      "TITLE": "Beszélgetés cimkék",
-      "MODAL": {
-        "TITLE": "Kapcsolódó cimkék",
-        "ACTIVE_LABELS": "A beszélgetéshez hozzáadott cimkék",
-        "INACTIVE_LABELS": "A fiókhoz tartozó cimkék",
-        "REMOVE": "Kattints az X ikonra a cimke eltávolításához",
-        "ADD": "Kattints a + ikonra a cimke hozzáadásához",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Cimkék frissítése",
-        "UPDATE_ERROR": "Cimke frissítés sikertelen, kérjük próbáld később."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Ebben a fiókban már nincsenek további cimkék.",
-      "NO_AVAILABLE_LABELS": "Nincs több cimke ehhez a beszélgetéshez.",
+      "CONVERSATION": {
+        "TITLE": "Beszélgetés cimkék",
+        "ADD_BUTTON": "Címkék hozzáadása"
+      },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Címkék hozzáadása",
+        "PLACEHOLDER": "Címkék keresése",
+        "NO_RESULT": "Nem találtunk címkét"
       }
     },
     "MUTE_CONTACT": "Beszélgetés elnémítása",
@@ -76,8 +71,8 @@
       "PHONE_NUMBER": {
         "PLACEHOLDER": "A kontakt telefonszámának megadása",
         "LABEL": "Telefonszám",
-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]",
-        "ERROR": "Phone number should be either empty or of E.164 format"
+        "HELP": "A telefonszámnak E.164 formátumúnak kell lennie, pl: +[+][országkód][körzetszám][helyi telefonszám]",
+        "ERROR": "A telefonszámnak üresnek vagy E.164 formátumúnak kell lennie"
       },
       "LOCATION": {
         "PLACEHOLDER": "A kontakt helyének megadása",
@@ -111,10 +106,10 @@
     "ERROR_MESSAGE": "Hiba történt, kérjük próbáld újra"
   },
   "NEW_CONVERSATION": {
-    "BUTTON_LABEL": "Start conversation",
+    "BUTTON_LABEL": "Beszélgetés megkezdése",
     "TITLE": "Új beszélgetés",
-    "DESC": "Start a new conversation by sending a new message.",
-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+    "DESC": "Kezdjen új beszélgetést egy új üzenet küldésével.",
+    "NO_INBOX": "Nem találtam postafiókot, hogy új beszélgetést kezdeményezzek ezzel a kapcsolattal.",
     "FORM": {
       "TO": {
         "LABEL": "To"
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Részletek megtekintése"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "beszélgetések"
     }
   },
   "CUSTOM_ATTRIBUTES": {

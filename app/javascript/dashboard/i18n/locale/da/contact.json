@@ -18,19 +18,14 @@
       "TITLE": "Tidligere Samtaler"
     },
     "LABELS": {
-      "TITLE": "Samtale Etiketter",
-      "MODAL": {
-        "TITLE": "Etiketter til",
-        "ACTIVE_LABELS": "Etiketter føjet til samtalen",
-        "INACTIVE_LABELS": "Etiketter tilgængelige på kontoen",
-        "REMOVE": "Klik på X-ikonet for at fjerne etiketten",
-        "ADD": "Klik på + ikonet for at tilføje etiketten",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Opdater etiketter",
-        "UPDATE_ERROR": "Etiketter kunne ikke opdateres. Prøv igen."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Der er ikke defineret flere etiketter på kontoen.",
-      "NO_AVAILABLE_LABELS": "Der er ingen etiketter tilføjet til denne samtale.",
+      "CONVERSATION": {
+        "TITLE": "Samtale Etiketter",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "samtaler"
     }
   },
   "CUSTOM_ATTRIBUTES": {

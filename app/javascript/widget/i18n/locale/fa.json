@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ما آنلاین هستیم",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "در حال حاضر دردسترس نیستیم"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "معمولاً در عرض چند دقیقه پاسخ می دهند",
@@ -37,19 +37,24 @@
       "FULL_NAME": {
         "LABEL": "نام کامل",
         "PLACEHOLDER": "لطفا نام کامل خود را وارد کنید",
-        "ERROR": "Full Name is required"
+        "ERROR": "نام کامل مورد نیاز است"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "ایمیل",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+        "ERROR": "آدرس ایمیل اشتباه است"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "پیام",
+        "PLACEHOLDER": "لطفا ایمیل خود را وارد کنید",
+        "ERROR": "پیام بسیار کوتاه است"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "فیلد نامتعارف"
+    }
+  }
 }

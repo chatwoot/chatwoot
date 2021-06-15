@@ -11,7 +11,7 @@
       "TITLE": "Mencari pesan",
       "LOADING_MESSAGE": "Mengolah data...",
       "PLACEHOLDER": "Ketik teks apa saja untuk mencari pesan",
-      "NO_MATCHING_RESULTS": "No results found."
+      "NO_MATCHING_RESULTS": "Tidak ada hasil ditemukan."
     },
     "UNREAD_MESSAGES": "Pesan Belum Terbaca",
     "UNREAD_MESSAGE": "Pesan Belum Terbaca",
@@ -20,7 +20,7 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
     "LAST_INCOMING_TWEET": "Anda membalas tweet masuk terakhir",
     "REPLYING_TO": "Anda membalas:",
@@ -37,7 +37,7 @@
       "DETAILS": "detail"
     },
     "RESOLVE_DROPDOWN": {
-      "OPEN_BOT": "Open with bot"
+      "OPEN_BOT": "Buka dengan bot"
     },
     "FOOTER": {
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
@@ -57,8 +57,8 @@
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
     "CHANGE_STATUS": "Status percakapan berubah",
     "CHANGE_AGENT": "Petugas Percakapan berubah",
-    "CHANGE_TEAM": "Conversation team changed",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "CHANGE_TEAM": "Tim percakapan berubah",
+    "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
     "SENT_BY": "Dikirim oleh:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Pilih Agen",
@@ -108,11 +108,11 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agen Ditugaskan",
+    "SELF_ASSIGN": "Assign to me",
+    "TEAM_LABEL": "Tim Ditugaskan",
     "SELECT": {
-      "PLACEHOLDER": "None"
+      "PLACEHOLDER": "Tidak ada"
     }
   }
 }

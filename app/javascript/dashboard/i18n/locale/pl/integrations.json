@@ -17,6 +17,24 @@
           "Akcje"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Edytuj",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Anuluj",
+        "DESC": "Wydarzenia Webhook dostarczają informacji o tym, co dzieje się na Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować wywołanie zwrotne.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL webhooka",
+            "PLACEHOLDER": "Przykład: https://example/api/webhook",
+            "ERROR": "Wprowadź poprawny adres URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
+        }
+      },
       "ADD": {
         "CANCEL": "Anuluj",
         "TITLE": "Dodaj nowy webhook",
