@@ -15,8 +15,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'creates a new outgoing message' do
         params = { content: 'test-message', private: true }
@@ -124,8 +128,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'shows the conversation' do
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages",
@@ -149,8 +157,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'deletes the message' do
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
@@ -165,6 +177,10 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'returns not found error' do
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/99999",

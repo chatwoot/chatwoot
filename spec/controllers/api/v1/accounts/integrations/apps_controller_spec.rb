@@ -12,7 +12,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :administrator) }
 
       it 'returns all active apps' do
         first_app = Integrations::App.all.find(&:active?)
@@ -52,7 +52,7 @@ RSpec.describe 'Integration Apps API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:agent) { create(:user, account: account, role: :administrator) }
 
       it 'returns details of the app' do
         get api_v1_account_integrations_app_url(account_id: account.id, id: 'slack'),
