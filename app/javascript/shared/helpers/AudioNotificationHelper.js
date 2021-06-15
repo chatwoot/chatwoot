@@ -64,7 +64,7 @@ export const shouldPlayAudio = (
     return playAudio;
   }
   if (enableAudioAlerts === 'none') {
-    return false;
+    return !playAudio;
   }
   return false;
 };
@@ -72,18 +72,15 @@ export const shouldPlayAudio = (
 export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
-
   const currentConv = window.WOOT.$store.getters.getConversationById(
     currentConvId
   );
-
   const assignee = currentConv.assignee;
   let id;
 
   if (assignee) {
     id = assignee.id;
   }
-
   const isDocHiddden = document.hidden;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
