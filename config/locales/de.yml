@@ -78,7 +78,7 @@ de:
       description: "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Sie können die Webhooks verwenden, um die Ereignisse an Ihre Lieblings-Apps wie Slack oder Github zu kommunizieren. Klicken Sie auf Konfigurieren, um Ihre Webhooks einzurichten."
     dialogflow:
       name: "Dialogflow"
-      description: "Build chatbots using Dialogflow and connect them to your inbox quickly. Let the bots handle the queries before handing them off to a customer service agent."
+      description: "Erstellen Sie Chatbots mit Dialogflow und verbinden Sie diesen mit Ihrem Posteingang. Lassen Sie die Bots Anfragen bearbeiten, bevor Sie an einen Kundendienst-Agent weitergeben werden."
     fullcontact:
-      name: "Fullcontact"
-      description: "FullContact integration helps to enrich visitor profiles. Identify the users as soon as they share their email address and offer them tailored customer service. Connect your FullContact to your account by sharing the FullContact API Key."
+      name: "Vollständiger Kontakt"
+      description: "Die vollständige Kontakt-Integration hilft die Besucherprofile zu erweitern. Identifizieren Sie die Benutzer, sobald diese ihre E-Mail-Adresse speichern um Ihnen maßgeschneiderten Kundenservice anbieten. Verbinden Sie einen Kontakt mit Ihrem Konto, indem Sie den Kontakt-API-Schlüssel freigeben."
