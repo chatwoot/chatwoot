@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "Παρουσιάστηκε σφάλμα. Παρακαλώ δοκιμάστε ξανά."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Διαγραφή",
+      "CONFIRM": {
+        "TITLE": "Επιβεβαίωση Διαγραφής",
+        "MESSAGE": "Είσαστε σίγουροι για την διαγραφή?",
+        "YES": "Ναι, Διέγραψε τον/την ",
+        "NO": "Όχι, Κράτησε τον/την"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Επεξεργασία καμπάνιας",
       "UPDATE_BUTTON_TEXT": "Ενημέρωση",
