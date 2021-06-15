@@ -28,6 +28,11 @@
           :key="labelSection.toState"
           :menu-item="labelSection"
         />
+        <sidebar-item
+            v-if="shouldShowSidebarItem"
+            :key="labelSection.toState"
+            :menu-item="labelSection"
+        />
       </transition-group>
     </div>
 
@@ -103,6 +108,7 @@ export default {
       currentRole: 'getCurrentRole',
       accountLabels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
+      logoSet: 'logoSet',
     }),
 
     sidemenuItems() {

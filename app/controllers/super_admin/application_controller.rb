@@ -13,11 +13,18 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   # def records_per_page
   #   params[:per_page] || 20
   # end
+  before_action :set_logo
 
   def order
     @order ||= Administrate::Order.new(
       params.fetch(resource_name, {}).fetch(:order, 'id'),
       params.fetch(resource_name, {}).fetch(:direction, 'desc')
     )
+  end
+
+  private
+
+  def set_logo
+    @logo = Logo.last
   end
 end

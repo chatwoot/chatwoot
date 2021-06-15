@@ -14,13 +14,13 @@ const {
 
 const state = {
   appVersion,
-  brandName: "Abrand",
+  brandName: installationName,
   chatwootInboxToken,
   createNewAccountFromDashboard: 'false',
   displayManifest,
   installationName: 'Abrand',
-  logo: '/brand-assets/logo.png',
-  logoThumbnail: '/brand-assets/logo_thumbnail.png',
+  logo,
+  logoThumbnail,
   privacyURL,
   termsURL,
   widgetBrandURL,

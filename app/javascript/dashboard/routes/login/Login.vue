@@ -155,7 +155,7 @@ export default {
               this.showAlert(errors[0]);
             } else {
 							this.showAlert(this.$t('LOGIN.API.UNAUTH'));
-						} 
+						}
             return;
           }
           this.showAlert(this.$t('LOGIN.API.ERROR_MESSAGE'));

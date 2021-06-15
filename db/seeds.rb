@@ -8,6 +8,12 @@ if Rails.env.production?
   ::Redis::Alfred.set(::Redis::Alfred::CHATWOOT_INSTALLATION_ONBOARDING, true)
 end
 
+
+if Logo.count == 0
+  logo = Logo.create(title: 'ABrand Admin Dashboard')
+  logo.avatar.attach(io: File.open('public/brand-assets/logo.png'), filename: 'logo.png')
+end
+
 ## Seeds for Local Development
 unless Rails.env.production?
   SuperAdmin.create!(email: 'john@acme.inc', password: '123456')

@@ -129,7 +129,8 @@
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
     "LABELS": "Labels",
-    "TEAMS": "Teams"
+    "TEAMS": "Teams",
+    "CHANGE_LOGO": "Logo change"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "New Account",

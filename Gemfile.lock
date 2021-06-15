@@ -89,6 +89,9 @@ GEM
       momentjs-rails (~> 2.8)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
+    administrate-field-active_storage (0.3.7)
+      administrate (>= 0.2.2)
+      rails (>= 6.0)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
@@ -283,6 +286,9 @@ GEM
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    image_processing (1.12.1)
+      mini_magick (>= 4.9.5, < 5)
+      ruby-vips (>= 2.0.17, < 3)
     inflecto (0.0.2)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
@@ -467,6 +473,8 @@ GEM
     ruby-enum (0.9.0)
       i18n
     ruby-progressbar (1.10.1)
+    ruby-vips (2.1.2)
+      ffi (~> 1.12)
     ruby2ruby (2.4.4)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
@@ -607,6 +615,7 @@ DEPENDENCIES
   activerecord-import
   acts-as-taggable-on
   administrate
+  administrate-field-active_storage
   annotate
   attr_extras
   aws-sdk-s3
@@ -637,6 +646,7 @@ DEPENDENCIES
   haikunator
   hairtrigger
   hashie
+  image_processing
   jbuilder
   json_refs!
   jwt

@@ -17,13 +17,14 @@ as defined by the routes in the `admin/` namespace
     super_admins: 'ion ion-unlocked',
     access_tokens: 'ion-key',
     platform_apps: 'ion ion-social-buffer',
-    installation_configs: 'ion ion-settings'
+    installation_configs: 'ion ion-settings',
+    logos: 'ion ion-settings'
   }
 %>
 
 <div class="navigation" role="navigation">
   <div class="logo-brand">
-    <%= link_to image_tag('/brand-assets/logo.png', alt: 'ABrand Admin Dashboard'), super_admin_root_url %>
+    <%= link_to image_tag(url_for(@logo.avatar), alt: @logo.title), super_admin_root_url %>
     <div class="app-version">v<%= Chatwoot.config[:version] %></div>
   </div>
 
