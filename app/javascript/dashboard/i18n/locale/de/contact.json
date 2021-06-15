@@ -19,8 +19,8 @@
     },
     "LABELS": {
       "CONTACT": {
-        "TITLE": "Contact Labels",
-        "ERROR": "Couldn't update labels"
+        "TITLE": "Kontakt-Labels",
+        "ERROR": "Labels konnten nicht aktualisiert werden"
       },
       "CONVERSATION": {
         "TITLE": "Konversationsetiketten",
@@ -153,11 +153,11 @@
   "REMINDER": {
     "ADD_BUTTON": {
       "BUTTON": "Hinzufügen",
-      "TITLE": "Shift + Enter to create a task"
+      "TITLE": "Shift + Enter um eine Aufgabe zu erstellen"
     },
     "FOOTER": {
-      "DUE_DATE": "Due date",
-      "LABEL_TITLE": "Set type"
+      "DUE_DATE": "Fälligkeitsdatum",
+      "LABEL_TITLE": "Typ festlegen"
     }
   },
   "NOTES": {
@@ -175,11 +175,11 @@
   },
   "EVENTS": {
     "HEADER": {
-      "TITLE": "Activities"
+      "TITLE": "Aktivitäten"
     },
     "BUTTON": {
       "PILL_BUTTON_NOTES": "notizen",
-      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_EVENTS": "Veranstaltungen",
       "PILL_BUTTON_CONVO": "gespräche"
     }
   },
