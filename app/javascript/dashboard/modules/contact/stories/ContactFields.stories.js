@@ -10,7 +10,7 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ContactFields },
   template:
-    '<contact-fields v-bind="$props" :contact="contact" @update="onUpdate" />',
+    '<contact-fields v-bind="$props" :contact="contact" @update="onUpdate" @create-attribute="onCreate" />',
 });
 
 export const DefaultContactFields = Template.bind({});
@@ -39,4 +39,5 @@ DefaultContactFields.args = {
     },
   },
   onUpdate: action('update'),
+  onCreate: action('create'),
 };

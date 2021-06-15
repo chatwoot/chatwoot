@@ -78,6 +78,11 @@
         "ERROR": "Voer een geldig e-mailadres in",
         "PLACEHOLDER": "Voer je e-mailadres in, dit zou worden weergegeven in gesprekken"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Wachtwoord",
         "ERROR": "Voer een wachtwoord in van 6 of meer",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Standaard antwoorden",
     "INTEGRATIONS": "Integraties",
     "ACCOUNT_SETTINGS": "Accountinstellingen",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labelen",
     "TEAMS": "Teams"
   },

@@ -17,6 +17,24 @@
           "Aksi"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Edit",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Batalkan",
+        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL Webhook",
+            "PLACEHOLDER": "Contoh: https://example/api/webhook",
+            "ERROR": "Harap masukkan URL yang valid"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        }
+      },
       "ADD": {
         "CANCEL": "Batalkan",
         "TITLE": "Tambah webhook baru",

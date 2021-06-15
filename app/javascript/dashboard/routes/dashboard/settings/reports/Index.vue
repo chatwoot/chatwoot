@@ -1,12 +1,13 @@
 <template>
   <div class="column content-box">
-    <button
-      class="button nice icon success button--fixed-right-top"
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-right-top"
+      icon="ion-android-download"
       @click="downloadAgentReports"
     >
-      <i class="icon ion-android-download"></i>
       {{ $t('REPORT.DOWNLOAD_AGENT_REPORTS') }}
-    </button>
+    </woot-button>
     <div class="small-3 pull-right">
       <multiselect
         v-model="currentDateRangeSelection"

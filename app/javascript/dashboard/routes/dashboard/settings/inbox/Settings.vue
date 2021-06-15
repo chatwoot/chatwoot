@@ -1,6 +1,6 @@
 <template>
   <div class="settings columns container">
-    <woot-modal-header
+    <setting-intro-banner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
@@ -12,7 +12,7 @@
           :show-badge="false"
         />
       </woot-tabs>
-    </woot-modal-header>
+    </setting-intro-banner>
 
     <div v-if="selectedTabKey === 'inbox_settings'" class="settings--content">
       <settings-section
@@ -25,13 +25,10 @@
           @change="handleImageUpload"
         />
         <woot-input
-          v-if="isAWebWidgetInbox"
           v-model.trim="selectedInboxName"
           class="medium-9 columns"
-          :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.LABEL')"
-          :placeholder="
-            $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_NAME.PLACEHOLDER')
-          "
+          :label="inboxNameLabel"
+          :placeholder="inboxNamePlaceHolder"
         />
         <woot-input
           v-if="isAWebWidgetInbox"
@@ -138,6 +135,23 @@
 
           <p class="help-text">
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.REPLY_TIME.HELP_TEXT') }}
+          </p>
+        </label>
+
+        <label v-if="isAWebWidgetInbox" class="medium-9 columns">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX') }}
+          <select v-model="emailCollectEnabled">
+            <option :value="true">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.ENABLED') }}
+            </option>
+            <option :value="false">
+              {{ $t('INBOX_MGMT.EDIT.EMAIL_COLLECT_BOX.DISABLED') }}
+            </option>
+          </select>
+          <p class="help-text">
+            {{
+              $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT')
+            }}
           </p>
         </label>
 
@@ -268,6 +282,7 @@ import { mapGetters } from 'vuex';
 import { createMessengerScript } from 'dashboard/helper/scriptGenerator';
 import configMixin from 'shared/mixins/configMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner';
 import SettingsSection from '../../../../components/SettingsSection';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize';
@@ -277,6 +292,7 @@ import Campaign from './components/Campaign';
 
 export default {
   components: {
+    SettingIntroBanner,
     SettingsSection,
     FacebookReauthorize,
     PreChatFormSettings,
@@ -292,6 +308,7 @@ export default {
       greetingEnabled: true,
       greetingMessage: '',
       autoAssignment: false,
+      emailCollectEnabled: false,
       isAgentListUpdating: false,
       selectedInboxName: '',
       channelWebsiteUrl: '',
@@ -381,6 +398,18 @@ export default {
     messengerScript() {
       return createMessengerScript(this.inbox.page_id);
     },
+    inboxNameLabel() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.LABEL');
+    },
+    inboxNamePlaceHolder() {
+      if (this.isAWebWidgetInbox) {
+        return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.PLACEHOLDER');
+      }
+      return this.$t('INBOX_MGMT.ADD.CHANNEL_NAME.PLACEHOLDER');
+    },
   },
   watch: {
     $route(to) {
@@ -421,6 +450,7 @@ export default {
         this.greetingEnabled = this.inbox.greeting_enabled;
         this.greetingMessage = this.inbox.greeting_message;
         this.autoAssignment = this.inbox.enable_auto_assignment;
+        this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.channelWebsiteUrl = this.inbox.website_url;
         this.channelWelcomeTitle = this.inbox.welcome_title;
         this.channelWelcomeTagline = this.inbox.welcome_tagline;
@@ -461,6 +491,7 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_auto_assignment: this.autoAssignment,
+          enable_email_collect: this.emailCollectEnabled,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           channel: {
@@ -509,15 +540,9 @@ export default {
     }
   }
 
-  .page-top-bar {
-    @include background-light;
-    @include border-normal-bottom;
-    padding: $space-normal $space-large 0;
-
-    .tabs {
-      padding: 0;
-      margin-bottom: -1px;
-    }
+  .tabs {
+    padding: 0;
+    margin-bottom: -1px;
   }
 }
 

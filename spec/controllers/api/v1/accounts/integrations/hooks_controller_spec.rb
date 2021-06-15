@@ -36,7 +36,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
         expect(response).to have_http_status(:success)
         data = JSON.parse(response.body)
-        expect(data['app']['id']).to eq params[:app_id]
+        expect(data['app_id']).to eq params[:app_id]
       end
     end
   end
@@ -72,7 +72,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
         expect(response).to have_http_status(:success)
         data = JSON.parse(response.body)
-        expect(data['app']['id']).to eq 'slack'
+        expect(data['app_id']).to eq 'slack'
       end
     end
   end

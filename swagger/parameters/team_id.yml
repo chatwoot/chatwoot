@@ -3,4 +3,4 @@ name: id
 schema:
   type: integer
 required: true
-description: The id of the team to be updated
+description: The ID of the team to be updated

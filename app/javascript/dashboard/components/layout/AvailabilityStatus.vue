@@ -22,6 +22,8 @@
             >
               <woot-button
                 variant="clear"
+                size="small"
+                color-scheme="secondary"
                 class-names="status-change--dropdown-button"
                 :is-disabled="status.disabled"
                 @click="changeAvailabilityStatus(status.value)"

@@ -1,7 +1,7 @@
 <template>
   <div class="custom-attributes--panel">
     <contact-details-item
-      :title="$t('CONTACT_PANEL.CUSTOM_ATTRIBUTES.TITLE')"
+      :title="$t('CUSTOM_ATTRIBUTES.TITLE')"
       icon="ion-code"
       emoji="📕"
     />
@@ -46,7 +46,7 @@ export default {
 
 <style scoped>
 .custom-attributes--panel {
-  padding: 0 var(--space-slab) var(--space-slab);
+  margin-bottom: var(--space-normal);
 }
 
 .conv-details--item {

@@ -3,7 +3,7 @@
     "LINK": "Pengaturan Profil",
     "TITLE": "Pengaturan Profil",
     "BTN_TEXT": "Memperbaharui Profil",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
+    "UPDATE_SUCCESS": "Profil Anda berhasil diperbarui",
     "PASSWORD_UPDATE_SUCCESS": "Kata sandi Anda berhasil diubah",
     "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
     "FORM": {
@@ -19,16 +19,16 @@
       "PASSWORD_SECTION": {
         "TITLE": "Kata Sandi",
         "NOTE": "Memperbarui kata sandi Anda akan mengatur ulang login Anda di beberapa perangkat.",
-        "BTN_TEXT": "Change password"
+        "BTN_TEXT": "Ubah kata sandi"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Notifications",
-        "NOTE": "Enable audio notifications in dashboard for new messages and conversations.",
-        "ENABLE_AUDIO": "Play audio notification when a new conversation is created or new messages arrives"
+        "TITLE": "Pemberitahuan Audio",
+        "NOTE": "Aktifkan notifikasi audio di dasbor untuk pesan dan percakapan baru.",
+        "ENABLE_AUDIO": "Putar pemberitahuan audio ketika percakapan baru dibuat atau pesan baru masuk"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
@@ -77,6 +77,11 @@
         "LABEL": "Alamat email Anda",
         "ERROR": "Harap masukkan alamat email yang valid",
         "PLACEHOLDER": "Silakan masukkan alamat email Anda, ini akan ditampilkan dalam percakapan"
+      },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
       },
       "PASSWORD": {
         "LABEL": "Kata Sandi",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrasi",
     "ACCOUNT_SETTINGS": "Pengaturan Akun",
+    "APPLICATIONS": "Applications",
     "LABELS": "Label",
     "TEAMS": "Tim"
   },

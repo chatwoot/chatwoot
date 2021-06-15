@@ -1,0 +1,23 @@
+type: object
+properties:
+  id:
+    type: string
+    description: The ID of the integration hook
+  app_id:
+    type: string
+    description: The ID of the integration app
+  inbox_id:
+    type: string
+    description: Inbox ID if its an Inbox integration
+  account_id:
+    type: string
+    description: Account ID of the integration
+  status:
+    type: boolean
+    description: Whether the integration hook is enabled for the account
+  hook_type:
+    type: boolean
+    description: Whether its an account or inbox integration hook
+  settings:
+    type: object
+    description: The associated settings for the integration

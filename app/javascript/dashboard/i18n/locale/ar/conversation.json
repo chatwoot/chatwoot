@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "تفاصيل المحادثة",
     "ASSIGNEE_LABEL": "الوكيل المكلف",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "العضو المكلف",
     "SELECT": {
       "PLACEHOLDER": "لا شيء"
