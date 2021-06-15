@@ -1,7 +1,7 @@
 {
   "CAMPAIGN": {
     "HEADER": "Campanhas",
-    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "SIDEBAR_TXT": "As mensagens proativas permitem ao cliente enviar mensagens de saída para seus contatos, o que acionaria mais conversas. Clique em <b>Adicionar Campanha</b> para criar uma nova campanha. Também pode editar ou apagar uma campanha existente clicando no botão Editar ou Excluir.",
     "HEADER_BTN_TXT": "Criar uma campanha",
     "ADD": {
       "TITLE": "Criar uma campanha",
@@ -51,8 +51,8 @@
         "NO": "Não, Mantenha "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Campanha excluída com sucesso",
+        "ERROR_MESSAGE": "Não foi possível excluir a campanha. Tente novamente mais tarde."
       }
     },
     "EDIT": {
