@@ -5,118 +5,43 @@
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
     <div class="conversation--actions">
-      <h4 class="sub-block-title">
-        {{ $t('CONVERSATION_SIDEBAR.DETAILS_TITLE') }}
-      </h4>
       <div class="multiselect-wrap--small">
         <div class="self-assign">
-          <label class="multiselect__label">
-            {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
-          </label>
+          <contact-details-item
+            :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+            icon="ion-headphone"
+            emoji="🧑‍🚀"
+          >
+          </contact-details-item>
           <woot-button
             v-if="showSelfAssign"
             icon="ion-arrow-right-c"
             variant="link"
+            size="small"
             class-names="button-content"
             @click="onSelfAssign"
           >
             {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
           </woot-button>
         </div>
-        <div v-on-clickaway="onCloseDropdown" class="dropdown-wrap">
-          <button
-            :v-model="assignedAgent"
-            class="button-input"
-            @click="toggleDropdown"
-          >
-            <Thumbnail
-              v-if="
-                assignedAgent &&
-                  assignedAgent.name &&
-                  assignedAgent &&
-                  assignedAgent.id
-              "
-              :src="assignedAgent && assignedAgent.thumbnail"
-              size="24px"
-              :badge="assignedAgent && assignedAgent.channel"
-              :username="assignedAgent && assignedAgent.name"
-            />
-            <div class="name-icon-wrap">
-              <div v-if="!assignedAgent" class="name select-agent">
-                {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
-              </div>
-              <div v-else class="name">
-                {{ assignedAgent && assignedAgent.name }}
-              </div>
-              <i v-if="showSearchDropdown" class="icon ion-close-round" />
-              <i v-else class="icon ion-chevron-down" />
-            </div>
-          </button>
-          <div
-            :class="{ 'dropdown-pane--open': showSearchDropdown }"
-            class="dropdown-pane"
-          >
-            <h4 class="text-block-title">
-              {{ $t('AGENT_MGMT.SELECTOR.TITLE.AGENT') }}
-            </h4>
-            <select-menu
-              v-if="showSearchDropdown"
-              :options="agentsList"
-              :value="assignedAgent"
-              @click="onClick"
-            />
-          </div>
-        </div>
+
+        <agent-dropdown
+          :assigned-agent="assignedAgent"
+          :agents-list="agentsList"
+          @click="onClickShowAgent"
+        />
       </div>
       <div class="multiselect-wrap--small">
-        <label class="multiselect__label">
-          {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
-        </label>
-        <div v-on-clickaway="onCloseDropdownTeam" class="dropdown-wrap">
-          <button
-            :v-model="assignedTeam"
-            class="button-input"
-            @click="toggleDropdownTeam"
-          >
-            <Thumbnail
-              v-if="
-                assignedTeam &&
-                  assignedTeam.name &&
-                  assignedTeam &&
-                  assignedTeam.id
-              "
-              :src="assignedTeam && assignedTeam.thumbnail"
-              size="24px"
-              :badge="assignedTeam.channel"
-              :username="assignedTeam && assignedTeam.name"
-            />
-            <div class="name-icon-wrap">
-              <div v-if="!assignedTeam" class="name select-agent">
-                {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
-              </div>
-              <div v-else class="name">
-                {{ assignedTeam && assignedTeam.name }}
-              </div>
-
-              <i v-if="showSearchDropdownTeam" class="icon ion-close-round" />
-              <i v-else class="icon ion-chevron-down" />
-            </div>
-          </button>
-          <div
-            :class="{ 'dropdown-pane--open': showSearchDropdownTeam }"
-            class="dropdown-pane"
-          >
-            <h4 class="text-block-title">
-              {{ $t('AGENT_MGMT.SELECTOR.TITLE.TEAM') }}
-            </h4>
-            <select-menu
-              v-if="showSearchDropdownTeam"
-              :options="teamsList"
-              :value="assignedTeam"
-              @click="onClickTeam"
-            />
-          </div>
-        </div>
+        <contact-details-item
+          :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+          icon="ion-ios-people"
+          emoji="🎢"
+        />
+        <teams-dropdown
+          :assigned-team="assignedTeam"
+          :teams-list="teamsList"
+          @click="onClickShowTeam"
+        />
       </div>
     </div>
     <conversation-labels :conversation-id="conversationId" />
@@ -190,11 +115,9 @@ import ContactDetailsItem from './ContactDetailsItem.vue';
 import ContactInfo from './contact/ContactInfo';
 import ConversationLabels from './labels/LabelBox.vue';
 import ContactCustomAttributes from './ContactCustomAttributes';
-import AvailabilityStatusBadge from 'dashboard/components/widgets/conversation/AvailabilityStatusBadge.vue';
-
 import flag from 'country-code-emoji';
-import SelectMenu from 'shared/components/ui/DropdownWithSearch';
-import Thumbnail from 'components/widgets/Thumbnail.vue';
+import AgentDropdown from 'shared/components/ui/AgentDropdown.vue';
+import TeamsDropdown from 'shared/components/ui/TeamsDropdown.vue';
 
 export default {
   components: {
@@ -203,8 +126,8 @@ export default {
     ContactDetailsItem,
     ContactInfo,
     ConversationLabels,
-    Thumbnail,
-    SelectMenu,
+    AgentDropdown,
+    TeamsDropdown,
   },
   mixins: [alertMixin, clickaway],
   props: {
@@ -379,7 +302,7 @@ export default {
     toggleDropdownTeam() {
       this.showSearchDropdownTeam = !this.showSearchDropdownTeam;
     },
-    onClick(selectedItem) {
+    onClickShowAgent(selectedItem) {
       if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
         this.assignedAgent = '';
       } else {
@@ -387,7 +310,7 @@ export default {
       }
       return this.assignedAgent;
     },
-    onClickTeam(selectedItemTeam) {
+    onClickShowTeam(selectedItemTeam) {
       if (this.assignedTeam && this.assignedTeam.id === selectedItemTeam.id) {
         this.assignedTeam = '';
       } else {
@@ -438,17 +361,39 @@ export default {
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-one;
+
+  &::v-deep {
+    .conv-details--item {
+      padding-bottom: var(--space-small);
+    }
+  }
 
   i {
     margin-right: $space-smaller;
   }
+
+  .conversation--actions {
+    align-items: flex-start;
+    padding: var(--space-normal) var(--space-normal);
+    margin: 0;
+  }
 }
 
-.multiselect-wrap--small {
-  &::v-deep .multiselect__element {
-    span {
-      width: 100%;
+::v-deep {
+  .contact--profile {
+    padding-bottom: var(--space-slab);
+    margin-bottom: var(--space-normal);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .multiselect-wrap--small {
+    .multiselect {
+      padding-left: var(--space-medium);
+      box-sizing: border-box;
+    }
+    .multiselect__element {
+      span {
+        width: 100%;
+      }
     }
   }
 }
@@ -459,10 +404,6 @@ export default {
   top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
-}
-
-.conversation--details {
-  padding: 0 var(--space-slab);
 }
 
 .conversation--labels {
@@ -492,98 +433,19 @@ export default {
   justify-content: center;
 }
 
-.sub-block-title {
-  margin-bottom: var(--space-small);
-}
-
 .conversation--actions {
-  padding: 0 var(--space-normal) var(--space-smaller);
+  margin-bottom: var(--space-normal);
 }
 
 .multiselect__label {
   margin-bottom: var(--space-smaller);
 }
 
-.conversation--actions {
-  .dropdown-wrap {
-    display: flex;
-    position: relative;
-    width: 100%;
-    margin-right: var(--space-one);
-
-    .button-input {
-      display: flex;
-      width: 100%;
-      cursor: pointer;
-      justify-content: flex-start;
-      background: white;
-      font-size: var(--font-size-small);
-      padding: var(--space-small) 0 var(--space-one) 0;
-    }
-
-    &::v-deep .user-thumbnail-box {
-      margin-right: var(--space-one);
-    }
-
-    .name-icon-wrap {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      padding: var(--space-smaller) 0;
-      line-height: var(--space-normal);
-
-      .select-agent {
-        color: var(--b-600);
-      }
-
-      .name {
-        display: flex;
-        justify-content: space-between;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-
-      .icon {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.1rem;
-      }
-    }
-
-    .dropdown-pane {
-      box-sizing: border-box;
-      top: 4rem;
-      right: 0;
-      position: absolute;
-      width: 100%;
-
-      &::v-deep {
-        .dropdown-menu__item .button {
-          width: 100%;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          white-space: nowrap;
-          padding: var(--space-smaller) var(--space-small);
-
-          .name-icon-wrap {
-            width: 100%;
-          }
-
-          .name {
-            width: 100%;
-          }
-        }
-      }
-    }
-  }
-}
 .self-assign {
   display: flex;
   justify-content: space-between;
-
   .button-content {
-    margin-bottom: var(--space-small);
+    margin-bottom: var(--space-one);
   }
 }
 </style>

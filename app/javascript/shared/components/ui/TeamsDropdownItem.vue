@@ -26,7 +26,6 @@
                 :src="option.thumbnail"
                 size="25px"
                 :username="option.name"
-                :status="option.availability_status"
               />
               <div class="name-icon-wrap">
                 <div class="name">
@@ -66,7 +65,7 @@ export default {
     },
     value: {
       type: Object,
-      default: () => ({}),
+      default: () => {},
     },
   },
 
