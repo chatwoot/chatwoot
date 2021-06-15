@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "היתה שגיאה. בקשה נסה שוב."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "מחק",
+      "CONFIRM": {
+        "TITLE": "אשר מחיקה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק?",
+        "YES": "כן, מחק ",
+        "NO": "לא, השאר "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "ערוך קמפיין",
       "UPDATE_BUTTON_TEXT": "עדכן",
