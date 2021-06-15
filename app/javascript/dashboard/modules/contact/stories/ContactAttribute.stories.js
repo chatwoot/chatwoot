@@ -34,7 +34,7 @@ export default {
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { ContactAttribute },
-  template: '<contact-attribute v-bind="$props" @edit="onEdit" />',
+  template: '<contact-attribute v-bind="$props" @update="onEdit" />',
 });
 
 export const DefaultAttribute = Template.bind({});

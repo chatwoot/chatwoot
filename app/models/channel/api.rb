@@ -3,7 +3,7 @@
 # Table name: channel_api
 #
 #  id          :bigint           not null, primary key
-#  webhook_url :string           not null
+#  webhook_url :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  account_id  :integer          not null

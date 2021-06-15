@@ -1,12 +1,16 @@
 FactoryBot.define do
   factory :integrations_hook, class: 'Integrations::Hook' do
-    status { Integrations::Hook.statuses['enabled'] }
+    app_id { 'slack' }
     inbox
     account
-    app_id { 'slack' }
     settings { { 'test': 'test' } }
-    hook_type { Integrations::Hook.statuses['account'] }
+    status { Integrations::Hook.statuses['enabled'] }
     access_token { SecureRandom.hex }
     reference_id { SecureRandom.hex }
+
+    trait :dialogflow do
+      app_id { 'dialogflow' }
+      settings { { project_id: 'test', credentials: {} } }
+    end
   end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Integrations::Dialogflow::ProcessorService do
   let(:account) { create(:account) }
-  let(:hook) { create(:integrations_hook, app_id: 'dialogflow', account: account) }
+  let(:hook) { create(:integrations_hook, :dialogflow, account: account) }
   let(:conversation) { create(:conversation, account: account, status: :bot) }
   let(:message) { create(:message, account: account, conversation: conversation) }
   let(:event_name) { 'message.created' }

@@ -3,7 +3,6 @@ import configMixin from '../configMixin';
 import Vue from 'vue';
 
 global.chatwootWebChannel = {
-  hideInputForBotConversations: true,
   avatarUrl: 'https://test.url',
   hasAConnectedAgentBot: 'AgentBot',
   enabledFeatures: ['emoji_picker', 'attachments'],
@@ -25,12 +24,10 @@ describe('configMixin', () => {
     const wrapper = createWrapper(vm);
     expect(wrapper.vm.hasEmojiPickerEnabled).toBe(true);
     expect(wrapper.vm.hasAttachmentsEnabled).toBe(true);
-    expect(wrapper.vm.hideInputForBotConversations).toBe(true);
     expect(wrapper.vm.hasAConnectedAgentBot).toBe(true);
     expect(wrapper.vm.useInboxAvatarForBot).toBe(true);
     expect(wrapper.vm.inboxAvatarUrl).toBe('https://test.url');
     expect(wrapper.vm.channelConfig).toEqual({
-      hideInputForBotConversations: true,
       avatarUrl: 'https://test.url',
       hasAConnectedAgentBot: 'AgentBot',
       enabledFeatures: ['emoji_picker', 'attachments'],

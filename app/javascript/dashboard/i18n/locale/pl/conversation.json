@@ -20,7 +20,7 @@
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
-    "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
+    "TWILIO_WHATSAPP_CAN_REPLY": "Możesz odpowiedzieć na tę rozmowę tylko za pomocą szablonu wiadomości, ponieważ",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
     "LAST_INCOMING_TWEET": "Odpowiadasz na ostatniego przychodzącego tweeta",
     "REPLYING_TO": "Osoba, której odpowiadasz to:",
@@ -58,7 +58,7 @@
     "CHANGE_STATUS": "Status konwersacji zmieniony",
     "CHANGE_AGENT": "Osoba przypisana do konwersacji zmieniona",
     "CHANGE_TEAM": "Zespół konwersacji został zmieniony",
-    "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+    "FILE_SIZE_LIMIT": "Plik przekracza limit {MAXIMUM_FILE_UPLOAD_SIZE} dla załącznika",
     "SENT_BY": "Wysłane przez:",
     "ASSIGNMENT": {
       "SELECT_AGENT": "Wybierz Agenta",

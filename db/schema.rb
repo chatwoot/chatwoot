@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_30_100138) do
+ActiveRecord::Schema.define(version: 2021_06_09_133433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -97,7 +97,8 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
     t.string "outgoing_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "hide_input_for_bot_conversations", default: false
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
 
   create_table "channel_api", force: :cascade do |t|
     t.integer "account_id", null: false
-    t.string "webhook_url", null: false
+    t.string "webhook_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -228,6 +229,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
     t.jsonb "additional_attributes", default: {}
     t.string "identifier"
     t.jsonb "custom_attributes", default: {}
+    t.datetime "last_activity_at"
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
@@ -320,6 +322,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
     t.boolean "working_hours_enabled", default: false
     t.string "out_of_office_message"
     t.string "timezone", default: "UTC"
+    t.boolean "enable_email_collect", default: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -610,6 +613,7 @@ ActiveRecord::Schema.define(version: 2021_04_30_100138) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agent_bots", "accounts"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
   add_foreign_key "contact_inboxes", "contacts"

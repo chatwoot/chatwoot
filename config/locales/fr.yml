@@ -76,3 +76,6 @@ fr:
     webhooks:
       name: "Webhooks"
       description: "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte. Vous pouvez utiliser les webhooks pour communiquer les événements à vos applications préférées comme Slack ou Github. Cliquez sur Configurer pour configurer vos webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

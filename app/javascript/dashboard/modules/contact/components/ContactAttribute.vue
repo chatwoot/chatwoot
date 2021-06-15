@@ -8,14 +8,33 @@
         {{ label }}
       </h4>
     </div>
-    <div class="value-wrap">
-      <p v-if="value" class="value">
-        {{ value }}
+    <div v-show="isEditing">
+      <div class="input-group small">
+        <input
+          ref="inputfield"
+          v-model="editedValue"
+          type="text"
+          class="input-group-field"
+          autofocus="true"
+          @keyup.enter="onUpdate"
+        />
+        <div class="input-group-button">
+          <woot-button size="small" icon="ion-checkmark" @click="onUpdate" />
+        </div>
+      </div>
+    </div>
+    <div
+      v-show="!isEditing"
+      class="value--view"
+      :class="{ 'is-editable': showEdit }"
+    >
+      <p class="value">
+        {{ value || '---' }}
       </p>
       <woot-button
         v-if="showEdit"
         variant="clear link"
-        size="tiny"
+        size="small"
         color-scheme="secondary"
         icon="ion-compose"
         class-names="edit-button"
@@ -39,9 +58,25 @@ export default {
     value: { type: [String, Number], default: '' },
     showEdit: { type: Boolean, default: false },
   },
+  data() {
+    return {
+      isEditing: false,
+      editedValue: this.value,
+    };
+  },
   methods: {
+    focusInput() {
+      this.$refs.inputfield.focus();
+    },
     onEdit() {
-      this.$emit('edit');
+      this.isEditing = true;
+      this.$nextTick(() => {
+        this.focusInput();
+      });
+    },
+    onUpdate() {
+      this.isEditing = false;
+      this.$emit('update', this.editedValue);
     },
   },
 };
@@ -49,11 +84,12 @@ export default {
 
 <style lang="scss" scoped>
 .contact-attribute {
-  margin-bottom: var(--space-normal);
+  margin-bottom: var(--space-small);
 }
 .title-wrap {
   display: flex;
   align-items: center;
+  margin-bottom: var(--space-mini);
 }
 .title {
   display: flex;
@@ -66,10 +102,10 @@ export default {
 .edit-button {
   display: none;
 }
-.value-wrap {
+.value--view {
   display: flex;
 
-  &:hover {
+  &.is-editable:hover {
     .value {
       background: var(--color-background);
     }
@@ -80,6 +116,7 @@ export default {
 }
 .value {
   display: inline-block;
+  min-width: var(--space-mega);
   border-radius: var(--border-radius-small);
   word-break: break-all;
   margin: 0 var(--space-smaller) 0 var(--space-normal);

@@ -17,8 +17,13 @@
 class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
+  attr_readonly :app_id, :account_id, :inbox_id, :hook_type
+  before_validation :ensure_hook_type
   validates :account_id, presence: true
   validates :app_id, presence: true
+  validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
+  validate :validate_settings_json_schema
+  validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   enum status: { disabled: 0, enabled: 1 }
 
@@ -38,5 +43,17 @@ class Integrations::Hook < ApplicationRecord
 
   def disable
     update(status: 'disabled')
+  end
+
+  private
+
+  def ensure_hook_type
+    self.hook_type = app.params[:hook_type] if app.present?
+  end
+
+  def validate_settings_json_schema
+    return if app.blank? || app.params[:settings_json_schema].blank?
+
+    errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
   end
 end

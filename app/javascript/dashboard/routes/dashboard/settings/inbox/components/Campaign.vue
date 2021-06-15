@@ -7,7 +7,7 @@
     </div>
     <campaigns-table
       :campaigns="records"
-      :show-empty-state="showEmptyResult"
+      :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
       :on-edit-click="openEditPopup"
     />
@@ -56,12 +56,15 @@ export default {
       uiFlags: 'campaigns/getUIFlags',
     }),
     showEmptyResult() {
-      const hasEmptyResults = this.records.length === 0;
+      const hasEmptyResults =
+        !this.uiFlags.isFetching && this.records.length === 0;
       return hasEmptyResults;
     },
   },
   mounted() {
-    this.$store.dispatch('campaigns/get');
+    this.$store.dispatch('campaigns/get', {
+      inboxId: this.$route.params.inboxId,
+    });
   },
   methods: {
     openAddPopup() {

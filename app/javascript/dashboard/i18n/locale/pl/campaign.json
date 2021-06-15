@@ -1,0 +1,79 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Kampania",
+    "SIDEBAR_TXT": "Proaktywne wiadomości pozwalają klientowi wysyłać wiadomości do swoich kontaktów, co powoduje więcej rozmów. Kliknij na <b>Dodaj kampanię</b>, aby stworzyć nową kampanię. Możesz też edytować lub usunąć istniejącą kampanię poprzez kliknięcie na przycisk Edytuj lub Usuń.",
+    "HEADER_BTN_TXT": "Stwórz kampanię",
+    "ADD": {
+      "TITLE": "Stwórz kampanię",
+      "DESC": "Proaktywne wiadomości pozwalają klientowi wysyłać wiadomości do swoich kontaktów, co powoduje więcej rozmów.",
+      "CANCEL_BUTTON_TEXT": "Anuluj",
+      "CREATE_BUTTON_TEXT": "Stwórz",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tytuł",
+          "PLACEHOLDER": "Wprowadź tytuł kampanii",
+          "ERROR": "Tytuł jest wymagany"
+        },
+        "MESSAGE": {
+          "LABEL": "Wiadomość",
+          "PLACEHOLDER": "Wprowadź wiadomość dla kampanii",
+          "ERROR": "Wiadomość jest wymagana"
+        },
+        "SENT_BY": {
+          "LABEL": "Wysłane przez",
+          "PLACEHOLDER": "Proszę wybrać treść kampanii",
+          "ERROR": "Nadawca jest wymagany"
+        },
+        "END_POINT": {
+          "LABEL": "Adres URL",
+          "PLACEHOLDER": "Wprowadź adres URL",
+          "ERROR": "Wprowadź poprawny adres URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Czas na stronie (w sekundach)",
+          "PLACEHOLDER": "Wprowadź czas",
+          "ERROR": "Czas na stronie jest wymagany"
+        },
+        "ENABLED": "Włącz kampanię",
+        "SUBMIT": "Dodaj kampanię"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Kampania została utworzona pomyślnie",
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "Aktualizuj",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "Wystąpił błąd, spróbuj ponownie"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "404": "Brak kampanii stworzonych dla tej skrzynki odbiorczej.",
+      "TABLE_HEADER": {
+        "TITLE": "Tytuł",
+        "MESSAGE": "Wiadomość",
+        "STATUS": "Status",
+        "SENDER": "Sender",
+        "URL": "Adres URL",
+        "TIME_ON_PAGE": "Time(Seconds)",
+        "CREATED_AT": "Created at"
+      },
+      "BUTTONS": {
+        "ADD": "Dodaj",
+        "EDIT": "Edytuj",
+        "DELETE": "Usuń"
+      },
+      "STATUS": {
+        "ENABLED": "Włączone",
+        "DISABLED": "Wyłączone"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    }
+  }
+}

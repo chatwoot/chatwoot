@@ -12,7 +12,6 @@ class Integrations::Slack::HookBuilder
       access_token: @slack_access['access_token'],
       status: 'enabled',
       inbox_id: params[:inbox_id],
-      hook_type: hook_type,
       app_id: 'slack',
       reference_id: reference_id
     )

@@ -80,6 +80,7 @@
     "RECEIVED_VIA_EMAIL": "E-mailen keresztül érkezett",
     "VIEW_TWEET_IN_TWITTER": "Üzenet megtekintése Twitteren",
     "REPLY_TO_TWEET": "Válasz",
-    "NO_MESSAGES": "Nincs üzenet"
+    "NO_MESSAGES": "Nincs üzenet",
+    "NO_CONTENT": "No content available"
   }
 }

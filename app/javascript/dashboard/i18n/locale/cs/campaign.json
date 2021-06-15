@@ -1,0 +1,79 @@
+{
+  "CAMPAIGN": {
+    "HEADER": "Campaigns",
+    "SIDEBAR_TXT": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations. Click on <b>Add Campaign</b> to create a new campaign. You can also edit or delete an existing campaign by clicking on the Edit or Delete button.",
+    "HEADER_BTN_TXT": "Create a campaign",
+    "ADD": {
+      "TITLE": "Create a campaign",
+      "DESC": "Proactive messages allow the customer to send outbound messages to their contacts which would trigger more conversations.",
+      "CANCEL_BUTTON_TEXT": "Zrušit",
+      "CREATE_BUTTON_TEXT": "Create",
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Title",
+          "PLACEHOLDER": "Please enter the title of campaign",
+          "ERROR": "Title is required"
+        },
+        "MESSAGE": {
+          "LABEL": "Zpráva",
+          "PLACEHOLDER": "Please enter the message of campaign",
+          "ERROR": "Message is required"
+        },
+        "SENT_BY": {
+          "LABEL": "Odeslal",
+          "PLACEHOLDER": "Please select the the content of campaign",
+          "ERROR": "Sender is required"
+        },
+        "END_POINT": {
+          "LABEL": "URL",
+          "PLACEHOLDER": "Please enter the URL",
+          "ERROR": "Zadejte prosím platnou URL"
+        },
+        "TIME_ON_PAGE": {
+          "LABEL": "Time on page(Seconds)",
+          "PLACEHOLDER": "Please enter the time",
+          "ERROR": "Time on page is required"
+        },
+        "ENABLED": "Enable campaign",
+        "SUBMIT": "Add Campaign"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign created successfully",
+        "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit campaign",
+      "UPDATE_BUTTON_TEXT": "Aktualizovat",
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign updated successfully",
+        "ERROR_MESSAGE": "Došlo k chybě, zkuste to prosím znovu"
+      }
+    },
+    "LIST": {
+      "LOADING_MESSAGE": "Loading campaigns...",
+      "404": "There are no campaigns created for this inbox.",
+      "TABLE_HEADER": {
+        "TITLE": "Title",
+        "MESSAGE": "Zpráva",
+        "STATUS": "Stav",
+        "SENDER": "Sender",
+        "URL": "URL",
+        "TIME_ON_PAGE": "Time(Seconds)",
+        "CREATED_AT": "Created at"
+      },
+      "BUTTONS": {
+        "ADD": "Add",
+        "EDIT": "Upravit",
+        "DELETE": "Vymazat"
+      },
+      "STATUS": {
+        "ENABLED": "Povoleno",
+        "DISABLED": "Zakázáno"
+      },
+      "SENDER": {
+        "BOT": "Bot"
+      }
+    }
+  }
+}

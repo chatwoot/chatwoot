@@ -80,6 +80,7 @@
     "RECEIVED_VIA_EMAIL": "Diterima melalui email",
     "VIEW_TWEET_IN_TWITTER": "Lihat tweet di Twitter",
     "REPLY_TO_TWEET": "Balas tweet ini",
-    "NO_MESSAGES": "Tidak Ada Pesan"
+    "NO_MESSAGES": "Tidak Ada Pesan",
+    "NO_CONTENT": "No content available"
   }
 }

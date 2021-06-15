@@ -1,14 +1,14 @@
 {
   "CHAT_LIST": {
-    "LOADING": "正在獲取對話",
-    "LOAD_MORE_CONVERSATIONS": "加載更多對話",
-    "EOF": "所有對話已加載 🎉",
+    "LOADING": "正在取得對話",
+    "LOAD_MORE_CONVERSATIONS": "載入更多對話",
+    "EOF": "所有對話已載入 🎉",
     "LIST": {
-      "404": "没有有效的對話在這個群组里面"
+      "404": "這個群組中無有效對話"
     },
-    "TAB_HEADING": "會話",
+    "TAB_HEADING": "對話",
     "SEARCH": {
-      "INPUT": "搜索人、聊天室、保存回覆"
+      "INPUT": "搜尋人、聊天室、保存回覆"
     },
     "STATUS_TABS": [
       {
@@ -27,7 +27,7 @@
         "COUNT_KEY": "mineCount"
       },
       {
-        "NAME": "未分配的",
+        "NAME": "未指派的",
         "KEY": "unassigned",
         "COUNT_KEY": "unAssignedCount"
       },
@@ -47,22 +47,22 @@
         "VALUE": "resolved"
       },
       {
-        "TEXT": "机器人",
-        "VALUE": "机器人"
+        "TEXT": "機器人",
+        "VALUE": "機器人"
       }
     ],
     "ATTACHMENTS": {
       "image": {
         "ICON": "ion-image",
-        "CONTENT": "图片消息"
+        "CONTENT": "圖片訊息"
       },
       "audio": {
         "ICON": "ion-volume-high",
-        "CONTENT": "音频消息"
+        "CONTENT": "聲音訊息"
       },
       "video": {
         "ICON": "ion-ios-videocam",
-        "CONTENT": "视频消息"
+        "CONTENT": "影片訊息"
       },
       "file": {
         "ICON": "ion-document",
@@ -77,9 +77,10 @@
         "CONTENT": "分享了一個網址"
       }
     },
-    "RECEIVED_VIA_EMAIL": "Received via email",
+    "RECEIVED_VIA_EMAIL": "使用電子郵件接收",
     "VIEW_TWEET_IN_TWITTER": "View tweet in Twitter",
     "REPLY_TO_TWEET": "Reply to this tweet",
-    "NO_MESSAGES": "No Messages"
+    "NO_MESSAGES": "沒有訊息",
+    "NO_CONTENT": "沒有可用內容"
   }
 }

@@ -9,9 +9,9 @@
       "ERROR": "Account name is too short"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "姓名",
+      "PLACEHOLDER": "請輸入您的完整姓名，如：王大明",
+      "ERROR": "姓名太短了"
     },
     "EMAIL": {
       "LABEL": "Work email",

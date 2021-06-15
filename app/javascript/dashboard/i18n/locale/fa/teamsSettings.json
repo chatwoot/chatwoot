@@ -1,16 +1,16 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
+    "NEW_TEAM": "ایجاد تیم جدید",
     "HEADER": "تیم‌ها",
     "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "EDIT_TEAM": "ویرایش تیم"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "ایجاد تیم جدید",
+        "DESC": "عنوان و توضیحاتی به تیم جدید خود اضافه کنید."
       },
       "AGENTS": {
         "BUTTON_TEXT": "Add agents to team",
@@ -37,9 +37,9 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "ویرایش جزئیات تیم خود",
+        "DESC": "ویرایش عنوان و توضیحات تیم خود.",
+        "BUTTON_TEXT": "به‌روزرسانی تیم"
       },
       "AGENTS": {
         "BUTTON_TEXT": "Update agents in team",
@@ -48,7 +48,7 @@
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "جزئیات تیم",
           "route": "settings_teams_edit",
           "body": "Change name, description and other details."
         },
@@ -105,20 +105,20 @@
     },
     "SETTINGS": "تنظیمات",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "به‌روزرسانی تیم",
+      "CREATE": "ایجاد تیم",
       "NAME": {
-        "LABEL": "Team name",
+        "LABEL": "نام تیم",
         "PLACEHOLDER": "Example: Sales, Customer Support"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
+        "LABEL": "توضیحات تیم",
         "PLACEHOLDER": "Short description about this team."
       },
       "AUTO_ASSIGN": {
         "LABEL": "Allow auto assign for this team."
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "ایجاد تیم"
     }
   }
 }

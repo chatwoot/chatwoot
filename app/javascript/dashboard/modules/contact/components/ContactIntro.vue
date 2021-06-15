@@ -13,8 +13,8 @@
       </h2>
       <h3 class="sub-block-title contact--work">
         {{ contact.title }}
-        <i v-if="contact.company.name" class="icon ion-minus-round" />
-        <span class="company-name">{{ contact.company.name }}</span>
+        <i v-if="company.name" class="icon ion-minus-round" />
+        <span class="company-name">{{ company.name }}</span>
       </h3>
       <p v-if="additionalAttributes.description" class="contact--bio">
         {{ additionalAttributes.description }}
@@ -68,6 +68,10 @@ export default {
       } = this.additionalAttributes;
 
       return { twitter: twitterScreenName, ...(socialProfiles || {}) };
+    },
+    company() {
+      const { company = {} } = this.contact;
+      return company;
     },
   },
   methods: {

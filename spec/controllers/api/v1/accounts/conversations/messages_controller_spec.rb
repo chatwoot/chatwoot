@@ -15,8 +15,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'creates a new outgoing message' do
         params = { content: 'test-message', private: true }
@@ -29,6 +33,23 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content).to eq(params[:content])
+      end
+
+      it 'creates an outgoing message with a specific bot sender' do
+        agent_bot = create(:agent_bot)
+        time_stamp = Time.now.utc.to_s
+        params = { content: 'test-message', external_created_at: time_stamp, sender_type: 'AgentBot', sender_id: agent_bot.id }
+
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        response_data = JSON.parse(response.body)
+        expect(response_data['content_attributes']['external_created_at']).to eq time_stamp
+        expect(conversation.messages.count).to eq(1)
+        expect(conversation.messages.last.sender_id).to eq(agent_bot.id)
       end
 
       it 'creates a new outgoing message with attachment' do
@@ -107,8 +128,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'shows the conversation' do
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages",
@@ -132,8 +157,12 @@ RSpec.describe 'Conversation Messages API', type: :request do
       end
     end
 
-    context 'when it is an authenticated user' do
+    context 'when it is an authenticated user with access to conversation' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'deletes the message' do
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/#{message.id}",
@@ -148,6 +177,10 @@ RSpec.describe 'Conversation Messages API', type: :request do
 
     context 'when the message id is invalid' do
       let(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+      end
 
       it 'returns not found error' do
         delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/messages/99999",

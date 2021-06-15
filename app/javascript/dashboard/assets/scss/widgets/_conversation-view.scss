@@ -76,7 +76,6 @@
 
     .status--filter {
       @include padding($zero null $zero $space-normal);
-      @include round-corner;
       @include margin($space-smaller $space-slab $zero $zero);
       background-color: $color-background-light;
       border: 1px solid $color-border;
@@ -132,7 +131,6 @@
 
   .bubble {
     @include bubble-with-types;
-    max-width: 50rem;
     text-align: left;
     word-wrap: break-word;
 
@@ -236,7 +234,9 @@
 
   .wrap {
     @include margin($zero $space-normal);
-    max-width: 69%;
+
+    --bubble-max-width: 49.6rem;
+    max-width: Min(var(--bubble-max-width), 85%);
 
     .sender--name {
       font-size: $font-size-mini;

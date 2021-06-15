@@ -30,16 +30,16 @@ ru:
   reports:
     period: Отчётный период с %{since} по %{until}
     agent_csv:
-      agent_name: Agent name
-      conversations_count: Conversations count
-      avg_first_response_time: Avg first response time (Minutes)
-      avg_resolution_time: Avg resolution time (Minutes)
+      agent_name: Имя оператора
+      conversations_count: Количество бесед
+      avg_first_response_time: Среднее время первого ответа (в минутах)
+      avg_resolution_time: Среднее время решения (в минутах)
   notifications:
     notification_title:
-      conversation_creation: "[New conversation] - #%{display_id} has been created in %{inbox_name}"
-      conversation_assignment: "[Assigned to you] - #%{display_id} has been assigned to you"
-      assigned_conversation_new_message: "[New message] - #%{display_id} %{content}"
-      conversation_mention: "You have been mentioned in conversation [ID - %{display_id}] by %{name}"
+      conversation_creation: "[Новая беседа] - #%{display_id} была создана в %{inbox_name}"
+      conversation_assignment: "[Назначено Вам] - #%{display_id} была назначена Вам"
+      assigned_conversation_new_message: "[Новое сообщение] - #%{display_id} %{content}"
+      conversation_mention: "Вас упомянули в разговоре [ID - %{display_id}] %{name}"
   conversations:
     messages:
       deleted: Это сообщение было удалено
@@ -47,7 +47,7 @@ ru:
       status:
         resolved: "%{user_name} завершил диалог"
         open: "%{user_name} открыл заново диалог"
-        bot: "Conversation was transferred to bot by %{user_name}"
+        bot: "Разговор передан боту %{user_name}"
         auto_resolved: "Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней"
       assignee:
         self_assigned: "%{user_name} назначил(а) разговор себе"
@@ -55,8 +55,8 @@ ru:
         removed: "Ответственный снят %{user_name}"
       team:
         assigned: "%{user_name} назначил %{team_name} ответственным"
-        assigned_with_assignee: "Assigned to %{assignee_name} via %{team_name} by %{user_name}"
-        removed: "Unassigned from %{team_name} by %{user_name}"
+        assigned_with_assignee: "%{user_name} назначил %{assignee_name} в %{team_name}"
+        removed: "%{user_name} исключил из %{team_name}"
       labels:
         added: "%{user_name} добавил %{labels}"
         removed: "%{user_name} удалил %{labels}"
@@ -76,3 +76,6 @@ ru:
     webhooks:
       name: "Webhooks"
       description: "События webhook позволяют получать информацию о происходящем в вашем аккаунте в реальном времени. Вы можете использовать webhook в связке с вашими приложениями, такими как Slack или Github. Нажмите на Настроить для настройки webhook."
+    dialogflow:
+      name: "Диалог"
+      description: "Подключите бот к диалогам вашего канала. Предоставьте ботам доступ к обработке запросов, прежде чем для предварительного общения с вашими операторами."

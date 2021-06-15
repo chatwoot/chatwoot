@@ -79,7 +79,7 @@
           "IN_A_FEW_MINUTES": "W ciągu kilku minut",
           "IN_A_FEW_HOURS": "W ciągu kilku godzin",
           "IN_A_DAY": "W ciągu dnia",
-          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
+          "HELP_TEXT": "Ten czas odpowiedzi będzie wyświetlany na widżecie czatu na żywo"
         },
         "WIDGET_COLOR": {
           "LABEL": "Kolor widżetu",
@@ -88,8 +88,8 @@
         "SUBMIT_BUTTON": "Utwórz skrzynkę odbiorczą"
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Channel",
-        "DESC": "Integrate Twilio and start supporting your customers via SMS or Whatsapp.",
+        "TITLE": "Kanał Twilio SMS/WhatsApp",
+        "DESC": "Zintegruj Twilio i zacznij wspierać swoich klientów poprzez SMS lub WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Karta SID konta",
           "PLACEHOLDER": "Wprowadź SID konta Twilio",
@@ -151,14 +151,14 @@
         },
         "EMAIL": {
           "LABEL": "E-mail",
-          "SUBTITLE": "Email where your customers sends you support tickets",
+          "SUBTITLE": "Adres e-mail, na który Twoi klienci wysyłają Ci zgłoszenia",
           "PLACEHOLDER": "E-mail"
         },
         "SUBMIT_BUTTON": "Utwórz kanał e-mail",
         "API": {
-          "ERROR_MESSAGE": "We were not able to save the email channel"
+          "ERROR_MESSAGE": "Nie udało nam się zapisać kanału e-mail"
         },
-        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
+        "FINISH_MESSAGE": "Zacznij przekierowywać swoje wiadomości na następujący adres e-mail."
       },
       "AUTH": {
         "TITLE": "Kanały",
@@ -167,8 +167,8 @@
       "AGENTS": {
         "TITLE": "Agenci",
         "DESC": "Tutaj możesz dodać agentów do zarządzania swoją nowo utworzoną skrzynką odbiorczą. Tylko ci wybrani agenci będą mieli dostęp do Twojej skrzynki odbiorczej. Agenci, którzy nie są częścią tej skrzynki odbiorczej nie będą mogli zobaczyć ani odpowiadać na wiadomości w tej skrzynce odbiorczej podczas logowania. <br> <b>PS:</b> Jako administrator, jeśli potrzebujesz dostępu do wszystkich skrzynek odbiorczych, powinieneś dodać siebie jako agenta do wszystkich skrzynek odbiorczych, które tworzysz.",
-        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "VALIDATION_ERROR": "Dodaj co najmniej jednego agenta do swojej nowej skrzynki odbiorczej",
+        "PICK_AGENTS": "Wybierz agentów dla skrzynki odbiorczej"
       },
       "DETAILS": {
         "TITLE": "Szczegóły skrzynki odbiorczej",
@@ -194,7 +194,7 @@
       "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
       "MESSAGE": "Teraz możesz współpracować ze swoimi klientami poprzez swój nowy kanał. Szczęśliwego wsparcia ",
       "BUTTON_TEXT": "Zabierz mnie tam",
-      "MORE_SETTINGS": "More settings",
+      "MORE_SETTINGS": "Więcej ustawień",
       "WEBSITE_SUCCESS": "Pomyślnie zakończyłeś tworzenie kanału internetowego. Skopiuj poniższy kod i wklej go na swojej stronie. Następnym razem, gdy klient korzysta z czatu na żywo, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej."
     },
     "REAUTH": "Ponowna autoryzacja",
@@ -227,14 +227,15 @@
       "SETTINGS": "Ustawienia",
       "COLLABORATORS": "Collaborators",
       "CONFIGURATION": "Konfiguracja",
+      "CAMPAIGN": "Kampania",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Godziny pracy"
     },
     "SETTINGS": "Ustawienia",
     "FEATURES": {
-      "LABEL": "Features",
-      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
-      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget"
+      "LABEL": "Funkcje",
+      "DISPLAY_FILE_PICKER": "Wyświetl selektor plików w widżecie",
+      "DISPLAY_EMOJI_PICKER": "Wyświetl selektor emoji w widżecie"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skrypt Messengera",
@@ -246,7 +247,7 @@
       "INBOX_UPDATE_TITLE": "Ustawienia skrzynki odbiorczej",
       "INBOX_UPDATE_SUB_TEXT": "Zaktualizuj ustawienia skrzynki odbiorczej",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Włącz lub wyłącz automatyczne przypisywanie nowych rozmów do agentów dodanych do tej skrzynki odbiorczej.",
-      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_VERIFICATION": "Weryfikacja tożsamości użytkownika",
       "HMAC_DESCRIPTION": "Inorder validate the users identity, the SDK allows you to pass an `identity_hash` for each user. You can generate HMAC using 'sha256' with the key shown here."
     },
     "FACEBOOK_REAUTHORIZE": {
@@ -260,8 +261,8 @@
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Yes",
-          "DISABLED": "No"
+          "ENABLED": "Tak",
+          "DISABLED": "Nie"
         }
       },
       "PRE_CHAT_MESSAGE": {
@@ -275,19 +276,19 @@
     "BUSINESS_HOURS": {
       "TITLE": "Set your availability",
       "SUBTITLE": "Set your availability on your livechat widget",
-      "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Select timezone",
-      "UPDATE": "Update business hours settings",
+      "WEEKLY_TITLE": "Ustaw swoje godziny tygodniowe",
+      "TIMEZONE_LABEL": "Wybierz strefę czasową",
+      "UPDATE": "Zaktualizuj ustawienia godzin pracy",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for vistors",
-      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "UNAVAILABLE_MESSAGE_LABEL": "Wiadomość niedostępna dla odwiedzających",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "W tej chwili jesteśmy niedostępni. Pozostaw wiadomość, a odpowiemy, gdy będzie to możliwe.",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
-        "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Unavailable",
-        "HOURS": "hours",
-        "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "ENABLE": "Włącz dostępność w tym dniu",
+        "UNAVAILABLE": "Niedostępny",
+        "HOURS": "godzin",
+        "VALIDATION_ERROR": "Czas rozpoczęcia powinien być przed czasem zakończenia.",
+        "CHOOSE": "Wybierz"
       }
     }
   }

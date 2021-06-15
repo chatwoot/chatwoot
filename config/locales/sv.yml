@@ -76,3 +76,6 @@ sv:
     webhooks:
       name: "Webhookar"
       description: "Webhook-händelser ger dig realtidsinformation om vad som händer i ditt konto. Du kan använda webhooks för att kommunicera händelser till dina favoritappar som Slack eller Github. Klicka på Konfigurera för att konfigurera dina webhooks."
+    dialogflow:
+      name: "Dialogflow"
+      description: "Connect your Dialogflow bot to your inbox. Let the bots handle the queries before handing it off to the customer service agent."

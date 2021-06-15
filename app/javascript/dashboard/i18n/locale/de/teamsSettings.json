@@ -43,7 +43,7 @@
       },
       "AGENTS": {
         "BUTTON_TEXT": "Agenten im Team aktualisieren",
-        "TITLE": "Agenten zu Team hinzufügen - %{teamName}",
+        "TITLE": "Agenten zu Team %{teamName} hinzufügen",
         "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. Alle hinzugefügten Agenten werden benachrichtigt, wenn diesem Team eine Unterhaltung zugewiesen wird."
       },
       "WIZARD": [
@@ -77,8 +77,8 @@
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt."
     },
     "ADD": {
-      "TITLE": "Agenten zu Team hinzufügen - %{teamName}",
-      "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten, erhalten Sie Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung.",
+      "TITLE": "Agenten zu Team %{teamName} hinzufügen",
+      "DESC": "Fügen Sie Agenten zu Ihrem neu erstellten Team hinzu. So können Sie bei Gesprächen als Team zusammenarbeiten und erhalten Benachrichtigungen über neue Ereignisse in der gleichen Unterhaltung.",
       "SELECT": "auswählen",
       "SELECT_ALL": "alle Agenten auswählen",
       "SELECTED_COUNT": "%{selected} von %{total} Agenten ausgewählt.",
