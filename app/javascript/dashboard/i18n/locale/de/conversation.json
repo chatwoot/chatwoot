@@ -109,7 +109,7 @@
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Zugewiesener Agent",
-    "SELF_ASSIGN": "Assign to me",
+    "SELF_ASSIGN": "Mir zuweisen",
     "TEAM_LABEL": "Zugewiesenes Team",
     "SELECT": {
       "PLACEHOLDER": "Keine"
