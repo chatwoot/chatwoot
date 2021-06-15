@@ -17,6 +17,24 @@
           "操作"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "編集",
+        "TITLE": "Edit webhook",
+        "CANCEL": "キャンセル",
+        "DESC": "Webhookイベントは、Chatwootアカウントで何が起こっているかについてのリアルタイムの情報を提供します。コールバックを設定するには有効なURLを入力してください。",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "例: https://example/api/webhook",
+            "ERROR": "有効な URL を入力してください"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        }
+      },
       "ADD": {
         "CANCEL": "キャンセル",
         "TITLE": "新しいWebhookを追加",

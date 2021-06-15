@@ -17,6 +17,24 @@
           "操作"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "编辑",
+        "TITLE": "Edit webhook",
+        "CANCEL": "取消",
+        "DESC": "Webhook 事件为您提供了有关Chatwoot 帐户中发生的事情的实时信息。请输入一个有效的URL来配置回调。",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook 网址",
+            "PLACEHOLDER": "例如：https://example/api/webhook",
+            "ERROR": "请输入一个有效的 URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "无法连接服务器，请稍后再试"
+        }
+      },
       "ADD": {
         "CANCEL": "取消操作",
         "TITLE": "添加新的 webhook",

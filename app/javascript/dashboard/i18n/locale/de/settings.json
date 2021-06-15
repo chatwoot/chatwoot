@@ -78,6 +78,11 @@
         "ERROR": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
         "PLACEHOLDER": "Bitte geben Sie Ihre E-Mail-Adresse ein, diese wird in Gesprächen angezeigt"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Aktuelles Passwort",
+        "ERROR": "Bitte geben Sie das aktuelle Passwort ein",
+        "PLACEHOLDER": "Bitte geben Sie das aktuelle Passwort ein"
+      },
       "PASSWORD": {
         "LABEL": "Passwort",
         "ERROR": "Bitte geben Sie ein Passwort mit einer Länge von 6 oder mehr ein",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Vorgefertigte Antworten",
     "INTEGRATIONS": "Integrationen",
     "ACCOUNT_SETTINGS": "Kontoeinstellungen",
+    "APPLICATIONS": "Anwendungen",
     "LABELS": "Labels",
     "TEAMS": "Teams"
   },

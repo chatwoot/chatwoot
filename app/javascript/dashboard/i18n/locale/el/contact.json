@@ -18,19 +18,14 @@
       "TITLE": "Προηγούμενες συνομιλίες"
     },
     "LABELS": {
-      "TITLE": "Ετικέτες συνομιλίας",
-      "MODAL": {
-        "TITLE": "Ετικέτες για",
-        "ACTIVE_LABELS": "Προστέθηκαν ετικέτες στην συνομιλία",
-        "INACTIVE_LABELS": "Υπάρχουν διαθέσιμες ετικέτες στον λογαριασμό",
-        "REMOVE": "Πατήστε στο εικονίδιο X για να απομακρύνετε την ετικέτα",
-        "ADD": "Πατήστε στο εικονίδιο + για να προσθέστε την ετικέτα",
-        "ADD_BUTTON": "Προσθήκη Ετικετών",
-        "UPDATE_BUTTON": "Ενημέρωση Ετικετών",
-        "UPDATE_ERROR": "Δεν μπορούν να ενημερωθούν οι ετικέτες, προσπαθήστε ξανά."
+      "CONTACT": {
+        "TITLE": "Ετικέτες Επαφών",
+        "ERROR": "Δεν ήταν δυνατή η ενημέρωση ετικετών"
       },
-      "NO_LABELS_TO_ADD": "Δεν υπάρχουν άλλες ετικέτες στον λογαριασμό.",
-      "NO_AVAILABLE_LABELS": "Δεν υπάρχουν προστεθεί ετικέτες στην συνομιλία.",
+      "CONVERSATION": {
+        "TITLE": "Ετικέτες συνομιλίας",
+        "ADD_BUTTON": "Προσθήκη Ετικετών"
+      },
       "LABEL_SELECT": {
         "TITLE": "Προσθήκη Ετικετών",
         "PLACEHOLDER": "Αναζήτηση ετικετών",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Προβολή λεπτομεριών"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Προσθήκη",
+      "TITLE": "Shift + Enter για δημιουργία εργασίας"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Ημερομηνία λήξης",
+      "LABEL_TITLE": "Ορισμός τύπου"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Σημειώσεις"
@@ -168,24 +173,34 @@
       "BUTTON": "Εμφάνιση όλων των σημειώσεων"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Δραστηριότητες"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "σημειώσεις",
+      "PILL_BUTTON_EVENTS": "συμβάντα",
+      "PILL_BUTTON_CONVO": "συζητήσεις"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Προσαρμοζόμενες Ιδιότητες",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Προσθήκη προσαρμοσμένης ιδιότητας",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Δημιουργία προσαρμοσμένης ιδιότητας",
+      "DESC": "Προσθέστε προσαρμοσμένες πληροφορίες σε αυτήν την επαφή."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Προσθήκη ιδιότητας",
       "CANCEL": "Άκυρο",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Όνομα προσαρμοσμένης ιδιότητας",
+        "PLACEHOLDER": "π.χ.: shopify id",
+        "ERROR": "Μη έγκυρο όνομα προσαρμοσμένης ιδιότητας"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
-        "PLACEHOLDER": "Eg: 11901 "
+        "LABEL": "Τιμή ιδιότητας",
+        "PLACEHOLDER": "π.χ.: 11901 "
       }
     }
   }

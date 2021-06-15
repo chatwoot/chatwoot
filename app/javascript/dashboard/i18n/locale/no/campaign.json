@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Slett",
+      "CONFIRM": {
+        "TITLE": "Bekreft sletting",
+        "MESSAGE": "Er du sikker på at du vil slette?",
+        "YES": "Ja, slett ",
+        "NO": "Nei, behold "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "Oppdater",

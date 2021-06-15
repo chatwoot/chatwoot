@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Nombre de la etiqueta",
         "PLACEHOLDER": "Nombre de la etiqueta",
-        "ERROR": "Nombre de la etiqueta es obligatorio"
+        "REQUIRED_ERROR": "Nombre de la etiqueta es obligatorio",
+        "MINIMUM_LENGTH_ERROR": "La longitud mínima es de 2 caracteres",
+        "VALID_ERROR": "Sólo letras, números, guión y guión bajo son permitidos"
       },
       "DESCRIPTION": {
         "LABEL": "Descripción",

@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome Posta In Arrivo",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Accedendo, abbiamo accesso solo ai messaggi della tua pagina. Chatwoot, non potrà accedere ai tuoi messaggi privati.",
         "CHOOSE_PAGE": "Scegli una Pagina",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Creazione del Canale di Supporto Sito Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canale"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nome Sito Web",
-          "PLACEHOLDER": "Inserisci il nome del tuo sito web (es: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del Sito",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Abilitato",
         "DISABLED": "Disabilitato"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Abilitato",
+        "DISABLED": "Disabilitato"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Conferma eliminazione",
         "MESSAGE": "Sei sicuro di voler eliminare ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Sì, elimina ",
         "NO": "No, Conserva "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi agenti da questa casella di posta",
       "UPDATE": "Aggiornamento",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
       "INBOX_UPDATE_TITLE": "Impostazioni della Posta In Arrivo",
       "INBOX_UPDATE_SUB_TEXT": "Aggiorna le impostazioni della posta in arrivo",

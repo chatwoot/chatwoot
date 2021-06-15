@@ -18,19 +18,14 @@
       "TITLE": "Предыдущие диалоги"
     },
     "LABELS": {
-      "TITLE": "Категории Диалога",
-      "MODAL": {
-        "TITLE": "Категории для",
-        "ACTIVE_LABELS": "Категории добавлены к диалогу",
-        "INACTIVE_LABELS": "Все категории",
-        "REMOVE": "Нажмите на иконку X для удаления категории",
-        "ADD": "Нажмите на значок +, чтобы добавить категорию",
-        "ADD_BUTTON": "Добавить метки",
-        "UPDATE_BUTTON": "Изменить категории",
-        "UPDATE_ERROR": "Не удалось обновить категории, попробуйте снова."
+      "CONTACT": {
+        "TITLE": "Ярлыки контактов",
+        "ERROR": "Не удалось обновить ярлыки"
       },
-      "NO_LABELS_TO_ADD": "У вас больше нет категорий.",
-      "NO_AVAILABLE_LABELS": "У диалога больше нет категорий.",
+      "CONVERSATION": {
+        "TITLE": "Категории Диалога",
+        "ADD_BUTTON": "Добавить метки"
+      },
       "LABEL_SELECT": {
         "TITLE": "Добавить метки",
         "PLACEHOLDER": "Поиск меток",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Просмотреть подробности"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Добавить",
+      "TITLE": "Shift + Enter для создания задачи"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Дата окончания",
+      "LABEL_TITLE": "Установить тип"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Заметки"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "Показать все заметки"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Действия"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "заметки",
+      "PILL_BUTTON_EVENTS": "события",
+      "PILL_BUTTON_CONVO": "диалоги"
     }
   },
   "CUSTOM_ATTRIBUTES": {

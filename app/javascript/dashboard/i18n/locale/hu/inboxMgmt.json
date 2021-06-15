@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Fiók név",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website név",
+        "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
+      },
       "FB": {
         "HELP": "UI: A bejelentkezéseddel csak az oldalad üzeneteihez kapunk hozzáférést. Privát üzeneteidhez sosem férhet hozzá a Chatwoot.",
         "CHOOSE_PAGE": "Oldal kiválasztása",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Website támogatási csatorna létrehozása",
         "CHANNEL_AVATAR": {
           "LABEL": "Csatorna avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Website név",
-          "PLACEHOLDER": "Add meg weboldalad nevét (pl.: Példa Kft.)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domain",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Engedélyezve",
         "DISABLED": "Letiltva"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Engedélyezve",
+        "DISABLED": "Letiltva"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Törlés megerősítése",
         "MESSAGE": "Biztos abban, hogy törli ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Igen, Törlés ",
         "NO": "Nem, Mégse "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Ügynökök",
       "INBOX_AGENTS_SUB_TEXT": "Ügynökök hosszáadása vagy eltávolítása az inboxból",
       "UPDATE": "Frissítés",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
       "INBOX_UPDATE_TITLE": "Fiókbeállítások",
       "INBOX_UPDATE_SUB_TEXT": "Frissítsd az inbox beállításaidat",

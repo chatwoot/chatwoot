@@ -17,6 +17,24 @@
           "Toiminnot"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Muokkaa",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Peruuta",
+        "DESC": "Webhook-tapahtumat antavat sinulle reaaliaikaista tietoa siitä, mitä Chatwot-tililläsi tapahtuu. Syötä kelvollinen URL-osoite, jotta voit määrittää callbackin.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhookin URL",
+            "PLACEHOLDER": "Esimerkki: https://example/api/webhook",
+            "ERROR": "Anna kelvollinen URL-osoite"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
+        }
+      },
       "ADD": {
         "CANCEL": "Peruuta",
         "TITLE": "Lisää uusi webhook",
