@@ -12,12 +12,14 @@
     </div>
     <div class="unread-messages">
       <unread-message
-        v-for="(message, index) in unreadMessages"
+        v-for="(message, index) in allMessages"
         :key="message.id"
+        :message-type="message.messageType"
         :message-id="message.id"
         :show-sender="!index"
         :sender="message.sender"
         :message="getMessageContent(message)"
+        :campaign-id="message.campaignId"
       />
     </div>
 
@@ -60,10 +62,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    showUnreadView: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters({
       unreadMessages: 'conversation/getUnreadTextMessages',
+      campaign: 'campaign/getActiveCampaign',
     }),
     showCloseButton() {
       return this.unreadMessageCount && this.hideMessageBubble;
@@ -71,6 +78,19 @@ export default {
     sender() {
       const [firstMessage] = this.unreadMessages;
       return firstMessage.sender || {};
+    },
+    allMessages() {
+      if (this.showUnreadView) {
+        return this.unreadMessages;
+      }
+      const { sender, id: campaignId, message: content } = this.campaign;
+      return [
+        {
+          content,
+          sender,
+          campaignId,
+        },
+      ];
     },
   },
   methods: {
