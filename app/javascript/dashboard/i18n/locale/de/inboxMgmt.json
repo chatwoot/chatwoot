@@ -30,7 +30,7 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)"
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
@@ -223,7 +223,7 @@
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Bitte geben Sie {inboxName} zur Bestätigung ein",
         "YES": "Ja, löschen",
         "NO": "Nein, behalten "
       },
@@ -252,8 +252,8 @@
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
-      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
