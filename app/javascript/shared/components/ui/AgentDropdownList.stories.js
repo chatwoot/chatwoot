@@ -1,9 +1,9 @@
 import { action } from '@storybook/addon-actions';
-import DropdownWithSearch from './DropdownWithSearch';
+import AgentDropdownList from './AgentDropdownList';
 
 export default {
-  title: 'Components/Dropdown/Agent',
-  component: DropdownWithSearch,
+  title: 'Components/Dropdown/Agent List',
+  component: AgentDropdownList,
   argTypes: {
     options: {
       control: {
@@ -20,33 +20,36 @@ export default {
 
 const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
-  components: { DropdownWithSearch },
+  components: { AgentDropdownList },
   template:
-    '<dropdown-with-search v-bind="$props" @add="onClick"></dropdown-with-search>',
+    '<agent-dropdown-list v-bind="$props" @click="onClick"></agent-dropdown-list>',
 });
 
-export const Agent = Template.bind({});
-Agent.args = {
-  onClick: action('opened'),
+export const AgentList = Template.bind({});
+AgentList.args = {
+  onClick: action('Added'),
   options: [
     {
       id: '1',
       name: 'John',
-      thumbnail: '',
       availability_status: 'online',
+      role: 'administrator',
+      thumbnail: 'https://randomuser.me/api/portraits/men/4.jpg',
     },
     {
       id: '2',
       name: 'Tim Donarld',
-      thumbnail: '',
       availability_status: 'offline',
+      role: 'administrator',
+      thumbnail: '',
     },
     {
       id: '3',
       name: 'James Philip',
-      thumbnail: '',
       availability_status: 'busy',
+      role: 'agent',
+      thumbnail: 'https://randomuser.me/api/portraits/men/17.jpg',
     },
   ],
-  value: { id: '2' },
+  value: { id: '1' },
 };

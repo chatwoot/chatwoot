@@ -361,21 +361,14 @@ export default {
   overflow: auto;
   position: relative;
 
-  &::v-deep {
-    .conv-details--item {
-      padding-bottom: var(--space-small);
-    }
-  }
-
   i {
     margin-right: $space-smaller;
   }
+}
 
-  .conversation--actions {
-    align-items: flex-start;
-    padding: var(--space-normal) var(--space-normal);
-    margin: 0;
-  }
+::v-deep .dropdown-wrap {
+  margin-top: var(--space-micro);
+  margin-bottom: var(--space-small);
 }
 
 ::v-deep {
@@ -444,19 +437,7 @@ export default {
   display: flex;
   justify-content: space-between;
   .button-content {
-    margin-bottom: var(--space-one);
-   }
- }
-
-.option__desc {
-  display: flex;
-  align-items: center;
-
-  &::v-deep .status-badge {
-    margin-right: var(--space-small);
-    min-width: 0;
-    flex-shrink: 0;
-
+    margin-bottom: var(--space-small);
   }
 }
 </style>

@@ -48,7 +48,7 @@
 
 <script>
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import agentsList from 'shared/components/ui/DropdownWithSearch.vue';
+import agentsList from 'shared/components/ui/AgentDropdownList.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 export default {
   components: {
@@ -91,7 +91,7 @@ export default {
   position: relative;
   width: 100%;
   margin-right: var(--space-one);
-  margin-bottom: 0.8rem;
+  margin-bottom: var(--space-small);
 
   .button-input {
     display: flex;
@@ -100,7 +100,6 @@ export default {
     justify-content: flex-start;
     background: white;
     font-size: var(--font-size-small);
-    // padding: var(--space-small) 0 var(--space-one) 0;
     border: 1px solid lightgray;
     border-radius: var(--border-radius-normal);
     padding: 0.6rem;
@@ -116,23 +115,17 @@ export default {
     width: 100%;
     padding: var(--space-smaller) 0;
     line-height: var(--space-normal);
+    min-width: 0;
 
     .select-agent {
       color: var(--b-600);
     }
 
     .name {
-      display: flex;
-      justify-content: space-between;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    .icon {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.1rem;
+      margin-right: var(--space-small);
     }
   }
 

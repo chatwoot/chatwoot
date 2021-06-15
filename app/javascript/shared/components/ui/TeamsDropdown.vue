@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import teamsList from 'shared/components/ui/TeamsDropdownItem.vue';
+import teamsList from 'shared/components/ui/TeamsDropdownList.vue';
 import { mixin as clickaway } from 'vue-clickaway';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 export default {
@@ -99,7 +99,6 @@ export default {
     cursor: pointer;
     border: 1px solid lightgray;
     border-radius: var(--border-radius-normal);
-    // padding: var(--space-small) 0 var(--space-one) 0;
     padding: 0.6rem;
   }
 
@@ -113,23 +112,17 @@ export default {
     width: 100%;
     padding: var(--space-smaller) 0;
     line-height: var(--space-normal);
+    min-width: 0;
 
     .select-agent {
       color: var(--b-600);
     }
 
     .name {
-      display: flex;
-      justify-content: space-between;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-    }
-
-    .icon {
-      display: flex;
-      justify-content: space-between;
-      padding: 0.1rem;
+      margin-right: var(--space-small);
     }
   }
 

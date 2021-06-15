@@ -146,14 +146,13 @@ export default {
 
         &.active {
           display: flex;
-          font-weight: 600;
-          color: #1a4d8f;
+          font-weight: var(--font-weight-bold);
+          color: var(--w-700);
         }
 
         .name-icon-wrap {
           display: flex;
           justify-content: space-between;
-          padding: 0.5rem;
           min-width: 0;
         }
 

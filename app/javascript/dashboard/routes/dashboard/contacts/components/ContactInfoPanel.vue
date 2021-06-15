@@ -65,10 +65,6 @@ export default {
   position: relative;
   border-left: 1px solid var(--color-border);
   padding: var(--space-medium) var(--space-two);
-
-  .contact-labels {
-    padding-bottom: var(--space-normal);
-  }
 }
 
 .close-button {
