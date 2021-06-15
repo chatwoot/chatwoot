@@ -51,8 +51,8 @@
         "NO": "No, mantenerlo "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+        "SUCCESS_MESSAGE": "Campaña borrada satisfactoriamente",
+        "ERROR_MESSAGE": "La campaña no se pudo borrar. Intente nuevamente más tarde."
       }
     },
     "EDIT": {
