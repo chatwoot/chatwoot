@@ -15,6 +15,7 @@
       :show-popout-button="showPopoutButton"
     />
     <unread
+      v-else
       :show-unread-view="showUnreadView"
       :has-fetched="hasFetched"
       :unread-message-count="unreadMessageCount"
