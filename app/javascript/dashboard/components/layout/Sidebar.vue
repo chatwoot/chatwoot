@@ -264,16 +264,6 @@ export default {
   .modal-container {
     width: 40rem;
   }
-
-  .page-top-bar {
-    padding-bottom: $space-two;
-  }
-}
-
-.change-accounts--button.button {
-  font-weight: $font-weight-normal;
-  font-size: $font-size-small;
-  padding: $space-small $space-one;
 }
 
 .account-selector {

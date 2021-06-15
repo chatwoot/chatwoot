@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Имя источника",
+        "PLACEHOLDER": "Введите имя папки \"Входящие\" (например: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Имя сайта",
+        "PLACEHOLDER": "Введите имя вашего сайта (например: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: После авторизации мы получим доступ только к вашим сообщениям на странице. Личные сообщения недоступны Chatwoot.",
         "CHOOSE_PAGE": "Выберите страницы",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Подключение сайта в качестве источника",
         "CHANNEL_AVATAR": {
           "LABEL": "Изображение"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Имя сайта",
-          "PLACEHOLDER": "Введите имя вашего сайта (например: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Домен сайта",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Включено",
         "DISABLED": "Выключено"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Включено",
+        "DISABLED": "Выключено"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Подтвердите удаление",
         "MESSAGE": "Вы точно хотите удалить ",
+        "PLACE_HOLDER": "Пожалуйста, введите {inboxName} для подтверждения",
         "YES": "Да, удалить ",
         "NO": "Нет, не удалять "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
       "UPDATE": "Обновить",
+      "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
       "AUTO_ASSIGNMENT": "Включить автоназначение",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",

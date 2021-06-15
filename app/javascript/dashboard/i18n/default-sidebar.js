@@ -74,6 +74,9 @@ export const getSidebarItems = accountId => ({
       'settings_integrations',
       'settings_integrations_webhook',
       'settings_integrations_integration',
+      'settings_applications',
+      'settings_applications_webhook',
+      'settings_applications_integration',
       'general_settings',
       'general_settings_index',
       'settings_teams_list',
@@ -135,6 +138,13 @@ export const getSidebarItems = accountId => ({
         hasSubMenu: false,
         toState: frontendURL(`accounts/${accountId}/settings/integrations`),
         toStateName: 'settings_integrations',
+      },
+      settings_applications: {
+        icon: 'ion-asterisk',
+        label: 'APPLICATIONS',
+        hasSubMenu: false,
+        toState: frontendURL(`accounts/${accountId}/settings/applications`),
+        toStateName: 'settings_applications',
       },
       general_settings_index: {
         icon: 'ion-gear-a',

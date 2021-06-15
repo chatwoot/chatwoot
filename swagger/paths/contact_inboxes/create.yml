@@ -13,7 +13,7 @@ post:
         properties:
           inbox_id:
             type: number
-            description: The id of the inbox
+            description: The ID of the inbox
             required: true
           source_id:
             $ref: '#/parameters/source_id'

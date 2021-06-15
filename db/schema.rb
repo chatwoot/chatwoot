@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_083044) do
+ActiveRecord::Schema.define(version: 2021_06_09_133433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -97,7 +97,8 @@ ActiveRecord::Schema.define(version: 2021_05_13_083044) do
     t.string "outgoing_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "hide_input_for_bot_conversations", default: false
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -142,6 +143,11 @@ ActiveRecord::Schema.define(version: 2021_05_13_083044) do
     t.string "webhook_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "identifier"
+    t.string "hmac_token"
+    t.boolean "hmac_mandatory", default: false
+    t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
+    t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
   end
 
   create_table "channel_email", force: :cascade do |t|
@@ -200,6 +206,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_083044) do
     t.string "hmac_token"
     t.boolean "pre_chat_form_enabled", default: false
     t.jsonb "pre_chat_form_options", default: {}
+    t.boolean "hmac_mandatory", default: false
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end
@@ -321,6 +328,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_083044) do
     t.boolean "working_hours_enabled", default: false
     t.string "out_of_office_message"
     t.string "timezone", default: "UTC"
+    t.boolean "enable_email_collect", default: true
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -611,6 +619,7 @@ ActiveRecord::Schema.define(version: 2021_05_13_083044) do
   add_foreign_key "account_users", "accounts"
   add_foreign_key "account_users", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "agent_bots", "accounts"
   add_foreign_key "campaigns", "accounts"
   add_foreign_key "campaigns", "inboxes"
   add_foreign_key "contact_inboxes", "contacts"

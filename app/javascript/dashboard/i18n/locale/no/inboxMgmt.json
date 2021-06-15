@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Navn på innboks",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nettstedsnavn",
+        "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Ved å logge inn får vi bare tilgang til meldingene til siden. Dine private meldinger vil aldri bli lest av Chatwoot.",
         "CHOOSE_PAGE": "Velg side",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Oppretter nettstedskanal",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal profilbilde"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nettstedsnavn",
-          "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Nettstedets domene",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktivert",
         "DISABLED": "Deaktivert"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Aktivert",
+        "DISABLED": "Deaktivert"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Bekreft sletting",
         "MESSAGE": "Er du sikker på at du vil slette ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, slett ",
         "NO": "Nei, behold "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agenter",
       "INBOX_AGENTS_SUB_TEXT": "Legg til eller fjern agenter fra denne innboksen",
       "UPDATE": "Oppdater",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Aktiver autotilordning",
       "INBOX_UPDATE_TITLE": "Innboksinnstillinger",
       "INBOX_UPDATE_SUB_TEXT": "Oppdater innboksinnstillinger",

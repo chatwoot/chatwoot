@@ -25,8 +25,14 @@ contactable_inboxes:
   $ref: ./resource/contactable_inboxes.yml
 account:
   $ref: ./resource/account.yml
+platform_account:
+  $ref: ./resource/platform_account.yml
 team:
   $ref: ./resource/team.yml
+integrations_app:
+   $ref: ./resource/integrations/app.yml
+integrations_hook:
+   $ref: ./resource/integrations/hook.yml
 
 # RESPONSE
 
@@ -74,6 +80,15 @@ extended_message:
 
 # REQUEST
 
+account_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
+agent_bot_create_update_payload:
+  $ref: ./request/agent_bot/create_update_payload.yml
+
+user_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
 ## contact
 contact_create:
   $ref: ./request/contact/create.yml
@@ -87,3 +102,9 @@ conversation_message_create:
 
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
+
+integrations_hook_create_payload:
+  $ref: ./request/integrations/hook_create_payload.yml
+
+integrations_hook_update_payload:
+  $ref: ./request/integrations/hook_update_payload.yml

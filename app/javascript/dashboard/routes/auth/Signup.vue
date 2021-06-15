@@ -26,6 +26,17 @@
             @blur="$v.credentials.fullName.$touch"
           />
           <woot-input
+            v-model.trim="credentials.email"
+            type="email"
+            :class="{ error: $v.credentials.email.$error }"
+            :label="$t('REGISTER.EMAIL.LABEL')"
+            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
+            :error="
+              $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
+            "
+            @blur="$v.credentials.email.$touch"
+          />
+          <woot-input
             v-model="credentials.accountName"
             :class="{ error: $v.credentials.accountName.$error }"
             :label="$t('REGISTER.ACCOUNT_NAME.LABEL')"
@@ -38,15 +49,31 @@
             @blur="$v.credentials.accountName.$touch"
           />
           <woot-input
-            v-model.trim="credentials.email"
-            type="email"
-            :class="{ error: $v.credentials.email.$error }"
-            :label="$t('REGISTER.EMAIL.LABEL')"
-            :placeholder="$t('REGISTER.EMAIL.PLACEHOLDER')"
+            v-model.trim="credentials.password"
+            type="password"
+            :class="{ error: $v.credentials.password.$error }"
+            :label="$t('LOGIN.PASSWORD.LABEL')"
+            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
             :error="
-              $v.credentials.email.$error ? $t('REGISTER.EMAIL.ERROR') : ''
+              $v.credentials.password.$error
+                ? $t('SET_NEW_PASSWORD.PASSWORD.ERROR')
+                : ''
             "
-            @blur="$v.credentials.email.$touch"
+            @blur="$v.credentials.password.$touch"
+          />
+
+          <woot-input
+            v-model.trim="credentials.confirmPassword"
+            type="password"
+            :class="{ error: $v.credentials.confirmPassword.$error }"
+            :label="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.LABEL')"
+            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+            :error="
+              $v.credentials.confirmPassword.$error
+                ? $t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')
+                : ''
+            "
+            @blur="$v.credentials.confirmPassword.$touch"
           />
           <woot-submit-button
             :disabled="isSignupInProgress"
@@ -79,6 +106,7 @@ import Auth from '../../api/auth';
 import { mapGetters } from 'vuex';
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import alertMixin from 'shared/mixins/alertMixin';
+import { DEFAULT_REDIRECT_URL } from '../../constants';
 
 export default {
   mixins: [globalConfigMixin, alertMixin],
@@ -88,6 +116,8 @@ export default {
         accountName: '',
         fullName: '',
         email: '',
+        password: '',
+        confirmPassword: '',
       },
       isSignupInProgress: false,
       error: '',
@@ -106,6 +136,19 @@ export default {
       email: {
         required,
         email,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+      confirmPassword: {
+        required,
+        isEqPassword(value) {
+          if (value !== this.credentials.password) {
+            return false;
+          }
+          return true;
+        },
       },
     },
   },
@@ -132,7 +175,7 @@ export default {
       try {
         const response = await Auth.register(this.credentials);
         if (response.status === 200) {
-          window.location = '/';
+          window.location = DEFAULT_REDIRECT_URL;
         }
       } catch (error) {
         let errorMessage = this.$t('REGISTER.API.ERROR_MESSAGE');

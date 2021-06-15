@@ -42,6 +42,7 @@
         @focus="onFocus"
         @blur="onBlur"
         @toggle-user-mention="toggleUserMention"
+        @toggle-canned-menu="toggleCannedMenu"
       />
     </div>
     <div v-if="hasAttachments" class="attachment-preview-box">
@@ -249,7 +250,8 @@ export default {
       }
     },
     message(updatedMessage) {
-      this.hasSlashCommand = updatedMessage[0] === '/';
+      this.hasSlashCommand =
+        updatedMessage[0] === '/' && !this.showRichContentEditor;
       const hasNextWord = updatedMessage.includes(' ');
       const isShortCodeActive = this.hasSlashCommand && !hasNextWord;
       if (isShortCodeActive) {
@@ -271,6 +273,9 @@ export default {
     toggleUserMention(currentMentionState) {
       this.hasUserMention = currentMentionState;
     },
+    toggleCannedMenu(value) {
+      this.showCannedMenu = value;
+    },
     handleKeyEvents(e) {
       if (isEscape(e)) {
         this.hideEmojiPicker();
@@ -279,7 +284,8 @@ export default {
         const hasSendOnEnterEnabled =
           (this.showRichContentEditor &&
             this.enterToSendEnabled &&
-            !this.hasUserMention) ||
+            !this.hasUserMention &&
+            !this.showCannedMenu) ||
           !this.showRichContentEditor;
         const shouldSendMessage =
           hasSendOnEnterEnabled && !hasPressedShift(e) && this.isFocused;

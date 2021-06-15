@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-import { getContrastingTextColor } from 'shared/helpers/ColorHelper';
+import { getContrastingTextColor } from '@chatwoot/utils';
 export default {
   props: {
     title: {
@@ -52,7 +52,11 @@ export default {
     },
     labelStyle() {
       if (this.bgColor) {
-        return { background: this.bgColor, color: this.textColor };
+        return {
+          background: this.bgColor,
+          color: this.textColor,
+          border: `1px solid ${this.bgColor}`,
+        };
       }
       return {};
     },

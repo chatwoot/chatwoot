@@ -7,7 +7,7 @@ get:
     - name: id
       in: path
       type: number
-      description: id of the contact
+      description: ID of the contact
       required: true
   responses:
     200:

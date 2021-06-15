@@ -5,13 +5,25 @@
     </span>
     <contact-info :contact="contact" :channel-type="channelType" />
     <div class="conversation--actions">
-      <h4 class="sub-block-title">
-        {{ $t('CONVERSATION_SIDEBAR.DETAILS_TITLE') }}
-      </h4>
       <div class="multiselect-wrap--small">
-        <label class="multiselect__label">
-          {{ $t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL') }}
-        </label>
+        <contact-details-item
+          :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
+          icon="ion-headphone"
+          emoji="🧑‍🚀"
+        >
+          <template v-slot:button>
+            <woot-button
+              v-if="showSelfAssign"
+              icon="ion-arrow-right-c"
+              variant="link"
+              size="small"
+              class-names="button-content"
+              @click="onSelfAssign"
+            >
+              {{ $t('CONVERSATION_SIDEBAR.SELF_ASSIGN') }}
+            </woot-button>
+          </template>
+        </contact-details-item>
         <multiselect
           v-model="assignedAgent"
           :options="agentsList"
@@ -35,9 +47,11 @@
         </multiselect>
       </div>
       <div class="multiselect-wrap--small">
-        <label class="multiselect__label">
-          {{ $t('CONVERSATION_SIDEBAR.TEAM_LABEL') }}
-        </label>
+        <contact-details-item
+          :title="$t('CONVERSATION_SIDEBAR.TEAM_LABEL')"
+          icon="ion-ios-people"
+          emoji="🎢"
+        />
         <multiselect
           v-model="assignedTeam"
           :options="teamsList"
@@ -155,6 +169,7 @@ export default {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       teams: 'teams/getTeams',
+      currentUser: 'getCurrentUser',
       getAgents: 'inboxAssignableAgents/getAssignableAgents',
       uiFlags: 'inboxAssignableAgents/getUIFlags',
     }),
@@ -260,6 +275,15 @@ export default {
           });
       },
     },
+    showSelfAssign() {
+      if (!this.assignedAgent) {
+        return true;
+      }
+      if (this.assignedAgent.id !== this.currentUser.id) {
+        return true;
+      }
+      return false;
+    },
   },
   watch: {
     conversationId(newConversationId, prevConversationId) {
@@ -286,6 +310,29 @@ export default {
     openTranscriptModal() {
       this.showTranscriptModal = true;
     },
+    onSelfAssign() {
+      const {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      } = this.currentUser;
+      const selfAssign = {
+        account_id,
+        availability_status,
+        available_name,
+        email,
+        id,
+        name,
+        role,
+        thumbnail,
+      };
+      this.assignedAgent = selfAssign;
+    },
   },
 };
 </script>
@@ -300,17 +347,27 @@ export default {
   overflow-y: auto;
   overflow: auto;
   position: relative;
-  padding: $space-one;
 
   i {
     margin-right: $space-smaller;
   }
 }
 
-.multiselect-wrap--small {
-  &::v-deep .multiselect__element {
-    span {
-      width: 100%;
+::v-deep {
+  .contact--profile {
+    padding-bottom: var(--space-slab);
+    margin-bottom: var(--space-normal);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .multiselect-wrap--small {
+    .multiselect {
+      padding-left: var(--space-medium);
+      box-sizing: border-box;
+    }
+    .multiselect__element {
+      span {
+        width: 100%;
+      }
     }
   }
 }
@@ -321,10 +378,6 @@ export default {
   top: $space-slab;
   font-size: $font-size-default;
   color: $color-heading;
-}
-
-.conversation--details {
-  padding: 0 var(--space-slab);
 }
 
 .conversation--labels {
@@ -354,17 +407,10 @@ export default {
   justify-content: center;
 }
 
-.sub-block-title {
-  margin-bottom: var(--space-small);
-}
-
 .conversation--actions {
-  padding: 0 var(--space-normal) var(--space-smaller);
+  margin-bottom: var(--space-normal);
 }
 
-.multiselect__label {
-  margin-bottom: var(--space-smaller);
-}
 .option__desc {
   display: flex;
   align-items: center;
