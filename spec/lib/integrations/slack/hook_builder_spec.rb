@@ -10,9 +10,8 @@ describe Integrations::Slack::HookBuilder do
       hooks_count = account.hooks.count
 
       builder = described_class.new(account: account, code: code)
-      allow(builder)
-        .to receive(:exchange_temporary_code)
-              .and_return({ 'access_token' => token })
+      allow(builder).to receive(:exchange_temporary_code)
+        .and_return({ 'access_token' => token })
 
       builder.perform
       expect(account.hooks.count).to eql(hooks_count + 1)
@@ -25,15 +24,16 @@ describe Integrations::Slack::HookBuilder do
       hooks_count = account.hooks.count
 
       builder = described_class.new(account: account, code: code)
-      allow(builder)
-        .to receive(:exchange_temporary_code).and_return(
+      allow(builder).to receive(:exchange_temporary_code)
+        .and_return(
           {
             'access_token' => token,
             'incoming_webhook' => {
               'channel' => '#channel',
               'channel_id' => 'channel_id'
             }
-          })
+          }
+        )
 
       builder.perform
       expect(account.hooks.count).to eql(hooks_count + 1)
