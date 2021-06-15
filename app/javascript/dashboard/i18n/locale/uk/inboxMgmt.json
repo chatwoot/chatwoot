@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Назва сайту",
+        "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Створення каналу підтримки веб-сайту",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Назва сайту",
-          "PLACEHOLDER": "Введіть назву свого сайту (наприклад: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Домен сайту",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Увімкнено",
         "DISABLED": "Вимкнено"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Увімкнено",
+        "DISABLED": "Вимкнено"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Підтвердження видалення",
         "MESSAGE": "Справді бажаєте видалити ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Так, видалити ",
         "NO": "No, Keep "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Агенти",
       "INBOX_AGENTS_SUB_TEXT": "Додати або вилучити агентів з скриньки Вхідні",
       "UPDATE": "Оновити",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",

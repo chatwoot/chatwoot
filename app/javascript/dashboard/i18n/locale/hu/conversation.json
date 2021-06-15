@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Beszélgetés részletei",
     "ASSIGNEE_LABEL": "Hozzárendelt ügynök",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Hozzárendelt csapat",
     "SELECT": {
       "PLACEHOLDER": "Nincs"

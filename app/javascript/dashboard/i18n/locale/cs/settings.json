@@ -78,6 +78,11 @@
         "ERROR": "Zadejte prosím platnou e-mailovou adresu",
         "PLACEHOLDER": "Prosím, zadejte vaši e-mailovou adresu, bude zobrazena v konverzacích"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Heslo",
         "ERROR": "Zadejte prosím heslo o délce 6 nebo více",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Konzervované odpovědi",
     "INTEGRATIONS": "Integrace",
     "ACCOUNT_SETTINGS": "Nastavení účtu",
+    "APPLICATIONS": "Applications",
     "LABELS": "Štítky",
     "TEAMS": "Týmy"
   },

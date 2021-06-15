@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "대화 내용",
     "ASSIGNEE_LABEL": "할당된 에이전트",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "할당된 팀",
     "SELECT": {
       "PLACEHOLDER": "없음"

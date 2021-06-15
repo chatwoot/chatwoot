@@ -18,19 +18,14 @@
       "TITLE": "Edelliset keskustelut"
     },
     "LABELS": {
-      "TITLE": "Keskustelutunnisteet",
-      "MODAL": {
-        "TITLE": "Tunnisteet kohteelle",
-        "ACTIVE_LABELS": "Keskusteluun lisätyt tunnisteet",
-        "INACTIVE_LABELS": "Tilissä saatavilla olevat tunnisteet",
-        "REMOVE": "Napsauta X-kuvaketta poistaaksesi tunnisteen",
-        "ADD": "Napsauta + kuvaketta lisätäksesi tunnisteen",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Päivitä tunnisteet",
-        "UPDATE_ERROR": "Tunnisteita ei voitu päivittää, yritä uudelleen."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Tällä tilillä ei ole enempää tunnisteita.",
-      "NO_AVAILABLE_LABELS": "Tälle keskustelulle ei ole lisätty tunnisteita.",
+      "CONVERSATION": {
+        "TITLE": "Keskustelutunnisteet",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "keskustelut"
     }
   },
   "CUSTOM_ATTRIBUTES": {

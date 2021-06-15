@@ -18,23 +18,18 @@
       "TITLE": "Conversas anteriores"
     },
     "LABELS": {
-      "TITLE": "Marcador da conversa",
-      "MODAL": {
-        "TITLE": "Marcadores para",
-        "ACTIVE_LABELS": "Marcadores adicionados à conversa",
-        "INACTIVE_LABELS": "Marcadores disponíveis na conta",
-        "REMOVE": "Clique no ícone X para remover o marcador",
-        "ADD": "Clique no ícone + para adicionar o marcador",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Atualizar marcadores",
-        "UPDATE_ERROR": "Não foi possível atualizar os marcadores, tente novamente."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Não há mais marcadores definidos na conta.",
-      "NO_AVAILABLE_LABELS": "Não há marcadores adicionados a esta conversa.",
+      "CONVERSATION": {
+        "TITLE": "Marcador da conversa",
+        "ADD_BUTTON": "Adicionar marcador"
+      },
       "LABEL_SELECT": {
-        "TITLE": "Add Labels",
-        "PLACEHOLDER": "Search labels",
-        "NO_RESULT": "No labels found"
+        "TITLE": "Adicionar marcador",
+        "PLACEHOLDER": "Pesquisar marcador ",
+        "NO_RESULT": "Nenhum rótulo encontrado"
       }
     },
     "MUTE_CONTACT": "Silenciar Conversa",
@@ -155,36 +150,56 @@
       "VIEW_DETAILS": "Ver detalhes"
     }
   },
-  "NOTES": {
-    "HEADER": {
-      "TITLE": "Notes"
-    },
-    "ADD": {
-      "BUTTON": "Add",
-      "PLACEHOLDER": "Add a note",
-      "TITLE": "Shift + Enter to create a note"
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Adicionar",
+      "TITLE": "Shift + Enter to create a task"
     },
     "FOOTER": {
-      "BUTTON": "View all notes"
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
+  "NOTES": {
+    "HEADER": {
+      "TITLE": "Observações"
+    },
+    "ADD": {
+      "BUTTON": "Adicionar",
+      "PLACEHOLDER": "Adicionar uma nota",
+      "TITLE": "Shift + Enter para criar uma nota"
+    },
+    "FOOTER": {
+      "BUTTON": "Ver todas as notas"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "observações",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "conversas"
     }
   },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Atributos Personalizados",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Criar atributo personalizado",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Criar atributo personalizado",
+      "DESC": "Adicionar informações personalizadas a este contato."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Adicionar atributo",
       "CANCEL": "Cancelar",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Atributos Personalizados",
+        "PLACEHOLDER": "Por exemplo: ID shopify",
+        "ERROR": "Nome de atributo personalizado inválido"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Valor do atributo",
         "PLACEHOLDER": "Eg: 11901 "
       }
     }

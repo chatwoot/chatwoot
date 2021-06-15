@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "ഇൻ‌ബോക്സ് നാമം",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "വെബ്‌സൈറ്റിന്റെ പേര്",
+        "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റിന്റെ പേര് നൽകുക (ഉദാ: പുണ്ണ്യാളൻ അഗർബത്തീസ്)"
+      },
       "FB": {
         "HELP": "സൈൻ ഇൻ ചെയ്യുന്നതിലൂടെ, നിങ്ങളുടെ പേജിന്റെ സന്ദേശങ്ങളിലേക്ക് മാത്രമേ ഞങ്ങൾക്ക് പ്രവേശനം ലഭിക്കൂ. നിങ്ങളുടെ സ്വകാര്യ സന്ദേശങ്ങൾ ഒരിക്കലും ചാറ്റ് വൂട്ട് ഉപയോഗിച്ച് ആക്സസ് ചെയ്യാൻ കഴിയില്ല.",
         "CHOOSE_PAGE": "പേജ് തിരഞ്ഞെടുക്കുക",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "വെബ്‌സൈറ്റ് സപ്പോർട്ട് ചാനൽ സൃഷ്‌ടിക്കുന്നു",
         "CHANNEL_AVATAR": {
           "LABEL": "ചാനൽ അവതാർ"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "വെബ്‌സൈറ്റിന്റെ പേര്",
-          "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റിന്റെ പേര് നൽകുക (ഉദാ: പുണ്ണ്യാളൻ അഗർബത്തീസ്)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "വെബ്സൈറ്റ് ഡൊമെയ്ൻ",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
         "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "പ്രവർത്തനക്ഷമമാക്കി",
+        "DISABLED": "പ്രവർത്തനരഹിതമാക്കി"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
         "MESSAGE": "ഇല്ലാതാക്കണമെന്നു ഉറപ്പാണോ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "അതെ, ഇല്ലാതാക്കുക ",
         "NO": "ഇല്ല, സൂക്ഷിക്കുക"
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "ഏജന്റുമാർ",
       "INBOX_AGENTS_SUB_TEXT": "ഈ ഇൻ‌ബോക്സിൽ നിന്ന് ഏജന്റുമാരെ ചേർക്കുക അല്ലെങ്കിൽ നീക്കംചെയ്യുക",
       "UPDATE": "അപ്‌ഡേറ്റ്",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "ഓട്ടോ അസൈൻമെന്റ് പ്രവർത്തനക്ഷമമാക്കുക",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",

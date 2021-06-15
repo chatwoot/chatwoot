@@ -18,19 +18,14 @@
       "TITLE": "Předchozí konverzace"
     },
     "LABELS": {
-      "TITLE": "Štítky konverzace",
-      "MODAL": {
-        "TITLE": "Štítky pro",
-        "ACTIVE_LABELS": "Štítky přidány do konverzace",
-        "INACTIVE_LABELS": "Štítky dostupné v účtu",
-        "REMOVE": "Kliknutím na ikonu X odstraníte štítek",
-        "ADD": "Kliknutím na ikonu + přidáte štítek",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Aktualizovat štítky",
-        "UPDATE_ERROR": "Nelze aktualizovat štítky, zkuste to znovu."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "V účtu nejsou definovány žádné další štítky.",
-      "NO_AVAILABLE_LABELS": "Do této konverzace nebyly přidány žádné štítky.",
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Zobrazit detaily"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "konverzace"
     }
   },
   "CUSTOM_ATTRIBUTES": {
