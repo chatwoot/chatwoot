@@ -1,0 +1,60 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "הורד",
+      "UPLOADING": "מעלה..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "שלח"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "אנחנו אונליין",
+    "OFFLINE": "אנחנו לא זמינים כרגע"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
+    "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
+    "IN_A_DAY": "מענה ממוצע לאחר יום"
+  },
+  "START_CONVERSATION": "התחל שיחה",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
+    "CLOSE_MESSAGES_BUTTON": "סגור",
+    "COMPANY_FROM": "מ",
+    "BOT": "בוט"
+  },
+  "BUBBLE": {
+    "LABEL": "דבר איתנו"
+  },
+  "POWERED_BY": "מופעל על ידי Chatwoot",
+  "EMAIL_PLACEHOLDER": "הזן בבקשה את האימייל שלך",
+  "CHAT_PLACEHOLDER": "הקלד הודעה",
+  "TODAY": "היום",
+  "YESTERDAY": "אתמול",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "שם מלא",
+        "PLACEHOLDER": "הכנס שם מלא בבקשה",
+        "ERROR": "שם מלא שדה חובה"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "כתובת מייל",
+        "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
+        "ERROR": "כתובת מייל לא חוקית"
+      },
+      "MESSAGE": {
+        "LABEL": "הודעה",
+        "PLACEHOLDER": "הקלד הודעה בבקשה",
+        "ERROR": "הודעה קצרה מדי"
+      }
+    }
+  },
+  "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
+}

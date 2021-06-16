@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "اسم صندوق الوارد لقناة التواصل",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "اسم الموقع",
+        "PLACEHOLDER": "أدخل اسم موقع الويب الخاص بك (مثال: Acme Inc)"
+      },
       "FB": {
         "HELP": "ملحوظة: بالمصادقة على حسابك، فنحن يمكننا فقط الوصول إلى الرسائل الواردة لصفحتك. لا يستطيع Chatwoot أبداً بأي شكل من الأشكال الوصول إلى رسائلك الخاصة في حسابك الشخصي.",
         "CHOOSE_PAGE": "اختر صفحة",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "جاري إنشاء قناة تواصل للموقع",
         "CHANNEL_AVATAR": {
           "LABEL": "الصورة الرمزية للقناة"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "اسم الموقع",
-          "PLACEHOLDER": "أدخل اسم موقع الويب الخاص بك (مثال: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "نطاق الموقع",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "مفعل",
         "DISABLED": "معطّل"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "مفعل",
+        "DISABLED": "معطّل"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "تأكيد الحذف",
         "MESSAGE": "هل أنت متأكد من الحذف ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "نعم، احذف ",
         "NO": "لا، احتفظ "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "موظف الدعم",
       "INBOX_AGENTS_SUB_TEXT": "إضافة أو إزالة موظفين من قناة التواصل هذه",
       "UPDATE": "تحديث",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "تفعيل الإسناد التلقائي",
       "INBOX_UPDATE_TITLE": "إعدادات قناة التواصل",
       "INBOX_UPDATE_SUB_TEXT": "تحديث إعدادات قناة التواصل",

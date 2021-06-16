@@ -78,6 +78,11 @@
         "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح",
         "PLACEHOLDER": "الرجاء إدخال عنوان البريد الإلكتروني الخاص بك، سيتم عرضه في المحادثات"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "كلمة المرور",
         "ERROR": "الرجاء إدخال كلمة مرور بطول 6 أحرف أو أكثر",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "الردود السريعة",
     "INTEGRATIONS": "خيارات الربط",
     "ACCOUNT_SETTINGS": "إعدادات الحساب",
+    "APPLICATIONS": "Applications",
     "LABELS": "الوسوم",
     "TEAMS": "الفرق"
   },

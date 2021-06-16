@@ -17,6 +17,24 @@
           "การกระทำ"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "เเก้ไข",
+        "TITLE": "Edit webhook",
+        "CANCEL": "ยกเลิก",
+        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "ลิ้ง Webhook",
+            "PLACEHOLDER": "Example: https://example/api/webhook",
+            "ERROR": "กรุณากรอกลิ้งที่ถูกต้อง"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
+        }
+      },
       "ADD": {
         "CANCEL": "ยกเลิก",
         "TITLE": "Add new webhook",

@@ -18,19 +18,14 @@
       "TITLE": "Önceki Sohbetler"
     },
     "LABELS": {
-      "TITLE": "Konuşma Etiketleri",
-      "MODAL": {
-        "TITLE": "İçin etiketler",
-        "ACTIVE_LABELS": "Sohbete eklenen etiketler",
-        "INACTIVE_LABELS": "Hesapta bulunan etiketler",
-        "REMOVE": "Etiketi kaldırmak için X simgesine tıklayın",
-        "ADD": "Etiketi eklemek için + simgesine tıklayın",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Etiketleri güncelle",
-        "UPDATE_ERROR": "Etiketler güncellenemedi, tekrar deneyin."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Hesapta tanımlanmış başka etiket yok.",
-      "NO_AVAILABLE_LABELS": "Bu görüşmeye eklenen etiket yok.",
+      "CONVERSATION": {
+        "TITLE": "Konuşma Etiketleri",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Detayları göster"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "konuşmalar"
     }
   },
   "CUSTOM_ATTRIBUTES": {

@@ -17,6 +17,24 @@
           "Handlinger"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Rediger",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Annuller",
+        "DESC": "Webhook-begivenheder giver dig realtidsoplysninger om, hvad der sker på din Chatwoot-konto. Angiv en gyldig URL for at konfigurere et callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Webhook URL",
+            "PLACEHOLDER": "Eksempel: https://example/api/webhook",
+            "ERROR": "Angiv en gyldig URL"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
+        }
+      },
       "ADD": {
         "CANCEL": "Annuller",
         "TITLE": "Tilføj ny webhook",
