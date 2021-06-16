@@ -118,7 +118,7 @@ export default {
     .search-input {
       margin: 0;
       width: 100%;
-      border: none;
+      border: 1px solid transparent;
       height: var(--space-large);
       font-size: var(--font-size-small);
       padding: var(--space-small);

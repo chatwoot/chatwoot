@@ -84,9 +84,11 @@ export default {
     toggleDropdownTeam() {
       this.showSearchDropdownTeam = !this.showSearchDropdownTeam;
     },
+
     onCloseDropdownTeam() {
       this.showSearchDropdownTeam = false;
     },
+
     showTeam(value) {
       this.$emit('click', value);
     },
@@ -106,10 +108,10 @@ export default {
     width: 100%;
     cursor: pointer;
     justify-content: flex-start;
-    background: white;
+    background: var(--white);
     font-size: var(--font-size-small);
     cursor: pointer;
-    border: 1px solid lightgray;
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius-normal);
     padding: 0.6rem;
   }
