@@ -1,10 +1,15 @@
-# ERROR
+##  ---------- ERRORS ------------- ##
+## -------------------------------- ##
 bad_request_error:
   $ref: ./error/bad_request.yml
 request_error:
   $ref: ./error/request.yml
 
-# RESOURCE
+
+
+##  ---------- RESOURCE ------------- ##
+## -------------------------------- ##
+
 generic_id:
   $ref: ./resource/extension/generic.yml
 contact:
@@ -30,11 +35,63 @@ platform_account:
 team:
   $ref: ./resource/team.yml
 integrations_app:
-   $ref: ./resource/integrations/app.yml
+  $ref: ./resource/integrations/app.yml
 integrations_hook:
-   $ref: ./resource/integrations/hook.yml
+  $ref: ./resource/integrations/hook.yml
 
-# RESPONSE
+## public resources
+public_contact:
+  $ref: ./resource/public/contact.yml
+public_conversation:
+  $ref: ./resource/public/conversation.yml
+public_message:
+  $ref: ./resource/public/message.yml
+
+
+##  ---------- REQUEST------------- ##
+## -------------------------------- ##
+
+account_create_update_payload:
+  $ref: ./request/account/create_update_payload.yml
+
+agent_bot_create_update_payload:
+  $ref: ./request/agent_bot/create_update_payload.yml
+
+user_create_update_payload:
+  $ref: ./request/user/create_update_payload.yml
+
+## contact
+contact_create:
+  $ref: ./request/contact/create.yml
+contact_update:
+  $ref: ./request/contact/update.yml
+
+## conversation
+conversation_message_create:
+  $ref: ./request/conversation/create_message.yml
+
+# Team request Payload
+team_create_update_payload:
+  $ref: ./request/team/create_update_payload.yml
+
+integrations_hook_create_payload:
+  $ref: ./request/integrations/hook_create_payload.yml
+
+integrations_hook_update_payload:
+  $ref: ./request/integrations/hook_update_payload.yml
+
+
+## public requests
+public_contact_create_update_payload:
+  $ref: ./request/public/contact/create_update_payload.yml
+
+public_message_create_payload:
+  $ref: ./request/public/message/create_payload.yml
+public_message_update_payload:
+  $ref: ./request/public/message/update_payload.yml
+
+##  ---------- RESPONSE ------------- ##
+## -------------------------------- ##
 
 ## contact
 extended_contact:
@@ -77,34 +134,3 @@ extended_message:
     - $ref: '#/definitions/generic_id'
     - $ref: '#/definitions/message'
     - $ref: ./resource/extension/message/with_source_sender.yml
-
-# REQUEST
-
-account_create_update_payload:
-  $ref: ./request/account/create_update_payload.yml
-
-agent_bot_create_update_payload:
-  $ref: ./request/agent_bot/create_update_payload.yml
-
-user_create_update_payload:
-  $ref: ./request/account/create_update_payload.yml
-
-## contact
-contact_create:
-  $ref: ./request/contact/create.yml
-contact_update:
-  $ref: ./request/contact/update.yml
-## conversation
-conversation_message_create:
-  $ref: ./request/conversation/create_message.yml
-
-# Team request Payload
-
-team_create_update_payload:
-  $ref: ./request/team/create_update_payload.yml
-
-integrations_hook_create_payload:
-  $ref: ./request/integrations/hook_create_payload.yml
-
-integrations_hook_update_payload:
-  $ref: ./request/integrations/hook_update_payload.yml

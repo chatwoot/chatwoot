@@ -78,6 +78,11 @@
         "ERROR": "Kérjük helyes e-mailcímet adj meg",
         "PLACEHOLDER": "Kérjük add meg az e-mailcímet amit a beszélgetésekben szeretnél megjeleníteni"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Jelszó",
         "ERROR": "Kérjük 6 karakternél hosszabb jelszót adj meg",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Mentett válaszok",
     "INTEGRATIONS": "Integrációk",
     "ACCOUNT_SETTINGS": "Fiókbeállítások",
+    "APPLICATIONS": "Applications",
     "LABELS": "Cimkék",
     "TEAMS": "Csapatok"
   },

@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "收件箱名称",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "网站名称",
+        "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
+      },
       "FB": {
         "HELP": "注意: 通过登录，我们只能访问您的页面的消息。您的私人消息永远不能被聊天室访问。",
         "CHOOSE_PAGE": "选择页面",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "创建网站支持频道",
         "CHANNEL_AVATAR": {
           "LABEL": "频道头像"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "网站名称",
-          "PLACEHOLDER": "输入您的网站名称 (e.g: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "网站域名",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "已启用",
         "DISABLED": "已禁用"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "已启用",
+        "DISABLED": "已禁用"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "确认删除",
         "MESSAGE": "您确定要删除吗？ ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "是，删除 ",
         "NO": "不，保留 "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
       "UPDATE": "更新",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "启用自动分配",
       "INBOX_UPDATE_TITLE": "收件箱设置",
       "INBOX_UPDATE_SUB_TEXT": "更新收件箱设置",

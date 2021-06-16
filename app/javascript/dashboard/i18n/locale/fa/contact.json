@@ -18,19 +18,14 @@
       "TITLE": "گفتگوهای قبلی"
     },
     "LABELS": {
-      "TITLE": "برچسب‌های گفتگو",
-      "MODAL": {
-        "TITLE": "برچسب‌ها برای",
-        "ACTIVE_LABELS": "برچسب‌ها اضافه شد به گفتگو",
-        "INACTIVE_LABELS": "برچسب‌های موجود در حساب‌کاربری",
-        "REMOVE": "برای پاک کردن برچسب، روی آیکون X کلیک کنید",
-        "ADD": "برای افزودن برچسب بر روی آیکون + کلیک کنید",
-        "ADD_BUTTON": "افزودن برچسب‌ها",
-        "UPDATE_BUTTON": "تغییر برچسب‌ها",
-        "UPDATE_ERROR": "برچسب‌ها تغییری نکردند، لطفا بعدا امتحان کنید."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "هیچ برچسبی در حساب‌کاربری تعریف نشده است.",
-      "NO_AVAILABLE_LABELS": "هیچ برچسبی به این گفتگو اضافه نشده است.",
+      "CONVERSATION": {
+        "TITLE": "برچسب‌های گفتگو",
+        "ADD_BUTTON": "افزودن برچسب‌ها"
+      },
       "LABEL_SELECT": {
         "TITLE": "افزودن برچسب‌ها",
         "PLACEHOLDER": "جستجو برچسب‌ها",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "مشاهده جزئیات"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "افزودن",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "گفتگوها"
     }
   },
   "CUSTOM_ATTRIBUTES": {

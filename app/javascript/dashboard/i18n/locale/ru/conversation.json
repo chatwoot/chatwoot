@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Детали диалога",
     "ASSIGNEE_LABEL": "Назначенный агент",
+    "SELF_ASSIGN": "Назначить мне",
     "TEAM_LABEL": "Назначенная команда",
     "SELECT": {
       "PLACEHOLDER": "Ничего"

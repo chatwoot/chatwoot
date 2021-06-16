@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
         "CHOOSE_PAGE": "Choose Page",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Creating Website Support Channel",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Website Name",
-          "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure to delete ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Yes, Delete ",
         "NO": "No, Keep "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "UPDATE": "Update",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",

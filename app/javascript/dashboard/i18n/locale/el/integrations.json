@@ -17,6 +17,24 @@
           "ΕΝΕΡΓΕΙΕΣ"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Επεξεργασία",
+        "TITLE": "Επεξεργασία webhook",
+        "CANCEL": "Άκυρο",
+        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "Σύνδεσμος Webhook",
+            "PLACEHOLDER": "Παράδειγμα: https://www.hmu.gr/api/webhook",
+            "ERROR": "Παρακαλώ εισάγετε ένα έγκυρο URL"
+          },
+          "SUBMIT": "Επεξεργασία webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Το URL Webhook ενημερώθηκε με επιτυχία",
+          "ERROR_MESSAGE": "Αδυναμία σύνδεσης με τον Woot Server, Παρακαλώ προσπαθήστε αργότερα"
+        }
+      },
       "ADD": {
         "CANCEL": "Άκυρο",
         "TITLE": "Προσθήκη Νέου webhook",
