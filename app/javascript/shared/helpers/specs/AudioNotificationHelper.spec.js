@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { shouldPlayAudio } from '../AudioNotificationHelper';
+import { shouldPlayByBrowserBehavior } from '../AudioNotificationHelper';
 
-describe('shouldPlayAudio', () => {
+describe('shouldPlayByBrowserBehavior', () => {
   describe('Document active', () => {
     it('Retuns true if incoming message', () => {
       const message = {
@@ -14,7 +14,7 @@ describe('shouldPlayAudio', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, false];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
@@ -30,7 +30,7 @@ describe('shouldPlayAudio', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, false];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
@@ -47,7 +47,7 @@ describe('shouldPlayAudio', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
@@ -63,7 +63,7 @@ describe('shouldPlayAudio', () => {
         private: true,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
@@ -81,7 +81,7 @@ describe('shouldPlayAudio', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
@@ -97,7 +97,7 @@ describe('shouldPlayAudio', () => {
         private: false,
       };
       const [conversationId, userId, isDocHiddden] = [1, 2, true];
-      const result = shouldPlayAudio(
+      const result = shouldPlayByBrowserBehavior(
         message,
         conversationId,
         userId,
