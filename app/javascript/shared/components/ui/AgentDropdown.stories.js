@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import AgentDropdownSelector from './AgentDropdown';
 
 export default {
-  title: 'Components/Dropdown/Agent Dropdown',
+  title: 'Components/Dropdown/Agents Dropdown',
   component: AgentDropdownSelector,
   argTypes: {
     agentsList: {
@@ -25,8 +25,8 @@ const Template = (args, { argTypes }) => ({
     '<agent-dropdown-selector v-bind="$props" @click="onClick"></agent-dropdown-selector>',
 });
 
-export const AgentDropdown = Template.bind({});
-AgentDropdown.args = {
+export const AgentsDropdown = Template.bind({});
+AgentsDropdown.args = {
   onClick: action('Opened'),
   agentsList: [
     {
@@ -40,6 +40,7 @@ AgentDropdown.args = {
       thumbnail: 'https://randomuser.me/api/portraits/men/4.jpg',
     },
   ],
+
   assignedAgent: {
     account_id: 1,
     availability_status: 'online',

@@ -56,6 +56,7 @@ export default {
     agentsList,
   },
   mixins: [clickaway],
+
   props: {
     agentsList: {
       type: Array,
@@ -66,11 +67,13 @@ export default {
       default: () => ({}),
     },
   },
+
   data() {
     return {
       showSearchDropdownAgent: false,
     };
   },
+
   computed: {
     noAssignedAgent() {
       if (this.assignedAgent && this.assignedAgent.id) {
@@ -79,13 +82,16 @@ export default {
       return false;
     },
   },
+
   methods: {
     toggleDropdownAgent() {
       this.showSearchDropdownAgent = !this.showSearchDropdownAgent;
     },
+
     onCloseDropdownAgent() {
       this.showSearchDropdownAgent = false;
     },
+
     showAgent(value) {
       this.$emit('click', value);
     },
@@ -100,20 +106,23 @@ export default {
   width: 100%;
   margin-right: var(--space-one);
   margin-bottom: var(--space-small);
+
   .button-input {
     display: flex;
     width: 100%;
     cursor: pointer;
     justify-content: flex-start;
-    background: white;
+    background: var(--white);
     font-size: var(--font-size-small);
-    border: 1px solid lightgray;
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius-normal);
     padding: 0.6rem;
   }
+
   &::v-deep .user-thumbnail-box {
     margin-right: var(--space-one);
   }
+
   .name-icon-wrap {
     display: flex;
     justify-content: space-between;
@@ -121,9 +130,11 @@ export default {
     padding: var(--space-smaller) 0;
     line-height: var(--space-normal);
     min-width: 0;
+
     .select-agent {
       color: var(--b-600);
     }
+
     .name {
       overflow: hidden;
       text-overflow: ellipsis;
@@ -137,6 +148,7 @@ export default {
     right: 0;
     position: absolute;
     width: 100%;
+
     &::v-deep {
       .dropdown-menu__item .button {
         width: 100%;
@@ -144,9 +156,11 @@ export default {
         overflow: hidden;
         white-space: nowrap;
         padding: var(--space-smaller) var(--space-small);
+
         .name-icon-wrap {
           width: 100%;
         }
+
         .name {
           width: 100%;
         }

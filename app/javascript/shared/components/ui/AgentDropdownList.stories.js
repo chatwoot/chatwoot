@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import AgentDropdownList from './AgentDropdownList';
 
 export default {
-  title: 'Components/Dropdown/Agent List',
+  title: 'Components/Dropdown/Agents List',
   component: AgentDropdownList,
   argTypes: {
     options: {
@@ -25,8 +25,8 @@ const Template = (args, { argTypes }) => ({
     '<agent-dropdown-list v-bind="$props" @click="onClick"></agent-dropdown-list>',
 });
 
-export const AgentList = Template.bind({});
-AgentList.args = {
+export const AgentsList = Template.bind({});
+AgentsList.args = {
   onClick: action('Added'),
   options: [
     {
@@ -49,5 +49,6 @@ AgentList.args = {
       thumbnail: 'https://randomuser.me/api/portraits/men/17.jpg',
     },
   ],
+
   value: { id: '1' },
 };

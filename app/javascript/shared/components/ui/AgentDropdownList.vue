@@ -58,6 +58,7 @@ export default {
     WootDropdownMenu,
     Thumbnail,
   },
+
   props: {
     options: {
       type: Array,
@@ -68,28 +69,34 @@ export default {
       default: () => ({}),
     },
   },
+
   data() {
     return {
       search: '',
     };
   },
+
   computed: {
     filteredOptions() {
       return this.options.filter(option => {
         return option.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
+
     noResult() {
       return this.filteredOptions.length === 0 && this.search !== '';
     },
   },
+
   mounted() {
     this.focusInput();
   },
+
   methods: {
     onclick(option) {
       this.$emit('click', option);
     },
+
     focusInput() {
       this.$refs.searchbar.focus();
     },
@@ -103,45 +110,54 @@ export default {
   display: flex;
   flex-direction: column;
   max-height: 16rem;
+
   .search-wrap {
     margin-bottom: var(--space-small);
     flex: 0 0 auto;
     max-height: var(--space-large);
+
     .search-input {
       margin: 0;
       width: 100%;
-      border: none;
+      border: 1px solid transparent;
       height: var(--space-large);
       font-size: var(--font-size-small);
       padding: var(--space-small);
       background-color: var(--color-background);
     }
+
     input:focus {
       border: 1px solid var(--w-500);
     }
   }
+
   .list-wrap {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     flex: 1 1 auto;
     overflow: auto;
+
     .list {
       width: 100%;
       max-height: 12rem;
+
       .button {
         display: flex;
         justify-content: flex-start;
+
         &.active {
           display: flex;
           font-weight: var(--font-weight-bold);
           color: var(--w-700);
         }
+
         .name-icon-wrap {
           display: flex;
           justify-content: space-between;
           min-width: 0;
         }
+
         .name {
           padding: 0 var(--space-smaller);
           line-height: var(--space-normal);
@@ -149,10 +165,12 @@ export default {
           text-overflow: ellipsis;
           white-space: nowrap;
         }
+
         .icon {
           margin-left: var(--space-smaller);
         }
       }
+
       .no-result {
         display: flex;
         justify-content: center;
