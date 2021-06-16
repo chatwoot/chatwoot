@@ -91,6 +91,13 @@
     },
     "SEARCH": {
       "NO_RESULTS": "No agents found."
+    },
+    "SELECTOR": {
+      "TITLE": {
+        "AGENT": "Select Agent",
+        "TEAM": "Select Team"
+      },
+      "PLACEHOLDER": "None"
     }
   }
 }
