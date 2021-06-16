@@ -28,7 +28,7 @@
                 :username="option.name"
               />
               <div class="name-icon-wrap">
-                <div class="name">
+                <div class="name" :title="option.name">
                   {{ option.name }}
                 </div>
                 <i

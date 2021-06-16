@@ -19,13 +19,13 @@
         :username="assignedAgent && assignedAgent.name"
       />
       <div class="name-icon-wrap">
-        <div v-if="!assignedAgent" class="name select-agent">
+        <div v-if="!noAssignedAgent" class="name select-agent">
           {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
         </div>
-        <div v-else class="name">
-          {{ assignedAgent && assignedAgent.name }}
+        <div v-else class="name" :title="assignedAgent.name">
+          {{ assignedAgent.name }}
         </div>
-        <i v-if="showSearchDropdownAgent" class="icon ion-close-round" />
+        <i v-if="showSearchDropdownAgent" class="icon ion-chevron-up" />
         <i v-else class="icon ion-chevron-down" />
       </div>
     </button>
@@ -40,7 +40,7 @@
         v-if="showSearchDropdownAgent"
         :options="agentsList"
         :value="assignedAgent"
-        @click="ShowAgent"
+        @click="showAgent"
       />
     </div>
   </div>
@@ -71,6 +71,15 @@ export default {
       showSearchDropdownAgent: false,
     };
   },
+  computed: {
+    noAssignedAgent() {
+      if (this.assignedAgent && this.assignedAgent.id) {
+        return true;
+      }
+      return false;
+    },
+  },
+
   methods: {
     toggleDropdownAgent() {
       this.showSearchDropdownAgent = !this.showSearchDropdownAgent;
@@ -78,8 +87,8 @@ export default {
     onCloseDropdownAgent() {
       this.showSearchDropdownAgent = false;
     },
-    ShowAgent(label) {
-      this.$emit('click', label);
+    showAgent(value) {
+      this.$emit('click', value);
     },
   },
 };

@@ -15,14 +15,14 @@
         :username="assignedTeam && assignedTeam.name"
       />
       <div class="name-icon-wrap">
-        <div v-if="!assignedTeam" class="name select-agent">
+        <div v-if="!noAssignedTeam" class="name select-agent">
           {{ $t('AGENT_MGMT.SELECTOR.PLACEHOLDER') }}
         </div>
-        <div v-else class="name">
-          {{ assignedTeam && assignedTeam.name }}
+        <div v-else class="name" :title="assignedTeam.name">
+          {{ assignedTeam.name }}
         </div>
 
-        <i v-if="showSearchDropdownTeam" class="icon ion-close-round" />
+        <i v-if="showSearchDropdownTeam" class="icon ion-chevron-up" />
         <i v-else class="icon ion-chevron-down" />
       </div>
     </button>
@@ -37,7 +37,7 @@
         v-if="showSearchDropdownTeam"
         :options="teamsList"
         :value="assignedTeam"
-        @click="onClickTeam"
+        @click="showTeam"
       />
     </div>
   </div>
@@ -68,6 +68,14 @@ export default {
       showSearchDropdownTeam: false,
     };
   },
+  computed: {
+    noAssignedTeam() {
+      if (this.assignedTeam && this.assignedTeam.id) {
+        return true;
+      }
+      return false;
+    },
+  },
   methods: {
     toggleDropdownTeam() {
       this.showSearchDropdownTeam = !this.showSearchDropdownTeam;
@@ -75,8 +83,8 @@ export default {
     onCloseDropdownTeam() {
       this.showSearchDropdownTeam = false;
     },
-    onClickTeam(label) {
-      this.$emit('click', label);
+    showTeam(value) {
+      this.$emit('click', value);
     },
   },
 };

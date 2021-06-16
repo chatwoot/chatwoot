@@ -303,7 +303,7 @@ export default {
     },
     onClickShowAgent(selectedItem) {
       if (this.assignedAgent && this.assignedAgent.id === selectedItem.id) {
-        this.assignedAgent = '';
+        this.assignedAgent = null;
       } else {
         this.assignedAgent = selectedItem;
       }
@@ -311,7 +311,7 @@ export default {
     },
     onClickShowTeam(selectedItemTeam) {
       if (this.assignedTeam && this.assignedTeam.id === selectedItemTeam.id) {
-        this.assignedTeam = '';
+        this.assignedTeam = null;
       } else {
         this.assignedTeam = selectedItemTeam;
       }
