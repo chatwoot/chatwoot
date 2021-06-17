@@ -3,12 +3,17 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
+    <add-account-modal
+      :show="showCreateAccountModal"
+      :show-no-account-warning="true"
+    />
     <woot-snackbar-box />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal';
 import WootSnackbarBox from './components/SnackbarContainer';
 import { accountIdFromPathname } from './helper/URLHelper';
 
@@ -17,12 +22,21 @@ export default {
 
   components: {
     WootSnackbarBox,
+    AddAccountModal,
   },
 
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      currentUser: 'getCurrentUser',
     }),
+    showCreateAccountModal() {
+      return (
+        this.currentUser &&
+        this.currentUser.accounts &&
+        this.currentUser.accounts.length === 0
+      );
+    },
   },
 
   mounted() {
