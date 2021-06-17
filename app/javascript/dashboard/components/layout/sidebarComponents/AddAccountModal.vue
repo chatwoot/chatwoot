@@ -101,8 +101,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import '~dashboard/assets/scss/variables';
-
 .activity-wrap {
   margin: var(--space-large);
   background: var(--r-100);
