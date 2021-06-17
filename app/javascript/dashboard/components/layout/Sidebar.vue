@@ -55,6 +55,7 @@
 
     <add-account-modal
       :show="showCreateAccountModal"
+      :show-no-account-warning="showNoAccountWarning"
       @close-account-create-modal="closeCreateAccountModal"
     />
   </aside>
@@ -91,6 +92,7 @@ export default {
       showOptionsMenu: false,
       showAccountModal: false,
       showCreateAccountModal: false,
+      showNoAccountWarning: false,
     };
   },
 
@@ -213,6 +215,7 @@ export default {
     this.$store.dispatch('notifications/unReadCount');
     this.$store.dispatch('teams/get');
     this.setChatwootUser();
+    this.checkAccountsAreExist();
   },
   methods: {
     toggleSupportChatWindow() {
@@ -252,6 +255,16 @@ export default {
     },
     closeCreateAccountModal() {
       this.showCreateAccountModal = false;
+    },
+    checkAccountsAreExist() {
+      if (
+        this.currentUser &&
+        this.currentUser.accounts &&
+        this.currentUser.accounts.length === 0
+      ) {
+        this.showCreateAccountModal = true;
+        this.showNoAccountWarning = true;
+      }
     },
   },
 };
