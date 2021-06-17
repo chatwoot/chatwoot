@@ -73,7 +73,8 @@ export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
   const { conversation_id: incomingConvId } = data;
-  const currentConv = window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
+  const currentConv =
+    window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assignee = currentConv.meta.assignee;
   let id;
   let userId;
