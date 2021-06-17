@@ -3,10 +3,7 @@
     <transition name="fade" mode="out-in">
       <router-view></router-view>
     </transition>
-    <add-account-modal
-      :show="showCreateAccountModal"
-      :show-no-account-warning="true"
-    />
+    <add-account-modal :show="showCreateAccountModal" show-no-account-warning />
     <woot-snackbar-box />
   </div>
 </template>
