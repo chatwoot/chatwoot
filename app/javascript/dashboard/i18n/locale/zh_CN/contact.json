@@ -18,19 +18,14 @@
       "TITLE": "上一次对话"
     },
     "LABELS": {
-      "TITLE": "对话标记",
-      "MODAL": {
-        "TITLE": "标记为",
-        "ACTIVE_LABELS": "添加到对话的标签",
-        "INACTIVE_LABELS": "账户中可用的标签",
-        "REMOVE": "点击 X 图标删除标签",
-        "ADD": "点击 + 图标添加标签",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "更新标签",
-        "UPDATE_ERROR": "无法更新标签，请重试。"
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "帐户中没有更多标签。",
-      "NO_AVAILABLE_LABELS": "没有标签添加到此对话。",
+      "CONVERSATION": {
+        "TITLE": "对话标记",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "会话"
     }
   },
   "CUSTOM_ATTRIBUTES": {

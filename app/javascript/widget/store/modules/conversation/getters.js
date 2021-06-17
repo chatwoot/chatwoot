@@ -27,6 +27,9 @@ export const getters = {
     }));
   },
   getIsFetchingList: _state => _state.uiFlags.isFetchingList,
+  getMessageCount: _state => {
+    return Object.values(_state.conversations).length;
+  },
   getUnreadMessageCount: _state => {
     const { userLastSeenAt } = _state.meta;
     const count = Object.values(_state.conversations).filter(chat => {

@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "온라인",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "부재중"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "보통 몇 분 안에 응답",
@@ -30,8 +30,8 @@
   "POWERED_BY": "Chatwoot 작동중",
   "EMAIL_PLACEHOLDER": "이메일을 입력해주세요.",
   "CHAT_PLACEHOLDER": "메시지 입력",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "TODAY": "오늘",
+  "YESTERDAY": "어제",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
@@ -41,15 +41,20 @@
       },
       "EMAIL_ADDRESS": {
         "LABEL": "이메일 주소",
-        "PLACEHOLDER": "Please enter your email address",
-        "ERROR": "Invalid email address"
+        "PLACEHOLDER": "이메일을 입력해주세요.",
+        "ERROR": "잘못된 이메일 주소입니다."
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "메시지",
+        "PLACEHOLDER": "메시지를 입력해 주세요.",
+        "ERROR": "너무 짧은 메시지"
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "첨부파일이 최대 {MAXIMUM_FILE_UPLOAD_SIZE} 용량 제한을 넘어섭니다.",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }

@@ -18,19 +18,14 @@
       "TITLE": "Poprzednie rozmowy"
     },
     "LABELS": {
-      "TITLE": "Etykiety konwersacji",
-      "MODAL": {
-        "TITLE": "Etykiety dla",
-        "ACTIVE_LABELS": "Etykiety dodane do rozmowy",
-        "INACTIVE_LABELS": "Etykiety dostępne na koncie",
-        "REMOVE": "Kliknij na ikonę X, aby usunąć etykietę",
-        "ADD": "Kliknij na ikonę +, aby dodać etykietę",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Zaktualizuj etykiety",
-        "UPDATE_ERROR": "Nie udało się zaktualizować etykiet, spróbuj ponownie."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Nie ma więcej etykiet zdefiniowanych na koncie.",
-      "NO_AVAILABLE_LABELS": "Do tej rozmowy nie dodano żadnych etykiet.",
+      "CONVERSATION": {
+        "TITLE": "Conversation Labels",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Wyświetl szczegóły"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Dodaj",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notatki"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "Wyświetl wszystkie notatki"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Aktywności"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notatki",
+      "PILL_BUTTON_EVENTS": "zdarzenia",
+      "PILL_BUTTON_CONVO": "rozmowy"
     }
   },
   "CUSTOM_ATTRIBUTES": {

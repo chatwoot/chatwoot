@@ -1,6 +1,7 @@
 <template>
   <router
     :show-unread-view="showUnreadView"
+    :show-campaign-view="showCampaignView"
     :is-mobile="isMobile"
     :has-fetched="hasFetched"
     :unread-message-count="unreadMessageCount"
@@ -17,6 +18,7 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import Router from './views/Router';
 import { getLocale } from './helpers/urlParamsHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { isEmptyObject } from 'widget/helpers/utils';
 
 export default {
   name: 'App',
@@ -26,17 +28,21 @@ export default {
   data() {
     return {
       showUnreadView: false,
+      showCampaignView: false,
       isMobile: false,
       hideMessageBubble: false,
       widgetPosition: 'right',
       showPopoutButton: false,
+      isWebWidgetTriggered: false,
     };
   },
   computed: {
     ...mapGetters({
       hasFetched: 'agent/getHasFetched',
+      messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       campaigns: 'campaign/getCampaigns',
+      activeCampaign: 'campaign/getActiveCampaign',
     }),
     isLeftAligned() {
       const isLeft = this.widgetPosition === 'left';
@@ -47,6 +53,11 @@ export default {
     },
     isRNWebView() {
       return RNHelper.isRNWebView();
+    },
+  },
+  watch: {
+    activeCampaign() {
+      this.setCampaignView();
     },
   },
   mounted() {
@@ -69,11 +80,12 @@ export default {
     this.$store.dispatch('conversationAttributes/get');
     this.setWidgetColor(window.chatwootWebChannel);
     this.registerUnreadEvents();
+    this.registerCampaignEvents();
   },
   methods: {
     ...mapActions('appConfig', ['setWidgetColor']),
     ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
-    ...mapActions('campaign', ['startCampaigns']),
+    ...mapActions('campaign', ['initCampaigns', 'executeCampaign']),
     ...mapActions('agent', ['fetchAvailableAgents']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
@@ -110,8 +122,31 @@ export default {
         this.setUserLastSeen();
       });
     },
+    registerCampaignEvents() {
+      bus.$on('on-campaign-view-clicked', campaignId => {
+        const { websiteToken } = window.chatwootWebChannel;
+        this.showCampaignView = false;
+        this.showUnreadView = false;
+        this.unsetUnreadView();
+        this.setUserLastSeen();
+        this.executeCampaign({ campaignId, websiteToken });
+      });
+    },
     setPopoutDisplay(showPopoutButton) {
       this.showPopoutButton = showPopoutButton;
+    },
+    setCampaignView() {
+      const { messageCount, activeCampaign } = this;
+      const isCampaignReadyToExecute =
+        !isEmptyObject(activeCampaign) &&
+        !messageCount &&
+        !this.isWebWidgetTriggered;
+      if (this.isIFrame && isCampaignReadyToExecute) {
+        this.showCampaignView = true;
+        IFrameHelper.sendMessage({
+          event: 'setCampaignMode',
+        });
+      }
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
@@ -130,7 +165,11 @@ export default {
     createWidgetEvents(message) {
       const { eventName } = message;
       const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
-      if (isWidgetTriggerEvent && this.showUnreadView) {
+      this.isWebWidgetTriggered = true;
+      if (
+        isWidgetTriggerEvent &&
+        (this.showUnreadView || this.showCampaignView)
+      ) {
         return;
       }
       this.setUserLastSeen();
@@ -156,7 +195,7 @@ export default {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
-          this.startCampaigns({ currentURL: referrerURL, websiteToken });
+          this.initCampaigns({ currentURL: referrerURL, websiteToken });
           window.referrerURL = referrerURL;
           bus.$emit(BUS_EVENTS.SET_REFERRER_HOST, referrerHost);
         } else if (message.event === 'toggle-close-button') {
@@ -183,8 +222,10 @@ export default {
           this.setBubbleLabel();
         } else if (message.event === 'set-unread-view') {
           this.showUnreadView = true;
+          this.showCampaignView = false;
         } else if (message.event === 'unset-unread-view') {
           this.showUnreadView = false;
+          this.showCampaignView = false;
         }
       });
     },

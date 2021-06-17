@@ -18,19 +18,14 @@
       "TITLE": "Vorherige Gespräche"
     },
     "LABELS": {
-      "TITLE": "Konversationsetiketten",
-      "MODAL": {
-        "TITLE": "Labels für",
-        "ACTIVE_LABELS": "Labels zur Unterhaltung hinzugefügt",
-        "INACTIVE_LABELS": "Verfügbare Labels im Konto",
-        "REMOVE": "Klicken Sie auf das X-Symbol, um das Label zu entfernen",
-        "ADD": "Klicken Sie auf das + Symbol, um ein Label hinzuzufügen",
-        "ADD_BUTTON": "Label hinzufügen",
-        "UPDATE_BUTTON": "Labels aktualisieren",
-        "UPDATE_ERROR": "Etiketten konnten nicht aktualisiert werden. Versuchen Sie es erneut."
+      "CONTACT": {
+        "TITLE": "Kontakt-Labels",
+        "ERROR": "Labels konnten nicht aktualisiert werden"
       },
-      "NO_LABELS_TO_ADD": "Es sind keine weiteren Labels im Konto definiert.",
-      "NO_AVAILABLE_LABELS": "Zu dieser Unterhaltung wurden noch keine Labels hinzugefügt.",
+      "CONVERSATION": {
+        "TITLE": "Konversationsetiketten",
+        "ADD_BUTTON": "Label hinzufügen"
+      },
       "LABEL_SELECT": {
         "TITLE": "Label hinzufügen",
         "PLACEHOLDER": "Labels suchen",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Details anzeigen"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Hinzufügen",
+      "TITLE": "Shift + Enter um eine Aufgabe zu erstellen"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Fälligkeitsdatum",
+      "LABEL_TITLE": "Typ festlegen"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notizen"
@@ -168,23 +173,33 @@
       "BUTTON": "Alle Notizen anzeigen"
     }
   },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Aktivitäten"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notizen",
+      "PILL_BUTTON_EVENTS": "Veranstaltungen",
+      "PILL_BUTTON_CONVO": "gespräche"
+    }
+  },
   "CUSTOM_ATTRIBUTES": {
     "TITLE": "Benutzerdefinierte Attribute",
-    "BUTTON": "Add custom attribute",
+    "BUTTON": "Eigenes Attribut hinzufügen",
     "ADD": {
-      "TITLE": "Create custom attribute",
-      "DESC": "Add custom information to this contact."
+      "TITLE": "Eigenes Attribut erstellen",
+      "DESC": "Füge diesem Kontakt benutzerdefinierte Informationen hinzu."
     },
     "FORM": {
-      "CREATE": "Add attribute",
+      "CREATE": "Attribut hinzufügen",
       "CANCEL": "Stornieren",
       "NAME": {
-        "LABEL": "Custom attribute name",
-        "PLACEHOLDER": "Eg: shopify id",
-        "ERROR": "Invalid custom attribute name"
+        "LABEL": "Benutzerdefinierter Attributname",
+        "PLACEHOLDER": "Eg: Shopify Id",
+        "ERROR": "Ungültiger eigener Attributname"
       },
       "VALUE": {
-        "LABEL": "Attribute value",
+        "LABEL": "Attributwert",
         "PLACEHOLDER": "Eg: 11901 "
       }
     }

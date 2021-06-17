@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "Nome da etiqueta",
         "PLACEHOLDER": "Nome da etiqueta",
-        "ERROR": "Nome da etiqueta é obrigatório"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",

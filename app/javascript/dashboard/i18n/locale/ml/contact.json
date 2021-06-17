@@ -18,19 +18,14 @@
       "TITLE": "മുമ്പത്തെ സംഭാഷണങ്ങൾ"
     },
     "LABELS": {
-      "TITLE": "സംഭാഷണ ലേബലുകൾ",
-      "MODAL": {
-        "TITLE": "ലേബലുകൾ",
-        "ACTIVE_LABELS": "സംഭാഷണത്തിലേക്ക് ലേബലുകൾ ചേർത്തു",
-        "INACTIVE_LABELS": "അക്കൗണ്ടിൽ ലേബലുകൾ ലഭ്യമാണ്",
-        "REMOVE": "ലേബൽ നീക്കംചെയ്യുന്നതിന് എക്സ് ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
-        "ADD": "ലേബൽ ചേർക്കാൻ + ഐക്കണിൽ ക്ലിക്കുചെയ്യുക",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "ലേബലുകൾ അപ്‌ഡേറ്റുചെയ്യുക",
-        "UPDATE_ERROR": "ലേബലുകൾ അപ്‌ഡേറ്റ് ചെയ്യാൻ കഴിഞ്ഞില്ല, വീണ്ടും ശ്രമിക്കുക."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "അക്കൗണ്ടിൽ കൂടുതൽ ലേബലുകൾ നിർവചിച്ചിട്ടില്ല.",
-      "NO_AVAILABLE_LABELS": "ഈ സംഭാഷണത്തിലേക്ക് ലേബലുകളൊന്നും ചേർത്തിട്ടില്ല.",
+      "CONVERSATION": {
+        "TITLE": "സംഭാഷണ ലേബലുകൾ",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "സംഭാഷണങ്ങൾ"
     }
   },
   "CUSTOM_ATTRIBUTES": {

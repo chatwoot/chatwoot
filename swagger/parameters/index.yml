@@ -27,3 +27,10 @@ page:
 
 platform_user_id:
   $ref: ./platform_user_id.yml
+
+
+public_inbox_identifier:
+  $ref: ./public/inbox_identifier.yml
+
+public_contact_identifier:
+  $ref: ./public/contact_identifier.yml

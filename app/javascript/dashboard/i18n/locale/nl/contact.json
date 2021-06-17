@@ -18,19 +18,14 @@
       "TITLE": "Vorige gesprekken"
     },
     "LABELS": {
-      "TITLE": "Labels voor gesprekken",
-      "MODAL": {
-        "TITLE": "Labels voor",
-        "ACTIVE_LABELS": "Labels toegevoegd aan het gesprek",
-        "INACTIVE_LABELS": "Labels beschikbaar in het account",
-        "REMOVE": "Klik op het X-pictogram om het label te verwijderen",
-        "ADD": "Klik op + pictogram om het label toe te voegen",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Labels bijwerken",
-        "UPDATE_ERROR": "Kon labels niet updaten, probeer het opnieuw."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "There are no more labels defined in the account.",
-      "NO_AVAILABLE_LABELS": "Er zijn geen labels toegevoegd aan dit gesprek.",
+      "CONVERSATION": {
+        "TITLE": "Labels voor gesprekken",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "gesprekken"
     }
   },
   "CUSTOM_ATTRIBUTES": {
