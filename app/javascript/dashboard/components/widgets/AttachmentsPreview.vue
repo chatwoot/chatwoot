@@ -68,7 +68,8 @@ export default {
   background: var(--b-100);
   border-radius: var(--border-radius-normal);
   width: fit-content;
-  padding: var(--space-small);
+  padding: var(--space-smaller);
+  margin-top: var(--space-normal);
 }
 
 .thumb-wrap {
