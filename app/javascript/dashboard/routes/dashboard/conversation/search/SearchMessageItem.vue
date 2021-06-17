@@ -109,7 +109,7 @@ export default {
 
 .name-wrap {
   display: flex;
-  width: 22rem;
+  max-width: 22rem;
 
   .user-name {
     font-size: var(--font-size-small);
@@ -141,6 +141,7 @@ p {
 .message-content {
   font-size: var(--font-size-small);
   margin-bottom: var(--space-micro);
+  margin-top: var(--space-micro);
   padding: 0;
   line-height: 1.35;
   overflow-wrap: break-word;
