@@ -73,12 +73,10 @@ export const newMessageNotification = data => {
   const { conversation_id: currentConvId } = window.WOOT.$route.params;
   const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
   const { conversation_id: incomingConvId } = data;
-  const currentConv =
-    window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
+  const currentConv = window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
   const assignee = currentConv.meta.assignee;
   let id;
   let userId;
-
   if (assignee) {
     id = assignee.id;
   }
@@ -87,20 +85,17 @@ export const newMessageNotification = data => {
   const {
     enable_audio_alerts: enableAudioAlerts = false,
   } = window.WOOT.$store.getters.getUISettings;
-
   const playAudio = shouldPlayByBrowserBehavior(
     data,
     currentConvId,
     currentUserId,
     isDocHiddden
   );
-
   const playAudioByUserSettings = shouldPlayByUserSettings(
     enableAudioAlerts,
     userId,
     id
   );
-
   if (playAudio && playAudioByUserSettings) {
     window.playAudioAlert();
     showBadgeOnFavicon();
