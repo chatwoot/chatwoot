@@ -1,62 +1,80 @@
 <template>
   <aside class="sidebar animated shrink columns">
-    <div class="logo">
-      <router-link :to="dashboardPath" replace>
-        <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
-      </router-link>
+    <div class="primary--sidebar">
+      <div class="logo">
+        <router-link :to="dashboardPath" replace>
+          <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
+        </router-link>
+      </div>
+      <div class="primary--sidebar--menu">
+        <router-link :to="frontendURL(`accounts/${accountId}/dashboard`)">
+          <i class="ion-chatbox-working"></i>
+        </router-link>
+        <router-link :to="frontendURL(`accounts/${accountId}/contacts`)">
+          <i class="ion-person"></i>
+        </router-link>
+        <router-link :to="frontendURL(`accounts/${accountId}/reports`)">
+          <i class="ion-arrow-graph-up-right"></i>
+        </router-link>
+        <router-link :to="frontendURL(`accounts/${accountId}/settings`)">
+          <i class="ion-settings"></i>
+        </router-link>
+      </div>
+      <div class="tertiary--sidebar"></div>
     </div>
+    <div class="secondary--sidebar">
+      <div class="main-nav">
+        <transition-group name="menu-list" tag="ul" class="menu vertical">
+          <sidebar-item
+            v-for="item in accessibleMenuItems"
+            :key="item.toState"
+            :menu-item="item"
+          />
+          <sidebar-item
+            v-if="shouldShowTeams"
+            :key="teamSection.toState"
+            :menu-item="teamSection"
+          />
+          <sidebar-item
+            v-if="shouldShowSidebarItem"
+            :key="inboxSection.toState"
+            :menu-item="inboxSection"
+          />
+          <sidebar-item
+            v-if="shouldShowSidebarItem"
+            :key="labelSection.toState"
+            :menu-item="labelSection"
+          />
+        </transition-group>
+      </div>
 
-    <div class="main-nav">
-      <transition-group name="menu-list" tag="ul" class="menu vertical">
-        <sidebar-item
-          v-for="item in accessibleMenuItems"
-          :key="item.toState"
-          :menu-item="item"
-        />
-        <sidebar-item
-          v-if="shouldShowTeams"
-          :key="teamSection.toState"
-          :menu-item="teamSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="inboxSection.toState"
-          :menu-item="inboxSection"
-        />
-        <sidebar-item
-          v-if="shouldShowSidebarItem"
-          :key="labelSection.toState"
-          :menu-item="labelSection"
-        />
-      </transition-group>
-    </div>
+      <div class="bottom-nav">
+        <availability-status />
+      </div>
 
-    <div class="bottom-nav">
-      <availability-status />
-    </div>
+      <div class="bottom-nav app-context-menu" @click="toggleOptions">
+        <agent-details @show-options="toggleOptions" />
+        <notification-bell />
+        <span class="current-user--options icon ion-android-more-vertical" />
+        <options-menu
+          :show="showOptionsMenu"
+          @toggle-accounts="toggleAccountModal"
+          @show-support-chat-window="toggleSupportChatWindow"
+          @close="toggleOptions"
+        />
+      </div>
 
-    <div class="bottom-nav app-context-menu" @click="toggleOptions">
-      <agent-details @show-options="toggleOptions" />
-      <notification-bell />
-      <span class="current-user--options icon ion-android-more-vertical" />
-      <options-menu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @close="toggleOptions"
+      <account-selector
+        :show-account-modal="showAccountModal"
+        @close-account-modal="toggleAccountModal"
+        @show-create-account-modal="openCreateAccountModal"
+      />
+
+      <add-account-modal
+        :show="showCreateAccountModal"
+        @close-account-create-modal="closeCreateAccountModal"
       />
     </div>
-
-    <account-selector
-      :show-account-modal="showAccountModal"
-      @close-account-modal="toggleAccountModal"
-      @show-create-account-modal="openCreateAccountModal"
-    />
-
-    <add-account-modal
-      :show="showCreateAccountModal"
-      @close-account-create-modal="closeCreateAccountModal"
-    />
   </aside>
 </template>
 
@@ -215,6 +233,7 @@ export default {
     this.setChatwootUser();
   },
   methods: {
+    frontendURL,
     toggleSupportChatWindow() {
       window.$chatwoot.toggle();
     },
@@ -322,6 +341,46 @@ export default {
 }
 
 .teams-sidebar-menu + .nested.vertical.menu {
-  padding-left: calc(var(--space-medium) - var(--space-one));
+  // padding-left: calc(var(--space-medium) - var(--space-one));
+}
+
+.menu.nested {
+  margin-left: 0;
+}
+
+.primary--sidebar {
+  background: var(--s-900);
+}
+
+.primary--sidebar--menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 32px;
+
+  a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    color: var(--b-50);
+
+    &:hover {
+      
+    }
+
+    i {
+      font-size: 24px;
+    }
+  }
+}
+
+.tertiary--sidebar {
+  min-height: 48px;
+}
+
+.main-nav .menu-title {
+  text-transform: uppercase;
+  font-weight: 600 !important;
+  font-size: 1.2rem !important;
 }
 </style>

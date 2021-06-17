@@ -13,7 +13,7 @@
       :title="menuItem.toolTip"
     >
       <div class="wrap">
-        <i :class="menuItem.icon" />
+        <!-- <i :class="menuItem.icon" /> -->
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </div>
       <span
@@ -72,11 +72,6 @@ export default {
     AddLabelModal,
   },
   mixins: [adminMixin],
-  data() {
-    return {
-      showAddLabel: false,
-    };
-  },
   props: {
     menuItem: {
       type: Object,
@@ -84,6 +79,11 @@ export default {
         return {};
       },
     },
+  },
+  data() {
+    return {
+      showAddLabel: false,
+    };
   },
   computed: {
     ...mapGetters({
