@@ -28,6 +28,11 @@
           :key="labelSection.toState"
           :menu-item="labelSection"
         />
+        <sidebar-item
+          v-if="showShowContactSideMenu"
+          :key="contactLabelSection.key"
+          :menu-item="contactLabelSection"
+        />
       </transition-group>
     </div>
 
@@ -131,6 +136,9 @@ export default {
     shouldShowSidebarItem() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
     },
+    showShowContactSideMenu() {
+      return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
+    },
     shouldShowTeams() {
       return this.shouldShowSidebarItem && this.teams.length;
     },
@@ -173,6 +181,29 @@ export default {
           truncateLabel: true,
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
+          ),
+        })),
+      };
+    },
+    contactLabelSection() {
+      return {
+        icon: 'ion-pound',
+        label: 'TAGGED_WITH',
+        hasSubMenu: true,
+        key: 'label',
+        newLink: false,
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toStateName: 'labels_list',
+        showModalForNewItem: true,
+        modalName: 'AddLabel',
+        children: this.accountLabels.map(label => ({
+          id: label.id,
+          label: label.title,
+          color: label.color,
+          truncateLabel: true,
+          toState: frontendURL(
+            `accounts/${this.accountId}/labels/${label.title}/contacts`
           ),
         })),
       };
