@@ -72,6 +72,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
+  # TODO: Move this to a finder class
   def resolved_contacts
     return @resolved_contacts if @resolved_contacts
 
