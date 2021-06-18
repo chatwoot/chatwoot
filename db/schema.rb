@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_09_133433) do
+ActiveRecord::Schema.define(version: 2021_06_18_073042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -435,6 +435,15 @@ ActiveRecord::Schema.define(version: 2021_06_09_133433) do
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "content"
+    t.integer "author_id"
+    t.integer "account_id"
+    t.integer "contact_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "notification_settings", force: :cascade do |t|
