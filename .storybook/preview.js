@@ -16,8 +16,6 @@ Vue.use(WootUiKit);
 Vue.use(Vuex);
 Vue.component('multiselect', Multiselect);
 
-Vue.component('multiselect', Multiselect);
-
 const store = new Vuex.Store({});
 const i18nConfig = new VueI18n({
   locale: 'en',

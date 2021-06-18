@@ -4,6 +4,7 @@ import {
 } from 'shared/helpers/CustomErrors';
 import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
+import AccountActionsAPI from '../../../api/accountActions';
 
 export const actions = {
   search: async ({ commit }, { search, page, sortAttr }) => {
@@ -109,5 +110,18 @@ export const actions = {
 
   setContact({ commit }, data) {
     commit(types.SET_CONTACT_ITEM, data);
+  },
+
+  merge: async ({ commit }, { childId, parentId }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isMerging: true });
+    try {
+      const response = await AccountActionsAPI.merge(parentId, childId);
+      console.log(response.data);
+      commit(types.SET_CONTACT_ITEM, response.data);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isMerging: false });
+    }
   },
 };
