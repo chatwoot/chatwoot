@@ -1,4 +1,4 @@
-import contactAPI from '../contacts';
+import contactAPI, { buildContactParams } from '../contacts';
 import ApiClient from '../ApiClient';
 import describeWithAPIMock from './apiSpecHelper';
 
@@ -15,9 +15,9 @@ describe('#ContactsAPI', () => {
 
   describeWithAPIMock('API calls', context => {
     it('#get', () => {
-      contactAPI.get(1, 'name');
+      contactAPI.get(1, 'name', 'customer-support');
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/contacts?page=1&sort=name'
+        '/api/v1/contacts?page=1&sort=name&labels[]=customer-support'
       );
     });
 
@@ -54,10 +54,22 @@ describe('#ContactsAPI', () => {
     });
 
     it('#search', () => {
-      contactAPI.search('leads', 1, 'date');
+      contactAPI.search('leads', 1, 'date', 'customer-support');
       expect(context.axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/contacts/search?q=leads&page=1&sort=date'
+        '/api/v1/contacts/search?page=1&sort=date&q=leads&labels[]=customer-support'
       );
     });
+  });
+});
+
+describe('#buildContactParams', () => {
+  it('returns correct string', () => {
+    expect(buildContactParams(1, 'name', '', '')).toBe('page=1&sort=name');
+    expect(buildContactParams(1, 'name', 'customer-support', '')).toBe(
+      'page=1&sort=name&labels[]=customer-support'
+    );
+    expect(
+      buildContactParams(1, 'name', 'customer-support', 'message-content')
+    ).toBe('page=1&sort=name&q=message-content&labels[]=customer-support');
   });
 });
