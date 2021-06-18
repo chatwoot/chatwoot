@@ -1,6 +1,9 @@
 export default {
   computed: {
     getLabelTitleErrorMessage() {
+      if (!this.$v.title.$error) {
+        return '';
+      }
       if (!this.title) {
         return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
       }
