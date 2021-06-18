@@ -42,12 +42,12 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'filters contacts based on label filter' do
-        contact_with_label1, contact_with_label2 =  FactoryBot.create_list(:contact, 2,account: account) 
+        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, account: account)
         contact_with_label1.update_labels(['label1'])
         contact_with_label2.update_labels(['label2'])
 
         get "/api/v1/accounts/#{account.id}/contacts",
-            params: {labels: ['label1', 'label2']},
+            params: { labels: %w[label1 label2] },
             headers: admin.create_new_auth_token,
             as: :json
 
