@@ -192,7 +192,4 @@ export default {
   align-items: center;
   width: 100%;
 }
-.merege-summary--card {
-  padding: var(--space-normal);
-}
 </style>
