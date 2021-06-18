@@ -139,7 +139,9 @@
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
     "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
-    "TEAMS": "Equipos"
+    "TEAMS": "Equipos",
+    "ALL_CONTACTS": "All Contacts",
+    "TAGGED_WITH": "Tagged with"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nueva cuenta",
