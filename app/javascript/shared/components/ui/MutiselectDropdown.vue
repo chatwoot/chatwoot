@@ -1,20 +1,24 @@
 <template>
   <div v-on-clickaway="onCloseDropdown" class="dropdown-wrap">
-    <button :v-model="value" class="button-input" @click="toggleDropdown">
+    <button
+      :v-model="selectedItem"
+      class="button-input"
+      @click="toggleDropdown"
+    >
       <Thumbnail
-        v-if="value && value.name && value && value.id"
-        :src="value && value.thumbnail"
+        v-if="isValueExist"
+        :src="selectedItem.thumbnail"
         size="24px"
-        :status="value && value.availability_status"
-        :badge="value && value.channel"
-        :username="value && value.name"
+        :status="selectedItem.availability_status"
+        :badge="selectedItem.channel"
+        :username="selectedItem.name"
       />
       <div class="name-icon-wrap">
-        <div v-if="!noValue" class="name select">
-          {{ $t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER') }}
+        <div v-if="!isValueExist" class="name select">
+          {{ multiselectorPlaceholder }}
         </div>
-        <div v-else class="name" :title="value.name">
-          {{ value.name }}
+        <div v-else class="name" :title="selectedItem.name">
+          {{ selectedItem.name }}
         </div>
         <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
         <i v-else class="icon ion-chevron-down" />
@@ -25,13 +29,15 @@
       class="dropdown-pane"
     >
       <h4 class="text-block-title">
-        {{ $t('AGENT_MGMT.MULTI_SELECTOR.TITLE') }}
+        {{ multiselectorTitle }}
       </h4>
       <multiselect-dropdown-items
         v-if="showSearchDropdown"
         :options="options"
-        :value="value"
-        @click="showList"
+        :selected-item="selectedItem"
+        :input-placeholder="inputPlaceholder"
+        :no-search-result="noSearchResult"
+        @click="onClickSelectItem"
       />
     </div>
   </div>
@@ -46,35 +52,51 @@ export default {
     Thumbnail,
     MultiselectDropdownItems,
   },
-
   mixins: [clickaway],
-
   props: {
     options: {
       type: Array,
       default: () => [],
     },
-    value: {
+    selectedItem: {
       type: Object,
       default: () => ({}),
     },
+    multiselectorTitle: {
+      type: String,
+      default: 'Select',
+    },
+    multiselectorPlaceholder: {
+      type: String,
+      default: 'None',
+    },
+    noSearchResult: {
+      type: String,
+      default: 'No results found',
+    },
+    inputPlaceholder: {
+      type: String,
+      default: 'Search',
+    },
   },
-
   data() {
     return {
       showSearchDropdown: false,
     };
   },
-
   computed: {
-    noValue() {
-      if (this.value && this.value.id) {
+    isValueExist() {
+      if (
+        this.selectedItem &&
+        this.selectedItem.name &&
+        this.selectedItem &&
+        this.selectedItem.id
+      ) {
         return true;
       }
       return false;
     },
   },
-
   methods: {
     toggleDropdown() {
       this.showSearchDropdown = !this.showSearchDropdown;
@@ -84,7 +106,7 @@ export default {
       this.showSearchDropdown = false;
     },
 
-    showList(value) {
+    onClickSelectItem(value) {
       this.$emit('click', value);
     },
   },
@@ -108,7 +130,7 @@ export default {
     font-size: var(--font-size-small);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-normal);
-    padding: var(--space-small);
+    padding: var(--space-small) var(--space-one);
   }
 
   &::v-deep .user-thumbnail-box {
@@ -137,7 +159,7 @@ export default {
 
   .dropdown-pane {
     box-sizing: border-box;
-    top: 4rem;
+    top: 4.2rem;
     right: 0;
     position: absolute;
     width: 100%;

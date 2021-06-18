@@ -7,7 +7,7 @@
         type="text"
         class="search-input"
         autofocus="true"
-        placeholder="Filter"
+        :placeholder="inputPlaceholder"
       />
     </div>
     <div class="list-wrap">
@@ -19,12 +19,14 @@
           >
             <button
               class="button clear"
-              :class="{ active: option.id === (value && value.id) }"
+              :class="{
+                active: option.id === (selectedItem && selectedItem.id),
+              }"
               @click="() => onclick(option)"
             >
               <Thumbnail
                 :src="option.thumbnail"
-                size="25px"
+                size="24px"
                 :username="option.name"
                 :status="option.availability_status"
               />
@@ -33,7 +35,7 @@
                   {{ option.name }}
                 </div>
                 <i
-                  v-if="option.id === (value && value.id)"
+                  v-if="option.id === (selectedItem && selectedItem.id)"
                   class="icon ion-checkmark-round"
                 />
               </div>
@@ -41,7 +43,7 @@
           </woot-dropdown-item>
         </woot-dropdown-menu>
         <div v-if="noResult" class="no-result">
-          {{ $t('AGENT_MGMT.SEARCH.NO_RESULTS') }}
+          {{ noSearchResult }}
         </div>
       </div>
     </div>
@@ -64,10 +66,17 @@ export default {
       type: Array,
       default: () => [],
     },
-
-    value: {
+    selectedItem: {
       type: Object,
       default: () => ({}),
+    },
+    inputPlaceholder: {
+      type: String,
+      default: 'Search',
+    },
+    noSearchResult: {
+      type: String,
+      default: 'No results found',
     },
   },
 
@@ -83,16 +92,13 @@ export default {
         return option.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
-
     noResult() {
       return this.filteredOptions.length === 0 && this.search !== '';
     },
   },
-
   mounted() {
     this.focusInput();
   },
-
   methods: {
     onclick(option) {
       this.$emit('click', option);

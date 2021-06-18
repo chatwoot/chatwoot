@@ -91,10 +91,6 @@
     },
     "SEARCH": {
       "NO_RESULTS": "No results found."
-    },
-    "MULTI_SELECTOR": {
-      "TITLE": "Select Option",
-      "PLACEHOLDER": "None"
     }
   }
 }

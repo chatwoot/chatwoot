@@ -10,9 +10,19 @@ export default {
         type: 'object',
       },
     },
-    value: {
+    selectedItem: {
       control: {
         type: 'object',
+      },
+    },
+    inputPlaceholder: {
+      control: {
+        type: 'text',
+      },
+    },
+    noSearchResult: {
+      control: {
+        type: 'text',
       },
     },
   },
@@ -53,5 +63,5 @@ MultiselectDropdownItems.args = {
     },
   ],
 
-  value: { id: '1' },
+  selectedItem: { id: '1' },
 };

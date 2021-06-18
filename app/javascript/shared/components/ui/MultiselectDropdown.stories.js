@@ -10,9 +10,29 @@ export default {
         type: 'object',
       },
     },
-    value: {
+    selectedItem: {
       control: {
         type: 'object',
+      },
+    },
+    multiselectorTitle: {
+      control: {
+        type: 'text',
+      },
+    },
+    multiselectorPlaceholder: {
+      control: {
+        type: 'text',
+      },
+    },
+    noSearchResult: {
+      control: {
+        type: 'text',
+      },
+    },
+    inputPlaceholder: {
+      control: {
+        type: 'text',
       },
     },
   },
@@ -36,7 +56,7 @@ MultiselectDropdown.args = {
     },
   ],
 
-  value: {
+  selectedItem: {
     id: 1,
     availability_status: 'online',
     name: 'James Philip',
