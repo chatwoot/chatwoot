@@ -1,18 +1,17 @@
 export default {
   computed: {
     getLabelTitleErrorMessage() {
-      if (this.$v.title.$error) {
-        if (!this.$v.title.required) {
-          return this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
-        }
-        if (!this.$v.title.minLength) {
-          return this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
-        }
-        if (!this.$v.title.validLabelCharacters) {
-          return this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
-        }
+      let errorMessage = '';
+      if (!this.$v.title.$error) {
+        errorMessage = '';
+      } else if (!this.$v.title.required) {
+        errorMessage = this.$t('LABEL_MGMT.FORM.NAME.REQUIRED_ERROR');
+      } else if (!this.$v.title.minLength) {
+        errorMessage = this.$t('LABEL_MGMT.FORM.NAME.MINIMUM_LENGTH_ERROR');
+      } else if (!this.$v.title.validLabelCharacters) {
+        errorMessage = this.$t('LABEL_MGMT.FORM.NAME.VALID_ERROR');
       }
-      return '';
+      return errorMessage;
     },
   },
 };
