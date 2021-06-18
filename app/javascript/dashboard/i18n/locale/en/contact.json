@@ -131,6 +131,7 @@
   },
   "CONTACTS_PAGE": {
     "HEADER": "Contacts",
+    "FIELDS": "Contact fields",
     "SEARCH_BUTTON": "Search",
     "SEARCH_INPUT_PLACEHOLDER": "Search for contacts",
     "LIST": {
@@ -206,7 +207,7 @@
   },
   "MERGE_CONTACTS": {
     "TITLE": "Merge contacts",
-    "DESC": "Merge contacts to combine two profiles attributes into one. In case of conflict, the second member s attributes will take precedence.",
+    "DESCRIPTION": "Merge contact is useful when you have duplicated entries of the same contact. Merging has a primary contact and a child contact. After merging all details in primary will remain there. Also if primary doesn't have a field let's say Phone but secondary has it, then after merging primary will be showing the phone which was with secondary. If a conflict happens fields in primary will remian unaffected but fields from secondary will be copied as custom fields to primary.",
     "PRIMARY": {
       "TITLE": "Primary contact"
     },
@@ -215,7 +216,18 @@
     },
     "SUMMARY": {
       "TITLE": "Summary"
+    },
+    "SEARCH": {
+      "ERROR": "ERROR_MESSAGE"
+    },
+    "FORM": {
+      "SUBMIT": " Merge contacts",
+      "CANCEL": "Cancel",
+      "CHILD_CONTACT": {
+        "ERROR": "Select a child contact to merge"
+      },
+      "SUCCESS_MESSAGE": "Contact merged successfully",
+      "ERROR_MESSAGE": "Could not merge contcts, try again!"
     }
-
   }
 }
