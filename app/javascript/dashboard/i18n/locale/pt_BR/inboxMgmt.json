@@ -30,10 +30,10 @@
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome da Caixa de Entrada",
-        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+        "PLACEHOLDER": "Digite o nome da caixa de entrada (ex: Acme Inc)"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website Name",
+        "LABEL": "Nome do site",
         "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
       },
       "FB": {
@@ -223,7 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
-        "PLACE_HOLDER": "Please type {inboxName} to confirm",
+        "PLACE_HOLDER": "Digite {inboxName} para confirmar",
         "YES": "Sim, excluir ",
         "NO": "Não, Mantenha "
       },
