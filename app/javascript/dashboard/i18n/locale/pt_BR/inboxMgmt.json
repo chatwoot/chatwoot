@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nome da Caixa de Entrada",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
+      },
       "FB": {
         "HELP": "Obs: ao fazer login, apenas temos acesso às mensagens da sua página. Suas mensagens privadas nunca podem ser acessadas pelo Chatwoot.",
         "CHOOSE_PAGE": "Escolher Página",
@@ -39,7 +47,7 @@
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
-        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again"
+        "ERROR_MESSAGE": "Houve um erro ao conectar com o Twitter, por favor, tente novamente"
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do website",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Criando canal de suporte ao site",
         "CHANNEL_AVATAR": {
           "LABEL": "Imagem do Canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nome do website",
-          "PLACEHOLDER": "Informe o nome do seu site (por exemplo: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domínio do website",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Ativado",
         "DISABLED": "Desativado"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Ativado",
+        "DISABLED": "Desativado"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmar exclusão",
         "MESSAGE": "Você tem certeza que deseja excluir ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Sim, excluir ",
         "NO": "Não, Mantenha "
       },
@@ -227,8 +236,8 @@
       "SETTINGS": "Configurações",
       "COLLABORATORS": "Colaboradores",
       "CONFIGURATION": "Configuração",
-      "CAMPAIGN": "Campaigns",
-      "PRE_CHAT_FORM": "Pre Chat Form",
+      "CAMPAIGN": "Campanhas",
+      "PRE_CHAT_FORM": "Formulário Chat Pré",
       "BUSINESS_HOURS": "Horário de funcionamento"
     },
     "SETTINGS": "Confirgurações",
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes dessa caixa de entrada",
       "UPDATE": "Atualizar",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
       "INBOX_UPDATE_TITLE": "Configurações da Caixa de entrada",
       "INBOX_UPDATE_SUB_TEXT": "Atualize suas configurações de caixa de entrada",
@@ -257,32 +268,32 @@
       "MESSAGE_ERROR": "Ocorreu um erro, por favor tente novamente"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "DESCRIPTION": "Formulários de bate-papo permitem que você capture informações de usuário antes de iniciar uma conversa com você.",
       "ENABLE": {
-        "LABEL": "Enable pre chat form",
+        "LABEL": "Ativar formulário de bate-papo antes",
         "OPTIONS": {
           "ENABLED": "Sim",
           "DISABLED": "Não"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pre Chat Message",
-        "PLACEHOLDER": "This message would be visible to the users along with the form"
+        "LABEL": "Pré Mensagem de bate-papo",
+        "PLACEHOLDER": "Esta mensagem será visível para os usuários junto com o formulário"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Visitors should provide their name and email address before starting the chat"
+        "LABEL": "Os visitantes devem fornecer seu nome e endereço de e-mail antes de iniciar o bate-papo"
       }
     },
     "BUSINESS_HOURS": {
       "TITLE": "Definir a sua disponibilidade",
-      "SUBTITLE": "Set your availability on your livechat widget",
+      "SUBTITLE": "Defina a sua disponibilidade no widget livechat",
       "WEEKLY_TITLE": "Definir horas semanais",
       "TIMEZONE_LABEL": "Selecionar fuso horário",
       "UPDATE": "Atualizar configurações do horário comercial",
-      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "TOGGLE_AVAILABILITY": "Permitir a disponibilidade de negócios para essa caixa de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponível para vistores",
       "UNAVAILABLE_MESSAGE_DEFAULT": "Nós estamos indisponíveis no momento. Deixe uma mensagem a ser respondida assim que voltarmos.",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Permitir a disponibilidade de negócios mostrará as horas disponíveis no widget de bate-papo ao vivo, mesmo que todos os agentes estejam offline. Os vistores disponíveis horários externos podem ser avisados com uma mensagem e um formulário de pré-bate-papo.",
       "DAY": {
         "ENABLE": "Permitir a disponibilidade para este dia",
         "UNAVAILABLE": "Indisponível",

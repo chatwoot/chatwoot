@@ -14,6 +14,7 @@ Vue.use(VueI18n);
 Vue.use(Vuelidate);
 Vue.use(WootUiKit);
 Vue.use(Vuex);
+Vue.component('multiselect', Multiselect);
 
 Vue.component('multiselect', Multiselect);
 

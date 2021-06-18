@@ -78,6 +78,11 @@
         "ERROR": "Please enter a valid email address",
         "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Password",
         "ERROR": "Please enter a password of length 6 or more",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "คำตอบสำเร็จรูป",
     "INTEGRATIONS": "Integrations",
     "ACCOUNT_SETTINGS": "Account Settings",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "TEAMS": "Teams"
   },

@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Posteingang-Name",
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Webseiten-Name",
+        "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
         "CHOOSE_PAGE": "Seite auswählen",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Website-Support-Channel erstellen",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal-Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Webseiten-Name",
-          "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (eg: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website-Domain",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Aktiviert",
         "DISABLED": "Behindert"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Aktiviert",
+        "DISABLED": "Behindert"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Löschung bestätigen",
         "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
+        "PLACE_HOLDER": "Bitte geben Sie {inboxName} zur Bestätigung ein",
         "YES": "Ja, löschen",
         "NO": "Nein, behalten "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "UPDATE": "Aktualisieren",
+      "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktiviere oder deaktiviere die E-Mail-Sammelbox bei einer neuen Unterhaltung",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",

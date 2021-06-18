@@ -78,6 +78,11 @@
         "ERROR": "Inserisci un indirizzo email valido",
         "PLACEHOLDER": "Inserisci il tuo indirizzo email, che verrà visualizzato nelle conversazioni"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "password",
         "ERROR": "Inserisci una password di lunghezza 6 o più",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Risposte predefinite",
     "INTEGRATIONS": "Integrazioni",
     "ACCOUNT_SETTINGS": "Impostazioni Account",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "TEAMS": "Teams"
   },

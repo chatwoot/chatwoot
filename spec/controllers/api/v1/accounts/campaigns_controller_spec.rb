@@ -145,4 +145,40 @@ RSpec.describe 'Campaigns API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/campaigns/:id' do
+    let(:inbox) { create(:inbox, account: account) }
+    let!(:campaign) { create(:campaign, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:administrator) { create(:user, account: account, role: :administrator) }
+
+      it 'return unauthorized if agent' do
+        delete "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'delete campaign if admin' do
+        delete "/api/v1/accounts/#{account.id}/campaigns/#{campaign.display_id}",
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(::Campaign.exists?(campaign.display_id)).to eq false
+      end
+    end
+  end
 end

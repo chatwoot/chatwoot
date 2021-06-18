@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "ലേബൽ നാമം",
         "PLACEHOLDER": "ലേബൽ നാമം",
-        "ERROR": "ലേബൽ നാമം ആവശ്യമാണ്"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "വിവരണം",

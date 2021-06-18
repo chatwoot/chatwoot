@@ -11,26 +11,21 @@
     "OS": "Hệ điều hành",
     "INITIATED_FROM": "Bắt đầu từ",
     "INITIATED_AT": "Bắt đầu lúc",
-    "IP_ADDRESS": "IP Address",
+    "IP_ADDRESS": "Địa chỉ IP",
     "NEW_MESSAGE": "New message",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Không có cuộc trò chuyện trước đó được liên kết với liên hệ này.",
       "TITLE": "Cuộc trò chuyện trước đó"
     },
     "LABELS": {
-      "TITLE": "Nhãn hội thoại",
-      "MODAL": {
-        "TITLE": "Nhãn cho",
-        "ACTIVE_LABELS": "Đã thêm nhãn vào cuộc trò chuyện",
-        "INACTIVE_LABELS": "Các nhãn có sẵn trong tài khoản",
-        "REMOVE": "Click vào X icon xóa nhãn",
-        "ADD": "Click vào + icon thêm nhãn",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "Cập nhật nhãn",
-        "UPDATE_ERROR": "Không thể cập nhật nhãn, hãy thử lại."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "Không có thêm nhãn nào được xác định trong tài khoản.",
-      "NO_AVAILABLE_LABELS": "Không có nhãn nào được thêm vào cuộc trò chuyện này.",
+      "CONVERSATION": {
+        "TITLE": "Nhãn hội thoại",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -124,7 +119,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "Tin nhắn",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "View details"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "các cuộc hội thoại"
     }
   },
   "CUSTOM_ATTRIBUTES": {

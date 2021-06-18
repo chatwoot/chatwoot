@@ -12,7 +12,7 @@
         "TITLE": {
           "LABEL": "標題",
           "PLACEHOLDER": "Please enter the title of campaign",
-          "ERROR": "Title is required"
+          "ERROR": "標題為必填"
         },
         "MESSAGE": {
           "LABEL": "訊息",
@@ -40,6 +40,19 @@
       "API": {
         "SUCCESS_MESSAGE": "Campaign created successfully",
         "ERROR_MESSAGE": "There was an error. Please try again."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "刪除",
+      "CONFIRM": {
+        "TITLE": "確認刪除",
+        "MESSAGE": "Are you sure to delete?",
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
       }
     },
     "EDIT": {

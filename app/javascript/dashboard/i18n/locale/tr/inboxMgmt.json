@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Gelen Kutusu Adı",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Web Sitesi Adı",
+        "PLACEHOLDER": "Web sitenizin adını girin"
+      },
       "FB": {
         "HELP": "Not: Oturum açarak, yalnızca Sayfanızın mesajlarına erişebiliriz. Özel mesajlarınıza Chatwoot ile asla erişilemez.",
         "CHOOSE_PAGE": "Sayfa Seçin",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Web Sitesi Destek Kanalı Oluşturma",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal Avatarı"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Web Sitesi Adı",
-          "PLACEHOLDER": "Web sitenizin adını girin"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Web Sitesi Alan Adı",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Etkin",
         "DISABLED": "Devre dışı"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Etkin",
+        "DISABLED": "Devre dışı"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Silmeyi onayla",
         "MESSAGE": "Silmek istediğinize emin misiniz ?",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Evet, Sil ",
         "NO": "Hayır, Tut"
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Kullanıcılar",
       "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
       "UPDATE": "Güncelleme",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
       "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
       "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",

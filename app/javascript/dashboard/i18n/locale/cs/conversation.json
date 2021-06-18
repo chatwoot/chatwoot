@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Detail konverzací",
     "ASSIGNEE_LABEL": "Přiřazený agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Přiřazený tým",
     "SELECT": {
       "PLACEHOLDER": "Nic"
