@@ -46,12 +46,6 @@ export default {
   components: {
     Spinner,
   },
-  props: {
-    messageId: {
-      type: Number,
-      required: true,
-    },
-  },
   data() {
     return {
       email: '',
@@ -90,7 +84,7 @@ export default {
   border-radius: $space-one;
   display: inline-block;
   line-height: 1.5;
-  width: 50%;
+  width: 75%;
   .title {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
@@ -114,11 +108,11 @@ export default {
     display: flex;
     input {
       width: 100%;
+      border: none;
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
       padding: $space-one;
-      border: none;
-      border-top: 1px solid #e0e6ed;
+      border-top: 1px solid $color-border;
     }
 
     .button {
@@ -127,7 +121,6 @@ export default {
       font-size: $font-size-large;
       height: auto;
       margin-left: -1px;
-
       .spinner {
         display: block;
         padding: 0;
