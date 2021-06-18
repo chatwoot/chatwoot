@@ -27,6 +27,13 @@
           v-if="shouldShowSidebarItem"
           :key="labelSection.toState"
           :menu-item="labelSection"
+          @add-label="showAddLabelPopup"
+        />
+        <sidebar-item
+          v-if="showShowContactSideMenu"
+          :key="contactLabelSection.key"
+          :menu-item="contactLabelSection"
+          @add-label="showAddLabelPopup"
         />
       </transition-group>
     </div>
@@ -57,6 +64,10 @@
       :show="showCreateAccountModal"
       @close-account-create-modal="closeCreateAccountModal"
     />
+
+    <woot-modal :show.sync="showAddLabelModal" :on-close="hideAddLabelPopup">
+      <add-label-modal @close="hideAddLabelPopup" />
+    </woot-modal>
   </aside>
 </template>
 
@@ -74,6 +85,7 @@ import AgentDetails from './sidebarComponents/AgentDetails.vue';
 import OptionsMenu from './sidebarComponents/OptionsMenu.vue';
 import AccountSelector from './sidebarComponents/AccountSelector.vue';
 import AddAccountModal from './sidebarComponents/AddAccountModal.vue';
+import AddLabelModal from '../../routes/dashboard/settings/labels/AddLabel';
 
 export default {
   components: {
@@ -84,6 +96,7 @@ export default {
     OptionsMenu,
     AccountSelector,
     AddAccountModal,
+    AddLabelModal,
   },
   mixins: [adminMixin, alertMixin],
   data() {
@@ -91,6 +104,7 @@ export default {
       showOptionsMenu: false,
       showAccountModal: false,
       showCreateAccountModal: false,
+      showAddLabelModal: false,
     };
   },
 
@@ -130,6 +144,9 @@ export default {
     },
     shouldShowSidebarItem() {
       return this.sidemenuItems.common.routes.includes(this.currentRoute);
+    },
+    showShowContactSideMenu() {
+      return this.sidemenuItems.contacts.routes.includes(this.currentRoute);
     },
     shouldShowTeams() {
       return this.shouldShowSidebarItem && this.teams.length;
@@ -173,6 +190,29 @@ export default {
           truncateLabel: true,
           toState: frontendURL(
             `accounts/${this.accountId}/label/${label.title}`
+          ),
+        })),
+      };
+    },
+    contactLabelSection() {
+      return {
+        icon: 'ion-pound',
+        label: 'TAGGED_WITH',
+        hasSubMenu: true,
+        key: 'label',
+        newLink: false,
+        cssClass: 'menu-title align-justify',
+        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toStateName: 'labels_list',
+        showModalForNewItem: true,
+        modalName: 'AddLabel',
+        children: this.accountLabels.map(label => ({
+          id: label.id,
+          label: label.title,
+          color: label.color,
+          truncateLabel: true,
+          toState: frontendURL(
+            `accounts/${this.accountId}/labels/${label.title}/contacts`
           ),
         })),
       };
@@ -252,6 +292,12 @@ export default {
     },
     closeCreateAccountModal() {
       this.showCreateAccountModal = false;
+    },
+    showAddLabelPopup() {
+      this.showAddLabelModal = true;
+    },
+    hideAddLabelPopup() {
+      this.showAddLabelModal = false;
     },
   },
 };
