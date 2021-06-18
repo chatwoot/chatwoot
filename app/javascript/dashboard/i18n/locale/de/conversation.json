@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Unterhaltungsdetails",
     "ASSIGNEE_LABEL": "Zugewiesener Agent",
+    "SELF_ASSIGN": "Mir zuweisen",
     "TEAM_LABEL": "Zugewiesenes Team",
     "SELECT": {
       "PLACEHOLDER": "Keine"

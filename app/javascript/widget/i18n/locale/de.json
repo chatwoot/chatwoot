@@ -21,7 +21,7 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Neue Nachrichten anzeigen",
     "CLOSE_MESSAGES_BUTTON": "Schließen",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "von",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge"
+  "FILE_SIZE_LIMIT": "Die Datei überschreitet das Limit von {MAXIMUM_FILE_UPLOAD_SIZE} für Anhänge",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Ungültiges Feld"
+    }
+  }
 }

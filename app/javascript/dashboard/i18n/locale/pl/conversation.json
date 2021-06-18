@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Szczegóły rozmowy",
     "ASSIGNEE_LABEL": "Przypisany Agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Przypisany zespół",
     "SELECT": {
       "PLACEHOLDER": "Brak"

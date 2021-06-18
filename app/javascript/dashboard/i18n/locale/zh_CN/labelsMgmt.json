@@ -19,7 +19,9 @@
       "NAME": {
         "LABEL": "标签名称",
         "PLACEHOLDER": "标签名称",
-        "ERROR": "标签名称是必需的"
+        "REQUIRED_ERROR": "Label name is required",
+        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
+        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
       },
       "DESCRIPTION": {
         "LABEL": "描述信息",

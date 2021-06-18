@@ -1,5 +1,5 @@
 class ContactBuilder
-  pattr_initialize [:source_id!, :inbox!, :contact_attributes!]
+  pattr_initialize [:source_id!, :inbox!, :contact_attributes!, :hmac_verified]
 
   def perform
     contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
@@ -18,7 +18,8 @@ class ContactBuilder
     ::ContactInbox.create!(
       contact_id: contact.id,
       inbox_id: inbox.id,
-      source_id: source_id
+      source_id: source_id,
+      hmac_verified: hmac_verified || false
     )
   end
 
@@ -28,7 +29,7 @@ class ContactBuilder
 
   def create_contact
     account.contacts.create!(
-      name: contact_attributes[:name],
+      name: contact_attributes[:name] || ::Haikunator.haikunate(1000),
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],

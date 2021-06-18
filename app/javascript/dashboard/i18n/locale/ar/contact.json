@@ -18,19 +18,14 @@
       "TITLE": "المحادثات السابقة"
     },
     "LABELS": {
-      "TITLE": "وسوم المحادثة",
-      "MODAL": {
-        "TITLE": "الوسوم الخاصة بـ",
-        "ACTIVE_LABELS": "تم إضافة الوسوم للمحادثة",
-        "INACTIVE_LABELS": "الوسوم المتاحة في الحساب",
-        "REMOVE": "انقر على أيقونة X لإزالة الوسم",
-        "ADD": "اضغط على أيقونة + لإضافة وسوم",
-        "ADD_BUTTON": "Add Labels",
-        "UPDATE_BUTTON": "تحديث الوسوم",
-        "UPDATE_ERROR": "تعذر تحديث الوسوم، الرجاء المحاولة مرة أخرى."
+      "CONTACT": {
+        "TITLE": "Contact Labels",
+        "ERROR": "Couldn't update labels"
       },
-      "NO_LABELS_TO_ADD": "لا يوجد وسوم في الحساب.",
-      "NO_AVAILABLE_LABELS": "لا يوجد وسوم مضافة لهذه المحادثة.",
+      "CONVERSATION": {
+        "TITLE": "وسوم المحادثة",
+        "ADD_BUTTON": "Add Labels"
+      },
       "LABEL_SELECT": {
         "TITLE": "Add Labels",
         "PLACEHOLDER": "Search labels",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "عرض التفاصيل"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Add",
+      "TITLE": "Shift + Enter to create a task"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Due date",
+      "LABEL_TITLE": "Set type"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notes"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "View all notes"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Activities"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notes",
+      "PILL_BUTTON_EVENTS": "events",
+      "PILL_BUTTON_CONVO": "المحادثات"
     }
   },
   "CUSTOM_ATTRIBUTES": {

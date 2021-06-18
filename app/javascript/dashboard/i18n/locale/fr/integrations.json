@@ -17,6 +17,24 @@
           "Actions"
         ]
       },
+      "EDIT": {
+        "BUTTON_TEXT": "Modifier",
+        "TITLE": "Edit webhook",
+        "CANCEL": "Annuler",
+        "DESC": "Les événements Webhook vous fournissent des informations en temps réel sur ce qui se passe dans votre compte Chatwoot. Veuillez entrer une URL valide pour configurer un callback.",
+        "FORM": {
+          "END_POINT": {
+            "LABEL": "URL du Webhook",
+            "PLACEHOLDER": "Exemple : https://exemple/api/webhook",
+            "ERROR": "Veuillez entrer une URL valide"
+          },
+          "SUBMIT": "Edit webhook"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Webhook URL updated successfully",
+          "ERROR_MESSAGE": "Impossible de se connecter au serveur Woot, veuillez réessayer plus tard"
+        }
+      },
       "ADD": {
         "CANCEL": "Annuler",
         "TITLE": "Ajouter un nouveau webhook",

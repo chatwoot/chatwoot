@@ -6,7 +6,7 @@
     "NO_INBOX_1": "看來你還没有建立任何收件匣。",
     "NO_INBOX_2": " 開始吧",
     "NO_INBOX_AGENT": "看起來你還沒有分配到收件匣。請聯絡你的管理員",
-    "SEARCH_MESSAGES": "Search for messages in conversations",
+    "SEARCH_MESSAGES": "在對話中搜尋訊息",
     "SEARCH": {
       "TITLE": "搜尋訊息",
       "LOADING_MESSAGE": "Crunching data...",
@@ -26,7 +26,7 @@
     "REPLYING_TO": "你正在回覆到：",
     "REMOVE_SELECTION": "移除選擇項目",
     "DOWNLOAD": "下載",
-    "UPLOADING_ATTACHMENTS": "Uploading attachments...",
+    "UPLOADING_ATTACHMENTS": "正在上傳附件...",
     "NO_RESPONSE": "無回應",
     "HEADER": {
       "RESOLVE_ACTION": "已解決",
@@ -49,7 +49,7 @@
       "SEND": "發送",
       "CREATE": "建立筆記",
       "TWEET": "推特",
-      "TIP_FORMAT_ICON": "Show rich text editor",
+      "TIP_FORMAT_ICON": "顯示文字編輯器",
       "TIP_EMOJI_ICON": "顯示 emoji 選擇器",
       "TIP_ATTACH_ICON": "附件",
       "ENTER_TO_SEND": "按下 Enter 傳送"
@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "對話詳細資訊",
     "ASSIGNEE_LABEL": "指派客服",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "指派團隊",
     "SELECT": {
       "PLACEHOLDER": "無"

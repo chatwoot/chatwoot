@@ -1,6 +1,6 @@
 module Redis::Config
-  DEFAULT_SENTINEL_PORT = '26379'.freeze
-  SIDEKIQ_SIZE = 25
+  DEFAULT_SENTINEL_PORT ||= '26379'.freeze
+  SIDEKIQ_SIZE ||= 25
 
   class << self
     def app

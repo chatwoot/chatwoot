@@ -9,33 +9,44 @@
       :campaigns="records"
       :show-empty-result="showEmptyResult"
       :is-loading="uiFlags.isFetching"
-      :on-edit-click="openEditPopup"
+      @on-edit-click="openEditPopup"
+      @on-delete-click="openDeletePopup"
     />
 
     <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
-      <add-campaign :on-close="hideAddPopup" :sender-list="selectedAgents" />
+      <add-campaign :sender-list="selectedAgents" @on-close="hideAddPopup" />
     </woot-modal>
     <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
       <edit-campaign
-        :on-close="hideEditPopup"
         :selected-campaign="selectedCampaign"
         :sender-list="selectedAgents"
+        @on-close="hideEditPopup"
       />
     </woot-modal>
+    <woot-delete-modal
+      :show.sync="showDeleteConfirmationPopup"
+      :on-close="closeDeletePopup"
+      :on-confirm="confirmDeletion"
+      :title="$t('CAMPAIGN.DELETE.CONFIRM.TITLE')"
+      :message="$t('CAMPAIGN.DELETE.CONFIRM.MESSAGE')"
+      :confirm-text="$t('CAMPAIGN.DELETE.CONFIRM.YES')"
+      :reject-text="$t('CAMPAIGN.DELETE.CONFIRM.NO')"
+    />
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import alertMixin from 'shared/mixins/alertMixin';
 import AddCampaign from './AddCampaign';
 import CampaignsTable from './CampaignsTable';
 import EditCampaign from './EditCampaign';
-
 export default {
   components: {
     AddCampaign,
     CampaignsTable,
     EditCampaign,
   },
+  mixins: [alertMixin],
   props: {
     selectedAgents: {
       type: Array,
@@ -48,6 +59,7 @@ export default {
       showAddPopup: false,
       showEditPopup: false,
       selectedCampaign: {},
+      showDeleteConfirmationPopup: false,
     };
   },
   computed: {
@@ -81,6 +93,28 @@ export default {
     hideEditPopup() {
       this.showEditPopup = false;
     },
+    openDeletePopup(response) {
+      this.showDeleteConfirmationPopup = true;
+      this.selectedCampaign = response;
+    },
+    closeDeletePopup() {
+      this.showDeleteConfirmationPopup = false;
+    },
+    confirmDeletion() {
+      this.closeDeletePopup();
+      const {
+        row: { id },
+      } = this.selectedCampaign;
+      this.deleteCampaign(id);
+    },
+    async deleteCampaign(id) {
+      try {
+        await this.$store.dispatch('campaigns/delete', id);
+        this.showAlert(this.$t('CAMPAIGN.DELETE.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        this.showAlert(this.$t('CAMPAIGN.DELETE.API.ERROR_MESSAGE'));
+      }
+    },
   },
 };
 </script>
@@ -90,5 +124,9 @@ export default {
   display: flex;
   justify-content: flex-end;
   padding-bottom: var(--space-one);
+}
+
+.content-box .page-top-bar::v-deep {
+  padding: var(--space-large) var(--space-large) var(--space-zero);
 }
 </style>

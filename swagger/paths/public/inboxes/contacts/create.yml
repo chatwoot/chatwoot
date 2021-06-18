@@ -1,0 +1,20 @@
+tags:
+  - Contacts API
+operationId: create-a-contact
+summary: Create a contact
+description: Create a contact
+security:
+  - nil
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/public_contact_create_update_payload'
+responses:
+  200:
+    description: Success
+    schema:
+      $ref: '#/definitions/public_contact'
+  401:
+    description: Unauthorized

@@ -10,7 +10,7 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Kami sedang online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "Kami sedang tidak tersedia saat ini"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Biasanya membalas dalam beberapa menit",
@@ -21,7 +21,7 @@
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Lihat pesan baru",
     "CLOSE_MESSAGES_BUTTON": "Tutup",
-    "COMPANY_FROM": "from",
+    "COMPANY_FROM": "dari",
     "BOT": "Bot"
   },
   "BUBBLE": {
@@ -51,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "File melebihi batas {MAXIMUM_FILE_UPLOAD_SIZE} lampiran",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }

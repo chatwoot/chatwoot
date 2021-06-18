@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
     "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
       "PLACEHOLDER": "None"
