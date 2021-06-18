@@ -95,8 +95,11 @@ export default {
     display: flex;
     justify-content: space-around;
     padding: $space-two $space-normal;
+
     .emoji-button {
       font-size: $font-size-big;
+      outline: none;
+      box-shadow: none;
       filter: grayscale(100%);
       &.selected {
         filter: grayscale(0%);
@@ -121,6 +124,7 @@ export default {
       font-size: $font-size-large;
       height: auto;
       margin-left: -1px;
+      appearance: none;
       .spinner {
         display: block;
         padding: 0;

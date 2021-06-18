@@ -38,7 +38,6 @@ module WootMessageSeeder
     )
   end
 
-
   def self.sample_card_item
     {
       media_url: 'https://i.imgur.com/d8Djr4k.jpg',
