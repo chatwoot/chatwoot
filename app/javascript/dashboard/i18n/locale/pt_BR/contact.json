@@ -136,6 +136,7 @@
     "LIST": {
       "LOADING_MESSAGE": "Carregando contatos...",
       "404": "Nenhum contato corresponde à sua pesquisa 🔍",
+      "NO_CONTACTS": "Não há contatos disponíveis",
       "TABLE_HEADER": {
         "NAME": "Nome",
         "PHONE_NUMBER": "Número de Telefone",
