@@ -65,7 +65,7 @@ export default {
   display: flex;
   padding: var(--space-slab) 0 0;
   background: var(--color-background-light);
-  background: var(--b-100);
+  background: var(--b-50);
   border-radius: var(--border-radius-normal);
   width: fit-content;
   padding: var(--space-smaller);
