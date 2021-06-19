@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_18_073042) do
+ActiveRecord::Schema.define(version: 2021_06_18_095823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(version: 2021_06_18_073042) do
     t.string "out_of_office_message"
     t.string "timezone", default: "UTC"
     t.boolean "enable_email_collect", default: true
+    t.boolean "csat_survey_enabled", default: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -438,12 +439,15 @@ ActiveRecord::Schema.define(version: 2021_06_18_073042) do
   end
 
   create_table "notes", force: :cascade do |t|
-    t.string "content"
-    t.integer "author_id"
-    t.integer "account_id"
-    t.integer "contact_id"
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_notes_on_account_id"
+    t.index ["contact_id"], name: "index_notes_on_contact_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
   end
 
   create_table "notification_settings", force: :cascade do |t|
@@ -637,6 +641,9 @@ ActiveRecord::Schema.define(version: 2021_06_18_073042) do
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
   add_foreign_key "data_imports", "accounts"
+  add_foreign_key "notes", "accounts"
+  add_foreign_key "notes", "contacts"
+  add_foreign_key "notes", "users"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
   add_foreign_key "teams", "accounts"
