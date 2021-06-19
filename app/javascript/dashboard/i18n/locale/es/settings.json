@@ -140,8 +140,8 @@
     "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
     "TEAMS": "Equipos",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with"
+    "ALL_CONTACTS": "Todos los contactos",
+    "TAGGED_WITH": "Etiquetado con"
   },
   "CREATE_ACCOUNT": {
     "NEW_ACCOUNT": "Nueva cuenta",
