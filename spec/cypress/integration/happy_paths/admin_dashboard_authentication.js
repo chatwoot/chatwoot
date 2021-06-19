@@ -1,7 +1,7 @@
 describe('AdminDashboardAuthentication', function () {
   before(() => {
-    // cy.app('clean');
-    // cy.appScenario('default')
+    cy.app('clean');
+    cy.appScenario('default');
   });
 
   it('authenticates an admin ', function () {
@@ -12,10 +12,9 @@ describe('AdminDashboardAuthentication', function () {
       .type('john@acme.inc');
     cy.get("[data-testid='password_input']")
       .clear()
-      .type('123456');
+      .type('Password1!');
 
     cy.get("[data-testid='submit_button']").click();
-    cy.contains('Conversations');
   });
 
 });
