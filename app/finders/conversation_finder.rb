@@ -30,6 +30,7 @@ class ConversationFinder
     filter_by_team if @team
     filter_by_labels if params[:labels]
     filter_by_query if params[:q]
+    filter_by_additional_attributes if params[:additional_attributes]
 
     mine_count, unassigned_count, all_count = set_count_for_all_conversations
 
@@ -95,6 +96,10 @@ class ConversationFinder
 
   def filter_by_labels
     @conversations = @conversations.tagged_with(params[:labels], any: true)
+  end
+
+  def filter_by_additional_attributes
+    @conversations = @conversations.where(additional_attributes: params[:additional_attributes])
   end
 
   def set_count_for_all_conversations
