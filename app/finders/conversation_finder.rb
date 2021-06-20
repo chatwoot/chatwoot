@@ -99,7 +99,7 @@ class ConversationFinder
   end
 
   def filter_by_custom_attributes 
-    @conversations = @conversations.where(meta.sender.custom_attributes.sessionUUID: params[:sessionUUID])
+    @conversations = @conversations.where('meta.sender.custom_attributes ILIKE :sessionUUID', sessionUUID: params[:sessionUUID])
   end
 
   def set_count_for_all_conversations
