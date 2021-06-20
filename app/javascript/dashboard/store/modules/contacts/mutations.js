@@ -11,6 +11,7 @@ export const mutations = {
 
   [types.CLEAR_CONTACTS]: $state => {
     Vue.set($state, 'records', {});
+    Vue.set($state, 'sortOrder', []);
   },
 
   [types.SET_CONTACT_META]: ($state, data) => {
@@ -20,12 +21,14 @@ export const mutations = {
   },
 
   [types.SET_CONTACTS]: ($state, data) => {
-    data.forEach(contact => {
+    const sortOrder = data.map(contact => {
       Vue.set($state.records, contact.id, {
         ...($state.records[contact.id] || {}),
         ...contact,
       });
+      return contact.id;
     });
+    $state.sortOrder = sortOrder;
   },
 
   [types.SET_CONTACT_ITEM]: ($state, data) => {
@@ -33,6 +36,10 @@ export const mutations = {
       ...($state.records[data.id] || {}),
       ...data,
     });
+
+    if (!$state.sortOrder.includes(data.id)) {
+      $state.sortOrder.push(data.id);
+    }
   },
 
   [types.EDIT_CONTACT]: ($state, data) => {

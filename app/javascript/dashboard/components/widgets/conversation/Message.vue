@@ -71,7 +71,7 @@ import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import Spinner from 'shared/components/Spinner';
-
+import { isEmptyObject } from 'dashboard/helper/commons';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -95,11 +95,6 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      isHovered: false,
-    };
-  },
   computed: {
     message() {
       const botMessageContent = generateBotMessageContent(
@@ -109,12 +104,14 @@ export default {
       );
 
       const {
-        email: { html_content: { full: fullHTMLContent } = {} } = {},
+        email: {
+          html_content: { full: fullHTMLContent, reply: replyHTMLContent } = {},
+        } = {},
       } = this.contentAttributes;
 
-      if (fullHTMLContent && this.isIncoming) {
+      if ((replyHTMLContent || fullHTMLContent) && this.isIncoming) {
         let parsedContent = new DOMParser().parseFromString(
-          fullHTMLContent || '',
+          replyHTMLContent || fullHTMLContent || '',
           'text/html'
         );
         if (!parsedContent.getElementsByTagName('parsererror').length) {
@@ -150,7 +147,10 @@ export default {
       return !messageType ? 'left' : 'right';
     },
     readableTime() {
-      return this.messageStamp(this.data.created_at, 'LLL d, h:mm a');
+      return this.messageStamp(
+        this.contentAttributes.external_created_at || this.data.created_at,
+        'LLL d, h:mm a'
+      );
     },
     isBubble() {
       return [0, 1, 3].includes(this.data.message_type);
@@ -174,8 +174,7 @@ export default {
     },
     sentByMessage() {
       const { sender } = this;
-
-      return this.data.message_type === 1 && !this.isHovered && sender
+      return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
@@ -195,10 +194,15 @@ export default {
         'is-private': this.data.private,
         'is-image': this.hasImageAttachment,
         'is-text': this.hasText,
+        'is-from-bot': this.isSentByBot,
       };
     },
     isPending() {
       return this.data.status === MESSAGE_STATUS.PROGRESS;
+    },
+    isSentByBot() {
+      if (this.isPending) return false;
+      return !this.sender.type || this.sender.type === 'agent_bot';
     },
   },
 };
@@ -247,6 +251,13 @@ export default {
       padding: 0;
       color: var(--color-body);
       text-decoration: underline;
+    }
+
+    &.is-from-bot {
+      background: var(--v-400);
+      .message-text--metadata .time {
+        color: var(--v-50);
+      }
     }
   }
 

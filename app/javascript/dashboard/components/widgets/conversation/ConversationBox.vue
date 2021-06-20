@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~dashboard/assets/scss/app.scss';
+@import '~dashboard/assets/scss/woot';
 
 .conversation-details-wrap {
   display: flex;
@@ -121,6 +121,7 @@ export default {
     width: 100%;
     height: 100%;
     max-width: 100%;
+    padding: var(--space-normal) var(--space-two);
   }
 }
 </style>

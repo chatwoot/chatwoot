@@ -1,35 +1,35 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Create new team",
-    "HEADER": "Teams",
-    "SIDEBAR_TXT": "<p><b>Teams</b></p> <p>Teams let you organize your agents into groups based on their responsibilities. <br /> A user can be part of multiple teams. You can assign conversations to a team when you are working collaboratively. </p>",
+    "NEW_TEAM": "建立新團隊",
+    "HEADER": "團隊",
+    "SIDEBAR_TXT": "<p><b>團隊</b></p> <p>團隊讓你將客服依照他們的職責分組。<br /> 一個使用者可以再多個團隊中。你可以將對話指派給一個團隊以協作。 </p>",
     "LIST": {
       "404": "There are no teams created on this account.",
-      "EDIT_TEAM": "Edit team"
+      "EDIT_TEAM": "編輯團隊"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Create a new team",
-        "DESC": "Add a title and description to your new team."
+        "TITLE": "建立一個新團隊",
+        "DESC": "為你的新團隊新增一個標題跟描述"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Add agents to team",
-        "TITLE": "Add agents to team - %{teamName}",
+        "BUTTON_TEXT": "將客服加入團隊",
+        "TITLE": "將客服加入團隊 - %{teamName}",
         "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation."
       },
       "WIZARD": [
         {
           "title": "建立",
           "route": "settings_teams_new",
-          "body": "Create a new team of agents."
+          "body": "為客服建立一個新團隊"
         },
         {
-          "title": "建立客服代理",
+          "title": "建立客服",
           "route": "settings_teams_add_agents",
-          "body": "Add agents to the team."
+          "body": "將客服加入團隊"
         },
         {
-          "title": "Finish",
+          "title": "完成",
           "route": "settings_teams_finish",
           "body": "您已設定狀態為離開"
         }
@@ -37,28 +37,28 @@
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Edit your team details",
-        "DESC": "Edit title and description to your team.",
-        "BUTTON_TEXT": "Update team"
+        "TITLE": "編輯團隊詳細資訊",
+        "DESC": "編輯團隊標題及描述",
+        "BUTTON_TEXT": "更新團隊"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Update agents in team",
-        "TITLE": "Add agents to team - %{teamName}",
-        "DESC": "Add Agents to your newly created team. All the added agents will be notified when a conversation is assigned to this team."
+        "BUTTON_TEXT": "更新團隊客服",
+        "TITLE": "將客服加入團隊 - %{teamName}",
+        "DESC": "為新建立的團隊新增客服，當對話被指派至團隊時，所有加入的客服都會被通知。"
       },
       "WIZARD": [
         {
-          "title": "Team details",
+          "title": "團隊詳細資訊",
           "route": "settings_teams_edit",
-          "body": "Change name, description and other details."
+          "body": "變更名稱、描述及其他詳細資訊。"
         },
         {
-          "title": "Edit Agents",
+          "title": "編輯客服",
           "route": "settings_teams_edit_members",
-          "body": "Edit agents in your team."
+          "body": "編輯團隊內的客服"
         },
         {
-          "title": "Finish",
+          "title": "完成",
           "route": "settings_teams_edit_finish",
           "body": "您已設定狀態為離開"
         }
@@ -68,57 +68,58 @@
       "ERROR_MESSAGE": "Couldn't save the team details. Try again."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
+      "AGENT": "客服",
       "EMAIL": "電子信箱",
-      "BUTTON_TEXT": "建立客服代理",
-      "ADD_AGENTS": "Adding Agents to your Team...",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected."
+      "BUTTON_TEXT": "新增客服",
+      "ADD_AGENTS": "正在將客服加入到你的團隊...",
+      "SELECT": "選擇",
+      "SELECT_ALL": "選取所有客服",
+      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取"
     },
     "ADD": {
-      "TITLE": "Add agents to team - %{teamName}",
-      "DESC": "Add Agents to your newly created team. This lets you collaborate as a team on conversations, get notified on new events in the same conversation.",
-      "SELECT": "select",
-      "SELECT_ALL": "select all agents",
-      "SELECTED_COUNT": "%{selected} out of %{total} agents selected.",
-      "BUTTON_TEXT": "建立客服代理",
-      "AGENT_VALIDATION_ERROR": "Select atleaset one agent."
+      "TITLE": "將客服加入團隊 - %{teamName}",
+      "DESC": "將客服新增到新建立的團隊。這會讓你可以用團隊的形式處理對話，也可以取得同一個對話的新事件通知。",
+      "SELECT": "選擇",
+      "SELECT_ALL": "選取所有克服",
+      "SELECTED_COUNT": "%{total} 中的 %{selected} 個客服被選取",
+      "BUTTON_TEXT": "新增客服",
+      "AGENT_VALIDATION_ERROR": "至少選擇一個客服"
     },
     "FINISH": {
-      "TITLE": "Your team is ready!",
+      "TITLE": "你的團隊已經準備好了",
       "MESSAGE": "You can now collaborate as a team on conversations. Happy supporting ",
-      "BUTTON_TEXT": "Finish"
+      "BUTTON_TEXT": "完成"
     },
     "DELETE": {
       "BUTTON_TEXT": "刪除",
       "API": {
-        "SUCCESS_MESSAGE": "Team deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the team. Try again."
+        "SUCCESS_MESSAGE": "團隊刪除成功",
+        "ERROR_MESSAGE": "無法刪除團隊，請再試一次"
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{teamName}",
-        "MESSAGE": "Deleting the team will remove the team assignment from the conversations assigned to this team.",
+        "TITLE": "確定要刪除 - %{teamName} ？",
+        "PLACE_HOLDER": "Please type {teamName} to confirm",
+        "MESSAGE": "刪除此團隊將會移除已指派給此團隊的對話指派對象",
         "YES": "刪除 ",
-        "NO": "取消操作"
+        "NO": "取消"
       }
     },
     "SETTINGS": "設定",
     "FORM": {
-      "UPDATE": "Update team",
-      "CREATE": "Create team",
+      "UPDATE": "更新團隊",
+      "CREATE": "建立團隊",
       "NAME": {
-        "LABEL": "Team name",
-        "PLACEHOLDER": "Example: Sales, Customer Support"
+        "LABEL": "團隊名稱",
+        "PLACEHOLDER": "例如：業務、客戶支援"
       },
       "DESCRIPTION": {
-        "LABEL": "Team Description",
-        "PLACEHOLDER": "Short description about this team."
+        "LABEL": "團隊描述",
+        "PLACEHOLDER": "對此團隊的簡短描述"
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Allow auto assign for this team."
+        "LABEL": "允許在團隊中自動指派"
       },
-      "SUBMIT_CREATE": "Create team"
+      "SUBMIT_CREATE": "建立團隊"
     }
   }
 }

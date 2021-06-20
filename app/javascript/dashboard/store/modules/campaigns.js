@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import CampaignsAPI from '../../api/campaigns';
+import InboxesAPI from '../../api/inboxes';
 
 export const state = {
   records: [],
@@ -20,10 +21,10 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit }) {
+  get: async function getCampaigns({ commit }, { inboxId }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
-      const response = await CampaignsAPI.get();
+      const response = await InboxesAPI.getCampaigns(inboxId);
       commit(types.SET_CAMPAIGNS, response.data);
     } catch (error) {
       // Ignore error
@@ -53,6 +54,17 @@ export const actions = {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
   },
+  delete: async ({ commit }, id) => {
+    commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: true });
+    try {
+      await CampaignsAPI.delete(id);
+      commit(types.DELETE_CAMPAIGN, id);
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      commit(types.SET_CAMPAIGN_UI_FLAG, { isDeleting: false });
+    }
+  },
 };
 
 export const mutations = {
@@ -66,6 +78,7 @@ export const mutations = {
   [types.ADD_CAMPAIGN]: MutationHelpers.create,
   [types.SET_CAMPAIGNS]: MutationHelpers.set,
   [types.EDIT_CAMPAIGN]: MutationHelpers.update,
+  [types.DELETE_CAMPAIGN]: MutationHelpers.destroy,
 };
 
 export default {

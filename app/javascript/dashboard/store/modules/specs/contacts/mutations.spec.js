@@ -7,6 +7,7 @@ describe('#mutations', () => {
     it('set contact records', () => {
       const state = { records: {} };
       mutations[types.SET_CONTACTS](state, [
+        { id: 2, name: 'contact2', email: 'contact2@chatwoot.com' },
         { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
       ]);
       expect(state.records).toEqual({
@@ -15,7 +16,13 @@ describe('#mutations', () => {
           name: 'contact1',
           email: 'contact1@chatwoot.com',
         },
+        2: {
+          id: 2,
+          name: 'contact2',
+          email: 'contact2@chatwoot.com',
+        },
       });
+      expect(state.sortOrder).toEqual([2, 1]);
     });
   });
 
@@ -25,6 +32,7 @@ describe('#mutations', () => {
         records: {
           1: { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
         },
+        sortOrder: [1],
       };
       mutations[types.SET_CONTACT_ITEM](state, {
         id: 2,
@@ -35,6 +43,7 @@ describe('#mutations', () => {
         1: { id: 1, name: 'contact1', email: 'contact1@chatwoot.com' },
         2: { id: 2, name: 'contact2', email: 'contact2@chatwoot.com' },
       });
+      expect(state.sortOrder).toEqual([1, 2]);
     });
   });
 

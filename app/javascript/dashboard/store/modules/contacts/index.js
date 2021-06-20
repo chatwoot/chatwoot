@@ -14,6 +14,7 @@ const state = {
     isFetchingInboxes: false,
     isUpdating: false,
   },
+  sortOrder: [],
 };
 
 export default {

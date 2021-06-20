@@ -1,27 +1,27 @@
 <template>
   <button
     class="button"
-    :class="[
-      variant,
-      size,
-      colorScheme,
-      classNames,
-      isDisabled ? 'disabled' : '',
-    ]"
+    :class="buttonClasses"
     :disabled="isDisabled || isLoading"
     @click="handleClick"
   >
     <spinner v-if="isLoading" size="small" />
-    <i v-else-if="icon" class="icon" :class="icon"></i>
+    <emoji-or-icon
+      v-else-if="icon || emoji"
+      class="icon"
+      :emoji="emoji"
+      :icon="icon"
+    />
     <span v-if="$slots.default" class="button__content"><slot></slot></span>
   </button>
 </template>
 <script>
-import Spinner from 'shared/components/Spinner.vue';
+import Spinner from 'shared/components/Spinner';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon';
 
 export default {
   name: 'WootButton',
-  components: { Spinner },
+  components: { EmojiOrIcon, Spinner },
   props: {
     variant: {
       type: String,
@@ -35,12 +35,16 @@ export default {
       type: String,
       default: '',
     },
+    emoji: {
+      type: String,
+      default: '',
+    },
     colorScheme: {
       type: String,
       default: 'primary',
     },
     classNames: {
-      type: String,
+      type: [String, Object],
       default: '',
     },
     isDisabled: {
@@ -51,6 +55,34 @@ export default {
       type: Boolean,
       default: false,
     },
+    isExpanded: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    variantClasses() {
+      if (this.variant.includes('link')) {
+        return `clear ${this.variant}`;
+      }
+      return this.variant;
+    },
+    hasOnlyIconClasses() {
+      const hasEmojiOrIcon = this.emoji || this.icon;
+      if (!this.$slots.default && hasEmojiOrIcon) return 'button--only-icon';
+      return '';
+    },
+    buttonClasses() {
+      return [
+        this.variantClasses,
+        this.hasOnlyIconClasses,
+        this.size,
+        this.colorScheme,
+        this.classNames,
+        this.isDisabled ? 'disabled' : '',
+        this.isExpanded ? 'expanded' : '',
+      ];
+    },
   },
   methods: {
     handleClick(evt) {
@@ -59,20 +91,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.button {
-  display: flex;
-  align-items: center;
-
-  &.link {
-    padding: 0;
-    margin: 0;
-  }
-}
-.spinner {
-  padding: 0 var(--space-small);
-}
-.icon + .button__content {
-  padding-left: var(--space-small);
-}
-</style>

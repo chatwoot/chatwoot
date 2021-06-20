@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "¿Está seguro que quiere borrar - %{teamName}?",
+        "PLACE_HOLDER": "Por favor escriba {teamName} para confirmar",
         "MESSAGE": "Al borrar el equipo se quitara la asignación del equipo en las conversaciones asignadas a éste equipo.",
         "YES": "Eliminar ",
         "NO": "Cancelar"

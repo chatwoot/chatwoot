@@ -3,11 +3,13 @@ import { createLocalVue, mount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
 
+import WootButton from 'dashboard/components/ui/WootButton';
 import i18n from 'dashboard/i18n';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
 localVue.use(VueI18n);
+localVue.component('woot-button', WootButton);
 
 const i18nConfig = new VueI18n({
   locale: 'en',

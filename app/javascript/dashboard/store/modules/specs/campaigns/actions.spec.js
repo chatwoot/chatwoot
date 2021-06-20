@@ -11,7 +11,7 @@ describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
       axios.get.mockResolvedValue({ data: campaignList });
-      await actions.get({ commit });
+      await actions.get({ commit }, { inboxId: 23 });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
         [types.default.SET_CAMPAIGNS, campaignList],
@@ -20,7 +20,7 @@ describe('#actions', () => {
     });
     it('sends correct actions if API is error', async () => {
       axios.get.mockRejectedValue({ message: 'Incorrect header' });
-      await actions.get({ commit });
+      await actions.get({ commit }, { inboxId: 23 });
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: true }],
         [types.default.SET_CAMPAIGN_UI_FLAG, { isFetching: false }],
@@ -65,6 +65,28 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: true }],
         [types.default.SET_CAMPAIGN_UI_FLAG, { isUpdating: false }],
+      ]);
+    });
+  });
+
+  describe('#delete', () => {
+    it('sends correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({ data: campaignList[0] });
+      await actions.delete({ commit }, campaignList[0].id);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: true }],
+        [types.default.DELETE_CAMPAIGN, campaignList[0].id],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: false }],
+      ]);
+    });
+    it('sends correct actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.delete({ commit }, campaignList[0].id)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: true }],
+        [types.default.SET_CAMPAIGN_UI_FLAG, { isDeleting: false }],
       ]);
     });
   });

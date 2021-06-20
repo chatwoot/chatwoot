@@ -1,14 +1,24 @@
-import { triggerCampaign } from 'widget/api/campaign';
-const startTimer = async ({ allCampaigns }) => {
-  allCampaigns.forEach(campaign => {
-    const {
-      trigger_rules: { time_on_page: timeOnPage },
-      id: campaignId,
-    } = campaign;
-    setTimeout(async () => {
-      await triggerCampaign({ campaignId });
-    }, timeOnPage * 1000);
-  });
-};
+import store from '../store';
+class CampaignTimer {
+  constructor() {
+    this.campaignTimers = [];
+  }
 
-export { startTimer };
+  initTimers = ({ campaigns }) => {
+    this.clearTimers();
+    campaigns.forEach(campaign => {
+      const { timeOnPage, id: campaignId } = campaign;
+      this.campaignTimers[campaignId] = setTimeout(() => {
+        store.dispatch('campaign/startCampaign', { campaignId });
+      }, timeOnPage * 1000);
+    });
+  };
+
+  clearTimers = () => {
+    this.campaignTimers.forEach(timerId => {
+      clearTimeout(timerId);
+      this.campaignTimers[timerId] = null;
+    });
+  };
+}
+export default new CampaignTimer();

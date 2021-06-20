@@ -1,8 +1,8 @@
 import { mutations } from '../../campaign';
 import { campaigns } from './data';
-
+jest.mock('widget/store/index.js');
 describe('#mutations', () => {
-  describe('#setCampagins', () => {
+  describe('#setCampaigns', () => {
     it('set campaign records', () => {
       const state = { records: [] };
       mutations.setCampaigns(state, campaigns);
@@ -23,6 +23,14 @@ describe('#mutations', () => {
       const state = { records: [], uiFlags: {} };
       mutations.setHasFetched(state, true);
       expect(state.uiFlags.hasFetched).toEqual(true);
+    });
+  });
+
+  describe('#setActiveCampaign', () => {
+    it('set active campaign', () => {
+      const state = { records: [] };
+      mutations.setActiveCampaign(state, campaigns[0]);
+      expect(state.activeCampaign).toEqual(campaigns[0]);
     });
   });
 });

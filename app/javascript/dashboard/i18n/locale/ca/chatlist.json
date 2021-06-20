@@ -80,6 +80,7 @@
     "RECEIVED_VIA_EMAIL": "Rebut per correu electrònic",
     "VIEW_TWEET_IN_TWITTER": "Veure el tuit a Twitter",
     "REPLY_TO_TWEET": "Respon a aquest tuit",
-    "NO_MESSAGES": "Cap Missatge"
+    "NO_MESSAGES": "Cap Missatge",
+    "NO_CONTENT": "No content available"
   }
 }

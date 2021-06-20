@@ -32,7 +32,7 @@
       "RESOLVE_ACTION": "Ratkaise",
       "REOPEN_ACTION": "Uudelleenavaa",
       "OPEN_ACTION": "Avaa",
-      "OPEN": "Lisää",
+      "OPEN": "Näytä",
       "CLOSE": "Sulje",
       "DETAILS": "tiedot"
     },
@@ -108,8 +108,8 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "DETAILS_TITLE": "Conversations Details",
     "ASSIGNEE_LABEL": "Assigned Agent",
+    "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
       "PLACEHOLDER": "None"

@@ -78,6 +78,11 @@
         "ERROR": "올바른 전자 메일 주소를 입력하십시오.",
         "PLACEHOLDER": "대화 중에 표시되는 이메일 주소를 입력하십시오."
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "비밀번호",
         "ERROR": "6글자 이상의 비밀번호를 입력하십시오.",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "미리 준비된 답변",
     "INTEGRATIONS": "통합",
     "ACCOUNT_SETTINGS": "계정 설정",
+    "APPLICATIONS": "Applications",
     "LABELS": "라벨",
     "TEAMS": "팀"
   },

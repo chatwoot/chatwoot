@@ -1,4 +1,11 @@
 class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
+  include Sift
+
+  sort_on :email, type: :string
+  sort_on :name, type: :string
+  sort_on :phone_number, type: :string
+  sort_on :last_activity_at, type: :datetime
+
   RESULTS_PER_PAGE = 15
   protect_from_forgery with: :null_session
 
@@ -8,7 +15,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def index
     @contacts_count = resolved_contacts.count
-    @contacts = fetch_contact_last_seen_at(resolved_contacts)
+    @contacts = fetch_contacts_with_conversation_count(resolved_contacts)
   end
 
   def search
@@ -19,7 +26,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       search: "%#{params[:q]}%"
     )
     @contacts_count = contacts.count
-    @contacts = fetch_contact_last_seen_at(contacts)
+    @contacts = fetch_contacts_with_conversation_count(contacts)
   end
 
   def import
@@ -41,7 +48,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def contactable_inboxes
-    @contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
+    @all_contactable_inboxes = Contacts::ContactableInboxesService.new(contact: @contact).get
+    @contactable_inboxes = @all_contactable_inboxes.select { |contactable_inbox| policy(contactable_inbox[:inbox]).show? }
   end
 
   def create
@@ -64,23 +72,27 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   private
 
+  # TODO: Move this to a finder class
   def resolved_contacts
-    @resolved_contacts ||= Current.account.contacts
-                                  .where.not(email: [nil, ''])
-                                  .or(Current.account.contacts.where.not(phone_number: [nil, '']))
-                                  .order('LOWER(name)')
+    return @resolved_contacts if @resolved_contacts
+
+    @resolved_contacts = Current.account.contacts
+                                .where.not(email: [nil, ''])
+                                .or(Current.account.contacts.where.not(phone_number: [nil, '']))
+    @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
+    @resolved_contacts
   end
 
   def set_current_page
     @current_page = params[:page] || 1
   end
 
-  def fetch_contact_last_seen_at(contacts)
-    contacts.left_outer_joins(:conversations)
-            .select('contacts.*, COUNT(conversations.id) as conversations_count, MAX(conversations.contact_last_seen_at) as last_seen_at')
-            .group('contacts.id')
-            .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
-            .page(@current_page).per(RESULTS_PER_PAGE)
+  def fetch_contacts_with_conversation_count(contacts)
+    filtrate(contacts).left_outer_joins(:conversations)
+                      .select('contacts.*, COUNT(conversations.id) as conversations_count')
+                      .group('contacts.id')
+                      .includes([{ avatar_attachment: [:blob] }, { contact_inboxes: [:inbox] }])
+                      .page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def build_contact_inbox

@@ -29,7 +29,7 @@ RSpec.describe HookJob, type: :job do
     end
 
     it 'calls Integrations::Dialogflow::ProcessorService when its a dialogflow intergation' do
-      hook = create(:integrations_hook, app_id: 'dialogflow', account: account)
+      hook = create(:integrations_hook, :dialogflow, account: account)
       allow(Integrations::Dialogflow::ProcessorService).to receive(:new).and_return(process_service)
       expect(Integrations::Dialogflow::ProcessorService).to receive(:new)
       described_class.perform_now(hook, event_name, event_data)

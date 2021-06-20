@@ -54,10 +54,10 @@
   },
   "NOTIFICATIONS_PAGE": {
     "HEADER": "Уведомления",
-    "MARK_ALL_DONE": "Mark All Done",
+    "MARK_ALL_DONE": "Отметить все прочитанными",
     "LIST": {
-      "LOADING_MESSAGE": "Loading notifications...",
-      "404": "No Notifications",
+      "LOADING_MESSAGE": "Загрузка уведомлений...",
+      "404": "Уведомления отсутствуют",
       "TABLE_HEADER": [
         "Имя",
         "Номер телефона",
@@ -66,8 +66,8 @@
       ]
     },
     "TYPE_LABEL": {
-      "conversation_creation": "New conversation",
-      "conversation_assignment": "Conversation Assigned",
+      "conversation_creation": "Новая беседа",
+      "conversation_assignment": "Беседа назначена",
       "assigned_conversation_new_message": "Новое сообщение",
       "conversation_mention": "Упоминание"
     }

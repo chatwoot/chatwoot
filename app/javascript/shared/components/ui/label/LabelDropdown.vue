@@ -41,10 +41,6 @@ export default {
   },
 
   props: {
-    conversationId: {
-      type: [String, Number],
-      required: true,
-    },
     accountLabels: {
       type: Array,
       default: () => [],

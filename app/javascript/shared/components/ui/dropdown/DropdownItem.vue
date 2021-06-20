@@ -36,11 +36,11 @@ export default {
       width: 100%;
       text-align: left;
       white-space: nowrap;
-      padding: var(--space-small) var(--space-one);
+      display: inline-flex;
+      border-radius: var(--border-radius-normal);
 
       &:hover {
         background: var(--color-background);
-        border-radius: var(--border-radius-normal);
       }
     }
   }

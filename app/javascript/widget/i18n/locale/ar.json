@@ -20,7 +20,9 @@
   "START_CONVERSATION": "ابدأ المحادثة",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "عرض الرسائل الجديدة",
-    "CLOSE_MESSAGES_BUTTON": "أغلق"
+    "CLOSE_MESSAGES_BUTTON": "أغلق",
+    "COMPANY_FROM": "from",
+    "BOT": "رد آلي"
   },
   "BUBBLE": {
     "LABEL": "تحدث الينا"
@@ -49,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }

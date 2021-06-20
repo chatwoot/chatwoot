@@ -6,17 +6,17 @@
     "ACCOUNT_NAME": {
       "LABEL": "帳戶名稱",
       "PLACEHOLDER": "Enter an account name. eg: Wayne Enterprises",
-      "ERROR": "Account name is too short"
+      "ERROR": "帳號名稱過短"
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. eg: Bruce Wayne",
-      "ERROR": "Full name is too short"
+      "LABEL": "姓名",
+      "PLACEHOLDER": "請輸入您的完整姓名，如：王大明",
+      "ERROR": "姓名太短了"
     },
     "EMAIL": {
       "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. eg: bruce@wayne.enterprises",
-      "ERROR": "Email address is invalid"
+      "PLACEHOLDER": "輸入你的工作 Email。例如： bruce@wayne.enterprises",
+      "ERROR": "Email 無效"
     },
     "PASSWORD": {
       "LABEL": "密碼",
@@ -33,6 +33,6 @@
       "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     },
     "SUBMIT": "送出",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "HAVE_AN_ACCOUNT": "已經有帳號了嗎？"
   }
 }

@@ -4,7 +4,7 @@
 # layout will be rendered with erb and other content in html format
 # Further processing in liquid is implemented in mailers
 
-# Note: rails resolver looks for templates in cache first
+# NOTE: rails resolver looks for templates in cache first
 # which we don't want to happen here
 # so we are overriding find_all method in action view resolver
 # If anything breaks - look into rails : actionview/lib/action_view/template/resolver.rb
@@ -43,12 +43,12 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     handler = ActionView::Template.registered_template_handler(:liquid)
 
     template_details = {
+      locals: [],
       format: Mime['html'].to_sym,
-      updated_at: @db_template.updated_at,
       virtual_path: virtual_path(path, partial)
     }
 
-    [ActionView::Template.new(@db_template.body, "DB Template - #{@db_template.id}", handler, template_details)]
+    [ActionView::Template.new(@db_template.body, "DB Template - #{@db_template.id}", handler, **template_details)]
   end
 
   private

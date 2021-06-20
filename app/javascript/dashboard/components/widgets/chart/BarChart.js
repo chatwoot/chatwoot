@@ -14,12 +14,12 @@ const chartOptions = {
   scales: {
     xAxes: [
       {
-        barPercentage: 1.26,
+        barPercentage: 1.1,
         ticks: {
           fontFamily,
         },
         gridLines: {
-          display: false,
+          drawOnChartArea: false,
         },
       },
     ],
@@ -30,7 +30,7 @@ const chartOptions = {
           beginAtZero: true,
         },
         gridLines: {
-          display: false,
+          drawOnChartArea: false,
         },
       },
     ],

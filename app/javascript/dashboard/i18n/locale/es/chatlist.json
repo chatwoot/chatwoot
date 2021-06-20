@@ -80,6 +80,7 @@
     "RECEIVED_VIA_EMAIL": "Recibido por correo electrónico",
     "VIEW_TWEET_IN_TWITTER": "Ver trino en Twitter",
     "REPLY_TO_TWEET": "Responder a éste trino",
-    "NO_MESSAGES": "No hay mensajes"
+    "NO_MESSAGES": "No hay mensajes",
+    "NO_CONTENT": "No hay contenido disponible"
   }
 }

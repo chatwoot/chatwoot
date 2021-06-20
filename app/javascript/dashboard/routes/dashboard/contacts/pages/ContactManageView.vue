@@ -6,7 +6,7 @@
       :on-input-search="onInputSearch"
       :on-toggle-create="onToggleCreate"
     />
-    <manage-layout />
+    <manage-layout :contact-id="contactId" />
 
     <create-contact :show="showCreateModal" @cancel="onToggleCreate" />
   </div>
@@ -15,7 +15,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import ContactsHeader from '../components/Header';
-import ManageLayout from '../components/ManageLayout';
+import ManageLayout from 'dashboard/modules/contact/components/ManageLayout';
 import CreateContact from 'dashboard/routes/dashboard/conversation/contact/CreateContact';
 
 export default {
@@ -73,6 +73,9 @@ export default {
 
 <style lang="scss" scoped>
 .contact-manage-view {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  flex: 1 1 0;
 }
 </style>

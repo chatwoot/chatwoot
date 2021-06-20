@@ -36,3 +36,7 @@
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   locked: false
+- name: API_CHANNEL_NAME
+  value:
+- name: API_CHANNEL_THUMBNAIL
+  value:

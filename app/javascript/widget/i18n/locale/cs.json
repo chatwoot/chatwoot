@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Zahájit konverzaci",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
-    "CLOSE_MESSAGES_BUTTON": "Zavřít"
+    "CLOSE_MESSAGES_BUTTON": "Zavřít",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Napiště nám"
@@ -49,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }

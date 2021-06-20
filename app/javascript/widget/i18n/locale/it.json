@@ -20,7 +20,9 @@
   "START_CONVERSATION": "Avvia Conversazione",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vedi nuovi messaggi",
-    "CLOSE_MESSAGES_BUTTON": "Chiudi"
+    "CLOSE_MESSAGES_BUTTON": "Chiudi",
+    "COMPANY_FROM": "from",
+    "BOT": "Bot"
   },
   "BUBBLE": {
     "LABEL": "Chatta con noi"
@@ -49,5 +51,10 @@
       }
     }
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit"
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Invalid field"
+    }
+  }
 }
