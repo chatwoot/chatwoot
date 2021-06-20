@@ -98,7 +98,7 @@ class ConversationFinder
     @conversations = @conversations.tagged_with(params[:labels], any: true)
   end
 
-  def filter_by_custom_attributes
+  def filter_by_custom_attributes 
     @conversations = @conversations.where(meta.sender.custom_attributes.sessionUUID: params[:sessionUUID])
   end
 
