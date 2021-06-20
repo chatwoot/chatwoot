@@ -91,7 +91,7 @@ class ConversationFinder
   end
 
   def filter_by_team
-    @conversations = @conversations.where(team: @team)
+    @conversations = @conversations.where(team: @team) 
   end
 
   def filter_by_labels
