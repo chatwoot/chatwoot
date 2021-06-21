@@ -13,6 +13,7 @@ class ConversationFinder
 
   # params
   # assignee_type, inbox_id, :status
+  # filter_by_custom_attributes = custom attribute search with params of customKey and customValue
 
   def initialize(current_user, params)
     @current_user = current_user
