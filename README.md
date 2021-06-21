@@ -100,5 +100,3 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2021, Chatwoot Inc - Released under the MIT License.
-
-CWFORK TEST
