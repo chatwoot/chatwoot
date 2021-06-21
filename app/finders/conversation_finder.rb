@@ -99,7 +99,7 @@ class ConversationFinder
   end
 
   def filter_by_custom_attributes 
-    @conversations = conversations.joins(:contact).where("custom_attributes->>'recordingSessionUUID' :sessionUUID", sessionUUID: params[:sessionUUID])
+    @conversations = conversations.joins(:contact).where("custom_attributes->>'recordingSessionUUID' = :sessionUUID", sessionUUID: params[:sessionUUID])
   end
 
   def set_count_for_all_conversations
