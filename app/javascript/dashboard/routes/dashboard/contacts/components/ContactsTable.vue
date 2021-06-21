@@ -14,6 +14,10 @@
       v-if="showSearchEmptyState"
       :title="$t('CONTACTS_PAGE.LIST.404')"
     />
+    <empty-state
+      v-else-if="!isLoading && !contacts.length"
+      :title="$t('CONTACTS_PAGE.LIST.NO_CONTACTS')"
+    />
     <div v-if="isLoading" class="contacts--loader">
       <spinner />
       <span>{{ $t('CONTACTS_PAGE.LIST.LOADING_MESSAGE') }}</span>
