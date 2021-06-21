@@ -92,14 +92,14 @@ class ConversationFinder
   end
 
   def filter_by_team
-    @conversations = @conversations.where(team: @team) 
+    @conversations = @conversations.where(team: @team)
   end
 
   def filter_by_labels
     @conversations = @conversations.tagged_with(params[:labels], any: true)
   end
 
-  def filter_by_custom_attributes 
+  def filter_by_custom_attributes
     @conversations = conversations.joins(:contact).where("custom_attributes->>'#{params[:customKey]}' = ?", params[:customValue])
   end
 
