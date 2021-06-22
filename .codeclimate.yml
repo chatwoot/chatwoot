@@ -30,6 +30,7 @@ exclude_patterns:
   - "**/*.md"
   - "**/*.yml"
   - "app/javascript/dashboard/i18n/locale"
+  - "**/*.stories.js"
   - "stories/**/*"
   - "**/*.stories.js"
   - "**/stories/"
