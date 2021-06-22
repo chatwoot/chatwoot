@@ -13,11 +13,11 @@
         :badge="selectedItem.channel"
         :username="selectedItem.name"
       />
-      <div class="name-icon-wrap">
-        <div v-if="!isValueExist" class="name select">
+      <div class="user-wrap">
+        <div v-if="!isValueExist" class="selected-name">
           {{ multiselectorPlaceholder }}
         </div>
-        <div v-else class="name" :title="selectedItem.name">
+        <div v-else class="selected-name" :title="selectedItem.name">
           {{ selectedItem.name }}
         </div>
         <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
@@ -86,12 +86,7 @@ export default {
   },
   computed: {
     isValueExist() {
-      if (
-        this.selectedItem &&
-        this.selectedItem.name &&
-        this.selectedItem &&
-        this.selectedItem.id
-      ) {
+      if (this.selectedItem && this.selectedItem.id) {
         return true;
       }
       return false;
@@ -137,7 +132,7 @@ export default {
     margin-right: var(--space-one);
   }
 
-  .name-icon-wrap {
+  .user-wrap {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -145,11 +140,7 @@ export default {
     line-height: var(--space-normal);
     min-width: 0;
 
-    .select {
-      color: var(--b-600);
-    }
-
-    .name {
+    .selected-name {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -163,6 +154,12 @@ export default {
     right: 0;
     position: absolute;
     width: 100%;
+
+    .text-block-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &::v-deep {
       .dropdown-menu__item .button {

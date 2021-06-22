@@ -30,8 +30,8 @@
                 :username="option.name"
                 :status="option.availability_status"
               />
-              <div class="name-icon-wrap">
-                <div class="name" :title="option.name">
+              <div class="user-wrap">
+                <div class="user-name" :title="option.name">
                   {{ option.name }}
                 </div>
                 <i
@@ -159,13 +159,13 @@ export default {
           color: var(--w-700);
         }
 
-        .name-icon-wrap {
+        .user-wrap {
           display: flex;
           justify-content: space-between;
           min-width: 0;
         }
 
-        .name {
+        .user-name {
           padding: 0 var(--space-smaller);
           line-height: var(--space-normal);
           overflow: hidden;
