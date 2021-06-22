@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown-search-wrap">
+  <div class="dropdown-wrap">
     <div class="search-wrap">
       <input
         ref="searchbar"
@@ -10,41 +10,47 @@
         :placeholder="inputPlaceholder"
       />
     </div>
-    <div class="list-wrap">
-      <div class="list">
+    <div class="list-scroll-container">
+      <div class="dropdown-list">
         <woot-dropdown-menu>
           <woot-dropdown-item
             v-for="option in filteredOptions"
             :key="option.id"
           >
-            <button
-              class="button clear"
+            <woot-button
+              class="dropdown-item"
+              variant="clear"
               :class="{
                 active: option.id === (selectedItem && selectedItem.id),
               }"
               @click="() => onclick(option)"
             >
-              <Thumbnail
-                :src="option.thumbnail"
-                size="24px"
-                :username="option.name"
-                :status="option.availability_status"
-              />
               <div class="user-wrap">
-                <div class="user-name" :title="option.name">
-                  {{ option.name }}
-                </div>
-                <i
-                  v-if="option.id === (selectedItem && selectedItem.id)"
-                  class="icon ion-checkmark-round"
+                <Thumbnail
+                  :src="option.thumbnail"
+                  size="24px"
+                  :username="option.name"
+                  :status="option.availability_status"
                 />
+                <div class="name-wrap">
+                  <span
+                    class="name text-truncate text-block-title"
+                    :title="option.name"
+                  >
+                    {{ option.name }}
+                  </span>
+                  <i
+                    v-if="option.id === (selectedItem && selectedItem.id)"
+                    class="icon ion-checkmark-round"
+                  />
+                </div>
               </div>
-            </button>
+            </woot-button>
           </woot-dropdown-item>
         </woot-dropdown-menu>
-        <div v-if="noResult" class="no-result">
+        <h4 v-if="noResult" class="no-result text-truncate text-block-title">
           {{ noSearchResult }}
-        </div>
+        </h4>
       </div>
     </div>
   </div>
@@ -112,82 +118,80 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dropdown-search-wrap {
+.dropdown-wrap {
   width: 100%;
   display: flex;
   flex-direction: column;
   max-height: 16rem;
+}
 
-  .search-wrap {
-    margin-bottom: var(--space-small);
-    flex: 0 0 auto;
-    max-height: var(--space-large);
+.search-wrap {
+  margin-bottom: var(--space-small);
+  flex: 0 0 auto;
+  max-height: var(--space-large);
+}
 
-    .search-input {
-      margin: 0;
-      width: 100%;
-      border: 1px solid transparent;
-      height: var(--space-large);
-      font-size: var(--font-size-small);
-      padding: var(--space-small);
-      background-color: var(--color-background);
-    }
+.search-input {
+  margin: 0;
+  width: 100%;
+  border: 1px solid transparent;
+  height: var(--space-large);
+  font-size: var(--font-size-small);
+  padding: var(--space-small);
+  background-color: var(--color-background);
 
-    input:focus {
-      border: 1px solid var(--w-500);
-    }
+  &:focus {
+    border: 1px solid var(--w-500);
   }
+}
 
-  .list-wrap {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex: 1 1 auto;
-    overflow: auto;
+.list-scroll-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1 1 auto;
+  overflow: auto;
+}
 
-    .list {
-      width: 100%;
-      max-height: 12rem;
+.dropdown-list {
+  width: 100%;
+  max-height: 12rem;
+}
 
-      .button {
-        display: flex;
-        justify-content: flex-start;
+.dropdown-item {
+  justify-content: space-between;
+  width: 100%;
 
-        &.active {
-          display: flex;
-          font-weight: var(--font-weight-bold);
-          color: var(--w-700);
-        }
-
-        .user-wrap {
-          display: flex;
-          justify-content: space-between;
-          min-width: 0;
-        }
-
-        .user-name {
-          padding: 0 var(--space-smaller);
-          line-height: var(--space-normal);
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .icon {
-          margin-left: var(--space-smaller);
-        }
-      }
-
-      .no-result {
-        display: flex;
-        justify-content: center;
-        color: var(--s-700);
-        width: 100%;
-        padding: var(--space-small) var(--space-one);
-        font-weight: var(--font-weight-medium);
-        font-size: var(--font-size-small);
-      }
-    }
+  &.active {
+    font-weight: var(--font-weight-bold);
   }
+}
+
+.user-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.name-wrap {
+  display: flex;
+  justify-content: space-between;
+  min-width: 0;
+  width: 100%;
+}
+
+.name {
+  line-height: var(--space-normal);
+  margin: 0 var(--space-small);
+}
+
+.icon {
+  margin-left: var(--space-smaller);
+}
+
+.no-result {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-small) var(--space-one);
 }
 </style>

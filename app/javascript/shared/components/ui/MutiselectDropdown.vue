@@ -1,34 +1,45 @@
 <template>
-  <div v-on-clickaway="onCloseDropdown" class="dropdown-wrap">
-    <button
+  <div v-on-clickaway="onCloseDropdown" class="selector-wrap">
+    <woot-button
+      variant="hollow"
+      color-scheme="secondary"
       :v-model="selectedItem"
-      class="button-input"
+      class="selector-button"
       @click="toggleDropdown"
     >
-      <Thumbnail
-        v-if="isValueExist"
-        :src="selectedItem.thumbnail"
-        size="24px"
-        :status="selectedItem.availability_status"
-        :badge="selectedItem.channel"
-        :username="selectedItem.name"
-      />
-      <div class="user-wrap">
-        <div v-if="!isValueExist" class="selected-name">
-          {{ multiselectorPlaceholder }}
+      <div class="selector-user-wrap">
+        <Thumbnail
+          v-if="isValueExist"
+          :src="selectedItem.thumbnail"
+          size="24px"
+          :status="selectedItem.availability_status"
+          :badge="selectedItem.channel"
+          :username="selectedItem.name"
+        />
+        <div class="selector-name-wrap">
+          <h4
+            v-if="!isValueExist"
+            class="not-selected text-ellipsis text-block-title"
+          >
+            {{ multiselectorPlaceholder }}
+          </h4>
+          <h4
+            v-else
+            class="selector-name text-truncate text-block-title"
+            :title="selectedItem.name"
+          >
+            {{ selectedItem.name }}
+          </h4>
+          <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
+          <i v-else class="icon ion-chevron-down" />
         </div>
-        <div v-else class="selected-name" :title="selectedItem.name">
-          {{ selectedItem.name }}
-        </div>
-        <i v-if="showSearchDropdown" class="icon ion-chevron-up" />
-        <i v-else class="icon ion-chevron-down" />
       </div>
-    </button>
+    </woot-button>
     <div
       :class="{ 'dropdown-pane--open': showSearchDropdown }"
       class="dropdown-pane"
     >
-      <h4 class="text-block-title">
+      <h4 class="text-block-title text-truncate">
         {{ multiselectorTitle }}
       </h4>
       <multiselect-dropdown-items
@@ -109,75 +120,46 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dropdown-wrap {
-  display: flex;
+.selector-wrap {
   position: relative;
   width: 100%;
   margin-right: var(--space-one);
   margin-bottom: var(--space-small);
 
-  .button-input {
-    display: flex;
+  .selector-button {
     width: 100%;
-    cursor: pointer;
-    justify-content: flex-start;
-    background: var(--white);
-    font-size: var(--font-size-small);
     border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-normal);
-    padding: var(--space-small) var(--space-one);
+
+    &:hover {
+      border: 1px solid var(--color-border);
+    }
   }
 
-  &::v-deep .user-thumbnail-box {
-    margin-right: var(--space-one);
+  .selector-user-wrap {
+    display: flex;
   }
 
-  .user-wrap {
+  .selector-name-wrap {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: var(--space-smaller) 0;
-    line-height: var(--space-normal);
     min-width: 0;
+    align-items: center;
+  }
 
-    .selected-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      margin-right: var(--space-small);
-    }
+  .not-selected {
+    margin: 0 var(--space-small) 0 0;
+  }
+
+  .selector-name {
+    align-items: center;
+    margin: 0 var(--space-small);
   }
 
   .dropdown-pane {
     box-sizing: border-box;
     top: 4.2rem;
-    right: 0;
-    position: absolute;
     width: 100%;
-
-    .text-block-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &::v-deep {
-      .dropdown-menu__item .button {
-        width: 100%;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-        padding: var(--space-smaller) var(--space-small);
-
-        .name-icon-wrap {
-          width: 100%;
-        }
-
-        .name {
-          width: 100%;
-        }
-      }
-    }
   }
 }
 </style>
