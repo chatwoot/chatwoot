@@ -56,5 +56,9 @@
     "INVALID": {
       "FIELD": "Μη έγκυρο πεδίο"
     }
+  },
+  "CSAT": {
+    "TITLE": "Rate your conversation",
+    "PLACEHOLDER": "Tell us more..."
   }
 }
