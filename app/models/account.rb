@@ -37,6 +37,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy
   has_many :users, through: :account_users
   has_many :inboxes, dependent: :destroy
+  has_many :notes, dependent: :destroy
   has_many :campaigns, dependent: :destroy
   has_many :conversations, dependent: :destroy
   has_many :messages, dependent: :destroy
