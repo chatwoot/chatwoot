@@ -87,10 +87,10 @@ describe ::MessageTemplates::HookExecutionService do
     end
   end
 
-    context 'CSAT Survey' do 
+  context 'when CSAT Survey' do
     let(:csat_survey) { double }
 
-    before do 
+    before do
       allow(::MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
       allow(csat_survey).to receive(:perform).and_return(true)
     end
