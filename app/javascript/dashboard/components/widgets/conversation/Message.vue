@@ -71,7 +71,7 @@ import BubbleText from './bubble/Text';
 import BubbleImage from './bubble/Image';
 import BubbleFile from './bubble/File';
 import Spinner from 'shared/components/Spinner';
-
+import { isEmptyObject } from 'dashboard/helper/commons';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import BubbleActions from './bubble/Actions';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
@@ -94,11 +94,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  data() {
-    return {
-      isHovered: false,
-    };
   },
   computed: {
     message() {
@@ -179,8 +174,7 @@ export default {
     },
     sentByMessage() {
       const { sender } = this;
-
-      return this.data.message_type === 1 && !this.isHovered && sender
+      return this.data.message_type === 1 && !isEmptyObject(sender)
         ? {
             content: `${this.$t('CONVERSATION.SENT_BY')} ${sender.name}`,
             classes: 'top',
