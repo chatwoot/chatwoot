@@ -4,9 +4,9 @@
       <div class="message">
         <i class="ion-ios-chatboxes-outline" />
         <div class="conversation">
-          <div class="name-id-wrap">
+          <div class="user-wrap">
             <div class="name-wrap">
-              <span class="user-name">{{ userName }}</span>
+              <span class="sub-block-title">{{ userName }}</span>
             </div>
             <div class="id-wrap">
               <span class="conversation-id"># {{ conversationId }}</span>
@@ -153,16 +153,16 @@ export default {
   padding: var(--space-smaller) var(--space-one);
 }
 
-.name-id-wrap {
+.user-wrap {
   display: flex;
+
   .name-wrap {
     max-width: 20rem;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 
-    .user-name {
-      font-size: var(--font-size-default);
+    .sub-block-title {
       font-weight: var(--font-weight-bold);
       margin-right: var(--space-micro);
     }
