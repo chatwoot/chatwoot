@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import wootTextArea from './TextArea';
 
 export default {
-  title: 'Components/Form/TextArea',
+  title: 'Components/Form/Text Area',
   component: wootTextArea,
   argTypes: {
     label: {
