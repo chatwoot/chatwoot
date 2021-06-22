@@ -19,6 +19,14 @@ describe ::ContactMergeAction do
       expect { mergee_contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
+    context 'when base contact and merge contact are same' do
+      it 'does not delete contact' do
+        mergee_contact = base_contact
+        contact_merge
+        expect { mergee_contact.reload }.not_to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
     context 'when mergee contact has conversations' do
       it 'moves the conversations to base contact' do
         contact_merge
