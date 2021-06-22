@@ -4,7 +4,7 @@ class ContactMergeAction
   def perform
     # This case happens when an agent updates a contact email in dashboard,
     # while the contact also update his email via email collect box
-    return if base_contact.id == mergee_contact.id
+    return @base_contact if base_contact.id == mergee_contact.id
 
     ActiveRecord::Base.transaction do
       validate_contacts
