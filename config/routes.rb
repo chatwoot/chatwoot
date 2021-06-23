@@ -88,6 +88,8 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :csat_survey_responses, only: [:index]
+
           resources :inboxes, only: [:index, :create, :update, :destroy] do
             get :assignable_agents, on: :member
             get :campaigns, on: :member
