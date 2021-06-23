@@ -270,6 +270,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
     t.integer "rating", null: false
     t.text "feedback_text"
     t.bigint "contact_id", null: false
@@ -280,6 +281,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
+    t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
   end
 
   create_table "data_imports", force: :cascade do |t|
@@ -658,6 +660,7 @@ ActiveRecord::Schema.define(version: 2021_06_23_155413) do
   add_foreign_key "csat_survey_responses", "accounts"
   add_foreign_key "csat_survey_responses", "contacts"
   add_foreign_key "csat_survey_responses", "conversations"
+  add_foreign_key "csat_survey_responses", "messages"
   add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id"
   add_foreign_key "data_imports", "accounts"
   add_foreign_key "notes", "accounts"
