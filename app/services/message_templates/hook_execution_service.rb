@@ -46,11 +46,17 @@ class MessageTemplates::HookExecutionService
     contact.email
   end
 
-  def should_send_csat_survey?
-    return unless conversation.resolved?
+  def csat_enabled_inbox?
     # for now csat only available in web widget channel
     return unless inbox.web_widget?
     return unless inbox.csat_survey_enabled?
+    
+    true
+  end
+
+  def should_send_csat_survey?
+    return unless conversation.resolved?
+    return unless csat_enabled_inbox?
     # only send CSAT once in a conversation
     return if conversation.messages.where(content_type: :input_csat).present?
 
