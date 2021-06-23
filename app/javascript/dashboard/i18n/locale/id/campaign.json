@@ -42,6 +42,19 @@
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
     },
+    "DELETE": {
+      "BUTTON_TEXT": "Hapus",
+      "CONFIRM": {
+        "TITLE": "Konfirmasi Penghapusan",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus?",
+        "YES": "Ya, Hapus ",
+        "NO": "Tidak, Simpan "
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Campaign deleted successfully",
+        "ERROR_MESSAGE": "Could not delete the campaign. Please try again later."
+      }
+    },
     "EDIT": {
       "TITLE": "Edit campaign",
       "UPDATE_BUTTON_TEXT": "Perbarui",
@@ -63,7 +76,7 @@
         "CREATED_AT": "Created at"
       },
       "BUTTONS": {
-        "ADD": "Add",
+        "ADD": "Tambah",
         "EDIT": "Edit",
         "DELETE": "Hapus"
       },

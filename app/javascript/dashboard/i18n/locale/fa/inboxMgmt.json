@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "عنوان صندوق ورودی",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "عنوان سایت",
+        "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
+      },
       "FB": {
         "HELP": "پانویس: با وارد شدن ما فقط به پیام‌های صفحه دسترسی پیدا می‌کنیم. پیام‌های خصوصی شما را هرگز نخواهیم دید",
         "CHOOSE_PAGE": "انتخاب صفحه",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "در حال ساخت کانال پشتیبانی آنلاین سایت",
         "CHANNEL_AVATAR": {
           "LABEL": "آواتار کانال"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "عنوان سایت",
-          "PLACEHOLDER": "عنوان سایت خود را وارد کنید (به عنوان مثال: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "دامنه سایت",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "فعال",
         "DISABLED": "غیرفعال"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "فعال",
+        "DISABLED": "غیرفعال"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "تاییدیه حذف",
         "MESSAGE": "مطمئن هستید که حذف شود ",
+        "PLACE_HOLDER": "برای تایید لطفا {inboxName} را تایپ کنید",
         "YES": "بله، حذف شود ",
         "NO": "نه، بماند "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "اپراتورها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی اپراتور به صندوق ورودی",
       "UPDATE": "اعمال شود",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به اپراتورها",
       "INBOX_UPDATE_TITLE": "تنظیمات صندوق ورودی",
       "INBOX_UPDATE_SUB_TEXT": "تغییر پارامترهای صندوق ورودی",

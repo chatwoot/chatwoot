@@ -1,7 +1,9 @@
 <template>
   <div class="chat-bubble-wrap">
     <div
-      v-if="!isCards && !isOptions && !isForm && !isArticle"
+      v-if="
+        !isCards && !isOptions && !isForm && !isArticle && !isCards && !isCSAT
+      "
       class="chat-bubble agent"
     >
       <div class="message-content" v-html="formatMessage(message, false)"></div>
@@ -42,6 +44,7 @@
     <div v-if="isArticle">
       <chat-article :items="messageContentAttributes.items"></chat-article>
     </div>
+    <customer-satisfaction v-if="isCSAT" />
   </div>
 </template>
 
@@ -52,6 +55,7 @@ import ChatForm from 'shared/components/ChatForm';
 import ChatOptions from 'shared/components/ChatOptions';
 import ChatArticle from './template/Article';
 import EmailInput from './template/EmailInput';
+import CustomerSatisfaction from 'shared/components/CustomerSatisfaction';
 
 export default {
   name: 'AgentMessageBubble',
@@ -61,13 +65,14 @@ export default {
     ChatForm,
     ChatOptions,
     EmailInput,
+    CustomerSatisfaction,
   },
   mixins: [messageFormatterMixin],
   props: {
-    message: String,
-    contentType: String,
-    messageType: Number,
-    messageId: Number,
+    message: { type: String, default: null },
+    contentType: { type: String, default: null },
+    messageType: { type: Number, default: null },
+    messageId: { type: Number, default: null },
     messageContentAttributes: {
       type: Object,
       default: () => {},
@@ -91,6 +96,9 @@ export default {
     },
     isArticle() {
       return this.contentType === 'article';
+    },
+    isCSAT() {
+      return this.contentType === 'input_csat';
     },
   },
   methods: {

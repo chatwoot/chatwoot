@@ -682,6 +682,283 @@
         }
       }
     },
+    "public/api/v1/inboxes/{inbox_identifier}/contacts": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Contacts API"
+        ],
+        "operationId": "create-a-contact",
+        "summary": "Create a contact",
+        "description": "Create a contact",
+        "security": [
+          "nil"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_contact_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_contact"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Contacts API"
+        ],
+        "operationId": "get-details-of-a-contact",
+        "summary": "Get a contact",
+        "description": "Get the details of a contact",
+        "security": [
+          "nil"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_contact"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given contact does not exist"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Contacts API"
+        ],
+        "operationId": "update-a-contact",
+        "summary": "Update a contact",
+        "description": "Update a contact's attributes",
+        "security": [
+          "nil"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_contact_create_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_contact"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "create-a-conversation",
+        "summary": "Create a conversation",
+        "description": "Create a conversation",
+        "security": [
+          "nil"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_conversation"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "list-all-contact-conversations",
+        "summary": "List all conversations",
+        "description": "List all conversations for the contact",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of conversations",
+              "items": {
+                "$ref": "#/definitions/public_conversation"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Messages API"
+        ],
+        "operationId": "create-a-message",
+        "summary": "Create a message",
+        "description": "Create a message",
+        "security": [
+          "nil"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_message_create_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_message"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Messages API"
+        ],
+        "operationId": "list-all-converation-messages",
+        "summary": "List all messages",
+        "description": "List all messages in the conversation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "description": "Array of messages",
+              "items": {
+                "$ref": "#/definitions/public_message"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        },
+        {
+          "$ref": "#/parameters/message_id"
+        }
+      ],
+      "patch": {
+        "tags": [
+          "Messages API"
+        ],
+        "operationId": "update-a-message",
+        "summary": "Update a message",
+        "description": "Update a message",
+        "security": [
+          "nil"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_message_update_payload"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_message"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/agent_bots": {
       "parameters": [
         {
@@ -2698,6 +2975,299 @@
         }
       }
     },
+    "public_contact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Id of the contact"
+        },
+        "source_id": {
+          "type": "string",
+          "description": "The session identifier of the contact"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the contact"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the contact"
+        },
+        "pubsub_token": {
+          "type": "string",
+          "description": "The token to be used to connect to chatwoot websocket"
+        }
+      }
+    },
+    "public_conversation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Id of the conversation"
+        },
+        "inbox_id": {
+          "type": "string",
+          "description": "The inbox id of the conversation"
+        },
+        "messages": {
+          "type": "array",
+          "description": "Messages in the conversation"
+        },
+        "contact": {
+          "type": "object",
+          "description": "The contact information associated to the conversation"
+        }
+      }
+    },
+    "public_message": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Id of the message"
+        },
+        "content": {
+          "type": "string",
+          "description": "Text content of the message"
+        },
+        "message_type": {
+          "type": "string",
+          "description": "Denotes the message type"
+        },
+        "content_type": {
+          "type": "string",
+          "description": "Content type of the message"
+        },
+        "content_attributes": {
+          "type": "string",
+          "description": "Additional content attributes of the message"
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Created at time stamp of the message"
+        },
+        "conversation_id": {
+          "type": "string",
+          "description": "Conversation Id of the message"
+        },
+        "attachments": {
+          "type": "array",
+          "description": "Attachments if any"
+        },
+        "sender": {
+          "type": "object",
+          "description": "Details of the sender"
+        }
+      }
+    },
+    "account_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the account"
+        }
+      }
+    },
+    "agent_bot_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the agent bot"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description about the agent bot"
+        },
+        "outgoing_url": {
+          "type": "string",
+          "description": "The webhook URL for the bot"
+        }
+      }
+    },
+    "user_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the user"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the user"
+        },
+        "password": {
+          "type": "string",
+          "description": "Password must contain uppercase, lowercase letters, number and a special character"
+        }
+      }
+    },
+    "contact_create": {
+      "type": "object",
+      "properties": {
+        "inbox_id": {
+          "type": "number",
+          "required": true
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "contact_update": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "conversation_message_create": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The content of the message",
+          "required": true
+        },
+        "message_type": {
+          "type": "string",
+          "enum": [
+            "outgoing",
+            "incoming"
+          ]
+        },
+        "private": {
+          "type": "boolean",
+          "description": "Flag to identify if it is a private note"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "input_email",
+            "cards",
+            "input_select",
+            "form",
+            "article"
+          ],
+          "example": "cards",
+          "description": "if you want to create custom message types"
+        },
+        "content_attributes": {
+          "type": "object",
+          "description": "attributes based on your content type"
+        }
+      }
+    },
+    "team_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the team"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the team"
+        },
+        "allow_auto_assign": {
+          "type": "boolean",
+          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+        }
+      }
+    },
+    "integrations_hook_create_payload": {
+      "type": "object",
+      "properties": {
+        "app_id": {
+          "type": "string",
+          "description": "The ID of app for which integration hook is being created"
+        },
+        "inbox_id": {
+          "type": "string",
+          "description": "The inbox ID, if the hook is an inbox hook"
+        },
+        "settings": {
+          "type": "object",
+          "description": "The settings required by the integration"
+        }
+      }
+    },
+    "integrations_hook_update_payload": {
+      "type": "object",
+      "properties": {
+        "settings": {
+          "type": "object",
+          "description": "The settings required by the integration"
+        }
+      }
+    },
+    "public_contact_create_update_payload": {
+      "type": "object",
+      "properties": {
+        "identifier": {
+          "type": "string",
+          "description": "External identifier of the contact"
+        },
+        "identifier_hash": {
+          "type": "string",
+          "description": "Identifier hash prepared for HMAC authentication"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the contact"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the contact"
+        },
+        "avatar_url": {
+          "type": "string",
+          "description": "The url to a jpeg, png file for the user avatar"
+        },
+        "custom_attributes": {
+          "type": "object",
+          "description": "Custom attributes of the customer"
+        }
+      }
+    },
+    "public_message_create_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "Content for the message"
+        },
+        "echo_id": {
+          "type": "string",
+          "description": "Temporary identifier which will be passed back via websockets"
+        }
+      }
+    },
+    "public_message_update_payload": {
+      "type": "object",
+      "properties": {
+        "submitted_values": {
+          "type": "object",
+          "description": "Replies to the Bot Message Types"
+        }
+      }
+    },
     "extended_contact": {
       "allOf": [
         {
@@ -2974,153 +3544,6 @@
           }
         }
       ]
-    },
-    "account_create_update_payload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the account"
-        }
-      }
-    },
-    "agent_bot_create_update_payload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the agent bot"
-        },
-        "description": {
-          "type": "string",
-          "description": "The description about the agent bot"
-        },
-        "outgoing_url": {
-          "type": "string",
-          "description": "The webhook URL for the bot"
-        }
-      }
-    },
-    "user_create_update_payload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the account"
-        }
-      }
-    },
-    "contact_create": {
-      "type": "object",
-      "properties": {
-        "inbox_id": {
-          "type": "number",
-          "required": true
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone_number": {
-          "type": "string"
-        }
-      }
-    },
-    "contact_update": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone_number": {
-          "type": "string"
-        }
-      }
-    },
-    "conversation_message_create": {
-      "type": "object",
-      "properties": {
-        "content": {
-          "type": "string",
-          "description": "The content of the message",
-          "required": true
-        },
-        "message_type": {
-          "type": "string",
-          "enum": [
-            "outgoing",
-            "incoming"
-          ]
-        },
-        "private": {
-          "type": "boolean",
-          "description": "Flag to identify if it is a private note"
-        },
-        "content_type": {
-          "type": "string",
-          "enum": [
-            "input_email",
-            "cards",
-            "input_select",
-            "form",
-            "article"
-          ],
-          "example": "cards",
-          "description": "if you want to create custom message types"
-        },
-        "content_attributes": {
-          "type": "object",
-          "description": "attributes based on your content type"
-        }
-      }
-    },
-    "team_create_update_payload": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of the team"
-        },
-        "description": {
-          "type": "string",
-          "description": "The description of the team"
-        },
-        "allow_auto_assign": {
-          "type": "boolean",
-          "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
-        }
-      }
-    },
-    "integrations_hook_create_payload": {
-      "type": "object",
-      "properties": {
-        "app_id": {
-          "type": "string",
-          "description": "The ID of app for which integration hook is being created"
-        },
-        "inbox_id": {
-          "type": "string",
-          "description": "The inbox ID, if the hook is an inbox hook"
-        },
-        "settings": {
-          "type": "object",
-          "description": "The settings required by the integration"
-        }
-      }
-    },
-    "integrations_hook_update_payload": {
-      "type": "object",
-      "properties": {
-        "settings": {
-          "type": "object",
-          "description": "The settings required by the integration"
-        }
-      }
     }
   },
   "parameters": {
@@ -3219,6 +3642,24 @@
       },
       "required": true,
       "description": "The numeric ID of the user on the platform"
+    },
+    "public_inbox_identifier": {
+      "in": "path",
+      "name": "inbox_identifier",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "The identifier obtained from API inbox channel"
+    },
+    "public_contact_identifier": {
+      "in": "path",
+      "name": "contact_identifier",
+      "schema": {
+        "type": "string"
+      },
+      "required": true,
+      "description": "The source id of contact obtained on contact create"
     }
   },
   "x-tagGroups": [
@@ -3244,6 +3685,14 @@
         "Integrations",
         "Profile",
         "Teams"
+      ]
+    },
+    {
+      "name": "Public",
+      "tags": [
+        "Contacts API",
+        "Conversations API",
+        "Messages API"
       ]
     }
   ]

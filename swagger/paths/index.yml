@@ -67,6 +67,55 @@ platform/api/v1/users/{id}/login:
 
 # ---------------- end of platform path -----------#
 
+# ------------  Public API routes  ------------#
+
+# Contacts
+
+public/api/v1/inboxes/{inbox_identifier}/contacts:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+  post:
+    $ref: ./public/inboxes/contacts/create.yml
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+  get:
+    $ref: './public/inboxes/contacts/show.yml'
+  patch:
+    $ref: ./public/inboxes/contacts/update.yml
+
+
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+  post:
+    $ref: ./public/inboxes/conversations/create.yml
+  get: 
+    $ref: ./public/inboxes/conversations/index.yml
+
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+  post:
+    $ref: ./public/inboxes/messages/create.yml
+  get: 
+    $ref: ./public/inboxes/messages/index.yml
+public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/messages/{message_id}:
+  parameters:
+    - $ref: '#/parameters/public_inbox_identifier'
+    - $ref: '#/parameters/public_contact_identifier'
+    - $ref: '#/parameters/conversation_id'
+    - $ref: '#/parameters/message_id'
+  patch:
+    $ref: ./public/inboxes/messages/update.yml
+
+# ---------------- end of public api routes-----------#
+
+# ------------  Application API routes  ------------#
 # AgentBots
 
 /api/v1/accounts/{account_id}/agent_bots:
