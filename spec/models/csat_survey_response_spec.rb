@@ -6,7 +6,7 @@ RSpec.describe CsatSurveyResponse, type: :model do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:conversation_id) }
     it { is_expected.to validate_presence_of(:contact_id) }
-    
+
     it 'validates that the rating can only be in range 1-5' do
       csat_survey_response = build(:csat_survey_response, rating: 6)
       expect(csat_survey_response.valid?).to eq false

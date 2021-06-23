@@ -2,7 +2,7 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   RESULTS_PER_PAGE = 25
 
   before_action :check_authorization
- 
+
   def index
     @csat_survey_responses = csat_survey_responses
   end

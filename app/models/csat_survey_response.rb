@@ -40,5 +40,4 @@ class CsatSurveyResponse < ApplicationRecord
   validates :account_id, presence: true
   validates :contact_id, presence: true
   validates :conversation_id, presence: true
-
 end

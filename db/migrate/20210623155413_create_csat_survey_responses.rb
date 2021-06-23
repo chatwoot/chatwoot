@@ -7,7 +7,7 @@ class CreateCsatSurveyResponses < ActiveRecord::Migration[6.0]
       t.integer :rating, null: false
       t.text :feedback_text
       t.references :contact, null: false, foreign_key: true
-      t.references :assigned_agent, foreign_key: {to_table: :users}
+      t.references :assigned_agent, foreign_key: { to_table: :users }
 
       t.timestamps
     end
