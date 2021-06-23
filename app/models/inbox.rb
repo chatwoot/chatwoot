@@ -67,11 +67,11 @@ class Inbox < ApplicationRecord
   end
 
   def facebook?
-    channel.class.name.to_s == 'Channel::FacebookPage'
+    channel_type == 'Channel::FacebookPage'
   end
 
   def web_widget?
-    channel.class.name.to_s == 'Channel::WebWidget'
+    channel_type == 'Channel::WebWidget'
   end
 
   def inbox_type
