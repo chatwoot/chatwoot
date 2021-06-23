@@ -438,6 +438,18 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text "content", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_notes_on_account_id"
+    t.index ["contact_id"], name: "index_notes_on_contact_id"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
   create_table "notification_settings", force: :cascade do |t|
     t.integer "account_id"
     t.integer "user_id"
@@ -629,6 +641,9 @@ ActiveRecord::Schema.define(version: 2021_06_18_095823) do
   add_foreign_key "conversations", "contact_inboxes"
   add_foreign_key "conversations", "teams"
   add_foreign_key "data_imports", "accounts"
+  add_foreign_key "notes", "accounts"
+  add_foreign_key "notes", "contacts"
+  add_foreign_key "notes", "users"
   add_foreign_key "team_members", "teams"
   add_foreign_key "team_members", "users"
   add_foreign_key "teams", "accounts"
