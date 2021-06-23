@@ -89,6 +89,7 @@ describe ::MessageTemplates::HookExecutionService do
 
   context 'when CSAT Survey' do
     let(:csat_survey) { double }
+    let(:conversation) { create(:conversation) }
 
     before do
       allow(::MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_survey)
@@ -96,8 +97,6 @@ describe ::MessageTemplates::HookExecutionService do
     end
 
     it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
-      contact = create :contact
-      conversation = create :conversation, contact: contact
       conversation.inbox.update(csat_survey_enabled: true)
 
       conversation.resolved!
@@ -107,8 +106,6 @@ describe ::MessageTemplates::HookExecutionService do
     end
 
     it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
-      contact = create :contact
-      conversation = create :conversation, contact: contact
       conversation.inbox.update(csat_survey_enabled: false)
 
       conversation.resolved!
@@ -117,9 +114,18 @@ describe ::MessageTemplates::HookExecutionService do
       expect(csat_survey).not_to have_received(:perform)
     end
 
+    it 'will not call ::MessageTemplates::Template::CsatSurvey if its not a website widget' do
+      api_channel = create(:channel_api)
+      conversation = create(:conversation, inbox: create(:inbox, channel: api_channel))
+      conversation.inbox.update(csat_survey_enabled: true)
+
+      conversation.resolved!
+
+      expect(::MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
+      expect(csat_survey).not_to have_received(:perform)
+    end
+
     it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
-      contact = create :contact
-      conversation = create :conversation, contact: contact
       conversation.inbox.update(csat_survey_enabled: true)
       conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
 
