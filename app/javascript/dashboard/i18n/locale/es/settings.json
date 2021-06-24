@@ -78,6 +78,11 @@
         "ERROR": "Por favor, introduzca una dirección de correo válida",
         "PLACEHOLDER": "Por favor, introduzca su dirección de correo electrónico, esto se mostrará en las conversaciones"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Contraseña actual",
+        "ERROR": "Por favor, introduzca su contraseña actual",
+        "PLACEHOLDER": "Por favor, introduzca su contraseña actual"
+      },
       "PASSWORD": {
         "LABEL": "Contraseña",
         "ERROR": "Por favor, introduzca una contraseña de longitud 6 o más",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Respuestas predefinidas",
     "INTEGRATIONS": "Integraciones",
     "ACCOUNT_SETTINGS": "Configuración de la cuenta",
+    "APPLICATIONS": "Aplicaciones",
     "LABELS": "Etiquetas",
     "TEAMS": "Equipos"
   },

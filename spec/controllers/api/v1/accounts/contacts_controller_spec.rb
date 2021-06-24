@@ -40,6 +40,22 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['payload'].first['conversations_count']).to eq(contact.conversations.count)
         expect(response_body['payload'].first['last_seen_at']).present?
       end
+
+      it 'filters contacts based on label filter' do
+        contact_with_label1, contact_with_label2 = FactoryBot.create_list(:contact, 2, account: account)
+        contact_with_label1.update_labels(['label1'])
+        contact_with_label2.update_labels(['label2'])
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            params: { labels: %w[label1 label2] },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = JSON.parse(response.body)
+        expect(response_body['meta']['count']).to eq(2)
+        expect(response_body['payload'].pluck('email')).to include(contact_with_label1.email, contact_with_label2.email)
+      end
     end
   end
 
@@ -201,18 +217,29 @@ RSpec.describe 'Contacts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
+      let!(:twilio_sms_inbox) { create(:inbox, channel: twilio_sms, account: account) }
+      let!(:twilio_whatsapp) { create(:channel_twilio_sms, medium: :whatsapp, account: account) }
+      let!(:twilio_whatsapp_inbox) { create(:inbox, channel: twilio_whatsapp, account: account) }
 
-      it 'shows the contact' do
+      it 'shows the contactable inboxes which the user has access to' do
+        create(:inbox_member, user: agent, inbox: twilio_whatsapp_inbox)
+
         inbox_service = double
         allow(Contacts::ContactableInboxesService).to receive(:new).and_return(inbox_service)
-        allow(inbox_service).to receive(:get).and_return({})
-        expect(inbox_service).to receive(:get).and_return({})
+        allow(inbox_service).to receive(:get).and_return([
+                                                           { source_id: '1123', inbox: twilio_sms_inbox },
+                                                           { source_id: '1123', inbox: twilio_whatsapp_inbox }
+                                                         ])
+        expect(inbox_service).to receive(:get)
         get "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/contactable_inboxes",
-            headers: admin.create_new_auth_token,
+            headers: agent.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
+        # only the inboxes which agent has access to are shown
+        expect(JSON.parse(response.body)['payload'].pluck('inbox').pluck('id')).to eq([twilio_whatsapp_inbox.id])
       end
     end
   end

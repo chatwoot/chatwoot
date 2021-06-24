@@ -18,19 +18,14 @@
       "TITLE": "Conversaciones anteriores"
     },
     "LABELS": {
-      "TITLE": "Etiquetas de conversación",
-      "MODAL": {
-        "TITLE": "Etiquetas para",
-        "ACTIVE_LABELS": "Etiquetas añadidas a la conversación",
-        "INACTIVE_LABELS": "Etiquetas disponibles en la cuenta",
-        "REMOVE": "Haga clic en el icono X para quitar la etiqueta",
-        "ADD": "Haga clic en el icono + para añadir la etiqueta",
-        "ADD_BUTTON": "Añadir etiquetas",
-        "UPDATE_BUTTON": "Actualizar etiquetas",
-        "UPDATE_ERROR": "No se han podido actualizar las etiquetas, inténtelo de nuevo."
+      "CONTACT": {
+        "TITLE": "Etiqueta de Contacto",
+        "ERROR": "No se pudo actualizar etiquetas de contacto"
       },
-      "NO_LABELS_TO_ADD": "No hay más etiquetas definidas en la cuenta.",
-      "NO_AVAILABLE_LABELS": "No hay etiquetas añadidas a esta conversación.",
+      "CONVERSATION": {
+        "TITLE": "Etiquetas de conversación",
+        "ADD_BUTTON": "Añadir etiquetas"
+      },
       "LABEL_SELECT": {
         "TITLE": "Añadir etiquetas",
         "PLACEHOLDER": "Buscar etiquetas",
@@ -155,6 +150,16 @@
       "VIEW_DETAILS": "Ver detalles"
     }
   },
+  "REMINDER": {
+    "ADD_BUTTON": {
+      "BUTTON": "Añadir",
+      "TITLE": "Shift + Enter para crear una tarea"
+    },
+    "FOOTER": {
+      "DUE_DATE": "Fecha límite",
+      "LABEL_TITLE": "Establecer el tipo"
+    }
+  },
   "NOTES": {
     "HEADER": {
       "TITLE": "Notas"
@@ -166,6 +171,16 @@
     },
     "FOOTER": {
       "BUTTON": "Ver todas las notas"
+    }
+  },
+  "EVENTS": {
+    "HEADER": {
+      "TITLE": "Actividades"
+    },
+    "BUTTON": {
+      "PILL_BUTTON_NOTES": "notas",
+      "PILL_BUTTON_EVENTS": "Eventos",
+      "PILL_BUTTON_CONVO": "conversaciones"
     }
   },
   "CUSTOM_ATTRIBUTES": {

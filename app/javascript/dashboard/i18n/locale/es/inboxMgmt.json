@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nombre de la bandeja de entrada",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nombre del sitio web",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Al iniciar sesión, sólo tenemos acceso a los mensajes de tu Página. Tus mensajes privados nunca pueden ser accedidos por Chatwoot.",
         "CHOOSE_PAGE": "Elegir página",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Creando Canal de Soporte al Sitio Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar del canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nombre del sitio web",
-          "PLACEHOLDER": "Introduzca el nombre de su sitio web (por ejemplo: Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del sitio web",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Activado",
         "DISABLED": "Deshabilitado"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Activado",
+        "DISABLED": "Deshabilitado"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
         "MESSAGE": "¿Está seguro de eliminar ",
+        "PLACE_HOLDER": "Por favor, escriba {inboxName} para confirmar",
         "YES": "Sí, eliminar ",
         "NO": "No, mantenerlo "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
       "UPDATE": "Actualizar",
+      "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",

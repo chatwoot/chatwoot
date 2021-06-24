@@ -78,6 +78,11 @@
         "ERROR": "Wprowadź poprawny adres e-mail",
         "PLACEHOLDER": "Wprowadź swój adres e-mail, który będzie wyświetlany w rozmowach"
       },
+      "CURRENT_PASSWORD": {
+        "LABEL": "Current password",
+        "ERROR": "Please enter the current password",
+        "PLACEHOLDER": "Please enter the current password"
+      },
       "PASSWORD": {
         "LABEL": "Hasło",
         "ERROR": "Wprowadź hasło o długości 6 lub więcej",
@@ -132,6 +137,7 @@
     "CANNED_RESPONSES": "Gotowe odpowiedzi",
     "INTEGRATIONS": "Integracje",
     "ACCOUNT_SETTINGS": "Account Settings",
+    "APPLICATIONS": "Applications",
     "LABELS": "Labels",
     "TEAMS": "Teams"
   },

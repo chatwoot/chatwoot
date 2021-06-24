@@ -1,7 +1,7 @@
 class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseController
   include Events::Types
 
-  before_action :conversation, except: [:index]
+  before_action :conversation, except: [:index, :meta, :search, :create]
   before_action :contact_inbox, only: [:create]
 
   def index
@@ -79,21 +79,26 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation
-    @conversation ||= Current.account.conversations.find_by(display_id: params[:id])
+    @conversation ||= Current.account.conversations.find_by!(display_id: params[:id])
+    authorize @conversation.inbox, :show?
   end
 
   def contact_inbox
     @contact_inbox = build_contact_inbox
 
     @contact_inbox ||= ::ContactInbox.find_by!(source_id: params[:source_id])
+    authorize @contact_inbox.inbox, :show?
   end
 
   def build_contact_inbox
     return if params[:contact_id].blank? || params[:inbox_id].blank?
 
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+    authorize inbox, :show?
+
     ContactInboxBuilder.new(
       contact_id: params[:contact_id],
-      inbox_id: params[:inbox_id],
+      inbox_id: inbox.id,
       source_id: params[:source_id]
     ).perform
   end

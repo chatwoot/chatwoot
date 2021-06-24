@@ -1,4 +1,6 @@
 class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
+  before_action :check_authorization
+
   def account
     builder = V2::ReportBuilder.new(Current.account, account_report_params)
     data = builder.build
@@ -22,6 +24,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def check_authorization
+    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+  end
 
   def account_summary_params
     {

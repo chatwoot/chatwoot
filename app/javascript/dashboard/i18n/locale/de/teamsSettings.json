@@ -98,6 +98,7 @@
       },
       "CONFIRM": {
         "TITLE": "Sind Sie sicher, dass Sie %{teamName} löschen möchten",
+        "PLACE_HOLDER": "Bitte geben Sie {teamName} zur Bestätigung ein",
         "MESSAGE": "Das Löschen des Teams wird die Teamzuordnung aus den Gesprächen entfernen, die diesem Team zugewiesen wurden.",
         "YES": "Löschen ",
         "NO": "Stornieren"

@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Nom de la boîte de réception",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Nom du site Web",
+        "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
+      },
       "FB": {
         "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
         "CHOOSE_PAGE": "Choisir la page",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Création du canal de support du site Web",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar du canal"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Nom du site Web",
-          "PLACEHOLDER": "Entrez le nom de votre site Web (ex : Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domaine du site Web",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Activé",
         "DISABLED": "Désactivé"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Activé",
+        "DISABLED": "Désactivé"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Confirmer la suppression",
         "MESSAGE": "Êtes-vous sûr de vouloir supprimer ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Oui, supprimer ",
         "NO": "Non, Conserver "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Ajouter ou supprimer des agents de cette boîte de réception",
       "UPDATE": "Mettre à jour",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
       "INBOX_UPDATE_TITLE": "Paramètres de boîtes de réception",
       "INBOX_UPDATE_SUB_TEXT": "Mettre à jour les paramètres de votre boîte de réception",

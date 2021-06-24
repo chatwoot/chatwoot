@@ -28,6 +28,14 @@
       }
     ],
     "ADD": {
+      "CHANNEL_NAME": {
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)"
+      },
+      "WEBSITE_NAME": {
+        "LABEL": "Website naam",
+        "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
+      },
       "FB": {
         "HELP": "PS: Door in te loggen krijgen we alleen toegang tot berichten van uw Pagina. Chatwood heeft nooit toegang tot je privéberichten.",
         "CHOOSE_PAGE": "Choose Page",
@@ -47,10 +55,6 @@
         "LOADING_MESSAGE": "Website ondersteuningskanaal aanmaken",
         "CHANNEL_AVATAR": {
           "LABEL": "Channel Avatar"
-        },
-        "CHANNEL_NAME": {
-          "LABEL": "Website naam",
-          "PLACEHOLDER": "Voer de naam van je website in (bv. Acme Inc)"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domein",
@@ -208,6 +212,10 @@
       "AUTO_ASSIGNMENT": {
         "ENABLED": "Ingeschakeld",
         "DISABLED": "Uitgeschakeld"
+      },
+      "EMAIL_COLLECT_BOX": {
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld"
       }
     },
     "DELETE": {
@@ -215,6 +223,7 @@
       "CONFIRM": {
         "TITLE": "Verwijdering bevestigen",
         "MESSAGE": "Weet u zeker dat u wilt verwijderen ",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ja, verwijderen ",
         "NO": "No, Keep "
       },
@@ -243,6 +252,8 @@
       "INBOX_AGENTS": "Agenten",
       "INBOX_AGENTS_SUB_TEXT": "Voeg agenten toe of verwijder ze uit deze inbox",
       "UPDATE": "Vernieuwen",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Automatische toewijzing inschakelen",
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",

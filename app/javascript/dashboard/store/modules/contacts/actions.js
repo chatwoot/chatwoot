@@ -6,12 +6,12 @@ import types from '../../mutation-types';
 import ContactAPI from '../../../api/contacts';
 
 export const actions = {
-  search: async ({ commit }, { search, page, sortAttr }) => {
+  search: async ({ commit }, { search, page, sortAttr, label }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.search(search, page, sortAttr);
+      } = await ContactAPI.search(search, page, sortAttr, label);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -21,12 +21,12 @@ export const actions = {
     }
   },
 
-  get: async ({ commit }, { page = 1, sortAttr } = {}) => {
+  get: async ({ commit }, { page = 1, sortAttr, label } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr);
+      } = await ContactAPI.get(page, sortAttr, label);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
