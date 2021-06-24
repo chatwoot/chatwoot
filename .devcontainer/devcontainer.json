@@ -34,9 +34,6 @@
     "3000": {
       "label": "Rails Server"
     },
-    "3035": {
-      "label": "Webpacker"
-    },
     "8025": {
       "label": "Mailhog UI"
     }
