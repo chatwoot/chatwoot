@@ -119,7 +119,7 @@
         "ERROR": "Select an inbox"
       },
       "MESSAGE": {
-        "LABEL": "Message",
+        "LABEL": "消息",
         "PLACEHOLDER": "Write your message here",
         "ERROR": "Message can't be empty"
       },
