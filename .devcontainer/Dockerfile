@@ -38,10 +38,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
 
 # Install overmind
-curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz
-gunzip overmind.gz
-sudo mv overmind /usr/local/bin
-chmod +x /usr/local/bin/overmind
+RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz
+RUN gunzip overmind.gz
+RUN sudo mv overmind /usr/local/bin
+RUN chmod +x /usr/local/bin/overmind
 
 # Do the set up required for chatwoot app 
 WORKDIR /workspace
