@@ -2,7 +2,7 @@
   <div class="column content-box">
     <!-- List Canned Response -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns content-spacing">
         <p v-if="!inboxesList.length" class="no-items-error-message">
           {{ $t('INBOX_MGMT.LIST.404') }}
           <router-link
@@ -205,3 +205,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.content-spacing {
+  padding-right: var(--space-normal);
+}
+</style>

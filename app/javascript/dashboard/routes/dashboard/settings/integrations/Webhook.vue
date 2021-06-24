@@ -10,7 +10,7 @@
     </woot-button>
 
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns content-spacing">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -179,5 +179,8 @@ export default {
 }
 .button-wrapper button:nth-child(2) {
   margin-left: var(--space-normal);
+}
+.content-spacing {
+  padding-right: var(--space-normal);
 }
 </style>

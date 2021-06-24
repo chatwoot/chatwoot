@@ -1,6 +1,6 @@
 <template>
   <div class="row ">
-    <div class="small-8 columns">
+    <div class="small-8 columns content-spacing">
       <table v-if="hasConnectedHooks" class="woot-table">
         <thead>
           <th v-for="hookHeader in hookHeaders" :key="hookHeader">
@@ -102,5 +102,8 @@ export default {
 <style scoped lang="scss">
 .hook-item {
   word-break: break-word;
+}
+.content-spacing {
+  padding-right: var(--space-normal);
 }
 </style>

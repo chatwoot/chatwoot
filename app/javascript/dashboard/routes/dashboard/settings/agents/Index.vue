@@ -11,7 +11,7 @@
 
     <!-- List Agents -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns content-spacing">
         <woot-loading-state
           v-if="uiFlags.isFetching"
           :message="$t('AGENT_MGMT.LOADING')"
@@ -246,3 +246,8 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.content-spacing {
+  padding-right: var(--space-normal);
+}
+</style>

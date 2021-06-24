@@ -11,7 +11,7 @@
 
     <!-- List Canned Response -->
     <div class="row">
-      <div class="small-8 columns">
+      <div class="small-8 columns content-spacing">
         <p
           v-if="!uiFlags.fetchingList && !records.length"
           class="no-items-error-message"
@@ -210,5 +210,8 @@ export default {
 <style scoped>
 .short-code {
   width: 14rem;
+}
+.content-spacing {
+  padding-right: var(--space-normal);
 }
 </style>
