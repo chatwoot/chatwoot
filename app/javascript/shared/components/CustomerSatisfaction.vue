@@ -1,21 +1,20 @@
 <template>
   <div class="customer-satisfcation">
     <div class="title">
-      {{ $t('CSAT.TITLE') }}
+      {{ title }}
     </div>
     <div class="ratings">
       <button
         v-for="rating in ratings"
         :key="rating.key"
-        class="emoji-button"
-        :class="{ selected: rating.key === selectedRating }"
+        :class="buttonClass(rating)"
         @click="selectRating(rating)"
       >
         {{ rating.emoji }}
       </button>
     </div>
     <form
-      v-if="!hasSubmitted"
+      v-if="!checkCSATSubmitted"
       class="feedback-form"
       @submit.prevent="onSubmit()"
     >
@@ -27,7 +26,7 @@
       />
       <button
         class="button"
-        :disabled="!selectedRating"
+        :disabled="disableButton"
         :style="{ background: widgetColor, borderColor: widgetColor }"
       >
         <i v-if="!isUpdating" class="ion-ios-arrow-forward" />
@@ -46,6 +45,12 @@ export default {
   components: {
     Spinner,
   },
+  props: {
+    messageContentAttributes: {
+      type: Object,
+      default: () => {},
+    },
+  },
   data() {
     return {
       email: '',
@@ -53,19 +58,54 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
-      hasSubmitted: false,
     };
   },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    checkCSATSubmitted() {
+      return (
+        this.messageContentAttributes &&
+        this.messageContentAttributes.csat_survey_response
+      );
+    },
+    disableButton() {
+      return !(this.selectedRating && this.feedback);
+    },
+    title() {
+      return this.checkCSATSubmitted
+        ? this.$t('CSAT.SUBMITTED_TITLE')
+        : this.$t('CSAT.TITLE');
+    },
+  },
+
+  mounted() {
+    if (this.checkCSATSubmitted) {
+      const {
+        csat_survey_response: { rating },
+      } = this.messageContentAttributes;
+      this.selectedRating = rating;
+    }
   },
 
   methods: {
-    onSubmit() {},
+    buttonClass(rating) {
+      return [
+        { selected: rating.value === this.selectedRating },
+        { disabled: this.checkCSATSubmitted },
+        { hover: this.checkCSATSubmitted },
+        'emoji-button',
+      ];
+    },
+    onSubmit() {
+      this.$emit('submit', {
+        rating: this.selectedRating,
+        feedback: this.feedback,
+      });
+    },
     selectRating(rating) {
-      this.selectedRating = rating.key;
+      this.selectedRating = rating.value;
     },
   },
 };
@@ -77,6 +117,7 @@ export default {
 
 .customer-satisfcation {
   @include light-shadow;
+
   background: $color-white;
   border-bottom-left-radius: $space-smaller;
   color: $color-body;
@@ -85,6 +126,7 @@ export default {
   display: inline-block;
   line-height: 1.5;
   width: 75%;
+  margin-top: $space-smaller;
   .title {
     font-size: $font-size-default;
     font-weight: $font-weight-medium;
@@ -101,9 +143,15 @@ export default {
       outline: none;
       box-shadow: none;
       filter: grayscale(100%);
-      &.selected {
+      &.selected,
+      &:hover {
         filter: grayscale(0%);
         transform: scale(1.32);
+      }
+      &.disabled {
+        cursor: default;
+        opacity: 0.5;
+        pointer-events: none;
       }
     }
   }
