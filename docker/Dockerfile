@@ -51,7 +51,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # final build stage
-FROM ruby:3-alpine
+FROM ruby:2.7.3-alpine
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
