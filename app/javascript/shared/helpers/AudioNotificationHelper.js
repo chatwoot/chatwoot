@@ -68,13 +68,7 @@ export const shouldPlayByBrowserBehavior = (
   if (conversationId !== incomingConvId) return playAudio;
   return false;
 };
-
-export const newMessageNotification = data => {
-  const { conversation_id: currentConvId } = window.WOOT.$route.params;
-  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
-  const { conversation_id: incomingConvId } = data;
-  const currentConv =
-    window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
+export const getAssigneeFromNotification = currentConv => {
   let id;
   if (currentConv.meta) {
     const assignee = currentConv.meta.assignee;
@@ -82,6 +76,15 @@ export const newMessageNotification = data => {
       id = assignee.id;
     }
   }
+  return id;
+};
+export const newMessageNotification = data => {
+  const { conversation_id: currentConvId } = window.WOOT.$route.params;
+  const currentUserId = window.WOOT.$store.getters.getCurrentUserID;
+  const { conversation_id: incomingConvId } = data;
+  const currentConv =
+    window.WOOT.$store.getters.getConversationById(incomingConvId) || {};
+  const assigneeId = getAssigneeFromNotification(currentConv);
   const isDocHiddden = document.hidden;
   const {
     enable_audio_alerts: enableAudioAlerts = false,
@@ -95,7 +98,7 @@ export const newMessageNotification = data => {
   const playAudioByUserSettings = shouldPlayByUserSettings(
     enableAudioAlerts,
     currentUserId,
-    id
+    assigneeId
   );
   if (playAudio && playAudioByUserSettings) {
     window.playAudioAlert();
