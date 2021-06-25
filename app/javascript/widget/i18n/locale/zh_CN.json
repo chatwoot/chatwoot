@@ -59,6 +59,7 @@
   },
   "CSAT": {
     "TITLE": "评价您的对话",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "请告诉我们更多..."
   }
 }
