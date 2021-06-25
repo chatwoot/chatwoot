@@ -5,7 +5,7 @@ const commit = jest.fn();
 jest.mock('widget/helpers/axios');
 
 describe('#actions', () => {
-  describe('#update', () => {
+  describe('#get attributes', () => {
     it('sends mutation if api is success', async () => {
       API.get.mockResolvedValue({ data: { id: 1, status: 'bot' } });
       await actions.getAttributes({ commit });
@@ -21,13 +21,19 @@ describe('#actions', () => {
     });
   });
 
-  describe('#update', () => {
+  describe('#update attributes', () => {
     it('sends correct mutations', () => {
       actions.update({ commit }, { id: 1, status: 'bot' });
       expect(commit).toBeCalledWith('UPDATE_CONVERSATION_ATTRIBUTES', {
         id: 1,
         status: 'bot',
       });
+    });
+  });
+  describe('#clear attributes', () => {
+    it('sends correct mutations', () => {
+      actions.clearConversationAttributes({ commit });
+      expect(commit).toBeCalledWith('CLEAR_CONVERSATION_ATTRIBUTES');
     });
   });
 });
