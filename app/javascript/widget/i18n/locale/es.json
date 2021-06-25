@@ -59,6 +59,7 @@
   },
   "CSAT": {
     "TITLE": "Rate your conversation",
+    "SUBMITTED_TITLE": "Thank you for submitting the rating",
     "PLACEHOLDER": "Tell us more..."
   }
 }
